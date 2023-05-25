@@ -901,6 +901,7 @@ class ServiceQuotas {
 
 class AssociateServiceQuotaTemplateResponse {
   AssociateServiceQuotaTemplateResponse();
+
   factory AssociateServiceQuotaTemplateResponse.fromJson(
       Map<String, dynamic> _) {
     return AssociateServiceQuotaTemplateResponse();
@@ -909,6 +910,7 @@ class AssociateServiceQuotaTemplateResponse {
 
 class DeleteServiceQuotaIncreaseRequestFromTemplateResponse {
   DeleteServiceQuotaIncreaseRequestFromTemplateResponse();
+
   factory DeleteServiceQuotaIncreaseRequestFromTemplateResponse.fromJson(
       Map<String, dynamic> _) {
     return DeleteServiceQuotaIncreaseRequestFromTemplateResponse();
@@ -917,6 +919,7 @@ class DeleteServiceQuotaIncreaseRequestFromTemplateResponse {
 
 class DisassociateServiceQuotaTemplateResponse {
   DisassociateServiceQuotaTemplateResponse();
+
   factory DisassociateServiceQuotaTemplateResponse.fromJson(
       Map<String, dynamic> _) {
     return DisassociateServiceQuotaTemplateResponse();
@@ -992,6 +995,7 @@ class ErrorReason {
     this.errorCode,
     this.errorMessage,
   });
+
   factory ErrorReason.fromJson(Map<String, dynamic> json) {
     return ErrorReason(
       errorCode: (json['ErrorCode'] as String?)?.toErrorCode(),
@@ -1007,6 +1011,7 @@ class GetAWSDefaultServiceQuotaResponse {
   GetAWSDefaultServiceQuotaResponse({
     this.quota,
   });
+
   factory GetAWSDefaultServiceQuotaResponse.fromJson(
       Map<String, dynamic> json) {
     return GetAWSDefaultServiceQuotaResponse(
@@ -1027,6 +1032,7 @@ class GetAssociationForServiceQuotaTemplateResponse {
   GetAssociationForServiceQuotaTemplateResponse({
     this.serviceQuotaTemplateAssociationStatus,
   });
+
   factory GetAssociationForServiceQuotaTemplateResponse.fromJson(
       Map<String, dynamic> json) {
     return GetAssociationForServiceQuotaTemplateResponse(
@@ -1044,6 +1050,7 @@ class GetRequestedServiceQuotaChangeResponse {
   GetRequestedServiceQuotaChangeResponse({
     this.requestedQuota,
   });
+
   factory GetRequestedServiceQuotaChangeResponse.fromJson(
       Map<String, dynamic> json) {
     return GetRequestedServiceQuotaChangeResponse(
@@ -1063,6 +1070,7 @@ class GetServiceQuotaIncreaseRequestFromTemplateResponse {
   GetServiceQuotaIncreaseRequestFromTemplateResponse({
     this.serviceQuotaIncreaseRequestInTemplate,
   });
+
   factory GetServiceQuotaIncreaseRequestFromTemplateResponse.fromJson(
       Map<String, dynamic> json) {
     return GetServiceQuotaIncreaseRequestFromTemplateResponse(
@@ -1083,6 +1091,7 @@ class GetServiceQuotaResponse {
   GetServiceQuotaResponse({
     this.quota,
   });
+
   factory GetServiceQuotaResponse.fromJson(Map<String, dynamic> json) {
     return GetServiceQuotaResponse(
       quota: json['Quota'] != null
@@ -1104,6 +1113,7 @@ class ListAWSDefaultServiceQuotasResponse {
     this.nextToken,
     this.quotas,
   });
+
   factory ListAWSDefaultServiceQuotasResponse.fromJson(
       Map<String, dynamic> json) {
     return ListAWSDefaultServiceQuotasResponse(
@@ -1128,6 +1138,7 @@ class ListRequestedServiceQuotaChangeHistoryByQuotaResponse {
     this.nextToken,
     this.requestedQuotas,
   });
+
   factory ListRequestedServiceQuotaChangeHistoryByQuotaResponse.fromJson(
       Map<String, dynamic> json) {
     return ListRequestedServiceQuotaChangeHistoryByQuotaResponse(
@@ -1153,6 +1164,7 @@ class ListRequestedServiceQuotaChangeHistoryResponse {
     this.nextToken,
     this.requestedQuotas,
   });
+
   factory ListRequestedServiceQuotaChangeHistoryResponse.fromJson(
       Map<String, dynamic> json) {
     return ListRequestedServiceQuotaChangeHistoryResponse(
@@ -1179,6 +1191,7 @@ class ListServiceQuotaIncreaseRequestsInTemplateResponse {
     this.nextToken,
     this.serviceQuotaIncreaseRequestInTemplateList,
   });
+
   factory ListServiceQuotaIncreaseRequestsInTemplateResponse.fromJson(
       Map<String, dynamic> json) {
     return ListServiceQuotaIncreaseRequestsInTemplateResponse(
@@ -1205,6 +1218,7 @@ class ListServiceQuotasResponse {
     this.nextToken,
     this.quotas,
   });
+
   factory ListServiceQuotasResponse.fromJson(Map<String, dynamic> json) {
     return ListServiceQuotasResponse(
       nextToken: json['NextToken'] as String?,
@@ -1228,6 +1242,7 @@ class ListServicesResponse {
     this.nextToken,
     this.services,
   });
+
   factory ListServicesResponse.fromJson(Map<String, dynamic> json) {
     return ListServicesResponse(
       nextToken: json['NextToken'] as String?,
@@ -1246,6 +1261,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
@@ -1277,6 +1293,7 @@ class MetricInfo {
     this.metricNamespace,
     this.metricStatisticRecommendation,
   });
+
   factory MetricInfo.fromJson(Map<String, dynamic> json) {
     return MetricInfo(
       metricDimensions: (json['MetricDimensions'] as Map<String, dynamic>?)
@@ -1350,6 +1367,7 @@ class PutServiceQuotaIncreaseRequestIntoTemplateResponse {
   PutServiceQuotaIncreaseRequestIntoTemplateResponse({
     this.serviceQuotaIncreaseRequestInTemplate,
   });
+
   factory PutServiceQuotaIncreaseRequestIntoTemplateResponse.fromJson(
       Map<String, dynamic> json) {
     return PutServiceQuotaIncreaseRequestIntoTemplateResponse(
@@ -1375,6 +1393,7 @@ class QuotaPeriod {
     this.periodUnit,
     this.periodValue,
   });
+
   factory QuotaPeriod.fromJson(Map<String, dynamic> json) {
     return QuotaPeriod(
       periodUnit: (json['PeriodUnit'] as String?)?.toPeriodUnit(),
@@ -1390,6 +1409,7 @@ class RequestServiceQuotaIncreaseResponse {
   RequestServiceQuotaIncreaseResponse({
     this.requestedQuota,
   });
+
   factory RequestServiceQuotaIncreaseResponse.fromJson(
       Map<String, dynamic> json) {
     return RequestServiceQuotaIncreaseResponse(
@@ -1505,6 +1525,7 @@ class RequestedServiceQuotaChange {
     this.status,
     this.unit,
   });
+
   factory RequestedServiceQuotaChange.fromJson(Map<String, dynamic> json) {
     return RequestedServiceQuotaChange(
       caseId: json['CaseId'] as String?,
@@ -1537,6 +1558,7 @@ class ServiceInfo {
     this.serviceCode,
     this.serviceName,
   });
+
   factory ServiceInfo.fromJson(Map<String, dynamic> json) {
     return ServiceInfo(
       serviceCode: json['ServiceCode'] as String?,
@@ -1597,6 +1619,7 @@ class ServiceQuota {
     this.usageMetric,
     this.value,
   });
+
   factory ServiceQuota.fromJson(Map<String, dynamic> json) {
     return ServiceQuota(
       adjustable: json['Adjustable'] as bool?,
@@ -1657,6 +1680,7 @@ class ServiceQuotaIncreaseRequestInTemplate {
     this.serviceName,
     this.unit,
   });
+
   factory ServiceQuotaIncreaseRequestInTemplate.fromJson(
       Map<String, dynamic> json) {
     return ServiceQuotaIncreaseRequestInTemplate(
@@ -1719,6 +1743,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -1738,6 +1763,7 @@ class Tag {
 
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
@@ -1745,6 +1771,7 @@ class TagResourceResponse {
 
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
   }

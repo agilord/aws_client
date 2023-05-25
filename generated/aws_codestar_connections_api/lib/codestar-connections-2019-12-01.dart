@@ -135,6 +135,7 @@ class CodeStarconnections {
     required String name,
     required String providerEndpoint,
     required ProviderType providerType,
+    List<Tag>? tags,
     VpcConfiguration? vpcConfiguration,
   }) async {
     final headers = <String, String>{
@@ -152,6 +153,7 @@ class CodeStarconnections {
         'Name': name,
         'ProviderEndpoint': providerEndpoint,
         'ProviderType': providerType.toValue(),
+        if (tags != null) 'Tags': tags,
         if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
       },
     );
@@ -550,6 +552,7 @@ class Connection {
     this.ownerAccountId,
     this.providerType,
   });
+
   factory Connection.fromJson(Map<String, dynamic> json) {
     return Connection(
       connectionArn: json['ConnectionArn'] as String?,
@@ -612,6 +615,7 @@ class CreateConnectionOutput {
     required this.connectionArn,
     this.tags,
   });
+
   factory CreateConnectionOutput.fromJson(Map<String, dynamic> json) {
     return CreateConnectionOutput(
       connectionArn: json['ConnectionArn'] as String,
@@ -626,19 +630,27 @@ class CreateConnectionOutput {
 class CreateHostOutput {
   /// The Amazon Resource Name (ARN) of the host to be created.
   final String? hostArn;
+  final List<Tag>? tags;
 
   CreateHostOutput({
     this.hostArn,
+    this.tags,
   });
+
   factory CreateHostOutput.fromJson(Map<String, dynamic> json) {
     return CreateHostOutput(
       hostArn: json['HostArn'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }
 
 class DeleteConnectionOutput {
   DeleteConnectionOutput();
+
   factory DeleteConnectionOutput.fromJson(Map<String, dynamic> _) {
     return DeleteConnectionOutput();
   }
@@ -646,6 +658,7 @@ class DeleteConnectionOutput {
 
 class DeleteHostOutput {
   DeleteHostOutput();
+
   factory DeleteHostOutput.fromJson(Map<String, dynamic> _) {
     return DeleteHostOutput();
   }
@@ -658,6 +671,7 @@ class GetConnectionOutput {
   GetConnectionOutput({
     this.connection,
   });
+
   factory GetConnectionOutput.fromJson(Map<String, dynamic> json) {
     return GetConnectionOutput(
       connection: json['Connection'] != null
@@ -690,6 +704,7 @@ class GetHostOutput {
     this.status,
     this.vpcConfiguration,
   });
+
   factory GetHostOutput.fromJson(Map<String, dynamic> json) {
     return GetHostOutput(
       name: json['Name'] as String?,
@@ -746,6 +761,7 @@ class Host {
     this.statusMessage,
     this.vpcConfiguration,
   });
+
   factory Host.fromJson(Map<String, dynamic> json) {
     return Host(
       hostArn: json['HostArn'] as String?,
@@ -776,6 +792,7 @@ class ListConnectionsOutput {
     this.connections,
     this.nextToken,
   });
+
   factory ListConnectionsOutput.fromJson(Map<String, dynamic> json) {
     return ListConnectionsOutput(
       connections: (json['Connections'] as List?)
@@ -801,6 +818,7 @@ class ListHostsOutput {
     this.hosts,
     this.nextToken,
   });
+
   factory ListHostsOutput.fromJson(Map<String, dynamic> json) {
     return ListHostsOutput(
       hosts: (json['Hosts'] as List?)
@@ -819,6 +837,7 @@ class ListTagsForResourceOutput {
   ListTagsForResourceOutput({
     this.tags,
   });
+
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceOutput(
       tags: (json['Tags'] as List?)
@@ -876,6 +895,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -895,6 +915,7 @@ class Tag {
 
 class TagResourceOutput {
   TagResourceOutput();
+
   factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
     return TagResourceOutput();
   }
@@ -902,6 +923,7 @@ class TagResourceOutput {
 
 class UntagResourceOutput {
   UntagResourceOutput();
+
   factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
     return UntagResourceOutput();
   }
@@ -909,6 +931,7 @@ class UntagResourceOutput {
 
 class UpdateHostOutput {
   UpdateHostOutput();
+
   factory UpdateHostOutput.fromJson(Map<String, dynamic> _) {
     return UpdateHostOutput();
   }
@@ -938,6 +961,7 @@ class VpcConfiguration {
     required this.vpcId,
     this.tlsCertificate,
   });
+
   factory VpcConfiguration.fromJson(Map<String, dynamic> json) {
     return VpcConfiguration(
       securityGroupIds: (json['SecurityGroupIds'] as List)

@@ -18,13 +18,13 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// This is the <i>AWS Shield Advanced API Reference</i>. This guide is for
-/// developers who need detailed information about the AWS Shield Advanced API
-/// actions, data types, and errors. For detailed information about AWS WAF and
-/// AWS Shield Advanced features and an overview of how to use the AWS WAF and
-/// AWS Shield Advanced APIs, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF and
-/// AWS Shield Developer Guide</a>.
+/// This is the <i>Shield Advanced API Reference</i>. This guide is for
+/// developers who need detailed information about the Shield Advanced API
+/// actions, data types, and errors. For detailed information about WAF and
+/// Shield Advanced features and an overview of how to use the WAF and Shield
+/// Advanced APIs, see the <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/">WAF and Shield
+/// Developer Guide</a>.
 class Shield {
   final _s.JsonProtocol _protocol;
   Shield({
@@ -53,15 +53,16 @@ class Shield {
     _protocol.close();
   }
 
-  /// Authorizes the DDoS Response Team (DRT) to access the specified Amazon S3
-  /// bucket containing your AWS WAF logs. You can associate up to 10 Amazon S3
-  /// buckets with your subscription.
+  /// Authorizes the Shield Response Team (SRT) to access the specified Amazon
+  /// S3 bucket containing log data such as Application Load Balancer access
+  /// logs, CloudFront logs, or logs from third party sources. You can associate
+  /// up to 10 Amazon S3 buckets with your subscription.
   ///
-  /// To use the services of the DRT and make an
+  /// To use the services of the SRT and make an
   /// <code>AssociateDRTLogBucket</code> request, you must be subscribed to the
-  /// <a href="https://aws.amazon.com/premiumsupport/business-support/">Business
+  /// <a href="http://aws.amazon.com/premiumsupport/business-support/">Business
   /// Support plan</a> or the <a
-  /// href="https://aws.amazon.com/premiumsupport/enterprise-support/">Enterprise
+  /// href="http://aws.amazon.com/premiumsupport/enterprise-support/">Enterprise
   /// Support plan</a>.
   ///
   /// May throw [InternalErrorException].
@@ -74,7 +75,7 @@ class Shield {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [logBucket] :
-  /// The Amazon S3 bucket that contains your AWS WAF logs.
+  /// The Amazon S3 bucket that contains the logs that you want to share.
   Future<void> associateDRTLogBucket({
     required String logBucket,
   }) async {
@@ -94,10 +95,10 @@ class Shield {
     );
   }
 
-  /// Authorizes the DDoS Response Team (DRT), using the specified role, to
-  /// access your AWS account to assist with DDoS attack mitigation during
-  /// potential attacks. This enables the DRT to inspect your AWS WAF
-  /// configuration and create or update AWS WAF rules and web ACLs.
+  /// Authorizes the Shield Response Team (SRT) using the specified role, to
+  /// access your Amazon Web Services account to assist with DDoS attack
+  /// mitigation during potential attacks. This enables the SRT to inspect your
+  /// WAF configuration and create or update WAF rules and web ACLs.
   ///
   /// You can associate only one <code>RoleArn</code> with your subscription. If
   /// you submit an <code>AssociateDRTRole</code> request for an account that
@@ -105,33 +106,33 @@ class Shield {
   /// the existing <code>RoleArn</code>.
   ///
   /// Prior to making the <code>AssociateDRTRole</code> request, you must attach
-  /// the <a
-  /// href="https://console.aws.amazon.com/iam/home?#/policies/arn:aws:iam::aws:policy/service-role/AWSShieldDRTAccessPolicy">AWSShieldDRTAccessPolicy</a>
-  /// managed policy to the role you will specify in the request. For more
-  /// information see <a href="
-  /// https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html">Attaching
-  /// and Detaching IAM Policies</a>. The role must also trust the service
-  /// principal <code> drt.shield.amazonaws.com</code>. For more information,
-  /// see <a
+  /// the <code>AWSShieldDRTAccessPolicy</code> managed policy to the role that
+  /// you'll specify in the request. You can access this policy in the IAM
+  /// console at <a
+  /// href="https://console.aws.amazon.com/iam/home?#/policies/arn:aws:iam::aws:policy/service-role/AWSShieldDRTAccessPolicy">AWSShieldDRTAccessPolicy</a>.
+  /// For more information see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html">Adding
+  /// and removing IAM identity permissions</a>. The role must also trust the
+  /// service principal <code>drt.shield.amazonaws.com</code>. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html">IAM
-  /// JSON Policy Elements: Principal</a>.
+  /// JSON policy elements: Principal</a>.
   ///
-  /// The DRT will have access only to your AWS WAF and Shield resources. By
-  /// submitting this request, you authorize the DRT to inspect your AWS WAF and
-  /// Shield configuration and create and update AWS WAF rules and web ACLs on
-  /// your behalf. The DRT takes these actions only if explicitly authorized by
-  /// you.
+  /// The SRT will have access only to your WAF and Shield resources. By
+  /// submitting this request, you authorize the SRT to inspect your WAF and
+  /// Shield configuration and create and update WAF rules and web ACLs on your
+  /// behalf. The SRT takes these actions only if explicitly authorized by you.
   ///
   /// You must have the <code>iam:PassRole</code> permission to make an
   /// <code>AssociateDRTRole</code> request. For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html">Granting
-  /// a User Permissions to Pass a Role to an AWS Service</a>.
+  /// a user permissions to pass a role to an Amazon Web Services service</a>.
   ///
-  /// To use the services of the DRT and make an <code>AssociateDRTRole</code>
+  /// To use the services of the SRT and make an <code>AssociateDRTRole</code>
   /// request, you must be subscribed to the <a
-  /// href="https://aws.amazon.com/premiumsupport/business-support/">Business
+  /// href="http://aws.amazon.com/premiumsupport/business-support/">Business
   /// Support plan</a> or the <a
-  /// href="https://aws.amazon.com/premiumsupport/enterprise-support/">Enterprise
+  /// href="http://aws.amazon.com/premiumsupport/enterprise-support/">Enterprise
   /// Support plan</a>.
   ///
   /// May throw [InternalErrorException].
@@ -142,8 +143,8 @@ class Shield {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [roleArn] :
-  /// The Amazon Resource Name (ARN) of the role the DRT will use to access your
-  /// AWS account.
+  /// The Amazon Resource Name (ARN) of the role the SRT will use to access your
+  /// Amazon Web Services account.
   ///
   /// Prior to making the <code>AssociateDRTRole</code> request, you must attach
   /// the <a
@@ -172,21 +173,20 @@ class Shield {
 
   /// Adds health-based detection to the Shield Advanced protection for a
   /// resource. Shield Advanced health-based detection uses the health of your
-  /// AWS resource to improve responsiveness and accuracy in attack detection
-  /// and mitigation.
+  /// Amazon Web Services resource to improve responsiveness and accuracy in
+  /// attack detection and response.
   ///
-  /// You define the health check in Route 53 and then associate it with your
+  /// You define the health check in Route 53 and then associate it with your
   /// Shield Advanced protection. For more information, see <a
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/ddos-overview.html#ddos-advanced-health-check-option">Shield
-  /// Advanced Health-Based Detection</a> in the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF and
-  /// AWS Shield Developer Guide</a>.
+  /// Advanced Health-Based Detection</a> in the <i>WAF Developer Guide</i>.
   ///
   /// May throw [InternalErrorException].
   /// May throw [LimitsExceededException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
   /// May throw [OptimisticLockException].
+  /// May throw [InvalidResourceException].
   ///
   /// Parameter [healthCheckArn] :
   /// The Amazon Resource Name (ARN) of the health check to associate with the
@@ -217,7 +217,7 @@ class Shield {
   }
 
   /// Initializes proactive engagement and sets the list of contacts for the
-  /// DDoS Response Team (DRT) to use. You must provide at least one phone
+  /// Shield Response Team (SRT) to use. You must provide at least one phone
   /// number in the emergency contact list.
   ///
   /// After you have initialized proactive engagement using this call, to
@@ -226,8 +226,8 @@ class Shield {
   /// <code>EnableProactiveEngagement</code>.
   /// <note>
   /// This call defines the list of email addresses and phone numbers that the
-  /// DDoS Response Team (DRT) can use to contact you for escalations to the DRT
-  /// and to initiate proactive customer support.
+  /// SRT can use to contact you for escalations to the SRT and to initiate
+  /// proactive customer support.
   ///
   /// The contacts that you provide in the request replace any contacts that
   /// were already defined. If you already have contacts defined and want to use
@@ -243,8 +243,8 @@ class Shield {
   /// May throw [OptimisticLockException].
   ///
   /// Parameter [emergencyContactList] :
-  /// A list of email addresses and phone numbers that the DDoS Response Team
-  /// (DRT) can use to contact you for escalations to the DRT and to initiate
+  /// A list of email addresses and phone numbers that the Shield Response Team
+  /// (SRT) can use to contact you for escalations to the SRT and to initiate
   /// proactive customer support.
   ///
   /// To enable proactive engagement, the contact list must include at least one
@@ -274,20 +274,22 @@ class Shield {
     );
   }
 
-  /// Enables AWS Shield Advanced for a specific AWS resource. The resource can
-  /// be an Amazon CloudFront distribution, Elastic Load Balancing load
-  /// balancer, AWS Global Accelerator accelerator, Elastic IP Address, or an
-  /// Amazon Route 53 hosted zone.
+  /// Enables Shield Advanced for a specific Amazon Web Services resource. The
+  /// resource can be an Amazon CloudFront distribution, Amazon Route 53 hosted
+  /// zone, Global Accelerator standard accelerator, Elastic IP Address,
+  /// Application Load Balancer, or a Classic Load Balancer. You can protect
+  /// Amazon EC2 instances and Network Load Balancers by association with
+  /// protected Amazon EC2 Elastic IP addresses.
   ///
   /// You can add protection to only a single resource with each
-  /// CreateProtection request. If you want to add protection to multiple
-  /// resources at once, use the <a
-  /// href="https://console.aws.amazon.com/waf/">AWS WAF console</a>. For more
-  /// information see <a
+  /// <code>CreateProtection</code> request. You can add protection to multiple
+  /// resources at once through the Shield Advanced console at <a
+  /// href="https://console.aws.amazon.com/wafv2/shieldv2#/">https://console.aws.amazon.com/wafv2/shieldv2#/</a>.
+  /// For more information see <a
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/getting-started-ddos.html">Getting
-  /// Started with AWS Shield Advanced</a> and <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/configure-new-protection.html">Add
-  /// AWS Shield Advanced Protection to more AWS Resources</a>.
+  /// Started with Shield Advanced</a> and <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/configure-new-protection.html">Adding
+  /// Shield Advanced protection to Amazon Web Services resources</a>.
   ///
   /// May throw [InternalErrorException].
   /// May throw [InvalidResourceException].
@@ -296,6 +298,7 @@ class Shield {
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [OptimisticLockException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterException].
   ///
   /// Parameter [name] :
   /// Friendly name for the <code>Protection</code> you are creating.
@@ -317,17 +320,17 @@ class Shield {
   /// </code>
   /// </li>
   /// <li>
-  /// For an AWS CloudFront distribution:
+  /// For an Amazon CloudFront distribution:
   /// <code>arn:aws:cloudfront::<i>account-id</i>:distribution/<i>distribution-id</i>
   /// </code>
   /// </li>
   /// <li>
-  /// For an AWS Global Accelerator accelerator:
+  /// For an Global Accelerator standard accelerator:
   /// <code>arn:aws:globalaccelerator::<i>account-id</i>:accelerator/<i>accelerator-id</i>
   /// </code>
   /// </li>
   /// <li>
-  /// For Amazon Route 53:
+  /// For Amazon Route 53:
   /// <code>arn:aws:route53:::hostedzone/<i>hosted-zone-id</i> </code>
   /// </li>
   /// <li>
@@ -336,9 +339,14 @@ class Shield {
   /// </code>
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [tags] :
+  /// One or more tag key-value pairs for the <a>Protection</a> object that is
+  /// created.
   Future<CreateProtectionResponse> createProtection({
     required String name,
     required String resourceArn,
+    List<Tag>? tags,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -353,6 +361,7 @@ class Shield {
       payload: {
         'Name': name,
         'ResourceArn': resourceArn,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -371,7 +380,7 @@ class Shield {
   /// May throw [LimitsExceededException].
   ///
   /// Parameter [aggregation] :
-  /// Defines how AWS Shield combines resource data for the group in order to
+  /// Defines how Shield combines resource data for the group in order to
   /// detect, mitigate, and report events.
   ///
   /// <ul>
@@ -388,8 +397,8 @@ class Shield {
   /// <li>
   /// Max - Use the highest traffic from each resource. This is useful for
   /// resources that don't share traffic and for resources that share that
-  /// traffic in a non-uniform way. Examples include CloudFront distributions
-  /// and origin resources for CloudFront distributions.
+  /// traffic in a non-uniform way. Examples include Amazon CloudFront and
+  /// origin resources for CloudFront distributions.
   /// </li>
   /// </ul>
   ///
@@ -417,12 +426,16 @@ class Shield {
   /// must set this when you set <code>Pattern</code> to
   /// <code>BY_RESOURCE_TYPE</code> and you must not set it for any other
   /// <code>Pattern</code> setting.
+  ///
+  /// Parameter [tags] :
+  /// One or more tag key-value pairs for the protection group.
   Future<void> createProtectionGroup({
     required ProtectionGroupAggregation aggregation,
     required ProtectionGroupPattern pattern,
     required String protectionGroupId,
     List<String>? members,
     ProtectedResourceType? resourceType,
+    List<Tag>? tags,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -440,13 +453,18 @@ class Shield {
         'ProtectionGroupId': protectionGroupId,
         if (members != null) 'Members': members,
         if (resourceType != null) 'ResourceType': resourceType.toValue(),
+        if (tags != null) 'Tags': tags,
       },
     );
   }
 
-  /// Activates AWS Shield Advanced for an account.
-  ///
-  /// When you initally create a subscription, your subscription is set to be
+  /// Activates Shield Advanced for an account.
+  /// <note>
+  /// For accounts that are members of an Organizations organization, Shield
+  /// Advanced subscriptions are billed against the organization's payer
+  /// account, regardless of whether the payer account itself is subscribed.
+  /// </note>
+  /// When you initially create a subscription, your subscription is set to be
   /// automatically renewed at the end of the existing subscription period. You
   /// can change this by submitting an <code>UpdateSubscription</code> request.
   ///
@@ -466,7 +484,7 @@ class Shield {
     );
   }
 
-  /// Deletes an AWS Shield Advanced <a>Protection</a>.
+  /// Deletes an Shield Advanced <a>Protection</a>.
   ///
   /// May throw [InternalErrorException].
   /// May throw [ResourceNotFoundException].
@@ -522,9 +540,9 @@ class Shield {
     );
   }
 
-  /// Removes AWS Shield Advanced from an account. AWS Shield Advanced requires
-  /// a 1-year subscription commitment. You cannot delete a subscription prior
-  /// to the completion of that commitment.
+  /// Removes Shield Advanced from an account. Shield Advanced requires a 1-year
+  /// subscription commitment. You cannot delete a subscription prior to the
+  /// completion of that commitment.
   ///
   /// May throw [InternalErrorException].
   /// May throw [LockedSubscriptionException].
@@ -550,7 +568,7 @@ class Shield {
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [attackId] :
-  /// The unique identifier (ID) for the attack that to be described.
+  /// The unique identifier (ID) for the attack.
   Future<DescribeAttackResponse> describeAttack({
     required String attackId,
   }) async {
@@ -572,7 +590,7 @@ class Shield {
     return DescribeAttackResponse.fromJson(jsonResponse.body);
   }
 
-  /// Provides information about the number and type of attacks AWS Shield has
+  /// Provides information about the number and type of attacks Shield has
   /// detected in the last year for all resources that belong to your account,
   /// regardless of whether you've defined Shield protections for them. This
   /// operation is available to Shield customers as well as to Shield Advanced
@@ -606,8 +624,8 @@ class Shield {
   }
 
   /// Returns the current role and list of Amazon S3 log buckets used by the
-  /// DDoS Response Team (DRT) to access your AWS account while assisting with
-  /// attack mitigation.
+  /// Shield Response Team (SRT) to access your Amazon Web Services account
+  /// while assisting with attack mitigation.
   ///
   /// May throw [InternalErrorException].
   /// May throw [ResourceNotFoundException].
@@ -627,9 +645,9 @@ class Shield {
     return DescribeDRTAccessResponse.fromJson(jsonResponse.body);
   }
 
-  /// A list of email addresses and phone numbers that the DDoS Response Team
-  /// (DRT) can use to contact you if you have proactive engagement enabled, for
-  /// escalations to the DRT and to initiate proactive customer support.
+  /// A list of email addresses and phone numbers that the Shield Response Team
+  /// (SRT) can use to contact you if you have proactive engagement enabled, for
+  /// escalations to the SRT and to initiate proactive customer support.
   ///
   /// May throw [InternalErrorException].
   /// May throw [ResourceNotFoundException].
@@ -657,16 +675,15 @@ class Shield {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [protectionId] :
-  /// The unique identifier (ID) for the <a>Protection</a> object that is
-  /// described. When submitting the <code>DescribeProtection</code> request you
-  /// must provide either the <code>ResourceArn</code> or the
-  /// <code>ProtectionID</code>, but not both.
+  /// The unique identifier (ID) for the <a>Protection</a> object to describe.
+  /// You must provide either the <code>ResourceArn</code> of the protected
+  /// resource or the <code>ProtectionID</code> of the protection, but not both.
   ///
   /// Parameter [resourceArn] :
-  /// The ARN (Amazon Resource Name) of the AWS resource for the
-  /// <a>Protection</a> object that is described. When submitting the
-  /// <code>DescribeProtection</code> request you must provide either the
-  /// <code>ResourceArn</code> or the <code>ProtectionID</code>, but not both.
+  /// The ARN (Amazon Resource Name) of the protected Amazon Web Services
+  /// resource. You must provide either the <code>ResourceArn</code> of the
+  /// protected resource or the <code>ProtectionID</code> of the protection, but
+  /// not both.
   Future<DescribeProtectionResponse> describeProtection({
     String? protectionId,
     String? resourceArn,
@@ -720,8 +737,7 @@ class Shield {
     return DescribeProtectionGroupResponse.fromJson(jsonResponse.body);
   }
 
-  /// Provides details about the AWS Shield Advanced subscription for an
-  /// account.
+  /// Provides details about the Shield Advanced subscription for an account.
   ///
   /// May throw [InternalErrorException].
   /// May throw [ResourceNotFoundException].
@@ -741,8 +757,42 @@ class Shield {
     return DescribeSubscriptionResponse.fromJson(jsonResponse.body);
   }
 
-  /// Removes authorization from the DDoS Response Team (DRT) to notify contacts
-  /// about escalations to the DRT and to initiate proactive customer support.
+  /// Disable the Shield Advanced automatic application layer DDoS mitigation
+  /// feature for the protected resource. This stops Shield Advanced from
+  /// creating, verifying, and applying WAF rules for attacks that it detects
+  /// for the resource.
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [OptimisticLockException].
+  /// May throw [InvalidOperationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN (Amazon Resource Name) of the protected resource.
+  Future<void> disableApplicationLayerAutomaticResponse({
+    required String resourceArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSShield_20160616.DisableApplicationLayerAutomaticResponse'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+      },
+    );
+  }
+
+  /// Removes authorization from the Shield Response Team (SRT) to notify
+  /// contacts about escalations to the SRT and to initiate proactive customer
+  /// support.
   ///
   /// May throw [InternalErrorException].
   /// May throw [InvalidOperationException].
@@ -763,18 +813,8 @@ class Shield {
     );
   }
 
-  /// Removes the DDoS Response Team's (DRT) access to the specified Amazon S3
-  /// bucket containing your AWS WAF logs.
-  ///
-  /// To make a <code>DisassociateDRTLogBucket</code> request, you must be
-  /// subscribed to the <a
-  /// href="https://aws.amazon.com/premiumsupport/business-support/">Business
-  /// Support plan</a> or the <a
-  /// href="https://aws.amazon.com/premiumsupport/enterprise-support/">Enterprise
-  /// Support plan</a>. However, if you are not subscribed to one of these
-  /// support plans, but had been previously and had granted the DRT access to
-  /// your account, you can submit a <code>DisassociateDRTLogBucket</code>
-  /// request to remove this access.
+  /// Removes the Shield Response Team's (SRT) access to the specified Amazon S3
+  /// bucket containing the logs that you shared previously.
   ///
   /// May throw [InternalErrorException].
   /// May throw [InvalidOperationException].
@@ -784,7 +824,7 @@ class Shield {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [logBucket] :
-  /// The Amazon S3 bucket that contains your AWS WAF logs.
+  /// The Amazon S3 bucket that contains the logs that you want to share.
   Future<void> disassociateDRTLogBucket({
     required String logBucket,
   }) async {
@@ -804,17 +844,8 @@ class Shield {
     );
   }
 
-  /// Removes the DDoS Response Team's (DRT) access to your AWS account.
-  ///
-  /// To make a <code>DisassociateDRTRole</code> request, you must be subscribed
-  /// to the <a
-  /// href="https://aws.amazon.com/premiumsupport/business-support/">Business
-  /// Support plan</a> or the <a
-  /// href="https://aws.amazon.com/premiumsupport/enterprise-support/">Enterprise
-  /// Support plan</a>. However, if you are not subscribed to one of these
-  /// support plans, but had been previously and had granted the DRT access to
-  /// your account, you can submit a <code>DisassociateDRTRole</code> request to
-  /// remove this access.
+  /// Removes the Shield Response Team's (SRT) access to your Amazon Web
+  /// Services account.
   ///
   /// May throw [InternalErrorException].
   /// May throw [InvalidOperationException].
@@ -836,20 +867,19 @@ class Shield {
 
   /// Removes health-based detection from the Shield Advanced protection for a
   /// resource. Shield Advanced health-based detection uses the health of your
-  /// AWS resource to improve responsiveness and accuracy in attack detection
-  /// and mitigation.
+  /// Amazon Web Services resource to improve responsiveness and accuracy in
+  /// attack detection and response.
   ///
-  /// You define the health check in Route 53 and then associate or disassociate
+  /// You define the health check in Route 53 and then associate or disassociate
   /// it with your Shield Advanced protection. For more information, see <a
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/ddos-overview.html#ddos-advanced-health-check-option">Shield
-  /// Advanced Health-Based Detection</a> in the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF and
-  /// AWS Shield Developer Guide</a>.
+  /// Advanced Health-Based Detection</a> in the <i>WAF Developer Guide</i>.
   ///
   /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
   /// May throw [OptimisticLockException].
+  /// May throw [InvalidResourceException].
   ///
   /// Parameter [healthCheckArn] :
   /// The Amazon Resource Name (ARN) of the health check that is associated with
@@ -879,8 +909,80 @@ class Shield {
     );
   }
 
-  /// Authorizes the DDoS Response Team (DRT) to use email and phone to notify
-  /// contacts about escalations to the DRT and to initiate proactive customer
+  /// Enable the Shield Advanced automatic application layer DDoS mitigation for
+  /// the protected resource.
+  /// <note>
+  /// This feature is available for Amazon CloudFront distributions and
+  /// Application Load Balancers only.
+  /// </note>
+  /// This causes Shield Advanced to create, verify, and apply WAF rules for
+  /// DDoS attacks that it detects for the resource. Shield Advanced applies the
+  /// rules in a Shield rule group inside the web ACL that you've associated
+  /// with the resource. For information about how automatic mitigation works
+  /// and the requirements for using it, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/ddos-advanced-automatic-app-layer-response.html">Shield
+  /// Advanced automatic application layer DDoS mitigation</a>.
+  /// <note>
+  /// Don't use this action to make changes to automatic mitigation settings
+  /// when it's already enabled for a resource. Instead, use
+  /// <a>UpdateApplicationLayerAutomaticResponse</a>.
+  /// </note>
+  /// To use this feature, you must associate a web ACL with the protected
+  /// resource. The web ACL must be created using the latest version of WAF
+  /// (v2). You can associate the web ACL through the Shield Advanced console at
+  /// <a
+  /// href="https://console.aws.amazon.com/wafv2/shieldv2#/">https://console.aws.amazon.com/wafv2/shieldv2#/</a>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/getting-started-ddos.html">Getting
+  /// Started with Shield Advanced</a>. You can also associate the web ACL to
+  /// the resource through the WAF console or the WAF API, but you must manage
+  /// Shield Advanced automatic mitigation through Shield Advanced. For
+  /// information about WAF, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/">WAF
+  /// Developer Guide</a>.
+  ///
+  /// May throw [LimitsExceededException].
+  /// May throw [InternalErrorException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterException].
+  /// May throw [OptimisticLockException].
+  /// May throw [InvalidOperationException].
+  ///
+  /// Parameter [action] :
+  /// Specifies the action setting that Shield Advanced should use in the WAF
+  /// rules that it creates on behalf of the protected resource in response to
+  /// DDoS attacks. You specify this as part of the configuration for the
+  /// automatic application layer DDoS mitigation feature, when you enable or
+  /// update automatic mitigation. Shield Advanced creates the WAF rules in a
+  /// Shield Advanced-managed rule group, inside the web ACL that you have
+  /// associated with the resource.
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN (Amazon Resource Name) of the protected resource.
+  Future<void> enableApplicationLayerAutomaticResponse({
+    required ResponseAction action,
+    required String resourceArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSShield_20160616.EnableApplicationLayerAutomaticResponse'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Action': action,
+        'ResourceArn': resourceArn,
+      },
+    );
+  }
+
+  /// Authorizes the Shield Response Team (SRT) to use email and phone to notify
+  /// contacts about escalations to the SRT and to initiate proactive customer
   /// support.
   ///
   /// May throw [InternalErrorException].
@@ -931,38 +1033,50 @@ class Shield {
   ///
   /// Parameter [endTime] :
   /// The end of the time period for the attacks. This is a
-  /// <code>timestamp</code> type. The sample request above indicates a
-  /// <code>number</code> type because the default used by WAF is Unix time in
-  /// seconds. However any valid <a
-  /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp
-  /// format</a> is allowed.
+  /// <code>timestamp</code> type. The request syntax listing for this call
+  /// indicates a <code>number</code> type, but you can provide the time in any
+  /// valid <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp">timestamp
+  /// format</a> setting.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of <a>AttackSummary</a> objects to return. If you leave
-  /// this blank, Shield Advanced returns the first 20 results.
+  /// The greatest number of objects that you want Shield Advanced to return to
+  /// the list request. Shield Advanced might return fewer objects than you
+  /// indicate in this setting, even if more objects are available. If there are
+  /// more objects remaining, Shield Advanced will always also return a
+  /// <code>NextToken</code> value in the response.
   ///
-  /// This is a maximum value. Shield Advanced might return the results in
-  /// smaller batches. That is, the number of objects returned could be less
-  /// than <code>MaxResults</code>, even if there are still more objects yet to
-  /// return. If there are more objects to return, Shield Advanced returns a
-  /// value in <code>NextToken</code> that you can use in your next request, to
-  /// get the next batch of objects.
+  /// The default setting is 20.
   ///
   /// Parameter [nextToken] :
-  /// The <code>ListAttacksRequest.NextMarker</code> value from a previous call
-  /// to <code>ListAttacksRequest</code>. Pass null if this is the first call.
+  /// When you request a list of objects from Shield Advanced, if the response
+  /// does not include all of the remaining available objects, Shield Advanced
+  /// includes a <code>NextToken</code> value in the response. You can retrieve
+  /// the next batch of objects by requesting the list again and providing the
+  /// token that was returned by the prior call in your request.
+  ///
+  /// You can indicate the maximum number of objects that you want Shield
+  /// Advanced to return for a single call with the <code>MaxResults</code>
+  /// setting. Shield Advanced will not return more than <code>MaxResults</code>
+  /// objects, but may return fewer, even if more objects are still available.
+  ///
+  /// Whenever more objects remain that Shield Advanced has not yet returned to
+  /// you, the response will include a <code>NextToken</code> value.
+  ///
+  /// On your first call to a list operation, leave this setting empty.
   ///
   /// Parameter [resourceArns] :
-  /// The ARN (Amazon Resource Name) of the resource that was attacked. If this
-  /// is left blank, all applicable resources for this account will be included.
+  /// The ARNs (Amazon Resource Names) of the resources that were attacked. If
+  /// you leave this blank, all applicable resources for this account will be
+  /// included.
   ///
   /// Parameter [startTime] :
   /// The start of the time period for the attacks. This is a
-  /// <code>timestamp</code> type. The sample request above indicates a
-  /// <code>number</code> type because the default used by WAF is Unix time in
-  /// seconds. However any valid <a
-  /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp
-  /// format</a> is allowed.
+  /// <code>timestamp</code> type. The request syntax listing for this call
+  /// indicates a <code>number</code> type, but you can provide the time in any
+  /// valid <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp">timestamp
+  /// format</a> setting.
   Future<ListAttacksResponse> listAttacks({
     TimeRange? endTime,
     int? maxResults,
@@ -998,27 +1112,49 @@ class Shield {
     return ListAttacksResponse.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves the <a>ProtectionGroup</a> objects for the account.
+  /// Retrieves <a>ProtectionGroup</a> objects for the account. You can retrieve
+  /// all protection groups or you can provide filtering criteria and retrieve
+  /// just the subset of protection groups that match the criteria.
   ///
   /// May throw [InternalErrorException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidPaginationTokenException].
   ///
-  /// Parameter [maxResults] :
-  /// The maximum number of <a>ProtectionGroup</a> objects to return. If you
-  /// leave this blank, Shield Advanced returns the first 20 results.
+  /// Parameter [inclusionFilters] :
+  /// Narrows the set of protection groups that the call retrieves. You can
+  /// retrieve a single protection group by its name and you can retrieve all
+  /// protection groups that are configured with specific pattern or aggregation
+  /// settings. You can provide up to one criteria per filter type. Shield
+  /// Advanced returns the protection groups that exactly match all of the
+  /// search criteria that you provide.
   ///
-  /// This is a maximum value. Shield Advanced might return the results in
-  /// smaller batches. That is, the number of objects returned could be less
-  /// than <code>MaxResults</code>, even if there are still more objects yet to
-  /// return. If there are more objects to return, Shield Advanced returns a
-  /// value in <code>NextToken</code> that you can use in your next request, to
-  /// get the next batch of objects.
+  /// Parameter [maxResults] :
+  /// The greatest number of objects that you want Shield Advanced to return to
+  /// the list request. Shield Advanced might return fewer objects than you
+  /// indicate in this setting, even if more objects are available. If there are
+  /// more objects remaining, Shield Advanced will always also return a
+  /// <code>NextToken</code> value in the response.
+  ///
+  /// The default setting is 20.
   ///
   /// Parameter [nextToken] :
-  /// The next token value from a previous call to
-  /// <code>ListProtectionGroups</code>. Pass null if this is the first call.
+  /// When you request a list of objects from Shield Advanced, if the response
+  /// does not include all of the remaining available objects, Shield Advanced
+  /// includes a <code>NextToken</code> value in the response. You can retrieve
+  /// the next batch of objects by requesting the list again and providing the
+  /// token that was returned by the prior call in your request.
+  ///
+  /// You can indicate the maximum number of objects that you want Shield
+  /// Advanced to return for a single call with the <code>MaxResults</code>
+  /// setting. Shield Advanced will not return more than <code>MaxResults</code>
+  /// objects, but may return fewer, even if more objects are still available.
+  ///
+  /// Whenever more objects remain that Shield Advanced has not yet returned to
+  /// you, the response will include a <code>NextToken</code> value.
+  ///
+  /// On your first call to a list operation, leave this setting empty.
   Future<ListProtectionGroupsResponse> listProtectionGroups({
+    InclusionProtectionGroupFilters? inclusionFilters,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -1039,6 +1175,7 @@ class Shield {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (inclusionFilters != null) 'InclusionFilters': inclusionFilters,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -1047,27 +1184,49 @@ class Shield {
     return ListProtectionGroupsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists all <a>Protection</a> objects for the account.
+  /// Retrieves <a>Protection</a> objects for the account. You can retrieve all
+  /// protections or you can provide filtering criteria and retrieve just the
+  /// subset of protections that match the criteria.
   ///
   /// May throw [InternalErrorException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidPaginationTokenException].
   ///
-  /// Parameter [maxResults] :
-  /// The maximum number of <a>Protection</a> objects to return. If you leave
-  /// this blank, Shield Advanced returns the first 20 results.
+  /// Parameter [inclusionFilters] :
+  /// Narrows the set of protections that the call retrieves. You can retrieve a
+  /// single protection by providing its name or the ARN (Amazon Resource Name)
+  /// of its protected resource. You can also retrieve all protections for a
+  /// specific resource type. You can provide up to one criteria per filter
+  /// type. Shield Advanced returns protections that exactly match all of the
+  /// filter criteria that you provide.
   ///
-  /// This is a maximum value. Shield Advanced might return the results in
-  /// smaller batches. That is, the number of objects returned could be less
-  /// than <code>MaxResults</code>, even if there are still more objects yet to
-  /// return. If there are more objects to return, Shield Advanced returns a
-  /// value in <code>NextToken</code> that you can use in your next request, to
-  /// get the next batch of objects.
+  /// Parameter [maxResults] :
+  /// The greatest number of objects that you want Shield Advanced to return to
+  /// the list request. Shield Advanced might return fewer objects than you
+  /// indicate in this setting, even if more objects are available. If there are
+  /// more objects remaining, Shield Advanced will always also return a
+  /// <code>NextToken</code> value in the response.
+  ///
+  /// The default setting is 20.
   ///
   /// Parameter [nextToken] :
-  /// The <code>ListProtectionsRequest.NextToken</code> value from a previous
-  /// call to <code>ListProtections</code>. Pass null if this is the first call.
+  /// When you request a list of objects from Shield Advanced, if the response
+  /// does not include all of the remaining available objects, Shield Advanced
+  /// includes a <code>NextToken</code> value in the response. You can retrieve
+  /// the next batch of objects by requesting the list again and providing the
+  /// token that was returned by the prior call in your request.
+  ///
+  /// You can indicate the maximum number of objects that you want Shield
+  /// Advanced to return for a single call with the <code>MaxResults</code>
+  /// setting. Shield Advanced will not return more than <code>MaxResults</code>
+  /// objects, but may return fewer, even if more objects are still available.
+  ///
+  /// Whenever more objects remain that Shield Advanced has not yet returned to
+  /// you, the response will include a <code>NextToken</code> value.
+  ///
+  /// On your first call to a list operation, leave this setting empty.
   Future<ListProtectionsResponse> listProtections({
+    InclusionProtectionFilters? inclusionFilters,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -1088,6 +1247,7 @@ class Shield {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (inclusionFilters != null) 'InclusionFilters': inclusionFilters,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -1108,20 +1268,30 @@ class Shield {
   /// delete, or describe it.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of resource ARN objects to return. If you leave this
-  /// blank, Shield Advanced returns the first 20 results.
+  /// The greatest number of objects that you want Shield Advanced to return to
+  /// the list request. Shield Advanced might return fewer objects than you
+  /// indicate in this setting, even if more objects are available. If there are
+  /// more objects remaining, Shield Advanced will always also return a
+  /// <code>NextToken</code> value in the response.
   ///
-  /// This is a maximum value. Shield Advanced might return the results in
-  /// smaller batches. That is, the number of objects returned could be less
-  /// than <code>MaxResults</code>, even if there are still more objects yet to
-  /// return. If there are more objects to return, Shield Advanced returns a
-  /// value in <code>NextToken</code> that you can use in your next request, to
-  /// get the next batch of objects.
+  /// The default setting is 20.
   ///
   /// Parameter [nextToken] :
-  /// The next token value from a previous call to
-  /// <code>ListResourcesInProtectionGroup</code>. Pass null if this is the
-  /// first call.
+  /// When you request a list of objects from Shield Advanced, if the response
+  /// does not include all of the remaining available objects, Shield Advanced
+  /// includes a <code>NextToken</code> value in the response. You can retrieve
+  /// the next batch of objects by requesting the list again and providing the
+  /// token that was returned by the prior call in your request.
+  ///
+  /// You can indicate the maximum number of objects that you want Shield
+  /// Advanced to return for a single call with the <code>MaxResults</code>
+  /// setting. Shield Advanced will not return more than <code>MaxResults</code>
+  /// objects, but may return fewer, even if more objects are still available.
+  ///
+  /// Whenever more objects remain that Shield Advanced has not yet returned to
+  /// you, the response will include a <code>NextToken</code> value.
+  ///
+  /// On your first call to a list operation, leave this setting empty.
   Future<ListResourcesInProtectionGroupResponse>
       listResourcesInProtectionGroup({
     required String protectionGroupId,
@@ -1154,10 +1324,150 @@ class Shield {
     return ListResourcesInProtectionGroupResponse.fromJson(jsonResponse.body);
   }
 
+  /// Gets information about Amazon Web Services tags for a specified Amazon
+  /// Resource Name (ARN) in Shield.
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidResourceException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceARN] :
+  /// The Amazon Resource Name (ARN) of the resource to get tags for.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    required String resourceARN,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSShield_20160616.ListTagsForResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+      },
+    );
+
+    return ListTagsForResourceResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Adds or updates tags for a resource in Shield.
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidResourceException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceARN] :
+  /// The Amazon Resource Name (ARN) of the resource that you want to add or
+  /// update tags for.
+  ///
+  /// Parameter [tags] :
+  /// The tags that you want to modify or add to the resource.
+  Future<void> tagResource({
+    required String resourceARN,
+    required List<Tag> tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSShield_20160616.TagResource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+        'Tags': tags,
+      },
+    );
+  }
+
+  /// Removes tags from a resource in Shield.
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidResourceException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceARN] :
+  /// The Amazon Resource Name (ARN) of the resource that you want to remove
+  /// tags from.
+  ///
+  /// Parameter [tagKeys] :
+  /// The tag key for each tag that you want to remove from the resource.
+  Future<void> untagResource({
+    required String resourceARN,
+    required List<String> tagKeys,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSShield_20160616.UntagResource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+        'TagKeys': tagKeys,
+      },
+    );
+  }
+
+  /// Updates an existing Shield Advanced automatic application layer DDoS
+  /// mitigation configuration for the specified resource.
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterException].
+  /// May throw [OptimisticLockException].
+  /// May throw [InvalidOperationException].
+  ///
+  /// Parameter [action] :
+  /// Specifies the action setting that Shield Advanced should use in the WAF
+  /// rules that it creates on behalf of the protected resource in response to
+  /// DDoS attacks. You specify this as part of the configuration for the
+  /// automatic application layer DDoS mitigation feature, when you enable or
+  /// update automatic mitigation. Shield Advanced creates the WAF rules in a
+  /// Shield Advanced-managed rule group, inside the web ACL that you have
+  /// associated with the resource.
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN (Amazon Resource Name) of the resource.
+  Future<void> updateApplicationLayerAutomaticResponse({
+    required ResponseAction action,
+    required String resourceArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSShield_20160616.UpdateApplicationLayerAutomaticResponse'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Action': action,
+        'ResourceArn': resourceArn,
+      },
+    );
+  }
+
   /// Updates the details of the list of email addresses and phone numbers that
-  /// the DDoS Response Team (DRT) can use to contact you if you have proactive
-  /// engagement enabled, for escalations to the DRT and to initiate proactive
-  /// customer support.
+  /// the Shield Response Team (SRT) can use to contact you if you have
+  /// proactive engagement enabled, for escalations to the SRT and to initiate
+  /// proactive customer support.
   ///
   /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
@@ -1165,9 +1475,9 @@ class Shield {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [emergencyContactList] :
-  /// A list of email addresses and phone numbers that the DDoS Response Team
-  /// (DRT) can use to contact you if you have proactive engagement enabled, for
-  /// escalations to the DRT and to initiate proactive customer support.
+  /// A list of email addresses and phone numbers that the Shield Response Team
+  /// (SRT) can use to contact you if you have proactive engagement enabled, for
+  /// escalations to the SRT and to initiate proactive customer support.
   ///
   /// If you have proactive engagement enabled, the contact list must include at
   /// least one phone number.
@@ -1201,7 +1511,7 @@ class Shield {
   /// May throw [InvalidParameterException].
   ///
   /// Parameter [aggregation] :
-  /// Defines how AWS Shield combines resource data for the group in order to
+  /// Defines how Shield combines resource data for the group in order to
   /// detect, mitigate, and report events.
   ///
   /// <ul>
@@ -1218,8 +1528,8 @@ class Shield {
   /// <li>
   /// Max - Use the highest traffic from each resource. This is useful for
   /// resources that don't share traffic and for resources that share that
-  /// traffic in a non-uniform way. Examples include CloudFront distributions
-  /// and origin resources for CloudFront distributions.
+  /// traffic in a non-uniform way. Examples include Amazon CloudFront
+  /// distributions and origin resources for CloudFront distributions.
   /// </li>
   /// </ul>
   ///
@@ -1274,6 +1584,11 @@ class Shield {
 
   /// Updates the details of an existing subscription. Only enter values for
   /// parameters you want to change. Empty parameters are not updated.
+  /// <note>
+  /// For accounts that are members of an Organizations organization, Shield
+  /// Advanced subscriptions are billed against the organization's payer
+  /// account, regardless of whether the payer account itself is subscribed.
+  /// </note>
   ///
   /// May throw [InternalErrorException].
   /// May throw [LockedSubscriptionException].
@@ -1309,8 +1624,73 @@ class Shield {
   }
 }
 
+/// The automatic application layer DDoS mitigation settings for a
+/// <a>Protection</a>. This configuration determines whether Shield Advanced
+/// automatically manages rules in the web ACL in order to respond to
+/// application layer events that Shield Advanced determines to be DDoS attacks.
+class ApplicationLayerAutomaticResponseConfiguration {
+  /// Specifies the action setting that Shield Advanced should use in the WAF
+  /// rules that it creates on behalf of the protected resource in response to
+  /// DDoS attacks. You specify this as part of the configuration for the
+  /// automatic application layer DDoS mitigation feature, when you enable or
+  /// update automatic mitigation. Shield Advanced creates the WAF rules in a
+  /// Shield Advanced-managed rule group, inside the web ACL that you have
+  /// associated with the resource.
+  final ResponseAction action;
+
+  /// Indicates whether automatic application layer DDoS mitigation is enabled for
+  /// the protection.
+  final ApplicationLayerAutomaticResponseStatus status;
+
+  ApplicationLayerAutomaticResponseConfiguration({
+    required this.action,
+    required this.status,
+  });
+
+  factory ApplicationLayerAutomaticResponseConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ApplicationLayerAutomaticResponseConfiguration(
+      action: ResponseAction.fromJson(json['Action'] as Map<String, dynamic>),
+      status: (json['Status'] as String)
+          .toApplicationLayerAutomaticResponseStatus(),
+    );
+  }
+}
+
+enum ApplicationLayerAutomaticResponseStatus {
+  enabled,
+  disabled,
+}
+
+extension ApplicationLayerAutomaticResponseStatusValueExtension
+    on ApplicationLayerAutomaticResponseStatus {
+  String toValue() {
+    switch (this) {
+      case ApplicationLayerAutomaticResponseStatus.enabled:
+        return 'ENABLED';
+      case ApplicationLayerAutomaticResponseStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension ApplicationLayerAutomaticResponseStatusFromString on String {
+  ApplicationLayerAutomaticResponseStatus
+      toApplicationLayerAutomaticResponseStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return ApplicationLayerAutomaticResponseStatus.enabled;
+      case 'DISABLED':
+        return ApplicationLayerAutomaticResponseStatus.disabled;
+    }
+    throw Exception(
+        '$this is not known in enum ApplicationLayerAutomaticResponseStatus');
+  }
+}
+
 class AssociateDRTLogBucketResponse {
   AssociateDRTLogBucketResponse();
+
   factory AssociateDRTLogBucketResponse.fromJson(Map<String, dynamic> _) {
     return AssociateDRTLogBucketResponse();
   }
@@ -1318,6 +1698,7 @@ class AssociateDRTLogBucketResponse {
 
 class AssociateDRTRoleResponse {
   AssociateDRTRoleResponse();
+
   factory AssociateDRTRoleResponse.fromJson(Map<String, dynamic> _) {
     return AssociateDRTRoleResponse();
   }
@@ -1325,6 +1706,7 @@ class AssociateDRTRoleResponse {
 
 class AssociateHealthCheckResponse {
   AssociateHealthCheckResponse();
+
   factory AssociateHealthCheckResponse.fromJson(Map<String, dynamic> _) {
     return AssociateHealthCheckResponse();
   }
@@ -1332,6 +1714,7 @@ class AssociateHealthCheckResponse {
 
 class AssociateProactiveEngagementDetailsResponse {
   AssociateProactiveEngagementDetailsResponse();
+
   factory AssociateProactiveEngagementDetailsResponse.fromJson(
       Map<String, dynamic> _) {
     return AssociateProactiveEngagementDetailsResponse();
@@ -1346,12 +1729,15 @@ class AttackDetail {
   /// The unique identifier (ID) of the attack.
   final String? attackId;
 
-  /// The array of <a>AttackProperty</a> objects.
+  /// The array of objects that provide details of the Shield event.
+  ///
+  /// For infrastructure layer events (L3 and L4 events), you can view metrics for
+  /// top contributors in Amazon CloudWatch metrics. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/monitoring-cloudwatch.html#set-ddos-alarms">Shield
+  /// metrics and alarms</a> in the <i>WAF Developer Guide</i>.
   final List<AttackProperty>? attackProperties;
 
-  /// The time the attack ended, in Unix time in seconds. For more information see
-  /// <a
-  /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
+  /// The time the attack ended, in Unix time in seconds.
   final DateTime? endTime;
 
   /// List of mitigation actions taken for the attack.
@@ -1360,9 +1746,7 @@ class AttackDetail {
   /// The ARN (Amazon Resource Name) of the resource that was attacked.
   final String? resourceArn;
 
-  /// The time the attack started, in Unix time in seconds. For more information
-  /// see <a
-  /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
+  /// The time the attack started, in Unix time in seconds.
   final DateTime? startTime;
 
   /// If applicable, additional detail about the resource being attacked, for
@@ -1379,6 +1763,7 @@ class AttackDetail {
     this.startTime,
     this.subResources,
   });
+
   factory AttackDetail.fromJson(Map<String, dynamic> json) {
     return AttackDetail(
       attackCounters: (json['AttackCounters'] as List?)
@@ -1433,28 +1818,34 @@ extension AttackLayerFromString on String {
   }
 }
 
-/// Details of the described attack.
+/// Details of a Shield event. This is provided as part of an
+/// <a>AttackDetail</a>.
 class AttackProperty {
-  /// The type of distributed denial of service (DDoS) event that was observed.
-  /// <code>NETWORK</code> indicates layer 3 and layer 4 events and
-  /// <code>APPLICATION</code> indicates layer 7 events.
+  /// The type of Shield event that was observed. <code>NETWORK</code> indicates
+  /// layer 3 and layer 4 events and <code>APPLICATION</code> indicates layer 7
+  /// events.
+  ///
+  /// For infrastructure layer events (L3 and L4 events), you can view metrics for
+  /// top contributors in Amazon CloudWatch metrics. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/monitoring-cloudwatch.html#set-ddos-alarms">Shield
+  /// metrics and alarms</a> in the <i>WAF Developer Guide</i>.
   final AttackLayer? attackLayer;
 
-  /// Defines the DDoS attack property information that is provided. The
+  /// Defines the Shield event property information that is provided. The
   /// <code>WORDPRESS_PINGBACK_REFLECTOR</code> and
   /// <code>WORDPRESS_PINGBACK_SOURCE</code> values are valid only for WordPress
-  /// reflective pingback DDoS attacks.
+  /// reflective pingback events.
   final AttackPropertyIdentifier? attackPropertyIdentifier;
 
-  /// The array of contributor objects that includes the top five contributors to
-  /// an attack.
+  /// Contributor objects for the top five contributors to a Shield event. A
+  /// contributor is a source of traffic that Shield Advanced identifies as
+  /// responsible for some or all of an event.
   final List<Contributor>? topContributors;
 
-  /// The total contributions made to this attack by all contributors, not just
-  /// the five listed in the <code>TopContributors</code> list.
+  /// The total contributions made to this Shield event by all contributors.
   final int? total;
 
-  /// The unit of the <code>Value</code> of the contributions.
+  /// The unit used for the <code>Contributor</code> <code>Value</code> property.
   final Unit? unit;
 
   AttackProperty({
@@ -1464,6 +1855,7 @@ class AttackProperty {
     this.total,
     this.unit,
   });
+
   factory AttackProperty.fromJson(Map<String, dynamic> json) {
     return AttackProperty(
       attackLayer: (json['AttackLayer'] as String?)?.toAttackLayer(),
@@ -1553,6 +1945,7 @@ class AttackStatisticsDataItem {
     required this.attackCount,
     this.attackVolume,
   });
+
   factory AttackStatisticsDataItem.fromJson(Map<String, dynamic> json) {
     return AttackStatisticsDataItem(
       attackCount: json['AttackCount'] as int,
@@ -1571,17 +1964,13 @@ class AttackSummary {
   /// The list of attacks for a specified time period.
   final List<AttackVectorDescription>? attackVectors;
 
-  /// The end time of the attack, in Unix time in seconds. For more information
-  /// see <a
-  /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
+  /// The end time of the attack, in Unix time in seconds.
   final DateTime? endTime;
 
   /// The ARN (Amazon Resource Name) of the resource that was attacked.
   final String? resourceArn;
 
-  /// The start time of the attack, in Unix time in seconds. For more information
-  /// see <a
-  /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
+  /// The start time of the attack, in Unix time in seconds.
   final DateTime? startTime;
 
   AttackSummary({
@@ -1591,6 +1980,7 @@ class AttackSummary {
     this.resourceArn,
     this.startTime,
   });
+
   factory AttackSummary.fromJson(Map<String, dynamic> json) {
     return AttackSummary(
       attackId: json['AttackId'] as String?,
@@ -1671,6 +2061,7 @@ class AttackVectorDescription {
   AttackVectorDescription({
     required this.vectorType,
   });
+
   factory AttackVectorDescription.fromJson(Map<String, dynamic> json) {
     return AttackVectorDescription(
       vectorType: json['VectorType'] as String,
@@ -1701,6 +2092,7 @@ class AttackVolume {
     this.packetsPerSecond,
     this.requestsPerSecond,
   });
+
   factory AttackVolume.fromJson(Map<String, dynamic> json) {
     return AttackVolume(
       bitsPerSecond: json['BitsPerSecond'] != null
@@ -1727,6 +2119,7 @@ class AttackVolumeStatistics {
   AttackVolumeStatistics({
     required this.max,
   });
+
   factory AttackVolumeStatistics.fromJson(Map<String, dynamic> json) {
     return AttackVolumeStatistics(
       max: json['Max'] as double,
@@ -1762,12 +2155,31 @@ extension AutoRenewFromString on String {
   }
 }
 
+/// Specifies that Shield Advanced should configure its WAF rules with the WAF
+/// <code>Block</code> action.
+///
+/// This is only used in the context of the <code>ResponseAction</code> setting.
+///
+/// JSON specification: <code>"Block": {}</code>
+class BlockAction {
+  BlockAction();
+
+  factory BlockAction.fromJson(Map<String, dynamic> _) {
+    return BlockAction();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 /// A contributor to the attack and their contribution.
 class Contributor {
-  /// The name of the contributor. This is dependent on the
-  /// <code>AttackPropertyIdentifier</code>. For example, if the
-  /// <code>AttackPropertyIdentifier</code> is <code>SOURCE_COUNTRY</code>, the
-  /// <code>Name</code> could be <code>United States</code>.
+  /// The name of the contributor. The type of name that you'll find here depends
+  /// on the <code>AttackPropertyIdentifier</code> setting in the
+  /// <code>AttackProperty</code> where this contributor is defined. For example,
+  /// if the <code>AttackPropertyIdentifier</code> is <code>SOURCE_COUNTRY</code>,
+  /// the <code>Name</code> could be <code>United States</code>.
   final String? name;
 
   /// The contribution of this contributor expressed in <a>Protection</a> units.
@@ -1778,6 +2190,7 @@ class Contributor {
     this.name,
     this.value,
   });
+
   factory Contributor.fromJson(Map<String, dynamic> json) {
     return Contributor(
       name: json['Name'] as String?,
@@ -1786,8 +2199,27 @@ class Contributor {
   }
 }
 
+/// Specifies that Shield Advanced should configure its WAF rules with the WAF
+/// <code>Count</code> action.
+///
+/// This is only used in the context of the <code>ResponseAction</code> setting.
+///
+/// JSON specification: <code>"Count": {}</code>
+class CountAction {
+  CountAction();
+
+  factory CountAction.fromJson(Map<String, dynamic> _) {
+    return CountAction();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class CreateProtectionGroupResponse {
   CreateProtectionGroupResponse();
+
   factory CreateProtectionGroupResponse.fromJson(Map<String, dynamic> _) {
     return CreateProtectionGroupResponse();
   }
@@ -1800,6 +2232,7 @@ class CreateProtectionResponse {
   CreateProtectionResponse({
     this.protectionId,
   });
+
   factory CreateProtectionResponse.fromJson(Map<String, dynamic> json) {
     return CreateProtectionResponse(
       protectionId: json['ProtectionId'] as String?,
@@ -1809,6 +2242,7 @@ class CreateProtectionResponse {
 
 class CreateSubscriptionResponse {
   CreateSubscriptionResponse();
+
   factory CreateSubscriptionResponse.fromJson(Map<String, dynamic> _) {
     return CreateSubscriptionResponse();
   }
@@ -1816,6 +2250,7 @@ class CreateSubscriptionResponse {
 
 class DeleteProtectionGroupResponse {
   DeleteProtectionGroupResponse();
+
   factory DeleteProtectionGroupResponse.fromJson(Map<String, dynamic> _) {
     return DeleteProtectionGroupResponse();
   }
@@ -1823,6 +2258,7 @@ class DeleteProtectionGroupResponse {
 
 class DeleteProtectionResponse {
   DeleteProtectionResponse();
+
   factory DeleteProtectionResponse.fromJson(Map<String, dynamic> _) {
     return DeleteProtectionResponse();
   }
@@ -1831,18 +2267,20 @@ class DeleteProtectionResponse {
 @deprecated
 class DeleteSubscriptionResponse {
   DeleteSubscriptionResponse();
+
   factory DeleteSubscriptionResponse.fromJson(Map<String, dynamic> _) {
     return DeleteSubscriptionResponse();
   }
 }
 
 class DescribeAttackResponse {
-  /// The attack that is described.
+  /// The attack that you requested.
   final AttackDetail? attack;
 
   DescribeAttackResponse({
     this.attack,
   });
+
   factory DescribeAttackResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAttackResponse(
       attack: json['Attack'] != null
@@ -1855,12 +2293,15 @@ class DescribeAttackResponse {
 class DescribeAttackStatisticsResponse {
   /// The data that describes the attacks detected during the time period.
   final List<AttackStatisticsDataItem> dataItems;
+
+  /// The time range of the attack.
   final TimeRange timeRange;
 
   DescribeAttackStatisticsResponse({
     required this.dataItems,
     required this.timeRange,
   });
+
   factory DescribeAttackStatisticsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAttackStatisticsResponse(
       dataItems: (json['DataItems'] as List)
@@ -1874,17 +2315,18 @@ class DescribeAttackStatisticsResponse {
 }
 
 class DescribeDRTAccessResponse {
-  /// The list of Amazon S3 buckets accessed by the DRT.
+  /// The list of Amazon S3 buckets accessed by the SRT.
   final List<String>? logBucketList;
 
-  /// The Amazon Resource Name (ARN) of the role the DRT used to access your AWS
-  /// account.
+  /// The Amazon Resource Name (ARN) of the role the SRT used to access your
+  /// Amazon Web Services account.
   final String? roleArn;
 
   DescribeDRTAccessResponse({
     this.logBucketList,
     this.roleArn,
   });
+
   factory DescribeDRTAccessResponse.fromJson(Map<String, dynamic> json) {
     return DescribeDRTAccessResponse(
       logBucketList: (json['LogBucketList'] as List?)
@@ -1897,14 +2339,15 @@ class DescribeDRTAccessResponse {
 }
 
 class DescribeEmergencyContactSettingsResponse {
-  /// A list of email addresses and phone numbers that the DDoS Response Team
-  /// (DRT) can use to contact you if you have proactive engagement enabled, for
-  /// escalations to the DRT and to initiate proactive customer support.
+  /// A list of email addresses and phone numbers that the Shield Response Team
+  /// (SRT) can use to contact you if you have proactive engagement enabled, for
+  /// escalations to the SRT and to initiate proactive customer support.
   final List<EmergencyContact>? emergencyContactList;
 
   DescribeEmergencyContactSettingsResponse({
     this.emergencyContactList,
   });
+
   factory DescribeEmergencyContactSettingsResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeEmergencyContactSettingsResponse(
@@ -1917,14 +2360,15 @@ class DescribeEmergencyContactSettingsResponse {
 }
 
 class DescribeProtectionGroupResponse {
-  /// A grouping of protected resources that you and AWS Shield Advanced can
-  /// monitor as a collective. This resource grouping improves the accuracy of
-  /// detection and reduces false positives.
+  /// A grouping of protected resources that you and Shield Advanced can monitor
+  /// as a collective. This resource grouping improves the accuracy of detection
+  /// and reduces false positives.
   final ProtectionGroup protectionGroup;
 
   DescribeProtectionGroupResponse({
     required this.protectionGroup,
   });
+
   factory DescribeProtectionGroupResponse.fromJson(Map<String, dynamic> json) {
     return DescribeProtectionGroupResponse(
       protectionGroup: ProtectionGroup.fromJson(
@@ -1934,12 +2378,13 @@ class DescribeProtectionGroupResponse {
 }
 
 class DescribeProtectionResponse {
-  /// The <a>Protection</a> object that is described.
+  /// The <a>Protection</a> that you requested.
   final Protection? protection;
 
   DescribeProtectionResponse({
     this.protection,
   });
+
   factory DescribeProtectionResponse.fromJson(Map<String, dynamic> json) {
     return DescribeProtectionResponse(
       protection: json['Protection'] != null
@@ -1950,12 +2395,13 @@ class DescribeProtectionResponse {
 }
 
 class DescribeSubscriptionResponse {
-  /// The AWS Shield Advanced subscription details for an account.
+  /// The Shield Advanced subscription details for an account.
   final Subscription? subscription;
 
   DescribeSubscriptionResponse({
     this.subscription,
   });
+
   factory DescribeSubscriptionResponse.fromJson(Map<String, dynamic> json) {
     return DescribeSubscriptionResponse(
       subscription: json['Subscription'] != null
@@ -1965,8 +2411,18 @@ class DescribeSubscriptionResponse {
   }
 }
 
+class DisableApplicationLayerAutomaticResponseResponse {
+  DisableApplicationLayerAutomaticResponseResponse();
+
+  factory DisableApplicationLayerAutomaticResponseResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DisableApplicationLayerAutomaticResponseResponse();
+  }
+}
+
 class DisableProactiveEngagementResponse {
   DisableProactiveEngagementResponse();
+
   factory DisableProactiveEngagementResponse.fromJson(Map<String, dynamic> _) {
     return DisableProactiveEngagementResponse();
   }
@@ -1974,6 +2430,7 @@ class DisableProactiveEngagementResponse {
 
 class DisassociateDRTLogBucketResponse {
   DisassociateDRTLogBucketResponse();
+
   factory DisassociateDRTLogBucketResponse.fromJson(Map<String, dynamic> _) {
     return DisassociateDRTLogBucketResponse();
   }
@@ -1981,6 +2438,7 @@ class DisassociateDRTLogBucketResponse {
 
 class DisassociateDRTRoleResponse {
   DisassociateDRTRoleResponse();
+
   factory DisassociateDRTRoleResponse.fromJson(Map<String, dynamic> _) {
     return DisassociateDRTRoleResponse();
   }
@@ -1988,13 +2446,14 @@ class DisassociateDRTRoleResponse {
 
 class DisassociateHealthCheckResponse {
   DisassociateHealthCheckResponse();
+
   factory DisassociateHealthCheckResponse.fromJson(Map<String, dynamic> _) {
     return DisassociateHealthCheckResponse();
   }
 }
 
-/// Contact information that the DRT can use to contact you if you have
-/// proactive engagement enabled, for escalations to the DRT and to initiate
+/// Contact information that the SRT can use to contact you if you have
+/// proactive engagement enabled, for escalations to the SRT and to initiate
 /// proactive customer support.
 class EmergencyContact {
   /// The email address for the contact.
@@ -2011,6 +2470,7 @@ class EmergencyContact {
     this.contactNotes,
     this.phoneNumber,
   });
+
   factory EmergencyContact.fromJson(Map<String, dynamic> json) {
     return EmergencyContact(
       emailAddress: json['EmailAddress'] as String,
@@ -2031,8 +2491,18 @@ class EmergencyContact {
   }
 }
 
+class EnableApplicationLayerAutomaticResponseResponse {
+  EnableApplicationLayerAutomaticResponseResponse();
+
+  factory EnableApplicationLayerAutomaticResponseResponse.fromJson(
+      Map<String, dynamic> _) {
+    return EnableApplicationLayerAutomaticResponseResponse();
+  }
+}
+
 class EnableProactiveEngagementResponse {
   EnableProactiveEngagementResponse();
+
   factory EnableProactiveEngagementResponse.fromJson(Map<String, dynamic> _) {
     return EnableProactiveEngagementResponse();
   }
@@ -2045,11 +2515,93 @@ class GetSubscriptionStateResponse {
   GetSubscriptionStateResponse({
     required this.subscriptionState,
   });
+
   factory GetSubscriptionStateResponse.fromJson(Map<String, dynamic> json) {
     return GetSubscriptionStateResponse(
       subscriptionState:
           (json['SubscriptionState'] as String).toSubscriptionState(),
     );
+  }
+}
+
+/// Narrows the set of protections that the call retrieves. You can retrieve a
+/// single protection by providing its name or the ARN (Amazon Resource Name) of
+/// its protected resource. You can also retrieve all protections for a specific
+/// resource type. You can provide up to one criteria per filter type. Shield
+/// Advanced returns protections that exactly match all of the filter criteria
+/// that you provide.
+class InclusionProtectionFilters {
+  /// The name of the protection that you want to retrieve.
+  final List<String>? protectionNames;
+
+  /// The ARN (Amazon Resource Name) of the resource whose protection you want to
+  /// retrieve.
+  final List<String>? resourceArns;
+
+  /// The type of protected resource whose protections you want to retrieve.
+  final List<ProtectedResourceType>? resourceTypes;
+
+  InclusionProtectionFilters({
+    this.protectionNames,
+    this.resourceArns,
+    this.resourceTypes,
+  });
+  Map<String, dynamic> toJson() {
+    final protectionNames = this.protectionNames;
+    final resourceArns = this.resourceArns;
+    final resourceTypes = this.resourceTypes;
+    return {
+      if (protectionNames != null) 'ProtectionNames': protectionNames,
+      if (resourceArns != null) 'ResourceArns': resourceArns,
+      if (resourceTypes != null)
+        'ResourceTypes': resourceTypes.map((e) => e.toValue()).toList(),
+    };
+  }
+}
+
+/// Narrows the set of protection groups that the call retrieves. You can
+/// retrieve a single protection group by its name and you can retrieve all
+/// protection groups that are configured with a specific pattern, aggregation,
+/// or resource type. You can provide up to one criteria per filter type. Shield
+/// Advanced returns the protection groups that exactly match all of the search
+/// criteria that you provide.
+class InclusionProtectionGroupFilters {
+  /// The aggregation setting of the protection groups that you want to retrieve.
+  final List<ProtectionGroupAggregation>? aggregations;
+
+  /// The pattern specification of the protection groups that you want to
+  /// retrieve.
+  final List<ProtectionGroupPattern>? patterns;
+
+  /// The ID of the protection group that you want to retrieve.
+  final List<String>? protectionGroupIds;
+
+  /// The resource type configuration of the protection groups that you want to
+  /// retrieve. In the protection group configuration, you specify the resource
+  /// type when you set the group's <code>Pattern</code> to
+  /// <code>BY_RESOURCE_TYPE</code>.
+  final List<ProtectedResourceType>? resourceTypes;
+
+  InclusionProtectionGroupFilters({
+    this.aggregations,
+    this.patterns,
+    this.protectionGroupIds,
+    this.resourceTypes,
+  });
+  Map<String, dynamic> toJson() {
+    final aggregations = this.aggregations;
+    final patterns = this.patterns;
+    final protectionGroupIds = this.protectionGroupIds;
+    final resourceTypes = this.resourceTypes;
+    return {
+      if (aggregations != null)
+        'Aggregations': aggregations.map((e) => e.toValue()).toList(),
+      if (patterns != null)
+        'Patterns': patterns.map((e) => e.toValue()).toList(),
+      if (protectionGroupIds != null) 'ProtectionGroupIds': protectionGroupIds,
+      if (resourceTypes != null)
+        'ResourceTypes': resourceTypes.map((e) => e.toValue()).toList(),
+    };
   }
 }
 
@@ -2066,6 +2618,7 @@ class Limit {
     this.max,
     this.type,
   });
+
   factory Limit.fromJson(Map<String, dynamic> json) {
     return Limit(
       max: json['Max'] as int?,
@@ -2078,21 +2631,26 @@ class ListAttacksResponse {
   /// The attack information for the specified time range.
   final List<AttackSummary>? attackSummaries;
 
-  /// The token returned by a previous call to indicate that there is more data
-  /// available. If not null, more results are available. Pass this value for the
-  /// <code>NextMarker</code> parameter in a subsequent call to
-  /// <code>ListAttacks</code> to retrieve the next set of items.
+  /// When you request a list of objects from Shield Advanced, if the response
+  /// does not include all of the remaining available objects, Shield Advanced
+  /// includes a <code>NextToken</code> value in the response. You can retrieve
+  /// the next batch of objects by requesting the list again and providing the
+  /// token that was returned by the prior call in your request.
   ///
-  /// Shield Advanced might return the list of <a>AttackSummary</a> objects in
-  /// batches smaller than the number specified by MaxResults. If there are more
-  /// attack summary objects to return, Shield Advanced will always also return a
-  /// <code>NextToken</code>.
+  /// You can indicate the maximum number of objects that you want Shield Advanced
+  /// to return for a single call with the <code>MaxResults</code> setting. Shield
+  /// Advanced will not return more than <code>MaxResults</code> objects, but may
+  /// return fewer, even if more objects are still available.
+  ///
+  /// Whenever more objects remain that Shield Advanced has not yet returned to
+  /// you, the response will include a <code>NextToken</code> value.
   final String? nextToken;
 
   ListAttacksResponse({
     this.attackSummaries,
     this.nextToken,
   });
+
   factory ListAttacksResponse.fromJson(Map<String, dynamic> json) {
     return ListAttacksResponse(
       attackSummaries: (json['AttackSummaries'] as List?)
@@ -2108,16 +2666,26 @@ class ListProtectionGroupsResponse {
   /// <p/>
   final List<ProtectionGroup> protectionGroups;
 
-  /// If you specify a value for <code>MaxResults</code> and you have more
-  /// protection groups than the value of MaxResults, AWS Shield Advanced returns
-  /// this token that you can use in your next request, to get the next batch of
-  /// objects.
+  /// When you request a list of objects from Shield Advanced, if the response
+  /// does not include all of the remaining available objects, Shield Advanced
+  /// includes a <code>NextToken</code> value in the response. You can retrieve
+  /// the next batch of objects by requesting the list again and providing the
+  /// token that was returned by the prior call in your request.
+  ///
+  /// You can indicate the maximum number of objects that you want Shield Advanced
+  /// to return for a single call with the <code>MaxResults</code> setting. Shield
+  /// Advanced will not return more than <code>MaxResults</code> objects, but may
+  /// return fewer, even if more objects are still available.
+  ///
+  /// Whenever more objects remain that Shield Advanced has not yet returned to
+  /// you, the response will include a <code>NextToken</code> value.
   final String? nextToken;
 
   ListProtectionGroupsResponse({
     required this.protectionGroups,
     this.nextToken,
   });
+
   factory ListProtectionGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListProtectionGroupsResponse(
       protectionGroups: (json['ProtectionGroups'] as List)
@@ -2130,17 +2698,19 @@ class ListProtectionGroupsResponse {
 }
 
 class ListProtectionsResponse {
-  /// If you specify a value for <code>MaxResults</code> and you have more
-  /// Protections than the value of MaxResults, AWS Shield Advanced returns a
-  /// NextToken value in the response that allows you to list another group of
-  /// Protections. For the second and subsequent ListProtections requests, specify
-  /// the value of NextToken from the previous response to get information about
-  /// another batch of Protections.
+  /// When you request a list of objects from Shield Advanced, if the response
+  /// does not include all of the remaining available objects, Shield Advanced
+  /// includes a <code>NextToken</code> value in the response. You can retrieve
+  /// the next batch of objects by requesting the list again and providing the
+  /// token that was returned by the prior call in your request.
   ///
-  /// Shield Advanced might return the list of <a>Protection</a> objects in
-  /// batches smaller than the number specified by MaxResults. If there are more
-  /// <a>Protection</a> objects to return, Shield Advanced will always also return
-  /// a <code>NextToken</code>.
+  /// You can indicate the maximum number of objects that you want Shield Advanced
+  /// to return for a single call with the <code>MaxResults</code> setting. Shield
+  /// Advanced will not return more than <code>MaxResults</code> objects, but may
+  /// return fewer, even if more objects are still available.
+  ///
+  /// Whenever more objects remain that Shield Advanced has not yet returned to
+  /// you, the response will include a <code>NextToken</code> value.
   final String? nextToken;
 
   /// The array of enabled <a>Protection</a> objects.
@@ -2150,6 +2720,7 @@ class ListProtectionsResponse {
     this.nextToken,
     this.protections,
   });
+
   factory ListProtectionsResponse.fromJson(Map<String, dynamic> json) {
     return ListProtectionsResponse(
       nextToken: json['NextToken'] as String?,
@@ -2166,16 +2737,26 @@ class ListResourcesInProtectionGroupResponse {
   /// protection group.
   final List<String> resourceArns;
 
-  /// If you specify a value for <code>MaxResults</code> and you have more
-  /// resources in the protection group than the value of MaxResults, AWS Shield
-  /// Advanced returns this token that you can use in your next request, to get
-  /// the next batch of objects.
+  /// When you request a list of objects from Shield Advanced, if the response
+  /// does not include all of the remaining available objects, Shield Advanced
+  /// includes a <code>NextToken</code> value in the response. You can retrieve
+  /// the next batch of objects by requesting the list again and providing the
+  /// token that was returned by the prior call in your request.
+  ///
+  /// You can indicate the maximum number of objects that you want Shield Advanced
+  /// to return for a single call with the <code>MaxResults</code> setting. Shield
+  /// Advanced will not return more than <code>MaxResults</code> objects, but may
+  /// return fewer, even if more objects are still available.
+  ///
+  /// Whenever more objects remain that Shield Advanced has not yet returned to
+  /// you, the response will include a <code>NextToken</code> value.
   final String? nextToken;
 
   ListResourcesInProtectionGroupResponse({
     required this.resourceArns,
     this.nextToken,
   });
+
   factory ListResourcesInProtectionGroupResponse.fromJson(
       Map<String, dynamic> json) {
     return ListResourcesInProtectionGroupResponse(
@@ -2188,6 +2769,24 @@ class ListResourcesInProtectionGroupResponse {
   }
 }
 
+class ListTagsForResourceResponse {
+  /// A list of tag key and value pairs associated with the specified resource.
+  final List<Tag>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 /// The mitigation applied to a DDoS attack.
 class Mitigation {
   /// The name of the mitigation taken for this attack.
@@ -2196,6 +2795,7 @@ class Mitigation {
   Mitigation({
     this.mitigationName,
   });
+
   factory Mitigation.fromJson(Map<String, dynamic> json) {
     return Mitigation(
       mitigationName: json['MitigationName'] as String?,
@@ -2286,7 +2886,14 @@ extension ProtectedResourceTypeFromString on String {
 
 /// An object that represents a resource that is under DDoS protection.
 class Protection {
-  /// The unique identifier (ID) for the Route 53 health check that's associated
+  /// The automatic application layer DDoS mitigation settings for the protection.
+  /// This configuration determines whether Shield Advanced automatically manages
+  /// rules in the web ACL in order to respond to application layer events that
+  /// Shield Advanced determines to be DDoS attacks.
+  final ApplicationLayerAutomaticResponseConfiguration?
+      applicationLayerAutomaticResponseConfiguration;
+
+  /// The unique identifier (ID) for the Route 53 health check that's associated
   /// with the protection.
   final List<String>? healthCheckIds;
 
@@ -2297,34 +2904,48 @@ class Protection {
   /// distributions</code>.
   final String? name;
 
-  /// The ARN (Amazon Resource Name) of the AWS resource that is protected.
+  /// The ARN (Amazon Resource Name) of the protection.
+  final String? protectionArn;
+
+  /// The ARN (Amazon Resource Name) of the Amazon Web Services resource that is
+  /// protected.
   final String? resourceArn;
 
   Protection({
+    this.applicationLayerAutomaticResponseConfiguration,
     this.healthCheckIds,
     this.id,
     this.name,
+    this.protectionArn,
     this.resourceArn,
   });
+
   factory Protection.fromJson(Map<String, dynamic> json) {
     return Protection(
+      applicationLayerAutomaticResponseConfiguration:
+          json['ApplicationLayerAutomaticResponseConfiguration'] != null
+              ? ApplicationLayerAutomaticResponseConfiguration.fromJson(
+                  json['ApplicationLayerAutomaticResponseConfiguration']
+                      as Map<String, dynamic>)
+              : null,
       healthCheckIds: (json['HealthCheckIds'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
       id: json['Id'] as String?,
       name: json['Name'] as String?,
+      protectionArn: json['ProtectionArn'] as String?,
       resourceArn: json['ResourceArn'] as String?,
     );
   }
 }
 
-/// A grouping of protected resources that you and AWS Shield Advanced can
-/// monitor as a collective. This resource grouping improves the accuracy of
-/// detection and reduces false positives.
+/// A grouping of protected resources that you and Shield Advanced can monitor
+/// as a collective. This resource grouping improves the accuracy of detection
+/// and reduces false positives.
 class ProtectionGroup {
-  /// Defines how AWS Shield combines resource data for the group in order to
-  /// detect, mitigate, and report events.
+  /// Defines how Shield combines resource data for the group in order to detect,
+  /// mitigate, and report events.
   ///
   /// <ul>
   /// <li>
@@ -2340,13 +2961,13 @@ class ProtectionGroup {
   /// <li>
   /// Max - Use the highest traffic from each resource. This is useful for
   /// resources that don't share traffic and for resources that share that traffic
-  /// in a non-uniform way. Examples include CloudFront distributions and origin
-  /// resources for CloudFront distributions.
+  /// in a non-uniform way. Examples include Amazon CloudFront distributions and
+  /// origin resources for CloudFront distributions.
   /// </li>
   /// </ul>
   final ProtectionGroupAggregation aggregation;
 
-  /// The Amazon Resource Names (ARNs) of the resources to include in the
+  /// The ARNs (Amazon Resource Names) of the resources to include in the
   /// protection group. You must set this when you set <code>Pattern</code> to
   /// <code>ARBITRARY</code> and you must not set it for any other
   /// <code>Pattern</code> setting.
@@ -2354,7 +2975,7 @@ class ProtectionGroup {
 
   /// The criteria to use to choose the protected resources for inclusion in the
   /// group. You can include all resources that have protections, provide a list
-  /// of resource Amazon Resource Names (ARNs), or include all resources of a
+  /// of resource ARNs (Amazon Resource Names), or include all resources of a
   /// specified resource type.
   final ProtectionGroupPattern pattern;
 
@@ -2362,6 +2983,9 @@ class ProtectionGroup {
   /// group in lists and to manage the protection group, for example to update,
   /// delete, or describe it.
   final String protectionGroupId;
+
+  /// The ARN (Amazon Resource Name) of the protection group.
+  final String? protectionGroupArn;
 
   /// The resource type to include in the protection group. All protected
   /// resources of this type are included in the protection group. You must set
@@ -2374,8 +2998,10 @@ class ProtectionGroup {
     required this.members,
     required this.pattern,
     required this.protectionGroupId,
+    this.protectionGroupArn,
     this.resourceType,
   });
+
   factory ProtectionGroup.fromJson(Map<String, dynamic> json) {
     return ProtectionGroup(
       aggregation:
@@ -2386,6 +3012,7 @@ class ProtectionGroup {
           .toList(),
       pattern: (json['Pattern'] as String).toProtectionGroupPattern(),
       protectionGroupId: json['ProtectionGroupId'] as String,
+      protectionGroupArn: json['ProtectionGroupArn'] as String?,
       resourceType:
           (json['ResourceType'] as String?)?.toProtectedResourceType(),
     );
@@ -2435,6 +3062,7 @@ class ProtectionGroupArbitraryPatternLimits {
   ProtectionGroupArbitraryPatternLimits({
     required this.maxMembers,
   });
+
   factory ProtectionGroupArbitraryPatternLimits.fromJson(
       Map<String, dynamic> json) {
     return ProtectionGroupArbitraryPatternLimits(
@@ -2456,6 +3084,7 @@ class ProtectionGroupLimits {
     required this.maxProtectionGroups,
     required this.patternTypeLimits,
   });
+
   factory ProtectionGroupLimits.fromJson(Map<String, dynamic> json) {
     return ProtectionGroupLimits(
       maxProtectionGroups: json['MaxProtectionGroups'] as int,
@@ -2507,6 +3136,7 @@ class ProtectionGroupPatternTypeLimits {
   ProtectionGroupPatternTypeLimits({
     required this.arbitraryPatternLimits,
   });
+
   factory ProtectionGroupPatternTypeLimits.fromJson(Map<String, dynamic> json) {
     return ProtectionGroupPatternTypeLimits(
       arbitraryPatternLimits: ProtectionGroupArbitraryPatternLimits.fromJson(
@@ -2523,6 +3153,7 @@ class ProtectionLimits {
   ProtectionLimits({
     required this.protectedResourceTypeLimits,
   });
+
   factory ProtectionLimits.fromJson(Map<String, dynamic> json) {
     return ProtectionLimits(
       protectedResourceTypeLimits: (json['ProtectedResourceTypeLimits'] as List)
@@ -2530,6 +3161,54 @@ class ProtectionLimits {
           .map((e) => Limit.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+  }
+}
+
+/// Specifies the action setting that Shield Advanced should use in the WAF
+/// rules that it creates on behalf of the protected resource in response to
+/// DDoS attacks. You specify this as part of the configuration for the
+/// automatic application layer DDoS mitigation feature, when you enable or
+/// update automatic mitigation. Shield Advanced creates the WAF rules in a
+/// Shield Advanced-managed rule group, inside the web ACL that you have
+/// associated with the resource.
+class ResponseAction {
+  /// Specifies that Shield Advanced should configure its WAF rules with the WAF
+  /// <code>Block</code> action.
+  ///
+  /// You must specify exactly one action, either <code>Block</code> or
+  /// <code>Count</code>.
+  final BlockAction? block;
+
+  /// Specifies that Shield Advanced should configure its WAF rules with the WAF
+  /// <code>Count</code> action.
+  ///
+  /// You must specify exactly one action, either <code>Block</code> or
+  /// <code>Count</code>.
+  final CountAction? count;
+
+  ResponseAction({
+    this.block,
+    this.count,
+  });
+
+  factory ResponseAction.fromJson(Map<String, dynamic> json) {
+    return ResponseAction(
+      block: json['Block'] != null
+          ? BlockAction.fromJson(json['Block'] as Map<String, dynamic>)
+          : null,
+      count: json['Count'] != null
+          ? CountAction.fromJson(json['Count'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final block = this.block;
+    final count = this.count;
+    return {
+      if (block != null) 'Block': block,
+      if (count != null) 'Count': count,
+    };
   }
 }
 
@@ -2553,6 +3232,7 @@ class SubResourceSummary {
     this.id,
     this.type,
   });
+
   factory SubResourceSummary.fromJson(Map<String, dynamic> json) {
     return SubResourceSummary(
       attackVectors: (json['AttackVectors'] as List?)
@@ -2598,7 +3278,7 @@ extension SubResourceTypeFromString on String {
   }
 }
 
-/// Information about the AWS Shield Advanced subscription for an account.
+/// Information about the Shield Advanced subscription for an account.
 class Subscription {
   /// Limits settings for your subscription.
   final SubscriptionLimits subscriptionLimits;
@@ -2620,25 +3300,25 @@ class Subscription {
   /// Specifies how many protections of a given type you can create.
   final List<Limit>? limits;
 
-  /// If <code>ENABLED</code>, the DDoS Response Team (DRT) will use email and
-  /// phone to notify contacts about escalations to the DRT and to initiate
+  /// If <code>ENABLED</code>, the Shield Response Team (SRT) will use email and
+  /// phone to notify contacts about escalations to the SRT and to initiate
   /// proactive customer support.
   ///
   /// If <code>PENDING</code>, you have requested proactive engagement and the
   /// request is pending. The status changes to <code>ENABLED</code> when your
   /// request is fully processed.
   ///
-  /// If <code>DISABLED</code>, the DRT will not proactively notify contacts about
+  /// If <code>DISABLED</code>, the SRT will not proactively notify contacts about
   /// escalations or to initiate proactive customer support.
   final ProactiveEngagementStatus? proactiveEngagementStatus;
 
-  /// The start time of the subscription, in Unix time in seconds. For more
-  /// information see <a
-  /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
+  /// The start time of the subscription, in Unix time in seconds.
   final DateTime? startTime;
 
-  /// The length, in seconds, of the AWS Shield Advanced subscription for the
-  /// account.
+  /// The ARN (Amazon Resource Name) of the subscription.
+  final String? subscriptionArn;
+
+  /// The length, in seconds, of the Shield Advanced subscription for the account.
   final int? timeCommitmentInSeconds;
 
   Subscription({
@@ -2648,8 +3328,10 @@ class Subscription {
     this.limits,
     this.proactiveEngagementStatus,
     this.startTime,
+    this.subscriptionArn,
     this.timeCommitmentInSeconds,
   });
+
   factory Subscription.fromJson(Map<String, dynamic> json) {
     return Subscription(
       subscriptionLimits: SubscriptionLimits.fromJson(
@@ -2663,6 +3345,7 @@ class Subscription {
       proactiveEngagementStatus: (json['ProactiveEngagementStatus'] as String?)
           ?.toProactiveEngagementStatus(),
       startTime: timeStampFromJson(json['StartTime']),
+      subscriptionArn: json['SubscriptionArn'] as String?,
       timeCommitmentInSeconds: json['TimeCommitmentInSeconds'] as int?,
     );
   }
@@ -2680,6 +3363,7 @@ class SubscriptionLimits {
     required this.protectionGroupLimits,
     required this.protectionLimits,
   });
+
   factory SubscriptionLimits.fromJson(Map<String, dynamic> json) {
     return SubscriptionLimits(
       protectionGroupLimits: ProtectionGroupLimits.fromJson(
@@ -2730,6 +3414,7 @@ class SummarizedAttackVector {
     required this.vectorType,
     this.vectorCounters,
   });
+
   factory SummarizedAttackVector.fromJson(Map<String, dynamic> json) {
     return SummarizedAttackVector(
       vectorType: json['VectorType'] as String,
@@ -2769,6 +3454,7 @@ class SummarizedCounter {
     this.sum,
     this.unit,
   });
+
   factory SummarizedCounter.fromJson(Map<String, dynamic> json) {
     return SummarizedCounter(
       average: json['Average'] as double?,
@@ -2781,20 +3467,68 @@ class SummarizedCounter {
   }
 }
 
+/// A tag associated with an Amazon Web Services resource. Tags are key:value
+/// pairs that you can use to categorize and manage your resources, for purposes
+/// like billing or other management. Typically, the tag key represents a
+/// category, such as "environment", and the tag value represents a specific
+/// value within that category, such as "test," "development," or "production".
+/// Or you might set the tag key to "customer" and the value to the customer
+/// name or ID. You can specify one or more tags to add to each Amazon Web
+/// Services resource, up to 50 tags for a resource.
+class Tag {
+  /// Part of the key:value pair that defines a tag. You can use a tag key to
+  /// describe a category of information, such as "customer." Tag keys are
+  /// case-sensitive.
+  final String? key;
+
+  /// Part of the key:value pair that defines a tag. You can use a tag value to
+  /// describe a specific value within a category, such as "companyA" or
+  /// "companyB." Tag values are case-sensitive.
+  final String? value;
+
+  Tag({
+    this.key,
+    this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+}
+
 /// The time range.
 class TimeRange {
-  /// The start time, in Unix time in seconds. For more information see <a
-  /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
+  /// The start time, in Unix time in seconds.
   final DateTime? fromInclusive;
 
-  /// The end time, in Unix time in seconds. For more information see <a
-  /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
+  /// The end time, in Unix time in seconds.
   final DateTime? toExclusive;
 
   TimeRange({
     this.fromInclusive,
     this.toExclusive,
   });
+
   factory TimeRange.fromJson(Map<String, dynamic> json) {
     return TimeRange(
       fromInclusive: timeStampFromJson(json['FromInclusive']),
@@ -2851,8 +3585,26 @@ extension UnitFromString on String {
   }
 }
 
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+}
+
+class UpdateApplicationLayerAutomaticResponseResponse {
+  UpdateApplicationLayerAutomaticResponseResponse();
+
+  factory UpdateApplicationLayerAutomaticResponseResponse.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateApplicationLayerAutomaticResponseResponse();
+  }
+}
+
 class UpdateEmergencyContactSettingsResponse {
   UpdateEmergencyContactSettingsResponse();
+
   factory UpdateEmergencyContactSettingsResponse.fromJson(
       Map<String, dynamic> _) {
     return UpdateEmergencyContactSettingsResponse();
@@ -2861,6 +3613,7 @@ class UpdateEmergencyContactSettingsResponse {
 
 class UpdateProtectionGroupResponse {
   UpdateProtectionGroupResponse();
+
   factory UpdateProtectionGroupResponse.fromJson(Map<String, dynamic> _) {
     return UpdateProtectionGroupResponse();
   }
@@ -2868,6 +3621,7 @@ class UpdateProtectionGroupResponse {
 
 class UpdateSubscriptionResponse {
   UpdateSubscriptionResponse();
+
   factory UpdateSubscriptionResponse.fromJson(Map<String, dynamic> _) {
     return UpdateSubscriptionResponse();
   }

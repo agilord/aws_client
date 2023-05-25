@@ -19,12 +19,15 @@ import 'package:shared_aws_api/shared.dart'
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 /// Amazon Elastic File System (Amazon EFS) provides simple, scalable file
-/// storage for use with Amazon EC2 instances in the AWS Cloud. With Amazon EFS,
-/// storage capacity is elastic, growing and shrinking automatically as you add
-/// and remove files, so your applications have the storage they need, when they
-/// need it. For more information, see the <a
-/// href="https://docs.aws.amazon.com/efs/latest/ug/api-reference.html">User
-/// Guide</a>.
+/// storage for use with Amazon EC2 Linux and Mac instances in the Amazon Web
+/// Services Cloud. With Amazon EFS, storage capacity is elastic, growing and
+/// shrinking automatically as you add and remove files, so that your
+/// applications have the storage they need, when they need it. For more
+/// information, see the <a
+/// href="https://docs.aws.amazon.com/efs/latest/ug/api-reference.html">Amazon
+/// Elastic File System API Reference</a> and the <a
+/// href="https://docs.aws.amazon.com/efs/latest/ug/whatisefs.html">Amazon
+/// Elastic File System User Guide</a>.
 class EFS {
   final _s.RestJsonProtocol _protocol;
   EFS({
@@ -59,10 +62,17 @@ class EFS {
   /// access point. The operating system user and group override any identity
   /// information provided by the NFS client. The file system path is exposed as
   /// the access point's root directory. Applications using the access point can
-  /// only access data in its own directory and below. To learn more, see <a
+  /// only access data in the application's own directory and any
+  /// subdirectories. To learn more, see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html">Mounting
-  /// a File System Using EFS Access Points</a>.
-  ///
+  /// a file system using EFS access points</a>.
+  /// <note>
+  /// If multiple requests to create access points on the same file system are
+  /// sent in quick succession, and the file system is near the limit of 1000
+  /// access points, you may experience a throttling response for these
+  /// requests. This is to ensure that the file system does not exceed the
+  /// stated access point limit.
+  /// </note>
   /// This operation requires permissions for the
   /// <code>elasticfilesystem:CreateAccessPoint</code> action.
   ///
@@ -72,6 +82,7 @@ class EFS {
   /// May throw [InternalServerError].
   /// May throw [FileSystemNotFound].
   /// May throw [AccessPointLimitExceeded].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [fileSystemId] :
   /// The ID of the EFS file system that the access point provides access to.
@@ -91,12 +102,21 @@ class EFS {
   /// the root directory and below. If the <code>RootDirectory</code> &gt;
   /// <code>Path</code> specified does not exist, EFS creates it and applies the
   /// <code>CreationInfo</code> settings when a client connects to an access
-  /// point. When specifying a <code>RootDirectory</code>, you need to provide
-  /// the <code>Path</code>, and the <code>CreationInfo</code> is optional.
+  /// point. When specifying a <code>RootDirectory</code>, you must provide the
+  /// <code>Path</code>, and the <code>CreationInfo</code>.
+  ///
+  /// Amazon EFS creates a root directory only if you have provided the
+  /// CreationInfo: OwnUid, OwnGID, and permissions for the directory. If you do
+  /// not provide this information, Amazon EFS does not create the root
+  /// directory. If the root directory does not exist, attempts to mount using
+  /// the access point will fail.
   ///
   /// Parameter [tags] :
   /// Creates tags associated with the access point. Each tag is a key-value
-  /// pair.
+  /// pair, each key must be unique. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// Amazon Web Services resources</a> in the <i>Amazon Web Services General
+  /// Reference Guide</i>.
   Future<AccessPointDescription> createAccessPoint({
     required String fileSystemId,
     String? clientToken,
@@ -123,8 +143,9 @@ class EFS {
   /// Creates a new, empty file system. The operation requires a creation token
   /// in the request that Amazon EFS uses to ensure idempotent creation (calling
   /// the operation with same creation token has no effect). If a file system
-  /// does not currently exist that is owned by the caller's AWS account with
-  /// the specified creation token, this operation does the following:
+  /// does not currently exist that is owned by the caller's Amazon Web Services
+  /// account with the specified creation token, this operation does the
+  /// following:
   ///
   /// <ul>
   /// <li>
@@ -149,14 +170,18 @@ class EFS {
   /// reset. As long as you use the same creation token, if the initial call had
   /// succeeded in creating a file system, the client can learn of its existence
   /// from the <code>FileSystemAlreadyExists</code> error.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/creating-using-create-fs.html#creating-using-create-fs-part1">Creating
+  /// a file system</a> in the <i>Amazon EFS User Guide</i>.
   /// <note>
   /// The <code>CreateFileSystem</code> call returns while the file system's
   /// lifecycle state is still <code>creating</code>. You can check the file
   /// system creation status by calling the <a>DescribeFileSystems</a>
   /// operation, which among other things returns the file system state.
   /// </note>
-  /// This operation also takes an optional <code>PerformanceMode</code>
-  /// parameter that you choose for your file system. We recommend
+  /// This operation accepts an optional <code>PerformanceMode</code> parameter
+  /// that you choose for your file system. We recommend
   /// <code>generalPurpose</code> performance mode for most file systems. File
   /// systems using the <code>maxIO</code> performance mode can scale to higher
   /// levels of aggregate throughput and operations per second with a tradeoff
@@ -164,7 +189,10 @@ class EFS {
   /// mode can't be changed after the file system has been created. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/performance.html#performancemodes.html">Amazon
-  /// EFS: Performance Modes</a>.
+  /// EFS performance modes</a>.
+  ///
+  /// You can set the throughput mode for the file system using the
+  /// <code>ThroughputMode</code> parameter.
   ///
   /// After the file system is fully created, Amazon EFS sets its lifecycle
   /// state to <code>available</code>, at which point you can create one or more
@@ -184,6 +212,36 @@ class EFS {
   /// May throw [FileSystemLimitExceeded].
   /// May throw [InsufficientThroughputCapacity].
   /// May throw [ThroughputLimitExceeded].
+  /// May throw [UnsupportedAvailabilityZone].
+  ///
+  /// Parameter [availabilityZoneName] :
+  /// Used to create a file system that uses One Zone storage classes. It
+  /// specifies the Amazon Web Services Availability Zone in which to create the
+  /// file system. Use the format <code>us-east-1a</code> to specify the
+  /// Availability Zone. For more information about One Zone storage classes,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/storage-classes.html">Using
+  /// EFS storage classes</a> in the <i>Amazon EFS User Guide</i>.
+  /// <note>
+  /// One Zone storage classes are not available in all Availability Zones in
+  /// Amazon Web Services Regions where Amazon EFS is available.
+  /// </note>
+  ///
+  /// Parameter [backup] :
+  /// Specifies whether automatic backups are enabled on the file system that
+  /// you are creating. Set the value to <code>true</code> to enable automatic
+  /// backups. If you are creating a file system that uses One Zone storage
+  /// classes, automatic backups are enabled by default. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/awsbackup.html#automatic-backups">Automatic
+  /// backups</a> in the <i>Amazon EFS User Guide</i>.
+  ///
+  /// Default is <code>false</code>. However, if you specify an
+  /// <code>AvailabilityZoneName</code>, the default is <code>true</code>.
+  /// <note>
+  /// Backup is not available in all Amazon Web Services Regions where Amazon
+  /// EFS is available.
+  /// </note>
   ///
   /// Parameter [creationToken] :
   /// A string of up to 64 ASCII characters. Amazon EFS uses this to ensure
@@ -191,17 +249,18 @@ class EFS {
   ///
   /// Parameter [encrypted] :
   /// A Boolean value that, if true, creates an encrypted file system. When
-  /// creating an encrypted file system, you have the option of specifying
-  /// <a>CreateFileSystemRequest$KmsKeyId</a> for an existing AWS Key Management
-  /// Service (AWS KMS) customer master key (CMK). If you don't specify a CMK,
-  /// then the default CMK for Amazon EFS, <code>/aws/elasticfilesystem</code>,
-  /// is used to protect the encrypted file system.
+  /// creating an encrypted file system, you have the option of specifying an
+  /// existing Key Management Service key (KMS key). If you don't specify a KMS
+  /// key, then the default KMS key for Amazon EFS,
+  /// <code>/aws/elasticfilesystem</code>, is used to protect the encrypted file
+  /// system.
   ///
   /// Parameter [kmsKeyId] :
-  /// The ID of the AWS KMS CMK to be used to protect the encrypted file system.
-  /// This parameter is only required if you want to use a nondefault CMK. If
-  /// this parameter is not specified, the default CMK for Amazon EFS is used.
-  /// This ID can be in one of the following formats:
+  /// The ID of the KMS key that you want to use to protect the encrypted file
+  /// system. This parameter is required only if you want to use a non-default
+  /// KMS key. If this parameter is not specified, the default KMS key for
+  /// Amazon EFS is used. You can specify a KMS key ID using the following
+  /// formats:
   ///
   /// <ul>
   /// <li>
@@ -221,11 +280,11 @@ class EFS {
   /// <code>arn:aws:kms:us-west-2:444455556666:alias/projectKey1</code>.
   /// </li>
   /// </ul>
-  /// If <code>KmsKeyId</code> is specified, the
-  /// <a>CreateFileSystemRequest$Encrypted</a> parameter must be set to true.
+  /// If you use <code>KmsKeyId</code>, you must set the
+  /// <a>CreateFileSystemRequest$Encrypted</a> parameter to true.
   /// <important>
-  /// EFS accepts only symmetric CMKs. You cannot use asymmetric CMKs with EFS
-  /// file systems.
+  /// EFS accepts only symmetric KMS keys. You cannot use asymmetric KMS keys
+  /// with Amazon EFS file systems.
   /// </important>
   ///
   /// Parameter [performanceMode] :
@@ -235,34 +294,44 @@ class EFS {
   /// levels of aggregate throughput and operations per second with a tradeoff
   /// of slightly higher latencies for most file operations. The performance
   /// mode can't be changed after the file system has been created.
+  /// <note>
+  /// The <code>maxIO</code> mode is not supported on file systems using One
+  /// Zone storage classes.
+  /// </note>
   ///
   /// Parameter [provisionedThroughputInMibps] :
   /// The throughput, measured in MiB/s, that you want to provision for a file
   /// system that you're creating. Valid values are 1-1024. Required if
   /// <code>ThroughputMode</code> is set to <code>provisioned</code>. The upper
-  /// limit for throughput is 1024 MiB/s. You can get this limit increased by
-  /// contacting AWS Support. For more information, see <a
+  /// limit for throughput is 1024 MiB/s. To increase this limit, contact Amazon
+  /// Web Services Support. For more information, see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/limits.html#soft-limits">Amazon
-  /// EFS Limits That You Can Increase</a> in the <i>Amazon EFS User Guide.</i>
+  /// EFS quotas that you can increase</a> in the <i>Amazon EFS User Guide</i>.
   ///
   /// Parameter [tags] :
-  /// A value that specifies to create one or more tags associated with the file
-  /// system. Each tag is a user-defined key-value pair. Name your file system
-  /// on creation by including a <code>"Key":"Name","Value":"{value}"</code>
-  /// key-value pair.
+  /// Use to create one or more tags associated with the file system. Each tag
+  /// is a user-defined key-value pair. Name your file system on creation by
+  /// including a <code>"Key":"Name","Value":"{value}"</code> key-value pair.
+  /// Each key must be unique. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// Amazon Web Services resources</a> in the <i>Amazon Web Services General
+  /// Reference Guide</i>.
   ///
   /// Parameter [throughputMode] :
-  /// The throughput mode for the file system to be created. There are two
-  /// throughput modes to choose from for your file system:
-  /// <code>bursting</code> and <code>provisioned</code>. If you set
-  /// <code>ThroughputMode</code> to <code>provisioned</code>, you must also set
-  /// a value for <code>ProvisionedThroughPutInMibps</code>. You can decrease
-  /// your file system's throughput in Provisioned Throughput mode or change
-  /// between the throughput modes as long as it’s been more than 24 hours since
-  /// the last decrease or throughput mode change. For more, see <a
+  /// Specifies the throughput mode for the file system. The mode can be
+  /// <code>bursting</code>, <code>provisioned</code>, or <code>elastic</code>.
+  /// If you set <code>ThroughputMode</code> to <code>provisioned</code>, you
+  /// must also set a value for <code>ProvisionedThroughputInMibps</code>. After
+  /// you create the file system, you can decrease your file system's throughput
+  /// in Provisioned Throughput mode or change between the throughput modes,
+  /// with certain time restrictions. For more information, see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/performance.html#provisioned-throughput">Specifying
-  /// Throughput with Provisioned Mode</a> in the <i>Amazon EFS User Guide.</i>
+  /// throughput with provisioned mode</a> in the <i>Amazon EFS User Guide</i>.
+  ///
+  /// Default is <code>bursting</code>.
   Future<FileSystemDescription> createFileSystem({
+    String? availabilityZoneName,
+    bool? backup,
     String? creationToken,
     bool? encrypted,
     String? kmsKeyId,
@@ -278,6 +347,9 @@ class EFS {
       1152921504606846976,
     );
     final $payload = <String, dynamic>{
+      if (availabilityZoneName != null)
+        'AvailabilityZoneName': availabilityZoneName,
+      if (backup != null) 'Backup': backup,
       'CreationToken': creationToken ?? _s.generateIdempotencyToken(),
       if (encrypted != null) 'Encrypted': encrypted,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
@@ -304,29 +376,45 @@ class EFS {
   /// mount target for a given file system. If you have multiple subnets in an
   /// Availability Zone, you create a mount target in one of the subnets. EC2
   /// instances do not need to be in the same subnet as the mount target in
-  /// order to access their file system. For more information, see <a
+  /// order to access their file system.
+  ///
+  /// You can create only one mount target for an EFS file system using One Zone
+  /// storage classes. You must create that mount target in the same
+  /// Availability Zone in which the file system is located. Use the
+  /// <code>AvailabilityZoneName</code> and <code>AvailabiltyZoneId</code>
+  /// properties in the <a>DescribeFileSystems</a> response object to get this
+  /// information. Use the <code>subnetId</code> associated with the file
+  /// system's Availability Zone when creating the mount target.
+  ///
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/how-it-works.html">Amazon
   /// EFS: How it Works</a>.
   ///
-  /// In the request, you also specify a file system ID for which you are
-  /// creating the mount target and the file system's lifecycle state must be
-  /// <code>available</code>. For more information, see
+  /// To create a mount target for a file system, the file system's lifecycle
+  /// state must be <code>available</code>. For more information, see
   /// <a>DescribeFileSystems</a>.
   ///
-  /// In the request, you also provide a subnet ID, which determines the
-  /// following:
+  /// In the request, provide the following:
   ///
   /// <ul>
   /// <li>
-  /// VPC in which Amazon EFS creates the mount target
+  /// The file system ID for which you are creating the mount target.
   /// </li>
   /// <li>
-  /// Availability Zone in which Amazon EFS creates the mount target
+  /// A subnet ID, which determines the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// The VPC in which Amazon EFS creates the mount target
   /// </li>
   /// <li>
-  /// IP address range from which Amazon EFS selects the IP address of the mount
-  /// target (if you don't specify an IP address in the request)
+  /// The Availability Zone in which Amazon EFS creates the mount target
   /// </li>
+  /// <li>
+  /// The IP address range from which Amazon EFS selects the IP address of the
+  /// mount target (if you don't specify an IP address in the request)
+  /// </li>
+  /// </ul> </li>
   /// </ul>
   /// After creating the mount target, Amazon EFS returns a response that
   /// includes, a <code>MountTargetId</code> and an <code>IpAddress</code>. You
@@ -446,12 +534,15 @@ class EFS {
   /// May throw [SecurityGroupLimitExceeded].
   /// May throw [SecurityGroupNotFound].
   /// May throw [UnsupportedAvailabilityZone].
+  /// May throw [AvailabilityZonesMismatch].
   ///
   /// Parameter [fileSystemId] :
   /// The ID of the file system for which to create the mount target.
   ///
   /// Parameter [subnetId] :
-  /// The ID of the subnet to add the mount target in.
+  /// The ID of the subnet to add the mount target in. For file systems that use
+  /// One Zone storage classes, use the subnet that is associated with the file
+  /// system's Availability Zone.
   ///
   /// Parameter [ipAddress] :
   /// Valid IPv4 address within the address range of the specified subnet.
@@ -480,6 +571,126 @@ class EFS {
     return MountTargetDescription.fromJson(response);
   }
 
+  /// Creates a replication configuration that replicates an existing EFS file
+  /// system to a new, read-only file system. For more information, see <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/efs-replication.html">Amazon
+  /// EFS replication</a> in the <i>Amazon EFS User Guide</i>. The replication
+  /// configuration specifies the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Source file system</b> - An existing EFS file system that you want
+  /// replicated. The source file system cannot be a destination file system in
+  /// an existing replication configuration.
+  /// </li>
+  /// <li>
+  /// <b>Destination file system configuration</b> - The configuration of the
+  /// destination file system to which the source file system will be
+  /// replicated. There can only be one destination file system in a replication
+  /// configuration. The destination file system configuration consists of the
+  /// following properties:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Amazon Web Services Region</b> - The Amazon Web Services Region in
+  /// which the destination file system is created. Amazon EFS replication is
+  /// available in all Amazon Web Services Regions that Amazon EFS is available
+  /// in, except Africa (Cape Town), Asia Pacific (Hong Kong), Asia Pacific
+  /// (Jakarta), Europe (Milan), and Middle East (Bahrain).
+  /// </li>
+  /// <li>
+  /// <b>Availability Zone</b> - If you want the destination file system to use
+  /// EFS One Zone availability and durability, you must specify the
+  /// Availability Zone to create the file system in. For more information about
+  /// EFS storage classes, see <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/storage-classes.html">
+  /// Amazon EFS storage classes</a> in the <i>Amazon EFS User Guide</i>.
+  /// </li>
+  /// <li>
+  /// <b>Encryption</b> - All destination file systems are created with
+  /// encryption at rest enabled. You can specify the Key Management Service
+  /// (KMS) key that is used to encrypt the destination file system. If you
+  /// don't specify a KMS key, your service-managed KMS key for Amazon EFS is
+  /// used.
+  /// <note>
+  /// After the file system is created, you cannot change the KMS key.
+  /// </note> </li>
+  /// </ul> </li>
+  /// </ul>
+  /// The following properties are set by default:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Performance mode</b> - The destination file system's performance mode
+  /// matches that of the source file system, unless the destination file system
+  /// uses EFS One Zone storage. In that case, the General Purpose performance
+  /// mode is used. The performance mode cannot be changed.
+  /// </li>
+  /// <li>
+  /// <b>Throughput mode</b> - The destination file system's throughput mode
+  /// matches that of the source file system. After the file system is created,
+  /// you can modify the throughput mode.
+  /// </li>
+  /// </ul>
+  /// The following properties are turned off by default:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Lifecycle management</b> - EFS lifecycle management and EFS
+  /// Intelligent-Tiering are not enabled on the destination file system. After
+  /// the destination file system is created, you can enable EFS lifecycle
+  /// management and EFS Intelligent-Tiering.
+  /// </li>
+  /// <li>
+  /// <b>Automatic backups</b> - Automatic daily backups not enabled on the
+  /// destination file system. After the file system is created, you can change
+  /// this setting.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/efs-replication.html">Amazon
+  /// EFS replication</a> in the <i>Amazon EFS User Guide</i>.
+  ///
+  /// May throw [BadRequest].
+  /// May throw [IncorrectFileSystemLifeCycleState].
+  /// May throw [ValidationException].
+  /// May throw [ReplicationNotFound].
+  /// May throw [FileSystemNotFound].
+  /// May throw [UnsupportedAvailabilityZone].
+  /// May throw [FileSystemLimitExceeded].
+  /// May throw [InsufficientThroughputCapacity].
+  /// May throw [ThroughputLimitExceeded].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [destinations] :
+  /// An array of destination configuration objects. Only one destination
+  /// configuration object is supported.
+  ///
+  /// Parameter [sourceFileSystemId] :
+  /// Specifies the Amazon EFS file system that you want to replicate. This file
+  /// system cannot already be a source or destination file system in another
+  /// replication configuration.
+  Future<ReplicationConfigurationDescription> createReplicationConfiguration({
+    required List<DestinationToCreate> destinations,
+    required String sourceFileSystemId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Destinations': destinations,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/2015-02-01/file-systems/${Uri.encodeComponent(sourceFileSystemId)}/replication-configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ReplicationConfigurationDescription.fromJson(response);
+  }
+
+  /// <note>
+  /// DEPRECATED - <code>CreateTags</code> is deprecated and not maintained. To
+  /// create tags for EFS resources, use the API action.
+  /// </note>
   /// Creates or overwrites tags associated with a file system. Each tag is a
   /// key-value pair. If a tag key specified in the request already exists on
   /// the file system, this operation overwrites its value with the value
@@ -548,6 +759,13 @@ class EFS {
   /// return, the file system no longer exists and you can't access any contents
   /// of the deleted file system.
   ///
+  /// You need to manually delete mount targets attached to a file system before
+  /// you can delete an EFS file system. This step is performed for you when you
+  /// use the Amazon Web Services console to delete a file system.
+  /// <note>
+  /// You cannot delete a file system that is part of an EFS Replication
+  /// configuration. You need to delete the replication configuration first.
+  /// </note>
   /// You can't delete a file system that is in use. That is, if the file system
   /// has any mount targets, you must first delete them. For more information,
   /// see <a>DescribeMountTargets</a> and <a>DeleteMountTarget</a>.
@@ -591,6 +809,7 @@ class EFS {
   /// This operation requires permissions for the
   /// <code>elasticfilesystem:DeleteFileSystemPolicy</code> action.
   ///
+  /// May throw [BadRequest].
   /// May throw [InternalServerError].
   /// May throw [FileSystemNotFound].
   /// May throw [IncorrectFileSystemLifeCycleState].
@@ -663,12 +882,43 @@ class EFS {
     );
   }
 
+  /// Deletes an existing replication configuration. To delete a replication
+  /// configuration, you must make the request from the Amazon Web Services
+  /// Region in which the destination file system is located. Deleting a
+  /// replication configuration ends the replication process. After a
+  /// replication configuration is deleted, the destination file system is no
+  /// longer read-only. You can write to the destination file system after its
+  /// status becomes <code>Writeable</code>.
+  ///
+  /// May throw [BadRequest].
+  /// May throw [InternalServerError].
+  /// May throw [FileSystemNotFound].
+  /// May throw [ReplicationNotFound].
+  ///
+  /// Parameter [sourceFileSystemId] :
+  /// The ID of the source file system in the replication configuration.
+  Future<void> deleteReplicationConfiguration({
+    required String sourceFileSystemId,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/2015-02-01/file-systems/${Uri.encodeComponent(sourceFileSystemId)}/replication-configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// <note>
+  /// DEPRECATED - <code>DeleteTags</code> is deprecated and not maintained. To
+  /// remove tags from EFS resources, use the API action.
+  /// </note>
   /// Deletes the specified tags from a file system. If the
   /// <code>DeleteTags</code> request includes a tag key that doesn't exist,
   /// Amazon EFS ignores it and doesn't cause an error. For more information
   /// about tags and related restrictions, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Tag
-  /// Restrictions</a> in the <i>AWS Billing and Cost Management User Guide</i>.
+  /// restrictions</a> in the <i>Billing and Cost Management User Guide</i>.
   ///
   /// This operation requires permissions for the
   /// <code>elasticfilesystem:DeleteTags</code> action.
@@ -759,6 +1009,42 @@ class EFS {
     return DescribeAccessPointsResponse.fromJson(response);
   }
 
+  /// Returns the account preferences settings for the Amazon Web Services
+  /// account associated with the user making the request, in the current Amazon
+  /// Web Services Region. For more information, see <a
+  /// href="efs/latest/ug/manage-efs-resource-ids.html">Managing Amazon EFS
+  /// resource IDs</a>.
+  ///
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [maxResults] :
+  /// (Optional) When retrieving account preferences, you can optionally specify
+  /// the <code>MaxItems</code> parameter to limit the number of objects
+  /// returned in a response. The default value is 100.
+  ///
+  /// Parameter [nextToken] :
+  /// (Optional) You can use <code>NextToken</code> in a subsequent request to
+  /// fetch the next page of Amazon Web Services account preferences if the
+  /// response payload was paginated.
+  Future<DescribeAccountPreferencesResponse> describeAccountPreferences({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1152921504606846976,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/2015-02-01/account-preferences',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeAccountPreferencesResponse.fromJson(response);
+  }
+
   /// Returns the backup policy for the specified EFS file system.
   ///
   /// May throw [BadRequest].
@@ -789,6 +1075,7 @@ class EFS {
   /// This operation requires permissions for the
   /// <code>elasticfilesystem:DescribeFileSystemPolicy</code> action.
   ///
+  /// May throw [BadRequest].
   /// May throw [InternalServerError].
   /// May throw [FileSystemNotFound].
   /// May throw [PolicyNotFound].
@@ -812,16 +1099,16 @@ class EFS {
   /// Returns the description of a specific Amazon EFS file system if either the
   /// file system <code>CreationToken</code> or the <code>FileSystemId</code> is
   /// provided. Otherwise, it returns descriptions of all file systems owned by
-  /// the caller's AWS account in the AWS Region of the endpoint that you're
-  /// calling.
+  /// the caller's Amazon Web Services account in the Amazon Web Services Region
+  /// of the endpoint that you're calling.
   ///
   /// When retrieving all file system descriptions, you can optionally specify
   /// the <code>MaxItems</code> parameter to limit the number of descriptions in
-  /// a response. Currently, this number is automatically set to 10. If more
-  /// file system descriptions remain, Amazon EFS returns a
-  /// <code>NextMarker</code>, an opaque token, in the response. In this case,
-  /// you should send a subsequent request with the <code>Marker</code> request
-  /// parameter set to the value of <code>NextMarker</code>.
+  /// a response. This number is automatically set to 100. If more file system
+  /// descriptions remain, Amazon EFS returns a <code>NextMarker</code>, an
+  /// opaque token, in the response. In this case, you should send a subsequent
+  /// request with the <code>Marker</code> request parameter set to the value of
+  /// <code>NextMarker</code>.
   ///
   /// To retrieve a list of your file system descriptions, this operation is
   /// used in an iterative process, where <code>DescribeFileSystems</code> is
@@ -893,6 +1180,10 @@ class EFS {
   /// to the EFS Infrequent Access (IA) storage class. For a file system without
   /// a <code>LifecycleConfiguration</code> object, the call returns an empty
   /// array in the response.
+  ///
+  /// When EFS Intelligent-Tiering is enabled,
+  /// <code>TransitionToPrimaryStorageClass</code> has a value of
+  /// <code>AFTER_1_ACCESS</code>.
   ///
   /// This operation requires permissions for the
   /// <code>elasticfilesystem:DescribeLifecycleConfiguration</code> operation.
@@ -1031,6 +1322,61 @@ class EFS {
     return DescribeMountTargetsResponse.fromJson(response);
   }
 
+  /// Retrieves the replication configuration for a specific file system. If a
+  /// file system is not specified, all of the replication configurations for
+  /// the Amazon Web Services account in an Amazon Web Services Region are
+  /// retrieved.
+  ///
+  /// May throw [BadRequest].
+  /// May throw [FileSystemNotFound].
+  /// May throw [InternalServerError].
+  /// May throw [ReplicationNotFound].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [fileSystemId] :
+  /// You can retrieve the replication configuration for a specific file system
+  /// by providing its file system ID.
+  ///
+  /// Parameter [maxResults] :
+  /// (Optional) To limit the number of objects returned in a response, you can
+  /// specify the <code>MaxItems</code> parameter. The default value is 100.
+  ///
+  /// Parameter [nextToken] :
+  /// <code>NextToken</code> is present if the response is paginated. You can
+  /// use <code>NextToken</code> in a subsequent request to fetch the next page
+  /// of output.
+  Future<DescribeReplicationConfigurationsResponse>
+      describeReplicationConfigurations({
+    String? fileSystemId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1152921504606846976,
+    );
+    final $query = <String, List<String>>{
+      if (fileSystemId != null) 'FileSystemId': [fileSystemId],
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/2015-02-01/file-systems/replication-configurations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeReplicationConfigurationsResponse.fromJson(response);
+  }
+
+  /// <note>
+  /// DEPRECATED - The <code>DescribeTags</code> action is deprecated and not
+  /// maintained. To view tags associated with EFS resources, use the
+  /// <code>ListTagsForResource</code> API action.
+  /// </note>
   /// Returns the tags associated with a file system. The order of tags returned
   /// in the response of one <code>DescribeTags</code> call and the order of
   /// tags returned across the responses of a multiple-call iteration (when
@@ -1102,9 +1448,9 @@ class EFS {
   /// response. The default value is 100.
   ///
   /// Parameter [nextToken] :
-  /// You can use <code>NextToken</code> in a subsequent request to fetch the
-  /// next page of access point descriptions if the response payload was
-  /// paginated.
+  /// (Optional) You can use <code>NextToken</code> in a subsequent request to
+  /// fetch the next page of access point descriptions if the response payload
+  /// was paginated.
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceId,
     int? maxResults,
@@ -1182,6 +1528,50 @@ class EFS {
     );
   }
 
+  /// Use this operation to set the account preference in the current Amazon Web
+  /// Services Region to use long 17 character (63 bit) or short 8 character (32
+  /// bit) resource IDs for new EFS file system and mount target resources. All
+  /// existing resource IDs are not affected by any changes you make. You can
+  /// set the ID preference during the opt-in period as EFS transitions to long
+  /// resource IDs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/manage-efs-resource-ids.html">Managing
+  /// Amazon EFS resource IDs</a>.
+  /// <note>
+  /// Starting in October, 2021, you will receive an error if you try to set the
+  /// account preference to use the short 8 character format resource ID.
+  /// Contact Amazon Web Services support if you receive an error and must use
+  /// short IDs for file system and mount target resources.
+  /// </note>
+  ///
+  /// May throw [BadRequest].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [resourceIdType] :
+  /// Specifies the EFS resource ID preference to set for the user's Amazon Web
+  /// Services account, in the current Amazon Web Services Region, either
+  /// <code>LONG_ID</code> (17 characters), or <code>SHORT_ID</code> (8
+  /// characters).
+  /// <note>
+  /// Starting in October, 2021, you will receive an error when setting the
+  /// account preference to <code>SHORT_ID</code>. Contact Amazon Web Services
+  /// support if you receive an error and must use short IDs for file system and
+  /// mount target resources.
+  /// </note>
+  Future<PutAccountPreferencesResponse> putAccountPreferences({
+    required ResourceIdType resourceIdType,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ResourceIdType': resourceIdType.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/2015-02-01/account-preferences',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutAccountPreferencesResponse.fromJson(response);
+  }
+
   /// Updates the file system's backup policy. Use this action to start or stop
   /// automatic backups of the file system.
   ///
@@ -1217,15 +1607,19 @@ class EFS {
   /// system. A file system policy is an IAM resource-based policy and can
   /// contain multiple policy statements. A file system always has exactly one
   /// file system policy, which can be the default policy or an explicit policy
-  /// set or updated using this API operation. When an explicit policy is set,
-  /// it overrides the default policy. For more information about the default
-  /// file system policy, see <a
+  /// set or updated using this API operation. EFS file system policies have a
+  /// 20,000 character limit. When an explicit policy is set, it overrides the
+  /// default policy. For more information about the default file system policy,
+  /// see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/iam-access-control-nfs-efs.html#default-filesystempolicy">Default
   /// EFS File System Policy</a>.
-  ///
+  /// <note>
+  /// EFS file system policies have a 20,000 character limit.
+  /// </note>
   /// This operation requires permissions for the
   /// <code>elasticfilesystem:PutFileSystemPolicy</code> action.
   ///
+  /// May throw [BadRequest].
   /// May throw [InternalServerError].
   /// May throw [FileSystemNotFound].
   /// May throw [InvalidPolicyException].
@@ -1237,21 +1631,22 @@ class EFS {
   ///
   /// Parameter [policy] :
   /// The <code>FileSystemPolicy</code> that you're creating. Accepts a JSON
-  /// formatted policy definition. To find out more about the elements that make
-  /// up a file system policy, see <a
+  /// formatted policy definition. EFS file system policies have a 20,000
+  /// character limit. To find out more about the elements that make up a file
+  /// system policy, see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/access-control-overview.html#access-control-manage-access-intro-resource-policies">EFS
   /// Resource-based Policies</a>.
   ///
   /// Parameter [bypassPolicyLockoutSafetyCheck] :
-  /// (Optional) A flag to indicate whether to bypass the
-  /// <code>FileSystemPolicy</code> lockout safety check. The policy lockout
-  /// safety check determines whether the policy in the request will prevent the
-  /// principal making the request will be locked out from making future
-  /// <code>PutFileSystemPolicy</code> requests on the file system. Set
+  /// (Optional) A boolean that specifies whether or not to bypass the
+  /// <code>FileSystemPolicy</code> lockout safety check. The lockout safety
+  /// check determines whether the policy in the request will lock out, or
+  /// prevent, the IAM principal that is making the request from making future
+  /// <code>PutFileSystemPolicy</code> requests on this file system. Set
   /// <code>BypassPolicyLockoutSafetyCheck</code> to <code>True</code> only when
-  /// you intend to prevent the principal that is making the request from making
-  /// a subsequent <code>PutFileSystemPolicy</code> request on the file system.
-  /// The default value is False.
+  /// you intend to prevent the IAM principal that is making the request from
+  /// making subsequent <code>PutFileSystemPolicy</code> requests on this file
+  /// system. The default value is <code>False</code>.
   Future<FileSystemPolicyDescription> putFileSystemPolicy({
     required String fileSystemId,
     required String policy,
@@ -1272,12 +1667,32 @@ class EFS {
     return FileSystemPolicyDescription.fromJson(response);
   }
 
-  /// Enables lifecycle management by creating a new
-  /// <code>LifecycleConfiguration</code> object. A
-  /// <code>LifecycleConfiguration</code> object defines when files in an Amazon
-  /// EFS file system are automatically transitioned to the lower-cost EFS
-  /// Infrequent Access (IA) storage class. A
-  /// <code>LifecycleConfiguration</code> applies to all files in a file system.
+  /// Use this action to manage EFS lifecycle management and EFS
+  /// Intelligent-Tiering. A <code>LifecycleConfiguration</code> consists of one
+  /// or more <code>LifecyclePolicy</code> objects that define the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>EFS Lifecycle management</b> - When Amazon EFS automatically
+  /// transitions files in a file system into the lower-cost EFS Infrequent
+  /// Access (IA) storage class.
+  ///
+  /// To enable EFS Lifecycle management, set the value of
+  /// <code>TransitionToIA</code> to one of the available options.
+  /// </li>
+  /// <li>
+  /// <b>EFS Intelligent-Tiering</b> - When Amazon EFS automatically transitions
+  /// files from IA back into the file system's primary storage class (EFS
+  /// Standard or EFS One Zone Standard).
+  ///
+  /// To enable EFS Intelligent-Tiering, set the value of
+  /// <code>TransitionToPrimaryStorageClass</code> to
+  /// <code>AFTER_1_ACCESS</code>.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/lifecycle-management-efs.html">EFS
+  /// Lifecycle Management</a>.
   ///
   /// Each Amazon EFS file system supports one lifecycle configuration, which
   /// applies to all files in the file system. If a
@@ -1286,28 +1701,33 @@ class EFS {
   /// modifies the existing configuration. A
   /// <code>PutLifecycleConfiguration</code> call with an empty
   /// <code>LifecyclePolicies</code> array in the request body deletes any
-  /// existing <code>LifecycleConfiguration</code> and disables lifecycle
-  /// management.
+  /// existing <code>LifecycleConfiguration</code> and turns off lifecycle
+  /// management and EFS Intelligent-Tiering for the file system.
   ///
   /// In the request, specify the following:
   ///
   /// <ul>
   /// <li>
   /// The ID for the file system for which you are enabling, disabling, or
-  /// modifying lifecycle management.
+  /// modifying lifecycle management and EFS Intelligent-Tiering.
   /// </li>
   /// <li>
   /// A <code>LifecyclePolicies</code> array of <code>LifecyclePolicy</code>
-  /// objects that define when files are moved to the IA storage class. The
-  /// array can contain only one <code>LifecyclePolicy</code> item.
-  /// </li>
+  /// objects that define when files are moved into IA storage, and when they
+  /// are moved back to Standard storage.
+  /// <note>
+  /// Amazon EFS requires that each <code>LifecyclePolicy</code> object have
+  /// only have a single transition, so the <code>LifecyclePolicies</code> array
+  /// needs to be structured with separate <code>LifecyclePolicy</code> objects.
+  /// See the example requests in the following section for more information.
+  /// </note> </li>
   /// </ul>
   /// This operation requires permissions for the
   /// <code>elasticfilesystem:PutLifecycleConfiguration</code> operation.
   ///
   /// To apply a <code>LifecycleConfiguration</code> object to an encrypted file
-  /// system, you need the same AWS Key Management Service (AWS KMS) permissions
-  /// as when you created the encrypted file system.
+  /// system, you need the same Key Management Service permissions as when you
+  /// created the encrypted file system.
   ///
   /// May throw [BadRequest].
   /// May throw [InternalServerError].
@@ -1321,9 +1741,27 @@ class EFS {
   /// Parameter [lifecyclePolicies] :
   /// An array of <code>LifecyclePolicy</code> objects that define the file
   /// system's <code>LifecycleConfiguration</code> object. A
-  /// <code>LifecycleConfiguration</code> object tells lifecycle management when
-  /// to transition files from the Standard storage class to the Infrequent
-  /// Access storage class.
+  /// <code>LifecycleConfiguration</code> object informs EFS lifecycle
+  /// management and EFS Intelligent-Tiering of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// When to move files in the file system from primary storage to the IA
+  /// storage class.
+  /// </li>
+  /// <li>
+  /// When to move files that are in IA storage to primary storage.
+  /// </li>
+  /// </ul> <note>
+  /// When using the <code>put-lifecycle-configuration</code> CLI command or the
+  /// <code>PutLifecycleConfiguration</code> API action, Amazon EFS requires
+  /// that each <code>LifecyclePolicy</code> object have only a single
+  /// transition. This means that in a request body,
+  /// <code>LifecyclePolicies</code> must be structured as an array of
+  /// <code>LifecyclePolicy</code> objects, one object for each transition,
+  /// <code>TransitionToIA</code>, <code>TransitionToPrimaryStorageClass</code>.
+  /// See the example requests in the following section for more information.
+  /// </note>
   Future<LifecycleConfigurationDescription> putLifecycleConfiguration({
     required String fileSystemId,
     required List<LifecyclePolicy> lifecyclePolicies,
@@ -1356,7 +1794,8 @@ class EFS {
   /// The ID specifying the EFS resource that you want to create a tag for.
   ///
   /// Parameter [tags] :
-  /// <p/>
+  /// An array of <code>Tag</code> objects to add. Each <code>Tag</code> object
+  /// is a key-value pair.
   Future<void> tagResource({
     required String resourceId,
     required List<Tag> tags,
@@ -1388,7 +1827,7 @@ class EFS {
   /// Specifies the EFS resource that you want to remove tags from.
   ///
   /// Parameter [tagKeys] :
-  /// The keys of the key:value tag pairs that you want to remove from the
+  /// The keys of the key-value tag pairs that you want to remove from the
   /// specified EFS resource.
   Future<void> untagResource({
     required String resourceId,
@@ -1422,17 +1861,17 @@ class EFS {
   /// The ID of the file system that you want to update.
   ///
   /// Parameter [provisionedThroughputInMibps] :
-  /// (Optional) The amount of throughput, in MiB/s, that you want to provision
-  /// for your file system. Valid values are 1-1024. Required if
-  /// <code>ThroughputMode</code> is changed to <code>provisioned</code> on
-  /// update. If you're not updating the amount of provisioned throughput for
-  /// your file system, you don't need to provide this value in your request.
+  /// (Optional) Sets the amount of provisioned throughput, in MiB/s, for the
+  /// file system. Valid values are 1-1024. If you are changing the throughput
+  /// mode to provisioned, you must also provide the amount of provisioned
+  /// throughput. Required if <code>ThroughputMode</code> is changed to
+  /// <code>provisioned</code> on update.
   ///
   /// Parameter [throughputMode] :
-  /// (Optional) The throughput mode that you want your file system to use. If
-  /// you're not updating your throughput mode, you don't need to provide this
-  /// value in your request. If you are changing the <code>ThroughputMode</code>
-  /// to <code>provisioned</code>, you must also set a value for
+  /// (Optional) Updates the file system's throughput mode. If you're not
+  /// updating your throughput mode, you don't need to provide this value in
+  /// your request. If you are changing the <code>ThroughputMode</code> to
+  /// <code>provisioned</code>, you must also set a value for
   /// <code>ProvisionedThroughputInMibps</code>.
   Future<FileSystemDescription> updateFileSystem({
     required String fileSystemId,
@@ -1482,7 +1921,8 @@ class AccessPointDescription {
   /// tag.
   final String? name;
 
-  /// Identified the AWS account that owns the access point resource.
+  /// Identifies the Amazon Web Services account that owns the access point
+  /// resource.
   final String? ownerId;
 
   /// The full POSIX identity, including the user ID, group ID, and secondary
@@ -1510,6 +1950,7 @@ class AccessPointDescription {
     this.rootDirectory,
     this.tags,
   });
+
   factory AccessPointDescription.fromJson(Map<String, dynamic> json) {
     return AccessPointDescription(
       accessPointArn: json['AccessPointArn'] as String?,
@@ -1534,27 +1975,30 @@ class AccessPointDescription {
   }
 }
 
-/// The backup policy for the file system, showing the curent status. If
-/// <code>ENABLED</code>, the file system is being backed up.
+/// The backup policy for the file system used to create automatic daily
+/// backups. If status has a value of <code>ENABLED</code>, the file system is
+/// being automatically backed up. For more information, see <a
+/// href="https://docs.aws.amazon.com/efs/latest/ug/awsbackup.html#automatic-backups">Automatic
+/// backups</a>.
 class BackupPolicy {
   /// Describes the status of the file system's backup policy.
   ///
   /// <ul>
   /// <li>
-  /// <i> <code>ENABLED</code> - EFS is automatically backing up the file
-  /// system.</i>
+  /// <b> <code>ENABLED</code> </b> - EFS is automatically backing up the file
+  /// system.
   /// </li>
   /// <li>
-  /// <i> <code>ENABLING</code> - EFS is turning on automatic backups for the file
-  /// system.</i>
+  /// <b> <code>ENABLING</code> </b> - EFS is turning on automatic backups for the
+  /// file system.
   /// </li>
   /// <li>
-  /// <i> <code>DISABLED</code> - automatic back ups are turned off for the file
-  /// system.</i>
+  /// <b> <code>DISABLED</code> </b> - Automatic back ups are turned off for the
+  /// file system.
   /// </li>
   /// <li>
-  /// <i> <code>DISABLED</code> - EFS is turning off automatic backups for the
-  /// file system.</i>
+  /// <b> <code>DISABLING</code> </b> - EFS is turning off automatic backups for
+  /// the file system.
   /// </li>
   /// </ul>
   final Status status;
@@ -1562,6 +2006,7 @@ class BackupPolicy {
   BackupPolicy({
     required this.status,
   });
+
   factory BackupPolicy.fromJson(Map<String, dynamic> json) {
     return BackupPolicy(
       status: (json['Status'] as String).toStatus(),
@@ -1578,12 +2023,13 @@ class BackupPolicy {
 
 class BackupPolicyDescription {
   /// Describes the file system's backup policy, indicating whether automatic
-  /// backups are turned on or off..
+  /// backups are turned on or off.
   final BackupPolicy? backupPolicy;
 
   BackupPolicyDescription({
     this.backupPolicy,
   });
+
   factory BackupPolicyDescription.fromJson(Map<String, dynamic> json) {
     return BackupPolicyDescription(
       backupPolicy: json['BackupPolicy'] != null
@@ -1599,6 +2045,12 @@ class BackupPolicyDescription {
 /// access point root directory does not exist, EFS creates it with these
 /// settings when a client connects to the access point. When specifying
 /// <code>CreationInfo</code>, you must include values for all properties.
+///
+/// Amazon EFS creates a root directory only if you have provided the
+/// CreationInfo: OwnUid, OwnGID, and permissions for the directory. If you do
+/// not provide this information, Amazon EFS does not create the root directory.
+/// If the root directory does not exist, attempts to mount using the access
+/// point will fail.
 /// <important>
 /// If you do not provide <code>CreationInfo</code> and the specified
 /// <code>RootDirectory</code> does not exist, attempts to mount the file system
@@ -1622,6 +2074,7 @@ class CreationInfo {
     required this.ownerUid,
     required this.permissions,
   });
+
   factory CreationInfo.fromJson(Map<String, dynamic> json) {
     return CreationInfo(
       ownerGid: json['OwnerGid'] as int,
@@ -1655,6 +2108,7 @@ class DescribeAccessPointsResponse {
     this.accessPoints,
     this.nextToken,
   });
+
   factory DescribeAccessPointsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAccessPointsResponse(
       accessPoints: (json['AccessPoints'] as List?)
@@ -1663,6 +2117,34 @@ class DescribeAccessPointsResponse {
               (e) => AccessPointDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
+class DescribeAccountPreferencesResponse {
+  /// Present if there are more records than returned in the response. You can use
+  /// the <code>NextToken</code> in the subsequent request to fetch the additional
+  /// descriptions.
+  final String? nextToken;
+
+  /// Describes the resource ID preference setting for the Amazon Web Services
+  /// account associated with the user making the request, in the current Amazon
+  /// Web Services Region.
+  final ResourceIdPreference? resourceIdPreference;
+
+  DescribeAccountPreferencesResponse({
+    this.nextToken,
+    this.resourceIdPreference,
+  });
+
+  factory DescribeAccountPreferencesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeAccountPreferencesResponse(
+      nextToken: json['NextToken'] as String?,
+      resourceIdPreference: json['ResourceIdPreference'] != null
+          ? ResourceIdPreference.fromJson(
+              json['ResourceIdPreference'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -1684,6 +2166,7 @@ class DescribeFileSystemsResponse {
     this.marker,
     this.nextMarker,
   });
+
   factory DescribeFileSystemsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeFileSystemsResponse(
       fileSystems: (json['FileSystems'] as List?)
@@ -1703,6 +2186,7 @@ class DescribeMountTargetSecurityGroupsResponse {
   DescribeMountTargetSecurityGroupsResponse({
     required this.securityGroups,
   });
+
   factory DescribeMountTargetSecurityGroupsResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeMountTargetSecurityGroupsResponse(
@@ -1734,6 +2218,7 @@ class DescribeMountTargetsResponse {
     this.mountTargets,
     this.nextMarker,
   });
+
   factory DescribeMountTargetsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeMountTargetsResponse(
       marker: json['Marker'] as String?,
@@ -1743,6 +2228,32 @@ class DescribeMountTargetsResponse {
               (e) => MountTargetDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextMarker: json['NextMarker'] as String?,
+    );
+  }
+}
+
+class DescribeReplicationConfigurationsResponse {
+  /// You can use the <code>NextToken</code> from the previous response in a
+  /// subsequent request to fetch the additional descriptions.
+  final String? nextToken;
+
+  /// The collection of replication configurations that is returned.
+  final List<ReplicationConfigurationDescription>? replications;
+
+  DescribeReplicationConfigurationsResponse({
+    this.nextToken,
+    this.replications,
+  });
+
+  factory DescribeReplicationConfigurationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeReplicationConfigurationsResponse(
+      nextToken: json['NextToken'] as String?,
+      replications: (json['Replications'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReplicationConfigurationDescription.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }
@@ -1768,6 +2279,7 @@ class DescribeTagsResponse {
     this.marker,
     this.nextMarker,
   });
+
   factory DescribeTagsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeTagsResponse(
       tags: (json['Tags'] as List)
@@ -1777,6 +2289,102 @@ class DescribeTagsResponse {
       marker: json['Marker'] as String?,
       nextMarker: json['NextMarker'] as String?,
     );
+  }
+}
+
+/// Describes the destination file system in the replication configuration.
+class Destination {
+  /// The ID of the destination Amazon EFS file system.
+  final String fileSystemId;
+
+  /// The Amazon Web Services Region in which the destination file system is
+  /// located.
+  final String region;
+
+  /// Describes the status of the destination Amazon EFS file system. If the
+  /// status is <code>ERROR</code>, the destination file system in the replication
+  /// configuration is in a failed state and is unrecoverable. To access the file
+  /// system data, restore a backup of the failed file system to a new file
+  /// system.
+  final ReplicationStatus status;
+
+  /// The time when the most recent sync was successfully completed on the
+  /// destination file system. Any changes to data on the source file system that
+  /// occurred before this time have been successfully replicated to the
+  /// destination file system. Any changes that occurred after this time might not
+  /// be fully replicated.
+  final DateTime? lastReplicatedTimestamp;
+
+  Destination({
+    required this.fileSystemId,
+    required this.region,
+    required this.status,
+    this.lastReplicatedTimestamp,
+  });
+
+  factory Destination.fromJson(Map<String, dynamic> json) {
+    return Destination(
+      fileSystemId: json['FileSystemId'] as String,
+      region: json['Region'] as String,
+      status: (json['Status'] as String).toReplicationStatus(),
+      lastReplicatedTimestamp:
+          timeStampFromJson(json['LastReplicatedTimestamp']),
+    );
+  }
+}
+
+/// Describes the destination file system to create in the replication
+/// configuration.
+class DestinationToCreate {
+  /// To create a file system that uses EFS One Zone storage, specify the name of
+  /// the Availability Zone in which to create the destination file system.
+  final String? availabilityZoneName;
+
+  /// Specifies the Key Management Service (KMS) key that you want to use to
+  /// encrypt the destination file system. If you do not specify a KMS key, Amazon
+  /// EFS uses your default KMS key for Amazon EFS,
+  /// <code>/aws/elasticfilesystem</code>. This ID can be in one of the following
+  /// formats:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID - The unique identifier of the key, for example
+  /// <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>.
+  /// </li>
+  /// <li>
+  /// ARN - The Amazon Resource Name (ARN) for the key, for example
+  /// <code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
+  /// </li>
+  /// <li>
+  /// Key alias - A previously created display name for a key, for example
+  /// <code>alias/projectKey1</code>.
+  /// </li>
+  /// <li>
+  /// Key alias ARN - The ARN for a key alias, for example
+  /// <code>arn:aws:kms:us-west-2:444455556666:alias/projectKey1</code>.
+  /// </li>
+  /// </ul>
+  final String? kmsKeyId;
+
+  /// To create a file system that uses Regional storage, specify the Amazon Web
+  /// Services Region in which to create the destination file system.
+  final String? region;
+
+  DestinationToCreate({
+    this.availabilityZoneName,
+    this.kmsKeyId,
+    this.region,
+  });
+  Map<String, dynamic> toJson() {
+    final availabilityZoneName = this.availabilityZoneName;
+    final kmsKeyId = this.kmsKeyId;
+    final region = this.region;
+    return {
+      if (availabilityZoneName != null)
+        'AvailabilityZoneName': availabilityZoneName,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (region != null) 'Region': region,
+    };
   }
 }
 
@@ -1799,8 +2407,7 @@ class FileSystemDescription {
   /// information, see <a>CreateMountTarget</a>.
   final int numberOfMountTargets;
 
-  /// The AWS account that created the file system. If the file system was created
-  /// by an IAM user, the parent account to which the user belongs is the owner.
+  /// The Amazon Web Services account that created the file system.
   final String ownerId;
 
   /// The performance mode of the file system.
@@ -1822,6 +2429,20 @@ class FileSystemDescription {
   /// <code>Tag</code> objects.
   final List<Tag> tags;
 
+  /// The unique and consistent identifier of the Availability Zone in which the
+  /// file system's One Zone storage classes exist. For example,
+  /// <code>use1-az1</code> is an Availability Zone ID for the us-east-1 Amazon
+  /// Web Services Region, and it has the same location in every Amazon Web
+  /// Services account.
+  final String? availabilityZoneId;
+
+  /// Describes the Amazon Web Services Availability Zone in which the file system
+  /// is located, and is valid only for file systems using One Zone storage
+  /// classes. For more information, see <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/storage-classes.html">Using
+  /// EFS storage classes</a> in the <i>Amazon EFS User Guide</i>.
+  final String? availabilityZoneName;
+
   /// A Boolean value that, if true, indicates that the file system is encrypted.
   final bool? encrypted;
 
@@ -1831,8 +2452,7 @@ class FileSystemDescription {
   /// <code>arn:aws:elasticfilesystem:us-west-2:1111333322228888:file-system/fs-01234567</code>
   final String? fileSystemArn;
 
-  /// The ID of an AWS Key Management Service (AWS KMS) customer master key (CMK)
-  /// that was used to protect the encrypted file system.
+  /// The ID of an KMS key used to protect the encrypted file system.
   final String? kmsKeyId;
 
   /// You can add tags to a file system, including a <code>Name</code> tag. For
@@ -1840,23 +2460,14 @@ class FileSystemDescription {
   /// <code>Name</code> tag, Amazon EFS returns the value in this field.
   final String? name;
 
-  /// The throughput, measured in MiB/s, that you want to provision for a file
-  /// system. Valid values are 1-1024. Required if <code>ThroughputMode</code> is
-  /// set to <code>provisioned</code>. The limit on throughput is 1024 MiB/s. You
-  /// can get these limits increased by contacting AWS Support. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/efs/latest/ug/limits.html#soft-limits">Amazon
-  /// EFS Limits That You Can Increase</a> in the <i>Amazon EFS User Guide.</i>
+  /// The amount of provisioned throughput, measured in MiB/s, for the file
+  /// system. Valid for file systems using <code>ThroughputMode</code> set to
+  /// <code>provisioned</code>.
   final double? provisionedThroughputInMibps;
 
-  /// The throughput mode for a file system. There are two throughput modes to
-  /// choose from for your file system: <code>bursting</code> and
-  /// <code>provisioned</code>. If you set <code>ThroughputMode</code> to
-  /// <code>provisioned</code>, you must also set a value for
-  /// <code>ProvisionedThroughPutInMibps</code>. You can decrease your file
-  /// system's throughput in Provisioned Throughput mode or change between the
-  /// throughput modes as long as it’s been more than 24 hours since the last
-  /// decrease or throughput mode change.
+  /// Displays the file system's throughput mode. For more information, see <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/performance.html#throughput-modes">Throughput
+  /// modes</a> in the <i>Amazon EFS User Guide</i>.
   final ThroughputMode? throughputMode;
 
   FileSystemDescription({
@@ -1869,6 +2480,8 @@ class FileSystemDescription {
     required this.performanceMode,
     required this.sizeInBytes,
     required this.tags,
+    this.availabilityZoneId,
+    this.availabilityZoneName,
     this.encrypted,
     this.fileSystemArn,
     this.kmsKeyId,
@@ -1876,6 +2489,7 @@ class FileSystemDescription {
     this.provisionedThroughputInMibps,
     this.throughputMode,
   });
+
   factory FileSystemDescription.fromJson(Map<String, dynamic> json) {
     return FileSystemDescription(
       creationTime:
@@ -1892,6 +2506,8 @@ class FileSystemDescription {
           .whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
+      availabilityZoneId: json['AvailabilityZoneId'] as String?,
+      availabilityZoneName: json['AvailabilityZoneName'] as String?,
       encrypted: json['Encrypted'] as bool?,
       fileSystemArn: json['FileSystemArn'] as String?,
       kmsKeyId: json['KmsKeyId'] as String?,
@@ -1915,6 +2531,7 @@ class FileSystemPolicyDescription {
     this.fileSystemId,
     this.policy,
   });
+
   factory FileSystemPolicyDescription.fromJson(Map<String, dynamic> json) {
     return FileSystemPolicyDescription(
       fileSystemId: json['FileSystemId'] as String?,
@@ -1954,6 +2571,7 @@ class FileSystemSize {
     this.valueInIA,
     this.valueInStandard,
   });
+
   factory FileSystemSize.fromJson(Map<String, dynamic> json) {
     return FileSystemSize(
       value: json['Value'] as int,
@@ -1970,6 +2588,7 @@ enum LifeCycleState {
   updating,
   deleting,
   deleted,
+  error,
 }
 
 extension LifeCycleStateValueExtension on LifeCycleState {
@@ -1985,6 +2604,8 @@ extension LifeCycleStateValueExtension on LifeCycleState {
         return 'deleting';
       case LifeCycleState.deleted:
         return 'deleted';
+      case LifeCycleState.error:
+        return 'error';
     }
   }
 }
@@ -2002,19 +2623,22 @@ extension LifeCycleStateFromString on String {
         return LifeCycleState.deleting;
       case 'deleted':
         return LifeCycleState.deleted;
+      case 'error':
+        return LifeCycleState.error;
     }
     throw Exception('$this is not known in enum LifeCycleState');
   }
 }
 
 class LifecycleConfigurationDescription {
-  /// An array of lifecycle management policies. Currently, EFS supports a maximum
-  /// of one policy per file system.
+  /// An array of lifecycle management policies. EFS supports a maximum of one
+  /// policy per file system.
   final List<LifecyclePolicy>? lifecyclePolicies;
 
   LifecycleConfigurationDescription({
     this.lifecyclePolicies,
   });
+
   factory LifecycleConfigurationDescription.fromJson(
       Map<String, dynamic> json) {
     return LifecycleConfigurationDescription(
@@ -2026,28 +2650,57 @@ class LifecycleConfigurationDescription {
   }
 }
 
-/// Describes a policy used by EFS lifecycle management to transition files to
-/// the Infrequent Access (IA) storage class.
+/// Describes a policy used by EFS lifecycle management and EFS
+/// Intelligent-Tiering that specifies when to transition files into and out of
+/// the file system's Infrequent Access (IA) storage class. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/efs/latest/ug/lifecycle-management-efs.html">EFS
+/// Intelligent‐Tiering and EFS Lifecycle Management</a>.
+/// <note>
+/// When using the <code>put-lifecycle-configuration</code> CLI command or the
+/// <code>PutLifecycleConfiguration</code> API action, Amazon EFS requires that
+/// each <code>LifecyclePolicy</code> object have only a single transition. This
+/// means that in a request body, <code>LifecyclePolicies</code> must be
+/// structured as an array of <code>LifecyclePolicy</code> objects, one object
+/// for each transition, <code>TransitionToIA</code>,
+/// <code>TransitionToPrimaryStorageClass</code>. For more information, see the
+/// request examples in <a>PutLifecycleConfiguration</a>.
+/// </note>
 class LifecyclePolicy {
-  /// A value that describes the period of time that a file is not accessed, after
-  /// which it transitions to the IA storage class. Metadata operations such as
-  /// listing the contents of a directory don't count as file access events.
+  /// Describes the period of time that a file is not accessed, after which it
+  /// transitions to IA storage. Metadata operations such as listing the contents
+  /// of a directory don't count as file access events.
   final TransitionToIARules? transitionToIA;
+
+  /// Describes when to transition a file from IA storage to primary storage.
+  /// Metadata operations such as listing the contents of a directory don't count
+  /// as file access events.
+  final TransitionToPrimaryStorageClassRules? transitionToPrimaryStorageClass;
 
   LifecyclePolicy({
     this.transitionToIA,
+    this.transitionToPrimaryStorageClass,
   });
+
   factory LifecyclePolicy.fromJson(Map<String, dynamic> json) {
     return LifecyclePolicy(
       transitionToIA:
           (json['TransitionToIA'] as String?)?.toTransitionToIARules(),
+      transitionToPrimaryStorageClass:
+          (json['TransitionToPrimaryStorageClass'] as String?)
+              ?.toTransitionToPrimaryStorageClassRules(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final transitionToIA = this.transitionToIA;
+    final transitionToPrimaryStorageClass =
+        this.transitionToPrimaryStorageClass;
     return {
       if (transitionToIA != null) 'TransitionToIA': transitionToIA.toValue(),
+      if (transitionToPrimaryStorageClass != null)
+        'TransitionToPrimaryStorageClass':
+            transitionToPrimaryStorageClass.toValue(),
     };
   }
 }
@@ -2065,6 +2718,7 @@ class ListTagsForResourceResponse {
     this.nextToken,
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       nextToken: json['NextToken'] as String?,
@@ -2090,15 +2744,17 @@ class MountTargetDescription {
   /// The ID of the mount target's subnet.
   final String subnetId;
 
-  /// The unique and consistent identifier of the Availability Zone (AZ) that the
-  /// mount target resides in. For example, <code>use1-az1</code> is an AZ ID for
-  /// the us-east-1 Region and it has the same location in every AWS account.
+  /// The unique and consistent identifier of the Availability Zone that the mount
+  /// target resides in. For example, <code>use1-az1</code> is an AZ ID for the
+  /// us-east-1 Region and it has the same location in every Amazon Web Services
+  /// account.
   final String? availabilityZoneId;
 
-  /// The name of the Availability Zone (AZ) that the mount target resides in. AZs
-  /// are independently mapped to names for each AWS account. For example, the
-  /// Availability Zone <code>us-east-1a</code> for your AWS account might not be
-  /// the same location as <code>us-east-1a</code> for another AWS account.
+  /// The name of the Availability Zone in which the mount target is located.
+  /// Availability Zones are independently mapped to names for each Amazon Web
+  /// Services account. For example, the Availability Zone <code>us-east-1a</code>
+  /// for your Amazon Web Services account might not be the same location as
+  /// <code>us-east-1a</code> for another Amazon Web Services account.
   final String? availabilityZoneName;
 
   /// Address at which the file system can be mounted by using the mount target.
@@ -2108,10 +2764,10 @@ class MountTargetDescription {
   /// mount target.
   final String? networkInterfaceId;
 
-  /// AWS account ID that owns the resource.
+  /// Amazon Web Services account ID that owns the resource.
   final String? ownerId;
 
-  /// The Virtual Private Cloud (VPC) ID that the mount target is configured in.
+  /// The virtual private cloud (VPC) ID that the mount target is configured in.
   final String? vpcId;
 
   MountTargetDescription({
@@ -2126,6 +2782,7 @@ class MountTargetDescription {
     this.ownerId,
     this.vpcId,
   });
+
   factory MountTargetDescription.fromJson(Map<String, dynamic> json) {
     return MountTargetDescription(
       fileSystemId: json['FileSystemId'] as String,
@@ -2191,6 +2848,7 @@ class PosixUser {
     required this.uid,
     this.secondaryGids,
   });
+
   factory PosixUser.fromJson(Map<String, dynamic> json) {
     return PosixUser(
       gid: json['Gid'] as int,
@@ -2211,6 +2869,206 @@ class PosixUser {
       'Uid': uid,
       if (secondaryGids != null) 'SecondaryGids': secondaryGids,
     };
+  }
+}
+
+class PutAccountPreferencesResponse {
+  final ResourceIdPreference? resourceIdPreference;
+
+  PutAccountPreferencesResponse({
+    this.resourceIdPreference,
+  });
+
+  factory PutAccountPreferencesResponse.fromJson(Map<String, dynamic> json) {
+    return PutAccountPreferencesResponse(
+      resourceIdPreference: json['ResourceIdPreference'] != null
+          ? ResourceIdPreference.fromJson(
+              json['ResourceIdPreference'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class ReplicationConfigurationDescription {
+  /// Describes when the replication configuration was created.
+  final DateTime creationTime;
+
+  /// An array of destination objects. Only one destination object is supported.
+  final List<Destination> destinations;
+
+  /// The Amazon Resource Name (ARN) of the original source Amazon EFS file system
+  /// in the replication configuration.
+  final String originalSourceFileSystemArn;
+
+  /// The Amazon Resource Name (ARN) of the current source file system in the
+  /// replication configuration.
+  final String sourceFileSystemArn;
+
+  /// The ID of the source Amazon EFS file system that is being replicated.
+  final String sourceFileSystemId;
+
+  /// The Amazon Web Services Region in which the source Amazon EFS file system is
+  /// located.
+  final String sourceFileSystemRegion;
+
+  ReplicationConfigurationDescription({
+    required this.creationTime,
+    required this.destinations,
+    required this.originalSourceFileSystemArn,
+    required this.sourceFileSystemArn,
+    required this.sourceFileSystemId,
+    required this.sourceFileSystemRegion,
+  });
+
+  factory ReplicationConfigurationDescription.fromJson(
+      Map<String, dynamic> json) {
+    return ReplicationConfigurationDescription(
+      creationTime:
+          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+      destinations: (json['Destinations'] as List)
+          .whereNotNull()
+          .map((e) => Destination.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      originalSourceFileSystemArn:
+          json['OriginalSourceFileSystemArn'] as String,
+      sourceFileSystemArn: json['SourceFileSystemArn'] as String,
+      sourceFileSystemId: json['SourceFileSystemId'] as String,
+      sourceFileSystemRegion: json['SourceFileSystemRegion'] as String,
+    );
+  }
+}
+
+enum ReplicationStatus {
+  enabled,
+  enabling,
+  deleting,
+  error,
+  paused,
+  pausing,
+}
+
+extension ReplicationStatusValueExtension on ReplicationStatus {
+  String toValue() {
+    switch (this) {
+      case ReplicationStatus.enabled:
+        return 'ENABLED';
+      case ReplicationStatus.enabling:
+        return 'ENABLING';
+      case ReplicationStatus.deleting:
+        return 'DELETING';
+      case ReplicationStatus.error:
+        return 'ERROR';
+      case ReplicationStatus.paused:
+        return 'PAUSED';
+      case ReplicationStatus.pausing:
+        return 'PAUSING';
+    }
+  }
+}
+
+extension ReplicationStatusFromString on String {
+  ReplicationStatus toReplicationStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return ReplicationStatus.enabled;
+      case 'ENABLING':
+        return ReplicationStatus.enabling;
+      case 'DELETING':
+        return ReplicationStatus.deleting;
+      case 'ERROR':
+        return ReplicationStatus.error;
+      case 'PAUSED':
+        return ReplicationStatus.paused;
+      case 'PAUSING':
+        return ReplicationStatus.pausing;
+    }
+    throw Exception('$this is not known in enum ReplicationStatus');
+  }
+}
+
+/// An EFS resource, for example a file system or a mount target.
+enum Resource {
+  fileSystem,
+  mountTarget,
+}
+
+extension ResourceValueExtension on Resource {
+  String toValue() {
+    switch (this) {
+      case Resource.fileSystem:
+        return 'FILE_SYSTEM';
+      case Resource.mountTarget:
+        return 'MOUNT_TARGET';
+    }
+  }
+}
+
+extension ResourceFromString on String {
+  Resource toResource() {
+    switch (this) {
+      case 'FILE_SYSTEM':
+        return Resource.fileSystem;
+      case 'MOUNT_TARGET':
+        return Resource.mountTarget;
+    }
+    throw Exception('$this is not known in enum Resource');
+  }
+}
+
+/// Describes the resource type and its ID preference for the user's Amazon Web
+/// Services account, in the current Amazon Web Services Region.
+class ResourceIdPreference {
+  /// Identifies the EFS resource ID preference, either <code>LONG_ID</code> (17
+  /// characters) or <code>SHORT_ID</code> (8 characters).
+  final ResourceIdType? resourceIdType;
+
+  /// Identifies the Amazon EFS resources to which the ID preference setting
+  /// applies, <code>FILE_SYSTEM</code> and <code>MOUNT_TARGET</code>.
+  final List<Resource>? resources;
+
+  ResourceIdPreference({
+    this.resourceIdType,
+    this.resources,
+  });
+
+  factory ResourceIdPreference.fromJson(Map<String, dynamic> json) {
+    return ResourceIdPreference(
+      resourceIdType: (json['ResourceIdType'] as String?)?.toResourceIdType(),
+      resources: (json['Resources'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toResource())
+          .toList(),
+    );
+  }
+}
+
+/// A preference indicating a choice to use 63bit/32bit IDs for all applicable
+/// resources.
+enum ResourceIdType {
+  longId,
+  shortId,
+}
+
+extension ResourceIdTypeValueExtension on ResourceIdType {
+  String toValue() {
+    switch (this) {
+      case ResourceIdType.longId:
+        return 'LONG_ID';
+      case ResourceIdType.shortId:
+        return 'SHORT_ID';
+    }
+  }
+}
+
+extension ResourceIdTypeFromString on String {
+  ResourceIdType toResourceIdType() {
+    switch (this) {
+      case 'LONG_ID':
+        return ResourceIdType.longId;
+      case 'SHORT_ID':
+        return ResourceIdType.shortId;
+    }
+    throw Exception('$this is not known in enum ResourceIdType');
   }
 }
 
@@ -2243,6 +3101,7 @@ class RootDirectory {
     this.creationInfo,
     this.path,
   });
+
   factory RootDirectory.fromJson(Map<String, dynamic> json) {
     return RootDirectory(
       creationInfo: json['CreationInfo'] != null
@@ -2302,7 +3161,7 @@ extension StatusFromString on String {
 
 /// A tag is a key-value pair. Allowed characters are letters, white space, and
 /// numbers that can be represented in UTF-8, and the following
-/// characters:<code> + - = . _ : /</code>
+/// characters:<code> + - = . _ : /</code>.
 class Tag {
   /// The tag key (String). The key can't start with <code>aws:</code>.
   final String key;
@@ -2314,6 +3173,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -2334,6 +3194,7 @@ class Tag {
 enum ThroughputMode {
   bursting,
   provisioned,
+  elastic,
 }
 
 extension ThroughputModeValueExtension on ThroughputMode {
@@ -2343,6 +3204,8 @@ extension ThroughputModeValueExtension on ThroughputMode {
         return 'bursting';
       case ThroughputMode.provisioned:
         return 'provisioned';
+      case ThroughputMode.elastic:
+        return 'elastic';
     }
   }
 }
@@ -2354,6 +3217,8 @@ extension ThroughputModeFromString on String {
         return ThroughputMode.bursting;
       case 'provisioned':
         return ThroughputMode.provisioned;
+      case 'elastic':
+        return ThroughputMode.elastic;
     }
     throw Exception('$this is not known in enum ThroughputMode');
   }
@@ -2365,6 +3230,7 @@ enum TransitionToIARules {
   after_30Days,
   after_60Days,
   after_90Days,
+  after_1Day,
 }
 
 extension TransitionToIARulesValueExtension on TransitionToIARules {
@@ -2380,6 +3246,8 @@ extension TransitionToIARulesValueExtension on TransitionToIARules {
         return 'AFTER_60_DAYS';
       case TransitionToIARules.after_90Days:
         return 'AFTER_90_DAYS';
+      case TransitionToIARules.after_1Day:
+        return 'AFTER_1_DAY';
     }
   }
 }
@@ -2397,8 +3265,36 @@ extension TransitionToIARulesFromString on String {
         return TransitionToIARules.after_60Days;
       case 'AFTER_90_DAYS':
         return TransitionToIARules.after_90Days;
+      case 'AFTER_1_DAY':
+        return TransitionToIARules.after_1Day;
     }
     throw Exception('$this is not known in enum TransitionToIARules');
+  }
+}
+
+enum TransitionToPrimaryStorageClassRules {
+  after_1Access,
+}
+
+extension TransitionToPrimaryStorageClassRulesValueExtension
+    on TransitionToPrimaryStorageClassRules {
+  String toValue() {
+    switch (this) {
+      case TransitionToPrimaryStorageClassRules.after_1Access:
+        return 'AFTER_1_ACCESS';
+    }
+  }
+}
+
+extension TransitionToPrimaryStorageClassRulesFromString on String {
+  TransitionToPrimaryStorageClassRules
+      toTransitionToPrimaryStorageClassRules() {
+    switch (this) {
+      case 'AFTER_1_ACCESS':
+        return TransitionToPrimaryStorageClassRules.after_1Access;
+    }
+    throw Exception(
+        '$this is not known in enum TransitionToPrimaryStorageClassRules');
   }
 }
 
@@ -2415,6 +3311,11 @@ class AccessPointLimitExceeded extends _s.GenericAwsException {
 class AccessPointNotFound extends _s.GenericAwsException {
   AccessPointNotFound({String? type, String? message})
       : super(type: type, code: 'AccessPointNotFound', message: message);
+}
+
+class AvailabilityZonesMismatch extends _s.GenericAwsException {
+  AvailabilityZonesMismatch({String? type, String? message})
+      : super(type: type, code: 'AvailabilityZonesMismatch', message: message);
 }
 
 class BadRequest extends _s.GenericAwsException {
@@ -2511,6 +3412,11 @@ class PolicyNotFound extends _s.GenericAwsException {
       : super(type: type, code: 'PolicyNotFound', message: message);
 }
 
+class ReplicationNotFound extends _s.GenericAwsException {
+  ReplicationNotFound({String? type, String? message})
+      : super(type: type, code: 'ReplicationNotFound', message: message);
+}
+
 class SecurityGroupLimitExceeded extends _s.GenericAwsException {
   SecurityGroupLimitExceeded({String? type, String? message})
       : super(type: type, code: 'SecurityGroupLimitExceeded', message: message);
@@ -2524,6 +3430,11 @@ class SecurityGroupNotFound extends _s.GenericAwsException {
 class SubnetNotFound extends _s.GenericAwsException {
   SubnetNotFound({String? type, String? message})
       : super(type: type, code: 'SubnetNotFound', message: message);
+}
+
+class ThrottlingException extends _s.GenericAwsException {
+  ThrottlingException({String? type, String? message})
+      : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class ThroughputLimitExceeded extends _s.GenericAwsException {
@@ -2554,6 +3465,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       AccessPointLimitExceeded(type: type, message: message),
   'AccessPointNotFound': (type, message) =>
       AccessPointNotFound(type: type, message: message),
+  'AvailabilityZonesMismatch': (type, message) =>
+      AvailabilityZonesMismatch(type: type, message: message),
   'BadRequest': (type, message) => BadRequest(type: type, message: message),
   'DependencyTimeout': (type, message) =>
       DependencyTimeout(type: type, message: message),
@@ -2587,12 +3500,16 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       NoFreeAddressesInSubnet(type: type, message: message),
   'PolicyNotFound': (type, message) =>
       PolicyNotFound(type: type, message: message),
+  'ReplicationNotFound': (type, message) =>
+      ReplicationNotFound(type: type, message: message),
   'SecurityGroupLimitExceeded': (type, message) =>
       SecurityGroupLimitExceeded(type: type, message: message),
   'SecurityGroupNotFound': (type, message) =>
       SecurityGroupNotFound(type: type, message: message),
   'SubnetNotFound': (type, message) =>
       SubnetNotFound(type: type, message: message),
+  'ThrottlingException': (type, message) =>
+      ThrottlingException(type: type, message: message),
   'ThroughputLimitExceeded': (type, message) =>
       ThroughputLimitExceeded(type: type, message: message),
   'TooManyRequests': (type, message) =>

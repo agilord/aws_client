@@ -24,6 +24,21 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// Detector features, see the <a
 /// href="https://docs.aws.amazon.com/frauddetector/latest/ug/">Amazon Fraud
 /// Detector User Guide</a>.
+///
+/// We provide the Query API as well as AWS software development kits (SDK) for
+/// Amazon Fraud Detector in Java and Python programming languages.
+///
+/// The Amazon Fraud Detector Query API provides HTTPS requests that use the
+/// HTTP verb GET or POST and a Query parameter <code>Action</code>. AWS SDK
+/// provides libraries, sample code, tutorials, and other resources for software
+/// developers who prefer to build applications using language-specific APIs
+/// instead of submitting a request over HTTP or HTTPS. These libraries provide
+/// basic functions that automatically take care of tasks such as
+/// cryptographically signing your requests, retrying requests, and handling
+/// error responses, so that it is easier for you to get started. For more
+/// information about the AWS SDKs, see <a
+/// href="https://docs.aws.amazon.com/https:/aws.amazon.com/tools/">Tools to
+/// build on AWS</a>.
 class FraudDetector {
   final _s.JsonProtocol _protocol;
   FraudDetector({
@@ -117,6 +132,200 @@ class FraudDetector {
     return BatchGetVariableResult.fromJson(jsonResponse.body);
   }
 
+  /// Cancels an in-progress batch import job.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [jobId] :
+  /// The ID of an in-progress batch import job to cancel.
+  ///
+  /// Amazon Fraud Detector will throw an error if the batch import job is in
+  /// <code>FAILED</code>, <code>CANCELED</code>, or <code>COMPLETED</code>
+  /// state.
+  Future<void> cancelBatchImportJob({
+    required String jobId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.CancelBatchImportJob'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'jobId': jobId,
+      },
+    );
+  }
+
+  /// Cancels the specified batch prediction job.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [jobId] :
+  /// The ID of the batch prediction job to cancel.
+  Future<void> cancelBatchPredictionJob({
+    required String jobId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.CancelBatchPredictionJob'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'jobId': jobId,
+      },
+    );
+  }
+
+  /// Creates a batch import job.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [eventTypeName] :
+  /// The name of the event type.
+  ///
+  /// Parameter [iamRoleArn] :
+  /// The ARN of the IAM role created for Amazon S3 bucket that holds your data
+  /// file.
+  ///
+  /// The IAM role must have read permissions to your input S3 bucket and write
+  /// permissions to your output S3 bucket. For more information about bucket
+  /// permissions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-policies-s3.html">User
+  /// policy examples</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Parameter [inputPath] :
+  /// The URI that points to the Amazon S3 location of your data file.
+  ///
+  /// Parameter [jobId] :
+  /// The ID of the batch import job. The ID cannot be of a past job, unless the
+  /// job exists in <code>CREATE_FAILED</code> state.
+  ///
+  /// Parameter [outputPath] :
+  /// The URI that points to the Amazon S3 location for storing your results.
+  ///
+  /// Parameter [tags] :
+  /// A collection of key-value pairs associated with this request.
+  Future<void> createBatchImportJob({
+    required String eventTypeName,
+    required String iamRoleArn,
+    required String inputPath,
+    required String jobId,
+    required String outputPath,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.CreateBatchImportJob'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'eventTypeName': eventTypeName,
+        'iamRoleArn': iamRoleArn,
+        'inputPath': inputPath,
+        'jobId': jobId,
+        'outputPath': outputPath,
+        if (tags != null) 'tags': tags,
+      },
+    );
+  }
+
+  /// Creates a batch prediction job.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [detectorName] :
+  /// The name of the detector.
+  ///
+  /// Parameter [eventTypeName] :
+  /// The name of the event type.
+  ///
+  /// Parameter [iamRoleArn] :
+  /// The ARN of the IAM role to use for this job request.
+  ///
+  /// The IAM Role must have read permissions to your input S3 bucket and write
+  /// permissions to your output S3 bucket. For more information about bucket
+  /// permissions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-policies-s3.html">User
+  /// policy examples</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Parameter [inputPath] :
+  /// The Amazon S3 location of your training file.
+  ///
+  /// Parameter [jobId] :
+  /// The ID of the batch prediction job.
+  ///
+  /// Parameter [outputPath] :
+  /// The Amazon S3 location of your output file.
+  ///
+  /// Parameter [detectorVersion] :
+  /// The detector version.
+  ///
+  /// Parameter [tags] :
+  /// A collection of key and value pairs.
+  Future<void> createBatchPredictionJob({
+    required String detectorName,
+    required String eventTypeName,
+    required String iamRoleArn,
+    required String inputPath,
+    required String jobId,
+    required String outputPath,
+    String? detectorVersion,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.CreateBatchPredictionJob'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'detectorName': detectorName,
+        'eventTypeName': eventTypeName,
+        'iamRoleArn': iamRoleArn,
+        'inputPath': inputPath,
+        'jobId': jobId,
+        'outputPath': outputPath,
+        if (detectorVersion != null) 'detectorVersion': detectorVersion,
+        if (tags != null) 'tags': tags,
+      },
+    );
+  }
+
   /// Creates a detector version. The detector version starts in a
   /// <code>DRAFT</code> status.
   ///
@@ -193,10 +402,70 @@ class FraudDetector {
     return CreateDetectorVersionResult.fromJson(jsonResponse.body);
   }
 
+  /// Creates a list.
+  ///
+  /// List is a set of input data for a variable in your event dataset. You use
+  /// the input data in a rule that's associated with your detector. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/frauddetector/latest/ug/lists.html">Lists</a>.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [name] :
+  /// The name of the list.
+  ///
+  /// Parameter [description] :
+  /// The description of the list.
+  ///
+  /// Parameter [elements] :
+  /// The names of the elements, if providing. You can also create an empty list
+  /// and add elements later using the <a
+  /// href="https://docs.aws.amazon.com/frauddetector/latest/api/API_Updatelist.html">UpdateList</a>
+  /// API.
+  ///
+  /// Parameter [tags] :
+  /// A collection of the key and value pairs.
+  ///
+  /// Parameter [variableType] :
+  /// The variable type of the list. You can only assign the variable type with
+  /// String data type. For more information, see <a
+  /// href="https://docs.aws.amazon.com/frauddetector/latest/ug/create-a-variable.html#variable-types">Variable
+  /// types</a>.
+  Future<void> createList({
+    required String name,
+    String? description,
+    List<String>? elements,
+    List<Tag>? tags,
+    String? variableType,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.CreateList'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+        if (description != null) 'description': description,
+        if (elements != null) 'elements': elements,
+        if (tags != null) 'tags': tags,
+        if (variableType != null) 'variableType': variableType,
+      },
+    );
+  }
+
   /// Creates a model using the specified model type.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [eventTypeName] :
@@ -246,6 +515,7 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
   ///
   /// Parameter [modelId] :
@@ -261,9 +531,14 @@ class FraudDetector {
   /// The training data source location in Amazon S3.
   ///
   /// Parameter [externalEventsDetail] :
-  /// Details for the external events data used for model version training.
+  /// Details of the external events data used for model version training.
   /// Required if <code>trainingDataSource</code> is
   /// <code>EXTERNAL_EVENTS</code>.
+  ///
+  /// Parameter [ingestedEventsDetail] :
+  /// Details of the ingested events data used for model version training.
+  /// Required if <code>trainingDataSource</code> is
+  /// <code>INGESTED_EVENTS</code>.
   ///
   /// Parameter [tags] :
   /// A collection of key and value pairs.
@@ -273,6 +548,7 @@ class FraudDetector {
     required TrainingDataSchema trainingDataSchema,
     required TrainingDataSourceEnum trainingDataSource,
     ExternalEventsDetail? externalEventsDetail,
+    IngestedEventsDetail? ingestedEventsDetail,
     List<Tag>? tags,
   }) async {
     final headers = <String, String>{
@@ -292,6 +568,8 @@ class FraudDetector {
         'trainingDataSource': trainingDataSource.toValue(),
         if (externalEventsDetail != null)
           'externalEventsDetail': externalEventsDetail,
+        if (ingestedEventsDetail != null)
+          'ingestedEventsDetail': ingestedEventsDetail,
         if (tags != null) 'tags': tags,
       },
     );
@@ -428,6 +706,63 @@ class FraudDetector {
     );
   }
 
+  /// Deletes the specified batch import job ID record. This action does not
+  /// delete the data that was batch imported.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [jobId] :
+  /// The ID of the batch import job to delete.
+  Future<void> deleteBatchImportJob({
+    required String jobId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteBatchImportJob'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'jobId': jobId,
+      },
+    );
+  }
+
+  /// Deletes a batch prediction job.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [jobId] :
+  /// The ID of the batch prediction job to delete.
+  Future<void> deleteBatchPredictionJob({
+    required String jobId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteBatchPredictionJob'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'jobId': jobId,
+      },
+    );
+  }
+
   /// Deletes the detector. Before deleting a detector, you must first delete
   /// all detector versions and rule versions associated with the detector.
   ///
@@ -506,12 +841,13 @@ class FraudDetector {
   /// You cannot delete an entity type that is included in an event type.
   ///
   /// When you delete an entity type, Amazon Fraud Detector permanently deletes
-  /// that entity type from the evaluation history, and the data is no longer
-  /// stored in Amazon Fraud Detector.
+  /// that entity type and the data is no longer stored in Amazon Fraud
+  /// Detector.
   ///
   /// May throw [ValidationException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [name] :
@@ -538,8 +874,7 @@ class FraudDetector {
   /// Deletes the specified event.
   ///
   /// When you delete an event, Amazon Fraud Detector permanently deletes that
-  /// event from the evaluation history, and the event data is no longer stored
-  /// in Amazon Fraud Detector.
+  /// event and the event data is no longer stored in Amazon Fraud Detector.
   ///
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
@@ -551,9 +886,14 @@ class FraudDetector {
   ///
   /// Parameter [eventTypeName] :
   /// The name of the event type.
+  ///
+  /// Parameter [deleteAuditHistory] :
+  /// Specifies whether or not to delete any predictions associated with the
+  /// event.
   Future<void> deleteEvent({
     required String eventId,
     required String eventTypeName,
+    bool? deleteAuditHistory,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -568,6 +908,8 @@ class FraudDetector {
       payload: {
         'eventId': eventId,
         'eventTypeName': eventTypeName,
+        if (deleteAuditHistory != null)
+          'deleteAuditHistory': deleteAuditHistory,
       },
     );
   }
@@ -576,13 +918,13 @@ class FraudDetector {
   ///
   /// You cannot delete an event type that is used in a detector or a model.
   ///
-  /// When you delete an entity type, Amazon Fraud Detector permanently deletes
-  /// that entity type from the evaluation history, and the data is no longer
-  /// stored in Amazon Fraud Detector.
+  /// When you delete an event type, Amazon Fraud Detector permanently deletes
+  /// that event type and the data is no longer stored in Amazon Fraud Detector.
   ///
   /// May throw [ConflictException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [name] :
@@ -604,6 +946,38 @@ class FraudDetector {
         'name': name,
       },
     );
+  }
+
+  /// Deletes all events of a particular event type.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [eventTypeName] :
+  /// The name of the event type.
+  Future<DeleteEventsByEventTypeResult> deleteEventsByEventType({
+    required String eventTypeName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteEventsByEventType'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'eventTypeName': eventTypeName,
+      },
+    );
+
+    return DeleteEventsByEventTypeResult.fromJson(jsonResponse.body);
   }
 
   /// Removes a SageMaker model from Amazon Fraud Detector.
@@ -648,11 +1022,11 @@ class FraudDetector {
   /// the relevant event ID.
   ///
   /// When you delete a label, Amazon Fraud Detector permanently deletes that
-  /// label from the evaluation history, and the data is no longer stored in
-  /// Amazon Fraud Detector.
+  /// label and the data is no longer stored in Amazon Fraud Detector.
   ///
   /// May throw [ValidationException].
   /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
   ///
   /// Parameter [name] :
@@ -676,18 +1050,50 @@ class FraudDetector {
     );
   }
 
+  /// Deletes the list, provided it is not used in a rule.
+  ///
+  /// When you delete a list, Amazon Fraud Detector permanently deletes that
+  /// list and the elements in the list.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [name] :
+  /// The name of the list to delete.
+  Future<void> deleteList({
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteList'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+      },
+    );
+  }
+
   /// Deletes a model.
   ///
   /// You can delete models and model versions in Amazon Fraud Detector,
   /// provided that they are not associated with a detector version.
   ///
   /// When you delete a model, Amazon Fraud Detector permanently deletes that
-  /// model from the evaluation history, and the data is no longer stored in
-  /// Amazon Fraud Detector.
+  /// model and the data is no longer stored in Amazon Fraud Detector.
   ///
   /// May throw [ConflictException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [modelId] :
@@ -722,12 +1128,13 @@ class FraudDetector {
   /// provided that they are not associated with a detector version.
   ///
   /// When you delete a model version, Amazon Fraud Detector permanently deletes
-  /// that model version from the evaluation history, and the data is no longer
-  /// stored in Amazon Fraud Detector.
+  /// that model version and the data is no longer stored in Amazon Fraud
+  /// Detector.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ConflictException].
   ///
   /// Parameter [modelId] :
@@ -766,8 +1173,7 @@ class FraudDetector {
   /// You cannot delete an outcome that is used in a rule version.
   ///
   /// When you delete an outcome, Amazon Fraud Detector permanently deletes that
-  /// outcome from the evaluation history, and the data is no longer stored in
-  /// Amazon Fraud Detector.
+  /// outcome and the data is no longer stored in Amazon Fraud Detector.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -800,8 +1206,7 @@ class FraudDetector {
   /// <code>ACTIVE</code> or <code>INACTIVE</code> detector version.
   ///
   /// When you delete a rule, Amazon Fraud Detector permanently deletes that
-  /// rule from the evaluation history, and the data is no longer stored in
-  /// Amazon Fraud Detector.
+  /// rule and the data is no longer stored in Amazon Fraud Detector.
   ///
   /// May throw [ConflictException].
   /// May throw [ValidationException].
@@ -837,8 +1242,7 @@ class FraudDetector {
   /// delete these variables manually.
   ///
   /// When you delete a variable, Amazon Fraud Detector permanently deletes that
-  /// variable from the evaluation history, and the data is no longer stored in
-  /// Amazon Fraud Detector.
+  /// variable and the data is no longer stored in Amazon Fraud Detector.
   ///
   /// May throw [ValidationException].
   /// May throw [ConflictException].
@@ -921,6 +1325,7 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
@@ -971,6 +1376,145 @@ class FraudDetector {
     );
 
     return DescribeModelVersionsResult.fromJson(jsonResponse.body);
+  }
+
+  /// Gets all batch import jobs or a specific job of the specified ID. This is
+  /// a paginated API. If you provide a null <code>maxResults</code>, this
+  /// action retrieves a maximum of 50 records per page. If you provide a
+  /// <code>maxResults</code>, the value must be between 1 and 50. To get the
+  /// next page results, provide the pagination token from the
+  /// <code>GetBatchImportJobsResponse</code> as part of your request. A null
+  /// pagination token fetches the records from the beginning.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [jobId] :
+  /// The ID of the batch import job to get.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of objects to return for request.
+  ///
+  /// Parameter [nextToken] :
+  /// The next token from the previous request.
+  Future<GetBatchImportJobsResult> getBatchImportJobs({
+    String? jobId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.GetBatchImportJobs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (jobId != null) 'jobId': jobId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return GetBatchImportJobsResult.fromJson(jsonResponse.body);
+  }
+
+  /// Gets all batch prediction jobs or a specific job if you specify a job ID.
+  /// This is a paginated API. If you provide a null maxResults, this action
+  /// retrieves a maximum of 50 records per page. If you provide a maxResults,
+  /// the value must be between 1 and 50. To get the next page results, provide
+  /// the pagination token from the GetBatchPredictionJobsResponse as part of
+  /// your request. A null pagination token fetches the records from the
+  /// beginning.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [jobId] :
+  /// The batch prediction job for which to get the details.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of objects to return for the request.
+  ///
+  /// Parameter [nextToken] :
+  /// The next token from the previous request.
+  Future<GetBatchPredictionJobsResult> getBatchPredictionJobs({
+    String? jobId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.GetBatchPredictionJobs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (jobId != null) 'jobId': jobId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return GetBatchPredictionJobsResult.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves the status of a <code>DeleteEventsByEventType</code> action.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [eventTypeName] :
+  /// Name of event type for which to get the deletion status.
+  Future<GetDeleteEventsByEventTypeStatusResult>
+      getDeleteEventsByEventTypeStatus({
+    required String eventTypeName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSHawksNestServiceFacade.GetDeleteEventsByEventTypeStatus'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'eventTypeName': eventTypeName,
+      },
+    );
+
+    return GetDeleteEventsByEventTypeStatusResult.fromJson(jsonResponse.body);
   }
 
   /// Gets a particular detector version.
@@ -1073,6 +1617,7 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
@@ -1114,6 +1659,43 @@ class FraudDetector {
     return GetEntityTypesResult.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves details of events stored with Amazon Fraud Detector. This action
+  /// does not retrieve prediction results.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [eventId] :
+  /// The ID of the event to retrieve.
+  ///
+  /// Parameter [eventTypeName] :
+  /// The event type of the event to retrieve.
+  Future<GetEventResult> getEvent({
+    required String eventId,
+    required String eventTypeName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.GetEvent'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'eventId': eventId,
+        'eventTypeName': eventTypeName,
+      },
+    );
+
+    return GetEventResult.fromJson(jsonResponse.body);
+  }
+
   /// Evaluates an event against a detector version. If a version ID is not
   /// provided, the detector’s (<code>ACTIVE</code>) version is used.
   ///
@@ -1123,6 +1705,7 @@ class FraudDetector {
   /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [ResourceUnavailableException].
   ///
   /// Parameter [detectorId] :
   /// The detector ID.
@@ -1136,7 +1719,8 @@ class FraudDetector {
   /// The unique ID used to identify the event.
   ///
   /// Parameter [eventTimestamp] :
-  /// Timestamp that defines when the event under evaluation occurred.
+  /// Timestamp that defines when the event under evaluation occurred. The
+  /// timestamp must be specified using ISO 8601 standard in UTC.
   ///
   /// Parameter [eventTypeName] :
   /// The event type associated with the detector specified for the prediction.
@@ -1145,6 +1729,27 @@ class FraudDetector {
   /// Names of the event type's variables you defined in Amazon Fraud Detector
   /// to represent data elements and their corresponding values for the event
   /// you are sending for evaluation.
+  /// <important>
+  /// You must provide at least one eventVariable
+  /// </important>
+  /// To ensure most accurate fraud prediction and to simplify your data
+  /// preparation, Amazon Fraud Detector will replace all missing variables or
+  /// values as follows:
+  ///
+  /// <b>For Amazon Fraud Detector trained models:</b>
+  ///
+  /// If a null value is provided explicitly for a variable or if a variable is
+  /// missing, model will replace the null value or the missing variable (no
+  /// variable name in the eventVariables map) with calculated default
+  /// mean/medians for numeric variables and with special values for categorical
+  /// variables.
+  ///
+  /// <b>For imported SageMaker models:</b>
+  ///
+  /// If a null value is provided explicitly for a variable, the model and rules
+  /// will use “null” as the value. If a variable is not provided (no variable
+  /// name in the eventVariables map), model and rules will use the default
+  /// value that is provided for the variable.
   ///
   /// Parameter [detectorVersionId] :
   /// The detector version ID.
@@ -1187,6 +1792,65 @@ class FraudDetector {
     return GetEventPredictionResult.fromJson(jsonResponse.body);
   }
 
+  /// Gets details of the past fraud predictions for the specified event ID,
+  /// event type, detector ID, and detector version ID that was generated in the
+  /// specified time period.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [detectorId] :
+  /// The detector ID.
+  ///
+  /// Parameter [detectorVersionId] :
+  /// The detector version ID.
+  ///
+  /// Parameter [eventId] :
+  /// The event ID.
+  ///
+  /// Parameter [eventTypeName] :
+  /// The event type associated with the detector specified for the prediction.
+  ///
+  /// Parameter [predictionTimestamp] :
+  /// The timestamp that defines when the prediction was generated. The
+  /// timestamp must be specified using ISO 8601 standard in UTC.
+  ///
+  /// We recommend calling <a
+  /// href="https://docs.aws.amazon.com/frauddetector/latest/api/API_ListEventPredictions.html">ListEventPredictions</a>
+  /// first, and using the <code>predictionTimestamp</code> value in the
+  /// response to provide an accurate prediction timestamp value.
+  Future<GetEventPredictionMetadataResult> getEventPredictionMetadata({
+    required String detectorId,
+    required String detectorVersionId,
+    required String eventId,
+    required String eventTypeName,
+    required String predictionTimestamp,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.GetEventPredictionMetadata'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'detectorId': detectorId,
+        'detectorVersionId': detectorVersionId,
+        'eventId': eventId,
+        'eventTypeName': eventTypeName,
+        'predictionTimestamp': predictionTimestamp,
+      },
+    );
+
+    return GetEventPredictionMetadataResult.fromJson(jsonResponse.body);
+  }
+
   /// Gets all event types or a specific event type if name is provided. This is
   /// a paginated API. If you provide a null <code>maxResults</code>, this
   /// action retrieves a maximum of 10 records per page. If you provide a
@@ -1198,6 +1862,7 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
@@ -1292,12 +1957,12 @@ class FraudDetector {
     return GetExternalModelsResult.fromJson(jsonResponse.body);
   }
 
-  /// Gets the encryption key if a Key Management Service (KMS) customer master
-  /// key (CMK) has been specified to be used to encrypt content in Amazon Fraud
-  /// Detector.
+  /// Gets the encryption key if a KMS key has been specified to be used to
+  /// encrypt content in Amazon Fraud Detector.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   Future<GetKMSEncryptionKeyResult> getKMSEncryptionKey() async {
     final headers = <String, String>{
@@ -1326,6 +1991,7 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
@@ -1367,11 +2033,107 @@ class FraudDetector {
     return GetLabelsResult.fromJson(jsonResponse.body);
   }
 
+  /// Gets all the elements in the specified list.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [name] :
+  /// The name of the list.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of objects to return for the request.
+  ///
+  /// Parameter [nextToken] :
+  /// The next token for the subsequent request.
+  Future<GetListElementsResult> getListElements({
+    required String name,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      500,
+      5000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.GetListElements'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return GetListElementsResult.fromJson(jsonResponse.body);
+  }
+
+  /// Gets the metadata of either all the lists under the account or the
+  /// specified list.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of objects to return for the request.
+  ///
+  /// Parameter [name] :
+  /// The name of the list.
+  ///
+  /// Parameter [nextToken] :
+  /// The next token for the subsequent request.
+  Future<GetListsMetadataResult> getListsMetadata({
+    int? maxResults,
+    String? name,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      5,
+      50,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.GetListsMetadata'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'maxResults': maxResults,
+        if (name != null) 'name': name,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return GetListsMetadataResult.fromJson(jsonResponse.body);
+  }
+
   /// Gets the details of the specified model version.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [modelId] :
@@ -1407,10 +2169,11 @@ class FraudDetector {
     return GetModelVersionResult.fromJson(jsonResponse.body);
   }
 
-  /// Gets one or more models. Gets all models for the AWS account if no model
-  /// type and no model id provided. Gets all models for the AWS account and
-  /// model type, if the model type is specified but model id is not provided.
-  /// Gets a specific model if (model type, model id) tuple is specified.
+  /// Gets one or more models. Gets all models for the Amazon Web Services
+  /// account if no model type and no model id provided. Gets all models for the
+  /// Amazon Web Services account and model type, if the model type is specified
+  /// but model id is not provided. Gets a specific model if (model type, model
+  /// id) tuple is specified.
   ///
   /// This is a paginated API. If you provide a null <code>maxResults</code>,
   /// this action retrieves a maximum of 10 records per page. If you provide a
@@ -1422,6 +2185,7 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
@@ -1640,6 +2404,88 @@ class FraudDetector {
     return GetVariablesResult.fromJson(jsonResponse.body);
   }
 
+  /// Gets a list of past predictions. The list can be filtered by detector ID,
+  /// detector version ID, event ID, event type, or by specifying a time period.
+  /// If filter is not specified, the most recent prediction is returned.
+  ///
+  /// For example, the following filter lists all past predictions for
+  /// <code>xyz</code> event type - <code>{ "eventType":{ "value": "xyz" }” }
+  /// </code>
+  ///
+  /// This is a paginated API. If you provide a null <code>maxResults</code>,
+  /// this action will retrieve a maximum of 10 records per page. If you provide
+  /// a <code>maxResults</code>, the value must be between 50 and 100. To get
+  /// the next page results, provide the <code>nextToken</code> from the
+  /// response as part of your request. A null <code>nextToken</code> fetches
+  /// the records from the beginning.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [detectorId] :
+  /// The detector ID.
+  ///
+  /// Parameter [detectorVersionId] :
+  /// The detector version ID.
+  ///
+  /// Parameter [eventId] :
+  /// The event ID.
+  ///
+  /// Parameter [eventType] :
+  /// The event type associated with the detector.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of predictions to return for the request.
+  ///
+  /// Parameter [nextToken] :
+  /// Identifies the next page of results to return. Use the token to make the
+  /// call again to retrieve the next page. Keep all other arguments unchanged.
+  /// Each pagination token expires after 24 hours.
+  ///
+  /// Parameter [predictionTimeRange] :
+  /// The time period for when the predictions were generated.
+  Future<ListEventPredictionsResult> listEventPredictions({
+    FilterCondition? detectorId,
+    FilterCondition? detectorVersionId,
+    FilterCondition? eventId,
+    FilterCondition? eventType,
+    int? maxResults,
+    String? nextToken,
+    PredictionTimeRange? predictionTimeRange,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      50,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.ListEventPredictions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (detectorId != null) 'detectorId': detectorId,
+        if (detectorVersionId != null) 'detectorVersionId': detectorVersionId,
+        if (eventId != null) 'eventId': eventId,
+        if (eventType != null) 'eventType': eventType,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (predictionTimeRange != null)
+          'predictionTimeRange': predictionTimeRange,
+      },
+    );
+
+    return ListEventPredictionsResult.fromJson(jsonResponse.body);
+  }
+
   /// Lists all tags associated with the resource. This is a paginated API. To
   /// get the next page results, provide the pagination token from the response
   /// as part of your request. A null pagination token fetches the records from
@@ -1647,6 +2493,7 @@ class FraudDetector {
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceARN] :
@@ -1694,6 +2541,7 @@ class FraudDetector {
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [detectorId] :
   /// The detector ID.
@@ -1739,7 +2587,9 @@ class FraudDetector {
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [name] :
   /// The name of the entity type.
@@ -1782,7 +2632,9 @@ class FraudDetector {
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [entityTypes] :
   /// The entity type for the event type. Example entity types: customer,
@@ -1797,6 +2649,9 @@ class FraudDetector {
   /// Parameter [description] :
   /// The description of the event type.
   ///
+  /// Parameter [eventIngestion] :
+  /// Specifies if ingenstion is enabled or disabled.
+  ///
   /// Parameter [labels] :
   /// The event type labels.
   ///
@@ -1807,6 +2662,7 @@ class FraudDetector {
     required List<String> eventVariables,
     required String name,
     String? description,
+    EventIngestion? eventIngestion,
     List<String>? labels,
     List<Tag>? tags,
   }) async {
@@ -1825,6 +2681,7 @@ class FraudDetector {
         'eventVariables': eventVariables,
         'name': name,
         if (description != null) 'description': description,
+        if (eventIngestion != null) 'eventIngestion': eventIngestion.toValue(),
         if (labels != null) 'labels': labels,
         if (tags != null) 'tags': tags,
       },
@@ -1839,6 +2696,7 @@ class FraudDetector {
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [inputConfiguration] :
   /// The model endpoint input configuration.
@@ -1891,16 +2749,21 @@ class FraudDetector {
     );
   }
 
-  /// Specifies the Key Management Service (KMS) customer master key (CMK) to be
-  /// used to encrypt content in Amazon Fraud Detector.
+  /// Specifies the KMS key to be used to encrypt content in Amazon Fraud
+  /// Detector.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [kmsEncryptionKeyArn] :
   /// The KMS encryption key ARN.
+  ///
+  /// The KMS key must be single-Region key. Amazon Fraud Detector does not
+  /// support multi-Region KMS key.
   Future<void> putKMSEncryptionKey({
     required String kmsEncryptionKeyArn,
   }) async {
@@ -1926,7 +2789,9 @@ class FraudDetector {
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [name] :
   /// The label name.
@@ -1965,6 +2830,7 @@ class FraudDetector {
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [name] :
   /// The name of the outcome.
@@ -1997,10 +2863,79 @@ class FraudDetector {
     );
   }
 
+  /// Stores events in Amazon Fraud Detector without generating fraud
+  /// predictions for those events. For example, you can use
+  /// <code>SendEvent</code> to upload a historical dataset, which you can then
+  /// later use to train a model.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [entities] :
+  /// An array of entities.
+  ///
+  /// Parameter [eventId] :
+  /// The event ID to upload.
+  ///
+  /// Parameter [eventTimestamp] :
+  /// The timestamp that defines when the event under evaluation occurred. The
+  /// timestamp must be specified using ISO 8601 standard in UTC.
+  ///
+  /// Parameter [eventTypeName] :
+  /// The event type name of the event.
+  ///
+  /// Parameter [eventVariables] :
+  /// Names of the event type's variables you defined in Amazon Fraud Detector
+  /// to represent data elements and their corresponding values for the event
+  /// you are sending for evaluation.
+  ///
+  /// Parameter [assignedLabel] :
+  /// The label to associate with the event. Required if specifying
+  /// <code>labelTimestamp</code>.
+  ///
+  /// Parameter [labelTimestamp] :
+  /// The timestamp associated with the label. Required if specifying
+  /// <code>assignedLabel</code>.
+  Future<void> sendEvent({
+    required List<Entity> entities,
+    required String eventId,
+    required String eventTimestamp,
+    required String eventTypeName,
+    required Map<String, String> eventVariables,
+    String? assignedLabel,
+    String? labelTimestamp,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.SendEvent'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'entities': entities,
+        'eventId': eventId,
+        'eventTimestamp': eventTimestamp,
+        'eventTypeName': eventTypeName,
+        'eventVariables': eventVariables,
+        if (assignedLabel != null) 'assignedLabel': assignedLabel,
+        if (labelTimestamp != null) 'labelTimestamp': labelTimestamp,
+      },
+    );
+  }
+
   /// Assigns tags to a resource.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceARN] :
@@ -2033,6 +2968,7 @@ class FraudDetector {
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceARN] :
@@ -2071,6 +3007,7 @@ class FraudDetector {
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [detectorId] :
   /// The parent detector ID for the detector version you want to update.
@@ -2143,6 +3080,7 @@ class FraudDetector {
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [description] :
   /// The description.
@@ -2185,6 +3123,7 @@ class FraudDetector {
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [detectorId] :
   /// The detector ID.
@@ -2194,6 +3133,9 @@ class FraudDetector {
   ///
   /// Parameter [status] :
   /// The new status.
+  ///
+  /// The only supported values are <code>ACTIVE</code> and
+  /// <code>INACTIVE</code>
   Future<void> updateDetectorVersionStatus({
     required String detectorId,
     required String detectorVersionId,
@@ -2217,13 +3159,131 @@ class FraudDetector {
     );
   }
 
-  /// Updates a model. You can update the description attribute using this
-  /// action.
+  /// Updates the specified event with a new label.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [assignedLabel] :
+  /// The new label to assign to the event.
+  ///
+  /// Parameter [eventId] :
+  /// The ID of the event associated with the label to update.
+  ///
+  /// Parameter [eventTypeName] :
+  /// The event type of the event associated with the label to update.
+  ///
+  /// Parameter [labelTimestamp] :
+  /// The timestamp associated with the label. The timestamp must be specified
+  /// using ISO 8601 standard in UTC.
+  Future<void> updateEventLabel({
+    required String assignedLabel,
+    required String eventId,
+    required String eventTypeName,
+    required String labelTimestamp,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateEventLabel'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'assignedLabel': assignedLabel,
+        'eventId': eventId,
+        'eventTypeName': eventTypeName,
+        'labelTimestamp': labelTimestamp,
+      },
+    );
+  }
+
+  /// Updates a list.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [name] :
+  /// The name of the list to update.
+  ///
+  /// Parameter [description] :
+  /// The new description.
+  ///
+  /// Parameter [elements] :
+  /// One or more list elements to add or replace. If you are providing the
+  /// elements, make sure to specify the <code>updateMode</code> to use.
+  ///
+  /// If you are deleting all elements from the list, use <code>REPLACE</code>
+  /// for the <code>updateMode</code> and provide an empty list (0 elements).
+  ///
+  /// Parameter [updateMode] :
+  /// The update mode (type).
+  ///
+  /// <ul>
+  /// <li>
+  /// Use <code>APPEND</code> if you are adding elements to the list.
+  /// </li>
+  /// <li>
+  /// Use <code>REPLACE</code> if you replacing existing elements in the list.
+  /// </li>
+  /// <li>
+  /// Use <code>REMOVE</code> if you are removing elements from the list.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [variableType] :
+  /// The variable type you want to assign to the list.
+  /// <note>
+  /// You cannot update a variable type of a list that already has a variable
+  /// type assigned to it. You can assign a variable type to a list only if the
+  /// list does not already have a variable type.
+  /// </note>
+  Future<void> updateList({
+    required String name,
+    String? description,
+    List<String>? elements,
+    ListUpdateMode? updateMode,
+    String? variableType,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateList'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+        if (description != null) 'description': description,
+        if (elements != null) 'elements': elements,
+        if (updateMode != null) 'updateMode': updateMode.toValue(),
+        if (variableType != null) 'variableType': variableType,
+      },
+    );
+  }
+
+  /// Updates model description.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [modelId] :
   /// The model ID.
@@ -2265,7 +3325,9 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [majorVersionNumber] :
   /// The major version number.
@@ -2277,7 +3339,14 @@ class FraudDetector {
   /// The model type.
   ///
   /// Parameter [externalEventsDetail] :
-  /// The event details.
+  /// The details of the external events data used for training the model
+  /// version. Required if <code>trainingDataSource</code> is
+  /// <code>EXTERNAL_EVENTS</code>.
+  ///
+  /// Parameter [ingestedEventsDetail] :
+  /// The details of the ingested event used for training the model version.
+  /// Required if your <code>trainingDataSource</code> is
+  /// <code>INGESTED_EVENTS</code>.
   ///
   /// Parameter [tags] :
   /// A collection of key and value pairs.
@@ -2286,6 +3355,7 @@ class FraudDetector {
     required String modelId,
     required ModelTypeEnum modelType,
     ExternalEventsDetail? externalEventsDetail,
+    IngestedEventsDetail? ingestedEventsDetail,
     List<Tag>? tags,
   }) async {
     final headers = <String, String>{
@@ -2304,6 +3374,8 @@ class FraudDetector {
         'modelType': modelType.toValue(),
         if (externalEventsDetail != null)
           'externalEventsDetail': externalEventsDetail,
+        if (ingestedEventsDetail != null)
+          'ingestedEventsDetail': ingestedEventsDetail,
         if (tags != null) 'tags': tags,
       },
     );
@@ -2316,16 +3388,22 @@ class FraudDetector {
   /// You can perform the following status updates:
   /// <ol>
   /// <li>
+  /// Change the <code>TRAINING_IN_PROGRESS</code> status to
+  /// <code>TRAINING_CANCELLED</code>.
+  /// </li>
+  /// <li>
   /// Change the <code>TRAINING_COMPLETE</code> status to <code>ACTIVE</code>.
   /// </li>
   /// <li>
-  /// Change <code>ACTIVE</code>to <code>INACTIVE</code>.
+  /// Change <code>ACTIVE</code> to <code>INACTIVE</code>.
   /// </li> </ol>
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [modelId] :
   /// The model ID of the model version to update.
@@ -2370,6 +3448,7 @@ class FraudDetector {
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [description] :
   /// The rule description.
@@ -2405,6 +3484,7 @@ class FraudDetector {
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [expression] :
   /// The rule expression.
@@ -2461,6 +3541,7 @@ class FraudDetector {
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [name] :
   /// The name of the variable.
@@ -2501,6 +3582,298 @@ class FraudDetector {
   }
 }
 
+/// The Account Takeover Insights (ATI) model performance metrics data points.
+class ATIMetricDataPoint {
+  /// The anomaly discovery rate. This metric quantifies the percentage of
+  /// anomalies that can be detected by the model at the selected score threshold.
+  /// A lower score threshold increases the percentage of anomalies captured by
+  /// the model, but would also require challenging a larger percentage of login
+  /// events, leading to a higher customer friction.
+  final double? adr;
+
+  /// The account takeover discovery rate. This metric quantifies the percentage
+  /// of account compromise events that can be detected by the model at the
+  /// selected score threshold. This metric is only available if 50 or more
+  /// entities with at-least one labeled account takeover event is present in the
+  /// ingested dataset.
+  final double? atodr;
+
+  /// The challenge rate. This indicates the percentage of login events that the
+  /// model recommends to challenge such as one-time password, multi-factor
+  /// authentication, and investigations.
+  final double? cr;
+
+  /// The model's threshold that specifies an acceptable fraud capture rate. For
+  /// example, a threshold of 500 means any model score 500 or above is labeled as
+  /// fraud.
+  final double? threshold;
+
+  ATIMetricDataPoint({
+    this.adr,
+    this.atodr,
+    this.cr,
+    this.threshold,
+  });
+
+  factory ATIMetricDataPoint.fromJson(Map<String, dynamic> json) {
+    return ATIMetricDataPoint(
+      adr: json['adr'] as double?,
+      atodr: json['atodr'] as double?,
+      cr: json['cr'] as double?,
+      threshold: json['threshold'] as double?,
+    );
+  }
+}
+
+/// The Account Takeover Insights (ATI) model performance score.
+class ATIModelPerformance {
+  /// The anomaly separation index (ASI) score. This metric summarizes the overall
+  /// ability of the model to separate anomalous activities from the normal
+  /// behavior. Depending on the business, a large fraction of these anomalous
+  /// activities can be malicious and correspond to the account takeover attacks.
+  /// A model with no separability power will have the lowest possible ASI score
+  /// of 0.5, whereas the a model with a high separability power will have the
+  /// highest possible ASI score of 1.0
+  final double? asi;
+
+  ATIModelPerformance({
+    this.asi,
+  });
+
+  factory ATIModelPerformance.fromJson(Map<String, dynamic> json) {
+    return ATIModelPerformance(
+      asi: json['asi'] as double?,
+    );
+  }
+}
+
+/// The Account Takeover Insights (ATI) model training metric details.
+class ATITrainingMetricsValue {
+  /// The model's performance metrics data points.
+  final List<ATIMetricDataPoint>? metricDataPoints;
+
+  /// The model's overall performance scores.
+  final ATIModelPerformance? modelPerformance;
+
+  ATITrainingMetricsValue({
+    this.metricDataPoints,
+    this.modelPerformance,
+  });
+
+  factory ATITrainingMetricsValue.fromJson(Map<String, dynamic> json) {
+    return ATITrainingMetricsValue(
+      metricDataPoints: (json['metricDataPoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => ATIMetricDataPoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      modelPerformance: json['modelPerformance'] != null
+          ? ATIModelPerformance.fromJson(
+              json['modelPerformance'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// The log odds metric details.
+///
+/// Account Takeover Insights (ATI) model uses event variables from the login
+/// data you provide to continuously calculate a set of variables (aggregated
+/// variables) based on historical events. For example, your ATI model might
+/// calculate the number of times an user has logged in using the same IP
+/// address. In this case, event variables used to derive the aggregated
+/// variables are <code>IP address</code> and <code>user</code>.
+class AggregatedLogOddsMetric {
+  /// The relative importance of the variables in the list to the other event
+  /// variable.
+  final double aggregatedVariablesImportance;
+
+  /// The names of all the variables.
+  final List<String> variableNames;
+
+  AggregatedLogOddsMetric({
+    required this.aggregatedVariablesImportance,
+    required this.variableNames,
+  });
+
+  factory AggregatedLogOddsMetric.fromJson(Map<String, dynamic> json) {
+    return AggregatedLogOddsMetric(
+      aggregatedVariablesImportance:
+          json['aggregatedVariablesImportance'] as double,
+      variableNames: (json['variableNames'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+}
+
+/// The details of the impact of aggregated variables on the prediction score.
+///
+/// Account Takeover Insights (ATI) model uses the login data you provide to
+/// continuously calculate a set of variables (aggregated variables) based on
+/// historical events. For example, the model might calculate the number of
+/// times an user has logged in using the same IP address. In this case, event
+/// variables used to derive the aggregated variables are <code>IP
+/// address</code> and <code>user</code>.
+class AggregatedVariablesImpactExplanation {
+  /// The names of all the event variables that were used to derive the aggregated
+  /// variables.
+  final List<String>? eventVariableNames;
+
+  /// The raw, uninterpreted value represented as log-odds of the fraud. These
+  /// values are usually between -10 to +10, but range from -infinity to
+  /// +infinity.
+  ///
+  /// <ul>
+  /// <li>
+  /// A positive value indicates that the variables drove the risk score up.
+  /// </li>
+  /// <li>
+  /// A negative value indicates that the variables drove the risk score down.
+  /// </li>
+  /// </ul>
+  final double? logOddsImpact;
+
+  /// The relative impact of the aggregated variables in terms of magnitude on the
+  /// prediction scores.
+  final String? relativeImpact;
+
+  AggregatedVariablesImpactExplanation({
+    this.eventVariableNames,
+    this.logOddsImpact,
+    this.relativeImpact,
+  });
+
+  factory AggregatedVariablesImpactExplanation.fromJson(
+      Map<String, dynamic> json) {
+    return AggregatedVariablesImpactExplanation(
+      eventVariableNames: (json['eventVariableNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      logOddsImpact: json['logOddsImpact'] as double?,
+      relativeImpact: json['relativeImpact'] as String?,
+    );
+  }
+}
+
+/// The details of the relative importance of the aggregated variables.
+///
+/// Account Takeover Insights (ATI) model uses event variables from the login
+/// data you provide to continuously calculate a set of variables (aggregated
+/// variables) based on historical events. For example, your ATI model might
+/// calculate the number of times an user has logged in using the same IP
+/// address. In this case, event variables used to derive the aggregated
+/// variables are <code>IP address</code> and <code>user</code>.
+class AggregatedVariablesImportanceMetrics {
+  /// List of variables' metrics.
+  final List<AggregatedLogOddsMetric>? logOddsMetrics;
+
+  AggregatedVariablesImportanceMetrics({
+    this.logOddsMetrics,
+  });
+
+  factory AggregatedVariablesImportanceMetrics.fromJson(
+      Map<String, dynamic> json) {
+    return AggregatedVariablesImportanceMetrics(
+      logOddsMetrics: (json['logOddsMetrics'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AggregatedLogOddsMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// The metadata of a list.
+class AllowDenyList {
+  /// The name of the list.
+  final String name;
+
+  /// The ARN of the list.
+  final String? arn;
+
+  /// The time the list was created.
+  final String? createdTime;
+
+  /// The description of the list.
+  final String? description;
+
+  /// The time the list was last updated.
+  final String? updatedTime;
+
+  /// The variable type of the list.
+  final String? variableType;
+
+  AllowDenyList({
+    required this.name,
+    this.arn,
+    this.createdTime,
+    this.description,
+    this.updatedTime,
+    this.variableType,
+  });
+
+  factory AllowDenyList.fromJson(Map<String, dynamic> json) {
+    return AllowDenyList(
+      name: json['name'] as String,
+      arn: json['arn'] as String?,
+      createdTime: json['createdTime'] as String?,
+      description: json['description'] as String?,
+      updatedTime: json['updatedTime'] as String?,
+      variableType: json['variableType'] as String?,
+    );
+  }
+}
+
+enum AsyncJobStatus {
+  inProgressInitializing,
+  inProgress,
+  cancelInProgress,
+  canceled,
+  complete,
+  failed,
+}
+
+extension AsyncJobStatusValueExtension on AsyncJobStatus {
+  String toValue() {
+    switch (this) {
+      case AsyncJobStatus.inProgressInitializing:
+        return 'IN_PROGRESS_INITIALIZING';
+      case AsyncJobStatus.inProgress:
+        return 'IN_PROGRESS';
+      case AsyncJobStatus.cancelInProgress:
+        return 'CANCEL_IN_PROGRESS';
+      case AsyncJobStatus.canceled:
+        return 'CANCELED';
+      case AsyncJobStatus.complete:
+        return 'COMPLETE';
+      case AsyncJobStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension AsyncJobStatusFromString on String {
+  AsyncJobStatus toAsyncJobStatus() {
+    switch (this) {
+      case 'IN_PROGRESS_INITIALIZING':
+        return AsyncJobStatus.inProgressInitializing;
+      case 'IN_PROGRESS':
+        return AsyncJobStatus.inProgress;
+      case 'CANCEL_IN_PROGRESS':
+        return AsyncJobStatus.cancelInProgress;
+      case 'CANCELED':
+        return AsyncJobStatus.canceled;
+      case 'COMPLETE':
+        return AsyncJobStatus.complete;
+      case 'FAILED':
+        return AsyncJobStatus.failed;
+    }
+    throw Exception('$this is not known in enum AsyncJobStatus');
+  }
+}
+
 /// Provides the error of the batch create variable API.
 class BatchCreateVariableError {
   /// The error code.
@@ -2517,6 +3890,7 @@ class BatchCreateVariableError {
     this.message,
     this.name,
   });
+
   factory BatchCreateVariableError.fromJson(Map<String, dynamic> json) {
     return BatchCreateVariableError(
       code: json['code'] as int?,
@@ -2533,6 +3907,7 @@ class BatchCreateVariableResult {
   BatchCreateVariableResult({
     this.errors,
   });
+
   factory BatchCreateVariableResult.fromJson(Map<String, dynamic> json) {
     return BatchCreateVariableResult(
       errors: (json['errors'] as List?)
@@ -2560,6 +3935,7 @@ class BatchGetVariableError {
     this.message,
     this.name,
   });
+
   factory BatchGetVariableError.fromJson(Map<String, dynamic> json) {
     return BatchGetVariableError(
       code: json['code'] as int?,
@@ -2580,6 +3956,7 @@ class BatchGetVariableResult {
     this.errors,
     this.variables,
   });
+
   factory BatchGetVariableResult.fromJson(Map<String, dynamic> json) {
     return BatchGetVariableResult(
       errors: (json['errors'] as List?)
@@ -2591,6 +3968,201 @@ class BatchGetVariableResult {
           .map((e) => Variable.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+  }
+}
+
+/// The batch import job details.
+class BatchImport {
+  /// The ARN of the batch import job.
+  final String? arn;
+
+  /// Timestamp of when batch import job completed.
+  final String? completionTime;
+
+  /// The name of the event type.
+  final String? eventTypeName;
+
+  /// The number of records that failed to import.
+  final int? failedRecordsCount;
+
+  /// The reason batch import job failed.
+  final String? failureReason;
+
+  /// The ARN of the IAM role to use for this job request.
+  final String? iamRoleArn;
+
+  /// The Amazon S3 location of your data file for batch import.
+  final String? inputPath;
+
+  /// The ID of the batch import job.
+  final String? jobId;
+
+  /// The Amazon S3 location of your output file.
+  final String? outputPath;
+
+  /// The number of records processed by batch import job.
+  final int? processedRecordsCount;
+
+  /// Timestamp of when the batch import job started.
+  final String? startTime;
+
+  /// The status of the batch import job.
+  final AsyncJobStatus? status;
+
+  /// The total number of records in the batch import job.
+  final int? totalRecordsCount;
+
+  BatchImport({
+    this.arn,
+    this.completionTime,
+    this.eventTypeName,
+    this.failedRecordsCount,
+    this.failureReason,
+    this.iamRoleArn,
+    this.inputPath,
+    this.jobId,
+    this.outputPath,
+    this.processedRecordsCount,
+    this.startTime,
+    this.status,
+    this.totalRecordsCount,
+  });
+
+  factory BatchImport.fromJson(Map<String, dynamic> json) {
+    return BatchImport(
+      arn: json['arn'] as String?,
+      completionTime: json['completionTime'] as String?,
+      eventTypeName: json['eventTypeName'] as String?,
+      failedRecordsCount: json['failedRecordsCount'] as int?,
+      failureReason: json['failureReason'] as String?,
+      iamRoleArn: json['iamRoleArn'] as String?,
+      inputPath: json['inputPath'] as String?,
+      jobId: json['jobId'] as String?,
+      outputPath: json['outputPath'] as String?,
+      processedRecordsCount: json['processedRecordsCount'] as int?,
+      startTime: json['startTime'] as String?,
+      status: (json['status'] as String?)?.toAsyncJobStatus(),
+      totalRecordsCount: json['totalRecordsCount'] as int?,
+    );
+  }
+}
+
+/// The batch prediction details.
+class BatchPrediction {
+  /// The ARN of batch prediction job.
+  final String? arn;
+
+  /// Timestamp of when the batch prediction job completed.
+  final String? completionTime;
+
+  /// The name of the detector.
+  final String? detectorName;
+
+  /// The detector version.
+  final String? detectorVersion;
+
+  /// The name of the event type.
+  final String? eventTypeName;
+
+  /// The reason a batch prediction job failed.
+  final String? failureReason;
+
+  /// The ARN of the IAM role to use for this job request.
+  final String? iamRoleArn;
+
+  /// The Amazon S3 location of your training file.
+  final String? inputPath;
+
+  /// The job ID for the batch prediction.
+  final String? jobId;
+
+  /// Timestamp of most recent heartbeat indicating the batch prediction job was
+  /// making progress.
+  final String? lastHeartbeatTime;
+
+  /// The Amazon S3 location of your output file.
+  final String? outputPath;
+
+  /// The number of records processed by the batch prediction job.
+  final int? processedRecordsCount;
+
+  /// Timestamp of when the batch prediction job started.
+  final String? startTime;
+
+  /// The batch prediction status.
+  final AsyncJobStatus? status;
+
+  /// The total number of records in the batch prediction job.
+  final int? totalRecordsCount;
+
+  BatchPrediction({
+    this.arn,
+    this.completionTime,
+    this.detectorName,
+    this.detectorVersion,
+    this.eventTypeName,
+    this.failureReason,
+    this.iamRoleArn,
+    this.inputPath,
+    this.jobId,
+    this.lastHeartbeatTime,
+    this.outputPath,
+    this.processedRecordsCount,
+    this.startTime,
+    this.status,
+    this.totalRecordsCount,
+  });
+
+  factory BatchPrediction.fromJson(Map<String, dynamic> json) {
+    return BatchPrediction(
+      arn: json['arn'] as String?,
+      completionTime: json['completionTime'] as String?,
+      detectorName: json['detectorName'] as String?,
+      detectorVersion: json['detectorVersion'] as String?,
+      eventTypeName: json['eventTypeName'] as String?,
+      failureReason: json['failureReason'] as String?,
+      iamRoleArn: json['iamRoleArn'] as String?,
+      inputPath: json['inputPath'] as String?,
+      jobId: json['jobId'] as String?,
+      lastHeartbeatTime: json['lastHeartbeatTime'] as String?,
+      outputPath: json['outputPath'] as String?,
+      processedRecordsCount: json['processedRecordsCount'] as int?,
+      startTime: json['startTime'] as String?,
+      status: (json['status'] as String?)?.toAsyncJobStatus(),
+      totalRecordsCount: json['totalRecordsCount'] as int?,
+    );
+  }
+}
+
+class CancelBatchImportJobResult {
+  CancelBatchImportJobResult();
+
+  factory CancelBatchImportJobResult.fromJson(Map<String, dynamic> _) {
+    return CancelBatchImportJobResult();
+  }
+}
+
+class CancelBatchPredictionJobResult {
+  CancelBatchPredictionJobResult();
+
+  factory CancelBatchPredictionJobResult.fromJson(Map<String, dynamic> _) {
+    return CancelBatchPredictionJobResult();
+  }
+}
+
+class CreateBatchImportJobResult {
+  CreateBatchImportJobResult();
+
+  factory CreateBatchImportJobResult.fromJson(Map<String, dynamic> _) {
+    return CreateBatchImportJobResult();
+  }
+}
+
+class CreateBatchPredictionJobResult {
+  CreateBatchPredictionJobResult();
+
+  factory CreateBatchPredictionJobResult.fromJson(Map<String, dynamic> _) {
+    return CreateBatchPredictionJobResult();
   }
 }
 
@@ -2609,6 +4181,7 @@ class CreateDetectorVersionResult {
     this.detectorVersionId,
     this.status,
   });
+
   factory CreateDetectorVersionResult.fromJson(Map<String, dynamic> json) {
     return CreateDetectorVersionResult(
       detectorId: json['detectorId'] as String?,
@@ -2618,8 +4191,17 @@ class CreateDetectorVersionResult {
   }
 }
 
+class CreateListResult {
+  CreateListResult();
+
+  factory CreateListResult.fromJson(Map<String, dynamic> _) {
+    return CreateListResult();
+  }
+}
+
 class CreateModelResult {
   CreateModelResult();
+
   factory CreateModelResult.fromJson(Map<String, dynamic> _) {
     return CreateModelResult();
   }
@@ -2644,6 +4226,7 @@ class CreateModelVersionResult {
     this.modelVersionNumber,
     this.status,
   });
+
   factory CreateModelVersionResult.fromJson(Map<String, dynamic> json) {
     return CreateModelVersionResult(
       modelId: json['modelId'] as String?,
@@ -2661,6 +4244,7 @@ class CreateRuleResult {
   CreateRuleResult({
     this.rule,
   });
+
   factory CreateRuleResult.fromJson(Map<String, dynamic> json) {
     return CreateRuleResult(
       rule: json['rule'] != null
@@ -2672,6 +4256,7 @@ class CreateRuleResult {
 
 class CreateVariableResult {
   CreateVariableResult();
+
   factory CreateVariableResult.fromJson(Map<String, dynamic> _) {
     return CreateVariableResult();
   }
@@ -2748,18 +4333,19 @@ extension DataTypeFromString on String {
   }
 }
 
-/// The model training validation messages.
+/// The model training data validation metrics.
 class DataValidationMetrics {
   /// The field-specific model training validation messages.
   final List<FieldValidationMessage>? fieldLevelMessages;
 
-  /// The file-specific model training validation messages.
+  /// The file-specific model training data validation messages.
   final List<FileValidationMessage>? fileLevelMessages;
 
   DataValidationMetrics({
     this.fieldLevelMessages,
     this.fileLevelMessages,
   });
+
   factory DataValidationMetrics.fromJson(Map<String, dynamic> json) {
     return DataValidationMetrics(
       fieldLevelMessages: (json['fieldLevelMessages'] as List?)
@@ -2775,8 +4361,25 @@ class DataValidationMetrics {
   }
 }
 
+class DeleteBatchImportJobResult {
+  DeleteBatchImportJobResult();
+
+  factory DeleteBatchImportJobResult.fromJson(Map<String, dynamic> _) {
+    return DeleteBatchImportJobResult();
+  }
+}
+
+class DeleteBatchPredictionJobResult {
+  DeleteBatchPredictionJobResult();
+
+  factory DeleteBatchPredictionJobResult.fromJson(Map<String, dynamic> _) {
+    return DeleteBatchPredictionJobResult();
+  }
+}
+
 class DeleteDetectorResult {
   DeleteDetectorResult();
+
   factory DeleteDetectorResult.fromJson(Map<String, dynamic> _) {
     return DeleteDetectorResult();
   }
@@ -2784,6 +4387,7 @@ class DeleteDetectorResult {
 
 class DeleteDetectorVersionResult {
   DeleteDetectorVersionResult();
+
   factory DeleteDetectorVersionResult.fromJson(Map<String, dynamic> _) {
     return DeleteDetectorVersionResult();
   }
@@ -2791,6 +4395,7 @@ class DeleteDetectorVersionResult {
 
 class DeleteEntityTypeResult {
   DeleteEntityTypeResult();
+
   factory DeleteEntityTypeResult.fromJson(Map<String, dynamic> _) {
     return DeleteEntityTypeResult();
   }
@@ -2798,6 +4403,7 @@ class DeleteEntityTypeResult {
 
 class DeleteEventResult {
   DeleteEventResult();
+
   factory DeleteEventResult.fromJson(Map<String, dynamic> _) {
     return DeleteEventResult();
   }
@@ -2805,13 +4411,35 @@ class DeleteEventResult {
 
 class DeleteEventTypeResult {
   DeleteEventTypeResult();
+
   factory DeleteEventTypeResult.fromJson(Map<String, dynamic> _) {
     return DeleteEventTypeResult();
   }
 }
 
+class DeleteEventsByEventTypeResult {
+  /// Name of event type for which to delete the events.
+  final String? eventTypeName;
+
+  /// The status of the delete request.
+  final String? eventsDeletionStatus;
+
+  DeleteEventsByEventTypeResult({
+    this.eventTypeName,
+    this.eventsDeletionStatus,
+  });
+
+  factory DeleteEventsByEventTypeResult.fromJson(Map<String, dynamic> json) {
+    return DeleteEventsByEventTypeResult(
+      eventTypeName: json['eventTypeName'] as String?,
+      eventsDeletionStatus: json['eventsDeletionStatus'] as String?,
+    );
+  }
+}
+
 class DeleteExternalModelResult {
   DeleteExternalModelResult();
+
   factory DeleteExternalModelResult.fromJson(Map<String, dynamic> _) {
     return DeleteExternalModelResult();
   }
@@ -2819,13 +4447,23 @@ class DeleteExternalModelResult {
 
 class DeleteLabelResult {
   DeleteLabelResult();
+
   factory DeleteLabelResult.fromJson(Map<String, dynamic> _) {
     return DeleteLabelResult();
   }
 }
 
+class DeleteListResult {
+  DeleteListResult();
+
+  factory DeleteListResult.fromJson(Map<String, dynamic> _) {
+    return DeleteListResult();
+  }
+}
+
 class DeleteModelResult {
   DeleteModelResult();
+
   factory DeleteModelResult.fromJson(Map<String, dynamic> _) {
     return DeleteModelResult();
   }
@@ -2833,6 +4471,7 @@ class DeleteModelResult {
 
 class DeleteModelVersionResult {
   DeleteModelVersionResult();
+
   factory DeleteModelVersionResult.fromJson(Map<String, dynamic> _) {
     return DeleteModelVersionResult();
   }
@@ -2840,6 +4479,7 @@ class DeleteModelVersionResult {
 
 class DeleteOutcomeResult {
   DeleteOutcomeResult();
+
   factory DeleteOutcomeResult.fromJson(Map<String, dynamic> _) {
     return DeleteOutcomeResult();
   }
@@ -2847,6 +4487,7 @@ class DeleteOutcomeResult {
 
 class DeleteRuleResult {
   DeleteRuleResult();
+
   factory DeleteRuleResult.fromJson(Map<String, dynamic> _) {
     return DeleteRuleResult();
   }
@@ -2854,6 +4495,7 @@ class DeleteRuleResult {
 
 class DeleteVariableResult {
   DeleteVariableResult();
+
   factory DeleteVariableResult.fromJson(Map<String, dynamic> _) {
     return DeleteVariableResult();
   }
@@ -2878,6 +4520,7 @@ class DescribeDetectorResult {
     this.detectorVersionSummaries,
     this.nextToken,
   });
+
   factory DescribeDetectorResult.fromJson(Map<String, dynamic> json) {
     return DescribeDetectorResult(
       arn: json['arn'] as String?,
@@ -2903,6 +4546,7 @@ class DescribeModelVersionsResult {
     this.modelVersionDetails,
     this.nextToken,
   });
+
   factory DescribeModelVersionsResult.fromJson(Map<String, dynamic> json) {
     return DescribeModelVersionsResult(
       modelVersionDetails: (json['modelVersionDetails'] as List?)
@@ -2942,6 +4586,7 @@ class Detector {
     this.eventTypeName,
     this.lastUpdatedTime,
   });
+
   factory Detector.fromJson(Map<String, dynamic> json) {
     return Detector(
       arn: json['arn'] as String?,
@@ -3007,6 +4652,7 @@ class DetectorVersionSummary {
     this.lastUpdatedTime,
     this.status,
   });
+
   factory DetectorVersionSummary.fromJson(Map<String, dynamic> json) {
     return DetectorVersionSummary(
       description: json['description'] as String?,
@@ -3030,6 +4676,14 @@ class Entity {
     required this.entityId,
     required this.entityType,
   });
+
+  factory Entity.fromJson(Map<String, dynamic> json) {
+    return Entity(
+      entityId: json['entityId'] as String,
+      entityType: json['entityType'] as String,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     final entityId = this.entityId;
     final entityType = this.entityType;
@@ -3064,6 +4718,7 @@ class EntityType {
     this.lastUpdatedTime,
     this.name,
   });
+
   factory EntityType.fromJson(Map<String, dynamic> json) {
     return EntityType(
       arn: json['arn'] as String?,
@@ -3071,6 +4726,250 @@ class EntityType {
       description: json['description'] as String?,
       lastUpdatedTime: json['lastUpdatedTime'] as String?,
       name: json['name'] as String?,
+    );
+  }
+}
+
+/// The details of the external (Amazon Sagemaker) model evaluated for
+/// generating predictions.
+class EvaluatedExternalModel {
+  /// Input variables use for generating predictions.
+  final Map<String, String>? inputVariables;
+
+  /// The endpoint of the external (Amazon Sagemaker) model.
+  final String? modelEndpoint;
+
+  /// Output variables.
+  final Map<String, String>? outputVariables;
+
+  /// Indicates whether event variables were used to generate predictions.
+  final bool? useEventVariables;
+
+  EvaluatedExternalModel({
+    this.inputVariables,
+    this.modelEndpoint,
+    this.outputVariables,
+    this.useEventVariables,
+  });
+
+  factory EvaluatedExternalModel.fromJson(Map<String, dynamic> json) {
+    return EvaluatedExternalModel(
+      inputVariables: (json['inputVariables'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      modelEndpoint: json['modelEndpoint'] as String?,
+      outputVariables: (json['outputVariables'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      useEventVariables: json['useEventVariables'] as bool?,
+    );
+  }
+}
+
+/// The model version evaluated for generating prediction.
+class EvaluatedModelVersion {
+  /// Evaluations generated for the model version.
+  final List<ModelVersionEvaluation>? evaluations;
+
+  /// The model ID.
+  final String? modelId;
+
+  /// The model type.
+  ///
+  /// Valid values: <code>ONLINE_FRAUD_INSIGHTS</code> |
+  /// <code>TRANSACTION_FRAUD_INSIGHTS</code>
+  final String? modelType;
+
+  /// The model version.
+  final String? modelVersion;
+
+  EvaluatedModelVersion({
+    this.evaluations,
+    this.modelId,
+    this.modelType,
+    this.modelVersion,
+  });
+
+  factory EvaluatedModelVersion.fromJson(Map<String, dynamic> json) {
+    return EvaluatedModelVersion(
+      evaluations: (json['evaluations'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => ModelVersionEvaluation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      modelId: json['modelId'] as String?,
+      modelType: json['modelType'] as String?,
+      modelVersion: json['modelVersion'] as String?,
+    );
+  }
+}
+
+/// The details of the rule used for evaluating variable values.
+class EvaluatedRule {
+  /// Indicates whether the rule was evaluated.
+  final bool? evaluated;
+
+  /// The rule expression.
+  final String? expression;
+
+  /// The rule expression value.
+  final String? expressionWithValues;
+
+  /// Indicates whether the rule matched.
+  final bool? matched;
+
+  /// The rule outcome.
+  final List<String>? outcomes;
+
+  /// The rule ID.
+  final String? ruleId;
+
+  /// The rule version.
+  final String? ruleVersion;
+
+  EvaluatedRule({
+    this.evaluated,
+    this.expression,
+    this.expressionWithValues,
+    this.matched,
+    this.outcomes,
+    this.ruleId,
+    this.ruleVersion,
+  });
+
+  factory EvaluatedRule.fromJson(Map<String, dynamic> json) {
+    return EvaluatedRule(
+      evaluated: json['evaluated'] as bool?,
+      expression: json['expression'] as String?,
+      expressionWithValues: json['expressionWithValues'] as String?,
+      matched: json['matched'] as bool?,
+      outcomes: (json['outcomes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      ruleId: json['ruleId'] as String?,
+      ruleVersion: json['ruleVersion'] as String?,
+    );
+  }
+}
+
+/// The event details.
+class Event {
+  /// The label associated with the event.
+  final String? currentLabel;
+
+  /// The event entities.
+  final List<Entity>? entities;
+
+  /// The event ID.
+  final String? eventId;
+
+  /// The timestamp that defines when the event under evaluation occurred. The
+  /// timestamp must be specified using ISO 8601 standard in UTC.
+  final String? eventTimestamp;
+
+  /// The event type.
+  final String? eventTypeName;
+
+  /// Names of the event type's variables you defined in Amazon Fraud Detector to
+  /// represent data elements and their corresponding values for the event you are
+  /// sending for evaluation.
+  final Map<String, String>? eventVariables;
+
+  /// The timestamp associated with the label to update. The timestamp must be
+  /// specified using ISO 8601 standard in UTC.
+  final String? labelTimestamp;
+
+  Event({
+    this.currentLabel,
+    this.entities,
+    this.eventId,
+    this.eventTimestamp,
+    this.eventTypeName,
+    this.eventVariables,
+    this.labelTimestamp,
+  });
+
+  factory Event.fromJson(Map<String, dynamic> json) {
+    return Event(
+      currentLabel: json['currentLabel'] as String?,
+      entities: (json['entities'] as List?)
+          ?.whereNotNull()
+          .map((e) => Entity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      eventId: json['eventId'] as String?,
+      eventTimestamp: json['eventTimestamp'] as String?,
+      eventTypeName: json['eventTypeName'] as String?,
+      eventVariables: (json['eventVariables'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      labelTimestamp: json['labelTimestamp'] as String?,
+    );
+  }
+}
+
+enum EventIngestion {
+  enabled,
+  disabled,
+}
+
+extension EventIngestionValueExtension on EventIngestion {
+  String toValue() {
+    switch (this) {
+      case EventIngestion.enabled:
+        return 'ENABLED';
+      case EventIngestion.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension EventIngestionFromString on String {
+  EventIngestion toEventIngestion() {
+    switch (this) {
+      case 'ENABLED':
+        return EventIngestion.enabled;
+      case 'DISABLED':
+        return EventIngestion.disabled;
+    }
+    throw Exception('$this is not known in enum EventIngestion');
+  }
+}
+
+/// Information about the summary of an event prediction.
+class EventPredictionSummary {
+  /// The detector ID.
+  final String? detectorId;
+
+  /// The detector version ID.
+  final String? detectorVersionId;
+
+  /// The event ID.
+  final String? eventId;
+
+  /// The timestamp of the event.
+  final String? eventTimestamp;
+
+  /// The event type.
+  final String? eventTypeName;
+
+  /// The timestamp when the prediction was generated.
+  final String? predictionTimestamp;
+
+  EventPredictionSummary({
+    this.detectorId,
+    this.detectorVersionId,
+    this.eventId,
+    this.eventTimestamp,
+    this.eventTypeName,
+    this.predictionTimestamp,
+  });
+
+  factory EventPredictionSummary.fromJson(Map<String, dynamic> json) {
+    return EventPredictionSummary(
+      detectorId: json['detectorId'] as String?,
+      detectorVersionId: json['detectorVersionId'] as String?,
+      eventId: json['eventId'] as String?,
+      eventTimestamp: json['eventTimestamp'] as String?,
+      eventTypeName: json['eventTypeName'] as String?,
+      predictionTimestamp: json['predictionTimestamp'] as String?,
     );
   }
 }
@@ -3089,8 +4988,18 @@ class EventType {
   /// The event type entity types.
   final List<String>? entityTypes;
 
+  /// If <code>Enabled</code>, Amazon Fraud Detector stores event data when you
+  /// generate a prediction and uses that data to update calculated variables in
+  /// near real-time. Amazon Fraud Detector uses this data, known as
+  /// <code>INGESTED_EVENTS</code>, to train your model and improve fraud
+  /// predictions.
+  final EventIngestion? eventIngestion;
+
   /// The event type event variables.
   final List<String>? eventVariables;
+
+  /// Data about the stored events.
+  final IngestedEventStatistics? ingestedEventStatistics;
 
   /// The event type labels.
   final List<String>? labels;
@@ -3106,11 +5015,14 @@ class EventType {
     this.createdTime,
     this.description,
     this.entityTypes,
+    this.eventIngestion,
     this.eventVariables,
+    this.ingestedEventStatistics,
     this.labels,
     this.lastUpdatedTime,
     this.name,
   });
+
   factory EventType.fromJson(Map<String, dynamic> json) {
     return EventType(
       arn: json['arn'] as String?,
@@ -3120,16 +5032,48 @@ class EventType {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      eventIngestion: (json['eventIngestion'] as String?)?.toEventIngestion(),
       eventVariables: (json['eventVariables'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      ingestedEventStatistics: json['ingestedEventStatistics'] != null
+          ? IngestedEventStatistics.fromJson(
+              json['ingestedEventStatistics'] as Map<String, dynamic>)
+          : null,
       labels: (json['labels'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
       lastUpdatedTime: json['lastUpdatedTime'] as String?,
       name: json['name'] as String?,
+    );
+  }
+}
+
+/// Information about the summary of an event variable that was evaluated for
+/// generating prediction.
+class EventVariableSummary {
+  /// The event variable name.
+  final String? name;
+
+  /// The event variable source.
+  final String? source;
+
+  /// The value of the event variable.
+  final String? value;
+
+  EventVariableSummary({
+    this.name,
+    this.source,
+    this.value,
+  });
+
+  factory EventVariableSummary.fromJson(Map<String, dynamic> json) {
+    return EventVariableSummary(
+      name: json['name'] as String?,
+      source: json['source'] as String?,
+      value: json['value'] as String?,
     );
   }
 }
@@ -3147,6 +5091,7 @@ class ExternalEventsDetail {
     required this.dataAccessRoleArn,
     required this.dataLocation,
   });
+
   factory ExternalEventsDetail.fromJson(Map<String, dynamic> json) {
     return ExternalEventsDetail(
       dataAccessRoleArn: json['dataAccessRoleArn'] as String,
@@ -3204,6 +5149,7 @@ class ExternalModel {
     this.modelSource,
     this.outputConfiguration,
   });
+
   factory ExternalModel.fromJson(Map<String, dynamic> json) {
     return ExternalModel(
       arn: json['arn'] as String?,
@@ -3222,6 +5168,52 @@ class ExternalModel {
           ? ModelOutputConfiguration.fromJson(
               json['outputConfiguration'] as Map<String, dynamic>)
           : null,
+    );
+  }
+}
+
+/// The fraud prediction scores from Amazon SageMaker model.
+class ExternalModelOutputs {
+  /// The Amazon SageMaker model.
+  final ExternalModelSummary? externalModel;
+
+  /// The fraud prediction scores from Amazon SageMaker model.
+  final Map<String, String>? outputs;
+
+  ExternalModelOutputs({
+    this.externalModel,
+    this.outputs,
+  });
+
+  factory ExternalModelOutputs.fromJson(Map<String, dynamic> json) {
+    return ExternalModelOutputs(
+      externalModel: json['externalModel'] != null
+          ? ExternalModelSummary.fromJson(
+              json['externalModel'] as Map<String, dynamic>)
+          : null,
+      outputs: (json['outputs'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+}
+
+/// The Amazon SageMaker model.
+class ExternalModelSummary {
+  /// The endpoint of the Amazon SageMaker model.
+  final String? modelEndpoint;
+
+  /// The source of the model.
+  final ModelSource? modelSource;
+
+  ExternalModelSummary({
+    this.modelEndpoint,
+    this.modelSource,
+  });
+
+  factory ExternalModelSummary.fromJson(Map<String, dynamic> json) {
+    return ExternalModelSummary(
+      modelEndpoint: json['modelEndpoint'] as String?,
+      modelSource: (json['modelSource'] as String?)?.toModelSource(),
     );
   }
 }
@@ -3250,6 +5242,7 @@ class FieldValidationMessage {
     this.title,
     this.type,
   });
+
   factory FieldValidationMessage.fromJson(Map<String, dynamic> json) {
     return FieldValidationMessage(
       content: json['content'] as String?,
@@ -3277,11 +5270,97 @@ class FileValidationMessage {
     this.title,
     this.type,
   });
+
   factory FileValidationMessage.fromJson(Map<String, dynamic> json) {
     return FileValidationMessage(
       content: json['content'] as String?,
       title: json['title'] as String?,
       type: json['type'] as String?,
+    );
+  }
+}
+
+/// A conditional statement for filtering a list of past predictions.
+class FilterCondition {
+  /// A statement containing a resource property and a value to specify filter
+  /// condition.
+  final String? value;
+
+  FilterCondition({
+    this.value,
+  });
+  Map<String, dynamic> toJson() {
+    final value = this.value;
+    return {
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+class GetBatchImportJobsResult {
+  /// An array containing the details of each batch import job.
+  final List<BatchImport>? batchImports;
+
+  /// The next token for the subsequent resquest.
+  final String? nextToken;
+
+  GetBatchImportJobsResult({
+    this.batchImports,
+    this.nextToken,
+  });
+
+  factory GetBatchImportJobsResult.fromJson(Map<String, dynamic> json) {
+    return GetBatchImportJobsResult(
+      batchImports: (json['batchImports'] as List?)
+          ?.whereNotNull()
+          .map((e) => BatchImport.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+}
+
+class GetBatchPredictionJobsResult {
+  /// An array containing the details of each batch prediction job.
+  final List<BatchPrediction>? batchPredictions;
+
+  /// The next token for the subsequent request.
+  final String? nextToken;
+
+  GetBatchPredictionJobsResult({
+    this.batchPredictions,
+    this.nextToken,
+  });
+
+  factory GetBatchPredictionJobsResult.fromJson(Map<String, dynamic> json) {
+    return GetBatchPredictionJobsResult(
+      batchPredictions: (json['batchPredictions'] as List?)
+          ?.whereNotNull()
+          .map((e) => BatchPrediction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+}
+
+class GetDeleteEventsByEventTypeStatusResult {
+  /// The event type name.
+  final String? eventTypeName;
+
+  /// The deletion status.
+  final AsyncJobStatus? eventsDeletionStatus;
+
+  GetDeleteEventsByEventTypeStatusResult({
+    this.eventTypeName,
+    this.eventsDeletionStatus,
+  });
+
+  factory GetDeleteEventsByEventTypeStatusResult.fromJson(
+      Map<String, dynamic> json) {
+    return GetDeleteEventsByEventTypeStatusResult(
+      eventTypeName: json['eventTypeName'] as String?,
+      eventsDeletionStatus:
+          (json['eventsDeletionStatus'] as String?)?.toAsyncJobStatus(),
     );
   }
 }
@@ -3342,6 +5421,7 @@ class GetDetectorVersionResult {
     this.rules,
     this.status,
   });
+
   factory GetDetectorVersionResult.fromJson(Map<String, dynamic> json) {
     return GetDetectorVersionResult(
       arn: json['arn'] as String?,
@@ -3380,6 +5460,7 @@ class GetDetectorsResult {
     this.detectors,
     this.nextToken,
   });
+
   factory GetDetectorsResult.fromJson(Map<String, dynamic> json) {
     return GetDetectorsResult(
       detectors: (json['detectors'] as List?)
@@ -3402,6 +5483,7 @@ class GetEntityTypesResult {
     this.entityTypes,
     this.nextToken,
   });
+
   factory GetEntityTypesResult.fromJson(Map<String, dynamic> json) {
     return GetEntityTypesResult(
       entityTypes: (json['entityTypes'] as List?)
@@ -3413,7 +5495,115 @@ class GetEntityTypesResult {
   }
 }
 
+class GetEventPredictionMetadataResult {
+  /// The detector ID.
+  final String? detectorId;
+
+  /// The detector version ID.
+  final String? detectorVersionId;
+
+  /// The status of the detector version.
+  final String? detectorVersionStatus;
+
+  /// The entity ID.
+  final String? entityId;
+
+  /// The entity type.
+  final String? entityType;
+
+  /// External (Amazon SageMaker) models that were evaluated for generating
+  /// predictions.
+  final List<EvaluatedExternalModel>? evaluatedExternalModels;
+
+  /// Model versions that were evaluated for generating predictions.
+  final List<EvaluatedModelVersion>? evaluatedModelVersions;
+
+  /// The event ID.
+  final String? eventId;
+
+  /// The timestamp for when the prediction was generated for the associated event
+  /// ID.
+  final String? eventTimestamp;
+
+  /// The event type associated with the detector specified for this prediction.
+  final String? eventTypeName;
+
+  /// A list of event variables that influenced the prediction scores.
+  final List<EventVariableSummary>? eventVariables;
+
+  /// The outcomes of the matched rule, based on the rule execution mode.
+  final List<String>? outcomes;
+
+  /// The timestamp that defines when the prediction was generated.
+  final String? predictionTimestamp;
+
+  /// The execution mode of the rule used for evaluating variable values.
+  final RuleExecutionMode? ruleExecutionMode;
+
+  /// List of rules associated with the detector version that were used for
+  /// evaluating variable values.
+  final List<EvaluatedRule>? rules;
+
+  GetEventPredictionMetadataResult({
+    this.detectorId,
+    this.detectorVersionId,
+    this.detectorVersionStatus,
+    this.entityId,
+    this.entityType,
+    this.evaluatedExternalModels,
+    this.evaluatedModelVersions,
+    this.eventId,
+    this.eventTimestamp,
+    this.eventTypeName,
+    this.eventVariables,
+    this.outcomes,
+    this.predictionTimestamp,
+    this.ruleExecutionMode,
+    this.rules,
+  });
+
+  factory GetEventPredictionMetadataResult.fromJson(Map<String, dynamic> json) {
+    return GetEventPredictionMetadataResult(
+      detectorId: json['detectorId'] as String?,
+      detectorVersionId: json['detectorVersionId'] as String?,
+      detectorVersionStatus: json['detectorVersionStatus'] as String?,
+      entityId: json['entityId'] as String?,
+      entityType: json['entityType'] as String?,
+      evaluatedExternalModels: (json['evaluatedExternalModels'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => EvaluatedExternalModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      evaluatedModelVersions: (json['evaluatedModelVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => EvaluatedModelVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      eventId: json['eventId'] as String?,
+      eventTimestamp: json['eventTimestamp'] as String?,
+      eventTypeName: json['eventTypeName'] as String?,
+      eventVariables: (json['eventVariables'] as List?)
+          ?.whereNotNull()
+          .map((e) => EventVariableSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      outcomes: (json['outcomes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      predictionTimestamp: json['predictionTimestamp'] as String?,
+      ruleExecutionMode:
+          (json['ruleExecutionMode'] as String?)?.toRuleExecutionMode(),
+      rules: (json['rules'] as List?)
+          ?.whereNotNull()
+          .map((e) => EvaluatedRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 class GetEventPredictionResult {
+  /// The model scores for Amazon SageMaker models.
+  final List<ExternalModelOutputs>? externalModelOutputs;
+
   /// The model scores. Amazon Fraud Detector generates model scores between 0 and
   /// 1000, where 0 is low fraud risk and 1000 is high fraud risk. Model scores
   /// are directly related to the false positive rate (FPR). For example, a score
@@ -3421,15 +5611,21 @@ class GetEventPredictionResult {
   /// of 900 corresponds to an estimated 2% false positive rate.
   final List<ModelScores>? modelScores;
 
-  /// The results.
+  /// The results from the rules.
   final List<RuleResult>? ruleResults;
 
   GetEventPredictionResult({
+    this.externalModelOutputs,
     this.modelScores,
     this.ruleResults,
   });
+
   factory GetEventPredictionResult.fromJson(Map<String, dynamic> json) {
     return GetEventPredictionResult(
+      externalModelOutputs: (json['externalModelOutputs'] as List?)
+          ?.whereNotNull()
+          .map((e) => ExternalModelOutputs.fromJson(e as Map<String, dynamic>))
+          .toList(),
       modelScores: (json['modelScores'] as List?)
           ?.whereNotNull()
           .map((e) => ModelScores.fromJson(e as Map<String, dynamic>))
@@ -3438,6 +5634,23 @@ class GetEventPredictionResult {
           ?.whereNotNull()
           .map((e) => RuleResult.fromJson(e as Map<String, dynamic>))
           .toList(),
+    );
+  }
+}
+
+class GetEventResult {
+  /// The details of the event.
+  final Event? event;
+
+  GetEventResult({
+    this.event,
+  });
+
+  factory GetEventResult.fromJson(Map<String, dynamic> json) {
+    return GetEventResult(
+      event: json['event'] != null
+          ? Event.fromJson(json['event'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -3453,6 +5666,7 @@ class GetEventTypesResult {
     this.eventTypes,
     this.nextToken,
   });
+
   factory GetEventTypesResult.fromJson(Map<String, dynamic> json) {
     return GetEventTypesResult(
       eventTypes: (json['eventTypes'] as List?)
@@ -3475,6 +5689,7 @@ class GetExternalModelsResult {
     this.externalModels,
     this.nextToken,
   });
+
   factory GetExternalModelsResult.fromJson(Map<String, dynamic> json) {
     return GetExternalModelsResult(
       externalModels: (json['externalModels'] as List?)
@@ -3493,6 +5708,7 @@ class GetKMSEncryptionKeyResult {
   GetKMSEncryptionKeyResult({
     this.kmsKey,
   });
+
   factory GetKMSEncryptionKeyResult.fromJson(Map<String, dynamic> json) {
     return GetKMSEncryptionKeyResult(
       kmsKey: json['kmsKey'] != null
@@ -3513,6 +5729,7 @@ class GetLabelsResult {
     this.labels,
     this.nextToken,
   });
+
   factory GetLabelsResult.fromJson(Map<String, dynamic> json) {
     return GetLabelsResult(
       labels: (json['labels'] as List?)
@@ -3524,12 +5741,65 @@ class GetLabelsResult {
   }
 }
 
+class GetListElementsResult {
+  /// The list elements.
+  final List<String>? elements;
+
+  /// The next page token.
+  final String? nextToken;
+
+  GetListElementsResult({
+    this.elements,
+    this.nextToken,
+  });
+
+  factory GetListElementsResult.fromJson(Map<String, dynamic> json) {
+    return GetListElementsResult(
+      elements: (json['elements'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+}
+
+class GetListsMetadataResult {
+  /// The metadata of the specified list or all lists under the account.
+  final List<AllowDenyList>? lists;
+
+  /// The next page token.
+  final String? nextToken;
+
+  GetListsMetadataResult({
+    this.lists,
+    this.nextToken,
+  });
+
+  factory GetListsMetadataResult.fromJson(Map<String, dynamic> json) {
+    return GetListsMetadataResult(
+      lists: (json['lists'] as List?)
+          ?.whereNotNull()
+          .map((e) => AllowDenyList.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+}
+
 class GetModelVersionResult {
   /// The model version ARN.
   final String? arn;
 
-  /// The event details.
+  /// The details of the external events data used for training the model version.
+  /// This will be populated if the <code>trainingDataSource</code> is
+  /// <code>EXTERNAL_EVENTS</code>
   final ExternalEventsDetail? externalEventsDetail;
+
+  /// The details of the ingested events data used for training the model version.
+  /// This will be populated if the <code>trainingDataSource</code> is
+  /// <code>INGESTED_EVENTS</code>.
+  final IngestedEventsDetail? ingestedEventsDetail;
 
   /// The model ID.
   final String? modelId;
@@ -3584,6 +5854,7 @@ class GetModelVersionResult {
   GetModelVersionResult({
     this.arn,
     this.externalEventsDetail,
+    this.ingestedEventsDetail,
     this.modelId,
     this.modelType,
     this.modelVersionNumber,
@@ -3591,12 +5862,17 @@ class GetModelVersionResult {
     this.trainingDataSchema,
     this.trainingDataSource,
   });
+
   factory GetModelVersionResult.fromJson(Map<String, dynamic> json) {
     return GetModelVersionResult(
       arn: json['arn'] as String?,
       externalEventsDetail: json['externalEventsDetail'] != null
           ? ExternalEventsDetail.fromJson(
               json['externalEventsDetail'] as Map<String, dynamic>)
+          : null,
+      ingestedEventsDetail: json['ingestedEventsDetail'] != null
+          ? IngestedEventsDetail.fromJson(
+              json['ingestedEventsDetail'] as Map<String, dynamic>)
           : null,
       modelId: json['modelId'] as String?,
       modelType: (json['modelType'] as String?)?.toModelTypeEnum(),
@@ -3623,6 +5899,7 @@ class GetModelsResult {
     this.models,
     this.nextToken,
   });
+
   factory GetModelsResult.fromJson(Map<String, dynamic> json) {
     return GetModelsResult(
       models: (json['models'] as List?)
@@ -3645,6 +5922,7 @@ class GetOutcomesResult {
     this.nextToken,
     this.outcomes,
   });
+
   factory GetOutcomesResult.fromJson(Map<String, dynamic> json) {
     return GetOutcomesResult(
       nextToken: json['nextToken'] as String?,
@@ -3667,6 +5945,7 @@ class GetRulesResult {
     this.nextToken,
     this.ruleDetails,
   });
+
   factory GetRulesResult.fromJson(Map<String, dynamic> json) {
     return GetRulesResult(
       nextToken: json['nextToken'] as String?,
@@ -3689,6 +5968,7 @@ class GetVariablesResult {
     this.nextToken,
     this.variables,
   });
+
   factory GetVariablesResult.fromJson(Map<String, dynamic> json) {
     return GetVariablesResult(
       nextToken: json['nextToken'] as String?,
@@ -3700,6 +5980,96 @@ class GetVariablesResult {
   }
 }
 
+/// Data about the stored events.
+class IngestedEventStatistics {
+  /// The total size of the stored events.
+  final int? eventDataSizeInBytes;
+
+  /// Timestamp of when the stored event was last updated.
+  final String? lastUpdatedTime;
+
+  /// The oldest stored event.
+  final String? leastRecentEvent;
+
+  /// The newest stored event.
+  final String? mostRecentEvent;
+
+  /// The number of stored events.
+  final int? numberOfEvents;
+
+  IngestedEventStatistics({
+    this.eventDataSizeInBytes,
+    this.lastUpdatedTime,
+    this.leastRecentEvent,
+    this.mostRecentEvent,
+    this.numberOfEvents,
+  });
+
+  factory IngestedEventStatistics.fromJson(Map<String, dynamic> json) {
+    return IngestedEventStatistics(
+      eventDataSizeInBytes: json['eventDataSizeInBytes'] as int?,
+      lastUpdatedTime: json['lastUpdatedTime'] as String?,
+      leastRecentEvent: json['leastRecentEvent'] as String?,
+      mostRecentEvent: json['mostRecentEvent'] as String?,
+      numberOfEvents: json['numberOfEvents'] as int?,
+    );
+  }
+}
+
+/// The details of the ingested event.
+class IngestedEventsDetail {
+  /// The start and stop time of the ingested events.
+  final IngestedEventsTimeWindow ingestedEventsTimeWindow;
+
+  IngestedEventsDetail({
+    required this.ingestedEventsTimeWindow,
+  });
+
+  factory IngestedEventsDetail.fromJson(Map<String, dynamic> json) {
+    return IngestedEventsDetail(
+      ingestedEventsTimeWindow: IngestedEventsTimeWindow.fromJson(
+          json['ingestedEventsTimeWindow'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ingestedEventsTimeWindow = this.ingestedEventsTimeWindow;
+    return {
+      'ingestedEventsTimeWindow': ingestedEventsTimeWindow,
+    };
+  }
+}
+
+/// The start and stop time of the ingested events.
+class IngestedEventsTimeWindow {
+  /// Timestamp of the final ingested event.
+  final String endTime;
+
+  /// Timestamp of the first ingensted event.
+  final String startTime;
+
+  IngestedEventsTimeWindow({
+    required this.endTime,
+    required this.startTime,
+  });
+
+  factory IngestedEventsTimeWindow.fromJson(Map<String, dynamic> json) {
+    return IngestedEventsTimeWindow(
+      endTime: json['endTime'] as String,
+      startTime: json['startTime'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      'endTime': endTime,
+      'startTime': startTime,
+    };
+  }
+}
+
 /// The KMS key details.
 class KMSKey {
   /// The encryption key ARN.
@@ -3708,6 +6078,7 @@ class KMSKey {
   KMSKey({
     this.kmsEncryptionKeyArn,
   });
+
   factory KMSKey.fromJson(Map<String, dynamic> json) {
     return KMSKey(
       kmsEncryptionKeyArn: json['kmsEncryptionKeyArn'] as String?,
@@ -3739,6 +6110,7 @@ class Label {
     this.lastUpdatedTime,
     this.name,
   });
+
   factory Label.fromJson(Map<String, dynamic> json) {
     return Label(
       arn: json['arn'] as String?,
@@ -3762,23 +6134,56 @@ class LabelSchema {
   /// <code>"LEGIT" =&gt; ["legit", "safe"]}</code>. The value part of the mapper
   /// is a list, because you may have multiple label variants from your event type
   /// for a single Amazon Fraud Detector label.
-  final Map<String, List<String>> labelMapper;
+  final Map<String, List<String>>? labelMapper;
+
+  /// The action to take for unlabeled events.
+  ///
+  /// <ul>
+  /// <li>
+  /// Use <code>IGNORE</code> if you want the unlabeled events to be ignored. This
+  /// is recommended when the majority of the events in the dataset are labeled.
+  /// </li>
+  /// <li>
+  /// Use <code>FRAUD</code> if you want to categorize all unlabeled events as
+  /// “Fraud”. This is recommended when most of the events in your dataset are
+  /// fraudulent.
+  /// </li>
+  /// <li>
+  /// Use <code>LEGIT</code> f you want to categorize all unlabeled events as
+  /// “Legit”. This is recommended when most of the events in your dataset are
+  /// legitimate.
+  /// </li>
+  /// <li>
+  /// Use <code>AUTO</code> if you want Amazon Fraud Detector to decide how to use
+  /// the unlabeled data. This is recommended when there is significant unlabeled
+  /// events in the dataset.
+  /// </li>
+  /// </ul>
+  /// By default, Amazon Fraud Detector ignores the unlabeled data.
+  final UnlabeledEventsTreatment? unlabeledEventsTreatment;
 
   LabelSchema({
-    required this.labelMapper,
+    this.labelMapper,
+    this.unlabeledEventsTreatment,
   });
+
   factory LabelSchema.fromJson(Map<String, dynamic> json) {
     return LabelSchema(
-      labelMapper: (json['labelMapper'] as Map<String, dynamic>).map((k, e) =>
+      labelMapper: (json['labelMapper'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(
               k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      unlabeledEventsTreatment: (json['unlabeledEventsTreatment'] as String?)
+          ?.toUnlabeledEventsTreatment(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final labelMapper = this.labelMapper;
+    final unlabeledEventsTreatment = this.unlabeledEventsTreatment;
     return {
-      'labelMapper': labelMapper,
+      if (labelMapper != null) 'labelMapper': labelMapper,
+      if (unlabeledEventsTreatment != null)
+        'unlabeledEventsTreatment': unlabeledEventsTreatment.toValue(),
     };
   }
 }
@@ -3806,6 +6211,32 @@ extension LanguageFromString on String {
   }
 }
 
+class ListEventPredictionsResult {
+  /// The summary of the past predictions.
+  final List<EventPredictionSummary>? eventPredictionSummaries;
+
+  /// Identifies the next page of results to return. Use the token to make the
+  /// call again to retrieve the next page. Keep all other arguments unchanged.
+  /// Each pagination token expires after 24 hours.
+  final String? nextToken;
+
+  ListEventPredictionsResult({
+    this.eventPredictionSummaries,
+    this.nextToken,
+  });
+
+  factory ListEventPredictionsResult.fromJson(Map<String, dynamic> json) {
+    return ListEventPredictionsResult(
+      eventPredictionSummaries: (json['eventPredictionSummaries'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => EventPredictionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+}
+
 class ListTagsForResourceResult {
   /// The next token for subsequent requests.
   final String? nextToken;
@@ -3817,6 +6248,7 @@ class ListTagsForResourceResult {
     this.nextToken,
     this.tags,
   });
+
   factory ListTagsForResourceResult.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResult(
       nextToken: json['nextToken'] as String?,
@@ -3824,6 +6256,67 @@ class ListTagsForResourceResult {
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
+    );
+  }
+}
+
+enum ListUpdateMode {
+  replace,
+  append,
+  remove,
+}
+
+extension ListUpdateModeValueExtension on ListUpdateMode {
+  String toValue() {
+    switch (this) {
+      case ListUpdateMode.replace:
+        return 'REPLACE';
+      case ListUpdateMode.append:
+        return 'APPEND';
+      case ListUpdateMode.remove:
+        return 'REMOVE';
+    }
+  }
+}
+
+extension ListUpdateModeFromString on String {
+  ListUpdateMode toListUpdateMode() {
+    switch (this) {
+      case 'REPLACE':
+        return ListUpdateMode.replace;
+      case 'APPEND':
+        return ListUpdateMode.append;
+      case 'REMOVE':
+        return ListUpdateMode.remove;
+    }
+    throw Exception('$this is not known in enum ListUpdateMode');
+  }
+}
+
+/// The log odds metric details.
+class LogOddsMetric {
+  /// The relative importance of the variable. For more information, see <a
+  /// href="https://docs.aws.amazon.com/frauddetector/latest/ug/model-variable-importance.html">Model
+  /// variable importance</a>.
+  final double variableImportance;
+
+  /// The name of the variable.
+  final String variableName;
+
+  /// The type of variable.
+  final String variableType;
+
+  LogOddsMetric({
+    required this.variableImportance,
+    required this.variableName,
+    required this.variableType,
+  });
+
+  factory LogOddsMetric.fromJson(Map<String, dynamic> json) {
+    return LogOddsMetric(
+      variableImportance: json['variableImportance'] as double,
+      variableName: json['variableName'] as String,
+      variableType: json['variableType'] as String,
     );
   }
 }
@@ -3853,6 +6346,7 @@ class MetricDataPoint {
     this.threshold,
     this.tpr,
   });
+
   factory MetricDataPoint.fromJson(Map<String, dynamic> json) {
     return MetricDataPoint(
       fpr: json['fpr'] as double?,
@@ -3895,6 +6389,7 @@ class Model {
     this.modelId,
     this.modelType,
   });
+
   factory Model.fromJson(Map<String, dynamic> json) {
     return Model(
       arn: json['arn'] as String?,
@@ -3990,6 +6485,7 @@ class ModelInputConfiguration {
     this.format,
     this.jsonInputTemplate,
   });
+
   factory ModelInputConfiguration.fromJson(Map<String, dynamic> json) {
     return ModelInputConfiguration(
       useEventVariables: json['useEventVariables'] as bool,
@@ -4062,6 +6558,7 @@ class ModelOutputConfiguration {
     this.csvIndexToVariableMap,
     this.jsonKeyToVariableMap,
   });
+
   factory ModelOutputConfiguration.fromJson(Map<String, dynamic> json) {
     return ModelOutputConfiguration(
       format: (json['format'] as String).toModelOutputDataFormat(),
@@ -4128,6 +6625,7 @@ class ModelScores {
     this.modelVersion,
     this.scores,
   });
+
   factory ModelScores.fromJson(Map<String, dynamic> json) {
     return ModelScores(
       modelVersion: json['modelVersion'] != null
@@ -4164,6 +6662,8 @@ extension ModelSourceFromString on String {
 
 enum ModelTypeEnum {
   onlineFraudInsights,
+  transactionFraudInsights,
+  accountTakeoverInsights,
 }
 
 extension ModelTypeEnumValueExtension on ModelTypeEnum {
@@ -4171,6 +6671,10 @@ extension ModelTypeEnumValueExtension on ModelTypeEnum {
     switch (this) {
       case ModelTypeEnum.onlineFraudInsights:
         return 'ONLINE_FRAUD_INSIGHTS';
+      case ModelTypeEnum.transactionFraudInsights:
+        return 'TRANSACTION_FRAUD_INSIGHTS';
+      case ModelTypeEnum.accountTakeoverInsights:
+        return 'ACCOUNT_TAKEOVER_INSIGHTS';
     }
   }
 }
@@ -4180,6 +6684,10 @@ extension ModelTypeEnumFromString on String {
     switch (this) {
       case 'ONLINE_FRAUD_INSIGHTS':
         return ModelTypeEnum.onlineFraudInsights;
+      case 'TRANSACTION_FRAUD_INSIGHTS':
+        return ModelTypeEnum.transactionFraudInsights;
+      case 'ACCOUNT_TAKEOVER_INSIGHTS':
+        return ModelTypeEnum.accountTakeoverInsights;
     }
     throw Exception('$this is not known in enum ModelTypeEnum');
   }
@@ -4205,6 +6713,7 @@ class ModelVersion {
     required this.modelVersionNumber,
     this.arn,
   });
+
   factory ModelVersion.fromJson(Map<String, dynamic> json) {
     return ModelVersion(
       modelId: json['modelId'] as String,
@@ -4236,8 +6745,15 @@ class ModelVersionDetail {
   /// The timestamp when the model was created.
   final String? createdTime;
 
-  /// The event details.
+  /// The external events data details. This will be populated if the
+  /// <code>trainingDataSource</code> for the model version is specified as
+  /// <code>EXTERNAL_EVENTS</code>.
   final ExternalEventsDetail? externalEventsDetail;
+
+  /// The ingested events data details. This will be populated if the
+  /// <code>trainingDataSource</code> for the model version is specified as
+  /// <code>INGESTED_EVENTS</code>.
+  final IngestedEventsDetail? ingestedEventsDetail;
 
   /// The timestamp when the model was last updated.
   final String? lastUpdatedTime;
@@ -4263,10 +6779,15 @@ class ModelVersionDetail {
   /// The training results.
   final TrainingResult? trainingResult;
 
+  /// The training result details. The details include the relative importance of
+  /// the variables.
+  final TrainingResultV2? trainingResultV2;
+
   ModelVersionDetail({
     this.arn,
     this.createdTime,
     this.externalEventsDetail,
+    this.ingestedEventsDetail,
     this.lastUpdatedTime,
     this.modelId,
     this.modelType,
@@ -4275,7 +6796,9 @@ class ModelVersionDetail {
     this.trainingDataSchema,
     this.trainingDataSource,
     this.trainingResult,
+    this.trainingResultV2,
   });
+
   factory ModelVersionDetail.fromJson(Map<String, dynamic> json) {
     return ModelVersionDetail(
       arn: json['arn'] as String?,
@@ -4283,6 +6806,10 @@ class ModelVersionDetail {
       externalEventsDetail: json['externalEventsDetail'] != null
           ? ExternalEventsDetail.fromJson(
               json['externalEventsDetail'] as Map<String, dynamic>)
+          : null,
+      ingestedEventsDetail: json['ingestedEventsDetail'] != null
+          ? IngestedEventsDetail.fromJson(
+              json['ingestedEventsDetail'] as Map<String, dynamic>)
           : null,
       lastUpdatedTime: json['lastUpdatedTime'] as String?,
       modelId: json['modelId'] as String?,
@@ -4299,6 +6826,39 @@ class ModelVersionDetail {
           ? TrainingResult.fromJson(
               json['trainingResult'] as Map<String, dynamic>)
           : null,
+      trainingResultV2: json['trainingResultV2'] != null
+          ? TrainingResultV2.fromJson(
+              json['trainingResultV2'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// The model version evalutions.
+class ModelVersionEvaluation {
+  /// The evaluation score generated for the model version.
+  final String? evaluationScore;
+
+  /// The output variable name.
+  final String? outputVariableName;
+
+  /// The prediction explanations generated for the model version.
+  final PredictionExplanations? predictionExplanations;
+
+  ModelVersionEvaluation({
+    this.evaluationScore,
+    this.outputVariableName,
+    this.predictionExplanations,
+  });
+
+  factory ModelVersionEvaluation.fromJson(Map<String, dynamic> json) {
+    return ModelVersionEvaluation(
+      evaluationScore: json['evaluationScore'] as String?,
+      outputVariableName: json['outputVariableName'] as String?,
+      predictionExplanations: json['predictionExplanations'] != null
+          ? PredictionExplanations.fromJson(
+              json['predictionExplanations'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -4306,6 +6866,7 @@ class ModelVersionDetail {
 enum ModelVersionStatus {
   active,
   inactive,
+  trainingCancelled,
 }
 
 extension ModelVersionStatusValueExtension on ModelVersionStatus {
@@ -4315,6 +6876,8 @@ extension ModelVersionStatusValueExtension on ModelVersionStatus {
         return 'ACTIVE';
       case ModelVersionStatus.inactive:
         return 'INACTIVE';
+      case ModelVersionStatus.trainingCancelled:
+        return 'TRAINING_CANCELLED';
     }
   }
 }
@@ -4326,8 +6889,100 @@ extension ModelVersionStatusFromString on String {
         return ModelVersionStatus.active;
       case 'INACTIVE':
         return ModelVersionStatus.inactive;
+      case 'TRAINING_CANCELLED':
+        return ModelVersionStatus.trainingCancelled;
     }
     throw Exception('$this is not known in enum ModelVersionStatus');
+  }
+}
+
+/// The Online Fraud Insights (OFI) model performance metrics data points.
+class OFIMetricDataPoint {
+  /// The false positive rate. This is the percentage of total legitimate events
+  /// that are incorrectly predicted as fraud.
+  final double? fpr;
+
+  /// The percentage of fraud events correctly predicted as fraudulent as compared
+  /// to all events predicted as fraudulent.
+  final double? precision;
+
+  /// The model threshold that specifies an acceptable fraud capture rate. For
+  /// example, a threshold of 500 means any model score 500 or above is labeled as
+  /// fraud.
+  final double? threshold;
+
+  /// The true positive rate. This is the percentage of total fraud the model
+  /// detects. Also known as capture rate.
+  final double? tpr;
+
+  OFIMetricDataPoint({
+    this.fpr,
+    this.precision,
+    this.threshold,
+    this.tpr,
+  });
+
+  factory OFIMetricDataPoint.fromJson(Map<String, dynamic> json) {
+    return OFIMetricDataPoint(
+      fpr: json['fpr'] as double?,
+      precision: json['precision'] as double?,
+      threshold: json['threshold'] as double?,
+      tpr: json['tpr'] as double?,
+    );
+  }
+}
+
+/// The Online Fraud Insights (OFI) model performance score.
+class OFIModelPerformance {
+  /// The area under the curve (auc). This summarizes the total positive rate
+  /// (tpr) and false positive rate (FPR) across all possible model score
+  /// thresholds.
+  final double? auc;
+
+  /// Indicates the range of area under curve (auc) expected from the OFI model. A
+  /// range greater than 0.1 indicates higher model uncertainity.
+  final UncertaintyRange? uncertaintyRange;
+
+  OFIModelPerformance({
+    this.auc,
+    this.uncertaintyRange,
+  });
+
+  factory OFIModelPerformance.fromJson(Map<String, dynamic> json) {
+    return OFIModelPerformance(
+      auc: json['auc'] as double?,
+      uncertaintyRange: json['uncertaintyRange'] != null
+          ? UncertaintyRange.fromJson(
+              json['uncertaintyRange'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// The Online Fraud Insights (OFI) model training metric details.
+class OFITrainingMetricsValue {
+  /// The model's performance metrics data points.
+  final List<OFIMetricDataPoint>? metricDataPoints;
+
+  /// The model's overall performance score.
+  final OFIModelPerformance? modelPerformance;
+
+  OFITrainingMetricsValue({
+    this.metricDataPoints,
+    this.modelPerformance,
+  });
+
+  factory OFITrainingMetricsValue.fromJson(Map<String, dynamic> json) {
+    return OFITrainingMetricsValue(
+      metricDataPoints: (json['metricDataPoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => OFIMetricDataPoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      modelPerformance: json['modelPerformance'] != null
+          ? OFIModelPerformance.fromJson(
+              json['modelPerformance'] as Map<String, dynamic>)
+          : null,
+    );
   }
 }
 
@@ -4355,6 +7010,7 @@ class Outcome {
     this.lastUpdatedTime,
     this.name,
   });
+
   factory Outcome.fromJson(Map<String, dynamic> json) {
     return Outcome(
       arn: json['arn'] as String?,
@@ -4366,8 +7022,70 @@ class Outcome {
   }
 }
 
+/// The prediction explanations that provide insight into how each event
+/// variable impacted the model version's fraud prediction score.
+class PredictionExplanations {
+  /// The details of the aggregated variables impact on the prediction score.
+  ///
+  /// Account Takeover Insights (ATI) model uses event variables from the login
+  /// data you provide to continuously calculate a set of variables (aggregated
+  /// variables) based on historical events. For example, your ATI model might
+  /// calculate the number of times an user has logged in using the same IP
+  /// address. In this case, event variables used to derive the aggregated
+  /// variables are <code>IP address</code> and <code>user</code>.
+  final List<AggregatedVariablesImpactExplanation>?
+      aggregatedVariablesImpactExplanations;
+
+  /// The details of the event variable's impact on the prediction score.
+  final List<VariableImpactExplanation>? variableImpactExplanations;
+
+  PredictionExplanations({
+    this.aggregatedVariablesImpactExplanations,
+    this.variableImpactExplanations,
+  });
+
+  factory PredictionExplanations.fromJson(Map<String, dynamic> json) {
+    return PredictionExplanations(
+      aggregatedVariablesImpactExplanations:
+          (json['aggregatedVariablesImpactExplanations'] as List?)
+              ?.whereNotNull()
+              .map((e) => AggregatedVariablesImpactExplanation.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      variableImpactExplanations: (json['variableImpactExplanations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              VariableImpactExplanation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// The time period for when the predictions were generated.
+class PredictionTimeRange {
+  /// The end time of the time period for when the predictions were generated.
+  final String endTime;
+
+  /// The start time of the time period for when the predictions were generated.
+  final String startTime;
+
+  PredictionTimeRange({
+    required this.endTime,
+    required this.startTime,
+  });
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      'endTime': endTime,
+      'startTime': startTime,
+    };
+  }
+}
+
 class PutDetectorResult {
   PutDetectorResult();
+
   factory PutDetectorResult.fromJson(Map<String, dynamic> _) {
     return PutDetectorResult();
   }
@@ -4375,6 +7093,7 @@ class PutDetectorResult {
 
 class PutEntityTypeResult {
   PutEntityTypeResult();
+
   factory PutEntityTypeResult.fromJson(Map<String, dynamic> _) {
     return PutEntityTypeResult();
   }
@@ -4382,6 +7101,7 @@ class PutEntityTypeResult {
 
 class PutEventTypeResult {
   PutEventTypeResult();
+
   factory PutEventTypeResult.fromJson(Map<String, dynamic> _) {
     return PutEventTypeResult();
   }
@@ -4389,6 +7109,7 @@ class PutEventTypeResult {
 
 class PutExternalModelResult {
   PutExternalModelResult();
+
   factory PutExternalModelResult.fromJson(Map<String, dynamic> _) {
     return PutExternalModelResult();
   }
@@ -4396,6 +7117,7 @@ class PutExternalModelResult {
 
 class PutKMSEncryptionKeyResult {
   PutKMSEncryptionKeyResult();
+
   factory PutKMSEncryptionKeyResult.fromJson(Map<String, dynamic> _) {
     return PutKMSEncryptionKeyResult();
   }
@@ -4403,6 +7125,7 @@ class PutKMSEncryptionKeyResult {
 
 class PutLabelResult {
   PutLabelResult();
+
   factory PutLabelResult.fromJson(Map<String, dynamic> _) {
     return PutLabelResult();
   }
@@ -4410,6 +7133,7 @@ class PutLabelResult {
 
 class PutOutcomeResult {
   PutOutcomeResult();
+
   factory PutOutcomeResult.fromJson(Map<String, dynamic> _) {
     return PutOutcomeResult();
   }
@@ -4431,6 +7155,7 @@ class Rule {
     required this.ruleId,
     required this.ruleVersion,
   });
+
   factory Rule.fromJson(Map<String, dynamic> json) {
     return Rule(
       detectorId: json['detectorId'] as String,
@@ -4495,6 +7220,7 @@ class RuleDetail {
     this.ruleId,
     this.ruleVersion,
   });
+
   factory RuleDetail.fromJson(Map<String, dynamic> json) {
     return RuleDetail(
       arn: json['arn'] as String?,
@@ -4554,6 +7280,7 @@ class RuleResult {
     this.outcomes,
     this.ruleId,
   });
+
   factory RuleResult.fromJson(Map<String, dynamic> json) {
     return RuleResult(
       outcomes: (json['outcomes'] as List?)
@@ -4561,6 +7288,105 @@ class RuleResult {
           .map((e) => e as String)
           .toList(),
       ruleId: json['ruleId'] as String?,
+    );
+  }
+}
+
+class SendEventResult {
+  SendEventResult();
+
+  factory SendEventResult.fromJson(Map<String, dynamic> _) {
+    return SendEventResult();
+  }
+}
+
+/// The performance metrics data points for Transaction Fraud Insights (TFI)
+/// model.
+class TFIMetricDataPoint {
+  /// The false positive rate. This is the percentage of total legitimate events
+  /// that are incorrectly predicted as fraud.
+  final double? fpr;
+
+  /// The percentage of fraud events correctly predicted as fraudulent as compared
+  /// to all events predicted as fraudulent.
+  final double? precision;
+
+  /// The model threshold that specifies an acceptable fraud capture rate. For
+  /// example, a threshold of 500 means any model score 500 or above is labeled as
+  /// fraud.
+  final double? threshold;
+
+  /// The true positive rate. This is the percentage of total fraud the model
+  /// detects. Also known as capture rate.
+  final double? tpr;
+
+  TFIMetricDataPoint({
+    this.fpr,
+    this.precision,
+    this.threshold,
+    this.tpr,
+  });
+
+  factory TFIMetricDataPoint.fromJson(Map<String, dynamic> json) {
+    return TFIMetricDataPoint(
+      fpr: json['fpr'] as double?,
+      precision: json['precision'] as double?,
+      threshold: json['threshold'] as double?,
+      tpr: json['tpr'] as double?,
+    );
+  }
+}
+
+/// The Transaction Fraud Insights (TFI) model performance score.
+class TFIModelPerformance {
+  /// The area under the curve (auc). This summarizes the total positive rate
+  /// (tpr) and false positive rate (FPR) across all possible model score
+  /// thresholds.
+  final double? auc;
+
+  /// Indicates the range of area under curve (auc) expected from the TFI model. A
+  /// range greater than 0.1 indicates higher model uncertainity.
+  final UncertaintyRange? uncertaintyRange;
+
+  TFIModelPerformance({
+    this.auc,
+    this.uncertaintyRange,
+  });
+
+  factory TFIModelPerformance.fromJson(Map<String, dynamic> json) {
+    return TFIModelPerformance(
+      auc: json['auc'] as double?,
+      uncertaintyRange: json['uncertaintyRange'] != null
+          ? UncertaintyRange.fromJson(
+              json['uncertaintyRange'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// The Transaction Fraud Insights (TFI) model training metric details.
+class TFITrainingMetricsValue {
+  /// The model's performance metrics data points.
+  final List<TFIMetricDataPoint>? metricDataPoints;
+
+  /// The model performance score.
+  final TFIModelPerformance? modelPerformance;
+
+  TFITrainingMetricsValue({
+    this.metricDataPoints,
+    this.modelPerformance,
+  });
+
+  factory TFITrainingMetricsValue.fromJson(Map<String, dynamic> json) {
+    return TFITrainingMetricsValue(
+      metricDataPoints: (json['metricDataPoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => TFIMetricDataPoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      modelPerformance: json['modelPerformance'] != null
+          ? TFIModelPerformance.fromJson(
+              json['modelPerformance'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -4577,6 +7403,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['key'] as String,
@@ -4596,6 +7423,7 @@ class Tag {
 
 class TagResourceResult {
   TagResourceResult();
+
   factory TagResourceResult.fromJson(Map<String, dynamic> _) {
     return TagResourceResult();
   }
@@ -4603,38 +7431,40 @@ class TagResourceResult {
 
 /// The training data schema.
 class TrainingDataSchema {
-  final LabelSchema labelSchema;
-
   /// The training data schema variables.
   final List<String> modelVariables;
+  final LabelSchema? labelSchema;
 
   TrainingDataSchema({
-    required this.labelSchema,
     required this.modelVariables,
+    this.labelSchema,
   });
+
   factory TrainingDataSchema.fromJson(Map<String, dynamic> json) {
     return TrainingDataSchema(
-      labelSchema:
-          LabelSchema.fromJson(json['labelSchema'] as Map<String, dynamic>),
       modelVariables: (json['modelVariables'] as List)
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
+      labelSchema: json['labelSchema'] != null
+          ? LabelSchema.fromJson(json['labelSchema'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final labelSchema = this.labelSchema;
     final modelVariables = this.modelVariables;
+    final labelSchema = this.labelSchema;
     return {
-      'labelSchema': labelSchema,
       'modelVariables': modelVariables,
+      if (labelSchema != null) 'labelSchema': labelSchema,
     };
   }
 }
 
 enum TrainingDataSourceEnum {
   externalEvents,
+  ingestedEvents,
 }
 
 extension TrainingDataSourceEnumValueExtension on TrainingDataSourceEnum {
@@ -4642,6 +7472,8 @@ extension TrainingDataSourceEnumValueExtension on TrainingDataSourceEnum {
     switch (this) {
       case TrainingDataSourceEnum.externalEvents:
         return 'EXTERNAL_EVENTS';
+      case TrainingDataSourceEnum.ingestedEvents:
+        return 'INGESTED_EVENTS';
     }
   }
 }
@@ -4651,6 +7483,8 @@ extension TrainingDataSourceEnumFromString on String {
     switch (this) {
       case 'EXTERNAL_EVENTS':
         return TrainingDataSourceEnum.externalEvents;
+      case 'INGESTED_EVENTS':
+        return TrainingDataSourceEnum.ingestedEvents;
     }
     throw Exception('$this is not known in enum TrainingDataSourceEnum');
   }
@@ -4671,6 +7505,7 @@ class TrainingMetrics {
     this.auc,
     this.metricDataPoints,
   });
+
   factory TrainingMetrics.fromJson(Map<String, dynamic> json) {
     return TrainingMetrics(
       auc: json['auc'] as double?,
@@ -4678,6 +7513,41 @@ class TrainingMetrics {
           ?.whereNotNull()
           .map((e) => MetricDataPoint.fromJson(e as Map<String, dynamic>))
           .toList(),
+    );
+  }
+}
+
+/// The training metrics details.
+class TrainingMetricsV2 {
+  /// The Account Takeover Insights (ATI) model training metric details.
+  final ATITrainingMetricsValue? ati;
+
+  /// The Online Fraud Insights (OFI) model training metric details.
+  final OFITrainingMetricsValue? ofi;
+
+  /// The Transaction Fraud Insights (TFI) model training metric details.
+  final TFITrainingMetricsValue? tfi;
+
+  TrainingMetricsV2({
+    this.ati,
+    this.ofi,
+    this.tfi,
+  });
+
+  factory TrainingMetricsV2.fromJson(Map<String, dynamic> json) {
+    return TrainingMetricsV2(
+      ati: json['ati'] != null
+          ? ATITrainingMetricsValue.fromJson(
+              json['ati'] as Map<String, dynamic>)
+          : null,
+      ofi: json['ofi'] != null
+          ? OFITrainingMetricsValue.fromJson(
+              json['ofi'] as Map<String, dynamic>)
+          : null,
+      tfi: json['tfi'] != null
+          ? TFITrainingMetricsValue.fromJson(
+              json['tfi'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -4690,10 +7560,15 @@ class TrainingResult {
   /// The training metric details.
   final TrainingMetrics? trainingMetrics;
 
+  /// The variable importance metrics.
+  final VariableImportanceMetrics? variableImportanceMetrics;
+
   TrainingResult({
     this.dataValidationMetrics,
     this.trainingMetrics,
+    this.variableImportanceMetrics,
   });
+
   factory TrainingResult.fromJson(Map<String, dynamic> json) {
     return TrainingResult(
       dataValidationMetrics: json['dataValidationMetrics'] != null
@@ -4704,12 +7579,127 @@ class TrainingResult {
           ? TrainingMetrics.fromJson(
               json['trainingMetrics'] as Map<String, dynamic>)
           : null,
+      variableImportanceMetrics: json['variableImportanceMetrics'] != null
+          ? VariableImportanceMetrics.fromJson(
+              json['variableImportanceMetrics'] as Map<String, dynamic>)
+          : null,
     );
+  }
+}
+
+/// The training result details.
+class TrainingResultV2 {
+  /// The variable importance metrics of the aggregated variables.
+  ///
+  /// Account Takeover Insights (ATI) model uses event variables from the login
+  /// data you provide to continuously calculate a set of variables (aggregated
+  /// variables) based on historical events. For example, your ATI model might
+  /// calculate the number of times an user has logged in using the same IP
+  /// address. In this case, event variables used to derive the aggregated
+  /// variables are <code>IP address</code> and <code>user</code>.
+  final AggregatedVariablesImportanceMetrics?
+      aggregatedVariablesImportanceMetrics;
+  final DataValidationMetrics? dataValidationMetrics;
+
+  /// The training metric details.
+  final TrainingMetricsV2? trainingMetricsV2;
+  final VariableImportanceMetrics? variableImportanceMetrics;
+
+  TrainingResultV2({
+    this.aggregatedVariablesImportanceMetrics,
+    this.dataValidationMetrics,
+    this.trainingMetricsV2,
+    this.variableImportanceMetrics,
+  });
+
+  factory TrainingResultV2.fromJson(Map<String, dynamic> json) {
+    return TrainingResultV2(
+      aggregatedVariablesImportanceMetrics:
+          json['aggregatedVariablesImportanceMetrics'] != null
+              ? AggregatedVariablesImportanceMetrics.fromJson(
+                  json['aggregatedVariablesImportanceMetrics']
+                      as Map<String, dynamic>)
+              : null,
+      dataValidationMetrics: json['dataValidationMetrics'] != null
+          ? DataValidationMetrics.fromJson(
+              json['dataValidationMetrics'] as Map<String, dynamic>)
+          : null,
+      trainingMetricsV2: json['trainingMetricsV2'] != null
+          ? TrainingMetricsV2.fromJson(
+              json['trainingMetricsV2'] as Map<String, dynamic>)
+          : null,
+      variableImportanceMetrics: json['variableImportanceMetrics'] != null
+          ? VariableImportanceMetrics.fromJson(
+              json['variableImportanceMetrics'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// Range of area under curve (auc) expected from the model. A range greater
+/// than 0.1 indicates higher model uncertainity. A range is the difference
+/// between upper and lower bound of auc.
+class UncertaintyRange {
+  /// The lower bound value of the area under curve (auc).
+  final double lowerBoundValue;
+
+  /// The lower bound value of the area under curve (auc).
+  final double upperBoundValue;
+
+  UncertaintyRange({
+    required this.lowerBoundValue,
+    required this.upperBoundValue,
+  });
+
+  factory UncertaintyRange.fromJson(Map<String, dynamic> json) {
+    return UncertaintyRange(
+      lowerBoundValue: json['lowerBoundValue'] as double,
+      upperBoundValue: json['upperBoundValue'] as double,
+    );
+  }
+}
+
+enum UnlabeledEventsTreatment {
+  ignore,
+  fraud,
+  legit,
+  auto,
+}
+
+extension UnlabeledEventsTreatmentValueExtension on UnlabeledEventsTreatment {
+  String toValue() {
+    switch (this) {
+      case UnlabeledEventsTreatment.ignore:
+        return 'IGNORE';
+      case UnlabeledEventsTreatment.fraud:
+        return 'FRAUD';
+      case UnlabeledEventsTreatment.legit:
+        return 'LEGIT';
+      case UnlabeledEventsTreatment.auto:
+        return 'AUTO';
+    }
+  }
+}
+
+extension UnlabeledEventsTreatmentFromString on String {
+  UnlabeledEventsTreatment toUnlabeledEventsTreatment() {
+    switch (this) {
+      case 'IGNORE':
+        return UnlabeledEventsTreatment.ignore;
+      case 'FRAUD':
+        return UnlabeledEventsTreatment.fraud;
+      case 'LEGIT':
+        return UnlabeledEventsTreatment.legit;
+      case 'AUTO':
+        return UnlabeledEventsTreatment.auto;
+    }
+    throw Exception('$this is not known in enum UnlabeledEventsTreatment');
   }
 }
 
 class UntagResourceResult {
   UntagResourceResult();
+
   factory UntagResourceResult.fromJson(Map<String, dynamic> _) {
     return UntagResourceResult();
   }
@@ -4717,6 +7707,7 @@ class UntagResourceResult {
 
 class UpdateDetectorVersionMetadataResult {
   UpdateDetectorVersionMetadataResult();
+
   factory UpdateDetectorVersionMetadataResult.fromJson(Map<String, dynamic> _) {
     return UpdateDetectorVersionMetadataResult();
   }
@@ -4724,6 +7715,7 @@ class UpdateDetectorVersionMetadataResult {
 
 class UpdateDetectorVersionResult {
   UpdateDetectorVersionResult();
+
   factory UpdateDetectorVersionResult.fromJson(Map<String, dynamic> _) {
     return UpdateDetectorVersionResult();
   }
@@ -4731,13 +7723,31 @@ class UpdateDetectorVersionResult {
 
 class UpdateDetectorVersionStatusResult {
   UpdateDetectorVersionStatusResult();
+
   factory UpdateDetectorVersionStatusResult.fromJson(Map<String, dynamic> _) {
     return UpdateDetectorVersionStatusResult();
   }
 }
 
+class UpdateEventLabelResult {
+  UpdateEventLabelResult();
+
+  factory UpdateEventLabelResult.fromJson(Map<String, dynamic> _) {
+    return UpdateEventLabelResult();
+  }
+}
+
+class UpdateListResult {
+  UpdateListResult();
+
+  factory UpdateListResult.fromJson(Map<String, dynamic> _) {
+    return UpdateListResult();
+  }
+}
+
 class UpdateModelResult {
   UpdateModelResult();
+
   factory UpdateModelResult.fromJson(Map<String, dynamic> _) {
     return UpdateModelResult();
   }
@@ -4762,6 +7772,7 @@ class UpdateModelVersionResult {
     this.modelVersionNumber,
     this.status,
   });
+
   factory UpdateModelVersionResult.fromJson(Map<String, dynamic> json) {
     return UpdateModelVersionResult(
       modelId: json['modelId'] as String?,
@@ -4774,6 +7785,7 @@ class UpdateModelVersionResult {
 
 class UpdateModelVersionStatusResult {
   UpdateModelVersionStatusResult();
+
   factory UpdateModelVersionStatusResult.fromJson(Map<String, dynamic> _) {
     return UpdateModelVersionStatusResult();
   }
@@ -4781,6 +7793,7 @@ class UpdateModelVersionStatusResult {
 
 class UpdateRuleMetadataResult {
   UpdateRuleMetadataResult();
+
   factory UpdateRuleMetadataResult.fromJson(Map<String, dynamic> _) {
     return UpdateRuleMetadataResult();
   }
@@ -4793,6 +7806,7 @@ class UpdateRuleVersionResult {
   UpdateRuleVersionResult({
     this.rule,
   });
+
   factory UpdateRuleVersionResult.fromJson(Map<String, dynamic> json) {
     return UpdateRuleVersionResult(
       rule: json['rule'] != null
@@ -4804,6 +7818,7 @@ class UpdateRuleVersionResult {
 
 class UpdateVariableResult {
   UpdateVariableResult();
+
   factory UpdateVariableResult.fromJson(Map<String, dynamic> _) {
     return UpdateVariableResult();
   }
@@ -4860,6 +7875,7 @@ class Variable {
     this.name,
     this.variableType,
   });
+
   factory Variable.fromJson(Map<String, dynamic> json) {
     return Variable(
       arn: json['arn'] as String?,
@@ -4932,6 +7948,65 @@ class VariableEntry {
   }
 }
 
+/// The details of the event variable's impact on the prediction score.
+class VariableImpactExplanation {
+  /// The event variable name.
+  final String? eventVariableName;
+
+  /// The raw, uninterpreted value represented as log-odds of the fraud. These
+  /// values are usually between -10 to +10, but range from - infinity to +
+  /// infinity.
+  ///
+  /// <ul>
+  /// <li>
+  /// A positive value indicates that the variable drove the risk score up.
+  /// </li>
+  /// <li>
+  /// A negative value indicates that the variable drove the risk score down.
+  /// </li>
+  /// </ul>
+  final double? logOddsImpact;
+
+  /// The event variable's relative impact in terms of magnitude on the prediction
+  /// scores. The relative impact values consist of a numerical rating (0-5, 5
+  /// being the highest) and direction (increased/decreased) impact of the fraud
+  /// risk.
+  final String? relativeImpact;
+
+  VariableImpactExplanation({
+    this.eventVariableName,
+    this.logOddsImpact,
+    this.relativeImpact,
+  });
+
+  factory VariableImpactExplanation.fromJson(Map<String, dynamic> json) {
+    return VariableImpactExplanation(
+      eventVariableName: json['eventVariableName'] as String?,
+      logOddsImpact: json['logOddsImpact'] as double?,
+      relativeImpact: json['relativeImpact'] as String?,
+    );
+  }
+}
+
+/// The variable importance metrics details.
+class VariableImportanceMetrics {
+  /// List of variable metrics.
+  final List<LogOddsMetric>? logOddsMetrics;
+
+  VariableImportanceMetrics({
+    this.logOddsMetrics,
+  });
+
+  factory VariableImportanceMetrics.fromJson(Map<String, dynamic> json) {
+    return VariableImportanceMetrics(
+      logOddsMetrics: (json['logOddsMetrics'] as List?)
+          ?.whereNotNull()
+          .map((e) => LogOddsMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
@@ -4950,6 +8025,12 @@ class InternalServerException extends _s.GenericAwsException {
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
+}
+
+class ResourceUnavailableException extends _s.GenericAwsException {
+  ResourceUnavailableException({String? type, String? message})
+      : super(
+            type: type, code: 'ResourceUnavailableException', message: message);
 }
 
 class ThrottlingException extends _s.GenericAwsException {
@@ -4971,6 +8052,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InternalServerException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
+  'ResourceUnavailableException': (type, message) =>
+      ResourceUnavailableException(type: type, message: message),
   'ThrottlingException': (type, message) =>
       ThrottlingException(type: type, message: message),
   'ValidationException': (type, message) =>

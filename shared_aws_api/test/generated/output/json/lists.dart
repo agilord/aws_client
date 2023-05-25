@@ -90,6 +90,7 @@ class OutputShape {
     this.listMemberMap,
     this.listMemberStruct,
   });
+
   factory OutputShape.fromJson(Map<String, dynamic> json) {
     return OutputShape(
       listMember: (json['ListMember'] as List?)
@@ -111,6 +112,7 @@ class OutputShape {
 
 class StructType {
   StructType();
+
   factory StructType.fromJson(Map<String, dynamic> _) {
     return StructType();
   }

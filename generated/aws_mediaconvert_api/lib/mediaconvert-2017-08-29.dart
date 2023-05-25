@@ -132,7 +132,12 @@ class MediaConvert {
   /// unsorted.
   ///
   /// Parameter [clientRequestToken] :
-  /// Optional. Idempotency token for CreateJob operation.
+  /// Prevent duplicate jobs from being created and ensure idempotency for your
+  /// requests. A client request token can be any string that includes up to 64
+  /// ASCII characters. If you reuse a client request token within one minute of
+  /// a successful request, the API returns the job details of the original
+  /// request instead. For more information see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/apireference/idempotency.html.
   ///
   /// Parameter [hopDestinations] :
   /// Optional. Use queue hopping to avoid overly long waits in the backlog of
@@ -463,6 +468,23 @@ class MediaConvert {
     );
   }
 
+  /// Permanently delete a policy that you created.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  Future<void> deletePolicy() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/2017-08-29/policy',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Permanently delete a preset you have created.
   ///
   /// May throw [BadRequestException].
@@ -618,6 +640,24 @@ class MediaConvert {
       exceptionFnMap: _exceptionFns,
     );
     return GetJobTemplateResponse.fromJson(response);
+  }
+
+  /// Retrieve the JSON for your policy.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  Future<GetPolicyResponse> getPolicy() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/2017-08-29/policy',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetPolicyResponse.fromJson(response);
   }
 
   /// Retrieve the JSON for a specific preset.
@@ -931,6 +971,36 @@ class MediaConvert {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
+  /// Create or change your policy. For more information about policies, see the
+  /// user guide at
+  /// http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [policy] :
+  /// A policy configures behavior that you allow or disallow for your account.
+  /// For information about MediaConvert policies, see the user guide at
+  /// http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+  Future<PutPolicyResponse> putPolicy({
+    required Policy policy,
+  }) async {
+    final $payload = <String, dynamic>{
+      'policy': policy,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/2017-08-29/policy',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutPolicyResponse.fromJson(response);
+  }
+
   /// Add tags to a MediaConvert queue, preset, or job template. For information
   /// about tagging, see the User Guide at
   /// https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
@@ -1178,7 +1248,7 @@ class MediaConvert {
 /// "broadcaster mixed AD". Note that the input received by the encoder must
 /// contain pre-mixed audio; the encoder does not perform the mixing. When you
 /// choose BROADCASTER_MIXED_AD, the encoder ignores any values you provide in
-/// AudioType and  FollowInputAudioType. Choose NORMAL when the input does not
+/// AudioType and FollowInputAudioType. Choose NORMAL when the input does not
 /// contain pre-mixed audio + audio description (AD). In this case, the encoder
 /// will use any values you provide for AudioType and FollowInputAudioType.
 enum AacAudioDescriptionBroadcasterMix {
@@ -1245,11 +1315,14 @@ extension AacCodecProfileFromString on String {
   }
 }
 
-/// Mono (Audio Description), Mono, Stereo, or 5.1 channel layout. Valid values
-/// depend on rate control mode and profile. "1.0 - Audio Description (Receiver
-/// Mix)" setting receives a stereo description plus control track and emits a
-/// mono AAC encode of the description track, with control data emitted in the
-/// PES header as per ETSI TS 101 154 Annex E.
+/// The Coding mode that you specify determines the number of audio channels and
+/// the audio channel layout metadata in your AAC output. Valid coding modes
+/// depend on the Rate control mode and Profile that you select. The following
+/// list shows the number of audio channels and channel layout for each coding
+/// mode. * 1.0 Audio Description (Receiver Mix): One channel, C. Includes audio
+/// description data from your stereo input. For more information see ETSI TS
+/// 101 154 Annex E. * 1.0 Mono: One channel, C. * 2.0 Stereo: Two channels, L,
+/// R. * 5.1 Surround: Six channels, C, L, R, Ls, Rs, LFE.
 enum AacCodingMode {
   adReceiverMix,
   codingMode_1_0,
@@ -1355,7 +1428,7 @@ extension AacRawFormatFromString on String {
 /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to
 /// the value AAC. The service accepts one of two mutually exclusive groups of
 /// AAC settings--VBR and CBR. To select one of these modes, set the value of
-/// Bitrate control mode (rateControlMode) to "VBR" or "CBR".  In VBR mode, you
+/// Bitrate control mode (rateControlMode) to "VBR" or "CBR". In VBR mode, you
 /// control the audio quality with the setting VBR quality (vbrQuality). In CBR
 /// mode, you use the setting Bitrate (bitrate). Defaults and valid values
 /// depend on the rate control mode.
@@ -1366,7 +1439,7 @@ class AacSettings {
   /// "broadcaster mixed AD". Note that the input received by the encoder must
   /// contain pre-mixed audio; the encoder does not perform the mixing. When you
   /// choose BROADCASTER_MIXED_AD, the encoder ignores any values you provide in
-  /// AudioType and  FollowInputAudioType. Choose NORMAL when the input does not
+  /// AudioType and FollowInputAudioType. Choose NORMAL when the input does not
   /// contain pre-mixed audio + audio description (AD). In this case, the encoder
   /// will use any values you provide for AudioType and FollowInputAudioType.
   final AacAudioDescriptionBroadcasterMix? audioDescriptionBroadcasterMix;
@@ -1384,11 +1457,14 @@ class AacSettings {
   /// AAC Profile.
   final AacCodecProfile? codecProfile;
 
-  /// Mono (Audio Description), Mono, Stereo, or 5.1 channel layout. Valid values
-  /// depend on rate control mode and profile. "1.0 - Audio Description (Receiver
-  /// Mix)" setting receives a stereo description plus control track and emits a
-  /// mono AAC encode of the description track, with control data emitted in the
-  /// PES header as per ETSI TS 101 154 Annex E.
+  /// The Coding mode that you specify determines the number of audio channels and
+  /// the audio channel layout metadata in your AAC output. Valid coding modes
+  /// depend on the Rate control mode and Profile that you select. The following
+  /// list shows the number of audio channels and channel layout for each coding
+  /// mode. * 1.0 Audio Description (Receiver Mix): One channel, C. Includes audio
+  /// description data from your stereo input. For more information see ETSI TS
+  /// 101 154 Annex E. * 1.0 Mono: One channel, C. * 2.0 Stereo: Two channels, L,
+  /// R. * 5.1 Surround: Six channels, C, L, R, Ls, Rs, LFE.
   final AacCodingMode? codingMode;
 
   /// Rate Control Mode.
@@ -1398,7 +1474,14 @@ class AacSettings {
   /// output, you must choose "No container" for the output container.
   final AacRawFormat? rawFormat;
 
-  /// Sample rate in Hz. Valid values depend on rate control mode and profile.
+  /// Specify the Sample rate in Hz. Valid sample rates depend on the Profile and
+  /// Coding mode that you select. The following list shows valid sample rates for
+  /// each Profile and Coding mode. * LC Profile, Coding mode 1.0, 2.0, and
+  /// Receiver Mix: 8000, 12000, 16000, 22050, 24000, 32000, 44100, 48000, 88200,
+  /// 96000. * LC Profile, Coding mode 5.1: 32000, 44100, 48000, 96000. * HEV1
+  /// Profile, Coding mode 1.0 and Receiver Mix: 22050, 24000, 32000, 44100,
+  /// 48000. * HEV1 Profile, Coding mode 2.0 and 5.1: 32000, 44100, 48000, 96000.
+  /// * HEV2 Profile, Coding mode 2.0: 22050, 24000, 32000, 44100, 48000.
   final int? sampleRate;
 
   /// Use MPEG-2 AAC instead of MPEG-4 AAC audio for raw or MPEG-2 Transport
@@ -1419,6 +1502,7 @@ class AacSettings {
     this.specification,
     this.vbrQuality,
   });
+
   factory AacSettings.fromJson(Map<String, dynamic> json) {
     return AacSettings(
       audioDescriptionBroadcasterMix:
@@ -1630,8 +1714,75 @@ extension Ac3CodingModeFromString on String {
   }
 }
 
-/// If set to FILM_STANDARD, adds dynamic range compression signaling to the
-/// output bitstream as defined in the Dolby Digital specification.
+/// Choose the Dolby Digital dynamic range control (DRC) profile that
+/// MediaConvert uses when encoding the metadata in the Dolby Digital stream for
+/// the line operating mode. Related setting: When you use this setting,
+/// MediaConvert ignores any value you provide for Dynamic range compression
+/// profile (DynamicRangeCompressionProfile). For information about the Dolby
+/// Digital DRC operating modes and profiles, see the Dynamic Range Control
+/// chapter of the Dolby Metadata Guide at
+/// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
+enum Ac3DynamicRangeCompressionLine {
+  filmStandard,
+  filmLight,
+  musicStandard,
+  musicLight,
+  speech,
+  none,
+}
+
+extension Ac3DynamicRangeCompressionLineValueExtension
+    on Ac3DynamicRangeCompressionLine {
+  String toValue() {
+    switch (this) {
+      case Ac3DynamicRangeCompressionLine.filmStandard:
+        return 'FILM_STANDARD';
+      case Ac3DynamicRangeCompressionLine.filmLight:
+        return 'FILM_LIGHT';
+      case Ac3DynamicRangeCompressionLine.musicStandard:
+        return 'MUSIC_STANDARD';
+      case Ac3DynamicRangeCompressionLine.musicLight:
+        return 'MUSIC_LIGHT';
+      case Ac3DynamicRangeCompressionLine.speech:
+        return 'SPEECH';
+      case Ac3DynamicRangeCompressionLine.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension Ac3DynamicRangeCompressionLineFromString on String {
+  Ac3DynamicRangeCompressionLine toAc3DynamicRangeCompressionLine() {
+    switch (this) {
+      case 'FILM_STANDARD':
+        return Ac3DynamicRangeCompressionLine.filmStandard;
+      case 'FILM_LIGHT':
+        return Ac3DynamicRangeCompressionLine.filmLight;
+      case 'MUSIC_STANDARD':
+        return Ac3DynamicRangeCompressionLine.musicStandard;
+      case 'MUSIC_LIGHT':
+        return Ac3DynamicRangeCompressionLine.musicLight;
+      case 'SPEECH':
+        return Ac3DynamicRangeCompressionLine.speech;
+      case 'NONE':
+        return Ac3DynamicRangeCompressionLine.none;
+    }
+    throw Exception(
+        '$this is not known in enum Ac3DynamicRangeCompressionLine');
+  }
+}
+
+/// When you want to add Dolby dynamic range compression (DRC) signaling to your
+/// output stream, we recommend that you use the mode-specific settings instead
+/// of Dynamic range compression profile (DynamicRangeCompressionProfile). The
+/// mode-specific settings are Dynamic range compression profile, line mode
+/// (dynamicRangeCompressionLine) and Dynamic range compression profile, RF mode
+/// (dynamicRangeCompressionRf). Note that when you specify values for all three
+/// settings, MediaConvert ignores the value of this setting in favor of the
+/// mode-specific settings. If you do use this setting instead of the
+/// mode-specific settings, choose None (NONE) to leave out DRC signaling. Keep
+/// the default Film standard (FILM_STANDARD) to set the profile to Dolby's film
+/// standard profile for all operating modes.
 enum Ac3DynamicRangeCompressionProfile {
   filmStandard,
   none,
@@ -1659,6 +1810,63 @@ extension Ac3DynamicRangeCompressionProfileFromString on String {
     }
     throw Exception(
         '$this is not known in enum Ac3DynamicRangeCompressionProfile');
+  }
+}
+
+/// Choose the Dolby Digital dynamic range control (DRC) profile that
+/// MediaConvert uses when encoding the metadata in the Dolby Digital stream for
+/// the RF operating mode. Related setting: When you use this setting,
+/// MediaConvert ignores any value you provide for Dynamic range compression
+/// profile (DynamicRangeCompressionProfile). For information about the Dolby
+/// Digital DRC operating modes and profiles, see the Dynamic Range Control
+/// chapter of the Dolby Metadata Guide at
+/// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
+enum Ac3DynamicRangeCompressionRf {
+  filmStandard,
+  filmLight,
+  musicStandard,
+  musicLight,
+  speech,
+  none,
+}
+
+extension Ac3DynamicRangeCompressionRfValueExtension
+    on Ac3DynamicRangeCompressionRf {
+  String toValue() {
+    switch (this) {
+      case Ac3DynamicRangeCompressionRf.filmStandard:
+        return 'FILM_STANDARD';
+      case Ac3DynamicRangeCompressionRf.filmLight:
+        return 'FILM_LIGHT';
+      case Ac3DynamicRangeCompressionRf.musicStandard:
+        return 'MUSIC_STANDARD';
+      case Ac3DynamicRangeCompressionRf.musicLight:
+        return 'MUSIC_LIGHT';
+      case Ac3DynamicRangeCompressionRf.speech:
+        return 'SPEECH';
+      case Ac3DynamicRangeCompressionRf.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension Ac3DynamicRangeCompressionRfFromString on String {
+  Ac3DynamicRangeCompressionRf toAc3DynamicRangeCompressionRf() {
+    switch (this) {
+      case 'FILM_STANDARD':
+        return Ac3DynamicRangeCompressionRf.filmStandard;
+      case 'FILM_LIGHT':
+        return Ac3DynamicRangeCompressionRf.filmLight;
+      case 'MUSIC_STANDARD':
+        return Ac3DynamicRangeCompressionRf.musicStandard;
+      case 'MUSIC_LIGHT':
+        return Ac3DynamicRangeCompressionRf.musicLight;
+      case 'SPEECH':
+        return Ac3DynamicRangeCompressionRf.speech;
+      case 'NONE':
+        return Ac3DynamicRangeCompressionRf.none;
+    }
+    throw Exception('$this is not known in enum Ac3DynamicRangeCompressionRf');
   }
 }
 
@@ -1726,8 +1934,15 @@ extension Ac3MetadataControlFromString on String {
 /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to
 /// the value AC3.
 class Ac3Settings {
-  /// Specify the average bitrate in bits per second. Valid bitrates depend on the
-  /// coding mode.
+  /// Specify the average bitrate in bits per second. The bitrate that you specify
+  /// must be a multiple of 8000 within the allowed minimum and maximum values.
+  /// Leave blank to use the default bitrate for the coding mode you select
+  /// according ETSI TS 102 366. Valid bitrates for coding mode 1/0: Default:
+  /// 96000. Minimum: 64000. Maximum: 128000. Valid bitrates for coding mode 1/1:
+  /// Default: 192000. Minimum: 128000. Maximum: 384000. Valid bitrates for coding
+  /// mode 2/0: Default: 192000. Minimum: 128000. Maximum: 384000. Valid bitrates
+  /// for coding mode 3/2 with FLE: Default: 384000. Minimum: 384000. Maximum:
+  /// 640000.
   final int? bitrate;
 
   /// Specify the bitstream mode for the AC-3 stream that the encoder emits. For
@@ -1741,9 +1956,38 @@ class Ac3Settings {
   /// dialnorm will be passed through.
   final int? dialnorm;
 
-  /// If set to FILM_STANDARD, adds dynamic range compression signaling to the
-  /// output bitstream as defined in the Dolby Digital specification.
+  /// Choose the Dolby Digital dynamic range control (DRC) profile that
+  /// MediaConvert uses when encoding the metadata in the Dolby Digital stream for
+  /// the line operating mode. Related setting: When you use this setting,
+  /// MediaConvert ignores any value you provide for Dynamic range compression
+  /// profile (DynamicRangeCompressionProfile). For information about the Dolby
+  /// Digital DRC operating modes and profiles, see the Dynamic Range Control
+  /// chapter of the Dolby Metadata Guide at
+  /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
+  final Ac3DynamicRangeCompressionLine? dynamicRangeCompressionLine;
+
+  /// When you want to add Dolby dynamic range compression (DRC) signaling to your
+  /// output stream, we recommend that you use the mode-specific settings instead
+  /// of Dynamic range compression profile (DynamicRangeCompressionProfile). The
+  /// mode-specific settings are Dynamic range compression profile, line mode
+  /// (dynamicRangeCompressionLine) and Dynamic range compression profile, RF mode
+  /// (dynamicRangeCompressionRf). Note that when you specify values for all three
+  /// settings, MediaConvert ignores the value of this setting in favor of the
+  /// mode-specific settings. If you do use this setting instead of the
+  /// mode-specific settings, choose None (NONE) to leave out DRC signaling. Keep
+  /// the default Film standard (FILM_STANDARD) to set the profile to Dolby's film
+  /// standard profile for all operating modes.
   final Ac3DynamicRangeCompressionProfile? dynamicRangeCompressionProfile;
+
+  /// Choose the Dolby Digital dynamic range control (DRC) profile that
+  /// MediaConvert uses when encoding the metadata in the Dolby Digital stream for
+  /// the RF operating mode. Related setting: When you use this setting,
+  /// MediaConvert ignores any value you provide for Dynamic range compression
+  /// profile (DynamicRangeCompressionProfile). For information about the Dolby
+  /// Digital DRC operating modes and profiles, see the Dynamic Range Control
+  /// chapter of the Dolby Metadata Guide at
+  /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
+  final Ac3DynamicRangeCompressionRf? dynamicRangeCompressionRf;
 
   /// Applies a 120Hz lowpass filter to the LFE channel prior to encoding. Only
   /// valid with 3_2_LFE coding mode.
@@ -1762,20 +2006,28 @@ class Ac3Settings {
     this.bitstreamMode,
     this.codingMode,
     this.dialnorm,
+    this.dynamicRangeCompressionLine,
     this.dynamicRangeCompressionProfile,
+    this.dynamicRangeCompressionRf,
     this.lfeFilter,
     this.metadataControl,
     this.sampleRate,
   });
+
   factory Ac3Settings.fromJson(Map<String, dynamic> json) {
     return Ac3Settings(
       bitrate: json['bitrate'] as int?,
       bitstreamMode: (json['bitstreamMode'] as String?)?.toAc3BitstreamMode(),
       codingMode: (json['codingMode'] as String?)?.toAc3CodingMode(),
       dialnorm: json['dialnorm'] as int?,
+      dynamicRangeCompressionLine:
+          (json['dynamicRangeCompressionLine'] as String?)
+              ?.toAc3DynamicRangeCompressionLine(),
       dynamicRangeCompressionProfile:
           (json['dynamicRangeCompressionProfile'] as String?)
               ?.toAc3DynamicRangeCompressionProfile(),
+      dynamicRangeCompressionRf: (json['dynamicRangeCompressionRf'] as String?)
+          ?.toAc3DynamicRangeCompressionRf(),
       lfeFilter: (json['lfeFilter'] as String?)?.toAc3LfeFilter(),
       metadataControl:
           (json['metadataControl'] as String?)?.toAc3MetadataControl(),
@@ -1788,7 +2040,9 @@ class Ac3Settings {
     final bitstreamMode = this.bitstreamMode;
     final codingMode = this.codingMode;
     final dialnorm = this.dialnorm;
+    final dynamicRangeCompressionLine = this.dynamicRangeCompressionLine;
     final dynamicRangeCompressionProfile = this.dynamicRangeCompressionProfile;
+    final dynamicRangeCompressionRf = this.dynamicRangeCompressionRf;
     final lfeFilter = this.lfeFilter;
     final metadataControl = this.metadataControl;
     final sampleRate = this.sampleRate;
@@ -1797,9 +2051,13 @@ class Ac3Settings {
       if (bitstreamMode != null) 'bitstreamMode': bitstreamMode.toValue(),
       if (codingMode != null) 'codingMode': codingMode.toValue(),
       if (dialnorm != null) 'dialnorm': dialnorm,
+      if (dynamicRangeCompressionLine != null)
+        'dynamicRangeCompressionLine': dynamicRangeCompressionLine.toValue(),
       if (dynamicRangeCompressionProfile != null)
         'dynamicRangeCompressionProfile':
             dynamicRangeCompressionProfile.toValue(),
+      if (dynamicRangeCompressionRf != null)
+        'dynamicRangeCompressionRf': dynamicRangeCompressionRf.toValue(),
       if (lfeFilter != null) 'lfeFilter': lfeFilter.toValue(),
       if (metadataControl != null) 'metadataControl': metadataControl.toValue(),
       if (sampleRate != null) 'sampleRate': sampleRate,
@@ -1857,6 +2115,7 @@ class AccelerationSettings {
   AccelerationSettings({
     required this.mode,
   });
+
   factory AccelerationSettings.fromJson(Map<String, dynamic> json) {
     return AccelerationSettings(
       mode: (json['mode'] as String).toAccelerationMode(),
@@ -1921,6 +2180,162 @@ extension AccelerationStatusFromString on String {
   }
 }
 
+/// Use to remove noise, blocking, blurriness, or ringing from your input as a
+/// pre-filter step before encoding. The Advanced input filter removes more
+/// types of compression artifacts and is an improvement when compared to basic
+/// Deblock and Denoise filters. To remove video compression artifacts from your
+/// input and improve the video quality: Choose Enabled. Additionally, this
+/// filter can help increase the video quality of your output relative to its
+/// bitrate, since noisy inputs are more complex and require more bits to
+/// encode. To help restore loss of detail after applying the filter, you can
+/// optionally add texture or sharpening as an additional step. Jobs that use
+/// this feature incur pro-tier pricing. To not apply advanced input filtering:
+/// Choose Disabled. Note that you can still apply basic filtering with Deblock
+/// and Denoise.
+enum AdvancedInputFilter {
+  enabled,
+  disabled,
+}
+
+extension AdvancedInputFilterValueExtension on AdvancedInputFilter {
+  String toValue() {
+    switch (this) {
+      case AdvancedInputFilter.enabled:
+        return 'ENABLED';
+      case AdvancedInputFilter.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension AdvancedInputFilterFromString on String {
+  AdvancedInputFilter toAdvancedInputFilter() {
+    switch (this) {
+      case 'ENABLED':
+        return AdvancedInputFilter.enabled;
+      case 'DISABLED':
+        return AdvancedInputFilter.disabled;
+    }
+    throw Exception('$this is not known in enum AdvancedInputFilter');
+  }
+}
+
+/// Add texture and detail to areas of your input video content that were lost
+/// after applying the Advanced input filter. To adaptively add texture and
+/// reduce softness: Choose Enabled. To not add any texture: Keep the default
+/// value, Disabled. We recommend that you choose Disabled for input video
+/// content that doesn't have texture, including screen recordings, computer
+/// graphics, or cartoons.
+enum AdvancedInputFilterAddTexture {
+  enabled,
+  disabled,
+}
+
+extension AdvancedInputFilterAddTextureValueExtension
+    on AdvancedInputFilterAddTexture {
+  String toValue() {
+    switch (this) {
+      case AdvancedInputFilterAddTexture.enabled:
+        return 'ENABLED';
+      case AdvancedInputFilterAddTexture.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension AdvancedInputFilterAddTextureFromString on String {
+  AdvancedInputFilterAddTexture toAdvancedInputFilterAddTexture() {
+    switch (this) {
+      case 'ENABLED':
+        return AdvancedInputFilterAddTexture.enabled;
+      case 'DISABLED':
+        return AdvancedInputFilterAddTexture.disabled;
+    }
+    throw Exception('$this is not known in enum AdvancedInputFilterAddTexture');
+  }
+}
+
+/// Optional settings for Advanced input filter when you set Advanced input
+/// filter to Enabled.
+class AdvancedInputFilterSettings {
+  /// Add texture and detail to areas of your input video content that were lost
+  /// after applying the Advanced input filter. To adaptively add texture and
+  /// reduce softness: Choose Enabled. To not add any texture: Keep the default
+  /// value, Disabled. We recommend that you choose Disabled for input video
+  /// content that doesn't have texture, including screen recordings, computer
+  /// graphics, or cartoons.
+  final AdvancedInputFilterAddTexture? addTexture;
+
+  /// Optionally specify the amount of sharpening to apply when you use the
+  /// Advanced input filter. Sharpening adds contrast to the edges of your video
+  /// content and can reduce softness. To apply no sharpening: Keep the default
+  /// value, Off. To apply a minimal amount of sharpening choose Low, or for the
+  /// maximum choose High.
+  final AdvancedInputFilterSharpen? sharpening;
+
+  AdvancedInputFilterSettings({
+    this.addTexture,
+    this.sharpening,
+  });
+
+  factory AdvancedInputFilterSettings.fromJson(Map<String, dynamic> json) {
+    return AdvancedInputFilterSettings(
+      addTexture:
+          (json['addTexture'] as String?)?.toAdvancedInputFilterAddTexture(),
+      sharpening:
+          (json['sharpening'] as String?)?.toAdvancedInputFilterSharpen(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addTexture = this.addTexture;
+    final sharpening = this.sharpening;
+    return {
+      if (addTexture != null) 'addTexture': addTexture.toValue(),
+      if (sharpening != null) 'sharpening': sharpening.toValue(),
+    };
+  }
+}
+
+/// Optionally specify the amount of sharpening to apply when you use the
+/// Advanced input filter. Sharpening adds contrast to the edges of your video
+/// content and can reduce softness. To apply no sharpening: Keep the default
+/// value, Off. To apply a minimal amount of sharpening choose Low, or for the
+/// maximum choose High.
+enum AdvancedInputFilterSharpen {
+  off,
+  low,
+  high,
+}
+
+extension AdvancedInputFilterSharpenValueExtension
+    on AdvancedInputFilterSharpen {
+  String toValue() {
+    switch (this) {
+      case AdvancedInputFilterSharpen.off:
+        return 'OFF';
+      case AdvancedInputFilterSharpen.low:
+        return 'LOW';
+      case AdvancedInputFilterSharpen.high:
+        return 'HIGH';
+    }
+  }
+}
+
+extension AdvancedInputFilterSharpenFromString on String {
+  AdvancedInputFilterSharpen toAdvancedInputFilterSharpen() {
+    switch (this) {
+      case 'OFF':
+        return AdvancedInputFilterSharpen.off;
+      case 'LOW':
+        return AdvancedInputFilterSharpen.low;
+      case 'HIGH':
+        return AdvancedInputFilterSharpen.high;
+    }
+    throw Exception('$this is not known in enum AdvancedInputFilterSharpen');
+  }
+}
+
 /// This setting only applies to H.264, H.265, and MPEG2 outputs. Use Insert AFD
 /// signaling (AfdSignaling) to specify whether the service includes AFD values
 /// in the output video data and what those values are. * Choose None to remove
@@ -1979,6 +2394,7 @@ class AiffSettings {
     this.channels,
     this.sampleRate,
   });
+
   factory AiffSettings.fromJson(Map<String, dynamic> json) {
     return AiffSettings(
       bitDepth: json['bitDepth'] as int?,
@@ -1995,6 +2411,51 @@ class AiffSettings {
       if (bitDepth != null) 'bitDepth': bitDepth,
       if (channels != null) 'channels': channels,
       if (sampleRate != null) 'sampleRate': sampleRate,
+    };
+  }
+}
+
+/// Use Allowed renditions to specify a list of possible resolutions in your ABR
+/// stack. * MediaConvert will create an ABR stack exclusively from the list of
+/// resolutions that you specify. * Some resolutions in the Allowed renditions
+/// list may not be included, however you can force a resolution to be included
+/// by setting Required to ENABLED. * You must specify at least one resolution
+/// that is greater than or equal to any resolutions that you specify in Min top
+/// rendition size or Min bottom rendition size. * If you specify Allowed
+/// renditions, you must not specify a separate rule for Force include
+/// renditions.
+class AllowedRenditionSize {
+  /// Use Height to define the video resolution height, in pixels, for this rule.
+  final int? height;
+
+  /// Set to ENABLED to force a rendition to be included.
+  final RequiredFlag? required;
+
+  /// Use Width to define the video resolution width, in pixels, for this rule.
+  final int? width;
+
+  AllowedRenditionSize({
+    this.height,
+    this.required,
+    this.width,
+  });
+
+  factory AllowedRenditionSize.fromJson(Map<String, dynamic> json) {
+    return AllowedRenditionSize(
+      height: json['height'] as int?,
+      required: (json['required'] as String?)?.toRequiredFlag(),
+      width: json['width'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final height = this.height;
+    final required = this.required;
+    final width = this.width;
+    return {
+      if (height != null) 'height': height,
+      if (required != null) 'required': required.toValue(),
+      if (width != null) 'width': width,
     };
   }
 }
@@ -2089,6 +2550,7 @@ class AncillarySourceSettings {
     this.sourceAncillaryChannelNumber,
     this.terminateCaptions,
   });
+
   factory AncillarySourceSettings.fromJson(Map<String, dynamic> json) {
     return AncillarySourceSettings(
       convert608To708:
@@ -2179,13 +2641,14 @@ extension AntiAliasFromString on String {
 
 class AssociateCertificateResponse {
   AssociateCertificateResponse();
+
   factory AssociateCertificateResponse.fromJson(Map<String, dynamic> _) {
     return AssociateCertificateResponse();
   }
 }
 
 /// You can add a tag for this mono-channel audio track to mimic its placement
-/// in a multi-channel layout.  For example, if this track is the left surround
+/// in a multi-channel layout. For example, if this track is the left surround
 /// channel, choose Left surround (LS).
 enum AudioChannelTag {
   l,
@@ -2290,13 +2753,14 @@ extension AudioChannelTagFromString on String {
 /// have only one channel.
 class AudioChannelTaggingSettings {
   /// You can add a tag for this mono-channel audio track to mimic its placement
-  /// in a multi-channel layout.  For example, if this track is the left surround
+  /// in a multi-channel layout. For example, if this track is the left surround
   /// channel, choose Left surround (LS).
   final AudioChannelTag? channelTag;
 
   AudioChannelTaggingSettings({
     this.channelTag,
   });
+
   factory AudioChannelTaggingSettings.fromJson(Map<String, dynamic> json) {
     return AudioChannelTaggingSettings(
       channelTag: (json['channelTag'] as String?)?.toAudioChannelTag(),
@@ -2311,7 +2775,17 @@ class AudioChannelTaggingSettings {
   }
 }
 
-/// Type of Audio codec.
+/// Choose the audio codec for this output. Note that the option Dolby Digital
+/// passthrough (PASSTHROUGH) applies only to Dolby Digital and Dolby Digital
+/// Plus audio inputs. Make sure that you choose a codec that's supported with
+/// your output container:
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#reference-codecs-containers-output-audio
+/// For audio-only outputs, make sure that both your input audio codec and your
+/// output audio codec are supported for audio-only workflows. For more
+/// information, see:
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers-input.html#reference-codecs-containers-input-audio-only
+/// and
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#audio-only-output
 enum AudioCodec {
   aac,
   mp2,
@@ -2385,19 +2859,13 @@ extension AudioCodecFromString on String {
   }
 }
 
-/// Audio codec settings (CodecSettings) under (AudioDescriptions) contains the
-/// group of settings related to audio encoding. The settings in this group vary
-/// depending on the value that you choose for Audio codec (Codec). For each
-/// codec enum that you choose, define the corresponding settings object. The
-/// following lists the codec enum, settings object pairs. * AAC, AacSettings *
-/// MP2, Mp2Settings * MP3, Mp3Settings * WAV, WavSettings * AIFF, AiffSettings
-/// * AC3, Ac3Settings * EAC3, Eac3Settings * EAC3_ATMOS, Eac3AtmosSettings *
-/// VORBIS, VorbisSettings * OPUS, OpusSettings
+/// Settings related to audio encoding. The settings in this group vary
+/// depending on the value that you choose for your audio codec.
 class AudioCodecSettings {
   /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to
   /// the value AAC. The service accepts one of two mutually exclusive groups of
   /// AAC settings--VBR and CBR. To select one of these modes, set the value of
-  /// Bitrate control mode (rateControlMode) to "VBR" or "CBR".  In VBR mode, you
+  /// Bitrate control mode (rateControlMode) to "VBR" or "CBR". In VBR mode, you
   /// control the audio quality with the setting VBR quality (vbrQuality). In CBR
   /// mode, you use the setting Bitrate (bitrate). Defaults and valid values
   /// depend on the rate control mode.
@@ -2411,7 +2879,17 @@ class AudioCodecSettings {
   /// the value AIFF.
   final AiffSettings? aiffSettings;
 
-  /// Type of Audio codec.
+  /// Choose the audio codec for this output. Note that the option Dolby Digital
+  /// passthrough (PASSTHROUGH) applies only to Dolby Digital and Dolby Digital
+  /// Plus audio inputs. Make sure that you choose a codec that's supported with
+  /// your output container:
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#reference-codecs-containers-output-audio
+  /// For audio-only outputs, make sure that both your input audio codec and your
+  /// output audio codec are supported for audio-only workflows. For more
+  /// information, see:
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers-input.html#reference-codecs-containers-input-audio-only
+  /// and
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#audio-only-output
   final AudioCodec? codec;
 
   /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to
@@ -2455,6 +2933,7 @@ class AudioCodecSettings {
     this.vorbisSettings,
     this.wavSettings,
   });
+
   factory AudioCodecSettings.fromJson(Map<String, dynamic> json) {
     return AudioCodecSettings(
       aacSettings: json['aacSettings'] != null
@@ -2553,7 +3032,12 @@ extension AudioDefaultSelectionFromString on String {
   }
 }
 
-/// Description of audio output
+/// Settings related to one audio tab on the MediaConvert console. In your job
+/// JSON, an instance of AudioDescription is equivalent to one audio tab in the
+/// console. Usually, one audio tab corresponds to one output audio track.
+/// Depending on how you set up your input audio selectors and whether you use
+/// audio selector groups, one audio tab can correspond to a group of output
+/// audio tracks.
 class AudioDescription {
   /// When you mimic a multi-channel audio layout with multiple mono-channel
   /// tracks, you can tag each channel layout manually. For example, you would tag
@@ -2595,14 +3079,8 @@ class AudioDescription {
   /// BROADCASTER_MIXED_AD.
   final AudioTypeControl? audioTypeControl;
 
-  /// Audio codec settings (CodecSettings) under (AudioDescriptions) contains the
-  /// group of settings related to audio encoding. The settings in this group vary
-  /// depending on the value that you choose for Audio codec (Codec). For each
-  /// codec enum that you choose, define the corresponding settings object. The
-  /// following lists the codec enum, settings object pairs. * AAC, AacSettings *
-  /// MP2, Mp2Settings * MP3, Mp3Settings * WAV, WavSettings * AIFF, AiffSettings
-  /// * AC3, Ac3Settings * EAC3, Eac3Settings * EAC3_ATMOS, Eac3AtmosSettings *
-  /// VORBIS, VorbisSettings * OPUS, OpusSettings
+  /// Settings related to audio encoding. The settings in this group vary
+  /// depending on the value that you choose for your audio codec.
   final AudioCodecSettings? codecSettings;
 
   /// Specify the language for this audio output track. The service puts this
@@ -2655,6 +3133,7 @@ class AudioDescription {
     this.remixSettings,
     this.streamName,
   });
+
   factory AudioDescription.fromJson(Map<String, dynamic> json) {
     return AudioDescription(
       audioChannelTaggingSettings: json['audioChannelTaggingSettings'] != null
@@ -2714,6 +3193,59 @@ class AudioDescription {
       if (remixSettings != null) 'remixSettings': remixSettings,
       if (streamName != null) 'streamName': streamName,
     };
+  }
+}
+
+/// Apply audio timing corrections to help synchronize audio and video in your
+/// output. To apply timing corrections, your input must meet the following
+/// requirements: * Container: MP4, or MOV, with an accurate time-to-sample
+/// (STTS) table. * Audio track: AAC. Choose from the following audio timing
+/// correction settings: * Disabled (Default): Apply no correction. * Auto:
+/// Recommended for most inputs. MediaConvert analyzes the audio timing in your
+/// input and determines which correction setting to use, if needed. * Track:
+/// Adjust the duration of each audio frame by a constant amount to align the
+/// audio track length with STTS duration. Track-level correction does not
+/// affect pitch, and is recommended for tonal audio content such as music. *
+/// Frame: Adjust the duration of each audio frame by a variable amount to align
+/// audio frames with STTS timestamps. No corrections are made to
+/// already-aligned frames. Frame-level correction may affect the pitch of
+/// corrected frames, and is recommended for atonal audio content such as speech
+/// or percussion.
+enum AudioDurationCorrection {
+  disabled,
+  auto,
+  track,
+  frame,
+}
+
+extension AudioDurationCorrectionValueExtension on AudioDurationCorrection {
+  String toValue() {
+    switch (this) {
+      case AudioDurationCorrection.disabled:
+        return 'DISABLED';
+      case AudioDurationCorrection.auto:
+        return 'AUTO';
+      case AudioDurationCorrection.track:
+        return 'TRACK';
+      case AudioDurationCorrection.frame:
+        return 'FRAME';
+    }
+  }
+}
+
+extension AudioDurationCorrectionFromString on String {
+  AudioDurationCorrection toAudioDurationCorrection() {
+    switch (this) {
+      case 'DISABLED':
+        return AudioDurationCorrection.disabled;
+      case 'AUTO':
+        return AudioDurationCorrection.auto;
+      case 'TRACK':
+        return AudioDurationCorrection.track;
+      case 'FRAME':
+        return AudioDurationCorrection.frame;
+    }
+    throw Exception('$this is not known in enum AudioDurationCorrection');
   }
 }
 
@@ -2933,6 +3465,12 @@ class AudioNormalizationSettings {
   /// encoder will choose -24 LKFS; otherwise, the encoder will choose -23 LKFS.
   final double? targetLkfs;
 
+  /// Specify the True-peak limiter threshold in decibels relative to full scale
+  /// (dBFS). The peak inter-audio sample loudness in your output will be limited
+  /// to the value that you specify, without affecting the overall target LKFS.
+  /// Enter a value from 0 to -8. Leave blank to use the default value 0.
+  final double? truePeakLimiterThreshold;
+
   AudioNormalizationSettings({
     this.algorithm,
     this.algorithmControl,
@@ -2940,7 +3478,9 @@ class AudioNormalizationSettings {
     this.loudnessLogging,
     this.peakCalculation,
     this.targetLkfs,
+    this.truePeakLimiterThreshold,
   });
+
   factory AudioNormalizationSettings.fromJson(Map<String, dynamic> json) {
     return AudioNormalizationSettings(
       algorithm:
@@ -2953,6 +3493,7 @@ class AudioNormalizationSettings {
       peakCalculation: (json['peakCalculation'] as String?)
           ?.toAudioNormalizationPeakCalculation(),
       targetLkfs: json['targetLkfs'] as double?,
+      truePeakLimiterThreshold: json['truePeakLimiterThreshold'] as double?,
     );
   }
 
@@ -2963,6 +3504,7 @@ class AudioNormalizationSettings {
     final loudnessLogging = this.loudnessLogging;
     final peakCalculation = this.peakCalculation;
     final targetLkfs = this.targetLkfs;
+    final truePeakLimiterThreshold = this.truePeakLimiterThreshold;
     return {
       if (algorithm != null) 'algorithm': algorithm.toValue(),
       if (algorithmControl != null)
@@ -2972,12 +3514,33 @@ class AudioNormalizationSettings {
       if (loudnessLogging != null) 'loudnessLogging': loudnessLogging.toValue(),
       if (peakCalculation != null) 'peakCalculation': peakCalculation.toValue(),
       if (targetLkfs != null) 'targetLkfs': targetLkfs,
+      if (truePeakLimiterThreshold != null)
+        'truePeakLimiterThreshold': truePeakLimiterThreshold,
     };
   }
 }
 
-/// Selector for Audio
+/// Use Audio selectors (AudioSelectors) to specify a track or set of tracks
+/// from the input that you will use in your outputs. You can use multiple Audio
+/// selectors per input.
 class AudioSelector {
+  /// Apply audio timing corrections to help synchronize audio and video in your
+  /// output. To apply timing corrections, your input must meet the following
+  /// requirements: * Container: MP4, or MOV, with an accurate time-to-sample
+  /// (STTS) table. * Audio track: AAC. Choose from the following audio timing
+  /// correction settings: * Disabled (Default): Apply no correction. * Auto:
+  /// Recommended for most inputs. MediaConvert analyzes the audio timing in your
+  /// input and determines which correction setting to use, if needed. * Track:
+  /// Adjust the duration of each audio frame by a constant amount to align the
+  /// audio track length with STTS duration. Track-level correction does not
+  /// affect pitch, and is recommended for tonal audio content such as music. *
+  /// Frame: Adjust the duration of each audio frame by a variable amount to align
+  /// audio frames with STTS timestamps. No corrections are made to
+  /// already-aligned frames. Frame-level correction may affect the pitch of
+  /// corrected frames, and is recommended for atonal audio content such as speech
+  /// or percussion.
+  final AudioDurationCorrection? audioDurationCorrection;
+
   /// Selects a specific language code from within an audio source, using the ISO
   /// 639-2 or ISO 639-3 three-letter language code
   final String? customLanguageCode;
@@ -2990,6 +3553,16 @@ class AudioSelector {
 
   /// Specifies audio data from an external file source.
   final String? externalAudioFileInput;
+
+  /// Settings specific to audio sources in an HLS alternate rendition group.
+  /// Specify the properties (renditionGroupId, renditionName or
+  /// renditionLanguageCode) to identify the unique audio track among the
+  /// alternative rendition groups present in the HLS manifest. If no unique track
+  /// is found, or multiple tracks match the properties provided, the job fails.
+  /// If no properties in hlsRenditionGroupSettings are specified, the default
+  /// audio track within the video segment is chosen. If there is no audio within
+  /// video segment, the alternative audio with DEFAULT=YES is chosen instead.
+  final HlsRenditionGroupSettings? hlsRenditionGroupSettings;
 
   /// Selects a specific language code from within an audio source.
   final LanguageCode? languageCode;
@@ -3030,9 +3603,11 @@ class AudioSelector {
   final List<int>? tracks;
 
   AudioSelector({
+    this.audioDurationCorrection,
     this.customLanguageCode,
     this.defaultSelection,
     this.externalAudioFileInput,
+    this.hlsRenditionGroupSettings,
     this.languageCode,
     this.offset,
     this.pids,
@@ -3041,12 +3616,19 @@ class AudioSelector {
     this.selectorType,
     this.tracks,
   });
+
   factory AudioSelector.fromJson(Map<String, dynamic> json) {
     return AudioSelector(
+      audioDurationCorrection: (json['audioDurationCorrection'] as String?)
+          ?.toAudioDurationCorrection(),
       customLanguageCode: json['customLanguageCode'] as String?,
       defaultSelection:
           (json['defaultSelection'] as String?)?.toAudioDefaultSelection(),
       externalAudioFileInput: json['externalAudioFileInput'] as String?,
+      hlsRenditionGroupSettings: json['hlsRenditionGroupSettings'] != null
+          ? HlsRenditionGroupSettings.fromJson(
+              json['hlsRenditionGroupSettings'] as Map<String, dynamic>)
+          : null,
       languageCode: (json['languageCode'] as String?)?.toLanguageCode(),
       offset: json['offset'] as int?,
       pids:
@@ -3065,9 +3647,11 @@ class AudioSelector {
   }
 
   Map<String, dynamic> toJson() {
+    final audioDurationCorrection = this.audioDurationCorrection;
     final customLanguageCode = this.customLanguageCode;
     final defaultSelection = this.defaultSelection;
     final externalAudioFileInput = this.externalAudioFileInput;
+    final hlsRenditionGroupSettings = this.hlsRenditionGroupSettings;
     final languageCode = this.languageCode;
     final offset = this.offset;
     final pids = this.pids;
@@ -3076,11 +3660,15 @@ class AudioSelector {
     final selectorType = this.selectorType;
     final tracks = this.tracks;
     return {
+      if (audioDurationCorrection != null)
+        'audioDurationCorrection': audioDurationCorrection.toValue(),
       if (customLanguageCode != null) 'customLanguageCode': customLanguageCode,
       if (defaultSelection != null)
         'defaultSelection': defaultSelection.toValue(),
       if (externalAudioFileInput != null)
         'externalAudioFileInput': externalAudioFileInput,
+      if (hlsRenditionGroupSettings != null)
+        'hlsRenditionGroupSettings': hlsRenditionGroupSettings,
       if (languageCode != null) 'languageCode': languageCode.toValue(),
       if (offset != null) 'offset': offset,
       if (pids != null) 'pids': pids,
@@ -3092,7 +3680,11 @@ class AudioSelector {
   }
 }
 
-/// Group of Audio Selectors
+/// Use audio selector groups to combine multiple sidecar audio inputs so that
+/// you can assign them to a single output audio tab (AudioDescription). Note
+/// that, if you're working with embedded audio, it's simpler to assign multiple
+/// input tracks into a single audio selector rather than use an audio selector
+/// group.
 class AudioSelectorGroup {
   /// Name of an Audio Selector within the same input to include in the group.
   /// Audio selector names are standardized, based on their order within the input
@@ -3103,6 +3695,7 @@ class AudioSelectorGroup {
   AudioSelectorGroup({
     this.audioSelectorNames,
   });
+
   factory AudioSelectorGroup.fromJson(Map<String, dynamic> json) {
     return AudioSelectorGroup(
       audioSelectorNames: (json['audioSelectorNames'] as List?)
@@ -3125,6 +3718,7 @@ enum AudioSelectorType {
   pid,
   track,
   languageCode,
+  hlsRenditionGroup,
 }
 
 extension AudioSelectorTypeValueExtension on AudioSelectorType {
@@ -3136,6 +3730,8 @@ extension AudioSelectorTypeValueExtension on AudioSelectorType {
         return 'TRACK';
       case AudioSelectorType.languageCode:
         return 'LANGUAGE_CODE';
+      case AudioSelectorType.hlsRenditionGroup:
+        return 'HLS_RENDITION_GROUP';
     }
   }
 }
@@ -3149,6 +3745,8 @@ extension AudioSelectorTypeFromString on String {
         return AudioSelectorType.track;
       case 'LANGUAGE_CODE':
         return AudioSelectorType.languageCode;
+      case 'HLS_RENDITION_GROUP':
+        return AudioSelectorType.hlsRenditionGroup;
     }
     throw Exception('$this is not known in enum AudioSelectorType');
   }
@@ -3188,6 +3786,122 @@ extension AudioTypeControlFromString on String {
   }
 }
 
+/// Specify one or more Automated ABR rule types. Note: Force include and
+/// Allowed renditions are mutually exclusive.
+class AutomatedAbrRule {
+  /// When customer adds the allowed renditions rule for auto ABR ladder, they are
+  /// required to add at leat one rendition to allowedRenditions list
+  final List<AllowedRenditionSize>? allowedRenditions;
+
+  /// When customer adds the force include renditions rule for auto ABR ladder,
+  /// they are required to add at leat one rendition to forceIncludeRenditions
+  /// list
+  final List<ForceIncludeRenditionSize>? forceIncludeRenditions;
+
+  /// Use Min bottom rendition size to specify a minimum size for the lowest
+  /// resolution in your ABR stack. * The lowest resolution in your ABR stack will
+  /// be equal to or greater than the value that you enter. For example: If you
+  /// specify 640x360 the lowest resolution in your ABR stack will be equal to or
+  /// greater than to 640x360. * If you specify a Min top rendition size rule, the
+  /// value that you specify for Min bottom rendition size must be less than, or
+  /// equal to, Min top rendition size.
+  final MinBottomRenditionSize? minBottomRenditionSize;
+
+  /// Use Min top rendition size to specify a minimum size for the highest
+  /// resolution in your ABR stack. * The highest resolution in your ABR stack
+  /// will be equal to or greater than the value that you enter. For example: If
+  /// you specify 1280x720 the highest resolution in your ABR stack will be equal
+  /// to or greater than 1280x720. * If you specify a value for Max resolution,
+  /// the value that you specify for Min top rendition size must be less than, or
+  /// equal to, Max resolution.
+  final MinTopRenditionSize? minTopRenditionSize;
+
+  /// Use Min top rendition size to specify a minimum size for the highest
+  /// resolution in your ABR stack. * The highest resolution in your ABR stack
+  /// will be equal to or greater than the value that you enter. For example: If
+  /// you specify 1280x720 the highest resolution in your ABR stack will be equal
+  /// to or greater than 1280x720. * If you specify a value for Max resolution,
+  /// the value that you specify for Min top rendition size must be less than, or
+  /// equal to, Max resolution. Use Min bottom rendition size to specify a minimum
+  /// size for the lowest resolution in your ABR stack. * The lowest resolution in
+  /// your ABR stack will be equal to or greater than the value that you enter.
+  /// For example: If you specify 640x360 the lowest resolution in your ABR stack
+  /// will be equal to or greater than to 640x360. * If you specify a Min top
+  /// rendition size rule, the value that you specify for Min bottom rendition
+  /// size must be less than, or equal to, Min top rendition size. Use Force
+  /// include renditions to specify one or more resolutions to include your ABR
+  /// stack. * (Recommended) To optimize automated ABR, specify as few resolutions
+  /// as possible. * (Required) The number of resolutions that you specify must be
+  /// equal to, or less than, the Max renditions setting. * If you specify a Min
+  /// top rendition size rule, specify at least one resolution that is equal to,
+  /// or greater than, Min top rendition size. * If you specify a Min bottom
+  /// rendition size rule, only specify resolutions that are equal to, or greater
+  /// than, Min bottom rendition size. * If you specify a Force include renditions
+  /// rule, do not specify a separate rule for Allowed renditions. * Note: The ABR
+  /// stack may include other resolutions that you do not specify here, depending
+  /// on the Max renditions setting. Use Allowed renditions to specify a list of
+  /// possible resolutions in your ABR stack. * (Required) The number of
+  /// resolutions that you specify must be equal to, or greater than, the Max
+  /// renditions setting. * MediaConvert will create an ABR stack exclusively from
+  /// the list of resolutions that you specify. * Some resolutions in the Allowed
+  /// renditions list may not be included, however you can force a resolution to
+  /// be included by setting Required to ENABLED. * You must specify at least one
+  /// resolution that is greater than or equal to any resolutions that you specify
+  /// in Min top rendition size or Min bottom rendition size. * If you specify
+  /// Allowed renditions, you must not specify a separate rule for Force include
+  /// renditions.
+  final RuleType? type;
+
+  AutomatedAbrRule({
+    this.allowedRenditions,
+    this.forceIncludeRenditions,
+    this.minBottomRenditionSize,
+    this.minTopRenditionSize,
+    this.type,
+  });
+
+  factory AutomatedAbrRule.fromJson(Map<String, dynamic> json) {
+    return AutomatedAbrRule(
+      allowedRenditions: (json['allowedRenditions'] as List?)
+          ?.whereNotNull()
+          .map((e) => AllowedRenditionSize.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      forceIncludeRenditions: (json['forceIncludeRenditions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ForceIncludeRenditionSize.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      minBottomRenditionSize: json['minBottomRenditionSize'] != null
+          ? MinBottomRenditionSize.fromJson(
+              json['minBottomRenditionSize'] as Map<String, dynamic>)
+          : null,
+      minTopRenditionSize: json['minTopRenditionSize'] != null
+          ? MinTopRenditionSize.fromJson(
+              json['minTopRenditionSize'] as Map<String, dynamic>)
+          : null,
+      type: (json['type'] as String?)?.toRuleType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedRenditions = this.allowedRenditions;
+    final forceIncludeRenditions = this.forceIncludeRenditions;
+    final minBottomRenditionSize = this.minBottomRenditionSize;
+    final minTopRenditionSize = this.minTopRenditionSize;
+    final type = this.type;
+    return {
+      if (allowedRenditions != null) 'allowedRenditions': allowedRenditions,
+      if (forceIncludeRenditions != null)
+        'forceIncludeRenditions': forceIncludeRenditions,
+      if (minBottomRenditionSize != null)
+        'minBottomRenditionSize': minBottomRenditionSize,
+      if (minTopRenditionSize != null)
+        'minTopRenditionSize': minTopRenditionSize,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
+}
+
 /// Use automated ABR to have MediaConvert set up the renditions in your ABR
 /// package for you automatically, based on characteristics of your input video.
 /// This feature optimizes video quality while minimizing the overall size of
@@ -3214,16 +3928,28 @@ class AutomatedAbrSettings {
   /// uses 600,000 (600 kb/s) by default.
   final int? minAbrBitrate;
 
+  /// Optional. Use Automated ABR rules to specify restrictions for the rendition
+  /// sizes MediaConvert will create in your ABR stack. You can use these rules if
+  /// your ABR workflow has specific rendition size requirements, but you still
+  /// want MediaConvert to optimize for video quality and overall file size.
+  final List<AutomatedAbrRule>? rules;
+
   AutomatedAbrSettings({
     this.maxAbrBitrate,
     this.maxRenditions,
     this.minAbrBitrate,
+    this.rules,
   });
+
   factory AutomatedAbrSettings.fromJson(Map<String, dynamic> json) {
     return AutomatedAbrSettings(
       maxAbrBitrate: json['maxAbrBitrate'] as int?,
       maxRenditions: json['maxRenditions'] as int?,
       minAbrBitrate: json['minAbrBitrate'] as int?,
+      rules: (json['rules'] as List?)
+          ?.whereNotNull()
+          .map((e) => AutomatedAbrRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -3231,10 +3957,12 @@ class AutomatedAbrSettings {
     final maxAbrBitrate = this.maxAbrBitrate;
     final maxRenditions = this.maxRenditions;
     final minAbrBitrate = this.minAbrBitrate;
+    final rules = this.rules;
     return {
       if (maxAbrBitrate != null) 'maxAbrBitrate': maxAbrBitrate,
       if (maxRenditions != null) 'maxRenditions': maxRenditions,
       if (minAbrBitrate != null) 'minAbrBitrate': minAbrBitrate,
+      if (rules != null) 'rules': rules,
     };
   }
 }
@@ -3251,6 +3979,7 @@ class AutomatedEncodingSettings {
   AutomatedEncodingSettings({
     this.abrSettings,
   });
+
   factory AutomatedEncodingSettings.fromJson(Map<String, dynamic> json) {
     return AutomatedEncodingSettings(
       abrSettings: json['abrSettings'] != null
@@ -3319,6 +4048,36 @@ extension Av1AdaptiveQuantizationFromString on String {
   }
 }
 
+/// Specify the Bit depth (Av1BitDepth). You can choose 8-bit (BIT_8) or 10-bit
+/// (BIT_10).
+enum Av1BitDepth {
+  bit_8,
+  bit_10,
+}
+
+extension Av1BitDepthValueExtension on Av1BitDepth {
+  String toValue() {
+    switch (this) {
+      case Av1BitDepth.bit_8:
+        return 'BIT_8';
+      case Av1BitDepth.bit_10:
+        return 'BIT_10';
+    }
+  }
+}
+
+extension Av1BitDepthFromString on String {
+  Av1BitDepth toAv1BitDepth() {
+    switch (this) {
+      case 'BIT_8':
+        return Av1BitDepth.bit_8;
+      case 'BIT_10':
+        return Av1BitDepth.bit_10;
+    }
+    throw Exception('$this is not known in enum Av1BitDepth');
+  }
+}
+
 /// If you are using the console, use the Framerate setting to specify the frame
 /// rate for this output. If you want to keep the same frame rate as the input
 /// video, choose Follow source. If you want to do frame rate conversion, choose
@@ -3360,16 +4119,16 @@ extension Av1FramerateControlFromString on String {
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
-/// decreasing the frame rate. We recommend using drop duplicate
-/// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
-/// fps. For numerically complex conversions, you can use interpolate
-/// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
-/// introduce undesirable video artifacts. For complex frame rate conversions,
-/// especially if your source video has already been converted from its original
-/// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
-/// interpolation. FrameFormer chooses the best conversion method frame by
-/// frame. Note that using FrameFormer increases the transcoding time and incurs
-/// a significant add-on cost.
+/// decreasing the frame rate. For numerically simple conversions, such as 60
+/// fps to 30 fps: We recommend that you keep the default value, Drop duplicate.
+/// For numerically complex conversions, to avoid stutter: Choose Interpolate.
+/// This results in a smooth picture, but might introduce undesirable video
+/// artifacts. For complex frame rate conversions, especially if your source
+/// video has already been converted from its original cadence: Choose
+/// FrameFormer to do motion-compensated interpolation. FrameFormer uses the
+/// best conversion method frame by frame. Note that using FrameFormer increases
+/// the transcoding time and incurs a significant add-on cost. When you choose
+/// FrameFormer, your input video resolution must be at least 128x96.
 enum Av1FramerateConversionAlgorithm {
   duplicateDrop,
   interpolate,
@@ -3406,16 +4165,19 @@ extension Av1FramerateConversionAlgorithmFromString on String {
 }
 
 /// Settings for quality-defined variable bitrate encoding with the AV1 codec.
-/// Required when you set Rate control mode to QVBR. Not valid when you set Rate
-/// control mode to a value other than QVBR, or when you don't define Rate
-/// control mode.
+/// Use these settings only when you set QVBR for Rate control mode
+/// (RateControlMode).
 class Av1QvbrSettings {
-  /// Required when you use QVBR rate control mode. That is, when you specify
-  /// qvbrSettings within av1Settings. Specify the general target quality level
-  /// for this output, from 1 to 10. Use higher numbers for greater quality. Level
-  /// 10 results in nearly lossless compression. The quality level for most
-  /// broadcast-quality transcodes is between 6 and 9. Optionally, to specify a
-  /// value between whole numbers, also provide a value for the setting
+  /// Use this setting only when you set Rate control mode (RateControlMode) to
+  /// QVBR. Specify the target quality level for this output. MediaConvert
+  /// determines the right number of bits to use for each part of the video to
+  /// maintain the video quality that you specify. When you keep the default
+  /// value, AUTO, MediaConvert picks a quality level for you, based on
+  /// characteristics of your input video. If you prefer to specify a quality
+  /// level, specify a number from 1 through 10. Use higher numbers for greater
+  /// quality. Level 10 results in nearly lossless compression. The quality level
+  /// for most broadcast-quality transcodes is between 6 and 9. Optionally, to
+  /// specify a value between whole numbers, also provide a value for the setting
   /// qvbrQualityLevelFineTune. For example, if you want your QVBR quality level
   /// to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to
   /// .33.
@@ -3433,6 +4195,7 @@ class Av1QvbrSettings {
     this.qvbrQualityLevel,
     this.qvbrQualityLevelFineTune,
   });
+
   factory Av1QvbrSettings.fromJson(Map<String, dynamic> json) {
     return Av1QvbrSettings(
       qvbrQualityLevel: json['qvbrQualityLevel'] as int?,
@@ -3484,6 +4247,10 @@ class Av1Settings {
   /// (spatialAdaptiveQuantization).
   final Av1AdaptiveQuantization? adaptiveQuantization;
 
+  /// Specify the Bit depth (Av1BitDepth). You can choose 8-bit (BIT_8) or 10-bit
+  /// (BIT_10).
+  final Av1BitDepth? bitDepth;
+
   /// If you are using the console, use the Framerate setting to specify the frame
   /// rate for this output. If you want to keep the same frame rate as the input
   /// video, choose Follow source. If you want to do frame rate conversion, choose
@@ -3499,20 +4266,20 @@ class Av1Settings {
   final Av1FramerateControl? framerateControl;
 
   /// Choose the method that you want MediaConvert to use when increasing or
-  /// decreasing the frame rate. We recommend using drop duplicate
-  /// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
-  /// fps. For numerically complex conversions, you can use interpolate
-  /// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
-  /// introduce undesirable video artifacts. For complex frame rate conversions,
-  /// especially if your source video has already been converted from its original
-  /// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
-  /// interpolation. FrameFormer chooses the best conversion method frame by
-  /// frame. Note that using FrameFormer increases the transcoding time and incurs
-  /// a significant add-on cost.
+  /// decreasing the frame rate. For numerically simple conversions, such as 60
+  /// fps to 30 fps: We recommend that you keep the default value, Drop duplicate.
+  /// For numerically complex conversions, to avoid stutter: Choose Interpolate.
+  /// This results in a smooth picture, but might introduce undesirable video
+  /// artifacts. For complex frame rate conversions, especially if your source
+  /// video has already been converted from its original cadence: Choose
+  /// FrameFormer to do motion-compensated interpolation. FrameFormer uses the
+  /// best conversion method frame by frame. Note that using FrameFormer increases
+  /// the transcoding time and incurs a significant add-on cost. When you choose
+  /// FrameFormer, your input video resolution must be at least 128x96.
   final Av1FramerateConversionAlgorithm? framerateConversionAlgorithm;
 
   /// When you use the API for transcode jobs that use frame rate conversion,
-  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976
   /// fps. Use FramerateDenominator to specify the denominator of this fraction.
   /// In this example, use 1001 for the value of FramerateDenominator. When you
   /// use the console for transcode jobs that use frame rate conversion, provide
@@ -3521,7 +4288,7 @@ class Av1Settings {
   final int? framerateDenominator;
 
   /// When you use the API for transcode jobs that use frame rate conversion,
-  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976
   /// fps. Use FramerateNumerator to specify the numerator of this fraction. In
   /// this example, use 24000 for the value of FramerateNumerator. When you use
   /// the console for transcode jobs that use frame rate conversion, provide the
@@ -3538,14 +4305,14 @@ class Av1Settings {
   /// as 5000000. Required when Rate control mode is QVBR.
   final int? maxBitrate;
 
-  /// Specify the number of B-frames. With AV1, MediaConvert supports only 7 or
-  /// 15.
+  /// Specify from the number of B-frames, in the range of 0-15. For AV1 encoding,
+  /// we recommend using 7 or 15. Choose a larger number for a lower bitrate and
+  /// smaller file size; choose a smaller number for better video quality.
   final int? numberBFramesBetweenReferenceFrames;
 
-  /// Settings for quality-defined variable bitrate encoding with the AV1 codec.
-  /// Required when you set Rate control mode to QVBR. Not valid when you set Rate
-  /// control mode to a value other than QVBR, or when you don't define Rate
-  /// control mode.
+  /// Settings for quality-defined variable bitrate encoding with the H.265 codec.
+  /// Use these settings only when you set QVBR for Rate control mode
+  /// (RateControlMode).
   final Av1QvbrSettings? qvbrSettings;
 
   /// 'With AV1 outputs, for rate control mode, MediaConvert supports only
@@ -3577,6 +4344,7 @@ class Av1Settings {
 
   Av1Settings({
     this.adaptiveQuantization,
+    this.bitDepth,
     this.framerateControl,
     this.framerateConversionAlgorithm,
     this.framerateDenominator,
@@ -3589,10 +4357,12 @@ class Av1Settings {
     this.slices,
     this.spatialAdaptiveQuantization,
   });
+
   factory Av1Settings.fromJson(Map<String, dynamic> json) {
     return Av1Settings(
       adaptiveQuantization: (json['adaptiveQuantization'] as String?)
           ?.toAv1AdaptiveQuantization(),
+      bitDepth: (json['bitDepth'] as String?)?.toAv1BitDepth(),
       framerateControl:
           (json['framerateControl'] as String?)?.toAv1FramerateControl(),
       framerateConversionAlgorithm:
@@ -3619,6 +4389,7 @@ class Av1Settings {
 
   Map<String, dynamic> toJson() {
     final adaptiveQuantization = this.adaptiveQuantization;
+    final bitDepth = this.bitDepth;
     final framerateControl = this.framerateControl;
     final framerateConversionAlgorithm = this.framerateConversionAlgorithm;
     final framerateDenominator = this.framerateDenominator;
@@ -3634,6 +4405,7 @@ class Av1Settings {
     return {
       if (adaptiveQuantization != null)
         'adaptiveQuantization': adaptiveQuantization.toValue(),
+      if (bitDepth != null) 'bitDepth': bitDepth.toValue(),
       if (framerateControl != null)
         'framerateControl': framerateControl.toValue(),
       if (framerateConversionAlgorithm != null)
@@ -3700,7 +4472,11 @@ extension Av1SpatialAdaptiveQuantizationFromString on String {
   }
 }
 
-/// Settings for Avail Blanking
+/// Use ad avail blanking settings to specify your output content during SCTE-35
+/// triggered ad avails. You can blank your video or overlay it with an image.
+/// MediaConvert also removes any audio and embedded captions during the ad
+/// avail. For more information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/ad-avail-blanking.html.
 class AvailBlanking {
   /// Blanking image to be used. Leave empty for solid black. Only bmp and png
   /// images are supported.
@@ -3709,6 +4485,7 @@ class AvailBlanking {
   AvailBlanking({
     this.availBlankingImage,
   });
+
   factory AvailBlanking.fromJson(Map<String, dynamic> json) {
     return AvailBlanking(
       availBlankingImage: json['availBlankingImage'] as String?,
@@ -3726,11 +4503,13 @@ class AvailBlanking {
 /// Specify the AVC-Intra class of your output. The AVC-Intra class selection
 /// determines the output video bit rate depending on the frame rate of the
 /// output. Outputs with higher class values have higher bitrates and improved
-/// image quality.
+/// image quality. Note that for Class 4K/2K, MediaConvert supports only 4:2:2
+/// chroma subsampling.
 enum AvcIntraClass {
   class_50,
   class_100,
   class_200,
+  class_4k_2k,
 }
 
 extension AvcIntraClassValueExtension on AvcIntraClass {
@@ -3742,6 +4521,8 @@ extension AvcIntraClassValueExtension on AvcIntraClass {
         return 'CLASS_100';
       case AvcIntraClass.class_200:
         return 'CLASS_200';
+      case AvcIntraClass.class_4k_2k:
+        return 'CLASS_4K_2K';
     }
   }
 }
@@ -3755,6 +4536,8 @@ extension AvcIntraClassFromString on String {
         return AvcIntraClass.class_100;
       case 'CLASS_200':
         return AvcIntraClass.class_200;
+      case 'CLASS_4K_2K':
+        return AvcIntraClass.class_4k_2k;
     }
     throw Exception('$this is not known in enum AvcIntraClass');
   }
@@ -3801,16 +4584,16 @@ extension AvcIntraFramerateControlFromString on String {
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
-/// decreasing the frame rate. We recommend using drop duplicate
-/// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
-/// fps. For numerically complex conversions, you can use interpolate
-/// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
-/// introduce undesirable video artifacts. For complex frame rate conversions,
-/// especially if your source video has already been converted from its original
-/// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
-/// interpolation. FrameFormer chooses the best conversion method frame by
-/// frame. Note that using FrameFormer increases the transcoding time and incurs
-/// a significant add-on cost.
+/// decreasing the frame rate. For numerically simple conversions, such as 60
+/// fps to 30 fps: We recommend that you keep the default value, Drop duplicate.
+/// For numerically complex conversions, to avoid stutter: Choose Interpolate.
+/// This results in a smooth picture, but might introduce undesirable video
+/// artifacts. For complex frame rate conversions, especially if your source
+/// video has already been converted from its original cadence: Choose
+/// FrameFormer to do motion-compensated interpolation. FrameFormer uses the
+/// best conversion method frame by frame. Note that using FrameFormer increases
+/// the transcoding time and incurs a significant add-on cost. When you choose
+/// FrameFormer, your input video resolution must be at least 128x96.
 enum AvcIntraFramerateConversionAlgorithm {
   duplicateDrop,
   interpolate,
@@ -3902,16 +4685,68 @@ extension AvcIntraInterlaceModeFromString on String {
   }
 }
 
-/// Required when you set your output video codec to AVC-Intra. For more
-/// information about the AVC-I settings, see the relevant specification. For
-/// detailed information about SD and HD in AVC-I, see
-/// https://ieeexplore.ieee.org/document/7290936.
+/// Use this setting for interlaced outputs, when your output frame rate is half
+/// of your input frame rate. In this situation, choose Optimized interlacing
+/// (INTERLACED_OPTIMIZE) to create a better quality interlaced output. In this
+/// case, each progressive frame from the input corresponds to an interlaced
+/// field in the output. Keep the default value, Basic interlacing (INTERLACED),
+/// for all other output frame rates. With basic interlacing, MediaConvert
+/// performs any frame rate conversion first and then interlaces the frames.
+/// When you choose Optimized interlacing and you set your output frame rate to
+/// a value that isn't suitable for optimized interlacing, MediaConvert
+/// automatically falls back to basic interlacing. Required settings: To use
+/// optimized interlacing, you must set Telecine (telecine) to None (NONE) or
+/// Soft (SOFT). You can't use optimized interlacing for hard telecine outputs.
+/// You must also set Interlace mode (interlaceMode) to a value other than
+/// Progressive (PROGRESSIVE).
+enum AvcIntraScanTypeConversionMode {
+  interlaced,
+  interlacedOptimize,
+}
+
+extension AvcIntraScanTypeConversionModeValueExtension
+    on AvcIntraScanTypeConversionMode {
+  String toValue() {
+    switch (this) {
+      case AvcIntraScanTypeConversionMode.interlaced:
+        return 'INTERLACED';
+      case AvcIntraScanTypeConversionMode.interlacedOptimize:
+        return 'INTERLACED_OPTIMIZE';
+    }
+  }
+}
+
+extension AvcIntraScanTypeConversionModeFromString on String {
+  AvcIntraScanTypeConversionMode toAvcIntraScanTypeConversionMode() {
+    switch (this) {
+      case 'INTERLACED':
+        return AvcIntraScanTypeConversionMode.interlaced;
+      case 'INTERLACED_OPTIMIZE':
+        return AvcIntraScanTypeConversionMode.interlacedOptimize;
+    }
+    throw Exception(
+        '$this is not known in enum AvcIntraScanTypeConversionMode');
+  }
+}
+
+/// Required when you choose AVC-Intra for your output video codec. For more
+/// information about the AVC-Intra settings, see the relevant specification.
+/// For detailed information about SD and HD in AVC-Intra, see
+/// https://ieeexplore.ieee.org/document/7290936. For information about 4K/2K in
+/// AVC-Intra, see
+/// https://pro-av.panasonic.net/en/avc-ultra/AVC-ULTRAoverview.pdf.
 class AvcIntraSettings {
   /// Specify the AVC-Intra class of your output. The AVC-Intra class selection
   /// determines the output video bit rate depending on the frame rate of the
   /// output. Outputs with higher class values have higher bitrates and improved
-  /// image quality.
+  /// image quality. Note that for Class 4K/2K, MediaConvert supports only 4:2:2
+  /// chroma subsampling.
   final AvcIntraClass? avcIntraClass;
+
+  /// Optional when you set AVC-Intra class (avcIntraClass) to Class 4K/2K
+  /// (CLASS_4K_2K). When you set AVC-Intra class to a different value, this
+  /// object isn't allowed.
+  final AvcIntraUhdSettings? avcIntraUhdSettings;
 
   /// If you are using the console, use the Framerate setting to specify the frame
   /// rate for this output. If you want to keep the same frame rate as the input
@@ -3928,20 +4763,20 @@ class AvcIntraSettings {
   final AvcIntraFramerateControl? framerateControl;
 
   /// Choose the method that you want MediaConvert to use when increasing or
-  /// decreasing the frame rate. We recommend using drop duplicate
-  /// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
-  /// fps. For numerically complex conversions, you can use interpolate
-  /// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
-  /// introduce undesirable video artifacts. For complex frame rate conversions,
-  /// especially if your source video has already been converted from its original
-  /// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
-  /// interpolation. FrameFormer chooses the best conversion method frame by
-  /// frame. Note that using FrameFormer increases the transcoding time and incurs
-  /// a significant add-on cost.
+  /// decreasing the frame rate. For numerically simple conversions, such as 60
+  /// fps to 30 fps: We recommend that you keep the default value, Drop duplicate.
+  /// For numerically complex conversions, to avoid stutter: Choose Interpolate.
+  /// This results in a smooth picture, but might introduce undesirable video
+  /// artifacts. For complex frame rate conversions, especially if your source
+  /// video has already been converted from its original cadence: Choose
+  /// FrameFormer to do motion-compensated interpolation. FrameFormer uses the
+  /// best conversion method frame by frame. Note that using FrameFormer increases
+  /// the transcoding time and incurs a significant add-on cost. When you choose
+  /// FrameFormer, your input video resolution must be at least 128x96.
   final AvcIntraFramerateConversionAlgorithm? framerateConversionAlgorithm;
 
   /// When you use the API for transcode jobs that use frame rate conversion,
-  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976
   /// fps. Use FramerateDenominator to specify the denominator of this fraction.
   /// In this example, use 1001 for the value of FramerateDenominator. When you
   /// use the console for transcode jobs that use frame rate conversion, provide
@@ -3950,7 +4785,7 @@ class AvcIntraSettings {
   final int? framerateDenominator;
 
   /// When you use the API for transcode jobs that use frame rate conversion,
-  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976
   /// fps. Use FramerateNumerator to specify the numerator of this fraction. In
   /// this example, use 24000 for the value of FramerateNumerator. When you use
   /// the console for transcode jobs that use frame rate conversion, provide the
@@ -3970,6 +4805,22 @@ class AvcIntraSettings {
   /// source is progressive, the output will be interlaced with top field bottom
   /// field first, depending on which of the Follow options you choose.
   final AvcIntraInterlaceMode? interlaceMode;
+
+  /// Use this setting for interlaced outputs, when your output frame rate is half
+  /// of your input frame rate. In this situation, choose Optimized interlacing
+  /// (INTERLACED_OPTIMIZE) to create a better quality interlaced output. In this
+  /// case, each progressive frame from the input corresponds to an interlaced
+  /// field in the output. Keep the default value, Basic interlacing (INTERLACED),
+  /// for all other output frame rates. With basic interlacing, MediaConvert
+  /// performs any frame rate conversion first and then interlaces the frames.
+  /// When you choose Optimized interlacing and you set your output frame rate to
+  /// a value that isn't suitable for optimized interlacing, MediaConvert
+  /// automatically falls back to basic interlacing. Required settings: To use
+  /// optimized interlacing, you must set Telecine (telecine) to None (NONE) or
+  /// Soft (SOFT). You can't use optimized interlacing for hard telecine outputs.
+  /// You must also set Interlace mode (interlaceMode) to a value other than
+  /// Progressive (PROGRESSIVE).
+  final AvcIntraScanTypeConversionMode? scanTypeConversionMode;
 
   /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per
   /// second (fps). Enable slow PAL to create a 25 fps output. When you enable
@@ -3991,17 +4842,24 @@ class AvcIntraSettings {
 
   AvcIntraSettings({
     this.avcIntraClass,
+    this.avcIntraUhdSettings,
     this.framerateControl,
     this.framerateConversionAlgorithm,
     this.framerateDenominator,
     this.framerateNumerator,
     this.interlaceMode,
+    this.scanTypeConversionMode,
     this.slowPal,
     this.telecine,
   });
+
   factory AvcIntraSettings.fromJson(Map<String, dynamic> json) {
     return AvcIntraSettings(
       avcIntraClass: (json['avcIntraClass'] as String?)?.toAvcIntraClass(),
+      avcIntraUhdSettings: json['avcIntraUhdSettings'] != null
+          ? AvcIntraUhdSettings.fromJson(
+              json['avcIntraUhdSettings'] as Map<String, dynamic>)
+          : null,
       framerateControl:
           (json['framerateControl'] as String?)?.toAvcIntraFramerateControl(),
       framerateConversionAlgorithm:
@@ -4011,6 +4869,8 @@ class AvcIntraSettings {
       framerateNumerator: json['framerateNumerator'] as int?,
       interlaceMode:
           (json['interlaceMode'] as String?)?.toAvcIntraInterlaceMode(),
+      scanTypeConversionMode: (json['scanTypeConversionMode'] as String?)
+          ?.toAvcIntraScanTypeConversionMode(),
       slowPal: (json['slowPal'] as String?)?.toAvcIntraSlowPal(),
       telecine: (json['telecine'] as String?)?.toAvcIntraTelecine(),
     );
@@ -4018,15 +4878,19 @@ class AvcIntraSettings {
 
   Map<String, dynamic> toJson() {
     final avcIntraClass = this.avcIntraClass;
+    final avcIntraUhdSettings = this.avcIntraUhdSettings;
     final framerateControl = this.framerateControl;
     final framerateConversionAlgorithm = this.framerateConversionAlgorithm;
     final framerateDenominator = this.framerateDenominator;
     final framerateNumerator = this.framerateNumerator;
     final interlaceMode = this.interlaceMode;
+    final scanTypeConversionMode = this.scanTypeConversionMode;
     final slowPal = this.slowPal;
     final telecine = this.telecine;
     return {
       if (avcIntraClass != null) 'avcIntraClass': avcIntraClass.toValue(),
+      if (avcIntraUhdSettings != null)
+        'avcIntraUhdSettings': avcIntraUhdSettings,
       if (framerateControl != null)
         'framerateControl': framerateControl.toValue(),
       if (framerateConversionAlgorithm != null)
@@ -4035,6 +4899,8 @@ class AvcIntraSettings {
         'framerateDenominator': framerateDenominator,
       if (framerateNumerator != null) 'framerateNumerator': framerateNumerator,
       if (interlaceMode != null) 'interlaceMode': interlaceMode.toValue(),
+      if (scanTypeConversionMode != null)
+        'scanTypeConversionMode': scanTypeConversionMode.toValue(),
       if (slowPal != null) 'slowPal': slowPal.toValue(),
       if (telecine != null) 'telecine': telecine.toValue(),
     };
@@ -4111,6 +4977,219 @@ extension AvcIntraTelecineFromString on String {
   }
 }
 
+/// Optional. Use Quality tuning level (qualityTuningLevel) to choose how many
+/// transcoding passes MediaConvert does with your video. When you choose
+/// Multi-pass (MULTI_PASS), your video quality is better and your output
+/// bitrate is more accurate. That is, the actual bitrate of your output is
+/// closer to the target bitrate defined in the specification. When you choose
+/// Single-pass (SINGLE_PASS), your encoding time is faster. The default
+/// behavior is Single-pass (SINGLE_PASS).
+enum AvcIntraUhdQualityTuningLevel {
+  singlePass,
+  multiPass,
+}
+
+extension AvcIntraUhdQualityTuningLevelValueExtension
+    on AvcIntraUhdQualityTuningLevel {
+  String toValue() {
+    switch (this) {
+      case AvcIntraUhdQualityTuningLevel.singlePass:
+        return 'SINGLE_PASS';
+      case AvcIntraUhdQualityTuningLevel.multiPass:
+        return 'MULTI_PASS';
+    }
+  }
+}
+
+extension AvcIntraUhdQualityTuningLevelFromString on String {
+  AvcIntraUhdQualityTuningLevel toAvcIntraUhdQualityTuningLevel() {
+    switch (this) {
+      case 'SINGLE_PASS':
+        return AvcIntraUhdQualityTuningLevel.singlePass;
+      case 'MULTI_PASS':
+        return AvcIntraUhdQualityTuningLevel.multiPass;
+    }
+    throw Exception('$this is not known in enum AvcIntraUhdQualityTuningLevel');
+  }
+}
+
+/// Optional when you set AVC-Intra class (avcIntraClass) to Class 4K/2K
+/// (CLASS_4K_2K). When you set AVC-Intra class to a different value, this
+/// object isn't allowed.
+class AvcIntraUhdSettings {
+  /// Optional. Use Quality tuning level (qualityTuningLevel) to choose how many
+  /// transcoding passes MediaConvert does with your video. When you choose
+  /// Multi-pass (MULTI_PASS), your video quality is better and your output
+  /// bitrate is more accurate. That is, the actual bitrate of your output is
+  /// closer to the target bitrate defined in the specification. When you choose
+  /// Single-pass (SINGLE_PASS), your encoding time is faster. The default
+  /// behavior is Single-pass (SINGLE_PASS).
+  final AvcIntraUhdQualityTuningLevel? qualityTuningLevel;
+
+  AvcIntraUhdSettings({
+    this.qualityTuningLevel,
+  });
+
+  factory AvcIntraUhdSettings.fromJson(Map<String, dynamic> json) {
+    return AvcIntraUhdSettings(
+      qualityTuningLevel: (json['qualityTuningLevel'] as String?)
+          ?.toAvcIntraUhdQualityTuningLevel(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final qualityTuningLevel = this.qualityTuningLevel;
+    return {
+      if (qualityTuningLevel != null)
+        'qualityTuningLevel': qualityTuningLevel.toValue(),
+    };
+  }
+}
+
+/// The Bandwidth reduction filter increases the video quality of your output
+/// relative to its bitrate. Use to lower the bitrate of your constant quality
+/// QVBR output, with little or no perceptual decrease in quality. Or, use to
+/// increase the video quality of outputs with other rate control modes relative
+/// to the bitrate that you specify. Bandwidth reduction increases further when
+/// your input is low quality or noisy. Outputs that use this feature incur
+/// pro-tier pricing. When you include Bandwidth reduction filter, you cannot
+/// include the Noise reducer preprocessor.
+class BandwidthReductionFilter {
+  /// Optionally specify the level of sharpening to apply when you use the
+  /// Bandwidth reduction filter. Sharpening adds contrast to the edges of your
+  /// video content and can reduce softness. Keep the default value Off to apply
+  /// no sharpening. Set Sharpening strength to Low to apply a minimal amount of
+  /// sharpening, or High to apply a maximum amount of sharpening.
+  final BandwidthReductionFilterSharpening? sharpening;
+
+  /// Specify the strength of the Bandwidth reduction filter. For most workflows,
+  /// we recommend that you choose Auto to reduce the bandwidth of your output
+  /// with little to no perceptual decrease in video quality. For high quality and
+  /// high bitrate outputs, choose Low. For the most bandwidth reduction, choose
+  /// High. We recommend that you choose High for low bitrate outputs. Note that
+  /// High may incur a slight increase in the softness of your output.
+  final BandwidthReductionFilterStrength? strength;
+
+  BandwidthReductionFilter({
+    this.sharpening,
+    this.strength,
+  });
+
+  factory BandwidthReductionFilter.fromJson(Map<String, dynamic> json) {
+    return BandwidthReductionFilter(
+      sharpening: (json['sharpening'] as String?)
+          ?.toBandwidthReductionFilterSharpening(),
+      strength:
+          (json['strength'] as String?)?.toBandwidthReductionFilterStrength(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sharpening = this.sharpening;
+    final strength = this.strength;
+    return {
+      if (sharpening != null) 'sharpening': sharpening.toValue(),
+      if (strength != null) 'strength': strength.toValue(),
+    };
+  }
+}
+
+/// Optionally specify the level of sharpening to apply when you use the
+/// Bandwidth reduction filter. Sharpening adds contrast to the edges of your
+/// video content and can reduce softness. Keep the default value Off to apply
+/// no sharpening. Set Sharpening strength to Low to apply a minimal amount of
+/// sharpening, or High to apply a maximum amount of sharpening.
+enum BandwidthReductionFilterSharpening {
+  low,
+  medium,
+  high,
+  off,
+}
+
+extension BandwidthReductionFilterSharpeningValueExtension
+    on BandwidthReductionFilterSharpening {
+  String toValue() {
+    switch (this) {
+      case BandwidthReductionFilterSharpening.low:
+        return 'LOW';
+      case BandwidthReductionFilterSharpening.medium:
+        return 'MEDIUM';
+      case BandwidthReductionFilterSharpening.high:
+        return 'HIGH';
+      case BandwidthReductionFilterSharpening.off:
+        return 'OFF';
+    }
+  }
+}
+
+extension BandwidthReductionFilterSharpeningFromString on String {
+  BandwidthReductionFilterSharpening toBandwidthReductionFilterSharpening() {
+    switch (this) {
+      case 'LOW':
+        return BandwidthReductionFilterSharpening.low;
+      case 'MEDIUM':
+        return BandwidthReductionFilterSharpening.medium;
+      case 'HIGH':
+        return BandwidthReductionFilterSharpening.high;
+      case 'OFF':
+        return BandwidthReductionFilterSharpening.off;
+    }
+    throw Exception(
+        '$this is not known in enum BandwidthReductionFilterSharpening');
+  }
+}
+
+/// Specify the strength of the Bandwidth reduction filter. For most workflows,
+/// we recommend that you choose Auto to reduce the bandwidth of your output
+/// with little to no perceptual decrease in video quality. For high quality and
+/// high bitrate outputs, choose Low. For the most bandwidth reduction, choose
+/// High. We recommend that you choose High for low bitrate outputs. Note that
+/// High may incur a slight increase in the softness of your output.
+enum BandwidthReductionFilterStrength {
+  low,
+  medium,
+  high,
+  auto,
+  off,
+}
+
+extension BandwidthReductionFilterStrengthValueExtension
+    on BandwidthReductionFilterStrength {
+  String toValue() {
+    switch (this) {
+      case BandwidthReductionFilterStrength.low:
+        return 'LOW';
+      case BandwidthReductionFilterStrength.medium:
+        return 'MEDIUM';
+      case BandwidthReductionFilterStrength.high:
+        return 'HIGH';
+      case BandwidthReductionFilterStrength.auto:
+        return 'AUTO';
+      case BandwidthReductionFilterStrength.off:
+        return 'OFF';
+    }
+  }
+}
+
+extension BandwidthReductionFilterStrengthFromString on String {
+  BandwidthReductionFilterStrength toBandwidthReductionFilterStrength() {
+    switch (this) {
+      case 'LOW':
+        return BandwidthReductionFilterStrength.low;
+      case 'MEDIUM':
+        return BandwidthReductionFilterStrength.medium;
+      case 'HIGH':
+        return BandwidthReductionFilterStrength.high;
+      case 'AUTO':
+        return BandwidthReductionFilterStrength.auto;
+      case 'OFF':
+        return BandwidthReductionFilterStrength.off;
+    }
+    throw Exception(
+        '$this is not known in enum BandwidthReductionFilterStrength');
+  }
+}
+
 /// The tag type that AWS Billing and Cost Management will use to sort your AWS
 /// Elemental MediaConvert costs on any billing report that you set up.
 enum BillingTagsSource {
@@ -4151,141 +5230,231 @@ extension BillingTagsSourceFromString on String {
   }
 }
 
-/// Burn-In Destination Settings.
+/// Set Style passthrough (StylePassthrough) to ENABLED to use the available
+/// style, color, and position information from your input captions.
+/// MediaConvert uses default settings for any missing style and position
+/// information in your input captions. Set Style passthrough to DISABLED, or
+/// leave blank, to ignore the style and position information from your input
+/// captions and use default settings: white text with black outlining,
+/// bottom-center positioning, and automatic sizing. Whether you set Style
+/// passthrough to enabled or not, you can also choose to manually override any
+/// of the individual style and position settings.
+enum BurnInSubtitleStylePassthrough {
+  enabled,
+  disabled,
+}
+
+extension BurnInSubtitleStylePassthroughValueExtension
+    on BurnInSubtitleStylePassthrough {
+  String toValue() {
+    switch (this) {
+      case BurnInSubtitleStylePassthrough.enabled:
+        return 'ENABLED';
+      case BurnInSubtitleStylePassthrough.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension BurnInSubtitleStylePassthroughFromString on String {
+  BurnInSubtitleStylePassthrough toBurnInSubtitleStylePassthrough() {
+    switch (this) {
+      case 'ENABLED':
+        return BurnInSubtitleStylePassthrough.enabled;
+      case 'DISABLED':
+        return BurnInSubtitleStylePassthrough.disabled;
+    }
+    throw Exception(
+        '$this is not known in enum BurnInSubtitleStylePassthrough');
+  }
+}
+
+/// Burn-in is a captions delivery method, rather than a captions format.
+/// Burn-in writes the captions directly on your video frames, replacing pixels
+/// of video content with the captions. Set up burn-in captions in the same
+/// output as your video. For more information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/burn-in-output-captions.html.
+/// When you work directly in your JSON job specification, include this object
+/// and any required children when you set destinationType to BURN_IN.
 class BurninDestinationSettings {
-  /// If no explicit x_position or y_position is provided, setting alignment to
-  /// centered will place the captions at the bottom center of the output.
-  /// Similarly, setting a left alignment will align captions to the bottom left
-  /// of the output. If x and y positions are given in conjunction with the
-  /// alignment parameter, the font will be justified (either left or centered)
-  /// relative to those coordinates. This option is not valid for source captions
-  /// that are STL, 608/embedded or teletext. These source settings are already
-  /// pre-defined by the caption stream. All burn-in and DVB-Sub font settings
-  /// must match.
+  /// Specify the alignment of your captions. If no explicit x_position is
+  /// provided, setting alignment to centered will placethe captions at the bottom
+  /// center of the output. Similarly, setting a left alignment willalign captions
+  /// to the bottom left of the output. If x and y positions are given in
+  /// conjunction with the alignment parameter, the font will be justified (either
+  /// left or centered) relative to those coordinates.
   final BurninSubtitleAlignment? alignment;
 
-  /// Specifies the color of the rectangle behind the captions.
-  /// All burn-in and DVB-Sub font settings must match.
+  /// Ignore this setting unless Style passthrough (StylePassthrough) is set to
+  /// Enabled and Font color (FontColor) set to Black, Yellow, Red, Green, Blue,
+  /// or Hex. Use Apply font color (ApplyFontColor) for additional font color
+  /// controls. When you choose White text only (WHITE_TEXT_ONLY), or leave blank,
+  /// your font color setting only applies to white text in your input captions.
+  /// For example, if your font color setting is Yellow, and your input captions
+  /// have red and white text, your output captions will have red and yellow text.
+  /// When you choose ALL_TEXT, your font color setting applies to all of your
+  /// output captions text.
+  final BurninSubtitleApplyFontColor? applyFontColor;
+
+  /// Specify the color of the rectangle behind the captions. Leave background
+  /// color (BackgroundColor) blank and set Style passthrough (StylePassthrough)
+  /// to enabled to use the background color data from your input captions, if
+  /// present.
   final BurninSubtitleBackgroundColor? backgroundColor;
 
-  /// Specifies the opacity of the background rectangle. 255 is opaque; 0 is
-  /// transparent. Leaving this parameter blank is equivalent to setting it to 0
-  /// (transparent). All burn-in and DVB-Sub font settings must match.
+  /// Specify the opacity of the background rectangle. Enter a value from 0 to
+  /// 255, where 0 is transparent and 255 is opaque. If Style passthrough
+  /// (StylePassthrough) is set to enabled, leave blank to pass through the
+  /// background style information in your input captions to your output captions.
+  /// If Style passthrough is set to disabled, leave blank to use a value of 0 and
+  /// remove all backgrounds from your output captions.
   final int? backgroundOpacity;
 
-  /// Specifies the color of the burned-in captions. This option is not valid for
-  /// source captions that are STL, 608/embedded or teletext. These source
-  /// settings are already pre-defined by the caption stream. All burn-in and
-  /// DVB-Sub font settings must match.
+  /// Specify the font that you want the service to use for your burn in captions
+  /// when your input captions specify a font that MediaConvert doesn't support.
+  /// When you set Fallback font (FallbackFont) to best match (BEST_MATCH), or
+  /// leave blank, MediaConvert uses a supported font that most closely matches
+  /// the font that your input captions specify. When there are multiple
+  /// unsupported fonts in your input captions, MediaConvert matches each font
+  /// with the supported font that matches best. When you explicitly choose a
+  /// replacement font, MediaConvert uses that font to replace all unsupported
+  /// fonts from your input.
+  final BurninSubtitleFallbackFont? fallbackFont;
+
+  /// Specify the color of the burned-in captions text. Leave Font color
+  /// (FontColor) blank and set Style passthrough (StylePassthrough) to enabled to
+  /// use the font color data from your input captions, if present.
   final BurninSubtitleFontColor? fontColor;
 
-  /// Specifies the opacity of the burned-in captions. 255 is opaque; 0 is
+  /// Specify the opacity of the burned-in captions. 255 is opaque; 0 is
   /// transparent.
-  /// All burn-in and DVB-Sub font settings must match.
   final int? fontOpacity;
 
-  /// Font resolution in DPI (dots per inch); default is 96 dpi.
-  /// All burn-in and DVB-Sub font settings must match.
+  /// Specify the Font resolution (FontResolution) in DPI (dots per inch).
   final int? fontResolution;
 
-  /// Provide the font script, using an ISO 15924 script code, if the LanguageCode
-  /// is not sufficient for determining the script type. Where LanguageCode or
-  /// CustomLanguageCode is sufficient, use "AUTOMATIC" or leave unset. This is
-  /// used to help determine the appropriate font for rendering burn-in captions.
+  /// Set Font script (FontScript) to Automatically determined (AUTOMATIC), or
+  /// leave blank, to automatically determine the font script in your input
+  /// captions. Otherwise, set to Simplified Chinese (HANS) or Traditional Chinese
+  /// (HANT) if your input font script uses Simplified or Traditional Chinese.
   final FontScript? fontScript;
 
-  /// A positive integer indicates the exact font size in points. Set to 0 for
-  /// automatic font size selection. All burn-in and DVB-Sub font settings must
-  /// match.
+  /// Specify the Font size (FontSize) in pixels. Must be a positive integer. Set
+  /// to 0, or leave blank, for automatic font size.
   final int? fontSize;
 
-  /// Specifies font outline color. This option is not valid for source captions
-  /// that are either 608/embedded or teletext. These source settings are already
-  /// pre-defined by the caption stream. All burn-in and DVB-Sub font settings
-  /// must match.
+  /// Ignore this setting unless your Font color is set to Hex. Enter either six
+  /// or eight hexidecimal digits, representing red, green, and blue, with two
+  /// optional extra digits for alpha. For example a value of 1122AABB is a red
+  /// value of 0x11, a green value of 0x22, a blue value of 0xAA, and an alpha
+  /// value of 0xBB.
+  final String? hexFontColor;
+
+  /// Specify font outline color. Leave Outline color (OutlineColor) blank and set
+  /// Style passthrough (StylePassthrough) to enabled to use the font outline
+  /// color data from your input captions, if present.
   final BurninSubtitleOutlineColor? outlineColor;
 
-  /// Specifies font outline size in pixels. This option is not valid for source
-  /// captions that are either 608/embedded or teletext. These source settings are
-  /// already pre-defined by the caption stream. All burn-in and DVB-Sub font
-  /// settings must match.
+  /// Specify the Outline size (OutlineSize) of the caption text, in pixels. Leave
+  /// Outline size blank and set Style passthrough (StylePassthrough) to enabled
+  /// to use the outline size data from your input captions, if present.
   final int? outlineSize;
 
-  /// Specifies the color of the shadow cast by the captions.
-  /// All burn-in and DVB-Sub font settings must match.
+  /// Specify the color of the shadow cast by the captions. Leave Shadow color
+  /// (ShadowColor) blank and set Style passthrough (StylePassthrough) to enabled
+  /// to use the shadow color data from your input captions, if present.
   final BurninSubtitleShadowColor? shadowColor;
 
-  /// Specifies the opacity of the shadow. 255 is opaque; 0 is transparent.
-  /// Leaving this parameter blank is equivalent to setting it to 0 (transparent).
-  /// All burn-in and DVB-Sub font settings must match.
+  /// Specify the opacity of the shadow. Enter a value from 0 to 255, where 0 is
+  /// transparent and 255 is opaque. If Style passthrough (StylePassthrough) is
+  /// set to Enabled, leave Shadow opacity (ShadowOpacity) blank to pass through
+  /// the shadow style information in your input captions to your output captions.
+  /// If Style passthrough is set to disabled, leave blank to use a value of 0 and
+  /// remove all shadows from your output captions.
   final int? shadowOpacity;
 
-  /// Specifies the horizontal offset of the shadow relative to the captions in
+  /// Specify the horizontal offset of the shadow, relative to the captions in
   /// pixels. A value of -2 would result in a shadow offset 2 pixels to the left.
-  /// All burn-in and DVB-Sub font settings must match.
   final int? shadowXOffset;
 
-  /// Specifies the vertical offset of the shadow relative to the captions in
+  /// Specify the vertical offset of the shadow relative to the captions in
   /// pixels. A value of -2 would result in a shadow offset 2 pixels above the
-  /// text. All burn-in and DVB-Sub font settings must match.
+  /// text. Leave Shadow y-offset (ShadowYOffset) blank and set Style passthrough
+  /// (StylePassthrough) to enabled to use the shadow y-offset data from your
+  /// input captions, if present.
   final int? shadowYOffset;
 
-  /// Only applies to jobs with input captions in Teletext or STL formats. Specify
-  /// whether the spacing between letters in your captions is set by the captions
-  /// grid or varies depending on letter width. Choose fixed grid to conform to
-  /// the spacing specified in the captions file more accurately. Choose
-  /// proportional to make the text easier to read if the captions are closed
-  /// caption.
+  /// Set Style passthrough (StylePassthrough) to ENABLED to use the available
+  /// style, color, and position information from your input captions.
+  /// MediaConvert uses default settings for any missing style and position
+  /// information in your input captions. Set Style passthrough to DISABLED, or
+  /// leave blank, to ignore the style and position information from your input
+  /// captions and use default settings: white text with black outlining,
+  /// bottom-center positioning, and automatic sizing. Whether you set Style
+  /// passthrough to enabled or not, you can also choose to manually override any
+  /// of the individual style and position settings.
+  final BurnInSubtitleStylePassthrough? stylePassthrough;
+
+  /// Specify whether the text spacing (TeletextSpacing) in your captions is set
+  /// by the captions grid, or varies depending on letter width. Choose fixed grid
+  /// (FIXED_GRID) to conform to the spacing specified in the captions file more
+  /// accurately. Choose proportional (PROPORTIONAL) to make the text easier to
+  /// read for closed captions.
   final BurninSubtitleTeletextSpacing? teletextSpacing;
 
-  /// Specifies the horizontal position of the caption relative to the left side
-  /// of the output in pixels. A value of 10 would result in the captions starting
-  /// 10 pixels from the left of the output. If no explicit x_position is
-  /// provided, the horizontal caption position will be determined by the
-  /// alignment parameter. This option is not valid for source captions that are
-  /// STL, 608/embedded or teletext. These source settings are already pre-defined
-  /// by the caption stream. All burn-in and DVB-Sub font settings must match.
+  /// Specify the horizontal position (XPosition) of the captions, relative to the
+  /// left side of the output in pixels. A value of 10 would result in the
+  /// captions starting 10 pixels from the left of the output. If no explicit
+  /// x_position is provided, the horizontal caption position will be determined
+  /// by the alignment parameter.
   final int? xPosition;
 
-  /// Specifies the vertical position of the caption relative to the top of the
-  /// output in pixels. A value of 10 would result in the captions starting 10
-  /// pixels from the top of the output. If no explicit y_position is provided,
-  /// the caption will be positioned towards the bottom of the output. This option
-  /// is not valid for source captions that are STL, 608/embedded or teletext.
-  /// These source settings are already pre-defined by the caption stream. All
-  /// burn-in and DVB-Sub font settings must match.
+  /// Specify the vertical position (YPosition) of the captions, relative to the
+  /// top of the output in pixels. A value of 10 would result in the captions
+  /// starting 10 pixels from the top of the output. If no explicit y_position is
+  /// provided, the caption will be positioned towards the bottom of the output.
   final int? yPosition;
 
   BurninDestinationSettings({
     this.alignment,
+    this.applyFontColor,
     this.backgroundColor,
     this.backgroundOpacity,
+    this.fallbackFont,
     this.fontColor,
     this.fontOpacity,
     this.fontResolution,
     this.fontScript,
     this.fontSize,
+    this.hexFontColor,
     this.outlineColor,
     this.outlineSize,
     this.shadowColor,
     this.shadowOpacity,
     this.shadowXOffset,
     this.shadowYOffset,
+    this.stylePassthrough,
     this.teletextSpacing,
     this.xPosition,
     this.yPosition,
   });
+
   factory BurninDestinationSettings.fromJson(Map<String, dynamic> json) {
     return BurninDestinationSettings(
       alignment: (json['alignment'] as String?)?.toBurninSubtitleAlignment(),
+      applyFontColor:
+          (json['applyFontColor'] as String?)?.toBurninSubtitleApplyFontColor(),
       backgroundColor: (json['backgroundColor'] as String?)
           ?.toBurninSubtitleBackgroundColor(),
       backgroundOpacity: json['backgroundOpacity'] as int?,
+      fallbackFont:
+          (json['fallbackFont'] as String?)?.toBurninSubtitleFallbackFont(),
       fontColor: (json['fontColor'] as String?)?.toBurninSubtitleFontColor(),
       fontOpacity: json['fontOpacity'] as int?,
       fontResolution: json['fontResolution'] as int?,
       fontScript: (json['fontScript'] as String?)?.toFontScript(),
       fontSize: json['fontSize'] as int?,
+      hexFontColor: json['hexFontColor'] as String?,
       outlineColor:
           (json['outlineColor'] as String?)?.toBurninSubtitleOutlineColor(),
       outlineSize: json['outlineSize'] as int?,
@@ -4294,6 +5463,8 @@ class BurninDestinationSettings {
       shadowOpacity: json['shadowOpacity'] as int?,
       shadowXOffset: json['shadowXOffset'] as int?,
       shadowYOffset: json['shadowYOffset'] as int?,
+      stylePassthrough: (json['stylePassthrough'] as String?)
+          ?.toBurnInSubtitleStylePassthrough(),
       teletextSpacing: (json['teletextSpacing'] as String?)
           ?.toBurninSubtitleTeletextSpacing(),
       xPosition: json['xPosition'] as int?,
@@ -4303,37 +5474,46 @@ class BurninDestinationSettings {
 
   Map<String, dynamic> toJson() {
     final alignment = this.alignment;
+    final applyFontColor = this.applyFontColor;
     final backgroundColor = this.backgroundColor;
     final backgroundOpacity = this.backgroundOpacity;
+    final fallbackFont = this.fallbackFont;
     final fontColor = this.fontColor;
     final fontOpacity = this.fontOpacity;
     final fontResolution = this.fontResolution;
     final fontScript = this.fontScript;
     final fontSize = this.fontSize;
+    final hexFontColor = this.hexFontColor;
     final outlineColor = this.outlineColor;
     final outlineSize = this.outlineSize;
     final shadowColor = this.shadowColor;
     final shadowOpacity = this.shadowOpacity;
     final shadowXOffset = this.shadowXOffset;
     final shadowYOffset = this.shadowYOffset;
+    final stylePassthrough = this.stylePassthrough;
     final teletextSpacing = this.teletextSpacing;
     final xPosition = this.xPosition;
     final yPosition = this.yPosition;
     return {
       if (alignment != null) 'alignment': alignment.toValue(),
+      if (applyFontColor != null) 'applyFontColor': applyFontColor.toValue(),
       if (backgroundColor != null) 'backgroundColor': backgroundColor.toValue(),
       if (backgroundOpacity != null) 'backgroundOpacity': backgroundOpacity,
+      if (fallbackFont != null) 'fallbackFont': fallbackFont.toValue(),
       if (fontColor != null) 'fontColor': fontColor.toValue(),
       if (fontOpacity != null) 'fontOpacity': fontOpacity,
       if (fontResolution != null) 'fontResolution': fontResolution,
       if (fontScript != null) 'fontScript': fontScript.toValue(),
       if (fontSize != null) 'fontSize': fontSize,
+      if (hexFontColor != null) 'hexFontColor': hexFontColor,
       if (outlineColor != null) 'outlineColor': outlineColor.toValue(),
       if (outlineSize != null) 'outlineSize': outlineSize,
       if (shadowColor != null) 'shadowColor': shadowColor.toValue(),
       if (shadowOpacity != null) 'shadowOpacity': shadowOpacity,
       if (shadowXOffset != null) 'shadowXOffset': shadowXOffset,
       if (shadowYOffset != null) 'shadowYOffset': shadowYOffset,
+      if (stylePassthrough != null)
+        'stylePassthrough': stylePassthrough.toValue(),
       if (teletextSpacing != null) 'teletextSpacing': teletextSpacing.toValue(),
       if (xPosition != null) 'xPosition': xPosition,
       if (yPosition != null) 'yPosition': yPosition,
@@ -4341,18 +5521,16 @@ class BurninDestinationSettings {
   }
 }
 
-/// If no explicit x_position or y_position is provided, setting alignment to
-/// centered will place the captions at the bottom center of the output.
-/// Similarly, setting a left alignment will align captions to the bottom left
-/// of the output. If x and y positions are given in conjunction with the
-/// alignment parameter, the font will be justified (either left or centered)
-/// relative to those coordinates. This option is not valid for source captions
-/// that are STL, 608/embedded or teletext. These source settings are already
-/// pre-defined by the caption stream. All burn-in and DVB-Sub font settings
-/// must match.
+/// Specify the alignment of your captions. If no explicit x_position is
+/// provided, setting alignment to centered will placethe captions at the bottom
+/// center of the output. Similarly, setting a left alignment willalign captions
+/// to the bottom left of the output. If x and y positions are given in
+/// conjunction with the alignment parameter, the font will be justified (either
+/// left or centered) relative to those coordinates.
 enum BurninSubtitleAlignment {
   centered,
   left,
+  auto,
 }
 
 extension BurninSubtitleAlignmentValueExtension on BurninSubtitleAlignment {
@@ -4362,6 +5540,8 @@ extension BurninSubtitleAlignmentValueExtension on BurninSubtitleAlignment {
         return 'CENTERED';
       case BurninSubtitleAlignment.left:
         return 'LEFT';
+      case BurninSubtitleAlignment.auto:
+        return 'AUTO';
     }
   }
 }
@@ -4373,17 +5553,60 @@ extension BurninSubtitleAlignmentFromString on String {
         return BurninSubtitleAlignment.centered;
       case 'LEFT':
         return BurninSubtitleAlignment.left;
+      case 'AUTO':
+        return BurninSubtitleAlignment.auto;
     }
     throw Exception('$this is not known in enum BurninSubtitleAlignment');
   }
 }
 
-/// Specifies the color of the rectangle behind the captions.
-/// All burn-in and DVB-Sub font settings must match.
+/// Ignore this setting unless Style passthrough (StylePassthrough) is set to
+/// Enabled and Font color (FontColor) set to Black, Yellow, Red, Green, Blue,
+/// or Hex. Use Apply font color (ApplyFontColor) for additional font color
+/// controls. When you choose White text only (WHITE_TEXT_ONLY), or leave blank,
+/// your font color setting only applies to white text in your input captions.
+/// For example, if your font color setting is Yellow, and your input captions
+/// have red and white text, your output captions will have red and yellow text.
+/// When you choose ALL_TEXT, your font color setting applies to all of your
+/// output captions text.
+enum BurninSubtitleApplyFontColor {
+  whiteTextOnly,
+  allText,
+}
+
+extension BurninSubtitleApplyFontColorValueExtension
+    on BurninSubtitleApplyFontColor {
+  String toValue() {
+    switch (this) {
+      case BurninSubtitleApplyFontColor.whiteTextOnly:
+        return 'WHITE_TEXT_ONLY';
+      case BurninSubtitleApplyFontColor.allText:
+        return 'ALL_TEXT';
+    }
+  }
+}
+
+extension BurninSubtitleApplyFontColorFromString on String {
+  BurninSubtitleApplyFontColor toBurninSubtitleApplyFontColor() {
+    switch (this) {
+      case 'WHITE_TEXT_ONLY':
+        return BurninSubtitleApplyFontColor.whiteTextOnly;
+      case 'ALL_TEXT':
+        return BurninSubtitleApplyFontColor.allText;
+    }
+    throw Exception('$this is not known in enum BurninSubtitleApplyFontColor');
+  }
+}
+
+/// Specify the color of the rectangle behind the captions. Leave background
+/// color (BackgroundColor) blank and set Style passthrough (StylePassthrough)
+/// to enabled to use the background color data from your input captions, if
+/// present.
 enum BurninSubtitleBackgroundColor {
   none,
   black,
   white,
+  auto,
 }
 
 extension BurninSubtitleBackgroundColorValueExtension
@@ -4396,6 +5619,8 @@ extension BurninSubtitleBackgroundColorValueExtension
         return 'BLACK';
       case BurninSubtitleBackgroundColor.white:
         return 'WHITE';
+      case BurninSubtitleBackgroundColor.auto:
+        return 'AUTO';
     }
   }
 }
@@ -4409,15 +5634,69 @@ extension BurninSubtitleBackgroundColorFromString on String {
         return BurninSubtitleBackgroundColor.black;
       case 'WHITE':
         return BurninSubtitleBackgroundColor.white;
+      case 'AUTO':
+        return BurninSubtitleBackgroundColor.auto;
     }
     throw Exception('$this is not known in enum BurninSubtitleBackgroundColor');
   }
 }
 
-/// Specifies the color of the burned-in captions. This option is not valid for
-/// source captions that are STL, 608/embedded or teletext. These source
-/// settings are already pre-defined by the caption stream. All burn-in and
-/// DVB-Sub font settings must match.
+/// Specify the font that you want the service to use for your burn in captions
+/// when your input captions specify a font that MediaConvert doesn't support.
+/// When you set Fallback font (FallbackFont) to best match (BEST_MATCH), or
+/// leave blank, MediaConvert uses a supported font that most closely matches
+/// the font that your input captions specify. When there are multiple
+/// unsupported fonts in your input captions, MediaConvert matches each font
+/// with the supported font that matches best. When you explicitly choose a
+/// replacement font, MediaConvert uses that font to replace all unsupported
+/// fonts from your input.
+enum BurninSubtitleFallbackFont {
+  bestMatch,
+  monospacedSansserif,
+  monospacedSerif,
+  proportionalSansserif,
+  proportionalSerif,
+}
+
+extension BurninSubtitleFallbackFontValueExtension
+    on BurninSubtitleFallbackFont {
+  String toValue() {
+    switch (this) {
+      case BurninSubtitleFallbackFont.bestMatch:
+        return 'BEST_MATCH';
+      case BurninSubtitleFallbackFont.monospacedSansserif:
+        return 'MONOSPACED_SANSSERIF';
+      case BurninSubtitleFallbackFont.monospacedSerif:
+        return 'MONOSPACED_SERIF';
+      case BurninSubtitleFallbackFont.proportionalSansserif:
+        return 'PROPORTIONAL_SANSSERIF';
+      case BurninSubtitleFallbackFont.proportionalSerif:
+        return 'PROPORTIONAL_SERIF';
+    }
+  }
+}
+
+extension BurninSubtitleFallbackFontFromString on String {
+  BurninSubtitleFallbackFont toBurninSubtitleFallbackFont() {
+    switch (this) {
+      case 'BEST_MATCH':
+        return BurninSubtitleFallbackFont.bestMatch;
+      case 'MONOSPACED_SANSSERIF':
+        return BurninSubtitleFallbackFont.monospacedSansserif;
+      case 'MONOSPACED_SERIF':
+        return BurninSubtitleFallbackFont.monospacedSerif;
+      case 'PROPORTIONAL_SANSSERIF':
+        return BurninSubtitleFallbackFont.proportionalSansserif;
+      case 'PROPORTIONAL_SERIF':
+        return BurninSubtitleFallbackFont.proportionalSerif;
+    }
+    throw Exception('$this is not known in enum BurninSubtitleFallbackFont');
+  }
+}
+
+/// Specify the color of the burned-in captions text. Leave Font color
+/// (FontColor) blank and set Style passthrough (StylePassthrough) to enabled to
+/// use the font color data from your input captions, if present.
 enum BurninSubtitleFontColor {
   white,
   black,
@@ -4425,6 +5704,8 @@ enum BurninSubtitleFontColor {
   red,
   green,
   blue,
+  hex,
+  auto,
 }
 
 extension BurninSubtitleFontColorValueExtension on BurninSubtitleFontColor {
@@ -4442,6 +5723,10 @@ extension BurninSubtitleFontColorValueExtension on BurninSubtitleFontColor {
         return 'GREEN';
       case BurninSubtitleFontColor.blue:
         return 'BLUE';
+      case BurninSubtitleFontColor.hex:
+        return 'HEX';
+      case BurninSubtitleFontColor.auto:
+        return 'AUTO';
     }
   }
 }
@@ -4461,15 +5746,18 @@ extension BurninSubtitleFontColorFromString on String {
         return BurninSubtitleFontColor.green;
       case 'BLUE':
         return BurninSubtitleFontColor.blue;
+      case 'HEX':
+        return BurninSubtitleFontColor.hex;
+      case 'AUTO':
+        return BurninSubtitleFontColor.auto;
     }
     throw Exception('$this is not known in enum BurninSubtitleFontColor');
   }
 }
 
-/// Specifies font outline color. This option is not valid for source captions
-/// that are either 608/embedded or teletext. These source settings are already
-/// pre-defined by the caption stream. All burn-in and DVB-Sub font settings
-/// must match.
+/// Specify font outline color. Leave Outline color (OutlineColor) blank and set
+/// Style passthrough (StylePassthrough) to enabled to use the font outline
+/// color data from your input captions, if present.
 enum BurninSubtitleOutlineColor {
   black,
   white,
@@ -4477,6 +5765,7 @@ enum BurninSubtitleOutlineColor {
   red,
   green,
   blue,
+  auto,
 }
 
 extension BurninSubtitleOutlineColorValueExtension
@@ -4495,6 +5784,8 @@ extension BurninSubtitleOutlineColorValueExtension
         return 'GREEN';
       case BurninSubtitleOutlineColor.blue:
         return 'BLUE';
+      case BurninSubtitleOutlineColor.auto:
+        return 'AUTO';
     }
   }
 }
@@ -4514,17 +5805,21 @@ extension BurninSubtitleOutlineColorFromString on String {
         return BurninSubtitleOutlineColor.green;
       case 'BLUE':
         return BurninSubtitleOutlineColor.blue;
+      case 'AUTO':
+        return BurninSubtitleOutlineColor.auto;
     }
     throw Exception('$this is not known in enum BurninSubtitleOutlineColor');
   }
 }
 
-/// Specifies the color of the shadow cast by the captions.
-/// All burn-in and DVB-Sub font settings must match.
+/// Specify the color of the shadow cast by the captions. Leave Shadow color
+/// (ShadowColor) blank and set Style passthrough (StylePassthrough) to enabled
+/// to use the shadow color data from your input captions, if present.
 enum BurninSubtitleShadowColor {
   none,
   black,
   white,
+  auto,
 }
 
 extension BurninSubtitleShadowColorValueExtension on BurninSubtitleShadowColor {
@@ -4536,6 +5831,8 @@ extension BurninSubtitleShadowColorValueExtension on BurninSubtitleShadowColor {
         return 'BLACK';
       case BurninSubtitleShadowColor.white:
         return 'WHITE';
+      case BurninSubtitleShadowColor.auto:
+        return 'AUTO';
     }
   }
 }
@@ -4549,20 +5846,22 @@ extension BurninSubtitleShadowColorFromString on String {
         return BurninSubtitleShadowColor.black;
       case 'WHITE':
         return BurninSubtitleShadowColor.white;
+      case 'AUTO':
+        return BurninSubtitleShadowColor.auto;
     }
     throw Exception('$this is not known in enum BurninSubtitleShadowColor');
   }
 }
 
-/// Only applies to jobs with input captions in Teletext or STL formats. Specify
-/// whether the spacing between letters in your captions is set by the captions
-/// grid or varies depending on letter width. Choose fixed grid to conform to
-/// the spacing specified in the captions file more accurately. Choose
-/// proportional to make the text easier to read if the captions are closed
-/// caption.
+/// Specify whether the text spacing (TeletextSpacing) in your captions is set
+/// by the captions grid, or varies depending on letter width. Choose fixed grid
+/// (FIXED_GRID) to conform to the spacing specified in the captions file more
+/// accurately. Choose proportional (PROPORTIONAL) to make the text easier to
+/// read for closed captions.
 enum BurninSubtitleTeletextSpacing {
   fixedGrid,
   proportional,
+  auto,
 }
 
 extension BurninSubtitleTeletextSpacingValueExtension
@@ -4573,6 +5872,8 @@ extension BurninSubtitleTeletextSpacingValueExtension
         return 'FIXED_GRID';
       case BurninSubtitleTeletextSpacing.proportional:
         return 'PROPORTIONAL';
+      case BurninSubtitleTeletextSpacing.auto:
+        return 'AUTO';
     }
   }
 }
@@ -4584,6 +5885,8 @@ extension BurninSubtitleTeletextSpacingFromString on String {
         return BurninSubtitleTeletextSpacing.fixedGrid;
       case 'PROPORTIONAL':
         return BurninSubtitleTeletextSpacing.proportional;
+      case 'AUTO':
+        return BurninSubtitleTeletextSpacing.auto;
     }
     throw Exception('$this is not known in enum BurninSubtitleTeletextSpacing');
   }
@@ -4591,12 +5894,14 @@ extension BurninSubtitleTeletextSpacingFromString on String {
 
 class CancelJobResponse {
   CancelJobResponse();
+
   factory CancelJobResponse.fromJson(Map<String, dynamic> _) {
     return CancelJobResponse();
   }
 }
 
-/// Description of Caption output
+/// This object holds groups of settings related to captions for one output. For
+/// each output that has captions, include one instance of CaptionDescriptions.
 class CaptionDescription {
   /// Specifies which "Caption Selector":#inputs-caption_selector to use from each
   /// input when generating captions. The name should be of the format "Caption
@@ -4615,9 +5920,13 @@ class CaptionDescription {
   /// Microsoft Smooth Streaming.
   final String? customLanguageCode;
 
-  /// Specific settings required by destination type. Note that
-  /// burnin_destination_settings are not available if the source of the caption
-  /// data is Embedded or Teletext.
+  /// Settings related to one captions tab on the MediaConvert console. In your
+  /// job JSON, an instance of captions DestinationSettings is equivalent to one
+  /// captions tab in the console. Usually, one captions tab corresponds to one
+  /// output captions track. Depending on your output captions format, one tab
+  /// might correspond to a set of output captions tracks. For more information,
+  /// see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/including-captions.html.
   final CaptionDestinationSettings? destinationSettings;
 
   /// Specify the language of this captions output track. For most captions output
@@ -4641,6 +5950,7 @@ class CaptionDescription {
     this.languageCode,
     this.languageDescription,
   });
+
   factory CaptionDescription.fromJson(Map<String, dynamic> json) {
     return CaptionDescription(
       captionSelectorName: json['captionSelectorName'] as String?,
@@ -4686,9 +5996,13 @@ class CaptionDescriptionPreset {
   /// Microsoft Smooth Streaming.
   final String? customLanguageCode;
 
-  /// Specific settings required by destination type. Note that
-  /// burnin_destination_settings are not available if the source of the caption
-  /// data is Embedded or Teletext.
+  /// Settings related to one captions tab on the MediaConvert console. In your
+  /// job JSON, an instance of captions DestinationSettings is equivalent to one
+  /// captions tab in the console. Usually, one captions tab corresponds to one
+  /// output captions track. Depending on your output captions format, one tab
+  /// might correspond to a set of output captions tracks. For more information,
+  /// see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/including-captions.html.
   final CaptionDestinationSettings? destinationSettings;
 
   /// Specify the language of this captions output track. For most captions output
@@ -4711,6 +6025,7 @@ class CaptionDescriptionPreset {
     this.languageCode,
     this.languageDescription,
   });
+
   factory CaptionDescriptionPreset.fromJson(Map<String, dynamic> json) {
     return CaptionDescriptionPreset(
       customLanguageCode: json['customLanguageCode'] as String?,
@@ -4739,41 +6054,99 @@ class CaptionDescriptionPreset {
   }
 }
 
-/// Specific settings required by destination type. Note that
-/// burnin_destination_settings are not available if the source of the caption
-/// data is Embedded or Teletext.
+/// Settings related to one captions tab on the MediaConvert console. In your
+/// job JSON, an instance of captions DestinationSettings is equivalent to one
+/// captions tab in the console. Usually, one captions tab corresponds to one
+/// output captions track. Depending on your output captions format, one tab
+/// might correspond to a set of output captions tracks. For more information,
+/// see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/including-captions.html.
 class CaptionDestinationSettings {
-  /// Burn-In Destination Settings.
+  /// Burn-in is a captions delivery method, rather than a captions format.
+  /// Burn-in writes the captions directly on your video frames, replacing pixels
+  /// of video content with the captions. Set up burn-in captions in the same
+  /// output as your video. For more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/burn-in-output-captions.html.
+  /// When you work directly in your JSON job specification, include this object
+  /// and any required children when you set destinationType to BURN_IN.
   final BurninDestinationSettings? burninDestinationSettings;
 
   /// Specify the format for this set of captions on this output. The default
-  /// format is embedded without SCTE-20. Other options are embedded with SCTE-20,
-  /// burn-in, DVB-sub, IMSC, SCC, SRT, teletext, TTML, and web-VTT. If you are
-  /// using SCTE-20, choose SCTE-20 plus embedded (SCTE20_PLUS_EMBEDDED) to create
-  /// an output that complies with the SCTE-43 spec. To create a non-compliant
-  /// output where the embedded captions come first, choose Embedded plus SCTE-20
-  /// (EMBEDDED_PLUS_SCTE20).
+  /// format is embedded without SCTE-20. Note that your choice of video output
+  /// container constrains your choice of output captions format. For more
+  /// information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/captions-support-tables.html.
+  /// If you are using SCTE-20 and you want to create an output that complies with
+  /// the SCTE-43 spec, choose SCTE-20 plus embedded (SCTE20_PLUS_EMBEDDED). To
+  /// create a non-compliant output where the embedded captions come first, choose
+  /// Embedded plus SCTE-20 (EMBEDDED_PLUS_SCTE20).
   final CaptionDestinationType? destinationType;
 
-  /// DVB-Sub Destination Settings
+  /// Settings related to DVB-Sub captions. Set up DVB-Sub captions in the same
+  /// output as your video. For more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/dvb-sub-output-captions.html.
+  /// When you work directly in your JSON job specification, include this object
+  /// and any required children when you set destinationType to DVB_SUB.
   final DvbSubDestinationSettings? dvbSubDestinationSettings;
 
-  /// Settings specific to embedded/ancillary caption outputs, including 608/708
-  /// Channel destination number.
+  /// Settings related to CEA/EIA-608 and CEA/EIA-708 (also called embedded or
+  /// ancillary) captions. Set up embedded captions in the same output as your
+  /// video. For more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/embedded-output-captions.html.
+  /// When you work directly in your JSON job specification, include this object
+  /// and any required children when you set destinationType to EMBEDDED,
+  /// EMBEDDED_PLUS_SCTE20, or SCTE20_PLUS_EMBEDDED.
   final EmbeddedDestinationSettings? embeddedDestinationSettings;
 
-  /// Settings specific to IMSC caption outputs.
+  /// Settings related to IMSC captions. IMSC is a sidecar format that holds
+  /// captions in a file that is separate from the video container. Set up sidecar
+  /// captions in the same output group, but different output from your video. For
+  /// more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
+  /// When you work directly in your JSON job specification, include this object
+  /// and any required children when you set destinationType to IMSC.
   final ImscDestinationSettings? imscDestinationSettings;
 
-  /// Settings for SCC caption output.
+  /// Settings related to SCC captions. SCC is a sidecar format that holds
+  /// captions in a file that is separate from the video container. Set up sidecar
+  /// captions in the same output group, but different output from your video. For
+  /// more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/scc-srt-output-captions.html.
+  /// When you work directly in your JSON job specification, include this object
+  /// and any required children when you set destinationType to SCC.
   final SccDestinationSettings? sccDestinationSettings;
 
-  /// Settings for Teletext caption output
+  /// Settings related to SRT captions. SRT is a sidecar format that holds
+  /// captions in a file that is separate from the video container. Set up sidecar
+  /// captions in the same output group, but different output from your video.
+  /// When you work directly in your JSON job specification, include this object
+  /// and any required children when you set destinationType to SRT.
+  final SrtDestinationSettings? srtDestinationSettings;
+
+  /// Settings related to teletext captions. Set up teletext captions in the same
+  /// output as your video. For more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/teletext-output-captions.html.
+  /// When you work directly in your JSON job specification, include this object
+  /// and any required children when you set destinationType to TELETEXT.
   final TeletextDestinationSettings? teletextDestinationSettings;
 
-  /// Settings specific to TTML caption outputs, including Pass style information
-  /// (TtmlStylePassthrough).
+  /// Settings related to TTML captions. TTML is a sidecar format that holds
+  /// captions in a file that is separate from the video container. Set up sidecar
+  /// captions in the same output group, but different output from your video. For
+  /// more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
+  /// When you work directly in your JSON job specification, include this object
+  /// and any required children when you set destinationType to TTML.
   final TtmlDestinationSettings? ttmlDestinationSettings;
+
+  /// Settings related to WebVTT captions. WebVTT is a sidecar format that holds
+  /// captions in a file that is separate from the video container. Set up sidecar
+  /// captions in the same output group, but different output from your video. For
+  /// more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
+  /// When you work directly in your JSON job specification, include this object
+  /// and any required children when you set destinationType to WebVTT.
+  final WebvttDestinationSettings? webvttDestinationSettings;
 
   CaptionDestinationSettings({
     this.burninDestinationSettings,
@@ -4782,9 +6155,12 @@ class CaptionDestinationSettings {
     this.embeddedDestinationSettings,
     this.imscDestinationSettings,
     this.sccDestinationSettings,
+    this.srtDestinationSettings,
     this.teletextDestinationSettings,
     this.ttmlDestinationSettings,
+    this.webvttDestinationSettings,
   });
+
   factory CaptionDestinationSettings.fromJson(Map<String, dynamic> json) {
     return CaptionDestinationSettings(
       burninDestinationSettings: json['burninDestinationSettings'] != null
@@ -4809,6 +6185,10 @@ class CaptionDestinationSettings {
           ? SccDestinationSettings.fromJson(
               json['sccDestinationSettings'] as Map<String, dynamic>)
           : null,
+      srtDestinationSettings: json['srtDestinationSettings'] != null
+          ? SrtDestinationSettings.fromJson(
+              json['srtDestinationSettings'] as Map<String, dynamic>)
+          : null,
       teletextDestinationSettings: json['teletextDestinationSettings'] != null
           ? TeletextDestinationSettings.fromJson(
               json['teletextDestinationSettings'] as Map<String, dynamic>)
@@ -4816,6 +6196,10 @@ class CaptionDestinationSettings {
       ttmlDestinationSettings: json['ttmlDestinationSettings'] != null
           ? TtmlDestinationSettings.fromJson(
               json['ttmlDestinationSettings'] as Map<String, dynamic>)
+          : null,
+      webvttDestinationSettings: json['webvttDestinationSettings'] != null
+          ? WebvttDestinationSettings.fromJson(
+              json['webvttDestinationSettings'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -4827,8 +6211,10 @@ class CaptionDestinationSettings {
     final embeddedDestinationSettings = this.embeddedDestinationSettings;
     final imscDestinationSettings = this.imscDestinationSettings;
     final sccDestinationSettings = this.sccDestinationSettings;
+    final srtDestinationSettings = this.srtDestinationSettings;
     final teletextDestinationSettings = this.teletextDestinationSettings;
     final ttmlDestinationSettings = this.ttmlDestinationSettings;
+    final webvttDestinationSettings = this.webvttDestinationSettings;
     return {
       if (burninDestinationSettings != null)
         'burninDestinationSettings': burninDestinationSettings,
@@ -4841,21 +6227,27 @@ class CaptionDestinationSettings {
         'imscDestinationSettings': imscDestinationSettings,
       if (sccDestinationSettings != null)
         'sccDestinationSettings': sccDestinationSettings,
+      if (srtDestinationSettings != null)
+        'srtDestinationSettings': srtDestinationSettings,
       if (teletextDestinationSettings != null)
         'teletextDestinationSettings': teletextDestinationSettings,
       if (ttmlDestinationSettings != null)
         'ttmlDestinationSettings': ttmlDestinationSettings,
+      if (webvttDestinationSettings != null)
+        'webvttDestinationSettings': webvttDestinationSettings,
     };
   }
 }
 
 /// Specify the format for this set of captions on this output. The default
-/// format is embedded without SCTE-20. Other options are embedded with SCTE-20,
-/// burn-in, DVB-sub, IMSC, SCC, SRT, teletext, TTML, and web-VTT. If you are
-/// using SCTE-20, choose SCTE-20 plus embedded (SCTE20_PLUS_EMBEDDED) to create
-/// an output that complies with the SCTE-43 spec. To create a non-compliant
-/// output where the embedded captions come first, choose Embedded plus SCTE-20
-/// (EMBEDDED_PLUS_SCTE20).
+/// format is embedded without SCTE-20. Note that your choice of video output
+/// container constrains your choice of output captions format. For more
+/// information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/captions-support-tables.html.
+/// If you are using SCTE-20 and you want to create an output that complies with
+/// the SCTE-43 spec, choose SCTE-20 plus embedded (SCTE20_PLUS_EMBEDDED). To
+/// create a non-compliant output where the embedded captions come first, choose
+/// Embedded plus SCTE-20 (EMBEDDED_PLUS_SCTE20).
 enum CaptionDestinationType {
   burnIn,
   dvbSub,
@@ -4934,8 +6326,8 @@ extension CaptionDestinationTypeFromString on String {
   }
 }
 
-/// Set up captions in your outputs by first selecting them from your input
-/// here.
+/// Use captions selectors to specify the captions data from your input that you
+/// use in your outputs. You can use up to 20 captions selectors per input.
 class CaptionSelector {
   /// The specific language to extract from source, using the ISO 639-2 or ISO
   /// 639-3 three-letter language code. If input is SCTE-27, complete this field
@@ -4965,6 +6357,7 @@ class CaptionSelector {
     this.languageCode,
     this.sourceSettings,
   });
+
   factory CaptionSelector.fromJson(Map<String, dynamic> json) {
     return CaptionSelector(
       customLanguageCode: json['customLanguageCode'] as String?,
@@ -4988,13 +6381,48 @@ class CaptionSelector {
   }
 }
 
+/// Choose the presentation style of your input SCC captions. To use the same
+/// presentation style as your input: Keep the default value, Disabled. To
+/// convert paint-on captions to pop-on: Choose Enabled. We also recommend that
+/// you choose Enabled if you notice additional repeated lines in your output
+/// captions.
+enum CaptionSourceConvertPaintOnToPopOn {
+  enabled,
+  disabled,
+}
+
+extension CaptionSourceConvertPaintOnToPopOnValueExtension
+    on CaptionSourceConvertPaintOnToPopOn {
+  String toValue() {
+    switch (this) {
+      case CaptionSourceConvertPaintOnToPopOn.enabled:
+        return 'ENABLED';
+      case CaptionSourceConvertPaintOnToPopOn.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension CaptionSourceConvertPaintOnToPopOnFromString on String {
+  CaptionSourceConvertPaintOnToPopOn toCaptionSourceConvertPaintOnToPopOn() {
+    switch (this) {
+      case 'ENABLED':
+        return CaptionSourceConvertPaintOnToPopOn.enabled;
+      case 'DISABLED':
+        return CaptionSourceConvertPaintOnToPopOn.disabled;
+    }
+    throw Exception(
+        '$this is not known in enum CaptionSourceConvertPaintOnToPopOn');
+  }
+}
+
 /// Ignore this setting unless your input captions format is SCC. To have the
 /// service compensate for differing frame rates between your input captions and
 /// input video, specify the frame rate of the captions file. Specify this value
-/// as a fraction, using the settings Framerate numerator (framerateNumerator)
-/// and Framerate denominator (framerateDenominator). For example, you might
-/// specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps,
-/// or 30000 / 1001 for 29.97 fps.
+/// as a fraction. When you work directly in your JSON job specification, use
+/// the settings framerateNumerator and framerateDenominator. For example, you
+/// might specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976
+/// fps, or 30000 / 1001 for 29.97 fps.
 class CaptionSourceFramerate {
   /// Specify the denominator of the fraction that represents the frame rate for
   /// the setting Caption source frame rate (CaptionSourceFramerate). Use this
@@ -5010,6 +6438,7 @@ class CaptionSourceFramerate {
     this.framerateDenominator,
     this.framerateNumerator,
   });
+
   factory CaptionSourceFramerate.fromJson(Map<String, dynamic> json) {
     return CaptionSourceFramerate(
       framerateDenominator: json['framerateDenominator'] as int?,
@@ -5042,13 +6471,13 @@ class CaptionSourceSettings {
   /// Settings for embedded captions Source
   final EmbeddedSourceSettings? embeddedSourceSettings;
 
-  /// If your input captions are SCC, SMI, SRT, STL, TTML, or IMSC 1.1 in an xml
-  /// file, specify the URI of the input caption source file. If your caption
-  /// source is IMSC in an IMF package, use TrackSourceSettings instead of
+  /// If your input captions are SCC, SMI, SRT, STL, TTML, WebVTT, or IMSC 1.1 in
+  /// an xml file, specify the URI of the input caption source file. If your
+  /// caption source is IMSC in an IMF package, use TrackSourceSettings instead of
   /// FileSoureSettings.
   final FileSourceSettings? fileSourceSettings;
 
-  /// Use Source (SourceType) to identify the format of your input captions.  The
+  /// Use Source (SourceType) to identify the format of your input captions. The
   /// service cannot auto-detect caption format.
   final CaptionSourceType? sourceType;
 
@@ -5061,6 +6490,17 @@ class CaptionSourceSettings {
   /// TrackSourceSettings.
   final TrackSourceSettings? trackSourceSettings;
 
+  /// Settings specific to WebVTT sources in HLS alternative rendition group.
+  /// Specify the properties (renditionGroupId, renditionName or
+  /// renditionLanguageCode) to identify the unique subtitle track among the
+  /// alternative rendition groups present in the HLS manifest. If no unique track
+  /// is found, or multiple tracks match the specified properties, the job fails.
+  /// If there is only one subtitle track in the rendition group, the settings can
+  /// be left empty and the default subtitle track will be chosen. If your caption
+  /// source is a sidecar file, use FileSourceSettings instead of
+  /// WebvttHlsSourceSettings.
+  final WebvttHlsSourceSettings? webvttHlsSourceSettings;
+
   CaptionSourceSettings({
     this.ancillarySourceSettings,
     this.dvbSubSourceSettings,
@@ -5069,7 +6509,9 @@ class CaptionSourceSettings {
     this.sourceType,
     this.teletextSourceSettings,
     this.trackSourceSettings,
+    this.webvttHlsSourceSettings,
   });
+
   factory CaptionSourceSettings.fromJson(Map<String, dynamic> json) {
     return CaptionSourceSettings(
       ancillarySourceSettings: json['ancillarySourceSettings'] != null
@@ -5097,6 +6539,10 @@ class CaptionSourceSettings {
           ? TrackSourceSettings.fromJson(
               json['trackSourceSettings'] as Map<String, dynamic>)
           : null,
+      webvttHlsSourceSettings: json['webvttHlsSourceSettings'] != null
+          ? WebvttHlsSourceSettings.fromJson(
+              json['webvttHlsSourceSettings'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -5108,6 +6554,7 @@ class CaptionSourceSettings {
     final sourceType = this.sourceType;
     final teletextSourceSettings = this.teletextSourceSettings;
     final trackSourceSettings = this.trackSourceSettings;
+    final webvttHlsSourceSettings = this.webvttHlsSourceSettings;
     return {
       if (ancillarySourceSettings != null)
         'ancillarySourceSettings': ancillarySourceSettings,
@@ -5121,11 +6568,13 @@ class CaptionSourceSettings {
         'teletextSourceSettings': teletextSourceSettings,
       if (trackSourceSettings != null)
         'trackSourceSettings': trackSourceSettings,
+      if (webvttHlsSourceSettings != null)
+        'webvttHlsSourceSettings': webvttHlsSourceSettings,
     };
   }
 }
 
-/// Use Source (SourceType) to identify the format of your input captions.  The
+/// Use Source (SourceType) to identify the format of your input captions. The
 /// service cannot auto-detect caption format.
 enum CaptionSourceType {
   ancillary,
@@ -5137,9 +6586,11 @@ enum CaptionSourceType {
   stl,
   srt,
   smi,
+  smpteTt,
   teletext,
   nullSource,
   imsc,
+  webvtt,
 }
 
 extension CaptionSourceTypeValueExtension on CaptionSourceType {
@@ -5163,12 +6614,16 @@ extension CaptionSourceTypeValueExtension on CaptionSourceType {
         return 'SRT';
       case CaptionSourceType.smi:
         return 'SMI';
+      case CaptionSourceType.smpteTt:
+        return 'SMPTE_TT';
       case CaptionSourceType.teletext:
         return 'TELETEXT';
       case CaptionSourceType.nullSource:
         return 'NULL_SOURCE';
       case CaptionSourceType.imsc:
         return 'IMSC';
+      case CaptionSourceType.webvtt:
+        return 'WEBVTT';
     }
   }
 }
@@ -5194,28 +6649,43 @@ extension CaptionSourceTypeFromString on String {
         return CaptionSourceType.srt;
       case 'SMI':
         return CaptionSourceType.smi;
+      case 'SMPTE_TT':
+        return CaptionSourceType.smpteTt;
       case 'TELETEXT':
         return CaptionSourceType.teletext;
       case 'NULL_SOURCE':
         return CaptionSourceType.nullSource;
       case 'IMSC':
         return CaptionSourceType.imsc;
+      case 'WEBVTT':
+        return CaptionSourceType.webvtt;
     }
     throw Exception('$this is not known in enum CaptionSourceType');
   }
 }
 
 /// Channel mapping (ChannelMapping) contains the group of fields that hold the
-/// remixing value for each channel. Units are in dB. Acceptable values are
-/// within the range from -60 (mute) through 6. A setting of 0 passes the input
-/// channel unchanged to the output channel (no attenuation or amplification).
+/// remixing value for each channel, in dB. Specify remix values to indicate how
+/// much of the content from your input audio channel you want in your output
+/// audio channels. Each instance of the InputChannels or InputChannelsFineTune
+/// array specifies these values for one output channel. Use one instance of
+/// this array for each output channel. In the console, each array corresponds
+/// to a column in the graphical depiction of the mapping matrix. The rows of
+/// the graphical matrix correspond to input channels. Valid values are within
+/// the range from -60 (mute) through 6. A setting of 0 passes the input channel
+/// unchanged to the output channel (no attenuation or amplification). Use
+/// InputChannels or InputChannelsFineTune to specify your remix values. Don't
+/// use both.
 class ChannelMapping {
-  /// List of output channels
+  /// In your JSON job specification, include one child of OutputChannels for each
+  /// audio channel that you want in your output. Each child should contain one
+  /// instance of InputChannels or InputChannelsFineTune.
   final List<OutputChannelMapping>? outputChannels;
 
   ChannelMapping({
     this.outputChannels,
   });
+
   factory ChannelMapping.fromJson(Map<String, dynamic> json) {
     return ChannelMapping(
       outputChannels: (json['outputChannels'] as List?)
@@ -5229,6 +6699,74 @@ class ChannelMapping {
     final outputChannels = this.outputChannels;
     return {
       if (outputChannels != null) 'outputChannels': outputChannels,
+    };
+  }
+}
+
+/// Specify YUV limits and RGB tolerances when you set Sample range conversion
+/// to Limited range clip.
+class ClipLimits {
+  /// Specify the Maximum RGB color sample range tolerance for your output.
+  /// MediaConvert corrects any YUV values that, when converted to RGB, would be
+  /// outside the upper tolerance that you specify. Enter an integer from 90 to
+  /// 105 as an offset percentage to the maximum possible value. Leave blank to
+  /// use the default value 100. When you specify a value for Maximum RGB
+  /// tolerance, you must set Sample range conversion to Limited range clip.
+  final int? maximumRGBTolerance;
+
+  /// Specify the Maximum YUV color sample limit. MediaConvert conforms any pixels
+  /// in your input above the value that you specify to typical limited range
+  /// bounds. Enter an integer from 920 to 1023. Leave blank to use the default
+  /// value 940. The value that you enter applies to 10-bit ranges. For 8-bit
+  /// ranges, MediaConvert automatically scales this value down. When you specify
+  /// a value for Maximum YUV, you must set Sample range conversion to Limited
+  /// range clip.
+  final int? maximumYUV;
+
+  /// Specify the Minimum RGB color sample range tolerance for your output.
+  /// MediaConvert corrects any YUV values that, when converted to RGB, would be
+  /// outside the lower tolerance that you specify. Enter an integer from -5 to 10
+  /// as an offset percentage to the minimum possible value. Leave blank to use
+  /// the default value 0. When you specify a value for Minimum RGB tolerance, you
+  /// must set Sample range conversion to Limited range clip.
+  final int? minimumRGBTolerance;
+
+  /// Specify the Minimum YUV color sample limit. MediaConvert conforms any pixels
+  /// in your input below the value that you specify to typical limited range
+  /// bounds. Enter an integer from 0 to 128. Leave blank to use the default value
+  /// 64. The value that you enter applies to 10-bit ranges. For 8-bit ranges,
+  /// MediaConvert automatically scales this value down. When you specify a value
+  /// for Minumum YUV, you must set Sample range conversion to Limited range clip.
+  final int? minimumYUV;
+
+  ClipLimits({
+    this.maximumRGBTolerance,
+    this.maximumYUV,
+    this.minimumRGBTolerance,
+    this.minimumYUV,
+  });
+
+  factory ClipLimits.fromJson(Map<String, dynamic> json) {
+    return ClipLimits(
+      maximumRGBTolerance: json['maximumRGBTolerance'] as int?,
+      maximumYUV: json['maximumYUV'] as int?,
+      minimumRGBTolerance: json['minimumRGBTolerance'] as int?,
+      minimumYUV: json['minimumYUV'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maximumRGBTolerance = this.maximumRGBTolerance;
+    final maximumYUV = this.maximumYUV;
+    final minimumRGBTolerance = this.minimumRGBTolerance;
+    final minimumYUV = this.minimumYUV;
+    return {
+      if (maximumRGBTolerance != null)
+        'maximumRGBTolerance': maximumRGBTolerance,
+      if (maximumYUV != null) 'maximumYUV': maximumYUV,
+      if (minimumRGBTolerance != null)
+        'minimumRGBTolerance': minimumRGBTolerance,
+      if (minimumYUV != null) 'minimumYUV': minimumYUV,
     };
   }
 }
@@ -5256,6 +6794,7 @@ class CmafAdditionalManifest {
     this.manifestNameModifier,
     this.selectedOutputs,
   });
+
   factory CmafAdditionalManifest.fromJson(Map<String, dynamic> json) {
     return CmafAdditionalManifest(
       manifestNameModifier: json['manifestNameModifier'] as String?,
@@ -5376,6 +6915,7 @@ class CmafEncryptionSettings {
     this.staticKeyProvider,
     this.type,
   });
+
   factory CmafEncryptionSettings.fromJson(Map<String, dynamic> json) {
     return CmafEncryptionSettings(
       constantInitializationVector:
@@ -5450,9 +6990,11 @@ extension CmafEncryptionTypeFromString on String {
   }
 }
 
-/// Required when you set (Type) under (OutputGroups)>(OutputGroupSettings) to
-/// CMAF_GROUP_SETTINGS. Each output in a CMAF Output Group may only contain a
-/// single video, audio, or caption output.
+/// Settings related to your CMAF output package. For more information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
+/// When you work directly in your JSON job specification, include this object
+/// and any required children when you set Type, under OutputGroupSettings, to
+/// CMAF_GROUP_SETTINGS.
 class CmafGroupSettings {
   /// By default, the service creates one top-level .m3u8 HLS manifest and one top
   /// -level .mpd DASH manifest for each CMAF output group in your job. These
@@ -5477,6 +7019,15 @@ class CmafGroupSettings {
   /// generation.
   final CmafCodecSpecification? codecSpecification;
 
+  /// Specify how MediaConvert writes SegmentTimeline in your output DASH
+  /// manifest. To write a SegmentTimeline in each video Representation: Keep the
+  /// default value, Basic. To write a common SegmentTimeline in the video
+  /// AdaptationSet: Choose Compact. Note that MediaConvert will still write a
+  /// SegmentTimeline in any Representation that does not share a common timeline.
+  /// To write a video AdaptationSet for each different output framerate, and a
+  /// common SegmentTimeline in each AdaptationSet: Choose Distinct.
+  final DashManifestStyle? dashManifestStyle;
+
   /// Use Destination (Destination) to specify the S3 output location and the
   /// output filename base. Destination accepts format identifiers. If you do not
   /// specify the base filename in the URI, the service will use the filename of
@@ -5491,13 +7042,29 @@ class CmafGroupSettings {
   /// DRM settings.
   final CmafEncryptionSettings? encryption;
 
-  /// Length of fragments to generate (in seconds). Fragment length must be
-  /// compatible with GOP size and Framerate. Note that fragments will end on the
-  /// next keyframe after this number of seconds, so actual fragment length may be
-  /// longer. When Emit Single File is checked, the fragmentation is internal to a
-  /// single output file and it does not cause the creation of many output files
-  /// as in other output types.
+  /// Specify the length, in whole seconds, of the mp4 fragments. When you don't
+  /// specify a value, MediaConvert defaults to 2. Related setting: Use Fragment
+  /// length control (FragmentLengthControl) to specify whether the encoder
+  /// enforces this value strictly.
   final int? fragmentLength;
+
+  /// Specify whether MediaConvert generates images for trick play. Keep the
+  /// default value, None (NONE), to not generate any images. Choose Thumbnail
+  /// (THUMBNAIL) to generate tiled thumbnails. Choose Thumbnail and full frame
+  /// (THUMBNAIL_AND_FULLFRAME) to generate tiled thumbnails and full-resolution
+  /// images of single frames. When you enable Write HLS manifest
+  /// (WriteHlsManifest), MediaConvert creates a child manifest for each set of
+  /// images that you generate and adds corresponding entries to the parent
+  /// manifest. When you enable Write DASH manifest (WriteDashManifest),
+  /// MediaConvert adds an entry in the .mpd manifest for each set of images that
+  /// you generate. A common application for these images is Roku trick mode. The
+  /// thumbnails and full-frame images that MediaConvert creates with this feature
+  /// are compatible with this Roku specification:
+  /// https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
+  final CmafImageBasedTrickPlay? imageBasedTrickPlay;
+
+  /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
+  final CmafImageBasedTrickPlaySettings? imageBasedTrickPlaySettings;
 
   /// When set to GZIP, compresses HLS playlist.
   final CmafManifestCompression? manifestCompression;
@@ -5523,6 +7090,14 @@ class CmafGroupSettings {
   /// final segment length to 1, your final segment is 3.5 seconds.
   final double? minFinalSegmentLength;
 
+  /// Specify how the value for bandwidth is determined for each video
+  /// Representation in your output MPD manifest. We recommend that you choose a
+  /// MPD manifest bandwidth type that is compatible with your downstream player
+  /// configuration. Max: Use the same value that you specify for Max bitrate in
+  /// the video output, in bits per second. Average: Use the calculated average
+  /// bitrate of the encoded video output, in bits per second.
+  final CmafMpdManifestBandwidthType? mpdManifestBandwidthType;
+
   /// Specify whether your DASH profile is on-demand or main. When you choose Main
   /// profile (MAIN_PROFILE), the service signals
   /// urn:mpeg:dash:profile:isoff-main:2011 in your .mpd DASH manifest. When you
@@ -5532,24 +7107,61 @@ class CmafGroupSettings {
   /// (SegmentControl) to Single file (SINGLE_FILE).
   final CmafMpdProfile? mpdProfile;
 
+  /// Use this setting only when your output video stream has B-frames, which
+  /// causes the initial presentation time stamp (PTS) to be offset from the
+  /// initial decode time stamp (DTS). Specify how MediaConvert handles PTS when
+  /// writing time stamps in output DASH manifests. Choose Match initial PTS
+  /// (MATCH_INITIAL_PTS) when you want MediaConvert to use the initial PTS as the
+  /// first time stamp in the manifest. Choose Zero-based (ZERO_BASED) to have
+  /// MediaConvert ignore the initial PTS in the video stream and instead write
+  /// the initial time stamp as zero in the manifest. For outputs that don't have
+  /// B-frames, the time stamps in your DASH manifests start at zero regardless of
+  /// your choice here.
+  final CmafPtsOffsetHandlingForBFrames? ptsOffsetHandlingForBFrames;
+
   /// When set to SINGLE_FILE, a single output file is generated, which is
   /// internally segmented using the Fragment Length and Segment Length. When set
   /// to SEGMENTED_FILES, separate segment files will be created.
   final CmafSegmentControl? segmentControl;
 
-  /// Use this setting to specify the length, in seconds, of each individual CMAF
-  /// segment. This value applies to the whole package; that is, to every output
-  /// in the output group. Note that segments end on the first keyframe after this
-  /// number of seconds, so the actual segment length might be slightly longer. If
-  /// you set Segment control (CmafSegmentControl) to single file, the service
-  /// puts the content of each output in a single file that has metadata that
-  /// marks these segments. If you set it to segmented files, the service creates
-  /// multiple files for each output, each with the content of one segment.
+  /// Specify the length, in whole seconds, of each segment. When you don't
+  /// specify a value, MediaConvert defaults to 10. Related settings: Use Segment
+  /// length control (SegmentLengthControl) to specify whether the encoder
+  /// enforces this value strictly. Use Segment control (CmafSegmentControl) to
+  /// specify whether MediaConvert creates separate segment files or one content
+  /// file that has metadata to mark the segment boundaries.
   final int? segmentLength;
+
+  /// Specify how you want MediaConvert to determine the segment length. Choose
+  /// Exact (EXACT) to have the encoder use the exact length that you specify with
+  /// the setting Segment length (SegmentLength). This might result in extra
+  /// I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up
+  /// the segment lengths to match the next GOP boundary.
+  final CmafSegmentLengthControl? segmentLengthControl;
 
   /// Include or exclude RESOLUTION attribute for video in EXT-X-STREAM-INF tag of
   /// variant manifest.
   final CmafStreamInfResolution? streamInfResolution;
+
+  /// When set to LEGACY, the segment target duration is always rounded up to the
+  /// nearest integer value above its current value in seconds. When set to
+  /// SPEC\\_COMPLIANT, the segment target duration is rounded up to the nearest
+  /// integer value if fraction seconds are greater than or equal to 0.5 (>= 0.5)
+  /// and rounded down if less than 0.5 (< 0.5). You may need to use LEGACY if
+  /// your client needs to ensure that the target duration is always longer than
+  /// the actual duration of the segment. Some older players may experience
+  /// interrupted playback when the actual duration of a track in a segment is
+  /// longer than the target duration.
+  final CmafTargetDurationCompatibilityMode? targetDurationCompatibilityMode;
+
+  /// Specify the video sample composition time offset mode in the output fMP4
+  /// TRUN box. For wider player compatibility, set Video composition offsets to
+  /// Unsigned or leave blank. The earliest presentation time may be greater than
+  /// zero, and sample composition time offsets will increment using unsigned
+  /// integers. For strict fMP4 video and audio timing, set Video composition
+  /// offsets to Signed. The earliest presentation time will be equal to zero, and
+  /// sample composition time offsets will increment using signed integers.
+  final CmafVideoCompositionOffsets? videoCompositionOffsets;
 
   /// When set to ENABLED, a DASH MPD manifest will be generated for this output.
   final CmafWriteDASHManifest? writeDashManifest;
@@ -5573,22 +7185,31 @@ class CmafGroupSettings {
     this.baseUrl,
     this.clientCache,
     this.codecSpecification,
+    this.dashManifestStyle,
     this.destination,
     this.destinationSettings,
     this.encryption,
     this.fragmentLength,
+    this.imageBasedTrickPlay,
+    this.imageBasedTrickPlaySettings,
     this.manifestCompression,
     this.manifestDurationFormat,
     this.minBufferTime,
     this.minFinalSegmentLength,
+    this.mpdManifestBandwidthType,
     this.mpdProfile,
+    this.ptsOffsetHandlingForBFrames,
     this.segmentControl,
     this.segmentLength,
+    this.segmentLengthControl,
     this.streamInfResolution,
+    this.targetDurationCompatibilityMode,
+    this.videoCompositionOffsets,
     this.writeDashManifest,
     this.writeHlsManifest,
     this.writeSegmentTimelineInRepresentation,
   });
+
   factory CmafGroupSettings.fromJson(Map<String, dynamic> json) {
     return CmafGroupSettings(
       additionalManifests: (json['additionalManifests'] as List?)
@@ -5600,6 +7221,8 @@ class CmafGroupSettings {
       clientCache: (json['clientCache'] as String?)?.toCmafClientCache(),
       codecSpecification:
           (json['codecSpecification'] as String?)?.toCmafCodecSpecification(),
+      dashManifestStyle:
+          (json['dashManifestStyle'] as String?)?.toDashManifestStyle(),
       destination: json['destination'] as String?,
       destinationSettings: json['destinationSettings'] != null
           ? DestinationSettings.fromJson(
@@ -5610,18 +7233,36 @@ class CmafGroupSettings {
               json['encryption'] as Map<String, dynamic>)
           : null,
       fragmentLength: json['fragmentLength'] as int?,
+      imageBasedTrickPlay:
+          (json['imageBasedTrickPlay'] as String?)?.toCmafImageBasedTrickPlay(),
+      imageBasedTrickPlaySettings: json['imageBasedTrickPlaySettings'] != null
+          ? CmafImageBasedTrickPlaySettings.fromJson(
+              json['imageBasedTrickPlaySettings'] as Map<String, dynamic>)
+          : null,
       manifestCompression:
           (json['manifestCompression'] as String?)?.toCmafManifestCompression(),
       manifestDurationFormat: (json['manifestDurationFormat'] as String?)
           ?.toCmafManifestDurationFormat(),
       minBufferTime: json['minBufferTime'] as int?,
       minFinalSegmentLength: json['minFinalSegmentLength'] as double?,
+      mpdManifestBandwidthType: (json['mpdManifestBandwidthType'] as String?)
+          ?.toCmafMpdManifestBandwidthType(),
       mpdProfile: (json['mpdProfile'] as String?)?.toCmafMpdProfile(),
+      ptsOffsetHandlingForBFrames:
+          (json['ptsOffsetHandlingForBFrames'] as String?)
+              ?.toCmafPtsOffsetHandlingForBFrames(),
       segmentControl:
           (json['segmentControl'] as String?)?.toCmafSegmentControl(),
       segmentLength: json['segmentLength'] as int?,
+      segmentLengthControl: (json['segmentLengthControl'] as String?)
+          ?.toCmafSegmentLengthControl(),
       streamInfResolution:
           (json['streamInfResolution'] as String?)?.toCmafStreamInfResolution(),
+      targetDurationCompatibilityMode:
+          (json['targetDurationCompatibilityMode'] as String?)
+              ?.toCmafTargetDurationCompatibilityMode(),
+      videoCompositionOffsets: (json['videoCompositionOffsets'] as String?)
+          ?.toCmafVideoCompositionOffsets(),
       writeDashManifest:
           (json['writeDashManifest'] as String?)?.toCmafWriteDASHManifest(),
       writeHlsManifest:
@@ -5637,18 +7278,27 @@ class CmafGroupSettings {
     final baseUrl = this.baseUrl;
     final clientCache = this.clientCache;
     final codecSpecification = this.codecSpecification;
+    final dashManifestStyle = this.dashManifestStyle;
     final destination = this.destination;
     final destinationSettings = this.destinationSettings;
     final encryption = this.encryption;
     final fragmentLength = this.fragmentLength;
+    final imageBasedTrickPlay = this.imageBasedTrickPlay;
+    final imageBasedTrickPlaySettings = this.imageBasedTrickPlaySettings;
     final manifestCompression = this.manifestCompression;
     final manifestDurationFormat = this.manifestDurationFormat;
     final minBufferTime = this.minBufferTime;
     final minFinalSegmentLength = this.minFinalSegmentLength;
+    final mpdManifestBandwidthType = this.mpdManifestBandwidthType;
     final mpdProfile = this.mpdProfile;
+    final ptsOffsetHandlingForBFrames = this.ptsOffsetHandlingForBFrames;
     final segmentControl = this.segmentControl;
     final segmentLength = this.segmentLength;
+    final segmentLengthControl = this.segmentLengthControl;
     final streamInfResolution = this.streamInfResolution;
+    final targetDurationCompatibilityMode =
+        this.targetDurationCompatibilityMode;
+    final videoCompositionOffsets = this.videoCompositionOffsets;
     final writeDashManifest = this.writeDashManifest;
     final writeHlsManifest = this.writeHlsManifest;
     final writeSegmentTimelineInRepresentation =
@@ -5660,11 +7310,17 @@ class CmafGroupSettings {
       if (clientCache != null) 'clientCache': clientCache.toValue(),
       if (codecSpecification != null)
         'codecSpecification': codecSpecification.toValue(),
+      if (dashManifestStyle != null)
+        'dashManifestStyle': dashManifestStyle.toValue(),
       if (destination != null) 'destination': destination,
       if (destinationSettings != null)
         'destinationSettings': destinationSettings,
       if (encryption != null) 'encryption': encryption,
       if (fragmentLength != null) 'fragmentLength': fragmentLength,
+      if (imageBasedTrickPlay != null)
+        'imageBasedTrickPlay': imageBasedTrickPlay.toValue(),
+      if (imageBasedTrickPlaySettings != null)
+        'imageBasedTrickPlaySettings': imageBasedTrickPlaySettings,
       if (manifestCompression != null)
         'manifestCompression': manifestCompression.toValue(),
       if (manifestDurationFormat != null)
@@ -5672,11 +7328,22 @@ class CmafGroupSettings {
       if (minBufferTime != null) 'minBufferTime': minBufferTime,
       if (minFinalSegmentLength != null)
         'minFinalSegmentLength': minFinalSegmentLength,
+      if (mpdManifestBandwidthType != null)
+        'mpdManifestBandwidthType': mpdManifestBandwidthType.toValue(),
       if (mpdProfile != null) 'mpdProfile': mpdProfile.toValue(),
+      if (ptsOffsetHandlingForBFrames != null)
+        'ptsOffsetHandlingForBFrames': ptsOffsetHandlingForBFrames.toValue(),
       if (segmentControl != null) 'segmentControl': segmentControl.toValue(),
       if (segmentLength != null) 'segmentLength': segmentLength,
+      if (segmentLengthControl != null)
+        'segmentLengthControl': segmentLengthControl.toValue(),
       if (streamInfResolution != null)
         'streamInfResolution': streamInfResolution.toValue(),
+      if (targetDurationCompatibilityMode != null)
+        'targetDurationCompatibilityMode':
+            targetDurationCompatibilityMode.toValue(),
+      if (videoCompositionOffsets != null)
+        'videoCompositionOffsets': videoCompositionOffsets.toValue(),
       if (writeDashManifest != null)
         'writeDashManifest': writeDashManifest.toValue(),
       if (writeHlsManifest != null)
@@ -5684,6 +7351,131 @@ class CmafGroupSettings {
       if (writeSegmentTimelineInRepresentation != null)
         'writeSegmentTimelineInRepresentation':
             writeSegmentTimelineInRepresentation.toValue(),
+    };
+  }
+}
+
+/// Specify whether MediaConvert generates images for trick play. Keep the
+/// default value, None (NONE), to not generate any images. Choose Thumbnail
+/// (THUMBNAIL) to generate tiled thumbnails. Choose Thumbnail and full frame
+/// (THUMBNAIL_AND_FULLFRAME) to generate tiled thumbnails and full-resolution
+/// images of single frames. When you enable Write HLS manifest
+/// (WriteHlsManifest), MediaConvert creates a child manifest for each set of
+/// images that you generate and adds corresponding entries to the parent
+/// manifest. When you enable Write DASH manifest (WriteDashManifest),
+/// MediaConvert adds an entry in the .mpd manifest for each set of images that
+/// you generate. A common application for these images is Roku trick mode. The
+/// thumbnails and full-frame images that MediaConvert creates with this feature
+/// are compatible with this Roku specification:
+/// https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
+enum CmafImageBasedTrickPlay {
+  none,
+  thumbnail,
+  thumbnailAndFullframe,
+  advanced,
+}
+
+extension CmafImageBasedTrickPlayValueExtension on CmafImageBasedTrickPlay {
+  String toValue() {
+    switch (this) {
+      case CmafImageBasedTrickPlay.none:
+        return 'NONE';
+      case CmafImageBasedTrickPlay.thumbnail:
+        return 'THUMBNAIL';
+      case CmafImageBasedTrickPlay.thumbnailAndFullframe:
+        return 'THUMBNAIL_AND_FULLFRAME';
+      case CmafImageBasedTrickPlay.advanced:
+        return 'ADVANCED';
+    }
+  }
+}
+
+extension CmafImageBasedTrickPlayFromString on String {
+  CmafImageBasedTrickPlay toCmafImageBasedTrickPlay() {
+    switch (this) {
+      case 'NONE':
+        return CmafImageBasedTrickPlay.none;
+      case 'THUMBNAIL':
+        return CmafImageBasedTrickPlay.thumbnail;
+      case 'THUMBNAIL_AND_FULLFRAME':
+        return CmafImageBasedTrickPlay.thumbnailAndFullframe;
+      case 'ADVANCED':
+        return CmafImageBasedTrickPlay.advanced;
+    }
+    throw Exception('$this is not known in enum CmafImageBasedTrickPlay');
+  }
+}
+
+/// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
+class CmafImageBasedTrickPlaySettings {
+  /// The cadence MediaConvert follows for generating thumbnails. If set to
+  /// FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the
+  /// output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert
+  /// generates thumbnails according to the interval you specify in
+  /// thumbnailInterval.
+  final CmafIntervalCadence? intervalCadence;
+
+  /// Height of each thumbnail within each tile image, in pixels. Leave blank to
+  /// maintain aspect ratio with thumbnail width. If following the aspect ratio
+  /// would lead to a total tile height greater than 4096, then the job will be
+  /// rejected. Must be divisible by 2.
+  final int? thumbnailHeight;
+
+  /// Enter the interval, in seconds, that MediaConvert uses to generate
+  /// thumbnails. If the interval you enter doesn't align with the output frame
+  /// rate, MediaConvert automatically rounds the interval to align with the
+  /// output frame rate. For example, if the output frame rate is 29.97 frames per
+  /// second and you enter 5, MediaConvert uses a 150 frame interval to generate
+  /// thumbnails.
+  final double? thumbnailInterval;
+
+  /// Width of each thumbnail within each tile image, in pixels. Default is 312.
+  /// Must be divisible by 8.
+  final int? thumbnailWidth;
+
+  /// Number of thumbnails in each column of a tile image. Set a value between 2
+  /// and 2048. Must be divisible by 2.
+  final int? tileHeight;
+
+  /// Number of thumbnails in each row of a tile image. Set a value between 1 and
+  /// 512.
+  final int? tileWidth;
+
+  CmafImageBasedTrickPlaySettings({
+    this.intervalCadence,
+    this.thumbnailHeight,
+    this.thumbnailInterval,
+    this.thumbnailWidth,
+    this.tileHeight,
+    this.tileWidth,
+  });
+
+  factory CmafImageBasedTrickPlaySettings.fromJson(Map<String, dynamic> json) {
+    return CmafImageBasedTrickPlaySettings(
+      intervalCadence:
+          (json['intervalCadence'] as String?)?.toCmafIntervalCadence(),
+      thumbnailHeight: json['thumbnailHeight'] as int?,
+      thumbnailInterval: json['thumbnailInterval'] as double?,
+      thumbnailWidth: json['thumbnailWidth'] as int?,
+      tileHeight: json['tileHeight'] as int?,
+      tileWidth: json['tileWidth'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intervalCadence = this.intervalCadence;
+    final thumbnailHeight = this.thumbnailHeight;
+    final thumbnailInterval = this.thumbnailInterval;
+    final thumbnailWidth = this.thumbnailWidth;
+    final tileHeight = this.tileHeight;
+    final tileWidth = this.tileWidth;
+    return {
+      if (intervalCadence != null) 'intervalCadence': intervalCadence.toValue(),
+      if (thumbnailHeight != null) 'thumbnailHeight': thumbnailHeight,
+      if (thumbnailInterval != null) 'thumbnailInterval': thumbnailInterval,
+      if (thumbnailWidth != null) 'thumbnailWidth': thumbnailWidth,
+      if (tileHeight != null) 'tileHeight': tileHeight,
+      if (tileWidth != null) 'tileWidth': tileWidth,
     };
   }
 }
@@ -5717,6 +7509,39 @@ extension CmafInitializationVectorInManifestFromString on String {
     }
     throw Exception(
         '$this is not known in enum CmafInitializationVectorInManifest');
+  }
+}
+
+/// The cadence MediaConvert follows for generating thumbnails. If set to
+/// FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the
+/// output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert
+/// generates thumbnails according to the interval you specify in
+/// thumbnailInterval.
+enum CmafIntervalCadence {
+  followIframe,
+  followCustom,
+}
+
+extension CmafIntervalCadenceValueExtension on CmafIntervalCadence {
+  String toValue() {
+    switch (this) {
+      case CmafIntervalCadence.followIframe:
+        return 'FOLLOW_IFRAME';
+      case CmafIntervalCadence.followCustom:
+        return 'FOLLOW_CUSTOM';
+    }
+  }
+}
+
+extension CmafIntervalCadenceFromString on String {
+  CmafIntervalCadence toCmafIntervalCadence() {
+    switch (this) {
+      case 'FOLLOW_IFRAME':
+        return CmafIntervalCadence.followIframe;
+      case 'FOLLOW_CUSTOM':
+        return CmafIntervalCadence.followCustom;
+    }
+    throw Exception('$this is not known in enum CmafIntervalCadence');
   }
 }
 
@@ -5811,6 +7636,41 @@ extension CmafManifestDurationFormatFromString on String {
   }
 }
 
+/// Specify how the value for bandwidth is determined for each video
+/// Representation in your output MPD manifest. We recommend that you choose a
+/// MPD manifest bandwidth type that is compatible with your downstream player
+/// configuration. Max: Use the same value that you specify for Max bitrate in
+/// the video output, in bits per second. Average: Use the calculated average
+/// bitrate of the encoded video output, in bits per second.
+enum CmafMpdManifestBandwidthType {
+  average,
+  max,
+}
+
+extension CmafMpdManifestBandwidthTypeValueExtension
+    on CmafMpdManifestBandwidthType {
+  String toValue() {
+    switch (this) {
+      case CmafMpdManifestBandwidthType.average:
+        return 'AVERAGE';
+      case CmafMpdManifestBandwidthType.max:
+        return 'MAX';
+    }
+  }
+}
+
+extension CmafMpdManifestBandwidthTypeFromString on String {
+  CmafMpdManifestBandwidthType toCmafMpdManifestBandwidthType() {
+    switch (this) {
+      case 'AVERAGE':
+        return CmafMpdManifestBandwidthType.average;
+      case 'MAX':
+        return CmafMpdManifestBandwidthType.max;
+    }
+    throw Exception('$this is not known in enum CmafMpdManifestBandwidthType');
+  }
+}
+
 /// Specify whether your DASH profile is on-demand or main. When you choose Main
 /// profile (MAIN_PROFILE), the service signals
 /// urn:mpeg:dash:profile:isoff-main:2011 in your .mpd DASH manifest. When you
@@ -5846,6 +7706,46 @@ extension CmafMpdProfileFromString on String {
   }
 }
 
+/// Use this setting only when your output video stream has B-frames, which
+/// causes the initial presentation time stamp (PTS) to be offset from the
+/// initial decode time stamp (DTS). Specify how MediaConvert handles PTS when
+/// writing time stamps in output DASH manifests. Choose Match initial PTS
+/// (MATCH_INITIAL_PTS) when you want MediaConvert to use the initial PTS as the
+/// first time stamp in the manifest. Choose Zero-based (ZERO_BASED) to have
+/// MediaConvert ignore the initial PTS in the video stream and instead write
+/// the initial time stamp as zero in the manifest. For outputs that don't have
+/// B-frames, the time stamps in your DASH manifests start at zero regardless of
+/// your choice here.
+enum CmafPtsOffsetHandlingForBFrames {
+  zeroBased,
+  matchInitialPts,
+}
+
+extension CmafPtsOffsetHandlingForBFramesValueExtension
+    on CmafPtsOffsetHandlingForBFrames {
+  String toValue() {
+    switch (this) {
+      case CmafPtsOffsetHandlingForBFrames.zeroBased:
+        return 'ZERO_BASED';
+      case CmafPtsOffsetHandlingForBFrames.matchInitialPts:
+        return 'MATCH_INITIAL_PTS';
+    }
+  }
+}
+
+extension CmafPtsOffsetHandlingForBFramesFromString on String {
+  CmafPtsOffsetHandlingForBFrames toCmafPtsOffsetHandlingForBFrames() {
+    switch (this) {
+      case 'ZERO_BASED':
+        return CmafPtsOffsetHandlingForBFrames.zeroBased;
+      case 'MATCH_INITIAL_PTS':
+        return CmafPtsOffsetHandlingForBFrames.matchInitialPts;
+    }
+    throw Exception(
+        '$this is not known in enum CmafPtsOffsetHandlingForBFrames');
+  }
+}
+
 /// When set to SINGLE_FILE, a single output file is generated, which is
 /// internally segmented using the Fragment Length and Segment Length. When set
 /// to SEGMENTED_FILES, separate segment files will be created.
@@ -5877,6 +7777,39 @@ extension CmafSegmentControlFromString on String {
   }
 }
 
+/// Specify how you want MediaConvert to determine the segment length. Choose
+/// Exact (EXACT) to have the encoder use the exact length that you specify with
+/// the setting Segment length (SegmentLength). This might result in extra
+/// I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up
+/// the segment lengths to match the next GOP boundary.
+enum CmafSegmentLengthControl {
+  exact,
+  gopMultiple,
+}
+
+extension CmafSegmentLengthControlValueExtension on CmafSegmentLengthControl {
+  String toValue() {
+    switch (this) {
+      case CmafSegmentLengthControl.exact:
+        return 'EXACT';
+      case CmafSegmentLengthControl.gopMultiple:
+        return 'GOP_MULTIPLE';
+    }
+  }
+}
+
+extension CmafSegmentLengthControlFromString on String {
+  CmafSegmentLengthControl toCmafSegmentLengthControl() {
+    switch (this) {
+      case 'EXACT':
+        return CmafSegmentLengthControl.exact;
+      case 'GOP_MULTIPLE':
+        return CmafSegmentLengthControl.gopMultiple;
+    }
+    throw Exception('$this is not known in enum CmafSegmentLengthControl');
+  }
+}
+
 /// Include or exclude RESOLUTION attribute for video in EXT-X-STREAM-INF tag of
 /// variant manifest.
 enum CmafStreamInfResolution {
@@ -5904,6 +7837,81 @@ extension CmafStreamInfResolutionFromString on String {
         return CmafStreamInfResolution.exclude;
     }
     throw Exception('$this is not known in enum CmafStreamInfResolution');
+  }
+}
+
+/// When set to LEGACY, the segment target duration is always rounded up to the
+/// nearest integer value above its current value in seconds. When set to
+/// SPEC\\_COMPLIANT, the segment target duration is rounded up to the nearest
+/// integer value if fraction seconds are greater than or equal to 0.5 (>= 0.5)
+/// and rounded down if less than 0.5 (< 0.5). You may need to use LEGACY if
+/// your client needs to ensure that the target duration is always longer than
+/// the actual duration of the segment. Some older players may experience
+/// interrupted playback when the actual duration of a track in a segment is
+/// longer than the target duration.
+enum CmafTargetDurationCompatibilityMode {
+  legacy,
+  specCompliant,
+}
+
+extension CmafTargetDurationCompatibilityModeValueExtension
+    on CmafTargetDurationCompatibilityMode {
+  String toValue() {
+    switch (this) {
+      case CmafTargetDurationCompatibilityMode.legacy:
+        return 'LEGACY';
+      case CmafTargetDurationCompatibilityMode.specCompliant:
+        return 'SPEC_COMPLIANT';
+    }
+  }
+}
+
+extension CmafTargetDurationCompatibilityModeFromString on String {
+  CmafTargetDurationCompatibilityMode toCmafTargetDurationCompatibilityMode() {
+    switch (this) {
+      case 'LEGACY':
+        return CmafTargetDurationCompatibilityMode.legacy;
+      case 'SPEC_COMPLIANT':
+        return CmafTargetDurationCompatibilityMode.specCompliant;
+    }
+    throw Exception(
+        '$this is not known in enum CmafTargetDurationCompatibilityMode');
+  }
+}
+
+/// Specify the video sample composition time offset mode in the output fMP4
+/// TRUN box. For wider player compatibility, set Video composition offsets to
+/// Unsigned or leave blank. The earliest presentation time may be greater than
+/// zero, and sample composition time offsets will increment using unsigned
+/// integers. For strict fMP4 video and audio timing, set Video composition
+/// offsets to Signed. The earliest presentation time will be equal to zero, and
+/// sample composition time offsets will increment using signed integers.
+enum CmafVideoCompositionOffsets {
+  signed,
+  unsigned,
+}
+
+extension CmafVideoCompositionOffsetsValueExtension
+    on CmafVideoCompositionOffsets {
+  String toValue() {
+    switch (this) {
+      case CmafVideoCompositionOffsets.signed:
+        return 'SIGNED';
+      case CmafVideoCompositionOffsets.unsigned:
+        return 'UNSIGNED';
+    }
+  }
+}
+
+extension CmafVideoCompositionOffsetsFromString on String {
+  CmafVideoCompositionOffsets toCmafVideoCompositionOffsets() {
+    switch (this) {
+      case 'SIGNED':
+        return CmafVideoCompositionOffsets.signed;
+      case 'UNSIGNED':
+        return CmafVideoCompositionOffsets.unsigned;
+    }
+    throw Exception('$this is not known in enum CmafVideoCompositionOffsets');
   }
 }
 
@@ -6046,6 +8054,199 @@ extension CmfcAudioDurationFromString on String {
   }
 }
 
+/// Use this setting to control the values that MediaConvert puts in your HLS
+/// parent playlist to control how the client player selects which audio track
+/// to play. The other options for this setting determine the values that
+/// MediaConvert writes for the DEFAULT and AUTOSELECT attributes of the
+/// EXT-X-MEDIA entry for the audio variant. For more information about these
+/// attributes, see the Apple documentation article
+/// https://developer.apple.com/documentation/http_live_streaming/example_playlists_for_http_live_streaming/adding_alternate_media_to_a_playlist.
+/// Choose Alternate audio, auto select, default
+/// (ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT) to set DEFAULT=YES and AUTOSELECT=YES.
+/// Choose this value for only one variant in your output group. Choose
+/// Alternate audio, auto select, not default (ALTERNATE_AUDIO_AUTO_SELECT) to
+/// set DEFAULT=NO and AUTOSELECT=YES. Choose Alternate Audio, Not Auto Select
+/// to set DEFAULT=NO and AUTOSELECT=NO. When you don't specify a value for this
+/// setting, MediaConvert defaults to Alternate audio, auto select, default.
+/// When there is more than one variant in your output group, you must
+/// explicitly choose a value for this setting.
+enum CmfcAudioTrackType {
+  alternateAudioAutoSelectDefault,
+  alternateAudioAutoSelect,
+  alternateAudioNotAutoSelect,
+}
+
+extension CmfcAudioTrackTypeValueExtension on CmfcAudioTrackType {
+  String toValue() {
+    switch (this) {
+      case CmfcAudioTrackType.alternateAudioAutoSelectDefault:
+        return 'ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT';
+      case CmfcAudioTrackType.alternateAudioAutoSelect:
+        return 'ALTERNATE_AUDIO_AUTO_SELECT';
+      case CmfcAudioTrackType.alternateAudioNotAutoSelect:
+        return 'ALTERNATE_AUDIO_NOT_AUTO_SELECT';
+    }
+  }
+}
+
+extension CmfcAudioTrackTypeFromString on String {
+  CmfcAudioTrackType toCmfcAudioTrackType() {
+    switch (this) {
+      case 'ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT':
+        return CmfcAudioTrackType.alternateAudioAutoSelectDefault;
+      case 'ALTERNATE_AUDIO_AUTO_SELECT':
+        return CmfcAudioTrackType.alternateAudioAutoSelect;
+      case 'ALTERNATE_AUDIO_NOT_AUTO_SELECT':
+        return CmfcAudioTrackType.alternateAudioNotAutoSelect;
+    }
+    throw Exception('$this is not known in enum CmfcAudioTrackType');
+  }
+}
+
+/// Specify whether to flag this audio track as descriptive video service (DVS)
+/// in your HLS parent manifest. When you choose Flag (FLAG), MediaConvert
+/// includes the parameter
+/// CHARACTERISTICS="public.accessibility.describes-video" in the EXT-X-MEDIA
+/// entry for this track. When you keep the default choice, Don't flag
+/// (DONT_FLAG), MediaConvert leaves this parameter out. The DVS flag can help
+/// with accessibility on Apple devices. For more information, see the Apple
+/// documentation.
+enum CmfcDescriptiveVideoServiceFlag {
+  dontFlag,
+  flag,
+}
+
+extension CmfcDescriptiveVideoServiceFlagValueExtension
+    on CmfcDescriptiveVideoServiceFlag {
+  String toValue() {
+    switch (this) {
+      case CmfcDescriptiveVideoServiceFlag.dontFlag:
+        return 'DONT_FLAG';
+      case CmfcDescriptiveVideoServiceFlag.flag:
+        return 'FLAG';
+    }
+  }
+}
+
+extension CmfcDescriptiveVideoServiceFlagFromString on String {
+  CmfcDescriptiveVideoServiceFlag toCmfcDescriptiveVideoServiceFlag() {
+    switch (this) {
+      case 'DONT_FLAG':
+        return CmfcDescriptiveVideoServiceFlag.dontFlag;
+      case 'FLAG':
+        return CmfcDescriptiveVideoServiceFlag.flag;
+    }
+    throw Exception(
+        '$this is not known in enum CmfcDescriptiveVideoServiceFlag');
+  }
+}
+
+/// Choose Include (INCLUDE) to have MediaConvert generate an HLS child manifest
+/// that lists only the I-frames for this rendition, in addition to your regular
+/// manifest for this rendition. You might use this manifest as part of a
+/// workflow that creates preview functions for your video. MediaConvert adds
+/// both the I-frame only child manifest and the regular child manifest to the
+/// parent manifest. When you don't need the I-frame only child manifest, keep
+/// the default value Exclude (EXCLUDE).
+enum CmfcIFrameOnlyManifest {
+  include,
+  exclude,
+}
+
+extension CmfcIFrameOnlyManifestValueExtension on CmfcIFrameOnlyManifest {
+  String toValue() {
+    switch (this) {
+      case CmfcIFrameOnlyManifest.include:
+        return 'INCLUDE';
+      case CmfcIFrameOnlyManifest.exclude:
+        return 'EXCLUDE';
+    }
+  }
+}
+
+extension CmfcIFrameOnlyManifestFromString on String {
+  CmfcIFrameOnlyManifest toCmfcIFrameOnlyManifest() {
+    switch (this) {
+      case 'INCLUDE':
+        return CmfcIFrameOnlyManifest.include;
+      case 'EXCLUDE':
+        return CmfcIFrameOnlyManifest.exclude;
+    }
+    throw Exception('$this is not known in enum CmfcIFrameOnlyManifest');
+  }
+}
+
+/// To include key-length-value metadata in this output: Set KLV metadata
+/// insertion to Passthrough. MediaConvert reads KLV metadata present in your
+/// input and writes each instance to a separate event message box in the
+/// output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV
+/// metadata insertion to None or leave blank.
+enum CmfcKlvMetadata {
+  passthrough,
+  none,
+}
+
+extension CmfcKlvMetadataValueExtension on CmfcKlvMetadata {
+  String toValue() {
+    switch (this) {
+      case CmfcKlvMetadata.passthrough:
+        return 'PASSTHROUGH';
+      case CmfcKlvMetadata.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension CmfcKlvMetadataFromString on String {
+  CmfcKlvMetadata toCmfcKlvMetadata() {
+    switch (this) {
+      case 'PASSTHROUGH':
+        return CmfcKlvMetadata.passthrough;
+      case 'NONE':
+        return CmfcKlvMetadata.none;
+    }
+    throw Exception('$this is not known in enum CmfcKlvMetadata');
+  }
+}
+
+/// To add an InbandEventStream element in your output MPD manifest for each
+/// type of event message, set Manifest metadata signaling to Enabled. For ID3
+/// event messages, the InbandEventStream element schemeIdUri will be same value
+/// that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages,
+/// the InbandEventStream element schemeIdUri will be
+/// "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD
+/// manifest, set Manifest metadata signaling to Disabled. To enable Manifest
+/// metadata signaling, you must also set SCTE-35 source to Passthrough, ESAM
+/// SCTE-35 to insert, or ID3 metadata (TimedMetadata) to Passthrough.
+enum CmfcManifestMetadataSignaling {
+  enabled,
+  disabled,
+}
+
+extension CmfcManifestMetadataSignalingValueExtension
+    on CmfcManifestMetadataSignaling {
+  String toValue() {
+    switch (this) {
+      case CmfcManifestMetadataSignaling.enabled:
+        return 'ENABLED';
+      case CmfcManifestMetadataSignaling.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension CmfcManifestMetadataSignalingFromString on String {
+  CmfcManifestMetadataSignaling toCmfcManifestMetadataSignaling() {
+    switch (this) {
+      case 'ENABLED':
+        return CmfcManifestMetadataSignaling.enabled;
+      case 'DISABLED':
+        return CmfcManifestMetadataSignaling.disabled;
+    }
+    throw Exception('$this is not known in enum CmfcManifestMetadataSignaling');
+  }
+}
+
 /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose
 /// INSERT to put SCTE-35 markers in this output at the insertion points that
 /// you specify in an ESAM XML document. Provide the document in the setting SCC
@@ -6110,7 +8311,8 @@ extension CmfcScte35SourceFromString on String {
   }
 }
 
-/// Settings for MP4 segments in CMAF
+/// These settings relate to the fragmented MP4 container for the segments in
+/// your CMAF outputs.
 class CmfcSettings {
   /// Specify this setting only when your output will be consumed by a downstream
   /// repackaging workflow that is sensitive to very small duration differences
@@ -6128,6 +8330,91 @@ class CmfcSettings {
   /// output audio codec.
   final CmfcAudioDuration? audioDuration;
 
+  /// Specify the audio rendition group for this audio rendition. Specify up to
+  /// one value for each audio output in your output group. This value appears in
+  /// your HLS parent manifest in the EXT-X-MEDIA tag of TYPE=AUDIO, as the value
+  /// for the GROUP-ID attribute. For example, if you specify "audio_aac_1" for
+  /// Audio group ID, it appears in your manifest like this:
+  /// #EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="audio_aac_1". Related setting: To
+  /// associate the rendition group that this audio track belongs to with a video
+  /// rendition, include the same value that you provide here for that video
+  /// output's setting Audio rendition sets (audioRenditionSets).
+  final String? audioGroupId;
+
+  /// List the audio rendition groups that you want included with this video
+  /// rendition. Use a comma-separated list. For example, say you want to include
+  /// the audio rendition groups that have the audio group IDs "audio_aac_1" and
+  /// "audio_dolby". Then you would specify this value: "audio_aac_1,audio_dolby".
+  /// Related setting: The rendition groups that you include in your
+  /// comma-separated list should all match values that you specify in the setting
+  /// Audio group ID (AudioGroupId) for audio renditions in the same output group
+  /// as this video rendition. Default behavior: If you don't specify anything
+  /// here and for Audio group ID, MediaConvert puts each audio variant in its own
+  /// audio rendition group and associates it with every video variant. Each value
+  /// in your list appears in your HLS parent manifest in the EXT-X-STREAM-INF tag
+  /// as the value for the AUDIO attribute. To continue the previous example, say
+  /// that the file name for the child manifest for your video rendition is
+  /// "amazing_video_1.m3u8". Then, in your parent manifest, each value will
+  /// appear on separate lines, like this:
+  /// #EXT-X-STREAM-INF:AUDIO="audio_aac_1"... amazing_video_1.m3u8
+  /// #EXT-X-STREAM-INF:AUDIO="audio_dolby"... amazing_video_1.m3u8
+  final String? audioRenditionSets;
+
+  /// Use this setting to control the values that MediaConvert puts in your HLS
+  /// parent playlist to control how the client player selects which audio track
+  /// to play. The other options for this setting determine the values that
+  /// MediaConvert writes for the DEFAULT and AUTOSELECT attributes of the
+  /// EXT-X-MEDIA entry for the audio variant. For more information about these
+  /// attributes, see the Apple documentation article
+  /// https://developer.apple.com/documentation/http_live_streaming/example_playlists_for_http_live_streaming/adding_alternate_media_to_a_playlist.
+  /// Choose Alternate audio, auto select, default
+  /// (ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT) to set DEFAULT=YES and AUTOSELECT=YES.
+  /// Choose this value for only one variant in your output group. Choose
+  /// Alternate audio, auto select, not default (ALTERNATE_AUDIO_AUTO_SELECT) to
+  /// set DEFAULT=NO and AUTOSELECT=YES. Choose Alternate Audio, Not Auto Select
+  /// to set DEFAULT=NO and AUTOSELECT=NO. When you don't specify a value for this
+  /// setting, MediaConvert defaults to Alternate audio, auto select, default.
+  /// When there is more than one variant in your output group, you must
+  /// explicitly choose a value for this setting.
+  final CmfcAudioTrackType? audioTrackType;
+
+  /// Specify whether to flag this audio track as descriptive video service (DVS)
+  /// in your HLS parent manifest. When you choose Flag (FLAG), MediaConvert
+  /// includes the parameter
+  /// CHARACTERISTICS="public.accessibility.describes-video" in the EXT-X-MEDIA
+  /// entry for this track. When you keep the default choice, Don't flag
+  /// (DONT_FLAG), MediaConvert leaves this parameter out. The DVS flag can help
+  /// with accessibility on Apple devices. For more information, see the Apple
+  /// documentation.
+  final CmfcDescriptiveVideoServiceFlag? descriptiveVideoServiceFlag;
+
+  /// Choose Include (INCLUDE) to have MediaConvert generate an HLS child manifest
+  /// that lists only the I-frames for this rendition, in addition to your regular
+  /// manifest for this rendition. You might use this manifest as part of a
+  /// workflow that creates preview functions for your video. MediaConvert adds
+  /// both the I-frame only child manifest and the regular child manifest to the
+  /// parent manifest. When you don't need the I-frame only child manifest, keep
+  /// the default value Exclude (EXCLUDE).
+  final CmfcIFrameOnlyManifest? iFrameOnlyManifest;
+
+  /// To include key-length-value metadata in this output: Set KLV metadata
+  /// insertion to Passthrough. MediaConvert reads KLV metadata present in your
+  /// input and writes each instance to a separate event message box in the
+  /// output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV
+  /// metadata insertion to None or leave blank.
+  final CmfcKlvMetadata? klvMetadata;
+
+  /// To add an InbandEventStream element in your output MPD manifest for each
+  /// type of event message, set Manifest metadata signaling to Enabled. For ID3
+  /// event messages, the InbandEventStream element schemeIdUri will be same value
+  /// that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages,
+  /// the InbandEventStream element schemeIdUri will be
+  /// "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD
+  /// manifest, set Manifest metadata signaling to Disabled. To enable Manifest
+  /// metadata signaling, you must also set SCTE-35 source to Passthrough, ESAM
+  /// SCTE-35 to insert, or ID3 metadata (TimedMetadata) to Passthrough.
+  final CmfcManifestMetadataSignaling? manifestMetadataSignaling;
+
   /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose
   /// INSERT to put SCTE-35 markers in this output at the insertion points that
   /// you specify in an ESAM XML document. Provide the document in the setting SCC
@@ -6140,28 +8427,181 @@ class CmfcSettings {
   /// you don't want those SCTE-35 markers in this output.
   final CmfcScte35Source? scte35Source;
 
+  /// To include ID3 metadata in this output: Set ID3 metadata (timedMetadata) to
+  /// Passthrough (PASSTHROUGH). Specify this ID3 metadata in Custom ID3 metadata
+  /// inserter (timedMetadataInsertion). MediaConvert writes each instance of ID3
+  /// metadata in a separate Event Message (eMSG) box. To exclude this ID3
+  /// metadata: Set ID3 metadata to None (NONE) or leave blank.
+  final CmfcTimedMetadata? timedMetadata;
+
+  /// Specify the event message box (eMSG) version for ID3 timed metadata in your
+  /// output.
+  /// For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.3 Syntax.
+  /// Leave blank to use the default value Version 0.
+  /// When you specify Version 1, you must also set ID3 metadata (timedMetadata)
+  /// to Passthrough.
+  final CmfcTimedMetadataBoxVersion? timedMetadataBoxVersion;
+
+  /// Specify the event message box (eMSG) scheme ID URI (scheme_id_uri) for ID3
+  /// timed metadata in your output. For more information, see ISO/IEC
+  /// 23009-1:2022 section 5.10.3.3.4 Semantics. Leave blank to use the default
+  /// value: https://aomedia.org/emsg/ID3 When you specify a value for ID3
+  /// metadata scheme ID URI, you must also set ID3 metadata (timedMetadata) to
+  /// Passthrough.
+  final String? timedMetadataSchemeIdUri;
+
+  /// Specify the event message box (eMSG) value for ID3 timed metadata in your
+  /// output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.4
+  /// Semantics. When you specify a value for ID3 Metadata Value, you must also
+  /// set ID3 metadata (timedMetadata) to Passthrough.
+  final String? timedMetadataValue;
+
   CmfcSettings({
     this.audioDuration,
+    this.audioGroupId,
+    this.audioRenditionSets,
+    this.audioTrackType,
+    this.descriptiveVideoServiceFlag,
+    this.iFrameOnlyManifest,
+    this.klvMetadata,
+    this.manifestMetadataSignaling,
     this.scte35Esam,
     this.scte35Source,
+    this.timedMetadata,
+    this.timedMetadataBoxVersion,
+    this.timedMetadataSchemeIdUri,
+    this.timedMetadataValue,
   });
+
   factory CmfcSettings.fromJson(Map<String, dynamic> json) {
     return CmfcSettings(
       audioDuration: (json['audioDuration'] as String?)?.toCmfcAudioDuration(),
+      audioGroupId: json['audioGroupId'] as String?,
+      audioRenditionSets: json['audioRenditionSets'] as String?,
+      audioTrackType:
+          (json['audioTrackType'] as String?)?.toCmfcAudioTrackType(),
+      descriptiveVideoServiceFlag:
+          (json['descriptiveVideoServiceFlag'] as String?)
+              ?.toCmfcDescriptiveVideoServiceFlag(),
+      iFrameOnlyManifest:
+          (json['iFrameOnlyManifest'] as String?)?.toCmfcIFrameOnlyManifest(),
+      klvMetadata: (json['klvMetadata'] as String?)?.toCmfcKlvMetadata(),
+      manifestMetadataSignaling: (json['manifestMetadataSignaling'] as String?)
+          ?.toCmfcManifestMetadataSignaling(),
       scte35Esam: (json['scte35Esam'] as String?)?.toCmfcScte35Esam(),
       scte35Source: (json['scte35Source'] as String?)?.toCmfcScte35Source(),
+      timedMetadata: (json['timedMetadata'] as String?)?.toCmfcTimedMetadata(),
+      timedMetadataBoxVersion: (json['timedMetadataBoxVersion'] as String?)
+          ?.toCmfcTimedMetadataBoxVersion(),
+      timedMetadataSchemeIdUri: json['timedMetadataSchemeIdUri'] as String?,
+      timedMetadataValue: json['timedMetadataValue'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final audioDuration = this.audioDuration;
+    final audioGroupId = this.audioGroupId;
+    final audioRenditionSets = this.audioRenditionSets;
+    final audioTrackType = this.audioTrackType;
+    final descriptiveVideoServiceFlag = this.descriptiveVideoServiceFlag;
+    final iFrameOnlyManifest = this.iFrameOnlyManifest;
+    final klvMetadata = this.klvMetadata;
+    final manifestMetadataSignaling = this.manifestMetadataSignaling;
     final scte35Esam = this.scte35Esam;
     final scte35Source = this.scte35Source;
+    final timedMetadata = this.timedMetadata;
+    final timedMetadataBoxVersion = this.timedMetadataBoxVersion;
+    final timedMetadataSchemeIdUri = this.timedMetadataSchemeIdUri;
+    final timedMetadataValue = this.timedMetadataValue;
     return {
       if (audioDuration != null) 'audioDuration': audioDuration.toValue(),
+      if (audioGroupId != null) 'audioGroupId': audioGroupId,
+      if (audioRenditionSets != null) 'audioRenditionSets': audioRenditionSets,
+      if (audioTrackType != null) 'audioTrackType': audioTrackType.toValue(),
+      if (descriptiveVideoServiceFlag != null)
+        'descriptiveVideoServiceFlag': descriptiveVideoServiceFlag.toValue(),
+      if (iFrameOnlyManifest != null)
+        'iFrameOnlyManifest': iFrameOnlyManifest.toValue(),
+      if (klvMetadata != null) 'klvMetadata': klvMetadata.toValue(),
+      if (manifestMetadataSignaling != null)
+        'manifestMetadataSignaling': manifestMetadataSignaling.toValue(),
       if (scte35Esam != null) 'scte35Esam': scte35Esam.toValue(),
       if (scte35Source != null) 'scte35Source': scte35Source.toValue(),
+      if (timedMetadata != null) 'timedMetadata': timedMetadata.toValue(),
+      if (timedMetadataBoxVersion != null)
+        'timedMetadataBoxVersion': timedMetadataBoxVersion.toValue(),
+      if (timedMetadataSchemeIdUri != null)
+        'timedMetadataSchemeIdUri': timedMetadataSchemeIdUri,
+      if (timedMetadataValue != null) 'timedMetadataValue': timedMetadataValue,
     };
+  }
+}
+
+/// To include ID3 metadata in this output: Set ID3 metadata (timedMetadata) to
+/// Passthrough (PASSTHROUGH). Specify this ID3 metadata in Custom ID3 metadata
+/// inserter (timedMetadataInsertion). MediaConvert writes each instance of ID3
+/// metadata in a separate Event Message (eMSG) box. To exclude this ID3
+/// metadata: Set ID3 metadata to None (NONE) or leave blank.
+enum CmfcTimedMetadata {
+  passthrough,
+  none,
+}
+
+extension CmfcTimedMetadataValueExtension on CmfcTimedMetadata {
+  String toValue() {
+    switch (this) {
+      case CmfcTimedMetadata.passthrough:
+        return 'PASSTHROUGH';
+      case CmfcTimedMetadata.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension CmfcTimedMetadataFromString on String {
+  CmfcTimedMetadata toCmfcTimedMetadata() {
+    switch (this) {
+      case 'PASSTHROUGH':
+        return CmfcTimedMetadata.passthrough;
+      case 'NONE':
+        return CmfcTimedMetadata.none;
+    }
+    throw Exception('$this is not known in enum CmfcTimedMetadata');
+  }
+}
+
+/// Specify the event message box (eMSG) version for ID3 timed metadata in your
+/// output.
+/// For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.3 Syntax.
+/// Leave blank to use the default value Version 0.
+/// When you specify Version 1, you must also set ID3 metadata (timedMetadata)
+/// to Passthrough.
+enum CmfcTimedMetadataBoxVersion {
+  version_0,
+  version_1,
+}
+
+extension CmfcTimedMetadataBoxVersionValueExtension
+    on CmfcTimedMetadataBoxVersion {
+  String toValue() {
+    switch (this) {
+      case CmfcTimedMetadataBoxVersion.version_0:
+        return 'VERSION_0';
+      case CmfcTimedMetadataBoxVersion.version_1:
+        return 'VERSION_1';
+    }
+  }
+}
+
+extension CmfcTimedMetadataBoxVersionFromString on String {
+  CmfcTimedMetadataBoxVersion toCmfcTimedMetadataBoxVersion() {
+    switch (this) {
+      case 'VERSION_0':
+        return CmfcTimedMetadataBoxVersion.version_0;
+      case 'VERSION_1':
+        return CmfcTimedMetadataBoxVersion.version_1;
+    }
+    throw Exception('$this is not known in enum CmfcTimedMetadataBoxVersion');
   }
 }
 
@@ -6170,12 +8610,24 @@ class ColorCorrector {
   /// Brightness level.
   final int? brightness;
 
+  /// Specify YUV limits and RGB tolerances when you set Sample range conversion
+  /// to Limited range clip.
+  final ClipLimits? clipLimits;
+
   /// Specify the color space you want for this output. The service supports
   /// conversion between HDR formats, between SDR formats, from SDR to HDR, and
   /// from HDR to SDR. SDR to HDR conversion doesn't upgrade the dynamic range.
   /// The converted video has an HDR format, but visually appears the same as an
-  /// unconverted output. HDR to SDR conversion uses Elemental tone mapping
-  /// technology to approximate the outcome of manually regrading from HDR to SDR.
+  /// unconverted output. HDR to SDR conversion uses tone mapping to approximate
+  /// the outcome of manually regrading from HDR to SDR. When you specify an
+  /// output color space, MediaConvert uses the following color space metadata,
+  /// which includes color primaries, transfer characteristics, and matrix
+  /// coefficients:
+  /// * HDR 10: BT.2020, PQ, BT.2020 non-constant
+  /// * HLG 2020: BT.2020, HLG, BT.2020 non-constant
+  /// * P3DCI (Theater): DCIP3, SMPTE 428M, BT.709
+  /// * P3D65 (SDR): Display P3, sRGB, BT.709
+  /// * P3D65 (HDR): Display P3, PQ, BT.709
   final ColorSpaceConversion? colorSpaceConversion;
 
   /// Contrast level.
@@ -6195,23 +8647,73 @@ class ColorCorrector {
   /// HDR jobs, see https://docs.aws.amazon.com/console/mediaconvert/hdr.
   final Hdr10Metadata? hdr10Metadata;
 
+  /// Specify how MediaConvert maps brightness and colors from your HDR input to
+  /// your SDR output. The mode that you select represents a creative choice, with
+  /// different tradeoffs in the details and tones of your output. To maintain
+  /// details in bright or saturated areas of your output: Choose Preserve
+  /// details. For some sources, your SDR output may look less bright and less
+  /// saturated when compared to your HDR source. MediaConvert automatically
+  /// applies this mode for HLG sources, regardless of your choice. For a bright
+  /// and saturated output: Choose Vibrant. We recommend that you choose this mode
+  /// when any of your source content is HDR10, and for the best results when it
+  /// is mastered for 1000 nits. You may notice loss of details in bright or
+  /// saturated areas of your output. HDR to SDR tone mapping has no effect when
+  /// your input is SDR.
+  final HDRToSDRToneMapper? hdrToSdrToneMapper;
+
   /// Hue in degrees.
   final int? hue;
+
+  /// Specify how MediaConvert limits the color sample range for this output. To
+  /// create a limited range output from a full range input: Choose Limited range
+  /// squeeze. For full range inputs, MediaConvert performs a linear offset to
+  /// color samples equally across all pixels and frames. Color samples in 10-bit
+  /// outputs are limited to 64 through 940, and 8-bit outputs are limited to 16
+  /// through 235. Note: For limited range inputs, values for color samples are
+  /// passed through to your output unchanged. MediaConvert does not limit the
+  /// sample range. To correct pixels in your input that are out of range or out
+  /// of gamut: Choose Limited range clip. Use for broadcast applications.
+  /// MediaConvert conforms any pixels outside of the values that you specify
+  /// under Minimum YUV and Maximum YUV to limited range bounds. MediaConvert also
+  /// corrects any YUV values that, when converted to RGB, would be outside the
+  /// bounds you specify under Minimum RGB tolerance and Maximum RGB tolerance.
+  /// With either limited range conversion, MediaConvert writes the sample range
+  /// metadata in the output.
+  final SampleRangeConversion? sampleRangeConversion;
 
   /// Saturation level.
   final int? saturation;
 
+  /// Specify the reference white level, in nits, for all of your SDR inputs. Use
+  /// to correct brightness levels within HDR10 outputs. The following color
+  /// metadata must be present in your SDR input: color primaries, transfer
+  /// characteristics, and matrix coefficients. If your SDR input has missing
+  /// color metadata, or if you want to correct input color metadata, manually
+  /// specify a color space in the input video selector. For 1,000 nit peak
+  /// brightness displays, we recommend that you set SDR reference white level to
+  /// 203 (according to ITU-R BT.2408). Leave blank to use the default value of
+  /// 100, or specify an integer from 100 to 1000.
+  final int? sdrReferenceWhiteLevel;
+
   ColorCorrector({
     this.brightness,
+    this.clipLimits,
     this.colorSpaceConversion,
     this.contrast,
     this.hdr10Metadata,
+    this.hdrToSdrToneMapper,
     this.hue,
+    this.sampleRangeConversion,
     this.saturation,
+    this.sdrReferenceWhiteLevel,
   });
+
   factory ColorCorrector.fromJson(Map<String, dynamic> json) {
     return ColorCorrector(
       brightness: json['brightness'] as int?,
+      clipLimits: json['clipLimits'] != null
+          ? ClipLimits.fromJson(json['clipLimits'] as Map<String, dynamic>)
+          : null,
       colorSpaceConversion:
           (json['colorSpaceConversion'] as String?)?.toColorSpaceConversion(),
       contrast: json['contrast'] as int?,
@@ -6219,26 +8721,42 @@ class ColorCorrector {
           ? Hdr10Metadata.fromJson(
               json['hdr10Metadata'] as Map<String, dynamic>)
           : null,
+      hdrToSdrToneMapper:
+          (json['hdrToSdrToneMapper'] as String?)?.toHDRToSDRToneMapper(),
       hue: json['hue'] as int?,
+      sampleRangeConversion:
+          (json['sampleRangeConversion'] as String?)?.toSampleRangeConversion(),
       saturation: json['saturation'] as int?,
+      sdrReferenceWhiteLevel: json['sdrReferenceWhiteLevel'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final brightness = this.brightness;
+    final clipLimits = this.clipLimits;
     final colorSpaceConversion = this.colorSpaceConversion;
     final contrast = this.contrast;
     final hdr10Metadata = this.hdr10Metadata;
+    final hdrToSdrToneMapper = this.hdrToSdrToneMapper;
     final hue = this.hue;
+    final sampleRangeConversion = this.sampleRangeConversion;
     final saturation = this.saturation;
+    final sdrReferenceWhiteLevel = this.sdrReferenceWhiteLevel;
     return {
       if (brightness != null) 'brightness': brightness,
+      if (clipLimits != null) 'clipLimits': clipLimits,
       if (colorSpaceConversion != null)
         'colorSpaceConversion': colorSpaceConversion.toValue(),
       if (contrast != null) 'contrast': contrast,
       if (hdr10Metadata != null) 'hdr10Metadata': hdr10Metadata,
+      if (hdrToSdrToneMapper != null)
+        'hdrToSdrToneMapper': hdrToSdrToneMapper.toValue(),
       if (hue != null) 'hue': hue,
+      if (sampleRangeConversion != null)
+        'sampleRangeConversion': sampleRangeConversion.toValue(),
       if (saturation != null) 'saturation': saturation,
+      if (sdrReferenceWhiteLevel != null)
+        'sdrReferenceWhiteLevel': sdrReferenceWhiteLevel,
     };
   }
 }
@@ -6275,21 +8793,32 @@ extension ColorMetadataFromString on String {
 }
 
 /// If your input video has accurate color space metadata, or if you don't know
-/// about color space, leave this set to the default value Follow (FOLLOW). The
-/// service will automatically detect your input color space. If your input
-/// video has metadata indicating the wrong color space, specify the accurate
-/// color space here. If your input video is HDR 10 and the SMPTE ST 2086
-/// Mastering Display Color Volume static metadata isn't present in your video
-/// stream, or if that metadata is present but not accurate, choose Force HDR 10
-/// (FORCE_HDR10) here and specify correct values in the input HDR 10 metadata
-/// (Hdr10Metadata) settings. For more information about MediaConvert HDR jobs,
-/// see https://docs.aws.amazon.com/console/mediaconvert/hdr.
+/// about color space: Keep the default value, Follow. MediaConvert will
+/// automatically detect your input color space. If your input video has
+/// metadata indicating the wrong color space, or has missing metadata: Specify
+/// the accurate color space here. If your input video is HDR 10 and the SMPTE
+/// ST 2086 Mastering Display Color Volume static metadata isn't present in your
+/// video stream, or if that metadata is present but not accurate: Choose Force
+/// HDR 10. Specify correct values in the input HDR 10 metadata settings. For
+/// more information about HDR jobs, see
+/// https://docs.aws.amazon.com/console/mediaconvert/hdr. When you specify an
+/// input color space, MediaConvert uses the following color space metadata,
+/// which includes color primaries, transfer characteristics, and matrix
+/// coefficients:
+/// * HDR 10: BT.2020, PQ, BT.2020 non-constant
+/// * HLG 2020: BT.2020, HLG, BT.2020 non-constant
+/// * P3DCI (Theater): DCIP3, SMPTE 428M, BT.709
+/// * P3D65 (SDR): Display P3, sRGB, BT.709
+/// * P3D65 (HDR): Display P3, PQ, BT.709
 enum ColorSpace {
   follow,
   rec_601,
   rec_709,
   hdr10,
   hlg_2020,
+  p3dci,
+  p3d65Sdr,
+  p3d65Hdr,
 }
 
 extension ColorSpaceValueExtension on ColorSpace {
@@ -6305,6 +8834,12 @@ extension ColorSpaceValueExtension on ColorSpace {
         return 'HDR10';
       case ColorSpace.hlg_2020:
         return 'HLG_2020';
+      case ColorSpace.p3dci:
+        return 'P3DCI';
+      case ColorSpace.p3d65Sdr:
+        return 'P3D65_SDR';
+      case ColorSpace.p3d65Hdr:
+        return 'P3D65_HDR';
     }
   }
 }
@@ -6322,6 +8857,12 @@ extension ColorSpaceFromString on String {
         return ColorSpace.hdr10;
       case 'HLG_2020':
         return ColorSpace.hlg_2020;
+      case 'P3DCI':
+        return ColorSpace.p3dci;
+      case 'P3D65_SDR':
+        return ColorSpace.p3d65Sdr;
+      case 'P3D65_HDR':
+        return ColorSpace.p3d65Hdr;
     }
     throw Exception('$this is not known in enum ColorSpace');
   }
@@ -6331,14 +8872,25 @@ extension ColorSpaceFromString on String {
 /// conversion between HDR formats, between SDR formats, from SDR to HDR, and
 /// from HDR to SDR. SDR to HDR conversion doesn't upgrade the dynamic range.
 /// The converted video has an HDR format, but visually appears the same as an
-/// unconverted output. HDR to SDR conversion uses Elemental tone mapping
-/// technology to approximate the outcome of manually regrading from HDR to SDR.
+/// unconverted output. HDR to SDR conversion uses tone mapping to approximate
+/// the outcome of manually regrading from HDR to SDR. When you specify an
+/// output color space, MediaConvert uses the following color space metadata,
+/// which includes color primaries, transfer characteristics, and matrix
+/// coefficients:
+/// * HDR 10: BT.2020, PQ, BT.2020 non-constant
+/// * HLG 2020: BT.2020, HLG, BT.2020 non-constant
+/// * P3DCI (Theater): DCIP3, SMPTE 428M, BT.709
+/// * P3D65 (SDR): Display P3, sRGB, BT.709
+/// * P3D65 (HDR): Display P3, PQ, BT.709
 enum ColorSpaceConversion {
   none,
   force_601,
   force_709,
   forceHdr10,
   forceHlg_2020,
+  forceP3dci,
+  forceP3d65Sdr,
+  forceP3d65Hdr,
 }
 
 extension ColorSpaceConversionValueExtension on ColorSpaceConversion {
@@ -6354,6 +8906,12 @@ extension ColorSpaceConversionValueExtension on ColorSpaceConversion {
         return 'FORCE_HDR10';
       case ColorSpaceConversion.forceHlg_2020:
         return 'FORCE_HLG_2020';
+      case ColorSpaceConversion.forceP3dci:
+        return 'FORCE_P3DCI';
+      case ColorSpaceConversion.forceP3d65Sdr:
+        return 'FORCE_P3D65_SDR';
+      case ColorSpaceConversion.forceP3d65Hdr:
+        return 'FORCE_P3D65_HDR';
     }
   }
 }
@@ -6371,6 +8929,12 @@ extension ColorSpaceConversionFromString on String {
         return ColorSpaceConversion.forceHdr10;
       case 'FORCE_HLG_2020':
         return ColorSpaceConversion.forceHlg_2020;
+      case 'FORCE_P3DCI':
+        return ColorSpaceConversion.forceP3dci;
+      case 'FORCE_P3D65_SDR':
+        return ColorSpaceConversion.forceP3d65Sdr;
+      case 'FORCE_P3D65_HDR':
+        return ColorSpaceConversion.forceP3d65Hdr;
     }
     throw Exception('$this is not known in enum ColorSpaceConversion');
   }
@@ -6439,7 +9003,8 @@ extension CommitmentFromString on String {
 
 /// Container specific settings.
 class ContainerSettings {
-  /// Settings for MP4 segments in CMAF
+  /// These settings relate to the fragmented MP4 container for the segments in
+  /// your CMAF outputs.
   final CmfcSettings? cmfcSettings;
 
   /// Container for this output. Some containers require a container settings
@@ -6461,20 +9026,23 @@ class ContainerSettings {
   /// PIDs to locate specific data within the asset.
   final M2tsSettings? m2tsSettings;
 
-  /// Settings for TS segments in HLS
+  /// These settings relate to the MPEG-2 transport stream (MPEG2-TS) container
+  /// for the MPEG2-TS segments in your HLS outputs.
   final M3u8Settings? m3u8Settings;
 
-  /// Settings for MOV Container.
+  /// These settings relate to your QuickTime MOV output container.
   final MovSettings? movSettings;
 
-  /// Settings for MP4 container. You can create audio-only AAC outputs with this
-  /// container.
+  /// These settings relate to your MP4 output container. You can create audio
+  /// only outputs with this container. For more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/supported-codecs-containers-audio-only.html#output-codecs-and-containers-supported-for-audio-only.
   final Mp4Settings? mp4Settings;
 
-  /// Settings for MP4 segments in DASH
+  /// These settings relate to the fragmented MP4 container for the segments in
+  /// your DASH outputs.
   final MpdSettings? mpdSettings;
 
-  /// MXF settings
+  /// These settings relate to your MXF output container.
   final MxfSettings? mxfSettings;
 
   ContainerSettings({
@@ -6488,6 +9056,7 @@ class ContainerSettings {
     this.mpdSettings,
     this.mxfSettings,
   });
+
   factory ContainerSettings.fromJson(Map<String, dynamic> json) {
     return ContainerSettings(
       cmfcSettings: json['cmfcSettings'] != null
@@ -6617,6 +9186,37 @@ extension ContainerTypeFromString on String {
   }
 }
 
+/// The action to take on copy and redistribution control XDS packets. If you
+/// select PASSTHROUGH, packets will not be changed. If you select STRIP, any
+/// packets will be removed in output captions.
+enum CopyProtectionAction {
+  passthrough,
+  strip,
+}
+
+extension CopyProtectionActionValueExtension on CopyProtectionAction {
+  String toValue() {
+    switch (this) {
+      case CopyProtectionAction.passthrough:
+        return 'PASSTHROUGH';
+      case CopyProtectionAction.strip:
+        return 'STRIP';
+    }
+  }
+}
+
+extension CopyProtectionActionFromString on String {
+  CopyProtectionAction toCopyProtectionAction() {
+    switch (this) {
+      case 'PASSTHROUGH':
+        return CopyProtectionAction.passthrough;
+      case 'STRIP':
+        return CopyProtectionAction.strip;
+    }
+    throw Exception('$this is not known in enum CopyProtectionAction');
+  }
+}
+
 class CreateJobResponse {
   /// Each job converts an input file into an output file or files. For more
   /// information, see the User Guide at
@@ -6626,6 +9226,7 @@ class CreateJobResponse {
   CreateJobResponse({
     this.job,
   });
+
   factory CreateJobResponse.fromJson(Map<String, dynamic> json) {
     return CreateJobResponse(
       job: json['job'] != null
@@ -6643,6 +9244,7 @@ class CreateJobTemplateResponse {
   CreateJobTemplateResponse({
     this.jobTemplate,
   });
+
   factory CreateJobTemplateResponse.fromJson(Map<String, dynamic> json) {
     return CreateJobTemplateResponse(
       jobTemplate: json['jobTemplate'] != null
@@ -6660,6 +9262,7 @@ class CreatePresetResponse {
   CreatePresetResponse({
     this.preset,
   });
+
   factory CreatePresetResponse.fromJson(Map<String, dynamic> json) {
     return CreatePresetResponse(
       preset: json['preset'] != null
@@ -6680,6 +9283,7 @@ class CreateQueueResponse {
   CreateQueueResponse({
     this.queue,
   });
+
   factory CreateQueueResponse.fromJson(Map<String, dynamic> json) {
     return CreateQueueResponse(
       queue: json['queue'] != null
@@ -6709,6 +9313,7 @@ class DashAdditionalManifest {
     this.manifestNameModifier,
     this.selectedOutputs,
   });
+
   factory DashAdditionalManifest.fromJson(Map<String, dynamic> json) {
     return DashAdditionalManifest(
       manifestNameModifier: json['manifestNameModifier'] as String?,
@@ -6742,7 +9347,7 @@ class DashIsoEncryptionSettings {
   final DashIsoPlaybackDeviceCompatibility? playbackDeviceCompatibility;
 
   /// If your output group type is HLS, DASH, or Microsoft Smooth, use these
-  /// settings when doing DRM encryption with a SPEKE-compliant key provider.  If
+  /// settings when doing DRM encryption with a SPEKE-compliant key provider. If
   /// your output group type is CMAF, use the SpekeKeyProviderCmaf settings
   /// instead.
   final SpekeKeyProvider? spekeKeyProvider;
@@ -6751,6 +9356,7 @@ class DashIsoEncryptionSettings {
     this.playbackDeviceCompatibility,
     this.spekeKeyProvider,
   });
+
   factory DashIsoEncryptionSettings.fromJson(Map<String, dynamic> json) {
     return DashIsoEncryptionSettings(
       playbackDeviceCompatibility:
@@ -6774,7 +9380,53 @@ class DashIsoEncryptionSettings {
   }
 }
 
-/// Required when you set (Type) under (OutputGroups)>(OutputGroupSettings) to
+/// Use this setting only when your audio codec is a Dolby one (AC3, EAC3, or
+/// Atmos) and your downstream workflow requires that your DASH manifest use the
+/// Dolby channel configuration tag, rather than the MPEG one. For example, you
+/// might need to use this to make dynamic ad insertion work. Specify which
+/// audio channel configuration scheme ID URI MediaConvert writes in your DASH
+/// manifest. Keep the default value, MPEG channel configuration
+/// (MPEG_CHANNEL_CONFIGURATION), to have MediaConvert write this:
+/// urn:mpeg:mpegB:cicp:ChannelConfiguration. Choose Dolby channel configuration
+/// (DOLBY_CHANNEL_CONFIGURATION) to have MediaConvert write this instead:
+/// tag:dolby.com,2014:dash:audio_channel_configuration:2011.
+enum DashIsoGroupAudioChannelConfigSchemeIdUri {
+  mpegChannelConfiguration,
+  dolbyChannelConfiguration,
+}
+
+extension DashIsoGroupAudioChannelConfigSchemeIdUriValueExtension
+    on DashIsoGroupAudioChannelConfigSchemeIdUri {
+  String toValue() {
+    switch (this) {
+      case DashIsoGroupAudioChannelConfigSchemeIdUri.mpegChannelConfiguration:
+        return 'MPEG_CHANNEL_CONFIGURATION';
+      case DashIsoGroupAudioChannelConfigSchemeIdUri.dolbyChannelConfiguration:
+        return 'DOLBY_CHANNEL_CONFIGURATION';
+    }
+  }
+}
+
+extension DashIsoGroupAudioChannelConfigSchemeIdUriFromString on String {
+  DashIsoGroupAudioChannelConfigSchemeIdUri
+      toDashIsoGroupAudioChannelConfigSchemeIdUri() {
+    switch (this) {
+      case 'MPEG_CHANNEL_CONFIGURATION':
+        return DashIsoGroupAudioChannelConfigSchemeIdUri
+            .mpegChannelConfiguration;
+      case 'DOLBY_CHANNEL_CONFIGURATION':
+        return DashIsoGroupAudioChannelConfigSchemeIdUri
+            .dolbyChannelConfiguration;
+    }
+    throw Exception(
+        '$this is not known in enum DashIsoGroupAudioChannelConfigSchemeIdUri');
+  }
+}
+
+/// Settings related to your DASH output package. For more information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
+/// When you work directly in your JSON job specification, include this object
+/// and any required children when you set Type, under OutputGroupSettings, to
 /// DASH_ISO_GROUP_SETTINGS.
 class DashIsoGroupSettings {
   /// By default, the service creates one .mpd DASH manifest for each DASH ISO
@@ -6783,10 +9435,32 @@ class DashIsoGroupSettings {
   /// subset of the outputs in the output group, specify a list of them here.
   final List<DashAdditionalManifest>? additionalManifests;
 
+  /// Use this setting only when your audio codec is a Dolby one (AC3, EAC3, or
+  /// Atmos) and your downstream workflow requires that your DASH manifest use the
+  /// Dolby channel configuration tag, rather than the MPEG one. For example, you
+  /// might need to use this to make dynamic ad insertion work. Specify which
+  /// audio channel configuration scheme ID URI MediaConvert writes in your DASH
+  /// manifest. Keep the default value, MPEG channel configuration
+  /// (MPEG_CHANNEL_CONFIGURATION), to have MediaConvert write this:
+  /// urn:mpeg:mpegB:cicp:ChannelConfiguration. Choose Dolby channel configuration
+  /// (DOLBY_CHANNEL_CONFIGURATION) to have MediaConvert write this instead:
+  /// tag:dolby.com,2014:dash:audio_channel_configuration:2011.
+  final DashIsoGroupAudioChannelConfigSchemeIdUri?
+      audioChannelConfigSchemeIdUri;
+
   /// A partial URI prefix that will be put in the manifest (.mpd) file at the top
   /// level BaseURL element. Can be used if streams are delivered from a different
   /// URL than the manifest file.
   final String? baseUrl;
+
+  /// Specify how MediaConvert writes SegmentTimeline in your output DASH
+  /// manifest. To write a SegmentTimeline in each video Representation: Keep the
+  /// default value, Basic. To write a common SegmentTimeline in the video
+  /// AdaptationSet: Choose Compact. Note that MediaConvert will still write a
+  /// SegmentTimeline in any Representation that does not share a common timeline.
+  /// To write a video AdaptationSet for each different output framerate, and a
+  /// common SegmentTimeline in each AdaptationSet: Choose Distinct.
+  final DashManifestStyle? dashManifestStyle;
 
   /// Use Destination (Destination) to specify the S3 output location and the
   /// output filename base. Destination accepts format identifiers. If you do not
@@ -6813,6 +9487,20 @@ class DashIsoGroupSettings {
   /// Supports HbbTV specification as indicated
   final DashIsoHbbtvCompliance? hbbtvCompliance;
 
+  /// Specify whether MediaConvert generates images for trick play. Keep the
+  /// default value, None (NONE), to not generate any images. Choose Thumbnail
+  /// (THUMBNAIL) to generate tiled thumbnails. Choose Thumbnail and full frame
+  /// (THUMBNAIL_AND_FULLFRAME) to generate tiled thumbnails and full-resolution
+  /// images of single frames. MediaConvert adds an entry in the .mpd manifest for
+  /// each set of images that you generate. A common application for these images
+  /// is Roku trick mode. The thumbnails and full-frame images that MediaConvert
+  /// creates with this feature are compatible with this Roku specification:
+  /// https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
+  final DashIsoImageBasedTrickPlay? imageBasedTrickPlay;
+
+  /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
+  final DashIsoImageBasedTrickPlaySettings? imageBasedTrickPlaySettings;
+
   /// Minimum time of initially buffered media that is needed to ensure smooth
   /// playout.
   final int? minBufferTime;
@@ -6830,6 +9518,14 @@ class DashIsoGroupSettings {
   /// final segment length to 1, your final segment is 3.5 seconds.
   final double? minFinalSegmentLength;
 
+  /// Specify how the value for bandwidth is determined for each video
+  /// Representation in your output MPD manifest. We recommend that you choose a
+  /// MPD manifest bandwidth type that is compatible with your downstream player
+  /// configuration. Max: Use the same value that you specify for Max bitrate in
+  /// the video output, in bits per second. Average: Use the calculated average
+  /// bitrate of the encoded video output, in bits per second.
+  final DashIsoMpdManifestBandwidthType? mpdManifestBandwidthType;
+
   /// Specify whether your DASH profile is on-demand or main. When you choose Main
   /// profile (MAIN_PROFILE), the service signals
   /// urn:mpeg:dash:profile:isoff-main:2011 in your .mpd DASH manifest. When you
@@ -6839,17 +9535,46 @@ class DashIsoGroupSettings {
   /// (SegmentControl) to Single file (SINGLE_FILE).
   final DashIsoMpdProfile? mpdProfile;
 
+  /// Use this setting only when your output video stream has B-frames, which
+  /// causes the initial presentation time stamp (PTS) to be offset from the
+  /// initial decode time stamp (DTS). Specify how MediaConvert handles PTS when
+  /// writing time stamps in output DASH manifests. Choose Match initial PTS
+  /// (MATCH_INITIAL_PTS) when you want MediaConvert to use the initial PTS as the
+  /// first time stamp in the manifest. Choose Zero-based (ZERO_BASED) to have
+  /// MediaConvert ignore the initial PTS in the video stream and instead write
+  /// the initial time stamp as zero in the manifest. For outputs that don't have
+  /// B-frames, the time stamps in your DASH manifests start at zero regardless of
+  /// your choice here.
+  final DashIsoPtsOffsetHandlingForBFrames? ptsOffsetHandlingForBFrames;
+
   /// When set to SINGLE_FILE, a single output file is generated, which is
   /// internally segmented using the Fragment Length and Segment Length. When set
   /// to SEGMENTED_FILES, separate segment files will be created.
   final DashIsoSegmentControl? segmentControl;
 
-  /// Length of mpd segments to create (in seconds). Note that segments will end
-  /// on the next keyframe after this number of seconds, so actual segment length
-  /// may be longer. When Emit Single File is checked, the segmentation is
-  /// internal to a single output file and it does not cause the creation of many
-  /// output files as in other output types.
+  /// Specify the length, in whole seconds, of each segment. When you don't
+  /// specify a value, MediaConvert defaults to 30. Related settings: Use Segment
+  /// length control (SegmentLengthControl) to specify whether the encoder
+  /// enforces this value strictly. Use Segment control (DashIsoSegmentControl) to
+  /// specify whether MediaConvert creates separate segment files or one content
+  /// file that has metadata to mark the segment boundaries.
   final int? segmentLength;
+
+  /// Specify how you want MediaConvert to determine the segment length. Choose
+  /// Exact (EXACT) to have the encoder use the exact length that you specify with
+  /// the setting Segment length (SegmentLength). This might result in extra
+  /// I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up
+  /// the segment lengths to match the next GOP boundary.
+  final DashIsoSegmentLengthControl? segmentLengthControl;
+
+  /// Specify the video sample composition time offset mode in the output fMP4
+  /// TRUN box. For wider player compatibility, set Video composition offsets to
+  /// Unsigned or leave blank. The earliest presentation time may be greater than
+  /// zero, and sample composition time offsets will increment using unsigned
+  /// integers. For strict fMP4 video and audio timing, set Video composition
+  /// offsets to Signed. The earliest presentation time will be equal to zero, and
+  /// sample composition time offsets will increment using signed integers.
+  final DashIsoVideoCompositionOffsets? videoCompositionOffsets;
 
   /// If you get an HTTP error in the 400 range when you play back your DASH
   /// output, enable this setting and run your transcoding job again. When you
@@ -6863,19 +9588,28 @@ class DashIsoGroupSettings {
 
   DashIsoGroupSettings({
     this.additionalManifests,
+    this.audioChannelConfigSchemeIdUri,
     this.baseUrl,
+    this.dashManifestStyle,
     this.destination,
     this.destinationSettings,
     this.encryption,
     this.fragmentLength,
     this.hbbtvCompliance,
+    this.imageBasedTrickPlay,
+    this.imageBasedTrickPlaySettings,
     this.minBufferTime,
     this.minFinalSegmentLength,
+    this.mpdManifestBandwidthType,
     this.mpdProfile,
+    this.ptsOffsetHandlingForBFrames,
     this.segmentControl,
     this.segmentLength,
+    this.segmentLengthControl,
+    this.videoCompositionOffsets,
     this.writeSegmentTimelineInRepresentation,
   });
+
   factory DashIsoGroupSettings.fromJson(Map<String, dynamic> json) {
     return DashIsoGroupSettings(
       additionalManifests: (json['additionalManifests'] as List?)
@@ -6883,7 +9617,12 @@ class DashIsoGroupSettings {
           .map(
               (e) => DashAdditionalManifest.fromJson(e as Map<String, dynamic>))
           .toList(),
+      audioChannelConfigSchemeIdUri:
+          (json['audioChannelConfigSchemeIdUri'] as String?)
+              ?.toDashIsoGroupAudioChannelConfigSchemeIdUri(),
       baseUrl: json['baseUrl'] as String?,
+      dashManifestStyle:
+          (json['dashManifestStyle'] as String?)?.toDashManifestStyle(),
       destination: json['destination'] as String?,
       destinationSettings: json['destinationSettings'] != null
           ? DestinationSettings.fromJson(
@@ -6896,12 +9635,27 @@ class DashIsoGroupSettings {
       fragmentLength: json['fragmentLength'] as int?,
       hbbtvCompliance:
           (json['hbbtvCompliance'] as String?)?.toDashIsoHbbtvCompliance(),
+      imageBasedTrickPlay: (json['imageBasedTrickPlay'] as String?)
+          ?.toDashIsoImageBasedTrickPlay(),
+      imageBasedTrickPlaySettings: json['imageBasedTrickPlaySettings'] != null
+          ? DashIsoImageBasedTrickPlaySettings.fromJson(
+              json['imageBasedTrickPlaySettings'] as Map<String, dynamic>)
+          : null,
       minBufferTime: json['minBufferTime'] as int?,
       minFinalSegmentLength: json['minFinalSegmentLength'] as double?,
+      mpdManifestBandwidthType: (json['mpdManifestBandwidthType'] as String?)
+          ?.toDashIsoMpdManifestBandwidthType(),
       mpdProfile: (json['mpdProfile'] as String?)?.toDashIsoMpdProfile(),
+      ptsOffsetHandlingForBFrames:
+          (json['ptsOffsetHandlingForBFrames'] as String?)
+              ?.toDashIsoPtsOffsetHandlingForBFrames(),
       segmentControl:
           (json['segmentControl'] as String?)?.toDashIsoSegmentControl(),
       segmentLength: json['segmentLength'] as int?,
+      segmentLengthControl: (json['segmentLengthControl'] as String?)
+          ?.toDashIsoSegmentLengthControl(),
+      videoCompositionOffsets: (json['videoCompositionOffsets'] as String?)
+          ?.toDashIsoVideoCompositionOffsets(),
       writeSegmentTimelineInRepresentation:
           (json['writeSegmentTimelineInRepresentation'] as String?)
               ?.toDashIsoWriteSegmentTimelineInRepresentation(),
@@ -6910,35 +9664,60 @@ class DashIsoGroupSettings {
 
   Map<String, dynamic> toJson() {
     final additionalManifests = this.additionalManifests;
+    final audioChannelConfigSchemeIdUri = this.audioChannelConfigSchemeIdUri;
     final baseUrl = this.baseUrl;
+    final dashManifestStyle = this.dashManifestStyle;
     final destination = this.destination;
     final destinationSettings = this.destinationSettings;
     final encryption = this.encryption;
     final fragmentLength = this.fragmentLength;
     final hbbtvCompliance = this.hbbtvCompliance;
+    final imageBasedTrickPlay = this.imageBasedTrickPlay;
+    final imageBasedTrickPlaySettings = this.imageBasedTrickPlaySettings;
     final minBufferTime = this.minBufferTime;
     final minFinalSegmentLength = this.minFinalSegmentLength;
+    final mpdManifestBandwidthType = this.mpdManifestBandwidthType;
     final mpdProfile = this.mpdProfile;
+    final ptsOffsetHandlingForBFrames = this.ptsOffsetHandlingForBFrames;
     final segmentControl = this.segmentControl;
     final segmentLength = this.segmentLength;
+    final segmentLengthControl = this.segmentLengthControl;
+    final videoCompositionOffsets = this.videoCompositionOffsets;
     final writeSegmentTimelineInRepresentation =
         this.writeSegmentTimelineInRepresentation;
     return {
       if (additionalManifests != null)
         'additionalManifests': additionalManifests,
+      if (audioChannelConfigSchemeIdUri != null)
+        'audioChannelConfigSchemeIdUri':
+            audioChannelConfigSchemeIdUri.toValue(),
       if (baseUrl != null) 'baseUrl': baseUrl,
+      if (dashManifestStyle != null)
+        'dashManifestStyle': dashManifestStyle.toValue(),
       if (destination != null) 'destination': destination,
       if (destinationSettings != null)
         'destinationSettings': destinationSettings,
       if (encryption != null) 'encryption': encryption,
       if (fragmentLength != null) 'fragmentLength': fragmentLength,
       if (hbbtvCompliance != null) 'hbbtvCompliance': hbbtvCompliance.toValue(),
+      if (imageBasedTrickPlay != null)
+        'imageBasedTrickPlay': imageBasedTrickPlay.toValue(),
+      if (imageBasedTrickPlaySettings != null)
+        'imageBasedTrickPlaySettings': imageBasedTrickPlaySettings,
       if (minBufferTime != null) 'minBufferTime': minBufferTime,
       if (minFinalSegmentLength != null)
         'minFinalSegmentLength': minFinalSegmentLength,
+      if (mpdManifestBandwidthType != null)
+        'mpdManifestBandwidthType': mpdManifestBandwidthType.toValue(),
       if (mpdProfile != null) 'mpdProfile': mpdProfile.toValue(),
+      if (ptsOffsetHandlingForBFrames != null)
+        'ptsOffsetHandlingForBFrames': ptsOffsetHandlingForBFrames.toValue(),
       if (segmentControl != null) 'segmentControl': segmentControl.toValue(),
       if (segmentLength != null) 'segmentLength': segmentLength,
+      if (segmentLengthControl != null)
+        'segmentLengthControl': segmentLengthControl.toValue(),
+      if (videoCompositionOffsets != null)
+        'videoCompositionOffsets': videoCompositionOffsets.toValue(),
       if (writeSegmentTimelineInRepresentation != null)
         'writeSegmentTimelineInRepresentation':
             writeSegmentTimelineInRepresentation.toValue(),
@@ -6972,6 +9751,198 @@ extension DashIsoHbbtvComplianceFromString on String {
         return DashIsoHbbtvCompliance.none;
     }
     throw Exception('$this is not known in enum DashIsoHbbtvCompliance');
+  }
+}
+
+/// Specify whether MediaConvert generates images for trick play. Keep the
+/// default value, None (NONE), to not generate any images. Choose Thumbnail
+/// (THUMBNAIL) to generate tiled thumbnails. Choose Thumbnail and full frame
+/// (THUMBNAIL_AND_FULLFRAME) to generate tiled thumbnails and full-resolution
+/// images of single frames. MediaConvert adds an entry in the .mpd manifest for
+/// each set of images that you generate. A common application for these images
+/// is Roku trick mode. The thumbnails and full-frame images that MediaConvert
+/// creates with this feature are compatible with this Roku specification:
+/// https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
+enum DashIsoImageBasedTrickPlay {
+  none,
+  thumbnail,
+  thumbnailAndFullframe,
+  advanced,
+}
+
+extension DashIsoImageBasedTrickPlayValueExtension
+    on DashIsoImageBasedTrickPlay {
+  String toValue() {
+    switch (this) {
+      case DashIsoImageBasedTrickPlay.none:
+        return 'NONE';
+      case DashIsoImageBasedTrickPlay.thumbnail:
+        return 'THUMBNAIL';
+      case DashIsoImageBasedTrickPlay.thumbnailAndFullframe:
+        return 'THUMBNAIL_AND_FULLFRAME';
+      case DashIsoImageBasedTrickPlay.advanced:
+        return 'ADVANCED';
+    }
+  }
+}
+
+extension DashIsoImageBasedTrickPlayFromString on String {
+  DashIsoImageBasedTrickPlay toDashIsoImageBasedTrickPlay() {
+    switch (this) {
+      case 'NONE':
+        return DashIsoImageBasedTrickPlay.none;
+      case 'THUMBNAIL':
+        return DashIsoImageBasedTrickPlay.thumbnail;
+      case 'THUMBNAIL_AND_FULLFRAME':
+        return DashIsoImageBasedTrickPlay.thumbnailAndFullframe;
+      case 'ADVANCED':
+        return DashIsoImageBasedTrickPlay.advanced;
+    }
+    throw Exception('$this is not known in enum DashIsoImageBasedTrickPlay');
+  }
+}
+
+/// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
+class DashIsoImageBasedTrickPlaySettings {
+  /// The cadence MediaConvert follows for generating thumbnails. If set to
+  /// FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the
+  /// output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert
+  /// generates thumbnails according to the interval you specify in
+  /// thumbnailInterval.
+  final DashIsoIntervalCadence? intervalCadence;
+
+  /// Height of each thumbnail within each tile image, in pixels. Leave blank to
+  /// maintain aspect ratio with thumbnail width. If following the aspect ratio
+  /// would lead to a total tile height greater than 4096, then the job will be
+  /// rejected. Must be divisible by 2.
+  final int? thumbnailHeight;
+
+  /// Enter the interval, in seconds, that MediaConvert uses to generate
+  /// thumbnails. If the interval you enter doesn't align with the output frame
+  /// rate, MediaConvert automatically rounds the interval to align with the
+  /// output frame rate. For example, if the output frame rate is 29.97 frames per
+  /// second and you enter 5, MediaConvert uses a 150 frame interval to generate
+  /// thumbnails.
+  final double? thumbnailInterval;
+
+  /// Width of each thumbnail within each tile image, in pixels. Default is 312.
+  /// Must be divisible by 8.
+  final int? thumbnailWidth;
+
+  /// Number of thumbnails in each column of a tile image. Set a value between 2
+  /// and 2048. Must be divisible by 2.
+  final int? tileHeight;
+
+  /// Number of thumbnails in each row of a tile image. Set a value between 1 and
+  /// 512.
+  final int? tileWidth;
+
+  DashIsoImageBasedTrickPlaySettings({
+    this.intervalCadence,
+    this.thumbnailHeight,
+    this.thumbnailInterval,
+    this.thumbnailWidth,
+    this.tileHeight,
+    this.tileWidth,
+  });
+
+  factory DashIsoImageBasedTrickPlaySettings.fromJson(
+      Map<String, dynamic> json) {
+    return DashIsoImageBasedTrickPlaySettings(
+      intervalCadence:
+          (json['intervalCadence'] as String?)?.toDashIsoIntervalCadence(),
+      thumbnailHeight: json['thumbnailHeight'] as int?,
+      thumbnailInterval: json['thumbnailInterval'] as double?,
+      thumbnailWidth: json['thumbnailWidth'] as int?,
+      tileHeight: json['tileHeight'] as int?,
+      tileWidth: json['tileWidth'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intervalCadence = this.intervalCadence;
+    final thumbnailHeight = this.thumbnailHeight;
+    final thumbnailInterval = this.thumbnailInterval;
+    final thumbnailWidth = this.thumbnailWidth;
+    final tileHeight = this.tileHeight;
+    final tileWidth = this.tileWidth;
+    return {
+      if (intervalCadence != null) 'intervalCadence': intervalCadence.toValue(),
+      if (thumbnailHeight != null) 'thumbnailHeight': thumbnailHeight,
+      if (thumbnailInterval != null) 'thumbnailInterval': thumbnailInterval,
+      if (thumbnailWidth != null) 'thumbnailWidth': thumbnailWidth,
+      if (tileHeight != null) 'tileHeight': tileHeight,
+      if (tileWidth != null) 'tileWidth': tileWidth,
+    };
+  }
+}
+
+/// The cadence MediaConvert follows for generating thumbnails. If set to
+/// FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the
+/// output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert
+/// generates thumbnails according to the interval you specify in
+/// thumbnailInterval.
+enum DashIsoIntervalCadence {
+  followIframe,
+  followCustom,
+}
+
+extension DashIsoIntervalCadenceValueExtension on DashIsoIntervalCadence {
+  String toValue() {
+    switch (this) {
+      case DashIsoIntervalCadence.followIframe:
+        return 'FOLLOW_IFRAME';
+      case DashIsoIntervalCadence.followCustom:
+        return 'FOLLOW_CUSTOM';
+    }
+  }
+}
+
+extension DashIsoIntervalCadenceFromString on String {
+  DashIsoIntervalCadence toDashIsoIntervalCadence() {
+    switch (this) {
+      case 'FOLLOW_IFRAME':
+        return DashIsoIntervalCadence.followIframe;
+      case 'FOLLOW_CUSTOM':
+        return DashIsoIntervalCadence.followCustom;
+    }
+    throw Exception('$this is not known in enum DashIsoIntervalCadence');
+  }
+}
+
+/// Specify how the value for bandwidth is determined for each video
+/// Representation in your output MPD manifest. We recommend that you choose a
+/// MPD manifest bandwidth type that is compatible with your downstream player
+/// configuration. Max: Use the same value that you specify for Max bitrate in
+/// the video output, in bits per second. Average: Use the calculated average
+/// bitrate of the encoded video output, in bits per second.
+enum DashIsoMpdManifestBandwidthType {
+  average,
+  max,
+}
+
+extension DashIsoMpdManifestBandwidthTypeValueExtension
+    on DashIsoMpdManifestBandwidthType {
+  String toValue() {
+    switch (this) {
+      case DashIsoMpdManifestBandwidthType.average:
+        return 'AVERAGE';
+      case DashIsoMpdManifestBandwidthType.max:
+        return 'MAX';
+    }
+  }
+}
+
+extension DashIsoMpdManifestBandwidthTypeFromString on String {
+  DashIsoMpdManifestBandwidthType toDashIsoMpdManifestBandwidthType() {
+    switch (this) {
+      case 'AVERAGE':
+        return DashIsoMpdManifestBandwidthType.average;
+      case 'MAX':
+        return DashIsoMpdManifestBandwidthType.max;
+    }
+    throw Exception(
+        '$this is not known in enum DashIsoMpdManifestBandwidthType');
   }
 }
 
@@ -7047,6 +10018,46 @@ extension DashIsoPlaybackDeviceCompatibilityFromString on String {
   }
 }
 
+/// Use this setting only when your output video stream has B-frames, which
+/// causes the initial presentation time stamp (PTS) to be offset from the
+/// initial decode time stamp (DTS). Specify how MediaConvert handles PTS when
+/// writing time stamps in output DASH manifests. Choose Match initial PTS
+/// (MATCH_INITIAL_PTS) when you want MediaConvert to use the initial PTS as the
+/// first time stamp in the manifest. Choose Zero-based (ZERO_BASED) to have
+/// MediaConvert ignore the initial PTS in the video stream and instead write
+/// the initial time stamp as zero in the manifest. For outputs that don't have
+/// B-frames, the time stamps in your DASH manifests start at zero regardless of
+/// your choice here.
+enum DashIsoPtsOffsetHandlingForBFrames {
+  zeroBased,
+  matchInitialPts,
+}
+
+extension DashIsoPtsOffsetHandlingForBFramesValueExtension
+    on DashIsoPtsOffsetHandlingForBFrames {
+  String toValue() {
+    switch (this) {
+      case DashIsoPtsOffsetHandlingForBFrames.zeroBased:
+        return 'ZERO_BASED';
+      case DashIsoPtsOffsetHandlingForBFrames.matchInitialPts:
+        return 'MATCH_INITIAL_PTS';
+    }
+  }
+}
+
+extension DashIsoPtsOffsetHandlingForBFramesFromString on String {
+  DashIsoPtsOffsetHandlingForBFrames toDashIsoPtsOffsetHandlingForBFrames() {
+    switch (this) {
+      case 'ZERO_BASED':
+        return DashIsoPtsOffsetHandlingForBFrames.zeroBased;
+      case 'MATCH_INITIAL_PTS':
+        return DashIsoPtsOffsetHandlingForBFrames.matchInitialPts;
+    }
+    throw Exception(
+        '$this is not known in enum DashIsoPtsOffsetHandlingForBFrames');
+  }
+}
+
 /// When set to SINGLE_FILE, a single output file is generated, which is
 /// internally segmented using the Fragment Length and Segment Length. When set
 /// to SEGMENTED_FILES, separate segment files will be created.
@@ -7075,6 +10086,77 @@ extension DashIsoSegmentControlFromString on String {
         return DashIsoSegmentControl.segmentedFiles;
     }
     throw Exception('$this is not known in enum DashIsoSegmentControl');
+  }
+}
+
+/// Specify how you want MediaConvert to determine the segment length. Choose
+/// Exact (EXACT) to have the encoder use the exact length that you specify with
+/// the setting Segment length (SegmentLength). This might result in extra
+/// I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up
+/// the segment lengths to match the next GOP boundary.
+enum DashIsoSegmentLengthControl {
+  exact,
+  gopMultiple,
+}
+
+extension DashIsoSegmentLengthControlValueExtension
+    on DashIsoSegmentLengthControl {
+  String toValue() {
+    switch (this) {
+      case DashIsoSegmentLengthControl.exact:
+        return 'EXACT';
+      case DashIsoSegmentLengthControl.gopMultiple:
+        return 'GOP_MULTIPLE';
+    }
+  }
+}
+
+extension DashIsoSegmentLengthControlFromString on String {
+  DashIsoSegmentLengthControl toDashIsoSegmentLengthControl() {
+    switch (this) {
+      case 'EXACT':
+        return DashIsoSegmentLengthControl.exact;
+      case 'GOP_MULTIPLE':
+        return DashIsoSegmentLengthControl.gopMultiple;
+    }
+    throw Exception('$this is not known in enum DashIsoSegmentLengthControl');
+  }
+}
+
+/// Specify the video sample composition time offset mode in the output fMP4
+/// TRUN box. For wider player compatibility, set Video composition offsets to
+/// Unsigned or leave blank. The earliest presentation time may be greater than
+/// zero, and sample composition time offsets will increment using unsigned
+/// integers. For strict fMP4 video and audio timing, set Video composition
+/// offsets to Signed. The earliest presentation time will be equal to zero, and
+/// sample composition time offsets will increment using signed integers.
+enum DashIsoVideoCompositionOffsets {
+  signed,
+  unsigned,
+}
+
+extension DashIsoVideoCompositionOffsetsValueExtension
+    on DashIsoVideoCompositionOffsets {
+  String toValue() {
+    switch (this) {
+      case DashIsoVideoCompositionOffsets.signed:
+        return 'SIGNED';
+      case DashIsoVideoCompositionOffsets.unsigned:
+        return 'UNSIGNED';
+    }
+  }
+}
+
+extension DashIsoVideoCompositionOffsetsFromString on String {
+  DashIsoVideoCompositionOffsets toDashIsoVideoCompositionOffsets() {
+    switch (this) {
+      case 'SIGNED':
+        return DashIsoVideoCompositionOffsets.signed;
+      case 'UNSIGNED':
+        return DashIsoVideoCompositionOffsets.unsigned;
+    }
+    throw Exception(
+        '$this is not known in enum DashIsoVideoCompositionOffsets');
   }
 }
 
@@ -7116,6 +10198,46 @@ extension DashIsoWriteSegmentTimelineInRepresentationFromString on String {
   }
 }
 
+/// Specify how MediaConvert writes SegmentTimeline in your output DASH
+/// manifest. To write a SegmentTimeline in each video Representation: Keep the
+/// default value, Basic. To write a common SegmentTimeline in the video
+/// AdaptationSet: Choose Compact. Note that MediaConvert will still write a
+/// SegmentTimeline in any Representation that does not share a common timeline.
+/// To write a video AdaptationSet for each different output framerate, and a
+/// common SegmentTimeline in each AdaptationSet: Choose Distinct.
+enum DashManifestStyle {
+  basic,
+  compact,
+  distinct,
+}
+
+extension DashManifestStyleValueExtension on DashManifestStyle {
+  String toValue() {
+    switch (this) {
+      case DashManifestStyle.basic:
+        return 'BASIC';
+      case DashManifestStyle.compact:
+        return 'COMPACT';
+      case DashManifestStyle.distinct:
+        return 'DISTINCT';
+    }
+  }
+}
+
+extension DashManifestStyleFromString on String {
+  DashManifestStyle toDashManifestStyle() {
+    switch (this) {
+      case 'BASIC':
+        return DashManifestStyle.basic;
+      case 'COMPACT':
+        return DashManifestStyle.compact;
+      case 'DISTINCT':
+        return DashManifestStyle.distinct;
+    }
+    throw Exception('$this is not known in enum DashManifestStyle');
+  }
+}
+
 /// Specify the encryption mode that you used to encrypt your input files.
 enum DecryptionMode {
   aesCtr,
@@ -7150,17 +10272,18 @@ extension DecryptionModeFromString on String {
   }
 }
 
-/// Only applies when you set Deinterlacer (DeinterlaceMode) to Deinterlace
-/// (DEINTERLACE) or Adaptive (ADAPTIVE). Motion adaptive interpolate
-/// (INTERPOLATE) produces sharper pictures, while blend (BLEND) produces
-/// smoother motion. Use (INTERPOLATE_TICKER) OR (BLEND_TICKER) if your source
-/// file includes a ticker, such as a scrolling headline at the bottom of the
-/// frame.
+/// Only applies when you set Deinterlace mode to Deinterlace or Adaptive.
+/// Interpolate produces sharper pictures, while blend produces smoother motion.
+/// If your source file includes a ticker, such as a scrolling headline at the
+/// bottom of the frame: Choose Interpolate ticker or Blend ticker. To apply
+/// field doubling: Choose Linear interpolation. Note that Linear interpolation
+/// may introduce video artifacts into your output.
 enum DeinterlaceAlgorithm {
   interpolate,
   interpolateTicker,
   blend,
   blendTicker,
+  linearInterpolation,
 }
 
 extension DeinterlaceAlgorithmValueExtension on DeinterlaceAlgorithm {
@@ -7174,6 +10297,8 @@ extension DeinterlaceAlgorithmValueExtension on DeinterlaceAlgorithm {
         return 'BLEND';
       case DeinterlaceAlgorithm.blendTicker:
         return 'BLEND_TICKER';
+      case DeinterlaceAlgorithm.linearInterpolation:
+        return 'LINEAR_INTERPOLATION';
     }
   }
 }
@@ -7189,6 +10314,8 @@ extension DeinterlaceAlgorithmFromString on String {
         return DeinterlaceAlgorithm.blend;
       case 'BLEND_TICKER':
         return DeinterlaceAlgorithm.blendTicker;
+      case 'LINEAR_INTERPOLATION':
+        return DeinterlaceAlgorithm.linearInterpolation;
     }
     throw Exception('$this is not known in enum DeinterlaceAlgorithm');
   }
@@ -7196,22 +10323,22 @@ extension DeinterlaceAlgorithmFromString on String {
 
 /// Settings for deinterlacer
 class Deinterlacer {
-  /// Only applies when you set Deinterlacer (DeinterlaceMode) to Deinterlace
-  /// (DEINTERLACE) or Adaptive (ADAPTIVE). Motion adaptive interpolate
-  /// (INTERPOLATE) produces sharper pictures, while blend (BLEND) produces
-  /// smoother motion. Use (INTERPOLATE_TICKER) OR (BLEND_TICKER) if your source
-  /// file includes a ticker, such as a scrolling headline at the bottom of the
-  /// frame.
+  /// Only applies when you set Deinterlace mode to Deinterlace or Adaptive.
+  /// Interpolate produces sharper pictures, while blend produces smoother motion.
+  /// If your source file includes a ticker, such as a scrolling headline at the
+  /// bottom of the frame: Choose Interpolate ticker or Blend ticker. To apply
+  /// field doubling: Choose Linear interpolation. Note that Linear interpolation
+  /// may introduce video artifacts into your output.
   final DeinterlaceAlgorithm? algorithm;
 
   /// - When set to NORMAL (default), the deinterlacer does not convert frames
-  /// that are tagged  in metadata as progressive. It will only convert those that
+  /// that are tagged in metadata as progressive. It will only convert those that
   /// are tagged as some other type. - When set to FORCE_ALL_FRAMES, the
   /// deinterlacer converts every frame to progressive - even those that are
-  /// already tagged as progressive. Turn Force mode on only if there is  a good
+  /// already tagged as progressive. Turn Force mode on only if there is a good
   /// chance that the metadata has tagged frames as progressive when they are not
   /// progressive. Do not turn on otherwise; processing frames that are already
-  /// progressive  into progressive will probably result in lower quality video.
+  /// progressive into progressive will probably result in lower quality video.
   final DeinterlacerControl? control;
 
   /// Use Deinterlacer (DeinterlaceMode) to choose how the service will do
@@ -7225,6 +10352,7 @@ class Deinterlacer {
     this.control,
     this.mode,
   });
+
   factory Deinterlacer.fromJson(Map<String, dynamic> json) {
     return Deinterlacer(
       algorithm: (json['algorithm'] as String?)?.toDeinterlaceAlgorithm(),
@@ -7246,13 +10374,13 @@ class Deinterlacer {
 }
 
 /// - When set to NORMAL (default), the deinterlacer does not convert frames
-/// that are tagged  in metadata as progressive. It will only convert those that
+/// that are tagged in metadata as progressive. It will only convert those that
 /// are tagged as some other type. - When set to FORCE_ALL_FRAMES, the
 /// deinterlacer converts every frame to progressive - even those that are
-/// already tagged as progressive. Turn Force mode on only if there is  a good
+/// already tagged as progressive. Turn Force mode on only if there is a good
 /// chance that the metadata has tagged frames as progressive when they are not
 /// progressive. Do not turn on otherwise; processing frames that are already
-/// progressive  into progressive will probably result in lower quality video.
+/// progressive into progressive will probably result in lower quality video.
 enum DeinterlacerControl {
   forceAllFrames,
   normal,
@@ -7320,13 +10448,23 @@ extension DeinterlacerModeFromString on String {
 
 class DeleteJobTemplateResponse {
   DeleteJobTemplateResponse();
+
   factory DeleteJobTemplateResponse.fromJson(Map<String, dynamic> _) {
     return DeleteJobTemplateResponse();
   }
 }
 
+class DeletePolicyResponse {
+  DeletePolicyResponse();
+
+  factory DeletePolicyResponse.fromJson(Map<String, dynamic> _) {
+    return DeletePolicyResponse();
+  }
+}
+
 class DeletePresetResponse {
   DeletePresetResponse();
+
   factory DeletePresetResponse.fromJson(Map<String, dynamic> _) {
     return DeletePresetResponse();
   }
@@ -7334,6 +10472,7 @@ class DeletePresetResponse {
 
 class DeleteQueueResponse {
   DeleteQueueResponse();
+
   factory DeleteQueueResponse.fromJson(Map<String, dynamic> _) {
     return DeleteQueueResponse();
   }
@@ -7382,6 +10521,7 @@ class DescribeEndpointsResponse {
     this.endpoints,
     this.nextToken,
   });
+
   factory DescribeEndpointsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeEndpointsResponse(
       endpoints: (json['endpoints'] as List?)
@@ -7402,6 +10542,7 @@ class DestinationSettings {
   DestinationSettings({
     this.s3Settings,
   });
+
   factory DestinationSettings.fromJson(Map<String, dynamic> json) {
     return DestinationSettings(
       s3Settings: json['s3Settings'] != null
@@ -7421,12 +10562,13 @@ class DestinationSettings {
 
 class DisassociateCertificateResponse {
   DisassociateCertificateResponse();
+
   factory DisassociateCertificateResponse.fromJson(Map<String, dynamic> _) {
     return DisassociateCertificateResponse();
   }
 }
 
-/// Settings for Dolby Vision
+/// Create Dolby Vision Profile 5 or Profile 8.1 compatible video output.
 class DolbyVision {
   /// Use these settings when you set DolbyVisionLevel6Mode to SPECIFY to override
   /// the MaxCLL and MaxFALL values in your input with new values.
@@ -7436,16 +10578,31 @@ class DolbyVision {
   /// MaxCLL and MaxFALL properies.
   final DolbyVisionLevel6Mode? l6Mode;
 
-  /// In the current MediaConvert implementation, the Dolby Vision profile is
-  /// always 5 (PROFILE_5). Therefore, all of your inputs must contain Dolby
-  /// Vision frame interleaved data.
+  /// Required when you set Dolby Vision Profile to Profile 8.1. When you set
+  /// Content mapping to None, content mapping is not applied to the
+  /// HDR10-compatible signal. Depending on the source peak nit level, clipping
+  /// might occur on HDR devices without Dolby Vision. When you set Content
+  /// mapping to HDR10 1000, the transcoder creates a 1,000 nits peak
+  /// HDR10-compatible signal by applying static content mapping to the source.
+  /// This mode is speed-optimized for PQ10 sources with metadata that is created
+  /// from analysis. For graded Dolby Vision content, be aware that creative
+  /// intent might not be guaranteed with extreme 1,000 nits trims.
+  final DolbyVisionMapping? mapping;
+
+  /// Required when you enable Dolby Vision. Use Profile 5 to include
+  /// frame-interleaved Dolby Vision metadata in your output. Your input must
+  /// include Dolby Vision metadata or an HDR10 YUV color space. Use Profile 8.1
+  /// to include frame-interleaved Dolby Vision metadata and HDR10 metadata in
+  /// your output. Your input must include Dolby Vision metadata.
   final DolbyVisionProfile? profile;
 
   DolbyVision({
     this.l6Metadata,
     this.l6Mode,
+    this.mapping,
     this.profile,
   });
+
   factory DolbyVision.fromJson(Map<String, dynamic> json) {
     return DolbyVision(
       l6Metadata: json['l6Metadata'] != null
@@ -7453,6 +10610,7 @@ class DolbyVision {
               json['l6Metadata'] as Map<String, dynamic>)
           : null,
       l6Mode: (json['l6Mode'] as String?)?.toDolbyVisionLevel6Mode(),
+      mapping: (json['mapping'] as String?)?.toDolbyVisionMapping(),
       profile: (json['profile'] as String?)?.toDolbyVisionProfile(),
     );
   }
@@ -7460,10 +10618,12 @@ class DolbyVision {
   Map<String, dynamic> toJson() {
     final l6Metadata = this.l6Metadata;
     final l6Mode = this.l6Mode;
+    final mapping = this.mapping;
     final profile = this.profile;
     return {
       if (l6Metadata != null) 'l6Metadata': l6Metadata,
       if (l6Mode != null) 'l6Mode': l6Mode.toValue(),
+      if (mapping != null) 'mapping': mapping.toValue(),
       if (profile != null) 'profile': profile.toValue(),
     };
   }
@@ -7484,6 +10644,7 @@ class DolbyVisionLevel6Metadata {
     this.maxCll,
     this.maxFall,
   });
+
   factory DolbyVisionLevel6Metadata.fromJson(Map<String, dynamic> json) {
     return DolbyVisionLevel6Metadata(
       maxCll: json['maxCll'] as int?,
@@ -7536,11 +10697,51 @@ extension DolbyVisionLevel6ModeFromString on String {
   }
 }
 
-/// In the current MediaConvert implementation, the Dolby Vision profile is
-/// always 5 (PROFILE_5). Therefore, all of your inputs must contain Dolby
-/// Vision frame interleaved data.
+/// Required when you set Dolby Vision Profile to Profile 8.1. When you set
+/// Content mapping to None, content mapping is not applied to the
+/// HDR10-compatible signal. Depending on the source peak nit level, clipping
+/// might occur on HDR devices without Dolby Vision. When you set Content
+/// mapping to HDR10 1000, the transcoder creates a 1,000 nits peak
+/// HDR10-compatible signal by applying static content mapping to the source.
+/// This mode is speed-optimized for PQ10 sources with metadata that is created
+/// from analysis. For graded Dolby Vision content, be aware that creative
+/// intent might not be guaranteed with extreme 1,000 nits trims.
+enum DolbyVisionMapping {
+  hdr10Nomap,
+  hdr10_1000,
+}
+
+extension DolbyVisionMappingValueExtension on DolbyVisionMapping {
+  String toValue() {
+    switch (this) {
+      case DolbyVisionMapping.hdr10Nomap:
+        return 'HDR10_NOMAP';
+      case DolbyVisionMapping.hdr10_1000:
+        return 'HDR10_1000';
+    }
+  }
+}
+
+extension DolbyVisionMappingFromString on String {
+  DolbyVisionMapping toDolbyVisionMapping() {
+    switch (this) {
+      case 'HDR10_NOMAP':
+        return DolbyVisionMapping.hdr10Nomap;
+      case 'HDR10_1000':
+        return DolbyVisionMapping.hdr10_1000;
+    }
+    throw Exception('$this is not known in enum DolbyVisionMapping');
+  }
+}
+
+/// Required when you enable Dolby Vision. Use Profile 5 to include
+/// frame-interleaved Dolby Vision metadata in your output. Your input must
+/// include Dolby Vision metadata or an HDR10 YUV color space. Use Profile 8.1
+/// to include frame-interleaved Dolby Vision metadata and HDR10 metadata in
+/// your output. Your input must include Dolby Vision metadata.
 enum DolbyVisionProfile {
   profile_5,
+  profile_8_1,
 }
 
 extension DolbyVisionProfileValueExtension on DolbyVisionProfile {
@@ -7548,6 +10749,8 @@ extension DolbyVisionProfileValueExtension on DolbyVisionProfile {
     switch (this) {
       case DolbyVisionProfile.profile_5:
         return 'PROFILE_5';
+      case DolbyVisionProfile.profile_8_1:
+        return 'PROFILE_8_1';
     }
   }
 }
@@ -7557,6 +10760,8 @@ extension DolbyVisionProfileFromString on String {
     switch (this) {
       case 'PROFILE_5':
         return DolbyVisionProfile.profile_5;
+      case 'PROFILE_8_1':
+        return DolbyVisionProfile.profile_8_1;
     }
     throw Exception('$this is not known in enum DolbyVisionProfile');
   }
@@ -7595,8 +10800,10 @@ extension DropFrameTimecodeFromString on String {
   }
 }
 
-/// Inserts DVB Network Information Table (NIT) at the specified table
-/// repetition interval.
+/// Use these settings to insert a DVB Network Information Table (NIT) in the
+/// transport stream of this output. When you work directly in your JSON job
+/// specification, include this object only when your job has a transport stream
+/// output and the container settings contain the object M2tsSettings.
 class DvbNitSettings {
   /// The numeric value placed in the Network Information Table (NIT).
   final int? networkId;
@@ -7614,6 +10821,7 @@ class DvbNitSettings {
     this.networkName,
     this.nitInterval,
   });
+
   factory DvbNitSettings.fromJson(Map<String, dynamic> json) {
     return DvbNitSettings(
       networkId: json['networkId'] as int?,
@@ -7634,16 +10842,18 @@ class DvbNitSettings {
   }
 }
 
-/// Inserts DVB Service Description Table (NIT) at the specified table
-/// repetition interval.
+/// Use these settings to insert a DVB Service Description Table (SDT) in the
+/// transport stream of this output. When you work directly in your JSON job
+/// specification, include this object only when your job has a transport stream
+/// output and the container settings contain the object M2tsSettings.
 class DvbSdtSettings {
-  /// Selects method of inserting SDT information into output stream.  "Follow
-  /// input SDT" copies SDT information from input stream to  output stream.
-  /// "Follow input SDT if present" copies SDT information from  input stream to
+  /// Selects method of inserting SDT information into output stream. "Follow
+  /// input SDT" copies SDT information from input stream to output stream.
+  /// "Follow input SDT if present" copies SDT information from input stream to
   /// output stream if SDT information is present in the input, otherwise it will
-  /// fall back on the user-defined values. Enter "SDT  Manually" means user will
-  /// enter the SDT information. "No SDT" means output  stream will not contain
-  /// SDT information.
+  /// fall back on the user-defined values. Enter "SDT Manually" means user will
+  /// enter the SDT information. "No SDT" means output stream will not contain SDT
+  /// information.
   final OutputSdt? outputSdt;
 
   /// The number of milliseconds between instances of this table in the output
@@ -7664,6 +10874,7 @@ class DvbSdtSettings {
     this.serviceName,
     this.serviceProviderName,
   });
+
   factory DvbSdtSettings.fromJson(Map<String, dynamic> json) {
     return DvbSdtSettings(
       outputSdt: (json['outputSdt'] as String?)?.toOutputSdt(),
@@ -7688,147 +10899,268 @@ class DvbSdtSettings {
   }
 }
 
-/// DVB-Sub Destination Settings
+/// Settings related to DVB-Sub captions. Set up DVB-Sub captions in the same
+/// output as your video. For more information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/dvb-sub-output-captions.html.
+/// When you work directly in your JSON job specification, include this object
+/// and any required children when you set destinationType to DVB_SUB.
 class DvbSubDestinationSettings {
-  /// If no explicit x_position or y_position is provided, setting alignment to
-  /// centered will place the captions at the bottom center of the output.
-  /// Similarly, setting a left alignment will align captions to the bottom left
-  /// of the output. If x and y positions are given in conjunction with the
-  /// alignment parameter, the font will be justified (either left or centered)
-  /// relative to those coordinates. This option is not valid for source captions
-  /// that are STL, 608/embedded or teletext. These source settings are already
-  /// pre-defined by the caption stream. All burn-in and DVB-Sub font settings
-  /// must match.
+  /// Specify the alignment of your captions. If no explicit x_position is
+  /// provided, setting alignment to centered will placethe captions at the bottom
+  /// center of the output. Similarly, setting a left alignment willalign captions
+  /// to the bottom left of the output. If x and y positions are given in
+  /// conjunction with the alignment parameter, the font will be justified (either
+  /// left or centered) relative to those coordinates. Within your job settings,
+  /// all of your DVB-Sub settings must be identical.
   final DvbSubtitleAlignment? alignment;
 
-  /// Specifies the color of the rectangle behind the captions.
-  /// All burn-in and DVB-Sub font settings must match.
+  /// Ignore this setting unless Style Passthrough (StylePassthrough) is set to
+  /// Enabled and Font color (FontColor) set to Black, Yellow, Red, Green, Blue,
+  /// or Hex. Use Apply font color (ApplyFontColor) for additional font color
+  /// controls. When you choose White text only (WHITE_TEXT_ONLY), or leave blank,
+  /// your font color setting only applies to white text in your input captions.
+  /// For example, if your font color setting is Yellow, and your input captions
+  /// have red and white text, your output captions will have red and yellow text.
+  /// When you choose ALL_TEXT, your font color setting applies to all of your
+  /// output captions text.
+  final DvbSubtitleApplyFontColor? applyFontColor;
+
+  /// Specify the color of the rectangle behind the captions. Leave background
+  /// color (BackgroundColor) blank and set Style passthrough (StylePassthrough)
+  /// to enabled to use the background color data from your input captions, if
+  /// present.
   final DvbSubtitleBackgroundColor? backgroundColor;
 
-  /// Specifies the opacity of the background rectangle. 255 is opaque; 0 is
-  /// transparent. Leaving this parameter blank is equivalent to setting it to 0
-  /// (transparent). All burn-in and DVB-Sub font settings must match.
+  /// Specify the opacity of the background rectangle. Enter a value from 0 to
+  /// 255, where 0 is transparent and 255 is opaque. If Style passthrough
+  /// (StylePassthrough) is set to enabled, leave blank to pass through the
+  /// background style information in your input captions to your output captions.
+  /// If Style passthrough is set to disabled, leave blank to use a value of 0 and
+  /// remove all backgrounds from your output captions. Within your job settings,
+  /// all of your DVB-Sub settings must be identical.
   final int? backgroundOpacity;
 
-  /// Specifies the color of the burned-in captions. This option is not valid for
-  /// source captions that are STL, 608/embedded or teletext. These source
-  /// settings are already pre-defined by the caption stream. All burn-in and
-  /// DVB-Sub font settings must match.
+  /// Specify how MediaConvert handles the display definition segment (DDS). To
+  /// exclude the DDS from this set of captions: Keep the default, None. To
+  /// include the DDS: Choose Specified. When you do, also specify the offset
+  /// coordinates of the display window with DDS x-coordinate and DDS
+  /// y-coordinate. To include the DDS, but not include display window data:
+  /// Choose No display window. When you do, you can write position metadata to
+  /// the page composition segment (PCS) with DDS x-coordinate and DDS
+  /// y-coordinate. For video resolutions with a height of 576 pixels or less,
+  /// MediaConvert doesn't include the DDS, regardless of the value you choose for
+  /// DDS handling. All burn-in and DVB-Sub font settings must match.
+  final DvbddsHandling? ddsHandling;
+
+  /// Use this setting, along with DDS y-coordinate (ddsYCoordinate), to specify
+  /// the upper left corner of the display definition segment (DDS) display
+  /// window. With this setting, specify the distance, in pixels, between the left
+  /// side of the frame and the left side of the DDS display window. Keep the
+  /// default value, 0, to have MediaConvert automatically choose this offset.
+  /// Related setting: When you use this setting, you must set DDS handling
+  /// (ddsHandling) to a value other than None (NONE). MediaConvert uses these
+  /// values to determine whether to write page position data to the DDS or to the
+  /// page composition segment (PCS). All burn-in and DVB-Sub font settings must
+  /// match.
+  final int? ddsXCoordinate;
+
+  /// Use this setting, along with DDS x-coordinate (ddsXCoordinate), to specify
+  /// the upper left corner of the display definition segment (DDS) display
+  /// window. With this setting, specify the distance, in pixels, between the top
+  /// of the frame and the top of the DDS display window. Keep the default value,
+  /// 0, to have MediaConvert automatically choose this offset. Related setting:
+  /// When you use this setting, you must set DDS handling (ddsHandling) to a
+  /// value other than None (NONE). MediaConvert uses these values to determine
+  /// whether to write page position data to the DDS or to the page composition
+  /// segment (PCS). All burn-in and DVB-Sub font settings must match.
+  final int? ddsYCoordinate;
+
+  /// Specify the font that you want the service to use for your burn in captions
+  /// when your input captions specify a font that MediaConvert doesn't support.
+  /// When you set Fallback font (FallbackFont) to best match (BEST_MATCH), or
+  /// leave blank, MediaConvert uses a supported font that most closely matches
+  /// the font that your input captions specify. When there are multiple
+  /// unsupported fonts in your input captions, MediaConvert matches each font
+  /// with the supported font that matches best. When you explicitly choose a
+  /// replacement font, MediaConvert uses that font to replace all unsupported
+  /// fonts from your input.
+  final DvbSubSubtitleFallbackFont? fallbackFont;
+
+  /// Specify the color of the captions text. Leave Font color (FontColor) blank
+  /// and set Style passthrough (StylePassthrough) to enabled to use the font
+  /// color data from your input captions, if present. Within your job settings,
+  /// all of your DVB-Sub settings must be identical.
   final DvbSubtitleFontColor? fontColor;
 
-  /// Specifies the opacity of the burned-in captions. 255 is opaque; 0 is
+  /// Specify the opacity of the burned-in captions. 255 is opaque; 0 is
   /// transparent.
-  /// All burn-in and DVB-Sub font settings must match.
+  /// Within your job settings, all of your DVB-Sub settings must be identical.
   final int? fontOpacity;
 
-  /// Font resolution in DPI (dots per inch); default is 96 dpi.
-  /// All burn-in and DVB-Sub font settings must match.
+  /// Specify the Font resolution (FontResolution) in DPI (dots per inch).
+  /// Within your job settings, all of your DVB-Sub settings must be identical.
   final int? fontResolution;
 
-  /// Provide the font script, using an ISO 15924 script code, if the LanguageCode
-  /// is not sufficient for determining the script type. Where LanguageCode or
-  /// CustomLanguageCode is sufficient, use "AUTOMATIC" or leave unset. This is
-  /// used to help determine the appropriate font for rendering DVB-Sub captions.
+  /// Set Font script (FontScript) to Automatically determined (AUTOMATIC), or
+  /// leave blank, to automatically determine the font script in your input
+  /// captions. Otherwise, set to Simplified Chinese (HANS) or Traditional Chinese
+  /// (HANT) if your input font script uses Simplified or Traditional Chinese.
+  /// Within your job settings, all of your DVB-Sub settings must be identical.
   final FontScript? fontScript;
 
-  /// A positive integer indicates the exact font size in points. Set to 0 for
-  /// automatic font size selection. All burn-in and DVB-Sub font settings must
-  /// match.
+  /// Specify the Font size (FontSize) in pixels. Must be a positive integer. Set
+  /// to 0, or leave blank, for automatic font size. Within your job settings, all
+  /// of your DVB-Sub settings must be identical.
   final int? fontSize;
 
-  /// Specifies font outline color. This option is not valid for source captions
-  /// that are either 608/embedded or teletext. These source settings are already
-  /// pre-defined by the caption stream. All burn-in and DVB-Sub font settings
-  /// must match.
+  /// Specify the height, in pixels, of this set of DVB-Sub captions. The default
+  /// value is 576 pixels. Related setting: When you use this setting, you must
+  /// set DDS handling (ddsHandling) to a value other than None (NONE). All
+  /// burn-in and DVB-Sub font settings must match.
+  final int? height;
+
+  /// Ignore this setting unless your Font color is set to Hex. Enter either six
+  /// or eight hexidecimal digits, representing red, green, and blue, with two
+  /// optional extra digits for alpha. For example a value of 1122AABB is a red
+  /// value of 0x11, a green value of 0x22, a blue value of 0xAA, and an alpha
+  /// value of 0xBB.
+  final String? hexFontColor;
+
+  /// Specify font outline color. Leave Outline color (OutlineColor) blank and set
+  /// Style passthrough (StylePassthrough) to enabled to use the font outline
+  /// color data from your input captions, if present. Within your job settings,
+  /// all of your DVB-Sub settings must be identical.
   final DvbSubtitleOutlineColor? outlineColor;
 
-  /// Specifies font outline size in pixels. This option is not valid for source
-  /// captions that are either 608/embedded or teletext. These source settings are
-  /// already pre-defined by the caption stream. All burn-in and DVB-Sub font
-  /// settings must match.
+  /// Specify the Outline size (OutlineSize) of the caption text, in pixels. Leave
+  /// Outline size blank and set Style passthrough (StylePassthrough) to enabled
+  /// to use the outline size data from your input captions, if present. Within
+  /// your job settings, all of your DVB-Sub settings must be identical.
   final int? outlineSize;
 
-  /// Specifies the color of the shadow cast by the captions.
-  /// All burn-in and DVB-Sub font settings must match.
+  /// Specify the color of the shadow cast by the captions. Leave Shadow color
+  /// (ShadowColor) blank and set Style passthrough (StylePassthrough) to enabled
+  /// to use the shadow color data from your input captions, if present. Within
+  /// your job settings, all of your DVB-Sub settings must be identical.
   final DvbSubtitleShadowColor? shadowColor;
 
-  /// Specifies the opacity of the shadow. 255 is opaque; 0 is transparent.
-  /// Leaving this parameter blank is equivalent to setting it to 0 (transparent).
-  /// All burn-in and DVB-Sub font settings must match.
+  /// Specify the opacity of the shadow. Enter a value from 0 to 255, where 0 is
+  /// transparent and 255 is opaque. If Style passthrough (StylePassthrough) is
+  /// set to Enabled, leave Shadow opacity (ShadowOpacity) blank to pass through
+  /// the shadow style information in your input captions to your output captions.
+  /// If Style passthrough is set to disabled, leave blank to use a value of 0 and
+  /// remove all shadows from your output captions. Within your job settings, all
+  /// of your DVB-Sub settings must be identical.
   final int? shadowOpacity;
 
-  /// Specifies the horizontal offset of the shadow relative to the captions in
+  /// Specify the horizontal offset of the shadow, relative to the captions in
   /// pixels. A value of -2 would result in a shadow offset 2 pixels to the left.
-  /// All burn-in and DVB-Sub font settings must match.
+  /// Within your job settings, all of your DVB-Sub settings must be identical.
   final int? shadowXOffset;
 
-  /// Specifies the vertical offset of the shadow relative to the captions in
+  /// Specify the vertical offset of the shadow relative to the captions in
   /// pixels. A value of -2 would result in a shadow offset 2 pixels above the
-  /// text. All burn-in and DVB-Sub font settings must match.
+  /// text. Leave Shadow y-offset (ShadowYOffset) blank and set Style passthrough
+  /// (StylePassthrough) to enabled to use the shadow y-offset data from your
+  /// input captions, if present. Within your job settings, all of your DVB-Sub
+  /// settings must be identical.
   final int? shadowYOffset;
+
+  /// Set Style passthrough (StylePassthrough) to ENABLED to use the available
+  /// style, color, and position information from your input captions.
+  /// MediaConvert uses default settings for any missing style and position
+  /// information in your input captions. Set Style passthrough to DISABLED, or
+  /// leave blank, to ignore the style and position information from your input
+  /// captions and use default settings: white text with black outlining,
+  /// bottom-center positioning, and automatic sizing. Whether you set Style
+  /// passthrough to enabled or not, you can also choose to manually override any
+  /// of the individual style and position settings.
+  final DvbSubtitleStylePassthrough? stylePassthrough;
 
   /// Specify whether your DVB subtitles are standard or for hearing impaired.
   /// Choose hearing impaired if your subtitles include audio descriptions and
   /// dialogue. Choose standard if your subtitles include only dialogue.
   final DvbSubtitlingType? subtitlingType;
 
-  /// Only applies to jobs with input captions in Teletext or STL formats. Specify
-  /// whether the spacing between letters in your captions is set by the captions
-  /// grid or varies depending on letter width. Choose fixed grid to conform to
-  /// the spacing specified in the captions file more accurately. Choose
-  /// proportional to make the text easier to read if the captions are closed
-  /// caption.
+  /// Specify whether the Text spacing (TeletextSpacing) in your captions is set
+  /// by the captions grid, or varies depending on letter width. Choose fixed grid
+  /// (FIXED_GRID) to conform to the spacing specified in the captions file more
+  /// accurately. Choose proportional (PROPORTIONAL) to make the text easier to
+  /// read for closed captions. Within your job settings, all of your DVB-Sub
+  /// settings must be identical.
   final DvbSubtitleTeletextSpacing? teletextSpacing;
 
-  /// Specifies the horizontal position of the caption relative to the left side
-  /// of the output in pixels. A value of 10 would result in the captions starting
-  /// 10 pixels from the left of the output. If no explicit x_position is
-  /// provided, the horizontal caption position will be determined by the
-  /// alignment parameter. This option is not valid for source captions that are
-  /// STL, 608/embedded or teletext. These source settings are already pre-defined
-  /// by the caption stream. All burn-in and DVB-Sub font settings must match.
+  /// Specify the width, in pixels, of this set of DVB-Sub captions. The default
+  /// value is 720 pixels. Related setting: When you use this setting, you must
+  /// set DDS handling (ddsHandling) to a value other than None (NONE). All
+  /// burn-in and DVB-Sub font settings must match.
+  final int? width;
+
+  /// Specify the horizontal position (XPosition) of the captions, relative to the
+  /// left side of the outputin pixels. A value of 10 would result in the captions
+  /// starting 10 pixels from the left ofthe output. If no explicit x_position is
+  /// provided, the horizontal caption position will bedetermined by the alignment
+  /// parameter. Within your job settings, all of your DVB-Sub settings must be
+  /// identical.
   final int? xPosition;
 
-  /// Specifies the vertical position of the caption relative to the top of the
-  /// output in pixels. A value of 10 would result in the captions starting 10
-  /// pixels from the top of the output. If no explicit y_position is provided,
-  /// the caption will be positioned towards the bottom of the output. This option
-  /// is not valid for source captions that are STL, 608/embedded or teletext.
-  /// These source settings are already pre-defined by the caption stream. All
-  /// burn-in and DVB-Sub font settings must match.
+  /// Specify the vertical position (YPosition) of the captions, relative to the
+  /// top of the output in pixels. A value of 10 would result in the captions
+  /// starting 10 pixels from the top of the output. If no explicit y_position is
+  /// provided, the caption will be positioned towards the bottom of the output.
+  /// Within your job settings, all of your DVB-Sub settings must be identical.
   final int? yPosition;
 
   DvbSubDestinationSettings({
     this.alignment,
+    this.applyFontColor,
     this.backgroundColor,
     this.backgroundOpacity,
+    this.ddsHandling,
+    this.ddsXCoordinate,
+    this.ddsYCoordinate,
+    this.fallbackFont,
     this.fontColor,
     this.fontOpacity,
     this.fontResolution,
     this.fontScript,
     this.fontSize,
+    this.height,
+    this.hexFontColor,
     this.outlineColor,
     this.outlineSize,
     this.shadowColor,
     this.shadowOpacity,
     this.shadowXOffset,
     this.shadowYOffset,
+    this.stylePassthrough,
     this.subtitlingType,
     this.teletextSpacing,
+    this.width,
     this.xPosition,
     this.yPosition,
   });
+
   factory DvbSubDestinationSettings.fromJson(Map<String, dynamic> json) {
     return DvbSubDestinationSettings(
       alignment: (json['alignment'] as String?)?.toDvbSubtitleAlignment(),
+      applyFontColor:
+          (json['applyFontColor'] as String?)?.toDvbSubtitleApplyFontColor(),
       backgroundColor:
           (json['backgroundColor'] as String?)?.toDvbSubtitleBackgroundColor(),
       backgroundOpacity: json['backgroundOpacity'] as int?,
+      ddsHandling: (json['ddsHandling'] as String?)?.toDvbddsHandling(),
+      ddsXCoordinate: json['ddsXCoordinate'] as int?,
+      ddsYCoordinate: json['ddsYCoordinate'] as int?,
+      fallbackFont:
+          (json['fallbackFont'] as String?)?.toDvbSubSubtitleFallbackFont(),
       fontColor: (json['fontColor'] as String?)?.toDvbSubtitleFontColor(),
       fontOpacity: json['fontOpacity'] as int?,
       fontResolution: json['fontResolution'] as int?,
       fontScript: (json['fontScript'] as String?)?.toFontScript(),
       fontSize: json['fontSize'] as int?,
+      height: json['height'] as int?,
+      hexFontColor: json['hexFontColor'] as String?,
       outlineColor:
           (json['outlineColor'] as String?)?.toDvbSubtitleOutlineColor(),
       outlineSize: json['outlineSize'] as int?,
@@ -7836,10 +11168,13 @@ class DvbSubDestinationSettings {
       shadowOpacity: json['shadowOpacity'] as int?,
       shadowXOffset: json['shadowXOffset'] as int?,
       shadowYOffset: json['shadowYOffset'] as int?,
+      stylePassthrough: (json['stylePassthrough'] as String?)
+          ?.toDvbSubtitleStylePassthrough(),
       subtitlingType:
           (json['subtitlingType'] as String?)?.toDvbSubtitlingType(),
       teletextSpacing:
           (json['teletextSpacing'] as String?)?.toDvbSubtitleTeletextSpacing(),
+      width: json['width'] as int?,
       xPosition: json['xPosition'] as int?,
       yPosition: json['yPosition'] as int?,
     );
@@ -7847,40 +11182,59 @@ class DvbSubDestinationSettings {
 
   Map<String, dynamic> toJson() {
     final alignment = this.alignment;
+    final applyFontColor = this.applyFontColor;
     final backgroundColor = this.backgroundColor;
     final backgroundOpacity = this.backgroundOpacity;
+    final ddsHandling = this.ddsHandling;
+    final ddsXCoordinate = this.ddsXCoordinate;
+    final ddsYCoordinate = this.ddsYCoordinate;
+    final fallbackFont = this.fallbackFont;
     final fontColor = this.fontColor;
     final fontOpacity = this.fontOpacity;
     final fontResolution = this.fontResolution;
     final fontScript = this.fontScript;
     final fontSize = this.fontSize;
+    final height = this.height;
+    final hexFontColor = this.hexFontColor;
     final outlineColor = this.outlineColor;
     final outlineSize = this.outlineSize;
     final shadowColor = this.shadowColor;
     final shadowOpacity = this.shadowOpacity;
     final shadowXOffset = this.shadowXOffset;
     final shadowYOffset = this.shadowYOffset;
+    final stylePassthrough = this.stylePassthrough;
     final subtitlingType = this.subtitlingType;
     final teletextSpacing = this.teletextSpacing;
+    final width = this.width;
     final xPosition = this.xPosition;
     final yPosition = this.yPosition;
     return {
       if (alignment != null) 'alignment': alignment.toValue(),
+      if (applyFontColor != null) 'applyFontColor': applyFontColor.toValue(),
       if (backgroundColor != null) 'backgroundColor': backgroundColor.toValue(),
       if (backgroundOpacity != null) 'backgroundOpacity': backgroundOpacity,
+      if (ddsHandling != null) 'ddsHandling': ddsHandling.toValue(),
+      if (ddsXCoordinate != null) 'ddsXCoordinate': ddsXCoordinate,
+      if (ddsYCoordinate != null) 'ddsYCoordinate': ddsYCoordinate,
+      if (fallbackFont != null) 'fallbackFont': fallbackFont.toValue(),
       if (fontColor != null) 'fontColor': fontColor.toValue(),
       if (fontOpacity != null) 'fontOpacity': fontOpacity,
       if (fontResolution != null) 'fontResolution': fontResolution,
       if (fontScript != null) 'fontScript': fontScript.toValue(),
       if (fontSize != null) 'fontSize': fontSize,
+      if (height != null) 'height': height,
+      if (hexFontColor != null) 'hexFontColor': hexFontColor,
       if (outlineColor != null) 'outlineColor': outlineColor.toValue(),
       if (outlineSize != null) 'outlineSize': outlineSize,
       if (shadowColor != null) 'shadowColor': shadowColor.toValue(),
       if (shadowOpacity != null) 'shadowOpacity': shadowOpacity,
       if (shadowXOffset != null) 'shadowXOffset': shadowXOffset,
       if (shadowYOffset != null) 'shadowYOffset': shadowYOffset,
+      if (stylePassthrough != null)
+        'stylePassthrough': stylePassthrough.toValue(),
       if (subtitlingType != null) 'subtitlingType': subtitlingType.toValue(),
       if (teletextSpacing != null) 'teletextSpacing': teletextSpacing.toValue(),
+      if (width != null) 'width': width,
       if (xPosition != null) 'xPosition': xPosition,
       if (yPosition != null) 'yPosition': yPosition,
     };
@@ -7897,6 +11251,7 @@ class DvbSubSourceSettings {
   DvbSubSourceSettings({
     this.pid,
   });
+
   factory DvbSubSourceSettings.fromJson(Map<String, dynamic> json) {
     return DvbSubSourceSettings(
       pid: json['pid'] as int?,
@@ -7911,18 +11266,70 @@ class DvbSubSourceSettings {
   }
 }
 
-/// If no explicit x_position or y_position is provided, setting alignment to
-/// centered will place the captions at the bottom center of the output.
-/// Similarly, setting a left alignment will align captions to the bottom left
-/// of the output. If x and y positions are given in conjunction with the
-/// alignment parameter, the font will be justified (either left or centered)
-/// relative to those coordinates. This option is not valid for source captions
-/// that are STL, 608/embedded or teletext. These source settings are already
-/// pre-defined by the caption stream. All burn-in and DVB-Sub font settings
-/// must match.
+/// Specify the font that you want the service to use for your burn in captions
+/// when your input captions specify a font that MediaConvert doesn't support.
+/// When you set Fallback font (FallbackFont) to best match (BEST_MATCH), or
+/// leave blank, MediaConvert uses a supported font that most closely matches
+/// the font that your input captions specify. When there are multiple
+/// unsupported fonts in your input captions, MediaConvert matches each font
+/// with the supported font that matches best. When you explicitly choose a
+/// replacement font, MediaConvert uses that font to replace all unsupported
+/// fonts from your input.
+enum DvbSubSubtitleFallbackFont {
+  bestMatch,
+  monospacedSansserif,
+  monospacedSerif,
+  proportionalSansserif,
+  proportionalSerif,
+}
+
+extension DvbSubSubtitleFallbackFontValueExtension
+    on DvbSubSubtitleFallbackFont {
+  String toValue() {
+    switch (this) {
+      case DvbSubSubtitleFallbackFont.bestMatch:
+        return 'BEST_MATCH';
+      case DvbSubSubtitleFallbackFont.monospacedSansserif:
+        return 'MONOSPACED_SANSSERIF';
+      case DvbSubSubtitleFallbackFont.monospacedSerif:
+        return 'MONOSPACED_SERIF';
+      case DvbSubSubtitleFallbackFont.proportionalSansserif:
+        return 'PROPORTIONAL_SANSSERIF';
+      case DvbSubSubtitleFallbackFont.proportionalSerif:
+        return 'PROPORTIONAL_SERIF';
+    }
+  }
+}
+
+extension DvbSubSubtitleFallbackFontFromString on String {
+  DvbSubSubtitleFallbackFont toDvbSubSubtitleFallbackFont() {
+    switch (this) {
+      case 'BEST_MATCH':
+        return DvbSubSubtitleFallbackFont.bestMatch;
+      case 'MONOSPACED_SANSSERIF':
+        return DvbSubSubtitleFallbackFont.monospacedSansserif;
+      case 'MONOSPACED_SERIF':
+        return DvbSubSubtitleFallbackFont.monospacedSerif;
+      case 'PROPORTIONAL_SANSSERIF':
+        return DvbSubSubtitleFallbackFont.proportionalSansserif;
+      case 'PROPORTIONAL_SERIF':
+        return DvbSubSubtitleFallbackFont.proportionalSerif;
+    }
+    throw Exception('$this is not known in enum DvbSubSubtitleFallbackFont');
+  }
+}
+
+/// Specify the alignment of your captions. If no explicit x_position is
+/// provided, setting alignment to centered will placethe captions at the bottom
+/// center of the output. Similarly, setting a left alignment willalign captions
+/// to the bottom left of the output. If x and y positions are given in
+/// conjunction with the alignment parameter, the font will be justified (either
+/// left or centered) relative to those coordinates. Within your job settings,
+/// all of your DVB-Sub settings must be identical.
 enum DvbSubtitleAlignment {
   centered,
   left,
+  auto,
 }
 
 extension DvbSubtitleAlignmentValueExtension on DvbSubtitleAlignment {
@@ -7932,6 +11339,8 @@ extension DvbSubtitleAlignmentValueExtension on DvbSubtitleAlignment {
         return 'CENTERED';
       case DvbSubtitleAlignment.left:
         return 'LEFT';
+      case DvbSubtitleAlignment.auto:
+        return 'AUTO';
     }
   }
 }
@@ -7943,17 +11352,59 @@ extension DvbSubtitleAlignmentFromString on String {
         return DvbSubtitleAlignment.centered;
       case 'LEFT':
         return DvbSubtitleAlignment.left;
+      case 'AUTO':
+        return DvbSubtitleAlignment.auto;
     }
     throw Exception('$this is not known in enum DvbSubtitleAlignment');
   }
 }
 
-/// Specifies the color of the rectangle behind the captions.
-/// All burn-in and DVB-Sub font settings must match.
+/// Ignore this setting unless Style Passthrough (StylePassthrough) is set to
+/// Enabled and Font color (FontColor) set to Black, Yellow, Red, Green, Blue,
+/// or Hex. Use Apply font color (ApplyFontColor) for additional font color
+/// controls. When you choose White text only (WHITE_TEXT_ONLY), or leave blank,
+/// your font color setting only applies to white text in your input captions.
+/// For example, if your font color setting is Yellow, and your input captions
+/// have red and white text, your output captions will have red and yellow text.
+/// When you choose ALL_TEXT, your font color setting applies to all of your
+/// output captions text.
+enum DvbSubtitleApplyFontColor {
+  whiteTextOnly,
+  allText,
+}
+
+extension DvbSubtitleApplyFontColorValueExtension on DvbSubtitleApplyFontColor {
+  String toValue() {
+    switch (this) {
+      case DvbSubtitleApplyFontColor.whiteTextOnly:
+        return 'WHITE_TEXT_ONLY';
+      case DvbSubtitleApplyFontColor.allText:
+        return 'ALL_TEXT';
+    }
+  }
+}
+
+extension DvbSubtitleApplyFontColorFromString on String {
+  DvbSubtitleApplyFontColor toDvbSubtitleApplyFontColor() {
+    switch (this) {
+      case 'WHITE_TEXT_ONLY':
+        return DvbSubtitleApplyFontColor.whiteTextOnly;
+      case 'ALL_TEXT':
+        return DvbSubtitleApplyFontColor.allText;
+    }
+    throw Exception('$this is not known in enum DvbSubtitleApplyFontColor');
+  }
+}
+
+/// Specify the color of the rectangle behind the captions. Leave background
+/// color (BackgroundColor) blank and set Style passthrough (StylePassthrough)
+/// to enabled to use the background color data from your input captions, if
+/// present.
 enum DvbSubtitleBackgroundColor {
   none,
   black,
   white,
+  auto,
 }
 
 extension DvbSubtitleBackgroundColorValueExtension
@@ -7966,6 +11417,8 @@ extension DvbSubtitleBackgroundColorValueExtension
         return 'BLACK';
       case DvbSubtitleBackgroundColor.white:
         return 'WHITE';
+      case DvbSubtitleBackgroundColor.auto:
+        return 'AUTO';
     }
   }
 }
@@ -7979,15 +11432,17 @@ extension DvbSubtitleBackgroundColorFromString on String {
         return DvbSubtitleBackgroundColor.black;
       case 'WHITE':
         return DvbSubtitleBackgroundColor.white;
+      case 'AUTO':
+        return DvbSubtitleBackgroundColor.auto;
     }
     throw Exception('$this is not known in enum DvbSubtitleBackgroundColor');
   }
 }
 
-/// Specifies the color of the burned-in captions. This option is not valid for
-/// source captions that are STL, 608/embedded or teletext. These source
-/// settings are already pre-defined by the caption stream. All burn-in and
-/// DVB-Sub font settings must match.
+/// Specify the color of the captions text. Leave Font color (FontColor) blank
+/// and set Style passthrough (StylePassthrough) to enabled to use the font
+/// color data from your input captions, if present. Within your job settings,
+/// all of your DVB-Sub settings must be identical.
 enum DvbSubtitleFontColor {
   white,
   black,
@@ -7995,6 +11450,8 @@ enum DvbSubtitleFontColor {
   red,
   green,
   blue,
+  hex,
+  auto,
 }
 
 extension DvbSubtitleFontColorValueExtension on DvbSubtitleFontColor {
@@ -8012,6 +11469,10 @@ extension DvbSubtitleFontColorValueExtension on DvbSubtitleFontColor {
         return 'GREEN';
       case DvbSubtitleFontColor.blue:
         return 'BLUE';
+      case DvbSubtitleFontColor.hex:
+        return 'HEX';
+      case DvbSubtitleFontColor.auto:
+        return 'AUTO';
     }
   }
 }
@@ -8031,15 +11492,19 @@ extension DvbSubtitleFontColorFromString on String {
         return DvbSubtitleFontColor.green;
       case 'BLUE':
         return DvbSubtitleFontColor.blue;
+      case 'HEX':
+        return DvbSubtitleFontColor.hex;
+      case 'AUTO':
+        return DvbSubtitleFontColor.auto;
     }
     throw Exception('$this is not known in enum DvbSubtitleFontColor');
   }
 }
 
-/// Specifies font outline color. This option is not valid for source captions
-/// that are either 608/embedded or teletext. These source settings are already
-/// pre-defined by the caption stream. All burn-in and DVB-Sub font settings
-/// must match.
+/// Specify font outline color. Leave Outline color (OutlineColor) blank and set
+/// Style passthrough (StylePassthrough) to enabled to use the font outline
+/// color data from your input captions, if present. Within your job settings,
+/// all of your DVB-Sub settings must be identical.
 enum DvbSubtitleOutlineColor {
   black,
   white,
@@ -8047,6 +11512,7 @@ enum DvbSubtitleOutlineColor {
   red,
   green,
   blue,
+  auto,
 }
 
 extension DvbSubtitleOutlineColorValueExtension on DvbSubtitleOutlineColor {
@@ -8064,6 +11530,8 @@ extension DvbSubtitleOutlineColorValueExtension on DvbSubtitleOutlineColor {
         return 'GREEN';
       case DvbSubtitleOutlineColor.blue:
         return 'BLUE';
+      case DvbSubtitleOutlineColor.auto:
+        return 'AUTO';
     }
   }
 }
@@ -8083,17 +11551,22 @@ extension DvbSubtitleOutlineColorFromString on String {
         return DvbSubtitleOutlineColor.green;
       case 'BLUE':
         return DvbSubtitleOutlineColor.blue;
+      case 'AUTO':
+        return DvbSubtitleOutlineColor.auto;
     }
     throw Exception('$this is not known in enum DvbSubtitleOutlineColor');
   }
 }
 
-/// Specifies the color of the shadow cast by the captions.
-/// All burn-in and DVB-Sub font settings must match.
+/// Specify the color of the shadow cast by the captions. Leave Shadow color
+/// (ShadowColor) blank and set Style passthrough (StylePassthrough) to enabled
+/// to use the shadow color data from your input captions, if present. Within
+/// your job settings, all of your DVB-Sub settings must be identical.
 enum DvbSubtitleShadowColor {
   none,
   black,
   white,
+  auto,
 }
 
 extension DvbSubtitleShadowColorValueExtension on DvbSubtitleShadowColor {
@@ -8105,6 +11578,8 @@ extension DvbSubtitleShadowColorValueExtension on DvbSubtitleShadowColor {
         return 'BLACK';
       case DvbSubtitleShadowColor.white:
         return 'WHITE';
+      case DvbSubtitleShadowColor.auto:
+        return 'AUTO';
     }
   }
 }
@@ -8118,20 +11593,61 @@ extension DvbSubtitleShadowColorFromString on String {
         return DvbSubtitleShadowColor.black;
       case 'WHITE':
         return DvbSubtitleShadowColor.white;
+      case 'AUTO':
+        return DvbSubtitleShadowColor.auto;
     }
     throw Exception('$this is not known in enum DvbSubtitleShadowColor');
   }
 }
 
-/// Only applies to jobs with input captions in Teletext or STL formats. Specify
-/// whether the spacing between letters in your captions is set by the captions
-/// grid or varies depending on letter width. Choose fixed grid to conform to
-/// the spacing specified in the captions file more accurately. Choose
-/// proportional to make the text easier to read if the captions are closed
-/// caption.
+/// Set Style passthrough (StylePassthrough) to ENABLED to use the available
+/// style, color, and position information from your input captions.
+/// MediaConvert uses default settings for any missing style and position
+/// information in your input captions. Set Style passthrough to DISABLED, or
+/// leave blank, to ignore the style and position information from your input
+/// captions and use default settings: white text with black outlining,
+/// bottom-center positioning, and automatic sizing. Whether you set Style
+/// passthrough to enabled or not, you can also choose to manually override any
+/// of the individual style and position settings.
+enum DvbSubtitleStylePassthrough {
+  enabled,
+  disabled,
+}
+
+extension DvbSubtitleStylePassthroughValueExtension
+    on DvbSubtitleStylePassthrough {
+  String toValue() {
+    switch (this) {
+      case DvbSubtitleStylePassthrough.enabled:
+        return 'ENABLED';
+      case DvbSubtitleStylePassthrough.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension DvbSubtitleStylePassthroughFromString on String {
+  DvbSubtitleStylePassthrough toDvbSubtitleStylePassthrough() {
+    switch (this) {
+      case 'ENABLED':
+        return DvbSubtitleStylePassthrough.enabled;
+      case 'DISABLED':
+        return DvbSubtitleStylePassthrough.disabled;
+    }
+    throw Exception('$this is not known in enum DvbSubtitleStylePassthrough');
+  }
+}
+
+/// Specify whether the Text spacing (TeletextSpacing) in your captions is set
+/// by the captions grid, or varies depending on letter width. Choose fixed grid
+/// (FIXED_GRID) to conform to the spacing specified in the captions file more
+/// accurately. Choose proportional (PROPORTIONAL) to make the text easier to
+/// read for closed captions. Within your job settings, all of your DVB-Sub
+/// settings must be identical.
 enum DvbSubtitleTeletextSpacing {
   fixedGrid,
   proportional,
+  auto,
 }
 
 extension DvbSubtitleTeletextSpacingValueExtension
@@ -8142,6 +11658,8 @@ extension DvbSubtitleTeletextSpacingValueExtension
         return 'FIXED_GRID';
       case DvbSubtitleTeletextSpacing.proportional:
         return 'PROPORTIONAL';
+      case DvbSubtitleTeletextSpacing.auto:
+        return 'AUTO';
     }
   }
 }
@@ -8153,6 +11671,8 @@ extension DvbSubtitleTeletextSpacingFromString on String {
         return DvbSubtitleTeletextSpacing.fixedGrid;
       case 'PROPORTIONAL':
         return DvbSubtitleTeletextSpacing.proportional;
+      case 'AUTO':
+        return DvbSubtitleTeletextSpacing.auto;
     }
     throw Exception('$this is not known in enum DvbSubtitleTeletextSpacing');
   }
@@ -8189,8 +11709,10 @@ extension DvbSubtitlingTypeFromString on String {
   }
 }
 
-/// Inserts DVB Time and Date Table (TDT) at the specified table repetition
-/// interval.
+/// Use these settings to insert a DVB Time and Date Table (TDT) in the
+/// transport stream of this output. When you work directly in your JSON job
+/// specification, include this object only when your job has a transport stream
+/// output and the container settings contain the object M2tsSettings.
 class DvbTdtSettings {
   /// The number of milliseconds between instances of this table in the output
   /// transport stream.
@@ -8199,6 +11721,7 @@ class DvbTdtSettings {
   DvbTdtSettings({
     this.tdtInterval,
   });
+
   factory DvbTdtSettings.fromJson(Map<String, dynamic> json) {
     return DvbTdtSettings(
       tdtInterval: json['tdtInterval'] as int?,
@@ -8210,6 +11733,49 @@ class DvbTdtSettings {
     return {
       if (tdtInterval != null) 'tdtInterval': tdtInterval,
     };
+  }
+}
+
+/// Specify how MediaConvert handles the display definition segment (DDS). To
+/// exclude the DDS from this set of captions: Keep the default, None. To
+/// include the DDS: Choose Specified. When you do, also specify the offset
+/// coordinates of the display window with DDS x-coordinate and DDS
+/// y-coordinate. To include the DDS, but not include display window data:
+/// Choose No display window. When you do, you can write position metadata to
+/// the page composition segment (PCS) with DDS x-coordinate and DDS
+/// y-coordinate. For video resolutions with a height of 576 pixels or less,
+/// MediaConvert doesn't include the DDS, regardless of the value you choose for
+/// DDS handling. All burn-in and DVB-Sub font settings must match.
+enum DvbddsHandling {
+  none,
+  specified,
+  noDisplayWindow,
+}
+
+extension DvbddsHandlingValueExtension on DvbddsHandling {
+  String toValue() {
+    switch (this) {
+      case DvbddsHandling.none:
+        return 'NONE';
+      case DvbddsHandling.specified:
+        return 'SPECIFIED';
+      case DvbddsHandling.noDisplayWindow:
+        return 'NO_DISPLAY_WINDOW';
+    }
+  }
+}
+
+extension DvbddsHandlingFromString on String {
+  DvbddsHandling toDvbddsHandling() {
+    switch (this) {
+      case 'NONE':
+        return DvbddsHandling.none;
+      case 'SPECIFIED':
+        return DvbddsHandling.specified;
+      case 'NO_DISPLAY_WINDOW':
+        return DvbddsHandling.noDisplayWindow;
+    }
+    throw Exception('$this is not known in enum DvbddsHandling');
   }
 }
 
@@ -8239,15 +11805,23 @@ extension Eac3AtmosBitstreamModeFromString on String {
   }
 }
 
-/// The coding mode for Dolby Digital Plus JOC (Atmos) is always 9.1.6
-/// (CODING_MODE_9_1_6).
+/// The coding mode for Dolby Digital Plus JOC (Atmos).
 enum Eac3AtmosCodingMode {
+  codingModeAuto,
+  codingMode_5_1_4,
+  codingMode_7_1_4,
   codingMode_9_1_6,
 }
 
 extension Eac3AtmosCodingModeValueExtension on Eac3AtmosCodingMode {
   String toValue() {
     switch (this) {
+      case Eac3AtmosCodingMode.codingModeAuto:
+        return 'CODING_MODE_AUTO';
+      case Eac3AtmosCodingMode.codingMode_5_1_4:
+        return 'CODING_MODE_5_1_4';
+      case Eac3AtmosCodingMode.codingMode_7_1_4:
+        return 'CODING_MODE_7_1_4';
       case Eac3AtmosCodingMode.codingMode_9_1_6:
         return 'CODING_MODE_9_1_6';
     }
@@ -8257,6 +11831,12 @@ extension Eac3AtmosCodingModeValueExtension on Eac3AtmosCodingMode {
 extension Eac3AtmosCodingModeFromString on String {
   Eac3AtmosCodingMode toEac3AtmosCodingMode() {
     switch (this) {
+      case 'CODING_MODE_AUTO':
+        return Eac3AtmosCodingMode.codingModeAuto;
+      case 'CODING_MODE_5_1_4':
+        return Eac3AtmosCodingMode.codingMode_5_1_4;
+      case 'CODING_MODE_7_1_4':
+        return Eac3AtmosCodingMode.codingMode_7_1_4;
       case 'CODING_MODE_9_1_6':
         return Eac3AtmosCodingMode.codingMode_9_1_6;
     }
@@ -8295,7 +11875,55 @@ extension Eac3AtmosDialogueIntelligenceFromString on String {
   }
 }
 
-/// Specify the absolute peak level for a signal with dynamic range compression.
+/// Specify whether MediaConvert should use any downmix metadata from your input
+/// file. Keep the default value, Custom (SPECIFIED) to provide downmix values
+/// in your job settings. Choose Follow source (INITIALIZE_FROM_SOURCE) to use
+/// the metadata from your input. Related settings--Use these settings to
+/// specify your downmix values: Left only/Right only surround
+/// (LoRoSurroundMixLevel), Left total/Right total surround
+/// (LtRtSurroundMixLevel), Left total/Right total center (LtRtCenterMixLevel),
+/// Left only/Right only center (LoRoCenterMixLevel), and Stereo downmix
+/// (StereoDownmix). When you keep Custom (SPECIFIED) for Downmix control
+/// (DownmixControl) and you don't specify values for the related settings,
+/// MediaConvert uses default values for those settings.
+enum Eac3AtmosDownmixControl {
+  specified,
+  initializeFromSource,
+}
+
+extension Eac3AtmosDownmixControlValueExtension on Eac3AtmosDownmixControl {
+  String toValue() {
+    switch (this) {
+      case Eac3AtmosDownmixControl.specified:
+        return 'SPECIFIED';
+      case Eac3AtmosDownmixControl.initializeFromSource:
+        return 'INITIALIZE_FROM_SOURCE';
+    }
+  }
+}
+
+extension Eac3AtmosDownmixControlFromString on String {
+  Eac3AtmosDownmixControl toEac3AtmosDownmixControl() {
+    switch (this) {
+      case 'SPECIFIED':
+        return Eac3AtmosDownmixControl.specified;
+      case 'INITIALIZE_FROM_SOURCE':
+        return Eac3AtmosDownmixControl.initializeFromSource;
+    }
+    throw Exception('$this is not known in enum Eac3AtmosDownmixControl');
+  }
+}
+
+/// Choose the Dolby dynamic range control (DRC) profile that MediaConvert uses
+/// when encoding the metadata in the Dolby stream for the line operating mode.
+/// Default value: Film light (ATMOS_STORAGE_DDP_COMPR_FILM_LIGHT) Related
+/// setting: To have MediaConvert use the value you specify here, keep the
+/// default value, Custom (SPECIFIED) for the setting Dynamic range control
+/// (DynamicRangeControl). Otherwise, MediaConvert ignores Dynamic range
+/// compression line (DynamicRangeCompressionLine). For information about the
+/// Dolby DRC operating modes and profiles, see the Dynamic Range Control
+/// chapter of the Dolby Metadata Guide at
+/// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
 enum Eac3AtmosDynamicRangeCompressionLine {
   none,
   filmStandard,
@@ -8347,8 +11975,16 @@ extension Eac3AtmosDynamicRangeCompressionLineFromString on String {
   }
 }
 
-/// Specify how the service limits the audio dynamic range when compressing the
-/// audio.
+/// Choose the Dolby dynamic range control (DRC) profile that MediaConvert uses
+/// when encoding the metadata in the Dolby stream for the RF operating mode.
+/// Default value: Film light (ATMOS_STORAGE_DDP_COMPR_FILM_LIGHT) Related
+/// setting: To have MediaConvert use the value you specify here, keep the
+/// default value, Custom (SPECIFIED) for the setting Dynamic range control
+/// (DynamicRangeControl). Otherwise, MediaConvert ignores Dynamic range
+/// compression RF (DynamicRangeCompressionRf). For information about the Dolby
+/// DRC operating modes and profiles, see the Dynamic Range Control chapter of
+/// the Dolby Metadata Guide at
+/// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
 enum Eac3AtmosDynamicRangeCompressionRf {
   none,
   filmStandard,
@@ -8399,6 +12035,45 @@ extension Eac3AtmosDynamicRangeCompressionRfFromString on String {
   }
 }
 
+/// Specify whether MediaConvert should use any dynamic range control metadata
+/// from your input file. Keep the default value, Custom (SPECIFIED), to provide
+/// dynamic range control values in your job settings. Choose Follow source
+/// (INITIALIZE_FROM_SOURCE) to use the metadata from your input. Related
+/// settings--Use these settings to specify your dynamic range control values:
+/// Dynamic range compression line (DynamicRangeCompressionLine) and Dynamic
+/// range compression RF (DynamicRangeCompressionRf). When you keep the value
+/// Custom (SPECIFIED) for Dynamic range control (DynamicRangeControl) and you
+/// don't specify values for the related settings, MediaConvert uses default
+/// values for those settings.
+enum Eac3AtmosDynamicRangeControl {
+  specified,
+  initializeFromSource,
+}
+
+extension Eac3AtmosDynamicRangeControlValueExtension
+    on Eac3AtmosDynamicRangeControl {
+  String toValue() {
+    switch (this) {
+      case Eac3AtmosDynamicRangeControl.specified:
+        return 'SPECIFIED';
+      case Eac3AtmosDynamicRangeControl.initializeFromSource:
+        return 'INITIALIZE_FROM_SOURCE';
+    }
+  }
+}
+
+extension Eac3AtmosDynamicRangeControlFromString on String {
+  Eac3AtmosDynamicRangeControl toEac3AtmosDynamicRangeControl() {
+    switch (this) {
+      case 'SPECIFIED':
+        return Eac3AtmosDynamicRangeControl.specified;
+      case 'INITIALIZE_FROM_SOURCE':
+        return Eac3AtmosDynamicRangeControl.initializeFromSource;
+    }
+    throw Exception('$this is not known in enum Eac3AtmosDynamicRangeControl');
+  }
+}
+
 /// Choose how the service meters the loudness of your audio.
 enum Eac3AtmosMeteringMode {
   leqA,
@@ -8446,8 +12121,11 @@ extension Eac3AtmosMeteringModeFromString on String {
 /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to
 /// the value EAC3_ATMOS.
 class Eac3AtmosSettings {
-  /// Specify the average bitrate in bits per second.
-  /// Valid values: 384k, 448k, 640k, 768k
+  /// Specify the average bitrate for this output in bits per second. Valid
+  /// values: 384k, 448k, 576k, 640k, 768k, 1024k Default value: 448k Note that
+  /// MediaConvert supports 384k only with channel-based immersive (CBI) 7.1.4 and
+  /// 5.1.4 inputs. For CBI 9.1.6 and other input types, MediaConvert
+  /// automatically increases your output bitrate to 448k.
   final int? bitrate;
 
   /// Specify the bitstream mode for the E-AC-3 stream that the encoder emits. For
@@ -8455,49 +12133,104 @@ class Eac3AtmosSettings {
   /// E).
   final Eac3AtmosBitstreamMode? bitstreamMode;
 
-  /// The coding mode for Dolby Digital Plus JOC (Atmos) is always 9.1.6
-  /// (CODING_MODE_9_1_6).
+  /// The coding mode for Dolby Digital Plus JOC (Atmos).
   final Eac3AtmosCodingMode? codingMode;
 
   /// Enable Dolby Dialogue Intelligence to adjust loudness based on dialogue
   /// analysis.
   final Eac3AtmosDialogueIntelligence? dialogueIntelligence;
 
-  /// Specify the absolute peak level for a signal with dynamic range compression.
+  /// Specify whether MediaConvert should use any downmix metadata from your input
+  /// file. Keep the default value, Custom (SPECIFIED) to provide downmix values
+  /// in your job settings. Choose Follow source (INITIALIZE_FROM_SOURCE) to use
+  /// the metadata from your input. Related settings--Use these settings to
+  /// specify your downmix values: Left only/Right only surround
+  /// (LoRoSurroundMixLevel), Left total/Right total surround
+  /// (LtRtSurroundMixLevel), Left total/Right total center (LtRtCenterMixLevel),
+  /// Left only/Right only center (LoRoCenterMixLevel), and Stereo downmix
+  /// (StereoDownmix). When you keep Custom (SPECIFIED) for Downmix control
+  /// (DownmixControl) and you don't specify values for the related settings,
+  /// MediaConvert uses default values for those settings.
+  final Eac3AtmosDownmixControl? downmixControl;
+
+  /// Choose the Dolby dynamic range control (DRC) profile that MediaConvert uses
+  /// when encoding the metadata in the Dolby stream for the line operating mode.
+  /// Default value: Film light (ATMOS_STORAGE_DDP_COMPR_FILM_LIGHT) Related
+  /// setting: To have MediaConvert use the value you specify here, keep the
+  /// default value, Custom (SPECIFIED) for the setting Dynamic range control
+  /// (DynamicRangeControl). Otherwise, MediaConvert ignores Dynamic range
+  /// compression line (DynamicRangeCompressionLine). For information about the
+  /// Dolby DRC operating modes and profiles, see the Dynamic Range Control
+  /// chapter of the Dolby Metadata Guide at
+  /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
   final Eac3AtmosDynamicRangeCompressionLine? dynamicRangeCompressionLine;
 
-  /// Specify how the service limits the audio dynamic range when compressing the
-  /// audio.
+  /// Choose the Dolby dynamic range control (DRC) profile that MediaConvert uses
+  /// when encoding the metadata in the Dolby stream for the RF operating mode.
+  /// Default value: Film light (ATMOS_STORAGE_DDP_COMPR_FILM_LIGHT) Related
+  /// setting: To have MediaConvert use the value you specify here, keep the
+  /// default value, Custom (SPECIFIED) for the setting Dynamic range control
+  /// (DynamicRangeControl). Otherwise, MediaConvert ignores Dynamic range
+  /// compression RF (DynamicRangeCompressionRf). For information about the Dolby
+  /// DRC operating modes and profiles, see the Dynamic Range Control chapter of
+  /// the Dolby Metadata Guide at
+  /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
   final Eac3AtmosDynamicRangeCompressionRf? dynamicRangeCompressionRf;
 
+  /// Specify whether MediaConvert should use any dynamic range control metadata
+  /// from your input file. Keep the default value, Custom (SPECIFIED), to provide
+  /// dynamic range control values in your job settings. Choose Follow source
+  /// (INITIALIZE_FROM_SOURCE) to use the metadata from your input. Related
+  /// settings--Use these settings to specify your dynamic range control values:
+  /// Dynamic range compression line (DynamicRangeCompressionLine) and Dynamic
+  /// range compression RF (DynamicRangeCompressionRf). When you keep the value
+  /// Custom (SPECIFIED) for Dynamic range control (DynamicRangeControl) and you
+  /// don't specify values for the related settings, MediaConvert uses default
+  /// values for those settings.
+  final Eac3AtmosDynamicRangeControl? dynamicRangeControl;
+
   /// Specify a value for the following Dolby Atmos setting: Left only/Right only
-  /// center mix
-  /// (Lo/Ro center). MediaConvert uses this value for downmixing. How the service
-  /// uses this
-  /// value depends on the value that you choose for Stereo downmix
-  /// (Eac3AtmosStereoDownmix).
-  /// Valid values: 3.0, 1.5, 0.0, -1.5, -3.0, -4.5, and -6.0.
+  /// center mix (Lo/Ro center). MediaConvert uses this value for downmixing.
+  /// Default value: -3 dB (ATMOS_STORAGE_DDP_MIXLEV_MINUS_3_DB). Valid values:
+  /// 3.0, 1.5, 0.0, -1.5, -3.0, -4.5, and -6.0. Related setting: How the service
+  /// uses this value depends on the value that you choose for Stereo downmix
+  /// (Eac3AtmosStereoDownmix). Related setting: To have MediaConvert use this
+  /// value, keep the default value, Custom (SPECIFIED) for the setting Downmix
+  /// control (DownmixControl). Otherwise, MediaConvert ignores Left only/Right
+  /// only center (LoRoCenterMixLevel).
   final double? loRoCenterMixLevel;
 
   /// Specify a value for the following Dolby Atmos setting: Left only/Right only
-  /// (Lo/Ro surround). MediaConvert uses this value for downmixing. How the
-  /// service uses this value depends on the value that you choose for Stereo
-  /// downmix (Eac3AtmosStereoDownmix). Valid values: -1.5, -3.0, -4.5, -6.0, and
-  /// -60. The value -60 mutes the channel.
+  /// (Lo/Ro surround). MediaConvert uses this value for downmixing. Default
+  /// value: -3 dB (ATMOS_STORAGE_DDP_MIXLEV_MINUS_3_DB). Valid values: -1.5,
+  /// -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel. Related setting:
+  /// How the service uses this value depends on the value that you choose for
+  /// Stereo downmix (Eac3AtmosStereoDownmix). Related setting: To have
+  /// MediaConvert use this value, keep the default value, Custom (SPECIFIED) for
+  /// the setting Downmix control (DownmixControl). Otherwise, MediaConvert
+  /// ignores Left only/Right only surround (LoRoSurroundMixLevel).
   final double? loRoSurroundMixLevel;
 
   /// Specify a value for the following Dolby Atmos setting: Left total/Right
   /// total center mix (Lt/Rt center). MediaConvert uses this value for
-  /// downmixing. How the service uses this value depends on the value that you
-  /// choose for Stereo downmix (Eac3AtmosStereoDownmix). Valid values: 3.0, 1.5,
-  /// 0.0, -1.5, -3.0, -4.5, and -6.0.
+  /// downmixing. Default value: -3 dB (ATMOS_STORAGE_DDP_MIXLEV_MINUS_3_DB) Valid
+  /// values: 3.0, 1.5, 0.0, -1.5, -3.0, -4.5, and -6.0. Related setting: How the
+  /// service uses this value depends on the value that you choose for Stereo
+  /// downmix (Eac3AtmosStereoDownmix). Related setting: To have MediaConvert use
+  /// this value, keep the default value, Custom (SPECIFIED) for the setting
+  /// Downmix control (DownmixControl). Otherwise, MediaConvert ignores Left
+  /// total/Right total center (LtRtCenterMixLevel).
   final double? ltRtCenterMixLevel;
 
   /// Specify a value for the following Dolby Atmos setting: Left total/Right
   /// total surround mix (Lt/Rt surround). MediaConvert uses this value for
-  /// downmixing. How the service uses this value depends on the value that you
-  /// choose for Stereo downmix (Eac3AtmosStereoDownmix). Valid values: -1.5,
-  /// -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel.
+  /// downmixing. Default value: -3 dB (ATMOS_STORAGE_DDP_MIXLEV_MINUS_3_DB) Valid
+  /// values: -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel.
+  /// Related setting: How the service uses this value depends on the value that
+  /// you choose for Stereo downmix (Eac3AtmosStereoDownmix). Related setting: To
+  /// have MediaConvert use this value, keep the default value, Custom (SPECIFIED)
+  /// for the setting Downmix control (DownmixControl). Otherwise, the service
+  /// ignores Left total/Right total surround (LtRtSurroundMixLevel).
   final double? ltRtSurroundMixLevel;
 
   /// Choose how the service meters the loudness of your audio.
@@ -8506,11 +12239,16 @@ class Eac3AtmosSettings {
   /// This value is always 48000. It represents the sample rate in Hz.
   final int? sampleRate;
 
-  /// Specify the percentage of audio content that must be speech before the
-  /// encoder uses the measured speech loudness as the overall program loudness.
+  /// Specify the percentage of audio content, from 0% to 100%, that must be
+  /// speech in order for the encoder to use the measured speech loudness as the
+  /// overall program loudness. Default value: 15%
   final int? speechThreshold;
 
-  /// Choose how the service does stereo downmixing.
+  /// Choose how the service does stereo downmixing. Default value: Not indicated
+  /// (ATMOS_STORAGE_DDP_DMIXMOD_NOT_INDICATED) Related setting: To have
+  /// MediaConvert use this value, keep the default value, Custom (SPECIFIED) for
+  /// the setting Downmix control (DownmixControl). Otherwise, MediaConvert
+  /// ignores Stereo downmix (StereoDownmix).
   final Eac3AtmosStereoDownmix? stereoDownmix;
 
   /// Specify whether your input audio has an additional center rear surround
@@ -8522,8 +12260,10 @@ class Eac3AtmosSettings {
     this.bitstreamMode,
     this.codingMode,
     this.dialogueIntelligence,
+    this.downmixControl,
     this.dynamicRangeCompressionLine,
     this.dynamicRangeCompressionRf,
+    this.dynamicRangeControl,
     this.loRoCenterMixLevel,
     this.loRoSurroundMixLevel,
     this.ltRtCenterMixLevel,
@@ -8534,6 +12274,7 @@ class Eac3AtmosSettings {
     this.stereoDownmix,
     this.surroundExMode,
   });
+
   factory Eac3AtmosSettings.fromJson(Map<String, dynamic> json) {
     return Eac3AtmosSettings(
       bitrate: json['bitrate'] as int?,
@@ -8542,11 +12283,15 @@ class Eac3AtmosSettings {
       codingMode: (json['codingMode'] as String?)?.toEac3AtmosCodingMode(),
       dialogueIntelligence: (json['dialogueIntelligence'] as String?)
           ?.toEac3AtmosDialogueIntelligence(),
+      downmixControl:
+          (json['downmixControl'] as String?)?.toEac3AtmosDownmixControl(),
       dynamicRangeCompressionLine:
           (json['dynamicRangeCompressionLine'] as String?)
               ?.toEac3AtmosDynamicRangeCompressionLine(),
       dynamicRangeCompressionRf: (json['dynamicRangeCompressionRf'] as String?)
           ?.toEac3AtmosDynamicRangeCompressionRf(),
+      dynamicRangeControl: (json['dynamicRangeControl'] as String?)
+          ?.toEac3AtmosDynamicRangeControl(),
       loRoCenterMixLevel: json['loRoCenterMixLevel'] as double?,
       loRoSurroundMixLevel: json['loRoSurroundMixLevel'] as double?,
       ltRtCenterMixLevel: json['ltRtCenterMixLevel'] as double?,
@@ -8567,8 +12312,10 @@ class Eac3AtmosSettings {
     final bitstreamMode = this.bitstreamMode;
     final codingMode = this.codingMode;
     final dialogueIntelligence = this.dialogueIntelligence;
+    final downmixControl = this.downmixControl;
     final dynamicRangeCompressionLine = this.dynamicRangeCompressionLine;
     final dynamicRangeCompressionRf = this.dynamicRangeCompressionRf;
+    final dynamicRangeControl = this.dynamicRangeControl;
     final loRoCenterMixLevel = this.loRoCenterMixLevel;
     final loRoSurroundMixLevel = this.loRoSurroundMixLevel;
     final ltRtCenterMixLevel = this.ltRtCenterMixLevel;
@@ -8584,10 +12331,13 @@ class Eac3AtmosSettings {
       if (codingMode != null) 'codingMode': codingMode.toValue(),
       if (dialogueIntelligence != null)
         'dialogueIntelligence': dialogueIntelligence.toValue(),
+      if (downmixControl != null) 'downmixControl': downmixControl.toValue(),
       if (dynamicRangeCompressionLine != null)
         'dynamicRangeCompressionLine': dynamicRangeCompressionLine.toValue(),
       if (dynamicRangeCompressionRf != null)
         'dynamicRangeCompressionRf': dynamicRangeCompressionRf.toValue(),
+      if (dynamicRangeControl != null)
+        'dynamicRangeControl': dynamicRangeControl.toValue(),
       if (loRoCenterMixLevel != null) 'loRoCenterMixLevel': loRoCenterMixLevel,
       if (loRoSurroundMixLevel != null)
         'loRoSurroundMixLevel': loRoSurroundMixLevel,
@@ -8603,7 +12353,11 @@ class Eac3AtmosSettings {
   }
 }
 
-/// Choose how the service does stereo downmixing.
+/// Choose how the service does stereo downmixing. Default value: Not indicated
+/// (ATMOS_STORAGE_DDP_DMIXMOD_NOT_INDICATED) Related setting: To have
+/// MediaConvert use this value, keep the default value, Custom (SPECIFIED) for
+/// the setting Downmix control (DownmixControl). Otherwise, MediaConvert
+/// ignores Stereo downmix (StereoDownmix).
 enum Eac3AtmosStereoDownmix {
   notIndicated,
   stereo,
@@ -8816,7 +12570,14 @@ extension Eac3DcFilterFromString on String {
   }
 }
 
-/// Specify the absolute peak level for a signal with dynamic range compression.
+/// Choose the Dolby Digital dynamic range control (DRC) profile that
+/// MediaConvert uses when encoding the metadata in the Dolby Digital stream for
+/// the line operating mode. Related setting: When you use this setting,
+/// MediaConvert ignores any value you provide for Dynamic range compression
+/// profile (DynamicRangeCompressionProfile). For information about the Dolby
+/// Digital DRC operating modes and profiles, see the Dynamic Range Control
+/// chapter of the Dolby Metadata Guide at
+/// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
 enum Eac3DynamicRangeCompressionLine {
   none,
   filmStandard,
@@ -8867,8 +12628,14 @@ extension Eac3DynamicRangeCompressionLineFromString on String {
   }
 }
 
-/// Specify how the service limits the audio dynamic range when compressing the
-/// audio.
+/// Choose the Dolby Digital dynamic range control (DRC) profile that
+/// MediaConvert uses when encoding the metadata in the Dolby Digital stream for
+/// the RF operating mode. Related setting: When you use this setting,
+/// MediaConvert ignores any value you provide for Dynamic range compression
+/// profile (DynamicRangeCompressionProfile). For information about the Dolby
+/// Digital DRC operating modes and profiles, see the Dynamic Range Control
+/// chapter of the Dolby Metadata Guide at
+/// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
 enum Eac3DynamicRangeCompressionRf {
   none,
   filmStandard,
@@ -9078,8 +12845,13 @@ class Eac3Settings {
   /// channels. Only used for 3/2 coding mode.
   final Eac3AttenuationControl? attenuationControl;
 
-  /// Specify the average bitrate in bits per second. Valid bitrates depend on the
-  /// coding mode.
+  /// Specify the average bitrate in bits per second. The bitrate that you specify
+  /// must be a multiple of 8000 within the allowed minimum and maximum values.
+  /// Leave blank to use the default bitrate for the coding mode you select
+  /// according ETSI TS 102 366. Valid bitrates for coding mode 1/0: Default:
+  /// 96000. Minimum: 32000. Maximum: 3024000. Valid bitrates for coding mode 2/0:
+  /// Default: 192000. Minimum: 96000. Maximum: 3024000. Valid bitrates for coding
+  /// mode 3/2: Default: 384000. Minimum: 192000. Maximum: 3024000.
   final int? bitrate;
 
   /// Specify the bitstream mode for the E-AC-3 stream that the encoder emits. For
@@ -9097,11 +12869,24 @@ class Eac3Settings {
   /// Plus, dialnorm will be passed through.
   final int? dialnorm;
 
-  /// Specify the absolute peak level for a signal with dynamic range compression.
+  /// Choose the Dolby Digital dynamic range control (DRC) profile that
+  /// MediaConvert uses when encoding the metadata in the Dolby Digital stream for
+  /// the line operating mode. Related setting: When you use this setting,
+  /// MediaConvert ignores any value you provide for Dynamic range compression
+  /// profile (DynamicRangeCompressionProfile). For information about the Dolby
+  /// Digital DRC operating modes and profiles, see the Dynamic Range Control
+  /// chapter of the Dolby Metadata Guide at
+  /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
   final Eac3DynamicRangeCompressionLine? dynamicRangeCompressionLine;
 
-  /// Specify how the service limits the audio dynamic range when compressing the
-  /// audio.
+  /// Choose the Dolby Digital dynamic range control (DRC) profile that
+  /// MediaConvert uses when encoding the metadata in the Dolby Digital stream for
+  /// the RF operating mode. Related setting: When you use this setting,
+  /// MediaConvert ignores any value you provide for Dynamic range compression
+  /// profile (DynamicRangeCompressionProfile). For information about the Dolby
+  /// Digital DRC operating modes and profiles, see the Dynamic Range Control
+  /// chapter of the Dolby Metadata Guide at
+  /// https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
   final Eac3DynamicRangeCompressionRf? dynamicRangeCompressionRf;
 
   /// When encoding 3/2 audio, controls whether the LFE channel is enabled
@@ -9211,6 +12996,7 @@ class Eac3Settings {
     this.surroundExMode,
     this.surroundMode,
   });
+
   factory Eac3Settings.fromJson(Map<String, dynamic> json) {
     return Eac3Settings(
       attenuationControl:
@@ -9443,8 +13229,13 @@ extension EmbeddedConvert608To708FromString on String {
   }
 }
 
-/// Settings specific to embedded/ancillary caption outputs, including 608/708
-/// Channel destination number.
+/// Settings related to CEA/EIA-608 and CEA/EIA-708 (also called embedded or
+/// ancillary) captions. Set up embedded captions in the same output as your
+/// video. For more information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/embedded-output-captions.html.
+/// When you work directly in your JSON job specification, include this object
+/// and any required children when you set destinationType to EMBEDDED,
+/// EMBEDDED_PLUS_SCTE20, or SCTE20_PLUS_EMBEDDED.
 class EmbeddedDestinationSettings {
   /// Ignore this setting unless your input captions are SCC format and your
   /// output captions are embedded in the video stream. Specify a CC number for
@@ -9470,6 +13261,7 @@ class EmbeddedDestinationSettings {
     this.destination608ChannelNumber,
     this.destination708ServiceNumber,
   });
+
   factory EmbeddedDestinationSettings.fromJson(Map<String, dynamic> json) {
     return EmbeddedDestinationSettings(
       destination608ChannelNumber: json['destination608ChannelNumber'] as int?,
@@ -9517,6 +13309,7 @@ class EmbeddedSourceSettings {
     this.source608TrackNumber,
     this.terminateCaptions,
   });
+
   factory EmbeddedSourceSettings.fromJson(Map<String, dynamic> json) {
     return EmbeddedSourceSettings(
       convert608To708:
@@ -9576,6 +13369,40 @@ extension EmbeddedTerminateCaptionsFromString on String {
   }
 }
 
+/// Set Embedded timecode override (embeddedTimecodeOverride) to Use MDPM
+/// (USE_MDPM) when your AVCHD input contains timecode tag data in the Modified
+/// Digital Video Pack Metadata (MDPM). When you do, we recommend you also set
+/// Timecode source (inputTimecodeSource) to Embedded (EMBEDDED). Leave Embedded
+/// timecode override blank, or set to None (NONE), when your input does not
+/// contain MDPM timecode.
+enum EmbeddedTimecodeOverride {
+  none,
+  useMdpm,
+}
+
+extension EmbeddedTimecodeOverrideValueExtension on EmbeddedTimecodeOverride {
+  String toValue() {
+    switch (this) {
+      case EmbeddedTimecodeOverride.none:
+        return 'NONE';
+      case EmbeddedTimecodeOverride.useMdpm:
+        return 'USE_MDPM';
+    }
+  }
+}
+
+extension EmbeddedTimecodeOverrideFromString on String {
+  EmbeddedTimecodeOverride toEmbeddedTimecodeOverride() {
+    switch (this) {
+      case 'NONE':
+        return EmbeddedTimecodeOverride.none;
+      case 'USE_MDPM':
+        return EmbeddedTimecodeOverride.useMdpm;
+    }
+    throw Exception('$this is not known in enum EmbeddedTimecodeOverride');
+  }
+}
+
 /// Describes an account-specific API endpoint.
 class Endpoint {
   /// URL of endpoint
@@ -9584,6 +13411,7 @@ class Endpoint {
   Endpoint({
     this.url,
   });
+
   factory Endpoint.fromJson(Map<String, dynamic> json) {
     return Endpoint(
       url: json['url'] as String?,
@@ -9603,6 +13431,7 @@ class EsamManifestConfirmConditionNotification {
   EsamManifestConfirmConditionNotification({
     this.mccXml,
   });
+
   factory EsamManifestConfirmConditionNotification.fromJson(
       Map<String, dynamic> json) {
     return EsamManifestConfirmConditionNotification(
@@ -9644,6 +13473,7 @@ class EsamSettings {
     this.responseSignalPreroll,
     this.signalProcessingNotification,
   });
+
   factory EsamSettings.fromJson(Map<String, dynamic> json) {
     return EsamSettings(
       manifestConfirmConditionNotification:
@@ -9693,6 +13523,7 @@ class EsamSignalProcessingNotification {
   EsamSignalProcessingNotification({
     this.sccXml,
   });
+
   factory EsamSignalProcessingNotification.fromJson(Map<String, dynamic> json) {
     return EsamSignalProcessingNotification(
       sccXml: json['sccXml'] as String?,
@@ -9703,6 +13534,46 @@ class EsamSignalProcessingNotification {
     final sccXml = this.sccXml;
     return {
       if (sccXml != null) 'sccXml': sccXml,
+    };
+  }
+}
+
+/// If your source content has EIA-608 Line 21 Data Services, enable this
+/// feature to specify what MediaConvert does with the Extended Data Services
+/// (XDS) packets. You can choose to pass through XDS packets, or remove them
+/// from the output. For more information about XDS, see EIA-608 Line Data
+/// Services, section 9.5.1.5 05h Content Advisory.
+class ExtendedDataServices {
+  /// The action to take on copy and redistribution control XDS packets. If you
+  /// select PASSTHROUGH, packets will not be changed. If you select STRIP, any
+  /// packets will be removed in output captions.
+  final CopyProtectionAction? copyProtectionAction;
+
+  /// The action to take on content advisory XDS packets. If you select
+  /// PASSTHROUGH, packets will not be changed. If you select STRIP, any packets
+  /// will be removed in output captions.
+  final VchipAction? vchipAction;
+
+  ExtendedDataServices({
+    this.copyProtectionAction,
+    this.vchipAction,
+  });
+
+  factory ExtendedDataServices.fromJson(Map<String, dynamic> json) {
+    return ExtendedDataServices(
+      copyProtectionAction:
+          (json['copyProtectionAction'] as String?)?.toCopyProtectionAction(),
+      vchipAction: (json['vchipAction'] as String?)?.toVchipAction(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final copyProtectionAction = this.copyProtectionAction;
+    final vchipAction = this.vchipAction;
+    return {
+      if (copyProtectionAction != null)
+        'copyProtectionAction': copyProtectionAction.toValue(),
+      if (vchipAction != null) 'vchipAction': vchipAction.toValue(),
     };
   }
 }
@@ -9748,6 +13619,7 @@ class F4vSettings {
   F4vSettings({
     this.moovPlacement,
   });
+
   factory F4vSettings.fromJson(Map<String, dynamic> json) {
     return F4vSettings(
       moovPlacement: (json['moovPlacement'] as String?)?.toF4vMoovPlacement(),
@@ -9762,8 +13634,11 @@ class F4vSettings {
   }
 }
 
-/// Required when you set (Type) under (OutputGroups)>(OutputGroupSettings) to
-/// FILE_GROUP_SETTINGS.
+/// Settings related to your File output group. MediaConvert uses this group of
+/// settings to generate a single standalone file, rather than a streaming
+/// package. When you work directly in your JSON job specification, include this
+/// object and any required children when you set Type, under
+/// OutputGroupSettings, to FILE_GROUP_SETTINGS.
 class FileGroupSettings {
   /// Use Destination (Destination) to specify the S3 output location and the
   /// output filename base. Destination accepts format identifiers. If you do not
@@ -9780,6 +13655,7 @@ class FileGroupSettings {
     this.destination,
     this.destinationSettings,
   });
+
   factory FileGroupSettings.fromJson(Map<String, dynamic> json) {
     return FileGroupSettings(
       destination: json['destination'] as String?,
@@ -9834,9 +13710,9 @@ extension FileSourceConvert608To708FromString on String {
   }
 }
 
-/// If your input captions are SCC, SMI, SRT, STL, TTML, or IMSC 1.1 in an xml
-/// file, specify the URI of the input caption source file. If your caption
-/// source is IMSC in an IMF package, use TrackSourceSettings instead of
+/// If your input captions are SCC, SMI, SRT, STL, TTML, WebVTT, or IMSC 1.1 in
+/// an xml file, specify the URI of the input caption source file. If your
+/// caption source is IMSC in an IMF package, use TrackSourceSettings instead of
 /// FileSoureSettings.
 class FileSourceSettings {
   /// Specify whether this set of input captions appears in your outputs in both
@@ -9846,53 +13722,122 @@ class FileSourceSettings {
   /// translates the 608 data into 708.
   final FileSourceConvert608To708? convert608To708;
 
+  /// Choose the presentation style of your input SCC captions. To use the same
+  /// presentation style as your input: Keep the default value, Disabled. To
+  /// convert paint-on captions to pop-on: Choose Enabled. We also recommend that
+  /// you choose Enabled if you notice additional repeated lines in your output
+  /// captions.
+  final CaptionSourceConvertPaintOnToPopOn? convertPaintToPop;
+
   /// Ignore this setting unless your input captions format is SCC. To have the
   /// service compensate for differing frame rates between your input captions and
   /// input video, specify the frame rate of the captions file. Specify this value
-  /// as a fraction, using the settings Framerate numerator (framerateNumerator)
-  /// and Framerate denominator (framerateDenominator). For example, you might
-  /// specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps,
-  /// or 30000 / 1001 for 29.97 fps.
+  /// as a fraction. When you work directly in your JSON job specification, use
+  /// the settings framerateNumerator and framerateDenominator. For example, you
+  /// might specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976
+  /// fps, or 30000 / 1001 for 29.97 fps.
   final CaptionSourceFramerate? framerate;
 
   /// External caption file used for loading captions. Accepted file extensions
-  /// are 'scc', 'ttml', 'dfxp', 'stl', 'srt', 'xml', and 'smi'.
+  /// are 'scc', 'ttml', 'dfxp', 'stl', 'srt', 'xml', 'smi', 'webvtt', and 'vtt'.
   final String? sourceFile;
 
-  /// Specifies a time delta in seconds to offset the captions from the source
-  /// file.
+  /// Optional. Use this setting when you need to adjust the sync between your
+  /// sidecar captions and your video. For more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/time-delta-use-cases.html.
+  /// Enter a positive or negative number to modify the times in the captions
+  /// file. For example, type 15 to add 15 seconds to all the times in the
+  /// captions file. Type -5 to subtract 5 seconds from the times in the captions
+  /// file. You can optionally specify your time delta in milliseconds instead of
+  /// seconds. When you do so, set the related setting, Time delta units
+  /// (TimeDeltaUnits) to Milliseconds (MILLISECONDS). Note that, when you specify
+  /// a time delta for timecode-based caption sources, such as SCC and STL, and
+  /// your time delta isn't a multiple of the input frame rate, MediaConvert snaps
+  /// the captions to the nearest frame. For example, when your input video frame
+  /// rate is 25 fps and you specify 1010ms for time delta, MediaConvert delays
+  /// your captions by 1000 ms.
   final int? timeDelta;
+
+  /// When you use the setting Time delta (TimeDelta) to adjust the sync between
+  /// your sidecar captions and your video, use this setting to specify the units
+  /// for the delta that you specify. When you don't specify a value for Time
+  /// delta units (TimeDeltaUnits), MediaConvert uses seconds by default.
+  final FileSourceTimeDeltaUnits? timeDeltaUnits;
 
   FileSourceSettings({
     this.convert608To708,
+    this.convertPaintToPop,
     this.framerate,
     this.sourceFile,
     this.timeDelta,
+    this.timeDeltaUnits,
   });
+
   factory FileSourceSettings.fromJson(Map<String, dynamic> json) {
     return FileSourceSettings(
       convert608To708:
           (json['convert608To708'] as String?)?.toFileSourceConvert608To708(),
+      convertPaintToPop: (json['convertPaintToPop'] as String?)
+          ?.toCaptionSourceConvertPaintOnToPopOn(),
       framerate: json['framerate'] != null
           ? CaptionSourceFramerate.fromJson(
               json['framerate'] as Map<String, dynamic>)
           : null,
       sourceFile: json['sourceFile'] as String?,
       timeDelta: json['timeDelta'] as int?,
+      timeDeltaUnits:
+          (json['timeDeltaUnits'] as String?)?.toFileSourceTimeDeltaUnits(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final convert608To708 = this.convert608To708;
+    final convertPaintToPop = this.convertPaintToPop;
     final framerate = this.framerate;
     final sourceFile = this.sourceFile;
     final timeDelta = this.timeDelta;
+    final timeDeltaUnits = this.timeDeltaUnits;
     return {
       if (convert608To708 != null) 'convert608To708': convert608To708.toValue(),
+      if (convertPaintToPop != null)
+        'convertPaintToPop': convertPaintToPop.toValue(),
       if (framerate != null) 'framerate': framerate,
       if (sourceFile != null) 'sourceFile': sourceFile,
       if (timeDelta != null) 'timeDelta': timeDelta,
+      if (timeDeltaUnits != null) 'timeDeltaUnits': timeDeltaUnits.toValue(),
     };
+  }
+}
+
+/// When you use the setting Time delta (TimeDelta) to adjust the sync between
+/// your sidecar captions and your video, use this setting to specify the units
+/// for the delta that you specify. When you don't specify a value for Time
+/// delta units (TimeDeltaUnits), MediaConvert uses seconds by default.
+enum FileSourceTimeDeltaUnits {
+  seconds,
+  milliseconds,
+}
+
+extension FileSourceTimeDeltaUnitsValueExtension on FileSourceTimeDeltaUnits {
+  String toValue() {
+    switch (this) {
+      case FileSourceTimeDeltaUnits.seconds:
+        return 'SECONDS';
+      case FileSourceTimeDeltaUnits.milliseconds:
+        return 'MILLISECONDS';
+    }
+  }
+}
+
+extension FileSourceTimeDeltaUnitsFromString on String {
+  FileSourceTimeDeltaUnits toFileSourceTimeDeltaUnits() {
+    switch (this) {
+      case 'SECONDS':
+        return FileSourceTimeDeltaUnits.seconds;
+      case 'MILLISECONDS':
+        return FileSourceTimeDeltaUnits.milliseconds;
+    }
+    throw Exception('$this is not known in enum FileSourceTimeDeltaUnits');
   }
 }
 
@@ -9932,6 +13877,46 @@ extension FontScriptFromString on String {
   }
 }
 
+/// Use Force include renditions to specify one or more resolutions to include
+/// your ABR stack. * (Recommended) To optimize automated ABR, specify as few
+/// resolutions as possible. * (Required) The number of resolutions that you
+/// specify must be equal to, or less than, the Max renditions setting. * If you
+/// specify a Min top rendition size rule, specify at least one resolution that
+/// is equal to, or greater than, Min top rendition size. * If you specify a Min
+/// bottom rendition size rule, only specify resolutions that are equal to, or
+/// greater than, Min bottom rendition size. * If you specify a Force include
+/// renditions rule, do not specify a separate rule for Allowed renditions. *
+/// Note: The ABR stack may include other resolutions that you do not specify
+/// here, depending on the Max renditions setting.
+class ForceIncludeRenditionSize {
+  /// Use Height to define the video resolution height, in pixels, for this rule.
+  final int? height;
+
+  /// Use Width to define the video resolution width, in pixels, for this rule.
+  final int? width;
+
+  ForceIncludeRenditionSize({
+    this.height,
+    this.width,
+  });
+
+  factory ForceIncludeRenditionSize.fromJson(Map<String, dynamic> json) {
+    return ForceIncludeRenditionSize(
+      height: json['height'] as int?,
+      width: json['width'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final height = this.height;
+    final width = this.width;
+    return {
+      if (height != null) 'height': height,
+      if (width != null) 'width': width,
+    };
+  }
+}
+
 /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to
 /// the value FRAME_CAPTURE.
 class FrameCaptureSettings {
@@ -9963,6 +13948,7 @@ class FrameCaptureSettings {
     this.maxCaptures,
     this.quality,
   });
+
   factory FrameCaptureSettings.fromJson(Map<String, dynamic> json) {
     return FrameCaptureSettings(
       framerateDenominator: json['framerateDenominator'] as int?,
@@ -9996,6 +13982,7 @@ class GetJobResponse {
   GetJobResponse({
     this.job,
   });
+
   factory GetJobResponse.fromJson(Map<String, dynamic> json) {
     return GetJobResponse(
       job: json['job'] != null
@@ -10013,10 +14000,30 @@ class GetJobTemplateResponse {
   GetJobTemplateResponse({
     this.jobTemplate,
   });
+
   factory GetJobTemplateResponse.fromJson(Map<String, dynamic> json) {
     return GetJobTemplateResponse(
       jobTemplate: json['jobTemplate'] != null
           ? JobTemplate.fromJson(json['jobTemplate'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class GetPolicyResponse {
+  /// A policy configures behavior that you allow or disallow for your account.
+  /// For information about MediaConvert policies, see the user guide at
+  /// http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+  final Policy? policy;
+
+  GetPolicyResponse({
+    this.policy,
+  });
+
+  factory GetPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetPolicyResponse(
+      policy: json['policy'] != null
+          ? Policy.fromJson(json['policy'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -10030,6 +14037,7 @@ class GetPresetResponse {
   GetPresetResponse({
     this.preset,
   });
+
   factory GetPresetResponse.fromJson(Map<String, dynamic> json) {
     return GetPresetResponse(
       preset: json['preset'] != null
@@ -10050,6 +14058,7 @@ class GetQueueResponse {
   GetQueueResponse({
     this.queue,
   });
+
   factory GetQueueResponse.fromJson(Map<String, dynamic> json) {
     return GetQueueResponse(
       queue: json['queue'] != null
@@ -10340,12 +14349,15 @@ extension H264EntropyEncodingFromString on String {
   }
 }
 
-/// Keep the default value, PAFF, to have MediaConvert use PAFF encoding for
-/// interlaced outputs. Choose Force field (FORCE_FIELD) to disable PAFF
-/// encoding and create separate interlaced fields.
+/// The video encoding method for your MPEG-4 AVC output. Keep the default
+/// value, PAFF, to have MediaConvert use PAFF encoding for interlaced outputs.
+/// Choose Force field (FORCE_FIELD) to disable PAFF encoding and create
+/// separate interlaced fields. Choose MBAFF to disable PAFF and have
+/// MediaConvert use MBAFF encoding for interlaced outputs.
 enum H264FieldEncoding {
   paff,
   forceField,
+  mbaff,
 }
 
 extension H264FieldEncodingValueExtension on H264FieldEncoding {
@@ -10355,6 +14367,8 @@ extension H264FieldEncodingValueExtension on H264FieldEncoding {
         return 'PAFF';
       case H264FieldEncoding.forceField:
         return 'FORCE_FIELD';
+      case H264FieldEncoding.mbaff:
+        return 'MBAFF';
     }
   }
 }
@@ -10366,6 +14380,8 @@ extension H264FieldEncodingFromString on String {
         return H264FieldEncoding.paff;
       case 'FORCE_FIELD':
         return H264FieldEncoding.forceField;
+      case 'MBAFF':
+        return H264FieldEncoding.mbaff;
     }
     throw Exception('$this is not known in enum H264FieldEncoding');
   }
@@ -10456,16 +14472,16 @@ extension H264FramerateControlFromString on String {
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
-/// decreasing the frame rate. We recommend using drop duplicate
-/// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
-/// fps. For numerically complex conversions, you can use interpolate
-/// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
-/// introduce undesirable video artifacts. For complex frame rate conversions,
-/// especially if your source video has already been converted from its original
-/// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
-/// interpolation. FrameFormer chooses the best conversion method frame by
-/// frame. Note that using FrameFormer increases the transcoding time and incurs
-/// a significant add-on cost.
+/// decreasing the frame rate. For numerically simple conversions, such as 60
+/// fps to 30 fps: We recommend that you keep the default value, Drop duplicate.
+/// For numerically complex conversions, to avoid stutter: Choose Interpolate.
+/// This results in a smooth picture, but might introduce undesirable video
+/// artifacts. For complex frame rate conversions, especially if your source
+/// video has already been converted from its original cadence: Choose
+/// FrameFormer to do motion-compensated interpolation. FrameFormer uses the
+/// best conversion method frame by frame. Note that using FrameFormer increases
+/// the transcoding time and incurs a significant add-on cost. When you choose
+/// FrameFormer, your input video resolution must be at least 128x96.
 enum H264FramerateConversionAlgorithm {
   duplicateDrop,
   interpolate,
@@ -10501,7 +14517,11 @@ extension H264FramerateConversionAlgorithmFromString on String {
   }
 }
 
-/// If enable, use reference B frames for GOP structures that have B frames > 1.
+/// Specify whether to allow B-frames to be referenced by other frame types. To
+/// use reference B-frames when your GOP structure has 1 or more B-frames: Leave
+/// blank or keep the default value Enabled. We recommend that you choose
+/// Enabled to help improve the video quality of your output relative to its
+/// bitrate. To not use reference B-frames: Choose Disabled.
 enum H264GopBReference {
   disabled,
   enabled,
@@ -10530,11 +14550,20 @@ extension H264GopBReferenceFromString on String {
   }
 }
 
-/// Indicates if the GOP Size in H264 is specified in frames or seconds. If
-/// seconds the system will convert the GOP Size into a frame count at run time.
+/// Specify how the transcoder determines GOP size for this output. We recommend
+/// that you have the transcoder automatically choose this value for you based
+/// on characteristics of your input video. To enable this automatic behavior,
+/// choose Auto (AUTO) and and leave GOP size (GopSize) blank. By default, if
+/// you don't specify GOP mode control (GopSizeUnits), MediaConvert will use
+/// automatic behavior. If your output group specifies HLS, DASH, or CMAF, set
+/// GOP mode control to Auto and leave GOP size blank in each output in your
+/// output group. To explicitly specify the GOP length, choose Specified, frames
+/// (FRAMES) or Specified, seconds (SECONDS) and then provide the GOP length in
+/// the related setting GOP size (GopSize).
 enum H264GopSizeUnits {
   frames,
   seconds,
+  auto,
 }
 
 extension H264GopSizeUnitsValueExtension on H264GopSizeUnits {
@@ -10544,6 +14573,8 @@ extension H264GopSizeUnitsValueExtension on H264GopSizeUnits {
         return 'FRAMES';
       case H264GopSizeUnits.seconds:
         return 'SECONDS';
+      case H264GopSizeUnits.auto:
+        return 'AUTO';
     }
   }
 }
@@ -10555,6 +14586,8 @@ extension H264GopSizeUnitsFromString on String {
         return H264GopSizeUnits.frames;
       case 'SECONDS':
         return H264GopSizeUnits.seconds;
+      case 'AUTO':
+        return H264GopSizeUnits.auto;
     }
     throw Exception('$this is not known in enum H264GopSizeUnits');
   }
@@ -10651,9 +14684,14 @@ extension H264ParControlFromString on String {
   }
 }
 
-/// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you
-/// want to trade off encoding speed for output video quality. The default
-/// behavior is faster, lower quality, single-pass encoding.
+/// The Quality tuning level you choose represents a trade-off between the
+/// encoding speed of your job and the output video quality. For the fastest
+/// encoding speed at the cost of video quality: Choose Single pass. For a good
+/// balance between encoding speed and video quality: Leave blank or keep the
+/// default value Single pass HQ. For the best video quality, at the cost of
+/// encoding speed: Choose Multi pass HQ. MediaConvert performs an analysis pass
+/// on your input followed by an encoding pass. Outputs that use this feature
+/// incur pro-tier pricing.
 enum H264QualityTuningLevel {
   singlePass,
   singlePassHq,
@@ -10688,9 +14726,8 @@ extension H264QualityTuningLevelFromString on String {
 }
 
 /// Settings for quality-defined variable bitrate encoding with the H.264 codec.
-/// Required when you set Rate control mode to QVBR. Not valid when you set Rate
-/// control mode to a value other than QVBR, or when you don't define Rate
-/// control mode.
+/// Use these settings only when you set QVBR for Rate control mode
+/// (RateControlMode).
 class H264QvbrSettings {
   /// Use this setting only when Rate control mode is QVBR and Quality tuning
   /// level is Multi-pass HQ. For Max average bitrate values suited to the
@@ -10700,12 +14737,16 @@ class H264QvbrSettings {
   /// multiplied by the number of seconds of encoded output.
   final int? maxAverageBitrate;
 
-  /// Required when you use QVBR rate control mode. That is, when you specify
-  /// qvbrSettings within h264Settings. Specify the general target quality level
-  /// for this output, from 1 to 10. Use higher numbers for greater quality. Level
-  /// 10 results in nearly lossless compression. The quality level for most
-  /// broadcast-quality transcodes is between 6 and 9. Optionally, to specify a
-  /// value between whole numbers, also provide a value for the setting
+  /// Use this setting only when you set Rate control mode (RateControlMode) to
+  /// QVBR. Specify the target quality level for this output. MediaConvert
+  /// determines the right number of bits to use for each part of the video to
+  /// maintain the video quality that you specify. When you keep the default
+  /// value, AUTO, MediaConvert picks a quality level for you, based on
+  /// characteristics of your input video. If you prefer to specify a quality
+  /// level, specify a number from 1 through 10. Use higher numbers for greater
+  /// quality. Level 10 results in nearly lossless compression. The quality level
+  /// for most broadcast-quality transcodes is between 6 and 9. Optionally, to
+  /// specify a value between whole numbers, also provide a value for the setting
   /// qvbrQualityLevelFineTune. For example, if you want your QVBR quality level
   /// to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to
   /// .33.
@@ -10724,6 +14765,7 @@ class H264QvbrSettings {
     this.qvbrQualityLevel,
     this.qvbrQualityLevelFineTune,
   });
+
   factory H264QvbrSettings.fromJson(Map<String, dynamic> json) {
     return H264QvbrSettings(
       maxAverageBitrate: json['maxAverageBitrate'] as int?,
@@ -10809,6 +14851,49 @@ extension H264RepeatPpsFromString on String {
   }
 }
 
+/// Use this setting for interlaced outputs, when your output frame rate is half
+/// of your input frame rate. In this situation, choose Optimized interlacing
+/// (INTERLACED_OPTIMIZE) to create a better quality interlaced output. In this
+/// case, each progressive frame from the input corresponds to an interlaced
+/// field in the output. Keep the default value, Basic interlacing (INTERLACED),
+/// for all other output frame rates. With basic interlacing, MediaConvert
+/// performs any frame rate conversion first and then interlaces the frames.
+/// When you choose Optimized interlacing and you set your output frame rate to
+/// a value that isn't suitable for optimized interlacing, MediaConvert
+/// automatically falls back to basic interlacing. Required settings: To use
+/// optimized interlacing, you must set Telecine (telecine) to None (NONE) or
+/// Soft (SOFT). You can't use optimized interlacing for hard telecine outputs.
+/// You must also set Interlace mode (interlaceMode) to a value other than
+/// Progressive (PROGRESSIVE).
+enum H264ScanTypeConversionMode {
+  interlaced,
+  interlacedOptimize,
+}
+
+extension H264ScanTypeConversionModeValueExtension
+    on H264ScanTypeConversionMode {
+  String toValue() {
+    switch (this) {
+      case H264ScanTypeConversionMode.interlaced:
+        return 'INTERLACED';
+      case H264ScanTypeConversionMode.interlacedOptimize:
+        return 'INTERLACED_OPTIMIZE';
+    }
+  }
+}
+
+extension H264ScanTypeConversionModeFromString on String {
+  H264ScanTypeConversionMode toH264ScanTypeConversionMode() {
+    switch (this) {
+      case 'INTERLACED':
+        return H264ScanTypeConversionMode.interlaced;
+      case 'INTERLACED_OPTIMIZE':
+        return H264ScanTypeConversionMode.interlacedOptimize;
+    }
+    throw Exception('$this is not known in enum H264ScanTypeConversionMode');
+  }
+}
+
 /// Enable this setting to insert I-frames at scene changes that the service
 /// automatically detects. This improves video quality and is enabled by
 /// default. If this output uses QVBR, choose Transition detection
@@ -10863,6 +14948,16 @@ class H264Settings {
   /// H264SpatialAdaptiveQuantization, and H264TemporalAdaptiveQuantization.
   final H264AdaptiveQuantization? adaptiveQuantization;
 
+  /// The Bandwidth reduction filter increases the video quality of your output
+  /// relative to its bitrate. Use to lower the bitrate of your constant quality
+  /// QVBR output, with little or no perceptual decrease in quality. Or, use to
+  /// increase the video quality of outputs with other rate control modes relative
+  /// to the bitrate that you specify. Bandwidth reduction increases further when
+  /// your input is low quality or noisy. Outputs that use this feature incur
+  /// pro-tier pricing. When you include Bandwidth reduction filter, you cannot
+  /// include the Noise reducer preprocessor.
+  final BandwidthReductionFilter? bandwidthReductionFilter;
+
   /// Specify the average bitrate in bits per second. Required for VBR and CBR.
   /// For MS Smooth outputs, bitrates must be unique when rounded down to the
   /// nearest multiple of 1000.
@@ -10876,20 +14971,24 @@ class H264Settings {
   /// AVC-I License.
   final H264CodecProfile? codecProfile;
 
-  /// Choose Adaptive to improve subjective video quality for high-motion content.
-  /// This will cause the service to use fewer B-frames (which infer information
-  /// based on other frames) for high-motion portions of the video and more
-  /// B-frames for low-motion portions. The maximum number of B-frames is limited
-  /// by the value you provide for the setting B frames between reference frames
-  /// (numberBFramesBetweenReferenceFrames).
+  /// Specify whether to allow the number of B-frames in your output GOP structure
+  /// to vary or not depending on your input video content. To improve the
+  /// subjective video quality of your output that has high-motion content: Leave
+  /// blank or keep the default value Adaptive. MediaConvert will use fewer
+  /// B-frames for high-motion video content than low-motion content. The maximum
+  /// number of B- frames is limited by the value that you choose for B-frames
+  /// between reference frames. To use the same number B-frames for all types of
+  /// content: Choose Static.
   final H264DynamicSubGop? dynamicSubGop;
 
   /// Entropy encoding mode. Use CABAC (must be in Main or High profile) or CAVLC.
   final H264EntropyEncoding? entropyEncoding;
 
-  /// Keep the default value, PAFF, to have MediaConvert use PAFF encoding for
-  /// interlaced outputs. Choose Force field (FORCE_FIELD) to disable PAFF
-  /// encoding and create separate interlaced fields.
+  /// The video encoding method for your MPEG-4 AVC output. Keep the default
+  /// value, PAFF, to have MediaConvert use PAFF encoding for interlaced outputs.
+  /// Choose Force field (FORCE_FIELD) to disable PAFF encoding and create
+  /// separate interlaced fields. Choose MBAFF to disable PAFF and have
+  /// MediaConvert use MBAFF encoding for interlaced outputs.
   final H264FieldEncoding? fieldEncoding;
 
   /// Only use this setting when you change the default value, AUTO, for the
@@ -10923,20 +15022,20 @@ class H264Settings {
   final H264FramerateControl? framerateControl;
 
   /// Choose the method that you want MediaConvert to use when increasing or
-  /// decreasing the frame rate. We recommend using drop duplicate
-  /// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
-  /// fps. For numerically complex conversions, you can use interpolate
-  /// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
-  /// introduce undesirable video artifacts. For complex frame rate conversions,
-  /// especially if your source video has already been converted from its original
-  /// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
-  /// interpolation. FrameFormer chooses the best conversion method frame by
-  /// frame. Note that using FrameFormer increases the transcoding time and incurs
-  /// a significant add-on cost.
+  /// decreasing the frame rate. For numerically simple conversions, such as 60
+  /// fps to 30 fps: We recommend that you keep the default value, Drop duplicate.
+  /// For numerically complex conversions, to avoid stutter: Choose Interpolate.
+  /// This results in a smooth picture, but might introduce undesirable video
+  /// artifacts. For complex frame rate conversions, especially if your source
+  /// video has already been converted from its original cadence: Choose
+  /// FrameFormer to do motion-compensated interpolation. FrameFormer uses the
+  /// best conversion method frame by frame. Note that using FrameFormer increases
+  /// the transcoding time and incurs a significant add-on cost. When you choose
+  /// FrameFormer, your input video resolution must be at least 128x96.
   final H264FramerateConversionAlgorithm? framerateConversionAlgorithm;
 
   /// When you use the API for transcode jobs that use frame rate conversion,
-  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976
   /// fps. Use FramerateDenominator to specify the denominator of this fraction.
   /// In this example, use 1001 for the value of FramerateDenominator. When you
   /// use the console for transcode jobs that use frame rate conversion, provide
@@ -10945,29 +15044,58 @@ class H264Settings {
   final int? framerateDenominator;
 
   /// When you use the API for transcode jobs that use frame rate conversion,
-  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976
   /// fps. Use FramerateNumerator to specify the numerator of this fraction. In
   /// this example, use 24000 for the value of FramerateNumerator. When you use
   /// the console for transcode jobs that use frame rate conversion, provide the
   /// value as a decimal number for Framerate. In this example, specify 23.976.
   final int? framerateNumerator;
 
-  /// If enable, use reference B frames for GOP structures that have B frames > 1.
+  /// Specify whether to allow B-frames to be referenced by other frame types. To
+  /// use reference B-frames when your GOP structure has 1 or more B-frames: Leave
+  /// blank or keep the default value Enabled. We recommend that you choose
+  /// Enabled to help improve the video quality of your output relative to its
+  /// bitrate. To not use reference B-frames: Choose Disabled.
   final H264GopBReference? gopBReference;
 
-  /// Frequency of closed GOPs. In streaming applications, it is recommended that
-  /// this be set to 1 so a decoder joining mid-stream will receive an IDR frame
-  /// as quickly as possible. Setting this value to 0 will break output
-  /// segmenting.
+  /// Specify the relative frequency of open to closed GOPs in this output. For
+  /// example, if you want to allow four open GOPs and then require a closed GOP,
+  /// set this value to 5. We recommend that you have the transcoder automatically
+  /// choose this value for you based on characteristics of your input video. To
+  /// enable this automatic behavior, keep the default value by leaving this
+  /// setting out of your JSON job specification. In the console, do this by
+  /// keeping the default empty value. If you do explicitly specify a value, for
+  /// segmented outputs, don't set this value to 0.
   final int? gopClosedCadence;
 
-  /// GOP Length (keyframe interval) in frames or seconds. Must be greater than
-  /// zero.
+  /// Use this setting only when you set GOP mode control (GopSizeUnits) to
+  /// Specified, frames (FRAMES) or Specified, seconds (SECONDS). Specify the GOP
+  /// length using a whole number of frames or a decimal value of seconds.
+  /// MediaConvert will interpret this value as frames or seconds depending on the
+  /// value you choose for GOP mode control (GopSizeUnits). If you want to allow
+  /// MediaConvert to automatically determine GOP size, leave GOP size blank and
+  /// set GOP mode control to Auto (AUTO). If your output group specifies HLS,
+  /// DASH, or CMAF, leave GOP size blank and set GOP mode control to Auto in each
+  /// output in your output group.
   final double? gopSize;
 
-  /// Indicates if the GOP Size in H264 is specified in frames or seconds. If
-  /// seconds the system will convert the GOP Size into a frame count at run time.
+  /// Specify how the transcoder determines GOP size for this output. We recommend
+  /// that you have the transcoder automatically choose this value for you based
+  /// on characteristics of your input video. To enable this automatic behavior,
+  /// choose Auto (AUTO) and and leave GOP size (GopSize) blank. By default, if
+  /// you don't specify GOP mode control (GopSizeUnits), MediaConvert will use
+  /// automatic behavior. If your output group specifies HLS, DASH, or CMAF, set
+  /// GOP mode control to Auto and leave GOP size blank in each output in your
+  /// output group. To explicitly specify the GOP length, choose Specified, frames
+  /// (FRAMES) or Specified, seconds (SECONDS) and then provide the GOP length in
+  /// the related setting GOP size (GopSize).
   final H264GopSizeUnits? gopSizeUnits;
+
+  /// If your downstream systems have strict buffer requirements: Specify the
+  /// minimum percentage of the HRD buffer that's available at the end of each
+  /// encoded video segment. For the best video quality: Set to 0 or leave blank
+  /// to automatically determine the final buffer fill percentage.
+  final int? hrdBufferFinalFillPercentage;
 
   /// Percentage of the buffer that should initially be filled (HRD buffer model).
   final int? hrdBufferInitialFillPercentage;
@@ -10994,16 +15122,30 @@ class H264Settings {
   /// as 5000000. Required when Rate control mode is QVBR.
   final int? maxBitrate;
 
-  /// Enforces separation between repeated (cadence) I-frames and I-frames
-  /// inserted by Scene Change Detection. If a scene change I-frame is within
-  /// I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched
-  /// to the scene change I-frame. GOP stretch requires enabling lookahead as well
-  /// as setting I-interval. The normal cadence resumes for the next GOP. This
-  /// setting is only used when Scene Change Detect is enabled. Note: Maximum GOP
-  /// stretch = GOP size + Min-I-interval - 1
+  /// Use this setting only when you also enable Scene change detection
+  /// (SceneChangeDetect). This setting determines how the encoder manages the
+  /// spacing between I-frames that it inserts as part of the I-frame cadence and
+  /// the I-frames that it inserts for Scene change detection. We recommend that
+  /// you have the transcoder automatically choose this value for you based on
+  /// characteristics of your input video. To enable this automatic behavior, keep
+  /// the default value by leaving this setting out of your JSON job
+  /// specification. In the console, do this by keeping the default empty value.
+  /// When you explicitly specify a value for this setting, the encoder determines
+  /// whether to skip a cadence-driven I-frame by the value you set. For example,
+  /// if you set Min I interval (minIInterval) to 5 and a cadence-driven I-frame
+  /// would fall within 5 frames of a scene-change I-frame, then the encoder skips
+  /// the cadence-driven I-frame. In this way, one GOP is shrunk slightly and one
+  /// GOP is stretched slightly. When the cadence-driven I-frames are farther from
+  /// the scene-change I-frame than the value you set, then the encoder leaves all
+  /// I-frames in place and the GOPs surrounding the scene change are smaller than
+  /// the usual cadence GOPs.
   final int? minIInterval;
 
-  /// Number of B-frames between reference frames.
+  /// Specify the number of B-frames between reference frames in this output. For
+  /// the best video quality: Leave blank. MediaConvert automatically determines
+  /// the number of B-frames to use based on the characteristics of your input
+  /// video. To manually specify the number of B-frames between reference frames:
+  /// Enter an integer from 0 to 7.
   final int? numberBFramesBetweenReferenceFrames;
 
   /// Number of reference frames to use. The encoder may use more than requested
@@ -11036,15 +15178,19 @@ class H264Settings {
   /// for parNumerator is 40.
   final int? parNumerator;
 
-  /// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you
-  /// want to trade off encoding speed for output video quality. The default
-  /// behavior is faster, lower quality, single-pass encoding.
+  /// The Quality tuning level you choose represents a trade-off between the
+  /// encoding speed of your job and the output video quality. For the fastest
+  /// encoding speed at the cost of video quality: Choose Single pass. For a good
+  /// balance between encoding speed and video quality: Leave blank or keep the
+  /// default value Single pass HQ. For the best video quality, at the cost of
+  /// encoding speed: Choose Multi pass HQ. MediaConvert performs an analysis pass
+  /// on your input followed by an encoding pass. Outputs that use this feature
+  /// incur pro-tier pricing.
   final H264QualityTuningLevel? qualityTuningLevel;
 
-  /// Settings for quality-defined variable bitrate encoding with the H.264 codec.
-  /// Required when you set Rate control mode to QVBR. Not valid when you set Rate
-  /// control mode to a value other than QVBR, or when you don't define Rate
-  /// control mode.
+  /// Settings for quality-defined variable bitrate encoding with the H.265 codec.
+  /// Use these settings only when you set QVBR for Rate control mode
+  /// (RateControlMode).
   final H264QvbrSettings? qvbrSettings;
 
   /// Use this setting to specify whether this output has a variable bitrate
@@ -11053,6 +15199,22 @@ class H264Settings {
 
   /// Places a PPS header on each encoded picture, even if repeated.
   final H264RepeatPps? repeatPps;
+
+  /// Use this setting for interlaced outputs, when your output frame rate is half
+  /// of your input frame rate. In this situation, choose Optimized interlacing
+  /// (INTERLACED_OPTIMIZE) to create a better quality interlaced output. In this
+  /// case, each progressive frame from the input corresponds to an interlaced
+  /// field in the output. Keep the default value, Basic interlacing (INTERLACED),
+  /// for all other output frame rates. With basic interlacing, MediaConvert
+  /// performs any frame rate conversion first and then interlaces the frames.
+  /// When you choose Optimized interlacing and you set your output frame rate to
+  /// a value that isn't suitable for optimized interlacing, MediaConvert
+  /// automatically falls back to basic interlacing. Required settings: To use
+  /// optimized interlacing, you must set Telecine (telecine) to None (NONE) or
+  /// Soft (SOFT). You can't use optimized interlacing for hard telecine outputs.
+  /// You must also set Interlace mode (interlaceMode) to a value other than
+  /// Progressive (PROGRESSIVE).
+  final H264ScanTypeConversionMode? scanTypeConversionMode;
 
   /// Enable this setting to insert I-frames at scene changes that the service
   /// automatically detects. This improves video quality and is enabled by
@@ -11158,6 +15320,7 @@ class H264Settings {
 
   H264Settings({
     this.adaptiveQuantization,
+    this.bandwidthReductionFilter,
     this.bitrate,
     this.codecLevel,
     this.codecProfile,
@@ -11173,6 +15336,7 @@ class H264Settings {
     this.gopClosedCadence,
     this.gopSize,
     this.gopSizeUnits,
+    this.hrdBufferFinalFillPercentage,
     this.hrdBufferInitialFillPercentage,
     this.hrdBufferSize,
     this.interlaceMode,
@@ -11187,6 +15351,7 @@ class H264Settings {
     this.qvbrSettings,
     this.rateControlMode,
     this.repeatPps,
+    this.scanTypeConversionMode,
     this.sceneChangeDetect,
     this.slices,
     this.slowPal,
@@ -11197,10 +15362,15 @@ class H264Settings {
     this.temporalAdaptiveQuantization,
     this.unregisteredSeiTimecode,
   });
+
   factory H264Settings.fromJson(Map<String, dynamic> json) {
     return H264Settings(
       adaptiveQuantization: (json['adaptiveQuantization'] as String?)
           ?.toH264AdaptiveQuantization(),
+      bandwidthReductionFilter: json['bandwidthReductionFilter'] != null
+          ? BandwidthReductionFilter.fromJson(
+              json['bandwidthReductionFilter'] as Map<String, dynamic>)
+          : null,
       bitrate: json['bitrate'] as int?,
       codecLevel: (json['codecLevel'] as String?)?.toH264CodecLevel(),
       codecProfile: (json['codecProfile'] as String?)?.toH264CodecProfile(),
@@ -11222,6 +15392,8 @@ class H264Settings {
       gopClosedCadence: json['gopClosedCadence'] as int?,
       gopSize: json['gopSize'] as double?,
       gopSizeUnits: (json['gopSizeUnits'] as String?)?.toH264GopSizeUnits(),
+      hrdBufferFinalFillPercentage:
+          json['hrdBufferFinalFillPercentage'] as int?,
       hrdBufferInitialFillPercentage:
           json['hrdBufferInitialFillPercentage'] as int?,
       hrdBufferSize: json['hrdBufferSize'] as int?,
@@ -11243,6 +15415,8 @@ class H264Settings {
       rateControlMode:
           (json['rateControlMode'] as String?)?.toH264RateControlMode(),
       repeatPps: (json['repeatPps'] as String?)?.toH264RepeatPps(),
+      scanTypeConversionMode: (json['scanTypeConversionMode'] as String?)
+          ?.toH264ScanTypeConversionMode(),
       sceneChangeDetect:
           (json['sceneChangeDetect'] as String?)?.toH264SceneChangeDetect(),
       slices: json['slices'] as int?,
@@ -11263,6 +15437,7 @@ class H264Settings {
 
   Map<String, dynamic> toJson() {
     final adaptiveQuantization = this.adaptiveQuantization;
+    final bandwidthReductionFilter = this.bandwidthReductionFilter;
     final bitrate = this.bitrate;
     final codecLevel = this.codecLevel;
     final codecProfile = this.codecProfile;
@@ -11278,6 +15453,7 @@ class H264Settings {
     final gopClosedCadence = this.gopClosedCadence;
     final gopSize = this.gopSize;
     final gopSizeUnits = this.gopSizeUnits;
+    final hrdBufferFinalFillPercentage = this.hrdBufferFinalFillPercentage;
     final hrdBufferInitialFillPercentage = this.hrdBufferInitialFillPercentage;
     final hrdBufferSize = this.hrdBufferSize;
     final interlaceMode = this.interlaceMode;
@@ -11293,6 +15469,7 @@ class H264Settings {
     final qvbrSettings = this.qvbrSettings;
     final rateControlMode = this.rateControlMode;
     final repeatPps = this.repeatPps;
+    final scanTypeConversionMode = this.scanTypeConversionMode;
     final sceneChangeDetect = this.sceneChangeDetect;
     final slices = this.slices;
     final slowPal = this.slowPal;
@@ -11305,6 +15482,8 @@ class H264Settings {
     return {
       if (adaptiveQuantization != null)
         'adaptiveQuantization': adaptiveQuantization.toValue(),
+      if (bandwidthReductionFilter != null)
+        'bandwidthReductionFilter': bandwidthReductionFilter,
       if (bitrate != null) 'bitrate': bitrate,
       if (codecLevel != null) 'codecLevel': codecLevel.toValue(),
       if (codecProfile != null) 'codecProfile': codecProfile.toValue(),
@@ -11324,6 +15503,8 @@ class H264Settings {
       if (gopClosedCadence != null) 'gopClosedCadence': gopClosedCadence,
       if (gopSize != null) 'gopSize': gopSize,
       if (gopSizeUnits != null) 'gopSizeUnits': gopSizeUnits.toValue(),
+      if (hrdBufferFinalFillPercentage != null)
+        'hrdBufferFinalFillPercentage': hrdBufferFinalFillPercentage,
       if (hrdBufferInitialFillPercentage != null)
         'hrdBufferInitialFillPercentage': hrdBufferInitialFillPercentage,
       if (hrdBufferSize != null) 'hrdBufferSize': hrdBufferSize,
@@ -11343,6 +15524,8 @@ class H264Settings {
       if (qvbrSettings != null) 'qvbrSettings': qvbrSettings,
       if (rateControlMode != null) 'rateControlMode': rateControlMode.toValue(),
       if (repeatPps != null) 'repeatPps': repeatPps.toValue(),
+      if (scanTypeConversionMode != null)
+        'scanTypeConversionMode': scanTypeConversionMode.toValue(),
       if (sceneChangeDetect != null)
         'sceneChangeDetect': sceneChangeDetect.toValue(),
       if (slices != null) 'slices': slices,
@@ -11602,11 +15785,17 @@ extension H264UnregisteredSeiTimecodeFromString on String {
   }
 }
 
-/// Specify the strength of any adaptive quantization filters that you enable.
-/// The value that you choose here applies to the following settings: Flicker
-/// adaptive quantization (flickerAdaptiveQuantization), Spatial adaptive
-/// quantization (spatialAdaptiveQuantization), and Temporal adaptive
-/// quantization (temporalAdaptiveQuantization).
+/// When you set Adaptive Quantization (H265AdaptiveQuantization) to Auto
+/// (AUTO), or leave blank, MediaConvert automatically applies quantization to
+/// improve the video quality of your output. Set Adaptive Quantization to Low
+/// (LOW), Medium (MEDIUM), High (HIGH), Higher (HIGHER), or Max (MAX) to
+/// manually control the strength of the quantization filter. When you do, you
+/// can specify a value for Spatial Adaptive Quantization
+/// (H265SpatialAdaptiveQuantization), Temporal Adaptive Quantization
+/// (H265TemporalAdaptiveQuantization), and Flicker Adaptive Quantization
+/// (H265FlickerAdaptiveQuantization), to further control the quantization
+/// filter. Set Adaptive Quantization to Off (OFF) to apply no quantization to
+/// your output.
 enum H265AdaptiveQuantization {
   off,
   low,
@@ -11614,6 +15803,7 @@ enum H265AdaptiveQuantization {
   high,
   higher,
   max,
+  auto,
 }
 
 extension H265AdaptiveQuantizationValueExtension on H265AdaptiveQuantization {
@@ -11631,6 +15821,8 @@ extension H265AdaptiveQuantizationValueExtension on H265AdaptiveQuantization {
         return 'HIGHER';
       case H265AdaptiveQuantization.max:
         return 'MAX';
+      case H265AdaptiveQuantization.auto:
+        return 'AUTO';
     }
   }
 }
@@ -11650,6 +15842,8 @@ extension H265AdaptiveQuantizationFromString on String {
         return H265AdaptiveQuantization.higher;
       case 'MAX':
         return H265AdaptiveQuantization.max;
+      case 'AUTO':
+        return H265AdaptiveQuantization.auto;
     }
     throw Exception('$this is not known in enum H265AdaptiveQuantization');
   }
@@ -11950,16 +16144,16 @@ extension H265FramerateControlFromString on String {
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
-/// decreasing the frame rate. We recommend using drop duplicate
-/// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
-/// fps. For numerically complex conversions, you can use interpolate
-/// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
-/// introduce undesirable video artifacts. For complex frame rate conversions,
-/// especially if your source video has already been converted from its original
-/// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
-/// interpolation. FrameFormer chooses the best conversion method frame by
-/// frame. Note that using FrameFormer increases the transcoding time and incurs
-/// a significant add-on cost.
+/// decreasing the frame rate. For numerically simple conversions, such as 60
+/// fps to 30 fps: We recommend that you keep the default value, Drop duplicate.
+/// For numerically complex conversions, to avoid stutter: Choose Interpolate.
+/// This results in a smooth picture, but might introduce undesirable video
+/// artifacts. For complex frame rate conversions, especially if your source
+/// video has already been converted from its original cadence: Choose
+/// FrameFormer to do motion-compensated interpolation. FrameFormer uses the
+/// best conversion method frame by frame. Note that using FrameFormer increases
+/// the transcoding time and incurs a significant add-on cost. When you choose
+/// FrameFormer, your input video resolution must be at least 128x96.
 enum H265FramerateConversionAlgorithm {
   duplicateDrop,
   interpolate,
@@ -11995,7 +16189,11 @@ extension H265FramerateConversionAlgorithmFromString on String {
   }
 }
 
-/// If enable, use reference B frames for GOP structures that have B frames > 1.
+/// Specify whether to allow B-frames to be referenced by other frame types. To
+/// use reference B-frames when your GOP structure has 1 or more B-frames: Leave
+/// blank or keep the default value Enabled. We recommend that you choose
+/// Enabled to help improve the video quality of your output relative to its
+/// bitrate. To not use reference B-frames: Choose Disabled.
 enum H265GopBReference {
   disabled,
   enabled,
@@ -12024,11 +16222,20 @@ extension H265GopBReferenceFromString on String {
   }
 }
 
-/// Indicates if the GOP Size in H265 is specified in frames or seconds. If
-/// seconds the system will convert the GOP Size into a frame count at run time.
+/// Specify how the transcoder determines GOP size for this output. We recommend
+/// that you have the transcoder automatically choose this value for you based
+/// on characteristics of your input video. To enable this automatic behavior,
+/// choose Auto (AUTO) and and leave GOP size (GopSize) blank. By default, if
+/// you don't specify GOP mode control (GopSizeUnits), MediaConvert will use
+/// automatic behavior. If your output group specifies HLS, DASH, or CMAF, set
+/// GOP mode control to Auto and leave GOP size blank in each output in your
+/// output group. To explicitly specify the GOP length, choose Specified, frames
+/// (FRAMES) or Specified, seconds (SECONDS) and then provide the GOP length in
+/// the related setting GOP size (GopSize).
 enum H265GopSizeUnits {
   frames,
   seconds,
+  auto,
 }
 
 extension H265GopSizeUnitsValueExtension on H265GopSizeUnits {
@@ -12038,6 +16245,8 @@ extension H265GopSizeUnitsValueExtension on H265GopSizeUnits {
         return 'FRAMES';
       case H265GopSizeUnits.seconds:
         return 'SECONDS';
+      case H265GopSizeUnits.auto:
+        return 'AUTO';
     }
   }
 }
@@ -12049,6 +16258,8 @@ extension H265GopSizeUnitsFromString on String {
         return H265GopSizeUnits.frames;
       case 'SECONDS':
         return H265GopSizeUnits.seconds;
+      case 'AUTO':
+        return H265GopSizeUnits.auto;
     }
     throw Exception('$this is not known in enum H265GopSizeUnits');
   }
@@ -12182,9 +16393,8 @@ extension H265QualityTuningLevelFromString on String {
 }
 
 /// Settings for quality-defined variable bitrate encoding with the H.265 codec.
-/// Required when you set Rate control mode to QVBR. Not valid when you set Rate
-/// control mode to a value other than QVBR, or when you don't define Rate
-/// control mode.
+/// Use these settings only when you set QVBR for Rate control mode
+/// (RateControlMode).
 class H265QvbrSettings {
   /// Use this setting only when Rate control mode is QVBR and Quality tuning
   /// level is Multi-pass HQ. For Max average bitrate values suited to the
@@ -12194,12 +16404,16 @@ class H265QvbrSettings {
   /// multiplied by the number of seconds of encoded output.
   final int? maxAverageBitrate;
 
-  /// Required when you use QVBR rate control mode. That is, when you specify
-  /// qvbrSettings within h265Settings. Specify the general target quality level
-  /// for this output, from 1 to 10. Use higher numbers for greater quality. Level
-  /// 10 results in nearly lossless compression. The quality level for most
-  /// broadcast-quality transcodes is between 6 and 9. Optionally, to specify a
-  /// value between whole numbers, also provide a value for the setting
+  /// Use this setting only when you set Rate control mode (RateControlMode) to
+  /// QVBR. Specify the target quality level for this output. MediaConvert
+  /// determines the right number of bits to use for each part of the video to
+  /// maintain the video quality that you specify. When you keep the default
+  /// value, AUTO, MediaConvert picks a quality level for you, based on
+  /// characteristics of your input video. If you prefer to specify a quality
+  /// level, specify a number from 1 through 10. Use higher numbers for greater
+  /// quality. Level 10 results in nearly lossless compression. The quality level
+  /// for most broadcast-quality transcodes is between 6 and 9. Optionally, to
+  /// specify a value between whole numbers, also provide a value for the setting
   /// qvbrQualityLevelFineTune. For example, if you want your QVBR quality level
   /// to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to
   /// .33.
@@ -12218,6 +16432,7 @@ class H265QvbrSettings {
     this.qvbrQualityLevel,
     this.qvbrQualityLevelFineTune,
   });
+
   factory H265QvbrSettings.fromJson(Map<String, dynamic> json) {
     return H265QvbrSettings(
       maxAverageBitrate: json['maxAverageBitrate'] as int?,
@@ -12274,7 +16489,7 @@ extension H265RateControlModeFromString on String {
   }
 }
 
-/// Specify Sample Adaptive Offset (SAO) filter strength.  Adaptive mode
+/// Specify Sample Adaptive Offset (SAO) filter strength. Adaptive mode
 /// dynamically selects best strength based on content
 enum H265SampleAdaptiveOffsetFilterMode {
   $default,
@@ -12308,6 +16523,49 @@ extension H265SampleAdaptiveOffsetFilterModeFromString on String {
     }
     throw Exception(
         '$this is not known in enum H265SampleAdaptiveOffsetFilterMode');
+  }
+}
+
+/// Use this setting for interlaced outputs, when your output frame rate is half
+/// of your input frame rate. In this situation, choose Optimized interlacing
+/// (INTERLACED_OPTIMIZE) to create a better quality interlaced output. In this
+/// case, each progressive frame from the input corresponds to an interlaced
+/// field in the output. Keep the default value, Basic interlacing (INTERLACED),
+/// for all other output frame rates. With basic interlacing, MediaConvert
+/// performs any frame rate conversion first and then interlaces the frames.
+/// When you choose Optimized interlacing and you set your output frame rate to
+/// a value that isn't suitable for optimized interlacing, MediaConvert
+/// automatically falls back to basic interlacing. Required settings: To use
+/// optimized interlacing, you must set Telecine (telecine) to None (NONE) or
+/// Soft (SOFT). You can't use optimized interlacing for hard telecine outputs.
+/// You must also set Interlace mode (interlaceMode) to a value other than
+/// Progressive (PROGRESSIVE).
+enum H265ScanTypeConversionMode {
+  interlaced,
+  interlacedOptimize,
+}
+
+extension H265ScanTypeConversionModeValueExtension
+    on H265ScanTypeConversionMode {
+  String toValue() {
+    switch (this) {
+      case H265ScanTypeConversionMode.interlaced:
+        return 'INTERLACED';
+      case H265ScanTypeConversionMode.interlacedOptimize:
+        return 'INTERLACED_OPTIMIZE';
+    }
+  }
+}
+
+extension H265ScanTypeConversionModeFromString on String {
+  H265ScanTypeConversionMode toH265ScanTypeConversionMode() {
+    switch (this) {
+      case 'INTERLACED':
+        return H265ScanTypeConversionMode.interlaced;
+      case 'INTERLACED_OPTIMIZE':
+        return H265ScanTypeConversionMode.interlacedOptimize;
+    }
+    throw Exception('$this is not known in enum H265ScanTypeConversionMode');
   }
 }
 
@@ -12352,11 +16610,17 @@ extension H265SceneChangeDetectFromString on String {
 
 /// Settings for H265 codec
 class H265Settings {
-  /// Specify the strength of any adaptive quantization filters that you enable.
-  /// The value that you choose here applies to the following settings: Flicker
-  /// adaptive quantization (flickerAdaptiveQuantization), Spatial adaptive
-  /// quantization (spatialAdaptiveQuantization), and Temporal adaptive
-  /// quantization (temporalAdaptiveQuantization).
+  /// When you set Adaptive Quantization (H265AdaptiveQuantization) to Auto
+  /// (AUTO), or leave blank, MediaConvert automatically applies quantization to
+  /// improve the video quality of your output. Set Adaptive Quantization to Low
+  /// (LOW), Medium (MEDIUM), High (HIGH), Higher (HIGHER), or Max (MAX) to
+  /// manually control the strength of the quantization filter. When you do, you
+  /// can specify a value for Spatial Adaptive Quantization
+  /// (H265SpatialAdaptiveQuantization), Temporal Adaptive Quantization
+  /// (H265TemporalAdaptiveQuantization), and Flicker Adaptive Quantization
+  /// (H265FlickerAdaptiveQuantization), to further control the quantization
+  /// filter. Set Adaptive Quantization to Off (OFF) to apply no quantization to
+  /// your output.
   final H265AdaptiveQuantization? adaptiveQuantization;
 
   /// Enables Alternate Transfer Function SEI message for outputs using Hybrid Log
@@ -12377,12 +16641,14 @@ class H265Settings {
   /// 4:2:2 License.
   final H265CodecProfile? codecProfile;
 
-  /// Choose Adaptive to improve subjective video quality for high-motion content.
-  /// This will cause the service to use fewer B-frames (which infer information
-  /// based on other frames) for high-motion portions of the video and more
-  /// B-frames for low-motion portions. The maximum number of B-frames is limited
-  /// by the value you provide for the setting B frames between reference frames
-  /// (numberBFramesBetweenReferenceFrames).
+  /// Specify whether to allow the number of B-frames in your output GOP structure
+  /// to vary or not depending on your input video content. To improve the
+  /// subjective video quality of your output that has high-motion content: Leave
+  /// blank or keep the default value Adaptive. MediaConvert will use fewer
+  /// B-frames for high-motion video content than low-motion content. The maximum
+  /// number of B- frames is limited by the value that you choose for B-frames
+  /// between reference frames. To use the same number B-frames for all types of
+  /// content: Choose Static.
   final H265DynamicSubGop? dynamicSubGop;
 
   /// Enable this setting to have the encoder reduce I-frame pop. I-frame pop
@@ -12409,20 +16675,20 @@ class H265Settings {
   final H265FramerateControl? framerateControl;
 
   /// Choose the method that you want MediaConvert to use when increasing or
-  /// decreasing the frame rate. We recommend using drop duplicate
-  /// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
-  /// fps. For numerically complex conversions, you can use interpolate
-  /// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
-  /// introduce undesirable video artifacts. For complex frame rate conversions,
-  /// especially if your source video has already been converted from its original
-  /// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
-  /// interpolation. FrameFormer chooses the best conversion method frame by
-  /// frame. Note that using FrameFormer increases the transcoding time and incurs
-  /// a significant add-on cost.
+  /// decreasing the frame rate. For numerically simple conversions, such as 60
+  /// fps to 30 fps: We recommend that you keep the default value, Drop duplicate.
+  /// For numerically complex conversions, to avoid stutter: Choose Interpolate.
+  /// This results in a smooth picture, but might introduce undesirable video
+  /// artifacts. For complex frame rate conversions, especially if your source
+  /// video has already been converted from its original cadence: Choose
+  /// FrameFormer to do motion-compensated interpolation. FrameFormer uses the
+  /// best conversion method frame by frame. Note that using FrameFormer increases
+  /// the transcoding time and incurs a significant add-on cost. When you choose
+  /// FrameFormer, your input video resolution must be at least 128x96.
   final H265FramerateConversionAlgorithm? framerateConversionAlgorithm;
 
   /// When you use the API for transcode jobs that use frame rate conversion,
-  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976
   /// fps. Use FramerateDenominator to specify the denominator of this fraction.
   /// In this example, use 1001 for the value of FramerateDenominator. When you
   /// use the console for transcode jobs that use frame rate conversion, provide
@@ -12431,29 +16697,58 @@ class H265Settings {
   final int? framerateDenominator;
 
   /// When you use the API for transcode jobs that use frame rate conversion,
-  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976
   /// fps. Use FramerateNumerator to specify the numerator of this fraction. In
   /// this example, use 24000 for the value of FramerateNumerator. When you use
   /// the console for transcode jobs that use frame rate conversion, provide the
   /// value as a decimal number for Framerate. In this example, specify 23.976.
   final int? framerateNumerator;
 
-  /// If enable, use reference B frames for GOP structures that have B frames > 1.
+  /// Specify whether to allow B-frames to be referenced by other frame types. To
+  /// use reference B-frames when your GOP structure has 1 or more B-frames: Leave
+  /// blank or keep the default value Enabled. We recommend that you choose
+  /// Enabled to help improve the video quality of your output relative to its
+  /// bitrate. To not use reference B-frames: Choose Disabled.
   final H265GopBReference? gopBReference;
 
-  /// Frequency of closed GOPs. In streaming applications, it is recommended that
-  /// this be set to 1 so a decoder joining mid-stream will receive an IDR frame
-  /// as quickly as possible. Setting this value to 0 will break output
-  /// segmenting.
+  /// Specify the relative frequency of open to closed GOPs in this output. For
+  /// example, if you want to allow four open GOPs and then require a closed GOP,
+  /// set this value to 5. We recommend that you have the transcoder automatically
+  /// choose this value for you based on characteristics of your input video. To
+  /// enable this automatic behavior, keep the default value by leaving this
+  /// setting out of your JSON job specification. In the console, do this by
+  /// keeping the default empty value. If you do explicitly specify a value, for
+  /// segmented outputs, don't set this value to 0.
   final int? gopClosedCadence;
 
-  /// GOP Length (keyframe interval) in frames or seconds. Must be greater than
-  /// zero.
+  /// Use this setting only when you set GOP mode control (GopSizeUnits) to
+  /// Specified, frames (FRAMES) or Specified, seconds (SECONDS). Specify the GOP
+  /// length using a whole number of frames or a decimal value of seconds.
+  /// MediaConvert will interpret this value as frames or seconds depending on the
+  /// value you choose for GOP mode control (GopSizeUnits). If you want to allow
+  /// MediaConvert to automatically determine GOP size, leave GOP size blank and
+  /// set GOP mode control to Auto (AUTO). If your output group specifies HLS,
+  /// DASH, or CMAF, leave GOP size blank and set GOP mode control to Auto in each
+  /// output in your output group.
   final double? gopSize;
 
-  /// Indicates if the GOP Size in H265 is specified in frames or seconds. If
-  /// seconds the system will convert the GOP Size into a frame count at run time.
+  /// Specify how the transcoder determines GOP size for this output. We recommend
+  /// that you have the transcoder automatically choose this value for you based
+  /// on characteristics of your input video. To enable this automatic behavior,
+  /// choose Auto (AUTO) and and leave GOP size (GopSize) blank. By default, if
+  /// you don't specify GOP mode control (GopSizeUnits), MediaConvert will use
+  /// automatic behavior. If your output group specifies HLS, DASH, or CMAF, set
+  /// GOP mode control to Auto and leave GOP size blank in each output in your
+  /// output group. To explicitly specify the GOP length, choose Specified, frames
+  /// (FRAMES) or Specified, seconds (SECONDS) and then provide the GOP length in
+  /// the related setting GOP size (GopSize).
   final H265GopSizeUnits? gopSizeUnits;
+
+  /// If your downstream systems have strict buffer requirements: Specify the
+  /// minimum percentage of the HRD buffer that's available at the end of each
+  /// encoded video segment. For the best video quality: Set to 0 or leave blank
+  /// to automatically determine the final buffer fill percentage.
+  final int? hrdBufferFinalFillPercentage;
 
   /// Percentage of the buffer that should initially be filled (HRD buffer model).
   final int? hrdBufferInitialFillPercentage;
@@ -12480,16 +16775,30 @@ class H265Settings {
   /// as 5000000. Required when Rate control mode is QVBR.
   final int? maxBitrate;
 
-  /// Enforces separation between repeated (cadence) I-frames and I-frames
-  /// inserted by Scene Change Detection. If a scene change I-frame is within
-  /// I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched
-  /// to the scene change I-frame. GOP stretch requires enabling lookahead as well
-  /// as setting I-interval. The normal cadence resumes for the next GOP. This
-  /// setting is only used when Scene Change Detect is enabled. Note: Maximum GOP
-  /// stretch = GOP size + Min-I-interval - 1
+  /// Use this setting only when you also enable Scene change detection
+  /// (SceneChangeDetect). This setting determines how the encoder manages the
+  /// spacing between I-frames that it inserts as part of the I-frame cadence and
+  /// the I-frames that it inserts for Scene change detection. We recommend that
+  /// you have the transcoder automatically choose this value for you based on
+  /// characteristics of your input video. To enable this automatic behavior, keep
+  /// the default value by leaving this setting out of your JSON job
+  /// specification. In the console, do this by keeping the default empty value.
+  /// When you explicitly specify a value for this setting, the encoder determines
+  /// whether to skip a cadence-driven I-frame by the value you set. For example,
+  /// if you set Min I interval (minIInterval) to 5 and a cadence-driven I-frame
+  /// would fall within 5 frames of a scene-change I-frame, then the encoder skips
+  /// the cadence-driven I-frame. In this way, one GOP is shrunk slightly and one
+  /// GOP is stretched slightly. When the cadence-driven I-frames are farther from
+  /// the scene-change I-frame than the value you set, then the encoder leaves all
+  /// I-frames in place and the GOPs surrounding the scene change are smaller than
+  /// the usual cadence GOPs.
   final int? minIInterval;
 
-  /// Number of B-frames between reference frames.
+  /// Specify the number of B-frames between reference frames in this output. For
+  /// the best video quality: Leave blank. MediaConvert automatically determines
+  /// the number of B-frames to use based on the characteristics of your input
+  /// video. To manually specify the number of B-frames between reference frames:
+  /// Enter an integer from 0 to 7.
   final int? numberBFramesBetweenReferenceFrames;
 
   /// Number of reference frames to use. The encoder may use more than requested
@@ -12528,18 +16837,33 @@ class H265Settings {
   final H265QualityTuningLevel? qualityTuningLevel;
 
   /// Settings for quality-defined variable bitrate encoding with the H.265 codec.
-  /// Required when you set Rate control mode to QVBR. Not valid when you set Rate
-  /// control mode to a value other than QVBR, or when you don't define Rate
-  /// control mode.
+  /// Use these settings only when you set QVBR for Rate control mode
+  /// (RateControlMode).
   final H265QvbrSettings? qvbrSettings;
 
   /// Use this setting to specify whether this output has a variable bitrate
   /// (VBR), constant bitrate (CBR) or quality-defined variable bitrate (QVBR).
   final H265RateControlMode? rateControlMode;
 
-  /// Specify Sample Adaptive Offset (SAO) filter strength.  Adaptive mode
+  /// Specify Sample Adaptive Offset (SAO) filter strength. Adaptive mode
   /// dynamically selects best strength based on content
   final H265SampleAdaptiveOffsetFilterMode? sampleAdaptiveOffsetFilterMode;
+
+  /// Use this setting for interlaced outputs, when your output frame rate is half
+  /// of your input frame rate. In this situation, choose Optimized interlacing
+  /// (INTERLACED_OPTIMIZE) to create a better quality interlaced output. In this
+  /// case, each progressive frame from the input corresponds to an interlaced
+  /// field in the output. Keep the default value, Basic interlacing (INTERLACED),
+  /// for all other output frame rates. With basic interlacing, MediaConvert
+  /// performs any frame rate conversion first and then interlaces the frames.
+  /// When you choose Optimized interlacing and you set your output frame rate to
+  /// a value that isn't suitable for optimized interlacing, MediaConvert
+  /// automatically falls back to basic interlacing. Required settings: To use
+  /// optimized interlacing, you must set Telecine (telecine) to None (NONE) or
+  /// Soft (SOFT). You can't use optimized interlacing for hard telecine outputs.
+  /// You must also set Interlace mode (interlaceMode) to a value other than
+  /// Progressive (PROGRESSIVE).
+  final H265ScanTypeConversionMode? scanTypeConversionMode;
 
   /// Enable this setting to insert I-frames at scene changes that the service
   /// automatically detects. This improves video quality and is enabled by
@@ -12582,9 +16906,9 @@ class H265Settings {
   final H265SpatialAdaptiveQuantization? spatialAdaptiveQuantization;
 
   /// This field applies only if the Streams > Advanced > Framerate (framerate)
-  /// field  is set to 29.970. This field works with the Streams > Advanced >
-  /// Preprocessors > Deinterlacer  field (deinterlace_mode) and the Streams >
-  /// Advanced > Interlaced Mode field (interlace_mode)  to identify the scan type
+  /// field is set to 29.970. This field works with the Streams > Advanced >
+  /// Preprocessors > Deinterlacer field (deinterlace_mode) and the Streams >
+  /// Advanced > Interlaced Mode field (interlace_mode) to identify the scan type
   /// for the output: Progressive, Interlaced, Hard Telecine or Soft Telecine. -
   /// Hard: produces 29.97i output from 23.976 input. - Soft: produces 23.976; the
   /// player converts this output to 29.97i.
@@ -12651,6 +16975,7 @@ class H265Settings {
     this.gopClosedCadence,
     this.gopSize,
     this.gopSizeUnits,
+    this.hrdBufferFinalFillPercentage,
     this.hrdBufferInitialFillPercentage,
     this.hrdBufferSize,
     this.interlaceMode,
@@ -12665,6 +16990,7 @@ class H265Settings {
     this.qvbrSettings,
     this.rateControlMode,
     this.sampleAdaptiveOffsetFilterMode,
+    this.scanTypeConversionMode,
     this.sceneChangeDetect,
     this.slices,
     this.slowPal,
@@ -12676,6 +17002,7 @@ class H265Settings {
     this.unregisteredSeiTimecode,
     this.writeMp4PackagingType,
   });
+
   factory H265Settings.fromJson(Map<String, dynamic> json) {
     return H265Settings(
       adaptiveQuantization: (json['adaptiveQuantization'] as String?)
@@ -12701,6 +17028,8 @@ class H265Settings {
       gopClosedCadence: json['gopClosedCadence'] as int?,
       gopSize: json['gopSize'] as double?,
       gopSizeUnits: (json['gopSizeUnits'] as String?)?.toH265GopSizeUnits(),
+      hrdBufferFinalFillPercentage:
+          json['hrdBufferFinalFillPercentage'] as int?,
       hrdBufferInitialFillPercentage:
           json['hrdBufferInitialFillPercentage'] as int?,
       hrdBufferSize: json['hrdBufferSize'] as int?,
@@ -12724,6 +17053,8 @@ class H265Settings {
       sampleAdaptiveOffsetFilterMode:
           (json['sampleAdaptiveOffsetFilterMode'] as String?)
               ?.toH265SampleAdaptiveOffsetFilterMode(),
+      scanTypeConversionMode: (json['scanTypeConversionMode'] as String?)
+          ?.toH265ScanTypeConversionMode(),
       sceneChangeDetect:
           (json['sceneChangeDetect'] as String?)?.toH265SceneChangeDetect(),
       slices: json['slices'] as int?,
@@ -12760,6 +17091,7 @@ class H265Settings {
     final gopClosedCadence = this.gopClosedCadence;
     final gopSize = this.gopSize;
     final gopSizeUnits = this.gopSizeUnits;
+    final hrdBufferFinalFillPercentage = this.hrdBufferFinalFillPercentage;
     final hrdBufferInitialFillPercentage = this.hrdBufferInitialFillPercentage;
     final hrdBufferSize = this.hrdBufferSize;
     final interlaceMode = this.interlaceMode;
@@ -12775,6 +17107,7 @@ class H265Settings {
     final qvbrSettings = this.qvbrSettings;
     final rateControlMode = this.rateControlMode;
     final sampleAdaptiveOffsetFilterMode = this.sampleAdaptiveOffsetFilterMode;
+    final scanTypeConversionMode = this.scanTypeConversionMode;
     final sceneChangeDetect = this.sceneChangeDetect;
     final slices = this.slices;
     final slowPal = this.slowPal;
@@ -12807,6 +17140,8 @@ class H265Settings {
       if (gopClosedCadence != null) 'gopClosedCadence': gopClosedCadence,
       if (gopSize != null) 'gopSize': gopSize,
       if (gopSizeUnits != null) 'gopSizeUnits': gopSizeUnits.toValue(),
+      if (hrdBufferFinalFillPercentage != null)
+        'hrdBufferFinalFillPercentage': hrdBufferFinalFillPercentage,
       if (hrdBufferInitialFillPercentage != null)
         'hrdBufferInitialFillPercentage': hrdBufferInitialFillPercentage,
       if (hrdBufferSize != null) 'hrdBufferSize': hrdBufferSize,
@@ -12828,6 +17163,8 @@ class H265Settings {
       if (sampleAdaptiveOffsetFilterMode != null)
         'sampleAdaptiveOffsetFilterMode':
             sampleAdaptiveOffsetFilterMode.toValue(),
+      if (scanTypeConversionMode != null)
+        'scanTypeConversionMode': scanTypeConversionMode.toValue(),
       if (sceneChangeDetect != null)
         'sceneChangeDetect': sceneChangeDetect.toValue(),
       if (slices != null) 'slices': slices,
@@ -12929,9 +17266,9 @@ extension H265SpatialAdaptiveQuantizationFromString on String {
 }
 
 /// This field applies only if the Streams > Advanced > Framerate (framerate)
-/// field  is set to 29.970. This field works with the Streams > Advanced >
-/// Preprocessors > Deinterlacer  field (deinterlace_mode) and the Streams >
-/// Advanced > Interlaced Mode field (interlace_mode)  to identify the scan type
+/// field is set to 29.970. This field works with the Streams > Advanced >
+/// Preprocessors > Deinterlacer field (deinterlace_mode) and the Streams >
+/// Advanced > Interlaced Mode field (interlace_mode) to identify the scan type
 /// for the output: Progressive, Interlaced, Hard Telecine or Soft Telecine. -
 /// Hard: produces 29.97i output from 23.976 input. - Soft: produces 23.976; the
 /// player converts this output to 29.97i.
@@ -13146,6 +17483,46 @@ extension H265WriteMp4PackagingTypeFromString on String {
   }
 }
 
+/// Specify how MediaConvert maps brightness and colors from your HDR input to
+/// your SDR output. The mode that you select represents a creative choice, with
+/// different tradeoffs in the details and tones of your output. To maintain
+/// details in bright or saturated areas of your output: Choose Preserve
+/// details. For some sources, your SDR output may look less bright and less
+/// saturated when compared to your HDR source. MediaConvert automatically
+/// applies this mode for HLG sources, regardless of your choice. For a bright
+/// and saturated output: Choose Vibrant. We recommend that you choose this mode
+/// when any of your source content is HDR10, and for the best results when it
+/// is mastered for 1000 nits. You may notice loss of details in bright or
+/// saturated areas of your output. HDR to SDR tone mapping has no effect when
+/// your input is SDR.
+enum HDRToSDRToneMapper {
+  preserveDetails,
+  vibrant,
+}
+
+extension HDRToSDRToneMapperValueExtension on HDRToSDRToneMapper {
+  String toValue() {
+    switch (this) {
+      case HDRToSDRToneMapper.preserveDetails:
+        return 'PRESERVE_DETAILS';
+      case HDRToSDRToneMapper.vibrant:
+        return 'VIBRANT';
+    }
+  }
+}
+
+extension HDRToSDRToneMapperFromString on String {
+  HDRToSDRToneMapper toHDRToSDRToneMapper() {
+    switch (this) {
+      case 'PRESERVE_DETAILS':
+        return HDRToSDRToneMapper.preserveDetails;
+      case 'VIBRANT':
+        return HDRToSDRToneMapper.vibrant;
+    }
+    throw Exception('$this is not known in enum HDRToSDRToneMapper');
+  }
+}
+
 /// Use these settings to specify static color calibration metadata, as defined
 /// by SMPTE ST 2086. These values don't affect the pixel values that are
 /// encoded in the video stream. They are intended to help the downstream video
@@ -13177,8 +17554,8 @@ class Hdr10Metadata {
   final int? greenPrimaryY;
 
   /// Maximum light level among all samples in the coded video sequence, in units
-  /// of candelas per square meter.  This setting doesn't have a default value;
-  /// you must specify a value that is suitable for the content.
+  /// of candelas per square meter. This setting doesn't have a default value; you
+  /// must specify a value that is suitable for the content.
   final int? maxContentLightLevel;
 
   /// Maximum average light level of any frame in the coded video sequence, in
@@ -13232,6 +17609,7 @@ class Hdr10Metadata {
     this.whitePointX,
     this.whitePointY,
   });
+
   factory Hdr10Metadata.fromJson(Map<String, dynamic> json) {
     return Hdr10Metadata(
       bluePrimaryX: json['bluePrimaryX'] as int?,
@@ -13281,6 +17659,42 @@ class Hdr10Metadata {
   }
 }
 
+/// Setting for HDR10+ metadata insertion
+class Hdr10Plus {
+  /// Specify the HDR10+ mastering display normalized peak luminance, in nits.
+  /// This is the normalized actual peak luminance of the mastering display, as
+  /// defined by ST 2094-40.
+  final int? masteringMonitorNits;
+
+  /// Specify the HDR10+ target display nominal peak luminance, in nits. This is
+  /// the nominal maximum luminance of the target display as defined by ST
+  /// 2094-40.
+  final int? targetMonitorNits;
+
+  Hdr10Plus({
+    this.masteringMonitorNits,
+    this.targetMonitorNits,
+  });
+
+  factory Hdr10Plus.fromJson(Map<String, dynamic> json) {
+    return Hdr10Plus(
+      masteringMonitorNits: json['masteringMonitorNits'] as int?,
+      targetMonitorNits: json['targetMonitorNits'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final masteringMonitorNits = this.masteringMonitorNits;
+    final targetMonitorNits = this.targetMonitorNits;
+    return {
+      if (masteringMonitorNits != null)
+        'masteringMonitorNits': masteringMonitorNits,
+      if (targetMonitorNits != null) 'targetMonitorNits': targetMonitorNits,
+    };
+  }
+}
+
+/// Ad marker for Apple HLS manifest.
 enum HlsAdMarkers {
   elemental,
   elementalScte35,
@@ -13332,6 +17746,7 @@ class HlsAdditionalManifest {
     this.manifestNameModifier,
     this.selectedOutputs,
   });
+
   factory HlsAdditionalManifest.fromJson(Map<String, dynamic> json) {
     return HlsAdditionalManifest(
       manifestNameModifier: json['manifestNameModifier'] as String?,
@@ -13489,6 +17904,7 @@ class HlsCaptionLanguageMapping {
     this.languageCode,
     this.languageDescription,
   });
+
   factory HlsCaptionLanguageMapping.fromJson(Map<String, dynamic> json) {
     return HlsCaptionLanguageMapping(
       captionChannel: json['captionChannel'] as int?,
@@ -13555,6 +17971,42 @@ extension HlsCaptionLanguageSettingFromString on String {
   }
 }
 
+/// Set Caption segment length control (CaptionSegmentLengthControl) to Match
+/// video (MATCH_VIDEO) to create caption segments that align with the video
+/// segments from the first video output in this output group. For example, if
+/// the video segments are 2 seconds long, your WebVTT segments will also be 2
+/// seconds long. Keep the default setting, Large segments (LARGE_SEGMENTS) to
+/// create caption segments that are 300 seconds long.
+enum HlsCaptionSegmentLengthControl {
+  largeSegments,
+  matchVideo,
+}
+
+extension HlsCaptionSegmentLengthControlValueExtension
+    on HlsCaptionSegmentLengthControl {
+  String toValue() {
+    switch (this) {
+      case HlsCaptionSegmentLengthControl.largeSegments:
+        return 'LARGE_SEGMENTS';
+      case HlsCaptionSegmentLengthControl.matchVideo:
+        return 'MATCH_VIDEO';
+    }
+  }
+}
+
+extension HlsCaptionSegmentLengthControlFromString on String {
+  HlsCaptionSegmentLengthControl toHlsCaptionSegmentLengthControl() {
+    switch (this) {
+      case 'LARGE_SEGMENTS':
+        return HlsCaptionSegmentLengthControl.largeSegments;
+      case 'MATCH_VIDEO':
+        return HlsCaptionSegmentLengthControl.matchVideo;
+    }
+    throw Exception(
+        '$this is not known in enum HlsCaptionSegmentLengthControl');
+  }
+}
+
 /// Disable this setting only when your workflow requires the
 /// #EXT-X-ALLOW-CACHE:no tag. Otherwise, keep the default value Enabled
 /// (ENABLED) and control caching in your video distribution set up. For
@@ -13617,6 +18069,44 @@ extension HlsCodecSpecificationFromString on String {
   }
 }
 
+/// Specify whether to flag this audio track as descriptive video service (DVS)
+/// in your HLS parent manifest. When you choose Flag (FLAG), MediaConvert
+/// includes the parameter
+/// CHARACTERISTICS="public.accessibility.describes-video" in the EXT-X-MEDIA
+/// entry for this track. When you keep the default choice, Don't flag
+/// (DONT_FLAG), MediaConvert leaves this parameter out. The DVS flag can help
+/// with accessibility on Apple devices. For more information, see the Apple
+/// documentation.
+enum HlsDescriptiveVideoServiceFlag {
+  dontFlag,
+  flag,
+}
+
+extension HlsDescriptiveVideoServiceFlagValueExtension
+    on HlsDescriptiveVideoServiceFlag {
+  String toValue() {
+    switch (this) {
+      case HlsDescriptiveVideoServiceFlag.dontFlag:
+        return 'DONT_FLAG';
+      case HlsDescriptiveVideoServiceFlag.flag:
+        return 'FLAG';
+    }
+  }
+}
+
+extension HlsDescriptiveVideoServiceFlagFromString on String {
+  HlsDescriptiveVideoServiceFlag toHlsDescriptiveVideoServiceFlag() {
+    switch (this) {
+      case 'DONT_FLAG':
+        return HlsDescriptiveVideoServiceFlag.dontFlag;
+      case 'FLAG':
+        return HlsDescriptiveVideoServiceFlag.flag;
+    }
+    throw Exception(
+        '$this is not known in enum HlsDescriptiveVideoServiceFlag');
+  }
+}
+
 /// Indicates whether segments should be placed in subdirectories.
 enum HlsDirectoryStructure {
   singleDirectory,
@@ -13668,7 +18158,7 @@ class HlsEncryptionSettings {
   final HlsOfflineEncrypted? offlineEncrypted;
 
   /// If your output group type is HLS, DASH, or Microsoft Smooth, use these
-  /// settings when doing DRM encryption with a SPEKE-compliant key provider.  If
+  /// settings when doing DRM encryption with a SPEKE-compliant key provider. If
   /// your output group type is CMAF, use the SpekeKeyProviderCmaf settings
   /// instead.
   final SpekeKeyProvider? spekeKeyProvider;
@@ -13690,6 +18180,7 @@ class HlsEncryptionSettings {
     this.staticKeyProvider,
     this.type,
   });
+
   factory HlsEncryptionSettings.fromJson(Map<String, dynamic> json) {
     return HlsEncryptionSettings(
       constantInitializationVector:
@@ -13768,7 +18259,10 @@ extension HlsEncryptionTypeFromString on String {
   }
 }
 
-/// Required when you set (Type) under (OutputGroups)>(OutputGroupSettings) to
+/// Settings related to your HLS output package. For more information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
+/// When you work directly in your JSON job specification, include this object
+/// and any required children when you set Type, under OutputGroupSettings, to
 /// HLS_GROUP_SETTINGS.
 class HlsGroupSettings {
   /// Choose one or more ad marker types to decorate your Apple HLS manifest. This
@@ -13807,6 +18301,14 @@ class HlsGroupSettings {
   /// Omit: Omit any CLOSED-CAPTIONS line from the manifest.
   final HlsCaptionLanguageSetting? captionLanguageSetting;
 
+  /// Set Caption segment length control (CaptionSegmentLengthControl) to Match
+  /// video (MATCH_VIDEO) to create caption segments that align with the video
+  /// segments from the first video output in this output group. For example, if
+  /// the video segments are 2 seconds long, your WebVTT segments will also be 2
+  /// seconds long. Keep the default setting, Large segments (LARGE_SEGMENTS) to
+  /// create caption segments that are 300 seconds long.
+  final HlsCaptionSegmentLengthControl? captionSegmentLengthControl;
+
   /// Disable this setting only when your workflow requires the
   /// #EXT-X-ALLOW-CACHE:no tag. Otherwise, keep the default value Enabled
   /// (ENABLED) and control caching in your video distribution set up. For
@@ -13833,6 +18335,21 @@ class HlsGroupSettings {
 
   /// DRM settings.
   final HlsEncryptionSettings? encryption;
+
+  /// Specify whether MediaConvert generates images for trick play. Keep the
+  /// default value, None (NONE), to not generate any images. Choose Thumbnail
+  /// (THUMBNAIL) to generate tiled thumbnails. Choose Thumbnail and full frame
+  /// (THUMBNAIL_AND_FULLFRAME) to generate tiled thumbnails and full-resolution
+  /// images of single frames. MediaConvert creates a child manifest for each set
+  /// of images that you generate and adds corresponding entries to the parent
+  /// manifest. A common application for these images is Roku trick mode. The
+  /// thumbnails and full-frame images that MediaConvert creates with this feature
+  /// are compatible with this Roku specification:
+  /// https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
+  final HlsImageBasedTrickPlay? imageBasedTrickPlay;
+
+  /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
+  final HlsImageBasedTrickPlaySettings? imageBasedTrickPlaySettings;
 
   /// When set to GZIP, compresses HLS playlist.
   final HlsManifestCompression? manifestCompression;
@@ -13877,24 +18394,54 @@ class HlsGroupSettings {
   /// file, uses #EXT-X-BYTERANGE tags to index segment for playback.
   final HlsSegmentControl? segmentControl;
 
-  /// Length of MPEG-2 Transport Stream segments to create (in seconds). Note that
-  /// segments will end on the next keyframe after this number of seconds, so
-  /// actual segment length may be longer.
+  /// Specify the length, in whole seconds, of each segment. When you don't
+  /// specify a value, MediaConvert defaults to 10. Related settings: Use Segment
+  /// length control (SegmentLengthControl) to specify whether the encoder
+  /// enforces this value strictly. Use Segment control (HlsSegmentControl) to
+  /// specify whether MediaConvert creates separate segment files or one content
+  /// file that has metadata to mark the segment boundaries.
   final int? segmentLength;
 
-  /// Number of segments to write to a subdirectory before starting a new one.
-  /// directoryStructure must be SINGLE_DIRECTORY for this setting to have an
-  /// effect.
+  /// Specify how you want MediaConvert to determine the segment length. Choose
+  /// Exact (EXACT) to have the encoder use the exact length that you specify with
+  /// the setting Segment length (SegmentLength). This might result in extra
+  /// I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up
+  /// the segment lengths to match the next GOP boundary.
+  final HlsSegmentLengthControl? segmentLengthControl;
+
+  /// Specify the number of segments to write to a subdirectory before starting a
+  /// new one. You  must also set Directory structure to Subdirectory per stream
+  /// for this setting to have an effect.
   final int? segmentsPerSubdirectory;
 
   /// Include or exclude RESOLUTION attribute for video in EXT-X-STREAM-INF tag of
   /// variant manifest.
   final HlsStreamInfResolution? streamInfResolution;
 
-  /// Indicates ID3 frame that has the timecode.
+  /// When set to LEGACY, the segment target duration is always rounded up to the
+  /// nearest integer value above its current value in seconds. When set to
+  /// SPEC\\_COMPLIANT, the segment target duration is rounded up to the nearest
+  /// integer value if fraction seconds are greater than or equal to 0.5 (>= 0.5)
+  /// and rounded down if less than 0.5 (< 0.5). You may need to use LEGACY if
+  /// your client needs to ensure that the target duration is always longer than
+  /// the actual duration of the segment. Some older players may experience
+  /// interrupted playback when the actual duration of a track in a segment is
+  /// longer than the target duration.
+  final HlsTargetDurationCompatibilityMode? targetDurationCompatibilityMode;
+
+  /// Specify the type of the ID3 frame (timedMetadataId3Frame) to use for ID3
+  /// timestamps (timedMetadataId3Period) in your output. To include ID3
+  /// timestamps: Specify PRIV (PRIV) or TDRL (TDRL) and set ID3 metadata
+  /// (timedMetadata) to Passthrough (PASSTHROUGH). To exclude ID3 timestamps: Set
+  /// ID3 timestamp frame type to None (NONE).
   final HlsTimedMetadataId3Frame? timedMetadataId3Frame;
 
-  /// Timed Metadata interval in seconds.
+  /// Specify the interval in seconds to write ID3 timestamps in your output. The
+  /// first timestamp starts at the output timecode and date, and increases
+  /// incrementally with each ID3 timestamp. To use the default interval of 10
+  /// seconds: Leave blank. To include this metadata in your output: Set ID3
+  /// timestamp frame type (timedMetadataId3Frame) to PRIV (PRIV) or TDRL (TDRL),
+  /// and set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH).
   final int? timedMetadataId3Period;
 
   /// Provides an extra millisecond delta offset to fine tune the timestamps.
@@ -13907,12 +18454,15 @@ class HlsGroupSettings {
     this.baseUrl,
     this.captionLanguageMappings,
     this.captionLanguageSetting,
+    this.captionSegmentLengthControl,
     this.clientCache,
     this.codecSpecification,
     this.destination,
     this.destinationSettings,
     this.directoryStructure,
     this.encryption,
+    this.imageBasedTrickPlay,
+    this.imageBasedTrickPlaySettings,
     this.manifestCompression,
     this.manifestDurationFormat,
     this.minFinalSegmentLength,
@@ -13922,12 +18472,15 @@ class HlsGroupSettings {
     this.programDateTimePeriod,
     this.segmentControl,
     this.segmentLength,
+    this.segmentLengthControl,
     this.segmentsPerSubdirectory,
     this.streamInfResolution,
+    this.targetDurationCompatibilityMode,
     this.timedMetadataId3Frame,
     this.timedMetadataId3Period,
     this.timestampDeltaMilliseconds,
   });
+
   factory HlsGroupSettings.fromJson(Map<String, dynamic> json) {
     return HlsGroupSettings(
       adMarkers: (json['adMarkers'] as List?)
@@ -13948,6 +18501,9 @@ class HlsGroupSettings {
           .toList(),
       captionLanguageSetting: (json['captionLanguageSetting'] as String?)
           ?.toHlsCaptionLanguageSetting(),
+      captionSegmentLengthControl:
+          (json['captionSegmentLengthControl'] as String?)
+              ?.toHlsCaptionSegmentLengthControl(),
       clientCache: (json['clientCache'] as String?)?.toHlsClientCache(),
       codecSpecification:
           (json['codecSpecification'] as String?)?.toHlsCodecSpecification(),
@@ -13961,6 +18517,12 @@ class HlsGroupSettings {
       encryption: json['encryption'] != null
           ? HlsEncryptionSettings.fromJson(
               json['encryption'] as Map<String, dynamic>)
+          : null,
+      imageBasedTrickPlay:
+          (json['imageBasedTrickPlay'] as String?)?.toHlsImageBasedTrickPlay(),
+      imageBasedTrickPlaySettings: json['imageBasedTrickPlaySettings'] != null
+          ? HlsImageBasedTrickPlaySettings.fromJson(
+              json['imageBasedTrickPlaySettings'] as Map<String, dynamic>)
           : null,
       manifestCompression:
           (json['manifestCompression'] as String?)?.toHlsManifestCompression(),
@@ -13976,9 +18538,14 @@ class HlsGroupSettings {
       segmentControl:
           (json['segmentControl'] as String?)?.toHlsSegmentControl(),
       segmentLength: json['segmentLength'] as int?,
+      segmentLengthControl: (json['segmentLengthControl'] as String?)
+          ?.toHlsSegmentLengthControl(),
       segmentsPerSubdirectory: json['segmentsPerSubdirectory'] as int?,
       streamInfResolution:
           (json['streamInfResolution'] as String?)?.toHlsStreamInfResolution(),
+      targetDurationCompatibilityMode:
+          (json['targetDurationCompatibilityMode'] as String?)
+              ?.toHlsTargetDurationCompatibilityMode(),
       timedMetadataId3Frame: (json['timedMetadataId3Frame'] as String?)
           ?.toHlsTimedMetadataId3Frame(),
       timedMetadataId3Period: json['timedMetadataId3Period'] as int?,
@@ -13993,12 +18560,15 @@ class HlsGroupSettings {
     final baseUrl = this.baseUrl;
     final captionLanguageMappings = this.captionLanguageMappings;
     final captionLanguageSetting = this.captionLanguageSetting;
+    final captionSegmentLengthControl = this.captionSegmentLengthControl;
     final clientCache = this.clientCache;
     final codecSpecification = this.codecSpecification;
     final destination = this.destination;
     final destinationSettings = this.destinationSettings;
     final directoryStructure = this.directoryStructure;
     final encryption = this.encryption;
+    final imageBasedTrickPlay = this.imageBasedTrickPlay;
+    final imageBasedTrickPlaySettings = this.imageBasedTrickPlaySettings;
     final manifestCompression = this.manifestCompression;
     final manifestDurationFormat = this.manifestDurationFormat;
     final minFinalSegmentLength = this.minFinalSegmentLength;
@@ -14008,8 +18578,11 @@ class HlsGroupSettings {
     final programDateTimePeriod = this.programDateTimePeriod;
     final segmentControl = this.segmentControl;
     final segmentLength = this.segmentLength;
+    final segmentLengthControl = this.segmentLengthControl;
     final segmentsPerSubdirectory = this.segmentsPerSubdirectory;
     final streamInfResolution = this.streamInfResolution;
+    final targetDurationCompatibilityMode =
+        this.targetDurationCompatibilityMode;
     final timedMetadataId3Frame = this.timedMetadataId3Frame;
     final timedMetadataId3Period = this.timedMetadataId3Period;
     final timestampDeltaMilliseconds = this.timestampDeltaMilliseconds;
@@ -14024,6 +18597,8 @@ class HlsGroupSettings {
         'captionLanguageMappings': captionLanguageMappings,
       if (captionLanguageSetting != null)
         'captionLanguageSetting': captionLanguageSetting.toValue(),
+      if (captionSegmentLengthControl != null)
+        'captionSegmentLengthControl': captionSegmentLengthControl.toValue(),
       if (clientCache != null) 'clientCache': clientCache.toValue(),
       if (codecSpecification != null)
         'codecSpecification': codecSpecification.toValue(),
@@ -14033,6 +18608,10 @@ class HlsGroupSettings {
       if (directoryStructure != null)
         'directoryStructure': directoryStructure.toValue(),
       if (encryption != null) 'encryption': encryption,
+      if (imageBasedTrickPlay != null)
+        'imageBasedTrickPlay': imageBasedTrickPlay.toValue(),
+      if (imageBasedTrickPlaySettings != null)
+        'imageBasedTrickPlaySettings': imageBasedTrickPlaySettings,
       if (manifestCompression != null)
         'manifestCompression': manifestCompression.toValue(),
       if (manifestDurationFormat != null)
@@ -14046,10 +18625,15 @@ class HlsGroupSettings {
         'programDateTimePeriod': programDateTimePeriod,
       if (segmentControl != null) 'segmentControl': segmentControl.toValue(),
       if (segmentLength != null) 'segmentLength': segmentLength,
+      if (segmentLengthControl != null)
+        'segmentLengthControl': segmentLengthControl.toValue(),
       if (segmentsPerSubdirectory != null)
         'segmentsPerSubdirectory': segmentsPerSubdirectory,
       if (streamInfResolution != null)
         'streamInfResolution': streamInfResolution.toValue(),
+      if (targetDurationCompatibilityMode != null)
+        'targetDurationCompatibilityMode':
+            targetDurationCompatibilityMode.toValue(),
       if (timedMetadataId3Frame != null)
         'timedMetadataId3Frame': timedMetadataId3Frame.toValue(),
       if (timedMetadataId3Period != null)
@@ -14060,8 +18644,13 @@ class HlsGroupSettings {
   }
 }
 
-/// When set to INCLUDE, writes I-Frame Only Manifest in addition to the HLS
-/// manifest
+/// Choose Include (INCLUDE) to have MediaConvert generate a child manifest that
+/// lists only the I-frames for this rendition, in addition to your regular
+/// manifest for this rendition. You might use this manifest as part of a
+/// workflow that creates preview functions for your video. MediaConvert adds
+/// both the I-frame only child manifest and the regular child manifest to the
+/// parent manifest. When you don't need the I-frame only child manifest, keep
+/// the default value Exclude (EXCLUDE).
 enum HlsIFrameOnlyManifest {
   include,
   exclude,
@@ -14087,6 +18676,128 @@ extension HlsIFrameOnlyManifestFromString on String {
         return HlsIFrameOnlyManifest.exclude;
     }
     throw Exception('$this is not known in enum HlsIFrameOnlyManifest');
+  }
+}
+
+/// Specify whether MediaConvert generates images for trick play. Keep the
+/// default value, None (NONE), to not generate any images. Choose Thumbnail
+/// (THUMBNAIL) to generate tiled thumbnails. Choose Thumbnail and full frame
+/// (THUMBNAIL_AND_FULLFRAME) to generate tiled thumbnails and full-resolution
+/// images of single frames. MediaConvert creates a child manifest for each set
+/// of images that you generate and adds corresponding entries to the parent
+/// manifest. A common application for these images is Roku trick mode. The
+/// thumbnails and full-frame images that MediaConvert creates with this feature
+/// are compatible with this Roku specification:
+/// https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
+enum HlsImageBasedTrickPlay {
+  none,
+  thumbnail,
+  thumbnailAndFullframe,
+  advanced,
+}
+
+extension HlsImageBasedTrickPlayValueExtension on HlsImageBasedTrickPlay {
+  String toValue() {
+    switch (this) {
+      case HlsImageBasedTrickPlay.none:
+        return 'NONE';
+      case HlsImageBasedTrickPlay.thumbnail:
+        return 'THUMBNAIL';
+      case HlsImageBasedTrickPlay.thumbnailAndFullframe:
+        return 'THUMBNAIL_AND_FULLFRAME';
+      case HlsImageBasedTrickPlay.advanced:
+        return 'ADVANCED';
+    }
+  }
+}
+
+extension HlsImageBasedTrickPlayFromString on String {
+  HlsImageBasedTrickPlay toHlsImageBasedTrickPlay() {
+    switch (this) {
+      case 'NONE':
+        return HlsImageBasedTrickPlay.none;
+      case 'THUMBNAIL':
+        return HlsImageBasedTrickPlay.thumbnail;
+      case 'THUMBNAIL_AND_FULLFRAME':
+        return HlsImageBasedTrickPlay.thumbnailAndFullframe;
+      case 'ADVANCED':
+        return HlsImageBasedTrickPlay.advanced;
+    }
+    throw Exception('$this is not known in enum HlsImageBasedTrickPlay');
+  }
+}
+
+/// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
+class HlsImageBasedTrickPlaySettings {
+  /// The cadence MediaConvert follows for generating thumbnails. If set to
+  /// FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the
+  /// output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert
+  /// generates thumbnails according to the interval you specify in
+  /// thumbnailInterval.
+  final HlsIntervalCadence? intervalCadence;
+
+  /// Height of each thumbnail within each tile image, in pixels. Leave blank to
+  /// maintain aspect ratio with thumbnail width. If following the aspect ratio
+  /// would lead to a total tile height greater than 4096, then the job will be
+  /// rejected. Must be divisible by 2.
+  final int? thumbnailHeight;
+
+  /// Enter the interval, in seconds, that MediaConvert uses to generate
+  /// thumbnails. If the interval you enter doesn't align with the output frame
+  /// rate, MediaConvert automatically rounds the interval to align with the
+  /// output frame rate. For example, if the output frame rate is 29.97 frames per
+  /// second and you enter 5, MediaConvert uses a 150 frame interval to generate
+  /// thumbnails.
+  final double? thumbnailInterval;
+
+  /// Width of each thumbnail within each tile image, in pixels. Default is 312.
+  /// Must be divisible by 8.
+  final int? thumbnailWidth;
+
+  /// Number of thumbnails in each column of a tile image. Set a value between 2
+  /// and 2048. Must be divisible by 2.
+  final int? tileHeight;
+
+  /// Number of thumbnails in each row of a tile image. Set a value between 1 and
+  /// 512.
+  final int? tileWidth;
+
+  HlsImageBasedTrickPlaySettings({
+    this.intervalCadence,
+    this.thumbnailHeight,
+    this.thumbnailInterval,
+    this.thumbnailWidth,
+    this.tileHeight,
+    this.tileWidth,
+  });
+
+  factory HlsImageBasedTrickPlaySettings.fromJson(Map<String, dynamic> json) {
+    return HlsImageBasedTrickPlaySettings(
+      intervalCadence:
+          (json['intervalCadence'] as String?)?.toHlsIntervalCadence(),
+      thumbnailHeight: json['thumbnailHeight'] as int?,
+      thumbnailInterval: json['thumbnailInterval'] as double?,
+      thumbnailWidth: json['thumbnailWidth'] as int?,
+      tileHeight: json['tileHeight'] as int?,
+      tileWidth: json['tileWidth'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intervalCadence = this.intervalCadence;
+    final thumbnailHeight = this.thumbnailHeight;
+    final thumbnailInterval = this.thumbnailInterval;
+    final thumbnailWidth = this.thumbnailWidth;
+    final tileHeight = this.tileHeight;
+    final tileWidth = this.tileWidth;
+    return {
+      if (intervalCadence != null) 'intervalCadence': intervalCadence.toValue(),
+      if (thumbnailHeight != null) 'thumbnailHeight': thumbnailHeight,
+      if (thumbnailInterval != null) 'thumbnailInterval': thumbnailInterval,
+      if (thumbnailWidth != null) 'thumbnailWidth': thumbnailWidth,
+      if (tileHeight != null) 'tileHeight': tileHeight,
+      if (tileWidth != null) 'tileWidth': tileWidth,
+    };
   }
 }
 
@@ -14121,6 +18832,39 @@ extension HlsInitializationVectorInManifestFromString on String {
     }
     throw Exception(
         '$this is not known in enum HlsInitializationVectorInManifest');
+  }
+}
+
+/// The cadence MediaConvert follows for generating thumbnails. If set to
+/// FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the
+/// output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert
+/// generates thumbnails according to the interval you specify in
+/// thumbnailInterval.
+enum HlsIntervalCadence {
+  followIframe,
+  followCustom,
+}
+
+extension HlsIntervalCadenceValueExtension on HlsIntervalCadence {
+  String toValue() {
+    switch (this) {
+      case HlsIntervalCadence.followIframe:
+        return 'FOLLOW_IFRAME';
+      case HlsIntervalCadence.followCustom:
+        return 'FOLLOW_CUSTOM';
+    }
+  }
+}
+
+extension HlsIntervalCadenceFromString on String {
+  HlsIntervalCadence toHlsIntervalCadence() {
+    switch (this) {
+      case 'FOLLOW_IFRAME':
+        return HlsIntervalCadence.followIframe;
+      case 'FOLLOW_CUSTOM':
+        return HlsIntervalCadence.followCustom;
+    }
+    throw Exception('$this is not known in enum HlsIntervalCadence');
   }
 }
 
@@ -14307,6 +19051,52 @@ extension HlsProgramDateTimeFromString on String {
   }
 }
 
+/// Settings specific to audio sources in an HLS alternate rendition group.
+/// Specify the properties (renditionGroupId, renditionName or
+/// renditionLanguageCode) to identify the unique audio track among the
+/// alternative rendition groups present in the HLS manifest. If no unique track
+/// is found, or multiple tracks match the properties provided, the job fails.
+/// If no properties in hlsRenditionGroupSettings are specified, the default
+/// audio track within the video segment is chosen. If there is no audio within
+/// video segment, the alternative audio with DEFAULT=YES is chosen instead.
+class HlsRenditionGroupSettings {
+  /// Optional. Specify alternative group ID
+  final String? renditionGroupId;
+
+  /// Optional. Specify ISO 639-2 or ISO 639-3 code in the language property
+  final LanguageCode? renditionLanguageCode;
+
+  /// Optional. Specify media name
+  final String? renditionName;
+
+  HlsRenditionGroupSettings({
+    this.renditionGroupId,
+    this.renditionLanguageCode,
+    this.renditionName,
+  });
+
+  factory HlsRenditionGroupSettings.fromJson(Map<String, dynamic> json) {
+    return HlsRenditionGroupSettings(
+      renditionGroupId: json['renditionGroupId'] as String?,
+      renditionLanguageCode:
+          (json['renditionLanguageCode'] as String?)?.toLanguageCode(),
+      renditionName: json['renditionName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final renditionGroupId = this.renditionGroupId;
+    final renditionLanguageCode = this.renditionLanguageCode;
+    final renditionName = this.renditionName;
+    return {
+      if (renditionGroupId != null) 'renditionGroupId': renditionGroupId,
+      if (renditionLanguageCode != null)
+        'renditionLanguageCode': renditionLanguageCode.toValue(),
+      if (renditionName != null) 'renditionName': renditionName,
+    };
+  }
+}
+
 /// When set to SINGLE_FILE, emits program as a single media resource (.ts)
 /// file, uses #EXT-X-BYTERANGE tags to index segment for playback.
 enum HlsSegmentControl {
@@ -14337,9 +19127,42 @@ extension HlsSegmentControlFromString on String {
   }
 }
 
+/// Specify how you want MediaConvert to determine the segment length. Choose
+/// Exact (EXACT) to have the encoder use the exact length that you specify with
+/// the setting Segment length (SegmentLength). This might result in extra
+/// I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up
+/// the segment lengths to match the next GOP boundary.
+enum HlsSegmentLengthControl {
+  exact,
+  gopMultiple,
+}
+
+extension HlsSegmentLengthControlValueExtension on HlsSegmentLengthControl {
+  String toValue() {
+    switch (this) {
+      case HlsSegmentLengthControl.exact:
+        return 'EXACT';
+      case HlsSegmentLengthControl.gopMultiple:
+        return 'GOP_MULTIPLE';
+    }
+  }
+}
+
+extension HlsSegmentLengthControlFromString on String {
+  HlsSegmentLengthControl toHlsSegmentLengthControl() {
+    switch (this) {
+      case 'EXACT':
+        return HlsSegmentLengthControl.exact;
+      case 'GOP_MULTIPLE':
+        return HlsSegmentLengthControl.gopMultiple;
+    }
+    throw Exception('$this is not known in enum HlsSegmentLengthControl');
+  }
+}
+
 /// Settings for HLS output groups
 class HlsSettings {
-  /// Specifies the group to which the audio Rendition belongs.
+  /// Specifies the group to which the audio rendition belongs.
   final String? audioGroupId;
 
   /// Use this setting only in audio-only outputs. Choose MPEG-2 Transport Stream
@@ -14366,8 +19189,23 @@ class HlsSettings {
   /// as an EXT-X-MEDIA in the HLS manifest with DEFAULT=NO, AUTOSELECT=NO
   final HlsAudioTrackType? audioTrackType;
 
-  /// When set to INCLUDE, writes I-Frame Only Manifest in addition to the HLS
-  /// manifest
+  /// Specify whether to flag this audio track as descriptive video service (DVS)
+  /// in your HLS parent manifest. When you choose Flag (FLAG), MediaConvert
+  /// includes the parameter
+  /// CHARACTERISTICS="public.accessibility.describes-video" in the EXT-X-MEDIA
+  /// entry for this track. When you keep the default choice, Don't flag
+  /// (DONT_FLAG), MediaConvert leaves this parameter out. The DVS flag can help
+  /// with accessibility on Apple devices. For more information, see the Apple
+  /// documentation.
+  final HlsDescriptiveVideoServiceFlag? descriptiveVideoServiceFlag;
+
+  /// Choose Include (INCLUDE) to have MediaConvert generate a child manifest that
+  /// lists only the I-frames for this rendition, in addition to your regular
+  /// manifest for this rendition. You might use this manifest as part of a
+  /// workflow that creates preview functions for your video. MediaConvert adds
+  /// both the I-frame only child manifest and the regular child manifest to the
+  /// parent manifest. When you don't need the I-frame only child manifest, keep
+  /// the default value Exclude (EXCLUDE).
   final HlsIFrameOnlyManifest? iFrameOnlyManifest;
 
   /// Use this setting to add an identifying string to the filename of each
@@ -14382,9 +19220,11 @@ class HlsSettings {
     this.audioOnlyContainer,
     this.audioRenditionSets,
     this.audioTrackType,
+    this.descriptiveVideoServiceFlag,
     this.iFrameOnlyManifest,
     this.segmentModifier,
   });
+
   factory HlsSettings.fromJson(Map<String, dynamic> json) {
     return HlsSettings(
       audioGroupId: json['audioGroupId'] as String?,
@@ -14393,6 +19233,9 @@ class HlsSettings {
       audioRenditionSets: json['audioRenditionSets'] as String?,
       audioTrackType:
           (json['audioTrackType'] as String?)?.toHlsAudioTrackType(),
+      descriptiveVideoServiceFlag:
+          (json['descriptiveVideoServiceFlag'] as String?)
+              ?.toHlsDescriptiveVideoServiceFlag(),
       iFrameOnlyManifest:
           (json['iFrameOnlyManifest'] as String?)?.toHlsIFrameOnlyManifest(),
       segmentModifier: json['segmentModifier'] as String?,
@@ -14404,6 +19247,7 @@ class HlsSettings {
     final audioOnlyContainer = this.audioOnlyContainer;
     final audioRenditionSets = this.audioRenditionSets;
     final audioTrackType = this.audioTrackType;
+    final descriptiveVideoServiceFlag = this.descriptiveVideoServiceFlag;
     final iFrameOnlyManifest = this.iFrameOnlyManifest;
     final segmentModifier = this.segmentModifier;
     return {
@@ -14412,6 +19256,8 @@ class HlsSettings {
         'audioOnlyContainer': audioOnlyContainer.toValue(),
       if (audioRenditionSets != null) 'audioRenditionSets': audioRenditionSets,
       if (audioTrackType != null) 'audioTrackType': audioTrackType.toValue(),
+      if (descriptiveVideoServiceFlag != null)
+        'descriptiveVideoServiceFlag': descriptiveVideoServiceFlag.toValue(),
       if (iFrameOnlyManifest != null)
         'iFrameOnlyManifest': iFrameOnlyManifest.toValue(),
       if (segmentModifier != null) 'segmentModifier': segmentModifier,
@@ -14449,7 +19295,50 @@ extension HlsStreamInfResolutionFromString on String {
   }
 }
 
-/// Indicates ID3 frame that has the timecode.
+/// When set to LEGACY, the segment target duration is always rounded up to the
+/// nearest integer value above its current value in seconds. When set to
+/// SPEC\\_COMPLIANT, the segment target duration is rounded up to the nearest
+/// integer value if fraction seconds are greater than or equal to 0.5 (>= 0.5)
+/// and rounded down if less than 0.5 (< 0.5). You may need to use LEGACY if
+/// your client needs to ensure that the target duration is always longer than
+/// the actual duration of the segment. Some older players may experience
+/// interrupted playback when the actual duration of a track in a segment is
+/// longer than the target duration.
+enum HlsTargetDurationCompatibilityMode {
+  legacy,
+  specCompliant,
+}
+
+extension HlsTargetDurationCompatibilityModeValueExtension
+    on HlsTargetDurationCompatibilityMode {
+  String toValue() {
+    switch (this) {
+      case HlsTargetDurationCompatibilityMode.legacy:
+        return 'LEGACY';
+      case HlsTargetDurationCompatibilityMode.specCompliant:
+        return 'SPEC_COMPLIANT';
+    }
+  }
+}
+
+extension HlsTargetDurationCompatibilityModeFromString on String {
+  HlsTargetDurationCompatibilityMode toHlsTargetDurationCompatibilityMode() {
+    switch (this) {
+      case 'LEGACY':
+        return HlsTargetDurationCompatibilityMode.legacy;
+      case 'SPEC_COMPLIANT':
+        return HlsTargetDurationCompatibilityMode.specCompliant;
+    }
+    throw Exception(
+        '$this is not known in enum HlsTargetDurationCompatibilityMode');
+  }
+}
+
+/// Specify the type of the ID3 frame (timedMetadataId3Frame) to use for ID3
+/// timestamps (timedMetadataId3Period) in your output. To include ID3
+/// timestamps: Specify PRIV (PRIV) or TDRL (TDRL) and set ID3 metadata
+/// (timedMetadata) to Passthrough (PASSTHROUGH). To exclude ID3 timestamps: Set
+/// ID3 timestamp frame type to None (NONE).
 enum HlsTimedMetadataId3Frame {
   none,
   priv,
@@ -14501,7 +19390,7 @@ class HopDestination {
 
   /// Required for setting up a job to use queue hopping. Minimum wait time in
   /// minutes until the job can hop to the destination queue. Valid range is 1 to
-  /// 1440 minutes, inclusive.
+  /// 4320 minutes, inclusive.
   final int? waitMinutes;
 
   HopDestination({
@@ -14509,6 +19398,7 @@ class HopDestination {
     this.queue,
     this.waitMinutes,
   });
+
   factory HopDestination.fromJson(Map<String, dynamic> json) {
     return HopDestination(
       priority: json['priority'] as int?,
@@ -14534,7 +19424,7 @@ class HopDestination {
 /// the time when the tag should be inserted. To insert multiple ID3 tags in
 /// your output, create multiple instances of ID3 insertion (Id3Insertion).
 class Id3Insertion {
-  /// Use ID3 tag (Id3) to provide a tag value in base64-encode format.
+  /// Use ID3 tag (Id3) to provide a fully formed ID3 tag in base64-encode format.
   final String? id3;
 
   /// Provide a Timecode (TimeCode) in HH:MM:SS:FF or HH:MM:SS;FF format.
@@ -14544,6 +19434,7 @@ class Id3Insertion {
     this.id3,
     this.timecode,
   });
+
   factory Id3Insertion.fromJson(Map<String, dynamic> json) {
     return Id3Insertion(
       id3: json['id3'] as String?,
@@ -14561,36 +19452,113 @@ class Id3Insertion {
   }
 }
 
-/// Enable the image inserter feature to include a graphic overlay on your
-/// video. Enable or disable this feature for each input or output individually.
+/// Use the image inserter feature to include a graphic overlay on your video.
+/// Enable or disable this feature for each input or output individually. For
+/// more information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/graphic-overlay.html.
 /// This setting is disabled by default.
 class ImageInserter {
   /// Specify the images that you want to overlay on your video. The images must
   /// be PNG or TGA files.
   final List<InsertableImage>? insertableImages;
 
+  /// Specify the reference white level, in nits, for all of your image inserter
+  /// images. Use to correct brightness levels within HDR10 outputs. For 1,000 nit
+  /// peak brightness displays, we recommend that you set SDR reference white
+  /// level to 203 (according to ITU-R BT.2408). Leave blank to use the default
+  /// value of 100, or specify an integer from 100 to 1000.
+  final int? sdrReferenceWhiteLevel;
+
   ImageInserter({
     this.insertableImages,
+    this.sdrReferenceWhiteLevel,
   });
+
   factory ImageInserter.fromJson(Map<String, dynamic> json) {
     return ImageInserter(
       insertableImages: (json['insertableImages'] as List?)
           ?.whereNotNull()
           .map((e) => InsertableImage.fromJson(e as Map<String, dynamic>))
           .toList(),
+      sdrReferenceWhiteLevel: json['sdrReferenceWhiteLevel'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final insertableImages = this.insertableImages;
+    final sdrReferenceWhiteLevel = this.sdrReferenceWhiteLevel;
     return {
       if (insertableImages != null) 'insertableImages': insertableImages,
+      if (sdrReferenceWhiteLevel != null)
+        'sdrReferenceWhiteLevel': sdrReferenceWhiteLevel,
     };
   }
 }
 
-/// Settings specific to IMSC caption outputs.
+/// If the IMSC captions track is intended to provide accessibility for people
+/// who are deaf or hard of hearing: Set Accessibility subtitles to Enabled.
+/// When you do, MediaConvert adds accessibility attributes to your output HLS
+/// or DASH manifest. For HLS manifests, MediaConvert adds the following
+/// accessibility attributes under EXT-X-MEDIA for this track:
+/// CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound"
+/// and AUTOSELECT="YES". For DASH manifests, MediaConvert adds the following in
+/// the adaptation set for this track: <Accessibility
+/// schemeIdUri="urn:mpeg:dash:role:2011" value="caption"/>. If the captions
+/// track is not intended to provide such accessibility: Keep the default value,
+/// Disabled. When you do, for DASH manifests, MediaConvert instead adds the
+/// following in the adaptation set for this track: <Role
+/// schemeIDUri="urn:mpeg:dash:role:2011" value="subtitle"/>.
+enum ImscAccessibilitySubs {
+  disabled,
+  enabled,
+}
+
+extension ImscAccessibilitySubsValueExtension on ImscAccessibilitySubs {
+  String toValue() {
+    switch (this) {
+      case ImscAccessibilitySubs.disabled:
+        return 'DISABLED';
+      case ImscAccessibilitySubs.enabled:
+        return 'ENABLED';
+    }
+  }
+}
+
+extension ImscAccessibilitySubsFromString on String {
+  ImscAccessibilitySubs toImscAccessibilitySubs() {
+    switch (this) {
+      case 'DISABLED':
+        return ImscAccessibilitySubs.disabled;
+      case 'ENABLED':
+        return ImscAccessibilitySubs.enabled;
+    }
+    throw Exception('$this is not known in enum ImscAccessibilitySubs');
+  }
+}
+
+/// Settings related to IMSC captions. IMSC is a sidecar format that holds
+/// captions in a file that is separate from the video container. Set up sidecar
+/// captions in the same output group, but different output from your video. For
+/// more information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
+/// When you work directly in your JSON job specification, include this object
+/// and any required children when you set destinationType to IMSC.
 class ImscDestinationSettings {
+  /// If the IMSC captions track is intended to provide accessibility for people
+  /// who are deaf or hard of hearing: Set Accessibility subtitles to Enabled.
+  /// When you do, MediaConvert adds accessibility attributes to your output HLS
+  /// or DASH manifest. For HLS manifests, MediaConvert adds the following
+  /// accessibility attributes under EXT-X-MEDIA for this track:
+  /// CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound"
+  /// and AUTOSELECT="YES". For DASH manifests, MediaConvert adds the following in
+  /// the adaptation set for this track: <Accessibility
+  /// schemeIdUri="urn:mpeg:dash:role:2011" value="caption"/>. If the captions
+  /// track is not intended to provide such accessibility: Keep the default value,
+  /// Disabled. When you do, for DASH manifests, MediaConvert instead adds the
+  /// following in the adaptation set for this track: <Role
+  /// schemeIDUri="urn:mpeg:dash:role:2011" value="subtitle"/>.
+  final ImscAccessibilitySubs? accessibility;
+
   /// Keep this setting enabled to have MediaConvert use the font style and
   /// position information from the captions source in the output. This option is
   /// available only when your input captions are IMSC, SMPTE-TT, or TTML. Disable
@@ -14598,18 +19566,24 @@ class ImscDestinationSettings {
   final ImscStylePassthrough? stylePassthrough;
 
   ImscDestinationSettings({
+    this.accessibility,
     this.stylePassthrough,
   });
+
   factory ImscDestinationSettings.fromJson(Map<String, dynamic> json) {
     return ImscDestinationSettings(
+      accessibility:
+          (json['accessibility'] as String?)?.toImscAccessibilitySubs(),
       stylePassthrough:
           (json['stylePassthrough'] as String?)?.toImscStylePassthrough(),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final accessibility = this.accessibility;
     final stylePassthrough = this.stylePassthrough;
     return {
+      if (accessibility != null) 'accessibility': accessibility.toValue(),
       if (stylePassthrough != null)
         'stylePassthrough': stylePassthrough.toValue(),
     };
@@ -14648,11 +19622,36 @@ extension ImscStylePassthroughFromString on String {
   }
 }
 
-/// Specifies media input
+/// Use inputs to define the source files used in your transcoding job. For more
+/// information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/specify-input-settings.html.
+/// You can use multiple video inputs to do input stitching. For more
+/// information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/assembling-multiple-inputs-and-input-clips.html
 class Input {
-  /// Specifies set of audio selectors within an input to combine. An input may
-  /// have multiple audio selector groups. See "Audio Selector
-  /// Group":#inputs-audio_selector_group for more information.
+  /// Use to remove noise, blocking, blurriness, or ringing from your input as a
+  /// pre-filter step before encoding. The Advanced input filter removes more
+  /// types of compression artifacts and is an improvement when compared to basic
+  /// Deblock and Denoise filters. To remove video compression artifacts from your
+  /// input and improve the video quality: Choose Enabled. Additionally, this
+  /// filter can help increase the video quality of your output relative to its
+  /// bitrate, since noisy inputs are more complex and require more bits to
+  /// encode. To help restore loss of detail after applying the filter, you can
+  /// optionally add texture or sharpening as an additional step. Jobs that use
+  /// this feature incur pro-tier pricing. To not apply advanced input filtering:
+  /// Choose Disabled. Note that you can still apply basic filtering with Deblock
+  /// and Denoise.
+  final AdvancedInputFilter? advancedInputFilter;
+
+  /// Optional settings for Advanced input filter when you set Advanced input
+  /// filter to Enabled.
+  final AdvancedInputFilterSettings? advancedInputFilterSettings;
+
+  /// Use audio selector groups to combine multiple sidecar audio inputs so that
+  /// you can assign them to a single output audio tab (AudioDescription). Note
+  /// that, if you're working with embedded audio, it's simpler to assign multiple
+  /// input tracks into a single audio selector rather than use an audio selector
+  /// group.
   final Map<String, AudioSelectorGroup>? audioSelectorGroups;
 
   /// Use Audio selectors (AudioSelectors) to specify a track or set of tracks
@@ -14681,10 +19680,22 @@ class Input {
   /// your content.
   final InputDecryptionSettings? decryptionSettings;
 
-  /// Enable Denoise (InputDenoiseFilter) to filter noise from the input.  Default
+  /// Enable Denoise (InputDenoiseFilter) to filter noise from the input. Default
   /// is disabled. Only applicable to MPEG2, H.264, H.265, and uncompressed video
   /// inputs.
   final InputDenoiseFilter? denoiseFilter;
+
+  /// Use this setting only when your video source has Dolby Vision studio
+  /// mastering metadata that is carried in a separate XML file. Specify the
+  /// Amazon S3 location for the metadata XML file. MediaConvert uses this file to
+  /// provide global and frame-level metadata for Dolby Vision preprocessing. When
+  /// you specify a file here and your input also has interleaved global and frame
+  /// level metadata, MediaConvert ignores the interleaved metadata and uses only
+  /// the the metadata from this external XML file. Note that your IAM service
+  /// role must grant MediaConvert read permissions to this file. For more
+  /// information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html.
+  final String? dolbyVisionMetadataXml;
 
   /// Specify the source file for your transcoding job. You can use multiple
   /// inputs in a single job. The service concatenates these inputs, in the order
@@ -14695,18 +19706,20 @@ class Input {
   /// supplemental IMPs that contain assets referenced by the CPL.
   final String? fileInput;
 
-  /// Specify how the transcoding service applies the denoise and deblock filters.
-  /// You must also enable the filters separately, with Denoise
-  /// (InputDenoiseFilter) and Deblock (InputDeblockFilter). * Auto - The
-  /// transcoding service determines whether to apply filtering, depending on
-  /// input type and quality. * Disable - The input is not filtered. This is true
-  /// even if you use the API to enable them in (InputDeblockFilter) and
-  /// (InputDeblockFilter). * Force - The input is filtered regardless of input
-  /// type.
+  /// Specify whether to apply input filtering to improve the video quality of
+  /// your input. To apply filtering depending on your input type and quality:
+  /// Choose Auto. To apply no filtering: Choose Disable. To apply filtering
+  /// regardless of your input type and quality: Choose Force. When you do, you
+  /// must also specify a value for Filter strength.
   final InputFilterEnable? filterEnable;
 
-  /// Use Filter strength (FilterStrength) to adjust the magnitude the input
-  /// filter settings (Deblock and Denoise). The range is -5 to 5. Default is 0.
+  /// Specify the strength of the input filter. To apply an automatic amount of
+  /// filtering based the compression artifacts measured in your input: We
+  /// recommend that you leave Filter strength blank and set Filter enable to
+  /// Auto. To manually apply filtering: Enter a value from 1 to 5, where 1 is the
+  /// least amount of filtering and 5 is the most. The value that you enter
+  /// applies to the strength of the Deblock or Denoise filters, or to the
+  /// strength of the Advanced input filter.
   final int? filterStrength;
 
   /// Enable the image inserter feature to include a graphic overlay on your
@@ -14782,10 +19795,21 @@ class Input {
   /// https://docs.aws.amazon.com/console/mediaconvert/timecode.
   final String? timecodeStart;
 
-  /// Selector for video.
+  /// When you include Video generator, MediaConvert creates a video input with
+  /// black frames. Use this setting if you do not have a video input or if you
+  /// want to add black video frames before, or after, other inputs. You can
+  /// specify Video generator, or you can specify an Input file, but you cannot
+  /// specify both. For more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/video-generator.html
+  final InputVideoGenerator? videoGenerator;
+
+  /// Input video selectors contain the video settings for the input. Each of your
+  /// inputs can have up to one video selector.
   final VideoSelector? videoSelector;
 
   Input({
+    this.advancedInputFilter,
+    this.advancedInputFilterSettings,
     this.audioSelectorGroups,
     this.audioSelectors,
     this.captionSelectors,
@@ -14793,6 +19817,7 @@ class Input {
     this.deblockFilter,
     this.decryptionSettings,
     this.denoiseFilter,
+    this.dolbyVisionMetadataXml,
     this.fileInput,
     this.filterEnable,
     this.filterStrength,
@@ -14805,10 +19830,18 @@ class Input {
     this.supplementalImps,
     this.timecodeSource,
     this.timecodeStart,
+    this.videoGenerator,
     this.videoSelector,
   });
+
   factory Input.fromJson(Map<String, dynamic> json) {
     return Input(
+      advancedInputFilter:
+          (json['advancedInputFilter'] as String?)?.toAdvancedInputFilter(),
+      advancedInputFilterSettings: json['advancedInputFilterSettings'] != null
+          ? AdvancedInputFilterSettings.fromJson(
+              json['advancedInputFilterSettings'] as Map<String, dynamic>)
+          : null,
       audioSelectorGroups:
           (json['audioSelectorGroups'] as Map<String, dynamic>?)?.map((k, e) =>
               MapEntry(
@@ -14828,6 +19861,7 @@ class Input {
               json['decryptionSettings'] as Map<String, dynamic>)
           : null,
       denoiseFilter: (json['denoiseFilter'] as String?)?.toInputDenoiseFilter(),
+      dolbyVisionMetadataXml: json['dolbyVisionMetadataXml'] as String?,
       fileInput: json['fileInput'] as String?,
       filterEnable: (json['filterEnable'] as String?)?.toInputFilterEnable(),
       filterStrength: json['filterStrength'] as int?,
@@ -14852,6 +19886,10 @@ class Input {
       timecodeSource:
           (json['timecodeSource'] as String?)?.toInputTimecodeSource(),
       timecodeStart: json['timecodeStart'] as String?,
+      videoGenerator: json['videoGenerator'] != null
+          ? InputVideoGenerator.fromJson(
+              json['videoGenerator'] as Map<String, dynamic>)
+          : null,
       videoSelector: json['videoSelector'] != null
           ? VideoSelector.fromJson(
               json['videoSelector'] as Map<String, dynamic>)
@@ -14860,6 +19898,8 @@ class Input {
   }
 
   Map<String, dynamic> toJson() {
+    final advancedInputFilter = this.advancedInputFilter;
+    final advancedInputFilterSettings = this.advancedInputFilterSettings;
     final audioSelectorGroups = this.audioSelectorGroups;
     final audioSelectors = this.audioSelectors;
     final captionSelectors = this.captionSelectors;
@@ -14867,6 +19907,7 @@ class Input {
     final deblockFilter = this.deblockFilter;
     final decryptionSettings = this.decryptionSettings;
     final denoiseFilter = this.denoiseFilter;
+    final dolbyVisionMetadataXml = this.dolbyVisionMetadataXml;
     final fileInput = this.fileInput;
     final filterEnable = this.filterEnable;
     final filterStrength = this.filterStrength;
@@ -14879,8 +19920,13 @@ class Input {
     final supplementalImps = this.supplementalImps;
     final timecodeSource = this.timecodeSource;
     final timecodeStart = this.timecodeStart;
+    final videoGenerator = this.videoGenerator;
     final videoSelector = this.videoSelector;
     return {
+      if (advancedInputFilter != null)
+        'advancedInputFilter': advancedInputFilter.toValue(),
+      if (advancedInputFilterSettings != null)
+        'advancedInputFilterSettings': advancedInputFilterSettings,
       if (audioSelectorGroups != null)
         'audioSelectorGroups': audioSelectorGroups,
       if (audioSelectors != null) 'audioSelectors': audioSelectors,
@@ -14889,6 +19935,8 @@ class Input {
       if (deblockFilter != null) 'deblockFilter': deblockFilter.toValue(),
       if (decryptionSettings != null) 'decryptionSettings': decryptionSettings,
       if (denoiseFilter != null) 'denoiseFilter': denoiseFilter.toValue(),
+      if (dolbyVisionMetadataXml != null)
+        'dolbyVisionMetadataXml': dolbyVisionMetadataXml,
       if (fileInput != null) 'fileInput': fileInput,
       if (filterEnable != null) 'filterEnable': filterEnable.toValue(),
       if (filterStrength != null) 'filterStrength': filterStrength,
@@ -14901,14 +19949,17 @@ class Input {
       if (supplementalImps != null) 'supplementalImps': supplementalImps,
       if (timecodeSource != null) 'timecodeSource': timecodeSource.toValue(),
       if (timecodeStart != null) 'timecodeStart': timecodeStart,
+      if (videoGenerator != null) 'videoGenerator': videoGenerator,
       if (videoSelector != null) 'videoSelector': videoSelector,
     };
   }
 }
 
-/// To transcode only portions of your input (clips), include one Input clipping
-/// (one instance of InputClipping in the JSON job file) for each input clip.
-/// All input clips you specify will be included in every output of the job.
+/// To transcode only portions of your input, include one input clip for each
+/// part of your input that you want in your output. All input clips that you
+/// specify will be included in every output of the job. For more information,
+/// see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/assembling-multiple-inputs-and-input-clips.html.
 class InputClipping {
   /// Set End timecode (EndTimecode) to the end of the portion of the input you
   /// are clipping. The frame corresponding to the End timecode value is included
@@ -14936,6 +19987,7 @@ class InputClipping {
     this.endTimecode,
     this.startTimecode,
   });
+
   factory InputClipping.fromJson(Map<String, dynamic> json) {
     return InputClipping(
       endTimecode: json['endTimecode'] as String?,
@@ -15017,6 +20069,7 @@ class InputDecryptionSettings {
     this.initializationVector,
     this.kmsKeyRegion,
   });
+
   factory InputDecryptionSettings.fromJson(Map<String, dynamic> json) {
     return InputDecryptionSettings(
       decryptionMode: (json['decryptionMode'] as String?)?.toDecryptionMode(),
@@ -15042,7 +20095,7 @@ class InputDecryptionSettings {
   }
 }
 
-/// Enable Denoise (InputDenoiseFilter) to filter noise from the input.  Default
+/// Enable Denoise (InputDenoiseFilter) to filter noise from the input. Default
 /// is disabled. Only applicable to MPEG2, H.264, H.265, and uncompressed video
 /// inputs.
 enum InputDenoiseFilter {
@@ -15073,14 +20126,11 @@ extension InputDenoiseFilterFromString on String {
   }
 }
 
-/// Specify how the transcoding service applies the denoise and deblock filters.
-/// You must also enable the filters separately, with Denoise
-/// (InputDenoiseFilter) and Deblock (InputDeblockFilter). * Auto - The
-/// transcoding service determines whether to apply filtering, depending on
-/// input type and quality. * Disable - The input is not filtered. This is true
-/// even if you use the API to enable them in (InputDeblockFilter) and
-/// (InputDeblockFilter). * Force - The input is filtered regardless of input
-/// type.
+/// Specify whether to apply input filtering to improve the video quality of
+/// your input. To apply filtering depending on your input type and quality:
+/// Choose Auto. To apply no filtering: Choose Disable. To apply filtering
+/// regardless of your input type and quality: Choose Force. When you do, you
+/// must also specify a value for Filter strength.
 enum InputFilterEnable {
   auto,
   disable,
@@ -15111,6 +20161,36 @@ extension InputFilterEnableFromString on String {
         return InputFilterEnable.force;
     }
     throw Exception('$this is not known in enum InputFilterEnable');
+  }
+}
+
+/// An input policy allows or disallows a job you submit to run based on the
+/// conditions that you specify.
+enum InputPolicy {
+  allowed,
+  disallowed,
+}
+
+extension InputPolicyValueExtension on InputPolicy {
+  String toValue() {
+    switch (this) {
+      case InputPolicy.allowed:
+        return 'ALLOWED';
+      case InputPolicy.disallowed:
+        return 'DISALLOWED';
+    }
+  }
+}
+
+extension InputPolicyFromString on String {
+  InputPolicy toInputPolicy() {
+    switch (this) {
+      case 'ALLOWED':
+        return InputPolicy.allowed;
+      case 'DISALLOWED':
+        return InputPolicy.disallowed;
+    }
+    throw Exception('$this is not known in enum InputPolicy');
   }
 }
 
@@ -15198,6 +20278,48 @@ extension InputRotateFromString on String {
   }
 }
 
+/// If the sample range metadata in your input video is accurate, or if you
+/// don't know about sample range, keep the default value, Follow (FOLLOW), for
+/// this setting. When you do, the service automatically detects your input
+/// sample range. If your input video has metadata indicating the wrong sample
+/// range, specify the accurate sample range here. When you do, MediaConvert
+/// ignores any sample range information in the input metadata. Regardless of
+/// whether MediaConvert uses the input sample range or the sample range that
+/// you specify, MediaConvert uses the sample range for transcoding and also
+/// writes it to the output metadata.
+enum InputSampleRange {
+  follow,
+  fullRange,
+  limitedRange,
+}
+
+extension InputSampleRangeValueExtension on InputSampleRange {
+  String toValue() {
+    switch (this) {
+      case InputSampleRange.follow:
+        return 'FOLLOW';
+      case InputSampleRange.fullRange:
+        return 'FULL_RANGE';
+      case InputSampleRange.limitedRange:
+        return 'LIMITED_RANGE';
+    }
+  }
+}
+
+extension InputSampleRangeFromString on String {
+  InputSampleRange toInputSampleRange() {
+    switch (this) {
+      case 'FOLLOW':
+        return InputSampleRange.follow;
+      case 'FULL_RANGE':
+        return InputSampleRange.fullRange;
+      case 'LIMITED_RANGE':
+        return InputSampleRange.limitedRange;
+    }
+    throw Exception('$this is not known in enum InputSampleRange');
+  }
+}
+
 /// When you have a progressive segmented frame (PsF) input, use this setting to
 /// flag the input as PsF. MediaConvert doesn't automatically detect PsF.
 /// Therefore, flagging your input as PsF results in better preservation of
@@ -15235,9 +20357,29 @@ extension InputScanTypeFromString on String {
 
 /// Specified video input in a template.
 class InputTemplate {
-  /// Specifies set of audio selectors within an input to combine. An input may
-  /// have multiple audio selector groups. See "Audio Selector
-  /// Group":#inputs-audio_selector_group for more information.
+  /// Use to remove noise, blocking, blurriness, or ringing from your input as a
+  /// pre-filter step before encoding. The Advanced input filter removes more
+  /// types of compression artifacts and is an improvement when compared to basic
+  /// Deblock and Denoise filters. To remove video compression artifacts from your
+  /// input and improve the video quality: Choose Enabled. Additionally, this
+  /// filter can help increase the video quality of your output relative to its
+  /// bitrate, since noisy inputs are more complex and require more bits to
+  /// encode. To help restore loss of detail after applying the filter, you can
+  /// optionally add texture or sharpening as an additional step. Jobs that use
+  /// this feature incur pro-tier pricing. To not apply advanced input filtering:
+  /// Choose Disabled. Note that you can still apply basic filtering with Deblock
+  /// and Denoise.
+  final AdvancedInputFilter? advancedInputFilter;
+
+  /// Optional settings for Advanced input filter when you set Advanced input
+  /// filter to Enabled.
+  final AdvancedInputFilterSettings? advancedInputFilterSettings;
+
+  /// Use audio selector groups to combine multiple sidecar audio inputs so that
+  /// you can assign them to a single output audio tab (AudioDescription). Note
+  /// that, if you're working with embedded audio, it's simpler to assign multiple
+  /// input tracks into a single audio selector rather than use an audio selector
+  /// group.
   final Map<String, AudioSelectorGroup>? audioSelectorGroups;
 
   /// Use Audio selectors (AudioSelectors) to specify a track or set of tracks
@@ -15260,23 +20402,37 @@ class InputTemplate {
   /// uncompressed video inputs.
   final InputDeblockFilter? deblockFilter;
 
-  /// Enable Denoise (InputDenoiseFilter) to filter noise from the input.  Default
+  /// Enable Denoise (InputDenoiseFilter) to filter noise from the input. Default
   /// is disabled. Only applicable to MPEG2, H.264, H.265, and uncompressed video
   /// inputs.
   final InputDenoiseFilter? denoiseFilter;
 
-  /// Specify how the transcoding service applies the denoise and deblock filters.
-  /// You must also enable the filters separately, with Denoise
-  /// (InputDenoiseFilter) and Deblock (InputDeblockFilter). * Auto - The
-  /// transcoding service determines whether to apply filtering, depending on
-  /// input type and quality. * Disable - The input is not filtered. This is true
-  /// even if you use the API to enable them in (InputDeblockFilter) and
-  /// (InputDeblockFilter). * Force - The input is filtered regardless of input
-  /// type.
+  /// Use this setting only when your video source has Dolby Vision studio
+  /// mastering metadata that is carried in a separate XML file. Specify the
+  /// Amazon S3 location for the metadata XML file. MediaConvert uses this file to
+  /// provide global and frame-level metadata for Dolby Vision preprocessing. When
+  /// you specify a file here and your input also has interleaved global and frame
+  /// level metadata, MediaConvert ignores the interleaved metadata and uses only
+  /// the the metadata from this external XML file. Note that your IAM service
+  /// role must grant MediaConvert read permissions to this file. For more
+  /// information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html.
+  final String? dolbyVisionMetadataXml;
+
+  /// Specify whether to apply input filtering to improve the video quality of
+  /// your input. To apply filtering depending on your input type and quality:
+  /// Choose Auto. To apply no filtering: Choose Disable. To apply filtering
+  /// regardless of your input type and quality: Choose Force. When you do, you
+  /// must also specify a value for Filter strength.
   final InputFilterEnable? filterEnable;
 
-  /// Use Filter strength (FilterStrength) to adjust the magnitude the input
-  /// filter settings (Deblock and Denoise). The range is -5 to 5. Default is 0.
+  /// Specify the strength of the input filter. To apply an automatic amount of
+  /// filtering based the compression artifacts measured in your input: We
+  /// recommend that you leave Filter strength blank and set Filter enable to
+  /// Auto. To manually apply filtering: Enter a value from 1 to 5, where 1 is the
+  /// least amount of filtering and 5 is the most. The value that you enter
+  /// applies to the strength of the Deblock or Denoise filters, or to the
+  /// strength of the Advanced input filter.
   final int? filterStrength;
 
   /// Enable the image inserter feature to include a graphic overlay on your
@@ -15344,16 +20500,20 @@ class InputTemplate {
   /// https://docs.aws.amazon.com/console/mediaconvert/timecode.
   final String? timecodeStart;
 
-  /// Selector for video.
+  /// Input video selectors contain the video settings for the input. Each of your
+  /// inputs can have up to one video selector.
   final VideoSelector? videoSelector;
 
   InputTemplate({
+    this.advancedInputFilter,
+    this.advancedInputFilterSettings,
     this.audioSelectorGroups,
     this.audioSelectors,
     this.captionSelectors,
     this.crop,
     this.deblockFilter,
     this.denoiseFilter,
+    this.dolbyVisionMetadataXml,
     this.filterEnable,
     this.filterStrength,
     this.imageInserter,
@@ -15366,8 +20526,15 @@ class InputTemplate {
     this.timecodeStart,
     this.videoSelector,
   });
+
   factory InputTemplate.fromJson(Map<String, dynamic> json) {
     return InputTemplate(
+      advancedInputFilter:
+          (json['advancedInputFilter'] as String?)?.toAdvancedInputFilter(),
+      advancedInputFilterSettings: json['advancedInputFilterSettings'] != null
+          ? AdvancedInputFilterSettings.fromJson(
+              json['advancedInputFilterSettings'] as Map<String, dynamic>)
+          : null,
       audioSelectorGroups:
           (json['audioSelectorGroups'] as Map<String, dynamic>?)?.map((k, e) =>
               MapEntry(
@@ -15383,6 +20550,7 @@ class InputTemplate {
           : null,
       deblockFilter: (json['deblockFilter'] as String?)?.toInputDeblockFilter(),
       denoiseFilter: (json['denoiseFilter'] as String?)?.toInputDenoiseFilter(),
+      dolbyVisionMetadataXml: json['dolbyVisionMetadataXml'] as String?,
       filterEnable: (json['filterEnable'] as String?)?.toInputFilterEnable(),
       filterStrength: json['filterStrength'] as int?,
       imageInserter: json['imageInserter'] != null
@@ -15410,12 +20578,15 @@ class InputTemplate {
   }
 
   Map<String, dynamic> toJson() {
+    final advancedInputFilter = this.advancedInputFilter;
+    final advancedInputFilterSettings = this.advancedInputFilterSettings;
     final audioSelectorGroups = this.audioSelectorGroups;
     final audioSelectors = this.audioSelectors;
     final captionSelectors = this.captionSelectors;
     final crop = this.crop;
     final deblockFilter = this.deblockFilter;
     final denoiseFilter = this.denoiseFilter;
+    final dolbyVisionMetadataXml = this.dolbyVisionMetadataXml;
     final filterEnable = this.filterEnable;
     final filterStrength = this.filterStrength;
     final imageInserter = this.imageInserter;
@@ -15428,6 +20599,10 @@ class InputTemplate {
     final timecodeStart = this.timecodeStart;
     final videoSelector = this.videoSelector;
     return {
+      if (advancedInputFilter != null)
+        'advancedInputFilter': advancedInputFilter.toValue(),
+      if (advancedInputFilterSettings != null)
+        'advancedInputFilterSettings': advancedInputFilterSettings,
       if (audioSelectorGroups != null)
         'audioSelectorGroups': audioSelectorGroups,
       if (audioSelectors != null) 'audioSelectors': audioSelectors,
@@ -15435,6 +20610,8 @@ class InputTemplate {
       if (crop != null) 'crop': crop,
       if (deblockFilter != null) 'deblockFilter': deblockFilter.toValue(),
       if (denoiseFilter != null) 'denoiseFilter': denoiseFilter.toValue(),
+      if (dolbyVisionMetadataXml != null)
+        'dolbyVisionMetadataXml': dolbyVisionMetadataXml,
       if (filterEnable != null) 'filterEnable': filterEnable.toValue(),
       if (filterStrength != null) 'filterStrength': filterStrength,
       if (imageInserter != null) 'imageInserter': imageInserter,
@@ -15494,7 +20671,38 @@ extension InputTimecodeSourceFromString on String {
   }
 }
 
-/// Settings that specify how your still graphic overlay appears.
+/// When you include Video generator, MediaConvert creates a video input with
+/// black frames. Use this setting if you do not have a video input or if you
+/// want to add black video frames before, or after, other inputs. You can
+/// specify Video generator, or you can specify an Input file, but you cannot
+/// specify both. For more information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/video-generator.html
+class InputVideoGenerator {
+  /// Specify an integer value for Black video duration from 50 to 86400000 to
+  /// generate a black video input for that many milliseconds. Required when you
+  /// include Video generator.
+  final int? duration;
+
+  InputVideoGenerator({
+    this.duration,
+  });
+
+  factory InputVideoGenerator.fromJson(Map<String, dynamic> json) {
+    return InputVideoGenerator(
+      duration: json['duration'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final duration = this.duration;
+    return {
+      if (duration != null) 'duration': duration,
+    };
+  }
+}
+
+/// These settings apply to a specific graphic overlay. You can include multiple
+/// overlays in your job.
 class InsertableImage {
   /// Specify the time, in milliseconds, for the image to remain on the output
   /// video. This duration includes fade-in time but not fade-out time.
@@ -15565,6 +20773,7 @@ class InsertableImage {
     this.startTime,
     this.width,
   });
+
   factory InsertableImage.fromJson(Map<String, dynamic> json) {
     return InsertableImage(
       duration: json['duration'] as int?,
@@ -15645,6 +20854,14 @@ class Job {
   /// The tag type that AWS Billing and Cost Management will use to sort your AWS
   /// Elemental MediaConvert costs on any billing report that you set up.
   final BillingTagsSource? billingTagsSource;
+
+  /// Prevent duplicate jobs from being created and ensure idempotency for your
+  /// requests. A client request token can be any string that includes up to 64
+  /// ASCII characters. If you reuse a client request token within one minute of a
+  /// successful request, the API returns the job details of the original request
+  /// instead. For more information see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/apireference/idempotency.html.
+  final String? clientRequestToken;
 
   /// The time, in Unix epoch format in seconds, when the job got created.
   final DateTime? createdAt;
@@ -15727,6 +20944,11 @@ class Job {
   /// You specify metadata in key/value pairs.
   final Map<String, String>? userMetadata;
 
+  /// Contains any warning messages for the job. Use to help identify potential
+  /// issues with your input, output, or job. For more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/warning_codes.html
+  final List<WarningGroup>? warnings;
+
   Job({
     required this.role,
     required this.settings,
@@ -15734,6 +20956,7 @@ class Job {
     this.accelerationStatus,
     this.arn,
     this.billingTagsSource,
+    this.clientRequestToken,
     this.createdAt,
     this.currentPhase,
     this.errorCode,
@@ -15753,7 +20976,9 @@ class Job {
     this.statusUpdateInterval,
     this.timing,
     this.userMetadata,
+    this.warnings,
   });
+
   factory Job.fromJson(Map<String, dynamic> json) {
     return Job(
       role: json['role'] as String,
@@ -15767,6 +20992,7 @@ class Job {
       arn: json['arn'] as String?,
       billingTagsSource:
           (json['billingTagsSource'] as String?)?.toBillingTagsSource(),
+      clientRequestToken: json['clientRequestToken'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
       currentPhase: (json['currentPhase'] as String?)?.toJobPhase(),
       errorCode: json['errorCode'] as int?,
@@ -15802,6 +21028,10 @@ class Job {
           : null,
       userMetadata: (json['userMetadata'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      warnings: (json['warnings'] as List?)
+          ?.whereNotNull()
+          .map((e) => WarningGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }
@@ -15821,6 +21051,7 @@ class JobMessages {
     this.info,
     this.warning,
   });
+
   factory JobMessages.fromJson(Map<String, dynamic> json) {
     return JobMessages(
       info: (json['info'] as List?)
@@ -15875,20 +21106,38 @@ class JobSettings {
   /// PTS time.
   final int? adAvailOffset;
 
-  /// Settings for ad avail blanking.  Video can be blanked or overlaid with an
+  /// Settings for ad avail blanking. Video can be blanked or overlaid with an
   /// image, and audio muted during SCTE-35 triggered ad avails.
   final AvailBlanking? availBlanking;
 
-  /// Settings for Event Signaling And Messaging (ESAM).
+  /// Settings for Event Signaling And Messaging (ESAM). If you don't do ad
+  /// insertion, you can ignore these settings.
   final EsamSettings? esam;
+
+  /// If your source content has EIA-608 Line 21 Data Services, enable this
+  /// feature to specify what MediaConvert does with the Extended Data Services
+  /// (XDS) packets. You can choose to pass through XDS packets, or remove them
+  /// from the output. For more information about XDS, see EIA-608 Line Data
+  /// Services, section 9.5.1.5 05h Content Advisory.
+  final ExtendedDataServices? extendedDataServices;
 
   /// Use Inputs (inputs) to define source file used in the transcode job. There
   /// can be multiple inputs add in a job. These inputs will be concantenated
   /// together to create the output.
   final List<Input>? inputs;
 
+  /// Use these settings only when you use Kantar watermarking. Specify the values
+  /// that MediaConvert uses to generate and place Kantar watermarks in your
+  /// output audio. These settings apply to every output in your job. In addition
+  /// to specifying these values, you also need to store your Kantar credentials
+  /// in AWS Secrets Manager. For more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/kantar-watermarking.html.
+  final KantarWatermarkSettings? kantarWatermark;
+
   /// Overlay motion graphics on top of your video. The motion graphics that you
-  /// specify here appear on all outputs in all output groups.
+  /// specify here appear on all outputs in all output groups. For more
+  /// information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/motion-graphic-overlay.html.
   final MotionImageInserter? motionImageInserter;
 
   /// Settings for your Nielsen configuration. If you don't do Nielsen measurement
@@ -15901,12 +21150,12 @@ class JobSettings {
   final NielsenConfiguration? nielsenConfiguration;
 
   /// Ignore these settings unless you are using Nielsen non-linear watermarking.
-  /// Specify the values that  MediaConvert uses to generate and place Nielsen
-  /// watermarks in your output audio. In addition to  specifying these values,
-  /// you also need to set up your cloud TIC server. These settings apply to
-  /// every output in your job. The MediaConvert implementation is currently with
-  /// the following Nielsen versions: Nielsen Watermark SDK Version 5.2.1 Nielsen
-  /// NLM Watermark Engine Version 1.2.7 Nielsen Watermark Authenticator [SID_TIC]
+  /// Specify the values that MediaConvert uses to generate and place Nielsen
+  /// watermarks in your output audio. In addition to specifying these values, you
+  /// also need to set up your cloud TIC server. These settings apply to every
+  /// output in your job. The MediaConvert implementation is currently with the
+  /// following Nielsen versions: Nielsen Watermark SDK Version 5.2.1 Nielsen NLM
+  /// Watermark Engine Version 1.2.7 Nielsen Watermark Authenticator [SID_TIC]
   /// Version [5.0.0]
   final NielsenNonLinearWatermarkSettings? nielsenNonLinearWatermark;
 
@@ -15922,21 +21171,22 @@ class JobSettings {
   /// CmafGroupSettings
   final List<OutputGroup>? outputGroups;
 
-  /// Contains settings used to acquire and adjust timecode information from
-  /// inputs.
+  /// These settings control how the service handles timecodes throughout the job.
+  /// These settings don't affect input clipping.
   final TimecodeConfig? timecodeConfig;
 
-  /// Enable Timed metadata insertion (TimedMetadataInsertion) to include ID3 tags
-  /// in any HLS outputs. To include timed metadata, you must enable it here,
-  /// enable it in each output container, and specify tags and timecodes in ID3
-  /// insertion (Id3Insertion) objects.
+  /// Insert user-defined custom ID3 metadata (id3) at timecodes (timecode) that
+  /// you specify. In each output that you want to include this metadata, you must
+  /// set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH).
   final TimedMetadataInsertion? timedMetadataInsertion;
 
   JobSettings({
     this.adAvailOffset,
     this.availBlanking,
     this.esam,
+    this.extendedDataServices,
     this.inputs,
+    this.kantarWatermark,
     this.motionImageInserter,
     this.nielsenConfiguration,
     this.nielsenNonLinearWatermark,
@@ -15944,6 +21194,7 @@ class JobSettings {
     this.timecodeConfig,
     this.timedMetadataInsertion,
   });
+
   factory JobSettings.fromJson(Map<String, dynamic> json) {
     return JobSettings(
       adAvailOffset: json['adAvailOffset'] as int?,
@@ -15954,10 +21205,18 @@ class JobSettings {
       esam: json['esam'] != null
           ? EsamSettings.fromJson(json['esam'] as Map<String, dynamic>)
           : null,
+      extendedDataServices: json['extendedDataServices'] != null
+          ? ExtendedDataServices.fromJson(
+              json['extendedDataServices'] as Map<String, dynamic>)
+          : null,
       inputs: (json['inputs'] as List?)
           ?.whereNotNull()
           .map((e) => Input.fromJson(e as Map<String, dynamic>))
           .toList(),
+      kantarWatermark: json['kantarWatermark'] != null
+          ? KantarWatermarkSettings.fromJson(
+              json['kantarWatermark'] as Map<String, dynamic>)
+          : null,
       motionImageInserter: json['motionImageInserter'] != null
           ? MotionImageInserter.fromJson(
               json['motionImageInserter'] as Map<String, dynamic>)
@@ -15989,7 +21248,9 @@ class JobSettings {
     final adAvailOffset = this.adAvailOffset;
     final availBlanking = this.availBlanking;
     final esam = this.esam;
+    final extendedDataServices = this.extendedDataServices;
     final inputs = this.inputs;
+    final kantarWatermark = this.kantarWatermark;
     final motionImageInserter = this.motionImageInserter;
     final nielsenConfiguration = this.nielsenConfiguration;
     final nielsenNonLinearWatermark = this.nielsenNonLinearWatermark;
@@ -16000,7 +21261,10 @@ class JobSettings {
       if (adAvailOffset != null) 'adAvailOffset': adAvailOffset,
       if (availBlanking != null) 'availBlanking': availBlanking,
       if (esam != null) 'esam': esam,
+      if (extendedDataServices != null)
+        'extendedDataServices': extendedDataServices,
       if (inputs != null) 'inputs': inputs,
+      if (kantarWatermark != null) 'kantarWatermark': kantarWatermark,
       if (motionImageInserter != null)
         'motionImageInserter': motionImageInserter,
       if (nielsenConfiguration != null)
@@ -16125,6 +21389,7 @@ class JobTemplate {
     this.statusUpdateInterval,
     this.type,
   });
+
   factory JobTemplate.fromJson(Map<String, dynamic> json) {
     return JobTemplate(
       name: json['name'] as String,
@@ -16195,20 +21460,38 @@ class JobTemplateSettings {
   /// PTS time.
   final int? adAvailOffset;
 
-  /// Settings for ad avail blanking.  Video can be blanked or overlaid with an
+  /// Settings for ad avail blanking. Video can be blanked or overlaid with an
   /// image, and audio muted during SCTE-35 triggered ad avails.
   final AvailBlanking? availBlanking;
 
-  /// Settings for Event Signaling And Messaging (ESAM).
+  /// Settings for Event Signaling And Messaging (ESAM). If you don't do ad
+  /// insertion, you can ignore these settings.
   final EsamSettings? esam;
 
+  /// If your source content has EIA-608 Line 21 Data Services, enable this
+  /// feature to specify what MediaConvert does with the Extended Data Services
+  /// (XDS) packets. You can choose to pass through XDS packets, or remove them
+  /// from the output. For more information about XDS, see EIA-608 Line Data
+  /// Services, section 9.5.1.5 05h Content Advisory.
+  final ExtendedDataServices? extendedDataServices;
+
   /// Use Inputs (inputs) to define the source file used in the transcode job.
-  /// There can only be one input in a job template.  Using the API, you can
+  /// There can only be one input in a job template. Using the API, you can
   /// include multiple inputs when referencing a job template.
   final List<InputTemplate>? inputs;
 
+  /// Use these settings only when you use Kantar watermarking. Specify the values
+  /// that MediaConvert uses to generate and place Kantar watermarks in your
+  /// output audio. These settings apply to every output in your job. In addition
+  /// to specifying these values, you also need to store your Kantar credentials
+  /// in AWS Secrets Manager. For more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/kantar-watermarking.html.
+  final KantarWatermarkSettings? kantarWatermark;
+
   /// Overlay motion graphics on top of your video. The motion graphics that you
-  /// specify here appear on all outputs in all output groups.
+  /// specify here appear on all outputs in all output groups. For more
+  /// information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/motion-graphic-overlay.html.
   final MotionImageInserter? motionImageInserter;
 
   /// Settings for your Nielsen configuration. If you don't do Nielsen measurement
@@ -16221,12 +21504,12 @@ class JobTemplateSettings {
   final NielsenConfiguration? nielsenConfiguration;
 
   /// Ignore these settings unless you are using Nielsen non-linear watermarking.
-  /// Specify the values that  MediaConvert uses to generate and place Nielsen
-  /// watermarks in your output audio. In addition to  specifying these values,
-  /// you also need to set up your cloud TIC server. These settings apply to
-  /// every output in your job. The MediaConvert implementation is currently with
-  /// the following Nielsen versions: Nielsen Watermark SDK Version 5.2.1 Nielsen
-  /// NLM Watermark Engine Version 1.2.7 Nielsen Watermark Authenticator [SID_TIC]
+  /// Specify the values that MediaConvert uses to generate and place Nielsen
+  /// watermarks in your output audio. In addition to specifying these values, you
+  /// also need to set up your cloud TIC server. These settings apply to every
+  /// output in your job. The MediaConvert implementation is currently with the
+  /// following Nielsen versions: Nielsen Watermark SDK Version 5.2.1 Nielsen NLM
+  /// Watermark Engine Version 1.2.7 Nielsen Watermark Authenticator [SID_TIC]
   /// Version [5.0.0]
   final NielsenNonLinearWatermarkSettings? nielsenNonLinearWatermark;
 
@@ -16242,21 +21525,22 @@ class JobTemplateSettings {
   /// CmafGroupSettings
   final List<OutputGroup>? outputGroups;
 
-  /// Contains settings used to acquire and adjust timecode information from
-  /// inputs.
+  /// These settings control how the service handles timecodes throughout the job.
+  /// These settings don't affect input clipping.
   final TimecodeConfig? timecodeConfig;
 
-  /// Enable Timed metadata insertion (TimedMetadataInsertion) to include ID3 tags
-  /// in any HLS outputs. To include timed metadata, you must enable it here,
-  /// enable it in each output container, and specify tags and timecodes in ID3
-  /// insertion (Id3Insertion) objects.
+  /// Insert user-defined custom ID3 metadata (id3) at timecodes (timecode) that
+  /// you specify. In each output that you want to include this metadata, you must
+  /// set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH).
   final TimedMetadataInsertion? timedMetadataInsertion;
 
   JobTemplateSettings({
     this.adAvailOffset,
     this.availBlanking,
     this.esam,
+    this.extendedDataServices,
     this.inputs,
+    this.kantarWatermark,
     this.motionImageInserter,
     this.nielsenConfiguration,
     this.nielsenNonLinearWatermark,
@@ -16264,6 +21548,7 @@ class JobTemplateSettings {
     this.timecodeConfig,
     this.timedMetadataInsertion,
   });
+
   factory JobTemplateSettings.fromJson(Map<String, dynamic> json) {
     return JobTemplateSettings(
       adAvailOffset: json['adAvailOffset'] as int?,
@@ -16274,10 +21559,18 @@ class JobTemplateSettings {
       esam: json['esam'] != null
           ? EsamSettings.fromJson(json['esam'] as Map<String, dynamic>)
           : null,
+      extendedDataServices: json['extendedDataServices'] != null
+          ? ExtendedDataServices.fromJson(
+              json['extendedDataServices'] as Map<String, dynamic>)
+          : null,
       inputs: (json['inputs'] as List?)
           ?.whereNotNull()
           .map((e) => InputTemplate.fromJson(e as Map<String, dynamic>))
           .toList(),
+      kantarWatermark: json['kantarWatermark'] != null
+          ? KantarWatermarkSettings.fromJson(
+              json['kantarWatermark'] as Map<String, dynamic>)
+          : null,
       motionImageInserter: json['motionImageInserter'] != null
           ? MotionImageInserter.fromJson(
               json['motionImageInserter'] as Map<String, dynamic>)
@@ -16309,7 +21602,9 @@ class JobTemplateSettings {
     final adAvailOffset = this.adAvailOffset;
     final availBlanking = this.availBlanking;
     final esam = this.esam;
+    final extendedDataServices = this.extendedDataServices;
     final inputs = this.inputs;
+    final kantarWatermark = this.kantarWatermark;
     final motionImageInserter = this.motionImageInserter;
     final nielsenConfiguration = this.nielsenConfiguration;
     final nielsenNonLinearWatermark = this.nielsenNonLinearWatermark;
@@ -16320,7 +21615,10 @@ class JobTemplateSettings {
       if (adAvailOffset != null) 'adAvailOffset': adAvailOffset,
       if (availBlanking != null) 'availBlanking': availBlanking,
       if (esam != null) 'esam': esam,
+      if (extendedDataServices != null)
+        'extendedDataServices': extendedDataServices,
       if (inputs != null) 'inputs': inputs,
+      if (kantarWatermark != null) 'kantarWatermark': kantarWatermark,
       if (motionImageInserter != null)
         'motionImageInserter': motionImageInserter,
       if (nielsenConfiguration != null)
@@ -16331,6 +21629,143 @@ class JobTemplateSettings {
       if (timecodeConfig != null) 'timecodeConfig': timecodeConfig,
       if (timedMetadataInsertion != null)
         'timedMetadataInsertion': timedMetadataInsertion,
+    };
+  }
+}
+
+/// Use these settings only when you use Kantar watermarking. Specify the values
+/// that MediaConvert uses to generate and place Kantar watermarks in your
+/// output audio. These settings apply to every output in your job. In addition
+/// to specifying these values, you also need to store your Kantar credentials
+/// in AWS Secrets Manager. For more information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/kantar-watermarking.html.
+class KantarWatermarkSettings {
+  /// Provide an audio channel name from your Kantar audio license.
+  final String? channelName;
+
+  /// Specify a unique identifier for Kantar to use for this piece of content.
+  final String? contentReference;
+
+  /// Provide the name of the AWS Secrets Manager secret where your Kantar
+  /// credentials are stored. Note that your MediaConvert service role must
+  /// provide access to this secret. For more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/granting-permissions-for-mediaconvert-to-access-secrets-manager-secret.html.
+  /// For instructions on creating a secret, see
+  /// https://docs.aws.amazon.com/secretsmanager/latest/userguide/tutorials_basic.html,
+  /// in the AWS Secrets Manager User Guide.
+  final String? credentialsSecretName;
+
+  /// Optional. Specify an offset, in whole seconds, from the start of your output
+  /// and the beginning of the watermarking. When you don't specify an offset,
+  /// Kantar defaults to zero.
+  final double? fileOffset;
+
+  /// Provide your Kantar license ID number. You should get this number from
+  /// Kantar.
+  final int? kantarLicenseId;
+
+  /// Provide the HTTPS endpoint to the Kantar server. You should get this
+  /// endpoint from Kantar.
+  final String? kantarServerUrl;
+
+  /// Optional. Specify the Amazon S3 bucket where you want MediaConvert to store
+  /// your Kantar watermark XML logs. When you don't specify a bucket,
+  /// MediaConvert doesn't save these logs. Note that your MediaConvert service
+  /// role must provide access to this location. For more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html
+  final String? logDestination;
+
+  /// You can optionally use this field to specify the first timestamp that Kantar
+  /// embeds during watermarking. Kantar suggests that you be very cautious when
+  /// using this Kantar feature, and that you use it only on channels that are
+  /// managed specifically for use with this feature by your Audience Measurement
+  /// Operator. For more information about this feature, contact Kantar technical
+  /// support.
+  final String? metadata3;
+
+  /// Additional metadata that MediaConvert sends to Kantar. Maximum length is 50
+  /// characters.
+  final String? metadata4;
+
+  /// Additional metadata that MediaConvert sends to Kantar. Maximum length is 50
+  /// characters.
+  final String? metadata5;
+
+  /// Additional metadata that MediaConvert sends to Kantar. Maximum length is 50
+  /// characters.
+  final String? metadata6;
+
+  /// Additional metadata that MediaConvert sends to Kantar. Maximum length is 50
+  /// characters.
+  final String? metadata7;
+
+  /// Additional metadata that MediaConvert sends to Kantar. Maximum length is 50
+  /// characters.
+  final String? metadata8;
+
+  KantarWatermarkSettings({
+    this.channelName,
+    this.contentReference,
+    this.credentialsSecretName,
+    this.fileOffset,
+    this.kantarLicenseId,
+    this.kantarServerUrl,
+    this.logDestination,
+    this.metadata3,
+    this.metadata4,
+    this.metadata5,
+    this.metadata6,
+    this.metadata7,
+    this.metadata8,
+  });
+
+  factory KantarWatermarkSettings.fromJson(Map<String, dynamic> json) {
+    return KantarWatermarkSettings(
+      channelName: json['channelName'] as String?,
+      contentReference: json['contentReference'] as String?,
+      credentialsSecretName: json['credentialsSecretName'] as String?,
+      fileOffset: json['fileOffset'] as double?,
+      kantarLicenseId: json['kantarLicenseId'] as int?,
+      kantarServerUrl: json['kantarServerUrl'] as String?,
+      logDestination: json['logDestination'] as String?,
+      metadata3: json['metadata3'] as String?,
+      metadata4: json['metadata4'] as String?,
+      metadata5: json['metadata5'] as String?,
+      metadata6: json['metadata6'] as String?,
+      metadata7: json['metadata7'] as String?,
+      metadata8: json['metadata8'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelName = this.channelName;
+    final contentReference = this.contentReference;
+    final credentialsSecretName = this.credentialsSecretName;
+    final fileOffset = this.fileOffset;
+    final kantarLicenseId = this.kantarLicenseId;
+    final kantarServerUrl = this.kantarServerUrl;
+    final logDestination = this.logDestination;
+    final metadata3 = this.metadata3;
+    final metadata4 = this.metadata4;
+    final metadata5 = this.metadata5;
+    final metadata6 = this.metadata6;
+    final metadata7 = this.metadata7;
+    final metadata8 = this.metadata8;
+    return {
+      if (channelName != null) 'channelName': channelName,
+      if (contentReference != null) 'contentReference': contentReference,
+      if (credentialsSecretName != null)
+        'credentialsSecretName': credentialsSecretName,
+      if (fileOffset != null) 'fileOffset': fileOffset,
+      if (kantarLicenseId != null) 'kantarLicenseId': kantarLicenseId,
+      if (kantarServerUrl != null) 'kantarServerUrl': kantarServerUrl,
+      if (logDestination != null) 'logDestination': logDestination,
+      if (metadata3 != null) 'metadata3': metadata3,
+      if (metadata4 != null) 'metadata4': metadata4,
+      if (metadata5 != null) 'metadata5': metadata5,
+      if (metadata6 != null) 'metadata6': metadata6,
+      if (metadata7 != null) 'metadata7': metadata7,
+      if (metadata8 != null) 'metadata8': metadata8,
     };
   }
 }
@@ -16529,6 +21964,7 @@ enum LanguageCode {
   orj,
   qpc,
   tng,
+  srp,
 }
 
 extension LanguageCodeValueExtension on LanguageCode {
@@ -16916,6 +22352,8 @@ extension LanguageCodeValueExtension on LanguageCode {
         return 'QPC';
       case LanguageCode.tng:
         return 'TNG';
+      case LanguageCode.srp:
+        return 'SRP';
     }
   }
 }
@@ -17305,6 +22743,8 @@ extension LanguageCodeFromString on String {
         return LanguageCode.qpc;
       case 'TNG':
         return LanguageCode.tng;
+      case 'SRP':
+        return LanguageCode.srp;
     }
     throw Exception('$this is not known in enum LanguageCode');
   }
@@ -17321,6 +22761,7 @@ class ListJobTemplatesResponse {
     this.jobTemplates,
     this.nextToken,
   });
+
   factory ListJobTemplatesResponse.fromJson(Map<String, dynamic> json) {
     return ListJobTemplatesResponse(
       jobTemplates: (json['jobTemplates'] as List?)
@@ -17343,6 +22784,7 @@ class ListJobsResponse {
     this.jobs,
     this.nextToken,
   });
+
   factory ListJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListJobsResponse(
       jobs: (json['jobs'] as List?)
@@ -17365,6 +22807,7 @@ class ListPresetsResponse {
     this.nextToken,
     this.presets,
   });
+
   factory ListPresetsResponse.fromJson(Map<String, dynamic> json) {
     return ListPresetsResponse(
       nextToken: json['nextToken'] as String?,
@@ -17387,6 +22830,7 @@ class ListQueuesResponse {
     this.nextToken,
     this.queues,
   });
+
   factory ListQueuesResponse.fromJson(Map<String, dynamic> json) {
     return ListQueuesResponse(
       nextToken: json['nextToken'] as String?,
@@ -17406,6 +22850,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.resourceTags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       resourceTags: json['resourceTags'] != null
@@ -17487,7 +22932,7 @@ extension M2tsAudioDurationFromString on String {
 }
 
 /// Controls what buffer model to use for accurate interleaving. If set to
-/// MULTIPLEX, use multiplex  buffer model. If set to NONE, this can lead to
+/// MULTIPLEX, use multiplex buffer model. If set to NONE, this can lead to
 /// lower latency, but low-memory devices may not be able to play back the
 /// stream without interruptions.
 enum M2tsBufferModel {
@@ -17515,6 +22960,38 @@ extension M2tsBufferModelFromString on String {
         return M2tsBufferModel.none;
     }
     throw Exception('$this is not known in enum M2tsBufferModel');
+  }
+}
+
+/// If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets
+/// with Presentation Timestamp (PTS) values greater than or equal to the first
+/// video packet PTS (MediaConvert drops captions and data packets with lesser
+/// PTS values). Keep the default value (AUTO) to allow all PTS values.
+enum M2tsDataPtsControl {
+  auto,
+  alignToVideo,
+}
+
+extension M2tsDataPtsControlValueExtension on M2tsDataPtsControl {
+  String toValue() {
+    switch (this) {
+      case M2tsDataPtsControl.auto:
+        return 'AUTO';
+      case M2tsDataPtsControl.alignToVideo:
+        return 'ALIGN_TO_VIDEO';
+    }
+  }
+}
+
+extension M2tsDataPtsControlFromString on String {
+  M2tsDataPtsControl toM2tsDataPtsControl() {
+    switch (this) {
+      case 'AUTO':
+        return M2tsDataPtsControl.auto;
+      case 'ALIGN_TO_VIDEO':
+        return M2tsDataPtsControl.alignToVideo;
+    }
+    throw Exception('$this is not known in enum M2tsDataPtsControl');
   }
 }
 
@@ -17644,6 +23121,38 @@ extension M2tsForceTsVideoEbpOrderFromString on String {
   }
 }
 
+/// To include key-length-value metadata in this output: Set KLV metadata
+/// insertion to Passthrough. MediaConvert reads KLV metadata present in your
+/// input and passes it through to the output transport stream. To exclude this
+/// KLV metadata: Set KLV metadata insertion to None or leave blank.
+enum M2tsKlvMetadata {
+  passthrough,
+  none,
+}
+
+extension M2tsKlvMetadataValueExtension on M2tsKlvMetadata {
+  String toValue() {
+    switch (this) {
+      case M2tsKlvMetadata.passthrough:
+        return 'PASSTHROUGH';
+      case M2tsKlvMetadata.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension M2tsKlvMetadataFromString on String {
+  M2tsKlvMetadata toM2tsKlvMetadata() {
+    switch (this) {
+      case 'PASSTHROUGH':
+        return M2tsKlvMetadata.passthrough;
+      case 'NONE':
+        return M2tsKlvMetadata.none;
+    }
+    throw Exception('$this is not known in enum M2tsKlvMetadata');
+  }
+}
+
 /// If INSERT, Nielsen inaudible tones for media tracking will be detected in
 /// the input audio and an equivalent ID3 tag will be inserted in the output.
 enum M2tsNielsenId3 {
@@ -17749,6 +23258,7 @@ class M2tsScte35Esam {
   M2tsScte35Esam({
     this.scte35EsamPid,
   });
+
   factory M2tsScte35Esam.fromJson(Map<String, dynamic> json) {
     return M2tsScte35Esam(
       scte35EsamPid: json['scte35EsamPid'] as int?,
@@ -17937,25 +23447,37 @@ class M2tsSettings {
   final int? bitrate;
 
   /// Controls what buffer model to use for accurate interleaving. If set to
-  /// MULTIPLEX, use multiplex  buffer model. If set to NONE, this can lead to
+  /// MULTIPLEX, use multiplex buffer model. If set to NONE, this can lead to
   /// lower latency, but low-memory devices may not be able to play back the
   /// stream without interruptions.
   final M2tsBufferModel? bufferModel;
 
-  /// Inserts DVB Network Information Table (NIT) at the specified table
-  /// repetition interval.
+  /// If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets
+  /// with Presentation Timestamp (PTS) values greater than or equal to the first
+  /// video packet PTS (MediaConvert drops captions and data packets with lesser
+  /// PTS values). Keep the default value (AUTO) to allow all PTS values.
+  final M2tsDataPtsControl? dataPTSControl;
+
+  /// Use these settings to insert a DVB Network Information Table (NIT) in the
+  /// transport stream of this output. When you work directly in your JSON job
+  /// specification, include this object only when your job has a transport stream
+  /// output and the container settings contain the object M2tsSettings.
   final DvbNitSettings? dvbNitSettings;
 
-  /// Inserts DVB Service Description Table (NIT) at the specified table
-  /// repetition interval.
+  /// Use these settings to insert a DVB Service Description Table (SDT) in the
+  /// transport stream of this output. When you work directly in your JSON job
+  /// specification, include this object only when your job has a transport stream
+  /// output and the container settings contain the object M2tsSettings.
   final DvbSdtSettings? dvbSdtSettings;
 
   /// Specify the packet identifiers (PIDs) for DVB subtitle data included in this
   /// output. Specify multiple PIDs as a JSON array. Default is the range 460-479.
   final List<int>? dvbSubPids;
 
-  /// Inserts DVB Time and Date Table (TDT) at the specified table repetition
-  /// interval.
+  /// Use these settings to insert a DVB Time and Date Table (TDT) in the
+  /// transport stream of this output. When you work directly in your JSON job
+  /// specification, include this object only when your job has a transport stream
+  /// output and the container settings contain the object M2tsSettings.
   final DvbTdtSettings? dvbTdtSettings;
 
   /// Specify the packet identifier (PID) for DVB teletext data you include in
@@ -17986,6 +23508,12 @@ class M2tsSettings {
 
   /// The length, in seconds, of each fragment. Only used with EBP markers.
   final double? fragmentTime;
+
+  /// To include key-length-value metadata in this output: Set KLV metadata
+  /// insertion to Passthrough. MediaConvert reads KLV metadata present in your
+  /// input and passes it through to the output transport stream. To exclude this
+  /// KLV metadata: Set KLV metadata insertion to None or leave blank.
+  final M2tsKlvMetadata? klvMetadata;
 
   /// Specify the maximum time, in milliseconds, between Program Clock References
   /// (PCRs) inserted into the transport stream.
@@ -18092,8 +23620,7 @@ class M2tsSettings {
   /// set to _none_.
   final double? segmentationTime;
 
-  /// Specify the packet identifier (PID) for timed metadata in this output.
-  /// Default is 502.
+  /// Packet Identifier (PID) of the ID3 metadata stream in the transport stream.
   final int? timedMetadataPid;
 
   /// Specify the ID for the transport stream itself in the program map table for
@@ -18112,6 +23639,7 @@ class M2tsSettings {
     this.audioPids,
     this.bitrate,
     this.bufferModel,
+    this.dataPTSControl,
     this.dvbNitSettings,
     this.dvbSdtSettings,
     this.dvbSubPids,
@@ -18122,6 +23650,7 @@ class M2tsSettings {
     this.esRateInPes,
     this.forceTsVideoEbpOrder,
     this.fragmentTime,
+    this.klvMetadata,
     this.maxPcrInterval,
     this.minEbpInterval,
     this.nielsenId3,
@@ -18144,6 +23673,7 @@ class M2tsSettings {
     this.transportStreamId,
     this.videoPid,
   });
+
   factory M2tsSettings.fromJson(Map<String, dynamic> json) {
     return M2tsSettings(
       audioBufferModel:
@@ -18156,6 +23686,8 @@ class M2tsSettings {
           .toList(),
       bitrate: json['bitrate'] as int?,
       bufferModel: (json['bufferModel'] as String?)?.toM2tsBufferModel(),
+      dataPTSControl:
+          (json['dataPTSControl'] as String?)?.toM2tsDataPtsControl(),
       dvbNitSettings: json['dvbNitSettings'] != null
           ? DvbNitSettings.fromJson(
               json['dvbNitSettings'] as Map<String, dynamic>)
@@ -18180,6 +23712,7 @@ class M2tsSettings {
       forceTsVideoEbpOrder: (json['forceTsVideoEbpOrder'] as String?)
           ?.toM2tsForceTsVideoEbpOrder(),
       fragmentTime: json['fragmentTime'] as double?,
+      klvMetadata: (json['klvMetadata'] as String?)?.toM2tsKlvMetadata(),
       maxPcrInterval: json['maxPcrInterval'] as int?,
       minEbpInterval: json['minEbpInterval'] as int?,
       nielsenId3: (json['nielsenId3'] as String?)?.toM2tsNielsenId3(),
@@ -18215,6 +23748,7 @@ class M2tsSettings {
     final audioPids = this.audioPids;
     final bitrate = this.bitrate;
     final bufferModel = this.bufferModel;
+    final dataPTSControl = this.dataPTSControl;
     final dvbNitSettings = this.dvbNitSettings;
     final dvbSdtSettings = this.dvbSdtSettings;
     final dvbSubPids = this.dvbSubPids;
@@ -18225,6 +23759,7 @@ class M2tsSettings {
     final esRateInPes = this.esRateInPes;
     final forceTsVideoEbpOrder = this.forceTsVideoEbpOrder;
     final fragmentTime = this.fragmentTime;
+    final klvMetadata = this.klvMetadata;
     final maxPcrInterval = this.maxPcrInterval;
     final minEbpInterval = this.minEbpInterval;
     final nielsenId3 = this.nielsenId3;
@@ -18254,6 +23789,7 @@ class M2tsSettings {
       if (audioPids != null) 'audioPids': audioPids,
       if (bitrate != null) 'bitrate': bitrate,
       if (bufferModel != null) 'bufferModel': bufferModel.toValue(),
+      if (dataPTSControl != null) 'dataPTSControl': dataPTSControl.toValue(),
       if (dvbNitSettings != null) 'dvbNitSettings': dvbNitSettings,
       if (dvbSdtSettings != null) 'dvbSdtSettings': dvbSdtSettings,
       if (dvbSubPids != null) 'dvbSubPids': dvbSubPids,
@@ -18266,6 +23802,7 @@ class M2tsSettings {
       if (forceTsVideoEbpOrder != null)
         'forceTsVideoEbpOrder': forceTsVideoEbpOrder.toValue(),
       if (fragmentTime != null) 'fragmentTime': fragmentTime,
+      if (klvMetadata != null) 'klvMetadata': klvMetadata.toValue(),
       if (maxPcrInterval != null) 'maxPcrInterval': maxPcrInterval,
       if (minEbpInterval != null) 'minEbpInterval': minEbpInterval,
       if (nielsenId3 != null) 'nielsenId3': nielsenId3.toValue(),
@@ -18332,6 +23869,38 @@ extension M3u8AudioDurationFromString on String {
         return M3u8AudioDuration.matchVideoDuration;
     }
     throw Exception('$this is not known in enum M3u8AudioDuration');
+  }
+}
+
+/// If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets
+/// with Presentation Timestamp (PTS) values greater than or equal to the first
+/// video packet PTS (MediaConvert drops captions and data packets with lesser
+/// PTS values). Keep the default value (AUTO) to allow all PTS values.
+enum M3u8DataPtsControl {
+  auto,
+  alignToVideo,
+}
+
+extension M3u8DataPtsControlValueExtension on M3u8DataPtsControl {
+  String toValue() {
+    switch (this) {
+      case M3u8DataPtsControl.auto:
+        return 'AUTO';
+      case M3u8DataPtsControl.alignToVideo:
+        return 'ALIGN_TO_VIDEO';
+    }
+  }
+}
+
+extension M3u8DataPtsControlFromString on String {
+  M3u8DataPtsControl toM3u8DataPtsControl() {
+    switch (this) {
+      case 'AUTO':
+        return M3u8DataPtsControl.auto;
+      case 'ALIGN_TO_VIDEO':
+        return M3u8DataPtsControl.alignToVideo;
+    }
+    throw Exception('$this is not known in enum M3u8DataPtsControl');
   }
 }
 
@@ -18433,7 +24002,8 @@ extension M3u8Scte35SourceFromString on String {
   }
 }
 
-/// Settings for TS segments in HLS
+/// These settings relate to the MPEG-2 transport stream (MPEG2-TS) container
+/// for the MPEG2-TS segments in your HLS outputs.
 class M3u8Settings {
   /// Specify this setting only when your output will be consumed by a downstream
   /// repackaging workflow that is sensitive to very small duration differences
@@ -18458,6 +24028,16 @@ class M3u8Settings {
   /// stream. Multiple values are accepted, and can be entered in ranges and/or by
   /// comma separation.
   final List<int>? audioPids;
+
+  /// If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets
+  /// with Presentation Timestamp (PTS) values greater than or equal to the first
+  /// video packet PTS (MediaConvert drops captions and data packets with lesser
+  /// PTS values). Keep the default value (AUTO) to allow all PTS values.
+  final M3u8DataPtsControl? dataPTSControl;
+
+  /// Specify the maximum time, in milliseconds, between Program Clock References
+  /// (PCRs) inserted into the transport stream.
+  final int? maxPcrInterval;
 
   /// If INSERT, Nielsen inaudible tones for media tracking will be detected in
   /// the input audio and an equivalent ID3 tag will be inserted in the output.
@@ -18506,12 +24086,14 @@ class M3u8Settings {
   /// processing notification XML (sccXml).
   final M3u8Scte35Source? scte35Source;
 
-  /// Applies only to HLS outputs. Use this setting to specify whether the service
-  /// inserts the ID3 timed metadata from the input in this output.
+  /// Set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH) to include ID3
+  /// metadata in this output. This includes ID3 metadata from the following
+  /// features: ID3 timestamp period (timedMetadataId3Period), and Custom ID3
+  /// metadata inserter (timedMetadataInsertion). To exclude this ID3 metadata in
+  /// this output: set ID3 metadata to None (NONE) or leave blank.
   final TimedMetadata? timedMetadata;
 
-  /// Packet Identifier (PID) of the timed metadata stream in the transport
-  /// stream.
+  /// Packet Identifier (PID) of the ID3 metadata stream in the transport stream.
   final int? timedMetadataPid;
 
   /// The value of the transport stream ID field in the Program Map Table.
@@ -18525,6 +24107,8 @@ class M3u8Settings {
     this.audioDuration,
     this.audioFramesPerPes,
     this.audioPids,
+    this.dataPTSControl,
+    this.maxPcrInterval,
     this.nielsenId3,
     this.patInterval,
     this.pcrControl,
@@ -18540,6 +24124,7 @@ class M3u8Settings {
     this.transportStreamId,
     this.videoPid,
   });
+
   factory M3u8Settings.fromJson(Map<String, dynamic> json) {
     return M3u8Settings(
       audioDuration: (json['audioDuration'] as String?)?.toM3u8AudioDuration(),
@@ -18548,6 +24133,9 @@ class M3u8Settings {
           ?.whereNotNull()
           .map((e) => e as int)
           .toList(),
+      dataPTSControl:
+          (json['dataPTSControl'] as String?)?.toM3u8DataPtsControl(),
+      maxPcrInterval: json['maxPcrInterval'] as int?,
       nielsenId3: (json['nielsenId3'] as String?)?.toM3u8NielsenId3(),
       patInterval: json['patInterval'] as int?,
       pcrControl: (json['pcrControl'] as String?)?.toM3u8PcrControl(),
@@ -18569,6 +24157,8 @@ class M3u8Settings {
     final audioDuration = this.audioDuration;
     final audioFramesPerPes = this.audioFramesPerPes;
     final audioPids = this.audioPids;
+    final dataPTSControl = this.dataPTSControl;
+    final maxPcrInterval = this.maxPcrInterval;
     final nielsenId3 = this.nielsenId3;
     final patInterval = this.patInterval;
     final pcrControl = this.pcrControl;
@@ -18587,6 +24177,8 @@ class M3u8Settings {
       if (audioDuration != null) 'audioDuration': audioDuration.toValue(),
       if (audioFramesPerPes != null) 'audioFramesPerPes': audioFramesPerPes,
       if (audioPids != null) 'audioPids': audioPids,
+      if (dataPTSControl != null) 'dataPTSControl': dataPTSControl.toValue(),
+      if (maxPcrInterval != null) 'maxPcrInterval': maxPcrInterval,
       if (nielsenId3 != null) 'nielsenId3': nielsenId3.toValue(),
       if (patInterval != null) 'patInterval': patInterval,
       if (pcrControl != null) 'pcrControl': pcrControl.toValue(),
@@ -18605,7 +24197,82 @@ class M3u8Settings {
   }
 }
 
-/// Overlay motion graphics on top of your video at the time that you specify.
+/// Use Min bottom rendition size to specify a minimum size for the lowest
+/// resolution in your ABR stack. * The lowest resolution in your ABR stack will
+/// be equal to or greater than the value that you enter. For example: If you
+/// specify 640x360 the lowest resolution in your ABR stack will be equal to or
+/// greater than to 640x360. * If you specify a Min top rendition size rule, the
+/// value that you specify for Min bottom rendition size must be less than, or
+/// equal to, Min top rendition size.
+class MinBottomRenditionSize {
+  /// Use Height to define the video resolution height, in pixels, for this rule.
+  final int? height;
+
+  /// Use Width to define the video resolution width, in pixels, for this rule.
+  final int? width;
+
+  MinBottomRenditionSize({
+    this.height,
+    this.width,
+  });
+
+  factory MinBottomRenditionSize.fromJson(Map<String, dynamic> json) {
+    return MinBottomRenditionSize(
+      height: json['height'] as int?,
+      width: json['width'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final height = this.height;
+    final width = this.width;
+    return {
+      if (height != null) 'height': height,
+      if (width != null) 'width': width,
+    };
+  }
+}
+
+/// Use Min top rendition size to specify a minimum size for the highest
+/// resolution in your ABR stack. * The highest resolution in your ABR stack
+/// will be equal to or greater than the value that you enter. For example: If
+/// you specify 1280x720 the highest resolution in your ABR stack will be equal
+/// to or greater than 1280x720. * If you specify a value for Max resolution,
+/// the value that you specify for Min top rendition size must be less than, or
+/// equal to, Max resolution.
+class MinTopRenditionSize {
+  /// Use Height to define the video resolution height, in pixels, for this rule.
+  final int? height;
+
+  /// Use Width to define the video resolution width, in pixels, for this rule.
+  final int? width;
+
+  MinTopRenditionSize({
+    this.height,
+    this.width,
+  });
+
+  factory MinTopRenditionSize.fromJson(Map<String, dynamic> json) {
+    return MinTopRenditionSize(
+      height: json['height'] as int?,
+      width: json['width'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final height = this.height;
+    final width = this.width;
+    return {
+      if (height != null) 'height': height,
+      if (width != null) 'width': width,
+    };
+  }
+}
+
+/// Overlay motion graphics on top of your video. The motion graphics that you
+/// specify here appear on all outputs in all output groups. For more
+/// information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/motion-graphic-overlay.html.
 class MotionImageInserter {
   /// If your motion graphic asset is a .mov file, keep this setting unspecified.
   /// If your motion graphic asset is a series of .png files, specify the frame
@@ -18666,6 +24333,7 @@ class MotionImageInserter {
     this.playback,
     this.startTime,
   });
+
   factory MotionImageInserter.fromJson(Map<String, dynamic> json) {
     return MotionImageInserter(
       framerate: json['framerate'] != null
@@ -18719,6 +24387,7 @@ class MotionImageInsertionFramerate {
     this.framerateDenominator,
     this.framerateNumerator,
   });
+
   factory MotionImageInsertionFramerate.fromJson(Map<String, dynamic> json) {
     return MotionImageInsertionFramerate(
       framerateDenominator: json['framerateDenominator'] as int?,
@@ -18782,6 +24451,7 @@ class MotionImageInsertionOffset {
     this.imageX,
     this.imageY,
   });
+
   factory MotionImageInsertionOffset.fromJson(Map<String, dynamic> json) {
     return MotionImageInsertionOffset(
       imageX: json['imageX'] as int?,
@@ -18924,11 +24594,11 @@ extension MovMpeg2FourCCControlFromString on String {
   }
 }
 
-/// To make this output compatible with Omenon, keep the default value, OMNEON.
-/// Unless you need Omneon compatibility, set this value to NONE. When you keep
-/// the default value, OMNEON, MediaConvert increases the length of the edit
-/// list atom. This might cause file rejections when a recipient of the output
-/// file doesn't expct this extra padding.
+/// Unless you need Omneon compatibility: Keep the default value, None. To make
+/// this output compatible with Omneon: Choose Omneon. When you do, MediaConvert
+/// increases the length of the 'elst' edit list atom. Note that this might
+/// cause file rejections when a recipient of the output file doesn't expect
+/// this extra padding.
 enum MovPaddingControl {
   omneon,
   none,
@@ -18986,7 +24656,7 @@ extension MovReferenceFromString on String {
   }
 }
 
-/// Settings for MOV Container.
+/// These settings relate to your QuickTime MOV output container.
 class MovSettings {
   /// When enabled, include 'clap' atom if appropriate for the video output
   /// settings.
@@ -19005,11 +24675,11 @@ class MovSettings {
   /// when the video codec is MPEG2.
   final MovMpeg2FourCCControl? mpeg2FourCCControl;
 
-  /// To make this output compatible with Omenon, keep the default value, OMNEON.
-  /// Unless you need Omneon compatibility, set this value to NONE. When you keep
-  /// the default value, OMNEON, MediaConvert increases the length of the edit
-  /// list atom. This might cause file rejections when a recipient of the output
-  /// file doesn't expct this extra padding.
+  /// Unless you need Omneon compatibility: Keep the default value, None. To make
+  /// this output compatible with Omneon: Choose Omneon. When you do, MediaConvert
+  /// increases the length of the 'elst' edit list atom. Note that this might
+  /// cause file rejections when a recipient of the output file doesn't expect
+  /// this extra padding.
   final MovPaddingControl? paddingControl;
 
   /// Always keep the default value (SELF_CONTAINED) for this setting.
@@ -19022,6 +24692,7 @@ class MovSettings {
     this.paddingControl,
     this.reference,
   });
+
   factory MovSettings.fromJson(Map<String, dynamic> json) {
     return MovSettings(
       clapAtom: (json['clapAtom'] as String?)?.toMovClapAtom(),
@@ -19070,6 +24741,7 @@ class Mp2Settings {
     this.channels,
     this.sampleRate,
   });
+
   factory Mp2Settings.fromJson(Map<String, dynamic> json) {
     return Mp2Settings(
       bitrate: json['bitrate'] as int?,
@@ -19150,6 +24822,7 @@ class Mp3Settings {
     this.sampleRate,
     this.vbrQuality,
   });
+
   factory Mp3Settings.fromJson(Map<String, dynamic> json) {
     return Mp3Settings(
       bitrate: json['bitrate'] as int?,
@@ -19270,8 +24943,9 @@ extension Mp4MoovPlacementFromString on String {
   }
 }
 
-/// Settings for MP4 container. You can create audio-only AAC outputs with this
-/// container.
+/// These settings relate to your MP4 output container. You can create audio
+/// only outputs with this container. For more information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/supported-codecs-containers-audio-only.html#output-codecs-and-containers-supported-for-audio-only.
 class Mp4Settings {
   /// Specify this setting only when your output will be consumed by a downstream
   /// repackaging workflow that is sensitive to very small duration differences
@@ -19324,6 +24998,7 @@ class Mp4Settings {
     this.moovPlacement,
     this.mp4MajorBrand,
   });
+
   factory Mp4Settings.fromJson(Map<String, dynamic> json) {
     return Mp4Settings(
       audioDuration: (json['audioDuration'] as String?)?.toCmfcAudioDuration(),
@@ -19432,7 +25107,7 @@ extension MpdAudioDurationFromString on String {
 }
 
 /// Use this setting only in DASH output groups that include sidecar TTML or
-/// IMSC captions.  You specify sidecar captions in a separate output from your
+/// IMSC captions. You specify sidecar captions in a separate output from your
 /// audio and video. Choose Raw (RAW) for captions in a single XML file in a raw
 /// container. Choose Fragmented MPEG-4 (FRAGMENTED_MP4) for captions in XML
 /// format contained within fragmented MP4 files. This set of fragmented MP4
@@ -19462,6 +25137,77 @@ extension MpdCaptionContainerTypeFromString on String {
         return MpdCaptionContainerType.fragmentedMp4;
     }
     throw Exception('$this is not known in enum MpdCaptionContainerType');
+  }
+}
+
+/// To include key-length-value metadata in this output: Set KLV metadata
+/// insertion to Passthrough. MediaConvert reads KLV metadata present in your
+/// input and writes each instance to a separate event message box in the
+/// output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV
+/// metadata insertion to None or leave blank.
+enum MpdKlvMetadata {
+  none,
+  passthrough,
+}
+
+extension MpdKlvMetadataValueExtension on MpdKlvMetadata {
+  String toValue() {
+    switch (this) {
+      case MpdKlvMetadata.none:
+        return 'NONE';
+      case MpdKlvMetadata.passthrough:
+        return 'PASSTHROUGH';
+    }
+  }
+}
+
+extension MpdKlvMetadataFromString on String {
+  MpdKlvMetadata toMpdKlvMetadata() {
+    switch (this) {
+      case 'NONE':
+        return MpdKlvMetadata.none;
+      case 'PASSTHROUGH':
+        return MpdKlvMetadata.passthrough;
+    }
+    throw Exception('$this is not known in enum MpdKlvMetadata');
+  }
+}
+
+/// To add an InbandEventStream element in your output MPD manifest for each
+/// type of event message, set Manifest metadata signaling to Enabled. For ID3
+/// event messages, the InbandEventStream element schemeIdUri will be same value
+/// that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages,
+/// the InbandEventStream element schemeIdUri will be
+/// "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD
+/// manifest, set Manifest metadata signaling to Disabled. To enable Manifest
+/// metadata signaling, you must also set SCTE-35 source to Passthrough, ESAM
+/// SCTE-35 to insert, or ID3 metadata (TimedMetadata) to Passthrough.
+enum MpdManifestMetadataSignaling {
+  enabled,
+  disabled,
+}
+
+extension MpdManifestMetadataSignalingValueExtension
+    on MpdManifestMetadataSignaling {
+  String toValue() {
+    switch (this) {
+      case MpdManifestMetadataSignaling.enabled:
+        return 'ENABLED';
+      case MpdManifestMetadataSignaling.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension MpdManifestMetadataSignalingFromString on String {
+  MpdManifestMetadataSignaling toMpdManifestMetadataSignaling() {
+    switch (this) {
+      case 'ENABLED':
+        return MpdManifestMetadataSignaling.enabled;
+      case 'DISABLED':
+        return MpdManifestMetadataSignaling.disabled;
+    }
+    throw Exception('$this is not known in enum MpdManifestMetadataSignaling');
   }
 }
 
@@ -19529,7 +25275,8 @@ extension MpdScte35SourceFromString on String {
   }
 }
 
-/// Settings for MP4 segments in DASH
+/// These settings relate to the fragmented MP4 container for the segments in
+/// your DASH outputs.
 class MpdSettings {
   /// Optional. Choose Include (INCLUDE) to have MediaConvert mark up your DASH
   /// manifest with <Accessibility> elements for embedded 608 captions. This
@@ -19557,12 +25304,30 @@ class MpdSettings {
   final MpdAudioDuration? audioDuration;
 
   /// Use this setting only in DASH output groups that include sidecar TTML or
-  /// IMSC captions.  You specify sidecar captions in a separate output from your
+  /// IMSC captions. You specify sidecar captions in a separate output from your
   /// audio and video. Choose Raw (RAW) for captions in a single XML file in a raw
   /// container. Choose Fragmented MPEG-4 (FRAGMENTED_MP4) for captions in XML
   /// format contained within fragmented MP4 files. This set of fragmented MP4
   /// files is separate from your video and audio fragmented MP4 files.
   final MpdCaptionContainerType? captionContainerType;
+
+  /// To include key-length-value metadata in this output: Set KLV metadata
+  /// insertion to Passthrough. MediaConvert reads KLV metadata present in your
+  /// input and writes each instance to a separate event message box in the
+  /// output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV
+  /// metadata insertion to None or leave blank.
+  final MpdKlvMetadata? klvMetadata;
+
+  /// To add an InbandEventStream element in your output MPD manifest for each
+  /// type of event message, set Manifest metadata signaling to Enabled. For ID3
+  /// event messages, the InbandEventStream element schemeIdUri will be same value
+  /// that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages,
+  /// the InbandEventStream element schemeIdUri will be
+  /// "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD
+  /// manifest, set Manifest metadata signaling to Disabled. To enable Manifest
+  /// metadata signaling, you must also set SCTE-35 source to Passthrough, ESAM
+  /// SCTE-35 to insert, or ID3 metadata (TimedMetadata) to Passthrough.
+  final MpdManifestMetadataSignaling? manifestMetadataSignaling;
 
   /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose
   /// INSERT to put SCTE-35 markers in this output at the insertion points that
@@ -19576,13 +25341,49 @@ class MpdSettings {
   /// you don't want those SCTE-35 markers in this output.
   final MpdScte35Source? scte35Source;
 
+  /// To include ID3 metadata in this output: Set ID3 metadata (timedMetadata) to
+  /// Passthrough (PASSTHROUGH). Specify this ID3 metadata in Custom ID3 metadata
+  /// inserter (timedMetadataInsertion). MediaConvert writes each instance of ID3
+  /// metadata in a separate Event Message (eMSG) box. To exclude this ID3
+  /// metadata: Set ID3 metadata to None (NONE) or leave blank.
+  final MpdTimedMetadata? timedMetadata;
+
+  /// Specify the event message box (eMSG) version for ID3 timed metadata in your
+  /// output.
+  /// For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.3 Syntax.
+  /// Leave blank to use the default value Version 0.
+  /// When you specify Version 1, you must also set ID3 metadata (timedMetadata)
+  /// to Passthrough.
+  final MpdTimedMetadataBoxVersion? timedMetadataBoxVersion;
+
+  /// Specify the event message box (eMSG) scheme ID URI (scheme_id_uri) for ID3
+  /// timed metadata in your output. For more information, see ISO/IEC
+  /// 23009-1:2022 section 5.10.3.3.4 Semantics. Leave blank to use the default
+  /// value: https://aomedia.org/emsg/ID3 When you specify a value for ID3
+  /// metadata scheme ID URI, you must also set ID3 metadata (timedMetadata) to
+  /// Passthrough.
+  final String? timedMetadataSchemeIdUri;
+
+  /// Specify the event message box (eMSG) value for ID3 timed metadata in your
+  /// output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.4
+  /// Semantics. When you specify a value for ID3 Metadata Value, you must also
+  /// set ID3 metadata (timedMetadata) to Passthrough.
+  final String? timedMetadataValue;
+
   MpdSettings({
     this.accessibilityCaptionHints,
     this.audioDuration,
     this.captionContainerType,
+    this.klvMetadata,
+    this.manifestMetadataSignaling,
     this.scte35Esam,
     this.scte35Source,
+    this.timedMetadata,
+    this.timedMetadataBoxVersion,
+    this.timedMetadataSchemeIdUri,
+    this.timedMetadataValue,
   });
+
   factory MpdSettings.fromJson(Map<String, dynamic> json) {
     return MpdSettings(
       accessibilityCaptionHints: (json['accessibilityCaptionHints'] as String?)
@@ -19590,8 +25391,16 @@ class MpdSettings {
       audioDuration: (json['audioDuration'] as String?)?.toMpdAudioDuration(),
       captionContainerType: (json['captionContainerType'] as String?)
           ?.toMpdCaptionContainerType(),
+      klvMetadata: (json['klvMetadata'] as String?)?.toMpdKlvMetadata(),
+      manifestMetadataSignaling: (json['manifestMetadataSignaling'] as String?)
+          ?.toMpdManifestMetadataSignaling(),
       scte35Esam: (json['scte35Esam'] as String?)?.toMpdScte35Esam(),
       scte35Source: (json['scte35Source'] as String?)?.toMpdScte35Source(),
+      timedMetadata: (json['timedMetadata'] as String?)?.toMpdTimedMetadata(),
+      timedMetadataBoxVersion: (json['timedMetadataBoxVersion'] as String?)
+          ?.toMpdTimedMetadataBoxVersion(),
+      timedMetadataSchemeIdUri: json['timedMetadataSchemeIdUri'] as String?,
+      timedMetadataValue: json['timedMetadataValue'] as String?,
     );
   }
 
@@ -19599,17 +25408,100 @@ class MpdSettings {
     final accessibilityCaptionHints = this.accessibilityCaptionHints;
     final audioDuration = this.audioDuration;
     final captionContainerType = this.captionContainerType;
+    final klvMetadata = this.klvMetadata;
+    final manifestMetadataSignaling = this.manifestMetadataSignaling;
     final scte35Esam = this.scte35Esam;
     final scte35Source = this.scte35Source;
+    final timedMetadata = this.timedMetadata;
+    final timedMetadataBoxVersion = this.timedMetadataBoxVersion;
+    final timedMetadataSchemeIdUri = this.timedMetadataSchemeIdUri;
+    final timedMetadataValue = this.timedMetadataValue;
     return {
       if (accessibilityCaptionHints != null)
         'accessibilityCaptionHints': accessibilityCaptionHints.toValue(),
       if (audioDuration != null) 'audioDuration': audioDuration.toValue(),
       if (captionContainerType != null)
         'captionContainerType': captionContainerType.toValue(),
+      if (klvMetadata != null) 'klvMetadata': klvMetadata.toValue(),
+      if (manifestMetadataSignaling != null)
+        'manifestMetadataSignaling': manifestMetadataSignaling.toValue(),
       if (scte35Esam != null) 'scte35Esam': scte35Esam.toValue(),
       if (scte35Source != null) 'scte35Source': scte35Source.toValue(),
+      if (timedMetadata != null) 'timedMetadata': timedMetadata.toValue(),
+      if (timedMetadataBoxVersion != null)
+        'timedMetadataBoxVersion': timedMetadataBoxVersion.toValue(),
+      if (timedMetadataSchemeIdUri != null)
+        'timedMetadataSchemeIdUri': timedMetadataSchemeIdUri,
+      if (timedMetadataValue != null) 'timedMetadataValue': timedMetadataValue,
     };
+  }
+}
+
+/// To include ID3 metadata in this output: Set ID3 metadata (timedMetadata) to
+/// Passthrough (PASSTHROUGH). Specify this ID3 metadata in Custom ID3 metadata
+/// inserter (timedMetadataInsertion). MediaConvert writes each instance of ID3
+/// metadata in a separate Event Message (eMSG) box. To exclude this ID3
+/// metadata: Set ID3 metadata to None (NONE) or leave blank.
+enum MpdTimedMetadata {
+  passthrough,
+  none,
+}
+
+extension MpdTimedMetadataValueExtension on MpdTimedMetadata {
+  String toValue() {
+    switch (this) {
+      case MpdTimedMetadata.passthrough:
+        return 'PASSTHROUGH';
+      case MpdTimedMetadata.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension MpdTimedMetadataFromString on String {
+  MpdTimedMetadata toMpdTimedMetadata() {
+    switch (this) {
+      case 'PASSTHROUGH':
+        return MpdTimedMetadata.passthrough;
+      case 'NONE':
+        return MpdTimedMetadata.none;
+    }
+    throw Exception('$this is not known in enum MpdTimedMetadata');
+  }
+}
+
+/// Specify the event message box (eMSG) version for ID3 timed metadata in your
+/// output.
+/// For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.3 Syntax.
+/// Leave blank to use the default value Version 0.
+/// When you specify Version 1, you must also set ID3 metadata (timedMetadata)
+/// to Passthrough.
+enum MpdTimedMetadataBoxVersion {
+  version_0,
+  version_1,
+}
+
+extension MpdTimedMetadataBoxVersionValueExtension
+    on MpdTimedMetadataBoxVersion {
+  String toValue() {
+    switch (this) {
+      case MpdTimedMetadataBoxVersion.version_0:
+        return 'VERSION_0';
+      case MpdTimedMetadataBoxVersion.version_1:
+        return 'VERSION_1';
+    }
+  }
+}
+
+extension MpdTimedMetadataBoxVersionFromString on String {
+  MpdTimedMetadataBoxVersion toMpdTimedMetadataBoxVersion() {
+    switch (this) {
+      case 'VERSION_0':
+        return MpdTimedMetadataBoxVersion.version_0;
+      case 'VERSION_1':
+        return MpdTimedMetadataBoxVersion.version_1;
+    }
+    throw Exception('$this is not known in enum MpdTimedMetadataBoxVersion');
   }
 }
 
@@ -19804,16 +25696,16 @@ extension Mpeg2FramerateControlFromString on String {
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
-/// decreasing the frame rate. We recommend using drop duplicate
-/// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
-/// fps. For numerically complex conversions, you can use interpolate
-/// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
-/// introduce undesirable video artifacts. For complex frame rate conversions,
-/// especially if your source video has already been converted from its original
-/// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
-/// interpolation. FrameFormer chooses the best conversion method frame by
-/// frame. Note that using FrameFormer increases the transcoding time and incurs
-/// a significant add-on cost.
+/// decreasing the frame rate. For numerically simple conversions, such as 60
+/// fps to 30 fps: We recommend that you keep the default value, Drop duplicate.
+/// For numerically complex conversions, to avoid stutter: Choose Interpolate.
+/// This results in a smooth picture, but might introduce undesirable video
+/// artifacts. For complex frame rate conversions, especially if your source
+/// video has already been converted from its original cadence: Choose
+/// FrameFormer to do motion-compensated interpolation. FrameFormer uses the
+/// best conversion method frame by frame. Note that using FrameFormer increases
+/// the transcoding time and incurs a significant add-on cost. When you choose
+/// FrameFormer, your input video resolution must be at least 128x96.
 enum Mpeg2FramerateConversionAlgorithm {
   duplicateDrop,
   interpolate,
@@ -19849,8 +25741,8 @@ extension Mpeg2FramerateConversionAlgorithmFromString on String {
   }
 }
 
-/// Indicates if the GOP Size in MPEG2 is specified in frames or seconds. If
-/// seconds the system will convert the GOP Size into a frame count at run time.
+/// Specify the units for GOP size (GopSize). If you don't specify a value here,
+/// by default the encoder measures GOP size in frames.
 enum Mpeg2GopSizeUnits {
   frames,
   seconds,
@@ -20048,7 +25940,7 @@ extension Mpeg2QualityTuningLevelFromString on String {
   }
 }
 
-/// Use Rate control mode (Mpeg2RateControlMode) to specifiy whether the bitrate
+/// Use Rate control mode (Mpeg2RateControlMode) to specify whether the bitrate
 /// is variable (vbr) or constant (cbr).
 enum Mpeg2RateControlMode {
   vbr,
@@ -20075,6 +25967,49 @@ extension Mpeg2RateControlModeFromString on String {
         return Mpeg2RateControlMode.cbr;
     }
     throw Exception('$this is not known in enum Mpeg2RateControlMode');
+  }
+}
+
+/// Use this setting for interlaced outputs, when your output frame rate is half
+/// of your input frame rate. In this situation, choose Optimized interlacing
+/// (INTERLACED_OPTIMIZE) to create a better quality interlaced output. In this
+/// case, each progressive frame from the input corresponds to an interlaced
+/// field in the output. Keep the default value, Basic interlacing (INTERLACED),
+/// for all other output frame rates. With basic interlacing, MediaConvert
+/// performs any frame rate conversion first and then interlaces the frames.
+/// When you choose Optimized interlacing and you set your output frame rate to
+/// a value that isn't suitable for optimized interlacing, MediaConvert
+/// automatically falls back to basic interlacing. Required settings: To use
+/// optimized interlacing, you must set Telecine (telecine) to None (NONE) or
+/// Soft (SOFT). You can't use optimized interlacing for hard telecine outputs.
+/// You must also set Interlace mode (interlaceMode) to a value other than
+/// Progressive (PROGRESSIVE).
+enum Mpeg2ScanTypeConversionMode {
+  interlaced,
+  interlacedOptimize,
+}
+
+extension Mpeg2ScanTypeConversionModeValueExtension
+    on Mpeg2ScanTypeConversionMode {
+  String toValue() {
+    switch (this) {
+      case Mpeg2ScanTypeConversionMode.interlaced:
+        return 'INTERLACED';
+      case Mpeg2ScanTypeConversionMode.interlacedOptimize:
+        return 'INTERLACED_OPTIMIZE';
+    }
+  }
+}
+
+extension Mpeg2ScanTypeConversionModeFromString on String {
+  Mpeg2ScanTypeConversionMode toMpeg2ScanTypeConversionMode() {
+    switch (this) {
+      case 'INTERLACED':
+        return Mpeg2ScanTypeConversionMode.interlaced;
+      case 'INTERLACED_OPTIMIZE':
+        return Mpeg2ScanTypeConversionMode.interlacedOptimize;
+    }
+    throw Exception('$this is not known in enum Mpeg2ScanTypeConversionMode');
   }
 }
 
@@ -20153,20 +26088,20 @@ class Mpeg2Settings {
   final Mpeg2FramerateControl? framerateControl;
 
   /// Choose the method that you want MediaConvert to use when increasing or
-  /// decreasing the frame rate. We recommend using drop duplicate
-  /// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
-  /// fps. For numerically complex conversions, you can use interpolate
-  /// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
-  /// introduce undesirable video artifacts. For complex frame rate conversions,
-  /// especially if your source video has already been converted from its original
-  /// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
-  /// interpolation. FrameFormer chooses the best conversion method frame by
-  /// frame. Note that using FrameFormer increases the transcoding time and incurs
-  /// a significant add-on cost.
+  /// decreasing the frame rate. For numerically simple conversions, such as 60
+  /// fps to 30 fps: We recommend that you keep the default value, Drop duplicate.
+  /// For numerically complex conversions, to avoid stutter: Choose Interpolate.
+  /// This results in a smooth picture, but might introduce undesirable video
+  /// artifacts. For complex frame rate conversions, especially if your source
+  /// video has already been converted from its original cadence: Choose
+  /// FrameFormer to do motion-compensated interpolation. FrameFormer uses the
+  /// best conversion method frame by frame. Note that using FrameFormer increases
+  /// the transcoding time and incurs a significant add-on cost. When you choose
+  /// FrameFormer, your input video resolution must be at least 128x96.
   final Mpeg2FramerateConversionAlgorithm? framerateConversionAlgorithm;
 
   /// When you use the API for transcode jobs that use frame rate conversion,
-  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976
   /// fps. Use FramerateDenominator to specify the denominator of this fraction.
   /// In this example, use 1001 for the value of FramerateDenominator. When you
   /// use the console for transcode jobs that use frame rate conversion, provide
@@ -20175,26 +26110,37 @@ class Mpeg2Settings {
   final int? framerateDenominator;
 
   /// When you use the API for transcode jobs that use frame rate conversion,
-  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976
   /// fps. Use FramerateNumerator to specify the numerator of this fraction. In
   /// this example, use 24000 for the value of FramerateNumerator. When you use
   /// the console for transcode jobs that use frame rate conversion, provide the
   /// value as a decimal number for Framerate. In this example, specify 23.976.
   final int? framerateNumerator;
 
-  /// Frequency of closed GOPs. In streaming applications, it is recommended that
-  /// this be set to 1 so a decoder joining mid-stream will receive an IDR frame
-  /// as quickly as possible. Setting this value to 0 will break output
-  /// segmenting.
+  /// Specify the relative frequency of open to closed GOPs in this output. For
+  /// example, if you want to allow four open GOPs and then require a closed GOP,
+  /// set this value to 5. When you create a streaming output, we recommend that
+  /// you keep the default value, 1, so that players starting mid-stream receive
+  /// an IDR frame as quickly as possible. Don't set this value to 0; that would
+  /// break output segmenting.
   final int? gopClosedCadence;
 
-  /// GOP Length (keyframe interval) in frames or seconds. Must be greater than
-  /// zero.
+  /// Specify the interval between keyframes, in seconds or frames, for this
+  /// output. Default: 12 Related settings: When you specify the GOP size in
+  /// seconds, set GOP mode control (GopSizeUnits) to Specified, seconds
+  /// (SECONDS). The default value for GOP mode control (GopSizeUnits) is Frames
+  /// (FRAMES).
   final double? gopSize;
 
-  /// Indicates if the GOP Size in MPEG2 is specified in frames or seconds. If
-  /// seconds the system will convert the GOP Size into a frame count at run time.
+  /// Specify the units for GOP size (GopSize). If you don't specify a value here,
+  /// by default the encoder measures GOP size in frames.
   final Mpeg2GopSizeUnits? gopSizeUnits;
+
+  /// If your downstream systems have strict buffer requirements: Specify the
+  /// minimum percentage of the HRD buffer that's available at the end of each
+  /// encoded video segment. For the best video quality: Set to 0 or leave blank
+  /// to automatically determine the final buffer fill percentage.
+  final int? hrdBufferFinalFillPercentage;
 
   /// Percentage of the buffer that should initially be filled (HRD buffer model).
   final int? hrdBufferInitialFillPercentage;
@@ -20227,16 +26173,24 @@ class Mpeg2Settings {
   /// as 5000000.
   final int? maxBitrate;
 
-  /// Enforces separation between repeated (cadence) I-frames and I-frames
-  /// inserted by Scene Change Detection. If a scene change I-frame is within
-  /// I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched
-  /// to the scene change I-frame. GOP stretch requires enabling lookahead as well
-  /// as setting I-interval. The normal cadence resumes for the next GOP. This
-  /// setting is only used when Scene Change Detect is enabled. Note: Maximum GOP
-  /// stretch = GOP size + Min-I-interval - 1
+  /// Use this setting only when you also enable Scene change detection
+  /// (SceneChangeDetect). This setting determines how the encoder manages the
+  /// spacing between I-frames that it inserts as part of the I-frame cadence and
+  /// the I-frames that it inserts for Scene change detection. When you specify a
+  /// value for this setting, the encoder determines whether to skip a
+  /// cadence-driven I-frame by the value you set. For example, if you set Min I
+  /// interval (minIInterval) to 5 and a cadence-driven I-frame would fall within
+  /// 5 frames of a scene-change I-frame, then the encoder skips the
+  /// cadence-driven I-frame. In this way, one GOP is shrunk slightly and one GOP
+  /// is stretched slightly. When the cadence-driven I-frames are farther from the
+  /// scene-change I-frame than the value you set, then the encoder leaves all
+  /// I-frames in place and the GOPs surrounding the scene change are smaller than
+  /// the usual cadence GOPs.
   final int? minIInterval;
 
-  /// Number of B-frames between reference frames.
+  /// Specify the number of B-frames that MediaConvert puts between reference
+  /// frames in this output. Valid values are whole numbers from 0 through 7. When
+  /// you don't specify a value, MediaConvert defaults to 2.
   final int? numberBFramesBetweenReferenceFrames;
 
   /// Optional. Specify how the service determines the pixel aspect ratio (PAR)
@@ -20270,9 +26224,25 @@ class Mpeg2Settings {
   /// behavior is faster, lower quality, single-pass encoding.
   final Mpeg2QualityTuningLevel? qualityTuningLevel;
 
-  /// Use Rate control mode (Mpeg2RateControlMode) to specifiy whether the bitrate
+  /// Use Rate control mode (Mpeg2RateControlMode) to specify whether the bitrate
   /// is variable (vbr) or constant (cbr).
   final Mpeg2RateControlMode? rateControlMode;
+
+  /// Use this setting for interlaced outputs, when your output frame rate is half
+  /// of your input frame rate. In this situation, choose Optimized interlacing
+  /// (INTERLACED_OPTIMIZE) to create a better quality interlaced output. In this
+  /// case, each progressive frame from the input corresponds to an interlaced
+  /// field in the output. Keep the default value, Basic interlacing (INTERLACED),
+  /// for all other output frame rates. With basic interlacing, MediaConvert
+  /// performs any frame rate conversion first and then interlaces the frames.
+  /// When you choose Optimized interlacing and you set your output frame rate to
+  /// a value that isn't suitable for optimized interlacing, MediaConvert
+  /// automatically falls back to basic interlacing. Required settings: To use
+  /// optimized interlacing, you must set Telecine (telecine) to None (NONE) or
+  /// Soft (SOFT). You can't use optimized interlacing for hard telecine outputs.
+  /// You must also set Interlace mode (interlaceMode) to a value other than
+  /// Progressive (PROGRESSIVE).
+  final Mpeg2ScanTypeConversionMode? scanTypeConversionMode;
 
   /// Enable this setting to insert I-frames at scene changes that the service
   /// automatically detects. This improves video quality and is enabled by
@@ -20319,9 +26289,8 @@ class Mpeg2Settings {
   final Mpeg2SpatialAdaptiveQuantization? spatialAdaptiveQuantization;
 
   /// Specify whether this output's video uses the D10 syntax. Keep the default
-  /// value to  not use the syntax. Related settings: When you choose D10 (D_10)
-  /// for your MXF  profile (profile), you must also set this value to to D10
-  /// (D_10).
+  /// value to not use the syntax. Related settings: When you choose D10 (D_10)
+  /// for your MXF profile (profile), you must also set this value to D10 (D_10).
   final Mpeg2Syntax? syntax;
 
   /// When you do frame rate conversion from 23.976 frames per second (fps) to
@@ -20362,6 +26331,7 @@ class Mpeg2Settings {
     this.gopClosedCadence,
     this.gopSize,
     this.gopSizeUnits,
+    this.hrdBufferFinalFillPercentage,
     this.hrdBufferInitialFillPercentage,
     this.hrdBufferSize,
     this.interlaceMode,
@@ -20374,6 +26344,7 @@ class Mpeg2Settings {
     this.parNumerator,
     this.qualityTuningLevel,
     this.rateControlMode,
+    this.scanTypeConversionMode,
     this.sceneChangeDetect,
     this.slowPal,
     this.softness,
@@ -20382,6 +26353,7 @@ class Mpeg2Settings {
     this.telecine,
     this.temporalAdaptiveQuantization,
   });
+
   factory Mpeg2Settings.fromJson(Map<String, dynamic> json) {
     return Mpeg2Settings(
       adaptiveQuantization: (json['adaptiveQuantization'] as String?)
@@ -20400,6 +26372,8 @@ class Mpeg2Settings {
       gopClosedCadence: json['gopClosedCadence'] as int?,
       gopSize: json['gopSize'] as double?,
       gopSizeUnits: (json['gopSizeUnits'] as String?)?.toMpeg2GopSizeUnits(),
+      hrdBufferFinalFillPercentage:
+          json['hrdBufferFinalFillPercentage'] as int?,
       hrdBufferInitialFillPercentage:
           json['hrdBufferInitialFillPercentage'] as int?,
       hrdBufferSize: json['hrdBufferSize'] as int?,
@@ -20417,6 +26391,8 @@ class Mpeg2Settings {
           (json['qualityTuningLevel'] as String?)?.toMpeg2QualityTuningLevel(),
       rateControlMode:
           (json['rateControlMode'] as String?)?.toMpeg2RateControlMode(),
+      scanTypeConversionMode: (json['scanTypeConversionMode'] as String?)
+          ?.toMpeg2ScanTypeConversionMode(),
       sceneChangeDetect:
           (json['sceneChangeDetect'] as String?)?.toMpeg2SceneChangeDetect(),
       slowPal: (json['slowPal'] as String?)?.toMpeg2SlowPal(),
@@ -20445,6 +26421,7 @@ class Mpeg2Settings {
     final gopClosedCadence = this.gopClosedCadence;
     final gopSize = this.gopSize;
     final gopSizeUnits = this.gopSizeUnits;
+    final hrdBufferFinalFillPercentage = this.hrdBufferFinalFillPercentage;
     final hrdBufferInitialFillPercentage = this.hrdBufferInitialFillPercentage;
     final hrdBufferSize = this.hrdBufferSize;
     final interlaceMode = this.interlaceMode;
@@ -20458,6 +26435,7 @@ class Mpeg2Settings {
     final parNumerator = this.parNumerator;
     final qualityTuningLevel = this.qualityTuningLevel;
     final rateControlMode = this.rateControlMode;
+    final scanTypeConversionMode = this.scanTypeConversionMode;
     final sceneChangeDetect = this.sceneChangeDetect;
     final slowPal = this.slowPal;
     final softness = this.softness;
@@ -20482,6 +26460,8 @@ class Mpeg2Settings {
       if (gopClosedCadence != null) 'gopClosedCadence': gopClosedCadence,
       if (gopSize != null) 'gopSize': gopSize,
       if (gopSizeUnits != null) 'gopSizeUnits': gopSizeUnits.toValue(),
+      if (hrdBufferFinalFillPercentage != null)
+        'hrdBufferFinalFillPercentage': hrdBufferFinalFillPercentage,
       if (hrdBufferInitialFillPercentage != null)
         'hrdBufferInitialFillPercentage': hrdBufferInitialFillPercentage,
       if (hrdBufferSize != null) 'hrdBufferSize': hrdBufferSize,
@@ -20499,6 +26479,8 @@ class Mpeg2Settings {
       if (qualityTuningLevel != null)
         'qualityTuningLevel': qualityTuningLevel.toValue(),
       if (rateControlMode != null) 'rateControlMode': rateControlMode.toValue(),
+      if (scanTypeConversionMode != null)
+        'scanTypeConversionMode': scanTypeConversionMode.toValue(),
       if (sceneChangeDetect != null)
         'sceneChangeDetect': sceneChangeDetect.toValue(),
       if (slowPal != null) 'slowPal': slowPal.toValue(),
@@ -20595,9 +26577,8 @@ extension Mpeg2SpatialAdaptiveQuantizationFromString on String {
 }
 
 /// Specify whether this output's video uses the D10 syntax. Keep the default
-/// value to  not use the syntax. Related settings: When you choose D10 (D_10)
-/// for your MXF  profile (profile), you must also set this value to to D10
-/// (D_10).
+/// value to not use the syntax. Related settings: When you choose D10 (D_10)
+/// for your MXF profile (profile), you must also set this value to D10 (D_10).
 enum Mpeg2Syntax {
   $default,
   d_10,
@@ -20730,6 +26711,7 @@ class MsSmoothAdditionalManifest {
     this.manifestNameModifier,
     this.selectedOutputs,
   });
+
   factory MsSmoothAdditionalManifest.fromJson(Map<String, dynamic> json) {
     return MsSmoothAdditionalManifest(
       manifestNameModifier: json['manifestNameModifier'] as String?,
@@ -20786,7 +26768,7 @@ extension MsSmoothAudioDeduplicationFromString on String {
 /// the value SpekeKeyProvider.
 class MsSmoothEncryptionSettings {
   /// If your output group type is HLS, DASH, or Microsoft Smooth, use these
-  /// settings when doing DRM encryption with a SPEKE-compliant key provider.  If
+  /// settings when doing DRM encryption with a SPEKE-compliant key provider. If
   /// your output group type is CMAF, use the SpekeKeyProviderCmaf settings
   /// instead.
   final SpekeKeyProvider? spekeKeyProvider;
@@ -20794,6 +26776,7 @@ class MsSmoothEncryptionSettings {
   MsSmoothEncryptionSettings({
     this.spekeKeyProvider,
   });
+
   factory MsSmoothEncryptionSettings.fromJson(Map<String, dynamic> json) {
     return MsSmoothEncryptionSettings(
       spekeKeyProvider: json['spekeKeyProvider'] != null
@@ -20811,7 +26794,45 @@ class MsSmoothEncryptionSettings {
   }
 }
 
-/// Required when you set (Type) under (OutputGroups)>(OutputGroupSettings) to
+/// Specify how you want MediaConvert to determine the fragment length. Choose
+/// Exact (EXACT) to have the encoder use the exact length that you specify with
+/// the setting Fragment length (FragmentLength). This might result in extra
+/// I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up
+/// the segment lengths to match the next GOP boundary.
+enum MsSmoothFragmentLengthControl {
+  exact,
+  gopMultiple,
+}
+
+extension MsSmoothFragmentLengthControlValueExtension
+    on MsSmoothFragmentLengthControl {
+  String toValue() {
+    switch (this) {
+      case MsSmoothFragmentLengthControl.exact:
+        return 'EXACT';
+      case MsSmoothFragmentLengthControl.gopMultiple:
+        return 'GOP_MULTIPLE';
+    }
+  }
+}
+
+extension MsSmoothFragmentLengthControlFromString on String {
+  MsSmoothFragmentLengthControl toMsSmoothFragmentLengthControl() {
+    switch (this) {
+      case 'EXACT':
+        return MsSmoothFragmentLengthControl.exact;
+      case 'GOP_MULTIPLE':
+        return MsSmoothFragmentLengthControl.gopMultiple;
+    }
+    throw Exception('$this is not known in enum MsSmoothFragmentLengthControl');
+  }
+}
+
+/// Settings related to your Microsoft Smooth Streaming output package. For more
+/// information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
+/// When you work directly in your JSON job specification, include this object
+/// and any required children when you set Type, under OutputGroupSettings, to
 /// MS_SMOOTH_GROUP_SETTINGS.
 class MsSmoothGroupSettings {
   /// By default, the service creates one .ism Microsoft Smooth Streaming manifest
@@ -20840,9 +26861,19 @@ class MsSmoothGroupSettings {
   /// the value SpekeKeyProvider.
   final MsSmoothEncryptionSettings? encryption;
 
-  /// Use Fragment length (FragmentLength) to specify the mp4 fragment sizes in
-  /// seconds. Fragment length must be compatible with GOP size and frame rate.
+  /// Specify how you want MediaConvert to determine the fragment length. Choose
+  /// Exact (EXACT) to have the encoder use the exact length that you specify with
+  /// the setting Fragment length (FragmentLength). This might result in extra
+  /// I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up
+  /// the segment lengths to match the next GOP boundary.
   final int? fragmentLength;
+
+  /// Specify how you want MediaConvert to determine the fragment length. Choose
+  /// Exact (EXACT) to have the encoder use the exact length that you specify with
+  /// the setting Fragment length (FragmentLength). This might result in extra
+  /// I-frames. Choose Multiple of GOP (GOP_MULTIPLE) to have the encoder round up
+  /// the segment lengths to match the next GOP boundary.
+  final MsSmoothFragmentLengthControl? fragmentLengthControl;
 
   /// Use Manifest encoding (MsSmoothManifestEncoding) to specify the encoding
   /// format for the server and client manifest. Valid options are utf8 and utf16.
@@ -20855,8 +26886,10 @@ class MsSmoothGroupSettings {
     this.destinationSettings,
     this.encryption,
     this.fragmentLength,
+    this.fragmentLengthControl,
     this.manifestEncoding,
   });
+
   factory MsSmoothGroupSettings.fromJson(Map<String, dynamic> json) {
     return MsSmoothGroupSettings(
       additionalManifests: (json['additionalManifests'] as List?)
@@ -20876,6 +26909,8 @@ class MsSmoothGroupSettings {
               json['encryption'] as Map<String, dynamic>)
           : null,
       fragmentLength: json['fragmentLength'] as int?,
+      fragmentLengthControl: (json['fragmentLengthControl'] as String?)
+          ?.toMsSmoothFragmentLengthControl(),
       manifestEncoding:
           (json['manifestEncoding'] as String?)?.toMsSmoothManifestEncoding(),
     );
@@ -20888,6 +26923,7 @@ class MsSmoothGroupSettings {
     final destinationSettings = this.destinationSettings;
     final encryption = this.encryption;
     final fragmentLength = this.fragmentLength;
+    final fragmentLengthControl = this.fragmentLengthControl;
     final manifestEncoding = this.manifestEncoding;
     return {
       if (additionalManifests != null)
@@ -20899,6 +26935,8 @@ class MsSmoothGroupSettings {
         'destinationSettings': destinationSettings,
       if (encryption != null) 'encryption': encryption,
       if (fragmentLength != null) 'fragmentLength': fragmentLength,
+      if (fragmentLengthControl != null)
+        'fragmentLengthControl': fragmentLengthControl.toValue(),
       if (manifestEncoding != null)
         'manifestEncoding': manifestEncoding.toValue(),
     };
@@ -20982,6 +27020,8 @@ enum MxfProfile {
   d_10,
   xdcam,
   op1a,
+  xavc,
+  xdcamRdd9,
 }
 
 extension MxfProfileValueExtension on MxfProfile {
@@ -20993,6 +27033,10 @@ extension MxfProfileValueExtension on MxfProfile {
         return 'XDCAM';
       case MxfProfile.op1a:
         return 'OP1A';
+      case MxfProfile.xavc:
+        return 'XAVC';
+      case MxfProfile.xdcamRdd9:
+        return 'XDCAM_RDD9';
     }
   }
 }
@@ -21006,12 +27050,16 @@ extension MxfProfileFromString on String {
         return MxfProfile.xdcam;
       case 'OP1A':
         return MxfProfile.op1a;
+      case 'XAVC':
+        return MxfProfile.xavc;
+      case 'XDCAM_RDD9':
+        return MxfProfile.xdcamRdd9;
     }
     throw Exception('$this is not known in enum MxfProfile');
   }
 }
 
-/// MXF settings
+/// These settings relate to your MXF output container.
 class MxfSettings {
   /// Optional. When you have AFD signaling set up in your output video stream,
   /// use this setting to choose whether to also include it in the MXF wrapper.
@@ -21032,23 +27080,113 @@ class MxfSettings {
   /// https://docs.aws.amazon.com/mediaconvert/latest/ug/default-automatic-selection-of-mxf-profiles.html.
   final MxfProfile? profile;
 
+  /// Specify the XAVC profile settings for MXF outputs when you set your MXF
+  /// profile to XAVC.
+  final MxfXavcProfileSettings? xavcProfileSettings;
+
   MxfSettings({
     this.afdSignaling,
     this.profile,
+    this.xavcProfileSettings,
   });
+
   factory MxfSettings.fromJson(Map<String, dynamic> json) {
     return MxfSettings(
       afdSignaling: (json['afdSignaling'] as String?)?.toMxfAfdSignaling(),
       profile: (json['profile'] as String?)?.toMxfProfile(),
+      xavcProfileSettings: json['xavcProfileSettings'] != null
+          ? MxfXavcProfileSettings.fromJson(
+              json['xavcProfileSettings'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final afdSignaling = this.afdSignaling;
     final profile = this.profile;
+    final xavcProfileSettings = this.xavcProfileSettings;
     return {
       if (afdSignaling != null) 'afdSignaling': afdSignaling.toValue(),
       if (profile != null) 'profile': profile.toValue(),
+      if (xavcProfileSettings != null)
+        'xavcProfileSettings': xavcProfileSettings,
+    };
+  }
+}
+
+/// To create an output that complies with the XAVC file format guidelines for
+/// interoperability, keep the default value, Drop frames for compliance
+/// (DROP_FRAMES_FOR_COMPLIANCE). To include all frames from your input in this
+/// output, keep the default setting, Allow any duration (ALLOW_ANY_DURATION).
+/// The number of frames that MediaConvert excludes when you set this to Drop
+/// frames for compliance depends on the output frame rate and duration.
+enum MxfXavcDurationMode {
+  allowAnyDuration,
+  dropFramesForCompliance,
+}
+
+extension MxfXavcDurationModeValueExtension on MxfXavcDurationMode {
+  String toValue() {
+    switch (this) {
+      case MxfXavcDurationMode.allowAnyDuration:
+        return 'ALLOW_ANY_DURATION';
+      case MxfXavcDurationMode.dropFramesForCompliance:
+        return 'DROP_FRAMES_FOR_COMPLIANCE';
+    }
+  }
+}
+
+extension MxfXavcDurationModeFromString on String {
+  MxfXavcDurationMode toMxfXavcDurationMode() {
+    switch (this) {
+      case 'ALLOW_ANY_DURATION':
+        return MxfXavcDurationMode.allowAnyDuration;
+      case 'DROP_FRAMES_FOR_COMPLIANCE':
+        return MxfXavcDurationMode.dropFramesForCompliance;
+    }
+    throw Exception('$this is not known in enum MxfXavcDurationMode');
+  }
+}
+
+/// Specify the XAVC profile settings for MXF outputs when you set your MXF
+/// profile to XAVC.
+class MxfXavcProfileSettings {
+  /// To create an output that complies with the XAVC file format guidelines for
+  /// interoperability, keep the default value, Drop frames for compliance
+  /// (DROP_FRAMES_FOR_COMPLIANCE). To include all frames from your input in this
+  /// output, keep the default setting, Allow any duration (ALLOW_ANY_DURATION).
+  /// The number of frames that MediaConvert excludes when you set this to Drop
+  /// frames for compliance depends on the output frame rate and duration.
+  final MxfXavcDurationMode? durationMode;
+
+  /// Specify a value for this setting only for outputs that you set up with one
+  /// of these two XAVC profiles: XAVC HD Intra CBG (XAVC_HD_INTRA_CBG) or XAVC 4K
+  /// Intra CBG (XAVC_4K_INTRA_CBG). Specify the amount of space in each frame
+  /// that the service reserves for ancillary data, such as teletext captions. The
+  /// default value for this setting is 1492 bytes per frame. This should be
+  /// sufficient to prevent overflow unless you have multiple pages of teletext
+  /// captions data. If you have a large amount of teletext data, specify a larger
+  /// number.
+  final int? maxAncDataSize;
+
+  MxfXavcProfileSettings({
+    this.durationMode,
+    this.maxAncDataSize,
+  });
+
+  factory MxfXavcProfileSettings.fromJson(Map<String, dynamic> json) {
+    return MxfXavcProfileSettings(
+      durationMode: (json['durationMode'] as String?)?.toMxfXavcDurationMode(),
+      maxAncDataSize: json['maxAncDataSize'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationMode = this.durationMode;
+    final maxAncDataSize = this.maxAncDataSize;
+    return {
+      if (durationMode != null) 'durationMode': durationMode.toValue(),
+      if (maxAncDataSize != null) 'maxAncDataSize': maxAncDataSize,
     };
   }
 }
@@ -21093,6 +27231,7 @@ class NexGuardFileMarkerSettings {
     this.preset,
     this.strength,
   });
+
   factory NexGuardFileMarkerSettings.fromJson(Map<String, dynamic> json) {
     return NexGuardFileMarkerSettings(
       license: json['license'] as String?,
@@ -21177,6 +27316,7 @@ class NielsenConfiguration {
     this.breakoutCode,
     this.distributorId,
   });
+
   factory NielsenConfiguration.fromJson(Map<String, dynamic> json) {
     return NielsenConfiguration(
       breakoutCode: json['breakoutCode'] as int?,
@@ -21195,12 +27335,12 @@ class NielsenConfiguration {
 }
 
 /// Ignore these settings unless you are using Nielsen non-linear watermarking.
-/// Specify the values that  MediaConvert uses to generate and place Nielsen
-/// watermarks in your output audio. In addition to  specifying these values,
-/// you also need to set up your cloud TIC server. These settings apply to
-/// every output in your job. The MediaConvert implementation is currently with
-/// the following Nielsen versions: Nielsen Watermark SDK Version 5.2.1 Nielsen
-/// NLM Watermark Engine Version 1.2.7 Nielsen Watermark Authenticator [SID_TIC]
+/// Specify the values that MediaConvert uses to generate and place Nielsen
+/// watermarks in your output audio. In addition to specifying these values, you
+/// also need to set up your cloud TIC server. These settings apply to every
+/// output in your job. The MediaConvert implementation is currently with the
+/// following Nielsen versions: Nielsen Watermark SDK Version 5.2.1 Nielsen NLM
+/// Watermark Engine Version 1.2.7 Nielsen Watermark Authenticator [SID_TIC]
 /// Version [5.0.0]
 class NielsenNonLinearWatermarkSettings {
   /// Choose the type of Nielsen watermarks that you want in your outputs. When
@@ -21212,8 +27352,8 @@ class NielsenNonLinearWatermarkSettings {
   final NielsenActiveWatermarkProcessType? activeWatermarkProcess;
 
   /// Optional. Use this setting when you want the service to include an ADI file
-  /// in the Nielsen  metadata .zip file. To provide an ADI file, store it in
-  /// Amazon S3 and provide a URL to it  here. The URL should be in the following
+  /// in the Nielsen metadata .zip file. To provide an ADI file, store it in
+  /// Amazon S3 and provide a URL to it here. The URL should be in the following
   /// format: S3://bucket/path/ADI-file. For more information about the metadata
   /// .zip file, see the setting Metadata destination (metadataDestination).
   final String? adiFilename;
@@ -21255,7 +27395,7 @@ class NielsenNonLinearWatermarkSettings {
   /// Required. Specify whether your source content already contains Nielsen
   /// non-linear watermarks. When you set this value to Watermarked (WATERMARKED),
   /// the service fails the job. Nielsen requires that you add non-linear
-  /// watermarking to only clean content that doesn't already  have non-linear
+  /// watermarking to only clean content that doesn't already have non-linear
   /// Nielsen watermarks.
   final NielsenSourceWatermarkStatusType? sourceWatermarkStatus;
 
@@ -21287,6 +27427,7 @@ class NielsenNonLinearWatermarkSettings {
     this.ticServerUrl,
     this.uniqueTicPerAudioTrack,
   });
+
   factory NielsenNonLinearWatermarkSettings.fromJson(
       Map<String, dynamic> json) {
     return NielsenNonLinearWatermarkSettings(
@@ -21342,7 +27483,7 @@ class NielsenNonLinearWatermarkSettings {
 /// Required. Specify whether your source content already contains Nielsen
 /// non-linear watermarks. When you set this value to Watermarked (WATERMARKED),
 /// the service fails the job. Nielsen requires that you add non-linear
-/// watermarking to only clean content that doesn't already  have non-linear
+/// watermarking to only clean content that doesn't already have non-linear
 /// Nielsen watermarks.
 enum NielsenSourceWatermarkStatusType {
   clean,
@@ -21408,12 +27549,16 @@ extension NielsenUniqueTicPerAudioTrackTypeFromString on String {
   }
 }
 
-/// Optional. When you set Noise reducer (noiseReducer) to Temporal (TEMPORAL),
-/// you can use this setting to apply sharpening. The default behavior, Auto
-/// (AUTO), allows the transcoder to determine whether to apply filtering,
-/// depending on input type and quality. When you set Noise reducer to Temporal,
-/// your output bandwidth is reduced. When Post temporal sharpening is also
-/// enabled, that bandwidth reduction is smaller.
+/// When you set Noise reducer (noiseReducer) to Temporal (TEMPORAL), the
+/// bandwidth and sharpness of your output is reduced. You can optionally use
+/// Post temporal sharpening (postTemporalSharpening) to apply sharpening to the
+/// edges of your output. Note that Post temporal sharpening will also make the
+/// bandwidth reduction from the Noise reducer smaller. The default behavior,
+/// Auto (AUTO), allows the transcoder to determine whether to apply sharpening,
+/// depending on your input type and quality. When you set Post temporal
+/// sharpening to Enabled (ENABLED), specify how much sharpening is applied
+/// using Post temporal sharpening strength (postTemporalSharpeningStrength).
+/// Set Post temporal sharpening to Disabled (DISABLED) to not apply sharpening.
 enum NoiseFilterPostTemporalSharpening {
   disabled,
   enabled,
@@ -21449,11 +27594,51 @@ extension NoiseFilterPostTemporalSharpeningFromString on String {
   }
 }
 
-/// Enable the Noise reducer (NoiseReducer) feature to remove noise from your
-/// video output if necessary. Enable or disable this feature for each output
-/// individually. This setting is disabled by default. When you enable Noise
-/// reducer (NoiseReducer), you must also select a value for Noise reducer
-/// filter (NoiseReducerFilter).
+/// Use Post temporal sharpening strength (postTemporalSharpeningStrength) to
+/// define the amount of sharpening the transcoder applies to your output. Set
+/// Post temporal sharpening strength to Low (LOW), Medium (MEDIUM), or High
+/// (HIGH) to indicate the amount of sharpening.
+enum NoiseFilterPostTemporalSharpeningStrength {
+  low,
+  medium,
+  high,
+}
+
+extension NoiseFilterPostTemporalSharpeningStrengthValueExtension
+    on NoiseFilterPostTemporalSharpeningStrength {
+  String toValue() {
+    switch (this) {
+      case NoiseFilterPostTemporalSharpeningStrength.low:
+        return 'LOW';
+      case NoiseFilterPostTemporalSharpeningStrength.medium:
+        return 'MEDIUM';
+      case NoiseFilterPostTemporalSharpeningStrength.high:
+        return 'HIGH';
+    }
+  }
+}
+
+extension NoiseFilterPostTemporalSharpeningStrengthFromString on String {
+  NoiseFilterPostTemporalSharpeningStrength
+      toNoiseFilterPostTemporalSharpeningStrength() {
+    switch (this) {
+      case 'LOW':
+        return NoiseFilterPostTemporalSharpeningStrength.low;
+      case 'MEDIUM':
+        return NoiseFilterPostTemporalSharpeningStrength.medium;
+      case 'HIGH':
+        return NoiseFilterPostTemporalSharpeningStrength.high;
+    }
+    throw Exception(
+        '$this is not known in enum NoiseFilterPostTemporalSharpeningStrength');
+  }
+}
+
+/// Enable the Noise reducer feature to remove noise from your video output if
+/// necessary. Enable or disable this feature for each output individually. This
+/// setting is disabled by default. When you enable Noise reducer, you must also
+/// select a value for Noise reducer filter. For AVC outputs, when you include
+/// Noise reducer, you cannot include the Bandwidth reduction filter.
 class NoiseReducer {
   /// Use Noise reducer filter (NoiseReducerFilter) to select one of the following
   /// spatial image filtering functions. To use this setting, you must also enable
@@ -21479,6 +27664,7 @@ class NoiseReducer {
     this.spatialFilterSettings,
     this.temporalFilterSettings,
   });
+
   factory NoiseReducer.fromJson(Map<String, dynamic> json) {
     return NoiseReducer(
       filter: (json['filter'] as String?)?.toNoiseReducerFilter(),
@@ -21587,6 +27773,7 @@ class NoiseReducerFilterSettings {
   NoiseReducerFilterSettings({
     this.strength,
   });
+
   factory NoiseReducerFilterSettings.fromJson(Map<String, dynamic> json) {
     return NoiseReducerFilterSettings(
       strength: json['strength'] as int?,
@@ -21620,6 +27807,7 @@ class NoiseReducerSpatialFilterSettings {
     this.speed,
     this.strength,
   });
+
   factory NoiseReducerSpatialFilterSettings.fromJson(
       Map<String, dynamic> json) {
     return NoiseReducerSpatialFilterSettings(
@@ -21649,13 +27837,24 @@ class NoiseReducerTemporalFilterSettings {
   /// aggressively and creates better VQ for low bitrate outputs.
   final int? aggressiveMode;
 
-  /// Optional. When you set Noise reducer (noiseReducer) to Temporal (TEMPORAL),
-  /// you can use this setting to apply sharpening. The default behavior, Auto
-  /// (AUTO), allows the transcoder to determine whether to apply filtering,
-  /// depending on input type and quality. When you set Noise reducer to Temporal,
-  /// your output bandwidth is reduced. When Post temporal sharpening is also
-  /// enabled, that bandwidth reduction is smaller.
+  /// When you set Noise reducer (noiseReducer) to Temporal (TEMPORAL), the
+  /// bandwidth and sharpness of your output is reduced. You can optionally use
+  /// Post temporal sharpening (postTemporalSharpening) to apply sharpening to the
+  /// edges of your output. Note that Post temporal sharpening will also make the
+  /// bandwidth reduction from the Noise reducer smaller. The default behavior,
+  /// Auto (AUTO), allows the transcoder to determine whether to apply sharpening,
+  /// depending on your input type and quality. When you set Post temporal
+  /// sharpening to Enabled (ENABLED), specify how much sharpening is applied
+  /// using Post temporal sharpening strength (postTemporalSharpeningStrength).
+  /// Set Post temporal sharpening to Disabled (DISABLED) to not apply sharpening.
   final NoiseFilterPostTemporalSharpening? postTemporalSharpening;
+
+  /// Use Post temporal sharpening strength (postTemporalSharpeningStrength) to
+  /// define the amount of sharpening the transcoder applies to your output. Set
+  /// Post temporal sharpening strength to Low (LOW), Medium (MEDIUM), or High
+  /// (HIGH) to indicate the amount of sharpening.
+  final NoiseFilterPostTemporalSharpeningStrength?
+      postTemporalSharpeningStrength;
 
   /// The speed of the filter (higher number is faster). Low setting reduces bit
   /// rate at the cost of transcode time, high setting improves transcode time at
@@ -21672,15 +27871,20 @@ class NoiseReducerTemporalFilterSettings {
   NoiseReducerTemporalFilterSettings({
     this.aggressiveMode,
     this.postTemporalSharpening,
+    this.postTemporalSharpeningStrength,
     this.speed,
     this.strength,
   });
+
   factory NoiseReducerTemporalFilterSettings.fromJson(
       Map<String, dynamic> json) {
     return NoiseReducerTemporalFilterSettings(
       aggressiveMode: json['aggressiveMode'] as int?,
       postTemporalSharpening: (json['postTemporalSharpening'] as String?)
           ?.toNoiseFilterPostTemporalSharpening(),
+      postTemporalSharpeningStrength:
+          (json['postTemporalSharpeningStrength'] as String?)
+              ?.toNoiseFilterPostTemporalSharpeningStrength(),
       speed: json['speed'] as int?,
       strength: json['strength'] as int?,
     );
@@ -21689,12 +27893,16 @@ class NoiseReducerTemporalFilterSettings {
   Map<String, dynamic> toJson() {
     final aggressiveMode = this.aggressiveMode;
     final postTemporalSharpening = this.postTemporalSharpening;
+    final postTemporalSharpeningStrength = this.postTemporalSharpeningStrength;
     final speed = this.speed;
     final strength = this.strength;
     return {
       if (aggressiveMode != null) 'aggressiveMode': aggressiveMode,
       if (postTemporalSharpening != null)
         'postTemporalSharpening': postTemporalSharpening.toValue(),
+      if (postTemporalSharpeningStrength != null)
+        'postTemporalSharpeningStrength':
+            postTemporalSharpeningStrength.toValue(),
       if (speed != null) 'speed': speed,
       if (strength != null) 'strength': strength,
     };
@@ -21723,6 +27931,7 @@ class OpusSettings {
     this.channels,
     this.sampleRate,
   });
+
   factory OpusSettings.fromJson(Map<String, dynamic> json) {
     return OpusSettings(
       bitrate: json['bitrate'] as int?,
@@ -21773,8 +27982,10 @@ extension OrderFromString on String {
   }
 }
 
-/// An output object describes the settings for a single output file or stream
-/// in an output group.
+/// Each output in your job is a collection of settings that describes how you
+/// want MediaConvert to encode a single output file or stream. For more
+/// information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/create-outputs.html.
 class Output {
   /// (AudioDescriptions) contains groups of audio encoding settings organized by
   /// audio codec. Include one instance of (AudioDescriptions) per output.
@@ -21809,15 +28020,14 @@ class Output {
   /// Specific settings for this type of output.
   final OutputSettings? outputSettings;
 
-  /// Use Preset (Preset) to specifiy a preset for your transcoding settings.
+  /// Use Preset (Preset) to specify a preset for your transcoding settings.
   /// Provide the system or custom preset name. You can specify either Preset
   /// (Preset) or Container settings (ContainerSettings), but not both.
   final String? preset;
 
-  /// (VideoDescription) contains a group of video encoding settings. The specific
-  /// video settings depend on the video codec that you choose when you specify a
-  /// value for Video codec (codec). Include one instance of (VideoDescription)
-  /// per output.
+  /// VideoDescription contains a group of video encoding settings. The specific
+  /// video settings depend on the video codec that you choose for the property
+  /// codec. Include one instance of VideoDescription per output.
   final VideoDescription? videoDescription;
 
   Output({
@@ -21830,6 +28040,7 @@ class Output {
     this.preset,
     this.videoDescription,
   });
+
   factory Output.fromJson(Map<String, dynamic> json) {
     return Output(
       audioDescriptions: (json['audioDescriptions'] as List?)
@@ -21883,25 +28094,40 @@ class Output {
 
 /// OutputChannel mapping settings.
 class OutputChannelMapping {
-  /// List of input channels
+  /// Use this setting to specify your remix values when they are integers, such
+  /// as -10, 0, or 4.
   final List<int>? inputChannels;
+
+  /// Use this setting to specify your remix values when they have a decimal
+  /// component, such as -10.312, 0.08, or 4.9. MediaConvert rounds your remixing
+  /// values to the nearest thousandth.
+  final List<double>? inputChannelsFineTune;
 
   OutputChannelMapping({
     this.inputChannels,
+    this.inputChannelsFineTune,
   });
+
   factory OutputChannelMapping.fromJson(Map<String, dynamic> json) {
     return OutputChannelMapping(
       inputChannels: (json['inputChannels'] as List?)
           ?.whereNotNull()
           .map((e) => e as int)
           .toList(),
+      inputChannelsFineTune: (json['inputChannelsFineTune'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as double)
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final inputChannels = this.inputChannels;
+    final inputChannelsFineTune = this.inputChannelsFineTune;
     return {
       if (inputChannels != null) 'inputChannels': inputChannels,
+      if (inputChannelsFineTune != null)
+        'inputChannelsFineTune': inputChannelsFineTune,
     };
   }
 }
@@ -21918,6 +28144,7 @@ class OutputDetail {
     this.durationInMs,
     this.videoDetails,
   });
+
   factory OutputDetail.fromJson(Map<String, dynamic> json) {
     return OutputDetail(
       durationInMs: json['durationInMs'] as int?,
@@ -21957,6 +28184,7 @@ class OutputGroup {
     this.outputGroupSettings,
     this.outputs,
   });
+
   factory OutputGroup.fromJson(Map<String, dynamic> json) {
     return OutputGroup(
       automatedEncodingSettings: json['automatedEncodingSettings'] != null
@@ -22002,6 +28230,7 @@ class OutputGroupDetail {
   OutputGroupDetail({
     this.outputDetails,
   });
+
   factory OutputGroupDetail.fromJson(Map<String, dynamic> json) {
     return OutputGroupDetail(
       outputDetails: (json['outputDetails'] as List?)
@@ -22014,24 +28243,39 @@ class OutputGroupDetail {
 
 /// Output Group settings, including type
 class OutputGroupSettings {
-  /// Required when you set (Type) under (OutputGroups)>(OutputGroupSettings) to
-  /// CMAF_GROUP_SETTINGS. Each output in a CMAF Output Group may only contain a
-  /// single video, audio, or caption output.
+  /// Settings related to your CMAF output package. For more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
+  /// When you work directly in your JSON job specification, include this object
+  /// and any required children when you set Type, under OutputGroupSettings, to
+  /// CMAF_GROUP_SETTINGS.
   final CmafGroupSettings? cmafGroupSettings;
 
-  /// Required when you set (Type) under (OutputGroups)>(OutputGroupSettings) to
+  /// Settings related to your DASH output package. For more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
+  /// When you work directly in your JSON job specification, include this object
+  /// and any required children when you set Type, under OutputGroupSettings, to
   /// DASH_ISO_GROUP_SETTINGS.
   final DashIsoGroupSettings? dashIsoGroupSettings;
 
-  /// Required when you set (Type) under (OutputGroups)>(OutputGroupSettings) to
-  /// FILE_GROUP_SETTINGS.
+  /// Settings related to your File output group. MediaConvert uses this group of
+  /// settings to generate a single standalone file, rather than a streaming
+  /// package. When you work directly in your JSON job specification, include this
+  /// object and any required children when you set Type, under
+  /// OutputGroupSettings, to FILE_GROUP_SETTINGS.
   final FileGroupSettings? fileGroupSettings;
 
-  /// Required when you set (Type) under (OutputGroups)>(OutputGroupSettings) to
+  /// Settings related to your HLS output package. For more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
+  /// When you work directly in your JSON job specification, include this object
+  /// and any required children when you set Type, under OutputGroupSettings, to
   /// HLS_GROUP_SETTINGS.
   final HlsGroupSettings? hlsGroupSettings;
 
-  /// Required when you set (Type) under (OutputGroups)>(OutputGroupSettings) to
+  /// Settings related to your Microsoft Smooth Streaming output package. For more
+  /// information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
+  /// When you work directly in your JSON job specification, include this object
+  /// and any required children when you set Type, under OutputGroupSettings, to
   /// MS_SMOOTH_GROUP_SETTINGS.
   final MsSmoothGroupSettings? msSmoothGroupSettings;
 
@@ -22047,6 +28291,7 @@ class OutputGroupSettings {
     this.msSmoothGroupSettings,
     this.type,
   });
+
   factory OutputGroupSettings.fromJson(Map<String, dynamic> json) {
     return OutputGroupSettings(
       cmafGroupSettings: json['cmafGroupSettings'] != null
@@ -22138,13 +28383,13 @@ extension OutputGroupTypeFromString on String {
   }
 }
 
-/// Selects method of inserting SDT information into output stream.  "Follow
-/// input SDT" copies SDT information from input stream to  output stream.
-/// "Follow input SDT if present" copies SDT information from  input stream to
+/// Selects method of inserting SDT information into output stream. "Follow
+/// input SDT" copies SDT information from input stream to output stream.
+/// "Follow input SDT if present" copies SDT information from input stream to
 /// output stream if SDT information is present in the input, otherwise it will
-/// fall back on the user-defined values. Enter "SDT  Manually" means user will
-/// enter the SDT information. "No SDT" means output  stream will not contain
-/// SDT information.
+/// fall back on the user-defined values. Enter "SDT Manually" means user will
+/// enter the SDT information. "No SDT" means output stream will not contain SDT
+/// information.
 enum OutputSdt {
   sdtFollow,
   sdtFollowIfPresent,
@@ -22191,6 +28436,7 @@ class OutputSettings {
   OutputSettings({
     this.hlsSettings,
   });
+
   factory OutputSettings.fromJson(Map<String, dynamic> json) {
     return OutputSettings(
       hlsSettings: json['hlsSettings'] != null
@@ -22207,6 +28453,42 @@ class OutputSettings {
   }
 }
 
+/// Use this setting if your input has video and audio durations that don't
+/// align, and your output or player has strict alignment requirements.
+/// Examples: Input audio track has a delayed start. Input video track ends
+/// before audio ends. When you set Pad video (padVideo) to Black (BLACK),
+/// MediaConvert generates black video frames so that output video and audio
+/// durations match. Black video frames are added at the beginning or end,
+/// depending on your input. To keep the default behavior and not generate black
+/// video, set Pad video to Disabled (DISABLED) or leave blank.
+enum PadVideo {
+  disabled,
+  black,
+}
+
+extension PadVideoValueExtension on PadVideo {
+  String toValue() {
+    switch (this) {
+      case PadVideo.disabled:
+        return 'DISABLED';
+      case PadVideo.black:
+        return 'BLACK';
+    }
+  }
+}
+
+extension PadVideoFromString on String {
+  PadVideo toPadVideo() {
+    switch (this) {
+      case 'DISABLED':
+        return PadVideo.disabled;
+      case 'BLACK':
+        return PadVideo.black;
+    }
+    throw Exception('$this is not known in enum PadVideo');
+  }
+}
+
 /// If you work with a third party video watermarking partner, use the group of
 /// settings that correspond with your watermarking partner to include
 /// watermarks in your output.
@@ -22219,6 +28501,7 @@ class PartnerWatermarking {
   PartnerWatermarking({
     this.nexguardFileMarkerSettings,
   });
+
   factory PartnerWatermarking.fromJson(Map<String, dynamic> json) {
     return PartnerWatermarking(
       nexguardFileMarkerSettings: json['nexguardFileMarkerSettings'] != null
@@ -22233,6 +28516,45 @@ class PartnerWatermarking {
     return {
       if (nexguardFileMarkerSettings != null)
         'nexguardFileMarkerSettings': nexguardFileMarkerSettings,
+    };
+  }
+}
+
+/// A policy configures behavior that you allow or disallow for your account.
+/// For information about MediaConvert policies, see the user guide at
+/// http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+class Policy {
+  /// Allow or disallow jobs that specify HTTP inputs.
+  final InputPolicy? httpInputs;
+
+  /// Allow or disallow jobs that specify HTTPS inputs.
+  final InputPolicy? httpsInputs;
+
+  /// Allow or disallow jobs that specify Amazon S3 inputs.
+  final InputPolicy? s3Inputs;
+
+  Policy({
+    this.httpInputs,
+    this.httpsInputs,
+    this.s3Inputs,
+  });
+
+  factory Policy.fromJson(Map<String, dynamic> json) {
+    return Policy(
+      httpInputs: (json['httpInputs'] as String?)?.toInputPolicy(),
+      httpsInputs: (json['httpsInputs'] as String?)?.toInputPolicy(),
+      s3Inputs: (json['s3Inputs'] as String?)?.toInputPolicy(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final httpInputs = this.httpInputs;
+    final httpsInputs = this.httpsInputs;
+    final s3Inputs = this.s3Inputs;
+    return {
+      if (httpInputs != null) 'httpInputs': httpInputs.toValue(),
+      if (httpsInputs != null) 'httpsInputs': httpsInputs.toValue(),
+      if (s3Inputs != null) 's3Inputs': s3Inputs.toValue(),
     };
   }
 }
@@ -22276,6 +28598,7 @@ class Preset {
     this.lastUpdated,
     this.type,
   });
+
   factory Preset.fromJson(Map<String, dynamic> json) {
     return Preset(
       name: json['name'] as String,
@@ -22334,17 +28657,16 @@ class PresetSettings {
   /// (AudioDescriptions) can contain multiple groups of encoding settings.
   final List<AudioDescription>? audioDescriptions;
 
-  /// Caption settings for this preset. There can be multiple caption settings in
-  /// a single output.
+  /// This object holds groups of settings related to captions for one output. For
+  /// each output that has captions, include one instance of CaptionDescriptions.
   final List<CaptionDescriptionPreset>? captionDescriptions;
 
   /// Container specific settings.
   final ContainerSettings? containerSettings;
 
-  /// (VideoDescription) contains a group of video encoding settings. The specific
-  /// video settings depend on the video codec that you choose when you specify a
-  /// value for Video codec (codec). Include one instance of (VideoDescription)
-  /// per output.
+  /// VideoDescription contains a group of video encoding settings. The specific
+  /// video settings depend on the video codec that you choose for the property
+  /// codec. Include one instance of VideoDescription per output.
   final VideoDescription? videoDescription;
 
   PresetSettings({
@@ -22353,6 +28675,7 @@ class PresetSettings {
     this.containerSettings,
     this.videoDescription,
   });
+
   factory PresetSettings.fromJson(Map<String, dynamic> json) {
     return PresetSettings(
       audioDescriptions: (json['audioDescriptions'] as List?)
@@ -22423,13 +28746,57 @@ extension PricingPlanFromString on String {
   }
 }
 
-/// Use Profile (ProResCodecProfile) to specifiy the type of Apple ProRes codec
+/// This setting applies only to ProRes 4444 and ProRes 4444 XQ outputs that you
+/// create from inputs that use 4:4:4 chroma sampling. Set Preserve 4:4:4
+/// sampling (PRESERVE_444_SAMPLING) to allow outputs to also use 4:4:4 chroma
+/// sampling. You must specify a value for this setting when your output codec
+/// profile supports 4:4:4 chroma sampling. Related Settings: When you set
+/// Chroma sampling to Preserve 4:4:4 sampling (PRESERVE_444_SAMPLING), you must
+/// choose an output codec profile that supports 4:4:4 chroma sampling. These
+/// values for Profile (CodecProfile) support 4:4:4 chroma sampling: Apple
+/// ProRes 4444 (APPLE_PRORES_4444) or Apple ProRes 4444 XQ
+/// (APPLE_PRORES_4444_XQ). When you set Chroma sampling to Preserve 4:4:4
+/// sampling, you must disable all video preprocessors except for Nexguard file
+/// marker (PartnerWatermarking). When you set Chroma sampling to Preserve 4:4:4
+/// sampling and use framerate conversion, you must set Frame rate conversion
+/// algorithm (FramerateConversionAlgorithm) to Drop duplicate (DUPLICATE_DROP).
+enum ProresChromaSampling {
+  preserve_444Sampling,
+  subsampleTo_422,
+}
+
+extension ProresChromaSamplingValueExtension on ProresChromaSampling {
+  String toValue() {
+    switch (this) {
+      case ProresChromaSampling.preserve_444Sampling:
+        return 'PRESERVE_444_SAMPLING';
+      case ProresChromaSampling.subsampleTo_422:
+        return 'SUBSAMPLE_TO_422';
+    }
+  }
+}
+
+extension ProresChromaSamplingFromString on String {
+  ProresChromaSampling toProresChromaSampling() {
+    switch (this) {
+      case 'PRESERVE_444_SAMPLING':
+        return ProresChromaSampling.preserve_444Sampling;
+      case 'SUBSAMPLE_TO_422':
+        return ProresChromaSampling.subsampleTo_422;
+    }
+    throw Exception('$this is not known in enum ProresChromaSampling');
+  }
+}
+
+/// Use Profile (ProResCodecProfile) to specify the type of Apple ProRes codec
 /// to use for this output.
 enum ProresCodecProfile {
   appleProres_422,
   appleProres_422Hq,
   appleProres_422Lt,
   appleProres_422Proxy,
+  appleProres_4444,
+  appleProres_4444Xq,
 }
 
 extension ProresCodecProfileValueExtension on ProresCodecProfile {
@@ -22443,6 +28810,10 @@ extension ProresCodecProfileValueExtension on ProresCodecProfile {
         return 'APPLE_PRORES_422_LT';
       case ProresCodecProfile.appleProres_422Proxy:
         return 'APPLE_PRORES_422_PROXY';
+      case ProresCodecProfile.appleProres_4444:
+        return 'APPLE_PRORES_4444';
+      case ProresCodecProfile.appleProres_4444Xq:
+        return 'APPLE_PRORES_4444_XQ';
     }
   }
 }
@@ -22458,6 +28829,10 @@ extension ProresCodecProfileFromString on String {
         return ProresCodecProfile.appleProres_422Lt;
       case 'APPLE_PRORES_422_PROXY':
         return ProresCodecProfile.appleProres_422Proxy;
+      case 'APPLE_PRORES_4444':
+        return ProresCodecProfile.appleProres_4444;
+      case 'APPLE_PRORES_4444_XQ':
+        return ProresCodecProfile.appleProres_4444Xq;
     }
     throw Exception('$this is not known in enum ProresCodecProfile');
   }
@@ -22504,16 +28879,16 @@ extension ProresFramerateControlFromString on String {
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
-/// decreasing the frame rate. We recommend using drop duplicate
-/// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
-/// fps. For numerically complex conversions, you can use interpolate
-/// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
-/// introduce undesirable video artifacts. For complex frame rate conversions,
-/// especially if your source video has already been converted from its original
-/// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
-/// interpolation. FrameFormer chooses the best conversion method frame by
-/// frame. Note that using FrameFormer increases the transcoding time and incurs
-/// a significant add-on cost.
+/// decreasing the frame rate. For numerically simple conversions, such as 60
+/// fps to 30 fps: We recommend that you keep the default value, Drop duplicate.
+/// For numerically complex conversions, to avoid stutter: Choose Interpolate.
+/// This results in a smooth picture, but might introduce undesirable video
+/// artifacts. For complex frame rate conversions, especially if your source
+/// video has already been converted from its original cadence: Choose
+/// FrameFormer to do motion-compensated interpolation. FrameFormer uses the
+/// best conversion method frame by frame. Note that using FrameFormer increases
+/// the transcoding time and incurs a significant add-on cost. When you choose
+/// FrameFormer, your input video resolution must be at least 128x96.
 enum ProresFramerateConversionAlgorithm {
   duplicateDrop,
   interpolate,
@@ -22640,10 +29015,69 @@ extension ProresParControlFromString on String {
   }
 }
 
+/// Use this setting for interlaced outputs, when your output frame rate is half
+/// of your input frame rate. In this situation, choose Optimized interlacing
+/// (INTERLACED_OPTIMIZE) to create a better quality interlaced output. In this
+/// case, each progressive frame from the input corresponds to an interlaced
+/// field in the output. Keep the default value, Basic interlacing (INTERLACED),
+/// for all other output frame rates. With basic interlacing, MediaConvert
+/// performs any frame rate conversion first and then interlaces the frames.
+/// When you choose Optimized interlacing and you set your output frame rate to
+/// a value that isn't suitable for optimized interlacing, MediaConvert
+/// automatically falls back to basic interlacing. Required settings: To use
+/// optimized interlacing, you must set Telecine (telecine) to None (NONE) or
+/// Soft (SOFT). You can't use optimized interlacing for hard telecine outputs.
+/// You must also set Interlace mode (interlaceMode) to a value other than
+/// Progressive (PROGRESSIVE).
+enum ProresScanTypeConversionMode {
+  interlaced,
+  interlacedOptimize,
+}
+
+extension ProresScanTypeConversionModeValueExtension
+    on ProresScanTypeConversionMode {
+  String toValue() {
+    switch (this) {
+      case ProresScanTypeConversionMode.interlaced:
+        return 'INTERLACED';
+      case ProresScanTypeConversionMode.interlacedOptimize:
+        return 'INTERLACED_OPTIMIZE';
+    }
+  }
+}
+
+extension ProresScanTypeConversionModeFromString on String {
+  ProresScanTypeConversionMode toProresScanTypeConversionMode() {
+    switch (this) {
+      case 'INTERLACED':
+        return ProresScanTypeConversionMode.interlaced;
+      case 'INTERLACED_OPTIMIZE':
+        return ProresScanTypeConversionMode.interlacedOptimize;
+    }
+    throw Exception('$this is not known in enum ProresScanTypeConversionMode');
+  }
+}
+
 /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to
 /// the value PRORES.
 class ProresSettings {
-  /// Use Profile (ProResCodecProfile) to specifiy the type of Apple ProRes codec
+  /// This setting applies only to ProRes 4444 and ProRes 4444 XQ outputs that you
+  /// create from inputs that use 4:4:4 chroma sampling. Set Preserve 4:4:4
+  /// sampling (PRESERVE_444_SAMPLING) to allow outputs to also use 4:4:4 chroma
+  /// sampling. You must specify a value for this setting when your output codec
+  /// profile supports 4:4:4 chroma sampling. Related Settings: When you set
+  /// Chroma sampling to Preserve 4:4:4 sampling (PRESERVE_444_SAMPLING), you must
+  /// choose an output codec profile that supports 4:4:4 chroma sampling. These
+  /// values for Profile (CodecProfile) support 4:4:4 chroma sampling: Apple
+  /// ProRes 4444 (APPLE_PRORES_4444) or Apple ProRes 4444 XQ
+  /// (APPLE_PRORES_4444_XQ). When you set Chroma sampling to Preserve 4:4:4
+  /// sampling, you must disable all video preprocessors except for Nexguard file
+  /// marker (PartnerWatermarking). When you set Chroma sampling to Preserve 4:4:4
+  /// sampling and use framerate conversion, you must set Frame rate conversion
+  /// algorithm (FramerateConversionAlgorithm) to Drop duplicate (DUPLICATE_DROP).
+  final ProresChromaSampling? chromaSampling;
+
+  /// Use Profile (ProResCodecProfile) to specify the type of Apple ProRes codec
   /// to use for this output.
   final ProresCodecProfile? codecProfile;
 
@@ -22662,20 +29096,20 @@ class ProresSettings {
   final ProresFramerateControl? framerateControl;
 
   /// Choose the method that you want MediaConvert to use when increasing or
-  /// decreasing the frame rate. We recommend using drop duplicate
-  /// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
-  /// fps. For numerically complex conversions, you can use interpolate
-  /// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
-  /// introduce undesirable video artifacts. For complex frame rate conversions,
-  /// especially if your source video has already been converted from its original
-  /// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
-  /// interpolation. FrameFormer chooses the best conversion method frame by
-  /// frame. Note that using FrameFormer increases the transcoding time and incurs
-  /// a significant add-on cost.
+  /// decreasing the frame rate. For numerically simple conversions, such as 60
+  /// fps to 30 fps: We recommend that you keep the default value, Drop duplicate.
+  /// For numerically complex conversions, to avoid stutter: Choose Interpolate.
+  /// This results in a smooth picture, but might introduce undesirable video
+  /// artifacts. For complex frame rate conversions, especially if your source
+  /// video has already been converted from its original cadence: Choose
+  /// FrameFormer to do motion-compensated interpolation. FrameFormer uses the
+  /// best conversion method frame by frame. Note that using FrameFormer increases
+  /// the transcoding time and incurs a significant add-on cost. When you choose
+  /// FrameFormer, your input video resolution must be at least 128x96.
   final ProresFramerateConversionAlgorithm? framerateConversionAlgorithm;
 
   /// When you use the API for transcode jobs that use frame rate conversion,
-  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976
   /// fps. Use FramerateDenominator to specify the denominator of this fraction.
   /// In this example, use 1001 for the value of FramerateDenominator. When you
   /// use the console for transcode jobs that use frame rate conversion, provide
@@ -22684,7 +29118,7 @@ class ProresSettings {
   final int? framerateDenominator;
 
   /// When you use the API for transcode jobs that use frame rate conversion,
-  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976
   /// fps. Use FramerateNumerator to specify the numerator of this fraction. In
   /// this example, use 24000 for the value of FramerateNumerator. When you use
   /// the console for transcode jobs that use frame rate conversion, provide the
@@ -22731,6 +29165,22 @@ class ProresSettings {
   /// for parNumerator is 40.
   final int? parNumerator;
 
+  /// Use this setting for interlaced outputs, when your output frame rate is half
+  /// of your input frame rate. In this situation, choose Optimized interlacing
+  /// (INTERLACED_OPTIMIZE) to create a better quality interlaced output. In this
+  /// case, each progressive frame from the input corresponds to an interlaced
+  /// field in the output. Keep the default value, Basic interlacing (INTERLACED),
+  /// for all other output frame rates. With basic interlacing, MediaConvert
+  /// performs any frame rate conversion first and then interlaces the frames.
+  /// When you choose Optimized interlacing and you set your output frame rate to
+  /// a value that isn't suitable for optimized interlacing, MediaConvert
+  /// automatically falls back to basic interlacing. Required settings: To use
+  /// optimized interlacing, you must set Telecine (telecine) to None (NONE) or
+  /// Soft (SOFT). You can't use optimized interlacing for hard telecine outputs.
+  /// You must also set Interlace mode (interlaceMode) to a value other than
+  /// Progressive (PROGRESSIVE).
+  final ProresScanTypeConversionMode? scanTypeConversionMode;
+
   /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per
   /// second (fps). Enable slow PAL to create a 25 fps output. When you enable
   /// slow PAL, MediaConvert relabels the video frames to 25 fps and resamples
@@ -22750,6 +29200,7 @@ class ProresSettings {
   final ProresTelecine? telecine;
 
   ProresSettings({
+    this.chromaSampling,
     this.codecProfile,
     this.framerateControl,
     this.framerateConversionAlgorithm,
@@ -22759,11 +29210,15 @@ class ProresSettings {
     this.parControl,
     this.parDenominator,
     this.parNumerator,
+    this.scanTypeConversionMode,
     this.slowPal,
     this.telecine,
   });
+
   factory ProresSettings.fromJson(Map<String, dynamic> json) {
     return ProresSettings(
+      chromaSampling:
+          (json['chromaSampling'] as String?)?.toProresChromaSampling(),
       codecProfile: (json['codecProfile'] as String?)?.toProresCodecProfile(),
       framerateControl:
           (json['framerateControl'] as String?)?.toProresFramerateControl(),
@@ -22777,12 +29232,15 @@ class ProresSettings {
       parControl: (json['parControl'] as String?)?.toProresParControl(),
       parDenominator: json['parDenominator'] as int?,
       parNumerator: json['parNumerator'] as int?,
+      scanTypeConversionMode: (json['scanTypeConversionMode'] as String?)
+          ?.toProresScanTypeConversionMode(),
       slowPal: (json['slowPal'] as String?)?.toProresSlowPal(),
       telecine: (json['telecine'] as String?)?.toProresTelecine(),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final chromaSampling = this.chromaSampling;
     final codecProfile = this.codecProfile;
     final framerateControl = this.framerateControl;
     final framerateConversionAlgorithm = this.framerateConversionAlgorithm;
@@ -22792,9 +29250,11 @@ class ProresSettings {
     final parControl = this.parControl;
     final parDenominator = this.parDenominator;
     final parNumerator = this.parNumerator;
+    final scanTypeConversionMode = this.scanTypeConversionMode;
     final slowPal = this.slowPal;
     final telecine = this.telecine;
     return {
+      if (chromaSampling != null) 'chromaSampling': chromaSampling.toValue(),
       if (codecProfile != null) 'codecProfile': codecProfile.toValue(),
       if (framerateControl != null)
         'framerateControl': framerateControl.toValue(),
@@ -22807,6 +29267,8 @@ class ProresSettings {
       if (parControl != null) 'parControl': parControl.toValue(),
       if (parDenominator != null) 'parDenominator': parDenominator,
       if (parNumerator != null) 'parNumerator': parNumerator,
+      if (scanTypeConversionMode != null)
+        'scanTypeConversionMode': scanTypeConversionMode.toValue(),
       if (slowPal != null) 'slowPal': slowPal.toValue(),
       if (telecine != null) 'telecine': telecine.toValue(),
     };
@@ -22883,6 +29345,25 @@ extension ProresTelecineFromString on String {
   }
 }
 
+class PutPolicyResponse {
+  /// A policy configures behavior that you allow or disallow for your account.
+  /// For information about MediaConvert policies, see the user guide at
+  /// http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+  final Policy? policy;
+
+  PutPolicyResponse({
+    this.policy,
+  });
+
+  factory PutPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return PutPolicyResponse(
+      policy: json['policy'] != null
+          ? Policy.fromJson(json['policy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 /// You can use queues to manage the resources that are available to your AWS
 /// account for running multiple transcoding jobs at the same time. If you don't
 /// specify a queue, the service sends all jobs through the default queue. For
@@ -22945,6 +29426,7 @@ class Queue {
     this.submittedJobsCount,
     this.type,
   });
+
   factory Queue.fromJson(Map<String, dynamic> json) {
     return Queue(
       name: json['name'] as String,
@@ -23045,6 +29527,7 @@ class QueueTransition {
     this.sourceQueue,
     this.timestamp,
   });
+
   factory QueueTransition.fromJson(Map<String, dynamic> json) {
     return QueueTransition(
       destinationQueue: json['destinationQueue'] as String?,
@@ -23076,6 +29559,7 @@ class Rectangle {
     this.x,
     this.y,
   });
+
   factory Rectangle.fromJson(Map<String, dynamic> json) {
     return Rectangle(
       height: json['height'] as int?,
@@ -23104,18 +29588,32 @@ class Rectangle {
 /// output more or fewer audio channels than your input audio source provides.
 class RemixSettings {
   /// Channel mapping (ChannelMapping) contains the group of fields that hold the
-  /// remixing value for each channel. Units are in dB. Acceptable values are
-  /// within the range from -60 (mute) through 6. A setting of 0 passes the input
-  /// channel unchanged to the output channel (no attenuation or amplification).
+  /// remixing value for each channel, in dB. Specify remix values to indicate how
+  /// much of the content from your input audio channel you want in your output
+  /// audio channels. Each instance of the InputChannels or InputChannelsFineTune
+  /// array specifies these values for one output channel. Use one instance of
+  /// this array for each output channel. In the console, each array corresponds
+  /// to a column in the graphical depiction of the mapping matrix. The rows of
+  /// the graphical matrix correspond to input channels. Valid values are within
+  /// the range from -60 (mute) through 6. A setting of 0 passes the input channel
+  /// unchanged to the output channel (no attenuation or amplification). Use
+  /// InputChannels or InputChannelsFineTune to specify your remix values. Don't
+  /// use both.
   final ChannelMapping? channelMapping;
 
   /// Specify the number of audio channels from your input that you want to use in
   /// your output. With remixing, you might combine or split the data in these
   /// channels, so the number of channels in your final output might be different.
+  /// If you are doing both input channel mapping and output channel mapping, the
+  /// number of output channels in your input mapping must be the same as the
+  /// number of input channels in your output mapping.
   final int? channelsIn;
 
   /// Specify the number of channels in this output after remixing. Valid values:
-  /// 1, 2, 4, 6, 8... 64. (1 and even numbers to 64.)
+  /// 1, 2, 4, 6, 8... 64. (1 and even numbers to 64.) If you are doing both input
+  /// channel mapping and output channel mapping, the number of output channels in
+  /// your input mapping must be the same as the number of input channels in your
+  /// output mapping.
   final int? channelsOut;
 
   RemixSettings({
@@ -23123,6 +29621,7 @@ class RemixSettings {
     this.channelsIn,
     this.channelsOut,
   });
+
   factory RemixSettings.fromJson(Map<String, dynamic> json) {
     return RemixSettings(
       channelMapping: json['channelMapping'] != null
@@ -23177,6 +29676,35 @@ extension RenewalTypeFromString on String {
   }
 }
 
+/// Set to ENABLED to force a rendition to be included.
+enum RequiredFlag {
+  enabled,
+  disabled,
+}
+
+extension RequiredFlagValueExtension on RequiredFlag {
+  String toValue() {
+    switch (this) {
+      case RequiredFlag.enabled:
+        return 'ENABLED';
+      case RequiredFlag.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension RequiredFlagFromString on String {
+  RequiredFlag toRequiredFlag() {
+    switch (this) {
+      case 'ENABLED':
+        return RequiredFlag.enabled;
+      case 'DISABLED':
+        return RequiredFlag.disabled;
+    }
+    throw Exception('$this is not known in enum RequiredFlag');
+  }
+}
+
 /// Details about the pricing plan for your reserved queue. Required for
 /// reserved queues and not applicable to on-demand queues.
 class ReservationPlan {
@@ -23216,6 +29744,7 @@ class ReservationPlan {
     this.reservedSlots,
     this.status,
   });
+
   factory ReservationPlan.fromJson(Map<String, dynamic> json) {
     return ReservationPlan(
       commitment: (json['commitment'] as String?)?.toCommitment(),
@@ -23310,6 +29839,7 @@ class ResourceTags {
     this.arn,
     this.tags,
   });
+
   factory ResourceTags.fromJson(Map<String, dynamic> json) {
     return ResourceTags(
       arn: json['arn'] as String?,
@@ -23360,6 +29890,78 @@ extension RespondToAfdFromString on String {
   }
 }
 
+/// Use Min top rendition size to specify a minimum size for the highest
+/// resolution in your ABR stack. * The highest resolution in your ABR stack
+/// will be equal to or greater than the value that you enter. For example: If
+/// you specify 1280x720 the highest resolution in your ABR stack will be equal
+/// to or greater than 1280x720. * If you specify a value for Max resolution,
+/// the value that you specify for Min top rendition size must be less than, or
+/// equal to, Max resolution. Use Min bottom rendition size to specify a minimum
+/// size for the lowest resolution in your ABR stack. * The lowest resolution in
+/// your ABR stack will be equal to or greater than the value that you enter.
+/// For example: If you specify 640x360 the lowest resolution in your ABR stack
+/// will be equal to or greater than to 640x360. * If you specify a Min top
+/// rendition size rule, the value that you specify for Min bottom rendition
+/// size must be less than, or equal to, Min top rendition size. Use Force
+/// include renditions to specify one or more resolutions to include your ABR
+/// stack. * (Recommended) To optimize automated ABR, specify as few resolutions
+/// as possible. * (Required) The number of resolutions that you specify must be
+/// equal to, or less than, the Max renditions setting. * If you specify a Min
+/// top rendition size rule, specify at least one resolution that is equal to,
+/// or greater than, Min top rendition size. * If you specify a Min bottom
+/// rendition size rule, only specify resolutions that are equal to, or greater
+/// than, Min bottom rendition size. * If you specify a Force include renditions
+/// rule, do not specify a separate rule for Allowed renditions. * Note: The ABR
+/// stack may include other resolutions that you do not specify here, depending
+/// on the Max renditions setting. Use Allowed renditions to specify a list of
+/// possible resolutions in your ABR stack. * (Required) The number of
+/// resolutions that you specify must be equal to, or greater than, the Max
+/// renditions setting. * MediaConvert will create an ABR stack exclusively from
+/// the list of resolutions that you specify. * Some resolutions in the Allowed
+/// renditions list may not be included, however you can force a resolution to
+/// be included by setting Required to ENABLED. * You must specify at least one
+/// resolution that is greater than or equal to any resolutions that you specify
+/// in Min top rendition size or Min bottom rendition size. * If you specify
+/// Allowed renditions, you must not specify a separate rule for Force include
+/// renditions.
+enum RuleType {
+  minTopRenditionSize,
+  minBottomRenditionSize,
+  forceIncludeRenditions,
+  allowedRenditions,
+}
+
+extension RuleTypeValueExtension on RuleType {
+  String toValue() {
+    switch (this) {
+      case RuleType.minTopRenditionSize:
+        return 'MIN_TOP_RENDITION_SIZE';
+      case RuleType.minBottomRenditionSize:
+        return 'MIN_BOTTOM_RENDITION_SIZE';
+      case RuleType.forceIncludeRenditions:
+        return 'FORCE_INCLUDE_RENDITIONS';
+      case RuleType.allowedRenditions:
+        return 'ALLOWED_RENDITIONS';
+    }
+  }
+}
+
+extension RuleTypeFromString on String {
+  RuleType toRuleType() {
+    switch (this) {
+      case 'MIN_TOP_RENDITION_SIZE':
+        return RuleType.minTopRenditionSize;
+      case 'MIN_BOTTOM_RENDITION_SIZE':
+        return RuleType.minBottomRenditionSize;
+      case 'FORCE_INCLUDE_RENDITIONS':
+        return RuleType.forceIncludeRenditions;
+      case 'ALLOWED_RENDITIONS':
+        return RuleType.allowedRenditions;
+    }
+    throw Exception('$this is not known in enum RuleType');
+  }
+}
+
 /// Optional. Have MediaConvert automatically apply Amazon S3 access control for
 /// the outputs in this output group. When you don't use this setting, S3
 /// automatically applies the default access control list PRIVATE.
@@ -23370,6 +29972,7 @@ class S3DestinationAccessControl {
   S3DestinationAccessControl({
     this.cannedAcl,
   });
+
   factory S3DestinationAccessControl.fromJson(Map<String, dynamic> json) {
     return S3DestinationAccessControl(
       cannedAcl: (json['cannedAcl'] as String?)?.toS3ObjectCannedAcl(),
@@ -23399,6 +30002,7 @@ class S3DestinationSettings {
     this.accessControl,
     this.encryption,
   });
+
   factory S3DestinationSettings.fromJson(Map<String, dynamic> json) {
     return S3DestinationSettings(
       accessControl: json['accessControl'] != null
@@ -23435,8 +30039,19 @@ class S3EncryptionSettings {
   /// KMS, KMS uses the AWS managed customer master key (CMK) associated with
   /// Amazon S3 to encrypt your data keys. You can optionally choose to specify a
   /// different, customer managed CMK. Do so by specifying the Amazon Resource
-  /// Name (ARN) of the key for the setting  KMS ARN (kmsKeyArn).
+  /// Name (ARN) of the key for the setting KMS ARN (kmsKeyArn).
   final S3ServerSideEncryptionType? encryptionType;
+
+  /// Optionally, specify the encryption context that you want to use alongside
+  /// your KMS key. AWS KMS uses this encryption context as additional
+  /// authenticated data (AAD) to support authenticated encryption. This value
+  /// must be a base64-encoded UTF-8 string holding JSON which represents a
+  /// string-string map. To use this setting, you must also set Server-side
+  /// encryption (S3ServerSideEncryptionType) to AWS KMS
+  /// (SERVER_SIDE_ENCRYPTION_KMS). For more information about encryption context,
+  /// see:
+  /// https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context.
+  final String? kmsEncryptionContext;
 
   /// Optionally, specify the customer master key (CMK) that you want to use to
   /// encrypt the data key that AWS uses to encrypt your output content. Enter the
@@ -23449,21 +30064,27 @@ class S3EncryptionSettings {
 
   S3EncryptionSettings({
     this.encryptionType,
+    this.kmsEncryptionContext,
     this.kmsKeyArn,
   });
+
   factory S3EncryptionSettings.fromJson(Map<String, dynamic> json) {
     return S3EncryptionSettings(
       encryptionType:
           (json['encryptionType'] as String?)?.toS3ServerSideEncryptionType(),
+      kmsEncryptionContext: json['kmsEncryptionContext'] as String?,
       kmsKeyArn: json['kmsKeyArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final encryptionType = this.encryptionType;
+    final kmsEncryptionContext = this.kmsEncryptionContext;
     final kmsKeyArn = this.kmsKeyArn;
     return {
       if (encryptionType != null) 'encryptionType': encryptionType.toValue(),
+      if (kmsEncryptionContext != null)
+        'kmsEncryptionContext': kmsEncryptionContext,
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
     };
   }
@@ -23518,7 +30139,7 @@ extension S3ObjectCannedAclFromString on String {
 /// KMS, KMS uses the AWS managed customer master key (CMK) associated with
 /// Amazon S3 to encrypt your data keys. You can optionally choose to specify a
 /// different, customer managed CMK. Do so by specifying the Amazon Resource
-/// Name (ARN) of the key for the setting  KMS ARN (kmsKeyArn).
+/// Name (ARN) of the key for the setting KMS ARN (kmsKeyArn).
 enum S3ServerSideEncryptionType {
   serverSideEncryptionS3,
   serverSideEncryptionKms,
@@ -23545,6 +30166,54 @@ extension S3ServerSideEncryptionTypeFromString on String {
         return S3ServerSideEncryptionType.serverSideEncryptionKms;
     }
     throw Exception('$this is not known in enum S3ServerSideEncryptionType');
+  }
+}
+
+/// Specify how MediaConvert limits the color sample range for this output. To
+/// create a limited range output from a full range input: Choose Limited range
+/// squeeze. For full range inputs, MediaConvert performs a linear offset to
+/// color samples equally across all pixels and frames. Color samples in 10-bit
+/// outputs are limited to 64 through 940, and 8-bit outputs are limited to 16
+/// through 235. Note: For limited range inputs, values for color samples are
+/// passed through to your output unchanged. MediaConvert does not limit the
+/// sample range. To correct pixels in your input that are out of range or out
+/// of gamut: Choose Limited range clip. Use for broadcast applications.
+/// MediaConvert conforms any pixels outside of the values that you specify
+/// under Minimum YUV and Maximum YUV to limited range bounds. MediaConvert also
+/// corrects any YUV values that, when converted to RGB, would be outside the
+/// bounds you specify under Minimum RGB tolerance and Maximum RGB tolerance.
+/// With either limited range conversion, MediaConvert writes the sample range
+/// metadata in the output.
+enum SampleRangeConversion {
+  limitedRangeSqueeze,
+  none,
+  limitedRangeClip,
+}
+
+extension SampleRangeConversionValueExtension on SampleRangeConversion {
+  String toValue() {
+    switch (this) {
+      case SampleRangeConversion.limitedRangeSqueeze:
+        return 'LIMITED_RANGE_SQUEEZE';
+      case SampleRangeConversion.none:
+        return 'NONE';
+      case SampleRangeConversion.limitedRangeClip:
+        return 'LIMITED_RANGE_CLIP';
+    }
+  }
+}
+
+extension SampleRangeConversionFromString on String {
+  SampleRangeConversion toSampleRangeConversion() {
+    switch (this) {
+      case 'LIMITED_RANGE_SQUEEZE':
+        return SampleRangeConversion.limitedRangeSqueeze;
+      case 'NONE':
+        return SampleRangeConversion.none;
+      case 'LIMITED_RANGE_CLIP':
+        return SampleRangeConversion.limitedRangeClip;
+    }
+    throw Exception('$this is not known in enum SampleRangeConversion');
   }
 }
 
@@ -23631,7 +30300,13 @@ extension SccDestinationFramerateFromString on String {
   }
 }
 
-/// Settings for SCC caption output.
+/// Settings related to SCC captions. SCC is a sidecar format that holds
+/// captions in a file that is separate from the video container. Set up sidecar
+/// captions in the same output group, but different output from your video. For
+/// more information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/scc-srt-output-captions.html.
+/// When you work directly in your JSON job specification, include this object
+/// and any required children when you set destinationType to SCC.
 class SccDestinationSettings {
   /// Set Framerate (SccDestinationFramerate) to make sure that the captions and
   /// the video are synchronized in the output. Specify a frame rate that matches
@@ -23644,6 +30319,7 @@ class SccDestinationSettings {
   SccDestinationSettings({
     this.framerate,
   });
+
   factory SccDestinationSettings.fromJson(Map<String, dynamic> json) {
     return SccDestinationSettings(
       framerate: (json['framerate'] as String?)?.toSccDestinationFramerate(),
@@ -23691,7 +30367,7 @@ extension SimulateReservedQueueFromString on String {
 }
 
 /// If your output group type is HLS, DASH, or Microsoft Smooth, use these
-/// settings when doing DRM encryption with a SPEKE-compliant key provider.  If
+/// settings when doing DRM encryption with a SPEKE-compliant key provider. If
 /// your output group type is CMAF, use the SpekeKeyProviderCmaf settings
 /// instead.
 class SpekeKeyProvider {
@@ -23721,6 +30397,7 @@ class SpekeKeyProvider {
     this.systemIds,
     this.url,
   });
+
   factory SpekeKeyProvider.fromJson(Map<String, dynamic> json) {
     return SpekeKeyProvider(
       certificateArn: json['certificateArn'] as String?,
@@ -23784,6 +30461,7 @@ class SpekeKeyProviderCmaf {
     this.resourceId,
     this.url,
   });
+
   factory SpekeKeyProviderCmaf.fromJson(Map<String, dynamic> json) {
     return SpekeKeyProviderCmaf(
       certificateArn: json['certificateArn'] as String?,
@@ -23818,6 +30496,74 @@ class SpekeKeyProviderCmaf {
   }
 }
 
+/// Settings related to SRT captions. SRT is a sidecar format that holds
+/// captions in a file that is separate from the video container. Set up sidecar
+/// captions in the same output group, but different output from your video.
+/// When you work directly in your JSON job specification, include this object
+/// and any required children when you set destinationType to SRT.
+class SrtDestinationSettings {
+  /// Set Style passthrough (StylePassthrough) to ENABLED to use the available
+  /// style, color, and position information from your input captions.
+  /// MediaConvert uses default settings for any missing style and position
+  /// information in your input captions. Set Style passthrough to DISABLED, or
+  /// leave blank, to ignore the style and position information from your input
+  /// captions and use simplified output captions.
+  final SrtStylePassthrough? stylePassthrough;
+
+  SrtDestinationSettings({
+    this.stylePassthrough,
+  });
+
+  factory SrtDestinationSettings.fromJson(Map<String, dynamic> json) {
+    return SrtDestinationSettings(
+      stylePassthrough:
+          (json['stylePassthrough'] as String?)?.toSrtStylePassthrough(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stylePassthrough = this.stylePassthrough;
+    return {
+      if (stylePassthrough != null)
+        'stylePassthrough': stylePassthrough.toValue(),
+    };
+  }
+}
+
+/// Set Style passthrough (StylePassthrough) to ENABLED to use the available
+/// style, color, and position information from your input captions.
+/// MediaConvert uses default settings for any missing style and position
+/// information in your input captions. Set Style passthrough to DISABLED, or
+/// leave blank, to ignore the style and position information from your input
+/// captions and use simplified output captions.
+enum SrtStylePassthrough {
+  enabled,
+  disabled,
+}
+
+extension SrtStylePassthroughValueExtension on SrtStylePassthrough {
+  String toValue() {
+    switch (this) {
+      case SrtStylePassthrough.enabled:
+        return 'ENABLED';
+      case SrtStylePassthrough.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension SrtStylePassthroughFromString on String {
+  SrtStylePassthrough toSrtStylePassthrough() {
+    switch (this) {
+      case 'ENABLED':
+        return SrtStylePassthrough.enabled;
+      case 'DISABLED':
+        return SrtStylePassthrough.disabled;
+    }
+    throw Exception('$this is not known in enum SrtStylePassthrough');
+  }
+}
+
 /// Use these settings to set up encryption with a static key provider.
 class StaticKeyProvider {
   /// Relates to DRM implementation. Sets the value of the KEYFORMAT attribute.
@@ -23843,6 +30589,7 @@ class StaticKeyProvider {
     this.staticKeyValue,
     this.url,
   });
+
   factory StaticKeyProvider.fromJson(Map<String, dynamic> json) {
     return StaticKeyProvider(
       keyFormat: json['keyFormat'] as String?,
@@ -23966,12 +30713,17 @@ extension StatusUpdateIntervalFromString on String {
 
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
 }
 
-/// Settings for Teletext caption output
+/// Settings related to teletext captions. Set up teletext captions in the same
+/// output as your video. For more information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/teletext-output-captions.html.
+/// When you work directly in your JSON job specification, include this object
+/// and any required children when you set destinationType to TELETEXT.
 class TeletextDestinationSettings {
   /// Set pageNumber to the Teletext page number for the destination captions for
   /// this output. This value must be a three-digit hexadecimal string; strings
@@ -23990,6 +30742,7 @@ class TeletextDestinationSettings {
     this.pageNumber,
     this.pageTypes,
   });
+
   factory TeletextDestinationSettings.fromJson(Map<String, dynamic> json) {
     return TeletextDestinationSettings(
       pageNumber: json['pageNumber'] as String?,
@@ -24065,6 +30818,7 @@ class TeletextSourceSettings {
   TeletextSourceSettings({
     this.pageNumber,
   });
+
   factory TeletextSourceSettings.fromJson(Map<String, dynamic> json) {
     return TeletextSourceSettings(
       pageNumber: json['pageNumber'] as String?,
@@ -24079,8 +30833,8 @@ class TeletextSourceSettings {
   }
 }
 
-/// Timecode burn-in (TimecodeBurnIn)--Burns the output timecode and specified
-/// prefix into the output.
+/// Settings for burning the output timecode and specified prefix into the
+/// output.
 class TimecodeBurnin {
   /// Use Font Size (FontSize) to set the font size of any burned-in timecode.
   /// Valid values are 10, 16, 32, 48.
@@ -24103,6 +30857,7 @@ class TimecodeBurnin {
     this.position,
     this.prefix,
   });
+
   factory TimecodeBurnin.fromJson(Map<String, dynamic> json) {
     return TimecodeBurnin(
       fontSize: json['fontSize'] as int?,
@@ -24200,8 +30955,8 @@ class TimecodeConfig {
   /// Start (SPECIFIEDSTART), the first input frame is the specified value in
   /// Start Timecode (Start). Anchor Timecode (Anchor) and Start Timecode (Start)
   /// are used calculate output timecode. * If Source (TimecodeSource) is set to
-  /// Start at 0 (ZEROBASED)  the  first frame is 00:00:00:00. * If Source
-  /// (TimecodeSource) is set to Embedded (EMBEDDED), the  first frame is the
+  /// Start at 0 (ZEROBASED) the first frame is 00:00:00:00. * If Source
+  /// (TimecodeSource) is set to Embedded (EMBEDDED), the first frame is the
   /// timecode value on the first input frame of the input.
   final String? anchor;
 
@@ -24227,7 +30982,7 @@ class TimecodeConfig {
   /// Only applies to outputs that support program-date-time stamp. Use Timestamp
   /// offset (TimestampOffset) to overwrite the timecode date without affecting
   /// the time and frame number. Provide the new date as a string in the format
-  /// "yyyy-mm-dd".  To use Time stamp offset, you must also enable Insert
+  /// "yyyy-mm-dd". To use Time stamp offset, you must also enable Insert
   /// program-date-time (InsertProgramDateTime) in the output settings. For
   /// example, if the date part of your timecodes is 2002-1-25 and you want to
   /// change it to one year later, set Timestamp offset (TimestampOffset) to
@@ -24240,6 +30995,7 @@ class TimecodeConfig {
     this.start,
     this.timestampOffset,
   });
+
   factory TimecodeConfig.fromJson(Map<String, dynamic> json) {
     return TimecodeConfig(
       anchor: json['anchor'] as String?,
@@ -24307,8 +31063,11 @@ extension TimecodeSourceFromString on String {
   }
 }
 
-/// Applies only to HLS outputs. Use this setting to specify whether the service
-/// inserts the ID3 timed metadata from the input in this output.
+/// Set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH) to include ID3
+/// metadata in this output. This includes ID3 metadata from the following
+/// features: ID3 timestamp period (timedMetadataId3Period), and Custom ID3
+/// metadata inserter (timedMetadataInsertion). To exclude this ID3 metadata in
+/// this output: set ID3 metadata to None (NONE) or leave blank.
 enum TimedMetadata {
   passthrough,
   none,
@@ -24337,10 +31096,9 @@ extension TimedMetadataFromString on String {
   }
 }
 
-/// Enable Timed metadata insertion (TimedMetadataInsertion) to include ID3 tags
-/// in any HLS outputs. To include timed metadata, you must enable it here,
-/// enable it in each output container, and specify tags and timecodes in ID3
-/// insertion (Id3Insertion) objects.
+/// Insert user-defined custom ID3 metadata (id3) at timecodes (timecode) that
+/// you specify. In each output that you want to include this metadata, you must
+/// set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH).
 class TimedMetadataInsertion {
   /// Id3Insertions contains the array of Id3Insertion instances.
   final List<Id3Insertion>? id3Insertions;
@@ -24348,6 +31106,7 @@ class TimedMetadataInsertion {
   TimedMetadataInsertion({
     this.id3Insertions,
   });
+
   factory TimedMetadataInsertion.fromJson(Map<String, dynamic> json) {
     return TimedMetadataInsertion(
       id3Insertions: (json['id3Insertions'] as List?)
@@ -24382,6 +31141,7 @@ class Timing {
     this.startTime,
     this.submitTime,
   });
+
   factory Timing.fromJson(Map<String, dynamic> json) {
     return Timing(
       finishTime: timeStampFromJson(json['finishTime']),
@@ -24408,6 +31168,7 @@ class TrackSourceSettings {
   TrackSourceSettings({
     this.trackNumber,
   });
+
   factory TrackSourceSettings.fromJson(Map<String, dynamic> json) {
     return TrackSourceSettings(
       trackNumber: json['trackNumber'] as int?,
@@ -24422,16 +31183,22 @@ class TrackSourceSettings {
   }
 }
 
-/// Settings specific to TTML caption outputs, including Pass style information
-/// (TtmlStylePassthrough).
+/// Settings related to TTML captions. TTML is a sidecar format that holds
+/// captions in a file that is separate from the video container. Set up sidecar
+/// captions in the same output group, but different output from your video. For
+/// more information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
+/// When you work directly in your JSON job specification, include this object
+/// and any required children when you set destinationType to TTML.
 class TtmlDestinationSettings {
   /// Pass through style and position information from a TTML-like input source
-  /// (TTML, SMPTE-TT) to the TTML output.
+  /// (TTML, IMSC, SMPTE-TT) to the TTML output.
   final TtmlStylePassthrough? stylePassthrough;
 
   TtmlDestinationSettings({
     this.stylePassthrough,
   });
+
   factory TtmlDestinationSettings.fromJson(Map<String, dynamic> json) {
     return TtmlDestinationSettings(
       stylePassthrough:
@@ -24449,7 +31216,7 @@ class TtmlDestinationSettings {
 }
 
 /// Pass through style and position information from a TTML-like input source
-/// (TTML, SMPTE-TT) to the TTML output.
+/// (TTML, IMSC, SMPTE-TT) to the TTML output.
 enum TtmlStylePassthrough {
   enabled,
   disabled,
@@ -24508,6 +31275,7 @@ extension TypeFromString on String {
 
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
   }
@@ -24521,6 +31289,7 @@ class UpdateJobTemplateResponse {
   UpdateJobTemplateResponse({
     this.jobTemplate,
   });
+
   factory UpdateJobTemplateResponse.fromJson(Map<String, dynamic> json) {
     return UpdateJobTemplateResponse(
       jobTemplate: json['jobTemplate'] != null
@@ -24538,6 +31307,7 @@ class UpdatePresetResponse {
   UpdatePresetResponse({
     this.preset,
   });
+
   factory UpdatePresetResponse.fromJson(Map<String, dynamic> json) {
     return UpdatePresetResponse(
       preset: json['preset'] != null
@@ -24558,6 +31328,7 @@ class UpdateQueueResponse {
   UpdateQueueResponse({
     this.queue,
   });
+
   factory UpdateQueueResponse.fromJson(Map<String, dynamic> json) {
     return UpdateQueueResponse(
       queue: json['queue'] != null
@@ -24649,16 +31420,16 @@ extension Vc3FramerateControlFromString on String {
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
-/// decreasing the frame rate. We recommend using drop duplicate
-/// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
-/// fps. For numerically complex conversions, you can use interpolate
-/// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
-/// introduce undesirable video artifacts. For complex frame rate conversions,
-/// especially if your source video has already been converted from its original
-/// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
-/// interpolation. FrameFormer chooses the best conversion method frame by
-/// frame. Note that using FrameFormer increases the transcoding time and incurs
-/// a significant add-on cost.
+/// decreasing the frame rate. For numerically simple conversions, such as 60
+/// fps to 30 fps: We recommend that you keep the default value, Drop duplicate.
+/// For numerically complex conversions, to avoid stutter: Choose Interpolate.
+/// This results in a smooth picture, but might introduce undesirable video
+/// artifacts. For complex frame rate conversions, especially if your source
+/// video has already been converted from its original cadence: Choose
+/// FrameFormer to do motion-compensated interpolation. FrameFormer uses the
+/// best conversion method frame by frame. Note that using FrameFormer increases
+/// the transcoding time and incurs a significant add-on cost. When you choose
+/// FrameFormer, your input video resolution must be at least 128x96.
 enum Vc3FramerateConversionAlgorithm {
   duplicateDrop,
   interpolate,
@@ -24724,6 +31495,48 @@ extension Vc3InterlaceModeFromString on String {
   }
 }
 
+/// Use this setting for interlaced outputs, when your output frame rate is half
+/// of your input frame rate. In this situation, choose Optimized interlacing
+/// (INTERLACED_OPTIMIZE) to create a better quality interlaced output. In this
+/// case, each progressive frame from the input corresponds to an interlaced
+/// field in the output. Keep the default value, Basic interlacing (INTERLACED),
+/// for all other output frame rates. With basic interlacing, MediaConvert
+/// performs any frame rate conversion first and then interlaces the frames.
+/// When you choose Optimized interlacing and you set your output frame rate to
+/// a value that isn't suitable for optimized interlacing, MediaConvert
+/// automatically falls back to basic interlacing. Required settings: To use
+/// optimized interlacing, you must set Telecine (telecine) to None (NONE) or
+/// Soft (SOFT). You can't use optimized interlacing for hard telecine outputs.
+/// You must also set Interlace mode (interlaceMode) to a value other than
+/// Progressive (PROGRESSIVE).
+enum Vc3ScanTypeConversionMode {
+  interlaced,
+  interlacedOptimize,
+}
+
+extension Vc3ScanTypeConversionModeValueExtension on Vc3ScanTypeConversionMode {
+  String toValue() {
+    switch (this) {
+      case Vc3ScanTypeConversionMode.interlaced:
+        return 'INTERLACED';
+      case Vc3ScanTypeConversionMode.interlacedOptimize:
+        return 'INTERLACED_OPTIMIZE';
+    }
+  }
+}
+
+extension Vc3ScanTypeConversionModeFromString on String {
+  Vc3ScanTypeConversionMode toVc3ScanTypeConversionMode() {
+    switch (this) {
+      case 'INTERLACED':
+        return Vc3ScanTypeConversionMode.interlaced;
+      case 'INTERLACED_OPTIMIZE':
+        return Vc3ScanTypeConversionMode.interlacedOptimize;
+    }
+    throw Exception('$this is not known in enum Vc3ScanTypeConversionMode');
+  }
+}
+
 /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to
 /// the value VC3
 class Vc3Settings {
@@ -24742,20 +31555,20 @@ class Vc3Settings {
   final Vc3FramerateControl? framerateControl;
 
   /// Choose the method that you want MediaConvert to use when increasing or
-  /// decreasing the frame rate. We recommend using drop duplicate
-  /// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
-  /// fps. For numerically complex conversions, you can use interpolate
-  /// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
-  /// introduce undesirable video artifacts. For complex frame rate conversions,
-  /// especially if your source video has already been converted from its original
-  /// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
-  /// interpolation. FrameFormer chooses the best conversion method frame by
-  /// frame. Note that using FrameFormer increases the transcoding time and incurs
-  /// a significant add-on cost.
+  /// decreasing the frame rate. For numerically simple conversions, such as 60
+  /// fps to 30 fps: We recommend that you keep the default value, Drop duplicate.
+  /// For numerically complex conversions, to avoid stutter: Choose Interpolate.
+  /// This results in a smooth picture, but might introduce undesirable video
+  /// artifacts. For complex frame rate conversions, especially if your source
+  /// video has already been converted from its original cadence: Choose
+  /// FrameFormer to do motion-compensated interpolation. FrameFormer uses the
+  /// best conversion method frame by frame. Note that using FrameFormer increases
+  /// the transcoding time and incurs a significant add-on cost. When you choose
+  /// FrameFormer, your input video resolution must be at least 128x96.
   final Vc3FramerateConversionAlgorithm? framerateConversionAlgorithm;
 
   /// When you use the API for transcode jobs that use frame rate conversion,
-  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976
   /// fps. Use FramerateDenominator to specify the denominator of this fraction.
   /// In this example, use 1001 for the value of FramerateDenominator. When you
   /// use the console for transcode jobs that use frame rate conversion, provide
@@ -24764,7 +31577,7 @@ class Vc3Settings {
   final int? framerateDenominator;
 
   /// When you use the API for transcode jobs that use frame rate conversion,
-  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976
   /// fps. Use FramerateNumerator to specify the numerator of this fraction. In
   /// this example, use 24000 for the value of FramerateNumerator. When you use
   /// the console for transcode jobs that use frame rate conversion, provide the
@@ -24774,6 +31587,22 @@ class Vc3Settings {
   /// Optional. Choose the scan line type for this output. If you don't specify a
   /// value, MediaConvert will create a progressive output.
   final Vc3InterlaceMode? interlaceMode;
+
+  /// Use this setting for interlaced outputs, when your output frame rate is half
+  /// of your input frame rate. In this situation, choose Optimized interlacing
+  /// (INTERLACED_OPTIMIZE) to create a better quality interlaced output. In this
+  /// case, each progressive frame from the input corresponds to an interlaced
+  /// field in the output. Keep the default value, Basic interlacing (INTERLACED),
+  /// for all other output frame rates. With basic interlacing, MediaConvert
+  /// performs any frame rate conversion first and then interlaces the frames.
+  /// When you choose Optimized interlacing and you set your output frame rate to
+  /// a value that isn't suitable for optimized interlacing, MediaConvert
+  /// automatically falls back to basic interlacing. Required settings: To use
+  /// optimized interlacing, you must set Telecine (telecine) to None (NONE) or
+  /// Soft (SOFT). You can't use optimized interlacing for hard telecine outputs.
+  /// You must also set Interlace mode (interlaceMode) to a value other than
+  /// Progressive (PROGRESSIVE).
+  final Vc3ScanTypeConversionMode? scanTypeConversionMode;
 
   /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per
   /// second (fps). Enable slow PAL to create a 25 fps output by relabeling the
@@ -24807,10 +31636,12 @@ class Vc3Settings {
     this.framerateDenominator,
     this.framerateNumerator,
     this.interlaceMode,
+    this.scanTypeConversionMode,
     this.slowPal,
     this.telecine,
     this.vc3Class,
   });
+
   factory Vc3Settings.fromJson(Map<String, dynamic> json) {
     return Vc3Settings(
       framerateControl:
@@ -24821,6 +31652,8 @@ class Vc3Settings {
       framerateDenominator: json['framerateDenominator'] as int?,
       framerateNumerator: json['framerateNumerator'] as int?,
       interlaceMode: (json['interlaceMode'] as String?)?.toVc3InterlaceMode(),
+      scanTypeConversionMode: (json['scanTypeConversionMode'] as String?)
+          ?.toVc3ScanTypeConversionMode(),
       slowPal: (json['slowPal'] as String?)?.toVc3SlowPal(),
       telecine: (json['telecine'] as String?)?.toVc3Telecine(),
       vc3Class: (json['vc3Class'] as String?)?.toVc3Class(),
@@ -24833,6 +31666,7 @@ class Vc3Settings {
     final framerateDenominator = this.framerateDenominator;
     final framerateNumerator = this.framerateNumerator;
     final interlaceMode = this.interlaceMode;
+    final scanTypeConversionMode = this.scanTypeConversionMode;
     final slowPal = this.slowPal;
     final telecine = this.telecine;
     final vc3Class = this.vc3Class;
@@ -24845,6 +31679,8 @@ class Vc3Settings {
         'framerateDenominator': framerateDenominator,
       if (framerateNumerator != null) 'framerateNumerator': framerateNumerator,
       if (interlaceMode != null) 'interlaceMode': interlaceMode.toValue(),
+      if (scanTypeConversionMode != null)
+        'scanTypeConversionMode': scanTypeConversionMode.toValue(),
       if (slowPal != null) 'slowPal': slowPal.toValue(),
       if (telecine != null) 'telecine': telecine.toValue(),
       if (vc3Class != null) 'vc3Class': vc3Class.toValue(),
@@ -24920,6 +31756,37 @@ extension Vc3TelecineFromString on String {
   }
 }
 
+/// The action to take on content advisory XDS packets. If you select
+/// PASSTHROUGH, packets will not be changed. If you select STRIP, any packets
+/// will be removed in output captions.
+enum VchipAction {
+  passthrough,
+  strip,
+}
+
+extension VchipActionValueExtension on VchipAction {
+  String toValue() {
+    switch (this) {
+      case VchipAction.passthrough:
+        return 'PASSTHROUGH';
+      case VchipAction.strip:
+        return 'STRIP';
+    }
+  }
+}
+
+extension VchipActionFromString on String {
+  VchipAction toVchipAction() {
+    switch (this) {
+      case 'PASSTHROUGH':
+        return VchipAction.passthrough;
+      case 'STRIP':
+        return VchipAction.strip;
+    }
+    throw Exception('$this is not known in enum VchipAction');
+  }
+}
+
 /// Type of video codec
 enum VideoCodec {
   av1,
@@ -24928,10 +31795,12 @@ enum VideoCodec {
   h_264,
   h_265,
   mpeg2,
+  passthrough,
   prores,
   vc3,
   vp8,
   vp9,
+  xavc,
 }
 
 extension VideoCodecValueExtension on VideoCodec {
@@ -24949,6 +31818,8 @@ extension VideoCodecValueExtension on VideoCodec {
         return 'H_265';
       case VideoCodec.mpeg2:
         return 'MPEG2';
+      case VideoCodec.passthrough:
+        return 'PASSTHROUGH';
       case VideoCodec.prores:
         return 'PRORES';
       case VideoCodec.vc3:
@@ -24957,6 +31828,8 @@ extension VideoCodecValueExtension on VideoCodec {
         return 'VP8';
       case VideoCodec.vp9:
         return 'VP9';
+      case VideoCodec.xavc:
+        return 'XAVC';
     }
   }
 }
@@ -24976,6 +31849,8 @@ extension VideoCodecFromString on String {
         return VideoCodec.h_265;
       case 'MPEG2':
         return VideoCodec.mpeg2;
+      case 'PASSTHROUGH':
+        return VideoCodec.passthrough;
       case 'PRORES':
         return VideoCodec.prores;
       case 'VC3':
@@ -24984,6 +31859,8 @@ extension VideoCodecFromString on String {
         return VideoCodec.vp8;
       case 'VP9':
         return VideoCodec.vp9;
+      case 'XAVC':
+        return VideoCodec.xavc;
     }
     throw Exception('$this is not known in enum VideoCodec');
   }
@@ -24996,20 +31873,27 @@ extension VideoCodecFromString on String {
 /// following lists the codec enum, settings object pairs. * AV1, Av1Settings *
 /// AVC_INTRA, AvcIntraSettings * FRAME_CAPTURE, FrameCaptureSettings * H_264,
 /// H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES,
-/// ProresSettings * VC3, Vc3Settings * VP8, Vp8Settings * VP9, Vp9Settings
+/// ProresSettings * VC3, Vc3Settings * VP8, Vp8Settings * VP9, Vp9Settings *
+/// XAVC, XavcSettings
 class VideoCodecSettings {
   /// Required when you set Codec, under VideoDescription>CodecSettings to the
   /// value AV1.
   final Av1Settings? av1Settings;
 
-  /// Required when you set your output video codec to AVC-Intra. For more
-  /// information about the AVC-I settings, see the relevant specification. For
-  /// detailed information about SD and HD in AVC-I, see
-  /// https://ieeexplore.ieee.org/document/7290936.
+  /// Required when you choose AVC-Intra for your output video codec. For more
+  /// information about the AVC-Intra settings, see the relevant specification.
+  /// For detailed information about SD and HD in AVC-Intra, see
+  /// https://ieeexplore.ieee.org/document/7290936. For information about 4K/2K in
+  /// AVC-Intra, see
+  /// https://pro-av.panasonic.net/en/avc-ultra/AVC-ULTRAoverview.pdf.
   final AvcIntraSettings? avcIntraSettings;
 
   /// Specifies the video codec. This must be equal to one of the enum values
-  /// defined by the object  VideoCodec.
+  /// defined by the object VideoCodec. To passthrough the video stream of your
+  /// input JPEG2000, VC-3, AVC-INTRA or Apple ProRes  video without any video
+  /// encoding: Choose Passthrough. If you have multiple input videos, note that
+  /// they must have identical encoding attributes. When you choose Passthrough,
+  /// your output container must be MXF or QuickTime MOV.
   final VideoCodec? codec;
 
   /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to
@@ -25043,6 +31927,10 @@ class VideoCodecSettings {
   /// the value VP9.
   final Vp9Settings? vp9Settings;
 
+  /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to
+  /// the value XAVC.
+  final XavcSettings? xavcSettings;
+
   VideoCodecSettings({
     this.av1Settings,
     this.avcIntraSettings,
@@ -25055,7 +31943,9 @@ class VideoCodecSettings {
     this.vc3Settings,
     this.vp8Settings,
     this.vp9Settings,
+    this.xavcSettings,
   });
+
   factory VideoCodecSettings.fromJson(Map<String, dynamic> json) {
     return VideoCodecSettings(
       av1Settings: json['av1Settings'] != null
@@ -25093,6 +31983,9 @@ class VideoCodecSettings {
       vp9Settings: json['vp9Settings'] != null
           ? Vp9Settings.fromJson(json['vp9Settings'] as Map<String, dynamic>)
           : null,
+      xavcSettings: json['xavcSettings'] != null
+          ? XavcSettings.fromJson(json['xavcSettings'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -25108,6 +32001,7 @@ class VideoCodecSettings {
     final vc3Settings = this.vc3Settings;
     final vp8Settings = this.vp8Settings;
     final vp9Settings = this.vp9Settings;
+    final xavcSettings = this.xavcSettings;
     return {
       if (av1Settings != null) 'av1Settings': av1Settings,
       if (avcIntraSettings != null) 'avcIntraSettings': avcIntraSettings,
@@ -25121,11 +32015,15 @@ class VideoCodecSettings {
       if (vc3Settings != null) 'vc3Settings': vc3Settings,
       if (vp8Settings != null) 'vp8Settings': vp8Settings,
       if (vp9Settings != null) 'vp9Settings': vp9Settings,
+      if (xavcSettings != null) 'xavcSettings': xavcSettings,
     };
   }
 }
 
-/// Settings for video outputs
+/// Settings related to video encoding of your output. The specific video
+/// settings depend on the video codec that you choose. When you work directly
+/// in your JSON job specification, include one instance of Video description
+/// (VideoDescription) per output.
 class VideoDescription {
   /// This setting only applies to H.264, H.265, and MPEG2 outputs. Use Insert AFD
   /// signaling (AfdSignaling) to specify whether the service includes AFD values
@@ -25147,7 +32045,8 @@ class VideoDescription {
   /// following lists the codec enum, settings object pairs. * AV1, Av1Settings *
   /// AVC_INTRA, AvcIntraSettings * FRAME_CAPTURE, FrameCaptureSettings * H_264,
   /// H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES,
-  /// ProresSettings * VC3, Vc3Settings * VP8, Vp8Settings * VP9, Vp9Settings
+  /// ProresSettings * VC3, Vc3Settings * VP8, Vp8Settings * VP9, Vp9Settings *
+  /// XAVC, XavcSettings
   final VideoCodecSettings? codecSettings;
 
   /// Choose Insert (INSERT) for this setting to include color metadata in this
@@ -25168,12 +32067,14 @@ class VideoDescription {
 
   /// Applies only if you set AFD Signaling(AfdSignaling) to Fixed (FIXED). Use
   /// Fixed (FixedAfd) to specify a four-bit AFD value which the service will
-  /// write on all  frames of this video output.
+  /// write on all frames of this video output.
   final int? fixedAfd;
 
-  /// Use the Height (Height) setting to define the video resolution height for
-  /// this output. Specify in pixels. If you don't provide a value here, the
-  /// service will use the input height.
+  /// Use Height to define the video resolution height, in pixels, for this
+  /// output. To use the same resolution as your input: Leave both Width and
+  /// Height blank. To evenly scale from your input resolution: Leave Height blank
+  /// and enter a value for Width. For example, if your input is 1920x1080 and you
+  /// set Width to 1280, your output will be 1280x720.
   final int? height;
 
   /// Use Selection placement (position) to define the video area in your output
@@ -25225,9 +32126,11 @@ class VideoDescription {
   /// features are disabled by default.
   final VideoPreprocessor? videoPreprocessors;
 
-  /// Use Width (Width) to define the video resolution width, in pixels, for this
-  /// output. If you don't provide a value here, the service will use the input
-  /// width.
+  /// Use Width to define the video resolution width, in pixels, for this output.
+  /// To use the same resolution as your input: Leave both Width and Height blank.
+  /// To evenly scale from your input resolution: Leave Width blank and enter a
+  /// value for Height. For example, if your input is 1920x1080 and you set Height
+  /// to 720, your output will be 1280x720.
   final int? width;
 
   VideoDescription({
@@ -25247,6 +32150,7 @@ class VideoDescription {
     this.videoPreprocessors,
     this.width,
   });
+
   factory VideoDescription.fromJson(Map<String, dynamic> json) {
     return VideoDescription(
       afdSignaling: (json['afdSignaling'] as String?)?.toAfdSignaling(),
@@ -25330,6 +32234,7 @@ class VideoDetail {
     this.heightInPx,
     this.widthInPx,
   });
+
   factory VideoDetail.fromJson(Map<String, dynamic> json) {
     return VideoDetail(
       heightInPx: json['heightInPx'] as int?,
@@ -25342,26 +32247,32 @@ class VideoDetail {
 /// (VideoPreprocessors). Enable the features at each output individually. These
 /// features are disabled by default.
 class VideoPreprocessor {
-  /// Enable the Color corrector (ColorCorrector) feature if necessary. Enable or
-  /// disable this feature for each output individually. This setting is disabled
-  /// by default.
+  /// Use these settings to convert the color space or to modify properties such
+  /// as hue and contrast for this output. For more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/converting-the-color-space.html.
   final ColorCorrector? colorCorrector;
 
-  /// Use Deinterlacer (Deinterlacer) to produce smoother motion and a clearer
-  /// picture.
+  /// Use the deinterlacer to produce smoother motion and a clearer picture. For
+  /// more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-scan-type.html.
   final Deinterlacer? deinterlacer;
 
   /// Enable Dolby Vision feature to produce Dolby Vision compatible video output.
   final DolbyVision? dolbyVision;
+
+  /// Enable HDR10+ analyis and metadata injection. Compatible with HEVC only.
+  final Hdr10Plus? hdr10Plus;
 
   /// Enable the Image inserter (ImageInserter) feature to include a graphic
   /// overlay on your video. Enable or disable this feature for each output
   /// individually. This setting is disabled by default.
   final ImageInserter? imageInserter;
 
-  /// Enable the Noise reducer (NoiseReducer) feature to remove noise from your
-  /// video output if necessary. Enable or disable this feature for each output
-  /// individually. This setting is disabled by default.
+  /// Enable the Noise reducer feature to remove noise from your video output if
+  /// necessary. Enable or disable this feature for each output individually. This
+  /// setting is disabled by default. When you enable Noise reducer, you must also
+  /// select a value for Noise reducer filter. For AVC outputs, when you include
+  /// Noise reducer, you cannot include the Bandwidth reduction filter.
   final NoiseReducer? noiseReducer;
 
   /// If you work with a third party video watermarking partner, use the group of
@@ -25369,19 +32280,21 @@ class VideoPreprocessor {
   /// watermarks in your output.
   final PartnerWatermarking? partnerWatermarking;
 
-  /// Timecode burn-in (TimecodeBurnIn)--Burns the output timecode and specified
-  /// prefix into the output.
+  /// Settings for burning the output timecode and specified prefix into the
+  /// output.
   final TimecodeBurnin? timecodeBurnin;
 
   VideoPreprocessor({
     this.colorCorrector,
     this.deinterlacer,
     this.dolbyVision,
+    this.hdr10Plus,
     this.imageInserter,
     this.noiseReducer,
     this.partnerWatermarking,
     this.timecodeBurnin,
   });
+
   factory VideoPreprocessor.fromJson(Map<String, dynamic> json) {
     return VideoPreprocessor(
       colorCorrector: json['colorCorrector'] != null
@@ -25393,6 +32306,9 @@ class VideoPreprocessor {
           : null,
       dolbyVision: json['dolbyVision'] != null
           ? DolbyVision.fromJson(json['dolbyVision'] as Map<String, dynamic>)
+          : null,
+      hdr10Plus: json['hdr10Plus'] != null
+          ? Hdr10Plus.fromJson(json['hdr10Plus'] as Map<String, dynamic>)
           : null,
       imageInserter: json['imageInserter'] != null
           ? ImageInserter.fromJson(
@@ -25416,6 +32332,7 @@ class VideoPreprocessor {
     final colorCorrector = this.colorCorrector;
     final deinterlacer = this.deinterlacer;
     final dolbyVision = this.dolbyVision;
+    final hdr10Plus = this.hdr10Plus;
     final imageInserter = this.imageInserter;
     final noiseReducer = this.noiseReducer;
     final partnerWatermarking = this.partnerWatermarking;
@@ -25424,6 +32341,7 @@ class VideoPreprocessor {
       if (colorCorrector != null) 'colorCorrector': colorCorrector,
       if (deinterlacer != null) 'deinterlacer': deinterlacer,
       if (dolbyVision != null) 'dolbyVision': dolbyVision,
+      if (hdr10Plus != null) 'hdr10Plus': hdr10Plus,
       if (imageInserter != null) 'imageInserter': imageInserter,
       if (noiseReducer != null) 'noiseReducer': noiseReducer,
       if (partnerWatermarking != null)
@@ -25433,7 +32351,8 @@ class VideoPreprocessor {
   }
 }
 
-/// Selector for video.
+/// Input video selectors contain the video settings for the input. Each of your
+/// inputs can have up to one video selector.
 class VideoSelector {
   /// Ignore this setting unless this input is a QuickTime animation with an alpha
   /// channel. Use this setting to create separate Key and Fill outputs. In each
@@ -25444,15 +32363,23 @@ class VideoSelector {
   final AlphaBehavior? alphaBehavior;
 
   /// If your input video has accurate color space metadata, or if you don't know
-  /// about color space, leave this set to the default value Follow (FOLLOW). The
-  /// service will automatically detect your input color space. If your input
-  /// video has metadata indicating the wrong color space, specify the accurate
-  /// color space here. If your input video is HDR 10 and the SMPTE ST 2086
-  /// Mastering Display Color Volume static metadata isn't present in your video
-  /// stream, or if that metadata is present but not accurate, choose Force HDR 10
-  /// (FORCE_HDR10) here and specify correct values in the input HDR 10 metadata
-  /// (Hdr10Metadata) settings. For more information about MediaConvert HDR jobs,
-  /// see https://docs.aws.amazon.com/console/mediaconvert/hdr.
+  /// about color space: Keep the default value, Follow. MediaConvert will
+  /// automatically detect your input color space. If your input video has
+  /// metadata indicating the wrong color space, or has missing metadata: Specify
+  /// the accurate color space here. If your input video is HDR 10 and the SMPTE
+  /// ST 2086 Mastering Display Color Volume static metadata isn't present in your
+  /// video stream, or if that metadata is present but not accurate: Choose Force
+  /// HDR 10. Specify correct values in the input HDR 10 metadata settings. For
+  /// more information about HDR jobs, see
+  /// https://docs.aws.amazon.com/console/mediaconvert/hdr. When you specify an
+  /// input color space, MediaConvert uses the following color space metadata,
+  /// which includes color primaries, transfer characteristics, and matrix
+  /// coefficients:
+  /// * HDR 10: BT.2020, PQ, BT.2020 non-constant
+  /// * HLG 2020: BT.2020, HLG, BT.2020 non-constant
+  /// * P3DCI (Theater): DCIP3, SMPTE 428M, BT.709
+  /// * P3D65 (SDR): Display P3, sRGB, BT.709
+  /// * P3D65 (HDR): Display P3, PQ, BT.709
   final ColorSpace? colorSpace;
 
   /// There are two sources for color metadata, the input file and the job input
@@ -25465,6 +32392,14 @@ class VideoSelector {
   /// there's no color metadata in your input file, the service defaults to using
   /// values you specify in the input settings.
   final ColorSpaceUsage? colorSpaceUsage;
+
+  /// Set Embedded timecode override (embeddedTimecodeOverride) to Use MDPM
+  /// (USE_MDPM) when your AVCHD input contains timecode tag data in the Modified
+  /// Digital Video Pack Metadata (MDPM). When you do, we recommend you also set
+  /// Timecode source (inputTimecodeSource) to Embedded (EMBEDDED). Leave Embedded
+  /// timecode override blank, or set to None (NONE), when your input does not
+  /// contain MDPM timecode.
+  final EmbeddedTimecodeOverride? embeddedTimecodeOverride;
 
   /// Use these settings to provide HDR 10 metadata that is missing or inaccurate
   /// in your input video. Appropriate values vary depending on the input video
@@ -25479,6 +32414,16 @@ class VideoSelector {
   /// (ColorMetadata). For more information about MediaConvert HDR jobs, see
   /// https://docs.aws.amazon.com/console/mediaconvert/hdr.
   final Hdr10Metadata? hdr10Metadata;
+
+  /// Use this setting if your input has video and audio durations that don't
+  /// align, and your output or player has strict alignment requirements.
+  /// Examples: Input audio track has a delayed start. Input video track ends
+  /// before audio ends. When you set Pad video (padVideo) to Black (BLACK),
+  /// MediaConvert generates black video frames so that output video and audio
+  /// durations match. Black video frames are added at the beginning or end,
+  /// depending on your input. To keep the default behavior and not generate black
+  /// video, set Pad video to Disabled (DISABLED) or leave blank.
+  final PadVideo? padVideo;
 
   /// Use PID (Pid) to select specific video data from an input file. Specify this
   /// value as an integer; the system automatically converts it to the hexidecimal
@@ -25502,28 +32447,47 @@ class VideoSelector {
   /// service doesn't pass through rotation metadata.
   final InputRotate? rotate;
 
+  /// If the sample range metadata in your input video is accurate, or if you
+  /// don't know about sample range, keep the default value, Follow (FOLLOW), for
+  /// this setting. When you do, the service automatically detects your input
+  /// sample range. If your input video has metadata indicating the wrong sample
+  /// range, specify the accurate sample range here. When you do, MediaConvert
+  /// ignores any sample range information in the input metadata. Regardless of
+  /// whether MediaConvert uses the input sample range or the sample range that
+  /// you specify, MediaConvert uses the sample range for transcoding and also
+  /// writes it to the output metadata.
+  final InputSampleRange? sampleRange;
+
   VideoSelector({
     this.alphaBehavior,
     this.colorSpace,
     this.colorSpaceUsage,
+    this.embeddedTimecodeOverride,
     this.hdr10Metadata,
+    this.padVideo,
     this.pid,
     this.programNumber,
     this.rotate,
+    this.sampleRange,
   });
+
   factory VideoSelector.fromJson(Map<String, dynamic> json) {
     return VideoSelector(
       alphaBehavior: (json['alphaBehavior'] as String?)?.toAlphaBehavior(),
       colorSpace: (json['colorSpace'] as String?)?.toColorSpace(),
       colorSpaceUsage:
           (json['colorSpaceUsage'] as String?)?.toColorSpaceUsage(),
+      embeddedTimecodeOverride: (json['embeddedTimecodeOverride'] as String?)
+          ?.toEmbeddedTimecodeOverride(),
       hdr10Metadata: json['hdr10Metadata'] != null
           ? Hdr10Metadata.fromJson(
               json['hdr10Metadata'] as Map<String, dynamic>)
           : null,
+      padVideo: (json['padVideo'] as String?)?.toPadVideo(),
       pid: json['pid'] as int?,
       programNumber: json['programNumber'] as int?,
       rotate: (json['rotate'] as String?)?.toInputRotate(),
+      sampleRange: (json['sampleRange'] as String?)?.toInputSampleRange(),
     );
   }
 
@@ -25531,18 +32495,25 @@ class VideoSelector {
     final alphaBehavior = this.alphaBehavior;
     final colorSpace = this.colorSpace;
     final colorSpaceUsage = this.colorSpaceUsage;
+    final embeddedTimecodeOverride = this.embeddedTimecodeOverride;
     final hdr10Metadata = this.hdr10Metadata;
+    final padVideo = this.padVideo;
     final pid = this.pid;
     final programNumber = this.programNumber;
     final rotate = this.rotate;
+    final sampleRange = this.sampleRange;
     return {
       if (alphaBehavior != null) 'alphaBehavior': alphaBehavior.toValue(),
       if (colorSpace != null) 'colorSpace': colorSpace.toValue(),
       if (colorSpaceUsage != null) 'colorSpaceUsage': colorSpaceUsage.toValue(),
+      if (embeddedTimecodeOverride != null)
+        'embeddedTimecodeOverride': embeddedTimecodeOverride.toValue(),
       if (hdr10Metadata != null) 'hdr10Metadata': hdr10Metadata,
+      if (padVideo != null) 'padVideo': padVideo.toValue(),
       if (pid != null) 'pid': pid,
       if (programNumber != null) 'programNumber': programNumber,
       if (rotate != null) 'rotate': rotate.toValue(),
+      if (sampleRange != null) 'sampleRange': sampleRange.toValue(),
     };
   }
 }
@@ -25611,6 +32582,7 @@ class VorbisSettings {
     this.sampleRate,
     this.vbrQuality,
   });
+
   factory VorbisSettings.fromJson(Map<String, dynamic> json) {
     return VorbisSettings(
       channels: json['channels'] as int?,
@@ -25672,16 +32644,16 @@ extension Vp8FramerateControlFromString on String {
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
-/// decreasing the frame rate. We recommend using drop duplicate
-/// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
-/// fps. For numerically complex conversions, you can use interpolate
-/// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
-/// introduce undesirable video artifacts. For complex frame rate conversions,
-/// especially if your source video has already been converted from its original
-/// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
-/// interpolation. FrameFormer chooses the best conversion method frame by
-/// frame. Note that using FrameFormer increases the transcoding time and incurs
-/// a significant add-on cost.
+/// decreasing the frame rate. For numerically simple conversions, such as 60
+/// fps to 30 fps: We recommend that you keep the default value, Drop duplicate.
+/// For numerically complex conversions, to avoid stutter: Choose Interpolate.
+/// This results in a smooth picture, but might introduce undesirable video
+/// artifacts. For complex frame rate conversions, especially if your source
+/// video has already been converted from its original cadence: Choose
+/// FrameFormer to do motion-compensated interpolation. FrameFormer uses the
+/// best conversion method frame by frame. Note that using FrameFormer increases
+/// the transcoding time and incurs a significant add-on cost. When you choose
+/// FrameFormer, your input video resolution must be at least 128x96.
 enum Vp8FramerateConversionAlgorithm {
   duplicateDrop,
   interpolate,
@@ -25831,20 +32803,20 @@ class Vp8Settings {
   final Vp8FramerateControl? framerateControl;
 
   /// Choose the method that you want MediaConvert to use when increasing or
-  /// decreasing the frame rate. We recommend using drop duplicate
-  /// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
-  /// fps. For numerically complex conversions, you can use interpolate
-  /// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
-  /// introduce undesirable video artifacts. For complex frame rate conversions,
-  /// especially if your source video has already been converted from its original
-  /// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
-  /// interpolation. FrameFormer chooses the best conversion method frame by
-  /// frame. Note that using FrameFormer increases the transcoding time and incurs
-  /// a significant add-on cost.
+  /// decreasing the frame rate. For numerically simple conversions, such as 60
+  /// fps to 30 fps: We recommend that you keep the default value, Drop duplicate.
+  /// For numerically complex conversions, to avoid stutter: Choose Interpolate.
+  /// This results in a smooth picture, but might introduce undesirable video
+  /// artifacts. For complex frame rate conversions, especially if your source
+  /// video has already been converted from its original cadence: Choose
+  /// FrameFormer to do motion-compensated interpolation. FrameFormer uses the
+  /// best conversion method frame by frame. Note that using FrameFormer increases
+  /// the transcoding time and incurs a significant add-on cost. When you choose
+  /// FrameFormer, your input video resolution must be at least 128x96.
   final Vp8FramerateConversionAlgorithm? framerateConversionAlgorithm;
 
   /// When you use the API for transcode jobs that use frame rate conversion,
-  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976
   /// fps. Use FramerateDenominator to specify the denominator of this fraction.
   /// In this example, use 1001 for the value of FramerateDenominator. When you
   /// use the console for transcode jobs that use frame rate conversion, provide
@@ -25853,7 +32825,7 @@ class Vp8Settings {
   final int? framerateDenominator;
 
   /// When you use the API for transcode jobs that use frame rate conversion,
-  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976
   /// fps. Use FramerateNumerator to specify the numerator of this fraction. In
   /// this example, use 24000 for the value of FramerateNumerator. When you use
   /// the console for transcode jobs that use frame rate conversion, provide the
@@ -25923,6 +32895,7 @@ class Vp8Settings {
     this.qualityTuningLevel,
     this.rateControlMode,
   });
+
   factory Vp8Settings.fromJson(Map<String, dynamic> json) {
     return Vp8Settings(
       bitrate: json['bitrate'] as int?,
@@ -26023,16 +32996,16 @@ extension Vp9FramerateControlFromString on String {
 }
 
 /// Choose the method that you want MediaConvert to use when increasing or
-/// decreasing the frame rate. We recommend using drop duplicate
-/// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
-/// fps. For numerically complex conversions, you can use interpolate
-/// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
-/// introduce undesirable video artifacts. For complex frame rate conversions,
-/// especially if your source video has already been converted from its original
-/// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
-/// interpolation. FrameFormer chooses the best conversion method frame by
-/// frame. Note that using FrameFormer increases the transcoding time and incurs
-/// a significant add-on cost.
+/// decreasing the frame rate. For numerically simple conversions, such as 60
+/// fps to 30 fps: We recommend that you keep the default value, Drop duplicate.
+/// For numerically complex conversions, to avoid stutter: Choose Interpolate.
+/// This results in a smooth picture, but might introduce undesirable video
+/// artifacts. For complex frame rate conversions, especially if your source
+/// video has already been converted from its original cadence: Choose
+/// FrameFormer to do motion-compensated interpolation. FrameFormer uses the
+/// best conversion method frame by frame. Note that using FrameFormer increases
+/// the transcoding time and incurs a significant add-on cost. When you choose
+/// FrameFormer, your input video resolution must be at least 128x96.
 enum Vp9FramerateConversionAlgorithm {
   duplicateDrop,
   interpolate,
@@ -26182,20 +33155,20 @@ class Vp9Settings {
   final Vp9FramerateControl? framerateControl;
 
   /// Choose the method that you want MediaConvert to use when increasing or
-  /// decreasing the frame rate. We recommend using drop duplicate
-  /// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
-  /// fps. For numerically complex conversions, you can use interpolate
-  /// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
-  /// introduce undesirable video artifacts. For complex frame rate conversions,
-  /// especially if your source video has already been converted from its original
-  /// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
-  /// interpolation. FrameFormer chooses the best conversion method frame by
-  /// frame. Note that using FrameFormer increases the transcoding time and incurs
-  /// a significant add-on cost.
+  /// decreasing the frame rate. For numerically simple conversions, such as 60
+  /// fps to 30 fps: We recommend that you keep the default value, Drop duplicate.
+  /// For numerically complex conversions, to avoid stutter: Choose Interpolate.
+  /// This results in a smooth picture, but might introduce undesirable video
+  /// artifacts. For complex frame rate conversions, especially if your source
+  /// video has already been converted from its original cadence: Choose
+  /// FrameFormer to do motion-compensated interpolation. FrameFormer uses the
+  /// best conversion method frame by frame. Note that using FrameFormer increases
+  /// the transcoding time and incurs a significant add-on cost. When you choose
+  /// FrameFormer, your input video resolution must be at least 128x96.
   final Vp9FramerateConversionAlgorithm? framerateConversionAlgorithm;
 
   /// When you use the API for transcode jobs that use frame rate conversion,
-  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976
   /// fps. Use FramerateDenominator to specify the denominator of this fraction.
   /// In this example, use 1001 for the value of FramerateDenominator. When you
   /// use the console for transcode jobs that use frame rate conversion, provide
@@ -26204,7 +33177,7 @@ class Vp9Settings {
   final int? framerateDenominator;
 
   /// When you use the API for transcode jobs that use frame rate conversion,
-  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976
   /// fps. Use FramerateNumerator to specify the numerator of this fraction. In
   /// this example, use 24000 for the value of FramerateNumerator. When you use
   /// the console for transcode jobs that use frame rate conversion, provide the
@@ -26269,6 +33242,7 @@ class Vp9Settings {
     this.qualityTuningLevel,
     this.rateControlMode,
   });
+
   factory Vp9Settings.fromJson(Map<String, dynamic> json) {
     return Vp9Settings(
       bitrate: json['bitrate'] as int?,
@@ -26325,6 +33299,29 @@ class Vp9Settings {
         'qualityTuningLevel': qualityTuningLevel.toValue(),
       if (rateControlMode != null) 'rateControlMode': rateControlMode.toValue(),
     };
+  }
+}
+
+/// Contains any warning codes and their count for the job.
+class WarningGroup {
+  /// Warning code that identifies a specific warning in the job. For more
+  /// information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/warning_codes.html
+  final int code;
+
+  /// The number of times this warning occurred in the job.
+  final int count;
+
+  WarningGroup({
+    required this.code,
+    required this.count,
+  });
+
+  factory WarningGroup.fromJson(Map<String, dynamic> json) {
+    return WarningGroup(
+      code: json['code'] as int,
+      count: json['count'] as int,
+    );
   }
 }
 
@@ -26430,6 +33427,7 @@ class WavSettings {
     this.format,
     this.sampleRate,
   });
+
   factory WavSettings.fromJson(Map<String, dynamic> json) {
     return WavSettings(
       bitDepth: json['bitDepth'] as int?,
@@ -26450,6 +33448,1619 @@ class WavSettings {
       if (format != null) 'format': format.toValue(),
       if (sampleRate != null) 'sampleRate': sampleRate,
     };
+  }
+}
+
+/// If the WebVTT captions track is intended to provide accessibility for people
+/// who are deaf or hard of hearing: Set Accessibility subtitles to Enabled.
+/// When you do, MediaConvert adds accessibility attributes to your output HLS
+/// or DASH manifest. For HLS manifests, MediaConvert adds the following
+/// accessibility attributes under EXT-X-MEDIA for this track:
+/// CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound"
+/// and AUTOSELECT="YES". For DASH manifests, MediaConvert adds the following in
+/// the adaptation set for this track: <Accessibility
+/// schemeIdUri="urn:mpeg:dash:role:2011" value="caption"/>. If the captions
+/// track is not intended to provide such accessibility: Keep the default value,
+/// Disabled. When you do, for DASH manifests, MediaConvert instead adds the
+/// following in the adaptation set for this track: <Role
+/// schemeIDUri="urn:mpeg:dash:role:2011" value="subtitle"/>.
+enum WebvttAccessibilitySubs {
+  disabled,
+  enabled,
+}
+
+extension WebvttAccessibilitySubsValueExtension on WebvttAccessibilitySubs {
+  String toValue() {
+    switch (this) {
+      case WebvttAccessibilitySubs.disabled:
+        return 'DISABLED';
+      case WebvttAccessibilitySubs.enabled:
+        return 'ENABLED';
+    }
+  }
+}
+
+extension WebvttAccessibilitySubsFromString on String {
+  WebvttAccessibilitySubs toWebvttAccessibilitySubs() {
+    switch (this) {
+      case 'DISABLED':
+        return WebvttAccessibilitySubs.disabled;
+      case 'ENABLED':
+        return WebvttAccessibilitySubs.enabled;
+    }
+    throw Exception('$this is not known in enum WebvttAccessibilitySubs');
+  }
+}
+
+/// Settings related to WebVTT captions. WebVTT is a sidecar format that holds
+/// captions in a file that is separate from the video container. Set up sidecar
+/// captions in the same output group, but different output from your video. For
+/// more information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
+/// When you work directly in your JSON job specification, include this object
+/// and any required children when you set destinationType to WebVTT.
+class WebvttDestinationSettings {
+  /// If the WebVTT captions track is intended to provide accessibility for people
+  /// who are deaf or hard of hearing: Set Accessibility subtitles to Enabled.
+  /// When you do, MediaConvert adds accessibility attributes to your output HLS
+  /// or DASH manifest. For HLS manifests, MediaConvert adds the following
+  /// accessibility attributes under EXT-X-MEDIA for this track:
+  /// CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound"
+  /// and AUTOSELECT="YES". For DASH manifests, MediaConvert adds the following in
+  /// the adaptation set for this track: <Accessibility
+  /// schemeIdUri="urn:mpeg:dash:role:2011" value="caption"/>. If the captions
+  /// track is not intended to provide such accessibility: Keep the default value,
+  /// Disabled. When you do, for DASH manifests, MediaConvert instead adds the
+  /// following in the adaptation set for this track: <Role
+  /// schemeIDUri="urn:mpeg:dash:role:2011" value="subtitle"/>.
+  final WebvttAccessibilitySubs? accessibility;
+
+  /// To use the available style, color, and position information from your input
+  /// captions: Set Style passthrough (stylePassthrough) to Enabled (ENABLED).
+  /// MediaConvert uses default settings when style and position information is
+  /// missing from your input captions. To recreate the input captions exactly:
+  /// Set Style passthrough to Strict (STRICT). MediaConvert automatically applies
+  /// timing adjustments, including adjustments for frame rate conversion, ad
+  /// avails, and input clipping. Your input captions format must be WebVTT. To
+  /// ignore the style and position information from your input captions and use
+  /// simplified output captions: Set Style passthrough to Disabled (DISABLED), or
+  /// leave blank.
+  final WebvttStylePassthrough? stylePassthrough;
+
+  WebvttDestinationSettings({
+    this.accessibility,
+    this.stylePassthrough,
+  });
+
+  factory WebvttDestinationSettings.fromJson(Map<String, dynamic> json) {
+    return WebvttDestinationSettings(
+      accessibility:
+          (json['accessibility'] as String?)?.toWebvttAccessibilitySubs(),
+      stylePassthrough:
+          (json['stylePassthrough'] as String?)?.toWebvttStylePassthrough(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessibility = this.accessibility;
+    final stylePassthrough = this.stylePassthrough;
+    return {
+      if (accessibility != null) 'accessibility': accessibility.toValue(),
+      if (stylePassthrough != null)
+        'stylePassthrough': stylePassthrough.toValue(),
+    };
+  }
+}
+
+/// Settings specific to WebVTT sources in HLS alternative rendition group.
+/// Specify the properties (renditionGroupId, renditionName or
+/// renditionLanguageCode) to identify the unique subtitle track among the
+/// alternative rendition groups present in the HLS manifest. If no unique track
+/// is found, or multiple tracks match the specified properties, the job fails.
+/// If there is only one subtitle track in the rendition group, the settings can
+/// be left empty and the default subtitle track will be chosen. If your caption
+/// source is a sidecar file, use FileSourceSettings instead of
+/// WebvttHlsSourceSettings.
+class WebvttHlsSourceSettings {
+  /// Optional. Specify alternative group ID
+  final String? renditionGroupId;
+
+  /// Optional. Specify ISO 639-2 or ISO 639-3 code in the language property
+  final LanguageCode? renditionLanguageCode;
+
+  /// Optional. Specify media name
+  final String? renditionName;
+
+  WebvttHlsSourceSettings({
+    this.renditionGroupId,
+    this.renditionLanguageCode,
+    this.renditionName,
+  });
+
+  factory WebvttHlsSourceSettings.fromJson(Map<String, dynamic> json) {
+    return WebvttHlsSourceSettings(
+      renditionGroupId: json['renditionGroupId'] as String?,
+      renditionLanguageCode:
+          (json['renditionLanguageCode'] as String?)?.toLanguageCode(),
+      renditionName: json['renditionName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final renditionGroupId = this.renditionGroupId;
+    final renditionLanguageCode = this.renditionLanguageCode;
+    final renditionName = this.renditionName;
+    return {
+      if (renditionGroupId != null) 'renditionGroupId': renditionGroupId,
+      if (renditionLanguageCode != null)
+        'renditionLanguageCode': renditionLanguageCode.toValue(),
+      if (renditionName != null) 'renditionName': renditionName,
+    };
+  }
+}
+
+/// To use the available style, color, and position information from your input
+/// captions: Set Style passthrough (stylePassthrough) to Enabled (ENABLED).
+/// MediaConvert uses default settings when style and position information is
+/// missing from your input captions. To recreate the input captions exactly:
+/// Set Style passthrough to Strict (STRICT). MediaConvert automatically applies
+/// timing adjustments, including adjustments for frame rate conversion, ad
+/// avails, and input clipping. Your input captions format must be WebVTT. To
+/// ignore the style and position information from your input captions and use
+/// simplified output captions: Set Style passthrough to Disabled (DISABLED), or
+/// leave blank.
+enum WebvttStylePassthrough {
+  enabled,
+  disabled,
+  strict,
+}
+
+extension WebvttStylePassthroughValueExtension on WebvttStylePassthrough {
+  String toValue() {
+    switch (this) {
+      case WebvttStylePassthrough.enabled:
+        return 'ENABLED';
+      case WebvttStylePassthrough.disabled:
+        return 'DISABLED';
+      case WebvttStylePassthrough.strict:
+        return 'STRICT';
+    }
+  }
+}
+
+extension WebvttStylePassthroughFromString on String {
+  WebvttStylePassthrough toWebvttStylePassthrough() {
+    switch (this) {
+      case 'ENABLED':
+        return WebvttStylePassthrough.enabled;
+      case 'DISABLED':
+        return WebvttStylePassthrough.disabled;
+      case 'STRICT':
+        return WebvttStylePassthrough.strict;
+    }
+    throw Exception('$this is not known in enum WebvttStylePassthrough');
+  }
+}
+
+/// Specify the XAVC Intra 4k (CBG) Class to set the bitrate of your output.
+/// Outputs of the same class have similar image quality over the operating
+/// points that are valid for that class.
+enum Xavc4kIntraCbgProfileClass {
+  class_100,
+  class_300,
+  class_480,
+}
+
+extension Xavc4kIntraCbgProfileClassValueExtension
+    on Xavc4kIntraCbgProfileClass {
+  String toValue() {
+    switch (this) {
+      case Xavc4kIntraCbgProfileClass.class_100:
+        return 'CLASS_100';
+      case Xavc4kIntraCbgProfileClass.class_300:
+        return 'CLASS_300';
+      case Xavc4kIntraCbgProfileClass.class_480:
+        return 'CLASS_480';
+    }
+  }
+}
+
+extension Xavc4kIntraCbgProfileClassFromString on String {
+  Xavc4kIntraCbgProfileClass toXavc4kIntraCbgProfileClass() {
+    switch (this) {
+      case 'CLASS_100':
+        return Xavc4kIntraCbgProfileClass.class_100;
+      case 'CLASS_300':
+        return Xavc4kIntraCbgProfileClass.class_300;
+      case 'CLASS_480':
+        return Xavc4kIntraCbgProfileClass.class_480;
+    }
+    throw Exception('$this is not known in enum Xavc4kIntraCbgProfileClass');
+  }
+}
+
+/// Required when you set (Profile) under
+/// (VideoDescription)>(CodecSettings)>(XavcSettings) to the value
+/// XAVC_4K_INTRA_CBG.
+class Xavc4kIntraCbgProfileSettings {
+  /// Specify the XAVC Intra 4k (CBG) Class to set the bitrate of your output.
+  /// Outputs of the same class have similar image quality over the operating
+  /// points that are valid for that class.
+  final Xavc4kIntraCbgProfileClass? xavcClass;
+
+  Xavc4kIntraCbgProfileSettings({
+    this.xavcClass,
+  });
+
+  factory Xavc4kIntraCbgProfileSettings.fromJson(Map<String, dynamic> json) {
+    return Xavc4kIntraCbgProfileSettings(
+      xavcClass: (json['xavcClass'] as String?)?.toXavc4kIntraCbgProfileClass(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final xavcClass = this.xavcClass;
+    return {
+      if (xavcClass != null) 'xavcClass': xavcClass.toValue(),
+    };
+  }
+}
+
+/// Specify the XAVC Intra 4k (VBR) Class to set the bitrate of your output.
+/// Outputs of the same class have similar image quality over the operating
+/// points that are valid for that class.
+enum Xavc4kIntraVbrProfileClass {
+  class_100,
+  class_300,
+  class_480,
+}
+
+extension Xavc4kIntraVbrProfileClassValueExtension
+    on Xavc4kIntraVbrProfileClass {
+  String toValue() {
+    switch (this) {
+      case Xavc4kIntraVbrProfileClass.class_100:
+        return 'CLASS_100';
+      case Xavc4kIntraVbrProfileClass.class_300:
+        return 'CLASS_300';
+      case Xavc4kIntraVbrProfileClass.class_480:
+        return 'CLASS_480';
+    }
+  }
+}
+
+extension Xavc4kIntraVbrProfileClassFromString on String {
+  Xavc4kIntraVbrProfileClass toXavc4kIntraVbrProfileClass() {
+    switch (this) {
+      case 'CLASS_100':
+        return Xavc4kIntraVbrProfileClass.class_100;
+      case 'CLASS_300':
+        return Xavc4kIntraVbrProfileClass.class_300;
+      case 'CLASS_480':
+        return Xavc4kIntraVbrProfileClass.class_480;
+    }
+    throw Exception('$this is not known in enum Xavc4kIntraVbrProfileClass');
+  }
+}
+
+/// Required when you set (Profile) under
+/// (VideoDescription)>(CodecSettings)>(XavcSettings) to the value
+/// XAVC_4K_INTRA_VBR.
+class Xavc4kIntraVbrProfileSettings {
+  /// Specify the XAVC Intra 4k (VBR) Class to set the bitrate of your output.
+  /// Outputs of the same class have similar image quality over the operating
+  /// points that are valid for that class.
+  final Xavc4kIntraVbrProfileClass? xavcClass;
+
+  Xavc4kIntraVbrProfileSettings({
+    this.xavcClass,
+  });
+
+  factory Xavc4kIntraVbrProfileSettings.fromJson(Map<String, dynamic> json) {
+    return Xavc4kIntraVbrProfileSettings(
+      xavcClass: (json['xavcClass'] as String?)?.toXavc4kIntraVbrProfileClass(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final xavcClass = this.xavcClass;
+    return {
+      if (xavcClass != null) 'xavcClass': xavcClass.toValue(),
+    };
+  }
+}
+
+/// Specify the XAVC 4k (Long GOP) Bitrate Class to set the bitrate of your
+/// output. Outputs of the same class have similar image quality over the
+/// operating points that are valid for that class.
+enum Xavc4kProfileBitrateClass {
+  bitrateClass_100,
+  bitrateClass_140,
+  bitrateClass_200,
+}
+
+extension Xavc4kProfileBitrateClassValueExtension on Xavc4kProfileBitrateClass {
+  String toValue() {
+    switch (this) {
+      case Xavc4kProfileBitrateClass.bitrateClass_100:
+        return 'BITRATE_CLASS_100';
+      case Xavc4kProfileBitrateClass.bitrateClass_140:
+        return 'BITRATE_CLASS_140';
+      case Xavc4kProfileBitrateClass.bitrateClass_200:
+        return 'BITRATE_CLASS_200';
+    }
+  }
+}
+
+extension Xavc4kProfileBitrateClassFromString on String {
+  Xavc4kProfileBitrateClass toXavc4kProfileBitrateClass() {
+    switch (this) {
+      case 'BITRATE_CLASS_100':
+        return Xavc4kProfileBitrateClass.bitrateClass_100;
+      case 'BITRATE_CLASS_140':
+        return Xavc4kProfileBitrateClass.bitrateClass_140;
+      case 'BITRATE_CLASS_200':
+        return Xavc4kProfileBitrateClass.bitrateClass_200;
+    }
+    throw Exception('$this is not known in enum Xavc4kProfileBitrateClass');
+  }
+}
+
+/// Specify the codec profile for this output. Choose High, 8-bit, 4:2:0 (HIGH)
+/// or High, 10-bit, 4:2:2 (HIGH_422). These profiles are specified in ITU-T
+/// H.264.
+enum Xavc4kProfileCodecProfile {
+  high,
+  high_422,
+}
+
+extension Xavc4kProfileCodecProfileValueExtension on Xavc4kProfileCodecProfile {
+  String toValue() {
+    switch (this) {
+      case Xavc4kProfileCodecProfile.high:
+        return 'HIGH';
+      case Xavc4kProfileCodecProfile.high_422:
+        return 'HIGH_422';
+    }
+  }
+}
+
+extension Xavc4kProfileCodecProfileFromString on String {
+  Xavc4kProfileCodecProfile toXavc4kProfileCodecProfile() {
+    switch (this) {
+      case 'HIGH':
+        return Xavc4kProfileCodecProfile.high;
+      case 'HIGH_422':
+        return Xavc4kProfileCodecProfile.high_422;
+    }
+    throw Exception('$this is not known in enum Xavc4kProfileCodecProfile');
+  }
+}
+
+/// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you
+/// want to trade off encoding speed for output video quality. The default
+/// behavior is faster, lower quality, single-pass encoding.
+enum Xavc4kProfileQualityTuningLevel {
+  singlePass,
+  singlePassHq,
+  multiPassHq,
+}
+
+extension Xavc4kProfileQualityTuningLevelValueExtension
+    on Xavc4kProfileQualityTuningLevel {
+  String toValue() {
+    switch (this) {
+      case Xavc4kProfileQualityTuningLevel.singlePass:
+        return 'SINGLE_PASS';
+      case Xavc4kProfileQualityTuningLevel.singlePassHq:
+        return 'SINGLE_PASS_HQ';
+      case Xavc4kProfileQualityTuningLevel.multiPassHq:
+        return 'MULTI_PASS_HQ';
+    }
+  }
+}
+
+extension Xavc4kProfileQualityTuningLevelFromString on String {
+  Xavc4kProfileQualityTuningLevel toXavc4kProfileQualityTuningLevel() {
+    switch (this) {
+      case 'SINGLE_PASS':
+        return Xavc4kProfileQualityTuningLevel.singlePass;
+      case 'SINGLE_PASS_HQ':
+        return Xavc4kProfileQualityTuningLevel.singlePassHq;
+      case 'MULTI_PASS_HQ':
+        return Xavc4kProfileQualityTuningLevel.multiPassHq;
+    }
+    throw Exception(
+        '$this is not known in enum Xavc4kProfileQualityTuningLevel');
+  }
+}
+
+/// Required when you set (Profile) under
+/// (VideoDescription)>(CodecSettings)>(XavcSettings) to the value XAVC_4K.
+class Xavc4kProfileSettings {
+  /// Specify the XAVC 4k (Long GOP) Bitrate Class to set the bitrate of your
+  /// output. Outputs of the same class have similar image quality over the
+  /// operating points that are valid for that class.
+  final Xavc4kProfileBitrateClass? bitrateClass;
+
+  /// Specify the codec profile for this output. Choose High, 8-bit, 4:2:0 (HIGH)
+  /// or High, 10-bit, 4:2:2 (HIGH_422). These profiles are specified in ITU-T
+  /// H.264.
+  final Xavc4kProfileCodecProfile? codecProfile;
+
+  /// The best way to set up adaptive quantization is to keep the default value,
+  /// Auto (AUTO), for the setting Adaptive quantization
+  /// (XavcAdaptiveQuantization). When you do so, MediaConvert automatically
+  /// applies the best types of quantization for your video content. Include this
+  /// setting in your JSON job specification only when you choose to change the
+  /// default value for Adaptive quantization. Enable this setting to have the
+  /// encoder reduce I-frame pop. I-frame pop appears as a visual flicker that can
+  /// arise when the encoder saves bits by copying some macroblocks many times
+  /// from frame to frame, and then refreshes them at the I-frame. When you enable
+  /// this setting, the encoder updates these macroblocks slightly more often to
+  /// smooth out the flicker. This setting is disabled by default. Related
+  /// setting: In addition to enabling this setting, you must also set Adaptive
+  /// quantization (adaptiveQuantization) to a value other than Off (OFF) or Auto
+  /// (AUTO). Use Adaptive quantization to adjust the degree of smoothing that
+  /// Flicker adaptive quantization provides.
+  final XavcFlickerAdaptiveQuantization? flickerAdaptiveQuantization;
+
+  /// Specify whether the encoder uses B-frames as reference frames for other
+  /// pictures in the same GOP. Choose Allow (ENABLED) to allow the encoder to use
+  /// B-frames as reference frames. Choose Don't allow (DISABLED) to prevent the
+  /// encoder from using B-frames as reference frames.
+  final XavcGopBReference? gopBReference;
+
+  /// Frequency of closed GOPs. In streaming applications, it is recommended that
+  /// this be set to 1 so a decoder joining mid-stream will receive an IDR frame
+  /// as quickly as possible. Setting this value to 0 will break output
+  /// segmenting.
+  final int? gopClosedCadence;
+
+  /// Specify the size of the buffer that MediaConvert uses in the HRD buffer
+  /// model for this output. Specify this value in bits; for example, enter five
+  /// megabits as 5000000. When you don't set this value, or you set it to zero,
+  /// MediaConvert calculates the default by doubling the bitrate of this output
+  /// point.
+  final int? hrdBufferSize;
+
+  /// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you
+  /// want to trade off encoding speed for output video quality. The default
+  /// behavior is faster, lower quality, single-pass encoding.
+  final Xavc4kProfileQualityTuningLevel? qualityTuningLevel;
+
+  /// Number of slices per picture. Must be less than or equal to the number of
+  /// macroblock rows for progressive pictures, and less than or equal to half the
+  /// number of macroblock rows for interlaced pictures.
+  final int? slices;
+
+  Xavc4kProfileSettings({
+    this.bitrateClass,
+    this.codecProfile,
+    this.flickerAdaptiveQuantization,
+    this.gopBReference,
+    this.gopClosedCadence,
+    this.hrdBufferSize,
+    this.qualityTuningLevel,
+    this.slices,
+  });
+
+  factory Xavc4kProfileSettings.fromJson(Map<String, dynamic> json) {
+    return Xavc4kProfileSettings(
+      bitrateClass:
+          (json['bitrateClass'] as String?)?.toXavc4kProfileBitrateClass(),
+      codecProfile:
+          (json['codecProfile'] as String?)?.toXavc4kProfileCodecProfile(),
+      flickerAdaptiveQuantization:
+          (json['flickerAdaptiveQuantization'] as String?)
+              ?.toXavcFlickerAdaptiveQuantization(),
+      gopBReference: (json['gopBReference'] as String?)?.toXavcGopBReference(),
+      gopClosedCadence: json['gopClosedCadence'] as int?,
+      hrdBufferSize: json['hrdBufferSize'] as int?,
+      qualityTuningLevel: (json['qualityTuningLevel'] as String?)
+          ?.toXavc4kProfileQualityTuningLevel(),
+      slices: json['slices'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bitrateClass = this.bitrateClass;
+    final codecProfile = this.codecProfile;
+    final flickerAdaptiveQuantization = this.flickerAdaptiveQuantization;
+    final gopBReference = this.gopBReference;
+    final gopClosedCadence = this.gopClosedCadence;
+    final hrdBufferSize = this.hrdBufferSize;
+    final qualityTuningLevel = this.qualityTuningLevel;
+    final slices = this.slices;
+    return {
+      if (bitrateClass != null) 'bitrateClass': bitrateClass.toValue(),
+      if (codecProfile != null) 'codecProfile': codecProfile.toValue(),
+      if (flickerAdaptiveQuantization != null)
+        'flickerAdaptiveQuantization': flickerAdaptiveQuantization.toValue(),
+      if (gopBReference != null) 'gopBReference': gopBReference.toValue(),
+      if (gopClosedCadence != null) 'gopClosedCadence': gopClosedCadence,
+      if (hrdBufferSize != null) 'hrdBufferSize': hrdBufferSize,
+      if (qualityTuningLevel != null)
+        'qualityTuningLevel': qualityTuningLevel.toValue(),
+      if (slices != null) 'slices': slices,
+    };
+  }
+}
+
+/// Keep the default value, Auto (AUTO), for this setting to have MediaConvert
+/// automatically apply the best types of quantization for your video content.
+/// When you want to apply your quantization settings manually, you must set
+/// Adaptive quantization (adaptiveQuantization) to a value other than Auto
+/// (AUTO). Use this setting to specify the strength of any adaptive
+/// quantization filters that you enable. If you don't want MediaConvert to do
+/// any adaptive quantization in this transcode, set Adaptive quantization to
+/// Off (OFF). Related settings: The value that you choose here applies to the
+/// following settings: Flicker adaptive quantization
+/// (flickerAdaptiveQuantization), Spatial adaptive quantization
+/// (spatialAdaptiveQuantization), and Temporal adaptive quantization
+/// (temporalAdaptiveQuantization).
+enum XavcAdaptiveQuantization {
+  off,
+  auto,
+  low,
+  medium,
+  high,
+  higher,
+  max,
+}
+
+extension XavcAdaptiveQuantizationValueExtension on XavcAdaptiveQuantization {
+  String toValue() {
+    switch (this) {
+      case XavcAdaptiveQuantization.off:
+        return 'OFF';
+      case XavcAdaptiveQuantization.auto:
+        return 'AUTO';
+      case XavcAdaptiveQuantization.low:
+        return 'LOW';
+      case XavcAdaptiveQuantization.medium:
+        return 'MEDIUM';
+      case XavcAdaptiveQuantization.high:
+        return 'HIGH';
+      case XavcAdaptiveQuantization.higher:
+        return 'HIGHER';
+      case XavcAdaptiveQuantization.max:
+        return 'MAX';
+    }
+  }
+}
+
+extension XavcAdaptiveQuantizationFromString on String {
+  XavcAdaptiveQuantization toXavcAdaptiveQuantization() {
+    switch (this) {
+      case 'OFF':
+        return XavcAdaptiveQuantization.off;
+      case 'AUTO':
+        return XavcAdaptiveQuantization.auto;
+      case 'LOW':
+        return XavcAdaptiveQuantization.low;
+      case 'MEDIUM':
+        return XavcAdaptiveQuantization.medium;
+      case 'HIGH':
+        return XavcAdaptiveQuantization.high;
+      case 'HIGHER':
+        return XavcAdaptiveQuantization.higher;
+      case 'MAX':
+        return XavcAdaptiveQuantization.max;
+    }
+    throw Exception('$this is not known in enum XavcAdaptiveQuantization');
+  }
+}
+
+/// Optional. Choose a specific entropy encoding mode only when you want to
+/// override XAVC recommendations. If you choose the value auto, MediaConvert
+/// uses the mode that the XAVC file format specifies given this output's
+/// operating point.
+enum XavcEntropyEncoding {
+  auto,
+  cabac,
+  cavlc,
+}
+
+extension XavcEntropyEncodingValueExtension on XavcEntropyEncoding {
+  String toValue() {
+    switch (this) {
+      case XavcEntropyEncoding.auto:
+        return 'AUTO';
+      case XavcEntropyEncoding.cabac:
+        return 'CABAC';
+      case XavcEntropyEncoding.cavlc:
+        return 'CAVLC';
+    }
+  }
+}
+
+extension XavcEntropyEncodingFromString on String {
+  XavcEntropyEncoding toXavcEntropyEncoding() {
+    switch (this) {
+      case 'AUTO':
+        return XavcEntropyEncoding.auto;
+      case 'CABAC':
+        return XavcEntropyEncoding.cabac;
+      case 'CAVLC':
+        return XavcEntropyEncoding.cavlc;
+    }
+    throw Exception('$this is not known in enum XavcEntropyEncoding');
+  }
+}
+
+/// The best way to set up adaptive quantization is to keep the default value,
+/// Auto (AUTO), for the setting Adaptive quantization
+/// (XavcAdaptiveQuantization). When you do so, MediaConvert automatically
+/// applies the best types of quantization for your video content. Include this
+/// setting in your JSON job specification only when you choose to change the
+/// default value for Adaptive quantization. Enable this setting to have the
+/// encoder reduce I-frame pop. I-frame pop appears as a visual flicker that can
+/// arise when the encoder saves bits by copying some macroblocks many times
+/// from frame to frame, and then refreshes them at the I-frame. When you enable
+/// this setting, the encoder updates these macroblocks slightly more often to
+/// smooth out the flicker. This setting is disabled by default. Related
+/// setting: In addition to enabling this setting, you must also set Adaptive
+/// quantization (adaptiveQuantization) to a value other than Off (OFF) or Auto
+/// (AUTO). Use Adaptive quantization to adjust the degree of smoothing that
+/// Flicker adaptive quantization provides.
+enum XavcFlickerAdaptiveQuantization {
+  disabled,
+  enabled,
+}
+
+extension XavcFlickerAdaptiveQuantizationValueExtension
+    on XavcFlickerAdaptiveQuantization {
+  String toValue() {
+    switch (this) {
+      case XavcFlickerAdaptiveQuantization.disabled:
+        return 'DISABLED';
+      case XavcFlickerAdaptiveQuantization.enabled:
+        return 'ENABLED';
+    }
+  }
+}
+
+extension XavcFlickerAdaptiveQuantizationFromString on String {
+  XavcFlickerAdaptiveQuantization toXavcFlickerAdaptiveQuantization() {
+    switch (this) {
+      case 'DISABLED':
+        return XavcFlickerAdaptiveQuantization.disabled;
+      case 'ENABLED':
+        return XavcFlickerAdaptiveQuantization.enabled;
+    }
+    throw Exception(
+        '$this is not known in enum XavcFlickerAdaptiveQuantization');
+  }
+}
+
+/// If you are using the console, use the Frame rate setting to specify the
+/// frame rate for this output. If you want to keep the same frame rate as the
+/// input video, choose Follow source. If you want to do frame rate conversion,
+/// choose a frame rate from the dropdown list. The framerates shown in the
+/// dropdown list are decimal approximations of fractions. If you are creating
+/// your transcoding job specification as a JSON file without the console, use
+/// FramerateControl to specify which value the service uses for the frame rate
+/// for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to
+/// use the frame rate from the input. Choose SPECIFIED if you want the service
+/// to use the frame rate that you specify in the settings FramerateNumerator
+/// and FramerateDenominator.
+enum XavcFramerateControl {
+  initializeFromSource,
+  specified,
+}
+
+extension XavcFramerateControlValueExtension on XavcFramerateControl {
+  String toValue() {
+    switch (this) {
+      case XavcFramerateControl.initializeFromSource:
+        return 'INITIALIZE_FROM_SOURCE';
+      case XavcFramerateControl.specified:
+        return 'SPECIFIED';
+    }
+  }
+}
+
+extension XavcFramerateControlFromString on String {
+  XavcFramerateControl toXavcFramerateControl() {
+    switch (this) {
+      case 'INITIALIZE_FROM_SOURCE':
+        return XavcFramerateControl.initializeFromSource;
+      case 'SPECIFIED':
+        return XavcFramerateControl.specified;
+    }
+    throw Exception('$this is not known in enum XavcFramerateControl');
+  }
+}
+
+/// Choose the method that you want MediaConvert to use when increasing or
+/// decreasing the frame rate. For numerically simple conversions, such as 60
+/// fps to 30 fps: We recommend that you keep the default value, Drop duplicate.
+/// For numerically complex conversions, to avoid stutter: Choose Interpolate.
+/// This results in a smooth picture, but might introduce undesirable video
+/// artifacts. For complex frame rate conversions, especially if your source
+/// video has already been converted from its original cadence: Choose
+/// FrameFormer to do motion-compensated interpolation. FrameFormer uses the
+/// best conversion method frame by frame. Note that using FrameFormer increases
+/// the transcoding time and incurs a significant add-on cost. When you choose
+/// FrameFormer, your input video resolution must be at least 128x96.
+enum XavcFramerateConversionAlgorithm {
+  duplicateDrop,
+  interpolate,
+  frameformer,
+}
+
+extension XavcFramerateConversionAlgorithmValueExtension
+    on XavcFramerateConversionAlgorithm {
+  String toValue() {
+    switch (this) {
+      case XavcFramerateConversionAlgorithm.duplicateDrop:
+        return 'DUPLICATE_DROP';
+      case XavcFramerateConversionAlgorithm.interpolate:
+        return 'INTERPOLATE';
+      case XavcFramerateConversionAlgorithm.frameformer:
+        return 'FRAMEFORMER';
+    }
+  }
+}
+
+extension XavcFramerateConversionAlgorithmFromString on String {
+  XavcFramerateConversionAlgorithm toXavcFramerateConversionAlgorithm() {
+    switch (this) {
+      case 'DUPLICATE_DROP':
+        return XavcFramerateConversionAlgorithm.duplicateDrop;
+      case 'INTERPOLATE':
+        return XavcFramerateConversionAlgorithm.interpolate;
+      case 'FRAMEFORMER':
+        return XavcFramerateConversionAlgorithm.frameformer;
+    }
+    throw Exception(
+        '$this is not known in enum XavcFramerateConversionAlgorithm');
+  }
+}
+
+/// Specify whether the encoder uses B-frames as reference frames for other
+/// pictures in the same GOP. Choose Allow (ENABLED) to allow the encoder to use
+/// B-frames as reference frames. Choose Don't allow (DISABLED) to prevent the
+/// encoder from using B-frames as reference frames.
+enum XavcGopBReference {
+  disabled,
+  enabled,
+}
+
+extension XavcGopBReferenceValueExtension on XavcGopBReference {
+  String toValue() {
+    switch (this) {
+      case XavcGopBReference.disabled:
+        return 'DISABLED';
+      case XavcGopBReference.enabled:
+        return 'ENABLED';
+    }
+  }
+}
+
+extension XavcGopBReferenceFromString on String {
+  XavcGopBReference toXavcGopBReference() {
+    switch (this) {
+      case 'DISABLED':
+        return XavcGopBReference.disabled;
+      case 'ENABLED':
+        return XavcGopBReference.enabled;
+    }
+    throw Exception('$this is not known in enum XavcGopBReference');
+  }
+}
+
+/// Specify the XAVC Intra HD (CBG) Class to set the bitrate of your output.
+/// Outputs of the same class have similar image quality over the operating
+/// points that are valid for that class.
+enum XavcHdIntraCbgProfileClass {
+  class_50,
+  class_100,
+  class_200,
+}
+
+extension XavcHdIntraCbgProfileClassValueExtension
+    on XavcHdIntraCbgProfileClass {
+  String toValue() {
+    switch (this) {
+      case XavcHdIntraCbgProfileClass.class_50:
+        return 'CLASS_50';
+      case XavcHdIntraCbgProfileClass.class_100:
+        return 'CLASS_100';
+      case XavcHdIntraCbgProfileClass.class_200:
+        return 'CLASS_200';
+    }
+  }
+}
+
+extension XavcHdIntraCbgProfileClassFromString on String {
+  XavcHdIntraCbgProfileClass toXavcHdIntraCbgProfileClass() {
+    switch (this) {
+      case 'CLASS_50':
+        return XavcHdIntraCbgProfileClass.class_50;
+      case 'CLASS_100':
+        return XavcHdIntraCbgProfileClass.class_100;
+      case 'CLASS_200':
+        return XavcHdIntraCbgProfileClass.class_200;
+    }
+    throw Exception('$this is not known in enum XavcHdIntraCbgProfileClass');
+  }
+}
+
+/// Required when you set (Profile) under
+/// (VideoDescription)>(CodecSettings)>(XavcSettings) to the value
+/// XAVC_HD_INTRA_CBG.
+class XavcHdIntraCbgProfileSettings {
+  /// Specify the XAVC Intra HD (CBG) Class to set the bitrate of your output.
+  /// Outputs of the same class have similar image quality over the operating
+  /// points that are valid for that class.
+  final XavcHdIntraCbgProfileClass? xavcClass;
+
+  XavcHdIntraCbgProfileSettings({
+    this.xavcClass,
+  });
+
+  factory XavcHdIntraCbgProfileSettings.fromJson(Map<String, dynamic> json) {
+    return XavcHdIntraCbgProfileSettings(
+      xavcClass: (json['xavcClass'] as String?)?.toXavcHdIntraCbgProfileClass(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final xavcClass = this.xavcClass;
+    return {
+      if (xavcClass != null) 'xavcClass': xavcClass.toValue(),
+    };
+  }
+}
+
+/// Specify the XAVC HD (Long GOP) Bitrate Class to set the bitrate of your
+/// output. Outputs of the same class have similar image quality over the
+/// operating points that are valid for that class.
+enum XavcHdProfileBitrateClass {
+  bitrateClass_25,
+  bitrateClass_35,
+  bitrateClass_50,
+}
+
+extension XavcHdProfileBitrateClassValueExtension on XavcHdProfileBitrateClass {
+  String toValue() {
+    switch (this) {
+      case XavcHdProfileBitrateClass.bitrateClass_25:
+        return 'BITRATE_CLASS_25';
+      case XavcHdProfileBitrateClass.bitrateClass_35:
+        return 'BITRATE_CLASS_35';
+      case XavcHdProfileBitrateClass.bitrateClass_50:
+        return 'BITRATE_CLASS_50';
+    }
+  }
+}
+
+extension XavcHdProfileBitrateClassFromString on String {
+  XavcHdProfileBitrateClass toXavcHdProfileBitrateClass() {
+    switch (this) {
+      case 'BITRATE_CLASS_25':
+        return XavcHdProfileBitrateClass.bitrateClass_25;
+      case 'BITRATE_CLASS_35':
+        return XavcHdProfileBitrateClass.bitrateClass_35;
+      case 'BITRATE_CLASS_50':
+        return XavcHdProfileBitrateClass.bitrateClass_50;
+    }
+    throw Exception('$this is not known in enum XavcHdProfileBitrateClass');
+  }
+}
+
+/// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you
+/// want to trade off encoding speed for output video quality. The default
+/// behavior is faster, lower quality, single-pass encoding.
+enum XavcHdProfileQualityTuningLevel {
+  singlePass,
+  singlePassHq,
+  multiPassHq,
+}
+
+extension XavcHdProfileQualityTuningLevelValueExtension
+    on XavcHdProfileQualityTuningLevel {
+  String toValue() {
+    switch (this) {
+      case XavcHdProfileQualityTuningLevel.singlePass:
+        return 'SINGLE_PASS';
+      case XavcHdProfileQualityTuningLevel.singlePassHq:
+        return 'SINGLE_PASS_HQ';
+      case XavcHdProfileQualityTuningLevel.multiPassHq:
+        return 'MULTI_PASS_HQ';
+    }
+  }
+}
+
+extension XavcHdProfileQualityTuningLevelFromString on String {
+  XavcHdProfileQualityTuningLevel toXavcHdProfileQualityTuningLevel() {
+    switch (this) {
+      case 'SINGLE_PASS':
+        return XavcHdProfileQualityTuningLevel.singlePass;
+      case 'SINGLE_PASS_HQ':
+        return XavcHdProfileQualityTuningLevel.singlePassHq;
+      case 'MULTI_PASS_HQ':
+        return XavcHdProfileQualityTuningLevel.multiPassHq;
+    }
+    throw Exception(
+        '$this is not known in enum XavcHdProfileQualityTuningLevel');
+  }
+}
+
+/// Required when you set (Profile) under
+/// (VideoDescription)>(CodecSettings)>(XavcSettings) to the value XAVC_HD.
+class XavcHdProfileSettings {
+  /// Specify the XAVC HD (Long GOP) Bitrate Class to set the bitrate of your
+  /// output. Outputs of the same class have similar image quality over the
+  /// operating points that are valid for that class.
+  final XavcHdProfileBitrateClass? bitrateClass;
+
+  /// The best way to set up adaptive quantization is to keep the default value,
+  /// Auto (AUTO), for the setting Adaptive quantization
+  /// (XavcAdaptiveQuantization). When you do so, MediaConvert automatically
+  /// applies the best types of quantization for your video content. Include this
+  /// setting in your JSON job specification only when you choose to change the
+  /// default value for Adaptive quantization. Enable this setting to have the
+  /// encoder reduce I-frame pop. I-frame pop appears as a visual flicker that can
+  /// arise when the encoder saves bits by copying some macroblocks many times
+  /// from frame to frame, and then refreshes them at the I-frame. When you enable
+  /// this setting, the encoder updates these macroblocks slightly more often to
+  /// smooth out the flicker. This setting is disabled by default. Related
+  /// setting: In addition to enabling this setting, you must also set Adaptive
+  /// quantization (adaptiveQuantization) to a value other than Off (OFF) or Auto
+  /// (AUTO). Use Adaptive quantization to adjust the degree of smoothing that
+  /// Flicker adaptive quantization provides.
+  final XavcFlickerAdaptiveQuantization? flickerAdaptiveQuantization;
+
+  /// Specify whether the encoder uses B-frames as reference frames for other
+  /// pictures in the same GOP. Choose Allow (ENABLED) to allow the encoder to use
+  /// B-frames as reference frames. Choose Don't allow (DISABLED) to prevent the
+  /// encoder from using B-frames as reference frames.
+  final XavcGopBReference? gopBReference;
+
+  /// Frequency of closed GOPs. In streaming applications, it is recommended that
+  /// this be set to 1 so a decoder joining mid-stream will receive an IDR frame
+  /// as quickly as possible. Setting this value to 0 will break output
+  /// segmenting.
+  final int? gopClosedCadence;
+
+  /// Specify the size of the buffer that MediaConvert uses in the HRD buffer
+  /// model for this output. Specify this value in bits; for example, enter five
+  /// megabits as 5000000. When you don't set this value, or you set it to zero,
+  /// MediaConvert calculates the default by doubling the bitrate of this output
+  /// point.
+  final int? hrdBufferSize;
+
+  /// Choose the scan line type for the output. Keep the default value,
+  /// Progressive (PROGRESSIVE) to create a progressive output, regardless of the
+  /// scan type of your input. Use Top field first (TOP_FIELD) or Bottom field
+  /// first (BOTTOM_FIELD) to create an output that's interlaced with the same
+  /// field polarity throughout. Use Follow, default top (FOLLOW_TOP_FIELD) or
+  /// Follow, default bottom (FOLLOW_BOTTOM_FIELD) to produce outputs with the
+  /// same field polarity as the source. For jobs that have multiple inputs, the
+  /// output field polarity might change over the course of the output. Follow
+  /// behavior depends on the input scan type. If the source is interlaced, the
+  /// output will be interlaced with the same polarity as the source. If the
+  /// source is progressive, the output will be interlaced with top field bottom
+  /// field first, depending on which of the Follow options you choose.
+  final XavcInterlaceMode? interlaceMode;
+
+  /// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you
+  /// want to trade off encoding speed for output video quality. The default
+  /// behavior is faster, lower quality, single-pass encoding.
+  final XavcHdProfileQualityTuningLevel? qualityTuningLevel;
+
+  /// Number of slices per picture. Must be less than or equal to the number of
+  /// macroblock rows for progressive pictures, and less than or equal to half the
+  /// number of macroblock rows for interlaced pictures.
+  final int? slices;
+
+  /// Ignore this setting unless you set Frame rate (framerateNumerator divided by
+  /// framerateDenominator) to 29.970. If your input framerate is 23.976, choose
+  /// Hard (HARD). Otherwise, keep the default value None (NONE). For more
+  /// information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-telecine-and-inverse-telecine.html.
+  final XavcHdProfileTelecine? telecine;
+
+  XavcHdProfileSettings({
+    this.bitrateClass,
+    this.flickerAdaptiveQuantization,
+    this.gopBReference,
+    this.gopClosedCadence,
+    this.hrdBufferSize,
+    this.interlaceMode,
+    this.qualityTuningLevel,
+    this.slices,
+    this.telecine,
+  });
+
+  factory XavcHdProfileSettings.fromJson(Map<String, dynamic> json) {
+    return XavcHdProfileSettings(
+      bitrateClass:
+          (json['bitrateClass'] as String?)?.toXavcHdProfileBitrateClass(),
+      flickerAdaptiveQuantization:
+          (json['flickerAdaptiveQuantization'] as String?)
+              ?.toXavcFlickerAdaptiveQuantization(),
+      gopBReference: (json['gopBReference'] as String?)?.toXavcGopBReference(),
+      gopClosedCadence: json['gopClosedCadence'] as int?,
+      hrdBufferSize: json['hrdBufferSize'] as int?,
+      interlaceMode: (json['interlaceMode'] as String?)?.toXavcInterlaceMode(),
+      qualityTuningLevel: (json['qualityTuningLevel'] as String?)
+          ?.toXavcHdProfileQualityTuningLevel(),
+      slices: json['slices'] as int?,
+      telecine: (json['telecine'] as String?)?.toXavcHdProfileTelecine(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bitrateClass = this.bitrateClass;
+    final flickerAdaptiveQuantization = this.flickerAdaptiveQuantization;
+    final gopBReference = this.gopBReference;
+    final gopClosedCadence = this.gopClosedCadence;
+    final hrdBufferSize = this.hrdBufferSize;
+    final interlaceMode = this.interlaceMode;
+    final qualityTuningLevel = this.qualityTuningLevel;
+    final slices = this.slices;
+    final telecine = this.telecine;
+    return {
+      if (bitrateClass != null) 'bitrateClass': bitrateClass.toValue(),
+      if (flickerAdaptiveQuantization != null)
+        'flickerAdaptiveQuantization': flickerAdaptiveQuantization.toValue(),
+      if (gopBReference != null) 'gopBReference': gopBReference.toValue(),
+      if (gopClosedCadence != null) 'gopClosedCadence': gopClosedCadence,
+      if (hrdBufferSize != null) 'hrdBufferSize': hrdBufferSize,
+      if (interlaceMode != null) 'interlaceMode': interlaceMode.toValue(),
+      if (qualityTuningLevel != null)
+        'qualityTuningLevel': qualityTuningLevel.toValue(),
+      if (slices != null) 'slices': slices,
+      if (telecine != null) 'telecine': telecine.toValue(),
+    };
+  }
+}
+
+/// Ignore this setting unless you set Frame rate (framerateNumerator divided by
+/// framerateDenominator) to 29.970. If your input framerate is 23.976, choose
+/// Hard (HARD). Otherwise, keep the default value None (NONE). For more
+/// information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-telecine-and-inverse-telecine.html.
+enum XavcHdProfileTelecine {
+  none,
+  hard,
+}
+
+extension XavcHdProfileTelecineValueExtension on XavcHdProfileTelecine {
+  String toValue() {
+    switch (this) {
+      case XavcHdProfileTelecine.none:
+        return 'NONE';
+      case XavcHdProfileTelecine.hard:
+        return 'HARD';
+    }
+  }
+}
+
+extension XavcHdProfileTelecineFromString on String {
+  XavcHdProfileTelecine toXavcHdProfileTelecine() {
+    switch (this) {
+      case 'NONE':
+        return XavcHdProfileTelecine.none;
+      case 'HARD':
+        return XavcHdProfileTelecine.hard;
+    }
+    throw Exception('$this is not known in enum XavcHdProfileTelecine');
+  }
+}
+
+/// Choose the scan line type for the output. Keep the default value,
+/// Progressive (PROGRESSIVE) to create a progressive output, regardless of the
+/// scan type of your input. Use Top field first (TOP_FIELD) or Bottom field
+/// first (BOTTOM_FIELD) to create an output that's interlaced with the same
+/// field polarity throughout. Use Follow, default top (FOLLOW_TOP_FIELD) or
+/// Follow, default bottom (FOLLOW_BOTTOM_FIELD) to produce outputs with the
+/// same field polarity as the source. For jobs that have multiple inputs, the
+/// output field polarity might change over the course of the output. Follow
+/// behavior depends on the input scan type. If the source is interlaced, the
+/// output will be interlaced with the same polarity as the source. If the
+/// source is progressive, the output will be interlaced with top field bottom
+/// field first, depending on which of the Follow options you choose.
+enum XavcInterlaceMode {
+  progressive,
+  topField,
+  bottomField,
+  followTopField,
+  followBottomField,
+}
+
+extension XavcInterlaceModeValueExtension on XavcInterlaceMode {
+  String toValue() {
+    switch (this) {
+      case XavcInterlaceMode.progressive:
+        return 'PROGRESSIVE';
+      case XavcInterlaceMode.topField:
+        return 'TOP_FIELD';
+      case XavcInterlaceMode.bottomField:
+        return 'BOTTOM_FIELD';
+      case XavcInterlaceMode.followTopField:
+        return 'FOLLOW_TOP_FIELD';
+      case XavcInterlaceMode.followBottomField:
+        return 'FOLLOW_BOTTOM_FIELD';
+    }
+  }
+}
+
+extension XavcInterlaceModeFromString on String {
+  XavcInterlaceMode toXavcInterlaceMode() {
+    switch (this) {
+      case 'PROGRESSIVE':
+        return XavcInterlaceMode.progressive;
+      case 'TOP_FIELD':
+        return XavcInterlaceMode.topField;
+      case 'BOTTOM_FIELD':
+        return XavcInterlaceMode.bottomField;
+      case 'FOLLOW_TOP_FIELD':
+        return XavcInterlaceMode.followTopField;
+      case 'FOLLOW_BOTTOM_FIELD':
+        return XavcInterlaceMode.followBottomField;
+    }
+    throw Exception('$this is not known in enum XavcInterlaceMode');
+  }
+}
+
+/// Specify the XAVC profile for this output. For more information, see the Sony
+/// documentation at https://www.xavc-info.org/. Note that MediaConvert doesn't
+/// support the interlaced video XAVC operating points for XAVC_HD_INTRA_CBG. To
+/// create an interlaced XAVC output, choose the profile XAVC_HD.
+enum XavcProfile {
+  xavcHdIntraCbg,
+  xavc_4kIntraCbg,
+  xavc_4kIntraVbr,
+  xavcHd,
+  xavc_4k,
+}
+
+extension XavcProfileValueExtension on XavcProfile {
+  String toValue() {
+    switch (this) {
+      case XavcProfile.xavcHdIntraCbg:
+        return 'XAVC_HD_INTRA_CBG';
+      case XavcProfile.xavc_4kIntraCbg:
+        return 'XAVC_4K_INTRA_CBG';
+      case XavcProfile.xavc_4kIntraVbr:
+        return 'XAVC_4K_INTRA_VBR';
+      case XavcProfile.xavcHd:
+        return 'XAVC_HD';
+      case XavcProfile.xavc_4k:
+        return 'XAVC_4K';
+    }
+  }
+}
+
+extension XavcProfileFromString on String {
+  XavcProfile toXavcProfile() {
+    switch (this) {
+      case 'XAVC_HD_INTRA_CBG':
+        return XavcProfile.xavcHdIntraCbg;
+      case 'XAVC_4K_INTRA_CBG':
+        return XavcProfile.xavc_4kIntraCbg;
+      case 'XAVC_4K_INTRA_VBR':
+        return XavcProfile.xavc_4kIntraVbr;
+      case 'XAVC_HD':
+        return XavcProfile.xavcHd;
+      case 'XAVC_4K':
+        return XavcProfile.xavc_4k;
+    }
+    throw Exception('$this is not known in enum XavcProfile');
+  }
+}
+
+/// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to
+/// the value XAVC.
+class XavcSettings {
+  /// Keep the default value, Auto (AUTO), for this setting to have MediaConvert
+  /// automatically apply the best types of quantization for your video content.
+  /// When you want to apply your quantization settings manually, you must set
+  /// Adaptive quantization (adaptiveQuantization) to a value other than Auto
+  /// (AUTO). Use this setting to specify the strength of any adaptive
+  /// quantization filters that you enable. If you don't want MediaConvert to do
+  /// any adaptive quantization in this transcode, set Adaptive quantization to
+  /// Off (OFF). Related settings: The value that you choose here applies to the
+  /// following settings: Flicker adaptive quantization
+  /// (flickerAdaptiveQuantization), Spatial adaptive quantization
+  /// (spatialAdaptiveQuantization), and Temporal adaptive quantization
+  /// (temporalAdaptiveQuantization).
+  final XavcAdaptiveQuantization? adaptiveQuantization;
+
+  /// Optional. Choose a specific entropy encoding mode only when you want to
+  /// override XAVC recommendations. If you choose the value auto, MediaConvert
+  /// uses the mode that the XAVC file format specifies given this output's
+  /// operating point.
+  final XavcEntropyEncoding? entropyEncoding;
+
+  /// If you are using the console, use the Frame rate setting to specify the
+  /// frame rate for this output. If you want to keep the same frame rate as the
+  /// input video, choose Follow source. If you want to do frame rate conversion,
+  /// choose a frame rate from the dropdown list. The framerates shown in the
+  /// dropdown list are decimal approximations of fractions. If you are creating
+  /// your transcoding job specification as a JSON file without the console, use
+  /// FramerateControl to specify which value the service uses for the frame rate
+  /// for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to
+  /// use the frame rate from the input. Choose SPECIFIED if you want the service
+  /// to use the frame rate that you specify in the settings FramerateNumerator
+  /// and FramerateDenominator.
+  final XavcFramerateControl? framerateControl;
+
+  /// Choose the method that you want MediaConvert to use when increasing or
+  /// decreasing the frame rate. For numerically simple conversions, such as 60
+  /// fps to 30 fps: We recommend that you keep the default value, Drop duplicate.
+  /// For numerically complex conversions, to avoid stutter: Choose Interpolate.
+  /// This results in a smooth picture, but might introduce undesirable video
+  /// artifacts. For complex frame rate conversions, especially if your source
+  /// video has already been converted from its original cadence: Choose
+  /// FrameFormer to do motion-compensated interpolation. FrameFormer uses the
+  /// best conversion method frame by frame. Note that using FrameFormer increases
+  /// the transcoding time and incurs a significant add-on cost. When you choose
+  /// FrameFormer, your input video resolution must be at least 128x96.
+  final XavcFramerateConversionAlgorithm? framerateConversionAlgorithm;
+
+  /// When you use the API for transcode jobs that use frame rate conversion,
+  /// specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976
+  /// fps. Use FramerateDenominator to specify the denominator of this fraction.
+  /// In this example, use 1001 for the value of FramerateDenominator. When you
+  /// use the console for transcode jobs that use frame rate conversion, provide
+  /// the value as a decimal number for Frame rate. In this example, specify
+  /// 23.976.
+  final int? framerateDenominator;
+
+  /// When you use the API for transcode jobs that use frame rate conversion,
+  /// specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976
+  /// fps. Use FramerateNumerator to specify the numerator of this fraction. In
+  /// this example, use 24000 for the value of FramerateNumerator. When you use
+  /// the console for transcode jobs that use frame rate conversion, provide the
+  /// value as a decimal number for Framerate. In this example, specify 23.976.
+  final int? framerateNumerator;
+
+  /// Specify the XAVC profile for this output. For more information, see the Sony
+  /// documentation at https://www.xavc-info.org/. Note that MediaConvert doesn't
+  /// support the interlaced video XAVC operating points for XAVC_HD_INTRA_CBG. To
+  /// create an interlaced XAVC output, choose the profile XAVC_HD.
+  final XavcProfile? profile;
+
+  /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per
+  /// second (fps). Enable slow PAL to create a 25 fps output by relabeling the
+  /// video frames and resampling your audio. Note that enabling this setting will
+  /// slightly reduce the duration of your video. Related settings: You must also
+  /// set Frame rate to 25. In your JSON job specification, set (framerateControl)
+  /// to (SPECIFIED), (framerateNumerator) to 25 and (framerateDenominator) to 1.
+  final XavcSlowPal? slowPal;
+
+  /// Ignore this setting unless your downstream workflow requires that you
+  /// specify it explicitly. Otherwise, we recommend that you adjust the softness
+  /// of your output by using a lower value for the setting Sharpness (sharpness)
+  /// or by enabling a noise reducer filter (noiseReducerFilter). The Softness
+  /// (softness) setting specifies the quantization matrices that the encoder
+  /// uses. Keep the default value, 0, for flat quantization. Choose the value 1
+  /// or 16 to use the default JVT softening quantization matricies from the H.264
+  /// specification. Choose a value from 17 to 128 to use planar interpolation.
+  /// Increasing values from 17 to 128 result in increasing reduction of
+  /// high-frequency data. The value 128 results in the softest video.
+  final int? softness;
+
+  /// The best way to set up adaptive quantization is to keep the default value,
+  /// Auto (AUTO), for the setting Adaptive quantization (adaptiveQuantization).
+  /// When you do so, MediaConvert automatically applies the best types of
+  /// quantization for your video content. Include this setting in your JSON job
+  /// specification only when you choose to change the default value for Adaptive
+  /// quantization. For this setting, keep the default value, Enabled (ENABLED),
+  /// to adjust quantization within each frame based on spatial variation of
+  /// content complexity. When you enable this feature, the encoder uses fewer
+  /// bits on areas that can sustain more distortion with no noticeable visual
+  /// degradation and uses more bits on areas where any small distortion will be
+  /// noticeable. For example, complex textured blocks are encoded with fewer bits
+  /// and smooth textured blocks are encoded with more bits. Enabling this feature
+  /// will almost always improve your video quality. Note, though, that this
+  /// feature doesn't take into account where the viewer's attention is likely to
+  /// be. If viewers are likely to be focusing their attention on a part of the
+  /// screen with a lot of complex texture, you might choose to disable this
+  /// feature. Related setting: When you enable spatial adaptive quantization, set
+  /// the value for Adaptive quantization (adaptiveQuantization) depending on your
+  /// content. For homogeneous content, such as cartoons and video games, set it
+  /// to Low. For content with a wider variety of textures, set it to High or
+  /// Higher.
+  final XavcSpatialAdaptiveQuantization? spatialAdaptiveQuantization;
+
+  /// The best way to set up adaptive quantization is to keep the default value,
+  /// Auto (AUTO), for the setting Adaptive quantization (adaptiveQuantization).
+  /// When you do so, MediaConvert automatically applies the best types of
+  /// quantization for your video content. Include this setting in your JSON job
+  /// specification only when you choose to change the default value for Adaptive
+  /// quantization. For this setting, keep the default value, Enabled (ENABLED),
+  /// to adjust quantization within each frame based on temporal variation of
+  /// content complexity. When you enable this feature, the encoder uses fewer
+  /// bits on areas of the frame that aren't moving and uses more bits on complex
+  /// objects with sharp edges that move a lot. For example, this feature improves
+  /// the readability of text tickers on newscasts and scoreboards on sports
+  /// matches. Enabling this feature will almost always improve your video
+  /// quality. Note, though, that this feature doesn't take into account where the
+  /// viewer's attention is likely to be. If viewers are likely to be focusing
+  /// their attention on a part of the screen that doesn't have moving objects
+  /// with sharp edges, such as sports athletes' faces, you might choose to
+  /// disable this feature. Related setting: When you enable temporal adaptive
+  /// quantization, adjust the strength of the filter with the setting Adaptive
+  /// quantization (adaptiveQuantization).
+  final XavcTemporalAdaptiveQuantization? temporalAdaptiveQuantization;
+
+  /// Required when you set (Profile) under
+  /// (VideoDescription)>(CodecSettings)>(XavcSettings) to the value
+  /// XAVC_4K_INTRA_CBG.
+  final Xavc4kIntraCbgProfileSettings? xavc4kIntraCbgProfileSettings;
+
+  /// Required when you set (Profile) under
+  /// (VideoDescription)>(CodecSettings)>(XavcSettings) to the value
+  /// XAVC_4K_INTRA_VBR.
+  final Xavc4kIntraVbrProfileSettings? xavc4kIntraVbrProfileSettings;
+
+  /// Required when you set (Profile) under
+  /// (VideoDescription)>(CodecSettings)>(XavcSettings) to the value XAVC_4K.
+  final Xavc4kProfileSettings? xavc4kProfileSettings;
+
+  /// Required when you set (Profile) under
+  /// (VideoDescription)>(CodecSettings)>(XavcSettings) to the value
+  /// XAVC_HD_INTRA_CBG.
+  final XavcHdIntraCbgProfileSettings? xavcHdIntraCbgProfileSettings;
+
+  /// Required when you set (Profile) under
+  /// (VideoDescription)>(CodecSettings)>(XavcSettings) to the value XAVC_HD.
+  final XavcHdProfileSettings? xavcHdProfileSettings;
+
+  XavcSettings({
+    this.adaptiveQuantization,
+    this.entropyEncoding,
+    this.framerateControl,
+    this.framerateConversionAlgorithm,
+    this.framerateDenominator,
+    this.framerateNumerator,
+    this.profile,
+    this.slowPal,
+    this.softness,
+    this.spatialAdaptiveQuantization,
+    this.temporalAdaptiveQuantization,
+    this.xavc4kIntraCbgProfileSettings,
+    this.xavc4kIntraVbrProfileSettings,
+    this.xavc4kProfileSettings,
+    this.xavcHdIntraCbgProfileSettings,
+    this.xavcHdProfileSettings,
+  });
+
+  factory XavcSettings.fromJson(Map<String, dynamic> json) {
+    return XavcSettings(
+      adaptiveQuantization: (json['adaptiveQuantization'] as String?)
+          ?.toXavcAdaptiveQuantization(),
+      entropyEncoding:
+          (json['entropyEncoding'] as String?)?.toXavcEntropyEncoding(),
+      framerateControl:
+          (json['framerateControl'] as String?)?.toXavcFramerateControl(),
+      framerateConversionAlgorithm:
+          (json['framerateConversionAlgorithm'] as String?)
+              ?.toXavcFramerateConversionAlgorithm(),
+      framerateDenominator: json['framerateDenominator'] as int?,
+      framerateNumerator: json['framerateNumerator'] as int?,
+      profile: (json['profile'] as String?)?.toXavcProfile(),
+      slowPal: (json['slowPal'] as String?)?.toXavcSlowPal(),
+      softness: json['softness'] as int?,
+      spatialAdaptiveQuantization:
+          (json['spatialAdaptiveQuantization'] as String?)
+              ?.toXavcSpatialAdaptiveQuantization(),
+      temporalAdaptiveQuantization:
+          (json['temporalAdaptiveQuantization'] as String?)
+              ?.toXavcTemporalAdaptiveQuantization(),
+      xavc4kIntraCbgProfileSettings:
+          json['xavc4kIntraCbgProfileSettings'] != null
+              ? Xavc4kIntraCbgProfileSettings.fromJson(
+                  json['xavc4kIntraCbgProfileSettings'] as Map<String, dynamic>)
+              : null,
+      xavc4kIntraVbrProfileSettings:
+          json['xavc4kIntraVbrProfileSettings'] != null
+              ? Xavc4kIntraVbrProfileSettings.fromJson(
+                  json['xavc4kIntraVbrProfileSettings'] as Map<String, dynamic>)
+              : null,
+      xavc4kProfileSettings: json['xavc4kProfileSettings'] != null
+          ? Xavc4kProfileSettings.fromJson(
+              json['xavc4kProfileSettings'] as Map<String, dynamic>)
+          : null,
+      xavcHdIntraCbgProfileSettings:
+          json['xavcHdIntraCbgProfileSettings'] != null
+              ? XavcHdIntraCbgProfileSettings.fromJson(
+                  json['xavcHdIntraCbgProfileSettings'] as Map<String, dynamic>)
+              : null,
+      xavcHdProfileSettings: json['xavcHdProfileSettings'] != null
+          ? XavcHdProfileSettings.fromJson(
+              json['xavcHdProfileSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adaptiveQuantization = this.adaptiveQuantization;
+    final entropyEncoding = this.entropyEncoding;
+    final framerateControl = this.framerateControl;
+    final framerateConversionAlgorithm = this.framerateConversionAlgorithm;
+    final framerateDenominator = this.framerateDenominator;
+    final framerateNumerator = this.framerateNumerator;
+    final profile = this.profile;
+    final slowPal = this.slowPal;
+    final softness = this.softness;
+    final spatialAdaptiveQuantization = this.spatialAdaptiveQuantization;
+    final temporalAdaptiveQuantization = this.temporalAdaptiveQuantization;
+    final xavc4kIntraCbgProfileSettings = this.xavc4kIntraCbgProfileSettings;
+    final xavc4kIntraVbrProfileSettings = this.xavc4kIntraVbrProfileSettings;
+    final xavc4kProfileSettings = this.xavc4kProfileSettings;
+    final xavcHdIntraCbgProfileSettings = this.xavcHdIntraCbgProfileSettings;
+    final xavcHdProfileSettings = this.xavcHdProfileSettings;
+    return {
+      if (adaptiveQuantization != null)
+        'adaptiveQuantization': adaptiveQuantization.toValue(),
+      if (entropyEncoding != null) 'entropyEncoding': entropyEncoding.toValue(),
+      if (framerateControl != null)
+        'framerateControl': framerateControl.toValue(),
+      if (framerateConversionAlgorithm != null)
+        'framerateConversionAlgorithm': framerateConversionAlgorithm.toValue(),
+      if (framerateDenominator != null)
+        'framerateDenominator': framerateDenominator,
+      if (framerateNumerator != null) 'framerateNumerator': framerateNumerator,
+      if (profile != null) 'profile': profile.toValue(),
+      if (slowPal != null) 'slowPal': slowPal.toValue(),
+      if (softness != null) 'softness': softness,
+      if (spatialAdaptiveQuantization != null)
+        'spatialAdaptiveQuantization': spatialAdaptiveQuantization.toValue(),
+      if (temporalAdaptiveQuantization != null)
+        'temporalAdaptiveQuantization': temporalAdaptiveQuantization.toValue(),
+      if (xavc4kIntraCbgProfileSettings != null)
+        'xavc4kIntraCbgProfileSettings': xavc4kIntraCbgProfileSettings,
+      if (xavc4kIntraVbrProfileSettings != null)
+        'xavc4kIntraVbrProfileSettings': xavc4kIntraVbrProfileSettings,
+      if (xavc4kProfileSettings != null)
+        'xavc4kProfileSettings': xavc4kProfileSettings,
+      if (xavcHdIntraCbgProfileSettings != null)
+        'xavcHdIntraCbgProfileSettings': xavcHdIntraCbgProfileSettings,
+      if (xavcHdProfileSettings != null)
+        'xavcHdProfileSettings': xavcHdProfileSettings,
+    };
+  }
+}
+
+/// Ignore this setting unless your input frame rate is 23.976 or 24 frames per
+/// second (fps). Enable slow PAL to create a 25 fps output by relabeling the
+/// video frames and resampling your audio. Note that enabling this setting will
+/// slightly reduce the duration of your video. Related settings: You must also
+/// set Frame rate to 25. In your JSON job specification, set (framerateControl)
+/// to (SPECIFIED), (framerateNumerator) to 25 and (framerateDenominator) to 1.
+enum XavcSlowPal {
+  disabled,
+  enabled,
+}
+
+extension XavcSlowPalValueExtension on XavcSlowPal {
+  String toValue() {
+    switch (this) {
+      case XavcSlowPal.disabled:
+        return 'DISABLED';
+      case XavcSlowPal.enabled:
+        return 'ENABLED';
+    }
+  }
+}
+
+extension XavcSlowPalFromString on String {
+  XavcSlowPal toXavcSlowPal() {
+    switch (this) {
+      case 'DISABLED':
+        return XavcSlowPal.disabled;
+      case 'ENABLED':
+        return XavcSlowPal.enabled;
+    }
+    throw Exception('$this is not known in enum XavcSlowPal');
+  }
+}
+
+/// The best way to set up adaptive quantization is to keep the default value,
+/// Auto (AUTO), for the setting Adaptive quantization (adaptiveQuantization).
+/// When you do so, MediaConvert automatically applies the best types of
+/// quantization for your video content. Include this setting in your JSON job
+/// specification only when you choose to change the default value for Adaptive
+/// quantization. For this setting, keep the default value, Enabled (ENABLED),
+/// to adjust quantization within each frame based on spatial variation of
+/// content complexity. When you enable this feature, the encoder uses fewer
+/// bits on areas that can sustain more distortion with no noticeable visual
+/// degradation and uses more bits on areas where any small distortion will be
+/// noticeable. For example, complex textured blocks are encoded with fewer bits
+/// and smooth textured blocks are encoded with more bits. Enabling this feature
+/// will almost always improve your video quality. Note, though, that this
+/// feature doesn't take into account where the viewer's attention is likely to
+/// be. If viewers are likely to be focusing their attention on a part of the
+/// screen with a lot of complex texture, you might choose to disable this
+/// feature. Related setting: When you enable spatial adaptive quantization, set
+/// the value for Adaptive quantization (adaptiveQuantization) depending on your
+/// content. For homogeneous content, such as cartoons and video games, set it
+/// to Low. For content with a wider variety of textures, set it to High or
+/// Higher.
+enum XavcSpatialAdaptiveQuantization {
+  disabled,
+  enabled,
+}
+
+extension XavcSpatialAdaptiveQuantizationValueExtension
+    on XavcSpatialAdaptiveQuantization {
+  String toValue() {
+    switch (this) {
+      case XavcSpatialAdaptiveQuantization.disabled:
+        return 'DISABLED';
+      case XavcSpatialAdaptiveQuantization.enabled:
+        return 'ENABLED';
+    }
+  }
+}
+
+extension XavcSpatialAdaptiveQuantizationFromString on String {
+  XavcSpatialAdaptiveQuantization toXavcSpatialAdaptiveQuantization() {
+    switch (this) {
+      case 'DISABLED':
+        return XavcSpatialAdaptiveQuantization.disabled;
+      case 'ENABLED':
+        return XavcSpatialAdaptiveQuantization.enabled;
+    }
+    throw Exception(
+        '$this is not known in enum XavcSpatialAdaptiveQuantization');
+  }
+}
+
+/// The best way to set up adaptive quantization is to keep the default value,
+/// Auto (AUTO), for the setting Adaptive quantization (adaptiveQuantization).
+/// When you do so, MediaConvert automatically applies the best types of
+/// quantization for your video content. Include this setting in your JSON job
+/// specification only when you choose to change the default value for Adaptive
+/// quantization. For this setting, keep the default value, Enabled (ENABLED),
+/// to adjust quantization within each frame based on temporal variation of
+/// content complexity. When you enable this feature, the encoder uses fewer
+/// bits on areas of the frame that aren't moving and uses more bits on complex
+/// objects with sharp edges that move a lot. For example, this feature improves
+/// the readability of text tickers on newscasts and scoreboards on sports
+/// matches. Enabling this feature will almost always improve your video
+/// quality. Note, though, that this feature doesn't take into account where the
+/// viewer's attention is likely to be. If viewers are likely to be focusing
+/// their attention on a part of the screen that doesn't have moving objects
+/// with sharp edges, such as sports athletes' faces, you might choose to
+/// disable this feature. Related setting: When you enable temporal adaptive
+/// quantization, adjust the strength of the filter with the setting Adaptive
+/// quantization (adaptiveQuantization).
+enum XavcTemporalAdaptiveQuantization {
+  disabled,
+  enabled,
+}
+
+extension XavcTemporalAdaptiveQuantizationValueExtension
+    on XavcTemporalAdaptiveQuantization {
+  String toValue() {
+    switch (this) {
+      case XavcTemporalAdaptiveQuantization.disabled:
+        return 'DISABLED';
+      case XavcTemporalAdaptiveQuantization.enabled:
+        return 'ENABLED';
+    }
+  }
+}
+
+extension XavcTemporalAdaptiveQuantizationFromString on String {
+  XavcTemporalAdaptiveQuantization toXavcTemporalAdaptiveQuantization() {
+    switch (this) {
+      case 'DISABLED':
+        return XavcTemporalAdaptiveQuantization.disabled;
+      case 'ENABLED':
+        return XavcTemporalAdaptiveQuantization.enabled;
+    }
+    throw Exception(
+        '$this is not known in enum XavcTemporalAdaptiveQuantization');
   }
 }
 

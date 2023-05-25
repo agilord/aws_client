@@ -126,6 +126,70 @@ class ForecastQueryService {
 
     return QueryForecastResponse.fromJson(jsonResponse.body);
   }
+
+  /// Retrieves a what-if forecast.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceInUseException].
+  /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
+  /// May throw [InvalidNextTokenException].
+  ///
+  /// Parameter [filters] :
+  /// The filtering criteria to apply when retrieving the forecast. For example,
+  /// to get the forecast for <code>client_21</code> in the electricity usage
+  /// dataset, specify the following:
+  ///
+  /// <code>{"item_id" : "client_21"}</code>
+  ///
+  /// To get the full what-if forecast, use the <a
+  /// href="https://docs.aws.amazon.com/en_us/forecast/latest/dg/API_CreateWhatIfForecastExport.html">CreateForecastExportJob</a>
+  /// operation.
+  ///
+  /// Parameter [whatIfForecastArn] :
+  /// The Amazon Resource Name (ARN) of the what-if forecast to query.
+  ///
+  /// Parameter [endDate] :
+  /// The end date for the what-if forecast. Specify the date using this format:
+  /// yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T20:00:00.
+  ///
+  /// Parameter [nextToken] :
+  /// If the result of the previous request was truncated, the response includes
+  /// a <code>NextToken</code>. To retrieve the next set of results, use the
+  /// token in the next request. Tokens expire after 24 hours.
+  ///
+  /// Parameter [startDate] :
+  /// The start date for the what-if forecast. Specify the date using this
+  /// format: yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example,
+  /// 2015-01-01T08:00:00.
+  Future<QueryWhatIfForecastResponse> queryWhatIfForecast({
+    required Map<String, String> filters,
+    required String whatIfForecastArn,
+    String? endDate,
+    String? nextToken,
+    String? startDate,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonForecastRuntime.QueryWhatIfForecast'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Filters': filters,
+        'WhatIfForecastArn': whatIfForecastArn,
+        if (endDate != null) 'EndDate': endDate,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (startDate != null) 'StartDate': startDate,
+      },
+    );
+
+    return QueryWhatIfForecastResponse.fromJson(jsonResponse.body);
+  }
 }
 
 /// The forecast value for a specific date. Part of the <a>Forecast</a> object.
@@ -140,6 +204,7 @@ class DataPoint {
     this.timestamp,
     this.value,
   });
+
   factory DataPoint.fromJson(Map<String, dynamic> json) {
     return DataPoint(
       timestamp: json['Timestamp'] as String?,
@@ -166,11 +231,17 @@ class Forecast {
   /// p90
   /// </li>
   /// </ul>
+  /// The default setting is <code>["0.1", "0.5", "0.9"]</code>. Use the optional
+  /// <code>ForecastTypes</code> parameter of the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateForecast.html">CreateForecast</a>
+  /// operation to change the values. The values will vary depending on how this
+  /// is set, with a minimum of <code>1</code> and a maximum of <code>5.</code>
   final Map<String, List<DataPoint>>? predictions;
 
   Forecast({
     this.predictions,
   });
+
   factory Forecast.fromJson(Map<String, dynamic> json) {
     return Forecast(
       predictions: (json['Predictions'] as Map<String, dynamic>?)?.map((k, e) =>
@@ -191,8 +262,25 @@ class QueryForecastResponse {
   QueryForecastResponse({
     this.forecast,
   });
+
   factory QueryForecastResponse.fromJson(Map<String, dynamic> json) {
     return QueryForecastResponse(
+      forecast: json['Forecast'] != null
+          ? Forecast.fromJson(json['Forecast'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class QueryWhatIfForecastResponse {
+  final Forecast? forecast;
+
+  QueryWhatIfForecastResponse({
+    this.forecast,
+  });
+
+  factory QueryWhatIfForecastResponse.fromJson(Map<String, dynamic> json) {
+    return QueryWhatIfForecastResponse(
       forecast: json['Forecast'] != null
           ? Forecast.fromJson(json['Forecast'] as Map<String, dynamic>)
           : null,

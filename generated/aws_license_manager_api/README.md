@@ -3,8 +3,8 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-AWS License Manager makes it easier to manage licenses from software vendors
-across multiple AWS accounts and on-premises servers.
+License Manager makes it easier to manage licenses from software vendors
+across multiple Amazon Web Services accounts and on-premises servers.
 
 ## Links
 

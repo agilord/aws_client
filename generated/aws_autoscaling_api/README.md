@@ -3,10 +3,9 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-Amazon EC2 Auto Scaling is designed to automatically launch or terminate EC2
-instances based on user-defined scaling policies, scheduled actions, and
-health checks. Use this service with AWS Auto Scaling, Amazon CloudWatch,
-and Elastic Load Balancing.
+Amazon EC2 Auto Scaling is designed to automatically launch and terminate
+EC2 instances based on user-defined scaling policies, scheduled actions, and
+health checks.
 
 ## Links
 

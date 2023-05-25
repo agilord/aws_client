@@ -20,9 +20,9 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 /// Amazon EMR is a web service that makes it easier to process large amounts of
 /// data efficiently. Amazon EMR uses Hadoop processing combined with several
-/// AWS services to do tasks such as web indexing, data mining, log file
-/// analysis, machine learning, scientific simulation, and data warehouse
-/// management.
+/// Amazon Web Services services to do tasks such as web indexing, data mining,
+/// log file analysis, machine learning, scientific simulation, and data
+/// warehouse management.
 class EMR {
   final _s.JsonProtocol _protocol;
   EMR({
@@ -53,7 +53,7 @@ class EMR {
 
   /// Adds an instance fleet to a running cluster.
   /// <note>
-  /// The instance fleet configuration is available only in Amazon EMR versions
+  /// The instance fleet configuration is available only in Amazon EMR releases
   /// 4.8.0 and later, excluding 5.0.x.
   /// </note>
   ///
@@ -127,11 +127,7 @@ class EMR {
   /// complex, you may require more than 256 steps to process your data. You can
   /// bypass the 256-step limitation in various ways, including using SSH to
   /// connect to the master node and submitting queries directly to the software
-  /// running on the master node, such as Hive and Hadoop. For more information
-  /// on how to do this, see <a
-  /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/AddMoreThan256Steps.html">Add
-  /// More than 256 Steps to a Cluster</a> in the <i>Amazon EMR Management
-  /// Guide</i>.
+  /// running on the master node, such as Hive and Hadoop.
   ///
   /// A step specifies the location of a JAR file stored either on the master
   /// node of the cluster or in Amazon S3. Each step is performed by the main
@@ -146,6 +142,10 @@ class EMR {
   ///
   /// You can only add steps to a cluster that is in one of the following
   /// states: STARTING, BOOTSTRAPPING, RUNNING, or WAITING.
+  /// <note>
+  /// The string values passed into <code>HadoopJarStep</code> object cannot
+  /// exceed a total of 10240 characters.
+  /// </note>
   ///
   /// May throw [InternalServerError].
   ///
@@ -156,9 +156,20 @@ class EMR {
   ///
   /// Parameter [steps] :
   /// A list of <a>StepConfig</a> to be executed by the job flow.
+  ///
+  /// Parameter [executionRoleArn] :
+  /// The Amazon Resource Name (ARN) of the runtime role for a step on the
+  /// cluster. The runtime role can be a cross-account IAM role. The runtime
+  /// role ARN is a combination of account ID, role name, and role type using
+  /// the following format:
+  /// <code>arn:partition:service:region:account:resource</code>.
+  ///
+  /// For example, <code>arn:aws:IAM::1234567890:role/ReadOnly</code> is a
+  /// correctly formatted runtime role ARN.
   Future<AddJobFlowStepsOutput> addJobFlowSteps({
     required String jobFlowId,
     required List<StepConfig> steps,
+    String? executionRoleArn,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -173,15 +184,17 @@ class EMR {
       payload: {
         'JobFlowId': jobFlowId,
         'Steps': steps,
+        if (executionRoleArn != null) 'ExecutionRoleArn': executionRoleArn,
       },
     );
 
     return AddJobFlowStepsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Adds tags to an Amazon EMR resource. Tags make it easier to associate
-  /// clusters in various ways, such as grouping clusters to track your Amazon
-  /// EMR resource allocation costs. For more information, see <a
+  /// Adds tags to an Amazon EMR resource, such as a cluster or an Amazon EMR
+  /// Studio. Tags make it easier to associate resources in various ways, such
+  /// as grouping clusters to track your Amazon EMR resource allocation costs.
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-tags.html">Tag
   /// Clusters</a>.
   ///
@@ -189,14 +202,14 @@ class EMR {
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [resourceId] :
-  /// The Amazon EMR resource identifier to which tags will be added. This value
-  /// must be a cluster identifier.
+  /// The Amazon EMR resource identifier to which tags will be added. For
+  /// example, a cluster identifier or an Amazon EMR Studio ID.
   ///
   /// Parameter [tags] :
-  /// A list of tags to associate with a cluster and propagate to EC2 instances.
-  /// Tags are user-defined key-value pairs that consist of a required key
-  /// string with a maximum of 128 characters, and an optional value string with
-  /// a maximum of 256 characters.
+  /// A list of tags to associate with a resource. Tags are user-defined
+  /// key-value pairs that consist of a required key string with a maximum of
+  /// 128 characters, and an optional value string with a maximum of 256
+  /// characters.
   Future<void> addTags({
     required String resourceId,
     required List<Tag> tags,
@@ -222,8 +235,11 @@ class EMR {
   /// Amazon EMR versions 4.8.0 and later, excluding version 5.0.0. A maximum of
   /// 256 steps are allowed in each CancelSteps request. CancelSteps is
   /// idempotent but asynchronous; it does not guarantee that a step will be
-  /// canceled, even if the request is successfully submitted. You can only
-  /// cancel steps that are in a <code>PENDING</code> state.
+  /// canceled, even if the request is successfully submitted. When you use
+  /// Amazon EMR releases 5.28.0 and later, you can cancel steps that are in a
+  /// <code>PENDING</code> or <code>RUNNING</code> state. In earlier versions of
+  /// Amazon EMR, you can only cancel steps that are in a <code>PENDING</code>
+  /// state.
   ///
   /// May throw [InternalServerError].
   /// May throw [InvalidRequestException].
@@ -303,19 +319,18 @@ class EMR {
     return CreateSecurityConfigurationOutput.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// The Amazon EMR Studio APIs are in preview release for Amazon EMR and are
-  /// subject to change.
-  /// </note>
   /// Creates a new Amazon EMR Studio.
   ///
   /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [authMode] :
-  /// Specifies whether the Studio authenticates users using single sign-on
-  /// (SSO) or IAM. Amazon EMR Studio currently only supports SSO
-  /// authentication.
+  /// Specifies whether the Studio authenticates users using IAM or IAM Identity
+  /// Center.
+  ///
+  /// Parameter [defaultS3Location] :
+  /// The Amazon S3 location to back up Amazon EMR Studio Workspaces and
+  /// notebook files.
   ///
   /// Parameter [engineSecurityGroupId] :
   /// The ID of the Amazon EMR Studio Engine security group. The Engine security
@@ -326,19 +341,15 @@ class EMR {
   /// A descriptive name for the Amazon EMR Studio.
   ///
   /// Parameter [serviceRole] :
-  /// The IAM role that will be assumed by the Amazon EMR Studio. The service
-  /// role provides a way for Amazon EMR Studio to interoperate with other AWS
+  /// The IAM role that the Amazon EMR Studio assumes. The service role provides
+  /// a way for Amazon EMR Studio to interoperate with other Amazon Web Services
   /// services.
   ///
   /// Parameter [subnetIds] :
-  /// A list of subnet IDs to associate with the Studio. The subnets must belong
-  /// to the VPC specified by <code>VpcId</code>. Studio users can create a
-  /// Workspace in any of the specified subnets.
-  ///
-  /// Parameter [userRole] :
-  /// The IAM user role that will be assumed by users and groups logged in to a
-  /// Studio. The permissions attached to this IAM role can be scoped down for
-  /// each user or group using session policies.
+  /// A list of subnet IDs to associate with the Amazon EMR Studio. A Studio can
+  /// have a maximum of 5 subnets. The subnets must belong to the VPC specified
+  /// by <code>VpcId</code>. Studio users can create a Workspace in any of the
+  /// specified subnets.
   ///
   /// Parameter [vpcId] :
   /// The ID of the Amazon Virtual Private Cloud (Amazon VPC) to associate with
@@ -350,31 +361,48 @@ class EMR {
   /// security group, and it must be in the same VPC specified by
   /// <code>VpcId</code>.
   ///
-  /// Parameter [defaultS3Location] :
-  /// The default Amazon S3 location to back up EMR Studio Workspaces and
-  /// notebook files. A Studio user can select an alternative Amazon S3 location
-  /// when creating a Workspace.
-  ///
   /// Parameter [description] :
-  /// A detailed description of the Studio.
+  /// A detailed description of the Amazon EMR Studio.
+  ///
+  /// Parameter [idpAuthUrl] :
+  /// The authentication endpoint of your identity provider (IdP). Specify this
+  /// value when you use IAM authentication and want to let federated users log
+  /// in to a Studio with the Studio URL and credentials from your IdP. Amazon
+  /// EMR Studio redirects users to this endpoint to enter credentials.
+  ///
+  /// Parameter [idpRelayStateParameterName] :
+  /// The name that your identity provider (IdP) uses for its
+  /// <code>RelayState</code> parameter. For example, <code>RelayState</code> or
+  /// <code>TargetSource</code>. Specify this value when you use IAM
+  /// authentication and want to let federated users log in to a Studio using
+  /// the Studio URL. The <code>RelayState</code> parameter differs by IdP.
   ///
   /// Parameter [tags] :
-  /// A list of tags to associate with the Studio. Tags are user-defined
-  /// key-value pairs that consist of a required key string with a maximum of
-  /// 128 characters, and an optional value string with a maximum of 256
-  /// characters.
+  /// A list of tags to associate with the Amazon EMR Studio. Tags are
+  /// user-defined key-value pairs that consist of a required key string with a
+  /// maximum of 128 characters, and an optional value string with a maximum of
+  /// 256 characters.
+  ///
+  /// Parameter [userRole] :
+  /// The IAM user role that users and groups assume when logged in to an Amazon
+  /// EMR Studio. Only specify a <code>UserRole</code> when you use IAM Identity
+  /// Center authentication. The permissions attached to the
+  /// <code>UserRole</code> can be scoped down for each user or group using
+  /// session policies.
   Future<CreateStudioOutput> createStudio({
     required AuthMode authMode,
+    required String defaultS3Location,
     required String engineSecurityGroupId,
     required String name,
     required String serviceRole,
     required List<String> subnetIds,
-    required String userRole,
     required String vpcId,
     required String workspaceSecurityGroupId,
-    String? defaultS3Location,
     String? description,
+    String? idpAuthUrl,
+    String? idpRelayStateParameterName,
     List<Tag>? tags,
+    String? userRole,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -388,60 +416,70 @@ class EMR {
       headers: headers,
       payload: {
         'AuthMode': authMode.toValue(),
+        'DefaultS3Location': defaultS3Location,
         'EngineSecurityGroupId': engineSecurityGroupId,
         'Name': name,
         'ServiceRole': serviceRole,
         'SubnetIds': subnetIds,
-        'UserRole': userRole,
         'VpcId': vpcId,
         'WorkspaceSecurityGroupId': workspaceSecurityGroupId,
-        if (defaultS3Location != null) 'DefaultS3Location': defaultS3Location,
         if (description != null) 'Description': description,
+        if (idpAuthUrl != null) 'IdpAuthUrl': idpAuthUrl,
+        if (idpRelayStateParameterName != null)
+          'IdpRelayStateParameterName': idpRelayStateParameterName,
         if (tags != null) 'Tags': tags,
+        if (userRole != null) 'UserRole': userRole,
       },
     );
 
     return CreateStudioOutput.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// The Amazon EMR Studio APIs are in preview release for Amazon EMR and are
-  /// subject to change.
-  /// </note>
   /// Maps a user or group to the Amazon EMR Studio specified by
   /// <code>StudioId</code>, and applies a session policy to refine Studio
-  /// permissions for that user or group.
+  /// permissions for that user or group. Use
+  /// <code>CreateStudioSessionMapping</code> to assign users to a Studio when
+  /// you use IAM Identity Center authentication. For instructions on how to
+  /// assign users to a Studio when you use IAM authentication, see <a
+  /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-studio-manage-users.html#emr-studio-assign-users-groups">Assign
+  /// a user or group to your EMR Studio</a>.
   ///
   /// May throw [InternalServerError].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [identityType] :
-  /// Specifies whether the identity to map to the Studio is a user or a group.
+  /// Specifies whether the identity to map to the Amazon EMR Studio is a user
+  /// or a group.
   ///
   /// Parameter [sessionPolicyArn] :
   /// The Amazon Resource Name (ARN) for the session policy that will be applied
-  /// to the user or group. Session policies refine Studio user permissions
-  /// without the need to use multiple IAM user roles.
+  /// to the user or group. You should specify the ARN for the session policy
+  /// that you want to apply, not the ARN of your user role. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-studio-user-role.html">Create
+  /// an Amazon EMR Studio User Role with Session Policies</a>.
   ///
   /// Parameter [studioId] :
   /// The ID of the Amazon EMR Studio to which the user or group will be mapped.
   ///
   /// Parameter [identityId] :
-  /// The globally unique identifier (GUID) of the user or group from the AWS
-  /// SSO Identity Store. For more information, see <a
+  /// The globally unique identifier (GUID) of the user or group from the IAM
+  /// Identity Center Identity Store. For more information, see <a
   /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId">UserId</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-GroupId">GroupId</a>
-  /// in the <i>AWS SSO Identity Store API Reference</i>. Either
-  /// <code>IdentityName</code> or <code>IdentityId</code> must be specified.
+  /// in the <i>IAM Identity Center Identity Store API Reference</i>. Either
+  /// <code>IdentityName</code> or <code>IdentityId</code> must be specified,
+  /// but not both.
   ///
   /// Parameter [identityName] :
   /// The name of the user or group. For more information, see <a
-  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId">UserName</a>
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName">UserName</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName">DisplayName</a>
-  /// in the <i>AWS SSO Identity Store API Reference</i>. Either
-  /// <code>IdentityName</code> or <code>IdentityId</code> must be specified.
+  /// in the <i>IAM Identity Center Identity Store API Reference</i>. Either
+  /// <code>IdentityName</code> or <code>IdentityId</code> must be specified,
+  /// but not both.
   Future<void> createStudioSessionMapping({
     required IdentityType identityType,
     required String sessionPolicyArn,
@@ -495,10 +533,6 @@ class EMR {
     );
   }
 
-  /// <note>
-  /// The Amazon EMR Studio APIs are in preview release for Amazon EMR and are
-  /// subject to change.
-  /// </note>
   /// Removes an Amazon EMR Studio from the Studio metadata store.
   ///
   /// May throw [InternalServerException].
@@ -525,18 +559,14 @@ class EMR {
     );
   }
 
-  /// <note>
-  /// The Amazon EMR Studio APIs are in preview release for Amazon EMR and are
-  /// subject to change.
-  /// </note>
   /// Removes a user or group from an Amazon EMR Studio.
   ///
   /// May throw [InternalServerError].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [identityType] :
-  /// Specifies whether the identity to delete from the Studio is a user or a
-  /// group.
+  /// Specifies whether the identity to delete from the Amazon EMR Studio is a
+  /// user or a group.
   ///
   /// Parameter [studioId] :
   /// The ID of the Amazon EMR Studio.
@@ -547,16 +577,16 @@ class EMR {
   /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId">UserId</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-GroupId">GroupId</a>
-  /// in the <i>AWS SSO Identity Store API Reference</i>. Either
+  /// in the <i>IAM Identity Center Identity Store API Reference</i>. Either
   /// <code>IdentityName</code> or <code>IdentityId</code> must be specified.
   ///
   /// Parameter [identityName] :
-  /// The name of the user name or group to remove from the Studio. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId">UserName</a>
+  /// The name of the user name or group to remove from the Amazon EMR Studio.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName">UserName</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName">DisplayName</a>
-  /// in the <i>AWS SSO Identity Store API Reference</i>. Either
+  /// in the <i>IAM Identity Center Store API Reference</i>. Either
   /// <code>IdentityName</code> or <code>IdentityId</code> must be specified.
   Future<void> deleteStudioSessionMapping({
     required IdentityType identityType,
@@ -711,6 +741,53 @@ class EMR {
     return DescribeNotebookExecutionOutput.fromJson(jsonResponse.body);
   }
 
+  /// Provides Amazon EMR release label details, such as the releases available
+  /// the Region where the API request is run, and the available applications
+  /// for a specific Amazon EMR release label. Can also list Amazon EMR releases
+  /// that support a specified version of Spark.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [maxResults] :
+  /// Reserved for future use. Currently set to null.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token. Reserved for future use. Currently set to null.
+  ///
+  /// Parameter [releaseLabel] :
+  /// The target release label to be described.
+  Future<DescribeReleaseLabelOutput> describeReleaseLabel({
+    int? maxResults,
+    String? nextToken,
+    String? releaseLabel,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ElasticMapReduce.DescribeReleaseLabel'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (releaseLabel != null) 'ReleaseLabel': releaseLabel,
+      },
+    );
+
+    return DescribeReleaseLabelOutput.fromJson(jsonResponse.body);
+  }
+
   /// Provides the details of a security configuration by returning the
   /// configuration JSON.
   ///
@@ -773,10 +850,6 @@ class EMR {
     return DescribeStepOutput.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// The Amazon EMR Studio APIs are in preview release for Amazon EMR and are
-  /// subject to change.
-  /// </note>
   /// Returns details for the specified Amazon EMR Studio including ID, Name,
   /// VPC, Studio access URL, and so on.
   ///
@@ -806,8 +879,34 @@ class EMR {
     return DescribeStudioOutput.fromJson(jsonResponse.body);
   }
 
-  /// Returns the Amazon EMR block public access configuration for your AWS
-  /// account in the current Region. For more information see <a
+  /// Returns the auto-termination policy for an Amazon EMR cluster.
+  ///
+  /// Parameter [clusterId] :
+  /// Specifies the ID of the Amazon EMR cluster for which the auto-termination
+  /// policy will be fetched.
+  Future<GetAutoTerminationPolicyOutput> getAutoTerminationPolicy({
+    required String clusterId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ElasticMapReduce.GetAutoTerminationPolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ClusterId': clusterId,
+      },
+    );
+
+    return GetAutoTerminationPolicyOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Returns the Amazon EMR block public access configuration for your Amazon
+  /// Web Services account in the current Region. For more information see <a
   /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/configure-block-public-access.html">Configure
   /// Block Public Access for Amazon EMR</a> in the <i>Amazon EMR Management
   /// Guide</i>.
@@ -829,6 +928,46 @@ class EMR {
     );
 
     return GetBlockPublicAccessConfigurationOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Provides temporary, HTTP basic credentials that are associated with a
+  /// given runtime IAM role and used by a cluster with fine-grained access
+  /// control activated. You can use these credentials to connect to cluster
+  /// endpoints that support username and password authentication.
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [clusterId] :
+  /// The unique identifier of the cluster.
+  ///
+  /// Parameter [executionRoleArn] :
+  /// The Amazon Resource Name (ARN) of the runtime role for interactive
+  /// workload submission on the cluster. The runtime role can be a
+  /// cross-account IAM role. The runtime role ARN is a combination of account
+  /// ID, role name, and role type using the following format:
+  /// <code>arn:partition:service:region:account:resource</code>.
+  Future<GetClusterSessionCredentialsOutput> getClusterSessionCredentials({
+    required String clusterId,
+    required String executionRoleArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ElasticMapReduce.GetClusterSessionCredentials'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ClusterId': clusterId,
+        'ExecutionRoleArn': executionRoleArn,
+      },
+    );
+
+    return GetClusterSessionCredentialsOutput.fromJson(jsonResponse.body);
   }
 
   /// Fetches the attached managed scaling policy for an Amazon EMR cluster.
@@ -857,10 +996,6 @@ class EMR {
     return GetManagedScalingPolicyOutput.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// The Amazon EMR Studio APIs are in preview release for Amazon EMR and are
-  /// subject to change.
-  /// </note>
   /// Fetches mapping details for the specified Amazon EMR Studio and identity
   /// (user or group).
   ///
@@ -879,15 +1014,15 @@ class EMR {
   /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId">UserId</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-GroupId">GroupId</a>
-  /// in the <i>AWS SSO Identity Store API Reference</i>. Either
+  /// in the <i>IAM Identity Center Identity Store API Reference</i>. Either
   /// <code>IdentityName</code> or <code>IdentityId</code> must be specified.
   ///
   /// Parameter [identityName] :
   /// The name of the user or group to fetch. For more information, see <a
-  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId">UserName</a>
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName">UserName</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName">DisplayName</a>
-  /// in the <i>AWS SSO Identity Store API Reference</i>. Either
+  /// in the <i>IAM Identity Center Identity Store API Reference</i>. Either
   /// <code>IdentityName</code> or <code>IdentityId</code> must be specified.
   Future<GetStudioSessionMappingOutput> getStudioSessionMapping({
     required IdentityType identityType,
@@ -950,17 +1085,20 @@ class EMR {
     return ListBootstrapActionsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Provides the status of all clusters visible to this AWS account. Allows
-  /// you to filter the list of clusters based on certain criteria; for example,
-  /// filtering by cluster creation date and time or by status. This call
-  /// returns a maximum of 50 clusters per call, but returns a marker to track
-  /// the paging of the cluster list across multiple ListClusters calls.
+  /// Provides the status of all clusters visible to this Amazon Web Services
+  /// account. Allows you to filter the list of clusters based on certain
+  /// criteria; for example, filtering by cluster creation date and time or by
+  /// status. This call returns a maximum of 50 clusters in unsorted order per
+  /// call, but returns a marker to track the paging of the cluster list across
+  /// multiple ListClusters calls.
   ///
   /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [clusterStates] :
-  /// The cluster state filters to apply when listing clusters.
+  /// The cluster state filters to apply when listing clusters. Clusters that
+  /// change state while this action runs may be not be returned as expected in
+  /// the list of clusters.
   ///
   /// Parameter [createdAfter] :
   /// The creation date and time beginning value filter for listing clusters.
@@ -1002,7 +1140,7 @@ class EMR {
 
   /// Lists all available details about the instance fleets in a cluster.
   /// <note>
-  /// The instance fleet configuration is available only in Amazon EMR versions
+  /// The instance fleet configuration is available only in Amazon EMR releases
   /// 4.8.0 and later, excluding 5.0.x versions.
   /// </note>
   ///
@@ -1070,10 +1208,10 @@ class EMR {
     return ListInstanceGroupsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Provides information for all active EC2 instances and EC2 instances
-  /// terminated in the last 30 days, up to a maximum of 2,000. EC2 instances in
-  /// any of the following states are considered active: AWAITING_FULFILLMENT,
-  /// PROVISIONING, BOOTSTRAPPING, RUNNING.
+  /// Provides information for all active Amazon EC2 instances and Amazon EC2
+  /// instances terminated in the last 30 days, up to a maximum of 2,000. Amazon
+  /// EC2 instances in any of the following states are considered active:
+  /// AWAITING_FULFILLMENT, PROVISIONING, BOOTSTRAPPING, RUNNING.
   ///
   /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
@@ -1140,13 +1278,16 @@ class EMR {
   /// based on multiple criteria such as status, time range, and editor id.
   /// Returns a maximum of 50 notebook executions and a marker to track the
   /// paging of a longer notebook execution list across multiple
-  /// <code>ListNotebookExecution</code> calls.
+  /// <code>ListNotebookExecutions</code> calls.
   ///
   /// May throw [InternalServerError].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [editorId] :
   /// The unique ID of the editor associated with the notebook execution.
+  ///
+  /// Parameter [executionEngineId] :
+  /// The unique ID of the execution engine.
   ///
   /// Parameter [from] :
   /// The beginning of time range filter for listing notebook executions. The
@@ -1208,6 +1349,7 @@ class EMR {
   /// is the current timestamp.
   Future<ListNotebookExecutionsOutput> listNotebookExecutions({
     String? editorId,
+    String? executionEngineId,
     DateTime? from,
     String? marker,
     NotebookExecutionStatus? status,
@@ -1225,6 +1367,7 @@ class EMR {
       headers: headers,
       payload: {
         if (editorId != null) 'EditorId': editorId,
+        if (executionEngineId != null) 'ExecutionEngineId': executionEngineId,
         if (from != null) 'From': unixTimestampToJson(from),
         if (marker != null) 'Marker': marker,
         if (status != null) 'Status': status.toValue(),
@@ -1233,6 +1376,61 @@ class EMR {
     );
 
     return ListNotebookExecutionsOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves release labels of Amazon EMR services in the Region where the
+  /// API is called.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [filters] :
+  /// Filters the results of the request. <code>Prefix</code> specifies the
+  /// prefix of release labels to return. <code>Application</code> specifies the
+  /// application (with/without version) of release labels to return.
+  ///
+  /// Parameter [maxResults] :
+  /// Defines the maximum number of release labels to return in a single
+  /// response. The default is <code>100</code>.
+  ///
+  /// Parameter [nextToken] :
+  /// Specifies the next page of results. If <code>NextToken</code> is not
+  /// specified, which is usually the case for the first request of
+  /// ListReleaseLabels, the first page of results are determined by other
+  /// filtering parameters or by the latest version. The
+  /// <code>ListReleaseLabels</code> request fails if the identity (Amazon Web
+  /// Services account ID) and all filtering parameters are different from the
+  /// original request, or if the <code>NextToken</code> is expired or tampered
+  /// with.
+  Future<ListReleaseLabelsOutput> listReleaseLabels({
+    ReleaseLabelFilter? filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ElasticMapReduce.ListReleaseLabels'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListReleaseLabelsOutput.fromJson(jsonResponse.body);
   }
 
   /// Lists all the security configurations visible to this account, providing
@@ -1267,9 +1465,12 @@ class EMR {
   }
 
   /// Provides a list of steps for the cluster in reverse order unless you
-  /// specify <code>stepIds</code> with the request of filter by
-  /// <code>StepStates</code>. You can specify a maximum of ten
-  /// <code>stepIDs</code>.
+  /// specify <code>stepIds</code> with the request or filter by
+  /// <code>StepStates</code>. You can specify a maximum of 10
+  /// <code>stepIDs</code>. The CLI automatically paginates results to return a
+  /// list greater than 50 steps. To return more than 50 steps using the CLI,
+  /// specify a <code>Marker</code>, which is a pagination token that indicates
+  /// the next set of steps to retrieve.
   ///
   /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
@@ -1278,7 +1479,11 @@ class EMR {
   /// The identifier of the cluster for which to list the steps.
   ///
   /// Parameter [marker] :
-  /// The pagination token that indicates the next set of results to retrieve.
+  /// The maximum number of steps that a single <code>ListSteps</code> action
+  /// returns is 50. To return a longer list of steps, use multiple
+  /// <code>ListSteps</code> actions along with the <code>Marker</code>
+  /// parameter, which is a pagination token that indicates the next set of
+  /// results to retrieve.
   ///
   /// Parameter [stepIds] :
   /// The filter to limit the step list based on the identifier of the steps.
@@ -1315,12 +1520,8 @@ class EMR {
     return ListStepsOutput.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// The Amazon EMR Studio APIs are in preview release for Amazon EMR and are
-  /// subject to change.
-  /// </note>
-  /// Returns a list of all user or group session mappings for the EMR Studio
-  /// specified by <code>StudioId</code>.
+  /// Returns a list of all user or group session mappings for the Amazon EMR
+  /// Studio specified by <code>StudioId</code>.
   ///
   /// May throw [InternalServerError].
   /// May throw [InvalidRequestException].
@@ -1360,13 +1561,9 @@ class EMR {
     return ListStudioSessionMappingsOutput.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// The Amazon EMR Studio APIs are in preview release for Amazon EMR and are
-  /// subject to change.
-  /// </note>
-  /// Returns a list of all Amazon EMR Studios associated with the AWS account.
-  /// The list includes details such as ID, Studio Access URL, and creation time
-  /// for each Studio.
+  /// Returns a list of all Amazon EMR Studios associated with the Amazon Web
+  /// Services account. The list includes details such as ID, Studio Access URL,
+  /// and creation time for each Studio.
   ///
   /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
@@ -1405,7 +1602,10 @@ class EMR {
   ///
   /// Parameter [stepConcurrencyLevel] :
   /// The number of steps that can be executed concurrently. You can specify a
-  /// maximum of 256 steps.
+  /// minimum of 1 step and a maximum of 256 steps. We recommend that you do not
+  /// change this parameter while steps are running or the
+  /// <code>ActionOnFailure</code> setting may not behave as expected. For more
+  /// information see <a>Step$ActionOnFailure</a>.
   Future<ModifyClusterOutput> modifyCluster({
     required String clusterId,
     int? stepConcurrencyLevel,
@@ -1434,7 +1634,7 @@ class EMR {
   /// fleet with the specified InstanceFleetID within the cluster specified
   /// using ClusterID. The call either succeeds or fails atomically.
   /// <note>
-  /// The instance fleet configuration is available only in Amazon EMR versions
+  /// The instance fleet configuration is available only in Amazon EMR releases
   /// 4.8.0 and later, excluding 5.0.x versions.
   /// </note>
   ///
@@ -1445,7 +1645,7 @@ class EMR {
   /// The unique identifier of the cluster.
   ///
   /// Parameter [instanceFleet] :
-  /// The unique identifier of the instance fleet.
+  /// The configuration parameters of the instance fleet.
   Future<void> modifyInstanceFleet({
     required String clusterId,
     required InstanceFleetModifyConfig instanceFleet,
@@ -1502,8 +1702,8 @@ class EMR {
 
   /// Creates or updates an automatic scaling policy for a core instance group
   /// or task instance group in an Amazon EMR cluster. The automatic scaling
-  /// policy defines how an instance group dynamically adds and terminates EC2
-  /// instances in response to the value of a CloudWatch metric.
+  /// policy defines how an instance group dynamically adds and terminates
+  /// Amazon EC2 instances in response to the value of a CloudWatch metric.
   ///
   /// Parameter [autoScalingPolicy] :
   /// Specifies the definition of the automatic scaling policy.
@@ -1540,8 +1740,50 @@ class EMR {
     return PutAutoScalingPolicyOutput.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// Auto-termination is supported in Amazon EMR releases 5.30.0 and 6.1.0 and
+  /// later. For more information, see <a
+  /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-auto-termination-policy.html">Using
+  /// an auto-termination policy</a>.
+  /// </note>
+  /// Creates or updates an auto-termination policy for an Amazon EMR cluster.
+  /// An auto-termination policy defines the amount of idle time in seconds
+  /// after which a cluster automatically terminates. For alternative cluster
+  /// termination options, see <a
+  /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-termination.html">Control
+  /// cluster termination</a>.
+  ///
+  /// Parameter [clusterId] :
+  /// Specifies the ID of the Amazon EMR cluster to which the auto-termination
+  /// policy will be attached.
+  ///
+  /// Parameter [autoTerminationPolicy] :
+  /// Specifies the auto-termination policy to attach to the cluster.
+  Future<void> putAutoTerminationPolicy({
+    required String clusterId,
+    AutoTerminationPolicy? autoTerminationPolicy,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ElasticMapReduce.PutAutoTerminationPolicy'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ClusterId': clusterId,
+        if (autoTerminationPolicy != null)
+          'AutoTerminationPolicy': autoTerminationPolicy,
+      },
+    );
+  }
+
   /// Creates or updates an Amazon EMR block public access configuration for
-  /// your AWS account in the current Region. For more information see <a
+  /// your Amazon Web Services account in the current Region. For more
+  /// information see <a
   /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/configure-block-public-access.html">Configure
   /// Block Public Access for Amazon EMR</a> in the <i>Amazon EMR Management
   /// Guide</i>.
@@ -1565,8 +1807,8 @@ class EMR {
   /// For accounts that created clusters in a Region before November 25, 2019,
   /// block public access is disabled by default in that Region. To use this
   /// feature, you must manually enable and configure it. For accounts that did
-  /// not create an EMR cluster in a Region before this date, block public
-  /// access is enabled by default in that Region.
+  /// not create an Amazon EMR cluster in a Region before this date, block
+  /// public access is enabled by default in that Region.
   /// </note>
   Future<void> putBlockPublicAccessConfiguration({
     required BlockPublicAccessConfiguration blockPublicAccessConfiguration,
@@ -1588,14 +1830,14 @@ class EMR {
   }
 
   /// Creates or updates a managed scaling policy for an Amazon EMR cluster. The
-  /// managed scaling policy defines the limits for resources, such as EC2
-  /// instances that can be added or terminated from a cluster. The policy only
-  /// applies to the core and task nodes. The master node cannot be scaled after
-  /// initial configuration.
+  /// managed scaling policy defines the limits for resources, such as Amazon
+  /// EC2 instances that can be added or terminated from a cluster. The policy
+  /// only applies to the core and task nodes. The master node cannot be scaled
+  /// after initial configuration.
   ///
   /// Parameter [clusterId] :
-  /// Specifies the ID of an EMR cluster where the managed scaling policy is
-  /// attached.
+  /// Specifies the ID of an Amazon EMR cluster where the managed scaling policy
+  /// is attached.
   ///
   /// Parameter [managedScalingPolicy] :
   /// Specifies the constraints for the managed scaling policy.
@@ -1621,7 +1863,7 @@ class EMR {
   }
 
   /// Removes an automatic scaling policy from a specified instance group within
-  /// an EMR cluster.
+  /// an Amazon EMR cluster.
   ///
   /// Parameter [clusterId] :
   /// Specifies the ID of a cluster. The instance group to which the automatic
@@ -1651,7 +1893,31 @@ class EMR {
     );
   }
 
-  /// Removes a managed scaling policy from a specified EMR cluster.
+  /// Removes an auto-termination policy from an Amazon EMR cluster.
+  ///
+  /// Parameter [clusterId] :
+  /// Specifies the ID of the Amazon EMR cluster from which the auto-termination
+  /// policy will be removed.
+  Future<void> removeAutoTerminationPolicy({
+    required String clusterId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ElasticMapReduce.RemoveAutoTerminationPolicy'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ClusterId': clusterId,
+      },
+    );
+  }
+
+  /// Removes a managed scaling policy from a specified Amazon EMR cluster.
   ///
   /// Parameter [clusterId] :
   /// Specifies the ID of the cluster from which the managed scaling policy will
@@ -1675,9 +1941,10 @@ class EMR {
     );
   }
 
-  /// Removes tags from an Amazon EMR resource. Tags make it easier to associate
-  /// clusters in various ways, such as grouping clusters to track your Amazon
-  /// EMR resource allocation costs. For more information, see <a
+  /// Removes tags from an Amazon EMR resource, such as a cluster or Amazon EMR
+  /// Studio. Tags make it easier to associate resources in various ways, such
+  /// as grouping clusters to track your Amazon EMR resource allocation costs.
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-tags.html">Tag
   /// Clusters</a>.
   ///
@@ -1688,11 +1955,11 @@ class EMR {
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [resourceId] :
-  /// The Amazon EMR resource identifier from which tags will be removed. This
-  /// value must be a cluster identifier.
+  /// The Amazon EMR resource identifier from which tags will be removed. For
+  /// example, a cluster identifier or an Amazon EMR Studio ID.
   ///
   /// Parameter [tagKeys] :
-  /// A list of tag keys to remove from a resource.
+  /// A list of tag keys to remove from the resource.
   Future<void> removeTags({
     required String resourceId,
     required List<String> tagKeys,
@@ -1733,16 +2000,12 @@ class EMR {
   /// complex, you may require more than 256 steps to process your data. You can
   /// bypass the 256-step limitation in various ways, including using the SSH
   /// shell to connect to the master node and submitting queries directly to the
-  /// software running on the master node, such as Hive and Hadoop. For more
-  /// information on how to do this, see <a
-  /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/AddMoreThan256Steps.html">Add
-  /// More than 256 Steps to a Cluster</a> in the <i>Amazon EMR Management
-  /// Guide</i>.
+  /// software running on the master node, such as Hive and Hadoop.
   ///
-  /// For long running clusters, we recommend that you periodically store your
+  /// For long-running clusters, we recommend that you periodically store your
   /// results.
   /// <note>
-  /// The instance fleets configuration is available only in Amazon EMR versions
+  /// The instance fleets configuration is available only in Amazon EMR releases
   /// 4.8.0 and later, excluding 5.0.x versions. The RunJobFlow request can
   /// contain InstanceFleets parameters or InstanceGroups parameters, but not
   /// both.
@@ -1769,14 +2032,14 @@ class EMR {
   /// applications for Amazon EMR to install and configure when launching the
   /// cluster. For a list of applications available for each Amazon EMR release
   /// version, see the <a
-  /// href="https://docs.aws.amazon.com/emr/latest/ReleaseGuide/">Amazon EMR
-  /// Release Guide</a>.
+  /// href="https://docs.aws.amazon.com/emr/latest/ReleaseGuide/">Amazon
+  /// EMRRelease Guide</a>.
   ///
   /// Parameter [autoScalingRole] :
   /// An IAM role for automatic scaling policies. The default role is
   /// <code>EMR_AutoScaling_DefaultRole</code>. The IAM role provides
   /// permissions that the automatic scaling feature requires to launch and
-  /// terminate EC2 instances in an instance group.
+  /// terminate Amazon EC2 instances in an instance group.
   ///
   /// Parameter [bootstrapActions] :
   /// A list of bootstrap actions to run before Hadoop starts on the cluster
@@ -1784,17 +2047,17 @@ class EMR {
   ///
   /// Parameter [configurations] :
   /// For Amazon EMR releases 4.0 and later. The list of configurations supplied
-  /// for the EMR cluster you are creating.
+  /// for the Amazon EMR cluster that you are creating.
   ///
   /// Parameter [customAmiId] :
-  /// Available only in Amazon EMR version 5.7.0 and later. The ID of a custom
+  /// Available only in Amazon EMR releases 5.7.0 and later. The ID of a custom
   /// Amazon EBS-backed Linux AMI. If specified, Amazon EMR uses this AMI when
-  /// it launches cluster EC2 instances. For more information about custom AMIs
-  /// in Amazon EMR, see <a
+  /// it launches cluster Amazon EC2 instances. For more information about
+  /// custom AMIs in Amazon EMR, see <a
   /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-custom-ami.html">Using
   /// a Custom AMI</a> in the <i>Amazon EMR Management Guide</i>. If omitted,
   /// the cluster uses the base Linux AMI for the <code>ReleaseLabel</code>
-  /// specified. For Amazon EMR versions 2.x and 3.x, use
+  /// specified. For Amazon EMR releases 2.x and 3.x, use
   /// <code>AmiVersion</code> instead.
   ///
   /// For information about creating a custom AMI, see <a
@@ -1807,14 +2070,15 @@ class EMR {
   ///
   /// Parameter [ebsRootVolumeSize] :
   /// The size, in GiB, of the Amazon EBS root device volume of the Linux AMI
-  /// that is used for each EC2 instance. Available in Amazon EMR version 4.x
-  /// and later.
+  /// that is used for each Amazon EC2 instance. Available in Amazon EMR
+  /// releases 4.x and later.
   ///
   /// Parameter [jobFlowRole] :
-  /// Also called instance profile and EC2 role. An IAM role for an EMR cluster.
-  /// The EC2 instances of the cluster assume this role. The default role is
-  /// <code>EMR_EC2_DefaultRole</code>. In order to use the default role, you
-  /// must have already created it using the CLI or console.
+  /// Also called instance profile and Amazon EC2 role. An IAM role for an
+  /// Amazon EMR cluster. The Amazon EC2 instances of the cluster assume this
+  /// role. The default role is <code>EMR_EC2_DefaultRole</code>. In order to
+  /// use the default role, you must have already created it using the CLI or
+  /// console.
   ///
   /// Parameter [kerberosAttributes] :
   /// Attributes for Kerberos configuration when Kerberos authentication is
@@ -1823,10 +2087,9 @@ class EMR {
   /// Kerberos Authentication</a> in the <i>Amazon EMR Management Guide</i>.
   ///
   /// Parameter [logEncryptionKmsKeyId] :
-  /// The AWS KMS customer master key (CMK) used for encrypting log files. If a
-  /// value is not provided, the logs remain encrypted by AES-256. This
-  /// attribute is only available with Amazon EMR version 5.30.0 and later,
-  /// excluding Amazon EMR 6.0.0.
+  /// The KMS key used for encrypting log files. If a value is not provided, the
+  /// logs remain encrypted by AES-256. This attribute is only available with
+  /// Amazon EMR releases 5.30.0 and later, excluding Amazon EMR 6.0.0.
   ///
   /// Parameter [logUri] :
   /// The location in Amazon S3 to write the log files of the job flow. If a
@@ -1841,9 +2104,9 @@ class EMR {
   /// later, use Applications.
   /// </note>
   /// A list of strings that indicates third-party software to use with the job
-  /// flow that accepts a user argument list. EMR accepts and forwards the
-  /// argument list to the corresponding installation script as bootstrap action
-  /// arguments. For more information, see "Launch a Job Flow on the MapR
+  /// flow that accepts a user argument list. Amazon EMR accepts and forwards
+  /// the argument list to the corresponding installation script as bootstrap
+  /// action arguments. For more information, see "Launch a Job Flow on the MapR
   /// Distribution for Hadoop" in the <a
   /// href="https://docs.aws.amazon.com/emr/latest/DeveloperGuide/emr-dg.pdf">Amazon
   /// EMR Developer Guide</a>. Supported values are:
@@ -1863,7 +2126,7 @@ class EMR {
   /// "mapr-m7" - launch the cluster using MapR M7 Edition.
   /// </li>
   /// <li>
-  /// "hunk" - launch the cluster with the Hunk Big Data Analtics Platform.
+  /// "hunk" - launch the cluster with the Hunk Big Data Analytics Platform.
   /// </li>
   /// <li>
   /// "hue"- launch the cluster with Hue installed.
@@ -1876,6 +2139,11 @@ class EMR {
   /// installed.
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [oSReleaseLabel] :
+  /// Specifies a particular Amazon Linux release for all nodes in a cluster
+  /// launch RunJobFlow request. If a release is not specified, Amazon EMR uses
+  /// the latest validated Amazon Linux release for cluster launch.
   ///
   /// Parameter [placementGroupConfigs] :
   /// The specified placement group configuration for an Amazon EMR cluster.
@@ -1911,15 +2179,17 @@ class EMR {
   /// instance-hour boundary. With either behavior, Amazon EMR removes the least
   /// active nodes first and blocks instance termination if it could lead to
   /// HDFS corruption. <code>TERMINATE_AT_TASK_COMPLETION</code> available only
-  /// in Amazon EMR version 4.1.0 and later, and is the default for versions of
+  /// in Amazon EMR releases 4.1.0 and later, and is the default for releases of
   /// Amazon EMR earlier than 5.1.0.
   ///
   /// Parameter [securityConfiguration] :
   /// The name of a security configuration to apply to the cluster.
   ///
   /// Parameter [serviceRole] :
-  /// The IAM role that will be assumed by the Amazon EMR service to access AWS
-  /// resources on your behalf.
+  /// The IAM role that Amazon EMR assumes in order to access Amazon Web
+  /// Services resources on your behalf. If you've created a custom service role
+  /// path, you must specify it for the service role when you launch your
+  /// cluster.
   ///
   /// Parameter [stepConcurrencyLevel] :
   /// Specifies the number of steps that can be executed concurrently. The
@@ -1952,10 +2222,26 @@ class EMR {
   /// instances.
   ///
   /// Parameter [visibleToAllUsers] :
-  /// A value of <code>true</code> indicates that all IAM users in the AWS
-  /// account can perform cluster actions if they have the proper IAM policy
-  /// permissions. This is the default. A value of <code>false</code> indicates
-  /// that only the IAM user who created the cluster can perform actions.
+  /// <important>
+  /// The VisibleToAllUsers parameter is no longer supported. By default, the
+  /// value is set to <code>true</code>. Setting it to <code>false</code> now
+  /// has no effect.
+  /// </important>
+  /// Set this value to <code>true</code> so that IAM principals in the Amazon
+  /// Web Services account associated with the cluster can perform Amazon EMR
+  /// actions on the cluster that their IAM policies allow. This value defaults
+  /// to <code>true</code> for clusters created using the Amazon EMR API or the
+  /// CLI <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/emr/create-cluster.html">create-cluster</a>
+  /// command.
+  ///
+  /// When set to <code>false</code>, only the IAM principal that created the
+  /// cluster and the Amazon Web Services account root user can perform Amazon
+  /// EMR actions for the cluster, regardless of the IAM permissions policies
+  /// attached to other IAM principals. For more information, see <a
+  /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/security_IAM_emr-with-IAM.html#security_set_visible_to_all_users">Understanding
+  /// the Amazon EMR cluster VisibleToAllUsers setting</a> in the <i>Amazon EMR
+  /// Management Guide</i>.
   Future<RunJobFlowOutput> runJobFlow({
     required JobFlowInstancesConfig instances,
     required String name,
@@ -1963,6 +2249,7 @@ class EMR {
     String? amiVersion,
     List<Application>? applications,
     String? autoScalingRole,
+    AutoTerminationPolicy? autoTerminationPolicy,
     List<BootstrapActionConfig>? bootstrapActions,
     List<Configuration>? configurations,
     String? customAmiId,
@@ -1973,6 +2260,7 @@ class EMR {
     String? logUri,
     ManagedScalingPolicy? managedScalingPolicy,
     List<SupportedProductConfig>? newSupportedProducts,
+    String? oSReleaseLabel,
     List<PlacementGroupConfig>? placementGroupConfigs,
     String? releaseLabel,
     RepoUpgradeOnBoot? repoUpgradeOnBoot,
@@ -2002,6 +2290,8 @@ class EMR {
         if (amiVersion != null) 'AmiVersion': amiVersion,
         if (applications != null) 'Applications': applications,
         if (autoScalingRole != null) 'AutoScalingRole': autoScalingRole,
+        if (autoTerminationPolicy != null)
+          'AutoTerminationPolicy': autoTerminationPolicy,
         if (bootstrapActions != null) 'BootstrapActions': bootstrapActions,
         if (configurations != null) 'Configurations': configurations,
         if (customAmiId != null) 'CustomAmiId': customAmiId,
@@ -2016,6 +2306,7 @@ class EMR {
           'ManagedScalingPolicy': managedScalingPolicy,
         if (newSupportedProducts != null)
           'NewSupportedProducts': newSupportedProducts,
+        if (oSReleaseLabel != null) 'OSReleaseLabel': oSReleaseLabel,
         if (placementGroupConfigs != null)
           'PlacementGroupConfigs': placementGroupConfigs,
         if (releaseLabel != null) 'ReleaseLabel': releaseLabel,
@@ -2038,13 +2329,13 @@ class EMR {
     return RunJobFlowOutput.fromJson(jsonResponse.body);
   }
 
-  /// SetTerminationProtection locks a cluster (job flow) so the EC2 instances
-  /// in the cluster cannot be terminated by user intervention, an API call, or
-  /// in the event of a job-flow error. The cluster still terminates upon
-  /// successful completion of the job flow. Calling
+  /// SetTerminationProtection locks a cluster (job flow) so the Amazon EC2
+  /// instances in the cluster cannot be terminated by user intervention, an API
+  /// call, or in the event of a job-flow error. The cluster still terminates
+  /// upon successful completion of the job flow. Calling
   /// <code>SetTerminationProtection</code> on a cluster is similar to calling
-  /// the Amazon EC2 <code>DisableAPITermination</code> API on all EC2 instances
-  /// in a cluster.
+  /// the Amazon EC2 <code>DisableAPITermination</code> API on all Amazon EC2
+  /// instances in a cluster.
   ///
   /// <code>SetTerminationProtection</code> is used to prevent accidental
   /// termination of a cluster and to ensure that in the event of an error, the
@@ -2093,16 +2384,28 @@ class EMR {
     );
   }
 
-  /// Sets the <a>Cluster$VisibleToAllUsers</a> value, which determines whether
-  /// the cluster is visible to all IAM users of the AWS account associated with
-  /// the cluster. Only the IAM user who created the cluster or the AWS account
-  /// root user can call this action. The default value, <code>true</code>,
-  /// indicates that all IAM users in the AWS account can perform cluster
-  /// actions if they have the proper IAM policy permissions. If set to
-  /// <code>false</code>, only the IAM user that created the cluster can perform
-  /// actions. This action works on running clusters. You can override the
-  /// default <code>true</code> setting when you create a cluster by using the
-  /// <code>VisibleToAllUsers</code> parameter with <code>RunJobFlow</code>.
+  /// <important>
+  /// The SetVisibleToAllUsers parameter is no longer supported. Your cluster
+  /// may be visible to all users in your account. To restrict cluster access
+  /// using an IAM policy, see <a
+  /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-access-IAM.html">Identity
+  /// and Access Management for Amazon EMR</a>.
+  /// </important>
+  /// Sets the <a>Cluster$VisibleToAllUsers</a> value for an Amazon EMR cluster.
+  /// When <code>true</code>, IAM principals in the Amazon Web Services account
+  /// can perform Amazon EMR cluster actions that their IAM policies allow. When
+  /// <code>false</code>, only the IAM principal that created the cluster and
+  /// the Amazon Web Services account root user can perform Amazon EMR actions
+  /// on the cluster, regardless of IAM permissions policies attached to other
+  /// IAM principals.
+  ///
+  /// This action works on running clusters. When you create a cluster, use the
+  /// <a>RunJobFlowInput$VisibleToAllUsers</a> parameter.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/security_IAM_emr-with-IAM.html#security_set_visible_to_all_users">Understanding
+  /// the Amazon EMR Cluster VisibleToAllUsers Setting</a> in the <i>Amazon EMR
+  /// Management Guide</i>.
   ///
   /// May throw [InternalServerError].
   ///
@@ -2110,10 +2413,12 @@ class EMR {
   /// The unique identifier of the job flow (cluster).
   ///
   /// Parameter [visibleToAllUsers] :
-  /// A value of <code>true</code> indicates that all IAM users in the AWS
-  /// account can perform cluster actions if they have the proper IAM policy
-  /// permissions. This is the default. A value of <code>false</code> indicates
-  /// that only the IAM user who created the cluster can perform actions.
+  /// A value of <code>true</code> indicates that an IAM principal in the Amazon
+  /// Web Services account can perform Amazon EMR actions on the cluster that
+  /// the IAM policies attached to the principal allow. A value of
+  /// <code>false</code> indicates that only the IAM principal that created the
+  /// cluster and the Amazon Web Services root user can perform Amazon EMR
+  /// actions on the cluster.
   Future<void> setVisibleToAllUsers({
     required List<String> jobFlowIds,
     required bool visibleToAllUsers,
@@ -2140,37 +2445,50 @@ class EMR {
   /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
   ///
-  /// Parameter [editorId] :
-  /// The unique identifier of the EMR Notebook to use for notebook execution.
-  ///
   /// Parameter [executionEngine] :
   /// Specifies the execution engine (cluster) that runs the notebook execution.
   ///
-  /// Parameter [relativePath] :
-  /// The path and file name of the notebook file for this execution, relative
-  /// to the path specified for the EMR Notebook. For example, if you specify a
-  /// path of <code>s3://MyBucket/MyNotebooks</code> when you create an EMR
-  /// Notebook for a notebook with an ID of
-  /// <code>e-ABCDEFGHIJK1234567890ABCD</code> (the <code>EditorID</code> of
-  /// this request), and you specify a <code>RelativePath</code> of
-  /// <code>my_notebook_executions/notebook_execution.ipynb</code>, the location
-  /// of the file for the notebook execution is
-  /// <code>s3://MyBucket/MyNotebooks/e-ABCDEFGHIJK1234567890ABCD/my_notebook_executions/notebook_execution.ipynb</code>.
-  ///
   /// Parameter [serviceRole] :
   /// The name or ARN of the IAM role that is used as the service role for
-  /// Amazon EMR (the EMR role) for the notebook execution.
+  /// Amazon EMR (the Amazon EMR role) for the notebook execution.
+  ///
+  /// Parameter [editorId] :
+  /// The unique identifier of the Amazon EMR Notebook to use for notebook
+  /// execution.
+  ///
+  /// Parameter [environmentVariables] :
+  /// The environment variables associated with the notebook execution.
   ///
   /// Parameter [notebookExecutionName] :
   /// An optional name for the notebook execution.
   ///
   /// Parameter [notebookInstanceSecurityGroupId] :
   /// The unique identifier of the Amazon EC2 security group to associate with
-  /// the EMR Notebook for this notebook execution.
+  /// the Amazon EMR Notebook for this notebook execution.
   ///
   /// Parameter [notebookParams] :
-  /// Input parameters in JSON format passed to the EMR Notebook at runtime for
-  /// execution.
+  /// Input parameters in JSON format passed to the Amazon EMR Notebook at
+  /// runtime for execution.
+  ///
+  /// Parameter [notebookS3Location] :
+  /// The Amazon S3 location for the notebook execution input.
+  ///
+  /// Parameter [outputNotebookFormat] :
+  /// The output format for the notebook execution.
+  ///
+  /// Parameter [outputNotebookS3Location] :
+  /// The Amazon S3 location for the notebook execution output.
+  ///
+  /// Parameter [relativePath] :
+  /// The path and file name of the notebook file for this execution, relative
+  /// to the path specified for the Amazon EMR Notebook. For example, if you
+  /// specify a path of <code>s3://MyBucket/MyNotebooks</code> when you create
+  /// an Amazon EMR Notebook for a notebook with an ID of
+  /// <code>e-ABCDEFGHIJK1234567890ABCD</code> (the <code>EditorID</code> of
+  /// this request), and you specify a <code>RelativePath</code> of
+  /// <code>my_notebook_executions/notebook_execution.ipynb</code>, the location
+  /// of the file for the notebook execution is
+  /// <code>s3://MyBucket/MyNotebooks/e-ABCDEFGHIJK1234567890ABCD/my_notebook_executions/notebook_execution.ipynb</code>.
   ///
   /// Parameter [tags] :
   /// A list of tags associated with a notebook execution. Tags are user-defined
@@ -2178,13 +2496,17 @@ class EMR {
   /// 128 characters and an optional value string with a maximum of 256
   /// characters.
   Future<StartNotebookExecutionOutput> startNotebookExecution({
-    required String editorId,
     required ExecutionEngineConfig executionEngine,
-    required String relativePath,
     required String serviceRole,
+    String? editorId,
+    Map<String, String>? environmentVariables,
     String? notebookExecutionName,
     String? notebookInstanceSecurityGroupId,
     String? notebookParams,
+    NotebookS3LocationFromInput? notebookS3Location,
+    OutputNotebookFormat? outputNotebookFormat,
+    OutputNotebookS3LocationFromInput? outputNotebookS3Location,
+    String? relativePath,
     List<Tag>? tags,
   }) async {
     final headers = <String, String>{
@@ -2198,15 +2520,23 @@ class EMR {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EditorId': editorId,
         'ExecutionEngine': executionEngine,
-        'RelativePath': relativePath,
         'ServiceRole': serviceRole,
+        if (editorId != null) 'EditorId': editorId,
+        if (environmentVariables != null)
+          'EnvironmentVariables': environmentVariables,
         if (notebookExecutionName != null)
           'NotebookExecutionName': notebookExecutionName,
         if (notebookInstanceSecurityGroupId != null)
           'NotebookInstanceSecurityGroupId': notebookInstanceSecurityGroupId,
         if (notebookParams != null) 'NotebookParams': notebookParams,
+        if (notebookS3Location != null)
+          'NotebookS3Location': notebookS3Location,
+        if (outputNotebookFormat != null)
+          'OutputNotebookFormat': outputNotebookFormat.toValue(),
+        if (outputNotebookS3Location != null)
+          'OutputNotebookS3Location': outputNotebookS3Location,
+        if (relativePath != null) 'RelativePath': relativePath,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -2241,10 +2571,10 @@ class EMR {
   }
 
   /// TerminateJobFlows shuts a list of clusters (job flows) down. When a job
-  /// flow is shut down, any step not yet completed is canceled and the EC2
-  /// instances on which the cluster is running are stopped. Any log files not
-  /// already saved are uploaded to Amazon S3 if a LogUri was specified when the
-  /// cluster was created.
+  /// flow is shut down, any step not yet completed is canceled and the Amazon
+  /// EC2 instances on which the cluster is running are stopped. Any log files
+  /// not already saved are uploaded to Amazon S3 if a LogUri was specified when
+  /// the cluster was created.
   ///
   /// The maximum number of clusters allowed is 10. The call to
   /// <code>TerminateJobFlows</code> is asynchronous. Depending on the
@@ -2275,10 +2605,58 @@ class EMR {
     );
   }
 
-  /// <note>
-  /// The Amazon EMR Studio APIs are in preview release for Amazon EMR and are
-  /// subject to change.
-  /// </note>
+  /// Updates an Amazon EMR Studio configuration, including attributes such as
+  /// name, description, and subnets.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [studioId] :
+  /// The ID of the Amazon EMR Studio to update.
+  ///
+  /// Parameter [defaultS3Location] :
+  /// The Amazon S3 location to back up Workspaces and notebook files for the
+  /// Amazon EMR Studio.
+  ///
+  /// Parameter [description] :
+  /// A detailed description to assign to the Amazon EMR Studio.
+  ///
+  /// Parameter [name] :
+  /// A descriptive name for the Amazon EMR Studio.
+  ///
+  /// Parameter [subnetIds] :
+  /// A list of subnet IDs to associate with the Amazon EMR Studio. The list can
+  /// include new subnet IDs, but must also include all of the subnet IDs
+  /// previously associated with the Studio. The list order does not matter. A
+  /// Studio can have a maximum of 5 subnets. The subnets must belong to the
+  /// same VPC as the Studio.
+  Future<void> updateStudio({
+    required String studioId,
+    String? defaultS3Location,
+    String? description,
+    String? name,
+    List<String>? subnetIds,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ElasticMapReduce.UpdateStudio'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'StudioId': studioId,
+        if (defaultS3Location != null) 'DefaultS3Location': defaultS3Location,
+        if (description != null) 'Description': description,
+        if (name != null) 'Name': name,
+        if (subnetIds != null) 'SubnetIds': subnetIds,
+      },
+    );
+  }
+
   /// Updates the session policy attached to the user or group for the specified
   /// Amazon EMR Studio.
   ///
@@ -2293,7 +2671,7 @@ class EMR {
   /// specified user or group.
   ///
   /// Parameter [studioId] :
-  /// The ID of the EMR Studio.
+  /// The ID of the Amazon EMR Studio.
   ///
   /// Parameter [identityId] :
   /// The globally unique identifier (GUID) of the user or group. For more
@@ -2301,15 +2679,15 @@ class EMR {
   /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId">UserId</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-GroupId">GroupId</a>
-  /// in the <i>AWS SSO Identity Store API Reference</i>. Either
+  /// in the <i>IAM Identity Center Identity Store API Reference</i>. Either
   /// <code>IdentityName</code> or <code>IdentityId</code> must be specified.
   ///
   /// Parameter [identityName] :
   /// The name of the user or group to update. For more information, see <a
-  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId">UserName</a>
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName">UserName</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName">DisplayName</a>
-  /// in the <i>AWS SSO Identity Store API Reference</i>. Either
+  /// in the <i>IAM Identity Center Identity Store API Reference</i>. Either
   /// <code>IdentityName</code> or <code>IdentityId</code> must be specified.
   Future<void> updateStudioSessionMapping({
     required IdentityType identityType,
@@ -2392,6 +2770,7 @@ class AddInstanceFleetOutput {
     this.clusterId,
     this.instanceFleetId,
   });
+
   factory AddInstanceFleetOutput.fromJson(Map<String, dynamic> json) {
     return AddInstanceFleetOutput(
       clusterArn: json['ClusterArn'] as String?,
@@ -2417,6 +2796,7 @@ class AddInstanceGroupsOutput {
     this.instanceGroupIds,
     this.jobFlowId,
   });
+
   factory AddInstanceGroupsOutput.fromJson(Map<String, dynamic> json) {
     return AddInstanceGroupsOutput(
       clusterArn: json['ClusterArn'] as String?,
@@ -2437,6 +2817,7 @@ class AddJobFlowStepsOutput {
   AddJobFlowStepsOutput({
     this.stepIds,
   });
+
   factory AddJobFlowStepsOutput.fromJson(Map<String, dynamic> json) {
     return AddJobFlowStepsOutput(
       stepIds: (json['StepIds'] as List?)
@@ -2450,6 +2831,7 @@ class AddJobFlowStepsOutput {
 /// This output indicates the result of adding tags to a resource.
 class AddTagsOutput {
   AddTagsOutput();
+
   factory AddTagsOutput.fromJson(Map<String, dynamic> _) {
     return AddTagsOutput();
   }
@@ -2521,6 +2903,7 @@ class Application {
     this.name,
     this.version,
   });
+
   factory Application.fromJson(Map<String, dynamic> json) {
     return Application(
       additionalInfo: (json['AdditionalInfo'] as Map<String, dynamic>?)
@@ -2578,12 +2961,13 @@ extension AuthModeFromString on String {
 
 /// An automatic scaling policy for a core instance group or task instance group
 /// in an Amazon EMR cluster. An automatic scaling policy defines how an
-/// instance group dynamically adds and terminates EC2 instances in response to
-/// the value of a CloudWatch metric. See <a>PutAutoScalingPolicy</a>.
+/// instance group dynamically adds and terminates Amazon EC2 instances in
+/// response to the value of a CloudWatch metric. See
+/// <a>PutAutoScalingPolicy</a>.
 class AutoScalingPolicy {
-  /// The upper and lower EC2 instance limits for an automatic scaling policy.
-  /// Automatic scaling activity will not cause an instance group to grow above or
-  /// below these limits.
+  /// The upper and lower Amazon EC2 instance limits for an automatic scaling
+  /// policy. Automatic scaling activity will not cause an instance group to grow
+  /// above or below these limits.
   final ScalingConstraints constraints;
 
   /// The scale-in and scale-out rules that comprise the automatic scaling policy.
@@ -2605,12 +2989,13 @@ class AutoScalingPolicy {
 
 /// An automatic scaling policy for a core instance group or task instance group
 /// in an Amazon EMR cluster. The automatic scaling policy defines how an
-/// instance group dynamically adds and terminates EC2 instances in response to
-/// the value of a CloudWatch metric. See <a>PutAutoScalingPolicy</a>.
+/// instance group dynamically adds and terminates Amazon EC2 instances in
+/// response to the value of a CloudWatch metric. See
+/// <a>PutAutoScalingPolicy</a>.
 class AutoScalingPolicyDescription {
-  /// The upper and lower EC2 instance limits for an automatic scaling policy.
-  /// Automatic scaling activity will not cause an instance group to grow above or
-  /// below these limits.
+  /// The upper and lower Amazon EC2 instance limits for an automatic scaling
+  /// policy. Automatic scaling activity will not cause an instance group to grow
+  /// above or below these limits.
   final ScalingConstraints? constraints;
 
   /// The scale-in and scale-out rules that comprise the automatic scaling policy.
@@ -2624,6 +3009,7 @@ class AutoScalingPolicyDescription {
     this.rules,
     this.status,
   });
+
   factory AutoScalingPolicyDescription.fromJson(Map<String, dynamic> json) {
     return AutoScalingPolicyDescription(
       constraints: json['Constraints'] != null
@@ -2707,6 +3093,7 @@ class AutoScalingPolicyStateChangeReason {
     this.code,
     this.message,
   });
+
   factory AutoScalingPolicyStateChangeReason.fromJson(
       Map<String, dynamic> json) {
     return AutoScalingPolicyStateChangeReason(
@@ -2765,6 +3152,7 @@ class AutoScalingPolicyStatus {
     this.state,
     this.stateChangeReason,
   });
+
   factory AutoScalingPolicyStatus.fromJson(Map<String, dynamic> json) {
     return AutoScalingPolicyStatus(
       state: (json['State'] as String?)?.toAutoScalingPolicyState(),
@@ -2773,6 +3161,36 @@ class AutoScalingPolicyStatus {
               json['StateChangeReason'] as Map<String, dynamic>)
           : null,
     );
+  }
+}
+
+/// An auto-termination policy for an Amazon EMR cluster. An auto-termination
+/// policy defines the amount of idle time in seconds after which a cluster
+/// automatically terminates. For alternative cluster termination options, see
+/// <a
+/// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-termination.html">Control
+/// cluster termination</a>.
+class AutoTerminationPolicy {
+  /// Specifies the amount of idle time in seconds after which the cluster
+  /// automatically terminates. You can specify a minimum of 60 seconds and a
+  /// maximum of 604800 seconds (seven days).
+  final int? idleTimeout;
+
+  AutoTerminationPolicy({
+    this.idleTimeout,
+  });
+
+  factory AutoTerminationPolicy.fromJson(Map<String, dynamic> json) {
+    return AutoTerminationPolicy(
+      idleTimeout: json['IdleTimeout'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idleTimeout = this.idleTimeout;
+    return {
+      if (idleTimeout != null) 'IdleTimeout': idleTimeout,
+    };
   }
 }
 
@@ -2785,8 +3203,8 @@ class AutoScalingPolicyStatus {
 class BlockPublicAccessConfiguration {
   /// Indicates whether Amazon EMR block public access is enabled
   /// (<code>true</code>) or disabled (<code>false</code>). By default, the value
-  /// is <code>false</code> for accounts that have created EMR clusters before
-  /// July 2019. For accounts created after this, the default is
+  /// is <code>false</code> for accounts that have created Amazon EMR clusters
+  /// before July 2019. For accounts created after this, the default is
   /// <code>true</code>.
   final bool blockPublicSecurityGroupRules;
 
@@ -2798,7 +3216,7 @@ class BlockPublicAccessConfiguration {
   /// that allows inbound traffic on Port 23 from IPv4 0.0.0.0/0 or IPv6 port ::/0
   /// as the source.
   ///
-  /// By default, Port 22, which is used for SSH access to the cluster EC2
+  /// By default, Port 22, which is used for SSH access to the cluster Amazon EC2
   /// instances, is in the list of
   /// <code>PermittedPublicSecurityGroupRuleRanges</code>.
   final List<PortRange>? permittedPublicSecurityGroupRuleRanges;
@@ -2807,6 +3225,7 @@ class BlockPublicAccessConfiguration {
     required this.blockPublicSecurityGroupRules,
     this.permittedPublicSecurityGroupRuleRanges,
   });
+
   factory BlockPublicAccessConfiguration.fromJson(Map<String, dynamic> json) {
     return BlockPublicAccessConfiguration(
       blockPublicSecurityGroupRules:
@@ -2832,7 +3251,7 @@ class BlockPublicAccessConfiguration {
   }
 }
 
-/// Properties that describe the AWS principal that created the
+/// Properties that describe the Amazon Web Services principal that created the
 /// <code>BlockPublicAccessConfiguration</code> using the
 /// <code>PutBlockPublicAccessConfiguration</code> action as well as the date
 /// and time that the configuration was created. Each time a configuration for
@@ -2848,6 +3267,7 @@ class BlockPublicAccessConfigurationMetadata {
     required this.createdByArn,
     required this.creationDateTime,
   });
+
   factory BlockPublicAccessConfigurationMetadata.fromJson(
       Map<String, dynamic> json) {
     return BlockPublicAccessConfigurationMetadata(
@@ -2870,6 +3290,7 @@ class BootstrapActionConfig {
     required this.name,
     required this.scriptBootstrapAction,
   });
+
   factory BootstrapActionConfig.fromJson(Map<String, dynamic> json) {
     return BootstrapActionConfig(
       name: json['Name'] as String,
@@ -2896,6 +3317,7 @@ class BootstrapActionDetail {
   BootstrapActionDetail({
     this.bootstrapActionConfig,
   });
+
   factory BootstrapActionDetail.fromJson(Map<String, dynamic> json) {
     return BootstrapActionDetail(
       bootstrapActionConfig: json['BootstrapActionConfig'] != null
@@ -2923,6 +3345,7 @@ class CancelStepsInfo {
     this.status,
     this.stepId,
   });
+
   factory CancelStepsInfo.fromJson(Map<String, dynamic> json) {
     return CancelStepsInfo(
       reason: json['Reason'] as String?,
@@ -2941,6 +3364,7 @@ class CancelStepsOutput {
   CancelStepsOutput({
     this.cancelStepsInfoList,
   });
+
   factory CancelStepsOutput.fromJson(Map<String, dynamic> json) {
     return CancelStepsOutput(
       cancelStepsInfoList: (json['CancelStepsInfoList'] as List?)
@@ -2991,9 +3415,9 @@ class CloudWatchAlarmDefinition {
   /// condition.
   final String metricName;
 
-  /// The period, in seconds, over which the statistic is applied. EMR CloudWatch
-  /// metrics are emitted every five minutes (300 seconds), so if an EMR
-  /// CloudWatch metric is specified, specify <code>300</code>.
+  /// The period, in seconds, over which the statistic is applied. CloudWatch
+  /// metrics for Amazon EMR are emitted every five minutes (300 seconds), so if
+  /// you specify a CloudWatch metric, specify <code>300</code>.
   final int period;
 
   /// The value against which the specified statistic is compared.
@@ -3031,6 +3455,7 @@ class CloudWatchAlarmDefinition {
     this.statistic,
     this.unit,
   });
+
   factory CloudWatchAlarmDefinition.fromJson(Map<String, dynamic> json) {
     return CloudWatchAlarmDefinition(
       comparisonOperator:
@@ -3080,8 +3505,8 @@ class Cluster {
 
   /// An IAM role for automatic scaling policies. The default role is
   /// <code>EMR_AutoScaling_DefaultRole</code>. The IAM role provides permissions
-  /// that the automatic scaling feature requires to launch and terminate EC2
-  /// instances in an instance group.
+  /// that the automatic scaling feature requires to launch and terminate Amazon
+  /// EC2 instances in an instance group.
   final String? autoScalingRole;
 
   /// Specifies whether the cluster should terminate after completing all steps.
@@ -3091,19 +3516,19 @@ class Cluster {
   final String? clusterArn;
 
   /// Applies only to Amazon EMR releases 4.x and later. The list of
-  /// Configurations supplied to the EMR cluster.
+  /// configurations that are supplied to the Amazon EMR cluster.
   final List<Configuration>? configurations;
 
-  /// Available only in Amazon EMR version 5.7.0 and later. The ID of a custom
+  /// Available only in Amazon EMR releases 5.7.0 and later. The ID of a custom
   /// Amazon EBS-backed Linux AMI if the cluster uses a custom AMI.
   final String? customAmiId;
 
   /// The size, in GiB, of the Amazon EBS root device volume of the Linux AMI that
-  /// is used for each EC2 instance. Available in Amazon EMR version 4.x and
-  /// later.
+  /// is used for each Amazon EC2 instance. Available in Amazon EMR releases 4.x
+  /// and later.
   final int? ebsRootVolumeSize;
 
-  /// Provides information about the EC2 instances in a cluster grouped by
+  /// Provides information about the Amazon EC2 instances in a cluster grouped by
   /// category. For example, key name, subnet ID, IAM instance profile, and so on.
   final Ec2InstanceAttributes? ec2InstanceAttributes;
 
@@ -3111,7 +3536,7 @@ class Cluster {
   final String? id;
 
   /// <note>
-  /// The instance fleet configuration is available only in Amazon EMR versions
+  /// The instance fleet configuration is available only in Amazon EMR releases
   /// 4.8.0 and later, excluding 5.0.x versions.
   /// </note>
   /// The instance group configuration of the cluster. A value of
@@ -3126,9 +3551,8 @@ class Cluster {
   /// Kerberos Authentication</a> in the <i>Amazon EMR Management Guide</i>.
   final KerberosAttributes? kerberosAttributes;
 
-  /// The AWS KMS customer master key (CMK) used for encrypting log files. This
-  /// attribute is only available with EMR version 5.30.0 and later, excluding EMR
-  /// 6.0.0.
+  /// The KMS key used for encrypting log files. This attribute is only available
+  /// with Amazon EMR 5.30.0 and later, excluding Amazon EMR 6.0.0.
   final String? logEncryptionKmsKeyId;
 
   /// The path to the Amazon S3 location where logs for this cluster are stored.
@@ -3143,11 +3567,16 @@ class Cluster {
 
   /// An approximation of the cost of the cluster, represented in m1.small/hours.
   /// This value is incremented one time for every hour an m1.small instance runs.
-  /// Larger instances are weighted more, so an EC2 instance that is roughly four
-  /// times more expensive would result in the normalized instance hours being
-  /// incremented by four. This result is only an approximation and does not
-  /// reflect the actual billing rate.
+  /// Larger instances are weighted more, so an Amazon EC2 instance that is
+  /// roughly four times more expensive would result in the normalized instance
+  /// hours being incremented by four. This result is only an approximation and
+  /// does not reflect the actual billing rate.
   final int? normalizedInstanceHours;
+
+  /// The Amazon Linux release specified in a cluster launch RunJobFlow request.
+  /// If no Amazon Linux release was specified, the default Amazon Linux release
+  /// is shown in the response.
+  final String? oSReleaseLabel;
 
   /// The Amazon Resource Name (ARN) of the Outpost where the cluster is launched.
   final String? outpostArn;
@@ -3166,8 +3595,8 @@ class Cluster {
   final String? releaseLabel;
 
   /// Applies only when <code>CustomAmiID</code> is used. Specifies the type of
-  /// updates that are applied from the Amazon Linux AMI package repositories when
-  /// an instance boots using the AMI.
+  /// updates that the Amazon Linux AMI package repositories apply when an
+  /// instance boots using the AMI.
   final RepoUpgradeOnBoot? repoUpgradeOnBoot;
 
   /// The AMI version requested for this cluster.
@@ -3188,14 +3617,14 @@ class Cluster {
   /// boundary. With either behavior, Amazon EMR removes the least active nodes
   /// first and blocks instance termination if it could lead to HDFS corruption.
   /// <code>TERMINATE_AT_TASK_COMPLETION</code> is available only in Amazon EMR
-  /// version 4.1.0 and later, and is the default for versions of Amazon EMR
+  /// releases 4.1.0 and later, and is the default for versions of Amazon EMR
   /// earlier than 5.1.0.
   final ScaleDownBehavior? scaleDownBehavior;
 
   /// The name of the security configuration applied to the cluster.
   final String? securityConfiguration;
 
-  /// The IAM role that will be assumed by the Amazon EMR service to access AWS
+  /// The IAM role that Amazon EMR assumes in order to access Amazon Web Services
   /// resources on your behalf.
   final String? serviceRole;
 
@@ -3208,20 +3637,24 @@ class Cluster {
   /// A list of tags associated with a cluster.
   final List<Tag>? tags;
 
-  /// Indicates whether Amazon EMR will lock the cluster to prevent the EC2
+  /// Indicates whether Amazon EMR will lock the cluster to prevent the Amazon EC2
   /// instances from being terminated by an API call or user intervention, or in
   /// the event of a cluster error.
   final bool? terminationProtected;
 
-  /// Indicates whether the cluster is visible to all IAM users of the AWS account
-  /// associated with the cluster. The default value, <code>true</code>, indicates
-  /// that all IAM users in the AWS account can perform cluster actions if they
-  /// have the proper IAM policy permissions. If this value is <code>false</code>,
-  /// only the IAM user that created the cluster can perform actions. This value
-  /// can be changed on a running cluster by using the <a>SetVisibleToAllUsers</a>
-  /// action. You can override the default value of <code>true</code> when you
-  /// create a cluster by using the <code>VisibleToAllUsers</code> parameter of
-  /// the <code>RunJobFlow</code> action.
+  /// Indicates whether the cluster is visible to IAM principals in the Amazon Web
+  /// Services account associated with the cluster. When <code>true</code>, IAM
+  /// principals in the Amazon Web Services account can perform Amazon EMR cluster
+  /// actions on the cluster that their IAM policies allow. When
+  /// <code>false</code>, only the IAM principal that created the cluster and the
+  /// Amazon Web Services account root user can perform Amazon EMR actions,
+  /// regardless of IAM permissions policies attached to other IAM principals.
+  ///
+  /// The default value is <code>true</code> if a value is not provided when
+  /// creating a cluster using the Amazon EMR API <a>RunJobFlow</a> command, the
+  /// CLI <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/emr/create-cluster.html">create-cluster</a>
+  /// command, or the Amazon Web Services Management Console.
   final bool? visibleToAllUsers;
 
   Cluster({
@@ -3241,6 +3674,7 @@ class Cluster {
     this.masterPublicDnsName,
     this.name,
     this.normalizedInstanceHours,
+    this.oSReleaseLabel,
     this.outpostArn,
     this.placementGroups,
     this.releaseLabel,
@@ -3256,6 +3690,7 @@ class Cluster {
     this.terminationProtected,
     this.visibleToAllUsers,
   });
+
   factory Cluster.fromJson(Map<String, dynamic> json) {
     return Cluster(
       applications: (json['Applications'] as List?)
@@ -3287,6 +3722,7 @@ class Cluster {
       masterPublicDnsName: json['MasterPublicDnsName'] as String?,
       name: json['Name'] as String?,
       normalizedInstanceHours: json['NormalizedInstanceHours'] as int?,
+      oSReleaseLabel: json['OSReleaseLabel'] as String?,
       outpostArn: json['OutpostArn'] as String?,
       placementGroups: (json['PlacementGroups'] as List?)
           ?.whereNotNull()
@@ -3380,6 +3816,7 @@ class ClusterStateChangeReason {
     this.code,
     this.message,
   });
+
   factory ClusterStateChangeReason.fromJson(Map<String, dynamic> json) {
     return ClusterStateChangeReason(
       code: (json['Code'] as String?)?.toClusterStateChangeReasonCode(),
@@ -3449,6 +3886,11 @@ extension ClusterStateChangeReasonCodeFromString on String {
 
 /// The detailed status of the cluster.
 class ClusterStatus {
+  /// A list of tuples that provides information about the errors that caused a
+  /// cluster to terminate. This structure can contain up to 10 different
+  /// <code>ErrorDetail</code> tuples.
+  final List<ErrorDetail>? errorDetails;
+
   /// The current state of the cluster.
   final ClusterState? state;
 
@@ -3460,12 +3902,18 @@ class ClusterStatus {
   final ClusterTimeline? timeline;
 
   ClusterStatus({
+    this.errorDetails,
     this.state,
     this.stateChangeReason,
     this.timeline,
   });
+
   factory ClusterStatus.fromJson(Map<String, dynamic> json) {
     return ClusterStatus(
+      errorDetails: (json['ErrorDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => ErrorDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
       state: (json['State'] as String?)?.toClusterState(),
       stateChangeReason: json['StateChangeReason'] != null
           ? ClusterStateChangeReason.fromJson(
@@ -3491,10 +3939,10 @@ class ClusterSummary {
 
   /// An approximation of the cost of the cluster, represented in m1.small/hours.
   /// This value is incremented one time for every hour an m1.small instance runs.
-  /// Larger instances are weighted more, so an EC2 instance that is roughly four
-  /// times more expensive would result in the normalized instance hours being
-  /// incremented by four. This result is only an approximation and does not
-  /// reflect the actual billing rate.
+  /// Larger instances are weighted more, so an Amazon EC2 instance that is
+  /// roughly four times more expensive would result in the normalized instance
+  /// hours being incremented by four. This result is only an approximation and
+  /// does not reflect the actual billing rate.
   final int? normalizedInstanceHours;
 
   /// The Amazon Resource Name (ARN) of the Outpost where the cluster is launched.
@@ -3511,6 +3959,7 @@ class ClusterSummary {
     this.outpostArn,
     this.status,
   });
+
   factory ClusterSummary.fromJson(Map<String, dynamic> json) {
     return ClusterSummary(
       clusterArn: json['ClusterArn'] as String?,
@@ -3541,6 +3990,7 @@ class ClusterTimeline {
     this.endDateTime,
     this.readyDateTime,
   });
+
   factory ClusterTimeline.fromJson(Map<String, dynamic> json) {
     return ClusterTimeline(
       creationDateTime: timeStampFromJson(json['CreationDateTime']),
@@ -3566,6 +4016,7 @@ class Command {
     this.name,
     this.scriptPath,
   });
+
   factory Command.fromJson(Map<String, dynamic> json) {
     return Command(
       args: (json['Args'] as List?)
@@ -3616,19 +4067,19 @@ extension ComparisonOperatorFromString on String {
   }
 }
 
-/// The EC2 unit limits for a managed scaling policy. The managed scaling
+/// The Amazon EC2 unit limits for a managed scaling policy. The managed scaling
 /// activity of a cluster can not be above or below these limits. The limit only
 /// applies to the core and task nodes. The master node cannot be scaled after
 /// initial configuration.
 class ComputeLimits {
-  /// The upper boundary of EC2 units. It is measured through vCPU cores or
+  /// The upper boundary of Amazon EC2 units. It is measured through vCPU cores or
   /// instances for instance groups and measured through units for instance
   /// fleets. Managed scaling activities are not allowed beyond this boundary. The
   /// limit only applies to the core and task nodes. The master node cannot be
   /// scaled after initial configuration.
   final int maximumCapacityUnits;
 
-  /// The lower boundary of EC2 units. It is measured through vCPU cores or
+  /// The lower boundary of Amazon EC2 units. It is measured through vCPU cores or
   /// instances for instance groups and measured through units for instance
   /// fleets. Managed scaling activities are not allowed beyond this boundary. The
   /// limit only applies to the core and task nodes. The master node cannot be
@@ -3638,18 +4089,18 @@ class ComputeLimits {
   /// The unit type used for specifying a managed scaling policy.
   final ComputeLimitsUnitType unitType;
 
-  /// The upper boundary of EC2 units for core node type in a cluster. It is
-  /// measured through vCPU cores or instances for instance groups and measured
+  /// The upper boundary of Amazon EC2 units for core node type in a cluster. It
+  /// is measured through vCPU cores or instances for instance groups and measured
   /// through units for instance fleets. The core units are not allowed to scale
   /// beyond this boundary. The parameter is used to split capacity allocation
   /// between core and task nodes.
   final int? maximumCoreCapacityUnits;
 
-  /// The upper boundary of On-Demand EC2 units. It is measured through vCPU cores
-  /// or instances for instance groups and measured through units for instance
-  /// fleets. The On-Demand units are not allowed to scale beyond this boundary.
-  /// The parameter is used to split capacity allocation between On-Demand and
-  /// Spot Instances.
+  /// The upper boundary of On-Demand Amazon EC2 units. It is measured through
+  /// vCPU cores or instances for instance groups and measured through units for
+  /// instance fleets. The On-Demand units are not allowed to scale beyond this
+  /// boundary. The parameter is used to split capacity allocation between
+  /// On-Demand and Spot Instances.
   final int? maximumOnDemandCapacityUnits;
 
   ComputeLimits({
@@ -3659,6 +4110,7 @@ class ComputeLimits {
     this.maximumCoreCapacityUnits,
     this.maximumOnDemandCapacityUnits,
   });
+
   factory ComputeLimits.fromJson(Map<String, dynamic> json) {
     return ComputeLimits(
       maximumCapacityUnits: json['MaximumCapacityUnits'] as int,
@@ -3747,6 +4199,7 @@ class Configuration {
     this.configurations,
     this.properties,
   });
+
   factory Configuration.fromJson(Map<String, dynamic> json) {
     return Configuration(
       classification: json['Classification'] as String?,
@@ -3782,6 +4235,7 @@ class CreateSecurityConfigurationOutput {
     required this.creationDateTime,
     required this.name,
   });
+
   factory CreateSecurityConfigurationOutput.fromJson(
       Map<String, dynamic> json) {
     return CreateSecurityConfigurationOutput(
@@ -3803,6 +4257,7 @@ class CreateStudioOutput {
     this.studioId,
     this.url,
   });
+
   factory CreateStudioOutput.fromJson(Map<String, dynamic> json) {
     return CreateStudioOutput(
       studioId: json['StudioId'] as String?,
@@ -3811,8 +4266,29 @@ class CreateStudioOutput {
   }
 }
 
+/// The credentials that you can use to connect to cluster endpoints.
+/// Credentials consist of a username and a password.
+class Credentials {
+  /// The username and password that you use to connect to cluster endpoints.
+  final UsernamePassword? usernamePassword;
+
+  Credentials({
+    this.usernamePassword,
+  });
+
+  factory Credentials.fromJson(Map<String, dynamic> json) {
+    return Credentials(
+      usernamePassword: json['UsernamePassword'] != null
+          ? UsernamePassword.fromJson(
+              json['UsernamePassword'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 class DeleteSecurityConfigurationOutput {
   DeleteSecurityConfigurationOutput();
+
   factory DeleteSecurityConfigurationOutput.fromJson(Map<String, dynamic> _) {
     return DeleteSecurityConfigurationOutput();
   }
@@ -3826,6 +4302,7 @@ class DescribeClusterOutput {
   DescribeClusterOutput({
     this.cluster,
   });
+
   factory DescribeClusterOutput.fromJson(Map<String, dynamic> json) {
     return DescribeClusterOutput(
       cluster: json['Cluster'] != null
@@ -3843,6 +4320,7 @@ class DescribeJobFlowsOutput {
   DescribeJobFlowsOutput({
     this.jobFlows,
   });
+
   factory DescribeJobFlowsOutput.fromJson(Map<String, dynamic> json) {
     return DescribeJobFlowsOutput(
       jobFlows: (json['JobFlows'] as List?)
@@ -3860,12 +4338,55 @@ class DescribeNotebookExecutionOutput {
   DescribeNotebookExecutionOutput({
     this.notebookExecution,
   });
+
   factory DescribeNotebookExecutionOutput.fromJson(Map<String, dynamic> json) {
     return DescribeNotebookExecutionOutput(
       notebookExecution: json['NotebookExecution'] != null
           ? NotebookExecution.fromJson(
               json['NotebookExecution'] as Map<String, dynamic>)
           : null,
+    );
+  }
+}
+
+class DescribeReleaseLabelOutput {
+  /// The list of applications available for the target release label.
+  /// <code>Name</code> is the name of the application. <code>Version</code> is
+  /// the concise version of the application.
+  final List<SimplifiedApplication>? applications;
+
+  /// The list of available Amazon Linux release versions for an Amazon EMR
+  /// release. Contains a Label field that is formatted as shown in <a
+  /// href="https://docs.aws.amazon.com/AL2/latest/relnotes/relnotes-al2.html">
+  /// <i>Amazon Linux 2 Release Notes</i> </a>. For example, <a
+  /// href="https://docs.aws.amazon.com/AL2/latest/relnotes/relnotes-20220218.html">2.0.20220218.1</a>.
+  final List<OSRelease>? availableOSReleases;
+
+  /// The pagination token. Reserved for future use. Currently set to null.
+  final String? nextToken;
+
+  /// The target release label described in the response.
+  final String? releaseLabel;
+
+  DescribeReleaseLabelOutput({
+    this.applications,
+    this.availableOSReleases,
+    this.nextToken,
+    this.releaseLabel,
+  });
+
+  factory DescribeReleaseLabelOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeReleaseLabelOutput(
+      applications: (json['Applications'] as List?)
+          ?.whereNotNull()
+          .map((e) => SimplifiedApplication.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      availableOSReleases: (json['AvailableOSReleases'] as List?)
+          ?.whereNotNull()
+          .map((e) => OSRelease.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      releaseLabel: json['ReleaseLabel'] as String?,
     );
   }
 }
@@ -3885,6 +4406,7 @@ class DescribeSecurityConfigurationOutput {
     this.name,
     this.securityConfiguration,
   });
+
   factory DescribeSecurityConfigurationOutput.fromJson(
       Map<String, dynamic> json) {
     return DescribeSecurityConfigurationOutput(
@@ -3903,6 +4425,7 @@ class DescribeStepOutput {
   DescribeStepOutput({
     this.step,
   });
+
   factory DescribeStepOutput.fromJson(Map<String, dynamic> json) {
     return DescribeStepOutput(
       step: json['Step'] != null
@@ -3919,6 +4442,7 @@ class DescribeStudioOutput {
   DescribeStudioOutput({
     this.studio,
   });
+
   factory DescribeStudioOutput.fromJson(Map<String, dynamic> json) {
     return DescribeStudioOutput(
       studio: json['Studio'] != null
@@ -3934,15 +4458,16 @@ class EbsBlockDevice {
   /// The device name that is exposed to the instance, such as /dev/sdh.
   final String? device;
 
-  /// EBS volume specifications such as volume type, IOPS, and size (GiB) that
-  /// will be requested for the EBS volume attached to an EC2 instance in the
-  /// cluster.
+  /// EBS volume specifications such as volume type, IOPS, size (GiB) and
+  /// throughput (MiB/s) that are requested for the EBS volume attached to an
+  /// Amazon EC2 instance in the cluster.
   final VolumeSpecification? volumeSpecification;
 
   EbsBlockDevice({
     this.device,
     this.volumeSpecification,
   });
+
   factory EbsBlockDevice.fromJson(Map<String, dynamic> json) {
     return EbsBlockDevice(
       device: json['Device'] as String?,
@@ -3955,14 +4480,14 @@ class EbsBlockDevice {
 }
 
 /// Configuration of requested EBS block device associated with the instance
-/// group with count of volumes that will be associated to every instance.
+/// group with count of volumes that are associated to every instance.
 class EbsBlockDeviceConfig {
-  /// EBS volume specifications such as volume type, IOPS, and size (GiB) that
-  /// will be requested for the EBS volume attached to an EC2 instance in the
-  /// cluster.
+  /// EBS volume specifications such as volume type, IOPS, size (GiB) and
+  /// throughput (MiB/s) that are requested for the EBS volume attached to an
+  /// Amazon EC2 instance in the cluster.
   final VolumeSpecification volumeSpecification;
 
-  /// Number of EBS volumes with a specific volume configuration that will be
+  /// Number of EBS volumes with a specific volume configuration that are
   /// associated with every instance in the instance group
   final int? volumesPerInstance;
 
@@ -4003,7 +4528,7 @@ class EbsConfiguration {
   }
 }
 
-/// EBS block device that's attached to an EC2 instance.
+/// EBS block device that's attached to an Amazon EC2 instance.
 class EbsVolume {
   /// The device name that is exposed to the instance, such as /dev/sdh.
   final String? device;
@@ -4015,6 +4540,7 @@ class EbsVolume {
     this.device,
     this.volumeId,
   });
+
   factory EbsVolume.fromJson(Map<String, dynamic> json) {
     return EbsVolume(
       device: json['Device'] as String?,
@@ -4023,7 +4549,7 @@ class EbsVolume {
   }
 }
 
-/// Provides information about the EC2 instances in a cluster grouped by
+/// Provides information about the Amazon EC2 instances in a cluster grouped by
 /// category. For example, key name, subnet ID, IAM instance profile, and so on.
 class Ec2InstanceAttributes {
   /// A list of additional Amazon EC2 security group IDs for the master node.
@@ -4051,14 +4577,14 @@ class Ec2InstanceAttributes {
   /// The identifier of the Amazon EC2 security group for the core and task nodes.
   final String? emrManagedSlaveSecurityGroup;
 
-  /// The IAM role that was specified when the cluster was launched. The EC2
-  /// instances of the cluster assume this role.
+  /// The IAM role that was specified when the cluster was launched. The Amazon
+  /// EC2 instances of the cluster assume this role.
   final String? iamInstanceProfile;
 
   /// Applies to clusters configured with the instance fleets option. Specifies
-  /// one or more Availability Zones in which to launch EC2 cluster instances when
-  /// the EC2-Classic network configuration is supported. Amazon EMR chooses the
-  /// Availability Zone with the best fit from among the list of
+  /// one or more Availability Zones in which to launch Amazon EC2 cluster
+  /// instances when the EC2-Classic network configuration is supported. Amazon
+  /// EMR chooses the Availability Zone with the best fit from among the list of
   /// <code>RequestedEc2AvailabilityZones</code>, and then launches all cluster
   /// instances within that Availability Zone. If you do not specify this value,
   /// Amazon EMR chooses the Availability Zone for you.
@@ -4068,8 +4594,8 @@ class Ec2InstanceAttributes {
 
   /// Applies to clusters configured with the instance fleets option. Specifies
   /// the unique identifier of one or more Amazon EC2 subnets in which to launch
-  /// EC2 cluster instances. Subnets must exist within the same VPC. Amazon EMR
-  /// chooses the EC2 subnet with the best fit from among the list of
+  /// Amazon EC2 cluster instances. Subnets must exist within the same VPC. Amazon
+  /// EMR chooses the Amazon EC2 subnet with the best fit from among the list of
   /// <code>RequestedEc2SubnetIds</code>, and then launches all cluster instances
   /// within that Subnet. If this value is not specified, and the account and
   /// Region support EC2-Classic networks, the cluster launches instances in the
@@ -4097,6 +4623,7 @@ class Ec2InstanceAttributes {
     this.requestedEc2SubnetIds,
     this.serviceAccessSecurityGroup,
   });
+
   factory Ec2InstanceAttributes.fromJson(Map<String, dynamic> json) {
     return Ec2InstanceAttributes(
       additionalMasterSecurityGroups:
@@ -4131,33 +4658,71 @@ class Ec2InstanceAttributes {
   }
 }
 
+/// A tuple that provides information about an error that caused a cluster to
+/// terminate.
+class ErrorDetail {
+  /// The name or code associated with the error.
+  final String? errorCode;
+
+  /// A list of key value pairs that provides contextual information about why an
+  /// error occured.
+  final List<Map<String, String>>? errorData;
+
+  /// A message that describes the error.
+  final String? errorMessage;
+
+  ErrorDetail({
+    this.errorCode,
+    this.errorData,
+    this.errorMessage,
+  });
+
+  factory ErrorDetail.fromJson(Map<String, dynamic> json) {
+    return ErrorDetail(
+      errorCode: json['ErrorCode'] as String?,
+      errorData: (json['ErrorData'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as Map<String, dynamic>)
+              .map((k, e) => MapEntry(k, e as String)))
+          .toList(),
+      errorMessage: json['ErrorMessage'] as String?,
+    );
+  }
+}
+
 /// Specifies the execution engine (cluster) to run the notebook and perform the
-/// notebook execution, for example, an EMR cluster.
+/// notebook execution, for example, an Amazon EMR cluster.
 class ExecutionEngineConfig {
-  /// The unique identifier of the execution engine. For an EMR cluster, this is
-  /// the cluster ID.
+  /// The unique identifier of the execution engine. For an Amazon EMR cluster,
+  /// this is the cluster ID.
   final String id;
 
-  /// An optional unique ID of an EC2 security group to associate with the master
-  /// instance of the EMR cluster for this notebook execution. For more
-  /// information see <a
+  /// The execution role ARN required for the notebook execution.
+  final String? executionRoleArn;
+
+  /// An optional unique ID of an Amazon EC2 security group to associate with the
+  /// master instance of the Amazon EMR cluster for this notebook execution. For
+  /// more information see <a
   /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-managed-notebooks-security-groups.html">Specifying
-  /// EC2 Security Groups for EMR Notebooks</a> in the <i>EMR Management
-  /// Guide</i>.
+  /// Amazon EC2 Security Groups for Amazon EMR Notebooks</a> in the <i>EMR
+  /// Management Guide</i>.
   final String? masterInstanceSecurityGroupId;
 
-  /// The type of execution engine. A value of <code>EMR</code> specifies an EMR
-  /// cluster.
+  /// The type of execution engine. A value of <code>EMR</code> specifies an
+  /// Amazon EMR cluster.
   final ExecutionEngineType? type;
 
   ExecutionEngineConfig({
     required this.id,
+    this.executionRoleArn,
     this.masterInstanceSecurityGroupId,
     this.type,
   });
+
   factory ExecutionEngineConfig.fromJson(Map<String, dynamic> json) {
     return ExecutionEngineConfig(
       id: json['Id'] as String,
+      executionRoleArn: json['ExecutionRoleArn'] as String?,
       masterInstanceSecurityGroupId:
           json['MasterInstanceSecurityGroupId'] as String?,
       type: (json['Type'] as String?)?.toExecutionEngineType(),
@@ -4166,10 +4731,12 @@ class ExecutionEngineConfig {
 
   Map<String, dynamic> toJson() {
     final id = this.id;
+    final executionRoleArn = this.executionRoleArn;
     final masterInstanceSecurityGroupId = this.masterInstanceSecurityGroupId;
     final type = this.type;
     return {
       'Id': id,
+      if (executionRoleArn != null) 'ExecutionRoleArn': executionRoleArn,
       if (masterInstanceSecurityGroupId != null)
         'MasterInstanceSecurityGroupId': masterInstanceSecurityGroupId,
       if (type != null) 'Type': type.toValue(),
@@ -4222,11 +4789,31 @@ class FailureDetails {
     this.message,
     this.reason,
   });
+
   factory FailureDetails.fromJson(Map<String, dynamic> json) {
     return FailureDetails(
       logFile: json['LogFile'] as String?,
       message: json['Message'] as String?,
       reason: json['Reason'] as String?,
+    );
+  }
+}
+
+class GetAutoTerminationPolicyOutput {
+  /// Specifies the auto-termination policy that is attached to an Amazon EMR
+  /// cluster.
+  final AutoTerminationPolicy? autoTerminationPolicy;
+
+  GetAutoTerminationPolicyOutput({
+    this.autoTerminationPolicy,
+  });
+
+  factory GetAutoTerminationPolicyOutput.fromJson(Map<String, dynamic> json) {
+    return GetAutoTerminationPolicyOutput(
+      autoTerminationPolicy: json['AutoTerminationPolicy'] != null
+          ? AutoTerminationPolicy.fromJson(
+              json['AutoTerminationPolicy'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -4246,12 +4833,12 @@ class GetBlockPublicAccessConfigurationOutput {
   /// For accounts that created clusters in a Region before November 25, 2019,
   /// block public access is disabled by default in that Region. To use this
   /// feature, you must manually enable and configure it. For accounts that did
-  /// not create an EMR cluster in a Region before this date, block public access
-  /// is enabled by default in that Region.
+  /// not create an Amazon EMR cluster in a Region before this date, block public
+  /// access is enabled by default in that Region.
   /// </note>
   final BlockPublicAccessConfiguration blockPublicAccessConfiguration;
 
-  /// Properties that describe the AWS principal that created the
+  /// Properties that describe the Amazon Web Services principal that created the
   /// <code>BlockPublicAccessConfiguration</code> using the
   /// <code>PutBlockPublicAccessConfiguration</code> action as well as the date
   /// and time that the configuration was created. Each time a configuration for
@@ -4263,6 +4850,7 @@ class GetBlockPublicAccessConfigurationOutput {
     required this.blockPublicAccessConfiguration,
     required this.blockPublicAccessConfigurationMetadata,
   });
+
   factory GetBlockPublicAccessConfigurationOutput.fromJson(
       Map<String, dynamic> json) {
     return GetBlockPublicAccessConfigurationOutput(
@@ -4276,6 +4864,31 @@ class GetBlockPublicAccessConfigurationOutput {
   }
 }
 
+class GetClusterSessionCredentialsOutput {
+  /// The credentials that you can use to connect to cluster endpoints that
+  /// support username and password authentication.
+  final Credentials? credentials;
+
+  /// The time when the credentials that are returned by the
+  /// <code>GetClusterSessionCredentials</code> API expire.
+  final DateTime? expiresAt;
+
+  GetClusterSessionCredentialsOutput({
+    this.credentials,
+    this.expiresAt,
+  });
+
+  factory GetClusterSessionCredentialsOutput.fromJson(
+      Map<String, dynamic> json) {
+    return GetClusterSessionCredentialsOutput(
+      credentials: json['Credentials'] != null
+          ? Credentials.fromJson(json['Credentials'] as Map<String, dynamic>)
+          : null,
+      expiresAt: timeStampFromJson(json['ExpiresAt']),
+    );
+  }
+}
+
 class GetManagedScalingPolicyOutput {
   /// Specifies the managed scaling policy that is attached to an Amazon EMR
   /// cluster.
@@ -4284,6 +4897,7 @@ class GetManagedScalingPolicyOutput {
   GetManagedScalingPolicyOutput({
     this.managedScalingPolicy,
   });
+
   factory GetManagedScalingPolicyOutput.fromJson(Map<String, dynamic> json) {
     return GetManagedScalingPolicyOutput(
       managedScalingPolicy: json['ManagedScalingPolicy'] != null
@@ -4302,6 +4916,7 @@ class GetStudioSessionMappingOutput {
   GetStudioSessionMappingOutput({
     this.sessionMapping,
   });
+
   factory GetStudioSessionMappingOutput.fromJson(Map<String, dynamic> json) {
     return GetStudioSessionMappingOutput(
       sessionMapping: json['SessionMapping'] != null
@@ -4328,7 +4943,7 @@ class HadoopJarStepConfig {
   final String? mainClass;
 
   /// A list of Java properties that are set when the step runs. You can use these
-  /// properties to pass key value pairs to your main function.
+  /// properties to pass key-value pairs to your main function.
   final List<KeyValue>? properties;
 
   HadoopJarStepConfig({
@@ -4337,6 +4952,7 @@ class HadoopJarStepConfig {
     this.mainClass,
     this.properties,
   });
+
   factory HadoopJarStepConfig.fromJson(Map<String, dynamic> json) {
     return HadoopJarStepConfig(
       jar: json['Jar'] as String,
@@ -4391,6 +5007,7 @@ class HadoopStepConfig {
     this.mainClass,
     this.properties,
   });
+
   factory HadoopStepConfig.fromJson(Map<String, dynamic> json) {
     return HadoopStepConfig(
       args: (json['Args'] as List?)
@@ -4433,9 +5050,9 @@ extension IdentityTypeFromString on String {
   }
 }
 
-/// Represents an EC2 instance provisioned as part of cluster.
+/// Represents an Amazon EC2 instance provisioned as part of cluster.
 class Instance {
-  /// The list of EBS volumes that are attached to this instance.
+  /// The list of Amazon EBS volumes that are attached to this instance.
   final List<EbsVolume>? ebsVolumes;
 
   /// The unique identifier of the instance in Amazon EC2.
@@ -4444,14 +5061,14 @@ class Instance {
   /// The unique identifier for the instance in Amazon EMR.
   final String? id;
 
-  /// The unique identifier of the instance fleet to which an EC2 instance
+  /// The unique identifier of the instance fleet to which an Amazon EC2 instance
   /// belongs.
   final String? instanceFleetId;
 
   /// The identifier of the instance group to which this instance belongs.
   final String? instanceGroupId;
 
-  /// The EC2 instance type, for example <code>m3.xlarge</code>.
+  /// The Amazon EC2 instance type, for example <code>m3.xlarge</code>.
   final String? instanceType;
 
   /// The instance purchasing option. Valid values are <code>ON_DEMAND</code> or
@@ -4487,6 +5104,7 @@ class Instance {
     this.publicIpAddress,
     this.status,
   });
+
   factory Instance.fromJson(Map<String, dynamic> json) {
     return Instance(
       ebsVolumes: (json['EbsVolumes'] as List?)
@@ -4538,12 +5156,13 @@ extension InstanceCollectionTypeFromString on String {
   }
 }
 
-/// Describes an instance fleet, which is a group of EC2 instances that host a
-/// particular node type (master, core, or task) in an Amazon EMR cluster.
-/// Instance fleets can consist of a mix of instance types and On-Demand and
-/// Spot Instances, which are provisioned to meet a defined target capacity.
+/// Describes an instance fleet, which is a group of Amazon EC2 instances that
+/// host a particular node type (master, core, or task) in an Amazon EMR
+/// cluster. Instance fleets can consist of a mix of instance types and
+/// On-Demand and Spot Instances, which are provisioned to meet a defined target
+/// capacity.
 /// <note>
-/// The instance fleet configuration is available only in Amazon EMR versions
+/// The instance fleet configuration is available only in Amazon EMR releases
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
 class InstanceFleet {
@@ -4554,8 +5173,7 @@ class InstanceFleet {
   /// or TASK.
   final InstanceFleetType? instanceFleetType;
 
-  /// The specification for the instance types that comprise an instance fleet. Up
-  /// to five unique instance specifications may be defined for each instance
+  /// An array of specifications for the instance types that comprise an instance
   /// fleet.
   final List<InstanceTypeSpecification>? instanceTypeSpecifications;
 
@@ -4575,6 +5193,9 @@ class InstanceFleet {
   /// to fulfill <code>TargetSpotCapacity</code>. This provisioned capacity might
   /// be less than or greater than <code>TargetSpotCapacity</code>.
   final int? provisionedSpotCapacity;
+
+  /// The resize specification for the instance fleet.
+  final InstanceFleetResizingSpecifications? resizeSpecifications;
 
   /// The current status of the instance fleet.
   final InstanceFleetStatus? status;
@@ -4603,8 +5224,8 @@ class InstanceFleet {
   final int? targetOnDemandCapacity;
 
   /// The target capacity of Spot units for the instance fleet, which determines
-  /// how many Spot instances to provision. When the instance fleet launches,
-  /// Amazon EMR tries to provision Spot instances as specified by
+  /// how many Spot Instances to provision. When the instance fleet launches,
+  /// Amazon EMR tries to provision Spot Instances as specified by
   /// <a>InstanceTypeConfig</a>. Each instance configuration has a specified
   /// <code>WeightedCapacity</code>. When a Spot instance is provisioned, the
   /// <code>WeightedCapacity</code> units count toward the target capacity. Amazon
@@ -4616,7 +5237,7 @@ class InstanceFleet {
   /// <a>InstanceFleet$ProvisionedSpotCapacity</a> to determine the Spot capacity
   /// units that have been provisioned for the instance fleet.
   /// <note>
-  /// If not specified or set to 0, only On-Demand instances are provisioned for
+  /// If not specified or set to 0, only On-Demand Instances are provisioned for
   /// the instance fleet. At least one of <code>TargetSpotCapacity</code> and
   /// <code>TargetOnDemandCapacity</code> should be greater than 0. For a master
   /// instance fleet, only one of <code>TargetSpotCapacity</code> and
@@ -4633,10 +5254,12 @@ class InstanceFleet {
     this.name,
     this.provisionedOnDemandCapacity,
     this.provisionedSpotCapacity,
+    this.resizeSpecifications,
     this.status,
     this.targetOnDemandCapacity,
     this.targetSpotCapacity,
   });
+
   factory InstanceFleet.fromJson(Map<String, dynamic> json) {
     return InstanceFleet(
       id: json['Id'] as String?,
@@ -4654,6 +5277,10 @@ class InstanceFleet {
       name: json['Name'] as String?,
       provisionedOnDemandCapacity: json['ProvisionedOnDemandCapacity'] as int?,
       provisionedSpotCapacity: json['ProvisionedSpotCapacity'] as int?,
+      resizeSpecifications: json['ResizeSpecifications'] != null
+          ? InstanceFleetResizingSpecifications.fromJson(
+              json['ResizeSpecifications'] as Map<String, dynamic>)
+          : null,
       status: json['Status'] != null
           ? InstanceFleetStatus.fromJson(json['Status'] as Map<String, dynamic>)
           : null,
@@ -4665,15 +5292,15 @@ class InstanceFleet {
 
 /// The configuration that defines an instance fleet.
 /// <note>
-/// The instance fleet configuration is available only in Amazon EMR versions
+/// The instance fleet configuration is available only in Amazon EMR releases
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
 class InstanceFleetConfig {
-  /// The node type that the instance fleet hosts. Valid values are
-  /// MASTER,CORE,and TASK.
+  /// The node type that the instance fleet hosts. Valid values are MASTER, CORE,
+  /// and TASK.
   final InstanceFleetType instanceFleetType;
 
-  /// The instance type configurations that define the EC2 instances in the
+  /// The instance type configurations that define the Amazon EC2 instances in the
   /// instance fleet.
   final List<InstanceTypeConfig>? instanceTypeConfigs;
 
@@ -4682,6 +5309,9 @@ class InstanceFleetConfig {
 
   /// The friendly name of the instance fleet.
   final String? name;
+
+  /// The resize specification for the instance fleet.
+  final InstanceFleetResizingSpecifications? resizeSpecifications;
 
   /// The target capacity of On-Demand units for the instance fleet, which
   /// determines how many On-Demand Instances to provision. When the instance
@@ -4730,6 +5360,7 @@ class InstanceFleetConfig {
     this.instanceTypeConfigs,
     this.launchSpecifications,
     this.name,
+    this.resizeSpecifications,
     this.targetOnDemandCapacity,
     this.targetSpotCapacity,
   });
@@ -4738,6 +5369,7 @@ class InstanceFleetConfig {
     final instanceTypeConfigs = this.instanceTypeConfigs;
     final launchSpecifications = this.launchSpecifications;
     final name = this.name;
+    final resizeSpecifications = this.resizeSpecifications;
     final targetOnDemandCapacity = this.targetOnDemandCapacity;
     final targetSpotCapacity = this.targetSpotCapacity;
     return {
@@ -4747,6 +5379,8 @@ class InstanceFleetConfig {
       if (launchSpecifications != null)
         'LaunchSpecifications': launchSpecifications,
       if (name != null) 'Name': name,
+      if (resizeSpecifications != null)
+        'ResizeSpecifications': resizeSpecifications,
       if (targetOnDemandCapacity != null)
         'TargetOnDemandCapacity': targetOnDemandCapacity,
       if (targetSpotCapacity != null) 'TargetSpotCapacity': targetSpotCapacity,
@@ -4756,12 +5390,15 @@ class InstanceFleetConfig {
 
 /// Configuration parameters for an instance fleet modification request.
 /// <note>
-/// The instance fleet configuration is available only in Amazon EMR versions
+/// The instance fleet configuration is available only in Amazon EMR releases
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
 class InstanceFleetModifyConfig {
   /// A unique identifier for the instance fleet.
   final String instanceFleetId;
+
+  /// The resize specification for the instance fleet.
+  final InstanceFleetResizingSpecifications? resizeSpecifications;
 
   /// The target capacity of On-Demand units for the instance fleet. For more
   /// information see <a>InstanceFleetConfig$TargetOnDemandCapacity</a>.
@@ -4773,15 +5410,19 @@ class InstanceFleetModifyConfig {
 
   InstanceFleetModifyConfig({
     required this.instanceFleetId,
+    this.resizeSpecifications,
     this.targetOnDemandCapacity,
     this.targetSpotCapacity,
   });
   Map<String, dynamic> toJson() {
     final instanceFleetId = this.instanceFleetId;
+    final resizeSpecifications = this.resizeSpecifications;
     final targetOnDemandCapacity = this.targetOnDemandCapacity;
     final targetSpotCapacity = this.targetSpotCapacity;
     return {
       'InstanceFleetId': instanceFleetId,
+      if (resizeSpecifications != null)
+        'ResizeSpecifications': resizeSpecifications,
       if (targetOnDemandCapacity != null)
         'TargetOnDemandCapacity': targetOnDemandCapacity,
       if (targetSpotCapacity != null) 'TargetSpotCapacity': targetSpotCapacity,
@@ -4793,21 +5434,21 @@ class InstanceFleetModifyConfig {
 /// the defined duration, provisioning timeout behavior, and allocation
 /// strategy.
 /// <note>
-/// The instance fleet configuration is available only in Amazon EMR versions
-/// 4.8.0 and later, excluding 5.0.x versions. On-Demand and Spot Instance
-/// allocation strategies are available in Amazon EMR version 5.12.1 and later.
+/// The instance fleet configuration is available only in Amazon EMR releases
+/// 4.8.0 and later, excluding 5.0.x versions. On-Demand and Spot instance
+/// allocation strategies are available in Amazon EMR releases 5.12.1 and later.
 /// </note>
 class InstanceFleetProvisioningSpecifications {
   /// The launch specification for On-Demand Instances in the instance fleet,
   /// which determines the allocation strategy.
   /// <note>
-  /// The instance fleet configuration is available only in Amazon EMR versions
+  /// The instance fleet configuration is available only in Amazon EMR releases
   /// 4.8.0 and later, excluding 5.0.x versions. On-Demand Instances allocation
-  /// strategy is available in Amazon EMR version 5.12.1 and later.
+  /// strategy is available in Amazon EMR releases 5.12.1 and later.
   /// </note>
   final OnDemandProvisioningSpecification? onDemandSpecification;
 
-  /// The launch specification for Spot Instances in the fleet, which determines
+  /// The launch specification for Spot instances in the fleet, which determines
   /// the defined duration, provisioning timeout behavior, and allocation
   /// strategy.
   final SpotProvisioningSpecification? spotSpecification;
@@ -4816,6 +5457,7 @@ class InstanceFleetProvisioningSpecifications {
     this.onDemandSpecification,
     this.spotSpecification,
   });
+
   factory InstanceFleetProvisioningSpecifications.fromJson(
       Map<String, dynamic> json) {
     return InstanceFleetProvisioningSpecifications(
@@ -4837,6 +5479,47 @@ class InstanceFleetProvisioningSpecifications {
       if (onDemandSpecification != null)
         'OnDemandSpecification': onDemandSpecification,
       if (spotSpecification != null) 'SpotSpecification': spotSpecification,
+    };
+  }
+}
+
+/// The resize specification for On-Demand and Spot Instances in the fleet.
+class InstanceFleetResizingSpecifications {
+  /// The resize specification for On-Demand Instances in the instance fleet,
+  /// which contains the resize timeout period.
+  final OnDemandResizingSpecification? onDemandResizeSpecification;
+
+  /// The resize specification for Spot Instances in the instance fleet, which
+  /// contains the resize timeout period.
+  final SpotResizingSpecification? spotResizeSpecification;
+
+  InstanceFleetResizingSpecifications({
+    this.onDemandResizeSpecification,
+    this.spotResizeSpecification,
+  });
+
+  factory InstanceFleetResizingSpecifications.fromJson(
+      Map<String, dynamic> json) {
+    return InstanceFleetResizingSpecifications(
+      onDemandResizeSpecification: json['OnDemandResizeSpecification'] != null
+          ? OnDemandResizingSpecification.fromJson(
+              json['OnDemandResizeSpecification'] as Map<String, dynamic>)
+          : null,
+      spotResizeSpecification: json['SpotResizeSpecification'] != null
+          ? SpotResizingSpecification.fromJson(
+              json['SpotResizeSpecification'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final onDemandResizeSpecification = this.onDemandResizeSpecification;
+    final spotResizeSpecification = this.spotResizeSpecification;
+    return {
+      if (onDemandResizeSpecification != null)
+        'OnDemandResizeSpecification': onDemandResizeSpecification,
+      if (spotResizeSpecification != null)
+        'SpotResizeSpecification': spotResizeSpecification,
     };
   }
 }
@@ -4896,7 +5579,7 @@ extension InstanceFleetStateFromString on String {
 
 /// Provides status change reason details for the instance fleet.
 /// <note>
-/// The instance fleet configuration is available only in Amazon EMR versions
+/// The instance fleet configuration is available only in Amazon EMR releases
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
 class InstanceFleetStateChangeReason {
@@ -4910,6 +5593,7 @@ class InstanceFleetStateChangeReason {
     this.code,
     this.message,
   });
+
   factory InstanceFleetStateChangeReason.fromJson(Map<String, dynamic> json) {
     return InstanceFleetStateChangeReason(
       code: (json['Code'] as String?)?.toInstanceFleetStateChangeReasonCode(),
@@ -4960,7 +5644,7 @@ extension InstanceFleetStateChangeReasonCodeFromString on String {
 
 /// The status of the instance fleet.
 /// <note>
-/// The instance fleet configuration is available only in Amazon EMR versions
+/// The instance fleet configuration is available only in Amazon EMR releases
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
 class InstanceFleetStatus {
@@ -4968,32 +5652,33 @@ class InstanceFleetStatus {
   ///
   /// <ul>
   /// <li>
-  /// <code>PROVISIONING</code>—The instance fleet is provisioning EC2 resources
-  /// and is not yet ready to run jobs.
+  /// <code>PROVISIONING</code>—The instance fleet is provisioning Amazon EC2
+  /// resources and is not yet ready to run jobs.
   /// </li>
   /// <li>
-  /// <code>BOOTSTRAPPING</code>—EC2 instances and other resources have been
-  /// provisioned and the bootstrap actions specified for the instances are
+  /// <code>BOOTSTRAPPING</code>—Amazon EC2 instances and other resources have
+  /// been provisioned and the bootstrap actions specified for the instances are
   /// underway.
   /// </li>
   /// <li>
-  /// <code>RUNNING</code>—EC2 instances and other resources are running. They are
-  /// either executing jobs or waiting to execute jobs.
+  /// <code>RUNNING</code>—Amazon EC2 instances and other resources are running.
+  /// They are either executing jobs or waiting to execute jobs.
   /// </li>
   /// <li>
-  /// <code>RESIZING</code>—A resize operation is underway. EC2 instances are
-  /// either being added or removed.
+  /// <code>RESIZING</code>—A resize operation is underway. Amazon EC2 instances
+  /// are either being added or removed.
   /// </li>
   /// <li>
-  /// <code>SUSPENDED</code>—A resize operation could not complete. Existing EC2
-  /// instances are running, but instances can't be added or removed.
+  /// <code>SUSPENDED</code>—A resize operation could not complete. Existing
+  /// Amazon EC2 instances are running, but instances can't be added or removed.
   /// </li>
   /// <li>
-  /// <code>TERMINATING</code>—The instance fleet is terminating EC2 instances.
+  /// <code>TERMINATING</code>—The instance fleet is terminating Amazon EC2
+  /// instances.
   /// </li>
   /// <li>
-  /// <code>TERMINATED</code>—The instance fleet is no longer active, and all EC2
-  /// instances have been terminated.
+  /// <code>TERMINATED</code>—The instance fleet is no longer active, and all
+  /// Amazon EC2 instances have been terminated.
   /// </li>
   /// </ul>
   final InstanceFleetState? state;
@@ -5010,6 +5695,7 @@ class InstanceFleetStatus {
     this.stateChangeReason,
     this.timeline,
   });
+
   factory InstanceFleetStatus.fromJson(Map<String, dynamic> json) {
     return InstanceFleetStatus(
       state: (json['State'] as String?)?.toInstanceFleetState(),
@@ -5028,7 +5714,7 @@ class InstanceFleetStatus {
 /// Provides historical timestamps for the instance fleet, including the time of
 /// creation, the time it became ready to run jobs, and the time of termination.
 /// <note>
-/// The instance fleet configuration is available only in Amazon EMR versions
+/// The instance fleet configuration is available only in Amazon EMR releases
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
 class InstanceFleetTimeline {
@@ -5046,6 +5732,7 @@ class InstanceFleetTimeline {
     this.endDateTime,
     this.readyDateTime,
   });
+
   factory InstanceFleetTimeline.fromJson(Map<String, dynamic> json) {
     return InstanceFleetTimeline(
       creationDateTime: timeStampFromJson(json['CreationDateTime']),
@@ -5093,28 +5780,30 @@ extension InstanceFleetTypeFromString on String {
 class InstanceGroup {
   /// An automatic scaling policy for a core instance group or task instance group
   /// in an Amazon EMR cluster. The automatic scaling policy defines how an
-  /// instance group dynamically adds and terminates EC2 instances in response to
-  /// the value of a CloudWatch metric. See PutAutoScalingPolicy.
+  /// instance group dynamically adds and terminates Amazon EC2 instances in
+  /// response to the value of a CloudWatch metric. See PutAutoScalingPolicy.
   final AutoScalingPolicyDescription? autoScalingPolicy;
 
-  /// The bid price for each EC2 Spot Instance type as defined by
-  /// <code>InstanceType</code>. Expressed in USD. If neither
-  /// <code>BidPrice</code> nor <code>BidPriceAsPercentageOfOnDemandPrice</code>
-  /// is provided, <code>BidPriceAsPercentageOfOnDemandPrice</code> defaults to
-  /// 100%.
+  /// If specified, indicates that the instance group uses Spot Instances. This is
+  /// the maximum price you are willing to pay for Spot Instances. Specify
+  /// <code>OnDemandPrice</code> to set the amount equal to the On-Demand price,
+  /// or specify an amount in USD.
   final String? bidPrice;
 
   /// <note>
   /// Amazon EMR releases 4.x or later.
   /// </note>
-  /// The list of configurations supplied for an EMR cluster instance group. You
-  /// can specify a separate configuration for each instance group (master, core,
-  /// and task).
+  /// The list of configurations supplied for an Amazon EMR cluster instance
+  /// group. You can specify a separate configuration for each instance group
+  /// (master, core, and task).
   final List<Configuration>? configurations;
 
   /// The version number of the requested configuration specification for this
   /// instance group.
   final int? configurationsVersion;
+
+  /// The custom AMI ID to use for the provisioned instance group.
+  final String? customAmiId;
 
   /// The EBS block devices that are mapped to this instance group.
   final List<EbsBlockDevice>? ebsBlockDevices;
@@ -5130,7 +5819,7 @@ class InstanceGroup {
   /// The type of the instance group. Valid values are MASTER, CORE or TASK.
   final InstanceGroupType? instanceGroupType;
 
-  /// The EC2 instance type for all instances in the instance group.
+  /// The Amazon EC2 instance type for all instances in the instance group.
   final String? instanceType;
 
   /// A list of configurations that were successfully applied for an instance
@@ -5165,6 +5854,7 @@ class InstanceGroup {
     this.bidPrice,
     this.configurations,
     this.configurationsVersion,
+    this.customAmiId,
     this.ebsBlockDevices,
     this.ebsOptimized,
     this.id,
@@ -5179,6 +5869,7 @@ class InstanceGroup {
     this.shrinkPolicy,
     this.status,
   });
+
   factory InstanceGroup.fromJson(Map<String, dynamic> json) {
     return InstanceGroup(
       autoScalingPolicy: json['AutoScalingPolicy'] != null
@@ -5191,6 +5882,7 @@ class InstanceGroup {
           .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
           .toList(),
       configurationsVersion: json['ConfigurationsVersion'] as int?,
+      customAmiId: json['CustomAmiId'] as String?,
       ebsBlockDevices: (json['EbsBlockDevices'] as List?)
           ?.whereNotNull()
           .map((e) => EbsBlockDevice.fromJson(e as Map<String, dynamic>))
@@ -5229,35 +5921,38 @@ class InstanceGroupConfig {
   /// The role of the instance group in the cluster.
   final InstanceRoleType instanceRole;
 
-  /// The EC2 instance type for all instances in the instance group.
+  /// The Amazon EC2 instance type for all instances in the instance group.
   final String instanceType;
 
   /// An automatic scaling policy for a core instance group or task instance group
   /// in an Amazon EMR cluster. The automatic scaling policy defines how an
-  /// instance group dynamically adds and terminates EC2 instances in response to
-  /// the value of a CloudWatch metric. See <a>PutAutoScalingPolicy</a>.
+  /// instance group dynamically adds and terminates Amazon EC2 instances in
+  /// response to the value of a CloudWatch metric. See
+  /// <a>PutAutoScalingPolicy</a>.
   final AutoScalingPolicy? autoScalingPolicy;
 
-  /// The bid price for each EC2 Spot Instance type as defined by
-  /// <code>InstanceType</code>. Expressed in USD. If neither
-  /// <code>BidPrice</code> nor <code>BidPriceAsPercentageOfOnDemandPrice</code>
-  /// is provided, <code>BidPriceAsPercentageOfOnDemandPrice</code> defaults to
-  /// 100%.
+  /// If specified, indicates that the instance group uses Spot Instances. This is
+  /// the maximum price you are willing to pay for Spot Instances. Specify
+  /// <code>OnDemandPrice</code> to set the amount equal to the On-Demand price,
+  /// or specify an amount in USD.
   final String? bidPrice;
 
   /// <note>
   /// Amazon EMR releases 4.x or later.
   /// </note>
-  /// The list of configurations supplied for an EMR cluster instance group. You
-  /// can specify a separate configuration for each instance group (master, core,
-  /// and task).
+  /// The list of configurations supplied for an Amazon EMR cluster instance
+  /// group. You can specify a separate configuration for each instance group
+  /// (master, core, and task).
   final List<Configuration>? configurations;
 
-  /// EBS configurations that will be attached to each EC2 instance in the
+  /// The custom AMI ID to use for the provisioned instance group.
+  final String? customAmiId;
+
+  /// EBS configurations that will be attached to each Amazon EC2 instance in the
   /// instance group.
   final EbsConfiguration? ebsConfiguration;
 
-  /// Market type of the EC2 instances used to create a cluster node.
+  /// Market type of the Amazon EC2 instances used to create a cluster node.
   final MarketType? market;
 
   /// Friendly name given to the instance group.
@@ -5270,6 +5965,7 @@ class InstanceGroupConfig {
     this.autoScalingPolicy,
     this.bidPrice,
     this.configurations,
+    this.customAmiId,
     this.ebsConfiguration,
     this.market,
     this.name,
@@ -5281,6 +5977,7 @@ class InstanceGroupConfig {
     final autoScalingPolicy = this.autoScalingPolicy;
     final bidPrice = this.bidPrice;
     final configurations = this.configurations;
+    final customAmiId = this.customAmiId;
     final ebsConfiguration = this.ebsConfiguration;
     final market = this.market;
     final name = this.name;
@@ -5291,6 +5988,7 @@ class InstanceGroupConfig {
       if (autoScalingPolicy != null) 'AutoScalingPolicy': autoScalingPolicy,
       if (bidPrice != null) 'BidPrice': bidPrice,
       if (configurations != null) 'Configurations': configurations,
+      if (customAmiId != null) 'CustomAmiId': customAmiId,
       if (ebsConfiguration != null) 'EbsConfiguration': ebsConfiguration,
       if (market != null) 'Market': market.toValue(),
       if (name != null) 'Name': name,
@@ -5312,22 +6010,24 @@ class InstanceGroupDetail {
   /// Actual count of running instances.
   final int instanceRunningCount;
 
-  /// EC2 instance type.
+  /// Amazon EC2 instance type.
   final String instanceType;
 
-  /// Market type of the EC2 instances used to create a cluster node.
+  /// Market type of the Amazon EC2 instances used to create a cluster node.
   final MarketType market;
 
-  /// State of instance group. The following values are deprecated: STARTING,
-  /// TERMINATED, and FAILED.
+  /// State of instance group. The following values are no longer supported:
+  /// STARTING, TERMINATED, and FAILED.
   final InstanceGroupState state;
 
-  /// The bid price for each EC2 Spot Instance type as defined by
-  /// <code>InstanceType</code>. Expressed in USD. If neither
-  /// <code>BidPrice</code> nor <code>BidPriceAsPercentageOfOnDemandPrice</code>
-  /// is provided, <code>BidPriceAsPercentageOfOnDemandPrice</code> defaults to
-  /// 100%.
+  /// If specified, indicates that the instance group uses Spot Instances. This is
+  /// the maximum price you are willing to pay for Spot Instances. Specify
+  /// <code>OnDemandPrice</code> to set the amount equal to the On-Demand price,
+  /// or specify an amount in USD.
   final String? bidPrice;
+
+  /// The custom AMI ID to use for the provisioned instance group.
+  final String? customAmiId;
 
   /// The date/time the instance group was terminated.
   final DateTime? endDateTime;
@@ -5356,6 +6056,7 @@ class InstanceGroupDetail {
     required this.market,
     required this.state,
     this.bidPrice,
+    this.customAmiId,
     this.endDateTime,
     this.instanceGroupId,
     this.lastStateChangeReason,
@@ -5363,6 +6064,7 @@ class InstanceGroupDetail {
     this.readyDateTime,
     this.startDateTime,
   });
+
   factory InstanceGroupDetail.fromJson(Map<String, dynamic> json) {
     return InstanceGroupDetail(
       creationDateTime:
@@ -5374,6 +6076,7 @@ class InstanceGroupDetail {
       market: (json['Market'] as String).toMarketType(),
       state: (json['State'] as String).toInstanceGroupState(),
       bidPrice: json['BidPrice'] as String?,
+      customAmiId: json['CustomAmiId'] as String?,
       endDateTime: timeStampFromJson(json['EndDateTime']),
       instanceGroupId: json['InstanceGroupId'] as String?,
       lastStateChangeReason: json['LastStateChangeReason'] as String?,
@@ -5392,12 +6095,15 @@ class InstanceGroupModifyConfig {
   /// A list of new or modified configurations to apply for an instance group.
   final List<Configuration>? configurations;
 
-  /// The EC2 InstanceIds to terminate. After you terminate the instances, the
-  /// instance group will not return to its original requested size.
+  /// The Amazon EC2 InstanceIds to terminate. After you terminate the instances,
+  /// the instance group will not return to its original requested size.
   final List<String>? eC2InstanceIdsToTerminate;
 
   /// Target size for the instance group.
   final int? instanceCount;
+
+  /// Type of reconfiguration requested. Valid values are MERGE and OVERWRITE.
+  final ReconfigurationType? reconfigurationType;
 
   /// Policy for customizing shrink operations.
   final ShrinkPolicy? shrinkPolicy;
@@ -5407,6 +6113,7 @@ class InstanceGroupModifyConfig {
     this.configurations,
     this.eC2InstanceIdsToTerminate,
     this.instanceCount,
+    this.reconfigurationType,
     this.shrinkPolicy,
   });
   Map<String, dynamic> toJson() {
@@ -5414,6 +6121,7 @@ class InstanceGroupModifyConfig {
     final configurations = this.configurations;
     final eC2InstanceIdsToTerminate = this.eC2InstanceIdsToTerminate;
     final instanceCount = this.instanceCount;
+    final reconfigurationType = this.reconfigurationType;
     final shrinkPolicy = this.shrinkPolicy;
     return {
       'InstanceGroupId': instanceGroupId,
@@ -5421,6 +6129,8 @@ class InstanceGroupModifyConfig {
       if (eC2InstanceIdsToTerminate != null)
         'EC2InstanceIdsToTerminate': eC2InstanceIdsToTerminate,
       if (instanceCount != null) 'InstanceCount': instanceCount,
+      if (reconfigurationType != null)
+        'ReconfigurationType': reconfigurationType.toValue(),
       if (shrinkPolicy != null) 'ShrinkPolicy': shrinkPolicy,
     };
   }
@@ -5511,6 +6221,7 @@ class InstanceGroupStateChangeReason {
     this.code,
     this.message,
   });
+
   factory InstanceGroupStateChangeReason.fromJson(Map<String, dynamic> json) {
     return InstanceGroupStateChangeReason(
       code: (json['Code'] as String?)?.toInstanceGroupStateChangeReasonCode(),
@@ -5575,6 +6286,7 @@ class InstanceGroupStatus {
     this.stateChangeReason,
     this.timeline,
   });
+
   factory InstanceGroupStatus.fromJson(Map<String, dynamic> json) {
     return InstanceGroupStatus(
       state: (json['State'] as String?)?.toInstanceGroupState(),
@@ -5606,6 +6318,7 @@ class InstanceGroupTimeline {
     this.endDateTime,
     this.readyDateTime,
   });
+
   factory InstanceGroupTimeline.fromJson(Map<String, dynamic> json) {
     return InstanceGroupTimeline(
       creationDateTime: timeStampFromJson(json['CreationDateTime']),
@@ -5667,6 +6380,7 @@ class InstanceResizePolicy {
     this.instancesToProtect,
     this.instancesToTerminate,
   });
+
   factory InstanceResizePolicy.fromJson(Map<String, dynamic> json) {
     return InstanceResizePolicy(
       instanceTerminationTimeout: json['InstanceTerminationTimeout'] as int?,
@@ -5783,6 +6497,7 @@ class InstanceStateChangeReason {
     this.code,
     this.message,
   });
+
   factory InstanceStateChangeReason.fromJson(Map<String, dynamic> json) {
     return InstanceStateChangeReason(
       code: (json['Code'] as String?)?.toInstanceStateChangeReasonCode(),
@@ -5851,6 +6566,7 @@ class InstanceStatus {
     this.stateChangeReason,
     this.timeline,
   });
+
   factory InstanceStatus.fromJson(Map<String, dynamic> json) {
     return InstanceStatus(
       state: (json['State'] as String?)?.toInstanceState(),
@@ -5881,6 +6597,7 @@ class InstanceTimeline {
     this.endDateTime,
     this.readyDateTime,
   });
+
   factory InstanceTimeline.fromJson(Map<String, dynamic> json) {
     return InstanceTimeline(
       creationDateTime: timeStampFromJson(json['CreationDateTime']),
@@ -5891,25 +6608,29 @@ class InstanceTimeline {
 }
 
 /// An instance type configuration for each instance type in an instance fleet,
-/// which determines the EC2 instances Amazon EMR attempts to provision to
-/// fulfill On-Demand and Spot target capacities. There can be a maximum of five
-/// instance type configurations in a fleet.
+/// which determines the Amazon EC2 instances Amazon EMR attempts to provision
+/// to fulfill On-Demand and Spot target capacities. When you use an allocation
+/// strategy, you can include a maximum of 30 instance type configurations for a
+/// fleet. For more information about how to use an allocation strategy, see <a
+/// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-instance-fleet.html">Configure
+/// Instance Fleets</a>. Without an allocation strategy, you may specify a
+/// maximum of five instance type configurations for a fleet.
 /// <note>
-/// The instance fleet configuration is available only in Amazon EMR versions
+/// The instance fleet configuration is available only in Amazon EMR releases
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
 class InstanceTypeConfig {
-  /// An EC2 instance type, such as <code>m3.xlarge</code>.
+  /// An Amazon EC2 instance type, such as <code>m3.xlarge</code>.
   final String instanceType;
 
-  /// The bid price for each EC2 Spot Instance type as defined by
+  /// The bid price for each Amazon EC2 Spot Instance type as defined by
   /// <code>InstanceType</code>. Expressed in USD. If neither
   /// <code>BidPrice</code> nor <code>BidPriceAsPercentageOfOnDemandPrice</code>
   /// is provided, <code>BidPriceAsPercentageOfOnDemandPrice</code> defaults to
   /// 100%.
   final String? bidPrice;
 
-  /// The bid price, as a percentage of On-Demand price, for each EC2 Spot
+  /// The bid price, as a percentage of On-Demand price, for each Amazon EC2 Spot
   /// Instance as defined by <code>InstanceType</code>. Expressed as a number (for
   /// example, 20 specifies 20%). If neither <code>BidPrice</code> nor
   /// <code>BidPriceAsPercentageOfOnDemandPrice</code> is provided,
@@ -5921,7 +6642,10 @@ class InstanceTypeConfig {
   /// that run on the cluster.
   final List<Configuration>? configurations;
 
-  /// The configuration of Amazon Elastic Block Storage (Amazon EBS) attached to
+  /// The custom AMI ID to use for the instance type.
+  final String? customAmiId;
+
+  /// The configuration of Amazon Elastic Block Store (Amazon EBS) attached to
   /// each instance as defined by <code>InstanceType</code>.
   final EbsConfiguration? ebsConfiguration;
 
@@ -5936,6 +6660,7 @@ class InstanceTypeConfig {
     this.bidPrice,
     this.bidPriceAsPercentageOfOnDemandPrice,
     this.configurations,
+    this.customAmiId,
     this.ebsConfiguration,
     this.weightedCapacity,
   });
@@ -5945,6 +6670,7 @@ class InstanceTypeConfig {
     final bidPriceAsPercentageOfOnDemandPrice =
         this.bidPriceAsPercentageOfOnDemandPrice;
     final configurations = this.configurations;
+    final customAmiId = this.customAmiId;
     final ebsConfiguration = this.ebsConfiguration;
     final weightedCapacity = this.weightedCapacity;
     return {
@@ -5954,6 +6680,7 @@ class InstanceTypeConfig {
         'BidPriceAsPercentageOfOnDemandPrice':
             bidPriceAsPercentageOfOnDemandPrice,
       if (configurations != null) 'Configurations': configurations,
+      if (customAmiId != null) 'CustomAmiId': customAmiId,
       if (ebsConfiguration != null) 'EbsConfiguration': ebsConfiguration,
       if (weightedCapacity != null) 'WeightedCapacity': weightedCapacity,
     };
@@ -5962,15 +6689,15 @@ class InstanceTypeConfig {
 
 /// The configuration specification for each instance type in an instance fleet.
 /// <note>
-/// The instance fleet configuration is available only in Amazon EMR versions
+/// The instance fleet configuration is available only in Amazon EMR releases
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
 class InstanceTypeSpecification {
-  /// The bid price for each EC2 Spot Instance type as defined by
+  /// The bid price for each Amazon EC2 Spot Instance type as defined by
   /// <code>InstanceType</code>. Expressed in USD.
   final String? bidPrice;
 
-  /// The bid price, as a percentage of On-Demand price, for each EC2 Spot
+  /// The bid price, as a percentage of On-Demand price, for each Amazon EC2 Spot
   /// Instance as defined by <code>InstanceType</code>. Expressed as a number (for
   /// example, 20 specifies 20%).
   final double? bidPriceAsPercentageOfOnDemandPrice;
@@ -5980,7 +6707,10 @@ class InstanceTypeSpecification {
   /// bundled with Amazon EMR.
   final List<Configuration>? configurations;
 
-  /// The configuration of Amazon Elastic Block Storage (Amazon EBS) attached to
+  /// The custom AMI ID to use for the instance type.
+  final String? customAmiId;
+
+  /// The configuration of Amazon Elastic Block Store (Amazon EBS) attached to
   /// each instance as defined by <code>InstanceType</code>.
   final List<EbsBlockDevice>? ebsBlockDevices;
 
@@ -5988,7 +6718,7 @@ class InstanceTypeSpecification {
   /// is EBS-optimized.
   final bool? ebsOptimized;
 
-  /// The EC2 instance type, for example <code>m3.xlarge</code>.
+  /// The Amazon EC2 instance type, for example <code>m3.xlarge</code>.
   final String? instanceType;
 
   /// The number of units that a provisioned instance of this type provides toward
@@ -6001,11 +6731,13 @@ class InstanceTypeSpecification {
     this.bidPrice,
     this.bidPriceAsPercentageOfOnDemandPrice,
     this.configurations,
+    this.customAmiId,
     this.ebsBlockDevices,
     this.ebsOptimized,
     this.instanceType,
     this.weightedCapacity,
   });
+
   factory InstanceTypeSpecification.fromJson(Map<String, dynamic> json) {
     return InstanceTypeSpecification(
       bidPrice: json['BidPrice'] as String?,
@@ -6015,6 +6747,7 @@ class InstanceTypeSpecification {
           ?.whereNotNull()
           .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
           .toList(),
+      customAmiId: json['CustomAmiId'] as String?,
       ebsBlockDevices: (json['EbsBlockDevices'] as List?)
           ?.whereNotNull()
           .map((e) => EbsBlockDevice.fromJson(e as Map<String, dynamic>))
@@ -6048,19 +6781,18 @@ class JobFlowDetail {
   /// An IAM role for automatic scaling policies. The default role is
   /// <code>EMR_AutoScaling_DefaultRole</code>. The IAM role provides a way for
   /// the automatic scaling feature to get the required permissions it needs to
-  /// launch and terminate EC2 instances in an instance group.
+  /// launch and terminate Amazon EC2 instances in an instance group.
   final String? autoScalingRole;
 
   /// A list of the bootstrap actions run by the job flow.
   final List<BootstrapActionDetail>? bootstrapActions;
 
-  /// The IAM role that was specified when the job flow was launched. The EC2
-  /// instances of the job flow assume this role.
+  /// The IAM role that was specified when the job flow was launched. The Amazon
+  /// EC2 instances of the job flow assume this role.
   final String? jobFlowRole;
 
-  /// The AWS KMS customer master key (CMK) used for encrypting log files. This
-  /// attribute is only available with EMR version 5.30.0 and later, excluding EMR
-  /// 6.0.0.
+  /// The KMS key used for encrypting log files. This attribute is only available
+  /// with Amazon EMR 5.30.0 and later, excluding 6.0.0.
   final String? logEncryptionKmsKeyId;
 
   /// The location in Amazon S3 where log files for the job are stored.
@@ -6078,12 +6810,12 @@ class JobFlowDetail {
   /// boundary. With either behavior, Amazon EMR removes the least active nodes
   /// first and blocks instance termination if it could lead to HDFS corruption.
   /// <code>TERMINATE_AT_TASK_COMPLETION</code> available only in Amazon EMR
-  /// version 4.1.0 and later, and is the default for versions of Amazon EMR
+  /// releases 4.1.0 and later, and is the default for releases of Amazon EMR
   /// earlier than 5.1.0.
   final ScaleDownBehavior? scaleDownBehavior;
 
-  /// The IAM role that is assumed by the Amazon EMR service to access AWS
-  /// resources on your behalf.
+  /// The IAM role that is assumed by the Amazon EMR service to access Amazon Web
+  /// Services resources on your behalf.
   final String? serviceRole;
 
   /// A list of steps run by the job flow.
@@ -6094,15 +6826,19 @@ class JobFlowDetail {
   /// is empty.
   final List<String>? supportedProducts;
 
-  /// Indicates whether the cluster is visible to all IAM users of the AWS account
-  /// associated with the cluster. The default value, <code>true</code>, indicates
-  /// that all IAM users in the AWS account can perform cluster actions if they
-  /// have the proper IAM policy permissions. If this value is <code>false</code>,
-  /// only the IAM user that created the cluster can perform actions. This value
-  /// can be changed on a running cluster by using the <a>SetVisibleToAllUsers</a>
-  /// action. You can override the default value of <code>true</code> when you
-  /// create a cluster by using the <code>VisibleToAllUsers</code> parameter of
-  /// the <code>RunJobFlow</code> action.
+  /// Indicates whether the cluster is visible to IAM principals in the Amazon Web
+  /// Services account associated with the cluster. When <code>true</code>, IAM
+  /// principals in the Amazon Web Services account can perform Amazon EMR cluster
+  /// actions that their IAM policies allow. When <code>false</code>, only the IAM
+  /// principal that created the cluster and the Amazon Web Services account root
+  /// user can perform Amazon EMR actions, regardless of IAM permissions policies
+  /// attached to other IAM principals.
+  ///
+  /// The default value is <code>true</code> if a value is not provided when
+  /// creating a cluster using the Amazon EMR API <a>RunJobFlow</a> command, the
+  /// CLI <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/emr/create-cluster.html">create-cluster</a>
+  /// command, or the Amazon Web Services Management Console.
   final bool? visibleToAllUsers;
 
   JobFlowDetail({
@@ -6122,6 +6858,7 @@ class JobFlowDetail {
     this.supportedProducts,
     this.visibleToAllUsers,
   });
+
   factory JobFlowDetail.fromJson(Map<String, dynamic> json) {
     return JobFlowDetail(
       executionStatusDetail: JobFlowExecutionStatusDetail.fromJson(
@@ -6243,6 +6980,7 @@ class JobFlowExecutionStatusDetail {
     this.readyDateTime,
     this.startDateTime,
   });
+
   factory JobFlowExecutionStatusDetail.fromJson(Map<String, dynamic> json) {
     return JobFlowExecutionStatusDetail(
       creationDateTime:
@@ -6269,8 +7007,8 @@ class JobFlowInstancesConfig {
   /// nodes.
   final List<String>? additionalSlaveSecurityGroups;
 
-  /// The name of the EC2 key pair that can be used to connect to the master node
-  /// using SSH as the user called "hadoop."
+  /// The name of the Amazon EC2 key pair that can be used to connect to the
+  /// master node using SSH as the user called "hadoop."
   final String? ec2KeyName;
 
   /// Applies to clusters that use the uniform instance group configuration. To
@@ -6281,18 +7019,22 @@ class JobFlowInstancesConfig {
   final String? ec2SubnetId;
 
   /// Applies to clusters that use the instance fleet configuration. When multiple
-  /// EC2 subnet IDs are specified, Amazon EMR evaluates them and launches
+  /// Amazon EC2 subnet IDs are specified, Amazon EMR evaluates them and launches
   /// instances in the optimal subnet.
   /// <note>
-  /// The instance fleet configuration is available only in Amazon EMR versions
+  /// The instance fleet configuration is available only in Amazon EMR releases
   /// 4.8.0 and later, excluding 5.0.x versions.
   /// </note>
   final List<String>? ec2SubnetIds;
 
-  /// The identifier of the Amazon EC2 security group for the master node.
+  /// The identifier of the Amazon EC2 security group for the master node. If you
+  /// specify <code>EmrManagedMasterSecurityGroup</code>, you must also specify
+  /// <code>EmrManagedSlaveSecurityGroup</code>.
   final String? emrManagedMasterSecurityGroup;
 
   /// The identifier of the Amazon EC2 security group for the core and task nodes.
+  /// If you specify <code>EmrManagedSlaveSecurityGroup</code>, you must also
+  /// specify <code>EmrManagedMasterSecurityGroup</code>.
   final String? emrManagedSlaveSecurityGroup;
 
   /// Applies only to Amazon EMR release versions earlier than 4.0. The Hadoop
@@ -6304,25 +7046,28 @@ class JobFlowInstancesConfig {
   /// used.
   final String? hadoopVersion;
 
-  /// The number of EC2 instances in the cluster.
+  /// The number of Amazon EC2 instances in the cluster.
   final int? instanceCount;
 
   /// <note>
-  /// The instance fleet configuration is available only in Amazon EMR versions
+  /// The instance fleet configuration is available only in Amazon EMR releases
   /// 4.8.0 and later, excluding 5.0.x versions.
   /// </note>
-  /// Describes the EC2 instances and instance configurations for clusters that
-  /// use the instance fleet configuration.
+  /// Describes the Amazon EC2 instances and instance configurations for clusters
+  /// that use the instance fleet configuration.
   final List<InstanceFleetConfig>? instanceFleets;
 
   /// Configuration for the instance groups in a cluster.
   final List<InstanceGroupConfig>? instanceGroups;
 
   /// Specifies whether the cluster should remain available after completing all
-  /// steps.
+  /// steps. Defaults to <code>true</code>. For more information about configuring
+  /// cluster termination, see <a
+  /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-termination.html">Control
+  /// Cluster Termination</a> in the <i>EMR Management Guide</i>.
   final bool? keepJobFlowAliveWhenNoSteps;
 
-  /// The EC2 instance type of the master node.
+  /// The Amazon EC2 instance type of the master node.
   final String? masterInstanceType;
 
   /// The Availability Zone in which the cluster runs.
@@ -6332,7 +7077,7 @@ class JobFlowInstancesConfig {
   /// to access clusters in VPC private subnets.
   final String? serviceAccessSecurityGroup;
 
-  /// The EC2 instance type of the core and task nodes.
+  /// The Amazon EC2 instance type of the core and task nodes.
   final String? slaveInstanceType;
 
   /// Specifies whether to lock the cluster to prevent the Amazon EC2 instances
@@ -6477,6 +7222,7 @@ class JobFlowInstancesDetail {
     this.placement,
     this.terminationProtected,
   });
+
   factory JobFlowInstancesDetail.fromJson(Map<String, dynamic> json) {
     return JobFlowInstancesDetail(
       instanceCount: json['InstanceCount'] as int,
@@ -6534,6 +7280,7 @@ class KerberosAttributes {
     this.aDDomainJoinUser,
     this.crossRealmTrustPrincipalPassword,
   });
+
   factory KerberosAttributes.fromJson(Map<String, dynamic> json) {
     return KerberosAttributes(
       kdcAdminPassword: json['KdcAdminPassword'] as String,
@@ -6576,6 +7323,7 @@ class KeyValue {
     this.key,
     this.value,
   });
+
   factory KeyValue.fromJson(Map<String, dynamic> json) {
     return KeyValue(
       key: json['Key'] as String?,
@@ -6605,6 +7353,7 @@ class ListBootstrapActionsOutput {
     this.bootstrapActions,
     this.marker,
   });
+
   factory ListBootstrapActionsOutput.fromJson(Map<String, dynamic> json) {
     return ListBootstrapActionsOutput(
       bootstrapActions: (json['BootstrapActions'] as List?)
@@ -6629,6 +7378,7 @@ class ListClustersOutput {
     this.clusters,
     this.marker,
   });
+
   factory ListClustersOutput.fromJson(Map<String, dynamic> json) {
     return ListClustersOutput(
       clusters: (json['Clusters'] as List?)
@@ -6651,6 +7401,7 @@ class ListInstanceFleetsOutput {
     this.instanceFleets,
     this.marker,
   });
+
   factory ListInstanceFleetsOutput.fromJson(Map<String, dynamic> json) {
     return ListInstanceFleetsOutput(
       instanceFleets: (json['InstanceFleets'] as List?)
@@ -6674,6 +7425,7 @@ class ListInstanceGroupsOutput {
     this.instanceGroups,
     this.marker,
   });
+
   factory ListInstanceGroupsOutput.fromJson(Map<String, dynamic> json) {
     return ListInstanceGroupsOutput(
       instanceGroups: (json['InstanceGroups'] as List?)
@@ -6697,6 +7449,7 @@ class ListInstancesOutput {
     this.instances,
     this.marker,
   });
+
   factory ListInstancesOutput.fromJson(Map<String, dynamic> json) {
     return ListInstancesOutput(
       instances: (json['Instances'] as List?)
@@ -6720,6 +7473,7 @@ class ListNotebookExecutionsOutput {
     this.marker,
     this.notebookExecutions,
   });
+
   factory ListNotebookExecutionsOutput.fromJson(Map<String, dynamic> json) {
     return ListNotebookExecutionsOutput(
       marker: json['Marker'] as String?,
@@ -6727,6 +7481,30 @@ class ListNotebookExecutionsOutput {
           ?.whereNotNull()
           .map((e) =>
               NotebookExecutionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+class ListReleaseLabelsOutput {
+  /// Used to paginate the next page of results if specified in the next
+  /// <code>ListReleaseLabels</code> request.
+  final String? nextToken;
+
+  /// The returned release labels.
+  final List<String>? releaseLabels;
+
+  ListReleaseLabelsOutput({
+    this.nextToken,
+    this.releaseLabels,
+  });
+
+  factory ListReleaseLabelsOutput.fromJson(Map<String, dynamic> json) {
+    return ListReleaseLabelsOutput(
+      nextToken: json['NextToken'] as String?,
+      releaseLabels: (json['ReleaseLabels'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
           .toList(),
     );
   }
@@ -6745,6 +7523,7 @@ class ListSecurityConfigurationsOutput {
     this.marker,
     this.securityConfigurations,
   });
+
   factory ListSecurityConfigurationsOutput.fromJson(Map<String, dynamic> json) {
     return ListSecurityConfigurationsOutput(
       marker: json['Marker'] as String?,
@@ -6760,7 +7539,11 @@ class ListSecurityConfigurationsOutput {
 /// This output contains the list of steps returned in reverse order. This means
 /// that the last step is the first element in the list.
 class ListStepsOutput {
-  /// The pagination token that indicates the next set of results to retrieve.
+  /// The maximum number of steps that a single <code>ListSteps</code> action
+  /// returns is 50. To return a longer list of steps, use multiple
+  /// <code>ListSteps</code> actions along with the <code>Marker</code> parameter,
+  /// which is a pagination token that indicates the next set of results to
+  /// retrieve.
   final String? marker;
 
   /// The filtered list of steps for the cluster.
@@ -6770,6 +7553,7 @@ class ListStepsOutput {
     this.marker,
     this.steps,
   });
+
   factory ListStepsOutput.fromJson(Map<String, dynamic> json) {
     return ListStepsOutput(
       marker: json['Marker'] as String?,
@@ -6787,13 +7571,14 @@ class ListStudioSessionMappingsOutput {
 
   /// A list of session mapping summary objects. Each object includes session
   /// mapping details such as creation time, identity type (user or group), and
-  /// Studio ID.
+  /// Amazon EMR Studio ID.
   final List<SessionMappingSummary>? sessionMappings;
 
   ListStudioSessionMappingsOutput({
     this.marker,
     this.sessionMappings,
   });
+
   factory ListStudioSessionMappingsOutput.fromJson(Map<String, dynamic> json) {
     return ListStudioSessionMappingsOutput(
       marker: json['Marker'] as String?,
@@ -6816,6 +7601,7 @@ class ListStudiosOutput {
     this.marker,
     this.studios,
   });
+
   factory ListStudiosOutput.fromJson(Map<String, dynamic> json) {
     return ListStudiosOutput(
       marker: json['Marker'] as String?,
@@ -6832,7 +7618,7 @@ class ListStudiosOutput {
 /// policy only applies to the core and task nodes. The master node cannot be
 /// scaled after initial configuration.
 class ManagedScalingPolicy {
-  /// The EC2 unit limits for a managed scaling policy. The managed scaling
+  /// The Amazon EC2 unit limits for a managed scaling policy. The managed scaling
   /// activity of a cluster is not allowed to go above or below these limits. The
   /// limit only applies to the core and task nodes. The master node cannot be
   /// scaled after initial configuration.
@@ -6841,6 +7627,7 @@ class ManagedScalingPolicy {
   ManagedScalingPolicy({
     this.computeLimits,
   });
+
   factory ManagedScalingPolicy.fromJson(Map<String, dynamic> json) {
     return ManagedScalingPolicy(
       computeLimits: json['ComputeLimits'] != null
@@ -6903,6 +7690,7 @@ class MetricDimension {
     this.key,
     this.value,
   });
+
   factory MetricDimension.fromJson(Map<String, dynamic> json) {
     return MetricDimension(
       key: json['Key'] as String?,
@@ -6927,6 +7715,7 @@ class ModifyClusterOutput {
   ModifyClusterOutput({
     this.stepConcurrencyLevel,
   });
+
   factory ModifyClusterOutput.fromJson(Map<String, dynamic> json) {
     return ModifyClusterOutput(
       stepConcurrencyLevel: json['StepConcurrencyLevel'] as int?,
@@ -6934,21 +7723,24 @@ class ModifyClusterOutput {
   }
 }
 
-/// A notebook execution. An execution is a specific instance that an EMR
+/// A notebook execution. An execution is a specific instance that an Amazon EMR
 /// Notebook is run using the <code>StartNotebookExecution</code> action.
 class NotebookExecution {
   /// The Amazon Resource Name (ARN) of the notebook execution.
   final String? arn;
 
-  /// The unique identifier of the EMR Notebook that is used for the notebook
-  /// execution.
+  /// The unique identifier of the Amazon EMR Notebook that is used for the
+  /// notebook execution.
   final String? editorId;
 
   /// The timestamp when notebook execution ended.
   final DateTime? endTime;
 
-  /// The execution engine, such as an EMR cluster, used to run the EMR notebook
-  /// and perform the notebook execution.
+  /// The environment variables associated with the notebook execution.
+  final Map<String, String>? environmentVariables;
+
+  /// The execution engine, such as an Amazon EMR cluster, used to run the Amazon
+  /// EMR notebook and perform the notebook execution.
   final ExecutionEngineConfig? executionEngine;
 
   /// The reason for the latest status change of the notebook execution.
@@ -6960,16 +7752,25 @@ class NotebookExecution {
   /// A name for the notebook execution.
   final String? notebookExecutionName;
 
-  /// The unique identifier of the EC2 security group associated with the EMR
-  /// Notebook instance. For more information see <a
+  /// The unique identifier of the Amazon EC2 security group associated with the
+  /// Amazon EMR Notebook instance. For more information see <a
   /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-managed-notebooks-security-groups.html">Specifying
-  /// EC2 Security Groups for EMR Notebooks</a> in the <i>EMR Management
-  /// Guide</i>.
+  /// Amazon EC2 Security Groups for Amazon EMR Notebooks</a> in the <i>Amazon EMR
+  /// Management Guide</i>.
   final String? notebookInstanceSecurityGroupId;
 
-  /// Input parameters in JSON format passed to the EMR Notebook at runtime for
-  /// execution.
+  /// Input parameters in JSON format passed to the Amazon EMR Notebook at runtime
+  /// for execution.
   final String? notebookParams;
+
+  /// The Amazon S3 location that stores the notebook execution input.
+  final NotebookS3LocationForOutput? notebookS3Location;
+
+  /// The output format for the notebook execution.
+  final OutputNotebookFormat? outputNotebookFormat;
+
+  /// The Amazon S3 location for the notebook execution output.
+  final OutputNotebookS3LocationForOutput? outputNotebookS3Location;
 
   /// The location of the notebook execution's output file in Amazon S3.
   final String? outputNotebookURI;
@@ -7032,22 +7833,30 @@ class NotebookExecution {
     this.arn,
     this.editorId,
     this.endTime,
+    this.environmentVariables,
     this.executionEngine,
     this.lastStateChangeReason,
     this.notebookExecutionId,
     this.notebookExecutionName,
     this.notebookInstanceSecurityGroupId,
     this.notebookParams,
+    this.notebookS3Location,
+    this.outputNotebookFormat,
+    this.outputNotebookS3Location,
     this.outputNotebookURI,
     this.startTime,
     this.status,
     this.tags,
   });
+
   factory NotebookExecution.fromJson(Map<String, dynamic> json) {
     return NotebookExecution(
       arn: json['Arn'] as String?,
       editorId: json['EditorId'] as String?,
       endTime: timeStampFromJson(json['EndTime']),
+      environmentVariables:
+          (json['EnvironmentVariables'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
       executionEngine: json['ExecutionEngine'] != null
           ? ExecutionEngineConfig.fromJson(
               json['ExecutionEngine'] as Map<String, dynamic>)
@@ -7058,6 +7867,16 @@ class NotebookExecution {
       notebookInstanceSecurityGroupId:
           json['NotebookInstanceSecurityGroupId'] as String?,
       notebookParams: json['NotebookParams'] as String?,
+      notebookS3Location: json['NotebookS3Location'] != null
+          ? NotebookS3LocationForOutput.fromJson(
+              json['NotebookS3Location'] as Map<String, dynamic>)
+          : null,
+      outputNotebookFormat:
+          (json['OutputNotebookFormat'] as String?)?.toOutputNotebookFormat(),
+      outputNotebookS3Location: json['OutputNotebookS3Location'] != null
+          ? OutputNotebookS3LocationForOutput.fromJson(
+              json['OutputNotebookS3Location'] as Map<String, dynamic>)
+          : null,
       outputNotebookURI: json['OutputNotebookURI'] as String?,
       startTime: timeStampFromJson(json['StartTime']),
       status: (json['Status'] as String?)?.toNotebookExecutionStatus(),
@@ -7137,7 +7956,8 @@ extension NotebookExecutionStatusFromString on String {
   }
 }
 
-/// <p/>
+/// Details for a notebook execution. The details include information such as
+/// the unique ID and status of the notebook execution.
 class NotebookExecutionSummary {
   /// The unique identifier of the editor associated with the notebook execution.
   final String? editorId;
@@ -7145,11 +7965,17 @@ class NotebookExecutionSummary {
   /// The timestamp when notebook execution started.
   final DateTime? endTime;
 
+  /// The unique ID of the execution engine for the notebook execution.
+  final String? executionEngineId;
+
   /// The unique identifier of the notebook execution.
   final String? notebookExecutionId;
 
   /// The name of the notebook execution.
   final String? notebookExecutionName;
+
+  /// The Amazon S3 location that stores the notebook execution input.
+  final NotebookS3LocationForOutput? notebookS3Location;
 
   /// The timestamp when notebook execution started.
   final DateTime? startTime;
@@ -7203,20 +8029,223 @@ class NotebookExecutionSummary {
   NotebookExecutionSummary({
     this.editorId,
     this.endTime,
+    this.executionEngineId,
     this.notebookExecutionId,
     this.notebookExecutionName,
+    this.notebookS3Location,
     this.startTime,
     this.status,
   });
+
   factory NotebookExecutionSummary.fromJson(Map<String, dynamic> json) {
     return NotebookExecutionSummary(
       editorId: json['EditorId'] as String?,
       endTime: timeStampFromJson(json['EndTime']),
+      executionEngineId: json['ExecutionEngineId'] as String?,
       notebookExecutionId: json['NotebookExecutionId'] as String?,
       notebookExecutionName: json['NotebookExecutionName'] as String?,
+      notebookS3Location: json['NotebookS3Location'] != null
+          ? NotebookS3LocationForOutput.fromJson(
+              json['NotebookS3Location'] as Map<String, dynamic>)
+          : null,
       startTime: timeStampFromJson(json['StartTime']),
       status: (json['Status'] as String?)?.toNotebookExecutionStatus(),
     );
+  }
+}
+
+/// The Amazon S3 location that stores the notebook execution input.
+class NotebookS3LocationForOutput {
+  /// The Amazon S3 bucket that stores the notebook execution input.
+  final String? bucket;
+
+  /// The key to the Amazon S3 location that stores the notebook execution input.
+  final String? key;
+
+  NotebookS3LocationForOutput({
+    this.bucket,
+    this.key,
+  });
+
+  factory NotebookS3LocationForOutput.fromJson(Map<String, dynamic> json) {
+    return NotebookS3LocationForOutput(
+      bucket: json['Bucket'] as String?,
+      key: json['Key'] as String?,
+    );
+  }
+}
+
+/// The Amazon S3 location that stores the notebook execution input.
+class NotebookS3LocationFromInput {
+  /// The Amazon S3 bucket that stores the notebook execution input.
+  final String? bucket;
+
+  /// The key to the Amazon S3 location that stores the notebook execution input.
+  final String? key;
+
+  NotebookS3LocationFromInput({
+    this.bucket,
+    this.key,
+  });
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final key = this.key;
+    return {
+      if (bucket != null) 'Bucket': bucket,
+      if (key != null) 'Key': key,
+    };
+  }
+}
+
+/// The Amazon Linux release specified for a cluster in the RunJobFlow request.
+class OSRelease {
+  /// The Amazon Linux release specified for a cluster in the RunJobFlow request.
+  /// The format is as shown in <a
+  /// href="https://docs.aws.amazon.com/AL2/latest/relnotes/relnotes-20220218.html">
+  /// <i>Amazon Linux 2 Release Notes</i> </a>. For example, 2.0.20220218.1.
+  final String? label;
+
+  OSRelease({
+    this.label,
+  });
+
+  factory OSRelease.fromJson(Map<String, dynamic> json) {
+    return OSRelease(
+      label: json['Label'] as String?,
+    );
+  }
+}
+
+/// Describes the strategy for using unused Capacity Reservations for fulfilling
+/// On-Demand capacity.
+class OnDemandCapacityReservationOptions {
+  /// Indicates the instance's Capacity Reservation preferences. Possible
+  /// preferences include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>open</code> - The instance can run in any open Capacity Reservation
+  /// that has matching attributes (instance type, platform, Availability Zone).
+  /// </li>
+  /// <li>
+  /// <code>none</code> - The instance avoids running in a Capacity Reservation
+  /// even if one is available. The instance runs as an On-Demand Instance.
+  /// </li>
+  /// </ul>
+  final OnDemandCapacityReservationPreference? capacityReservationPreference;
+
+  /// The ARN of the Capacity Reservation resource group in which to run the
+  /// instance.
+  final String? capacityReservationResourceGroupArn;
+
+  /// Indicates whether to use unused Capacity Reservations for fulfilling
+  /// On-Demand capacity.
+  ///
+  /// If you specify <code>use-capacity-reservations-first</code>, the fleet uses
+  /// unused Capacity Reservations to fulfill On-Demand capacity up to the target
+  /// On-Demand capacity. If multiple instance pools have unused Capacity
+  /// Reservations, the On-Demand allocation strategy (<code>lowest-price</code>)
+  /// is applied. If the number of unused Capacity Reservations is less than the
+  /// On-Demand target capacity, the remaining On-Demand target capacity is
+  /// launched according to the On-Demand allocation strategy
+  /// (<code>lowest-price</code>).
+  ///
+  /// If you do not specify a value, the fleet fulfills the On-Demand capacity
+  /// according to the chosen On-Demand allocation strategy.
+  final OnDemandCapacityReservationUsageStrategy? usageStrategy;
+
+  OnDemandCapacityReservationOptions({
+    this.capacityReservationPreference,
+    this.capacityReservationResourceGroupArn,
+    this.usageStrategy,
+  });
+
+  factory OnDemandCapacityReservationOptions.fromJson(
+      Map<String, dynamic> json) {
+    return OnDemandCapacityReservationOptions(
+      capacityReservationPreference:
+          (json['CapacityReservationPreference'] as String?)
+              ?.toOnDemandCapacityReservationPreference(),
+      capacityReservationResourceGroupArn:
+          json['CapacityReservationResourceGroupArn'] as String?,
+      usageStrategy: (json['UsageStrategy'] as String?)
+          ?.toOnDemandCapacityReservationUsageStrategy(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityReservationPreference = this.capacityReservationPreference;
+    final capacityReservationResourceGroupArn =
+        this.capacityReservationResourceGroupArn;
+    final usageStrategy = this.usageStrategy;
+    return {
+      if (capacityReservationPreference != null)
+        'CapacityReservationPreference':
+            capacityReservationPreference.toValue(),
+      if (capacityReservationResourceGroupArn != null)
+        'CapacityReservationResourceGroupArn':
+            capacityReservationResourceGroupArn,
+      if (usageStrategy != null) 'UsageStrategy': usageStrategy.toValue(),
+    };
+  }
+}
+
+enum OnDemandCapacityReservationPreference {
+  open,
+  none,
+}
+
+extension OnDemandCapacityReservationPreferenceValueExtension
+    on OnDemandCapacityReservationPreference {
+  String toValue() {
+    switch (this) {
+      case OnDemandCapacityReservationPreference.open:
+        return 'open';
+      case OnDemandCapacityReservationPreference.none:
+        return 'none';
+    }
+  }
+}
+
+extension OnDemandCapacityReservationPreferenceFromString on String {
+  OnDemandCapacityReservationPreference
+      toOnDemandCapacityReservationPreference() {
+    switch (this) {
+      case 'open':
+        return OnDemandCapacityReservationPreference.open;
+      case 'none':
+        return OnDemandCapacityReservationPreference.none;
+    }
+    throw Exception(
+        '$this is not known in enum OnDemandCapacityReservationPreference');
+  }
+}
+
+enum OnDemandCapacityReservationUsageStrategy {
+  useCapacityReservationsFirst,
+}
+
+extension OnDemandCapacityReservationUsageStrategyValueExtension
+    on OnDemandCapacityReservationUsageStrategy {
+  String toValue() {
+    switch (this) {
+      case OnDemandCapacityReservationUsageStrategy
+            .useCapacityReservationsFirst:
+        return 'use-capacity-reservations-first';
+    }
+  }
+}
+
+extension OnDemandCapacityReservationUsageStrategyFromString on String {
+  OnDemandCapacityReservationUsageStrategy
+      toOnDemandCapacityReservationUsageStrategy() {
+    switch (this) {
+      case 'use-capacity-reservations-first':
+        return OnDemandCapacityReservationUsageStrategy
+            .useCapacityReservationsFirst;
+    }
+    throw Exception(
+        '$this is not known in enum OnDemandCapacityReservationUsageStrategy');
   }
 }
 
@@ -7249,31 +8278,142 @@ extension OnDemandProvisioningAllocationStrategyFromString on String {
 /// The launch specification for On-Demand Instances in the instance fleet,
 /// which determines the allocation strategy.
 /// <note>
-/// The instance fleet configuration is available only in Amazon EMR versions
+/// The instance fleet configuration is available only in Amazon EMR releases
 /// 4.8.0 and later, excluding 5.0.x versions. On-Demand Instances allocation
-/// strategy is available in Amazon EMR version 5.12.1 and later.
+/// strategy is available in Amazon EMR releases 5.12.1 and later.
 /// </note>
 class OnDemandProvisioningSpecification {
-  /// Specifies the strategy to use in launching On-Demand Instance fleets.
-  /// Currently, the only option is lowest-price (the default), which launches the
-  /// lowest price first.
+  /// Specifies the strategy to use in launching On-Demand instance fleets.
+  /// Currently, the only option is <code>lowest-price</code> (the default), which
+  /// launches the lowest price first.
   final OnDemandProvisioningAllocationStrategy allocationStrategy;
+
+  /// The launch specification for On-Demand instances in the instance fleet,
+  /// which determines the allocation strategy.
+  final OnDemandCapacityReservationOptions? capacityReservationOptions;
 
   OnDemandProvisioningSpecification({
     required this.allocationStrategy,
+    this.capacityReservationOptions,
   });
+
   factory OnDemandProvisioningSpecification.fromJson(
       Map<String, dynamic> json) {
     return OnDemandProvisioningSpecification(
       allocationStrategy: (json['AllocationStrategy'] as String)
           .toOnDemandProvisioningAllocationStrategy(),
+      capacityReservationOptions: json['CapacityReservationOptions'] != null
+          ? OnDemandCapacityReservationOptions.fromJson(
+              json['CapacityReservationOptions'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final allocationStrategy = this.allocationStrategy;
+    final capacityReservationOptions = this.capacityReservationOptions;
     return {
       'AllocationStrategy': allocationStrategy.toValue(),
+      if (capacityReservationOptions != null)
+        'CapacityReservationOptions': capacityReservationOptions,
+    };
+  }
+}
+
+/// The resize specification for On-Demand Instances in the instance fleet,
+/// which contains the resize timeout period.
+class OnDemandResizingSpecification {
+  /// On-Demand resize timeout in minutes. If On-Demand Instances are not
+  /// provisioned within this time, the resize workflow stops. The minimum value
+  /// is 5 minutes, and the maximum value is 10,080 minutes (7 days). The timeout
+  /// applies to all resize workflows on the Instance Fleet. The resize could be
+  /// triggered by Amazon EMR Managed Scaling or by the customer (via Amazon EMR
+  /// Console, Amazon EMR CLI modify-instance-fleet or Amazon EMR SDK
+  /// ModifyInstanceFleet API) or by Amazon EMR due to Amazon EC2 Spot
+  /// Reclamation.
+  final int timeoutDurationMinutes;
+
+  OnDemandResizingSpecification({
+    required this.timeoutDurationMinutes,
+  });
+
+  factory OnDemandResizingSpecification.fromJson(Map<String, dynamic> json) {
+    return OnDemandResizingSpecification(
+      timeoutDurationMinutes: json['TimeoutDurationMinutes'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timeoutDurationMinutes = this.timeoutDurationMinutes;
+    return {
+      'TimeoutDurationMinutes': timeoutDurationMinutes,
+    };
+  }
+}
+
+enum OutputNotebookFormat {
+  html,
+}
+
+extension OutputNotebookFormatValueExtension on OutputNotebookFormat {
+  String toValue() {
+    switch (this) {
+      case OutputNotebookFormat.html:
+        return 'HTML';
+    }
+  }
+}
+
+extension OutputNotebookFormatFromString on String {
+  OutputNotebookFormat toOutputNotebookFormat() {
+    switch (this) {
+      case 'HTML':
+        return OutputNotebookFormat.html;
+    }
+    throw Exception('$this is not known in enum OutputNotebookFormat');
+  }
+}
+
+/// The Amazon S3 location that stores the notebook execution output.
+class OutputNotebookS3LocationForOutput {
+  /// The Amazon S3 bucket that stores the notebook execution output.
+  final String? bucket;
+
+  /// The key to the Amazon S3 location that stores the notebook execution output.
+  final String? key;
+
+  OutputNotebookS3LocationForOutput({
+    this.bucket,
+    this.key,
+  });
+
+  factory OutputNotebookS3LocationForOutput.fromJson(
+      Map<String, dynamic> json) {
+    return OutputNotebookS3LocationForOutput(
+      bucket: json['Bucket'] as String?,
+      key: json['Key'] as String?,
+    );
+  }
+}
+
+/// The Amazon S3 location that stores the notebook execution output.
+class OutputNotebookS3LocationFromInput {
+  /// The Amazon S3 bucket that stores the notebook execution output.
+  final String? bucket;
+
+  /// The key to the Amazon S3 location that stores the notebook execution output.
+  final String? key;
+
+  OutputNotebookS3LocationFromInput({
+    this.bucket,
+    this.key,
+  });
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final key = this.key;
+    return {
+      if (bucket != null) 'Bucket': bucket,
+      if (key != null) 'Key': key,
     };
   }
 }
@@ -7283,17 +8423,17 @@ class OnDemandProvisioningSpecification {
 /// during cluster creation.
 ///
 /// To use this configuration, consider attaching managed policy
-/// AmazonElasticMapReducePlacementGroupPolicy to the EMR role.
+/// AmazonElasticMapReducePlacementGroupPolicy to the Amazon EMR role.
 class PlacementGroupConfig {
   /// Role of the instance in the cluster.
   ///
-  /// Starting with Amazon EMR version 5.23.0, the only supported instance role is
+  /// Starting with Amazon EMR release 5.23.0, the only supported instance role is
   /// <code>MASTER</code>.
   final InstanceRoleType instanceRole;
 
-  /// EC2 Placement Group strategy associated with instance role.
+  /// Amazon EC2 Placement Group strategy associated with instance role.
   ///
-  /// Starting with Amazon EMR version 5.23.0, the only supported placement
+  /// Starting with Amazon EMR release 5.23.0, the only supported placement
   /// strategy is <code>SPREAD</code> for the <code>MASTER</code> instance role.
   final PlacementGroupStrategy? placementStrategy;
 
@@ -7301,6 +8441,7 @@ class PlacementGroupConfig {
     required this.instanceRole,
     this.placementStrategy,
   });
+
   factory PlacementGroupConfig.fromJson(Map<String, dynamic> json) {
     return PlacementGroupConfig(
       instanceRole: (json['InstanceRole'] as String).toInstanceRoleType(),
@@ -7371,7 +8512,7 @@ class PlacementType {
   /// <code>AvailabilityZone</code> (singular) is used for uniform instance
   /// groups.
   /// <note>
-  /// The instance fleet configuration is available only in Amazon EMR versions
+  /// The instance fleet configuration is available only in Amazon EMR releases
   /// 4.8.0 and later, excluding 5.0.x versions.
   /// </note>
   final List<String>? availabilityZones;
@@ -7380,6 +8521,7 @@ class PlacementType {
     this.availabilityZone,
     this.availabilityZones,
   });
+
   factory PlacementType.fromJson(Map<String, dynamic> json) {
     return PlacementType(
       availabilityZone: json['AvailabilityZone'] as String?,
@@ -7414,6 +8556,7 @@ class PortRange {
     required this.minRange,
     this.maxRange,
   });
+
   factory PortRange.fromJson(Map<String, dynamic> json) {
     return PortRange(
       minRange: json['MinRange'] as int,
@@ -7435,7 +8578,7 @@ class PutAutoScalingPolicyOutput {
   /// The automatic scaling policy definition.
   final AutoScalingPolicyDescription? autoScalingPolicy;
 
-  /// The Amazon Resource Name of the cluster.
+  /// The Amazon Resource Name (ARN) of the cluster.
   final String? clusterArn;
 
   /// Specifies the ID of a cluster. The instance group to which the automatic
@@ -7452,6 +8595,7 @@ class PutAutoScalingPolicyOutput {
     this.clusterId,
     this.instanceGroupId,
   });
+
   factory PutAutoScalingPolicyOutput.fromJson(Map<String, dynamic> json) {
     return PutAutoScalingPolicyOutput(
       autoScalingPolicy: json['AutoScalingPolicy'] != null
@@ -7465,8 +8609,17 @@ class PutAutoScalingPolicyOutput {
   }
 }
 
+class PutAutoTerminationPolicyOutput {
+  PutAutoTerminationPolicyOutput();
+
+  factory PutAutoTerminationPolicyOutput.fromJson(Map<String, dynamic> _) {
+    return PutAutoTerminationPolicyOutput();
+  }
+}
+
 class PutBlockPublicAccessConfigurationOutput {
   PutBlockPublicAccessConfigurationOutput();
+
   factory PutBlockPublicAccessConfigurationOutput.fromJson(
       Map<String, dynamic> _) {
     return PutBlockPublicAccessConfigurationOutput();
@@ -7475,28 +8628,92 @@ class PutBlockPublicAccessConfigurationOutput {
 
 class PutManagedScalingPolicyOutput {
   PutManagedScalingPolicyOutput();
+
   factory PutManagedScalingPolicyOutput.fromJson(Map<String, dynamic> _) {
     return PutManagedScalingPolicyOutput();
   }
 }
 
+enum ReconfigurationType {
+  overwrite,
+  merge,
+}
+
+extension ReconfigurationTypeValueExtension on ReconfigurationType {
+  String toValue() {
+    switch (this) {
+      case ReconfigurationType.overwrite:
+        return 'OVERWRITE';
+      case ReconfigurationType.merge:
+        return 'MERGE';
+    }
+  }
+}
+
+extension ReconfigurationTypeFromString on String {
+  ReconfigurationType toReconfigurationType() {
+    switch (this) {
+      case 'OVERWRITE':
+        return ReconfigurationType.overwrite;
+      case 'MERGE':
+        return ReconfigurationType.merge;
+    }
+    throw Exception('$this is not known in enum ReconfigurationType');
+  }
+}
+
+/// The release label filters by application or version prefix.
+class ReleaseLabelFilter {
+  /// Optional release label application filter. For example,
+  /// <code>spark@2.1.0</code>.
+  final String? application;
+
+  /// Optional release label version prefix filter. For example,
+  /// <code>emr-5</code>.
+  final String? prefix;
+
+  ReleaseLabelFilter({
+    this.application,
+    this.prefix,
+  });
+  Map<String, dynamic> toJson() {
+    final application = this.application;
+    final prefix = this.prefix;
+    return {
+      if (application != null) 'Application': application,
+      if (prefix != null) 'Prefix': prefix,
+    };
+  }
+}
+
 class RemoveAutoScalingPolicyOutput {
   RemoveAutoScalingPolicyOutput();
+
   factory RemoveAutoScalingPolicyOutput.fromJson(Map<String, dynamic> _) {
     return RemoveAutoScalingPolicyOutput();
   }
 }
 
+class RemoveAutoTerminationPolicyOutput {
+  RemoveAutoTerminationPolicyOutput();
+
+  factory RemoveAutoTerminationPolicyOutput.fromJson(Map<String, dynamic> _) {
+    return RemoveAutoTerminationPolicyOutput();
+  }
+}
+
 class RemoveManagedScalingPolicyOutput {
   RemoveManagedScalingPolicyOutput();
+
   factory RemoveManagedScalingPolicyOutput.fromJson(Map<String, dynamic> _) {
     return RemoveManagedScalingPolicyOutput();
   }
 }
 
-/// This output indicates the result of removing tags from a resource.
+/// This output indicates the result of removing tags from the resource.
 class RemoveTagsOutput {
   RemoveTagsOutput();
+
   factory RemoveTagsOutput.fromJson(Map<String, dynamic> _) {
     return RemoveTagsOutput();
   }
@@ -7532,16 +8749,17 @@ extension RepoUpgradeOnBootFromString on String {
 
 /// The result of the <a>RunJobFlow</a> operation.
 class RunJobFlowOutput {
-  /// The Amazon Resource Name of the cluster.
+  /// The Amazon Resource Name (ARN) of the cluster.
   final String? clusterArn;
 
-  /// An unique identifier for the job flow.
+  /// A unique identifier for the job flow.
   final String? jobFlowId;
 
   RunJobFlowOutput({
     this.clusterArn,
     this.jobFlowId,
   });
+
   factory RunJobFlowOutput.fromJson(Map<String, dynamic> json) {
     return RunJobFlowOutput(
       clusterArn: json['ClusterArn'] as String?,
@@ -7593,6 +8811,7 @@ class ScalingAction {
     required this.simpleScalingPolicyConfiguration,
     this.market,
   });
+
   factory ScalingAction.fromJson(Map<String, dynamic> json) {
     return ScalingAction(
       simpleScalingPolicyConfiguration:
@@ -7613,24 +8832,25 @@ class ScalingAction {
   }
 }
 
-/// The upper and lower EC2 instance limits for an automatic scaling policy.
-/// Automatic scaling activities triggered by automatic scaling rules will not
-/// cause an instance group to grow above or below these limits.
+/// The upper and lower Amazon EC2 instance limits for an automatic scaling
+/// policy. Automatic scaling activities triggered by automatic scaling rules
+/// will not cause an instance group to grow above or below these limits.
 class ScalingConstraints {
-  /// The upper boundary of EC2 instances in an instance group beyond which
+  /// The upper boundary of Amazon EC2 instances in an instance group beyond which
   /// scaling activities are not allowed to grow. Scale-out activities will not
   /// add instances beyond this boundary.
   final int maxCapacity;
 
-  /// The lower boundary of EC2 instances in an instance group below which scaling
-  /// activities are not allowed to shrink. Scale-in activities will not terminate
-  /// instances below this boundary.
+  /// The lower boundary of Amazon EC2 instances in an instance group below which
+  /// scaling activities are not allowed to shrink. Scale-in activities will not
+  /// terminate instances below this boundary.
   final int minCapacity;
 
   ScalingConstraints({
     required this.maxCapacity,
     required this.minCapacity,
   });
+
   factory ScalingConstraints.fromJson(Map<String, dynamic> json) {
     return ScalingConstraints(
       maxCapacity: json['MaxCapacity'] as int,
@@ -7649,9 +8869,10 @@ class ScalingConstraints {
 }
 
 /// A scale-in or scale-out rule that defines scaling activity, including the
-/// CloudWatch metric alarm that triggers activity, how EC2 instances are added
-/// or removed, and the periodicity of adjustments. The automatic scaling policy
-/// for an instance group can comprise one or more automatic scaling rules.
+/// CloudWatch metric alarm that triggers activity, how Amazon EC2 instances are
+/// added or removed, and the periodicity of adjustments. The automatic scaling
+/// policy for an instance group can comprise one or more automatic scaling
+/// rules.
 class ScalingRule {
   /// The conditions that trigger an automatic scaling activity.
   final ScalingAction action;
@@ -7673,6 +8894,7 @@ class ScalingRule {
     required this.trigger,
     this.description,
   });
+
   factory ScalingRule.fromJson(Map<String, dynamic> json) {
     return ScalingRule(
       action: ScalingAction.fromJson(json['Action'] as Map<String, dynamic>),
@@ -7706,6 +8928,7 @@ class ScalingTrigger {
   ScalingTrigger({
     required this.cloudWatchAlarmDefinition,
   });
+
   factory ScalingTrigger.fromJson(Map<String, dynamic> json) {
     return ScalingTrigger(
       cloudWatchAlarmDefinition: CloudWatchAlarmDefinition.fromJson(
@@ -7723,8 +8946,7 @@ class ScalingTrigger {
 
 /// Configuration of the script to run during a bootstrap action.
 class ScriptBootstrapActionConfig {
-  /// Location of the script to run during a bootstrap action. Can be either a
-  /// location in Amazon S3 or on a local file system.
+  /// Location in Amazon S3 of the script to run during a bootstrap action.
   final String path;
 
   /// A list of command line arguments to pass to the bootstrap action script.
@@ -7734,6 +8956,7 @@ class ScriptBootstrapActionConfig {
     required this.path,
     this.args,
   });
+
   factory ScriptBootstrapActionConfig.fromJson(Map<String, dynamic> json) {
     return ScriptBootstrapActionConfig(
       path: json['Path'] as String,
@@ -7766,6 +8989,7 @@ class SecurityConfigurationSummary {
     this.creationDateTime,
     this.name,
   });
+
   factory SecurityConfigurationSummary.fromJson(Map<String, dynamic> json) {
     return SecurityConfigurationSummary(
       creationDateTime: timeStampFromJson(json['CreationDateTime']),
@@ -7784,13 +9008,14 @@ class SessionMappingDetail {
   final String? identityId;
 
   /// The name of the user or group. For more information, see <a
-  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId">UserName</a>
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName">UserName</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName">DisplayName</a>
-  /// in the <i>AWS SSO Identity Store API Reference</i>.
+  /// in the <i>IAM Identity Center Identity Store API Reference</i>.
   final String? identityName;
 
-  /// Specifies whether the identity mapped to the Studio is a user or a group.
+  /// Specifies whether the identity mapped to the Amazon EMR Studio is a user or
+  /// a group.
   final IdentityType? identityType;
 
   /// The time the session mapping was last modified.
@@ -7812,6 +9037,7 @@ class SessionMappingDetail {
     this.sessionPolicyArn,
     this.studioId,
   });
+
   factory SessionMappingDetail.fromJson(Map<String, dynamic> json) {
     return SessionMappingDetail(
       creationTime: timeStampFromJson(json['CreationTime']),
@@ -7831,18 +9057,19 @@ class SessionMappingSummary {
   /// The time the session mapping was created.
   final DateTime? creationTime;
 
-  /// The globally unique identifier (GUID) of the user or group from the AWS SSO
-  /// Identity Store.
+  /// The globally unique identifier (GUID) of the user or group from the IAM
+  /// Identity Center Identity Store.
   final String? identityId;
 
   /// The name of the user or group. For more information, see <a
-  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId">UserName</a>
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName">UserName</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName">DisplayName</a>
-  /// in the <i>AWS SSO Identity Store API Reference</i>.
+  /// in the <i>IAM Identity Center Identity Store API Reference</i>.
   final String? identityName;
 
-  /// Specifies whether the identity mapped to the Studio is a user or a group.
+  /// Specifies whether the identity mapped to the Amazon EMR Studio is a user or
+  /// a group.
   final IdentityType? identityType;
 
   /// The Amazon Resource Name (ARN) of the session policy associated with the
@@ -7860,6 +9087,7 @@ class SessionMappingSummary {
     this.sessionPolicyArn,
     this.studioId,
   });
+
   factory SessionMappingSummary.fromJson(Map<String, dynamic> json) {
     return SessionMappingSummary(
       creationTime: timeStampFromJson(json['CreationTime']),
@@ -7887,6 +9115,7 @@ class ShrinkPolicy {
     this.decommissionTimeout,
     this.instanceResizePolicy,
   });
+
   factory ShrinkPolicy.fromJson(Map<String, dynamic> json) {
     return ShrinkPolicy(
       decommissionTimeout: json['DecommissionTimeout'] as int?,
@@ -7910,12 +9139,13 @@ class ShrinkPolicy {
 }
 
 /// An automatic scaling configuration, which describes how the policy adds or
-/// removes instances, the cooldown period, and the number of EC2 instances that
-/// will be added each time the CloudWatch metric alarm condition is satisfied.
+/// removes instances, the cooldown period, and the number of Amazon EC2
+/// instances that will be added each time the CloudWatch metric alarm condition
+/// is satisfied.
 class SimpleScalingPolicyConfiguration {
   /// The amount by which to scale in or scale out, based on the specified
   /// <code>AdjustmentType</code>. A positive value adds to the instance group's
-  /// EC2 instance count while a negative number removes instances. If
+  /// Amazon EC2 instance count while a negative number removes instances. If
   /// <code>AdjustmentType</code> is set to <code>EXACT_CAPACITY</code>, the
   /// number should only be a positive integer. If <code>AdjustmentType</code> is
   /// set to <code>PERCENT_CHANGE_IN_CAPACITY</code>, the value should express the
@@ -7923,18 +9153,18 @@ class SimpleScalingPolicyConfiguration {
   /// increments of cluster capacity.
   final int scalingAdjustment;
 
-  /// The way in which EC2 instances are added (if <code>ScalingAdjustment</code>
-  /// is a positive number) or terminated (if <code>ScalingAdjustment</code> is a
-  /// negative number) each time the scaling activity is triggered.
-  /// <code>CHANGE_IN_CAPACITY</code> is the default.
-  /// <code>CHANGE_IN_CAPACITY</code> indicates that the EC2 instance count
+  /// The way in which Amazon EC2 instances are added (if
+  /// <code>ScalingAdjustment</code> is a positive number) or terminated (if
+  /// <code>ScalingAdjustment</code> is a negative number) each time the scaling
+  /// activity is triggered. <code>CHANGE_IN_CAPACITY</code> is the default.
+  /// <code>CHANGE_IN_CAPACITY</code> indicates that the Amazon EC2 instance count
   /// increments or decrements by <code>ScalingAdjustment</code>, which should be
   /// expressed as an integer. <code>PERCENT_CHANGE_IN_CAPACITY</code> indicates
   /// the instance count increments or decrements by the percentage specified by
   /// <code>ScalingAdjustment</code>, which should be expressed as an integer. For
   /// example, 20 indicates an increase in 20% increments of cluster capacity.
   /// <code>EXACT_CAPACITY</code> indicates the scaling activity results in an
-  /// instance group with the number of EC2 instances specified by
+  /// instance group with the number of Amazon EC2 instances specified by
   /// <code>ScalingAdjustment</code>, which should be expressed as a positive
   /// integer.
   final AdjustmentType? adjustmentType;
@@ -7949,6 +9179,7 @@ class SimpleScalingPolicyConfiguration {
     this.adjustmentType,
     this.coolDown,
   });
+
   factory SimpleScalingPolicyConfiguration.fromJson(Map<String, dynamic> json) {
     return SimpleScalingPolicyConfiguration(
       scalingAdjustment: json['ScalingAdjustment'] as int,
@@ -7966,6 +9197,29 @@ class SimpleScalingPolicyConfiguration {
       if (adjustmentType != null) 'AdjustmentType': adjustmentType.toValue(),
       if (coolDown != null) 'CoolDown': coolDown,
     };
+  }
+}
+
+/// The returned release label application names or versions.
+class SimplifiedApplication {
+  /// The returned release label application name. For example,
+  /// <code>hadoop</code>.
+  final String? name;
+
+  /// The returned release label application version. For example,
+  /// <code>3.2.1</code>.
+  final String? version;
+
+  SimplifiedApplication({
+    this.name,
+    this.version,
+  });
+
+  factory SimplifiedApplication.fromJson(Map<String, dynamic> json) {
+    return SimplifiedApplication(
+      name: json['Name'] as String?,
+      version: json['Version'] as String?,
+    );
   }
 }
 
@@ -7998,9 +9252,14 @@ extension SpotProvisioningAllocationStrategyFromString on String {
 /// determines the defined duration, provisioning timeout behavior, and
 /// allocation strategy.
 /// <note>
-/// The instance fleet configuration is available only in Amazon EMR versions
+/// The instance fleet configuration is available only in Amazon EMR releases
 /// 4.8.0 and later, excluding 5.0.x versions. Spot Instance allocation strategy
-/// is available in Amazon EMR version 5.12.1 and later.
+/// is available in Amazon EMR releases 5.12.1 and later.
+/// </note> <note>
+/// Spot Instances with a defined duration (also known as Spot blocks) are no
+/// longer available to new customers from July 1, 2021. For customers who have
+/// previously used the feature, we will continue to support Spot Instances with
+/// a defined duration until December 31, 2022.
 /// </note>
 class SpotProvisioningSpecification {
   /// The action to take when <code>TargetSpotCapacity</code> has not been
@@ -8012,7 +9271,7 @@ class SpotProvisioningSpecification {
   /// fulfill any remaining Spot capacity.
   final SpotProvisioningTimeoutAction timeoutAction;
 
-  /// The spot provisioning timeout period in minutes. If Spot Instances are not
+  /// The Spot provisioning timeout period in minutes. If Spot Instances are not
   /// provisioned within this time period, the <code>TimeOutAction</code> is
   /// taken. Minimum value is 5 and maximum value is 1440. The timeout applies
   /// only during initial provisioning, when the cluster is first created.
@@ -8026,12 +9285,18 @@ class SpotProvisioningSpecification {
 
   /// The defined duration for Spot Instances (also known as Spot blocks) in
   /// minutes. When specified, the Spot Instance does not terminate before the
-  /// defined duration expires, and defined duration pricing for Spot instances
+  /// defined duration expires, and defined duration pricing for Spot Instances
   /// applies. Valid values are 60, 120, 180, 240, 300, or 360. The duration
   /// period starts as soon as a Spot Instance receives its instance ID. At the
   /// end of the duration, Amazon EC2 marks the Spot Instance for termination and
   /// provides a Spot Instance termination notice, which gives the instance a
   /// two-minute warning before it terminates.
+  /// <note>
+  /// Spot Instances with a defined duration (also known as Spot blocks) are no
+  /// longer available to new customers from July 1, 2021. For customers who have
+  /// previously used the feature, we will continue to support Spot Instances with
+  /// a defined duration until December 31, 2022.
+  /// </note>
   final int? blockDurationMinutes;
 
   SpotProvisioningSpecification({
@@ -8040,6 +9305,7 @@ class SpotProvisioningSpecification {
     this.allocationStrategy,
     this.blockDurationMinutes,
   });
+
   factory SpotProvisioningSpecification.fromJson(Map<String, dynamic> json) {
     return SpotProvisioningSpecification(
       timeoutAction:
@@ -8096,6 +9362,37 @@ extension SpotProvisioningTimeoutActionFromString on String {
   }
 }
 
+/// The resize specification for Spot Instances in the instance fleet, which
+/// contains the resize timeout period.
+class SpotResizingSpecification {
+  /// Spot resize timeout in minutes. If Spot Instances are not provisioned within
+  /// this time, the resize workflow will stop provisioning of Spot instances.
+  /// Minimum value is 5 minutes and maximum value is 10,080 minutes (7 days). The
+  /// timeout applies to all resize workflows on the Instance Fleet. The resize
+  /// could be triggered by Amazon EMR Managed Scaling or by the customer (via
+  /// Amazon EMR Console, Amazon EMR CLI modify-instance-fleet or Amazon EMR SDK
+  /// ModifyInstanceFleet API) or by Amazon EMR due to Amazon EC2 Spot
+  /// Reclamation.
+  final int timeoutDurationMinutes;
+
+  SpotResizingSpecification({
+    required this.timeoutDurationMinutes,
+  });
+
+  factory SpotResizingSpecification.fromJson(Map<String, dynamic> json) {
+    return SpotResizingSpecification(
+      timeoutDurationMinutes: json['TimeoutDurationMinutes'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timeoutDurationMinutes = this.timeoutDurationMinutes;
+    return {
+      'TimeoutDurationMinutes': timeoutDurationMinutes,
+    };
+  }
+}
+
 class StartNotebookExecutionOutput {
   /// The unique identifier of the notebook execution.
   final String? notebookExecutionId;
@@ -8103,6 +9400,7 @@ class StartNotebookExecutionOutput {
   StartNotebookExecutionOutput({
     this.notebookExecutionId,
   });
+
   factory StartNotebookExecutionOutput.fromJson(Map<String, dynamic> json) {
     return StartNotebookExecutionOutput(
       notebookExecutionId: json['NotebookExecutionId'] as String?,
@@ -8156,13 +9454,38 @@ extension StatisticFromString on String {
 /// This represents a step in a cluster.
 class Step {
   /// The action to take when the cluster step fails. Possible values are
-  /// TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is
-  /// provided for backward compatibility. We recommend using TERMINATE_CLUSTER
+  /// <code>TERMINATE_CLUSTER</code>, <code>CANCEL_AND_WAIT</code>, and
+  /// <code>CONTINUE</code>. <code>TERMINATE_JOB_FLOW</code> is provided for
+  /// backward compatibility. We recommend using <code>TERMINATE_CLUSTER</code>
   /// instead.
+  ///
+  /// If a cluster's <code>StepConcurrencyLevel</code> is greater than
+  /// <code>1</code>, do not use <code>AddJobFlowSteps</code> to submit a step
+  /// with this parameter set to <code>CANCEL_AND_WAIT</code> or
+  /// <code>TERMINATE_CLUSTER</code>. The step is not submitted and the action
+  /// fails with a message that the <code>ActionOnFailure</code> setting is not
+  /// valid.
+  ///
+  /// If you change a cluster's <code>StepConcurrencyLevel</code> to be greater
+  /// than 1 while a step is running, the <code>ActionOnFailure</code> parameter
+  /// may not behave as you expect. In this case, for a step that fails with this
+  /// parameter set to <code>CANCEL_AND_WAIT</code>, pending steps and the running
+  /// step are not canceled; for a step that fails with this parameter set to
+  /// <code>TERMINATE_CLUSTER</code>, the cluster does not terminate.
   final ActionOnFailure? actionOnFailure;
 
   /// The Hadoop job configuration of the cluster step.
   final HadoopStepConfig? config;
+
+  /// The Amazon Resource Name (ARN) of the runtime role for a step on the
+  /// cluster. The runtime role can be a cross-account IAM role. The runtime role
+  /// ARN is a combination of account ID, role name, and role type using the
+  /// following format:
+  /// <code>arn:partition:service:region:account:resource</code>.
+  ///
+  /// For example, <code>arn:aws:IAM::1234567890:role/ReadOnly</code> is a
+  /// correctly formatted runtime role ARN.
+  final String? executionRoleArn;
 
   /// The identifier of the cluster step.
   final String? id;
@@ -8176,10 +9499,12 @@ class Step {
   Step({
     this.actionOnFailure,
     this.config,
+    this.executionRoleArn,
     this.id,
     this.name,
     this.status,
   });
+
   factory Step.fromJson(Map<String, dynamic> json) {
     return Step(
       actionOnFailure:
@@ -8187,6 +9512,7 @@ class Step {
       config: json['Config'] != null
           ? HadoopStepConfig.fromJson(json['Config'] as Map<String, dynamic>)
           : null,
+      executionRoleArn: json['ExecutionRoleArn'] as String?,
       id: json['Id'] as String?,
       name: json['Name'] as String?,
       status: json['Status'] != null
@@ -8224,7 +9550,7 @@ extension StepCancellationOptionFromString on String {
   }
 }
 
-/// Specification of a cluster (job flow) step.
+/// Specification for a cluster (job flow) step.
 class StepConfig {
   /// The JAR file used for the step.
   final HadoopJarStepConfig hadoopJarStep;
@@ -8232,10 +9558,38 @@ class StepConfig {
   /// The name of the step.
   final String name;
 
-  /// The action to take when the cluster step fails. Possible values are
-  /// TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is
-  /// provided for backward compatibility. We recommend using TERMINATE_CLUSTER
-  /// instead.
+  /// The action to take when the step fails. Use one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TERMINATE_CLUSTER</code> - Shuts down the cluster.
+  /// </li>
+  /// <li>
+  /// <code>CANCEL_AND_WAIT</code> - Cancels any pending steps and returns the
+  /// cluster to the <code>WAITING</code> state.
+  /// </li>
+  /// <li>
+  /// <code>CONTINUE</code> - Continues to the next step in the queue.
+  /// </li>
+  /// <li>
+  /// <code>TERMINATE_JOB_FLOW</code> - Shuts down the cluster.
+  /// <code>TERMINATE_JOB_FLOW</code> is provided for backward compatibility. We
+  /// recommend using <code>TERMINATE_CLUSTER</code> instead.
+  /// </li>
+  /// </ul>
+  /// If a cluster's <code>StepConcurrencyLevel</code> is greater than
+  /// <code>1</code>, do not use <code>AddJobFlowSteps</code> to submit a step
+  /// with this parameter set to <code>CANCEL_AND_WAIT</code> or
+  /// <code>TERMINATE_CLUSTER</code>. The step is not submitted and the action
+  /// fails with a message that the <code>ActionOnFailure</code> setting is not
+  /// valid.
+  ///
+  /// If you change a cluster's <code>StepConcurrencyLevel</code> to be greater
+  /// than 1 while a step is running, the <code>ActionOnFailure</code> parameter
+  /// may not behave as you expect. In this case, for a step that fails with this
+  /// parameter set to <code>CANCEL_AND_WAIT</code>, pending steps and the running
+  /// step are not canceled; for a step that fails with this parameter set to
+  /// <code>TERMINATE_CLUSTER</code>, the cluster does not terminate.
   final ActionOnFailure? actionOnFailure;
 
   StepConfig({
@@ -8243,6 +9597,7 @@ class StepConfig {
     required this.name,
     this.actionOnFailure,
   });
+
   factory StepConfig.fromJson(Map<String, dynamic> json) {
     return StepConfig(
       hadoopJarStep: HadoopJarStepConfig.fromJson(
@@ -8277,6 +9632,7 @@ class StepDetail {
     required this.executionStatusDetail,
     required this.stepConfig,
   });
+
   factory StepDetail.fromJson(Map<String, dynamic> json) {
     return StepDetail(
       executionStatusDetail: StepExecutionStatusDetail.fromJson(
@@ -8364,6 +9720,7 @@ class StepExecutionStatusDetail {
     this.lastStateChangeReason,
     this.startDateTime,
   });
+
   factory StepExecutionStatusDetail.fromJson(Map<String, dynamic> json) {
     return StepExecutionStatusDetail(
       creationDateTime:
@@ -8442,6 +9799,7 @@ class StepStateChangeReason {
     this.code,
     this.message,
   });
+
   factory StepStateChangeReason.fromJson(Map<String, dynamic> json) {
     return StepStateChangeReason(
       code: (json['Code'] as String?)?.toStepStateChangeReasonCode(),
@@ -8494,6 +9852,7 @@ class StepStatus {
     this.stateChangeReason,
     this.timeline,
   });
+
   factory StepStatus.fromJson(Map<String, dynamic> json) {
     return StepStatus(
       failureDetails: json['FailureDetails'] != null
@@ -8516,8 +9875,7 @@ class StepStatus {
 class StepSummary {
   /// The action to take when the cluster step fails. Possible values are
   /// TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is
-  /// available for backward compatibility. We recommend using TERMINATE_CLUSTER
-  /// instead.
+  /// available for backward compatibility.
   final ActionOnFailure? actionOnFailure;
 
   /// The Hadoop job configuration of the cluster step.
@@ -8539,6 +9897,7 @@ class StepSummary {
     this.name,
     this.status,
   });
+
   factory StepSummary.fromJson(Map<String, dynamic> json) {
     return StepSummary(
       actionOnFailure:
@@ -8571,6 +9930,7 @@ class StepTimeline {
     this.endDateTime,
     this.startDateTime,
   });
+
   factory StepTimeline.fromJson(Map<String, dynamic> json) {
     return StepTimeline(
       creationDateTime: timeStampFromJson(json['CreationDateTime']),
@@ -8583,18 +9943,18 @@ class StepTimeline {
 /// Details for an Amazon EMR Studio including ID, creation time, name, and so
 /// on.
 class Studio {
-  /// Specifies whether the Studio authenticates users using single sign-on (SSO)
-  /// or IAM.
+  /// Specifies whether the Amazon EMR Studio authenticates users with IAM or IAM
+  /// Identity Center.
   final AuthMode? authMode;
 
   /// The time the Amazon EMR Studio was created.
   final DateTime? creationTime;
 
-  /// The default Amazon S3 location to back up Amazon EMR Studio Workspaces and
-  /// notebook files.
+  /// The Amazon S3 location to back up Amazon EMR Studio Workspaces and notebook
+  /// files.
   final String? defaultS3Location;
 
-  /// The detailed description of the EMR Studio.
+  /// The detailed description of the Amazon EMR Studio.
   final String? description;
 
   /// The ID of the Engine security group associated with the Amazon EMR Studio.
@@ -8602,16 +9962,24 @@ class Studio {
   /// the Workspace security group.
   final String? engineSecurityGroupId;
 
-  /// The name of the EMR Studio.
+  /// Your identity provider's authentication endpoint. Amazon EMR Studio
+  /// redirects federated users to this endpoint for authentication when logging
+  /// in to a Studio with the Studio URL.
+  final String? idpAuthUrl;
+
+  /// The name of your identity provider's <code>RelayState</code> parameter.
+  final String? idpRelayStateParameterName;
+
+  /// The name of the Amazon EMR Studio.
   final String? name;
 
   /// The name of the IAM role assumed by the Amazon EMR Studio.
   final String? serviceRole;
 
-  /// The Amazon Resource Name (ARN) of the EMR Studio.
+  /// The Amazon Resource Name (ARN) of the Amazon EMR Studio.
   final String? studioArn;
 
-  /// The ID of the EMR Studio.
+  /// The ID of the Amazon EMR Studio.
   final String? studioId;
 
   /// The list of IDs of the subnets associated with the Amazon EMR Studio.
@@ -8624,10 +9992,11 @@ class Studio {
   final String? url;
 
   /// The name of the IAM role assumed by users logged in to the Amazon EMR
-  /// Studio.
+  /// Studio. A Studio only requires a <code>UserRole</code> when you use IAM
+  /// authentication.
   final String? userRole;
 
-  /// The ID of the VPC associated with the EMR Studio.
+  /// The ID of the VPC associated with the Amazon EMR Studio.
   final String? vpcId;
 
   /// The ID of the Workspace security group associated with the Amazon EMR
@@ -8641,6 +10010,8 @@ class Studio {
     this.defaultS3Location,
     this.description,
     this.engineSecurityGroupId,
+    this.idpAuthUrl,
+    this.idpRelayStateParameterName,
     this.name,
     this.serviceRole,
     this.studioArn,
@@ -8652,6 +10023,7 @@ class Studio {
     this.vpcId,
     this.workspaceSecurityGroupId,
   });
+
   factory Studio.fromJson(Map<String, dynamic> json) {
     return Studio(
       authMode: (json['AuthMode'] as String?)?.toAuthMode(),
@@ -8659,6 +10031,8 @@ class Studio {
       defaultS3Location: json['DefaultS3Location'] as String?,
       description: json['Description'] as String?,
       engineSecurityGroupId: json['EngineSecurityGroupId'] as String?,
+      idpAuthUrl: json['IdpAuthUrl'] as String?,
+      idpRelayStateParameterName: json['IdpRelayStateParameterName'] as String?,
       name: json['Name'] as String?,
       serviceRole: json['ServiceRole'] as String?,
       studioArn: json['StudioArn'] as String?,
@@ -8683,10 +10057,14 @@ class Studio {
 /// The details do not include subnets, IAM roles, security groups, or tags
 /// associated with the Studio.
 class StudioSummary {
+  /// Specifies whether the Studio authenticates users using IAM or IAM Identity
+  /// Center.
+  final AuthMode? authMode;
+
   /// The time when the Amazon EMR Studio was created.
   final DateTime? creationTime;
 
-  /// The detailed description of the EMR Studio.
+  /// The detailed description of the Amazon EMR Studio.
   final String? description;
 
   /// The name of the Amazon EMR Studio.
@@ -8703,6 +10081,7 @@ class StudioSummary {
   final String? vpcId;
 
   StudioSummary({
+    this.authMode,
     this.creationTime,
     this.description,
     this.name,
@@ -8710,8 +10089,10 @@ class StudioSummary {
     this.url,
     this.vpcId,
   });
+
   factory StudioSummary.fromJson(Map<String, dynamic> json) {
     return StudioSummary(
+      authMode: (json['AuthMode'] as String?)?.toAuthMode(),
       creationTime: timeStampFromJson(json['CreationTime']),
       description: json['Description'] as String?,
       name: json['Name'] as String?,
@@ -8722,8 +10103,8 @@ class StudioSummary {
   }
 }
 
-/// The list of supported product configurations which allow user-supplied
-/// arguments. EMR accepts these arguments and forwards them to the
+/// The list of supported product configurations that allow user-supplied
+/// arguments. Amazon EMR accepts these arguments and forwards them to the
 /// corresponding installation script as bootstrap action arguments.
 class SupportedProductConfig {
   /// The list of user-supplied arguments.
@@ -8755,8 +10136,7 @@ class SupportedProductConfig {
 class Tag {
   /// A user-defined key, which is the minimum required information for a valid
   /// tag. For more information, see <a
-  /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-tags.html">Tag
-  /// </a>.
+  /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-tags.html">Tag</a>.
   final String? key;
 
   /// A user-defined value, which is optional in a tag. For more information, see
@@ -8769,6 +10149,7 @@ class Tag {
     this.key,
     this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String?,
@@ -8939,30 +10320,61 @@ extension UnitFromString on String {
   }
 }
 
-/// EBS volume specifications such as volume type, IOPS, and size (GiB) that
-/// will be requested for the EBS volume attached to an EC2 instance in the
-/// cluster.
+/// The username and password that you use to connect to cluster endpoints.
+class UsernamePassword {
+  /// The password associated with the temporary credentials that you use to
+  /// connect to cluster endpoints.
+  final String? password;
+
+  /// The username associated with the temporary credentials that you use to
+  /// connect to cluster endpoints.
+  final String? username;
+
+  UsernamePassword({
+    this.password,
+    this.username,
+  });
+
+  factory UsernamePassword.fromJson(Map<String, dynamic> json) {
+    return UsernamePassword(
+      password: json['Password'] as String?,
+      username: json['Username'] as String?,
+    );
+  }
+}
+
+/// EBS volume specifications such as volume type, IOPS, size (GiB) and
+/// throughput (MiB/s) that are requested for the EBS volume attached to an
+/// Amazon EC2 instance in the cluster.
 class VolumeSpecification {
   /// The volume size, in gibibytes (GiB). This can be a number from 1 - 1024. If
   /// the volume type is EBS-optimized, the minimum value is 10.
   final int sizeInGB;
 
-  /// The volume type. Volume types supported are gp2, io1, standard.
+  /// The volume type. Volume types supported are gp3, gp2, io1, st1, sc1, and
+  /// standard.
   final String volumeType;
 
   /// The number of I/O operations per second (IOPS) that the volume supports.
   final int? iops;
 
+  /// The throughput, in mebibyte per second (MiB/s). This optional parameter can
+  /// be a number from 125 - 1000 and is valid only for gp3 volumes.
+  final int? throughput;
+
   VolumeSpecification({
     required this.sizeInGB,
     required this.volumeType,
     this.iops,
+    this.throughput,
   });
+
   factory VolumeSpecification.fromJson(Map<String, dynamic> json) {
     return VolumeSpecification(
       sizeInGB: json['SizeInGB'] as int,
       volumeType: json['VolumeType'] as String,
       iops: json['Iops'] as int?,
+      throughput: json['Throughput'] as int?,
     );
   }
 
@@ -8970,10 +10382,12 @@ class VolumeSpecification {
     final sizeInGB = this.sizeInGB;
     final volumeType = this.volumeType;
     final iops = this.iops;
+    final throughput = this.throughput;
     return {
       'SizeInGB': sizeInGB,
       'VolumeType': volumeType,
       if (iops != null) 'Iops': iops,
+      if (throughput != null) 'Throughput': throughput,
     };
   }
 }

@@ -756,22 +756,6 @@ class CognitoSync {
   }
 }
 
-/// An exception thrown when a bulk publish operation is requested less than 24
-/// hours after a previous bulk publish operation completed successfully.
-class AlreadyStreamedException implements _s.AwsException {
-  /// The message associated with the AlreadyStreamedException exception.
-  final String message;
-
-  AlreadyStreamedException({
-    required this.message,
-  });
-  factory AlreadyStreamedException.fromJson(Map<String, dynamic> json) {
-    return AlreadyStreamedException(
-      message: json['message'] as String,
-    );
-  }
-}
-
 /// The output for the BulkPublish operation.
 class BulkPublishResponse {
   /// A name-spaced GUID (for example,
@@ -782,6 +766,7 @@ class BulkPublishResponse {
   BulkPublishResponse({
     this.identityPoolId,
   });
+
   factory BulkPublishResponse.fromJson(Map<String, dynamic> json) {
     return BulkPublishResponse(
       identityPoolId: json['IdentityPoolId'] as String?,
@@ -850,6 +835,7 @@ class CognitoStreams {
     this.streamName,
     this.streamingStatus,
   });
+
   factory CognitoStreams.fromJson(Map<String, dynamic> json) {
     return CognitoStreams(
       roleArn: json['RoleArn'] as String?,
@@ -868,21 +854,6 @@ class CognitoStreams {
       if (streamName != null) 'StreamName': streamName,
       if (streamingStatus != null) 'StreamingStatus': streamingStatus.toValue(),
     };
-  }
-}
-
-/// Thrown if there are parallel requests to modify a resource.
-class ConcurrentModificationException implements _s.AwsException {
-  /// The message returned by a ConcurrentModicationException.
-  final String message;
-
-  ConcurrentModificationException({
-    required this.message,
-  });
-  factory ConcurrentModificationException.fromJson(Map<String, dynamic> json) {
-    return ConcurrentModificationException(
-      message: json['message'] as String,
-    );
   }
 }
 
@@ -925,6 +896,7 @@ class Dataset {
     this.lastModifiedDate,
     this.numRecords,
   });
+
   factory Dataset.fromJson(Map<String, dynamic> json) {
     return Dataset(
       creationDate: timeStampFromJson(json['CreationDate']),
@@ -950,6 +922,7 @@ class DeleteDatasetResponse {
   DeleteDatasetResponse({
     this.dataset,
   });
+
   factory DeleteDatasetResponse.fromJson(Map<String, dynamic> json) {
     return DeleteDatasetResponse(
       dataset: json['Dataset'] != null
@@ -971,6 +944,7 @@ class DescribeDatasetResponse {
   DescribeDatasetResponse({
     this.dataset,
   });
+
   factory DescribeDatasetResponse.fromJson(Map<String, dynamic> json) {
     return DescribeDatasetResponse(
       dataset: json['Dataset'] != null
@@ -988,6 +962,7 @@ class DescribeIdentityPoolUsageResponse {
   DescribeIdentityPoolUsageResponse({
     this.identityPoolUsage,
   });
+
   factory DescribeIdentityPoolUsageResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeIdentityPoolUsageResponse(
@@ -1007,28 +982,13 @@ class DescribeIdentityUsageResponse {
   DescribeIdentityUsageResponse({
     this.identityUsage,
   });
+
   factory DescribeIdentityUsageResponse.fromJson(Map<String, dynamic> json) {
     return DescribeIdentityUsageResponse(
       identityUsage: json['IdentityUsage'] != null
           ? IdentityUsage.fromJson(
               json['IdentityUsage'] as Map<String, dynamic>)
           : null,
-    );
-  }
-}
-
-/// An exception thrown when there is an IN_PROGRESS bulk publish operation for
-/// the given identity pool.
-class DuplicateRequestException implements _s.AwsException {
-  /// The message associated with the DuplicateRequestException exception.
-  final String message;
-
-  DuplicateRequestException({
-    required this.message,
-  });
-  factory DuplicateRequestException.fromJson(Map<String, dynamic> json) {
-    return DuplicateRequestException(
-      message: json['message'] as String,
     );
   }
 }
@@ -1070,6 +1030,7 @@ class GetBulkPublishDetailsResponse {
     this.failureMessage,
     this.identityPoolId,
   });
+
   factory GetBulkPublishDetailsResponse.fromJson(Map<String, dynamic> json) {
     return GetBulkPublishDetailsResponse(
       bulkPublishCompleteTime:
@@ -1091,6 +1052,7 @@ class GetCognitoEventsResponse {
   GetCognitoEventsResponse({
     this.events,
   });
+
   factory GetCognitoEventsResponse.fromJson(Map<String, dynamic> json) {
     return GetCognitoEventsResponse(
       events: (json['Events'] as Map<String, dynamic>?)
@@ -1116,6 +1078,7 @@ class GetIdentityPoolConfigurationResponse {
     this.identityPoolId,
     this.pushSync,
   });
+
   factory GetIdentityPoolConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return GetIdentityPoolConfigurationResponse(
@@ -1153,6 +1116,7 @@ class IdentityPoolUsage {
     this.lastModifiedDate,
     this.syncSessionsCount,
   });
+
   factory IdentityPoolUsage.fromJson(Map<String, dynamic> json) {
     return IdentityPoolUsage(
       dataStorage: json['DataStorage'] as int?,
@@ -1191,6 +1155,7 @@ class IdentityUsage {
     this.identityPoolId,
     this.lastModifiedDate,
   });
+
   factory IdentityUsage.fromJson(Map<String, dynamic> json) {
     return IdentityUsage(
       dataStorage: json['DataStorage'] as int?,
@@ -1198,98 +1163,6 @@ class IdentityUsage {
       identityId: json['IdentityId'] as String?,
       identityPoolId: json['IdentityPoolId'] as String?,
       lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
-    );
-  }
-}
-
-/// Indicates an internal service error.
-class InternalErrorException implements _s.AwsException {
-  /// Message returned by InternalErrorException.
-  final String message;
-
-  InternalErrorException({
-    required this.message,
-  });
-  factory InternalErrorException.fromJson(Map<String, dynamic> json) {
-    return InternalErrorException(
-      message: json['message'] as String,
-    );
-  }
-}
-
-class InvalidConfigurationException implements _s.AwsException {
-  /// Message returned by InvalidConfigurationException.
-  final String message;
-
-  InvalidConfigurationException({
-    required this.message,
-  });
-  factory InvalidConfigurationException.fromJson(Map<String, dynamic> json) {
-    return InvalidConfigurationException(
-      message: json['message'] as String,
-    );
-  }
-}
-
-/// The AWS Lambda function returned invalid output or an exception.
-class InvalidLambdaFunctionOutputException implements _s.AwsException {
-  /// A message returned when an InvalidLambdaFunctionOutputException occurs
-  final String message;
-
-  InvalidLambdaFunctionOutputException({
-    required this.message,
-  });
-  factory InvalidLambdaFunctionOutputException.fromJson(
-      Map<String, dynamic> json) {
-    return InvalidLambdaFunctionOutputException(
-      message: json['message'] as String,
-    );
-  }
-}
-
-/// Thrown when a request parameter does not comply with the associated
-/// constraints.
-class InvalidParameterException implements _s.AwsException {
-  /// Message returned by InvalidParameterException.
-  final String message;
-
-  InvalidParameterException({
-    required this.message,
-  });
-  factory InvalidParameterException.fromJson(Map<String, dynamic> json) {
-    return InvalidParameterException(
-      message: json['message'] as String,
-    );
-  }
-}
-
-/// AWS Lambda throttled your account, please contact AWS Support
-class LambdaThrottledException implements _s.AwsException {
-  /// A message returned when an LambdaThrottledException is thrown
-  final String message;
-
-  LambdaThrottledException({
-    required this.message,
-  });
-  factory LambdaThrottledException.fromJson(Map<String, dynamic> json) {
-    return LambdaThrottledException(
-      message: json['message'] as String,
-    );
-  }
-}
-
-/// Thrown when the limit on the number of objects or operations has been
-/// exceeded.
-class LimitExceededException implements _s.AwsException {
-  /// Message returned by LimitExceededException.
-  final String message;
-
-  LimitExceededException({
-    required this.message,
-  });
-  factory LimitExceededException.fromJson(Map<String, dynamic> json) {
-    return LimitExceededException(
-      message: json['message'] as String,
     );
   }
 }
@@ -1310,6 +1183,7 @@ class ListDatasetsResponse {
     this.datasets,
     this.nextToken,
   });
+
   factory ListDatasetsResponse.fromJson(Map<String, dynamic> json) {
     return ListDatasetsResponse(
       count: json['Count'] as int?,
@@ -1342,6 +1216,7 @@ class ListIdentityPoolUsageResponse {
     this.maxResults,
     this.nextToken,
   });
+
   factory ListIdentityPoolUsageResponse.fromJson(Map<String, dynamic> json) {
     return ListIdentityPoolUsageResponse(
       count: json['Count'] as int?,
@@ -1395,6 +1270,7 @@ class ListRecordsResponse {
     this.records,
     this.syncSessionToken,
   });
+
   factory ListRecordsResponse.fromJson(Map<String, dynamic> json) {
     return ListRecordsResponse(
       count: json['Count'] as int?,
@@ -1413,21 +1289,6 @@ class ListRecordsResponse {
           .map((e) => Record.fromJson(e as Map<String, dynamic>))
           .toList(),
       syncSessionToken: json['SyncSessionToken'] as String?,
-    );
-  }
-}
-
-/// Thrown when a user is not authorized to access the requested resource.
-class NotAuthorizedException implements _s.AwsException {
-  /// The message returned by a NotAuthorizedException.
-  final String message;
-
-  NotAuthorizedException({
-    required this.message,
-  });
-  factory NotAuthorizedException.fromJson(Map<String, dynamic> json) {
-    return NotAuthorizedException(
-      message: json['message'] as String,
     );
   }
 }
@@ -1510,6 +1371,7 @@ class PushSync {
     this.applicationArns,
     this.roleArn,
   });
+
   factory PushSync.fromJson(Map<String, dynamic> json) {
     return PushSync(
       applicationArns: (json['ApplicationArns'] as List?)
@@ -1558,6 +1420,7 @@ class Record {
     this.syncCount,
     this.value,
   });
+
   factory Record.fromJson(Map<String, dynamic> json) {
     return Record(
       deviceLastModifiedDate: timeStampFromJson(json['DeviceLastModifiedDate']),
@@ -1619,40 +1482,10 @@ class RegisterDeviceResponse {
   RegisterDeviceResponse({
     this.deviceId,
   });
+
   factory RegisterDeviceResponse.fromJson(Map<String, dynamic> json) {
     return RegisterDeviceResponse(
       deviceId: json['DeviceId'] as String?,
-    );
-  }
-}
-
-/// Thrown if an update can't be applied because the resource was changed by
-/// another call and this would result in a conflict.
-class ResourceConflictException implements _s.AwsException {
-  /// The message returned by a ResourceConflictException.
-  final String message;
-
-  ResourceConflictException({
-    required this.message,
-  });
-  factory ResourceConflictException.fromJson(Map<String, dynamic> json) {
-    return ResourceConflictException(
-      message: json['message'] as String,
-    );
-  }
-}
-
-/// Thrown if the resource doesn't exist.
-class ResourceNotFoundException implements _s.AwsException {
-  /// Message returned by a ResourceNotFoundException.
-  final String message;
-
-  ResourceNotFoundException({
-    required this.message,
-  });
-  factory ResourceNotFoundException.fromJson(Map<String, dynamic> json) {
-    return ResourceNotFoundException(
-      message: json['message'] as String,
     );
   }
 }
@@ -1674,6 +1507,7 @@ class SetIdentityPoolConfigurationResponse {
     this.identityPoolId,
     this.pushSync,
   });
+
   factory SetIdentityPoolConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return SetIdentityPoolConfigurationResponse(
@@ -1720,29 +1554,16 @@ extension StreamingStatusFromString on String {
 /// Response to a SubscribeToDataset request.
 class SubscribeToDatasetResponse {
   SubscribeToDatasetResponse();
+
   factory SubscribeToDatasetResponse.fromJson(Map<String, dynamic> _) {
     return SubscribeToDatasetResponse();
-  }
-}
-
-/// Thrown if the request is throttled.
-class TooManyRequestsException implements _s.AwsException {
-  /// Message returned by a TooManyRequestsException.
-  final String message;
-
-  TooManyRequestsException({
-    required this.message,
-  });
-  factory TooManyRequestsException.fromJson(Map<String, dynamic> json) {
-    return TooManyRequestsException(
-      message: json['message'] as String,
-    );
   }
 }
 
 /// Response to an UnsubscribeFromDataset request.
 class UnsubscribeFromDatasetResponse {
   UnsubscribeFromDatasetResponse();
+
   factory UnsubscribeFromDatasetResponse.fromJson(Map<String, dynamic> _) {
     return UnsubscribeFromDatasetResponse();
   }
@@ -1756,6 +1577,7 @@ class UpdateRecordsResponse {
   UpdateRecordsResponse({
     this.records,
   });
+
   factory UpdateRecordsResponse.fromJson(Map<String, dynamic> json) {
     return UpdateRecordsResponse(
       records: (json['Records'] as List?)
@@ -1766,31 +1588,105 @@ class UpdateRecordsResponse {
   }
 }
 
+class AlreadyStreamedException extends _s.GenericAwsException {
+  AlreadyStreamedException({String? type, String? message})
+      : super(type: type, code: 'AlreadyStreamedException', message: message);
+}
+
+class ConcurrentModificationException extends _s.GenericAwsException {
+  ConcurrentModificationException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ConcurrentModificationException',
+            message: message);
+}
+
+class DuplicateRequestException extends _s.GenericAwsException {
+  DuplicateRequestException({String? type, String? message})
+      : super(type: type, code: 'DuplicateRequestException', message: message);
+}
+
+class InternalErrorException extends _s.GenericAwsException {
+  InternalErrorException({String? type, String? message})
+      : super(type: type, code: 'InternalErrorException', message: message);
+}
+
+class InvalidConfigurationException extends _s.GenericAwsException {
+  InvalidConfigurationException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'InvalidConfigurationException',
+            message: message);
+}
+
+class InvalidLambdaFunctionOutputException extends _s.GenericAwsException {
+  InvalidLambdaFunctionOutputException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'InvalidLambdaFunctionOutputException',
+            message: message);
+}
+
+class InvalidParameterException extends _s.GenericAwsException {
+  InvalidParameterException({String? type, String? message})
+      : super(type: type, code: 'InvalidParameterException', message: message);
+}
+
+class LambdaThrottledException extends _s.GenericAwsException {
+  LambdaThrottledException({String? type, String? message})
+      : super(type: type, code: 'LambdaThrottledException', message: message);
+}
+
+class LimitExceededException extends _s.GenericAwsException {
+  LimitExceededException({String? type, String? message})
+      : super(type: type, code: 'LimitExceededException', message: message);
+}
+
+class NotAuthorizedException extends _s.GenericAwsException {
+  NotAuthorizedException({String? type, String? message})
+      : super(type: type, code: 'NotAuthorizedException', message: message);
+}
+
+class ResourceConflictException extends _s.GenericAwsException {
+  ResourceConflictException({String? type, String? message})
+      : super(type: type, code: 'ResourceConflictException', message: message);
+}
+
+class ResourceNotFoundException extends _s.GenericAwsException {
+  ResourceNotFoundException({String? type, String? message})
+      : super(type: type, code: 'ResourceNotFoundException', message: message);
+}
+
+class TooManyRequestsException extends _s.GenericAwsException {
+  TooManyRequestsException({String? type, String? message})
+      : super(type: type, code: 'TooManyRequestsException', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'AlreadyStreamedException': (type, message) =>
-      AlreadyStreamedException(message: message),
+      AlreadyStreamedException(type: type, message: message),
   'ConcurrentModificationException': (type, message) =>
-      ConcurrentModificationException(message: message),
+      ConcurrentModificationException(type: type, message: message),
   'DuplicateRequestException': (type, message) =>
-      DuplicateRequestException(message: message),
+      DuplicateRequestException(type: type, message: message),
   'InternalErrorException': (type, message) =>
-      InternalErrorException(message: message),
+      InternalErrorException(type: type, message: message),
   'InvalidConfigurationException': (type, message) =>
-      InvalidConfigurationException(message: message),
+      InvalidConfigurationException(type: type, message: message),
   'InvalidLambdaFunctionOutputException': (type, message) =>
-      InvalidLambdaFunctionOutputException(message: message),
+      InvalidLambdaFunctionOutputException(type: type, message: message),
   'InvalidParameterException': (type, message) =>
-      InvalidParameterException(message: message),
+      InvalidParameterException(type: type, message: message),
   'LambdaThrottledException': (type, message) =>
-      LambdaThrottledException(message: message),
+      LambdaThrottledException(type: type, message: message),
   'LimitExceededException': (type, message) =>
-      LimitExceededException(message: message),
+      LimitExceededException(type: type, message: message),
   'NotAuthorizedException': (type, message) =>
-      NotAuthorizedException(message: message),
+      NotAuthorizedException(type: type, message: message),
   'ResourceConflictException': (type, message) =>
-      ResourceConflictException(message: message),
+      ResourceConflictException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
-      ResourceNotFoundException(message: message),
+      ResourceNotFoundException(type: type, message: message),
   'TooManyRequestsException': (type, message) =>
-      TooManyRequestsException(message: message),
+      TooManyRequestsException(type: type, message: message),
 };

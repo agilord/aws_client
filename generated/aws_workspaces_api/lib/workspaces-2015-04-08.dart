@@ -19,7 +19,11 @@ import 'package:shared_aws_api/shared.dart'
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 /// Amazon WorkSpaces enables you to provision virtual, cloud-based Microsoft
-/// Windows and Amazon Linux desktops for your users.
+/// Windows or Amazon Linux desktops for your users, known as <i>WorkSpaces</i>.
+/// WorkSpaces eliminates the need to procure and deploy hardware or install
+/// complex software. You can quickly add or remove users as your needs change.
+/// Users can access their virtual desktops from multiple devices or web
+/// browsers.
 class WorkSpaces {
   final _s.JsonProtocol _protocol;
   WorkSpaces({
@@ -171,16 +175,17 @@ class WorkSpaces {
   /// Region. For more information about copying images, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/copy-custom-image.html">
   /// Copy a Custom WorkSpaces Image</a>.
-  /// <note>
+  ///
   /// In the China (Ningxia) Region, you can copy images only within the same
   /// Region.
   ///
-  /// In the AWS GovCloud (US-West) Region, to copy images to and from other AWS
-  /// Regions, contact AWS Support.
-  /// </note> <important>
+  /// In Amazon Web Services GovCloud (US), to copy images to and from other
+  /// Regions, contact Amazon Web Services Support.
+  /// <important>
   /// Before copying a shared image, be sure to verify that it has been shared
-  /// from the correct AWS account. To determine if an image has been shared and
-  /// to see the AWS account ID that owns an image, use the <a
+  /// from the correct Amazon Web Services account. To determine if an image has
+  /// been shared and to see the ID of the Amazon Web Services account that owns
+  /// an image, use the <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaceImages.html">DescribeWorkSpaceImages</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaceImagePermissions.html">DescribeWorkspaceImagePermissions</a>
@@ -238,6 +243,51 @@ class WorkSpaces {
     return CopyWorkspaceImageResult.fromJson(jsonResponse.body);
   }
 
+  /// Creates a client-add-in for Amazon Connect within a directory. You can
+  /// create only one Amazon Connect client add-in within a directory.
+  ///
+  /// This client add-in allows WorkSpaces users to seamlessly connect to Amazon
+  /// Connect.
+  ///
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceCreationFailedException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [name] :
+  /// The name of the client add-in.
+  ///
+  /// Parameter [resourceId] :
+  /// The directory identifier for which to configure the client add-in.
+  ///
+  /// Parameter [url] :
+  /// The endpoint URL of the Amazon Connect client add-in.
+  Future<CreateConnectClientAddInResult> createConnectClientAddIn({
+    required String name,
+    required String resourceId,
+    required String url,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.CreateConnectClientAddIn'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+        'ResourceId': resourceId,
+        'URL': url,
+      },
+    );
+
+    return CreateConnectClientAddInResult.fromJson(jsonResponse.body);
+  }
+
   /// Creates the specified connection alias for use with cross-Region
   /// redirection. For more information, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
@@ -254,10 +304,11 @@ class WorkSpaces {
   /// A connection string in the form of a fully qualified domain name (FQDN),
   /// such as <code>www.example.com</code>.
   /// <important>
-  /// After you create a connection string, it is always associated to your AWS
-  /// account. You cannot recreate the same connection string with a different
-  /// account, even if you delete all instances of it from the original account.
-  /// The connection string is globally reserved for your account.
+  /// After you create a connection string, it is always associated to your
+  /// Amazon Web Services account. You cannot recreate the same connection
+  /// string with a different account, even if you delete all instances of it
+  /// from the original account. The connection string is globally reserved for
+  /// your account.
   /// </important>
   ///
   /// Parameter [tags] :
@@ -343,6 +394,42 @@ class WorkSpaces {
     return CreateIpGroupResult.fromJson(jsonResponse.body);
   }
 
+  /// Creates a standby WorkSpace in a secondary Region.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceLimitExceededException].
+  ///
+  /// Parameter [primaryRegion] :
+  /// The Region of the primary WorkSpace.
+  ///
+  /// Parameter [standbyWorkspaces] :
+  /// Information about the standby WorkSpace to be created.
+  Future<CreateStandbyWorkspacesResult> createStandbyWorkspaces({
+    required String primaryRegion,
+    required List<StandbyWorkspace> standbyWorkspaces,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.CreateStandbyWorkspaces'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'PrimaryRegion': primaryRegion,
+        'StandbyWorkspaces': standbyWorkspaces,
+      },
+    );
+
+    return CreateStandbyWorkspacesResult.fromJson(jsonResponse.body);
+  }
+
   /// Creates the specified tags for the specified WorkSpaces resource.
   ///
   /// May throw [ResourceNotFoundException].
@@ -377,10 +464,202 @@ class WorkSpaces {
     );
   }
 
+  /// Creates a new updated WorkSpace image based on the specified source image.
+  /// The new updated WorkSpace image has the latest drivers and other updates
+  /// required by the Amazon WorkSpaces components.
+  ///
+  /// To determine which WorkSpace images need to be updated with the latest
+  /// Amazon WorkSpaces requirements, use <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaceImages.html">
+  /// DescribeWorkspaceImages</a>.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// Only Windows 10, Windows Server 2016, and Windows Server 2019 WorkSpace
+  /// images can be programmatically updated at this time.
+  /// </li>
+  /// <li>
+  /// Microsoft Windows updates and other application updates are not included
+  /// in the update process.
+  /// </li>
+  /// <li>
+  /// The source WorkSpace image is not deleted. You can delete the source image
+  /// after you've verified your new updated image and created a new bundle.
+  /// </li>
+  /// </ul> </note>
+  ///
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [InvalidResourceStateException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  ///
+  /// Parameter [description] :
+  /// A description of whether updates for the WorkSpace image are available.
+  ///
+  /// Parameter [name] :
+  /// The name of the new updated WorkSpace image.
+  ///
+  /// Parameter [sourceImageId] :
+  /// The identifier of the source WorkSpace image.
+  ///
+  /// Parameter [tags] :
+  /// The tags that you want to add to the new updated WorkSpace image.
+  /// <note>
+  /// To add tags at the same time when you're creating the updated image, you
+  /// must create an IAM policy that grants your IAM user permissions to use
+  /// <code>workspaces:CreateTags</code>.
+  /// </note>
+  Future<CreateUpdatedWorkspaceImageResult> createUpdatedWorkspaceImage({
+    required String description,
+    required String name,
+    required String sourceImageId,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.CreateUpdatedWorkspaceImage'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Description': description,
+        'Name': name,
+        'SourceImageId': sourceImageId,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateUpdatedWorkspaceImageResult.fromJson(jsonResponse.body);
+  }
+
+  /// Creates the specified WorkSpace bundle. For more information about
+  /// creating WorkSpace bundles, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/create-custom-bundle.html">
+  /// Create a Custom WorkSpaces Image and Bundle</a>.
+  ///
+  /// May throw [ResourceUnavailableException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [bundleDescription] :
+  /// The description of the bundle.
+  ///
+  /// Parameter [bundleName] :
+  /// The name of the bundle.
+  ///
+  /// Parameter [imageId] :
+  /// The identifier of the image that is used to create the bundle.
+  ///
+  /// Parameter [tags] :
+  /// The tags associated with the bundle.
+  /// <note>
+  /// To add tags at the same time when you're creating the bundle, you must
+  /// create an IAM policy that grants your IAM user permissions to use
+  /// <code>workspaces:CreateTags</code>.
+  /// </note>
+  Future<CreateWorkspaceBundleResult> createWorkspaceBundle({
+    required String bundleDescription,
+    required String bundleName,
+    required ComputeType computeType,
+    required String imageId,
+    required UserStorage userStorage,
+    RootStorage? rootStorage,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.CreateWorkspaceBundle'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'BundleDescription': bundleDescription,
+        'BundleName': bundleName,
+        'ComputeType': computeType,
+        'ImageId': imageId,
+        'UserStorage': userStorage,
+        if (rootStorage != null) 'RootStorage': rootStorage,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateWorkspaceBundleResult.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a new WorkSpace image from an existing WorkSpace.
+  ///
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [InvalidResourceStateException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  ///
+  /// Parameter [description] :
+  /// The description of the new WorkSpace image.
+  ///
+  /// Parameter [name] :
+  /// The name of the new WorkSpace image.
+  ///
+  /// Parameter [workspaceId] :
+  /// The identifier of the source WorkSpace
+  ///
+  /// Parameter [tags] :
+  /// The tags that you want to add to the new WorkSpace image. To add tags when
+  /// you're creating the image, you must create an IAM policy that grants your
+  /// IAM user permission to use <code>workspaces:CreateTags</code>.
+  Future<CreateWorkspaceImageResult> createWorkspaceImage({
+    required String description,
+    required String name,
+    required String workspaceId,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.CreateWorkspaceImage'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Description': description,
+        'Name': name,
+        'WorkspaceId': workspaceId,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateWorkspaceImageResult.fromJson(jsonResponse.body);
+  }
+
   /// Creates one or more WorkSpaces.
   ///
   /// This operation is asynchronous and returns before the WorkSpaces are
   /// created.
+  /// <note>
+  /// The <code>MANUAL</code> running mode value is only supported by Amazon
+  /// WorkSpaces Core. Contact your account team to be allow-listed to use this
+  /// value. For more information, see <a
+  /// href="http://aws.amazon.com/workspaces/core/">Amazon WorkSpaces Core</a>.
+  /// </note>
   ///
   /// May throw [ResourceLimitExceededException].
   /// May throw [InvalidParameterValuesException].
@@ -406,6 +685,78 @@ class WorkSpaces {
     );
 
     return CreateWorkspacesResult.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes customized client branding. Client branding allows you to
+  /// customize your WorkSpace's client login portal. You can tailor your login
+  /// portal company logo, the support email address, support link, link to
+  /// reset password, and a custom message for users trying to sign in.
+  ///
+  /// After you delete your customized client branding, your login portal
+  /// reverts to the default client branding.
+  ///
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [platforms] :
+  /// The device type for which you want to delete client branding.
+  ///
+  /// Parameter [resourceId] :
+  /// The directory identifier of the WorkSpace for which you want to delete
+  /// client branding.
+  Future<void> deleteClientBranding({
+    required List<ClientDeviceType> platforms,
+    required String resourceId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.DeleteClientBranding'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Platforms': platforms.map((e) => e.toValue()).toList(),
+        'ResourceId': resourceId,
+      },
+    );
+  }
+
+  /// Deletes a client-add-in for Amazon Connect that is configured within a
+  /// directory.
+  ///
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [addInId] :
+  /// The identifier of the client add-in to delete.
+  ///
+  /// Parameter [resourceId] :
+  /// The directory identifier for which the client add-in is configured.
+  Future<void> deleteConnectClientAddIn({
+    required String addInId,
+    required String resourceId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.DeleteConnectClientAddIn'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AddInId': addInId,
+        'ResourceId': resourceId,
+      },
+    );
   }
 
   /// Deletes the specified connection alias. For more information, see <a
@@ -519,6 +870,37 @@ class WorkSpaces {
     );
   }
 
+  /// Deletes the specified WorkSpace bundle. For more information about
+  /// deleting WorkSpace bundles, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/delete_bundle.html">
+  /// Delete a Custom WorkSpaces Bundle or Image</a>.
+  ///
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceAssociatedException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [bundleId] :
+  /// The identifier of the bundle.
+  Future<void> deleteWorkspaceBundle({
+    String? bundleId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.DeleteWorkspaceBundle'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (bundleId != null) 'BundleId': bundleId,
+      },
+    );
+  }
+
   /// Deletes the specified image from your account. To delete an image, you
   /// must first delete any bundles that are associated with the image and
   /// unshare the image if it is shared with other accounts.
@@ -558,8 +940,8 @@ class WorkSpaces {
   /// or AD Connector directory for 30 consecutive days, this directory will be
   /// automatically deregistered for use with Amazon WorkSpaces, and you will be
   /// charged for this directory as per the <a
-  /// href="http://aws.amazon.com/directoryservice/pricing/">AWS Directory
-  /// Services pricing terms</a>.
+  /// href="http://aws.amazon.com/directoryservice/pricing/">Directory Service
+  /// pricing terms</a>.
   ///
   /// To delete empty directories, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/delete-workspaces-directory.html">
@@ -646,6 +1028,43 @@ class WorkSpaces {
     return DescribeAccountModificationsResult.fromJson(jsonResponse.body);
   }
 
+  /// Describes the specified client branding. Client branding allows you to
+  /// customize the log in page of various device types for your users. You can
+  /// add your company logo, the support email address, support link, link to
+  /// reset password, and a custom message for users trying to sign in.
+  /// <note>
+  /// Only device types that have branding information configured will be shown
+  /// in the response.
+  /// </note>
+  ///
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [resourceId] :
+  /// The directory identifier of the WorkSpace for which you want to view
+  /// client branding information.
+  Future<DescribeClientBrandingResult> describeClientBranding({
+    required String resourceId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.DescribeClientBranding'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceId': resourceId,
+      },
+    );
+
+    return DescribeClientBrandingResult.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves a list that describes one or more specified Amazon WorkSpaces
   /// clients.
   ///
@@ -676,9 +1095,55 @@ class WorkSpaces {
     return DescribeClientPropertiesResult.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves a list of Amazon Connect client add-ins that have been created.
+  ///
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [resourceId] :
+  /// The directory identifier for which the client add-in is configured.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return.
+  ///
+  /// Parameter [nextToken] :
+  /// If you received a <code>NextToken</code> from a previous call that was
+  /// paginated, provide this token to receive the next set of results.
+  Future<DescribeConnectClientAddInsResult> describeConnectClientAddIns({
+    required String resourceId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      25,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.DescribeConnectClientAddIns'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceId': resourceId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeConnectClientAddInsResult.fromJson(jsonResponse.body);
+  }
+
   /// Describes the permissions that the owner of a connection alias has granted
-  /// to another AWS account for the specified connection alias. For more
-  /// information, see <a
+  /// to another Amazon Web Services account for the specified connection alias.
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
   /// Cross-Region Redirection for Amazon WorkSpaces</a>.
   ///
@@ -874,8 +1339,9 @@ class WorkSpaces {
   /// The owner of the bundles. You cannot combine this parameter with any other
   /// filter.
   ///
-  /// Specify <code>AMAZON</code> to describe the bundles provided by AWS or
-  /// null to describe the bundles that belong to your account.
+  /// To describe the bundles provided by Amazon Web Services, specify
+  /// <code>AMAZON</code>. To describe the bundles that belong to your account,
+  /// don't specify a value.
   Future<DescribeWorkspaceBundlesResult> describeWorkspaceBundles({
     List<String>? bundleIds,
     String? nextToken,
@@ -948,7 +1414,7 @@ class WorkSpaces {
   }
 
   /// Describes the permissions that the owner of an image has granted to other
-  /// AWS accounts for an image.
+  /// Amazon Web Services accounts for an image.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -1185,7 +1651,7 @@ class WorkSpaces {
 
   /// Disassociates a connection alias from a directory. Disassociating a
   /// connection alias disables cross-Region redirection between two directories
-  /// in different AWS Regions. For more information, see <a
+  /// in different Regions. For more information, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
   /// Cross-Region Redirection for Amazon WorkSpaces</a>.
   /// <note>
@@ -1256,10 +1722,97 @@ class WorkSpaces {
     );
   }
 
-  /// Imports the specified Windows 10 Bring Your Own License (BYOL) image into
-  /// Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image
-  /// that is in your AWS account, and you must own the image. For more
-  /// information about creating BYOL images, see <a
+  /// Imports client branding. Client branding allows you to customize your
+  /// WorkSpace's client login portal. You can tailor your login portal company
+  /// logo, the support email address, support link, link to reset password, and
+  /// a custom message for users trying to sign in.
+  ///
+  /// After you import client branding, the default branding experience for the
+  /// specified platform type is replaced with the imported experience
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// You must specify at least one platform type when importing client
+  /// branding.
+  /// </li>
+  /// <li>
+  /// You can import up to 6 MB of data with each request. If your request
+  /// exceeds this limit, you can import client branding for different platform
+  /// types using separate requests.
+  /// </li>
+  /// <li>
+  /// In each platform type, the <code>SupportEmail</code> and
+  /// <code>SupportLink</code> parameters are mutually exclusive. You can
+  /// specify only one parameter for each platform type, but not both.
+  /// </li>
+  /// <li>
+  /// Imported data can take up to a minute to appear in the WorkSpaces client.
+  /// </li>
+  /// </ul> </note>
+  ///
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [resourceId] :
+  /// The directory identifier of the WorkSpace for which you want to import
+  /// client branding.
+  ///
+  /// Parameter [deviceTypeAndroid] :
+  /// The branding information to import for Android devices.
+  ///
+  /// Parameter [deviceTypeIos] :
+  /// The branding information to import for iOS devices.
+  ///
+  /// Parameter [deviceTypeLinux] :
+  /// The branding information to import for Linux devices.
+  ///
+  /// Parameter [deviceTypeOsx] :
+  /// The branding information to import for macOS devices.
+  ///
+  /// Parameter [deviceTypeWeb] :
+  /// The branding information to import for web access.
+  ///
+  /// Parameter [deviceTypeWindows] :
+  /// The branding information to import for Windows devices.
+  Future<ImportClientBrandingResult> importClientBranding({
+    required String resourceId,
+    DefaultImportClientBrandingAttributes? deviceTypeAndroid,
+    IosImportClientBrandingAttributes? deviceTypeIos,
+    DefaultImportClientBrandingAttributes? deviceTypeLinux,
+    DefaultImportClientBrandingAttributes? deviceTypeOsx,
+    DefaultImportClientBrandingAttributes? deviceTypeWeb,
+    DefaultImportClientBrandingAttributes? deviceTypeWindows,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.ImportClientBranding'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceId': resourceId,
+        if (deviceTypeAndroid != null) 'DeviceTypeAndroid': deviceTypeAndroid,
+        if (deviceTypeIos != null) 'DeviceTypeIos': deviceTypeIos,
+        if (deviceTypeLinux != null) 'DeviceTypeLinux': deviceTypeLinux,
+        if (deviceTypeOsx != null) 'DeviceTypeOsx': deviceTypeOsx,
+        if (deviceTypeWeb != null) 'DeviceTypeWeb': deviceTypeWeb,
+        if (deviceTypeWindows != null) 'DeviceTypeWindows': deviceTypeWindows,
+      },
+    );
+
+    return ImportClientBrandingResult.fromJson(jsonResponse.body);
+  }
+
+  /// Imports the specified Windows 10 or 11 Bring Your Own License (BYOL) image
+  /// into Amazon WorkSpaces. The image must be an already licensed Amazon EC2
+  /// image that is in your Amazon Web Services account, and you must own the
+  /// image. For more information about creating BYOL images, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html">
   /// Bring Your Own Windows Desktop Licenses</a>.
   ///
@@ -1281,25 +1834,39 @@ class WorkSpaces {
   ///
   /// Parameter [ingestionProcess] :
   /// The ingestion process to be used when importing the image, depending on
-  /// which protocol you want to use for your BYOL Workspace image, either PCoIP
-  /// or WorkSpaces Streaming Protocol (WSP). To use WSP, specify a value that
-  /// ends in <code>_WSP</code>. To use PCoIP, specify a value that does not end
-  /// in <code>_WSP</code>.
+  /// which protocol you want to use for your BYOL Workspace image, either
+  /// PCoIP, WorkSpaces Streaming Protocol (WSP), or bring your own protocol
+  /// (BYOP). To use WSP, specify a value that ends in <code>_WSP</code>. To use
+  /// PCoIP, specify a value that does not end in <code>_WSP</code>. To use
+  /// BYOP, specify a value that ends in <code>_BYOP</code>.
   ///
   /// For non-GPU-enabled bundles (bundles other than Graphics or GraphicsPro),
-  /// specify <code>BYOL_REGULAR</code> or <code>BYOL_REGULAR_WSP</code>,
-  /// depending on the protocol.
+  /// specify <code>BYOL_REGULAR</code>, <code>BYOL_REGULAR_WSP</code>, or
+  /// <code>BYOL_REGULAR_BYOP</code>, depending on the protocol.
+  /// <note>
+  /// The <code>BYOL_REGULAR_BYOP</code> and
+  /// <code>BYOL_GRAPHICS_G4DN_BYOP</code> values are only supported by Amazon
+  /// WorkSpaces Core. Contact your account team to be allow-listed to use these
+  /// values. For more information, see <a
+  /// href="http://aws.amazon.com/workspaces/core/">Amazon WorkSpaces Core</a>.
+  /// </note>
   ///
   /// Parameter [applications] :
   /// If specified, the version of Microsoft Office to subscribe to. Valid only
-  /// for Windows 10 BYOL images. For more information about subscribing to
-  /// Office for BYOL images, see <a
+  /// for Windows 10 and 11 BYOL images. For more information about subscribing
+  /// to Office for BYOL images, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html">
   /// Bring Your Own Windows Desktop Licenses</a>.
   /// <note>
+  /// <ul>
+  /// <li>
   /// Although this parameter is an array, only one item is allowed at this
   /// time.
-  /// </note>
+  /// </li>
+  /// <li>
+  /// Windows 11 only supports <code>Microsoft_Office_2019</code>.
+  /// </li>
+  /// </ul> </note>
   ///
   /// Parameter [tags] :
   /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
@@ -1339,9 +1906,9 @@ class WorkSpaces {
   /// you can use for the network management interface when you enable Bring
   /// Your Own License (BYOL).
   ///
-  /// This operation can be run only by AWS accounts that are enabled for BYOL.
-  /// If your account isn't enabled for BYOL, you'll receive an
-  /// <code>AccessDeniedException</code> error.
+  /// This operation can be run only by Amazon Web Services accounts that are
+  /// enabled for BYOL. If your account isn't enabled for BYOL, you'll receive
+  /// an <code>AccessDeniedException</code> error.
   ///
   /// The management network interface is connected to a secure Amazon
   /// WorkSpaces management network. It is used for interactive streaming of the
@@ -1488,6 +2055,48 @@ class WorkSpaces {
     );
   }
 
+  /// Modifies the properties of the certificate-based authentication you want
+  /// to use with your WorkSpaces.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceId] :
+  /// The resource identifiers, in the form of directory IDs.
+  ///
+  /// Parameter [certificateBasedAuthProperties] :
+  /// The properties of the certificate-based authentication.
+  ///
+  /// Parameter [propertiesToDelete] :
+  /// The properties of the certificate-based authentication you want to delete.
+  Future<void> modifyCertificateBasedAuthProperties({
+    required String resourceId,
+    CertificateBasedAuthProperties? certificateBasedAuthProperties,
+    List<DeletableCertificateBasedAuthProperty>? propertiesToDelete,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.ModifyCertificateBasedAuthProperties'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceId': resourceId,
+        if (certificateBasedAuthProperties != null)
+          'CertificateBasedAuthProperties': certificateBasedAuthProperties,
+        if (propertiesToDelete != null)
+          'PropertiesToDelete':
+              propertiesToDelete.map((e) => e.toValue()).toList(),
+      },
+    );
+  }
+
   /// Modifies the properties of the specified Amazon WorkSpaces clients.
   ///
   /// May throw [InvalidParameterValuesException].
@@ -1516,6 +2125,62 @@ class WorkSpaces {
       payload: {
         'ClientProperties': clientProperties,
         'ResourceId': resourceId,
+      },
+    );
+  }
+
+  /// Modifies multiple properties related to SAML 2.0 authentication, including
+  /// the enablement status, user access URL, and relay state parameter name
+  /// that are used for configuring federation with an SAML 2.0 identity
+  /// provider.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceId] :
+  /// The directory identifier for which you want to configure SAML properties.
+  ///
+  /// Parameter [propertiesToDelete] :
+  /// The SAML properties to delete as part of your request.
+  ///
+  /// Specify one of the following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SAML_PROPERTIES_USER_ACCESS_URL</code> to delete the user access
+  /// URL.
+  /// </li>
+  /// <li>
+  /// <code>SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME</code> to delete the
+  /// relay state parameter name.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [samlProperties] :
+  /// The properties for configuring SAML 2.0 authentication.
+  Future<void> modifySamlProperties({
+    required String resourceId,
+    List<DeletableSamlProperty>? propertiesToDelete,
+    SamlProperties? samlProperties,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.ModifySamlProperties'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceId': resourceId,
+        if (propertiesToDelete != null)
+          'PropertiesToDelete':
+              propertiesToDelete.map((e) => e.toValue()).toList(),
+        if (samlProperties != null) 'SamlProperties': samlProperties,
       },
     );
   }
@@ -1626,6 +2291,12 @@ class WorkSpaces {
   /// about how to modify the size of the root and user volumes, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/modify-workspaces.html">
   /// Modify a WorkSpace</a>.
+  /// <note>
+  /// The <code>MANUAL</code> running mode value is only supported by Amazon
+  /// WorkSpaces Core. Contact your account team to be allow-listed to use this
+  /// value. For more information, see <a
+  /// href="http://aws.amazon.com/workspaces/core/">Amazon WorkSpaces Core</a>.
+  /// </note>
   ///
   /// May throw [InvalidParameterValuesException].
   /// May throw [InvalidResourceStateException].
@@ -1672,6 +2343,7 @@ class WorkSpaces {
   /// May throw [InvalidParameterValuesException].
   /// May throw [InvalidResourceStateException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [OperationNotSupportedException].
   ///
   /// Parameter [workspaceId] :
   /// The identifier of the WorkSpace.
@@ -1706,6 +2378,8 @@ class WorkSpaces {
   ///
   /// This operation is asynchronous and returns before the WorkSpaces have
   /// rebooted.
+  ///
+  /// May throw [OperationNotSupportedException].
   ///
   /// Parameter [rebootWorkspaceRequests] :
   /// The WorkSpaces to reboot. You can specify up to 25 WorkSpaces.
@@ -1743,6 +2417,8 @@ class WorkSpaces {
   ///
   /// This operation is asynchronous and returns before the WorkSpaces have been
   /// completely rebuilt.
+  ///
+  /// May throw [OperationNotSupportedException].
   ///
   /// Parameter [rebuildWorkspaceRequests] :
   /// The WorkSpace to rebuild. You can specify a single WorkSpace.
@@ -1814,10 +2490,10 @@ class WorkSpaces {
   /// Parameter [tenancy] :
   /// Indicates whether your WorkSpace directory is dedicated or shared. To use
   /// Bring Your Own License (BYOL) images, this value must be set to
-  /// <code>DEDICATED</code> and your AWS account must be enabled for BYOL. If
-  /// your account has not been enabled for BYOL, you will receive an
-  /// InvalidParameterValuesException error. For more information about BYOL
-  /// images, see <a
+  /// <code>DEDICATED</code> and your Amazon Web Services account must be
+  /// enabled for BYOL. If your account has not been enabled for BYOL, you will
+  /// receive an InvalidParameterValuesException error. For more information
+  /// about BYOL images, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html">Bring
   /// Your Own Windows Desktop Images</a>.
   Future<void> registerWorkspaceDirectory({
@@ -1866,6 +2542,7 @@ class WorkSpaces {
   /// May throw [InvalidParameterValuesException].
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [OperationNotSupportedException].
   ///
   /// Parameter [workspaceId] :
   /// The identifier of the WorkSpace.
@@ -1982,7 +2659,7 @@ class WorkSpaces {
   /// <important>
   /// Terminating a WorkSpace is a permanent action and cannot be undone. The
   /// user's data is destroyed. If you need to archive any user data, contact
-  /// AWS Support before terminating the WorkSpace.
+  /// Amazon Web Services Support before terminating the WorkSpace.
   /// </important>
   /// You can terminate a WorkSpace that is in any state except
   /// <code>SUSPENDED</code>.
@@ -2002,8 +2679,8 @@ class WorkSpaces {
   /// or AD Connector directory for 30 consecutive days, this directory will be
   /// automatically deregistered for use with Amazon WorkSpaces, and you will be
   /// charged for this directory as per the <a
-  /// href="http://aws.amazon.com/directoryservice/pricing/">AWS Directory
-  /// Services pricing terms</a>.
+  /// href="http://aws.amazon.com/directoryservice/pricing/">Directory Service
+  /// pricing terms</a>.
   ///
   /// To delete empty directories, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/delete-workspaces-directory.html">
@@ -2033,6 +2710,49 @@ class WorkSpaces {
     );
 
     return TerminateWorkspacesResult.fromJson(jsonResponse.body);
+  }
+
+  /// Updates a Amazon Connect client add-in. Use this action to update the name
+  /// and endpoint URL of a Amazon Connect client add-in.
+  ///
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [addInId] :
+  /// The identifier of the client add-in to update.
+  ///
+  /// Parameter [resourceId] :
+  /// The directory identifier for which the client add-in is configured.
+  ///
+  /// Parameter [name] :
+  /// The name of the client add-in.
+  ///
+  /// Parameter [url] :
+  /// The endpoint URL of the Amazon Connect client add-in.
+  Future<void> updateConnectClientAddIn({
+    required String addInId,
+    required String resourceId,
+    String? name,
+    String? url,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.UpdateConnectClientAddIn'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AddInId': addInId,
+        'ResourceId': resourceId,
+        if (name != null) 'Name': name,
+        if (url != null) 'URL': url,
+      },
+    );
   }
 
   /// Shares or unshares a connection alias with one account by specifying
@@ -2075,7 +2795,7 @@ class WorkSpaces {
   ///
   /// Parameter [connectionAliasPermission] :
   /// Indicates whether to share or unshare the connection alias with the
-  /// specified AWS account.
+  /// specified Amazon Web Services account.
   Future<void> updateConnectionAliasPermission({
     required String aliasId,
     required ConnectionAliasPermission connectionAliasPermission,
@@ -2132,21 +2852,64 @@ class WorkSpaces {
     );
   }
 
-  /// Shares or unshares an image with one account in the same AWS Region by
-  /// specifying whether that account has permission to copy the image. If the
-  /// copy image permission is granted, the image is shared with that account.
-  /// If the copy image permission is revoked, the image is unshared with the
-  /// account.
+  /// Updates a WorkSpace bundle with a new image. For more information about
+  /// updating WorkSpace bundles, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/update-custom-bundle.html">
+  /// Update a Custom WorkSpaces Bundle</a>.
+  /// <important>
+  /// Existing WorkSpaces aren't automatically updated when you update the
+  /// bundle that they're based on. To update existing WorkSpaces that are based
+  /// on a bundle that you've updated, you must either rebuild the WorkSpaces or
+  /// delete and recreate them.
+  /// </important>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceUnavailableException].
+  /// May throw [OperationNotSupportedException].
+  ///
+  /// Parameter [bundleId] :
+  /// The identifier of the bundle.
+  ///
+  /// Parameter [imageId] :
+  /// The identifier of the image.
+  Future<void> updateWorkspaceBundle({
+    String? bundleId,
+    String? imageId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.UpdateWorkspaceBundle'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (bundleId != null) 'BundleId': bundleId,
+        if (imageId != null) 'ImageId': imageId,
+      },
+    );
+  }
+
+  /// Shares or unshares an image with one account in the same Amazon Web
+  /// Services Region by specifying whether that account has permission to copy
+  /// the image. If the copy image permission is granted, the image is shared
+  /// with that account. If the copy image permission is revoked, the image is
+  /// unshared with the account.
   ///
   /// After an image has been shared, the recipient account can copy the image
-  /// to other AWS Regions as needed.
-  /// <note>
+  /// to other Regions as needed.
+  ///
   /// In the China (Ningxia) Region, you can copy images only within the same
   /// Region.
   ///
-  /// In the AWS GovCloud (US-West) Region, to copy images to and from other AWS
-  /// Regions, contact AWS Support.
-  /// </note>
+  /// In Amazon Web Services GovCloud (US), to copy images to and from other
+  /// Regions, contact Amazon Web Services Support.
+  ///
   /// For more information about sharing images, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/share-custom-image.html">
   /// Share or Unshare a Custom WorkSpaces Image</a>.
@@ -2157,10 +2920,10 @@ class WorkSpaces {
   /// you delete it.
   /// </li>
   /// <li>
-  /// Sharing Bring Your Own License (BYOL) images across AWS accounts isn't
-  /// supported at this time in the AWS GovCloud (US-West) Region. To share BYOL
-  /// images across accounts in the AWS GovCloud (US-West) Region, contact AWS
-  /// Support.
+  /// Sharing Bring Your Own License (BYOL) images across Amazon Web Services
+  /// accounts isn't supported at this time in Amazon Web Services GovCloud
+  /// (US). To share BYOL images across accounts in Amazon Web Services GovCloud
+  /// (US), contact Amazon Web Services Support.
   /// </li>
   /// </ul> </note>
   ///
@@ -2178,10 +2941,11 @@ class WorkSpaces {
   /// The identifier of the image.
   ///
   /// Parameter [sharedAccountId] :
-  /// The identifier of the AWS account to share or unshare the image with.
+  /// The identifier of the Amazon Web Services account to share or unshare the
+  /// image with.
   /// <important>
-  /// Before sharing the image, confirm that you are sharing to the correct AWS
-  /// account ID.
+  /// Before sharing the image, confirm that you are sharing to the correct
+  /// Amazon Web Services account ID.
   /// </important>
   Future<void> updateWorkspaceImagePermission({
     required bool allowCopyImage,
@@ -2267,6 +3031,7 @@ class AccountModification {
     this.modificationState,
     this.startTime,
   });
+
   factory AccountModification.fromJson(Map<String, dynamic> json) {
     return AccountModification(
       dedicatedTenancyManagementCidrRange:
@@ -2319,6 +3084,7 @@ class AssociateConnectionAliasResult {
   AssociateConnectionAliasResult({
     this.connectionIdentifier,
   });
+
   factory AssociateConnectionAliasResult.fromJson(Map<String, dynamic> json) {
     return AssociateConnectionAliasResult(
       connectionIdentifier: json['ConnectionIdentifier'] as String?,
@@ -2328,6 +3094,7 @@ class AssociateConnectionAliasResult {
 
 class AssociateIpGroupsResult {
   AssociateIpGroupsResult();
+
   factory AssociateIpGroupsResult.fromJson(Map<String, dynamic> _) {
     return AssociateIpGroupsResult();
   }
@@ -2378,31 +3145,184 @@ extension AssociationStatusFromString on String {
 
 class AuthorizeIpRulesResult {
   AuthorizeIpRulesResult();
+
   factory AuthorizeIpRulesResult.fromJson(Map<String, dynamic> _) {
     return AuthorizeIpRulesResult();
   }
 }
 
+enum BundleType {
+  regular,
+  standby,
+}
+
+extension BundleTypeValueExtension on BundleType {
+  String toValue() {
+    switch (this) {
+      case BundleType.regular:
+        return 'REGULAR';
+      case BundleType.standby:
+        return 'STANDBY';
+    }
+  }
+}
+
+extension BundleTypeFromString on String {
+  BundleType toBundleType() {
+    switch (this) {
+      case 'REGULAR':
+        return BundleType.regular;
+      case 'STANDBY':
+        return BundleType.standby;
+    }
+    throw Exception('$this is not known in enum BundleType');
+  }
+}
+
+/// Describes the properties of the certificate-based authentication you want to
+/// use with your WorkSpaces.
+class CertificateBasedAuthProperties {
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services Certificate
+  /// Manager Private CA resource.
+  final String? certificateAuthorityArn;
+
+  /// The status of the certificate-based authentication properties.
+  final CertificateBasedAuthStatusEnum? status;
+
+  CertificateBasedAuthProperties({
+    this.certificateAuthorityArn,
+    this.status,
+  });
+
+  factory CertificateBasedAuthProperties.fromJson(Map<String, dynamic> json) {
+    return CertificateBasedAuthProperties(
+      certificateAuthorityArn: json['CertificateAuthorityArn'] as String?,
+      status: (json['Status'] as String?)?.toCertificateBasedAuthStatusEnum(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateAuthorityArn = this.certificateAuthorityArn;
+    final status = this.status;
+    return {
+      if (certificateAuthorityArn != null)
+        'CertificateAuthorityArn': certificateAuthorityArn,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
+enum CertificateBasedAuthStatusEnum {
+  disabled,
+  enabled,
+}
+
+extension CertificateBasedAuthStatusEnumValueExtension
+    on CertificateBasedAuthStatusEnum {
+  String toValue() {
+    switch (this) {
+      case CertificateBasedAuthStatusEnum.disabled:
+        return 'DISABLED';
+      case CertificateBasedAuthStatusEnum.enabled:
+        return 'ENABLED';
+    }
+  }
+}
+
+extension CertificateBasedAuthStatusEnumFromString on String {
+  CertificateBasedAuthStatusEnum toCertificateBasedAuthStatusEnum() {
+    switch (this) {
+      case 'DISABLED':
+        return CertificateBasedAuthStatusEnum.disabled;
+      case 'ENABLED':
+        return CertificateBasedAuthStatusEnum.enabled;
+    }
+    throw Exception(
+        '$this is not known in enum CertificateBasedAuthStatusEnum');
+  }
+}
+
+enum ClientDeviceType {
+  deviceTypeWindows,
+  deviceTypeOsx,
+  deviceTypeAndroid,
+  deviceTypeIos,
+  deviceTypeLinux,
+  deviceTypeWeb,
+}
+
+extension ClientDeviceTypeValueExtension on ClientDeviceType {
+  String toValue() {
+    switch (this) {
+      case ClientDeviceType.deviceTypeWindows:
+        return 'DeviceTypeWindows';
+      case ClientDeviceType.deviceTypeOsx:
+        return 'DeviceTypeOsx';
+      case ClientDeviceType.deviceTypeAndroid:
+        return 'DeviceTypeAndroid';
+      case ClientDeviceType.deviceTypeIos:
+        return 'DeviceTypeIos';
+      case ClientDeviceType.deviceTypeLinux:
+        return 'DeviceTypeLinux';
+      case ClientDeviceType.deviceTypeWeb:
+        return 'DeviceTypeWeb';
+    }
+  }
+}
+
+extension ClientDeviceTypeFromString on String {
+  ClientDeviceType toClientDeviceType() {
+    switch (this) {
+      case 'DeviceTypeWindows':
+        return ClientDeviceType.deviceTypeWindows;
+      case 'DeviceTypeOsx':
+        return ClientDeviceType.deviceTypeOsx;
+      case 'DeviceTypeAndroid':
+        return ClientDeviceType.deviceTypeAndroid;
+      case 'DeviceTypeIos':
+        return ClientDeviceType.deviceTypeIos;
+      case 'DeviceTypeLinux':
+        return ClientDeviceType.deviceTypeLinux;
+      case 'DeviceTypeWeb':
+        return ClientDeviceType.deviceTypeWeb;
+    }
+    throw Exception('$this is not known in enum ClientDeviceType');
+  }
+}
+
 /// Describes an Amazon WorkSpaces client.
 class ClientProperties {
+  /// Specifies whether users can upload diagnostic log files of Amazon WorkSpaces
+  /// client directly to WorkSpaces to troubleshoot issues when using the
+  /// WorkSpaces client. When enabled, the log files will be sent to WorkSpaces
+  /// automatically and will be applied to all users in the specified directory.
+  final LogUploadEnum? logUploadEnabled;
+
   /// Specifies whether users can cache their credentials on the Amazon WorkSpaces
   /// client. When enabled, users can choose to reconnect to their WorkSpaces
   /// without re-entering their credentials.
   final ReconnectEnum? reconnectEnabled;
 
   ClientProperties({
+    this.logUploadEnabled,
     this.reconnectEnabled,
   });
+
   factory ClientProperties.fromJson(Map<String, dynamic> json) {
     return ClientProperties(
+      logUploadEnabled:
+          (json['LogUploadEnabled'] as String?)?.toLogUploadEnum(),
       reconnectEnabled:
           (json['ReconnectEnabled'] as String?)?.toReconnectEnum(),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final logUploadEnabled = this.logUploadEnabled;
     final reconnectEnabled = this.reconnectEnabled;
     return {
+      if (logUploadEnabled != null)
+        'LogUploadEnabled': logUploadEnabled.toValue(),
       if (reconnectEnabled != null)
         'ReconnectEnabled': reconnectEnabled.toValue(),
     };
@@ -2421,6 +3341,7 @@ class ClientPropertiesResult {
     this.clientProperties,
     this.resourceId,
   });
+
   factory ClientPropertiesResult.fromJson(Map<String, dynamic> json) {
     return ClientPropertiesResult(
       clientProperties: json['ClientProperties'] != null
@@ -2440,6 +3361,8 @@ enum Compute {
   graphics,
   powerpro,
   graphicspro,
+  graphicsG4dn,
+  graphicsproG4dn,
 }
 
 extension ComputeValueExtension on Compute {
@@ -2459,6 +3382,10 @@ extension ComputeValueExtension on Compute {
         return 'POWERPRO';
       case Compute.graphicspro:
         return 'GRAPHICSPRO';
+      case Compute.graphicsG4dn:
+        return 'GRAPHICS_G4DN';
+      case Compute.graphicsproG4dn:
+        return 'GRAPHICSPRO_G4DN';
     }
   }
 }
@@ -2480,12 +3407,16 @@ extension ComputeFromString on String {
         return Compute.powerpro;
       case 'GRAPHICSPRO':
         return Compute.graphicspro;
+      case 'GRAPHICS_G4DN':
+        return Compute.graphicsG4dn;
+      case 'GRAPHICSPRO_G4DN':
+        return Compute.graphicsproG4dn;
     }
     throw Exception('$this is not known in enum Compute');
   }
 }
 
-/// Describes the compute type.
+/// Describes the compute type of the bundle.
 class ComputeType {
   /// The compute type.
   final Compute? name;
@@ -2493,9 +3424,48 @@ class ComputeType {
   ComputeType({
     this.name,
   });
+
   factory ComputeType.fromJson(Map<String, dynamic> json) {
     return ComputeType(
       name: (json['Name'] as String?)?.toCompute(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name.toValue(),
+    };
+  }
+}
+
+/// Describes an Amazon Connect client add-in.
+class ConnectClientAddIn {
+  /// The client add-in identifier.
+  final String? addInId;
+
+  /// The name of the client add in.
+  final String? name;
+
+  /// The directory identifier for which the client add-in is configured.
+  final String? resourceId;
+
+  /// The endpoint URL of the client add-in.
+  final String? url;
+
+  ConnectClientAddIn({
+    this.addInId,
+    this.name,
+    this.resourceId,
+    this.url,
+  });
+
+  factory ConnectClientAddIn.fromJson(Map<String, dynamic> json) {
+    return ConnectClientAddIn(
+      addInId: json['AddInId'] as String?,
+      name: json['Name'] as String?,
+      resourceId: json['ResourceId'] as String?,
+      url: json['URL'] as String?,
     );
   }
 }
@@ -2516,7 +3486,8 @@ class ConnectionAlias {
   /// <code>www.example.com</code>.
   final String? connectionString;
 
-  /// The identifier of the AWS account that owns the connection alias.
+  /// The identifier of the Amazon Web Services account that owns the connection
+  /// alias.
   final String? ownerAccountId;
 
   /// The current state of the connection alias.
@@ -2529,6 +3500,7 @@ class ConnectionAlias {
     this.ownerAccountId,
     this.state,
   });
+
   factory ConnectionAlias.fromJson(Map<String, dynamic> json) {
     return ConnectionAlias(
       aliasId: json['AliasId'] as String?,
@@ -2549,8 +3521,8 @@ class ConnectionAlias {
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
 /// Cross-Region Redirection for Amazon WorkSpaces</a>.
 class ConnectionAliasAssociation {
-  /// The identifier of the AWS account that associated the connection alias with
-  /// a directory.
+  /// The identifier of the Amazon Web Services account that associated the
+  /// connection alias with a directory.
   final String? associatedAccountId;
 
   /// The association status of the connection alias.
@@ -2570,6 +3542,7 @@ class ConnectionAliasAssociation {
     this.connectionIdentifier,
     this.resourceId,
   });
+
   factory ConnectionAliasAssociation.fromJson(Map<String, dynamic> json) {
     return ConnectionAliasAssociation(
       associatedAccountId: json['AssociatedAccountId'] as String?,
@@ -2586,17 +3559,19 @@ class ConnectionAliasAssociation {
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
 /// Cross-Region Redirection for Amazon WorkSpaces</a>.
 class ConnectionAliasPermission {
-  /// Indicates whether the specified AWS account is allowed to associate the
-  /// connection alias with a directory.
+  /// Indicates whether the specified Amazon Web Services account is allowed to
+  /// associate the connection alias with a directory.
   final bool allowAssociation;
 
-  /// The identifier of the AWS account that the connection alias is shared with.
+  /// The identifier of the Amazon Web Services account that the connection alias
+  /// is shared with.
   final String sharedAccountId;
 
   ConnectionAliasPermission({
     required this.allowAssociation,
     required this.sharedAccountId,
   });
+
   factory ConnectionAliasPermission.fromJson(Map<String, dynamic> json) {
     return ConnectionAliasPermission(
       allowAssociation: json['AllowAssociation'] as bool,
@@ -2687,9 +3662,25 @@ class CopyWorkspaceImageResult {
   CopyWorkspaceImageResult({
     this.imageId,
   });
+
   factory CopyWorkspaceImageResult.fromJson(Map<String, dynamic> json) {
     return CopyWorkspaceImageResult(
       imageId: json['ImageId'] as String?,
+    );
+  }
+}
+
+class CreateConnectClientAddInResult {
+  /// The client add-in identifier.
+  final String? addInId;
+
+  CreateConnectClientAddInResult({
+    this.addInId,
+  });
+
+  factory CreateConnectClientAddInResult.fromJson(Map<String, dynamic> json) {
+    return CreateConnectClientAddInResult(
+      addInId: json['AddInId'] as String?,
     );
   }
 }
@@ -2701,6 +3692,7 @@ class CreateConnectionAliasResult {
   CreateConnectionAliasResult({
     this.aliasId,
   });
+
   factory CreateConnectionAliasResult.fromJson(Map<String, dynamic> json) {
     return CreateConnectionAliasResult(
       aliasId: json['AliasId'] as String?,
@@ -2715,6 +3707,7 @@ class CreateIpGroupResult {
   CreateIpGroupResult({
     this.groupId,
   });
+
   factory CreateIpGroupResult.fromJson(Map<String, dynamic> json) {
     return CreateIpGroupResult(
       groupId: json['GroupId'] as String?,
@@ -2722,10 +3715,130 @@ class CreateIpGroupResult {
   }
 }
 
+class CreateStandbyWorkspacesResult {
+  /// Information about the standby WorkSpace that could not be created.
+  final List<FailedCreateStandbyWorkspacesRequest>? failedStandbyRequests;
+
+  /// Information about the standby WorkSpace that was created.
+  final List<PendingCreateStandbyWorkspacesRequest>? pendingStandbyRequests;
+
+  CreateStandbyWorkspacesResult({
+    this.failedStandbyRequests,
+    this.pendingStandbyRequests,
+  });
+
+  factory CreateStandbyWorkspacesResult.fromJson(Map<String, dynamic> json) {
+    return CreateStandbyWorkspacesResult(
+      failedStandbyRequests: (json['FailedStandbyRequests'] as List?)
+          ?.whereNotNull()
+          .map((e) => FailedCreateStandbyWorkspacesRequest.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      pendingStandbyRequests: (json['PendingStandbyRequests'] as List?)
+          ?.whereNotNull()
+          .map((e) => PendingCreateStandbyWorkspacesRequest.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 class CreateTagsResult {
   CreateTagsResult();
+
   factory CreateTagsResult.fromJson(Map<String, dynamic> _) {
     return CreateTagsResult();
+  }
+}
+
+class CreateUpdatedWorkspaceImageResult {
+  /// The identifier of the new updated WorkSpace image.
+  final String? imageId;
+
+  CreateUpdatedWorkspaceImageResult({
+    this.imageId,
+  });
+
+  factory CreateUpdatedWorkspaceImageResult.fromJson(
+      Map<String, dynamic> json) {
+    return CreateUpdatedWorkspaceImageResult(
+      imageId: json['ImageId'] as String?,
+    );
+  }
+}
+
+class CreateWorkspaceBundleResult {
+  final WorkspaceBundle? workspaceBundle;
+
+  CreateWorkspaceBundleResult({
+    this.workspaceBundle,
+  });
+
+  factory CreateWorkspaceBundleResult.fromJson(Map<String, dynamic> json) {
+    return CreateWorkspaceBundleResult(
+      workspaceBundle: json['WorkspaceBundle'] != null
+          ? WorkspaceBundle.fromJson(
+              json['WorkspaceBundle'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class CreateWorkspaceImageResult {
+  /// The date when the image was created.
+  final DateTime? created;
+
+  /// The description of the image.
+  final String? description;
+
+  /// The identifier of the new WorkSpace image.
+  final String? imageId;
+
+  /// The name of the image.
+  final String? name;
+
+  /// The operating system that the image is running.
+  final OperatingSystem? operatingSystem;
+
+  /// The identifier of the Amazon Web Services account that owns the image.
+  final String? ownerAccountId;
+
+  /// Specifies whether the image is running on dedicated hardware. When Bring
+  /// Your Own License (BYOL) is enabled, this value is set to DEDICATED. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.htm">
+  /// Bring Your Own Windows Desktop Images.</a>.
+  final WorkspaceImageRequiredTenancy? requiredTenancy;
+
+  /// The availability status of the image.
+  final WorkspaceImageState? state;
+
+  CreateWorkspaceImageResult({
+    this.created,
+    this.description,
+    this.imageId,
+    this.name,
+    this.operatingSystem,
+    this.ownerAccountId,
+    this.requiredTenancy,
+    this.state,
+  });
+
+  factory CreateWorkspaceImageResult.fromJson(Map<String, dynamic> json) {
+    return CreateWorkspaceImageResult(
+      created: timeStampFromJson(json['Created']),
+      description: json['Description'] as String?,
+      imageId: json['ImageId'] as String?,
+      name: json['Name'] as String?,
+      operatingSystem: json['OperatingSystem'] != null
+          ? OperatingSystem.fromJson(
+              json['OperatingSystem'] as Map<String, dynamic>)
+          : null,
+      ownerAccountId: json['OwnerAccountId'] as String?,
+      requiredTenancy: (json['RequiredTenancy'] as String?)
+          ?.toWorkspaceImageRequiredTenancy(),
+      state: (json['State'] as String?)?.toWorkspaceImageState(),
+    );
   }
 }
 
@@ -2745,6 +3858,7 @@ class CreateWorkspacesResult {
     this.failedRequests,
     this.pendingRequests,
   });
+
   factory CreateWorkspacesResult.fromJson(Map<String, dynamic> json) {
     return CreateWorkspacesResult(
       failedRequests: (json['FailedRequests'] as List?)
@@ -2850,6 +3964,151 @@ extension DedicatedTenancySupportResultEnumFromString on String {
   }
 }
 
+/// Returns default client branding attributes that were imported. These
+/// attributes display on the client login screen.
+/// <important>
+/// Client branding attributes are public facing. Ensure that you don't include
+/// sensitive information.
+/// </important>
+class DefaultClientBrandingAttributes {
+  /// The forgotten password link. This is the web address that users can go to if
+  /// they forget the password for their WorkSpace.
+  final String? forgotPasswordLink;
+
+  /// The login message. Specified as a key value pair, in which the key is a
+  /// locale and the value is the localized message for that locale. The only key
+  /// supported is <code>en_US</code>. The HTML tags supported include the
+  /// following: <code>a, b, blockquote, br, cite, code, dd, dl, dt, div, em, i,
+  /// li, ol, p, pre, q, small, span, strike, strong, sub, sup, u, ul</code>.
+  final Map<String, String>? loginMessage;
+
+  /// The logo. The only image format accepted is a binary data object that is
+  /// converted from a <code>.png</code> file.
+  final String? logoUrl;
+
+  /// The support email. The company's customer support email address.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// In each platform type, the <code>SupportEmail</code> and
+  /// <code>SupportLink</code> parameters are mutually exclusive. You can specify
+  /// one parameter for each platform type, but not both.
+  /// </li>
+  /// <li>
+  /// The default email is <code>workspaces-feedback@amazon.com</code>.
+  /// </li>
+  /// </ul> </note>
+  final String? supportEmail;
+
+  /// The support link. The link for the company's customer support page for their
+  /// WorkSpace.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// In each platform type, the <code>SupportEmail</code> and
+  /// <code>SupportLink</code> parameters are mutually exclusive.You can specify
+  /// one parameter for each platform type, but not both.
+  /// </li>
+  /// <li>
+  /// The default support link is <code>workspaces-feedback@amazon.com</code>.
+  /// </li>
+  /// </ul> </note>
+  final String? supportLink;
+
+  DefaultClientBrandingAttributes({
+    this.forgotPasswordLink,
+    this.loginMessage,
+    this.logoUrl,
+    this.supportEmail,
+    this.supportLink,
+  });
+
+  factory DefaultClientBrandingAttributes.fromJson(Map<String, dynamic> json) {
+    return DefaultClientBrandingAttributes(
+      forgotPasswordLink: json['ForgotPasswordLink'] as String?,
+      loginMessage: (json['LoginMessage'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      logoUrl: json['LogoUrl'] as String?,
+      supportEmail: json['SupportEmail'] as String?,
+      supportLink: json['SupportLink'] as String?,
+    );
+  }
+}
+
+/// The default client branding attributes to be imported. These attributes
+/// display on the client login screen.
+/// <important>
+/// Client branding attributes are public facing. Ensure that you do not include
+/// sensitive information.
+/// </important>
+class DefaultImportClientBrandingAttributes {
+  /// The forgotten password link. This is the web address that users can go to if
+  /// they forget the password for their WorkSpace.
+  final String? forgotPasswordLink;
+
+  /// The login message. Specified as a key value pair, in which the key is a
+  /// locale and the value is the localized message for that locale. The only key
+  /// supported is <code>en_US</code>. The HTML tags supported include the
+  /// following: <code>a, b, blockquote, br, cite, code, dd, dl, dt, div, em, i,
+  /// li, ol, p, pre, q, small, span, strike, strong, sub, sup, u, ul</code>.
+  final Map<String, String>? loginMessage;
+
+  /// The logo. The only image format accepted is a binary data object that is
+  /// converted from a <code>.png</code> file.
+  final Uint8List? logo;
+
+  /// The support email. The company's customer support email address.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// In each platform type, the <code>SupportEmail</code> and
+  /// <code>SupportLink</code> parameters are mutually exclusive. You can specify
+  /// one parameter for each platform type, but not both.
+  /// </li>
+  /// <li>
+  /// The default email is <code>workspaces-feedback@amazon.com</code>.
+  /// </li>
+  /// </ul> </note>
+  final String? supportEmail;
+
+  /// The support link. The link for the company's customer support page for their
+  /// WorkSpace.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// In each platform type, the <code>SupportEmail</code> and
+  /// <code>SupportLink</code> parameters are mutually exclusive. You can specify
+  /// one parameter for each platform type, but not both.
+  /// </li>
+  /// <li>
+  /// The default support link is <code>workspaces-feedback@amazon.com</code>.
+  /// </li>
+  /// </ul> </note>
+  final String? supportLink;
+
+  DefaultImportClientBrandingAttributes({
+    this.forgotPasswordLink,
+    this.loginMessage,
+    this.logo,
+    this.supportEmail,
+    this.supportLink,
+  });
+  Map<String, dynamic> toJson() {
+    final forgotPasswordLink = this.forgotPasswordLink;
+    final loginMessage = this.loginMessage;
+    final logo = this.logo;
+    final supportEmail = this.supportEmail;
+    final supportLink = this.supportLink;
+    return {
+      if (forgotPasswordLink != null) 'ForgotPasswordLink': forgotPasswordLink,
+      if (loginMessage != null) 'LoginMessage': loginMessage,
+      if (logo != null) 'Logo': base64Encode(logo),
+      if (supportEmail != null) 'SupportEmail': supportEmail,
+      if (supportLink != null) 'SupportLink': supportLink,
+    };
+  }
+}
+
 /// Describes the default values that are used to create WorkSpaces. For more
 /// information, see <a
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/update-directory-details.html">Update
@@ -2899,6 +4158,7 @@ class DefaultWorkspaceCreationProperties {
     this.enableWorkDocs,
     this.userEnabledAsLocalAdministrator,
   });
+
   factory DefaultWorkspaceCreationProperties.fromJson(
       Map<String, dynamic> json) {
     return DefaultWorkspaceCreationProperties(
@@ -2913,8 +4173,81 @@ class DefaultWorkspaceCreationProperties {
   }
 }
 
+enum DeletableCertificateBasedAuthProperty {
+  certificateBasedAuthPropertiesCertificateAuthorityArn,
+}
+
+extension DeletableCertificateBasedAuthPropertyValueExtension
+    on DeletableCertificateBasedAuthProperty {
+  String toValue() {
+    switch (this) {
+      case DeletableCertificateBasedAuthProperty
+            .certificateBasedAuthPropertiesCertificateAuthorityArn:
+        return 'CERTIFICATE_BASED_AUTH_PROPERTIES_CERTIFICATE_AUTHORITY_ARN';
+    }
+  }
+}
+
+extension DeletableCertificateBasedAuthPropertyFromString on String {
+  DeletableCertificateBasedAuthProperty
+      toDeletableCertificateBasedAuthProperty() {
+    switch (this) {
+      case 'CERTIFICATE_BASED_AUTH_PROPERTIES_CERTIFICATE_AUTHORITY_ARN':
+        return DeletableCertificateBasedAuthProperty
+            .certificateBasedAuthPropertiesCertificateAuthorityArn;
+    }
+    throw Exception(
+        '$this is not known in enum DeletableCertificateBasedAuthProperty');
+  }
+}
+
+enum DeletableSamlProperty {
+  samlPropertiesUserAccessUrl,
+  samlPropertiesRelayStateParameterName,
+}
+
+extension DeletableSamlPropertyValueExtension on DeletableSamlProperty {
+  String toValue() {
+    switch (this) {
+      case DeletableSamlProperty.samlPropertiesUserAccessUrl:
+        return 'SAML_PROPERTIES_USER_ACCESS_URL';
+      case DeletableSamlProperty.samlPropertiesRelayStateParameterName:
+        return 'SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME';
+    }
+  }
+}
+
+extension DeletableSamlPropertyFromString on String {
+  DeletableSamlProperty toDeletableSamlProperty() {
+    switch (this) {
+      case 'SAML_PROPERTIES_USER_ACCESS_URL':
+        return DeletableSamlProperty.samlPropertiesUserAccessUrl;
+      case 'SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME':
+        return DeletableSamlProperty.samlPropertiesRelayStateParameterName;
+    }
+    throw Exception('$this is not known in enum DeletableSamlProperty');
+  }
+}
+
+class DeleteClientBrandingResult {
+  DeleteClientBrandingResult();
+
+  factory DeleteClientBrandingResult.fromJson(Map<String, dynamic> _) {
+    return DeleteClientBrandingResult();
+  }
+}
+
+class DeleteConnectClientAddInResult {
+  DeleteConnectClientAddInResult();
+
+  factory DeleteConnectClientAddInResult.fromJson(Map<String, dynamic> _) {
+    return DeleteConnectClientAddInResult();
+  }
+}
+
 class DeleteConnectionAliasResult {
   DeleteConnectionAliasResult();
+
   factory DeleteConnectionAliasResult.fromJson(Map<String, dynamic> _) {
     return DeleteConnectionAliasResult();
   }
@@ -2922,6 +4255,7 @@ class DeleteConnectionAliasResult {
 
 class DeleteIpGroupResult {
   DeleteIpGroupResult();
+
   factory DeleteIpGroupResult.fromJson(Map<String, dynamic> _) {
     return DeleteIpGroupResult();
   }
@@ -2929,13 +4263,23 @@ class DeleteIpGroupResult {
 
 class DeleteTagsResult {
   DeleteTagsResult();
+
   factory DeleteTagsResult.fromJson(Map<String, dynamic> _) {
     return DeleteTagsResult();
   }
 }
 
+class DeleteWorkspaceBundleResult {
+  DeleteWorkspaceBundleResult();
+
+  factory DeleteWorkspaceBundleResult.fromJson(Map<String, dynamic> _) {
+    return DeleteWorkspaceBundleResult();
+  }
+}
+
 class DeleteWorkspaceImageResult {
   DeleteWorkspaceImageResult();
+
   factory DeleteWorkspaceImageResult.fromJson(Map<String, dynamic> _) {
     return DeleteWorkspaceImageResult();
   }
@@ -2943,6 +4287,7 @@ class DeleteWorkspaceImageResult {
 
 class DeregisterWorkspaceDirectoryResult {
   DeregisterWorkspaceDirectoryResult();
+
   factory DeregisterWorkspaceDirectoryResult.fromJson(Map<String, dynamic> _) {
     return DeregisterWorkspaceDirectoryResult();
   }
@@ -2952,14 +4297,15 @@ class DescribeAccountModificationsResult {
   /// The list of modifications to the configuration of BYOL.
   final List<AccountModification>? accountModifications;
 
-  /// The token to use to retrieve the next set of results, or null if no more
-  /// results are available.
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
   final String? nextToken;
 
   DescribeAccountModificationsResult({
     this.accountModifications,
     this.nextToken,
   });
+
   factory DescribeAccountModificationsResult.fromJson(
       Map<String, dynamic> json) {
     return DescribeAccountModificationsResult(
@@ -2989,12 +4335,71 @@ class DescribeAccountResult {
     this.dedicatedTenancyManagementCidrRange,
     this.dedicatedTenancySupport,
   });
+
   factory DescribeAccountResult.fromJson(Map<String, dynamic> json) {
     return DescribeAccountResult(
       dedicatedTenancyManagementCidrRange:
           json['DedicatedTenancyManagementCidrRange'] as String?,
       dedicatedTenancySupport: (json['DedicatedTenancySupport'] as String?)
           ?.toDedicatedTenancySupportResultEnum(),
+    );
+  }
+}
+
+class DescribeClientBrandingResult {
+  /// The branding information for Android devices.
+  final DefaultClientBrandingAttributes? deviceTypeAndroid;
+
+  /// The branding information for iOS devices.
+  final IosClientBrandingAttributes? deviceTypeIos;
+
+  /// The branding information for Linux devices.
+  final DefaultClientBrandingAttributes? deviceTypeLinux;
+
+  /// The branding information for macOS devices.
+  final DefaultClientBrandingAttributes? deviceTypeOsx;
+
+  /// The branding information for Web access.
+  final DefaultClientBrandingAttributes? deviceTypeWeb;
+
+  /// The branding information for Windows devices.
+  final DefaultClientBrandingAttributes? deviceTypeWindows;
+
+  DescribeClientBrandingResult({
+    this.deviceTypeAndroid,
+    this.deviceTypeIos,
+    this.deviceTypeLinux,
+    this.deviceTypeOsx,
+    this.deviceTypeWeb,
+    this.deviceTypeWindows,
+  });
+
+  factory DescribeClientBrandingResult.fromJson(Map<String, dynamic> json) {
+    return DescribeClientBrandingResult(
+      deviceTypeAndroid: json['DeviceTypeAndroid'] != null
+          ? DefaultClientBrandingAttributes.fromJson(
+              json['DeviceTypeAndroid'] as Map<String, dynamic>)
+          : null,
+      deviceTypeIos: json['DeviceTypeIos'] != null
+          ? IosClientBrandingAttributes.fromJson(
+              json['DeviceTypeIos'] as Map<String, dynamic>)
+          : null,
+      deviceTypeLinux: json['DeviceTypeLinux'] != null
+          ? DefaultClientBrandingAttributes.fromJson(
+              json['DeviceTypeLinux'] as Map<String, dynamic>)
+          : null,
+      deviceTypeOsx: json['DeviceTypeOsx'] != null
+          ? DefaultClientBrandingAttributes.fromJson(
+              json['DeviceTypeOsx'] as Map<String, dynamic>)
+          : null,
+      deviceTypeWeb: json['DeviceTypeWeb'] != null
+          ? DefaultClientBrandingAttributes.fromJson(
+              json['DeviceTypeWeb'] as Map<String, dynamic>)
+          : null,
+      deviceTypeWindows: json['DeviceTypeWindows'] != null
+          ? DefaultClientBrandingAttributes.fromJson(
+              json['DeviceTypeWindows'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -3006,6 +4411,7 @@ class DescribeClientPropertiesResult {
   DescribeClientPropertiesResult({
     this.clientPropertiesList,
   });
+
   factory DescribeClientPropertiesResult.fromJson(Map<String, dynamic> json) {
     return DescribeClientPropertiesResult(
       clientPropertiesList: (json['ClientPropertiesList'] as List?)
@@ -3017,6 +4423,31 @@ class DescribeClientPropertiesResult {
   }
 }
 
+class DescribeConnectClientAddInsResult {
+  /// Information about client add-ins.
+  final List<ConnectClientAddIn>? addIns;
+
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
+  final String? nextToken;
+
+  DescribeConnectClientAddInsResult({
+    this.addIns,
+    this.nextToken,
+  });
+
+  factory DescribeConnectClientAddInsResult.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeConnectClientAddInsResult(
+      addIns: (json['AddIns'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConnectClientAddIn.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
 class DescribeConnectionAliasPermissionsResult {
   /// The identifier of the connection alias.
   final String? aliasId;
@@ -3024,8 +4455,8 @@ class DescribeConnectionAliasPermissionsResult {
   /// The permissions associated with a connection alias.
   final List<ConnectionAliasPermission>? connectionAliasPermissions;
 
-  /// The token to use to retrieve the next set of results, or null if no more
-  /// results are available.
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
   final String? nextToken;
 
   DescribeConnectionAliasPermissionsResult({
@@ -3033,6 +4464,7 @@ class DescribeConnectionAliasPermissionsResult {
     this.connectionAliasPermissions,
     this.nextToken,
   });
+
   factory DescribeConnectionAliasPermissionsResult.fromJson(
       Map<String, dynamic> json) {
     return DescribeConnectionAliasPermissionsResult(
@@ -3051,14 +4483,15 @@ class DescribeConnectionAliasesResult {
   /// Information about the specified connection aliases.
   final List<ConnectionAlias>? connectionAliases;
 
-  /// The token to use to retrieve the next set of results, or null if no more
-  /// results are available.
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
   final String? nextToken;
 
   DescribeConnectionAliasesResult({
     this.connectionAliases,
     this.nextToken,
   });
+
   factory DescribeConnectionAliasesResult.fromJson(Map<String, dynamic> json) {
     return DescribeConnectionAliasesResult(
       connectionAliases: (json['ConnectionAliases'] as List?)
@@ -3071,8 +4504,8 @@ class DescribeConnectionAliasesResult {
 }
 
 class DescribeIpGroupsResult {
-  /// The token to use to retrieve the next set of results, or null if no more
-  /// results are available.
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
   final String? nextToken;
 
   /// Information about the IP access control groups.
@@ -3082,6 +4515,7 @@ class DescribeIpGroupsResult {
     this.nextToken,
     this.result,
   });
+
   factory DescribeIpGroupsResult.fromJson(Map<String, dynamic> json) {
     return DescribeIpGroupsResult(
       nextToken: json['NextToken'] as String?,
@@ -3100,6 +4534,7 @@ class DescribeTagsResult {
   DescribeTagsResult({
     this.tagList,
   });
+
   factory DescribeTagsResult.fromJson(Map<String, dynamic> json) {
     return DescribeTagsResult(
       tagList: (json['TagList'] as List?)
@@ -3114,15 +4549,16 @@ class DescribeWorkspaceBundlesResult {
   /// Information about the bundles.
   final List<WorkspaceBundle>? bundles;
 
-  /// The token to use to retrieve the next set of results, or null if there are
-  /// no more results available. This token is valid for one day and must be used
-  /// within that time frame.
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return. This token is valid for one day
+  /// and must be used within that time frame.
   final String? nextToken;
 
   DescribeWorkspaceBundlesResult({
     this.bundles,
     this.nextToken,
   });
+
   factory DescribeWorkspaceBundlesResult.fromJson(Map<String, dynamic> json) {
     return DescribeWorkspaceBundlesResult(
       bundles: (json['Bundles'] as List?)
@@ -3138,14 +4574,15 @@ class DescribeWorkspaceDirectoriesResult {
   /// Information about the directories.
   final List<WorkspaceDirectory>? directories;
 
-  /// The token to use to retrieve the next set of results, or null if no more
-  /// results are available.
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
   final String? nextToken;
 
   DescribeWorkspaceDirectoriesResult({
     this.directories,
     this.nextToken,
   });
+
   factory DescribeWorkspaceDirectoriesResult.fromJson(
       Map<String, dynamic> json) {
     return DescribeWorkspaceDirectoriesResult(
@@ -3162,11 +4599,12 @@ class DescribeWorkspaceImagePermissionsResult {
   /// The identifier of the image.
   final String? imageId;
 
-  /// The identifiers of the AWS accounts that the image has been shared with.
+  /// The identifiers of the Amazon Web Services accounts that the image has been
+  /// shared with.
   final List<ImagePermission>? imagePermissions;
 
-  /// The token to use to retrieve the next set of results, or null if no more
-  /// results are available.
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
   final String? nextToken;
 
   DescribeWorkspaceImagePermissionsResult({
@@ -3174,6 +4612,7 @@ class DescribeWorkspaceImagePermissionsResult {
     this.imagePermissions,
     this.nextToken,
   });
+
   factory DescribeWorkspaceImagePermissionsResult.fromJson(
       Map<String, dynamic> json) {
     return DescribeWorkspaceImagePermissionsResult(
@@ -3191,14 +4630,15 @@ class DescribeWorkspaceImagesResult {
   /// Information about the images.
   final List<WorkspaceImage>? images;
 
-  /// The token to use to retrieve the next set of results, or null if no more
-  /// results are available.
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
   final String? nextToken;
 
   DescribeWorkspaceImagesResult({
     this.images,
     this.nextToken,
   });
+
   factory DescribeWorkspaceImagesResult.fromJson(Map<String, dynamic> json) {
     return DescribeWorkspaceImagesResult(
       images: (json['Images'] as List?)
@@ -3223,6 +4663,7 @@ class DescribeWorkspaceSnapshotsResult {
     this.rebuildSnapshots,
     this.restoreSnapshots,
   });
+
   factory DescribeWorkspaceSnapshotsResult.fromJson(Map<String, dynamic> json) {
     return DescribeWorkspaceSnapshotsResult(
       rebuildSnapshots: (json['RebuildSnapshots'] as List?)
@@ -3238,8 +4679,8 @@ class DescribeWorkspaceSnapshotsResult {
 }
 
 class DescribeWorkspacesConnectionStatusResult {
-  /// The token to use to retrieve the next set of results, or null if no more
-  /// results are available.
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
   final String? nextToken;
 
   /// Information about the connection status of the WorkSpace.
@@ -3249,6 +4690,7 @@ class DescribeWorkspacesConnectionStatusResult {
     this.nextToken,
     this.workspacesConnectionStatus,
   });
+
   factory DescribeWorkspacesConnectionStatusResult.fromJson(
       Map<String, dynamic> json) {
     return DescribeWorkspacesConnectionStatusResult(
@@ -3263,8 +4705,8 @@ class DescribeWorkspacesConnectionStatusResult {
 }
 
 class DescribeWorkspacesResult {
-  /// The token to use to retrieve the next set of results, or null if no more
-  /// results are available.
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
   final String? nextToken;
 
   /// Information about the WorkSpaces.
@@ -3277,6 +4719,7 @@ class DescribeWorkspacesResult {
     this.nextToken,
     this.workspaces,
   });
+
   factory DescribeWorkspacesResult.fromJson(Map<String, dynamic> json) {
     return DescribeWorkspacesResult(
       nextToken: json['NextToken'] as String?,
@@ -3290,6 +4733,7 @@ class DescribeWorkspacesResult {
 
 class DisassociateConnectionAliasResult {
   DisassociateConnectionAliasResult();
+
   factory DisassociateConnectionAliasResult.fromJson(Map<String, dynamic> _) {
     return DisassociateConnectionAliasResult();
   }
@@ -3297,8 +4741,41 @@ class DisassociateConnectionAliasResult {
 
 class DisassociateIpGroupsResult {
   DisassociateIpGroupsResult();
+
   factory DisassociateIpGroupsResult.fromJson(Map<String, dynamic> _) {
     return DisassociateIpGroupsResult();
+  }
+}
+
+/// Describes the standby WorkSpace that could not be created.
+class FailedCreateStandbyWorkspacesRequest {
+  /// The error code that is returned if the standby WorkSpace could not be
+  /// created.
+  final String? errorCode;
+
+  /// The text of the error message that is returned if the standby WorkSpace
+  /// could not be created.
+  final String? errorMessage;
+
+  /// Information about the standby WorkSpace that could not be created.
+  final StandbyWorkspace? standbyWorkspaceRequest;
+
+  FailedCreateStandbyWorkspacesRequest({
+    this.errorCode,
+    this.errorMessage,
+    this.standbyWorkspaceRequest,
+  });
+
+  factory FailedCreateStandbyWorkspacesRequest.fromJson(
+      Map<String, dynamic> json) {
+    return FailedCreateStandbyWorkspacesRequest(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      standbyWorkspaceRequest: json['StandbyWorkspaceRequest'] != null
+          ? StandbyWorkspace.fromJson(
+              json['StandbyWorkspaceRequest'] as Map<String, dynamic>)
+          : null,
+    );
   }
 }
 
@@ -3319,6 +4796,7 @@ class FailedCreateWorkspaceRequest {
     this.errorMessage,
     this.workspaceRequest,
   });
+
   factory FailedCreateWorkspaceRequest.fromJson(Map<String, dynamic> json) {
     return FailedCreateWorkspaceRequest(
       errorCode: json['ErrorCode'] as String?,
@@ -3351,6 +4829,7 @@ class FailedWorkspaceChangeRequest {
     this.errorMessage,
     this.workspaceId,
   });
+
   factory FailedWorkspaceChangeRequest.fromJson(Map<String, dynamic> json) {
     return FailedWorkspaceChangeRequest(
       errorCode: json['ErrorCode'] as String?,
@@ -3360,17 +4839,19 @@ class FailedWorkspaceChangeRequest {
   }
 }
 
-/// Describes the AWS accounts that have been granted permission to use a shared
-/// image. For more information about sharing images, see <a
+/// Describes the Amazon Web Services accounts that have been granted permission
+/// to use a shared image. For more information about sharing images, see <a
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/share-custom-image.html">
 /// Share or Unshare a Custom WorkSpaces Image</a>.
 class ImagePermission {
-  /// The identifier of the AWS account that an image has been shared with.
+  /// The identifier of the Amazon Web Services account that an image has been
+  /// shared with.
   final String? sharedAccountId;
 
   ImagePermission({
     this.sharedAccountId,
   });
+
   factory ImagePermission.fromJson(Map<String, dynamic> json) {
     return ImagePermission(
       sharedAccountId: json['SharedAccountId'] as String?,
@@ -3406,6 +4887,64 @@ extension ImageTypeFromString on String {
   }
 }
 
+class ImportClientBrandingResult {
+  /// The branding information configured for Android devices.
+  final DefaultClientBrandingAttributes? deviceTypeAndroid;
+
+  /// The branding information configured for iOS devices.
+  final IosClientBrandingAttributes? deviceTypeIos;
+
+  /// The branding information configured for Linux devices.
+  final DefaultClientBrandingAttributes? deviceTypeLinux;
+
+  /// The branding information configured for macOS devices.
+  final DefaultClientBrandingAttributes? deviceTypeOsx;
+
+  /// The branding information configured for web access.
+  final DefaultClientBrandingAttributes? deviceTypeWeb;
+
+  /// The branding information configured for Windows devices.
+  final DefaultClientBrandingAttributes? deviceTypeWindows;
+
+  ImportClientBrandingResult({
+    this.deviceTypeAndroid,
+    this.deviceTypeIos,
+    this.deviceTypeLinux,
+    this.deviceTypeOsx,
+    this.deviceTypeWeb,
+    this.deviceTypeWindows,
+  });
+
+  factory ImportClientBrandingResult.fromJson(Map<String, dynamic> json) {
+    return ImportClientBrandingResult(
+      deviceTypeAndroid: json['DeviceTypeAndroid'] != null
+          ? DefaultClientBrandingAttributes.fromJson(
+              json['DeviceTypeAndroid'] as Map<String, dynamic>)
+          : null,
+      deviceTypeIos: json['DeviceTypeIos'] != null
+          ? IosClientBrandingAttributes.fromJson(
+              json['DeviceTypeIos'] as Map<String, dynamic>)
+          : null,
+      deviceTypeLinux: json['DeviceTypeLinux'] != null
+          ? DefaultClientBrandingAttributes.fromJson(
+              json['DeviceTypeLinux'] as Map<String, dynamic>)
+          : null,
+      deviceTypeOsx: json['DeviceTypeOsx'] != null
+          ? DefaultClientBrandingAttributes.fromJson(
+              json['DeviceTypeOsx'] as Map<String, dynamic>)
+          : null,
+      deviceTypeWeb: json['DeviceTypeWeb'] != null
+          ? DefaultClientBrandingAttributes.fromJson(
+              json['DeviceTypeWeb'] as Map<String, dynamic>)
+          : null,
+      deviceTypeWindows: json['DeviceTypeWindows'] != null
+          ? DefaultClientBrandingAttributes.fromJson(
+              json['DeviceTypeWindows'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 class ImportWorkspaceImageResult {
   /// The identifier of the WorkSpace image.
   final String? imageId;
@@ -3413,10 +4952,210 @@ class ImportWorkspaceImageResult {
   ImportWorkspaceImageResult({
     this.imageId,
   });
+
   factory ImportWorkspaceImageResult.fromJson(Map<String, dynamic> json) {
     return ImportWorkspaceImageResult(
       imageId: json['ImageId'] as String?,
     );
+  }
+}
+
+/// The client branding attributes for iOS device types. These attributes are
+/// displayed on the iOS client login screen only.
+/// <important>
+/// Client branding attributes are public facing. Ensure you do not include
+/// sensitive information.
+/// </important>
+class IosClientBrandingAttributes {
+  /// The forgotten password link. This is the web address that users can go to if
+  /// they forget the password for their WorkSpace.
+  final String? forgotPasswordLink;
+
+  /// The login message. Specified as a key value pair, in which the key is a
+  /// locale and the value is the localized message for that locale. The only key
+  /// supported is <code>en_US</code>. The HTML tags supported include the
+  /// following: <code>a, b, blockquote, br, cite, code, dd, dl, dt, div, em, i,
+  /// li, ol, p, pre, q, small, span, strike, strong, sub, sup, u, ul</code>.
+  final Map<String, String>? loginMessage;
+
+  /// The @2x version of the logo. This is the higher resolution display that
+  /// offers a scale factor of 2.0 (or @2x). The only image format accepted is a
+  /// binary data object that is converted from a <code>.png</code> file.
+  /// <note>
+  /// For more information about iOS image size and resolution, see <a
+  /// href="https://developer.apple.com/design/human-interface-guidelines/ios/icons-and-images/image-size-and-resolution/">Image
+  /// Size and Resolution </a> in the <i>Apple Human Interface Guidelines</i>.
+  /// </note>
+  final String? logo2xUrl;
+
+  /// The @3x version of the logo. This is the higher resolution display that
+  /// offers a scale factor of 3.0 (or @3x).The only image format accepted is a
+  /// binary data object that is converted from a <code>.png</code> file.
+  /// <note>
+  /// For more information about iOS image size and resolution, see <a
+  /// href="https://developer.apple.com/design/human-interface-guidelines/ios/icons-and-images/image-size-and-resolution/">Image
+  /// Size and Resolution </a> in the <i>Apple Human Interface Guidelines</i>.
+  /// </note>
+  final String? logo3xUrl;
+
+  /// The logo. This is the standard-resolution display that has a 1:1 pixel
+  /// density (or @1x), where one pixel is equal to one point. The only image
+  /// format accepted is a binary data object that is converted from a
+  /// <code>.png</code> file.
+  final String? logoUrl;
+
+  /// The support email. The company's customer support email address.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// In each platform type, the <code>SupportEmail</code> and
+  /// <code>SupportLink</code> parameters are mutually exclusive. You can specify
+  /// one parameter for each platform type, but not both.
+  /// </li>
+  /// <li>
+  /// The default email is <code>workspaces-feedback@amazon.com</code>.
+  /// </li>
+  /// </ul> </note>
+  final String? supportEmail;
+
+  /// The support link. The link for the company's customer support page for their
+  /// WorkSpace.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// In each platform type, the <code>SupportEmail</code> and
+  /// <code>SupportLink</code> parameters are mutually exclusive. You can specify
+  /// one parameter for each platform type, but not both.
+  /// </li>
+  /// <li>
+  /// The default support link is <code>workspaces-feedback@amazon.com</code>.
+  /// </li>
+  /// </ul> </note>
+  final String? supportLink;
+
+  IosClientBrandingAttributes({
+    this.forgotPasswordLink,
+    this.loginMessage,
+    this.logo2xUrl,
+    this.logo3xUrl,
+    this.logoUrl,
+    this.supportEmail,
+    this.supportLink,
+  });
+
+  factory IosClientBrandingAttributes.fromJson(Map<String, dynamic> json) {
+    return IosClientBrandingAttributes(
+      forgotPasswordLink: json['ForgotPasswordLink'] as String?,
+      loginMessage: (json['LoginMessage'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      logo2xUrl: json['Logo2xUrl'] as String?,
+      logo3xUrl: json['Logo3xUrl'] as String?,
+      logoUrl: json['LogoUrl'] as String?,
+      supportEmail: json['SupportEmail'] as String?,
+      supportLink: json['SupportLink'] as String?,
+    );
+  }
+}
+
+/// The client branding attributes to import for iOS device types. These
+/// attributes are displayed on the iOS client login screen.
+/// <important>
+/// Client branding attributes are public facing. Ensure you do not include
+/// sensitive information.
+/// </important>
+class IosImportClientBrandingAttributes {
+  /// The forgotten password link. This is the web address that users can go to if
+  /// they forget the password for their WorkSpace.
+  final String? forgotPasswordLink;
+
+  /// The login message. Specified as a key value pair, in which the key is a
+  /// locale and the value is the localized message for that locale. The only key
+  /// supported is <code>en_US</code>. The HTML tags supported include the
+  /// following: <code>a, b, blockquote, br, cite, code, dd, dl, dt, div, em, i,
+  /// li, ol, p, pre, q, small, span, strike, strong, sub, sup, u, ul</code>.
+  final Map<String, String>? loginMessage;
+
+  /// The logo. This is the standard-resolution display that has a 1:1 pixel
+  /// density (or @1x), where one pixel is equal to one point. The only image
+  /// format accepted is a binary data object that is converted from a
+  /// <code>.png</code> file.
+  final Uint8List? logo;
+
+  /// The @2x version of the logo. This is the higher resolution display that
+  /// offers a scale factor of 2.0 (or @2x). The only image format accepted is a
+  /// binary data object that is converted from a <code>.png</code> file.
+  /// <note>
+  /// For more information about iOS image size and resolution, see <a
+  /// href="https://developer.apple.com/design/human-interface-guidelines/ios/icons-and-images/image-size-and-resolution/">Image
+  /// Size and Resolution </a> in the <i>Apple Human Interface Guidelines</i>.
+  /// </note>
+  final Uint8List? logo2x;
+
+  /// The @3x version of the logo. This is the higher resolution display that
+  /// offers a scale factor of 3.0 (or @3x). The only image format accepted is a
+  /// binary data object that is converted from a <code>.png</code> file.
+  /// <note>
+  /// For more information about iOS image size and resolution, see <a
+  /// href="https://developer.apple.com/design/human-interface-guidelines/ios/icons-and-images/image-size-and-resolution/">Image
+  /// Size and Resolution </a> in the <i>Apple Human Interface Guidelines</i>.
+  /// </note>
+  final Uint8List? logo3x;
+
+  /// The support email. The company's customer support email address.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// In each platform type, the <code>SupportEmail</code> and
+  /// <code>SupportLink</code> parameters are mutually exclusive. You can specify
+  /// one parameter for each platform type, but not both.
+  /// </li>
+  /// <li>
+  /// The default email is <code>workspaces-feedback@amazon.com</code>.
+  /// </li>
+  /// </ul> </note>
+  final String? supportEmail;
+
+  /// The support link. The link for the company's customer support page for their
+  /// WorkSpace.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// In each platform type, the <code>SupportEmail</code> and
+  /// <code>SupportLink</code> parameters are mutually exclusive. You can specify
+  /// one parameter for each platform type, but not both.
+  /// </li>
+  /// <li>
+  /// The default support link is <code>workspaces-feedback@amazon.com</code>.
+  /// </li>
+  /// </ul> </note>
+  final String? supportLink;
+
+  IosImportClientBrandingAttributes({
+    this.forgotPasswordLink,
+    this.loginMessage,
+    this.logo,
+    this.logo2x,
+    this.logo3x,
+    this.supportEmail,
+    this.supportLink,
+  });
+  Map<String, dynamic> toJson() {
+    final forgotPasswordLink = this.forgotPasswordLink;
+    final loginMessage = this.loginMessage;
+    final logo = this.logo;
+    final logo2x = this.logo2x;
+    final logo3x = this.logo3x;
+    final supportEmail = this.supportEmail;
+    final supportLink = this.supportLink;
+    return {
+      if (forgotPasswordLink != null) 'ForgotPasswordLink': forgotPasswordLink,
+      if (loginMessage != null) 'LoginMessage': loginMessage,
+      if (logo != null) 'Logo': base64Encode(logo),
+      if (logo2x != null) 'Logo2x': base64Encode(logo2x),
+      if (logo3x != null) 'Logo3x': base64Encode(logo3x),
+      if (supportEmail != null) 'SupportEmail': supportEmail,
+      if (supportLink != null) 'SupportLink': supportLink,
+    };
   }
 }
 
@@ -3432,6 +5171,7 @@ class IpRuleItem {
     this.ipRule,
     this.ruleDesc,
   });
+
   factory IpRuleItem.fromJson(Map<String, dynamic> json) {
     return IpRuleItem(
       ipRule: json['ipRule'] as String?,
@@ -3453,14 +5193,15 @@ class ListAvailableManagementCidrRangesResult {
   /// The list of available IP address ranges, specified as IPv4 CIDR blocks.
   final List<String>? managementCidrRanges;
 
-  /// The token to use to retrieve the next set of results, or null if no more
-  /// results are available.
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
   final String? nextToken;
 
   ListAvailableManagementCidrRangesResult({
     this.managementCidrRanges,
     this.nextToken,
   });
+
   factory ListAvailableManagementCidrRangesResult.fromJson(
       Map<String, dynamic> json) {
     return ListAvailableManagementCidrRangesResult(
@@ -3470,6 +5211,34 @@ class ListAvailableManagementCidrRangesResult {
           .toList(),
       nextToken: json['NextToken'] as String?,
     );
+  }
+}
+
+enum LogUploadEnum {
+  enabled,
+  disabled,
+}
+
+extension LogUploadEnumValueExtension on LogUploadEnum {
+  String toValue() {
+    switch (this) {
+      case LogUploadEnum.enabled:
+        return 'ENABLED';
+      case LogUploadEnum.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension LogUploadEnumFromString on String {
+  LogUploadEnum toLogUploadEnum() {
+    switch (this) {
+      case 'ENABLED':
+        return LogUploadEnum.enabled;
+      case 'DISABLED':
+        return LogUploadEnum.disabled;
+    }
+    throw Exception('$this is not known in enum LogUploadEnum');
   }
 }
 
@@ -3486,6 +5255,7 @@ class MigrateWorkspaceResult {
     this.sourceWorkspaceId,
     this.targetWorkspaceId,
   });
+
   factory MigrateWorkspaceResult.fromJson(Map<String, dynamic> json) {
     return MigrateWorkspaceResult(
       sourceWorkspaceId: json['SourceWorkspaceId'] as String?,
@@ -3539,6 +5309,7 @@ class ModificationState {
     this.resource,
     this.state,
   });
+
   factory ModificationState.fromJson(Map<String, dynamic> json) {
     return ModificationState(
       resource: (json['Resource'] as String?)?.toModificationResourceEnum(),
@@ -3577,20 +5348,40 @@ extension ModificationStateEnumFromString on String {
 
 class ModifyAccountResult {
   ModifyAccountResult();
+
   factory ModifyAccountResult.fromJson(Map<String, dynamic> _) {
     return ModifyAccountResult();
   }
 }
 
+class ModifyCertificateBasedAuthPropertiesResult {
+  ModifyCertificateBasedAuthPropertiesResult();
+
+  factory ModifyCertificateBasedAuthPropertiesResult.fromJson(
+      Map<String, dynamic> _) {
+    return ModifyCertificateBasedAuthPropertiesResult();
+  }
+}
+
 class ModifyClientPropertiesResult {
   ModifyClientPropertiesResult();
+
   factory ModifyClientPropertiesResult.fromJson(Map<String, dynamic> _) {
     return ModifyClientPropertiesResult();
   }
 }
 
+class ModifySamlPropertiesResult {
+  ModifySamlPropertiesResult();
+
+  factory ModifySamlPropertiesResult.fromJson(Map<String, dynamic> _) {
+    return ModifySamlPropertiesResult();
+  }
+}
+
 class ModifySelfservicePermissionsResult {
   ModifySelfservicePermissionsResult();
+
   factory ModifySelfservicePermissionsResult.fromJson(Map<String, dynamic> _) {
     return ModifySelfservicePermissionsResult();
   }
@@ -3598,6 +5389,7 @@ class ModifySelfservicePermissionsResult {
 
 class ModifyWorkspaceAccessPropertiesResult {
   ModifyWorkspaceAccessPropertiesResult();
+
   factory ModifyWorkspaceAccessPropertiesResult.fromJson(
       Map<String, dynamic> _) {
     return ModifyWorkspaceAccessPropertiesResult();
@@ -3606,6 +5398,7 @@ class ModifyWorkspaceAccessPropertiesResult {
 
 class ModifyWorkspaceCreationPropertiesResult {
   ModifyWorkspaceCreationPropertiesResult();
+
   factory ModifyWorkspaceCreationPropertiesResult.fromJson(
       Map<String, dynamic> _) {
     return ModifyWorkspaceCreationPropertiesResult();
@@ -3614,6 +5407,7 @@ class ModifyWorkspaceCreationPropertiesResult {
 
 class ModifyWorkspacePropertiesResult {
   ModifyWorkspacePropertiesResult();
+
   factory ModifyWorkspacePropertiesResult.fromJson(Map<String, dynamic> _) {
     return ModifyWorkspacePropertiesResult();
   }
@@ -3621,6 +5415,7 @@ class ModifyWorkspacePropertiesResult {
 
 class ModifyWorkspaceStateResult {
   ModifyWorkspaceStateResult();
+
   factory ModifyWorkspaceStateResult.fromJson(Map<String, dynamic> _) {
     return ModifyWorkspaceStateResult();
   }
@@ -3634,6 +5429,7 @@ class OperatingSystem {
   OperatingSystem({
     this.type,
   });
+
   factory OperatingSystem.fromJson(Map<String, dynamic> json) {
     return OperatingSystem(
       type: (json['Type'] as String?)?.toOperatingSystemType(),
@@ -3669,6 +5465,73 @@ extension OperatingSystemTypeFromString on String {
   }
 }
 
+/// Information about the standby WorkSpace.
+class PendingCreateStandbyWorkspacesRequest {
+  /// The identifier of the directory for the standby WorkSpace.
+  final String? directoryId;
+
+  /// The operational state of the standby WorkSpace.
+  final WorkspaceState? state;
+
+  /// Describes the standby WorkSpace that was created.
+  ///
+  /// Because this operation is asynchronous, the identifier returned is not
+  /// immediately available for use with other operations. For example, if you
+  /// call <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaces.html">
+  /// DescribeWorkspaces</a> before the WorkSpace is created, the information
+  /// returned can be incomplete.
+  final String? userName;
+
+  /// The identifier of the standby WorkSpace.
+  final String? workspaceId;
+
+  PendingCreateStandbyWorkspacesRequest({
+    this.directoryId,
+    this.state,
+    this.userName,
+    this.workspaceId,
+  });
+
+  factory PendingCreateStandbyWorkspacesRequest.fromJson(
+      Map<String, dynamic> json) {
+    return PendingCreateStandbyWorkspacesRequest(
+      directoryId: json['DirectoryId'] as String?,
+      state: (json['State'] as String?)?.toWorkspaceState(),
+      userName: json['UserName'] as String?,
+      workspaceId: json['WorkspaceId'] as String?,
+    );
+  }
+}
+
+enum Protocol {
+  pcoip,
+  wsp,
+}
+
+extension ProtocolValueExtension on Protocol {
+  String toValue() {
+    switch (this) {
+      case Protocol.pcoip:
+        return 'PCOIP';
+      case Protocol.wsp:
+        return 'WSP';
+    }
+  }
+}
+
+extension ProtocolFromString on String {
+  Protocol toProtocol() {
+    switch (this) {
+      case 'PCOIP':
+        return Protocol.pcoip;
+      case 'WSP':
+        return Protocol.wsp;
+    }
+    throw Exception('$this is not known in enum Protocol');
+  }
+}
+
 /// Describes the information used to reboot a WorkSpace.
 class RebootRequest {
   /// The identifier of the WorkSpace.
@@ -3692,6 +5555,7 @@ class RebootWorkspacesResult {
   RebootWorkspacesResult({
     this.failedRequests,
   });
+
   factory RebootWorkspacesResult.fromJson(Map<String, dynamic> json) {
     return RebootWorkspacesResult(
       failedRequests: (json['FailedRequests'] as List?)
@@ -3726,6 +5590,7 @@ class RebuildWorkspacesResult {
   RebuildWorkspacesResult({
     this.failedRequests,
   });
+
   factory RebuildWorkspacesResult.fromJson(Map<String, dynamic> json) {
     return RebuildWorkspacesResult(
       failedRequests: (json['FailedRequests'] as List?)
@@ -3767,13 +5632,47 @@ extension ReconnectEnumFromString on String {
 
 class RegisterWorkspaceDirectoryResult {
   RegisterWorkspaceDirectoryResult();
+
   factory RegisterWorkspaceDirectoryResult.fromJson(Map<String, dynamic> _) {
     return RegisterWorkspaceDirectoryResult();
   }
 }
 
+/// Describes the related WorkSpace. The related WorkSpace could be a standby
+/// WorkSpace or primary WorkSpace related to the specified WorkSpace.
+class RelatedWorkspaceProperties {
+  /// The Region of the related WorkSpace.
+  final String? region;
+
+  /// Indicates the state of the WorkSpace.
+  final WorkspaceState? state;
+
+  /// Indicates the type of WorkSpace.
+  final StandbyWorkspaceRelationshipType? type;
+
+  /// The identifier of the related WorkSpace.
+  final String? workspaceId;
+
+  RelatedWorkspaceProperties({
+    this.region,
+    this.state,
+    this.type,
+    this.workspaceId,
+  });
+
+  factory RelatedWorkspaceProperties.fromJson(Map<String, dynamic> json) {
+    return RelatedWorkspaceProperties(
+      region: json['Region'] as String?,
+      state: (json['State'] as String?)?.toWorkspaceState(),
+      type: (json['Type'] as String?)?.toStandbyWorkspaceRelationshipType(),
+      workspaceId: json['WorkspaceId'] as String?,
+    );
+  }
+}
+
 class RestoreWorkspaceResult {
   RestoreWorkspaceResult();
+
   factory RestoreWorkspaceResult.fromJson(Map<String, dynamic> _) {
     return RestoreWorkspaceResult();
   }
@@ -3781,6 +5680,7 @@ class RestoreWorkspaceResult {
 
 class RevokeIpRulesResult {
   RevokeIpRulesResult();
+
   factory RevokeIpRulesResult.fromJson(Map<String, dynamic> _) {
     return RevokeIpRulesResult();
   }
@@ -3794,16 +5694,25 @@ class RootStorage {
   RootStorage({
     this.capacity,
   });
+
   factory RootStorage.fromJson(Map<String, dynamic> json) {
     return RootStorage(
       capacity: json['Capacity'] as String?,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacity = this.capacity;
+    return {
+      if (capacity != null) 'Capacity': capacity,
+    };
   }
 }
 
 enum RunningMode {
   autoStop,
   alwaysOn,
+  manual,
 }
 
 extension RunningModeValueExtension on RunningMode {
@@ -3813,6 +5722,8 @@ extension RunningModeValueExtension on RunningMode {
         return 'AUTO_STOP';
       case RunningMode.alwaysOn:
         return 'ALWAYS_ON';
+      case RunningMode.manual:
+        return 'MANUAL';
     }
   }
 }
@@ -3824,8 +5735,114 @@ extension RunningModeFromString on String {
         return RunningMode.autoStop;
       case 'ALWAYS_ON':
         return RunningMode.alwaysOn;
+      case 'MANUAL':
+        return RunningMode.manual;
     }
     throw Exception('$this is not known in enum RunningMode');
+  }
+}
+
+/// Describes the enablement status, user access URL, and relay state parameter
+/// name that are used for configuring federation with an SAML 2.0 identity
+/// provider.
+class SamlProperties {
+  /// The relay state parameter name supported by the SAML 2.0 identity provider
+  /// (IdP). When the end user is redirected to the user access URL from the
+  /// WorkSpaces client application, this relay state parameter name is appended
+  /// as a query parameter to the URL along with the relay state endpoint to
+  /// return the user to the client application session.
+  ///
+  /// To use SAML 2.0 authentication with WorkSpaces, the IdP must support
+  /// IdP-initiated deep linking for the relay state URL. Consult your IdP
+  /// documentation for more information.
+  final String? relayStateParameterName;
+
+  /// Indicates the status of SAML 2.0 authentication. These statuses include the
+  /// following.
+  ///
+  /// <ul>
+  /// <li>
+  /// If the setting is <code>DISABLED</code>, end users will be directed to login
+  /// with their directory credentials.
+  /// </li>
+  /// <li>
+  /// If the setting is <code>ENABLED</code>, end users will be directed to login
+  /// via the user access URL. Users attempting to connect to WorkSpaces from a
+  /// client application that does not support SAML 2.0 authentication will not be
+  /// able to connect.
+  /// </li>
+  /// <li>
+  /// If the setting is <code>ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK</code>, end
+  /// users will be directed to login via the user access URL on supported client
+  /// applications, but will not prevent clients that do not support SAML 2.0
+  /// authentication from connecting as if SAML 2.0 authentication was disabled.
+  /// </li>
+  /// </ul>
+  final SamlStatusEnum? status;
+
+  /// The SAML 2.0 identity provider (IdP) user access URL is the URL a user would
+  /// navigate to in their web browser in order to federate from the IdP and
+  /// directly access the application, without any SAML 2.0 service provider (SP)
+  /// bindings.
+  final String? userAccessUrl;
+
+  SamlProperties({
+    this.relayStateParameterName,
+    this.status,
+    this.userAccessUrl,
+  });
+
+  factory SamlProperties.fromJson(Map<String, dynamic> json) {
+    return SamlProperties(
+      relayStateParameterName: json['RelayStateParameterName'] as String?,
+      status: (json['Status'] as String?)?.toSamlStatusEnum(),
+      userAccessUrl: json['UserAccessUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final relayStateParameterName = this.relayStateParameterName;
+    final status = this.status;
+    final userAccessUrl = this.userAccessUrl;
+    return {
+      if (relayStateParameterName != null)
+        'RelayStateParameterName': relayStateParameterName,
+      if (status != null) 'Status': status.toValue(),
+      if (userAccessUrl != null) 'UserAccessUrl': userAccessUrl,
+    };
+  }
+}
+
+enum SamlStatusEnum {
+  disabled,
+  enabled,
+  enabledWithDirectoryLoginFallback,
+}
+
+extension SamlStatusEnumValueExtension on SamlStatusEnum {
+  String toValue() {
+    switch (this) {
+      case SamlStatusEnum.disabled:
+        return 'DISABLED';
+      case SamlStatusEnum.enabled:
+        return 'ENABLED';
+      case SamlStatusEnum.enabledWithDirectoryLoginFallback:
+        return 'ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK';
+    }
+  }
+}
+
+extension SamlStatusEnumFromString on String {
+  SamlStatusEnum toSamlStatusEnum() {
+    switch (this) {
+      case 'DISABLED':
+        return SamlStatusEnum.disabled;
+      case 'ENABLED':
+        return SamlStatusEnum.enabled;
+      case 'ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK':
+        return SamlStatusEnum.enabledWithDirectoryLoginFallback;
+    }
+    throw Exception('$this is not known in enum SamlStatusEnum');
   }
 }
 
@@ -3859,6 +5876,7 @@ class SelfservicePermissions {
     this.restartWorkspace,
     this.switchRunningMode,
   });
+
   factory SelfservicePermissions.fromJson(Map<String, dynamic> json) {
     return SelfservicePermissions(
       changeComputeType:
@@ -3903,10 +5921,89 @@ class Snapshot {
   Snapshot({
     this.snapshotTime,
   });
+
   factory Snapshot.fromJson(Map<String, dynamic> json) {
     return Snapshot(
       snapshotTime: timeStampFromJson(json['SnapshotTime']),
     );
+  }
+}
+
+/// Describes a standby WorkSpace.
+class StandbyWorkspace {
+  /// The identifier of the directory for the standby WorkSpace.
+  final String directoryId;
+
+  /// The identifier of the standby WorkSpace.
+  final String primaryWorkspaceId;
+
+  /// The tags associated with the standby WorkSpace.
+  final List<Tag>? tags;
+
+  /// The volume encryption key of the standby WorkSpace.
+  final String? volumeEncryptionKey;
+
+  StandbyWorkspace({
+    required this.directoryId,
+    required this.primaryWorkspaceId,
+    this.tags,
+    this.volumeEncryptionKey,
+  });
+
+  factory StandbyWorkspace.fromJson(Map<String, dynamic> json) {
+    return StandbyWorkspace(
+      directoryId: json['DirectoryId'] as String,
+      primaryWorkspaceId: json['PrimaryWorkspaceId'] as String,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      volumeEncryptionKey: json['VolumeEncryptionKey'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directoryId = this.directoryId;
+    final primaryWorkspaceId = this.primaryWorkspaceId;
+    final tags = this.tags;
+    final volumeEncryptionKey = this.volumeEncryptionKey;
+    return {
+      'DirectoryId': directoryId,
+      'PrimaryWorkspaceId': primaryWorkspaceId,
+      if (tags != null) 'Tags': tags,
+      if (volumeEncryptionKey != null)
+        'VolumeEncryptionKey': volumeEncryptionKey,
+    };
+  }
+}
+
+enum StandbyWorkspaceRelationshipType {
+  primary,
+  standby,
+}
+
+extension StandbyWorkspaceRelationshipTypeValueExtension
+    on StandbyWorkspaceRelationshipType {
+  String toValue() {
+    switch (this) {
+      case StandbyWorkspaceRelationshipType.primary:
+        return 'PRIMARY';
+      case StandbyWorkspaceRelationshipType.standby:
+        return 'STANDBY';
+    }
+  }
+}
+
+extension StandbyWorkspaceRelationshipTypeFromString on String {
+  StandbyWorkspaceRelationshipType toStandbyWorkspaceRelationshipType() {
+    switch (this) {
+      case 'PRIMARY':
+        return StandbyWorkspaceRelationshipType.primary;
+      case 'STANDBY':
+        return StandbyWorkspaceRelationshipType.standby;
+    }
+    throw Exception(
+        '$this is not known in enum StandbyWorkspaceRelationshipType');
   }
 }
 
@@ -3933,6 +6030,7 @@ class StartWorkspacesResult {
   StartWorkspacesResult({
     this.failedRequests,
   });
+
   factory StartWorkspacesResult.fromJson(Map<String, dynamic> json) {
     return StartWorkspacesResult(
       failedRequests: (json['FailedRequests'] as List?)
@@ -3967,6 +6065,7 @@ class StopWorkspacesResult {
   StopWorkspacesResult({
     this.failedRequests,
   });
+
   factory StopWorkspacesResult.fromJson(Map<String, dynamic> json) {
     return StopWorkspacesResult(
       failedRequests: (json['FailedRequests'] as List?)
@@ -3990,6 +6089,7 @@ class Tag {
     required this.key,
     this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -4086,6 +6186,7 @@ class TerminateWorkspacesResult {
   TerminateWorkspacesResult({
     this.failedRequests,
   });
+
   factory TerminateWorkspacesResult.fromJson(Map<String, dynamic> json) {
     return TerminateWorkspacesResult(
       failedRequests: (json['FailedRequests'] as List?)
@@ -4097,41 +6198,96 @@ class TerminateWorkspacesResult {
   }
 }
 
+class UpdateConnectClientAddInResult {
+  UpdateConnectClientAddInResult();
+
+  factory UpdateConnectClientAddInResult.fromJson(Map<String, dynamic> _) {
+    return UpdateConnectClientAddInResult();
+  }
+}
+
 class UpdateConnectionAliasPermissionResult {
   UpdateConnectionAliasPermissionResult();
+
   factory UpdateConnectionAliasPermissionResult.fromJson(
       Map<String, dynamic> _) {
     return UpdateConnectionAliasPermissionResult();
   }
 }
 
+/// Describes whether a WorkSpace image needs to be updated with the latest
+/// drivers and other components required by Amazon WorkSpaces.
+/// <note>
+/// Only Windows 10 WorkSpace images can be programmatically updated at this
+/// time.
+/// </note>
+class UpdateResult {
+  /// A description of whether updates for the WorkSpace image are pending or
+  /// available.
+  final String? description;
+
+  /// Indicates whether updated drivers or other components are available for the
+  /// specified WorkSpace image.
+  final bool? updateAvailable;
+
+  UpdateResult({
+    this.description,
+    this.updateAvailable,
+  });
+
+  factory UpdateResult.fromJson(Map<String, dynamic> json) {
+    return UpdateResult(
+      description: json['Description'] as String?,
+      updateAvailable: json['UpdateAvailable'] as bool?,
+    );
+  }
+}
+
 class UpdateRulesOfIpGroupResult {
   UpdateRulesOfIpGroupResult();
+
   factory UpdateRulesOfIpGroupResult.fromJson(Map<String, dynamic> _) {
     return UpdateRulesOfIpGroupResult();
   }
 }
 
+class UpdateWorkspaceBundleResult {
+  UpdateWorkspaceBundleResult();
+
+  factory UpdateWorkspaceBundleResult.fromJson(Map<String, dynamic> _) {
+    return UpdateWorkspaceBundleResult();
+  }
+}
+
 class UpdateWorkspaceImagePermissionResult {
   UpdateWorkspaceImagePermissionResult();
+
   factory UpdateWorkspaceImagePermissionResult.fromJson(
       Map<String, dynamic> _) {
     return UpdateWorkspaceImagePermissionResult();
   }
 }
 
-/// Describes the user storage for a WorkSpace bundle.
+/// Describes the user volume for a WorkSpace bundle.
 class UserStorage {
-  /// The size of the user storage.
+  /// The size of the user volume.
   final String? capacity;
 
   UserStorage({
     this.capacity,
   });
+
   factory UserStorage.fromJson(Map<String, dynamic> json) {
     return UserStorage(
       capacity: json['Capacity'] as String?,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacity = this.capacity;
+    return {
+      if (capacity != null) 'Capacity': capacity,
+    };
   }
 }
 
@@ -4146,7 +6302,7 @@ class Workspace {
   /// Launch a WorkSpace</a>.
   final String? computerName;
 
-  /// The identifier of the AWS Directory Service directory for the WorkSpace.
+  /// The identifier of the Directory Service directory for the WorkSpace.
   final String? directoryId;
 
   /// The error code that is returned if the WorkSpace cannot be created.
@@ -4161,6 +6317,10 @@ class Workspace {
 
   /// The modification states of the WorkSpace.
   final List<ModificationState>? modificationStates;
+
+  /// The standby WorkSpace or primary WorkSpace related to the specified
+  /// WorkSpace.
+  final List<RelatedWorkspaceProperties>? relatedWorkspaces;
 
   /// Indicates whether the data stored on the root volume is encrypted.
   final bool? rootVolumeEncryptionEnabled;
@@ -4186,8 +6346,8 @@ class Workspace {
   /// Indicates whether the data stored on the user volume is encrypted.
   final bool? userVolumeEncryptionEnabled;
 
-  /// The symmetric AWS KMS customer master key (CMK) used to encrypt data stored
-  /// on your WorkSpace. Amazon WorkSpaces does not support asymmetric CMKs.
+  /// The symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon
+  /// WorkSpaces does not support asymmetric KMS keys.
   final String? volumeEncryptionKey;
 
   /// The identifier of the WorkSpace.
@@ -4204,6 +6364,7 @@ class Workspace {
     this.errorMessage,
     this.ipAddress,
     this.modificationStates,
+    this.relatedWorkspaces,
     this.rootVolumeEncryptionEnabled,
     this.state,
     this.subnetId,
@@ -4213,6 +6374,7 @@ class Workspace {
     this.workspaceId,
     this.workspaceProperties,
   });
+
   factory Workspace.fromJson(Map<String, dynamic> json) {
     return Workspace(
       bundleId: json['BundleId'] as String?,
@@ -4224,6 +6386,11 @@ class Workspace {
       modificationStates: (json['ModificationStates'] as List?)
           ?.whereNotNull()
           .map((e) => ModificationState.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      relatedWorkspaces: (json['RelatedWorkspaces'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              RelatedWorkspaceProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
       rootVolumeEncryptionEnabled: json['RootVolumeEncryptionEnabled'] as bool?,
       state: (json['State'] as String?)?.toWorkspaceState(),
@@ -4245,7 +6412,8 @@ class Workspace {
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/workspaces-network-requirements.html">Amazon
 /// WorkSpaces Client Network Requirements</a>.
 class WorkspaceAccessProperties {
-  /// Indicates whether users can use Android devices to access their WorkSpaces.
+  /// Indicates whether users can use Android and Android-compatible Chrome OS
+  /// devices to access their WorkSpaces.
   final AccessPropertyValue? deviceTypeAndroid;
 
   /// Indicates whether users can use Chromebooks to access their WorkSpaces.
@@ -4254,23 +6422,16 @@ class WorkspaceAccessProperties {
   /// Indicates whether users can use iOS devices to access their WorkSpaces.
   final AccessPropertyValue? deviceTypeIos;
 
-  /// Indicates whether users can use macOS clients to access their WorkSpaces. To
-  /// restrict WorkSpaces access to trusted devices (also known as managed
-  /// devices) with valid certificates, specify a value of <code>TRUST</code>. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/trusted-devices.html">Restrict
-  /// WorkSpaces Access to Trusted Devices</a>.
+  /// Indicates whether users can use Linux clients to access their WorkSpaces.
+  final AccessPropertyValue? deviceTypeLinux;
+
+  /// Indicates whether users can use macOS clients to access their WorkSpaces.
   final AccessPropertyValue? deviceTypeOsx;
 
   /// Indicates whether users can access their WorkSpaces through a web browser.
   final AccessPropertyValue? deviceTypeWeb;
 
   /// Indicates whether users can use Windows clients to access their WorkSpaces.
-  /// To restrict WorkSpaces access to trusted devices (also known as managed
-  /// devices) with valid certificates, specify a value of <code>TRUST</code>. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/trusted-devices.html">Restrict
-  /// WorkSpaces Access to Trusted Devices</a>.
   final AccessPropertyValue? deviceTypeWindows;
 
   /// Indicates whether users can use zero client devices to access their
@@ -4281,11 +6442,13 @@ class WorkspaceAccessProperties {
     this.deviceTypeAndroid,
     this.deviceTypeChromeOs,
     this.deviceTypeIos,
+    this.deviceTypeLinux,
     this.deviceTypeOsx,
     this.deviceTypeWeb,
     this.deviceTypeWindows,
     this.deviceTypeZeroClient,
   });
+
   factory WorkspaceAccessProperties.fromJson(Map<String, dynamic> json) {
     return WorkspaceAccessProperties(
       deviceTypeAndroid:
@@ -4294,6 +6457,8 @@ class WorkspaceAccessProperties {
           (json['DeviceTypeChromeOs'] as String?)?.toAccessPropertyValue(),
       deviceTypeIos:
           (json['DeviceTypeIos'] as String?)?.toAccessPropertyValue(),
+      deviceTypeLinux:
+          (json['DeviceTypeLinux'] as String?)?.toAccessPropertyValue(),
       deviceTypeOsx:
           (json['DeviceTypeOsx'] as String?)?.toAccessPropertyValue(),
       deviceTypeWeb:
@@ -4309,6 +6474,7 @@ class WorkspaceAccessProperties {
     final deviceTypeAndroid = this.deviceTypeAndroid;
     final deviceTypeChromeOs = this.deviceTypeChromeOs;
     final deviceTypeIos = this.deviceTypeIos;
+    final deviceTypeLinux = this.deviceTypeLinux;
     final deviceTypeOsx = this.deviceTypeOsx;
     final deviceTypeWeb = this.deviceTypeWeb;
     final deviceTypeWindows = this.deviceTypeWindows;
@@ -4319,6 +6485,7 @@ class WorkspaceAccessProperties {
       if (deviceTypeChromeOs != null)
         'DeviceTypeChromeOs': deviceTypeChromeOs.toValue(),
       if (deviceTypeIos != null) 'DeviceTypeIos': deviceTypeIos.toValue(),
+      if (deviceTypeLinux != null) 'DeviceTypeLinux': deviceTypeLinux.toValue(),
       if (deviceTypeOsx != null) 'DeviceTypeOsx': deviceTypeOsx.toValue(),
       if (deviceTypeWeb != null) 'DeviceTypeWeb': deviceTypeWeb.toValue(),
       if (deviceTypeWindows != null)
@@ -4331,18 +6498,24 @@ class WorkspaceAccessProperties {
 
 /// Describes a WorkSpace bundle.
 class WorkspaceBundle {
-  /// The bundle identifier.
+  /// The identifier of the bundle.
   final String? bundleId;
 
-  /// The compute type. For more information, see <a
+  /// The type of WorkSpace bundle.
+  final BundleType? bundleType;
+
+  /// The compute type of the bundle. For more information, see <a
   /// href="http://aws.amazon.com/workspaces/details/#Amazon_WorkSpaces_Bundles">Amazon
   /// WorkSpaces Bundles</a>.
   final ComputeType? computeType;
 
-  /// A description.
+  /// The time when the bundle was created.
+  final DateTime? creationTime;
+
+  /// The description of the bundle.
   final String? description;
 
-  /// The image identifier of the bundle.
+  /// The identifier of the image that was used to create the bundle.
   final String? imageId;
 
   /// The last time that the bundle was updated.
@@ -4352,32 +6525,41 @@ class WorkspaceBundle {
   final String? name;
 
   /// The owner of the bundle. This is the account identifier of the owner, or
-  /// <code>AMAZON</code> if the bundle is provided by AWS.
+  /// <code>AMAZON</code> if the bundle is provided by Amazon Web Services.
   final String? owner;
 
   /// The size of the root volume.
   final RootStorage? rootStorage;
 
-  /// The size of the user storage.
+  /// The state of the WorkSpace bundle.
+  final WorkspaceBundleState? state;
+
+  /// The size of the user volume.
   final UserStorage? userStorage;
 
   WorkspaceBundle({
     this.bundleId,
+    this.bundleType,
     this.computeType,
+    this.creationTime,
     this.description,
     this.imageId,
     this.lastUpdatedTime,
     this.name,
     this.owner,
     this.rootStorage,
+    this.state,
     this.userStorage,
   });
+
   factory WorkspaceBundle.fromJson(Map<String, dynamic> json) {
     return WorkspaceBundle(
       bundleId: json['BundleId'] as String?,
+      bundleType: (json['BundleType'] as String?)?.toBundleType(),
       computeType: json['ComputeType'] != null
           ? ComputeType.fromJson(json['ComputeType'] as Map<String, dynamic>)
           : null,
+      creationTime: timeStampFromJson(json['CreationTime']),
       description: json['Description'] as String?,
       imageId: json['ImageId'] as String?,
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
@@ -4386,10 +6568,44 @@ class WorkspaceBundle {
       rootStorage: json['RootStorage'] != null
           ? RootStorage.fromJson(json['RootStorage'] as Map<String, dynamic>)
           : null,
+      state: (json['State'] as String?)?.toWorkspaceBundleState(),
       userStorage: json['UserStorage'] != null
           ? UserStorage.fromJson(json['UserStorage'] as Map<String, dynamic>)
           : null,
     );
+  }
+}
+
+enum WorkspaceBundleState {
+  available,
+  pending,
+  error,
+}
+
+extension WorkspaceBundleStateValueExtension on WorkspaceBundleState {
+  String toValue() {
+    switch (this) {
+      case WorkspaceBundleState.available:
+        return 'AVAILABLE';
+      case WorkspaceBundleState.pending:
+        return 'PENDING';
+      case WorkspaceBundleState.error:
+        return 'ERROR';
+    }
+  }
+}
+
+extension WorkspaceBundleStateFromString on String {
+  WorkspaceBundleState toWorkspaceBundleState() {
+    switch (this) {
+      case 'AVAILABLE':
+        return WorkspaceBundleState.available;
+      case 'PENDING':
+        return WorkspaceBundleState.pending;
+      case 'ERROR':
+        return WorkspaceBundleState.error;
+    }
+    throw Exception('$this is not known in enum WorkspaceBundleState');
   }
 }
 
@@ -4414,6 +6630,7 @@ class WorkspaceConnectionStatus {
     this.lastKnownUserConnectionTimestamp,
     this.workspaceId,
   });
+
   factory WorkspaceConnectionStatus.fromJson(Map<String, dynamic> json) {
     return WorkspaceConnectionStatus(
       connectionState:
@@ -4523,6 +6740,11 @@ class WorkspaceDirectory {
   /// The directory alias.
   final String? alias;
 
+  /// The certificate-based authentication properties used to authenticate SAML
+  /// 2.0 Identity Provider (IdP) user identities to Active Directory for
+  /// WorkSpaces login.
+  final CertificateBasedAuthProperties? certificateBasedAuthProperties;
+
   /// The user name for the service account.
   final String? customerUserName;
 
@@ -4546,6 +6768,11 @@ class WorkspaceDirectory {
   /// The registration code for the directory. This is the code that users enter
   /// in their Amazon WorkSpaces client application to connect to the directory.
   final String? registrationCode;
+
+  /// Describes the enablement status, user access URL, and relay state parameter
+  /// name that are used for configuring federation with an SAML 2.0 identity
+  /// provider.
+  final SamlProperties? samlProperties;
 
   /// The default self-service permissions for WorkSpaces in the directory.
   final SelfservicePermissions? selfservicePermissions;
@@ -4585,6 +6812,7 @@ class WorkspaceDirectory {
 
   WorkspaceDirectory({
     this.alias,
+    this.certificateBasedAuthProperties,
     this.customerUserName,
     this.directoryId,
     this.directoryName,
@@ -4592,6 +6820,7 @@ class WorkspaceDirectory {
     this.dnsIpAddresses,
     this.iamRoleId,
     this.registrationCode,
+    this.samlProperties,
     this.selfservicePermissions,
     this.state,
     this.subnetIds,
@@ -4601,9 +6830,15 @@ class WorkspaceDirectory {
     this.workspaceSecurityGroupId,
     this.ipGroupIds,
   });
+
   factory WorkspaceDirectory.fromJson(Map<String, dynamic> json) {
     return WorkspaceDirectory(
       alias: json['Alias'] as String?,
+      certificateBasedAuthProperties: json['CertificateBasedAuthProperties'] !=
+              null
+          ? CertificateBasedAuthProperties.fromJson(
+              json['CertificateBasedAuthProperties'] as Map<String, dynamic>)
+          : null,
       customerUserName: json['CustomerUserName'] as String?,
       directoryId: json['DirectoryId'] as String?,
       directoryName: json['DirectoryName'] as String?,
@@ -4615,6 +6850,10 @@ class WorkspaceDirectory {
           .toList(),
       iamRoleId: json['IamRoleId'] as String?,
       registrationCode: json['RegistrationCode'] as String?,
+      samlProperties: json['SamlProperties'] != null
+          ? SamlProperties.fromJson(
+              json['SamlProperties'] as Map<String, dynamic>)
+          : null,
       selfservicePermissions: json['SelfservicePermissions'] != null
           ? SelfservicePermissions.fromJson(
               json['SelfservicePermissions'] as Map<String, dynamic>)
@@ -4715,9 +6954,9 @@ extension WorkspaceDirectoryTypeFromString on String {
 
 /// Describes a WorkSpace image.
 class WorkspaceImage {
-  /// The date when the image was created. If the image has been shared, the AWS
-  /// account that the image has been shared with sees the original creation date
-  /// of the image.
+  /// The date when the image was created. If the image has been shared, the
+  /// Amazon Web Services account that the image has been shared with sees the
+  /// original creation date of the image.
   final DateTime? created;
 
   /// The description of the image.
@@ -4738,7 +6977,7 @@ class WorkspaceImage {
   /// The operating system that the image is running.
   final OperatingSystem? operatingSystem;
 
-  /// The identifier of the AWS account that owns the image.
+  /// The identifier of the Amazon Web Services account that owns the image.
   final String? ownerAccountId;
 
   /// Specifies whether the image is running on dedicated hardware. When Bring
@@ -4751,6 +6990,9 @@ class WorkspaceImage {
   /// The status of the image.
   final WorkspaceImageState? state;
 
+  /// The updates (if any) that are available for the specified image.
+  final UpdateResult? updates;
+
   WorkspaceImage({
     this.created,
     this.description,
@@ -4762,7 +7004,9 @@ class WorkspaceImage {
     this.ownerAccountId,
     this.requiredTenancy,
     this.state,
+    this.updates,
   });
+
   factory WorkspaceImage.fromJson(Map<String, dynamic> json) {
     return WorkspaceImage(
       created: timeStampFromJson(json['Created']),
@@ -4779,6 +7023,9 @@ class WorkspaceImage {
       requiredTenancy: (json['RequiredTenancy'] as String?)
           ?.toWorkspaceImageRequiredTenancy(),
       state: (json['State'] as String?)?.toWorkspaceImageState(),
+      updates: json['Updates'] != null
+          ? UpdateResult.fromJson(json['Updates'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -4787,7 +7034,10 @@ enum WorkspaceImageIngestionProcess {
   byolRegular,
   byolGraphics,
   byolGraphicspro,
+  byolGraphicsG4dn,
   byolRegularWsp,
+  byolRegularByop,
+  byolGraphicsG4dnByop,
 }
 
 extension WorkspaceImageIngestionProcessValueExtension
@@ -4800,8 +7050,14 @@ extension WorkspaceImageIngestionProcessValueExtension
         return 'BYOL_GRAPHICS';
       case WorkspaceImageIngestionProcess.byolGraphicspro:
         return 'BYOL_GRAPHICSPRO';
+      case WorkspaceImageIngestionProcess.byolGraphicsG4dn:
+        return 'BYOL_GRAPHICS_G4DN';
       case WorkspaceImageIngestionProcess.byolRegularWsp:
         return 'BYOL_REGULAR_WSP';
+      case WorkspaceImageIngestionProcess.byolRegularByop:
+        return 'BYOL_REGULAR_BYOP';
+      case WorkspaceImageIngestionProcess.byolGraphicsG4dnByop:
+        return 'BYOL_GRAPHICS_G4DN_BYOP';
     }
   }
 }
@@ -4815,8 +7071,14 @@ extension WorkspaceImageIngestionProcessFromString on String {
         return WorkspaceImageIngestionProcess.byolGraphics;
       case 'BYOL_GRAPHICSPRO':
         return WorkspaceImageIngestionProcess.byolGraphicspro;
+      case 'BYOL_GRAPHICS_G4DN':
+        return WorkspaceImageIngestionProcess.byolGraphicsG4dn;
       case 'BYOL_REGULAR_WSP':
         return WorkspaceImageIngestionProcess.byolRegularWsp;
+      case 'BYOL_REGULAR_BYOP':
+        return WorkspaceImageIngestionProcess.byolRegularByop;
+      case 'BYOL_GRAPHICS_G4DN_BYOP':
+        return WorkspaceImageIngestionProcess.byolGraphicsG4dnByop;
     }
     throw Exception(
         '$this is not known in enum WorkspaceImageIngestionProcess');
@@ -4892,6 +7154,25 @@ class WorkspaceProperties {
   /// WorkSpaces Bundles</a>.
   final Compute? computeTypeName;
 
+  /// The protocol. For more information, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/amazon-workspaces-protocols.html">
+  /// Protocols for Amazon WorkSpaces</a>.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// Only available for WorkSpaces created with PCoIP bundles.
+  /// </li>
+  /// <li>
+  /// The <code>Protocols</code> property is case sensitive. Ensure you use
+  /// <code>PCOIP</code> or <code>WSP</code>.
+  /// </li>
+  /// <li>
+  /// Unavailable for Windows 7 WorkSpaces and WorkSpaces using GPU-based bundles
+  /// (Graphics, GraphicsPro, Graphics.g4dn, and GraphicsPro.g4dn).
+  /// </li>
+  /// </ul> </note>
+  final List<Protocol>? protocols;
+
   /// The size of the root volume. For important information about how to modify
   /// the size of the root and user volumes, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/modify-workspaces.html">Modify
@@ -4901,6 +7182,12 @@ class WorkspaceProperties {
   /// The running mode. For more information, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/running-mode.html">Manage
   /// the WorkSpace Running Mode</a>.
+  /// <note>
+  /// The <code>MANUAL</code> value is only supported by Amazon WorkSpaces Core.
+  /// Contact your account team to be allow-listed to use this value. For more
+  /// information, see <a href="http://aws.amazon.com/workspaces/core/">Amazon
+  /// WorkSpaces Core</a>.
+  /// </note>
   final RunningMode? runningMode;
 
   /// The time after a user logs off when WorkSpaces are automatically stopped.
@@ -4915,14 +7202,20 @@ class WorkspaceProperties {
 
   WorkspaceProperties({
     this.computeTypeName,
+    this.protocols,
     this.rootVolumeSizeGib,
     this.runningMode,
     this.runningModeAutoStopTimeoutInMinutes,
     this.userVolumeSizeGib,
   });
+
   factory WorkspaceProperties.fromJson(Map<String, dynamic> json) {
     return WorkspaceProperties(
       computeTypeName: (json['ComputeTypeName'] as String?)?.toCompute(),
+      protocols: (json['Protocols'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toProtocol())
+          .toList(),
       rootVolumeSizeGib: json['RootVolumeSizeGib'] as int?,
       runningMode: (json['RunningMode'] as String?)?.toRunningMode(),
       runningModeAutoStopTimeoutInMinutes:
@@ -4933,6 +7226,7 @@ class WorkspaceProperties {
 
   Map<String, dynamic> toJson() {
     final computeTypeName = this.computeTypeName;
+    final protocols = this.protocols;
     final rootVolumeSizeGib = this.rootVolumeSizeGib;
     final runningMode = this.runningMode;
     final runningModeAutoStopTimeoutInMinutes =
@@ -4940,6 +7234,8 @@ class WorkspaceProperties {
     final userVolumeSizeGib = this.userVolumeSizeGib;
     return {
       if (computeTypeName != null) 'ComputeTypeName': computeTypeName.toValue(),
+      if (protocols != null)
+        'Protocols': protocols.map((e) => e.toValue()).toList(),
       if (rootVolumeSizeGib != null) 'RootVolumeSizeGib': rootVolumeSizeGib,
       if (runningMode != null) 'RunningMode': runningMode.toValue(),
       if (runningModeAutoStopTimeoutInMinutes != null)
@@ -4956,13 +7252,12 @@ class WorkspaceRequest {
   /// <a>DescribeWorkspaceBundles</a> to list the available bundles.
   final String bundleId;
 
-  /// The identifier of the AWS Directory Service directory for the WorkSpace. You
-  /// can use <a>DescribeWorkspaceDirectories</a> to list the available
-  /// directories.
+  /// The identifier of the Directory Service directory for the WorkSpace. You can
+  /// use <a>DescribeWorkspaceDirectories</a> to list the available directories.
   final String directoryId;
 
   /// The user name of the user for the WorkSpace. This user name must exist in
-  /// the AWS Directory Service directory for the WorkSpace.
+  /// the Directory Service directory for the WorkSpace.
   final String userName;
 
   /// Indicates whether the data stored on the root volume is encrypted.
@@ -4974,8 +7269,8 @@ class WorkspaceRequest {
   /// Indicates whether the data stored on the user volume is encrypted.
   final bool? userVolumeEncryptionEnabled;
 
-  /// The symmetric AWS KMS customer master key (CMK) used to encrypt data stored
-  /// on your WorkSpace. Amazon WorkSpaces does not support asymmetric CMKs.
+  /// The symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon
+  /// WorkSpaces does not support asymmetric KMS keys.
   final String? volumeEncryptionKey;
 
   /// The WorkSpace properties.
@@ -4991,6 +7286,7 @@ class WorkspaceRequest {
     this.volumeEncryptionKey,
     this.workspaceProperties,
   });
+
   factory WorkspaceRequest.fromJson(Map<String, dynamic> json) {
     return WorkspaceRequest(
       bundleId: json['BundleId'] as String,
@@ -5159,6 +7455,7 @@ class WorkspacesIpGroup {
     this.groupName,
     this.userRules,
   });
+
   factory WorkspacesIpGroup.fromJson(Map<String, dynamic> json) {
     return WorkspacesIpGroup(
       groupDesc: json['groupDesc'] as String?,

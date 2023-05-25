@@ -64,6 +64,7 @@ class OutputShape {
   OutputShape({
     this.strType,
   });
+
   factory OutputShape.fromJson(Map<String, dynamic> json) {
     return OutputShape(
       strType: json['StrType'] as String?,

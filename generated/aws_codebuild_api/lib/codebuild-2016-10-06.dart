@@ -18,17 +18,17 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// AWS CodeBuild is a fully managed build service in the cloud. AWS CodeBuild
-/// compiles your source code, runs unit tests, and produces artifacts that are
-/// ready to deploy. AWS CodeBuild eliminates the need to provision, manage, and
-/// scale your own build servers. It provides prepackaged build environments for
-/// the most popular programming languages and build tools, such as Apache
-/// Maven, Gradle, and more. You can also fully customize build environments in
-/// AWS CodeBuild to use your own build tools. AWS CodeBuild scales
-/// automatically to meet peak build requests. You pay only for the build time
-/// you consume. For more information about AWS CodeBuild, see the <i> <a
-/// href="https://docs.aws.amazon.com/codebuild/latest/userguide/welcome.html">AWS
-/// CodeBuild User Guide</a>.</i>
+/// CodeBuild is a fully managed build service in the cloud. CodeBuild compiles
+/// your source code, runs unit tests, and produces artifacts that are ready to
+/// deploy. CodeBuild eliminates the need to provision, manage, and scale your
+/// own build servers. It provides prepackaged build environments for the most
+/// popular programming languages and build tools, such as Apache Maven, Gradle,
+/// and more. You can also fully customize build environments in CodeBuild to
+/// use your own build tools. CodeBuild scales automatically to meet peak build
+/// requests. You pay only for the build time you consume. For more information
+/// about CodeBuild, see the <i> <a
+/// href="https://docs.aws.amazon.com/codebuild/latest/userguide/welcome.html">CodeBuild
+/// User Guide</a>.</i>
 class CodeBuild {
   final _s.JsonProtocol _protocol;
   CodeBuild({
@@ -144,8 +144,8 @@ class CodeBuild {
   ///
   /// Parameter [names] :
   /// The names or ARNs of the build projects. To get information about a
-  /// project shared with your AWS account, its ARN must be specified. You
-  /// cannot specify a shared project using its name.
+  /// project shared with your Amazon Web Services account, its ARN must be
+  /// specified. You cannot specify a shared project using its name.
   Future<BatchGetProjectsOutput> batchGetProjects({
     required List<String> names,
   }) async {
@@ -237,9 +237,8 @@ class CodeBuild {
   /// The name of the build project.
   ///
   /// Parameter [serviceRole] :
-  /// The ARN of the AWS Identity and Access Management (IAM) role that enables
-  /// AWS CodeBuild to interact with dependent AWS services on behalf of the AWS
-  /// account.
+  /// The ARN of the IAM role that enables CodeBuild to interact with dependent
+  /// Amazon Web Services services on behalf of the Amazon Web Services account.
   ///
   /// Parameter [source] :
   /// Information about the build input source code for the build project.
@@ -256,12 +255,19 @@ class CodeBuild {
   /// Stores recently used information so that it can be quickly accessed at a
   /// later time.
   ///
+  /// Parameter [concurrentBuildLimit] :
+  /// The maximum number of concurrent builds that are allowed for this project.
+  ///
+  /// New builds are only started if the current number of builds is less than
+  /// or equal to this limit. If the current build count meets this limit, new
+  /// builds are throttled and are not run.
+  ///
   /// Parameter [description] :
   /// A description that makes the build project easy to identify.
   ///
   /// Parameter [encryptionKey] :
-  /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be
-  /// used for encrypting the build output artifacts.
+  /// The Key Management Service customer master key (CMK) to be used for
+  /// encrypting the build output artifacts.
   /// <note>
   /// You can use a cross-account KMS key to encrypt the build output artifacts
   /// if your service role has permission to that key.
@@ -278,7 +284,7 @@ class CodeBuild {
   /// of a file system created using Amazon Elastic File System.
   ///
   /// Parameter [logsConfig] :
-  /// Information about logs for the build project. These can be logs in Amazon
+  /// Information about logs for the build project. These can be logs in
   /// CloudWatch Logs, logs uploaded to a specified S3 bucket, or both.
   ///
   /// Parameter [queuedTimeoutInMinutes] :
@@ -302,7 +308,7 @@ class CodeBuild {
   ///
   /// <ul>
   /// <li>
-  /// For AWS CodeCommit: the commit ID, branch, or Git tag to use.
+  /// For CodeCommit: the commit ID, branch, or Git tag to use.
   /// </li>
   /// <li>
   /// For GitHub: the commit ID, pull request ID, branch name, or tag name that
@@ -319,8 +325,8 @@ class CodeBuild {
   /// default branch's HEAD commit ID is used.
   /// </li>
   /// <li>
-  /// For Amazon Simple Storage Service (Amazon S3): the version ID of the
-  /// object that represents the build input ZIP file to use.
+  /// For Amazon S3: the version ID of the object that represents the build
+  /// input ZIP file to use.
   /// </li>
   /// </ul>
   /// If <code>sourceVersion</code> is specified at the build level, then that
@@ -329,21 +335,21 @@ class CodeBuild {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html">Source
-  /// Version Sample with CodeBuild</a> in the <i>AWS CodeBuild User Guide</i>.
+  /// Version Sample with CodeBuild</a> in the <i>CodeBuild User Guide</i>.
   ///
   /// Parameter [tags] :
   /// A list of tag key and value pairs associated with this build project.
   ///
-  /// These tags are available for use by AWS services that support AWS
-  /// CodeBuild build project tags.
+  /// These tags are available for use by Amazon Web Services services that
+  /// support CodeBuild build project tags.
   ///
   /// Parameter [timeoutInMinutes] :
-  /// How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait
+  /// How long, in minutes, from 5 to 480 (8 hours), for CodeBuild to wait
   /// before it times out any build that has not been marked as completed. The
   /// default is 60 minutes.
   ///
   /// Parameter [vpcConfig] :
-  /// VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
+  /// VpcConfig enables CodeBuild to access resources in an Amazon VPC.
   Future<CreateProjectOutput> createProject({
     required ProjectArtifacts artifacts,
     required ProjectEnvironment environment,
@@ -353,6 +359,7 @@ class CodeBuild {
     bool? badgeEnabled,
     ProjectBuildBatchConfig? buildBatchConfig,
     ProjectCache? cache,
+    int? concurrentBuildLimit,
     String? description,
     String? encryptionKey,
     List<ProjectFileSystemLocation>? fileSystemLocations,
@@ -397,6 +404,8 @@ class CodeBuild {
         if (badgeEnabled != null) 'badgeEnabled': badgeEnabled,
         if (buildBatchConfig != null) 'buildBatchConfig': buildBatchConfig,
         if (cache != null) 'cache': cache,
+        if (concurrentBuildLimit != null)
+          'concurrentBuildLimit': concurrentBuildLimit,
         if (description != null) 'description': description,
         if (encryptionKey != null) 'encryptionKey': encryptionKey,
         if (fileSystemLocations != null)
@@ -438,8 +447,8 @@ class CodeBuild {
   /// Parameter [tags] :
   /// A list of tag key and value pairs associated with this report group.
   ///
-  /// These tags are available for use by AWS services that support AWS
-  /// CodeBuild report group tags.
+  /// These tags are available for use by Amazon Web Services services that
+  /// support CodeBuild report group tags.
   Future<CreateReportGroupOutput> createReportGroup({
     required ReportExportConfig exportConfig,
     required String name,
@@ -467,18 +476,17 @@ class CodeBuild {
     return CreateReportGroupOutput.fromJson(jsonResponse.body);
   }
 
-  /// For an existing AWS CodeBuild build project that has its source code
-  /// stored in a GitHub or Bitbucket repository, enables AWS CodeBuild to start
-  /// rebuilding the source code every time a code change is pushed to the
-  /// repository.
+  /// For an existing CodeBuild build project that has its source code stored in
+  /// a GitHub or Bitbucket repository, enables CodeBuild to start rebuilding
+  /// the source code every time a code change is pushed to the repository.
   /// <important>
-  /// If you enable webhooks for an AWS CodeBuild project, and the project is
-  /// used as a build step in AWS CodePipeline, then two identical builds are
-  /// created for each commit. One build is triggered through webhooks, and one
-  /// through AWS CodePipeline. Because billing is on a per-build basis, you are
-  /// billed for both builds. Therefore, if you are using AWS CodePipeline, we
-  /// recommend that you disable webhooks in AWS CodeBuild. In the AWS CodeBuild
-  /// console, clear the Webhook box. For more information, see step 5 in <a
+  /// If you enable webhooks for an CodeBuild project, and the project is used
+  /// as a build step in CodePipeline, then two identical builds are created for
+  /// each commit. One build is triggered through webhooks, and one through
+  /// CodePipeline. Because billing is on a per-build basis, you are billed for
+  /// both builds. Therefore, if you are using CodePipeline, we recommend that
+  /// you disable webhooks in CodeBuild. In the CodeBuild console, clear the
+  /// Webhook box. For more information, see step 5 in <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/change-project.html#change-project-console">Change
   /// a Build Project's Settings</a>.
   /// </important>
@@ -489,7 +497,7 @@ class CodeBuild {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [projectName] :
-  /// The name of the AWS CodeBuild project.
+  /// The name of the CodeBuild project.
   ///
   /// Parameter [branchFilter] :
   /// A regular expression used to determine which repository branches are built
@@ -711,17 +719,16 @@ class CodeBuild {
     return DeleteSourceCredentialsOutput.fromJson(jsonResponse.body);
   }
 
-  /// For an existing AWS CodeBuild build project that has its source code
-  /// stored in a GitHub or Bitbucket repository, stops AWS CodeBuild from
-  /// rebuilding the source code every time a code change is pushed to the
-  /// repository.
+  /// For an existing CodeBuild build project that has its source code stored in
+  /// a GitHub or Bitbucket repository, stops CodeBuild from rebuilding the
+  /// source code every time a code change is pushed to the repository.
   ///
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
   /// May throw [OAuthProviderException].
   ///
   /// Parameter [projectName] :
-  /// The name of the AWS CodeBuild project.
+  /// The name of the CodeBuild project.
   Future<void> deleteWebhook({
     required String projectName,
   }) async {
@@ -882,9 +889,45 @@ class CodeBuild {
     return DescribeTestCasesOutput.fromJson(jsonResponse.body);
   }
 
+  /// Analyzes and accumulates test report values for the specified test
+  /// reports.
   ///
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [reportGroupArn] :
+  /// The ARN of the report group that contains the reports to analyze.
+  ///
+  /// Parameter [trendField] :
+  /// The test report value to accumulate. This must be one of the following
+  /// values:
+  /// <dl> <dt>Test reports:</dt> <dd> <dl> <dt>DURATION</dt> <dd>
+  /// Accumulate the test run times for the specified reports.
+  /// </dd> <dt>PASS_RATE</dt> <dd>
+  /// Accumulate the percentage of tests that passed for the specified test
+  /// reports.
+  /// </dd> <dt>TOTAL</dt> <dd>
+  /// Accumulate the total number of tests for the specified test reports.
+  /// </dd> </dl> </dd> </dl> <dl> <dt>Code coverage reports:</dt> <dd> <dl>
+  /// <dt>BRANCH_COVERAGE</dt> <dd>
+  /// Accumulate the branch coverage percentages for the specified test reports.
+  /// </dd> <dt>BRANCHES_COVERED</dt> <dd>
+  /// Accumulate the branches covered values for the specified test reports.
+  /// </dd> <dt>BRANCHES_MISSED</dt> <dd>
+  /// Accumulate the branches missed values for the specified test reports.
+  /// </dd> <dt>LINE_COVERAGE</dt> <dd>
+  /// Accumulate the line coverage percentages for the specified test reports.
+  /// </dd> <dt>LINES_COVERED</dt> <dd>
+  /// Accumulate the lines covered values for the specified test reports.
+  /// </dd> <dt>LINES_MISSED</dt> <dd>
+  /// Accumulate the lines not covered values for the specified test reports.
+  /// </dd> </dl> </dd> </dl>
+  ///
+  /// Parameter [numOfReports] :
+  /// The number of reports to analyze. This operation always retrieves the most
+  /// recent reports.
+  ///
+  /// If this parameter is omitted, the most recent 100 reports are analyzed.
   Future<GetReportGroupTrendOutput> getReportGroupTrend({
     required String reportGroupArn,
     required ReportGroupTrendFieldType trendField,
@@ -944,9 +987,9 @@ class CodeBuild {
     return GetResourcePolicyOutput.fromJson(jsonResponse.body);
   }
 
-  /// Imports the source repository credentials for an AWS CodeBuild project
-  /// that has its source code stored in a GitHub, GitHub Enterprise, or
-  /// Bitbucket repository.
+  /// Imports the source repository credentials for an CodeBuild project that
+  /// has its source code stored in a GitHub, GitHub Enterprise, or Bitbucket
+  /// repository.
   ///
   /// May throw [InvalidInputException].
   /// May throw [AccountLimitExceededException].
@@ -955,7 +998,7 @@ class CodeBuild {
   /// Parameter [authType] :
   /// The type of authentication used to connect to a GitHub, GitHub Enterprise,
   /// or Bitbucket repository. An OAUTH connection is not supported by the API
-  /// and must be created using the AWS CodeBuild console.
+  /// and must be created using the CodeBuild console.
   ///
   /// Parameter [serverType] :
   /// The source provider used for this project.
@@ -1007,7 +1050,7 @@ class CodeBuild {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [projectName] :
-  /// The name of the AWS CodeBuild build project that the cache is reset for.
+  /// The name of the CodeBuild build project that the cache is reset for.
   Future<void> invalidateProjectCache({
     required String projectName,
   }) async {
@@ -1204,14 +1247,14 @@ class CodeBuild {
     return ListBuildsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Gets a list of build IDs for the specified build project, with each build
-  /// ID representing a single build.
+  /// Gets a list of build identifiers for the specified build project, with
+  /// each build identifier representing a single build.
   ///
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [projectName] :
-  /// The name of the AWS CodeBuild project.
+  /// The name of the CodeBuild project.
   ///
   /// Parameter [nextToken] :
   /// During a previous call, if there are more than 100 items in the list, only
@@ -1222,17 +1265,24 @@ class CodeBuild {
   /// token that is returned, until no more next tokens are returned.
   ///
   /// Parameter [sortOrder] :
-  /// The order to list build IDs. Valid values include:
+  /// The order to sort the results in. The results are sorted by build number,
+  /// not the build identifier. If this is not specified, the results are sorted
+  /// in descending order.
+  ///
+  /// Valid values include:
   ///
   /// <ul>
   /// <li>
-  /// <code>ASCENDING</code>: List the build IDs in ascending order by build ID.
+  /// <code>ASCENDING</code>: List the build identifiers in ascending order, by
+  /// build number.
   /// </li>
   /// <li>
-  /// <code>DESCENDING</code>: List the build IDs in descending order by build
-  /// ID.
+  /// <code>DESCENDING</code>: List the build identifiers in descending order,
+  /// by build number.
   /// </li>
   /// </ul>
+  /// If the project has more than 100 builds, setting the sort order will
+  /// result in an error.
   Future<ListBuildsForProjectOutput> listBuildsForProject({
     required String projectName,
     String? nextToken,
@@ -1258,7 +1308,7 @@ class CodeBuild {
     return ListBuildsForProjectOutput.fromJson(jsonResponse.body);
   }
 
-  /// Gets information about Docker images that are managed by AWS CodeBuild.
+  /// Gets information about Docker images that are managed by CodeBuild.
   Future<ListCuratedEnvironmentImagesOutput>
       listCuratedEnvironmentImages() async {
     final headers = <String, String>{
@@ -1347,7 +1397,8 @@ class CodeBuild {
     return ListProjectsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Gets a list ARNs for the report groups in the current AWS account.
+  /// Gets a list ARNs for the report groups in the current Amazon Web Services
+  /// account.
   ///
   /// May throw [InvalidInputException].
   ///
@@ -1419,7 +1470,8 @@ class CodeBuild {
     return ListReportGroupsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Returns a list of ARNs for the reports in the current AWS account.
+  /// Returns a list of ARNs for the reports in the current Amazon Web Services
+  /// account.
   ///
   /// May throw [InvalidInputException].
   ///
@@ -1551,7 +1603,8 @@ class CodeBuild {
     return ListReportsForReportGroupOutput.fromJson(jsonResponse.body);
   }
 
-  /// Gets a list of projects that are shared with other AWS accounts or users.
+  /// Gets a list of projects that are shared with other Amazon Web Services
+  /// accounts or users.
   ///
   /// May throw [InvalidInputException].
   ///
@@ -1571,7 +1624,7 @@ class CodeBuild {
   ///
   /// Parameter [sortBy] :
   /// The criterion to be used to list build projects shared with the current
-  /// AWS account or user. Valid values include:
+  /// Amazon Web Services account or user. Valid values include:
   ///
   /// <ul>
   /// <li>
@@ -1627,8 +1680,8 @@ class CodeBuild {
     return ListSharedProjectsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Gets a list of report groups that are shared with other AWS accounts or
-  /// users.
+  /// Gets a list of report groups that are shared with other Amazon Web
+  /// Services accounts or users.
   ///
   /// May throw [InvalidInputException].
   ///
@@ -1647,8 +1700,8 @@ class CodeBuild {
   /// until no more next tokens are returned.
   ///
   /// Parameter [sortBy] :
-  /// The criterion to be used to list report groups shared with the current AWS
-  /// account or user. Valid values include:
+  /// The criterion to be used to list report groups shared with the current
+  /// Amazon Web Services account or user. Valid values include:
   ///
   /// <ul>
   /// <li>
@@ -1734,7 +1787,7 @@ class CodeBuild {
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/project-sharing.html#project-sharing-share">Sharing
   /// a Project</a> and <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/report-groups-sharing.html#report-groups-sharing-share">Sharing
-  /// a Report Group</a> in the <i>AWS CodeBuild User Guide</i>.
+  /// a Report Group</a> in the <i>CodeBuild User Guide</i>.
   ///
   /// Parameter [resourceArn] :
   /// The ARN of the <code>Project</code> or <code>ReportGroup</code> resource
@@ -1776,7 +1829,7 @@ class CodeBuild {
   /// of the <code>RetryBuild</code> request. The token is included in the
   /// <code>RetryBuild</code> request and is valid for five minutes. If you
   /// repeat the <code>RetryBuild</code> request with the same token, but change
-  /// a parameter, AWS CodeBuild returns a parameter mismatch error.
+  /// a parameter, CodeBuild returns a parameter mismatch error.
   Future<RetryBuildOutput> retryBuild({
     String? id,
     String? idempotencyToken,
@@ -1814,7 +1867,7 @@ class CodeBuild {
   /// of the <code>RetryBuildBatch</code> request. The token is included in the
   /// <code>RetryBuildBatch</code> request and is valid for five minutes. If you
   /// repeat the <code>RetryBuildBatch</code> request with the same token, but
-  /// change a parameter, AWS CodeBuild returns a parameter mismatch error.
+  /// change a parameter, CodeBuild returns a parameter mismatch error.
   ///
   /// Parameter [retryType] :
   /// Specifies the type of retry to perform.
@@ -1850,7 +1903,7 @@ class CodeBuild {
   /// May throw [AccountLimitExceededException].
   ///
   /// Parameter [projectName] :
-  /// The name of the AWS CodeBuild build project to start running a build.
+  /// The name of the CodeBuild build project to start running a build.
   ///
   /// Parameter [artifactsOverride] :
   /// Build output artifact settings that override, for this build only, the
@@ -1869,8 +1922,8 @@ class CodeBuild {
   /// If this value is set, it can be either an inline buildspec definition, the
   /// path to an alternate buildspec file relative to the value of the built-in
   /// <code>CODEBUILD_SRC_DIR</code> environment variable, or the path to an S3
-  /// bucket. The bucket must be in the same AWS Region as the build project.
-  /// Specify the buildspec file using its ARN (for example,
+  /// bucket. The bucket must be in the same Amazon Web Services Region as the
+  /// build project. Specify the buildspec file using its ARN (for example,
   /// <code>arn:aws:s3:::my-codebuild-sample2/buildspec.yml</code>). If this
   /// value is not provided or is set to an empty string, the source code must
   /// contain a buildspec file in its root directory. For more information, see
@@ -1897,9 +1950,9 @@ class CodeBuild {
   /// a running build in Session Manager</a>.
   ///
   /// Parameter [encryptionKeyOverride] :
-  /// The AWS Key Management Service (AWS KMS) customer master key (CMK) that
-  /// overrides the one specified in the build project. The CMK key encrypts the
-  /// build output artifacts.
+  /// The Key Management Service customer master key (CMK) that overrides the
+  /// one specified in the build project. The CMK key encrypts the build output
+  /// artifacts.
   /// <note>
   /// You can use a cross-account KMS key to encrypt the build output artifacts
   /// if your service role has permission to that key.
@@ -1923,31 +1976,30 @@ class CodeBuild {
   ///
   /// Parameter [gitSubmodulesConfigOverride] :
   /// Information about the Git submodules configuration for this build of an
-  /// AWS CodeBuild build project.
+  /// CodeBuild build project.
   ///
   /// Parameter [idempotencyToken] :
   /// A unique, case sensitive identifier you provide to ensure the idempotency
   /// of the StartBuild request. The token is included in the StartBuild request
   /// and is valid for 5 minutes. If you repeat the StartBuild request with the
-  /// same token, but change a parameter, AWS CodeBuild returns a parameter
-  /// mismatch error.
+  /// same token, but change a parameter, CodeBuild returns a parameter mismatch
+  /// error.
   ///
   /// Parameter [imageOverride] :
   /// The name of an image for this build that overrides the one specified in
   /// the build project.
   ///
   /// Parameter [imagePullCredentialsTypeOverride] :
-  /// The type of credentials AWS CodeBuild uses to pull images in your build.
-  /// There are two valid values:
+  /// The type of credentials CodeBuild uses to pull images in your build. There
+  /// are two valid values:
   /// <dl> <dt>CODEBUILD</dt> <dd>
-  /// Specifies that AWS CodeBuild uses its own credentials. This requires that
-  /// you modify your ECR repository policy to trust AWS CodeBuild's service
-  /// principal.
+  /// Specifies that CodeBuild uses its own credentials. This requires that you
+  /// modify your ECR repository policy to trust CodeBuild's service principal.
   /// </dd> <dt>SERVICE_ROLE</dt> <dd>
-  /// Specifies that AWS CodeBuild uses your build project's service role.
+  /// Specifies that CodeBuild uses your build project's service role.
   /// </dd> </dl>
   /// When using a cross-account or private registry image, you must use
-  /// <code>SERVICE_ROLE</code> credentials. When using an AWS CodeBuild curated
+  /// <code>SERVICE_ROLE</code> credentials. When using an CodeBuild curated
   /// image, you must use <code>CODEBUILD</code> credentials.
   ///
   /// Parameter [insecureSslOverride] :
@@ -1972,8 +2024,15 @@ class CodeBuild {
   /// Parameter [reportBuildStatusOverride] :
   /// Set to true to report to your source provider the status of a build's
   /// start and completion. If you use this option with a source provider other
-  /// than GitHub, GitHub Enterprise, or Bitbucket, an invalidInputException is
-  /// thrown.
+  /// than GitHub, GitHub Enterprise, or Bitbucket, an
+  /// <code>invalidInputException</code> is thrown.
+  ///
+  /// To be able to report the build status to the source provider, the user
+  /// associated with the source provider must have write access to the repo. If
+  /// the user does not have write access, the build status cannot be updated.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/access-tokens.html">Source
+  /// provider access</a> in the <i>CodeBuild User Guide</i>.
   /// <note>
   /// The status of a build triggered by a webhook is always reported to your
   /// source provider.
@@ -2011,7 +2070,7 @@ class CodeBuild {
   /// The version of the build input to be built, for this build only. If not
   /// specified, the latest version is used. If specified, the contents depends
   /// on the source provider:
-  /// <dl> <dt>AWS CodeCommit</dt> <dd>
+  /// <dl> <dt>CodeCommit</dt> <dd>
   /// The commit ID, branch, or Git tag to use.
   /// </dd> <dt>GitHub</dt> <dd>
   /// The commit ID, pull request ID, branch name, or tag name that corresponds
@@ -2025,7 +2084,7 @@ class CodeBuild {
   /// the source code you want to build. If a branch name is specified, the
   /// branch's HEAD commit ID is used. If not specified, the default branch's
   /// HEAD commit ID is used.
-  /// </dd> <dt>Amazon Simple Storage Service (Amazon S3)</dt> <dd>
+  /// </dd> <dt>Amazon S3</dt> <dd>
   /// The version ID of the object that represents the build input ZIP file to
   /// use.
   /// </dd> </dl>
@@ -2034,7 +2093,7 @@ class CodeBuild {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html">Source
-  /// Version Sample with CodeBuild</a> in the <i>AWS CodeBuild User Guide</i>.
+  /// Version Sample with CodeBuild</a> in the <i>CodeBuild User Guide</i>.
   ///
   /// Parameter [timeoutInMinutesOverride] :
   /// The number of build timeout minutes, from 5 to 480 (8 hours), that
@@ -2191,8 +2250,8 @@ class CodeBuild {
   /// If this value is set, it can be either an inline buildspec definition, the
   /// path to an alternate buildspec file relative to the value of the built-in
   /// <code>CODEBUILD_SRC_DIR</code> environment variable, or the path to an S3
-  /// bucket. The bucket must be in the same AWS Region as the build project.
-  /// Specify the buildspec file using its ARN (for example,
+  /// bucket. The bucket must be in the same Amazon Web Services Region as the
+  /// build project. Specify the buildspec file using its ARN (for example,
   /// <code>arn:aws:s3:::my-codebuild-sample2/buildspec.yml</code>). If this
   /// value is not provided or is set to an empty string, the source code must
   /// contain a buildspec file in its root directory. For more information, see
@@ -2211,10 +2270,17 @@ class CodeBuild {
   /// The name of a compute type for this batch build that overrides the one
   /// specified in the batch build project.
   ///
+  /// Parameter [debugSessionEnabled] :
+  /// Specifies if session debugging is enabled for this batch build. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/session-manager.html">Viewing
+  /// a running build in Session Manager</a>. Batch session debugging is not
+  /// supported for matrix batch builds.
+  ///
   /// Parameter [encryptionKeyOverride] :
-  /// The AWS Key Management Service (AWS KMS) customer master key (CMK) that
-  /// overrides the one specified in the batch build project. The CMK key
-  /// encrypts the build output artifacts.
+  /// The Key Management Service customer master key (CMK) that overrides the
+  /// one specified in the batch build project. The CMK key encrypts the build
+  /// output artifacts.
   /// <note>
   /// You can use a cross-account KMS key to encrypt the build output artifacts
   /// if your service role has permission to that key.
@@ -2245,24 +2311,23 @@ class CodeBuild {
   /// of the <code>StartBuildBatch</code> request. The token is included in the
   /// <code>StartBuildBatch</code> request and is valid for five minutes. If you
   /// repeat the <code>StartBuildBatch</code> request with the same token, but
-  /// change a parameter, AWS CodeBuild returns a parameter mismatch error.
+  /// change a parameter, CodeBuild returns a parameter mismatch error.
   ///
   /// Parameter [imageOverride] :
   /// The name of an image for this batch build that overrides the one specified
   /// in the batch build project.
   ///
   /// Parameter [imagePullCredentialsTypeOverride] :
-  /// The type of credentials AWS CodeBuild uses to pull images in your batch
-  /// build. There are two valid values:
+  /// The type of credentials CodeBuild uses to pull images in your batch build.
+  /// There are two valid values:
   /// <dl> <dt>CODEBUILD</dt> <dd>
-  /// Specifies that AWS CodeBuild uses its own credentials. This requires that
-  /// you modify your ECR repository policy to trust AWS CodeBuild's service
-  /// principal.
+  /// Specifies that CodeBuild uses its own credentials. This requires that you
+  /// modify your ECR repository policy to trust CodeBuild's service principal.
   /// </dd> <dt>SERVICE_ROLE</dt> <dd>
-  /// Specifies that AWS CodeBuild uses your build project's service role.
+  /// Specifies that CodeBuild uses your build project's service role.
   /// </dd> </dl>
   /// When using a cross-account or private registry image, you must use
-  /// <code>SERVICE_ROLE</code> credentials. When using an AWS CodeBuild curated
+  /// <code>SERVICE_ROLE</code> credentials. When using an CodeBuild curated
   /// image, you must use <code>CODEBUILD</code> credentials.
   ///
   /// Parameter [insecureSslOverride] :
@@ -2329,7 +2394,7 @@ class CodeBuild {
   /// The version of the batch build input to be built, for this build only. If
   /// not specified, the latest version is used. If specified, the contents
   /// depends on the source provider:
-  /// <dl> <dt>AWS CodeCommit</dt> <dd>
+  /// <dl> <dt>CodeCommit</dt> <dd>
   /// The commit ID, branch, or Git tag to use.
   /// </dd> <dt>GitHub</dt> <dd>
   /// The commit ID, pull request ID, branch name, or tag name that corresponds
@@ -2343,7 +2408,7 @@ class CodeBuild {
   /// the source code you want to build. If a branch name is specified, the
   /// branch's HEAD commit ID is used. If not specified, the default branch's
   /// HEAD commit ID is used.
-  /// </dd> <dt>Amazon Simple Storage Service (Amazon S3)</dt> <dd>
+  /// </dd> <dt>Amazon S3</dt> <dd>
   /// The version ID of the object that represents the build input ZIP file to
   /// use.
   /// </dd> </dl>
@@ -2352,7 +2417,7 @@ class CodeBuild {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html">Source
-  /// Version Sample with CodeBuild</a> in the <i>AWS CodeBuild User Guide</i>.
+  /// Version Sample with CodeBuild</a> in the <i>CodeBuild User Guide</i>.
   Future<StartBuildBatchOutput> startBuildBatch({
     required String projectName,
     ProjectArtifacts? artifactsOverride,
@@ -2362,6 +2427,7 @@ class CodeBuild {
     ProjectCache? cacheOverride,
     String? certificateOverride,
     ComputeType? computeTypeOverride,
+    bool? debugSessionEnabled,
     String? encryptionKeyOverride,
     EnvironmentType? environmentTypeOverride,
     List<EnvironmentVariable>? environmentVariablesOverride,
@@ -2426,6 +2492,8 @@ class CodeBuild {
           'certificateOverride': certificateOverride,
         if (computeTypeOverride != null)
           'computeTypeOverride': computeTypeOverride.toValue(),
+        if (debugSessionEnabled != null)
+          'debugSessionEnabled': debugSessionEnabled,
         if (encryptionKeyOverride != null)
           'encryptionKeyOverride': encryptionKeyOverride,
         if (environmentTypeOverride != null)
@@ -2553,12 +2621,21 @@ class CodeBuild {
   /// Stores recently used information so that it can be quickly accessed at a
   /// later time.
   ///
+  /// Parameter [concurrentBuildLimit] :
+  /// The maximum number of concurrent builds that are allowed for this project.
+  ///
+  /// New builds are only started if the current number of builds is less than
+  /// or equal to this limit. If the current build count meets this limit, new
+  /// builds are throttled and are not run.
+  ///
+  /// To remove this limit, set this value to -1.
+  ///
   /// Parameter [description] :
   /// A new or replacement description of the build project.
   ///
   /// Parameter [encryptionKey] :
-  /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be
-  /// used for encrypting the build output artifacts.
+  /// The Key Management Service customer master key (CMK) to be used for
+  /// encrypting the build output artifacts.
   /// <note>
   /// You can use a cross-account KMS key to encrypt the build output artifacts
   /// if your service role has permission to that key.
@@ -2580,13 +2657,13 @@ class CodeBuild {
   ///
   /// Parameter [logsConfig] :
   /// Information about logs for the build project. A project can create logs in
-  /// Amazon CloudWatch Logs, logs in an S3 bucket, or both.
+  /// CloudWatch Logs, logs in an S3 bucket, or both.
   ///
   /// Parameter [queuedTimeoutInMinutes] :
   /// The number of minutes a build is allowed to be queued before it times out.
   ///
   /// Parameter [secondaryArtifacts] :
-  /// An array of <code>ProjectSource</code> objects.
+  /// An array of <code>ProjectArtifact</code> objects.
   ///
   /// Parameter [secondarySourceVersions] :
   /// An array of <code>ProjectSourceVersion</code> objects. If
@@ -2598,9 +2675,9 @@ class CodeBuild {
   /// An array of <code>ProjectSource</code> objects.
   ///
   /// Parameter [serviceRole] :
-  /// The replacement ARN of the AWS Identity and Access Management (IAM) role
-  /// that enables AWS CodeBuild to interact with dependent AWS services on
-  /// behalf of the AWS account.
+  /// The replacement ARN of the IAM role that enables CodeBuild to interact
+  /// with dependent Amazon Web Services services on behalf of the Amazon Web
+  /// Services account.
   ///
   /// Parameter [source] :
   /// Information to be changed about the build input source code for the build
@@ -2612,7 +2689,7 @@ class CodeBuild {
   ///
   /// <ul>
   /// <li>
-  /// For AWS CodeCommit: the commit ID, branch, or Git tag to use.
+  /// For CodeCommit: the commit ID, branch, or Git tag to use.
   /// </li>
   /// <li>
   /// For GitHub: the commit ID, pull request ID, branch name, or tag name that
@@ -2629,8 +2706,8 @@ class CodeBuild {
   /// default branch's HEAD commit ID is used.
   /// </li>
   /// <li>
-  /// For Amazon Simple Storage Service (Amazon S3): the version ID of the
-  /// object that represents the build input ZIP file to use.
+  /// For Amazon S3: the version ID of the object that represents the build
+  /// input ZIP file to use.
   /// </li>
   /// </ul>
   /// If <code>sourceVersion</code> is specified at the build level, then that
@@ -2639,28 +2716,29 @@ class CodeBuild {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html">Source
-  /// Version Sample with CodeBuild</a> in the <i>AWS CodeBuild User Guide</i>.
+  /// Version Sample with CodeBuild</a> in the <i>CodeBuild User Guide</i>.
   ///
   /// Parameter [tags] :
   /// An updated list of tag key and value pairs associated with this build
   /// project.
   ///
-  /// These tags are available for use by AWS services that support AWS
-  /// CodeBuild build project tags.
+  /// These tags are available for use by Amazon Web Services services that
+  /// support CodeBuild build project tags.
   ///
   /// Parameter [timeoutInMinutes] :
-  /// The replacement value in minutes, from 5 to 480 (8 hours), for AWS
-  /// CodeBuild to wait before timing out any related build that did not get
-  /// marked as completed.
+  /// The replacement value in minutes, from 5 to 480 (8 hours), for CodeBuild
+  /// to wait before timing out any related build that did not get marked as
+  /// completed.
   ///
   /// Parameter [vpcConfig] :
-  /// VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
+  /// VpcConfig enables CodeBuild to access resources in an Amazon VPC.
   Future<UpdateProjectOutput> updateProject({
     required String name,
     ProjectArtifacts? artifacts,
     bool? badgeEnabled,
     ProjectBuildBatchConfig? buildBatchConfig,
     ProjectCache? cache,
+    int? concurrentBuildLimit,
     String? description,
     String? encryptionKey,
     ProjectEnvironment? environment,
@@ -2705,6 +2783,8 @@ class CodeBuild {
         if (badgeEnabled != null) 'badgeEnabled': badgeEnabled,
         if (buildBatchConfig != null) 'buildBatchConfig': buildBatchConfig,
         if (cache != null) 'cache': cache,
+        if (concurrentBuildLimit != null)
+          'concurrentBuildLimit': concurrentBuildLimit,
         if (description != null) 'description': description,
         if (encryptionKey != null) 'encryptionKey': encryptionKey,
         if (environment != null) 'environment': environment,
@@ -2728,6 +2808,86 @@ class CodeBuild {
     );
 
     return UpdateProjectOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Changes the public visibility for a project. The project's build results,
+  /// logs, and artifacts are available to the general public. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/public-builds.html">Public
+  /// build projects</a> in the <i>CodeBuild User Guide</i>.
+  /// <important>
+  /// The following should be kept in mind when making your projects public:
+  ///
+  /// <ul>
+  /// <li>
+  /// All of a project's build results, logs, and artifacts, including builds
+  /// that were run when the project was private, are available to the general
+  /// public.
+  /// </li>
+  /// <li>
+  /// All build logs and artifacts are available to the public. Environment
+  /// variables, source code, and other sensitive information may have been
+  /// output to the build logs and artifacts. You must be careful about what
+  /// information is output to the build logs. Some best practice are:
+  ///
+  /// <ul>
+  /// <li>
+  /// Do not store sensitive values, especially Amazon Web Services access key
+  /// IDs and secret access keys, in environment variables. We recommend that
+  /// you use an Amazon EC2 Systems Manager Parameter Store or Secrets Manager
+  /// to store sensitive values.
+  /// </li>
+  /// <li>
+  /// Follow <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/webhooks.html#webhook-best-practices">Best
+  /// practices for using webhooks</a> in the <i>CodeBuild User Guide</i> to
+  /// limit which entities can trigger a build, and do not store the buildspec
+  /// in the project itself, to ensure that your webhooks are as secure as
+  /// possible.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// A malicious user can use public builds to distribute malicious artifacts.
+  /// We recommend that you review all pull requests to verify that the pull
+  /// request is a legitimate change. We also recommend that you validate any
+  /// artifacts with their checksums to make sure that the correct artifacts are
+  /// being downloaded.
+  /// </li>
+  /// </ul> </important>
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [projectArn] :
+  /// The Amazon Resource Name (ARN) of the build project.
+  ///
+  /// Parameter [resourceAccessRole] :
+  /// The ARN of the IAM role that enables CodeBuild to access the CloudWatch
+  /// Logs and Amazon S3 artifacts for the project's builds.
+  Future<UpdateProjectVisibilityOutput> updateProjectVisibility({
+    required String projectArn,
+    required ProjectVisibilityType projectVisibility,
+    String? resourceAccessRole,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodeBuild_20161006.UpdateProjectVisibility'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'projectArn': projectArn,
+        'projectVisibility': projectVisibility.toValue(),
+        if (resourceAccessRole != null)
+          'resourceAccessRole': resourceAccessRole,
+      },
+    );
+
+    return UpdateProjectVisibilityOutput.fromJson(jsonResponse.body);
   }
 
   /// Updates a report group.
@@ -2754,8 +2914,8 @@ class CodeBuild {
   /// An updated list of tag key and value pairs associated with this report
   /// group.
   ///
-  /// These tags are available for use by AWS services that support AWS
-  /// CodeBuild report group tags.
+  /// These tags are available for use by Amazon Web Services services that
+  /// support CodeBuild report group tags.
   Future<UpdateReportGroupOutput> updateReportGroup({
     required String arn,
     ReportExportConfig? exportConfig,
@@ -2781,7 +2941,7 @@ class CodeBuild {
     return UpdateReportGroupOutput.fromJson(jsonResponse.body);
   }
 
-  /// Updates the webhook associated with an AWS CodeBuild build project.
+  /// Updates the webhook associated with an CodeBuild build project.
   /// <note>
   /// If you use Bitbucket for your repository, <code>rotateSecret</code> is
   /// ignored.
@@ -2792,7 +2952,7 @@ class CodeBuild {
   /// May throw [OAuthProviderException].
   ///
   /// Parameter [projectName] :
-  /// The name of the AWS CodeBuild project.
+  /// The name of the CodeBuild project.
   ///
   /// Parameter [branchFilter] :
   /// A regular expression used to determine which repository branches are built
@@ -2979,6 +3139,7 @@ class BatchDeleteBuildsOutput {
     this.buildsDeleted,
     this.buildsNotDeleted,
   });
+
   factory BatchDeleteBuildsOutput.fromJson(Map<String, dynamic> json) {
     return BatchDeleteBuildsOutput(
       buildsDeleted: (json['buildsDeleted'] as List?)
@@ -3006,6 +3167,7 @@ class BatchGetBuildBatchesOutput {
     this.buildBatches,
     this.buildBatchesNotFound,
   });
+
   factory BatchGetBuildBatchesOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetBuildBatchesOutput(
       buildBatches: (json['buildBatches'] as List?)
@@ -3031,6 +3193,7 @@ class BatchGetBuildsOutput {
     this.builds,
     this.buildsNotFound,
   });
+
   factory BatchGetBuildsOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetBuildsOutput(
       builds: (json['builds'] as List?)
@@ -3056,6 +3219,7 @@ class BatchGetProjectsOutput {
     this.projects,
     this.projectsNotFound,
   });
+
   factory BatchGetProjectsOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetProjectsOutput(
       projects: (json['projects'] as List?)
@@ -3082,6 +3246,7 @@ class BatchGetReportGroupsOutput {
     this.reportGroups,
     this.reportGroupsNotFound,
   });
+
   factory BatchGetReportGroupsOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetReportGroupsOutput(
       reportGroups: (json['reportGroups'] as List?)
@@ -3109,6 +3274,7 @@ class BatchGetReportsOutput {
     this.reports,
     this.reportsNotFound,
   });
+
   factory BatchGetReportsOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetReportsOutput(
       reports: (json['reports'] as List?)
@@ -3123,13 +3289,41 @@ class BatchGetReportsOutput {
   }
 }
 
+enum BatchReportModeType {
+  reportIndividualBuilds,
+  reportAggregatedBatch,
+}
+
+extension BatchReportModeTypeValueExtension on BatchReportModeType {
+  String toValue() {
+    switch (this) {
+      case BatchReportModeType.reportIndividualBuilds:
+        return 'REPORT_INDIVIDUAL_BUILDS';
+      case BatchReportModeType.reportAggregatedBatch:
+        return 'REPORT_AGGREGATED_BATCH';
+    }
+  }
+}
+
+extension BatchReportModeTypeFromString on String {
+  BatchReportModeType toBatchReportModeType() {
+    switch (this) {
+      case 'REPORT_INDIVIDUAL_BUILDS':
+        return BatchReportModeType.reportIndividualBuilds;
+      case 'REPORT_AGGREGATED_BATCH':
+        return BatchReportModeType.reportAggregatedBatch;
+    }
+    throw Exception('$this is not known in enum BatchReportModeType');
+  }
+}
+
 /// Specifies restrictions for the batch build.
 class BatchRestrictions {
   /// An array of strings that specify the compute types that are allowed for the
   /// batch build. See <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html">Build
-  /// environment compute types</a> in the <i>AWS CodeBuild User Guide</i> for
-  /// these values.
+  /// environment compute types</a> in the <i>CodeBuild User Guide</i> for these
+  /// values.
   final List<String>? computeTypesAllowed;
 
   /// Specifies the maximum number of builds allowed.
@@ -3139,6 +3333,7 @@ class BatchRestrictions {
     this.computeTypesAllowed,
     this.maximumBuildsAllowed,
   });
+
   factory BatchRestrictions.fromJson(Map<String, dynamic> json) {
     return BatchRestrictions(
       computeTypesAllowed: (json['computeTypesAllowed'] as List?)
@@ -3158,6 +3353,73 @@ class BatchRestrictions {
       if (maximumBuildsAllowed != null)
         'maximumBuildsAllowed': maximumBuildsAllowed,
     };
+  }
+}
+
+/// Specifies the bucket owner's access for objects that another account uploads
+/// to their Amazon S3 bucket. By default, only the account that uploads the
+/// objects to the bucket has access to these objects. This property allows you
+/// to give the bucket owner access to these objects.
+/// <note>
+/// To use this property, your CodeBuild service role must have the
+/// <code>s3:PutBucketAcl</code> permission. This permission allows CodeBuild to
+/// modify the access control list for the bucket.
+/// </note>
+/// This property can be one of the following values:
+/// <dl> <dt>NONE</dt> <dd>
+/// The bucket owner does not have access to the objects. This is the default.
+/// </dd> <dt>READ_ONLY</dt> <dd>
+/// The bucket owner has read-only access to the objects. The uploading account
+/// retains ownership of the objects.
+/// </dd> <dt>FULL</dt> <dd>
+/// The bucket owner has full access to the objects. Object ownership is
+/// determined by the following criteria:
+///
+/// <ul>
+/// <li>
+/// If the bucket is configured with the <b>Bucket owner preferred</b> setting,
+/// the bucket owner owns the objects. The uploading account will have object
+/// access as specified by the bucket's policy.
+/// </li>
+/// <li>
+/// Otherwise, the uploading account retains ownership of the objects.
+/// </li>
+/// </ul>
+/// For more information about Amazon S3 object ownership, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html">Controlling
+/// ownership of uploaded objects using S3 Object Ownership</a> in the <i>Amazon
+/// Simple Storage Service User Guide</i>.
+/// </dd> </dl>
+enum BucketOwnerAccess {
+  none,
+  readOnly,
+  full,
+}
+
+extension BucketOwnerAccessValueExtension on BucketOwnerAccess {
+  String toValue() {
+    switch (this) {
+      case BucketOwnerAccess.none:
+        return 'NONE';
+      case BucketOwnerAccess.readOnly:
+        return 'READ_ONLY';
+      case BucketOwnerAccess.full:
+        return 'FULL';
+    }
+  }
+}
+
+extension BucketOwnerAccessFromString on String {
+  BucketOwnerAccess toBucketOwnerAccess() {
+    switch (this) {
+      case 'NONE':
+        return BucketOwnerAccess.none;
+      case 'READ_ONLY':
+        return BucketOwnerAccess.readOnly;
+      case 'FULL':
+        return BucketOwnerAccess.full;
+    }
+    throw Exception('$this is not known in enum BucketOwnerAccess');
   }
 }
 
@@ -3214,8 +3476,8 @@ class Build {
   /// Contains information about the debug session for this build.
   final DebugSession? debugSession;
 
-  /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be
-  /// used for encrypting the build output artifacts.
+  /// The Key Management Service customer master key (CMK) to be used for
+  /// encrypting the build output artifacts.
   /// <note>
   /// You can use a cross-account KMS key to encrypt the build output artifacts if
   /// your service role has permission to that key.
@@ -3232,6 +3494,12 @@ class Build {
   final ProjectEnvironment? environment;
 
   /// A list of exported environment variables for this build.
+  ///
+  /// Exported environment variables are used in conjunction with CodePipeline to
+  /// export environment variables from the current build stage to subsequent
+  /// stages in the pipeline. For more information, see <a
+  /// href="https://docs.aws.amazon.com/codepipeline/latest/userguide/actions-variables.html">Working
+  /// with variables</a> in the <i>CodePipeline User Guide</i>.
   final List<ExportedEnvironmentVariable>? exportedEnvironmentVariables;
 
   /// An array of <code>ProjectFileSystemLocation</code> objects for a CodeBuild
@@ -3248,21 +3516,21 @@ class Build {
   ///
   /// <ul>
   /// <li>
-  /// If AWS CodePipeline started the build, the pipeline's name (for example,
+  /// If CodePipeline started the build, the pipeline's name (for example,
   /// <code>codepipeline/my-demo-pipeline</code>).
   /// </li>
   /// <li>
-  /// If an AWS Identity and Access Management (IAM) user started the build, the
-  /// user's name (for example, <code>MyUserName</code>).
+  /// If an IAM user started the build, the user's name (for example,
+  /// <code>MyUserName</code>).
   /// </li>
   /// <li>
-  /// If the Jenkins plugin for AWS CodeBuild started the build, the string
+  /// If the Jenkins plugin for CodeBuild started the build, the string
   /// <code>CodeBuild-Jenkins-Plugin</code>.
   /// </li>
   /// </ul>
   final String? initiator;
 
-  /// Information about the build's logs in Amazon CloudWatch Logs.
+  /// Information about the build's logs in CloudWatch Logs.
   final LogsLocation? logs;
 
   /// Describes a network interface.
@@ -3272,7 +3540,7 @@ class Build {
   /// information about any current build phase that is not yet complete.
   final List<BuildPhase>? phases;
 
-  /// The name of the AWS CodeBuild project.
+  /// The name of the CodeBuild project.
   final String? projectName;
 
   /// The number of minutes a build is allowed to be queued before it times out.
@@ -3285,13 +3553,13 @@ class Build {
   ///
   /// <ul>
   /// <li>
-  /// For AWS CodeCommit, GitHub, GitHub Enterprise, and BitBucket, the commit ID.
+  /// For CodeCommit, GitHub, GitHub Enterprise, and BitBucket, the commit ID.
   /// </li>
   /// <li>
-  /// For AWS CodePipeline, the source revision provided by AWS CodePipeline.
+  /// For CodePipeline, the source revision provided by CodePipeline.
   /// </li>
   /// <li>
-  /// For Amazon Simple Storage Service (Amazon S3), this does not apply.
+  /// For Amazon S3, this does not apply.
   /// </li>
   /// </ul>
   final String? resolvedSourceVersion;
@@ -3304,7 +3572,7 @@ class Build {
   ///
   /// <ul>
   /// <li>
-  /// For AWS CodeCommit: the commit ID, branch, or Git tag to use.
+  /// For CodeCommit: the commit ID, branch, or Git tag to use.
   /// </li>
   /// <li>
   /// For GitHub: the commit ID, pull request ID, branch name, or tag name that
@@ -3321,8 +3589,8 @@ class Build {
   /// default branch's HEAD commit ID is used.
   /// </li>
   /// <li>
-  /// For Amazon Simple Storage Service (Amazon S3): the version ID of the object
-  /// that represents the build input ZIP file to use.
+  /// For Amazon S3: the version ID of the object that represents the build input
+  /// ZIP file to use.
   /// </li>
   /// </ul>
   final List<ProjectSourceVersion>? secondarySourceVersions;
@@ -3342,20 +3610,20 @@ class Build {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html">Source
-  /// Version Sample with CodeBuild</a> in the <i>AWS CodeBuild User Guide</i>.
+  /// Version Sample with CodeBuild</a> in the <i>CodeBuild User Guide</i>.
   final String? sourceVersion;
 
   /// When the build process started, expressed in Unix time format.
   final DateTime? startTime;
 
-  /// How long, in minutes, for AWS CodeBuild to wait before timing out this build
-  /// if it does not get marked as completed.
+  /// How long, in minutes, for CodeBuild to wait before timing out this build if
+  /// it does not get marked as completed.
   final int? timeoutInMinutes;
 
-  /// If your AWS CodeBuild project accesses resources in an Amazon VPC, you
-  /// provide this parameter that identifies the VPC ID and the list of security
-  /// group IDs and subnet IDs. The security groups and subnets must belong to the
-  /// same VPC. You must provide at least one security group and one subnet ID.
+  /// If your CodeBuild project accesses resources in an Amazon VPC, you provide
+  /// this parameter that identifies the VPC ID and the list of security group IDs
+  /// and subnet IDs. The security groups and subnets must belong to the same VPC.
+  /// You must provide at least one security group and one subnet ID.
   final VpcConfig? vpcConfig;
 
   Build({
@@ -3392,6 +3660,7 @@ class Build {
     this.timeoutInMinutes,
     this.vpcConfig,
   });
+
   factory Build.fromJson(Map<String, dynamic> json) {
     return Build(
       arn: json['arn'] as String?,
@@ -3476,6 +3745,7 @@ class Build {
 class BuildArtifacts {
   /// An identifier for this artifact definition.
   final String? artifactIdentifier;
+  final BucketOwnerAccess? bucketOwnerAccess;
 
   /// Information that tells you if encryption for build artifacts is disabled.
   final bool? encryptionDisabled;
@@ -3511,15 +3781,19 @@ class BuildArtifacts {
 
   BuildArtifacts({
     this.artifactIdentifier,
+    this.bucketOwnerAccess,
     this.encryptionDisabled,
     this.location,
     this.md5sum,
     this.overrideArtifactName,
     this.sha256sum,
   });
+
   factory BuildArtifacts.fromJson(Map<String, dynamic> json) {
     return BuildArtifacts(
       artifactIdentifier: json['artifactIdentifier'] as String?,
+      bucketOwnerAccess:
+          (json['bucketOwnerAccess'] as String?)?.toBucketOwnerAccess(),
       encryptionDisabled: json['encryptionDisabled'] as bool?,
       location: json['location'] as String?,
       md5sum: json['md5sum'] as String?,
@@ -3564,8 +3838,15 @@ class BuildBatch {
   /// The current phase of the batch build.
   final String? currentPhase;
 
-  /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be
-  /// used for encrypting the batch build output artifacts.
+  /// Specifies if session debugging is enabled for this batch build. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/session-manager.html">Viewing
+  /// a running build in Session Manager</a>. Batch session debugging is not
+  /// supported for matrix batch builds.
+  final bool? debugSessionEnabled;
+
+  /// The Key Management Service customer master key (CMK) to be used for
+  /// encrypting the batch build output artifacts.
   /// <note>
   /// You can use a cross-account KMS key to encrypt the build output artifacts if
   /// your service role has permission to that key.
@@ -3593,15 +3874,14 @@ class BuildBatch {
   ///
   /// <ul>
   /// <li>
-  /// If AWS CodePipeline started the build, the pipeline's name (for example,
+  /// If CodePipeline started the build, the pipeline's name (for example,
   /// <code>codepipeline/my-demo-pipeline</code>).
   /// </li>
   /// <li>
-  /// If an AWS Identity and Access Management (IAM) user started the build, the
-  /// user's name.
+  /// If an IAM user started the build, the user's name.
   /// </li>
   /// <li>
-  /// If the Jenkins plugin for AWS CodeBuild started the build, the string
+  /// If the Jenkins plugin for CodeBuild started the build, the string
   /// <code>CodeBuild-Jenkins-Plugin</code>.
   /// </li>
   /// </ul>
@@ -3623,13 +3903,13 @@ class BuildBatch {
   ///
   /// <ul>
   /// <li>
-  /// For AWS CodeCommit, GitHub, GitHub Enterprise, and BitBucket, the commit ID.
+  /// For CodeCommit, GitHub, GitHub Enterprise, and BitBucket, the commit ID.
   /// </li>
   /// <li>
-  /// For AWS CodePipeline, the source revision provided by AWS CodePipeline.
+  /// For CodePipeline, the source revision provided by CodePipeline.
   /// </li>
   /// <li>
-  /// For Amazon Simple Storage Service (Amazon S3), this does not apply.
+  /// For Amazon S3, this does not apply.
   /// </li>
   /// </ul>
   final String? resolvedSourceVersion;
@@ -3643,7 +3923,7 @@ class BuildBatch {
   ///
   /// <ul>
   /// <li>
-  /// For AWS CodeCommit: the commit ID, branch, or Git tag to use.
+  /// For CodeCommit: the commit ID, branch, or Git tag to use.
   /// </li>
   /// <li>
   /// For GitHub: the commit ID, pull request ID, branch name, or tag name that
@@ -3660,8 +3940,8 @@ class BuildBatch {
   /// default branch's HEAD commit ID is used.
   /// </li>
   /// <li>
-  /// For Amazon Simple Storage Service (Amazon S3): the version ID of the object
-  /// that represents the build input ZIP file to use.
+  /// For Amazon S3: the version ID of the object that represents the build input
+  /// ZIP file to use.
   /// </li>
   /// </ul>
   final List<ProjectSourceVersion>? secondarySourceVersions;
@@ -3692,6 +3972,7 @@ class BuildBatch {
     this.cache,
     this.complete,
     this.currentPhase,
+    this.debugSessionEnabled,
     this.encryptionKey,
     this.endTime,
     this.environment,
@@ -3712,6 +3993,7 @@ class BuildBatch {
     this.startTime,
     this.vpcConfig,
   });
+
   factory BuildBatch.fromJson(Map<String, dynamic> json) {
     return BuildBatch(
       arn: json['arn'] as String?,
@@ -3734,6 +4016,7 @@ class BuildBatch {
           : null,
       complete: json['complete'] as bool?,
       currentPhase: json['currentPhase'] as String?,
+      debugSessionEnabled: json['debugSessionEnabled'] as bool?,
       encryptionKey: json['encryptionKey'] as String?,
       endTime: timeStampFromJson(json['endTime']),
       environment: json['environment'] != null
@@ -3802,7 +4085,7 @@ class BuildBatchFilter {
 /// Contains information about a stage for a batch build.
 class BuildBatchPhase {
   /// Additional information about the batch build phase. Especially to help
-  /// troubleshoot a failed btach build.
+  /// troubleshoot a failed batch build.
   final List<PhaseContext>? contexts;
 
   /// How long, in seconds, between the starting and ending times of the batch
@@ -3819,8 +4102,6 @@ class BuildBatchPhase {
   /// The build phase faulted.
   /// </dd> <dt>IN_PROGRESS</dt> <dd>
   /// The build phase is still in progress.
-  /// </dd> <dt>QUEUED</dt> <dd>
-  /// The build has been submitted and is queued behind other submitted builds.
   /// </dd> <dt>STOPPED</dt> <dd>
   /// The build phase stopped.
   /// </dd> <dt>SUCCEEDED</dt> <dd>
@@ -3860,6 +4141,7 @@ class BuildBatchPhase {
     this.phaseType,
     this.startTime,
   });
+
   factory BuildBatchPhase.fromJson(Map<String, dynamic> json) {
     return BuildBatchPhase(
       contexts: (json['contexts'] as List?)
@@ -3957,6 +4239,7 @@ class BuildGroup {
     this.ignoreFailure,
     this.priorBuildSummaryList,
   });
+
   factory BuildGroup.fromJson(Map<String, dynamic> json) {
     return BuildGroup(
       currentBuildSummary: json['currentBuildSummary'] != null
@@ -3990,6 +4273,7 @@ class BuildNotDeleted {
     this.id,
     this.statusCode,
   });
+
   factory BuildNotDeleted.fromJson(Map<String, dynamic> json) {
     return BuildNotDeleted(
       id: json['id'] as String?,
@@ -4018,8 +4302,6 @@ class BuildPhase {
   /// The build phase faulted.
   /// </dd> <dt>IN_PROGRESS</dt> <dd>
   /// The build phase is still in progress.
-  /// </dd> <dt>QUEUED</dt> <dd>
-  /// The build has been submitted and is queued behind other submitted builds.
   /// </dd> <dt>STOPPED</dt> <dd>
   /// The build phase stopped.
   /// </dd> <dt>SUCCEEDED</dt> <dd>
@@ -4030,50 +4312,29 @@ class BuildPhase {
   final StatusType? phaseStatus;
 
   /// The name of the build phase. Valid values include:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>BUILD</code>: Core build activities typically occur in this build
-  /// phase.
-  /// </li>
-  /// <li>
-  /// <code>COMPLETED</code>: The build has been completed.
-  /// </li>
-  /// <li>
-  /// <code>DOWNLOAD_SOURCE</code>: Source code is being downloaded in this build
-  /// phase.
-  /// </li>
-  /// <li>
-  /// <code>FINALIZING</code>: The build process is completing in this build
-  /// phase.
-  /// </li>
-  /// <li>
-  /// <code>INSTALL</code>: Installation activities typically occur in this build
-  /// phase.
-  /// </li>
-  /// <li>
-  /// <code>POST_BUILD</code>: Post-build activities typically occur in this build
-  /// phase.
-  /// </li>
-  /// <li>
-  /// <code>PRE_BUILD</code>: Pre-build activities typically occur in this build
-  /// phase.
-  /// </li>
-  /// <li>
-  /// <code>PROVISIONING</code>: The build environment is being set up.
-  /// </li>
-  /// <li>
-  /// <code>QUEUED</code>: The build has been submitted and is queued behind other
-  /// submitted builds.
-  /// </li>
-  /// <li>
-  /// <code>SUBMITTED</code>: The build has been submitted.
-  /// </li>
-  /// <li>
-  /// <code>UPLOAD_ARTIFACTS</code>: Build output artifacts are being uploaded to
-  /// the output location.
-  /// </li>
-  /// </ul>
+  /// <dl> <dt>BUILD</dt> <dd>
+  /// Core build activities typically occur in this build phase.
+  /// </dd> <dt>COMPLETED</dt> <dd>
+  /// The build has been completed.
+  /// </dd> <dt>DOWNLOAD_SOURCE</dt> <dd>
+  /// Source code is being downloaded in this build phase.
+  /// </dd> <dt>FINALIZING</dt> <dd>
+  /// The build process is completing in this build phase.
+  /// </dd> <dt>INSTALL</dt> <dd>
+  /// Installation activities typically occur in this build phase.
+  /// </dd> <dt>POST_BUILD</dt> <dd>
+  /// Post-build activities typically occur in this build phase.
+  /// </dd> <dt>PRE_BUILD</dt> <dd>
+  /// Pre-build activities typically occur in this build phase.
+  /// </dd> <dt>PROVISIONING</dt> <dd>
+  /// The build environment is being set up.
+  /// </dd> <dt>QUEUED</dt> <dd>
+  /// The build has been submitted and is queued behind other submitted builds.
+  /// </dd> <dt>SUBMITTED</dt> <dd>
+  /// The build has been submitted.
+  /// </dd> <dt>UPLOAD_ARTIFACTS</dt> <dd>
+  /// Build output artifacts are being uploaded to the output location.
+  /// </dd> </dl>
   final BuildPhaseType? phaseType;
 
   /// When the build phase started, expressed in Unix time format.
@@ -4087,6 +4348,7 @@ class BuildPhase {
     this.phaseType,
     this.startTime,
   });
+
   factory BuildPhase.fromJson(Map<String, dynamic> json) {
     return BuildPhase(
       contexts: (json['contexts'] as List?)
@@ -4175,8 +4437,8 @@ extension BuildPhaseTypeFromString on String {
   }
 }
 
-/// Contains information that defines how the AWS CodeBuild build project
-/// reports the build status to the source provider.
+/// Contains information that defines how the CodeBuild build project reports
+/// the build status to the source provider.
 class BuildStatusConfig {
   /// Specifies the context of the build status CodeBuild sends to the source
   /// provider. The usage of this parameter depends on the source provider.
@@ -4212,6 +4474,7 @@ class BuildStatusConfig {
     this.context,
     this.targetUrl,
   });
+
   factory BuildStatusConfig.fromJson(Map<String, dynamic> json) {
     return BuildStatusConfig(
       context: json['context'] as String?,
@@ -4268,6 +4531,7 @@ class BuildSummary {
     this.requestedOn,
     this.secondaryArtifacts,
   });
+
   factory BuildSummary.fromJson(Map<String, dynamic> json) {
     return BuildSummary(
       arn: json['arn'] as String?,
@@ -4351,31 +4615,29 @@ extension CacheTypeFromString on String {
   }
 }
 
-/// Information about Amazon CloudWatch Logs for a build project.
+/// Information about CloudWatch Logs for a build project.
 class CloudWatchLogsConfig {
-  /// The current status of the logs in Amazon CloudWatch Logs for a build
-  /// project. Valid values are:
+  /// The current status of the logs in CloudWatch Logs for a build project. Valid
+  /// values are:
   ///
   /// <ul>
   /// <li>
-  /// <code>ENABLED</code>: Amazon CloudWatch Logs are enabled for this build
-  /// project.
+  /// <code>ENABLED</code>: CloudWatch Logs are enabled for this build project.
   /// </li>
   /// <li>
-  /// <code>DISABLED</code>: Amazon CloudWatch Logs are not enabled for this build
+  /// <code>DISABLED</code>: CloudWatch Logs are not enabled for this build
   /// project.
   /// </li>
   /// </ul>
   final LogsConfigStatusType status;
 
-  /// The group name of the logs in Amazon CloudWatch Logs. For more information,
-  /// see <a
+  /// The group name of the logs in CloudWatch Logs. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html">Working
   /// with Log Groups and Log Streams</a>.
   final String? groupName;
 
-  /// The prefix of the stream name of the Amazon CloudWatch Logs. For more
-  /// information, see <a
+  /// The prefix of the stream name of the CloudWatch Logs. For more information,
+  /// see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html">Working
   /// with Log Groups and Log Streams</a>.
   final String? streamName;
@@ -4385,6 +4647,7 @@ class CloudWatchLogsConfig {
     this.groupName,
     this.streamName,
   });
+
   factory CloudWatchLogsConfig.fromJson(Map<String, dynamic> json) {
     return CloudWatchLogsConfig(
       status: (json['status'] as String).toLogsConfigStatusType(),
@@ -4456,6 +4719,7 @@ class CodeCoverage {
     this.linesMissed,
     this.reportARN,
   });
+
   factory CodeCoverage.fromJson(Map<String, dynamic> json) {
     return CodeCoverage(
       branchCoveragePercentage: json['branchCoveragePercentage'] as double?,
@@ -4507,6 +4771,7 @@ class CodeCoverageReportSummary {
     this.linesCovered,
     this.linesMissed,
   });
+
   factory CodeCoverageReportSummary.fromJson(Map<String, dynamic> json) {
     return CodeCoverageReportSummary(
       branchCoveragePercentage: json['branchCoveragePercentage'] as double?,
@@ -4564,6 +4829,7 @@ class CreateProjectOutput {
   CreateProjectOutput({
     this.project,
   });
+
   factory CreateProjectOutput.fromJson(Map<String, dynamic> json) {
     return CreateProjectOutput(
       project: json['project'] != null
@@ -4580,6 +4846,7 @@ class CreateReportGroupOutput {
   CreateReportGroupOutput({
     this.reportGroup,
   });
+
   factory CreateReportGroupOutput.fromJson(Map<String, dynamic> json) {
     return CreateReportGroupOutput(
       reportGroup: json['reportGroup'] != null
@@ -4591,12 +4858,13 @@ class CreateReportGroupOutput {
 
 class CreateWebhookOutput {
   /// Information about a webhook that connects repository events to a build
-  /// project in AWS CodeBuild.
+  /// project in CodeBuild.
   final Webhook? webhook;
 
   CreateWebhookOutput({
     this.webhook,
   });
+
   factory CreateWebhookOutput.fromJson(Map<String, dynamic> json) {
     return CreateWebhookOutput(
       webhook: json['webhook'] != null
@@ -4646,6 +4914,7 @@ class DebugSession {
     this.sessionEnabled,
     this.sessionTarget,
   });
+
   factory DebugSession.fromJson(Map<String, dynamic> json) {
     return DebugSession(
       sessionEnabled: json['sessionEnabled'] as bool?,
@@ -4671,6 +4940,7 @@ class DeleteBuildBatchOutput {
     this.buildsNotDeleted,
     this.statusCode,
   });
+
   factory DeleteBuildBatchOutput.fromJson(Map<String, dynamic> json) {
     return DeleteBuildBatchOutput(
       buildsDeleted: (json['buildsDeleted'] as List?)
@@ -4688,6 +4958,7 @@ class DeleteBuildBatchOutput {
 
 class DeleteProjectOutput {
   DeleteProjectOutput();
+
   factory DeleteProjectOutput.fromJson(Map<String, dynamic> _) {
     return DeleteProjectOutput();
   }
@@ -4695,6 +4966,7 @@ class DeleteProjectOutput {
 
 class DeleteReportGroupOutput {
   DeleteReportGroupOutput();
+
   factory DeleteReportGroupOutput.fromJson(Map<String, dynamic> _) {
     return DeleteReportGroupOutput();
   }
@@ -4702,6 +4974,7 @@ class DeleteReportGroupOutput {
 
 class DeleteReportOutput {
   DeleteReportOutput();
+
   factory DeleteReportOutput.fromJson(Map<String, dynamic> _) {
     return DeleteReportOutput();
   }
@@ -4709,6 +4982,7 @@ class DeleteReportOutput {
 
 class DeleteResourcePolicyOutput {
   DeleteResourcePolicyOutput();
+
   factory DeleteResourcePolicyOutput.fromJson(Map<String, dynamic> _) {
     return DeleteResourcePolicyOutput();
   }
@@ -4721,6 +4995,7 @@ class DeleteSourceCredentialsOutput {
   DeleteSourceCredentialsOutput({
     this.arn,
   });
+
   factory DeleteSourceCredentialsOutput.fromJson(Map<String, dynamic> json) {
     return DeleteSourceCredentialsOutput(
       arn: json['arn'] as String?,
@@ -4730,6 +5005,7 @@ class DeleteSourceCredentialsOutput {
 
 class DeleteWebhookOutput {
   DeleteWebhookOutput();
+
   factory DeleteWebhookOutput.fromJson(Map<String, dynamic> _) {
     return DeleteWebhookOutput();
   }
@@ -4748,6 +5024,7 @@ class DescribeCodeCoveragesOutput {
     this.codeCoverages,
     this.nextToken,
   });
+
   factory DescribeCodeCoveragesOutput.fromJson(Map<String, dynamic> json) {
     return DescribeCodeCoveragesOutput(
       codeCoverages: (json['codeCoverages'] as List?)
@@ -4776,6 +5053,7 @@ class DescribeTestCasesOutput {
     this.nextToken,
     this.testCases,
   });
+
   factory DescribeTestCasesOutput.fromJson(Map<String, dynamic> json) {
     return DescribeTestCasesOutput(
       nextToken: json['nextToken'] as String?,
@@ -4787,7 +5065,7 @@ class DescribeTestCasesOutput {
   }
 }
 
-/// Information about a Docker image that is managed by AWS CodeBuild.
+/// Information about a Docker image that is managed by CodeBuild.
 class EnvironmentImage {
   /// The description of the Docker image.
   final String? description;
@@ -4803,6 +5081,7 @@ class EnvironmentImage {
     this.name,
     this.versions,
   });
+
   factory EnvironmentImage.fromJson(Map<String, dynamic> json) {
     return EnvironmentImage(
       description: json['description'] as String?,
@@ -4816,7 +5095,7 @@ class EnvironmentImage {
 }
 
 /// A set of Docker images that are related by programming language and are
-/// managed by AWS CodeBuild.
+/// managed by CodeBuild.
 class EnvironmentLanguage {
   /// The list of Docker images that are related by the specified programming
   /// language.
@@ -4829,6 +5108,7 @@ class EnvironmentLanguage {
     this.images,
     this.language,
   });
+
   factory EnvironmentLanguage.fromJson(Map<String, dynamic> json) {
     return EnvironmentLanguage(
       images: (json['images'] as List?)
@@ -4840,7 +5120,7 @@ class EnvironmentLanguage {
   }
 }
 
-/// A set of Docker images that are related by platform and are managed by AWS
+/// A set of Docker images that are related by platform and are managed by
 /// CodeBuild.
 class EnvironmentPlatform {
   /// The list of programming languages that are available for the specified
@@ -4854,6 +5134,7 @@ class EnvironmentPlatform {
     this.languages,
     this.platform,
   });
+
   factory EnvironmentPlatform.fromJson(Map<String, dynamic> json) {
     return EnvironmentPlatform(
       languages: (json['languages'] as List?)
@@ -4916,12 +5197,11 @@ class EnvironmentVariable {
   /// The value of the environment variable.
   /// <important>
   /// We strongly discourage the use of <code>PLAINTEXT</code> environment
-  /// variables to store sensitive values, especially AWS secret key IDs and
-  /// secret access keys. <code>PLAINTEXT</code> environment variables can be
-  /// displayed in plain text using the AWS CodeBuild console and the AWS Command
-  /// Line Interface (AWS CLI). For sensitive values, we recommend you use an
-  /// environment variable of type <code>PARAMETER_STORE</code> or
-  /// <code>SECRETS_MANAGER</code>.
+  /// variables to store sensitive values, especially Amazon Web Services secret
+  /// key IDs and secret access keys. <code>PLAINTEXT</code> environment variables
+  /// can be displayed in plain text using the CodeBuild console and the CLI. For
+  /// sensitive values, we recommend you use an environment variable of type
+  /// <code>PARAMETER_STORE</code> or <code>SECRETS_MANAGER</code>.
   /// </important>
   final String value;
 
@@ -4929,22 +5209,22 @@ class EnvironmentVariable {
   ///
   /// <ul>
   /// <li>
-  /// <code>PARAMETER_STORE</code>: An environment variable stored in Amazon EC2
-  /// Systems Manager Parameter Store. To learn how to specify a parameter store
+  /// <code>PARAMETER_STORE</code>: An environment variable stored in Systems
+  /// Manager Parameter Store. To learn how to specify a parameter store
   /// environment variable, see <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#build-spec.env.parameter-store">env/parameter-store</a>
-  /// in the <i>AWS CodeBuild User Guide</i>.
+  /// in the <i>CodeBuild User Guide</i>.
   /// </li>
   /// <li>
   /// <code>PLAINTEXT</code>: An environment variable in plain text format. This
   /// is the default value.
   /// </li>
   /// <li>
-  /// <code>SECRETS_MANAGER</code>: An environment variable stored in AWS Secrets
+  /// <code>SECRETS_MANAGER</code>: An environment variable stored in Secrets
   /// Manager. To learn how to specify a secrets manager environment variable, see
   /// <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#build-spec.env.secrets-manager">env/secrets-manager</a>
-  /// in the <i>AWS CodeBuild User Guide</i>.
+  /// in the <i>CodeBuild User Guide</i>.
   /// </li>
   /// </ul>
   final EnvironmentVariableType? type;
@@ -4954,6 +5234,7 @@ class EnvironmentVariable {
     required this.value,
     this.type,
   });
+
   factory EnvironmentVariable.fromJson(Map<String, dynamic> json) {
     return EnvironmentVariable(
       name: json['name'] as String,
@@ -5007,25 +5288,32 @@ extension EnvironmentVariableTypeFromString on String {
   }
 }
 
-/// Information about an exported environment variable.
+/// Contains information about an exported environment variable.
+///
+/// Exported environment variables are used in conjunction with CodePipeline to
+/// export environment variables from the current build stage to subsequent
+/// stages in the pipeline. For more information, see <a
+/// href="https://docs.aws.amazon.com/codepipeline/latest/userguide/actions-variables.html">Working
+/// with variables</a> in the <i>CodePipeline User Guide</i>.
+/// <note>
+/// During a build, the value of a variable is available starting with the
+/// <code>install</code> phase. It can be updated between the start of the
+/// <code>install</code> phase and the end of the <code>post_build</code> phase.
+/// After the <code>post_build</code> phase ends, the value of exported
+/// variables cannot change.
+/// </note>
 class ExportedEnvironmentVariable {
-  /// The name of this exported environment variable.
+  /// The name of the exported environment variable.
   final String? name;
 
-  /// The value assigned to this exported environment variable.
-  /// <note>
-  /// During a build, the value of a variable is available starting with the
-  /// <code>install</code> phase. It can be updated between the start of the
-  /// <code>install</code> phase and the end of the <code>post_build</code> phase.
-  /// After the <code>post_build</code> phase ends, the value of exported
-  /// variables cannot change.
-  /// </note>
+  /// The value assigned to the exported environment variable.
   final String? value;
 
   ExportedEnvironmentVariable({
     this.name,
     this.value,
   });
+
   factory ExportedEnvironmentVariable.fromJson(Map<String, dynamic> json) {
     return ExportedEnvironmentVariable(
       name: json['name'] as String?,
@@ -5058,13 +5346,17 @@ extension FileSystemTypeFromString on String {
 }
 
 class GetReportGroupTrendOutput {
+  /// An array that contains the raw data for each report.
   final List<ReportWithRawData>? rawData;
+
+  /// Contains the accumulated trend data.
   final ReportGroupTrendStats? stats;
 
   GetReportGroupTrendOutput({
     this.rawData,
     this.stats,
   });
+
   factory GetReportGroupTrendOutput.fromJson(Map<String, dynamic> json) {
     return GetReportGroupTrendOutput(
       rawData: (json['rawData'] as List?)
@@ -5086,6 +5378,7 @@ class GetResourcePolicyOutput {
   GetResourcePolicyOutput({
     this.policy,
   });
+
   factory GetResourcePolicyOutput.fromJson(Map<String, dynamic> json) {
     return GetResourcePolicyOutput(
       policy: json['policy'] as String?,
@@ -5093,15 +5386,16 @@ class GetResourcePolicyOutput {
   }
 }
 
-/// Information about the Git submodules configuration for an AWS CodeBuild
-/// build project.
+/// Information about the Git submodules configuration for an CodeBuild build
+/// project.
 class GitSubmodulesConfig {
-  /// Set to true to fetch Git submodules for your AWS CodeBuild build project.
+  /// Set to true to fetch Git submodules for your CodeBuild build project.
   final bool fetchSubmodules;
 
   GitSubmodulesConfig({
     required this.fetchSubmodules,
   });
+
   factory GitSubmodulesConfig.fromJson(Map<String, dynamic> json) {
     return GitSubmodulesConfig(
       fetchSubmodules: json['fetchSubmodules'] as bool,
@@ -5151,6 +5445,7 @@ class ImportSourceCredentialsOutput {
   ImportSourceCredentialsOutput({
     this.arn,
   });
+
   factory ImportSourceCredentialsOutput.fromJson(Map<String, dynamic> json) {
     return ImportSourceCredentialsOutput(
       arn: json['arn'] as String?,
@@ -5160,6 +5455,7 @@ class ImportSourceCredentialsOutput {
 
 class InvalidateProjectCacheOutput {
   InvalidateProjectCacheOutput();
+
   factory InvalidateProjectCacheOutput.fromJson(Map<String, dynamic> _) {
     return InvalidateProjectCacheOutput();
   }
@@ -5246,6 +5542,7 @@ class ListBuildBatchesForProjectOutput {
     this.ids,
     this.nextToken,
   });
+
   factory ListBuildBatchesForProjectOutput.fromJson(Map<String, dynamic> json) {
     return ListBuildBatchesForProjectOutput(
       ids: (json['ids'] as List?)
@@ -5270,6 +5567,7 @@ class ListBuildBatchesOutput {
     this.ids,
     this.nextToken,
   });
+
   factory ListBuildBatchesOutput.fromJson(Map<String, dynamic> json) {
     return ListBuildBatchesOutput(
       ids: (json['ids'] as List?)
@@ -5282,8 +5580,8 @@ class ListBuildBatchesOutput {
 }
 
 class ListBuildsForProjectOutput {
-  /// A list of build IDs for the specified build project, with each build ID
-  /// representing a single build.
+  /// A list of build identifiers for the specified build project, with each build
+  /// ID representing a single build.
   final List<String>? ids;
 
   /// If there are more than 100 items in the list, only the first 100 items are
@@ -5296,6 +5594,7 @@ class ListBuildsForProjectOutput {
     this.ids,
     this.nextToken,
   });
+
   factory ListBuildsForProjectOutput.fromJson(Map<String, dynamic> json) {
     return ListBuildsForProjectOutput(
       ids: (json['ids'] as List?)
@@ -5321,6 +5620,7 @@ class ListBuildsOutput {
     this.ids,
     this.nextToken,
   });
+
   factory ListBuildsOutput.fromJson(Map<String, dynamic> json) {
     return ListBuildsOutput(
       ids: (json['ids'] as List?)
@@ -5334,12 +5634,13 @@ class ListBuildsOutput {
 
 class ListCuratedEnvironmentImagesOutput {
   /// Information about supported platforms for Docker images that are managed by
-  /// AWS CodeBuild.
+  /// CodeBuild.
   final List<EnvironmentPlatform>? platforms;
 
   ListCuratedEnvironmentImagesOutput({
     this.platforms,
   });
+
   factory ListCuratedEnvironmentImagesOutput.fromJson(
       Map<String, dynamic> json) {
     return ListCuratedEnvironmentImagesOutput(
@@ -5366,6 +5667,7 @@ class ListProjectsOutput {
     this.nextToken,
     this.projects,
   });
+
   factory ListProjectsOutput.fromJson(Map<String, dynamic> json) {
     return ListProjectsOutput(
       nextToken: json['nextToken'] as String?,
@@ -5387,13 +5689,15 @@ class ListReportGroupsOutput {
   /// next tokens are returned.
   final String? nextToken;
 
-  /// The list of ARNs for the report groups in the current AWS account.
+  /// The list of ARNs for the report groups in the current Amazon Web Services
+  /// account.
   final List<String>? reportGroups;
 
   ListReportGroupsOutput({
     this.nextToken,
     this.reportGroups,
   });
+
   factory ListReportGroupsOutput.fromJson(Map<String, dynamic> json) {
     return ListReportGroupsOutput(
       nextToken: json['nextToken'] as String?,
@@ -5422,6 +5726,7 @@ class ListReportsForReportGroupOutput {
     this.nextToken,
     this.reports,
   });
+
   factory ListReportsForReportGroupOutput.fromJson(Map<String, dynamic> json) {
     return ListReportsForReportGroupOutput(
       nextToken: json['nextToken'] as String?,
@@ -5443,13 +5748,15 @@ class ListReportsOutput {
   /// next tokens are returned.
   final String? nextToken;
 
-  /// The list of returned ARNs for the reports in the current AWS account.
+  /// The list of returned ARNs for the reports in the current Amazon Web Services
+  /// account.
   final List<String>? reports;
 
   ListReportsOutput({
     this.nextToken,
     this.reports,
   });
+
   factory ListReportsOutput.fromJson(Map<String, dynamic> json) {
     return ListReportsOutput(
       nextToken: json['nextToken'] as String?,
@@ -5471,14 +5778,15 @@ class ListSharedProjectsOutput {
   /// next tokens are returned.
   final String? nextToken;
 
-  /// The list of ARNs for the build projects shared with the current AWS account
-  /// or user.
+  /// The list of ARNs for the build projects shared with the current Amazon Web
+  /// Services account or user.
   final List<String>? projects;
 
   ListSharedProjectsOutput({
     this.nextToken,
     this.projects,
   });
+
   factory ListSharedProjectsOutput.fromJson(Map<String, dynamic> json) {
     return ListSharedProjectsOutput(
       nextToken: json['nextToken'] as String?,
@@ -5500,14 +5808,15 @@ class ListSharedReportGroupsOutput {
   /// next tokens are returned.
   final String? nextToken;
 
-  /// The list of ARNs for the report groups shared with the current AWS account
-  /// or user.
+  /// The list of ARNs for the report groups shared with the current Amazon Web
+  /// Services account or user.
   final List<String>? reportGroups;
 
   ListSharedReportGroupsOutput({
     this.nextToken,
     this.reportGroups,
   });
+
   factory ListSharedReportGroupsOutput.fromJson(Map<String, dynamic> json) {
     return ListSharedReportGroupsOutput(
       nextToken: json['nextToken'] as String?,
@@ -5528,6 +5837,7 @@ class ListSourceCredentialsOutput {
   ListSourceCredentialsOutput({
     this.sourceCredentialsInfos,
   });
+
   factory ListSourceCredentialsOutput.fromJson(Map<String, dynamic> json) {
     return ListSourceCredentialsOutput(
       sourceCredentialsInfos: (json['sourceCredentialsInfos'] as List?)
@@ -5538,11 +5848,11 @@ class ListSourceCredentialsOutput {
   }
 }
 
-/// Information about logs for a build project. These can be logs in Amazon
-/// CloudWatch Logs, built in a specified S3 bucket, or both.
+/// Information about logs for a build project. These can be logs in CloudWatch
+/// Logs, built in a specified S3 bucket, or both.
 class LogsConfig {
-  /// Information about Amazon CloudWatch Logs for a build project. Amazon
-  /// CloudWatch Logs are enabled by default.
+  /// Information about CloudWatch Logs for a build project. CloudWatch Logs are
+  /// enabled by default.
   final CloudWatchLogsConfig? cloudWatchLogs;
 
   /// Information about logs built to an S3 bucket for a build project. S3 logs
@@ -5553,6 +5863,7 @@ class LogsConfig {
     this.cloudWatchLogs,
     this.s3Logs,
   });
+
   factory LogsConfig.fromJson(Map<String, dynamic> json) {
     return LogsConfig(
       cloudWatchLogs: json['cloudWatchLogs'] != null
@@ -5603,22 +5914,22 @@ extension LogsConfigStatusTypeFromString on String {
   }
 }
 
-/// Information about build logs in Amazon CloudWatch Logs.
+/// Information about build logs in CloudWatch Logs.
 class LogsLocation {
-  /// Information about Amazon CloudWatch Logs for a build project.
+  /// Information about CloudWatch Logs for a build project.
   final CloudWatchLogsConfig? cloudWatchLogs;
 
-  /// The ARN of Amazon CloudWatch Logs for a build project. Its format is
+  /// The ARN of CloudWatch Logs for a build project. Its format is
   /// <code>arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}:log-stream:${LogStreamName}</code>.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatchlogs.html#amazoncloudwatchlogs-resources-for-iam-policies">Resources
-  /// Defined by Amazon CloudWatch Logs</a>.
+  /// Defined by CloudWatch Logs</a>.
   final String? cloudWatchLogsArn;
 
-  /// The URL to an individual build log in Amazon CloudWatch Logs.
+  /// The URL to an individual build log in CloudWatch Logs.
   final String? deepLink;
 
-  /// The name of the Amazon CloudWatch Logs group for the build logs.
+  /// The name of the CloudWatch Logs group for the build logs.
   final String? groupName;
 
   /// The URL to a build log in an S3 bucket.
@@ -5634,7 +5945,7 @@ class LogsLocation {
   /// Defined by Amazon S3</a>.
   final String? s3LogsArn;
 
-  /// The name of the Amazon CloudWatch Logs stream for the build logs.
+  /// The name of the CloudWatch Logs stream for the build logs.
   final String? streamName;
 
   LogsLocation({
@@ -5647,6 +5958,7 @@ class LogsLocation {
     this.s3LogsArn,
     this.streamName,
   });
+
   factory LogsLocation.fromJson(Map<String, dynamic> json) {
     return LogsLocation(
       cloudWatchLogs: json['cloudWatchLogs'] != null
@@ -5678,6 +5990,7 @@ class NetworkInterface {
     this.networkInterfaceId,
     this.subnetId,
   });
+
   factory NetworkInterface.fromJson(Map<String, dynamic> json) {
     return NetworkInterface(
       networkInterfaceId: json['networkInterfaceId'] as String?,
@@ -5700,6 +6013,7 @@ class PhaseContext {
     this.message,
     this.statusCode,
   });
+
   factory PhaseContext.fromJson(Map<String, dynamic> json) {
     return PhaseContext(
       message: json['message'] as String?,
@@ -5764,21 +6078,30 @@ class Project {
   /// Information about the cache for the build project.
   final ProjectCache? cache;
 
+  /// The maximum number of concurrent builds that are allowed for this project.
+  ///
+  /// New builds are only started if the current number of builds is less than or
+  /// equal to this limit. If the current build count meets this limit, new builds
+  /// are throttled and are not run.
+  final int? concurrentBuildLimit;
+
   /// When the build project was created, expressed in Unix time format.
   final DateTime? created;
 
   /// A description that makes the build project easy to identify.
   final String? description;
 
-  /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be
-  /// used for encrypting the build output artifacts.
+  /// The Key Management Service customer master key (CMK) to be used for
+  /// encrypting the build output artifacts.
   /// <note>
   /// You can use a cross-account KMS key to encrypt the build output artifacts if
   /// your service role has permission to that key.
   /// </note>
   /// You can specify either the Amazon Resource Name (ARN) of the CMK or, if
   /// available, the CMK's alias (using the format
-  /// <code>alias/&lt;alias-name&gt;</code>).
+  /// <code>alias/&lt;alias-name&gt;</code>). If you don't specify a value,
+  /// CodeBuild uses the managed CMK for Amazon Simple Storage Service (Amazon
+  /// S3).
   final String? encryptionKey;
 
   /// Information about the build environment for this build project.
@@ -5796,14 +6119,22 @@ class Project {
   final DateTime? lastModified;
 
   /// Information about logs for the build project. A project can create logs in
-  /// Amazon CloudWatch Logs, an S3 bucket, or both.
+  /// CloudWatch Logs, an S3 bucket, or both.
   final LogsConfig? logsConfig;
 
   /// The name of the build project.
   final String? name;
+  final ProjectVisibilityType? projectVisibility;
+
+  /// Contains the project identifier used with the public build APIs.
+  final String? publicProjectAlias;
 
   /// The number of minutes a build is allowed to be queued before it times out.
   final int? queuedTimeoutInMinutes;
+
+  /// The ARN of the IAM role that enables CodeBuild to access the CloudWatch Logs
+  /// and Amazon S3 artifacts for the project's builds.
+  final String? resourceAccessRole;
 
   /// An array of <code>ProjectArtifacts</code> objects.
   final List<ProjectArtifacts>? secondaryArtifacts;
@@ -5817,9 +6148,8 @@ class Project {
   /// An array of <code>ProjectSource</code> objects.
   final List<ProjectSource>? secondarySources;
 
-  /// The ARN of the AWS Identity and Access Management (IAM) role that enables
-  /// AWS CodeBuild to interact with dependent AWS services on behalf of the AWS
-  /// account.
+  /// The ARN of the IAM role that enables CodeBuild to interact with dependent
+  /// Amazon Web Services services on behalf of the Amazon Web Services account.
   final String? serviceRole;
 
   /// Information about the build input source code for this build project.
@@ -5830,7 +6160,7 @@ class Project {
   ///
   /// <ul>
   /// <li>
-  /// For AWS CodeCommit: the commit ID, branch, or Git tag to use.
+  /// For CodeCommit: the commit ID, branch, or Git tag to use.
   /// </li>
   /// <li>
   /// For GitHub: the commit ID, pull request ID, branch name, or tag name that
@@ -5847,8 +6177,8 @@ class Project {
   /// default branch's HEAD commit ID is used.
   /// </li>
   /// <li>
-  /// For Amazon Simple Storage Service (Amazon S3): the version ID of the object
-  /// that represents the build input ZIP file to use.
+  /// For Amazon S3: the version ID of the object that represents the build input
+  /// ZIP file to use.
   /// </li>
   /// </ul>
   /// If <code>sourceVersion</code> is specified at the build level, then that
@@ -5857,25 +6187,25 @@ class Project {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html">Source
-  /// Version Sample with CodeBuild</a> in the <i>AWS CodeBuild User Guide</i>.
+  /// Version Sample with CodeBuild</a> in the <i>CodeBuild User Guide</i>.
   final String? sourceVersion;
 
   /// A list of tag key and value pairs associated with this build project.
   ///
-  /// These tags are available for use by AWS services that support AWS CodeBuild
-  /// build project tags.
+  /// These tags are available for use by Amazon Web Services services that
+  /// support CodeBuild build project tags.
   final List<Tag>? tags;
 
-  /// How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait
-  /// before timing out any related build that did not get marked as completed.
-  /// The default is 60 minutes.
+  /// How long, in minutes, from 5 to 480 (8 hours), for CodeBuild to wait before
+  /// timing out any related build that did not get marked as completed. The
+  /// default is 60 minutes.
   final int? timeoutInMinutes;
 
-  /// Information about the VPC configuration that AWS CodeBuild accesses.
+  /// Information about the VPC configuration that CodeBuild accesses.
   final VpcConfig? vpcConfig;
 
   /// Information about a webhook that connects repository events to a build
-  /// project in AWS CodeBuild.
+  /// project in CodeBuild.
   final Webhook? webhook;
 
   Project({
@@ -5884,6 +6214,7 @@ class Project {
     this.badge,
     this.buildBatchConfig,
     this.cache,
+    this.concurrentBuildLimit,
     this.created,
     this.description,
     this.encryptionKey,
@@ -5892,7 +6223,10 @@ class Project {
     this.lastModified,
     this.logsConfig,
     this.name,
+    this.projectVisibility,
+    this.publicProjectAlias,
     this.queuedTimeoutInMinutes,
+    this.resourceAccessRole,
     this.secondaryArtifacts,
     this.secondarySourceVersions,
     this.secondarySources,
@@ -5904,6 +6238,7 @@ class Project {
     this.vpcConfig,
     this.webhook,
   });
+
   factory Project.fromJson(Map<String, dynamic> json) {
     return Project(
       arn: json['arn'] as String?,
@@ -5920,6 +6255,7 @@ class Project {
       cache: json['cache'] != null
           ? ProjectCache.fromJson(json['cache'] as Map<String, dynamic>)
           : null,
+      concurrentBuildLimit: json['concurrentBuildLimit'] as int?,
       created: timeStampFromJson(json['created']),
       description: json['description'] as String?,
       encryptionKey: json['encryptionKey'] as String?,
@@ -5937,7 +6273,11 @@ class Project {
           ? LogsConfig.fromJson(json['logsConfig'] as Map<String, dynamic>)
           : null,
       name: json['name'] as String?,
+      projectVisibility:
+          (json['projectVisibility'] as String?)?.toProjectVisibilityType(),
+      publicProjectAlias: json['publicProjectAlias'] as String?,
       queuedTimeoutInMinutes: json['queuedTimeoutInMinutes'] as int?,
+      resourceAccessRole: json['resourceAccessRole'] as String?,
       secondaryArtifacts: (json['secondaryArtifacts'] as List?)
           ?.whereNotNull()
           .map((e) => ProjectArtifacts.fromJson(e as Map<String, dynamic>))
@@ -5977,7 +6317,7 @@ class ProjectArtifacts {
   /// <ul>
   /// <li>
   /// <code>CODEPIPELINE</code>: The build project has build output generated
-  /// through AWS CodePipeline.
+  /// through CodePipeline.
   /// <note>
   /// The <code>CODEPIPELINE</code> type is not supported for
   /// <code>secondaryArtifacts</code>.
@@ -5987,28 +6327,27 @@ class ProjectArtifacts {
   /// output.
   /// </li>
   /// <li>
-  /// <code>S3</code>: The build project stores build output in Amazon Simple
-  /// Storage Service (Amazon S3).
+  /// <code>S3</code>: The build project stores build output in Amazon S3.
   /// </li>
   /// </ul>
   final ArtifactsType type;
 
   /// An identifier for this artifact definition.
   final String? artifactIdentifier;
+  final BucketOwnerAccess? bucketOwnerAccess;
 
   /// Set to true if you do not want your output artifacts encrypted. This option
-  /// is valid only if your artifacts type is Amazon Simple Storage Service
-  /// (Amazon S3). If this is set with another artifacts type, an
-  /// invalidInputException is thrown.
+  /// is valid only if your artifacts type is Amazon S3. If this is set with
+  /// another artifacts type, an invalidInputException is thrown.
   final bool? encryptionDisabled;
 
   /// Information about the build output artifact location:
   ///
   /// <ul>
   /// <li>
-  /// If <code>type</code> is set to <code>CODEPIPELINE</code>, AWS CodePipeline
-  /// ignores this value if specified. This is because AWS CodePipeline manages
-  /// its build output locations instead of AWS CodeBuild.
+  /// If <code>type</code> is set to <code>CODEPIPELINE</code>, CodePipeline
+  /// ignores this value if specified. This is because CodePipeline manages its
+  /// build output locations instead of CodeBuild.
   /// </li>
   /// <li>
   /// If <code>type</code> is set to <code>NO_ARTIFACTS</code>, this value is
@@ -6022,13 +6361,13 @@ class ProjectArtifacts {
   final String? location;
 
   /// Along with <code>path</code> and <code>namespaceType</code>, the pattern
-  /// that AWS CodeBuild uses to name and store the output artifact:
+  /// that CodeBuild uses to name and store the output artifact:
   ///
   /// <ul>
   /// <li>
-  /// If <code>type</code> is set to <code>CODEPIPELINE</code>, AWS CodePipeline
-  /// ignores this value if specified. This is because AWS CodePipeline manages
-  /// its build output names instead of AWS CodeBuild.
+  /// If <code>type</code> is set to <code>CODEPIPELINE</code>, CodePipeline
+  /// ignores this value if specified. This is because CodePipeline manages its
+  /// build output names instead of CodeBuild.
   /// </li>
   /// <li>
   /// If <code>type</code> is set to <code>NO_ARTIFACTS</code>, this value is
@@ -6064,15 +6403,15 @@ class ProjectArtifacts {
   /// </ul>
   final String? name;
 
-  /// Along with <code>path</code> and <code>name</code>, the pattern that AWS
+  /// Along with <code>path</code> and <code>name</code>, the pattern that
   /// CodeBuild uses to determine the name and location to store the output
   /// artifact:
   ///
   /// <ul>
   /// <li>
-  /// If <code>type</code> is set to <code>CODEPIPELINE</code>, AWS CodePipeline
-  /// ignores this value if specified. This is because AWS CodePipeline manages
-  /// its build output names instead of AWS CodeBuild.
+  /// If <code>type</code> is set to <code>CODEPIPELINE</code>, CodePipeline
+  /// ignores this value if specified. This is because CodePipeline manages its
+  /// build output names instead of CodeBuild.
   /// </li>
   /// <li>
   /// If <code>type</code> is set to <code>NO_ARTIFACTS</code>, this value is
@@ -6108,9 +6447,9 @@ class ProjectArtifacts {
   ///
   /// <ul>
   /// <li>
-  /// If <code>type</code> is set to <code>CODEPIPELINE</code>, AWS CodePipeline
-  /// ignores this value if specified. This is because AWS CodePipeline manages
-  /// its build output artifacts instead of AWS CodeBuild.
+  /// If <code>type</code> is set to <code>CODEPIPELINE</code>, CodePipeline
+  /// ignores this value if specified. This is because CodePipeline manages its
+  /// build output artifacts instead of CodeBuild.
   /// </li>
   /// <li>
   /// If <code>type</code> is set to <code>NO_ARTIFACTS</code>, this value is
@@ -6121,12 +6460,12 @@ class ProjectArtifacts {
   ///
   /// <ul>
   /// <li>
-  /// <code>NONE</code>: AWS CodeBuild creates in the output bucket a folder that
+  /// <code>NONE</code>: CodeBuild creates in the output bucket a folder that
   /// contains the build output. This is the default if <code>packaging</code> is
   /// not specified.
   /// </li>
   /// <li>
-  /// <code>ZIP</code>: AWS CodeBuild creates in the output bucket a ZIP file that
+  /// <code>ZIP</code>: CodeBuild creates in the output bucket a ZIP file that
   /// contains the build output.
   /// </li>
   /// </ul> </li>
@@ -6134,13 +6473,13 @@ class ProjectArtifacts {
   final ArtifactPackaging? packaging;
 
   /// Along with <code>namespaceType</code> and <code>name</code>, the pattern
-  /// that AWS CodeBuild uses to name and store the output artifact:
+  /// that CodeBuild uses to name and store the output artifact:
   ///
   /// <ul>
   /// <li>
-  /// If <code>type</code> is set to <code>CODEPIPELINE</code>, AWS CodePipeline
-  /// ignores this value if specified. This is because AWS CodePipeline manages
-  /// its build output names instead of AWS CodeBuild.
+  /// If <code>type</code> is set to <code>CODEPIPELINE</code>, CodePipeline
+  /// ignores this value if specified. This is because CodePipeline manages its
+  /// build output names instead of CodeBuild.
   /// </li>
   /// <li>
   /// If <code>type</code> is set to <code>NO_ARTIFACTS</code>, this value is
@@ -6161,6 +6500,7 @@ class ProjectArtifacts {
   ProjectArtifacts({
     required this.type,
     this.artifactIdentifier,
+    this.bucketOwnerAccess,
     this.encryptionDisabled,
     this.location,
     this.name,
@@ -6169,10 +6509,13 @@ class ProjectArtifacts {
     this.packaging,
     this.path,
   });
+
   factory ProjectArtifacts.fromJson(Map<String, dynamic> json) {
     return ProjectArtifacts(
       type: (json['type'] as String).toArtifactsType(),
       artifactIdentifier: json['artifactIdentifier'] as String?,
+      bucketOwnerAccess:
+          (json['bucketOwnerAccess'] as String?)?.toBucketOwnerAccess(),
       encryptionDisabled: json['encryptionDisabled'] as bool?,
       location: json['location'] as String?,
       name: json['name'] as String?,
@@ -6186,6 +6529,7 @@ class ProjectArtifacts {
   Map<String, dynamic> toJson() {
     final type = this.type;
     final artifactIdentifier = this.artifactIdentifier;
+    final bucketOwnerAccess = this.bucketOwnerAccess;
     final encryptionDisabled = this.encryptionDisabled;
     final location = this.location;
     final name = this.name;
@@ -6196,6 +6540,8 @@ class ProjectArtifacts {
     return {
       'type': type.toValue(),
       if (artifactIdentifier != null) 'artifactIdentifier': artifactIdentifier,
+      if (bucketOwnerAccess != null)
+        'bucketOwnerAccess': bucketOwnerAccess.toValue(),
       if (encryptionDisabled != null) 'encryptionDisabled': encryptionDisabled,
       if (location != null) 'location': location,
       if (name != null) 'name': name,
@@ -6216,15 +6562,13 @@ class ProjectBadge {
 
   /// The publicly-accessible URL through which you can access the build badge for
   /// your project.
-  ///
-  /// The publicly accessible URL through which you can access the build badge for
-  /// your project.
   final String? badgeRequestUrl;
 
   ProjectBadge({
     this.badgeEnabled,
     this.badgeRequestUrl,
   });
+
   factory ProjectBadge.fromJson(Map<String, dynamic> json) {
     return ProjectBadge(
       badgeEnabled: json['badgeEnabled'] as bool?,
@@ -6235,6 +6579,17 @@ class ProjectBadge {
 
 /// Contains configuration information about a batch build project.
 class ProjectBuildBatchConfig {
+  /// Specifies how build status reports are sent to the source provider for the
+  /// batch build. This property is only used when the source provider for your
+  /// project is Bitbucket, GitHub, or GitHub Enterprise, and your project is
+  /// configured to report build statuses to the source provider.
+  /// <dl> <dt>REPORT_AGGREGATED_BATCH</dt> <dd>
+  /// (Default) Aggregate all of the build statuses into a single status report.
+  /// </dd> <dt>REPORT_INDIVIDUAL_BUILDS</dt> <dd>
+  /// Send a separate status report for each individual build.
+  /// </dd> </dl>
+  final BatchReportModeType? batchReportMode;
+
   /// Specifies if the build artifacts for the batch build should be combined into
   /// a single artifact location.
   final bool? combineArtifacts;
@@ -6251,13 +6606,17 @@ class ProjectBuildBatchConfig {
   final int? timeoutInMins;
 
   ProjectBuildBatchConfig({
+    this.batchReportMode,
     this.combineArtifacts,
     this.restrictions,
     this.serviceRole,
     this.timeoutInMins,
   });
+
   factory ProjectBuildBatchConfig.fromJson(Map<String, dynamic> json) {
     return ProjectBuildBatchConfig(
+      batchReportMode:
+          (json['batchReportMode'] as String?)?.toBatchReportModeType(),
       combineArtifacts: json['combineArtifacts'] as bool?,
       restrictions: json['restrictions'] != null
           ? BatchRestrictions.fromJson(
@@ -6269,11 +6628,13 @@ class ProjectBuildBatchConfig {
   }
 
   Map<String, dynamic> toJson() {
+    final batchReportMode = this.batchReportMode;
     final combineArtifacts = this.combineArtifacts;
     final restrictions = this.restrictions;
     final serviceRole = this.serviceRole;
     final timeoutInMins = this.timeoutInMins;
     return {
+      if (batchReportMode != null) 'batchReportMode': batchReportMode.toValue(),
       if (combineArtifacts != null) 'combineArtifacts': combineArtifacts,
       if (restrictions != null) 'restrictions': restrictions,
       if (serviceRole != null) 'serviceRole': serviceRole,
@@ -6367,6 +6728,7 @@ class ProjectCache {
     this.location,
     this.modes,
   });
+
   factory ProjectCache.fromJson(Map<String, dynamic> json) {
     return ProjectCache(
       type: (json['type'] as String).toCacheType(),
@@ -6432,7 +6794,7 @@ class ProjectEnvironment {
   /// </ul>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html">Build
-  /// Environment Compute Types</a> in the <i>AWS CodeBuild User Guide.</i>
+  /// Environment Compute Types</a> in the <i>CodeBuild User Guide.</i>
   final ComputeType computeType;
 
   /// The image tag or image digest that identifies the Docker image to use for
@@ -6454,6 +6816,9 @@ class ProjectEnvironment {
   /// <code>&lt;registry&gt;/&lt;repository&gt;@sha256:cbbf2f9a99b47fc460d422812b6a5adff7dfee951d8fa2e4a98caa0382cfbdbf</code>.
   /// </li>
   /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-available.html">Docker
+  /// images provided by CodeBuild</a> in the <i>CodeBuild user guide</i>.
   final String image;
 
   /// The type of build environment to use for related builds.
@@ -6481,36 +6846,46 @@ class ProjectEnvironment {
   /// China (Beijing), and China (Ningxia).
   /// </li>
   /// </ul>
+  /// <ul>
+  /// <li>
+  /// The environment types <code>WINDOWS_CONTAINER</code> and
+  /// <code>WINDOWS_SERVER_2019_CONTAINER</code> are available only in regions US
+  /// East (N. Virginia), US East (Ohio), US West (Oregon), and EU (Ireland).
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html">Build
+  /// environment compute types</a> in the <i>CodeBuild user guide</i>.
   final EnvironmentType type;
 
-  /// The ARN of the Amazon Simple Storage Service (Amazon S3) bucket, path
-  /// prefix, and object key that contains the PEM-encoded certificate for the
-  /// build project. For more information, see <a
+  /// The ARN of the Amazon S3 bucket, path prefix, and object key that contains
+  /// the PEM-encoded certificate for the build project. For more information, see
+  /// <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/create-project-cli.html#cli.environment.certificate">certificate</a>
-  /// in the <i>AWS CodeBuild User Guide</i>.
+  /// in the <i>CodeBuild User Guide</i>.
   final String? certificate;
 
   /// A set of environment variables to make available to builds for this build
   /// project.
   final List<EnvironmentVariable>? environmentVariables;
 
-  /// The type of credentials AWS CodeBuild uses to pull images in your build.
-  /// There are two valid values:
+  /// The type of credentials CodeBuild uses to pull images in your build. There
+  /// are two valid values:
   ///
   /// <ul>
   /// <li>
-  /// <code>CODEBUILD</code> specifies that AWS CodeBuild uses its own
-  /// credentials. This requires that you modify your ECR repository policy to
-  /// trust AWS CodeBuild's service principal.
+  /// <code>CODEBUILD</code> specifies that CodeBuild uses its own credentials.
+  /// This requires that you modify your ECR repository policy to trust CodeBuild
+  /// service principal.
   /// </li>
   /// <li>
-  /// <code>SERVICE_ROLE</code> specifies that AWS CodeBuild uses your build
-  /// project's service role.
+  /// <code>SERVICE_ROLE</code> specifies that CodeBuild uses your build project's
+  /// service role.
   /// </li>
   /// </ul>
   /// When you use a cross-account or private registry image, you must use
-  /// SERVICE_ROLE credentials. When you use an AWS CodeBuild curated image, you
-  /// must use CODEBUILD credentials.
+  /// SERVICE_ROLE credentials. When you use an CodeBuild curated image, you must
+  /// use CODEBUILD credentials.
   final ImagePullCredentialsType? imagePullCredentialsType;
 
   /// Enables running the Docker daemon inside a Docker container. Set to true
@@ -6554,6 +6929,7 @@ class ProjectEnvironment {
     this.privilegedMode,
     this.registryCredential,
   });
+
   factory ProjectEnvironment.fromJson(Map<String, dynamic> json) {
     return ProjectEnvironment(
       computeType: (json['computeType'] as String).toComputeType(),
@@ -6614,7 +6990,7 @@ class ProjectFileSystemLocation {
 
   /// A string that specifies the location of the file system created by Amazon
   /// EFS. Its format is <code>efs-dns-name:/directory-path</code>. You can find
-  /// the DNS name of file system when you view it in the AWS EFS console. The
+  /// the DNS name of file system when you view it in the Amazon EFS console. The
   /// directory path is a path to a directory in the file system that CodeBuild
   /// mounts. For example, if the DNS name of a file system is
   /// <code>fs-abcd1234.efs.us-west-2.amazonaws.com</code>, and its mount
@@ -6627,7 +7003,7 @@ class ProjectFileSystemLocation {
   /// the DNS name and CodeBuild mounts the entire file system.
   final String? location;
 
-  /// The mount options for a file system created by AWS EFS. The default mount
+  /// The mount options for a file system created by Amazon EFS. The default mount
   /// options used by CodeBuild are
   /// <code>nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2</code>.
   /// For more information, see <a
@@ -6648,6 +7024,7 @@ class ProjectFileSystemLocation {
     this.mountPoint,
     this.type,
   });
+
   factory ProjectFileSystemLocation.fromJson(Map<String, dynamic> json) {
     return ProjectFileSystemLocation(
       identifier: json['identifier'] as String?,
@@ -6717,11 +7094,11 @@ class ProjectSource {
   /// <code>BITBUCKET</code>: The source code is in a Bitbucket repository.
   /// </li>
   /// <li>
-  /// <code>CODECOMMIT</code>: The source code is in an AWS CodeCommit repository.
+  /// <code>CODECOMMIT</code>: The source code is in an CodeCommit repository.
   /// </li>
   /// <li>
   /// <code>CODEPIPELINE</code>: The source code settings are specified in the
-  /// source action of a pipeline in AWS CodePipeline.
+  /// source action of a pipeline in CodePipeline.
   /// </li>
   /// <li>
   /// <code>GITHUB</code>: The source code is in a GitHub or GitHub Enterprise
@@ -6735,17 +7112,16 @@ class ProjectSource {
   /// <code>NO_SOURCE</code>: The project does not have input source code.
   /// </li>
   /// <li>
-  /// <code>S3</code>: The source code is in an Amazon Simple Storage Service
-  /// (Amazon S3) input bucket.
+  /// <code>S3</code>: The source code is in an Amazon S3 bucket.
   /// </li>
   /// </ul>
   final SourceType type;
 
-  /// Information about the authorization settings for AWS CodeBuild to access the
+  /// Information about the authorization settings for CodeBuild to access the
   /// source code to be built.
   ///
-  /// This information is for the AWS CodeBuild console's use only. Your code
-  /// should not get or set this information directly.
+  /// This information is for the CodeBuild console's use only. Your code should
+  /// not get or set this information directly.
   final SourceAuth? auth;
 
   /// Contains information that defines how the build project reports the build
@@ -6759,8 +7135,8 @@ class ProjectSource {
   /// If this value is set, it can be either an inline buildspec definition, the
   /// path to an alternate buildspec file relative to the value of the built-in
   /// <code>CODEBUILD_SRC_DIR</code> environment variable, or the path to an S3
-  /// bucket. The bucket must be in the same AWS Region as the build project.
-  /// Specify the buildspec file using its ARN (for example,
+  /// bucket. The bucket must be in the same Amazon Web Services Region as the
+  /// build project. Specify the buildspec file using its ARN (for example,
   /// <code>arn:aws:s3:::my-codebuild-sample2/buildspec.yml</code>). If this value
   /// is not provided or is set to an empty string, the source code must contain a
   /// buildspec file in its root directory. For more information, see <a
@@ -6784,20 +7160,18 @@ class ProjectSource {
   /// <ul>
   /// <li>
   /// For source code settings that are specified in the source action of a
-  /// pipeline in AWS CodePipeline, <code>location</code> should not be specified.
-  /// If it is specified, AWS CodePipeline ignores it. This is because AWS
-  /// CodePipeline uses the settings in a pipeline's source action instead of this
-  /// value.
+  /// pipeline in CodePipeline, <code>location</code> should not be specified. If
+  /// it is specified, CodePipeline ignores it. This is because CodePipeline uses
+  /// the settings in a pipeline's source action instead of this value.
   /// </li>
   /// <li>
-  /// For source code in an AWS CodeCommit repository, the HTTPS clone URL to the
+  /// For source code in an CodeCommit repository, the HTTPS clone URL to the
   /// repository that contains the source code and the buildspec file (for
   /// example,
   /// <code>https://git-codecommit.&lt;region-ID&gt;.amazonaws.com/v1/repos/&lt;repo-name&gt;</code>).
   /// </li>
   /// <li>
-  /// For source code in an Amazon Simple Storage Service (Amazon S3) input
-  /// bucket, one of the following.
+  /// For source code in an Amazon S3 input bucket, one of the following.
   ///
   /// <ul>
   /// <li>
@@ -6812,43 +7186,58 @@ class ProjectSource {
   /// <li>
   /// For source code in a GitHub repository, the HTTPS clone URL to the
   /// repository that contains the source and the buildspec file. You must connect
-  /// your AWS account to your GitHub account. Use the AWS CodeBuild console to
-  /// start creating a build project. When you use the console to connect (or
-  /// reconnect) with GitHub, on the GitHub <b>Authorize application</b> page, for
-  /// <b>Organization access</b>, choose <b>Request access</b> next to each
-  /// repository you want to allow AWS CodeBuild to have access to, and then
-  /// choose <b>Authorize application</b>. (After you have connected to your
-  /// GitHub account, you do not need to finish creating the build project. You
-  /// can leave the AWS CodeBuild console.) To instruct AWS CodeBuild to use this
-  /// connection, in the <code>source</code> object, set the <code>auth</code>
-  /// object's <code>type</code> value to <code>OAUTH</code>.
+  /// your Amazon Web Services account to your GitHub account. Use the CodeBuild
+  /// console to start creating a build project. When you use the console to
+  /// connect (or reconnect) with GitHub, on the GitHub <b>Authorize
+  /// application</b> page, for <b>Organization access</b>, choose <b>Request
+  /// access</b> next to each repository you want to allow CodeBuild to have
+  /// access to, and then choose <b>Authorize application</b>. (After you have
+  /// connected to your GitHub account, you do not need to finish creating the
+  /// build project. You can leave the CodeBuild console.) To instruct CodeBuild
+  /// to use this connection, in the <code>source</code> object, set the
+  /// <code>auth</code> object's <code>type</code> value to <code>OAUTH</code>.
   /// </li>
   /// <li>
   /// For source code in a Bitbucket repository, the HTTPS clone URL to the
   /// repository that contains the source and the buildspec file. You must connect
-  /// your AWS account to your Bitbucket account. Use the AWS CodeBuild console to
-  /// start creating a build project. When you use the console to connect (or
-  /// reconnect) with Bitbucket, on the Bitbucket <b>Confirm access to your
-  /// account</b> page, choose <b>Grant access</b>. (After you have connected to
-  /// your Bitbucket account, you do not need to finish creating the build
-  /// project. You can leave the AWS CodeBuild console.) To instruct AWS CodeBuild
-  /// to use this connection, in the <code>source</code> object, set the
-  /// <code>auth</code> object's <code>type</code> value to <code>OAUTH</code>.
+  /// your Amazon Web Services account to your Bitbucket account. Use the
+  /// CodeBuild console to start creating a build project. When you use the
+  /// console to connect (or reconnect) with Bitbucket, on the Bitbucket
+  /// <b>Confirm access to your account</b> page, choose <b>Grant access</b>.
+  /// (After you have connected to your Bitbucket account, you do not need to
+  /// finish creating the build project. You can leave the CodeBuild console.) To
+  /// instruct CodeBuild to use this connection, in the <code>source</code>
+  /// object, set the <code>auth</code> object's <code>type</code> value to
+  /// <code>OAUTH</code>.
   /// </li>
   /// </ul>
+  /// If you specify <code>CODEPIPELINE</code> for the <code>Type</code> property,
+  /// don't specify this property. For all of the other types, you must specify
+  /// <code>Location</code>.
   final String? location;
 
   /// Set to true to report the status of a build's start and finish to your
   /// source provider. This option is valid only when your source provider is
   /// GitHub, GitHub Enterprise, or Bitbucket. If this is set and you use a
-  /// different source provider, an invalidInputException is thrown.
-  /// <note>
+  /// different source provider, an <code>invalidInputException</code> is thrown.
+  ///
+  /// To be able to report the build status to the source provider, the user
+  /// associated with the source provider must have write access to the repo. If
+  /// the user does not have write access, the build status cannot be updated. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/access-tokens.html">Source
+  /// provider access</a> in the <i>CodeBuild User Guide</i>.
+  ///
   /// The status of a build triggered by a webhook is always reported to your
   /// source provider.
-  /// </note>
+  ///
+  /// If your project's builds are triggered by a webhook, you must push a new
+  /// commit to the repo for a change to this property to take effect.
   final bool? reportBuildStatus;
 
-  /// An identifier for this project source.
+  /// An identifier for this project source. The identifier can only contain
+  /// alphanumeric characters and underscores, and must be less than 128
+  /// characters in length.
   final String? sourceIdentifier;
 
   ProjectSource({
@@ -6863,6 +7252,7 @@ class ProjectSource {
     this.reportBuildStatus,
     this.sourceIdentifier,
   });
+
   factory ProjectSource.fromJson(Map<String, dynamic> json) {
     return ProjectSource(
       type: (json['type'] as String).toSourceType(),
@@ -6915,7 +7305,9 @@ class ProjectSource {
 
 /// A source identifier and its corresponding version.
 class ProjectSourceVersion {
-  /// An identifier for a source in the build project.
+  /// An identifier for a source in the build project. The identifier can only
+  /// contain alphanumeric characters and underscores, and must be less than 128
+  /// characters in length.
   final String sourceIdentifier;
 
   /// The source version for the corresponding source identifier. If specified,
@@ -6923,7 +7315,7 @@ class ProjectSourceVersion {
   ///
   /// <ul>
   /// <li>
-  /// For AWS CodeCommit: the commit ID, branch, or Git tag to use.
+  /// For CodeCommit: the commit ID, branch, or Git tag to use.
   /// </li>
   /// <li>
   /// For GitHub: the commit ID, pull request ID, branch name, or tag name that
@@ -6940,19 +7332,20 @@ class ProjectSourceVersion {
   /// default branch's HEAD commit ID is used.
   /// </li>
   /// <li>
-  /// For Amazon Simple Storage Service (Amazon S3): the version ID of the object
-  /// that represents the build input ZIP file to use.
+  /// For Amazon S3: the version ID of the object that represents the build input
+  /// ZIP file to use.
   /// </li>
   /// </ul>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html">Source
-  /// Version Sample with CodeBuild</a> in the <i>AWS CodeBuild User Guide</i>.
+  /// Version Sample with CodeBuild</a> in the <i>CodeBuild User Guide</i>.
   final String sourceVersion;
 
   ProjectSourceVersion({
     required this.sourceIdentifier,
     required this.sourceVersion,
   });
+
   factory ProjectSourceVersion.fromJson(Map<String, dynamic> json) {
     return ProjectSourceVersion(
       sourceIdentifier: json['sourceIdentifier'] as String,
@@ -6970,6 +7363,40 @@ class ProjectSourceVersion {
   }
 }
 
+/// Specifies the visibility of the project's builds. Possible values are:
+/// <dl> <dt>PUBLIC_READ</dt> <dd>
+/// The project builds are visible to the public.
+/// </dd> <dt>PRIVATE</dt> <dd>
+/// The project builds are not visible to the public.
+/// </dd> </dl>
+enum ProjectVisibilityType {
+  publicRead,
+  private,
+}
+
+extension ProjectVisibilityTypeValueExtension on ProjectVisibilityType {
+  String toValue() {
+    switch (this) {
+      case ProjectVisibilityType.publicRead:
+        return 'PUBLIC_READ';
+      case ProjectVisibilityType.private:
+        return 'PRIVATE';
+    }
+  }
+}
+
+extension ProjectVisibilityTypeFromString on String {
+  ProjectVisibilityType toProjectVisibilityType() {
+    switch (this) {
+      case 'PUBLIC_READ':
+        return ProjectVisibilityType.publicRead;
+      case 'PRIVATE':
+        return ProjectVisibilityType.private;
+    }
+    throw Exception('$this is not known in enum ProjectVisibilityType');
+  }
+}
+
 class PutResourcePolicyOutput {
   /// The ARN of the <code>Project</code> or <code>ReportGroup</code> resource
   /// that is associated with a resource policy.
@@ -6978,6 +7405,7 @@ class PutResourcePolicyOutput {
   PutResourcePolicyOutput({
     this.resourceArn,
   });
+
   factory PutResourcePolicyOutput.fromJson(Map<String, dynamic> json) {
     return PutResourcePolicyOutput(
       resourceArn: json['resourceArn'] as String?,
@@ -6999,24 +7427,25 @@ class PutResourcePolicyOutput {
 /// </ul>
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/sample-private-registry.html">Private
-/// Registry with AWS Secrets Manager Sample for AWS CodeBuild</a>.
+/// Registry with Secrets Manager Sample for CodeBuild</a>.
 class RegistryCredential {
-  /// The Amazon Resource Name (ARN) or name of credentials created using AWS
-  /// Secrets Manager.
+  /// The Amazon Resource Name (ARN) or name of credentials created using Secrets
+  /// Manager.
   /// <note>
   /// The <code>credential</code> can use the name of the credentials only if they
-  /// exist in your current AWS Region.
+  /// exist in your current Amazon Web Services Region.
   /// </note>
   final String credential;
 
   /// The service that created the credentials to access a private Docker
-  /// registry. The valid value, SECRETS_MANAGER, is for AWS Secrets Manager.
+  /// registry. The valid value, SECRETS_MANAGER, is for Secrets Manager.
   final CredentialProviderType credentialProvider;
 
   RegistryCredential({
     required this.credential,
     required this.credentialProvider,
   });
+
   factory RegistryCredential.fromJson(Map<String, dynamic> json) {
     return RegistryCredential(
       credential: json['credential'] as String,
@@ -7101,6 +7530,7 @@ class Report {
     this.truncated,
     this.type,
   });
+
   factory Report.fromJson(Map<String, dynamic> json) {
     return Report(
       arn: json['arn'] as String?,
@@ -7179,6 +7609,7 @@ class ReportExportConfig {
     this.exportConfigType,
     this.s3Destination,
   });
+
   factory ReportExportConfig.fromJson(Map<String, dynamic> json) {
     return ReportExportConfig(
       exportConfigType:
@@ -7251,7 +7682,7 @@ class ReportFilter {
 /// group in the buildspec for a build project using one or more paths to the
 /// test case files.
 class ReportGroup {
-  /// The ARN of a <code>ReportGroup</code>.
+  /// The ARN of the <code>ReportGroup</code>.
   final String? arn;
 
   /// The date and time this <code>ReportGroup</code> was created.
@@ -7264,18 +7695,32 @@ class ReportGroup {
   /// The date and time this <code>ReportGroup</code> was last modified.
   final DateTime? lastModified;
 
-  /// The name of a <code>ReportGroup</code>.
+  /// The name of the <code>ReportGroup</code>.
   final String? name;
+
+  /// The status of the report group. This property is read-only.
+  ///
+  /// This can be one of the following values:
+  /// <dl> <dt>ACTIVE</dt> <dd>
+  /// The report group is active.
+  /// </dd> <dt>DELETING</dt> <dd>
+  /// The report group is in the process of being deleted.
+  /// </dd> </dl>
   final ReportGroupStatusType? status;
 
   /// A list of tag key and value pairs associated with this report group.
   ///
-  /// These tags are available for use by AWS services that support AWS CodeBuild
-  /// report group tags.
+  /// These tags are available for use by Amazon Web Services services that
+  /// support CodeBuild report group tags.
   final List<Tag>? tags;
 
-  /// The type of the <code>ReportGroup</code>. The one valid value is
-  /// <code>TEST</code>.
+  /// The type of the <code>ReportGroup</code>. This can be one of the following
+  /// values:
+  /// <dl> <dt>CODE_COVERAGE</dt> <dd>
+  /// The report group contains code coverage reports.
+  /// </dd> <dt>TEST</dt> <dd>
+  /// The report group contains test reports.
+  /// </dd> </dl>
   final ReportType? type;
 
   ReportGroup({
@@ -7288,6 +7733,7 @@ class ReportGroup {
     this.tags,
     this.type,
   });
+
   factory ReportGroup.fromJson(Map<String, dynamic> json) {
     return ReportGroup(
       arn: json['arn'] as String?,
@@ -7432,9 +7878,16 @@ extension ReportGroupTrendFieldTypeFromString on String {
   }
 }
 
+/// Contains trend statistics for a set of reports. The actual values depend on
+/// the type of trend being collected. For more information, see .
 class ReportGroupTrendStats {
+  /// Contains the average of all values analyzed.
   final String? average;
+
+  /// Contains the maximum value analyzed.
   final String? max;
+
+  /// Contains the minimum value analyzed.
   final String? min;
 
   ReportGroupTrendStats({
@@ -7442,6 +7895,7 @@ class ReportGroupTrendStats {
     this.max,
     this.min,
   });
+
   factory ReportGroupTrendStats.fromJson(Map<String, dynamic> json) {
     return ReportGroupTrendStats(
       average: json['average'] as String?,
@@ -7550,14 +8004,19 @@ extension ReportTypeFromString on String {
   }
 }
 
+/// Contains the unmodified data for the report. For more information, see .
 class ReportWithRawData {
+  /// The value of the requested data field from the report.
   final String? data;
+
+  /// The ARN of the report.
   final String? reportArn;
 
   ReportWithRawData({
     this.data,
     this.reportArn,
   });
+
   factory ReportWithRawData.fromJson(Map<String, dynamic> json) {
     return ReportWithRawData(
       data: json['data'] as String?,
@@ -7566,9 +8025,8 @@ class ReportWithRawData {
   }
 }
 
-/// Represents a resolved build artifact. A resolve artifact is an artifact that
-/// is built and deployed to the destination, such as Amazon Simple Storage
-/// Service (Amazon S3).
+/// Represents a resolved build artifact. A resolved artifact is an artifact
+/// that is built and deployed to the destination, such as Amazon S3.
 class ResolvedArtifact {
   /// The identifier of the artifact.
   final String? identifier;
@@ -7584,6 +8042,7 @@ class ResolvedArtifact {
     this.location,
     this.type,
   });
+
   factory ResolvedArtifact.fromJson(Map<String, dynamic> json) {
     return ResolvedArtifact(
       identifier: json['identifier'] as String?,
@@ -7599,6 +8058,7 @@ class RetryBuildBatchOutput {
   RetryBuildBatchOutput({
     this.buildBatch,
   });
+
   factory RetryBuildBatchOutput.fromJson(Map<String, dynamic> json) {
     return RetryBuildBatchOutput(
       buildBatch: json['buildBatch'] != null
@@ -7642,6 +8102,7 @@ class RetryBuildOutput {
   RetryBuildOutput({
     this.build,
   });
+
   factory RetryBuildOutput.fromJson(Map<String, dynamic> json) {
     return RetryBuildOutput(
       build: json['build'] != null
@@ -7664,6 +8125,7 @@ class S3LogsConfig {
   /// </li>
   /// </ul>
   final LogsConfigStatusType status;
+  final BucketOwnerAccess? bucketOwnerAccess;
 
   /// Set to true if you do not want your S3 build log output encrypted. By
   /// default S3 build logs are encrypted.
@@ -7678,12 +8140,16 @@ class S3LogsConfig {
 
   S3LogsConfig({
     required this.status,
+    this.bucketOwnerAccess,
     this.encryptionDisabled,
     this.location,
   });
+
   factory S3LogsConfig.fromJson(Map<String, dynamic> json) {
     return S3LogsConfig(
       status: (json['status'] as String).toLogsConfigStatusType(),
+      bucketOwnerAccess:
+          (json['bucketOwnerAccess'] as String?)?.toBucketOwnerAccess(),
       encryptionDisabled: json['encryptionDisabled'] as bool?,
       location: json['location'] as String?,
     );
@@ -7691,10 +8157,13 @@ class S3LogsConfig {
 
   Map<String, dynamic> toJson() {
     final status = this.status;
+    final bucketOwnerAccess = this.bucketOwnerAccess;
     final encryptionDisabled = this.encryptionDisabled;
     final location = this.location;
     return {
       'status': status.toValue(),
+      if (bucketOwnerAccess != null)
+        'bucketOwnerAccess': bucketOwnerAccess.toValue(),
       if (encryptionDisabled != null) 'encryptionDisabled': encryptionDisabled,
       if (location != null) 'location': location,
     };
@@ -7706,6 +8175,11 @@ class S3ReportExportConfig {
   /// The name of the S3 bucket where the raw data of a report are exported.
   final String? bucket;
 
+  /// The Amazon Web Services account identifier of the owner of the Amazon S3
+  /// bucket. This allows report data to be exported to an Amazon S3 bucket that
+  /// is owned by an account other than the account running the build.
+  final String? bucketOwner;
+
   /// A boolean value that specifies if the results of a report are encrypted.
   final bool? encryptionDisabled;
 
@@ -7716,11 +8190,11 @@ class S3ReportExportConfig {
   ///
   /// <ul>
   /// <li>
-  /// <code>NONE</code>: AWS CodeBuild creates the raw data in the output bucket.
-  /// This is the default if packaging is not specified.
+  /// <code>NONE</code>: CodeBuild creates the raw data in the output bucket. This
+  /// is the default if packaging is not specified.
   /// </li>
   /// <li>
-  /// <code>ZIP</code>: AWS CodeBuild creates a ZIP file with the raw data in the
+  /// <code>ZIP</code>: CodeBuild creates a ZIP file with the raw data in the
   /// output bucket.
   /// </li>
   /// </ul>
@@ -7731,14 +8205,17 @@ class S3ReportExportConfig {
 
   S3ReportExportConfig({
     this.bucket,
+    this.bucketOwner,
     this.encryptionDisabled,
     this.encryptionKey,
     this.packaging,
     this.path,
   });
+
   factory S3ReportExportConfig.fromJson(Map<String, dynamic> json) {
     return S3ReportExportConfig(
       bucket: json['bucket'] as String?,
+      bucketOwner: json['bucketOwner'] as String?,
       encryptionDisabled: json['encryptionDisabled'] as bool?,
       encryptionKey: json['encryptionKey'] as String?,
       packaging: (json['packaging'] as String?)?.toReportPackagingType(),
@@ -7748,12 +8225,14 @@ class S3ReportExportConfig {
 
   Map<String, dynamic> toJson() {
     final bucket = this.bucket;
+    final bucketOwner = this.bucketOwner;
     final encryptionDisabled = this.encryptionDisabled;
     final encryptionKey = this.encryptionKey;
     final packaging = this.packaging;
     final path = this.path;
     return {
       if (bucket != null) 'bucket': bucket,
+      if (bucketOwner != null) 'bucketOwner': bucketOwner,
       if (encryptionDisabled != null) 'encryptionDisabled': encryptionDisabled,
       if (encryptionKey != null) 'encryptionKey': encryptionKey,
       if (packaging != null) 'packaging': packaging.toValue(),
@@ -7851,11 +8330,11 @@ extension SortOrderTypeFromString on String {
   }
 }
 
-/// Information about the authorization settings for AWS CodeBuild to access the
+/// Information about the authorization settings for CodeBuild to access the
 /// source code to be built.
 ///
-/// This information is for the AWS CodeBuild console's use only. Your code
-/// should not get or set this information directly.
+/// This information is for the CodeBuild console's use only. Your code should
+/// not get or set this information directly.
 class SourceAuth {
   /// <note>
   /// This data type is deprecated and is no longer accurate or used.
@@ -7871,6 +8350,7 @@ class SourceAuth {
     required this.type,
     this.resource,
   });
+
   factory SourceAuth.fromJson(Map<String, dynamic> json) {
     return SourceAuth(
       type: (json['type'] as String).toSourceAuthType(),
@@ -7930,6 +8410,7 @@ class SourceCredentialsInfo {
     this.authType,
     this.serverType,
   });
+
   factory SourceCredentialsInfo.fromJson(Map<String, dynamic> json) {
     return SourceCredentialsInfo(
       arn: json['arn'] as String?,
@@ -8000,6 +8481,7 @@ class StartBuildBatchOutput {
   StartBuildBatchOutput({
     this.buildBatch,
   });
+
   factory StartBuildBatchOutput.fromJson(Map<String, dynamic> json) {
     return StartBuildBatchOutput(
       buildBatch: json['buildBatch'] != null
@@ -8016,6 +8498,7 @@ class StartBuildOutput {
   StartBuildOutput({
     this.build,
   });
+
   factory StartBuildOutput.fromJson(Map<String, dynamic> json) {
     return StartBuildOutput(
       build: json['build'] != null
@@ -8079,6 +8562,7 @@ class StopBuildBatchOutput {
   StopBuildBatchOutput({
     this.buildBatch,
   });
+
   factory StopBuildBatchOutput.fromJson(Map<String, dynamic> json) {
     return StopBuildBatchOutput(
       buildBatch: json['buildBatch'] != null
@@ -8095,6 +8579,7 @@ class StopBuildOutput {
   StopBuildOutput({
     this.build,
   });
+
   factory StopBuildOutput.fromJson(Map<String, dynamic> json) {
     return StopBuildOutput(
       build: json['build'] != null
@@ -8106,8 +8591,8 @@ class StopBuildOutput {
 
 /// A tag, consisting of a key and a value.
 ///
-/// This tag is available for use by AWS services that support tags in AWS
-/// CodeBuild.
+/// This tag is available for use by Amazon Web Services services that support
+/// tags in CodeBuild.
 class Tag {
   /// The tag's key.
   final String? key;
@@ -8119,6 +8604,7 @@ class Tag {
     this.key,
     this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['key'] as String?,
@@ -8179,6 +8665,7 @@ class TestCase {
     this.status,
     this.testRawDataPath,
   });
+
   factory TestCase.fromJson(Map<String, dynamic> json) {
     return TestCase(
       durationInNanoSeconds: json['durationInNanoSeconds'] as int?,
@@ -8257,6 +8744,7 @@ class TestReportSummary {
     required this.statusCounts,
     required this.total,
   });
+
   factory TestReportSummary.fromJson(Map<String, dynamic> json) {
     return TestReportSummary(
       durationInNanoSeconds: json['durationInNanoSeconds'] as int,
@@ -8274,11 +8762,36 @@ class UpdateProjectOutput {
   UpdateProjectOutput({
     this.project,
   });
+
   factory UpdateProjectOutput.fromJson(Map<String, dynamic> json) {
     return UpdateProjectOutput(
       project: json['project'] != null
           ? Project.fromJson(json['project'] as Map<String, dynamic>)
           : null,
+    );
+  }
+}
+
+class UpdateProjectVisibilityOutput {
+  /// The Amazon Resource Name (ARN) of the build project.
+  final String? projectArn;
+  final ProjectVisibilityType? projectVisibility;
+
+  /// Contains the project identifier used with the public build APIs.
+  final String? publicProjectAlias;
+
+  UpdateProjectVisibilityOutput({
+    this.projectArn,
+    this.projectVisibility,
+    this.publicProjectAlias,
+  });
+
+  factory UpdateProjectVisibilityOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateProjectVisibilityOutput(
+      projectArn: json['projectArn'] as String?,
+      projectVisibility:
+          (json['projectVisibility'] as String?)?.toProjectVisibilityType(),
+      publicProjectAlias: json['publicProjectAlias'] as String?,
     );
   }
 }
@@ -8290,6 +8803,7 @@ class UpdateReportGroupOutput {
   UpdateReportGroupOutput({
     this.reportGroup,
   });
+
   factory UpdateReportGroupOutput.fromJson(Map<String, dynamic> json) {
     return UpdateReportGroupOutput(
       reportGroup: json['reportGroup'] != null
@@ -8301,12 +8815,13 @@ class UpdateReportGroupOutput {
 
 class UpdateWebhookOutput {
   /// Information about a repository's webhook that is associated with a project
-  /// in AWS CodeBuild.
+  /// in CodeBuild.
   final Webhook? webhook;
 
   UpdateWebhookOutput({
     this.webhook,
   });
+
   factory UpdateWebhookOutput.fromJson(Map<String, dynamic> json) {
     return UpdateWebhookOutput(
       webhook: json['webhook'] != null
@@ -8316,7 +8831,7 @@ class UpdateWebhookOutput {
   }
 }
 
-/// Information about the VPC configuration that AWS CodeBuild accesses.
+/// Information about the VPC configuration that CodeBuild accesses.
 class VpcConfig {
   /// A list of one or more security groups IDs in your Amazon VPC.
   final List<String>? securityGroupIds;
@@ -8332,6 +8847,7 @@ class VpcConfig {
     this.subnets,
     this.vpcId,
   });
+
   factory VpcConfig.fromJson(Map<String, dynamic> json) {
     return VpcConfig(
       securityGroupIds: (json['securityGroupIds'] as List?)
@@ -8359,7 +8875,7 @@ class VpcConfig {
 }
 
 /// Information about a webhook that connects repository events to a build
-/// project in AWS CodeBuild.
+/// project in CodeBuild.
 class Webhook {
   /// A regular expression used to determine which repository branches are built
   /// when a webhook is triggered. If the name of a branch matches the regular
@@ -8387,7 +8903,7 @@ class Webhook {
   /// modified.
   final DateTime? lastModifiedSecret;
 
-  /// The AWS CodeBuild endpoint where webhook events are sent.
+  /// The CodeBuild endpoint where webhook events are sent.
   final String? payloadUrl;
 
   /// The secret token of the associated repository.
@@ -8408,6 +8924,7 @@ class Webhook {
     this.secret,
     this.url,
   });
+
   factory Webhook.fromJson(Map<String, dynamic> json) {
     return Webhook(
       branchFilter: json['branchFilter'] as String?,
@@ -8529,6 +9046,7 @@ class WebhookFilter {
     required this.type,
     this.excludeMatchedPattern,
   });
+
   factory WebhookFilter.fromJson(Map<String, dynamic> json) {
     return WebhookFilter(
       pattern: json['pattern'] as String,

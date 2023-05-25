@@ -18,18 +18,50 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// AWS Resource Groups lets you organize AWS resources such as Amazon EC2
-/// instances, Amazon Relational Database Service databases, and Amazon S3
-/// buckets into groups using criteria that you define as tags. A resource group
-/// is a collection of resources that match the resource types specified in a
-/// query, and share one or more tags or portions of tags. You can create a
-/// group of resources based on their roles in your cloud infrastructure,
-/// lifecycle stages, regions, application layers, or virtually any criteria.
-/// Resource Groups enable you to automate management tasks, such as those in
-/// AWS Systems Manager Automation documents, on tag-related resources in AWS
-/// Systems Manager. Groups of tagged resources also let you quickly view a
-/// custom console in AWS Systems Manager that shows AWS Config compliance and
-/// other monitoring data about member resources.
+/// Resource Groups lets you organize Amazon Web Services resources such as
+/// Amazon Elastic Compute Cloud instances, Amazon Relational Database Service
+/// databases, and Amazon Simple Storage Service buckets into groups using
+/// criteria that you define as tags. A resource group is a collection of
+/// resources that match the resource types specified in a query, and share one
+/// or more tags or portions of tags. You can create a group of resources based
+/// on their roles in your cloud infrastructure, lifecycle stages, regions,
+/// application layers, or virtually any criteria. Resource Groups enable you to
+/// automate management tasks, such as those in Amazon Web Services Systems
+/// Manager Automation documents, on tag-related resources in Amazon Web
+/// Services Systems Manager. Groups of tagged resources also let you quickly
+/// view a custom console in Amazon Web Services Systems Manager that shows
+/// Config compliance and other monitoring data about member resources.
+///
+/// To create a resource group, build a resource query, and specify tags that
+/// identify the criteria that members of the group have in common. Tags are
+/// key-value pairs.
+///
+/// For more information about Resource Groups, see the <a
+/// href="https://docs.aws.amazon.com/ARG/latest/userguide/welcome.html">Resource
+/// Groups User Guide</a>.
+///
+/// Resource Groups uses a REST-compliant API that you can use to perform the
+/// following types of operations.
+///
+/// <ul>
+/// <li>
+/// Create, Read, Update, and Delete (CRUD) operations on resource groups and
+/// resource query entities
+/// </li>
+/// <li>
+/// Applying, editing, and removing tags from resource groups
+/// </li>
+/// <li>
+/// Resolving resource group member ARNs so they can be returned as search
+/// results
+/// </li>
+/// <li>
+/// Getting data about resources that are members of a group
+/// </li>
+/// <li>
+/// Searching Amazon Web Services resources based on a resource query
+/// </li>
+/// </ul>
 class ResourceGroups {
   final _s.RestJsonProtocol _protocol;
   ResourceGroups({
@@ -60,13 +92,14 @@ class ResourceGroups {
   }
 
   /// Creates a resource group with the specified name and description. You can
-  /// optionally include a resource query, or a service configuration. For more
-  /// information about constructing a resource query, see <a
-  /// href="https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#gettingstarted-query-cli-tag">Create
-  /// a tag-based group in Resource Groups</a>. For more information about
-  /// service configurations, see <a
+  /// optionally include either a resource query or a service configuration. For
+  /// more information about constructing a resource query, see <a
+  /// href="https://docs.aws.amazon.com/ARG/latest/userguide/getting_started-query.html">Build
+  /// queries and groups in Resource Groups</a> in the <i>Resource Groups User
+  /// Guide</i>. For more information about service-linked groups and service
+  /// configurations, see <a
   /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html">Service
-  /// configurations for resource groups</a>.
+  /// configurations for Resource Groups</a>.
   ///
   /// <b>Minimum permissions</b>
   ///
@@ -90,15 +123,16 @@ class ResourceGroups {
   /// it. A resource group name can consist of letters, numbers, hyphens,
   /// periods, and underscores. The name cannot start with <code>AWS</code> or
   /// <code>aws</code>; these are reserved. A resource group name must be unique
-  /// within each AWS Region in your AWS account.
+  /// within each Amazon Web Services Region in your Amazon Web Services
+  /// account.
   ///
   /// Parameter [configuration] :
-  /// A configuration associates the resource group with an AWS service and
-  /// specifies how the service can interact with the resources in the group. A
-  /// configuration is an array of <a>GroupConfigurationItem</a> elements. For
-  /// details about the syntax of service configurations, see <a
+  /// A configuration associates the resource group with an Amazon Web Services
+  /// service and specifies how the service can interact with the resources in
+  /// the group. A configuration is an array of <a>GroupConfigurationItem</a>
+  /// elements. For details about the syntax of service configurations, see <a
   /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html">Service
-  /// configurations for resource groups</a>.
+  /// configurations for Resource Groups</a>.
   /// <note>
   /// A resource group can contain either a <code>Configuration</code> or a
   /// <code>ResourceQuery</code>, but not both.
@@ -109,8 +143,8 @@ class ResourceGroups {
   /// letters, numbers, hyphens, underscores, periods, and spaces.
   ///
   /// Parameter [resourceQuery] :
-  /// The resource query that determines which AWS resources are members of this
-  /// group. For more information about resource queries, see <a
+  /// The resource query that determines which Amazon Web Services resources are
+  /// members of this group. For more information about resource queries, see <a
   /// href="https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#gettingstarted-query-cli-tag">Create
   /// a tag-based group in Resource Groups</a>.
   /// <note>
@@ -186,6 +220,23 @@ class ResourceGroups {
     return DeleteGroupOutput.fromJson(response);
   }
 
+  /// Retrieves the current status of optional features in Resource Groups.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InternalServerErrorException].
+  Future<GetAccountSettingsOutput> getAccountSettings() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri: '/get-account-settings',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAccountSettingsOutput.fromJson(response);
+  }
+
   /// Returns information about a specified resource group.
   ///
   /// <b>Minimum permissions</b>
@@ -227,10 +278,10 @@ class ResourceGroups {
     return GetGroupOutput.fromJson(response);
   }
 
-  /// Returns the service configuration associated with the specified resource
+  /// Retrieves the service configuration associated with the specified resource
   /// group. For details about the service configuration syntax, see <a
   /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html">Service
-  /// configurations for resource groups</a>.
+  /// configurations for Resource Groups</a>.
   ///
   /// <b>Minimum permissions</b>
   ///
@@ -250,7 +301,8 @@ class ResourceGroups {
   /// May throw [InternalServerErrorException].
   ///
   /// Parameter [group] :
-  /// The name or the ARN of the resource group.
+  /// The name or the ARN of the resource group for which you want to retrive
+  /// the service configuration.
   Future<GetGroupConfigurationOutput> getGroupConfiguration({
     String? group,
   }) async {
@@ -345,7 +397,21 @@ class ResourceGroups {
   }
 
   /// Adds the specified resources to the specified group.
+  /// <important>
+  /// You can use this operation with only resource groups that are configured
+  /// with the following types:
   ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS::EC2::HostManagement</code>
+  /// </li>
+  /// <li>
+  /// <code>AWS::EC2::CapacityReservationPool</code>
+  /// </li>
+  /// </ul>
+  /// Other resource group type and resource types aren't currently supported by
+  /// this operation.
+  /// </important>
   /// <b>Minimum permissions</b>
   ///
   /// To run this command, you must have the following permissions:
@@ -367,7 +433,7 @@ class ResourceGroups {
   /// The name or the ARN of the resource group to add resources to.
   ///
   /// Parameter [resourceArns] :
-  /// The list of ARNs for resources to be added to the group.
+  /// The list of ARNs of the resources to be added to the group.
   Future<GroupResourcesOutput> groupResources({
     required String group,
     required List<String> resourceArns,
@@ -396,6 +462,15 @@ class ResourceGroups {
   /// <li>
   /// <code>resource-groups:ListGroupResources</code>
   /// </li>
+  /// <li>
+  /// <code>cloudformation:DescribeStacks</code>
+  /// </li>
+  /// <li>
+  /// <code>cloudformation:ListStackResources</code>
+  /// </li>
+  /// <li>
+  /// <code>tag:GetResources</code>
+  /// </li>
   /// </ul>
   ///
   /// May throw [UnauthorizedException].
@@ -420,7 +495,7 @@ class ResourceGroups {
   /// </li>
   /// </ul>
   /// When you specify a <code>resource-type</code> filter for
-  /// <code>ListGroupResources</code>, AWS Resource Groups validates your filter
+  /// <code>ListGroupResources</code>, Resource Groups validates your filter
   /// resource types against the types that are defined in the query associated
   /// with the group. For example, if a group contains only S3 buckets because
   /// its query specifies only that resource type, but your
@@ -438,7 +513,7 @@ class ResourceGroups {
   /// validation doesn't occur when the group query specifies
   /// <code>AWS::AllSupported</code>, because a group based on such a query can
   /// contain any of the allowed resource types for the query type (tag-based or
-  /// AWS CloudFormation stack-based queries).
+  /// Amazon CloudFront stack-based queries).
   ///
   /// Parameter [group] :
   /// The name or the ARN of the resource group
@@ -497,7 +572,7 @@ class ResourceGroups {
     return ListGroupResourcesOutput.fromJson(response);
   }
 
-  /// Returns a list of existing resource groups in your account.
+  /// Returns a list of existing Resource Groups in your account.
   ///
   /// <b>Minimum permissions</b>
   ///
@@ -533,10 +608,10 @@ class ResourceGroups {
   ///
   /// <ul>
   /// <li>
-  /// <code>AWS:EC2::CapacityReservationPool</code>
+  /// <code>AWS::EC2::CapacityReservationPool</code>
   /// </li>
   /// <li>
-  /// <code>AWS:EC2::HostManagement</code>
+  /// <code>AWS::EC2::HostManagement</code>
   /// </li>
   /// </ul> </li>
   /// </ul>
@@ -611,13 +686,14 @@ class ResourceGroups {
   ///
   /// Parameter [configuration] :
   /// The new configuration to associate with the specified group. A
-  /// configuration associates the resource group with an AWS service and
-  /// specifies how the service can interact with the resources in the group. A
-  /// configuration is an array of <a>GroupConfigurationItem</a> elements.
+  /// configuration associates the resource group with an Amazon Web Services
+  /// service and specifies how the service can interact with the resources in
+  /// the group. A configuration is an array of <a>GroupConfigurationItem</a>
+  /// elements.
   ///
   /// For information about the syntax of a service configuration, see <a
   /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html">Service
-  /// configurations for resource groups</a>.
+  /// configurations for Resource Groups</a>.
   /// <note>
   /// A resource group can contain either a <code>Configuration</code> or a
   /// <code>ResourceQuery</code>, but not both.
@@ -642,9 +718,9 @@ class ResourceGroups {
     );
   }
 
-  /// Returns a list of AWS resource identifiers that matches the specified
-  /// query. The query uses the same format as a resource query in a CreateGroup
-  /// or UpdateGroupQuery operation.
+  /// Returns a list of Amazon Web Services resource identifiers that matches
+  /// the specified query. The query uses the same format as a resource query in
+  /// a <a>CreateGroup</a> or <a>UpdateGroupQuery</a> operation.
   ///
   /// <b>Minimum permissions</b>
   ///
@@ -653,6 +729,15 @@ class ResourceGroups {
   /// <ul>
   /// <li>
   /// <code>resource-groups:SearchResources</code>
+  /// </li>
+  /// <li>
+  /// <code>cloudformation:DescribeStacks</code>
+  /// </li>
+  /// <li>
+  /// <code>cloudformation:ListStackResources</code>
+  /// </li>
+  /// <li>
+  /// <code>tag:GetResources</code>
   /// </li>
   /// </ul>
   ///
@@ -759,7 +844,11 @@ class ResourceGroups {
     return TagOutput.fromJson(response);
   }
 
-  /// Removes the specified resources from the specified group.
+  /// Removes the specified resources from the specified group. This operation
+  /// works only with static groups that you populated using the
+  /// <a>GroupResources</a> operation. It doesn't work with any resource groups
+  /// that are automatically populated by tag-based or CloudFormation
+  /// stack-based queries.
   ///
   /// <b>Minimum permissions</b>
   ///
@@ -842,6 +931,40 @@ class ResourceGroups {
     return UntagOutput.fromJson(response);
   }
 
+  /// Turns on or turns off optional features in Resource Groups.
+  ///
+  /// The preceding example shows that the request to turn on group lifecycle
+  /// events is <code>IN_PROGRESS</code>. You can call the
+  /// <a>GetAccountSettings</a> operation to check for completion by looking for
+  /// <code>GroupLifecycleEventsStatus</code> to change to <code>ACTIVE</code>.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [groupLifecycleEventsDesiredStatus] :
+  /// Specifies whether you want to turn <a
+  /// href="https://docs.aws.amazon.com/ARG/latest/userguide/monitor-groups.html">group
+  /// lifecycle events</a> on or off.
+  Future<UpdateAccountSettingsOutput> updateAccountSettings({
+    GroupLifecycleEventsDesiredStatus? groupLifecycleEventsDesiredStatus,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (groupLifecycleEventsDesiredStatus != null)
+        'GroupLifecycleEventsDesiredStatus':
+            groupLifecycleEventsDesiredStatus.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/update-account-settings',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateAccountSettingsOutput.fromJson(response);
+  }
+
   /// Updates the description for an existing group. You cannot update the name
   /// of a resource group.
   ///
@@ -914,8 +1037,8 @@ class ResourceGroups {
   /// May throw [InternalServerErrorException].
   ///
   /// Parameter [resourceQuery] :
-  /// The resource query to determine which AWS resources are members of this
-  /// resource group.
+  /// The resource query to determine which Amazon Web Services resources are
+  /// members of this resource group.
   /// <note>
   /// A resource group can contain either a <code>Configuration</code> or a
   /// <code>ResourceQuery</code>, but not both.
@@ -946,6 +1069,38 @@ class ResourceGroups {
   }
 }
 
+/// The Resource Groups settings for this Amazon Web Services account.
+class AccountSettings {
+  /// The desired target status of the group lifecycle events feature. If
+  final GroupLifecycleEventsDesiredStatus? groupLifecycleEventsDesiredStatus;
+
+  /// The current status of the group lifecycle events feature.
+  final GroupLifecycleEventsStatus? groupLifecycleEventsStatus;
+
+  /// The text of any error message occurs during an attempt to turn group
+  /// lifecycle events on or off.
+  final String? groupLifecycleEventsStatusMessage;
+
+  AccountSettings({
+    this.groupLifecycleEventsDesiredStatus,
+    this.groupLifecycleEventsStatus,
+    this.groupLifecycleEventsStatusMessage,
+  });
+
+  factory AccountSettings.fromJson(Map<String, dynamic> json) {
+    return AccountSettings(
+      groupLifecycleEventsDesiredStatus:
+          (json['GroupLifecycleEventsDesiredStatus'] as String?)
+              ?.toGroupLifecycleEventsDesiredStatus(),
+      groupLifecycleEventsStatus:
+          (json['GroupLifecycleEventsStatus'] as String?)
+              ?.toGroupLifecycleEventsStatus(),
+      groupLifecycleEventsStatusMessage:
+          json['GroupLifecycleEventsStatusMessage'] as String?,
+    );
+  }
+}
+
 class CreateGroupOutput {
   /// The description of the resource group.
   final Group? group;
@@ -953,7 +1108,7 @@ class CreateGroupOutput {
   /// The service configuration associated with the resource group. For details
   /// about the syntax of a service configuration, see <a
   /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html">Service
-  /// configurations for resource groups</a>.
+  /// configurations for Resource Groups</a>.
   final GroupConfiguration? groupConfiguration;
 
   /// The resource query associated with the group. For more information about
@@ -971,6 +1126,7 @@ class CreateGroupOutput {
     this.resourceQuery,
     this.tags,
   });
+
   factory CreateGroupOutput.fromJson(Map<String, dynamic> json) {
     return CreateGroupOutput(
       group: json['Group'] != null
@@ -997,6 +1153,7 @@ class DeleteGroupOutput {
   DeleteGroupOutput({
     this.group,
   });
+
   factory DeleteGroupOutput.fromJson(Map<String, dynamic> json) {
     return DeleteGroupOutput(
       group: json['Group'] != null
@@ -1022,6 +1179,7 @@ class FailedResource {
     this.errorMessage,
     this.resourceArn,
   });
+
   factory FailedResource.fromJson(Map<String, dynamic> json) {
     return FailedResource(
       errorCode: json['ErrorCode'] as String?,
@@ -1031,16 +1189,35 @@ class FailedResource {
   }
 }
 
+class GetAccountSettingsOutput {
+  /// The current settings for the optional features in Resource Groups.
+  final AccountSettings? accountSettings;
+
+  GetAccountSettingsOutput({
+    this.accountSettings,
+  });
+
+  factory GetAccountSettingsOutput.fromJson(Map<String, dynamic> json) {
+    return GetAccountSettingsOutput(
+      accountSettings: json['AccountSettings'] != null
+          ? AccountSettings.fromJson(
+              json['AccountSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 class GetGroupConfigurationOutput {
-  /// The service configuration associated with the specified group. For details
-  /// about the service configuration syntax, see <a
+  /// A structure that describes the service configuration attached with the
+  /// specified group. For details about the service configuration syntax, see <a
   /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html">Service
-  /// configurations for resource groups</a>.
+  /// configurations for Resource Groups</a>.
   final GroupConfiguration? groupConfiguration;
 
   GetGroupConfigurationOutput({
     this.groupConfiguration,
   });
+
   factory GetGroupConfigurationOutput.fromJson(Map<String, dynamic> json) {
     return GetGroupConfigurationOutput(
       groupConfiguration: json['GroupConfiguration'] != null
@@ -1052,12 +1229,15 @@ class GetGroupConfigurationOutput {
 }
 
 class GetGroupOutput {
-  /// A full description of the resource group.
+  /// A structure that contains the metadata details for the specified resource
+  /// group. Use <a>GetGroupQuery</a> and <a>GetGroupConfiguration</a> to get
+  /// those additional details of the resource group.
   final Group? group;
 
   GetGroupOutput({
     this.group,
   });
+
   factory GetGroupOutput.fromJson(Map<String, dynamic> json) {
     return GetGroupOutput(
       group: json['Group'] != null
@@ -1077,6 +1257,7 @@ class GetGroupQueryOutput {
   GetGroupQueryOutput({
     this.groupQuery,
   });
+
   factory GetGroupQueryOutput.fromJson(Map<String, dynamic> json) {
     return GetGroupQueryOutput(
       groupQuery: json['GroupQuery'] != null
@@ -1097,6 +1278,7 @@ class GetTagsOutput {
     this.arn,
     this.tags,
   });
+
   factory GetTagsOutput.fromJson(Map<String, dynamic> json) {
     return GetTagsOutput(
       arn: json['Arn'] as String?,
@@ -1106,21 +1288,22 @@ class GetTagsOutput {
   }
 }
 
-/// A resource group that contains AWS resources. You can assign resources to
-/// the group by associating either of the following elements with the group:
+/// A resource group that contains Amazon Web Services resources. You can assign
+/// resources to the group by associating either of the following elements with
+/// the group:
 ///
 /// <ul>
 /// <li>
 /// <a>ResourceQuery</a> - Use a resource query to specify a set of tag keys and
-/// values. All resources in the same AWS Region and AWS account that have those
-/// keys with the same values are included in the group. You can add a resource
-/// query when you create the group, or later by using the
-/// <a>PutGroupConfiguration</a> operation.
+/// values. All resources in the same Amazon Web Services Region and Amazon Web
+/// Services account that have those keys with the same values are included in
+/// the group. You can add a resource query when you create the group, or later
+/// by using the <a>PutGroupConfiguration</a> operation.
 /// </li>
 /// <li>
 /// <a>GroupConfiguration</a> - Use a service configuration to associate the
-/// group with an AWS service. The configuration specifies which resource types
-/// can be included in the group.
+/// group with an Amazon Web Services service. The configuration specifies which
+/// resource types can be included in the group.
 /// </li>
 /// </ul>
 class Group {
@@ -1138,6 +1321,7 @@ class Group {
     required this.name,
     this.description,
   });
+
   factory Group.fromJson(Map<String, dynamic> json) {
     return Group(
       groupArn: json['GroupArn'] as String,
@@ -1148,7 +1332,7 @@ class Group {
 }
 
 /// A service configuration associated with a resource group. The configuration
-/// options are determined by the AWS service that defines the
+/// options are determined by the Amazon Web Services service that defines the
 /// <code>Type</code>, and specifies which resources can be included in the
 /// group. You can add a service configuration when you create the group by
 /// using <a>CreateGroup</a>, or later by using the <a>PutGroupConfiguration</a>
@@ -1176,6 +1360,7 @@ class GroupConfiguration {
     this.proposedConfiguration,
     this.status,
   });
+
   factory GroupConfiguration.fromJson(Map<String, dynamic> json) {
     return GroupConfiguration(
       configuration: (json['Configuration'] as List?)
@@ -1216,6 +1401,7 @@ class GroupConfigurationItem {
     required this.type,
     this.parameters,
   });
+
   factory GroupConfigurationItem.fromJson(Map<String, dynamic> json) {
     return GroupConfigurationItem(
       type: json['Type'] as String,
@@ -1258,6 +1444,7 @@ class GroupConfigurationParameter {
     required this.name,
     this.values,
   });
+
   factory GroupConfigurationParameter.fromJson(Map<String, dynamic> json) {
     return GroupConfigurationParameter(
       name: json['Name'] as String,
@@ -1375,6 +1562,7 @@ class GroupIdentifier {
     this.groupArn,
     this.groupName,
   });
+
   factory GroupIdentifier.fromJson(Map<String, dynamic> json) {
     return GroupIdentifier(
       groupArn: json['GroupArn'] as String?,
@@ -1383,21 +1571,91 @@ class GroupIdentifier {
   }
 }
 
-/// A mapping of a query attached to a resource group that determines the AWS
-/// resources that are members of the group.
+enum GroupLifecycleEventsDesiredStatus {
+  active,
+  inactive,
+}
+
+extension GroupLifecycleEventsDesiredStatusValueExtension
+    on GroupLifecycleEventsDesiredStatus {
+  String toValue() {
+    switch (this) {
+      case GroupLifecycleEventsDesiredStatus.active:
+        return 'ACTIVE';
+      case GroupLifecycleEventsDesiredStatus.inactive:
+        return 'INACTIVE';
+    }
+  }
+}
+
+extension GroupLifecycleEventsDesiredStatusFromString on String {
+  GroupLifecycleEventsDesiredStatus toGroupLifecycleEventsDesiredStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return GroupLifecycleEventsDesiredStatus.active;
+      case 'INACTIVE':
+        return GroupLifecycleEventsDesiredStatus.inactive;
+    }
+    throw Exception(
+        '$this is not known in enum GroupLifecycleEventsDesiredStatus');
+  }
+}
+
+enum GroupLifecycleEventsStatus {
+  active,
+  inactive,
+  inProgress,
+  error,
+}
+
+extension GroupLifecycleEventsStatusValueExtension
+    on GroupLifecycleEventsStatus {
+  String toValue() {
+    switch (this) {
+      case GroupLifecycleEventsStatus.active:
+        return 'ACTIVE';
+      case GroupLifecycleEventsStatus.inactive:
+        return 'INACTIVE';
+      case GroupLifecycleEventsStatus.inProgress:
+        return 'IN_PROGRESS';
+      case GroupLifecycleEventsStatus.error:
+        return 'ERROR';
+    }
+  }
+}
+
+extension GroupLifecycleEventsStatusFromString on String {
+  GroupLifecycleEventsStatus toGroupLifecycleEventsStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return GroupLifecycleEventsStatus.active;
+      case 'INACTIVE':
+        return GroupLifecycleEventsStatus.inactive;
+      case 'IN_PROGRESS':
+        return GroupLifecycleEventsStatus.inProgress;
+      case 'ERROR':
+        return GroupLifecycleEventsStatus.error;
+    }
+    throw Exception('$this is not known in enum GroupLifecycleEventsStatus');
+  }
+}
+
+/// A mapping of a query attached to a resource group that determines the Amazon
+/// Web Services resources that are members of the group.
 class GroupQuery {
   /// The name of the resource group that is associated with the specified
   /// resource query.
   final String groupName;
 
-  /// The resource query that determines which AWS resources are members of the
-  /// associated resource group.
+  /// The resource query that determines which Amazon Web Services resources are
+  /// members of the associated resource group.
   final ResourceQuery resourceQuery;
 
   GroupQuery({
     required this.groupName,
     required this.resourceQuery,
   });
+
   factory GroupQuery.fromJson(Map<String, dynamic> json) {
     return GroupQuery(
       groupName: json['GroupName'] as String,
@@ -1408,20 +1666,20 @@ class GroupQuery {
 }
 
 class GroupResourcesOutput {
-  /// A list of ARNs of any resources that failed to be added to the group by this
-  /// operation.
+  /// A list of ARNs of any resources that this operation failed to add to the
+  /// group.
   final List<FailedResource>? failed;
 
-  /// A list of ARNs of any resources that are still in the process of being added
-  /// to the group by this operation. These pending additions continue
-  /// asynchronously. You can check the status of pending additions by using the
-  /// <code> <a>ListGroupResources</a> </code> operation, and checking the
+  /// A list of ARNs of any resources that this operation is still in the process
+  /// adding to the group. These pending additions continue asynchronously. You
+  /// can check the status of pending additions by using the <code>
+  /// <a>ListGroupResources</a> </code> operation, and checking the
   /// <code>Resources</code> array in the response and the <code>Status</code>
   /// field of each object in that array.
   final List<PendingResource>? pending;
 
-  /// A list of ARNs of resources that were successfully added to the group by
-  /// this operation.
+  /// A list of ARNs of the resources that this operation successfully added to
+  /// the group.
   final List<String>? succeeded;
 
   GroupResourcesOutput({
@@ -1429,6 +1687,7 @@ class GroupResourcesOutput {
     this.pending,
     this.succeeded,
   });
+
   factory GroupResourcesOutput.fromJson(Map<String, dynamic> json) {
     return GroupResourcesOutput(
       failed: (json['Failed'] as List?)
@@ -1465,6 +1724,7 @@ class ListGroupResourcesItem {
     this.identifier,
     this.status,
   });
+
   factory ListGroupResourcesItem.fromJson(Map<String, dynamic> json) {
     return ListGroupResourcesItem(
       identifier: json['Identifier'] != null
@@ -1509,6 +1769,7 @@ class ListGroupResourcesOutput {
     this.resourceIdentifiers,
     this.resources,
   });
+
   factory ListGroupResourcesOutput.fromJson(Map<String, dynamic> json) {
     return ListGroupResourcesOutput(
       nextToken: json['NextToken'] as String?,
@@ -1552,6 +1813,7 @@ class ListGroupsOutput {
     this.groups,
     this.nextToken,
   });
+
   factory ListGroupsOutput.fromJson(Map<String, dynamic> json) {
     return ListGroupsOutput(
       groupIdentifiers: (json['GroupIdentifiers'] as List?)
@@ -1577,6 +1839,7 @@ class PendingResource {
   PendingResource({
     this.resourceArn,
   });
+
   factory PendingResource.fromJson(Map<String, dynamic> json) {
     return PendingResource(
       resourceArn: json['ResourceArn'] as String?,
@@ -1586,34 +1849,35 @@ class PendingResource {
 
 class PutGroupConfigurationOutput {
   PutGroupConfigurationOutput();
+
   factory PutGroupConfigurationOutput.fromJson(Map<String, dynamic> _) {
     return PutGroupConfigurationOutput();
   }
 }
 
 /// A two-part error structure that can occur in <code>ListGroupResources</code>
-/// or <code>SearchResources</code> operations on CloudFormation stack-based
-/// queries. The error occurs if the CloudFormation stack on which the query is
+/// or <code>SearchResources</code> operations on CloudFront stack-based
+/// queries. The error occurs if the CloudFront stack on which the query is
 /// based either does not exist, or has a status that renders the stack
 /// inactive. A <code>QueryError</code> occurrence does not necessarily mean
-/// that AWS Resource Groups could not complete the operation, but the resulting
+/// that Resource Groups could not complete the operation, but the resulting
 /// group might have no member resources.
 class QueryError {
-  /// Possible values are <code>CLOUDFORMATION_STACK_INACTIVE</code> and
-  /// <code>CLOUDFORMATION_STACK_NOT_EXISTING</code>.
+  /// Specifies the error code that was raised.
   final QueryErrorCode? errorCode;
 
   /// A message that explains the <code>ErrorCode</code> value. Messages might
-  /// state that the specified CloudFormation stack does not exist (or no longer
+  /// state that the specified CloudFront stack does not exist (or no longer
   /// exists). For <code>CLOUDFORMATION_STACK_INACTIVE</code>, the message
-  /// typically states that the CloudFormation stack has a status that is not (or
-  /// no longer) active, such as <code>CREATE_FAILED</code>.
+  /// typically states that the CloudFront stack has a status that is not (or no
+  /// longer) active, such as <code>CREATE_FAILED</code>.
   final String? message;
 
   QueryError({
     this.errorCode,
     this.message,
   });
+
   factory QueryError.fromJson(Map<String, dynamic> json) {
     return QueryError(
       errorCode: (json['ErrorCode'] as String?)?.toQueryErrorCode(),
@@ -1625,6 +1889,7 @@ class QueryError {
 enum QueryErrorCode {
   cloudformationStackInactive,
   cloudformationStackNotExisting,
+  cloudformationStackUnassumableRole,
 }
 
 extension QueryErrorCodeValueExtension on QueryErrorCode {
@@ -1634,6 +1899,8 @@ extension QueryErrorCodeValueExtension on QueryErrorCode {
         return 'CLOUDFORMATION_STACK_INACTIVE';
       case QueryErrorCode.cloudformationStackNotExisting:
         return 'CLOUDFORMATION_STACK_NOT_EXISTING';
+      case QueryErrorCode.cloudformationStackUnassumableRole:
+        return 'CLOUDFORMATION_STACK_UNASSUMABLE_ROLE';
     }
   }
 }
@@ -1645,6 +1912,8 @@ extension QueryErrorCodeFromString on String {
         return QueryErrorCode.cloudformationStackInactive;
       case 'CLOUDFORMATION_STACK_NOT_EXISTING':
         return QueryErrorCode.cloudformationStackNotExisting;
+      case 'CLOUDFORMATION_STACK_UNASSUMABLE_ROLE':
+        return QueryErrorCode.cloudformationStackUnassumableRole;
     }
     throw Exception('$this is not known in enum QueryErrorCode');
   }
@@ -1737,6 +2006,7 @@ class ResourceIdentifier {
     this.resourceArn,
     this.resourceType,
   });
+
   factory ResourceIdentifier.fromJson(Map<String, dynamic> json) {
     return ResourceIdentifier(
       resourceArn: json['ResourceArn'] as String?,
@@ -1745,91 +2015,71 @@ class ResourceIdentifier {
   }
 }
 
-/// The query that is used to define a resource group or a search for resources.
-/// A query specifies both a query type and a query string as a JSON object. See
-/// the examples section for example JSON strings.
+/// The query you can use to define a resource group or a search for resources.
+/// A <code>ResourceQuery</code> specifies both a query <code>Type</code> and a
+/// <code>Query</code> string as JSON string objects. See the examples section
+/// for example JSON strings. For more information about creating a resource
+/// group with a resource query, see <a
+/// href="https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html">Build
+/// queries and groups in Resource Groups</a> in the <i>Resource Groups User
+/// Guide</i>
 ///
-/// The examples that follow are shown as standard JSON strings. If you include
-/// such a string as a parameter to the AWS CLI or an SDK API, you might need to
-/// 'escape' the string into a single line. For example, see the <a
+/// When you combine all of the elements together into a single string, any
+/// double quotes that are embedded inside another double quote pair must be
+/// escaped by preceding the embedded double quote with a backslash character
+/// (\). For example, a complete <code>ResourceQuery</code> parameter must be
+/// formatted like the following CLI parameter example:
+///
+/// <code>--resource-query
+/// '{"Type":"TAG_FILTERS_1_0","Query":"{\"ResourceTypeFilters\":[\"AWS::AllSupported\"],\"TagFilters\":[{\"Key\":\"Stage\",\"Values\":[\"Test\"]}]}"}'</code>
+///
+/// In the preceding example, all of the double quote characters in the value
+/// part of the <code>Query</code> element must be escaped because the value
+/// itself is surrounded by double quotes. For more information, see <a
 /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-quoting-strings.html">Quoting
-/// strings</a> in the <i>AWS CLI User Guide</i>.
+/// strings</a> in the <i>Command Line Interface User Guide</i>.
 ///
-/// <b>Example 1</b>
+/// For the complete list of resource types that you can use in the array value
+/// for <code>ResourceTypeFilters</code>, see <a
+/// href="https://docs.aws.amazon.com/ARG/latest/userguide/supported-resources.html">Resources
+/// you can use with Resource Groups and Tag Editor</a> in the <i>Resource
+/// Groups User Guide</i>. For example:
 ///
-/// The following generic example shows a resource query JSON string that
-/// includes only resources that meet the following criteria:
-///
-/// <ul>
-/// <li>
-/// The resource type must be either <code>resource_type1</code> or
-/// <code>resource_type2</code>.
-/// </li>
-/// <li>
-/// The resource must have a tag <code>Key1</code> with a value of either
-/// <code>ValueA</code> or <code>ValueB</code>.
-/// </li>
-/// <li>
-/// The resource must have a tag <code>Key2</code> with a value of either
-/// <code>ValueC</code> or <code>ValueD</code>.
-/// </li>
-/// </ul>
-/// <code>{ "Type": "TAG_FILTERS_1_0", "Query": { "ResourceTypeFilters": [
-/// "resource_type1", "resource_type2"], "TagFilters": [ { "Key": "Key1",
-/// "Values": ["ValueA","ValueB"] }, { "Key":"Key2",
-/// "Values":["ValueC","ValueD"] } ] } }</code>
-///
-/// This has the equivalent "shortcut" syntax of the following:
-///
-/// <code>{ "Type": "TAG_FILTERS_1_0", "Query": { "ResourceTypeFilters": [
-/// "resource_type1", "resource_type2"], "TagFilters": [ { "Key1":
-/// ["ValueA","ValueB"] }, { "Key2": ["ValueC","ValueD"] } ] } }</code>
-///
-/// <b>Example 2</b>
-///
-/// The following example shows a resource query JSON string that includes only
-/// Amazon EC2 instances that are tagged <code>Stage</code> with a value of
-/// <code>Test</code>.
-///
-/// <code>{ "Type": "TAG_FILTERS_1_0", "Query": "{ "ResourceTypeFilters":
-/// "AWS::EC2::Instance", "TagFilters": { "Stage": "Test" } } }</code>
-///
-/// <b>Example 3</b>
-///
-/// The following example shows a resource query JSON string that includes
-/// resource of any supported type as long as it is tagged <code>Stage</code>
-/// with a value of <code>Prod</code>.
-///
-/// <code>{ "Type": "TAG_FILTERS_1_0", "Query": { "ResourceTypeFilters":
-/// "AWS::AllSupported", "TagFilters": { "Stage": "Prod" } } }</code>
-///
-/// <b>Example 4</b>
-///
-/// The following example shows a resource query JSON string that includes only
-/// Amazon EC2 instances and Amazon S3 buckets that are part of the specified
-/// AWS CloudFormation stack.
-///
-/// <code>{ "Type": "CLOUDFORMATION_STACK_1_0", "Query": {
-/// "ResourceTypeFilters": [ "AWS::EC2::Instance", "AWS::S3::Bucket" ],
-/// "StackIdentifier":
-/// "arn:aws:cloudformation:us-west-2:123456789012:stack/AWStestuseraccount/fb0d5000-aba8-00e8-aa9e-50d5cEXAMPLE"
-/// } }</code>
+/// <code>"ResourceTypeFilters":["AWS::S3::Bucket", "AWS::EC2::Instance"]</code>
 class ResourceQuery {
-  /// The query that defines a group or a search.
-  final String query;
-
-  /// The type of the query. You can use the following values:
+  /// The query that defines a group or a search. The contents depends on the
+  /// value of the <code>Type</code> element.
   ///
   /// <ul>
   /// <li>
-  /// <i> <code>CLOUDFORMATION_STACK_1_0:</code> </i>Specifies that the
-  /// <code>Query</code> contains an ARN for a CloudFormation stack.
+  /// <code>ResourceTypeFilters</code> – Applies to all <code>ResourceQuery</code>
+  /// objects of either <code>Type</code>. This element contains one of the
+  /// following two items:
+  ///
+  /// <ul>
+  /// <li>
+  /// The value <code>AWS::AllSupported</code>. This causes the ResourceQuery to
+  /// match resources of any resource type that also match the query.
   /// </li>
   /// <li>
-  /// <i> <code>TAG_FILTERS_1_0:</code> </i>Specifies that the <code>Query</code>
-  /// parameter contains a JSON string that represents a collection of simple tag
-  /// filters for resource types and tags. The JSON string uses a syntax similar
-  /// to the <code> <a
+  /// A list (a JSON array) of resource type identifiers that limit the query to
+  /// only resources of the specified types. For the complete list of resource
+  /// types that you can use in the array value for
+  /// <code>ResourceTypeFilters</code>, see <a
+  /// href="https://docs.aws.amazon.com/ARG/latest/userguide/supported-resources.html">Resources
+  /// you can use with Resource Groups and Tag Editor</a> in the <i>Resource
+  /// Groups User Guide</i>.
+  /// </li>
+  /// </ul>
+  /// Example: <code>"ResourceTypeFilters": ["AWS::AllSupported"]</code> or
+  /// <code>"ResourceTypeFilters": ["AWS::EC2::Instance",
+  /// "AWS::S3::Bucket"]</code>
+  /// </li>
+  /// <li>
+  /// <code>TagFilters</code> – applicable only if <code>Type</code> =
+  /// <code>TAG_FILTERS_1_0</code>. The <code>Query</code> contains a JSON string
+  /// that represents a collection of simple tag filters. The JSON string uses a
+  /// syntax similar to the <code> <a
   /// href="https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_GetResources.html">GetResources</a>
   /// </code> operation, but uses only the <code> <a
   /// href="https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_GetResources.html#resourcegrouptagging-GetResources-request-ResourceTypeFilters">
@@ -1846,11 +2096,11 @@ class ResourceQuery {
   ///
   /// <code>[{"Stage":["Test","Deploy"]},{"Version":["1","2"]}]</code>
   ///
-  /// The results of this query could include the following.
+  /// The results of this resource query could include the following.
   ///
   /// <ul>
   /// <li>
-  /// An EC2 instance that has the following two tags:
+  /// An Amazon EC2 instance that has the following two tags:
   /// <code>{"Stage":"Deploy"}</code>, and <code>{"Version":"2"}</code>
   /// </li>
   /// <li>
@@ -1858,11 +2108,12 @@ class ResourceQuery {
   /// and <code>{"Version":"1"}</code>
   /// </li>
   /// </ul>
-  /// The query would not include the following items in the results, however.
+  /// The resource query results would <i>not</i> include the following items in
+  /// the results, however.
   ///
   /// <ul>
   /// <li>
-  /// An EC2 instance that has only the following tag:
+  /// An Amazon EC2 instance that has only the following tag:
   /// <code>{"Stage":"Deploy"}</code>.
   ///
   /// The instance does not have <b>all</b> of the tag keys specified in the
@@ -1876,7 +2127,32 @@ class ResourceQuery {
   /// associated value that matches at least one of the specified values in the
   /// filter.
   /// </li>
-  /// </ul> </li>
+  /// </ul>
+  /// Example: <code>"TagFilters": [ { "Key": "Stage", "Values": [ "Gamma", "Beta"
+  /// ] }</code>
+  /// </li>
+  /// <li>
+  /// <code>StackIdentifier</code> – applicable only if <code>Type</code> =
+  /// <code>CLOUDFORMATION_STACK_1_0</code>. The value of this parameter is the
+  /// Amazon Resource Name (ARN) of the CloudFormation stack whose resources you
+  /// want included in the group.
+  /// </li>
+  /// </ul>
+  final String query;
+
+  /// The type of the query to perform. This can have one of two values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <i> <code>CLOUDFORMATION_STACK_1_0:</code> </i> Specifies that you want the
+  /// group to contain the members of an CloudFormation stack. The
+  /// <code>Query</code> contains a <code>StackIdentifier</code> element with an
+  /// ARN for a CloudFormation stack.
+  /// </li>
+  /// <li>
+  /// <i> <code>TAG_FILTERS_1_0:</code> </i> Specifies that you want the group to
+  /// include resource that have tags that match the query.
+  /// </li>
   /// </ul>
   final QueryType type;
 
@@ -1884,6 +2160,7 @@ class ResourceQuery {
     required this.query,
     required this.type,
   });
+
   factory ResourceQuery.fromJson(Map<String, dynamic> json) {
     return ResourceQuery(
       query: json['Query'] as String,
@@ -1912,6 +2189,7 @@ class ResourceStatus {
   ResourceStatus({
     this.name,
   });
+
   factory ResourceStatus.fromJson(Map<String, dynamic> json) {
     return ResourceStatus(
       name: (json['Name'] as String?)?.toResourceStatusValue(),
@@ -1952,9 +2230,17 @@ class SearchResourcesOutput {
 
   /// A list of <code>QueryError</code> objects. Each error is an object that
   /// contains <code>ErrorCode</code> and <code>Message</code> structures.
-  /// Possible values for <code>ErrorCode</code> are
-  /// <code>CLOUDFORMATION_STACK_INACTIVE</code> and
-  /// <code>CLOUDFORMATION_STACK_NOT_EXISTING</code>.
+  ///
+  /// Possible values for <code>ErrorCode</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CLOUDFORMATION_STACK_INACTIVE</code>
+  /// </li>
+  /// <li>
+  /// <code>CLOUDFORMATION_STACK_NOT_EXISTING</code>
+  /// </li>
+  /// </ul>
   final List<QueryError>? queryErrors;
 
   /// The ARNs and resource types of resources that are members of the group that
@@ -1966,6 +2252,7 @@ class SearchResourcesOutput {
     this.queryErrors,
     this.resourceIdentifiers,
   });
+
   factory SearchResourcesOutput.fromJson(Map<String, dynamic> json) {
     return SearchResourcesOutput(
       nextToken: json['NextToken'] as String?,
@@ -1992,6 +2279,7 @@ class TagOutput {
     this.arn,
     this.tags,
   });
+
   factory TagOutput.fromJson(Map<String, dynamic> json) {
     return TagOutput(
       arn: json['Arn'] as String?,
@@ -2022,6 +2310,7 @@ class UngroupResourcesOutput {
     this.pending,
     this.succeeded,
   });
+
   factory UngroupResourcesOutput.fromJson(Map<String, dynamic> json) {
     return UngroupResourcesOutput(
       failed: (json['Failed'] as List?)
@@ -2051,6 +2340,7 @@ class UntagOutput {
     this.arn,
     this.keys,
   });
+
   factory UntagOutput.fromJson(Map<String, dynamic> json) {
     return UntagOutput(
       arn: json['Arn'] as String?,
@@ -2062,6 +2352,25 @@ class UntagOutput {
   }
 }
 
+class UpdateAccountSettingsOutput {
+  /// A structure that displays the status of the optional features in the
+  /// account.
+  final AccountSettings? accountSettings;
+
+  UpdateAccountSettingsOutput({
+    this.accountSettings,
+  });
+
+  factory UpdateAccountSettingsOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateAccountSettingsOutput(
+      accountSettings: json['AccountSettings'] != null
+          ? AccountSettings.fromJson(
+              json['AccountSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 class UpdateGroupOutput {
   /// The update description of the resource group.
   final Group? group;
@@ -2069,6 +2378,7 @@ class UpdateGroupOutput {
   UpdateGroupOutput({
     this.group,
   });
+
   factory UpdateGroupOutput.fromJson(Map<String, dynamic> json) {
     return UpdateGroupOutput(
       group: json['Group'] != null
@@ -2086,6 +2396,7 @@ class UpdateGroupQueryOutput {
   UpdateGroupQueryOutput({
     this.groupQuery,
   });
+
   factory UpdateGroupQueryOutput.fromJson(Map<String, dynamic> json) {
     return UpdateGroupQueryOutput(
       groupQuery: json['GroupQuery'] != null

@@ -125,21 +125,28 @@ class PersonalizeRuntime {
     return GetPersonalizedRankingResponse.fromJson(response);
   }
 
-  /// Returns a list of recommended items. The required input depends on the
-  /// recipe type used to create the solution backing the campaign, as follows:
+  /// Returns a list of recommended items. For campaigns, the campaign's Amazon
+  /// Resource Name (ARN) is required and the required user and item input
+  /// depends on the recipe type used to create the solution backing the
+  /// campaign as follows:
   ///
   /// <ul>
   /// <li>
-  /// RELATED_ITEMS - <code>itemId</code> required, <code>userId</code> not used
+  /// USER_PERSONALIZATION - <code>userId</code> required, <code>itemId</code>
+  /// not used
   /// </li>
   /// <li>
-  /// USER_PERSONALIZATION - <code>itemId</code> optional, <code>userId</code>
-  /// required
+  /// RELATED_ITEMS - <code>itemId</code> required, <code>userId</code> not used
   /// </li>
   /// </ul> <note>
   /// Campaigns that are backed by a solution created using a recipe of type
   /// PERSONALIZED_RANKING use the API.
   /// </note>
+  /// For recommenders, the recommender's ARN is required and the required item
+  /// and user input depends on the use case (domain-based recipe) backing the
+  /// recommender. For information on use case requirements see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/domain-use-cases.html">Choosing
+  /// recommender use cases</a>.
   ///
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
@@ -178,7 +185,7 @@ class PersonalizeRuntime {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/personalize/latest/dg/filter.html">Filtering
-  /// Recommendations</a>.
+  /// recommendations and user segments</a>.
   ///
   /// Parameter [itemId] :
   /// The item ID to provide recommendations for.
@@ -188,17 +195,29 @@ class PersonalizeRuntime {
   /// Parameter [numResults] :
   /// The number of results to return. The default is 25. The maximum is 500.
   ///
+  /// Parameter [promotions] :
+  /// The promotions to apply to the recommendation request. A promotion defines
+  /// additional business rules that apply to a configurable subset of
+  /// recommended items.
+  ///
+  /// Parameter [recommenderArn] :
+  /// The Amazon Resource Name (ARN) of the recommender to use to get
+  /// recommendations. Provide a recommender ARN if you created a Domain dataset
+  /// group with a recommender for a domain use case.
+  ///
   /// Parameter [userId] :
   /// The user ID to provide recommendations for.
   ///
   /// Required for <code>USER_PERSONALIZATION</code> recipe type.
   Future<GetRecommendationsResponse> getRecommendations({
-    required String campaignArn,
+    String? campaignArn,
     Map<String, String>? context,
     String? filterArn,
     Map<String, String>? filterValues,
     String? itemId,
     int? numResults,
+    List<Promotion>? promotions,
+    String? recommenderArn,
     String? userId,
   }) async {
     _s.validateNumRange(
@@ -208,12 +227,14 @@ class PersonalizeRuntime {
       1152921504606846976,
     );
     final $payload = <String, dynamic>{
-      'campaignArn': campaignArn,
+      if (campaignArn != null) 'campaignArn': campaignArn,
       if (context != null) 'context': context,
       if (filterArn != null) 'filterArn': filterArn,
       if (filterValues != null) 'filterValues': filterValues,
       if (itemId != null) 'itemId': itemId,
       if (numResults != null) 'numResults': numResults,
+      if (promotions != null) 'promotions': promotions,
+      if (recommenderArn != null) 'recommenderArn': recommenderArn,
       if (userId != null) 'userId': userId,
     };
     final response = await _protocol.send(
@@ -238,6 +259,7 @@ class GetPersonalizedRankingResponse {
     this.personalizedRanking,
     this.recommendationId,
   });
+
   factory GetPersonalizedRankingResponse.fromJson(Map<String, dynamic> json) {
     return GetPersonalizedRankingResponse(
       personalizedRanking: (json['personalizedRanking'] as List?)
@@ -250,7 +272,7 @@ class GetPersonalizedRankingResponse {
 }
 
 class GetRecommendationsResponse {
-  /// A list of recommendations sorted in ascending order by prediction score.
+  /// A list of recommendations sorted in descending order by prediction score.
   /// There can be a maximum of 500 items in the list.
   final List<PredictedItem>? itemList;
 
@@ -261,6 +283,7 @@ class GetRecommendationsResponse {
     this.itemList,
     this.recommendationId,
   });
+
   factory GetRecommendationsResponse.fromJson(Map<String, dynamic> json) {
     return GetRecommendationsResponse(
       itemList: (json['itemList'] as List?)
@@ -279,6 +302,9 @@ class PredictedItem {
   /// The recommended item ID.
   final String? itemId;
 
+  /// The name of the promotion that included the predicted item.
+  final String? promotionName;
+
   /// A numeric representation of the model's certainty that the item will be the
   /// next user selection. For more information on scoring logic, see
   /// <a>how-scores-work</a>.
@@ -286,13 +312,69 @@ class PredictedItem {
 
   PredictedItem({
     this.itemId,
+    this.promotionName,
     this.score,
   });
+
   factory PredictedItem.fromJson(Map<String, dynamic> json) {
     return PredictedItem(
       itemId: json['itemId'] as String?,
+      promotionName: json['promotionName'] as String?,
       score: json['score'] as double?,
     );
+  }
+}
+
+/// Contains information on a promotion. A promotion defines additional business
+/// rules that apply to a configurable subset of recommended items.
+class Promotion {
+  /// The Amazon Resource Name (ARN) of the filter used by the promotion. This
+  /// filter defines the criteria for promoted items. For more information, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/promoting-items.html#promotion-filters">Promotion
+  /// filters</a>.
+  final String? filterArn;
+
+  /// The values to use when promoting items. For each placeholder parameter in
+  /// your promotion's filter expression, provide the parameter name (in matching
+  /// case) as a key and the filter value(s) as the corresponding value. Separate
+  /// multiple values for one parameter with a comma.
+  ///
+  /// For filter expressions that use an <code>INCLUDE</code> element to include
+  /// items, you must provide values for all parameters that are defined in the
+  /// expression. For filters with expressions that use an <code>EXCLUDE</code>
+  /// element to exclude items, you can omit the <code>filter-values</code>. In
+  /// this case, Amazon Personalize doesn't use that portion of the expression to
+  /// filter recommendations.
+  ///
+  /// For more information on creating filters, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/filter.html">Filtering
+  /// recommendations and user segments</a>.
+  final Map<String, String>? filterValues;
+
+  /// The name of the promotion.
+  final String? name;
+
+  /// The percentage of recommended items to apply the promotion to.
+  final int? percentPromotedItems;
+
+  Promotion({
+    this.filterArn,
+    this.filterValues,
+    this.name,
+    this.percentPromotedItems,
+  });
+  Map<String, dynamic> toJson() {
+    final filterArn = this.filterArn;
+    final filterValues = this.filterValues;
+    final name = this.name;
+    final percentPromotedItems = this.percentPromotedItems;
+    return {
+      if (filterArn != null) 'filterArn': filterArn,
+      if (filterValues != null) 'filterValues': filterValues,
+      if (name != null) 'name': name,
+      if (percentPromotedItems != null)
+        'percentPromotedItems': percentPromotedItems,
+    };
   }
 }
 

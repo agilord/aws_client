@@ -967,9 +967,9 @@ class SWF {
   /// available. The value of <code>NextPageToken</code> is a unique pagination
   /// token for each page. Make the call again using the returned token to
   /// retrieve the next page. Keep all other arguments unchanged. Each
-  /// pagination token expires after 60 seconds. Using an expired pagination
-  /// token will return a <code>400</code> error: "<code>Specified token has
-  /// exceeded its maximum lifetime</code>".
+  /// pagination token expires after 24 hours. Using an expired pagination token
+  /// will return a <code>400</code> error: "<code>Specified token has exceeded
+  /// its maximum lifetime</code>".
   ///
   /// The configured <code>maximumPageSize</code> determines how many results
   /// can be returned in a single call.
@@ -1068,9 +1068,9 @@ class SWF {
   /// available. The value of <code>NextPageToken</code> is a unique pagination
   /// token for each page. Make the call again using the returned token to
   /// retrieve the next page. Keep all other arguments unchanged. Each
-  /// pagination token expires after 60 seconds. Using an expired pagination
-  /// token will return a <code>400</code> error: "<code>Specified token has
-  /// exceeded its maximum lifetime</code>".
+  /// pagination token expires after 24 hours. Using an expired pagination token
+  /// will return a <code>400</code> error: "<code>Specified token has exceeded
+  /// its maximum lifetime</code>".
   ///
   /// The configured <code>maximumPageSize</code> determines how many results
   /// can be returned in a single call.
@@ -1210,9 +1210,9 @@ class SWF {
   /// available. The value of <code>NextPageToken</code> is a unique pagination
   /// token for each page. Make the call again using the returned token to
   /// retrieve the next page. Keep all other arguments unchanged. Each
-  /// pagination token expires after 60 seconds. Using an expired pagination
-  /// token will return a <code>400</code> error: "<code>Specified token has
-  /// exceeded its maximum lifetime</code>".
+  /// pagination token expires after 24 hours. Using an expired pagination token
+  /// will return a <code>400</code> error: "<code>Specified token has exceeded
+  /// its maximum lifetime</code>".
   ///
   /// The configured <code>maximumPageSize</code> determines how many results
   /// can be returned in a single call.
@@ -1343,9 +1343,9 @@ class SWF {
   /// available. The value of <code>NextPageToken</code> is a unique pagination
   /// token for each page. Make the call again using the returned token to
   /// retrieve the next page. Keep all other arguments unchanged. Each
-  /// pagination token expires after 60 seconds. Using an expired pagination
-  /// token will return a <code>400</code> error: "<code>Specified token has
-  /// exceeded its maximum lifetime</code>".
+  /// pagination token expires after 24 hours. Using an expired pagination token
+  /// will return a <code>400</code> error: "<code>Specified token has exceeded
+  /// its maximum lifetime</code>".
   ///
   /// The configured <code>maximumPageSize</code> determines how many results
   /// can be returned in a single call.
@@ -1465,9 +1465,9 @@ class SWF {
   /// available. The value of <code>NextPageToken</code> is a unique pagination
   /// token for each page. Make the call again using the returned token to
   /// retrieve the next page. Keep all other arguments unchanged. Each
-  /// pagination token expires after 60 seconds. Using an expired pagination
-  /// token will return a <code>400</code> error: "<code>Specified token has
-  /// exceeded its maximum lifetime</code>".
+  /// pagination token expires after 24 hours. Using an expired pagination token
+  /// will return a <code>400</code> error: "<code>Specified token has exceeded
+  /// its maximum lifetime</code>".
   ///
   /// The configured <code>maximumPageSize</code> determines how many results
   /// can be returned in a single call.
@@ -1615,9 +1615,9 @@ class SWF {
   /// available. The value of <code>NextPageToken</code> is a unique pagination
   /// token for each page. Make the call again using the returned token to
   /// retrieve the next page. Keep all other arguments unchanged. Each
-  /// pagination token expires after 60 seconds. Using an expired pagination
-  /// token will return a <code>400</code> error: "<code>Specified token has
-  /// exceeded its maximum lifetime</code>".
+  /// pagination token expires after 24 hours. Using an expired pagination token
+  /// will return a <code>400</code> error: "<code>Specified token has exceeded
+  /// its maximum lifetime</code>".
   ///
   /// The configured <code>maximumPageSize</code> determines how many results
   /// can be returned in a single call.
@@ -1719,7 +1719,7 @@ class SWF {
   /// The specified string must not start or end with whitespace. It must not
   /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
   /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
-  /// <code>\u007f-\u009f</code>). Also, it must not <i>be</i> the literal
+  /// <code>\u007f-\u009f</code>). Also, it must <i>not</i> be the literal
   /// string <code>arn</code>.
   ///
   /// Parameter [identity] :
@@ -1817,11 +1817,10 @@ class SWF {
   /// Parameter [taskList] :
   /// Specifies the task list to poll for decision tasks.
   ///
-  /// The specified string must not start or end with whitespace. It must not
-  /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
-  /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
-  /// <code>\u007f-\u009f</code>). Also, it must not <i>be</i> the literal
-  /// string <code>arn</code>.
+  /// The specified string must not contain a <code>:</code> (colon),
+  /// <code>/</code> (slash), <code>|</code> (vertical bar), or any control
+  /// characters (<code>\u0000-\u001f</code> | <code>\u007f-\u009f</code>).
+  /// Also, it must <i>not</i> be the literal string <code>arn</code>.
   ///
   /// Parameter [identity] :
   /// Identity of the decider making the request, which is recorded in the
@@ -1840,9 +1839,9 @@ class SWF {
   /// available. The value of <code>NextPageToken</code> is a unique pagination
   /// token for each page. Make the call again using the returned token to
   /// retrieve the next page. Keep all other arguments unchanged. Each
-  /// pagination token expires after 60 seconds. Using an expired pagination
-  /// token will return a <code>400</code> error: "<code>Specified token has
-  /// exceeded its maximum lifetime</code>".
+  /// pagination token expires after 24 hours. Using an expired pagination token
+  /// will return a <code>400</code> error: "<code>Specified token has exceeded
+  /// its maximum lifetime</code>".
   ///
   /// The configured <code>maximumPageSize</code> determines how many results
   /// can be returned in a single call.
@@ -1859,6 +1858,13 @@ class SWF {
   /// When set to <code>true</code>, returns the events in reverse order. By
   /// default the results are returned in ascending order of the
   /// <code>eventTimestamp</code> of the events.
+  ///
+  /// Parameter [startAtPreviousStartedEvent] :
+  /// When set to <code>true</code>, returns the events with
+  /// <code>eventTimestamp</code> greater than or equal to
+  /// <code>eventTimestamp</code> of the most recent
+  /// <code>DecisionTaskStarted</code> event. By default, this parameter is set
+  /// to <code>false</code>.
   Future<DecisionTask> pollForDecisionTask({
     required String domain,
     required TaskList taskList,
@@ -1866,6 +1872,7 @@ class SWF {
     int? maximumPageSize,
     String? nextPageToken,
     bool? reverseOrder,
+    bool? startAtPreviousStartedEvent,
   }) async {
     _s.validateNumRange(
       'maximumPageSize',
@@ -1890,6 +1897,8 @@ class SWF {
         if (maximumPageSize != null) 'maximumPageSize': maximumPageSize,
         if (nextPageToken != null) 'nextPageToken': nextPageToken,
         if (reverseOrder != null) 'reverseOrder': reverseOrder,
+        if (startAtPreviousStartedEvent != null)
+          'startAtPreviousStartedEvent': startAtPreviousStartedEvent,
       },
     );
 
@@ -2053,11 +2062,10 @@ class SWF {
   /// Parameter [name] :
   /// The name of the activity type within the domain.
   ///
-  /// The specified string must not start or end with whitespace. It must not
-  /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
-  /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
-  /// <code>\u007f-\u009f</code>). Also, it must not <i>be</i> the literal
-  /// string <code>arn</code>.
+  /// The specified string must not contain a <code>:</code> (colon),
+  /// <code>/</code> (slash), <code>|</code> (vertical bar), or any control
+  /// characters (<code>\u0000-\u001f</code> | <code>\u007f-\u009f</code>).
+  /// Also, it must <i>not</i> be the literal string <code>arn</code>.
   ///
   /// Parameter [version] :
   /// The version of the activity type.
@@ -2065,11 +2073,10 @@ class SWF {
   /// The activity type consists of the name and version, the combination of
   /// which must be unique within the domain.
   /// </note>
-  /// The specified string must not start or end with whitespace. It must not
-  /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
-  /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
-  /// <code>\u007f-\u009f</code>). Also, it must not <i>be</i> the literal
-  /// string <code>arn</code>.
+  /// The specified string must not contain a <code>:</code> (colon),
+  /// <code>/</code> (slash), <code>|</code> (vertical bar), or any control
+  /// characters (<code>\u0000-\u001f</code> | <code>\u007f-\u009f</code>).
+  /// Also, it must <i>not</i> be the literal string <code>arn</code>.
   ///
   /// Parameter [defaultTaskHeartbeatTimeout] :
   /// If set, specifies the default maximum time before which a worker
@@ -2221,7 +2228,7 @@ class SWF {
   /// The specified string must not start or end with whitespace. It must not
   /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
   /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
-  /// <code>\u007f-\u009f</code>). Also, it must not <i>be</i> the literal
+  /// <code>\u007f-\u009f</code>). Also, it must <i>not</i> be the literal
   /// string <code>arn</code>.
   ///
   /// Parameter [workflowExecutionRetentionPeriodInDays] :
@@ -2334,11 +2341,10 @@ class SWF {
   /// Parameter [name] :
   /// The name of the workflow type.
   ///
-  /// The specified string must not start or end with whitespace. It must not
-  /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
-  /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
-  /// <code>\u007f-\u009f</code>). Also, it must not <i>be</i> the literal
-  /// string <code>arn</code>.
+  /// The specified string must not contain a <code>:</code> (colon),
+  /// <code>/</code> (slash), <code>|</code> (vertical bar), or any control
+  /// characters (<code>\u0000-\u001f</code> | <code>\u007f-\u009f</code>).
+  /// Also, it must <i>not</i> be the literal string <code>arn</code>.
   ///
   /// Parameter [version] :
   /// The version of the workflow type.
@@ -2347,11 +2353,10 @@ class SWF {
   /// which must be unique within the domain. To get a list of all currently
   /// registered workflow types, use the <a>ListWorkflowTypes</a> action.
   /// </note>
-  /// The specified string must not start or end with whitespace. It must not
-  /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
-  /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
-  /// <code>\u007f-\u009f</code>). Also, it must not <i>be</i> the literal
-  /// string <code>arn</code>.
+  /// The specified string must not contain a <code>:</code> (colon),
+  /// <code>/</code> (slash), <code>|</code> (vertical bar), or any control
+  /// characters (<code>\u0000-\u001f</code> | <code>\u007f-\u009f</code>).
+  /// Also, it must <i>not</i> be the literal string <code>arn</code>.
   ///
   /// Parameter [defaultChildPolicy] :
   /// If set, specifies the default policy to use for the child workflow
@@ -3024,6 +3029,11 @@ class SWF {
   /// Parameter [domain] :
   /// The name of the domain in which the workflow execution is created.
   ///
+  /// The specified string must not contain a <code>:</code> (colon),
+  /// <code>/</code> (slash), <code>|</code> (vertical bar), or any control
+  /// characters (<code>\u0000-\u001f</code> | <code>\u007f-\u009f</code>).
+  /// Also, it must <i>not</i> be the literal string <code>arn</code>.
+  ///
   /// Parameter [workflowId] :
   /// The user defined identifier associated with the workflow execution. You
   /// can use this to associate a custom identifier with the workflow execution.
@@ -3032,11 +3042,10 @@ class SWF {
   /// executions with the same <code>workflowId</code> at the same time within
   /// the same domain.
   ///
-  /// The specified string must not start or end with whitespace. It must not
-  /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
-  /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
-  /// <code>\u007f-\u009f</code>). Also, it must not <i>be</i> the literal
-  /// string <code>arn</code>.
+  /// The specified string must not contain a <code>:</code> (colon),
+  /// <code>/</code> (slash), <code>|</code> (vertical bar), or any control
+  /// characters (<code>\u0000-\u001f</code> | <code>\u007f-\u009f</code>).
+  /// Also, it must <i>not</i> be the literal string <code>arn</code>.
   ///
   /// Parameter [workflowType] :
   /// The type of the workflow to start.
@@ -3123,11 +3132,10 @@ class SWF {
   /// parameter is set nor a default task list was specified at registration
   /// time then a fault is returned.
   /// </note>
-  /// The specified string must not start or end with whitespace. It must not
-  /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
-  /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
-  /// <code>\u007f-\u009f</code>). Also, it must not <i>be</i> the literal
-  /// string <code>arn</code>.
+  /// The specified string must not contain a <code>:</code> (colon),
+  /// <code>/</code> (slash), <code>|</code> (vertical bar), or any control
+  /// characters (<code>\u0000-\u001f</code> | <code>\u007f-\u009f</code>).
+  /// Also, it must <i>not</i> be the literal string <code>arn</code>.
   ///
   /// Parameter [taskPriority] :
   /// The task priority to use for this workflow execution. This overrides any
@@ -3635,6 +3643,7 @@ class ActivityTask {
     required this.workflowExecution,
     this.input,
   });
+
   factory ActivityTask.fromJson(Map<String, dynamic> json) {
     return ActivityTask(
       activityId: json['activityId'] as String,
@@ -3665,6 +3674,7 @@ class ActivityTaskCancelRequestedEventAttributes {
     required this.activityId,
     required this.decisionTaskCompletedEventId,
   });
+
   factory ActivityTaskCancelRequestedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ActivityTaskCancelRequestedEventAttributes(
@@ -3702,6 +3712,7 @@ class ActivityTaskCanceledEventAttributes {
     this.details,
     this.latestCancelRequestedEventId,
   });
+
   factory ActivityTaskCanceledEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ActivityTaskCanceledEventAttributes(
@@ -3735,6 +3746,7 @@ class ActivityTaskCompletedEventAttributes {
     required this.startedEventId,
     this.result,
   });
+
   factory ActivityTaskCompletedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ActivityTaskCompletedEventAttributes(
@@ -3770,6 +3782,7 @@ class ActivityTaskFailedEventAttributes {
     this.details,
     this.reason,
   });
+
   factory ActivityTaskFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ActivityTaskFailedEventAttributes(
@@ -3849,6 +3862,7 @@ class ActivityTaskScheduledEventAttributes {
     this.startToCloseTimeout,
     this.taskPriority,
   });
+
   factory ActivityTaskScheduledEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ActivityTaskScheduledEventAttributes(
@@ -3884,6 +3898,7 @@ class ActivityTaskStartedEventAttributes {
     required this.scheduledEventId,
     this.identity,
   });
+
   factory ActivityTaskStartedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ActivityTaskStartedEventAttributes(
@@ -3901,6 +3916,7 @@ class ActivityTaskStatus {
   ActivityTaskStatus({
     required this.cancelRequested,
   });
+
   factory ActivityTaskStatus.fromJson(Map<String, dynamic> json) {
     return ActivityTaskStatus(
       cancelRequested: json['cancelRequested'] as bool,
@@ -3934,6 +3950,7 @@ class ActivityTaskTimedOutEventAttributes {
     required this.timeoutType,
     this.details,
   });
+
   factory ActivityTaskTimedOutEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ActivityTaskTimedOutEventAttributes(
@@ -4003,6 +4020,7 @@ class ActivityType {
     required this.name,
     required this.version,
   });
+
   factory ActivityType.fromJson(Map<String, dynamic> json) {
     return ActivityType(
       name: json['name'] as String,
@@ -4092,6 +4110,7 @@ class ActivityTypeConfiguration {
     this.defaultTaskScheduleToStartTimeout,
     this.defaultTaskStartToCloseTimeout,
   });
+
   factory ActivityTypeConfiguration.fromJson(Map<String, dynamic> json) {
     return ActivityTypeConfiguration(
       defaultTaskHeartbeatTimeout:
@@ -4137,6 +4156,7 @@ class ActivityTypeDetail {
     required this.configuration,
     required this.typeInfo,
   });
+
   factory ActivityTypeDetail.fromJson(Map<String, dynamic> json) {
     return ActivityTypeDetail(
       configuration: ActivityTypeConfiguration.fromJson(
@@ -4173,6 +4193,7 @@ class ActivityTypeInfo {
     this.deprecationDate,
     this.description,
   });
+
   factory ActivityTypeInfo.fromJson(Map<String, dynamic> json) {
     return ActivityTypeInfo(
       activityType:
@@ -4204,6 +4225,7 @@ class ActivityTypeInfos {
     required this.typeInfos,
     this.nextPageToken,
   });
+
   factory ActivityTypeInfos.fromJson(Map<String, dynamic> json) {
     return ActivityTypeInfos(
       typeInfos: (json['typeInfos'] as List)
@@ -4314,6 +4336,7 @@ class CancelTimerFailedEventAttributes {
     required this.decisionTaskCompletedEventId,
     required this.timerId,
   });
+
   factory CancelTimerFailedEventAttributes.fromJson(Map<String, dynamic> json) {
     return CancelTimerFailedEventAttributes(
       cause: (json['cause'] as String).toCancelTimerFailedCause(),
@@ -4422,6 +4445,7 @@ class CancelWorkflowExecutionFailedEventAttributes {
     required this.cause,
     required this.decisionTaskCompletedEventId,
   });
+
   factory CancelWorkflowExecutionFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return CancelWorkflowExecutionFailedEventAttributes(
@@ -4495,6 +4519,7 @@ class ChildWorkflowExecutionCanceledEventAttributes {
     required this.workflowType,
     this.details,
   });
+
   factory ChildWorkflowExecutionCanceledEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ChildWorkflowExecutionCanceledEventAttributes(
@@ -4541,6 +4566,7 @@ class ChildWorkflowExecutionCompletedEventAttributes {
     required this.workflowType,
     this.result,
   });
+
   factory ChildWorkflowExecutionCompletedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ChildWorkflowExecutionCompletedEventAttributes(
@@ -4590,6 +4616,7 @@ class ChildWorkflowExecutionFailedEventAttributes {
     this.details,
     this.reason,
   });
+
   factory ChildWorkflowExecutionFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ChildWorkflowExecutionFailedEventAttributes(
@@ -4626,6 +4653,7 @@ class ChildWorkflowExecutionStartedEventAttributes {
     required this.workflowExecution,
     required this.workflowType,
   });
+
   factory ChildWorkflowExecutionStartedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ChildWorkflowExecutionStartedEventAttributes(
@@ -4666,6 +4694,7 @@ class ChildWorkflowExecutionTerminatedEventAttributes {
     required this.workflowExecution,
     required this.workflowType,
   });
+
   factory ChildWorkflowExecutionTerminatedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ChildWorkflowExecutionTerminatedEventAttributes(
@@ -4712,6 +4741,7 @@ class ChildWorkflowExecutionTimedOutEventAttributes {
     required this.workflowExecution,
     required this.workflowType,
   });
+
   factory ChildWorkflowExecutionTimedOutEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ChildWorkflowExecutionTimedOutEventAttributes(
@@ -4894,6 +4924,7 @@ class CompleteWorkflowExecutionFailedEventAttributes {
     required this.cause,
     required this.decisionTaskCompletedEventId,
   });
+
   factory CompleteWorkflowExecutionFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return CompleteWorkflowExecutionFailedEventAttributes(
@@ -5178,6 +5209,7 @@ class ContinueAsNewWorkflowExecutionFailedEventAttributes {
     required this.cause,
     required this.decisionTaskCompletedEventId,
   });
+
   factory ContinueAsNewWorkflowExecutionFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ContinueAsNewWorkflowExecutionFailedEventAttributes(
@@ -5612,6 +5644,7 @@ class DecisionTask {
     this.nextPageToken,
     this.previousStartedEventId,
   });
+
   factory DecisionTask.fromJson(Map<String, dynamic> json) {
     return DecisionTask(
       events: (json['events'] as List)
@@ -5651,6 +5684,7 @@ class DecisionTaskCompletedEventAttributes {
     required this.startedEventId,
     this.executionContext,
   });
+
   factory DecisionTaskCompletedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return DecisionTaskCompletedEventAttributes(
@@ -5689,6 +5723,7 @@ class DecisionTaskScheduledEventAttributes {
     this.startToCloseTimeout,
     this.taskPriority,
   });
+
   factory DecisionTaskScheduledEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return DecisionTaskScheduledEventAttributes(
@@ -5715,6 +5750,7 @@ class DecisionTaskStartedEventAttributes {
     required this.scheduledEventId,
     this.identity,
   });
+
   factory DecisionTaskStartedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return DecisionTaskStartedEventAttributes(
@@ -5746,6 +5782,7 @@ class DecisionTaskTimedOutEventAttributes {
     required this.startedEventId,
     required this.timeoutType,
   });
+
   factory DecisionTaskTimedOutEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return DecisionTaskTimedOutEventAttributes(
@@ -5870,6 +5907,7 @@ class DomainConfiguration {
   DomainConfiguration({
     required this.workflowExecutionRetentionPeriodInDays,
   });
+
   factory DomainConfiguration.fromJson(Map<String, dynamic> json) {
     return DomainConfiguration(
       workflowExecutionRetentionPeriodInDays:
@@ -5892,6 +5930,7 @@ class DomainDetail {
     required this.configuration,
     required this.domainInfo,
   });
+
   factory DomainDetail.fromJson(Map<String, dynamic> json) {
     return DomainDetail(
       configuration: DomainConfiguration.fromJson(
@@ -5935,6 +5974,7 @@ class DomainInfo {
     this.arn,
     this.description,
   });
+
   factory DomainInfo.fromJson(Map<String, dynamic> json) {
     return DomainInfo(
       name: json['name'] as String,
@@ -5963,6 +6003,7 @@ class DomainInfos {
     required this.domainInfos,
     this.nextPageToken,
   });
+
   factory DomainInfos.fromJson(Map<String, dynamic> json) {
     return DomainInfos(
       domainInfos: (json['domainInfos'] as List)
@@ -6334,6 +6375,7 @@ class ExternalWorkflowExecutionCancelRequestedEventAttributes {
     required this.initiatedEventId,
     required this.workflowExecution,
   });
+
   factory ExternalWorkflowExecutionCancelRequestedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ExternalWorkflowExecutionCancelRequestedEventAttributes(
@@ -6360,6 +6402,7 @@ class ExternalWorkflowExecutionSignaledEventAttributes {
     required this.initiatedEventId,
     required this.workflowExecution,
   });
+
   factory ExternalWorkflowExecutionSignaledEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ExternalWorkflowExecutionSignaledEventAttributes(
@@ -6474,6 +6517,7 @@ class FailWorkflowExecutionFailedEventAttributes {
     required this.cause,
     required this.decisionTaskCompletedEventId,
   });
+
   factory FailWorkflowExecutionFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return FailWorkflowExecutionFailedEventAttributes(
@@ -6503,6 +6547,7 @@ class History {
     required this.events,
     this.nextPageToken,
   });
+
   factory History.fromJson(Map<String, dynamic> json) {
     return History(
       events: (json['events'] as List)
@@ -7100,6 +7145,7 @@ class HistoryEvent {
     this.workflowExecutionTerminatedEventAttributes,
     this.workflowExecutionTimedOutEventAttributes,
   });
+
   factory HistoryEvent.fromJson(Map<String, dynamic> json) {
     return HistoryEvent(
       eventId: json['eventId'] as int,
@@ -7453,6 +7499,7 @@ class LambdaFunctionCompletedEventAttributes {
     required this.startedEventId,
     this.result,
   });
+
   factory LambdaFunctionCompletedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return LambdaFunctionCompletedEventAttributes(
@@ -7488,6 +7535,7 @@ class LambdaFunctionFailedEventAttributes {
     this.details,
     this.reason,
   });
+
   factory LambdaFunctionFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return LambdaFunctionFailedEventAttributes(
@@ -7532,6 +7580,7 @@ class LambdaFunctionScheduledEventAttributes {
     this.input,
     this.startToCloseTimeout,
   });
+
   factory LambdaFunctionScheduledEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return LambdaFunctionScheduledEventAttributes(
@@ -7556,6 +7605,7 @@ class LambdaFunctionStartedEventAttributes {
   LambdaFunctionStartedEventAttributes({
     required this.scheduledEventId,
   });
+
   factory LambdaFunctionStartedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return LambdaFunctionStartedEventAttributes(
@@ -7584,6 +7634,7 @@ class LambdaFunctionTimedOutEventAttributes {
     required this.startedEventId,
     this.timeoutType,
   });
+
   factory LambdaFunctionTimedOutEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return LambdaFunctionTimedOutEventAttributes(
@@ -7625,6 +7676,7 @@ class ListTagsForResourceOutput {
   ListTagsForResourceOutput({
     this.tags,
   });
+
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceOutput(
       tags: (json['tags'] as List?)
@@ -7654,6 +7706,7 @@ class MarkerRecordedEventAttributes {
     required this.markerName,
     this.details,
   });
+
   factory MarkerRecordedEventAttributes.fromJson(Map<String, dynamic> json) {
     return MarkerRecordedEventAttributes(
       decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
@@ -7676,6 +7729,7 @@ class PendingTaskCount {
     required this.count,
     this.truncated,
   });
+
   factory PendingTaskCount.fromJson(Map<String, dynamic> json) {
     return PendingTaskCount(
       count: json['count'] as int,
@@ -7784,6 +7838,7 @@ class RecordMarkerFailedEventAttributes {
     required this.decisionTaskCompletedEventId,
     required this.markerName,
   });
+
   factory RecordMarkerFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return RecordMarkerFailedEventAttributes(
@@ -7927,6 +7982,7 @@ class RequestCancelActivityTaskFailedEventAttributes {
     required this.cause,
     required this.decisionTaskCompletedEventId,
   });
+
   factory RequestCancelActivityTaskFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return RequestCancelActivityTaskFailedEventAttributes(
@@ -8085,6 +8141,7 @@ class RequestCancelExternalWorkflowExecutionFailedEventAttributes {
     this.control,
     this.runId,
   });
+
   factory RequestCancelExternalWorkflowExecutionFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return RequestCancelExternalWorkflowExecutionFailedEventAttributes(
@@ -8126,6 +8183,7 @@ class RequestCancelExternalWorkflowExecutionInitiatedEventAttributes {
     this.control,
     this.runId,
   });
+
   factory RequestCancelExternalWorkflowExecutionInitiatedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return RequestCancelExternalWorkflowExecutionInitiatedEventAttributes(
@@ -8153,6 +8211,7 @@ class ResourceTag {
     required this.key,
     this.value,
   });
+
   factory ResourceTag.fromJson(Map<String, dynamic> json) {
     return ResourceTag(
       key: json['key'] as String,
@@ -8180,6 +8239,7 @@ class Run {
   Run({
     this.runId,
   });
+
   factory Run.fromJson(Map<String, dynamic> json) {
     return Run(
       runId: json['runId'] as String?,
@@ -8233,11 +8293,10 @@ class Run {
 class ScheduleActivityTaskDecisionAttributes {
   /// The <code>activityId</code> of the activity task.
   ///
-  /// The specified string must not start or end with whitespace. It must not
-  /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
-  /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
-  /// <code>\u007f-\u009f</code>). Also, it must not contain the literal string
-  /// <code>arn</code>.
+  /// The specified string must not contain a <code>:</code> (colon),
+  /// <code>/</code> (slash), <code>|</code> (vertical bar), or any control
+  /// characters (<code>\u0000-\u001f</code> | <code>\u007f-\u009f</code>). Also,
+  /// it must <i>not</i> be the literal string <code>arn</code>.
   final String activityId;
 
   /// The type of the activity task to schedule.
@@ -8312,11 +8371,10 @@ class ScheduleActivityTaskDecisionAttributes {
   /// default task list was specified at registration time then a fault is
   /// returned.
   /// </note>
-  /// The specified string must not start or end with whitespace. It must not
-  /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
-  /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
-  /// <code>\u007f-\u009f</code>). Also, it must not contain the literal string
-  /// <code>arn</code>.
+  /// The specified string must not contain a <code>:</code> (colon),
+  /// <code>/</code> (slash), <code>|</code> (vertical bar), or any control
+  /// characters (<code>\u0000-\u001f</code> | <code>\u007f-\u009f</code>). Also,
+  /// it must <i>not</i> be the literal string <code>arn</code>.
   final TaskList? taskList;
 
   /// If set, specifies the priority with which the activity task is to be
@@ -8486,6 +8544,7 @@ class ScheduleActivityTaskFailedEventAttributes {
     required this.cause,
     required this.decisionTaskCompletedEventId,
   });
+
   factory ScheduleActivityTaskFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ScheduleActivityTaskFailedEventAttributes(
@@ -8517,8 +8576,10 @@ class ScheduleLambdaFunctionDecisionAttributes {
   final String? input;
 
   /// The timeout value, in seconds, after which the Lambda function is considered
-  /// to be failed once it has started. This can be any integer from 1-300
-  /// (1s-5m). If no value is supplied, than a default value of 300s is assumed.
+  /// to be failed once it has started. This can be any integer from 1-900
+  /// (1s-15m).
+  ///
+  /// If no value is supplied, then a default value of 900s is assumed.
   final String? startToCloseTimeout;
 
   ScheduleLambdaFunctionDecisionAttributes({
@@ -8622,6 +8683,7 @@ class ScheduleLambdaFunctionFailedEventAttributes {
     required this.id,
     required this.name,
   });
+
   factory ScheduleLambdaFunctionFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ScheduleLambdaFunctionFailedEventAttributes(
@@ -8792,6 +8854,7 @@ class SignalExternalWorkflowExecutionFailedEventAttributes {
     this.control,
     this.runId,
   });
+
   factory SignalExternalWorkflowExecutionFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return SignalExternalWorkflowExecutionFailedEventAttributes(
@@ -8841,6 +8904,7 @@ class SignalExternalWorkflowExecutionInitiatedEventAttributes {
     this.input,
     this.runId,
   });
+
   factory SignalExternalWorkflowExecutionInitiatedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return SignalExternalWorkflowExecutionInitiatedEventAttributes(
@@ -8905,11 +8969,10 @@ class SignalExternalWorkflowExecutionInitiatedEventAttributes {
 class StartChildWorkflowExecutionDecisionAttributes {
   /// The <code>workflowId</code> of the workflow execution.
   ///
-  /// The specified string must not start or end with whitespace. It must not
-  /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
-  /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
-  /// <code>\u007f-\u009f</code>). Also, it must not contain the literal string
-  /// <code>arn</code>.
+  /// The specified string must not contain a <code>:</code> (colon),
+  /// <code>/</code> (slash), <code>|</code> (vertical bar), or any control
+  /// characters (<code>\u0000-\u001f</code> | <code>\u007f-\u009f</code>). Also,
+  /// it must <i>not</i> be the literal string <code>arn</code>.
   final String workflowId;
 
   /// The type of the workflow execution to be started.
@@ -8987,7 +9050,7 @@ class StartChildWorkflowExecutionDecisionAttributes {
   /// The specified string must not start or end with whitespace. It must not
   /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
   /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
-  /// <code>\u007f-\u009f</code>). Also, it must not contain the literal string
+  /// <code>\u007f-\u009f</code>). Also, it must <i>not</i> be the literal string
   /// <code>arn</code>.
   final TaskList? taskList;
 
@@ -9195,6 +9258,7 @@ class StartChildWorkflowExecutionFailedEventAttributes {
     required this.workflowType,
     this.control,
   });
+
   factory StartChildWorkflowExecutionFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return StartChildWorkflowExecutionFailedEventAttributes(
@@ -9305,6 +9369,7 @@ class StartChildWorkflowExecutionInitiatedEventAttributes {
     this.taskPriority,
     this.taskStartToCloseTimeout,
   });
+
   factory StartChildWorkflowExecutionInitiatedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return StartChildWorkflowExecutionInitiatedEventAttributes(
@@ -9381,6 +9446,7 @@ class StartLambdaFunctionFailedEventAttributes {
     this.message,
     this.scheduledEventId,
   });
+
   factory StartLambdaFunctionFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return StartLambdaFunctionFailedEventAttributes(
@@ -9428,11 +9494,10 @@ class StartTimerDecisionAttributes {
 
   /// The unique ID of the timer.
   ///
-  /// The specified string must not start or end with whitespace. It must not
-  /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
-  /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
-  /// <code>\u007f-\u009f</code>). Also, it must not contain the literal string
-  /// <code>arn</code>.
+  /// The specified string must not contain a <code>:</code> (colon),
+  /// <code>/</code> (slash), <code>|</code> (vertical bar), or any control
+  /// characters (<code>\u0000-\u001f</code> | <code>\u007f-\u009f</code>). Also,
+  /// it must <i>not</i> be the literal string <code>arn</code>.
   final String timerId;
 
   /// The data attached to the event that can be used by the decider in subsequent
@@ -9522,6 +9587,7 @@ class StartTimerFailedEventAttributes {
     required this.decisionTaskCompletedEventId,
     required this.timerId,
   });
+
   factory StartTimerFailedEventAttributes.fromJson(Map<String, dynamic> json) {
     return StartTimerFailedEventAttributes(
       cause: (json['cause'] as String).toStartTimerFailedCause(),
@@ -9559,6 +9625,7 @@ class TaskList {
   TaskList({
     required this.name,
   });
+
   factory TaskList.fromJson(Map<String, dynamic> json) {
     return TaskList(
       name: json['name'] as String,
@@ -9594,6 +9661,7 @@ class TimerCanceledEventAttributes {
     required this.startedEventId,
     required this.timerId,
   });
+
   factory TimerCanceledEventAttributes.fromJson(Map<String, dynamic> json) {
     return TimerCanceledEventAttributes(
       decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
@@ -9617,6 +9685,7 @@ class TimerFiredEventAttributes {
     required this.startedEventId,
     required this.timerId,
   });
+
   factory TimerFiredEventAttributes.fromJson(Map<String, dynamic> json) {
     return TimerFiredEventAttributes(
       startedEventId: json['startedEventId'] as int,
@@ -9652,6 +9721,7 @@ class TimerStartedEventAttributes {
     required this.timerId,
     this.control,
   });
+
   factory TimerStartedEventAttributes.fromJson(Map<String, dynamic> json) {
     return TimerStartedEventAttributes(
       decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
@@ -9674,6 +9744,7 @@ class WorkflowExecution {
     required this.runId,
     required this.workflowId,
   });
+
   factory WorkflowExecution.fromJson(Map<String, dynamic> json) {
     return WorkflowExecution(
       runId: json['runId'] as String,
@@ -9743,6 +9814,7 @@ class WorkflowExecutionCancelRequestedEventAttributes {
     this.externalInitiatedEventId,
     this.externalWorkflowExecution,
   });
+
   factory WorkflowExecutionCancelRequestedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return WorkflowExecutionCancelRequestedEventAttributes(
@@ -9773,6 +9845,7 @@ class WorkflowExecutionCanceledEventAttributes {
     required this.decisionTaskCompletedEventId,
     this.details,
   });
+
   factory WorkflowExecutionCanceledEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return WorkflowExecutionCanceledEventAttributes(
@@ -9798,6 +9871,7 @@ class WorkflowExecutionCompletedEventAttributes {
     required this.decisionTaskCompletedEventId,
     this.result,
   });
+
   factory WorkflowExecutionCompletedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return WorkflowExecutionCompletedEventAttributes(
@@ -9872,6 +9946,7 @@ class WorkflowExecutionConfiguration {
     this.lambdaRole,
     this.taskPriority,
   });
+
   factory WorkflowExecutionConfiguration.fromJson(Map<String, dynamic> json) {
     return WorkflowExecutionConfiguration(
       childPolicy: (json['childPolicy'] as String).toChildPolicy(),
@@ -9966,6 +10041,7 @@ class WorkflowExecutionContinuedAsNewEventAttributes {
     this.taskPriority,
     this.taskStartToCloseTimeout,
   });
+
   factory WorkflowExecutionContinuedAsNewEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return WorkflowExecutionContinuedAsNewEventAttributes(
@@ -10003,6 +10079,7 @@ class WorkflowExecutionCount {
     required this.count,
     this.truncated,
   });
+
   factory WorkflowExecutionCount.fromJson(Map<String, dynamic> json) {
     return WorkflowExecutionCount(
       count: json['count'] as int,
@@ -10042,6 +10119,7 @@ class WorkflowExecutionDetail {
     this.latestActivityTaskTimestamp,
     this.latestExecutionContext,
   });
+
   factory WorkflowExecutionDetail.fromJson(Map<String, dynamic> json) {
     return WorkflowExecutionDetail(
       executionConfiguration: WorkflowExecutionConfiguration.fromJson(
@@ -10077,6 +10155,7 @@ class WorkflowExecutionFailedEventAttributes {
     this.details,
     this.reason,
   });
+
   factory WorkflowExecutionFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return WorkflowExecutionFailedEventAttributes(
@@ -10174,6 +10253,7 @@ class WorkflowExecutionInfo {
     this.parent,
     this.tagList,
   });
+
   factory WorkflowExecutionInfo.fromJson(Map<String, dynamic> json) {
     return WorkflowExecutionInfo(
       execution:
@@ -10215,6 +10295,7 @@ class WorkflowExecutionInfos {
     required this.executionInfos,
     this.nextPageToken,
   });
+
   factory WorkflowExecutionInfos.fromJson(Map<String, dynamic> json) {
     return WorkflowExecutionInfos(
       executionInfos: (json['executionInfos'] as List)
@@ -10253,6 +10334,7 @@ class WorkflowExecutionOpenCounts {
     required this.openTimers,
     this.openLambdaFunctions,
   });
+
   factory WorkflowExecutionOpenCounts.fromJson(Map<String, dynamic> json) {
     return WorkflowExecutionOpenCounts(
       openActivityTasks: json['openActivityTasks'] as int,
@@ -10293,6 +10375,7 @@ class WorkflowExecutionSignaledEventAttributes {
     this.externalWorkflowExecution,
     this.input,
   });
+
   factory WorkflowExecutionSignaledEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return WorkflowExecutionSignaledEventAttributes(
@@ -10396,6 +10479,7 @@ class WorkflowExecutionStartedEventAttributes {
     this.taskPriority,
     this.taskStartToCloseTimeout,
   });
+
   factory WorkflowExecutionStartedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return WorkflowExecutionStartedEventAttributes(
@@ -10500,6 +10584,7 @@ class WorkflowExecutionTerminatedEventAttributes {
     this.details,
     this.reason,
   });
+
   factory WorkflowExecutionTerminatedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return WorkflowExecutionTerminatedEventAttributes(
@@ -10542,6 +10627,7 @@ class WorkflowExecutionTimedOutEventAttributes {
     required this.childPolicy,
     required this.timeoutType,
   });
+
   factory WorkflowExecutionTimedOutEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return WorkflowExecutionTimedOutEventAttributes(
@@ -10596,6 +10682,7 @@ class WorkflowType {
     required this.name,
     required this.version,
   });
+
   factory WorkflowType.fromJson(Map<String, dynamic> json) {
     return WorkflowType(
       name: json['name'] as String,
@@ -10704,6 +10791,7 @@ class WorkflowTypeConfiguration {
     this.defaultTaskPriority,
     this.defaultTaskStartToCloseTimeout,
   });
+
   factory WorkflowTypeConfiguration.fromJson(Map<String, dynamic> json) {
     return WorkflowTypeConfiguration(
       defaultChildPolicy:
@@ -10750,6 +10838,7 @@ class WorkflowTypeDetail {
     required this.configuration,
     required this.typeInfo,
   });
+
   factory WorkflowTypeDetail.fromJson(Map<String, dynamic> json) {
     return WorkflowTypeDetail(
       configuration: WorkflowTypeConfiguration.fromJson(
@@ -10808,6 +10897,7 @@ class WorkflowTypeInfo {
     this.deprecationDate,
     this.description,
   });
+
   factory WorkflowTypeInfo.fromJson(Map<String, dynamic> json) {
     return WorkflowTypeInfo(
       creationDate:
@@ -10839,6 +10929,7 @@ class WorkflowTypeInfos {
     required this.typeInfos,
     this.nextPageToken,
   });
+
   factory WorkflowTypeInfos.fromJson(Map<String, dynamic> json) {
     return WorkflowTypeInfos(
       typeInfos: (json['typeInfos'] as List)

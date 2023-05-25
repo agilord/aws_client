@@ -3,7 +3,7 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-AWS Step Functions is a service that lets you coordinate the components of
+Step Functions is a service that lets you coordinate the components of
 distributed applications and microservices using visual workflows.
 
 ## Links

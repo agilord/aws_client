@@ -61,8 +61,7 @@ class SavingsPlans {
   ///
   /// Parameter [commitment] :
   /// The hourly commitment, in USD. This is a value between 0.001 and 1
-  /// million. You cannot specify more than three digits after the decimal
-  /// point.
+  /// million. You cannot specify more than five digits after the decimal point.
   ///
   /// Parameter [savingsPlanOfferingId] :
   /// The ID of the offering.
@@ -490,6 +489,7 @@ class CreateSavingsPlanResponse {
   CreateSavingsPlanResponse({
     this.savingsPlanId,
   });
+
   factory CreateSavingsPlanResponse.fromJson(Map<String, dynamic> json) {
     return CreateSavingsPlanResponse(
       savingsPlanId: json['savingsPlanId'] as String?,
@@ -527,6 +527,7 @@ extension CurrencyCodeFromString on String {
 
 class DeleteQueuedSavingsPlanResponse {
   DeleteQueuedSavingsPlanResponse();
+
   factory DeleteQueuedSavingsPlanResponse.fromJson(Map<String, dynamic> _) {
     return DeleteQueuedSavingsPlanResponse();
   }
@@ -548,6 +549,7 @@ class DescribeSavingsPlanRatesResponse {
     this.savingsPlanId,
     this.searchResults,
   });
+
   factory DescribeSavingsPlanRatesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeSavingsPlanRatesResponse(
       nextToken: json['nextToken'] as String?,
@@ -572,6 +574,7 @@ class DescribeSavingsPlansOfferingRatesResponse {
     this.nextToken,
     this.searchResults,
   });
+
   factory DescribeSavingsPlansOfferingRatesResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeSavingsPlansOfferingRatesResponse(
@@ -597,6 +600,7 @@ class DescribeSavingsPlansOfferingsResponse {
     this.nextToken,
     this.searchResults,
   });
+
   factory DescribeSavingsPlansOfferingsResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeSavingsPlansOfferingsResponse(
@@ -621,6 +625,7 @@ class DescribeSavingsPlansResponse {
     this.nextToken,
     this.savingsPlans,
   });
+
   factory DescribeSavingsPlansResponse.fromJson(Map<String, dynamic> json) {
     return DescribeSavingsPlansResponse(
       nextToken: json['nextToken'] as String?,
@@ -639,6 +644,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -675,6 +681,7 @@ class ParentSavingsPlanOffering {
     this.planDescription,
     this.planType,
   });
+
   factory ParentSavingsPlanOffering.fromJson(Map<String, dynamic> json) {
     return ParentSavingsPlanOffering(
       currency: (json['currency'] as String?)?.toCurrencyCode(),
@@ -764,6 +771,7 @@ class SavingsPlan {
     this.termDurationInSeconds,
     this.upfrontPaymentAmount,
   });
+
   factory SavingsPlan.fromJson(Map<String, dynamic> json) {
     return SavingsPlan(
       commitment: json['commitment'] as String?,
@@ -864,6 +872,7 @@ class SavingsPlanOffering {
     this.serviceCode,
     this.usageType,
   });
+
   factory SavingsPlanOffering.fromJson(Map<String, dynamic> json) {
     return SavingsPlanOffering(
       currency: (json['currency'] as String?)?.toCurrencyCode(),
@@ -953,6 +962,7 @@ class SavingsPlanOfferingProperty {
     this.name,
     this.value,
   });
+
   factory SavingsPlanOfferingProperty.fromJson(Map<String, dynamic> json) {
     return SavingsPlanOfferingProperty(
       name: (json['name'] as String?)?.toSavingsPlanOfferingPropertyKey(),
@@ -1027,6 +1037,7 @@ class SavingsPlanOfferingRate {
     this.unit,
     this.usageType,
   });
+
   factory SavingsPlanOfferingRate.fromJson(Map<String, dynamic> json) {
     return SavingsPlanOfferingRate(
       operation: json['operation'] as String?,
@@ -1083,6 +1094,7 @@ class SavingsPlanOfferingRateProperty {
     this.name,
     this.value,
   });
+
   factory SavingsPlanOfferingRateProperty.fromJson(Map<String, dynamic> json) {
     return SavingsPlanOfferingRateProperty(
       name: json['name'] as String?,
@@ -1128,6 +1140,7 @@ enum SavingsPlanProductType {
   ec2,
   fargate,
   lambda,
+  sageMaker,
 }
 
 extension SavingsPlanProductTypeValueExtension on SavingsPlanProductType {
@@ -1139,6 +1152,8 @@ extension SavingsPlanProductTypeValueExtension on SavingsPlanProductType {
         return 'Fargate';
       case SavingsPlanProductType.lambda:
         return 'Lambda';
+      case SavingsPlanProductType.sageMaker:
+        return 'SageMaker';
     }
   }
 }
@@ -1152,6 +1167,8 @@ extension SavingsPlanProductTypeFromString on String {
         return SavingsPlanProductType.fargate;
       case 'Lambda':
         return SavingsPlanProductType.lambda;
+      case 'SageMaker':
+        return SavingsPlanProductType.sageMaker;
     }
     throw Exception('$this is not known in enum SavingsPlanProductType');
   }
@@ -1193,6 +1210,7 @@ class SavingsPlanRate {
     this.unit,
     this.usageType,
   });
+
   factory SavingsPlanRate.fromJson(Map<String, dynamic> json) {
     return SavingsPlanRate(
       currency: (json['currency'] as String?)?.toCurrencyCode(),
@@ -1354,6 +1372,7 @@ class SavingsPlanRateProperty {
     this.name,
     this.value,
   });
+
   factory SavingsPlanRateProperty.fromJson(Map<String, dynamic> json) {
     return SavingsPlanRateProperty(
       name: (json['name'] as String?)?.toSavingsPlanRatePropertyKey(),
@@ -1409,7 +1428,9 @@ extension SavingsPlanRatePropertyKeyFromString on String {
 enum SavingsPlanRateServiceCode {
   amazonEC2,
   amazonECS,
+  amazonEKS,
   awsLambda,
+  amazonSageMaker,
 }
 
 extension SavingsPlanRateServiceCodeValueExtension
@@ -1420,8 +1441,12 @@ extension SavingsPlanRateServiceCodeValueExtension
         return 'AmazonEC2';
       case SavingsPlanRateServiceCode.amazonECS:
         return 'AmazonECS';
+      case SavingsPlanRateServiceCode.amazonEKS:
+        return 'AmazonEKS';
       case SavingsPlanRateServiceCode.awsLambda:
         return 'AWSLambda';
+      case SavingsPlanRateServiceCode.amazonSageMaker:
+        return 'AmazonSageMaker';
     }
   }
 }
@@ -1433,8 +1458,12 @@ extension SavingsPlanRateServiceCodeFromString on String {
         return SavingsPlanRateServiceCode.amazonEC2;
       case 'AmazonECS':
         return SavingsPlanRateServiceCode.amazonECS;
+      case 'AmazonEKS':
+        return SavingsPlanRateServiceCode.amazonEKS;
       case 'AWSLambda':
         return SavingsPlanRateServiceCode.awsLambda;
+      case 'AmazonSageMaker':
+        return SavingsPlanRateServiceCode.amazonSageMaker;
     }
     throw Exception('$this is not known in enum SavingsPlanRateServiceCode');
   }
@@ -1524,6 +1553,7 @@ extension SavingsPlanStateFromString on String {
 enum SavingsPlanType {
   compute,
   eC2Instance,
+  sageMaker,
 }
 
 extension SavingsPlanTypeValueExtension on SavingsPlanType {
@@ -1533,6 +1563,8 @@ extension SavingsPlanTypeValueExtension on SavingsPlanType {
         return 'Compute';
       case SavingsPlanType.eC2Instance:
         return 'EC2Instance';
+      case SavingsPlanType.sageMaker:
+        return 'SageMaker';
     }
   }
 }
@@ -1544,6 +1576,8 @@ extension SavingsPlanTypeFromString on String {
         return SavingsPlanType.compute;
       case 'EC2Instance':
         return SavingsPlanType.eC2Instance;
+      case 'SageMaker':
+        return SavingsPlanType.sageMaker;
     }
     throw Exception('$this is not known in enum SavingsPlanType');
   }
@@ -1614,6 +1648,7 @@ extension SavingsPlansFilterNameFromString on String {
 
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
@@ -1621,6 +1656,7 @@ class TagResourceResponse {
 
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
   }

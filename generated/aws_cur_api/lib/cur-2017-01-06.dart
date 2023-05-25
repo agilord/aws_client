@@ -187,18 +187,23 @@ enum AWSRegion {
   afSouth_1,
   apEast_1,
   apSouth_1,
+  apSouth_2,
   apSoutheast_1,
   apSoutheast_2,
+  apSoutheast_3,
   apNortheast_1,
   apNortheast_2,
   apNortheast_3,
   caCentral_1,
   euCentral_1,
+  euCentral_2,
   euWest_1,
   euWest_2,
   euWest_3,
   euNorth_1,
   euSouth_1,
+  euSouth_2,
+  meCentral_1,
   meSouth_1,
   saEast_1,
   usEast_1,
@@ -218,10 +223,14 @@ extension AWSRegionValueExtension on AWSRegion {
         return 'ap-east-1';
       case AWSRegion.apSouth_1:
         return 'ap-south-1';
+      case AWSRegion.apSouth_2:
+        return 'ap-south-2';
       case AWSRegion.apSoutheast_1:
         return 'ap-southeast-1';
       case AWSRegion.apSoutheast_2:
         return 'ap-southeast-2';
+      case AWSRegion.apSoutheast_3:
+        return 'ap-southeast-3';
       case AWSRegion.apNortheast_1:
         return 'ap-northeast-1';
       case AWSRegion.apNortheast_2:
@@ -232,6 +241,8 @@ extension AWSRegionValueExtension on AWSRegion {
         return 'ca-central-1';
       case AWSRegion.euCentral_1:
         return 'eu-central-1';
+      case AWSRegion.euCentral_2:
+        return 'eu-central-2';
       case AWSRegion.euWest_1:
         return 'eu-west-1';
       case AWSRegion.euWest_2:
@@ -242,6 +253,10 @@ extension AWSRegionValueExtension on AWSRegion {
         return 'eu-north-1';
       case AWSRegion.euSouth_1:
         return 'eu-south-1';
+      case AWSRegion.euSouth_2:
+        return 'eu-south-2';
+      case AWSRegion.meCentral_1:
+        return 'me-central-1';
       case AWSRegion.meSouth_1:
         return 'me-south-1';
       case AWSRegion.saEast_1:
@@ -271,10 +286,14 @@ extension AWSRegionFromString on String {
         return AWSRegion.apEast_1;
       case 'ap-south-1':
         return AWSRegion.apSouth_1;
+      case 'ap-south-2':
+        return AWSRegion.apSouth_2;
       case 'ap-southeast-1':
         return AWSRegion.apSoutheast_1;
       case 'ap-southeast-2':
         return AWSRegion.apSoutheast_2;
+      case 'ap-southeast-3':
+        return AWSRegion.apSoutheast_3;
       case 'ap-northeast-1':
         return AWSRegion.apNortheast_1;
       case 'ap-northeast-2':
@@ -285,6 +304,8 @@ extension AWSRegionFromString on String {
         return AWSRegion.caCentral_1;
       case 'eu-central-1':
         return AWSRegion.euCentral_1;
+      case 'eu-central-2':
+        return AWSRegion.euCentral_2;
       case 'eu-west-1':
         return AWSRegion.euWest_1;
       case 'eu-west-2':
@@ -295,6 +316,10 @@ extension AWSRegionFromString on String {
         return AWSRegion.euNorth_1;
       case 'eu-south-1':
         return AWSRegion.euSouth_1;
+      case 'eu-south-2':
+        return AWSRegion.euSouth_2;
+      case 'me-central-1':
+        return AWSRegion.meCentral_1;
       case 'me-south-1':
         return AWSRegion.meSouth_1;
       case 'sa-east-1':
@@ -391,6 +416,7 @@ class DeleteReportDefinitionResponse {
   DeleteReportDefinitionResponse({
     this.responseMessage,
   });
+
   factory DeleteReportDefinitionResponse.fromJson(Map<String, dynamic> json) {
     return DeleteReportDefinitionResponse(
       responseMessage: json['ResponseMessage'] as String?,
@@ -409,6 +435,7 @@ class DescribeReportDefinitionsResponse {
     this.nextToken,
     this.reportDefinitions,
   });
+
   factory DescribeReportDefinitionsResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeReportDefinitionsResponse(
@@ -423,6 +450,7 @@ class DescribeReportDefinitionsResponse {
 
 class ModifyReportDefinitionResponse {
   ModifyReportDefinitionResponse();
+
   factory ModifyReportDefinitionResponse.fromJson(Map<String, dynamic> _) {
     return ModifyReportDefinitionResponse();
   }
@@ -432,6 +460,7 @@ class ModifyReportDefinitionResponse {
 /// with an empty HTTP body.
 class PutReportDefinitionResponse {
   PutReportDefinitionResponse();
+
   factory PutReportDefinitionResponse.fromJson(Map<String, dynamic> _) {
     return PutReportDefinitionResponse();
   }
@@ -456,6 +485,10 @@ class ReportDefinition {
   /// report.
   final List<AdditionalArtifact>? additionalArtifacts;
 
+  /// The Amazon resource name of the billing view. You can get this value by
+  /// using the billing view service public APIs.
+  final String? billingViewArn;
+
   /// Whether you want Amazon Web Services to update your reports after they have
   /// been finalized if Amazon Web Services detects charges related to previous
   /// months. These charges can include refunds, credits, or support fees.
@@ -475,9 +508,11 @@ class ReportDefinition {
     required this.s3Region,
     required this.timeUnit,
     this.additionalArtifacts,
+    this.billingViewArn,
     this.refreshClosedReports,
     this.reportVersioning,
   });
+
   factory ReportDefinition.fromJson(Map<String, dynamic> json) {
     return ReportDefinition(
       additionalSchemaElements: (json['AdditionalSchemaElements'] as List)
@@ -495,6 +530,7 @@ class ReportDefinition {
           ?.whereNotNull()
           .map((e) => (e as String).toAdditionalArtifact())
           .toList(),
+      billingViewArn: json['BillingViewArn'] as String?,
       refreshClosedReports: json['RefreshClosedReports'] as bool?,
       reportVersioning:
           (json['ReportVersioning'] as String?)?.toReportVersioning(),
@@ -511,6 +547,7 @@ class ReportDefinition {
     final s3Region = this.s3Region;
     final timeUnit = this.timeUnit;
     final additionalArtifacts = this.additionalArtifacts;
+    final billingViewArn = this.billingViewArn;
     final refreshClosedReports = this.refreshClosedReports;
     final reportVersioning = this.reportVersioning;
     return {
@@ -526,6 +563,7 @@ class ReportDefinition {
       if (additionalArtifacts != null)
         'AdditionalArtifacts':
             additionalArtifacts.map((e) => e.toValue()).toList(),
+      if (billingViewArn != null) 'BillingViewArn': billingViewArn,
       if (refreshClosedReports != null)
         'RefreshClosedReports': refreshClosedReports,
       if (reportVersioning != null)
@@ -594,6 +632,7 @@ extension ReportVersioningFromString on String {
 /// Whether or not AWS includes resource IDs in the report.
 enum SchemaElement {
   resources,
+  splitCostAllocationData,
 }
 
 extension SchemaElementValueExtension on SchemaElement {
@@ -601,6 +640,8 @@ extension SchemaElementValueExtension on SchemaElement {
     switch (this) {
       case SchemaElement.resources:
         return 'RESOURCES';
+      case SchemaElement.splitCostAllocationData:
+        return 'SPLIT_COST_ALLOCATION_DATA';
     }
   }
 }
@@ -610,6 +651,8 @@ extension SchemaElementFromString on String {
     switch (this) {
       case 'RESOURCES':
         return SchemaElement.resources;
+      case 'SPLIT_COST_ALLOCATION_DATA':
+        return SchemaElement.splitCostAllocationData;
     }
     throw Exception('$this is not known in enum SchemaElement');
   }

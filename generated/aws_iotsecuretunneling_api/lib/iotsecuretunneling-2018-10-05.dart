@@ -18,8 +18,8 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// AWS IoT Secure Tunnling enables you to create remote connections to devices
-/// deployed in the field.
+/// IoT Secure Tunneling creates remote connections to devices deployed in the
+/// field.
 class IoTSecureTunneling {
   final _s.JsonProtocol _protocol;
   IoTSecureTunneling({
@@ -54,13 +54,17 @@ class IoTSecureTunneling {
   /// connections between the client and proxy server so no data can be
   /// transmitted.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CloseTunnel</a>
+  /// action.
+  ///
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [tunnelId] :
   /// The ID of the tunnel to close.
   ///
   /// Parameter [delete] :
-  /// When set to true, AWS IoT Secure Tunneling deletes the tunnel data
+  /// When set to true, IoT Secure Tunneling deletes the tunnel data
   /// immediately.
   Future<void> closeTunnel({
     required String tunnelId,
@@ -84,6 +88,10 @@ class IoTSecureTunneling {
   }
 
   /// Gets information about a tunnel identified by the unique tunnel id.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeTunnel</a>
+  /// action.
   ///
   /// May throw [ResourceNotFoundException].
   ///
@@ -137,14 +145,20 @@ class IoTSecureTunneling {
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
   }
 
-  /// List all tunnels for an AWS account. Tunnels are listed by creation time
-  /// in descending order, newer tunnels will be listed before older tunnels.
+  /// List all tunnels for an Amazon Web Services account. Tunnels are listed by
+  /// creation time in descending order, newer tunnels will be listed before
+  /// older tunnels.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListTunnels</a>
+  /// action.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return at once.
   ///
   /// Parameter [nextToken] :
-  /// A token to retrieve the next set of results.
+  /// To retrieve the next set of results, the nextToken value from a previous
+  /// response; otherwise null to receive the first set of results.
   ///
   /// Parameter [thingName] :
   /// The name of the IoT thing associated with the destination device.
@@ -180,7 +194,11 @@ class IoTSecureTunneling {
   }
 
   /// Creates a new tunnel, and returns two client access tokens for clients to
-  /// use to connect to the AWS IoT Secure Tunneling proxy server.
+  /// use to connect to the IoT Secure Tunneling proxy server.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">OpenTunnel</a>
+  /// action.
   ///
   /// May throw [LimitExceededException].
   ///
@@ -220,6 +238,53 @@ class IoTSecureTunneling {
     );
 
     return OpenTunnelResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Revokes the current client access token (CAT) and returns new CAT for
+  /// clients to use when reconnecting to secure tunneling to access the same
+  /// tunnel.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">RotateTunnelAccessToken</a>
+  /// action.
+  /// <note>
+  /// Rotating the CAT doesn't extend the tunnel duration. For example, say the
+  /// tunnel duration is 12 hours and the tunnel has already been open for 4
+  /// hours. When you rotate the access tokens, the new tokens that are
+  /// generated can only be used for the remaining 8 hours.
+  /// </note>
+  ///
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [clientMode] :
+  /// The mode of the client that will use the client token, which can be either
+  /// the source or destination, or both source and destination.
+  ///
+  /// Parameter [tunnelId] :
+  /// The tunnel for which you want to rotate the access tokens.
+  Future<RotateTunnelAccessTokenResponse> rotateTunnelAccessToken({
+    required ClientMode clientMode,
+    required String tunnelId,
+    DestinationConfig? destinationConfig,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'IoTSecuredTunneling.RotateTunnelAccessToken'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'clientMode': clientMode.toValue(),
+        'tunnelId': tunnelId,
+        if (destinationConfig != null) 'destinationConfig': destinationConfig,
+      },
+    );
+
+    return RotateTunnelAccessTokenResponse.fromJson(jsonResponse.body);
   }
 
   /// A resource tag.
@@ -283,8 +348,42 @@ class IoTSecureTunneling {
   }
 }
 
+enum ClientMode {
+  source,
+  destination,
+  all,
+}
+
+extension ClientModeValueExtension on ClientMode {
+  String toValue() {
+    switch (this) {
+      case ClientMode.source:
+        return 'SOURCE';
+      case ClientMode.destination:
+        return 'DESTINATION';
+      case ClientMode.all:
+        return 'ALL';
+    }
+  }
+}
+
+extension ClientModeFromString on String {
+  ClientMode toClientMode() {
+    switch (this) {
+      case 'SOURCE':
+        return ClientMode.source;
+      case 'DESTINATION':
+        return ClientMode.destination;
+      case 'ALL':
+        return ClientMode.all;
+    }
+    throw Exception('$this is not known in enum ClientMode');
+  }
+}
+
 class CloseTunnelResponse {
   CloseTunnelResponse();
+
   factory CloseTunnelResponse.fromJson(Map<String, dynamic> _) {
     return CloseTunnelResponse();
   }
@@ -303,6 +402,7 @@ class ConnectionState {
     this.lastUpdatedAt,
     this.status,
   });
+
   factory ConnectionState.fromJson(Map<String, dynamic> json) {
     return ConnectionState(
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
@@ -346,6 +446,7 @@ class DescribeTunnelResponse {
   DescribeTunnelResponse({
     this.tunnel,
   });
+
   factory DescribeTunnelResponse.fromJson(Map<String, dynamic> json) {
     return DescribeTunnelResponse(
       tunnel: json['tunnel'] != null
@@ -357,10 +458,10 @@ class DescribeTunnelResponse {
 
 /// The destination configuration.
 class DestinationConfig {
-  /// A list of service names that identity the target application. The AWS IoT
-  /// client running on the destination device reads this value and uses it to
-  /// look up a port or an IP address and a port. The AWS IoT client instantiates
-  /// the local proxy which uses this information to connect to the destination
+  /// A list of service names that identify the target application. The IoT client
+  /// running on the destination device reads this value and uses it to look up a
+  /// port or an IP address and a port. The IoT client instantiates the local
+  /// proxy, which uses this information to connect to the destination
   /// application.
   final List<String> services;
 
@@ -371,6 +472,7 @@ class DestinationConfig {
     required this.services,
     this.thingName,
   });
+
   factory DestinationConfig.fromJson(Map<String, dynamic> json) {
     return DestinationConfig(
       services: (json['services'] as List)
@@ -398,6 +500,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as List?)
@@ -409,16 +512,18 @@ class ListTagsForResourceResponse {
 }
 
 class ListTunnelsResponse {
-  /// A token to used to retrieve the next set of results.
+  /// The token to use to get the next set of results, or null if there are no
+  /// additional results.
   final String? nextToken;
 
-  /// A short description of the tunnels in an AWS account.
+  /// A short description of the tunnels in an Amazon Web Services account.
   final List<TunnelSummary>? tunnelSummaries;
 
   ListTunnelsResponse({
     this.nextToken,
     this.tunnelSummaries,
   });
+
   factory ListTunnelsResponse.fromJson(Map<String, dynamic> json) {
     return ListTunnelsResponse(
       nextToken: json['nextToken'] as String?,
@@ -431,16 +536,15 @@ class ListTunnelsResponse {
 }
 
 class OpenTunnelResponse {
-  /// The access token the destination local proxy uses to connect to AWS IoT
-  /// Secure Tunneling.
+  /// The access token the destination local proxy uses to connect to IoT Secure
+  /// Tunneling.
   final String? destinationAccessToken;
 
-  /// The access token the source local proxy uses to connect to AWS IoT Secure
+  /// The access token the source local proxy uses to connect to IoT Secure
   /// Tunneling.
   final String? sourceAccessToken;
 
-  /// The Amazon Resource Name for the tunnel. The tunnel ARN format is
-  /// <code>arn:aws:tunnel:&lt;region&gt;:&lt;account-id&gt;:tunnel/&lt;tunnel-id&gt;</code>
+  /// The Amazon Resource Name for the tunnel.
   final String? tunnelArn;
 
   /// A unique alpha-numeric tunnel ID.
@@ -452,12 +556,40 @@ class OpenTunnelResponse {
     this.tunnelArn,
     this.tunnelId,
   });
+
   factory OpenTunnelResponse.fromJson(Map<String, dynamic> json) {
     return OpenTunnelResponse(
       destinationAccessToken: json['destinationAccessToken'] as String?,
       sourceAccessToken: json['sourceAccessToken'] as String?,
       tunnelArn: json['tunnelArn'] as String?,
       tunnelId: json['tunnelId'] as String?,
+    );
+  }
+}
+
+class RotateTunnelAccessTokenResponse {
+  /// The client access token that the destination local proxy uses to connect to
+  /// IoT Secure Tunneling.
+  final String? destinationAccessToken;
+
+  /// The client access token that the source local proxy uses to connect to IoT
+  /// Secure Tunneling.
+  final String? sourceAccessToken;
+
+  /// The Amazon Resource Name for the tunnel.
+  final String? tunnelArn;
+
+  RotateTunnelAccessTokenResponse({
+    this.destinationAccessToken,
+    this.sourceAccessToken,
+    this.tunnelArn,
+  });
+
+  factory RotateTunnelAccessTokenResponse.fromJson(Map<String, dynamic> json) {
+    return RotateTunnelAccessTokenResponse(
+      destinationAccessToken: json['destinationAccessToken'] as String?,
+      sourceAccessToken: json['sourceAccessToken'] as String?,
+      tunnelArn: json['tunnelArn'] as String?,
     );
   }
 }
@@ -475,6 +607,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['key'] as String,
@@ -494,6 +627,7 @@ class Tag {
 
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
@@ -509,6 +643,7 @@ class TimeoutConfig {
   TimeoutConfig({
     this.maxLifetimeTimeoutMinutes,
   });
+
   factory TimeoutConfig.fromJson(Map<String, dynamic> json) {
     return TimeoutConfig(
       maxLifetimeTimeoutMinutes: json['maxLifetimeTimeoutMinutes'] as int?,
@@ -555,8 +690,7 @@ class Tunnel {
   /// Timeout configuration for the tunnel.
   final TimeoutConfig? timeoutConfig;
 
-  /// The Amazon Resource Name (ARN) of a tunnel. The tunnel ARN format is
-  /// <code>arn:aws:tunnel:&lt;region&gt;:&lt;account-id&gt;:tunnel/&lt;tunnel-id&gt;</code>
+  /// The Amazon Resource Name (ARN) of a tunnel.
   final String? tunnelArn;
 
   /// A unique alpha-numeric ID that identifies a tunnel.
@@ -575,6 +709,7 @@ class Tunnel {
     this.tunnelArn,
     this.tunnelId,
   });
+
   factory Tunnel.fromJson(Map<String, dynamic> json) {
     return Tunnel(
       createdAt: timeStampFromJson(json['createdAt']),
@@ -649,8 +784,7 @@ class TunnelSummary {
   /// The status of a tunnel. Valid values are: Open and Closed.
   final TunnelStatus? status;
 
-  /// The Amazon Resource Name of the tunnel. The tunnel ARN format is
-  /// <code>arn:aws:tunnel:&lt;region&gt;:&lt;account-id&gt;:tunnel/&lt;tunnel-id&gt;</code>
+  /// The Amazon Resource Name of the tunnel.
   final String? tunnelArn;
 
   /// The unique alpha-numeric identifier for the tunnel.
@@ -664,6 +798,7 @@ class TunnelSummary {
     this.tunnelArn,
     this.tunnelId,
   });
+
   factory TunnelSummary.fromJson(Map<String, dynamic> json) {
     return TunnelSummary(
       createdAt: timeStampFromJson(json['createdAt']),
@@ -678,6 +813,7 @@ class TunnelSummary {
 
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
   }

@@ -19,6 +19,15 @@ import 'package:shared_aws_api/shared.dart'
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 /// Elastic Inference public APIs.
+///
+/// February 15, 2023: Starting April 15, 2023, AWS will not onboard new
+/// customers to Amazon Elastic Inference (EI), and will help current customers
+/// migrate their workloads to options that offer better price and performance.
+/// After April 15, 2023, new customers will not be able to launch instances
+/// with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2.
+/// However, customers who have used Amazon EI at least once during the past
+/// 30-day period are considered current customers and will be able to continue
+/// using the service.
 class ElasticInference {
   final _s.RestJsonProtocol _protocol;
   ElasticInference({
@@ -50,6 +59,15 @@ class ElasticInference {
 
   /// Describes the locations in which a given accelerator type or set of types
   /// is present in a given region.
+  ///
+  /// February 15, 2023: Starting April 15, 2023, AWS will not onboard new
+  /// customers to Amazon Elastic Inference (EI), and will help current
+  /// customers migrate their workloads to options that offer better price and
+  /// performance. After April 15, 2023, new customers will not be able to
+  /// launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon
+  /// ECS, or Amazon EC2. However, customers who have used Amazon EI at least
+  /// once during the past 30-day period are considered current customers and
+  /// will be able to continue using the service.
   ///
   /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
@@ -85,6 +103,15 @@ class ElasticInference {
   /// Describes the accelerator types available in a given region, as well as
   /// their characteristics, such as memory and throughput.
   ///
+  /// February 15, 2023: Starting April 15, 2023, AWS will not onboard new
+  /// customers to Amazon Elastic Inference (EI), and will help current
+  /// customers migrate their workloads to options that offer better price and
+  /// performance. After April 15, 2023, new customers will not be able to
+  /// launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon
+  /// ECS, or Amazon EC2. However, customers who have used Amazon EI at least
+  /// once during the past 30-day period are considered current customers and
+  /// will be able to continue using the service.
+  ///
   /// May throw [InternalServerException].
   Future<DescribeAcceleratorTypesResponse> describeAcceleratorTypes() async {
     final response = await _protocol.send(
@@ -98,6 +125,15 @@ class ElasticInference {
 
   /// Describes information over a provided set of accelerators belonging to an
   /// account.
+  ///
+  /// February 15, 2023: Starting April 15, 2023, AWS will not onboard new
+  /// customers to Amazon Elastic Inference (EI), and will help current
+  /// customers migrate their workloads to options that offer better price and
+  /// performance. After April 15, 2023, new customers will not be able to
+  /// launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon
+  /// ECS, or Amazon EC2. However, customers who have used Amazon EI at least
+  /// once during the past 30-day period are considered current customers and
+  /// will be able to continue using the service.
   ///
   /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
@@ -151,6 +187,15 @@ class ElasticInference {
 
   /// Returns all tags of an Elastic Inference Accelerator.
   ///
+  /// February 15, 2023: Starting April 15, 2023, AWS will not onboard new
+  /// customers to Amazon Elastic Inference (EI), and will help current
+  /// customers migrate their workloads to options that offer better price and
+  /// performance. After April 15, 2023, new customers will not be able to
+  /// launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon
+  /// ECS, or Amazon EC2. However, customers who have used Amazon EI at least
+  /// once during the past 30-day period are considered current customers and
+  /// will be able to continue using the service.
+  ///
   /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
@@ -170,6 +215,15 @@ class ElasticInference {
   }
 
   /// Adds the specified tags to an Elastic Inference Accelerator.
+  ///
+  /// February 15, 2023: Starting April 15, 2023, AWS will not onboard new
+  /// customers to Amazon Elastic Inference (EI), and will help current
+  /// customers migrate their workloads to options that offer better price and
+  /// performance. After April 15, 2023, new customers will not be able to
+  /// launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon
+  /// ECS, or Amazon EC2. However, customers who have used Amazon EI at least
+  /// once during the past 30-day period are considered current customers and
+  /// will be able to continue using the service.
   ///
   /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
@@ -196,6 +250,15 @@ class ElasticInference {
   }
 
   /// Removes the specified tags from an Elastic Inference Accelerator.
+  ///
+  /// February 15, 2023: Starting April 15, 2023, AWS will not onboard new
+  /// customers to Amazon Elastic Inference (EI), and will help current
+  /// customers migrate their workloads to options that offer better price and
+  /// performance. After April 15, 2023, new customers will not be able to
+  /// launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon
+  /// ECS, or Amazon EC2. However, customers who have used Amazon EI at least
+  /// once during the past 30-day period are considered current customers and
+  /// will be able to continue using the service.
   ///
   /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
@@ -239,6 +302,7 @@ class AcceleratorType {
     this.memoryInfo,
     this.throughputInfo,
   });
+
   factory AcceleratorType.fromJson(Map<String, dynamic> json) {
     return AcceleratorType(
       acceleratorTypeName: json['acceleratorTypeName'] as String?,
@@ -275,6 +339,7 @@ class AcceleratorTypeOffering {
     this.location,
     this.locationType,
   });
+
   factory AcceleratorTypeOffering.fromJson(Map<String, dynamic> json) {
     return AcceleratorTypeOffering(
       acceleratorType: json['acceleratorType'] as String?,
@@ -291,6 +356,7 @@ class DescribeAcceleratorOfferingsResponse {
   DescribeAcceleratorOfferingsResponse({
     this.acceleratorTypeOfferings,
   });
+
   factory DescribeAcceleratorOfferingsResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeAcceleratorOfferingsResponse(
@@ -310,6 +376,7 @@ class DescribeAcceleratorTypesResponse {
   DescribeAcceleratorTypesResponse({
     this.acceleratorTypes,
   });
+
   factory DescribeAcceleratorTypesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAcceleratorTypesResponse(
       acceleratorTypes: (json['acceleratorTypes'] as List?)
@@ -332,6 +399,7 @@ class DescribeAcceleratorsResponse {
     this.acceleratorSet,
     this.nextToken,
   });
+
   factory DescribeAcceleratorsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAcceleratorsResponse(
       acceleratorSet: (json['acceleratorSet'] as List?)
@@ -369,6 +437,7 @@ class ElasticInferenceAccelerator {
     this.attachedResource,
     this.availabilityZone,
   });
+
   factory ElasticInferenceAccelerator.fromJson(Map<String, dynamic> json) {
     return ElasticInferenceAccelerator(
       acceleratorHealth: json['acceleratorHealth'] != null
@@ -391,6 +460,7 @@ class ElasticInferenceAcceleratorHealth {
   ElasticInferenceAcceleratorHealth({
     this.status,
   });
+
   factory ElasticInferenceAcceleratorHealth.fromJson(
       Map<String, dynamic> json) {
     return ElasticInferenceAcceleratorHealth(
@@ -437,6 +507,7 @@ class KeyValuePair {
     this.key,
     this.value,
   });
+
   factory KeyValuePair.fromJson(Map<String, dynamic> json) {
     return KeyValuePair(
       key: json['key'] as String?,
@@ -452,6 +523,7 @@ class ListTagsForResourceResult {
   ListTagsForResourceResult({
     this.tags,
   });
+
   factory ListTagsForResourceResult.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResult(
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -501,6 +573,7 @@ class MemoryInfo {
   MemoryInfo({
     this.sizeInMiB,
   });
+
   factory MemoryInfo.fromJson(Map<String, dynamic> json) {
     return MemoryInfo(
       sizeInMiB: json['sizeInMiB'] as int?,
@@ -510,6 +583,7 @@ class MemoryInfo {
 
 class TagResourceResult {
   TagResourceResult();
+
   factory TagResourceResult.fromJson(Map<String, dynamic> _) {
     return TagResourceResult();
   }
@@ -517,6 +591,7 @@ class TagResourceResult {
 
 class UntagResourceResult {
   UntagResourceResult();
+
   factory UntagResourceResult.fromJson(Map<String, dynamic> _) {
     return UntagResourceResult();
   }

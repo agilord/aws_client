@@ -848,6 +848,7 @@ class AssociateTeamMemberResult {
   AssociateTeamMemberResult({
     this.clientRequestToken,
   });
+
   factory AssociateTeamMemberResult.fromJson(Map<String, dynamic> json) {
     return AssociateTeamMemberResult(
       clientRequestToken: json['clientRequestToken'] as String?,
@@ -968,6 +969,7 @@ class CreateProjectResult {
     this.clientRequestToken,
     this.projectTemplateId,
   });
+
   factory CreateProjectResult.fromJson(Map<String, dynamic> json) {
     return CreateProjectResult(
       arn: json['arn'] as String,
@@ -1010,6 +1012,7 @@ class CreateUserProfileResult {
     this.lastModifiedTimestamp,
     this.sshPublicKey,
   });
+
   factory CreateUserProfileResult.fromJson(Map<String, dynamic> json) {
     return CreateUserProfileResult(
       userArn: json['userArn'] as String,
@@ -1034,6 +1037,7 @@ class DeleteProjectResult {
     this.projectArn,
     this.stackId,
   });
+
   factory DeleteProjectResult.fromJson(Map<String, dynamic> json) {
     return DeleteProjectResult(
       projectArn: json['projectArn'] as String?,
@@ -1049,6 +1053,7 @@ class DeleteUserProfileResult {
   DeleteUserProfileResult({
     required this.userArn,
   });
+
   factory DeleteUserProfileResult.fromJson(Map<String, dynamic> json) {
     return DeleteUserProfileResult(
       userArn: json['userArn'] as String,
@@ -1097,6 +1102,7 @@ class DescribeProjectResult {
     this.stackId,
     this.status,
   });
+
   factory DescribeProjectResult.fromJson(Map<String, dynamic> json) {
     return DescribeProjectResult(
       arn: json['arn'] as String?,
@@ -1155,6 +1161,7 @@ class DescribeUserProfileResult {
     this.emailAddress,
     this.sshPublicKey,
   });
+
   factory DescribeUserProfileResult.fromJson(Map<String, dynamic> json) {
     return DescribeUserProfileResult(
       createdTimestamp:
@@ -1171,6 +1178,7 @@ class DescribeUserProfileResult {
 
 class DisassociateTeamMemberResult {
   DisassociateTeamMemberResult();
+
   factory DisassociateTeamMemberResult.fromJson(Map<String, dynamic> _) {
     return DisassociateTeamMemberResult();
   }
@@ -1246,6 +1254,7 @@ class ListProjectsResult {
     required this.projects,
     this.nextToken,
   });
+
   factory ListProjectsResult.fromJson(Map<String, dynamic> json) {
     return ListProjectsResult(
       projects: (json['projects'] as List)
@@ -1269,6 +1278,7 @@ class ListResourcesResult {
     this.nextToken,
     this.resources,
   });
+
   factory ListResourcesResult.fromJson(Map<String, dynamic> json) {
     return ListResourcesResult(
       nextToken: json['nextToken'] as String?,
@@ -1291,6 +1301,7 @@ class ListTagsForProjectResult {
     this.nextToken,
     this.tags,
   });
+
   factory ListTagsForProjectResult.fromJson(Map<String, dynamic> json) {
     return ListTagsForProjectResult(
       nextToken: json['nextToken'] as String?,
@@ -1312,6 +1323,7 @@ class ListTeamMembersResult {
     required this.teamMembers,
     this.nextToken,
   });
+
   factory ListTeamMembersResult.fromJson(Map<String, dynamic> json) {
     return ListTeamMembersResult(
       teamMembers: (json['teamMembers'] as List)
@@ -1335,6 +1347,7 @@ class ListUserProfilesResult {
     required this.userProfiles,
     this.nextToken,
   });
+
   factory ListUserProfilesResult.fromJson(Map<String, dynamic> json) {
     return ListUserProfilesResult(
       userProfiles: (json['userProfiles'] as List)
@@ -1360,6 +1373,7 @@ class ProjectStatus {
     required this.state,
     this.reason,
   });
+
   factory ProjectStatus.fromJson(Map<String, dynamic> json) {
     return ProjectStatus(
       state: json['state'] as String,
@@ -1380,6 +1394,7 @@ class ProjectSummary {
     this.projectArn,
     this.projectId,
   });
+
   factory ProjectSummary.fromJson(Map<String, dynamic> json) {
     return ProjectSummary(
       projectArn: json['projectArn'] as String?,
@@ -1396,6 +1411,7 @@ class Resource {
   Resource({
     required this.id,
   });
+
   factory Resource.fromJson(Map<String, dynamic> json) {
     return Resource(
       id: json['id'] as String,
@@ -1435,6 +1451,7 @@ class TagProjectResult {
   TagProjectResult({
     this.tags,
   });
+
   factory TagProjectResult.fromJson(Map<String, dynamic> json) {
     return TagProjectResult(
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -1463,6 +1480,7 @@ class TeamMember {
     required this.userArn,
     this.remoteAccessAllowed,
   });
+
   factory TeamMember.fromJson(Map<String, dynamic> json) {
     return TeamMember(
       projectRole: json['projectRole'] as String,
@@ -1526,6 +1544,7 @@ class ToolchainSource {
 
 class UntagProjectResult {
   UntagProjectResult();
+
   factory UntagProjectResult.fromJson(Map<String, dynamic> _) {
     return UntagProjectResult();
   }
@@ -1533,6 +1552,7 @@ class UntagProjectResult {
 
 class UpdateProjectResult {
   UpdateProjectResult();
+
   factory UpdateProjectResult.fromJson(Map<String, dynamic> _) {
     return UpdateProjectResult();
   }
@@ -1555,6 +1575,7 @@ class UpdateTeamMemberResult {
     this.remoteAccessAllowed,
     this.userArn,
   });
+
   factory UpdateTeamMemberResult.fromJson(Map<String, dynamic> json) {
     return UpdateTeamMemberResult(
       projectRole: json['projectRole'] as String?,
@@ -1596,6 +1617,7 @@ class UpdateUserProfileResult {
     this.lastModifiedTimestamp,
     this.sshPublicKey,
   });
+
   factory UpdateUserProfileResult.fromJson(Map<String, dynamic> json) {
     return UpdateUserProfileResult(
       userArn: json['userArn'] as String,
@@ -1638,6 +1660,7 @@ class UserProfileSummary {
     this.sshPublicKey,
     this.userArn,
   });
+
   factory UserProfileSummary.fromJson(Map<String, dynamic> json) {
     return UserProfileSummary(
       displayName: json['displayName'] as String?,

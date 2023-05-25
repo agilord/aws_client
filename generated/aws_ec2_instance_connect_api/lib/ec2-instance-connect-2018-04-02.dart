@@ -18,10 +18,9 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// AWS EC2 Connect Service is a service that enables system administrators to
-/// publish temporary SSH keys to their EC2 instances in order to establish
-/// connections to their instances without leaving a permanent authentication
-/// option.
+/// Amazon EC2 Instance Connect enables system administrators to publish
+/// one-time use SSH public keys to EC2, providing users a simple and secure way
+/// to connect to their instances.
 class EC2InstanceConnect {
   final _s.JsonProtocol _protocol;
   EC2InstanceConnect({
@@ -50,33 +49,39 @@ class EC2InstanceConnect {
     _protocol.close();
   }
 
-  /// Pushes an SSH public key to a particular OS user on a given EC2 instance
-  /// for 60 seconds.
+  /// Pushes an SSH public key to the specified EC2 instance for use by the
+  /// specified user. The key remains for 60 seconds. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Connect-using-EC2-Instance-Connect.html">Connect
+  /// to your Linux instance using EC2 Instance Connect</a> in the <i>Amazon EC2
+  /// User Guide</i>.
   ///
   /// May throw [AuthException].
   /// May throw [InvalidArgsException].
   /// May throw [ServiceException].
   /// May throw [ThrottlingException].
   /// May throw [EC2InstanceNotFoundException].
-  ///
-  /// Parameter [availabilityZone] :
-  /// The availability zone the EC2 instance was launched in.
+  /// May throw [EC2InstanceStateInvalidException].
+  /// May throw [EC2InstanceUnavailableException].
   ///
   /// Parameter [instanceId] :
-  /// The EC2 instance you wish to publish the SSH key to.
+  /// The ID of the EC2 instance.
   ///
   /// Parameter [instanceOSUser] :
-  /// The OS user on the EC2 instance whom the key may be used to authenticate
-  /// as.
+  /// The OS user on the EC2 instance for whom the key can be used to
+  /// authenticate.
   ///
   /// Parameter [sSHPublicKey] :
-  /// The public key to be published to the instance. To use it after
-  /// publication you must have the matching private key.
+  /// The public key material. To use the public key, you must have the matching
+  /// private key.
+  ///
+  /// Parameter [availabilityZone] :
+  /// The Availability Zone in which the EC2 instance was launched.
   Future<SendSSHPublicKeyResponse> sendSSHPublicKey({
-    required String availabilityZone,
     required String instanceId,
     required String instanceOSUser,
     required String sSHPublicKey,
+    String? availabilityZone,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -89,31 +94,118 @@ class EC2InstanceConnect {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AvailabilityZone': availabilityZone,
         'InstanceId': instanceId,
         'InstanceOSUser': instanceOSUser,
         'SSHPublicKey': sSHPublicKey,
+        if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
       },
     );
 
     return SendSSHPublicKeyResponse.fromJson(jsonResponse.body);
   }
+
+  /// Pushes an SSH public key to the specified EC2 instance. The key remains
+  /// for 60 seconds, which gives you 60 seconds to establish a serial console
+  /// connection to the instance using SSH. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-serial-console.html">EC2
+  /// Serial Console</a> in the <i>Amazon EC2 User Guide</i>.
+  ///
+  /// May throw [AuthException].
+  /// May throw [SerialConsoleAccessDisabledException].
+  /// May throw [InvalidArgsException].
+  /// May throw [ServiceException].
+  /// May throw [ThrottlingException].
+  /// May throw [EC2InstanceNotFoundException].
+  /// May throw [EC2InstanceTypeInvalidException].
+  /// May throw [SerialConsoleSessionLimitExceededException].
+  /// May throw [SerialConsoleSessionUnavailableException].
+  /// May throw [EC2InstanceStateInvalidException].
+  /// May throw [EC2InstanceUnavailableException].
+  ///
+  /// Parameter [instanceId] :
+  /// The ID of the EC2 instance.
+  ///
+  /// Parameter [sSHPublicKey] :
+  /// The public key material. To use the public key, you must have the matching
+  /// private key. For information about the supported key formats and lengths,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#how-to-generate-your-own-key-and-import-it-to-aws">Requirements
+  /// for key pairs</a> in the <i>Amazon EC2 User Guide</i>.
+  ///
+  /// Parameter [serialPort] :
+  /// The serial port of the EC2 instance. Currently only port 0 is supported.
+  ///
+  /// Default: 0
+  Future<SendSerialConsoleSSHPublicKeyResponse> sendSerialConsoleSSHPublicKey({
+    required String instanceId,
+    required String sSHPublicKey,
+    int? serialPort,
+  }) async {
+    _s.validateNumRange(
+      'serialPort',
+      serialPort,
+      0,
+      0,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSEC2InstanceConnectService.SendSerialConsoleSSHPublicKey'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InstanceId': instanceId,
+        'SSHPublicKey': sSHPublicKey,
+        if (serialPort != null) 'SerialPort': serialPort,
+      },
+    );
+
+    return SendSerialConsoleSSHPublicKeyResponse.fromJson(jsonResponse.body);
+  }
 }
 
 class SendSSHPublicKeyResponse {
-  /// The request ID as logged by EC2 Connect. Please provide this when contacting
-  /// AWS Support.
+  /// The ID of the request. Please provide this ID when contacting AWS Support
+  /// for assistance.
   final String? requestId;
 
-  /// Indicates request success.
+  /// Is true if the request succeeds and an error otherwise.
   final bool? success;
 
   SendSSHPublicKeyResponse({
     this.requestId,
     this.success,
   });
+
   factory SendSSHPublicKeyResponse.fromJson(Map<String, dynamic> json) {
     return SendSSHPublicKeyResponse(
+      requestId: json['RequestId'] as String?,
+      success: json['Success'] as bool?,
+    );
+  }
+}
+
+class SendSerialConsoleSSHPublicKeyResponse {
+  /// The ID of the request. Please provide this ID when contacting AWS Support
+  /// for assistance.
+  final String? requestId;
+
+  /// Is true if the request succeeds and an error otherwise.
+  final bool? success;
+
+  SendSerialConsoleSSHPublicKeyResponse({
+    this.requestId,
+    this.success,
+  });
+
+  factory SendSerialConsoleSSHPublicKeyResponse.fromJson(
+      Map<String, dynamic> json) {
+    return SendSerialConsoleSSHPublicKeyResponse(
       requestId: json['RequestId'] as String?,
       success: json['Success'] as bool?,
     );
@@ -131,9 +223,58 @@ class EC2InstanceNotFoundException extends _s.GenericAwsException {
             type: type, code: 'EC2InstanceNotFoundException', message: message);
 }
 
+class EC2InstanceStateInvalidException extends _s.GenericAwsException {
+  EC2InstanceStateInvalidException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'EC2InstanceStateInvalidException',
+            message: message);
+}
+
+class EC2InstanceTypeInvalidException extends _s.GenericAwsException {
+  EC2InstanceTypeInvalidException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'EC2InstanceTypeInvalidException',
+            message: message);
+}
+
+class EC2InstanceUnavailableException extends _s.GenericAwsException {
+  EC2InstanceUnavailableException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'EC2InstanceUnavailableException',
+            message: message);
+}
+
 class InvalidArgsException extends _s.GenericAwsException {
   InvalidArgsException({String? type, String? message})
       : super(type: type, code: 'InvalidArgsException', message: message);
+}
+
+class SerialConsoleAccessDisabledException extends _s.GenericAwsException {
+  SerialConsoleAccessDisabledException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'SerialConsoleAccessDisabledException',
+            message: message);
+}
+
+class SerialConsoleSessionLimitExceededException
+    extends _s.GenericAwsException {
+  SerialConsoleSessionLimitExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'SerialConsoleSessionLimitExceededException',
+            message: message);
+}
+
+class SerialConsoleSessionUnavailableException extends _s.GenericAwsException {
+  SerialConsoleSessionUnavailableException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'SerialConsoleSessionUnavailableException',
+            message: message);
 }
 
 class ServiceException extends _s.GenericAwsException {
@@ -151,8 +292,20 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       AuthException(type: type, message: message),
   'EC2InstanceNotFoundException': (type, message) =>
       EC2InstanceNotFoundException(type: type, message: message),
+  'EC2InstanceStateInvalidException': (type, message) =>
+      EC2InstanceStateInvalidException(type: type, message: message),
+  'EC2InstanceTypeInvalidException': (type, message) =>
+      EC2InstanceTypeInvalidException(type: type, message: message),
+  'EC2InstanceUnavailableException': (type, message) =>
+      EC2InstanceUnavailableException(type: type, message: message),
   'InvalidArgsException': (type, message) =>
       InvalidArgsException(type: type, message: message),
+  'SerialConsoleAccessDisabledException': (type, message) =>
+      SerialConsoleAccessDisabledException(type: type, message: message),
+  'SerialConsoleSessionLimitExceededException': (type, message) =>
+      SerialConsoleSessionLimitExceededException(type: type, message: message),
+  'SerialConsoleSessionUnavailableException': (type, message) =>
+      SerialConsoleSessionUnavailableException(type: type, message: message),
   'ServiceException': (type, message) =>
       ServiceException(type: type, message: message),
   'ThrottlingException': (type, message) =>

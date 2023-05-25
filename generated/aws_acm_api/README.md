@@ -3,7 +3,11 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-Welcome to the AWS Certificate Manager (ACM) API documentation.
+You can use Certificate Manager (ACM) to manage SSL/TLS certificates for
+your Amazon Web Services-based websites and applications. For more
+information about using ACM, see the <a
+href="https://docs.aws.amazon.com/acm/latest/userguide/">Certificate Manager
+User Guide</a>.
 
 ## Links
 

@@ -18,7 +18,6 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// This guide describes the API operations for the resource groups tagging.
 class ResourceGroupsTaggingAPI {
   final _s.JsonProtocol _protocol;
   ResourceGroupsTaggingAPI({
@@ -49,8 +48,8 @@ class ResourceGroupsTaggingAPI {
 
   /// Describes the status of the <code>StartReportCreation</code> operation.
   ///
-  /// You can call this operation only from the organization's master account
-  /// and from the us-east-1 Region.
+  /// You can call this operation only from the organization's management
+  /// account and from the us-east-1 Region.
   ///
   /// May throw [ConstraintViolationException].
   /// May throw [InternalServiceException].
@@ -76,11 +75,19 @@ class ResourceGroupsTaggingAPI {
   /// their tag policies.
   ///
   /// For more information on tag policies, see <a
-  /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">Tag
-  /// Policies</a> in the <i>AWS Organizations User Guide.</i>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">Tag
+  /// Policies</a> in the <i>Organizations User Guide.</i>
   ///
-  /// You can call this operation only from the organization's master account
-  /// and from the us-east-1 Region.
+  /// You can call this operation only from the organization's management
+  /// account and from the us-east-1 Region.
+  ///
+  /// This operation supports pagination, where the response can be sent in
+  /// multiple pages. You should check the <code>PaginationToken</code> response
+  /// parameter to determine if there are additional results available to
+  /// return. Repeat the query, passing the <code>PaginationToken</code>
+  /// response parameter value as an input to the next request until you recieve
+  /// a <code>null</code> value. A null value for <code>PaginationToken</code>
+  /// indicates that there are no more results waiting to be returned.
   ///
   /// May throw [ConstraintViolationException].
   /// May throw [InternalServiceException].
@@ -88,63 +95,69 @@ class ResourceGroupsTaggingAPI {
   /// May throw [ThrottledException].
   ///
   /// Parameter [groupBy] :
-  /// A list of attributes to group the counts of noncompliant resources by. If
-  /// supplied, the counts are sorted by those attributes.
+  /// Specifies a list of attributes to group the counts of noncompliant
+  /// resources by. If supplied, the counts are sorted by those attributes.
   ///
   /// Parameter [maxResults] :
-  /// A limit that restricts the number of results that are returned per page.
+  /// Specifies the maximum number of results to be returned in each page. A
+  /// query can return fewer than this maximum, even if there are more results
+  /// still to return. You should always check the <code>PaginationToken</code>
+  /// response value to see if there are more results. You can specify a minimum
+  /// of 1 and a maximum value of 100.
   ///
   /// Parameter [paginationToken] :
-  /// A string that indicates that additional data is available. Leave this
-  /// value empty for your initial request. If the response includes a
-  /// <code>PaginationToken</code>, use that string for this value to request an
-  /// additional page of data.
+  /// Specifies a <code>PaginationToken</code> response value from a previous
+  /// request to indicate that you want the next page of results. Leave this
+  /// parameter empty in your initial request.
   ///
   /// Parameter [regionFilters] :
-  /// A list of Regions to limit the output by. If you use this parameter, the
-  /// count of returned noncompliant resources includes only resources in the
-  /// specified Regions.
+  /// Specifies a list of Amazon Web Services Regions to limit the output to. If
+  /// you use this parameter, the count of returned noncompliant resources
+  /// includes only resources in the specified Regions.
   ///
   /// Parameter [resourceTypeFilters] :
-  /// The constraints on the resources that you want returned. The format of
-  /// each resource type is <code>service[:resourceType]</code>. For example,
-  /// specifying a resource type of <code>ec2</code> returns all Amazon EC2
-  /// resources (which includes EC2 instances). Specifying a resource type of
-  /// <code>ec2:instance</code> returns only EC2 instances.
+  /// Specifies that you want the response to include information for only
+  /// resources of the specified types. The format of each resource type is
+  /// <code>service[:resourceType]</code>. For example, specifying a resource
+  /// type of <code>ec2</code> returns all Amazon EC2 resources (which includes
+  /// EC2 instances). Specifying a resource type of <code>ec2:instance</code>
+  /// returns only EC2 instances.
   ///
   /// The string for each service name and resource type is the same as that
-  /// embedded in a resource's Amazon Resource Name (ARN). Consult the <i>AWS
-  /// General Reference</i> for the following:
+  /// embedded in a resource's Amazon Resource Name (ARN). Consult the <i> <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/">Amazon Web Services
+  /// General Reference</a> </i> for the following:
   ///
   /// <ul>
   /// <li>
   /// For a list of service name strings, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-  /// Service Namespaces</a>.
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">Amazon
+  /// Web Services Service Namespaces</a>.
   /// </li>
   /// <li>
   /// For resource type strings, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arns-syntax">Example
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arns-syntax">Example
   /// ARNs</a>.
   /// </li>
   /// <li>
   /// For more information about ARNs, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   /// </li>
   /// </ul>
-  /// You can specify multiple resource types by using an array. The array can
-  /// include up to 100 items. Note that the length constraint requirement
-  /// applies to each resource type filter.
+  /// You can specify multiple resource types by using a comma separated array.
+  /// The array can include up to 100 items. Note that the length constraint
+  /// requirement applies to each resource type filter.
   ///
   /// Parameter [tagKeyFilters] :
-  /// A list of tag keys to limit the output by. If you use this parameter, the
-  /// count of returned noncompliant resources includes only resources that have
-  /// the specified tag keys.
+  /// Specifies that you want the response to include information for only
+  /// resources that have tags with the specified tag keys. If you use this
+  /// parameter, the count of returned noncompliant resources includes only
+  /// resources that have the specified tag keys.
   ///
   /// Parameter [targetIdFilters] :
-  /// The target identifiers (usually, specific account IDs) to limit the output
-  /// by. If you use this parameter, the count of returned noncompliant
+  /// Specifies target identifiers (usually, specific account IDs) to limit the
+  /// output by. If you use this parameter, the count of returned noncompliant
   /// resources includes only resources with the specified target IDs.
   Future<GetComplianceSummaryOutput> getComplianceSummary({
     List<GroupByAttribute>? groupBy,
@@ -188,7 +201,7 @@ class ResourceGroupsTaggingAPI {
   }
 
   /// Returns all the tagged or previously tagged resources that are located in
-  /// the specified Region for the AWS account.
+  /// the specified Amazon Web Services Region for the account.
   ///
   /// Depending on what information you want returned, you can also specify the
   /// following:
@@ -202,16 +215,17 @@ class ResourceGroupsTaggingAPI {
   /// <li>
   /// Information about compliance with the account's effective tag policy. For
   /// more information on tag policies, see <a
-  /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">Tag
-  /// Policies</a> in the <i>AWS Organizations User Guide.</i>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">Tag
+  /// Policies</a> in the <i>Organizations User Guide.</i>
   /// </li>
-  /// </ul> <note>
-  /// You can check the <code>PaginationToken</code> response parameter to
-  /// determine if a query is complete. Queries occasionally return fewer
-  /// results on a page than allowed. The <code>PaginationToken</code> response
-  /// parameter value is <code>null</code> <i>only</i> when there are no more
-  /// results to display.
-  /// </note>
+  /// </ul>
+  /// This operation supports pagination, where the response can be sent in
+  /// multiple pages. You should check the <code>PaginationToken</code> response
+  /// parameter to determine if there are additional results available to
+  /// return. Repeat the query, passing the <code>PaginationToken</code>
+  /// response parameter value as an input to the next request until you recieve
+  /// a <code>null</code> value. A null value for <code>PaginationToken</code>
+  /// indicates that there are no more results waiting to be returned.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [ThrottledException].
@@ -233,109 +247,117 @@ class ResourceGroupsTaggingAPI {
   /// resources are compliant with the tag policy and to get details.
   ///
   /// Parameter [paginationToken] :
-  /// A string that indicates that additional data is available. Leave this
-  /// value empty for your initial request. If the response includes a
-  /// <code>PaginationToken</code>, use that string for this value to request an
-  /// additional page of data.
+  /// Specifies a <code>PaginationToken</code> response value from a previous
+  /// request to indicate that you want the next page of results. Leave this
+  /// parameter empty in your initial request.
+  ///
+  /// Parameter [resourceARNList] :
+  /// Specifies a list of ARNs of resources for which you want to retrieve tag
+  /// data. You can't specify both this parameter and any of the pagination
+  /// parameters (<code>ResourcesPerPage</code>, <code>TagsPerPage</code>,
+  /// <code>PaginationToken</code>) in the same request. If you specify both,
+  /// you get an <code>Invalid Parameter</code> exception.
+  ///
+  /// If a resource specified by this parameter doesn't exist, it doesn't
+  /// generate an error; it simply isn't included in the response.
+  ///
+  /// An ARN (Amazon Resource Name) uniquely identifies a resource. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a> in
+  /// the <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [resourceTypeFilters] :
-  /// The constraints on the resources that you want returned. The format of
-  /// each resource type is <code>service[:resourceType]</code>. For example,
-  /// specifying a resource type of <code>ec2</code> returns all Amazon EC2
-  /// resources (which includes EC2 instances). Specifying a resource type of
-  /// <code>ec2:instance</code> returns only EC2 instances.
+  /// Specifies the resource types that you want included in the response. The
+  /// format of each resource type is <code>service[:resourceType]</code>. For
+  /// example, specifying a resource type of <code>ec2</code> returns all Amazon
+  /// EC2 resources (which includes EC2 instances). Specifying a resource type
+  /// of <code>ec2:instance</code> returns only EC2 instances.
   ///
   /// The string for each service name and resource type is the same as that
-  /// embedded in a resource's Amazon Resource Name (ARN). Consult the <i>AWS
-  /// General Reference</i> for the following:
+  /// embedded in a resource's Amazon Resource Name (ARN). For the list of
+  /// services whose resources you can use in this parameter, see <a
+  /// href="https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/supported-services.html">Services
+  /// that support the Resource Groups Tagging API</a>.
   ///
-  /// <ul>
-  /// <li>
-  /// For a list of service name strings, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-  /// Service Namespaces</a>.
-  /// </li>
-  /// <li>
-  /// For resource type strings, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arns-syntax">Example
-  /// ARNs</a>.
-  /// </li>
-  /// <li>
-  /// For more information about ARNs, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
-  /// </li>
-  /// </ul>
   /// You can specify multiple resource types by using an array. The array can
   /// include up to 100 items. Note that the length constraint requirement
-  /// applies to each resource type filter.
+  /// applies to each resource type filter. For example, the following string
+  /// would limit the response to only Amazon EC2 instances, Amazon S3 buckets,
+  /// or any Audit Manager resource:
+  ///
+  /// <code>ec2:instance,s3:bucket,auditmanager</code>
   ///
   /// Parameter [resourcesPerPage] :
-  /// A limit that restricts the number of resources returned by GetResources in
-  /// paginated output. You can set ResourcesPerPage to a minimum of 1 item and
-  /// the maximum of 100 items.
+  /// Specifies the maximum number of results to be returned in each page. A
+  /// query can return fewer than this maximum, even if there are more results
+  /// still to return. You should always check the <code>PaginationToken</code>
+  /// response value to see if there are more results. You can specify a minimum
+  /// of 1 and a maximum value of 100.
   ///
   /// Parameter [tagFilters] :
-  /// A list of TagFilters (keys and values). Each TagFilter specified must
-  /// contain a key with values as optional. A request can include up to 50
-  /// keys, and each key can include up to 20 values.
+  /// Specifies a list of TagFilters (keys and values) to restrict the output to
+  /// only those resources that have tags with the specified keys and, if
+  /// included, the specified values. Each <code>TagFilter</code> must contain a
+  /// key with values optional. A request can include up to 50 keys, and each
+  /// key can include up to 20 values.
   ///
   /// Note the following when deciding how to use TagFilters:
   ///
   /// <ul>
   /// <li>
-  /// If you <i>do</i> specify a TagFilter, the response returns only those
-  /// resources that are currently associated with the specified tag.
-  /// </li>
-  /// <li>
-  /// If you <i>don't</i> specify a TagFilter, the response includes all
-  /// resources that were ever associated with tags. Resources that currently
-  /// don't have associated tags are shown with an empty tag set, like this:
-  /// <code>"Tags": []</code>.
+  /// If you <i>don't</i> specify a <code>TagFilter</code>, the response
+  /// includes all resources that are currently tagged or ever had a tag.
+  /// Resources that currently don't have tags are shown with an empty tag set,
+  /// like this: <code>"Tags": []</code>.
   /// </li>
   /// <li>
   /// If you specify more than one filter in a single request, the response
-  /// returns only those resources that satisfy all specified filters.
+  /// returns only those resources that satisfy all filters.
   /// </li>
   /// <li>
   /// If you specify a filter that contains more than one value for a key, the
-  /// response returns resources that match any of the specified values for that
-  /// key.
+  /// response returns resources that match <i>any</i> of the specified values
+  /// for that key.
   /// </li>
   /// <li>
-  /// If you don't specify any values for a key, the response returns resources
-  /// that are tagged with that key irrespective of the value.
+  /// If you don't specify a value for a key, the response returns all resources
+  /// that are tagged with that key, with any or no value.
   ///
-  /// For example, for filters: filter1 = {key1, {value1}}, filter2 = {key2,
-  /// {value2,value3,value4}} , filter3 = {key3}:
+  /// For example, for the following filters: <code>filter1=
+  /// {keyA,{value1}}</code>,
+  /// <code>filter2={keyB,{value2,value3,value4}}</code>, <code>filter3=
+  /// {keyC}</code>:
   ///
   /// <ul>
   /// <li>
-  /// GetResources( {filter1} ) returns resources tagged with key1=value1
+  /// <code>GetResources({filter1})</code> returns resources tagged with
+  /// <code>key1=value1</code>
   /// </li>
   /// <li>
-  /// GetResources( {filter2} ) returns resources tagged with key2=value2 or
-  /// key2=value3 or key2=value4
+  /// <code>GetResources({filter2})</code> returns resources tagged with
+  /// <code>key2=value2</code> or <code>key2=value3</code> or
+  /// <code>key2=value4</code>
   /// </li>
   /// <li>
-  /// GetResources( {filter3} ) returns resources tagged with any tag containing
-  /// key3 as its tag key, irrespective of its value
+  /// <code>GetResources({filter3})</code> returns resources tagged with any tag
+  /// with the key <code>key3</code>, and with any or no value
   /// </li>
   /// <li>
-  /// GetResources( {filter1,filter2,filter3} ) returns resources tagged with (
-  /// key1=value1) and ( key2=value2 or key2=value3 or key2=value4) and (key3,
-  /// irrespective of the value)
+  /// <code>GetResources({filter1,filter2,filter3})</code> returns resources
+  /// tagged with <code>(key1=value1) and (key2=value2 or key2=value3 or
+  /// key2=value4) and (key3, any or no value)</code>
   /// </li>
   /// </ul> </li>
   /// </ul>
   ///
   /// Parameter [tagsPerPage] :
-  /// AWS recommends using <code>ResourcesPerPage</code> instead of this
-  /// parameter.
+  /// Amazon Web Services recommends using <code>ResourcesPerPage</code> instead
+  /// of this parameter.
   ///
   /// A limit that restricts the number of tags (key and value pairs) returned
-  /// by GetResources in paginated output. A resource with no tags is counted as
-  /// having one tag (one key and value pair).
+  /// by <code>GetResources</code> in paginated output. A resource with no tags
+  /// is counted as having one tag (one key and value pair).
   ///
   /// <code>GetResources</code> does not split a resource and its associated
   /// tags across pages. If the specified <code>TagsPerPage</code> would cause
@@ -349,12 +371,13 @@ class ResourceGroupsTaggingAPI {
   /// each with its 10 tags. The third page displays the remaining 2 resources,
   /// each with its 10 tags.
   ///
-  /// You can set <code>TagsPerPage</code> to a minimum of 100 items and the
+  /// You can set <code>TagsPerPage</code> to a minimum of 100 items up to a
   /// maximum of 500 items.
   Future<GetResourcesOutput> getResources({
     bool? excludeCompliantResources,
     bool? includeComplianceDetails,
     String? paginationToken,
+    List<String>? resourceARNList,
     List<String>? resourceTypeFilters,
     int? resourcesPerPage,
     List<TagFilter>? tagFilters,
@@ -376,6 +399,7 @@ class ResourceGroupsTaggingAPI {
         if (includeComplianceDetails != null)
           'IncludeComplianceDetails': includeComplianceDetails,
         if (paginationToken != null) 'PaginationToken': paginationToken,
+        if (resourceARNList != null) 'ResourceARNList': resourceARNList,
         if (resourceTypeFilters != null)
           'ResourceTypeFilters': resourceTypeFilters,
         if (resourcesPerPage != null) 'ResourcesPerPage': resourcesPerPage,
@@ -387,7 +411,16 @@ class ResourceGroupsTaggingAPI {
     return GetResourcesOutput.fromJson(jsonResponse.body);
   }
 
-  /// Returns all tag keys in the specified Region for the AWS account.
+  /// Returns all tag keys currently in use in the specified Amazon Web Services
+  /// Region for the calling account.
+  ///
+  /// This operation supports pagination, where the response can be sent in
+  /// multiple pages. You should check the <code>PaginationToken</code> response
+  /// parameter to determine if there are additional results available to
+  /// return. Repeat the query, passing the <code>PaginationToken</code>
+  /// response parameter value as an input to the next request until you recieve
+  /// a <code>null</code> value. A null value for <code>PaginationToken</code>
+  /// indicates that there are no more results waiting to be returned.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [ThrottledException].
@@ -395,10 +428,9 @@ class ResourceGroupsTaggingAPI {
   /// May throw [PaginationTokenExpiredException].
   ///
   /// Parameter [paginationToken] :
-  /// A string that indicates that additional data is available. Leave this
-  /// value empty for your initial request. If the response includes a
-  /// <code>PaginationToken</code>, use that string for this value to request an
-  /// additional page of data.
+  /// Specifies a <code>PaginationToken</code> response value from a previous
+  /// request to indicate that you want the next page of results. Leave this
+  /// parameter empty in your initial request.
   Future<GetTagKeysOutput> getTagKeys({
     String? paginationToken,
   }) async {
@@ -420,8 +452,16 @@ class ResourceGroupsTaggingAPI {
     return GetTagKeysOutput.fromJson(jsonResponse.body);
   }
 
-  /// Returns all tag values for the specified key in the specified Region for
-  /// the AWS account.
+  /// Returns all tag values for the specified key that are used in the
+  /// specified Amazon Web Services Region for the calling account.
+  ///
+  /// This operation supports pagination, where the response can be sent in
+  /// multiple pages. You should check the <code>PaginationToken</code> response
+  /// parameter to determine if there are additional results available to
+  /// return. Repeat the query, passing the <code>PaginationToken</code>
+  /// response parameter value as an input to the next request until you recieve
+  /// a <code>null</code> value. A null value for <code>PaginationToken</code>
+  /// indicates that there are no more results waiting to be returned.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [ThrottledException].
@@ -429,14 +469,14 @@ class ResourceGroupsTaggingAPI {
   /// May throw [PaginationTokenExpiredException].
   ///
   /// Parameter [key] :
-  /// The key for which you want to list all existing values in the specified
-  /// Region for the AWS account.
+  /// Specifies the tag key for which you want to list all existing values that
+  /// are currently used in the specified Amazon Web Services Region for the
+  /// calling account.
   ///
   /// Parameter [paginationToken] :
-  /// A string that indicates that additional data is available. Leave this
-  /// value empty for your initial request. If the response includes a
-  /// <code>PaginationToken</code>, use that string for this value to request an
-  /// additional page of data.
+  /// Specifies a <code>PaginationToken</code> response value from a previous
+  /// request to indicate that you want the next page of results. Leave this
+  /// parameter empty in your initial request.
   Future<GetTagValuesOutput> getTagValues({
     required String key,
     String? paginationToken,
@@ -460,16 +500,17 @@ class ResourceGroupsTaggingAPI {
     return GetTagValuesOutput.fromJson(jsonResponse.body);
   }
 
-  /// Generates a report that lists all tagged resources in accounts across your
-  /// organization and tells whether each resource is compliant with the
-  /// effective tag policy. Compliance data is refreshed daily.
+  /// Generates a report that lists all tagged resources in the accounts across
+  /// your organization and tells whether each resource is compliant with the
+  /// effective tag policy. Compliance data is refreshed daily. The report is
+  /// generated asynchronously.
   ///
   /// The generated report is saved to the following location:
   ///
   /// <code>s3://example-bucket/AwsTagPolicies/o-exampleorgid/YYYY-MM-ddTHH:mm:ssZ/report.csv</code>
   ///
-  /// You can call this operation only from the organization's master account
-  /// and from the us-east-1 Region.
+  /// You can call this operation only from the organization's management
+  /// account and from the us-east-1 Region.
   ///
   /// May throw [ConcurrentModificationException].
   /// May throw [ConstraintViolationException].
@@ -508,26 +549,28 @@ class ResourceGroupsTaggingAPI {
   ///
   /// <ul>
   /// <li>
-  /// Not all resources can have tags. For a list of services that support
-  /// tagging, see <a
-  /// href="http://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/Welcome.html">this
-  /// list</a>.
+  /// Not all resources can have tags. For a list of services with resources
+  /// that support tagging using this operation, see <a
+  /// href="https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/supported-services.html">Services
+  /// that support the Resource Groups Tagging API</a>. If the resource doesn't
+  /// yet support this operation, the resource's service might support tagging
+  /// using its own API operations. For more information, refer to the
+  /// documentation for that service.
   /// </li>
   /// <li>
   /// Each resource can have up to 50 tags. For other limits, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws_tagging.html#tag-conventions">Tag
-  /// Naming and Usage Conventions</a> in the <i>AWS General Reference.</i>
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html#tag-conventions">Tag
+  /// Naming and Usage Conventions</a> in the <i>Amazon Web Services General
+  /// Reference.</i>
   /// </li>
   /// <li>
-  /// You can only tag resources that are located in the specified Region for
-  /// the AWS account.
+  /// You can only tag resources that are located in the specified Amazon Web
+  /// Services Region for the Amazon Web Services account.
   /// </li>
   /// <li>
   /// To add tags to a resource, you need the necessary permissions for the
   /// service that the resource belongs to as well as permissions for adding
-  /// tags. For more information, see <a
-  /// href="http://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/Welcome.html">this
-  /// list</a>.
+  /// tags. For more information, see the documentation for each service.
   /// </li>
   /// </ul> <important>
   /// Do not store personally identifiable information (PII) or other
@@ -535,21 +578,40 @@ class ResourceGroupsTaggingAPI {
   /// with billing and administration services. Tags are not intended to be used
   /// for private or sensitive data.
   /// </important>
+  /// <b>Minimum permissions</b>
+  ///
+  /// In addition to the <code>tag:TagResources</code> permission required by
+  /// this operation, you must also have the tagging permission defined by the
+  /// service that created the resource. For example, to tag an Amazon EC2
+  /// instance using the <code>TagResources</code> operation, you must have both
+  /// of the following permissions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>tag:TagResource</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:CreateTags</code>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [InvalidParameterException].
   /// May throw [ThrottledException].
   /// May throw [InternalServiceException].
   ///
   /// Parameter [resourceARNList] :
-  /// A list of ARNs. An ARN (Amazon Resource Name) uniquely identifies a
-  /// resource. For more information, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Specifies the list of ARNs of the resources that you want to apply tags
+  /// to.
+  ///
+  /// An ARN (Amazon Resource Name) uniquely identifies a resource. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a> in
+  /// the <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [tags] :
-  /// The tags that you want to add to the specified resources. A tag consists
-  /// of a key and a value that you define.
+  /// Specifies a list of tags that you want to add to the specified resources.
+  /// A tag consists of a key and a value that you define.
   Future<TagResourcesOutput> tagResources({
     required List<String> resourceARNList,
     required Map<String, String> tags,
@@ -582,13 +644,28 @@ class ResourceGroupsTaggingAPI {
   /// <li>
   /// To remove tags from a resource, you need the necessary permissions for the
   /// service that the resource belongs to as well as permissions for removing
-  /// tags. For more information, see <a
-  /// href="http://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/Welcome.html">this
-  /// list</a>.
+  /// tags. For more information, see the documentation for the service whose
+  /// resource you want to untag.
   /// </li>
   /// <li>
-  /// You can only tag resources that are located in the specified Region for
-  /// the AWS account.
+  /// You can only tag resources that are located in the specified Amazon Web
+  /// Services Region for the calling Amazon Web Services account.
+  /// </li>
+  /// </ul>
+  /// <b>Minimum permissions</b>
+  ///
+  /// In addition to the <code>tag:UntagResources</code> permission required by
+  /// this operation, you must also have the remove tags permission defined by
+  /// the service that created the resource. For example, to remove the tags
+  /// from an Amazon EC2 instance using the <code>UntagResources</code>
+  /// operation, you must have both of the following permissions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>tag:UntagResource</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:DeleteTags</code>
   /// </li>
   /// </ul>
   ///
@@ -597,14 +674,17 @@ class ResourceGroupsTaggingAPI {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [resourceARNList] :
-  /// A list of ARNs. An ARN (Amazon Resource Name) uniquely identifies a
-  /// resource. For more information, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
-  /// Reference</i>.
+  /// Specifies a list of ARNs of the resources that you want to remove tags
+  /// from.
+  ///
+  /// An ARN (Amazon Resource Name) uniquely identifies a resource. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a> in
+  /// the <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [tagKeys] :
-  /// A list of the tag keys that you want to remove from the specified
+  /// Specifies a list of tag keys that you want to remove from the specified
   /// resources.
   Future<UntagResourcesOutput> untagResources({
     required List<String> resourceARNList,
@@ -649,6 +729,7 @@ class ComplianceDetails {
     this.keysWithNoncompliantValues,
     this.noncompliantKeys,
   });
+
   factory ComplianceDetails.fromJson(Map<String, dynamic> json) {
     return ComplianceDetails(
       complianceStatus: json['ComplianceStatus'] as bool?,
@@ -699,6 +780,7 @@ class DescribeReportCreationOutput {
     this.s3Location,
     this.status,
   });
+
   factory DescribeReportCreationOutput.fromJson(Map<String, dynamic> json) {
     return DescribeReportCreationOutput(
       errorMessage: json['ErrorMessage'] as String?,
@@ -739,40 +821,41 @@ extension ErrorCodeFromString on String {
 /// Information about the errors that are returned for each failed resource.
 /// This information can include <code>InternalServiceException</code> and
 /// <code>InvalidParameterException</code> errors. It can also include any valid
-/// error code returned by the AWS service that hosts the resource that the ARN
-/// key represents.
+/// error code returned by the Amazon Web Services service that hosts the
+/// resource that the ARN key represents.
 ///
-/// The following are common error codes that you might receive from other AWS
-/// services:
+/// The following are common error codes that you might receive from other
+/// Amazon Web Services services:
 ///
 /// <ul>
 /// <li>
 /// <b>InternalServiceException</b> – This can mean that the Resource Groups
-/// Tagging API didn't receive a response from another AWS service. It can also
-/// mean the the resource type in the request is not supported by the Resource
-/// Groups Tagging API. In these cases, it's safe to retry the request and then
-/// call <a
-/// href="http://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_GetResources.html">GetResources</a>
+/// Tagging API didn't receive a response from another Amazon Web Services
+/// service. It can also mean that the resource type in the request is not
+/// supported by the Resource Groups Tagging API. In these cases, it's safe to
+/// retry the request and then call <a
+/// href="https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_GetResources.html">GetResources</a>
 /// to verify the changes.
 /// </li>
 /// <li>
 /// <b>AccessDeniedException</b> – This can mean that you need permission to
-/// calling tagging operations in the AWS service that contains the resource.
-/// For example, to use the Resource Groups Tagging API to tag a CloudWatch
-/// alarm resource, you need permission to call <a
-/// href="http://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_TagResources.html">
+/// call the tagging operations in the Amazon Web Services service that contains
+/// the resource. For example, to use the Resource Groups Tagging API to tag a
+/// Amazon CloudWatch alarm resource, you need permission to call both <a
+/// href="https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_TagResources.html">
 /// <code>TagResources</code> </a> <i>and</i> <a
-/// href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html">
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html">
 /// <code>TagResource</code> </a> in the CloudWatch API.
 /// </li>
 /// </ul>
-/// For more information on errors that are generated from other AWS services,
-/// see the documentation for that service.
+/// For more information on errors that are generated from other Amazon Web
+/// Services services, see the documentation for that service.
 class FailureInfo {
   /// The code of the common error. Valid values include
   /// <code>InternalServiceException</code>,
   /// <code>InvalidParameterException</code>, and any valid error code returned by
-  /// the AWS service that hosts the resource that you want to tag.
+  /// the Amazon Web Services service that hosts the resource that you want to
+  /// tag.
   final ErrorCode? errorCode;
 
   /// The message of the common error.
@@ -786,6 +869,7 @@ class FailureInfo {
     this.errorMessage,
     this.statusCode,
   });
+
   factory FailureInfo.fromJson(Map<String, dynamic> json) {
     return FailureInfo(
       errorCode: (json['ErrorCode'] as String?)?.toErrorCode(),
@@ -796,9 +880,10 @@ class FailureInfo {
 }
 
 class GetComplianceSummaryOutput {
-  /// A string that indicates that the response contains more data than can be
-  /// returned in a single response. To receive additional data, specify this
-  /// string for the <code>PaginationToken</code> value in a subsequent request.
+  /// A string that indicates that there is more data available than this response
+  /// contains. To receive the next part of the response, specify this response
+  /// value as the <code>PaginationToken</code> value in the request for the next
+  /// page.
   final String? paginationToken;
 
   /// A table that shows counts of noncompliant resources.
@@ -808,6 +893,7 @@ class GetComplianceSummaryOutput {
     this.paginationToken,
     this.summaryList,
   });
+
   factory GetComplianceSummaryOutput.fromJson(Map<String, dynamic> json) {
     return GetComplianceSummaryOutput(
       paginationToken: json['PaginationToken'] as String?,
@@ -820,9 +906,10 @@ class GetComplianceSummaryOutput {
 }
 
 class GetResourcesOutput {
-  /// A string that indicates that the response contains more data than can be
-  /// returned in a single response. To receive additional data, specify this
-  /// string for the <code>PaginationToken</code> value in a subsequent request.
+  /// A string that indicates that there is more data available than this response
+  /// contains. To receive the next part of the response, specify this response
+  /// value as the <code>PaginationToken</code> value in the request for the next
+  /// page.
   final String? paginationToken;
 
   /// A list of resource ARNs and the tags (keys and values) associated with each.
@@ -832,6 +919,7 @@ class GetResourcesOutput {
     this.paginationToken,
     this.resourceTagMappingList,
   });
+
   factory GetResourcesOutput.fromJson(Map<String, dynamic> json) {
     return GetResourcesOutput(
       paginationToken: json['PaginationToken'] as String?,
@@ -844,18 +932,20 @@ class GetResourcesOutput {
 }
 
 class GetTagKeysOutput {
-  /// A string that indicates that the response contains more data than can be
-  /// returned in a single response. To receive additional data, specify this
-  /// string for the <code>PaginationToken</code> value in a subsequent request.
+  /// A string that indicates that there is more data available than this response
+  /// contains. To receive the next part of the response, specify this response
+  /// value as the <code>PaginationToken</code> value in the request for the next
+  /// page.
   final String? paginationToken;
 
-  /// A list of all tag keys in the AWS account.
+  /// A list of all tag keys in the Amazon Web Services account.
   final List<String>? tagKeys;
 
   GetTagKeysOutput({
     this.paginationToken,
     this.tagKeys,
   });
+
   factory GetTagKeysOutput.fromJson(Map<String, dynamic> json) {
     return GetTagKeysOutput(
       paginationToken: json['PaginationToken'] as String?,
@@ -868,18 +958,21 @@ class GetTagKeysOutput {
 }
 
 class GetTagValuesOutput {
-  /// A string that indicates that the response contains more data than can be
-  /// returned in a single response. To receive additional data, specify this
-  /// string for the <code>PaginationToken</code> value in a subsequent request.
+  /// A string that indicates that there is more data available than this response
+  /// contains. To receive the next part of the response, specify this response
+  /// value as the <code>PaginationToken</code> value in the request for the next
+  /// page.
   final String? paginationToken;
 
-  /// A list of all tag values for the specified key in the AWS account.
+  /// A list of all tag values for the specified key currently used in the
+  /// specified Amazon Web Services Region for the calling account.
   final List<String>? tagValues;
 
   GetTagValuesOutput({
     this.paginationToken,
     this.tagValues,
   });
+
   factory GetTagValuesOutput.fromJson(Map<String, dynamic> json) {
     return GetTagValuesOutput(
       paginationToken: json['PaginationToken'] as String?,
@@ -934,7 +1027,8 @@ class ResourceTagMapping {
   /// The ARN of the resource.
   final String? resourceARN;
 
-  /// The tags that have been applied to one or more AWS resources.
+  /// The tags that have been applied to one or more Amazon Web Services
+  /// resources.
   final List<Tag>? tags;
 
   ResourceTagMapping({
@@ -942,6 +1036,7 @@ class ResourceTagMapping {
     this.resourceARN,
     this.tags,
   });
+
   factory ResourceTagMapping.fromJson(Map<String, dynamic> json) {
     return ResourceTagMapping(
       complianceDetails: json['ComplianceDetails'] != null
@@ -959,6 +1054,7 @@ class ResourceTagMapping {
 
 class StartReportCreationOutput {
   StartReportCreationOutput();
+
   factory StartReportCreationOutput.fromJson(Map<String, dynamic> _) {
     return StartReportCreationOutput();
   }
@@ -972,15 +1068,15 @@ class Summary {
   /// The count of noncompliant resources.
   final int? nonCompliantResources;
 
-  /// The AWS Region that the summary applies to.
+  /// The Amazon Web Services Region that the summary applies to.
   final String? region;
 
-  /// The AWS resource type.
+  /// The Amazon Web Services resource type.
   final String? resourceType;
 
   /// The account identifier or the root identifier of the organization. If you
-  /// don't know the root ID, you can call the AWS Organizations <a
-  /// href="http://docs.aws.amazon.com/organizations/latest/APIReference/API_ListRoots.html">ListRoots</a>
+  /// don't know the root ID, you can call the Organizations <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/APIReference/API_ListRoots.html">ListRoots</a>
   /// API.
   final String? targetId;
 
@@ -995,6 +1091,7 @@ class Summary {
     this.targetId,
     this.targetIdType,
   });
+
   factory Summary.fromJson(Map<String, dynamic> json) {
     return Summary(
       lastUpdated: json['LastUpdated'] as String?,
@@ -1007,11 +1104,12 @@ class Summary {
   }
 }
 
-/// The metadata that you apply to AWS resources to help you categorize and
-/// organize them. Each tag consists of a key and a value, both of which you
-/// define. For more information, see <a
-/// href="http://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
-/// AWS Resources</a> in the <i>AWS General Reference</i>.
+/// The metadata that you apply to Amazon Web Services resources to help you
+/// categorize and organize them. Each tag consists of a key and a value, both
+/// of which you define. For more information, see <a
+/// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+/// Amazon Web Services Resources</a> in the <i>Amazon Web Services General
+/// Reference</i>.
 class Tag {
   /// One part of a key-value pair that makes up a tag. A key is a general label
   /// that acts like a category for more specific tag values.
@@ -1025,6 +1123,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -1069,6 +1168,7 @@ class TagResourcesOutput {
   TagResourcesOutput({
     this.failedResourcesMap,
   });
+
   factory TagResourcesOutput.fromJson(Map<String, dynamic> json) {
     return TagResourcesOutput(
       failedResourcesMap: (json['FailedResourcesMap'] as Map<String, dynamic>?)
@@ -1112,13 +1212,17 @@ extension TargetIdTypeFromString on String {
 }
 
 class UntagResourcesOutput {
-  /// Details of resources that could not be untagged. An error code, status code,
-  /// and error message are returned for each failed item.
+  /// A map containing a key-value pair for each failed item that couldn't be
+  /// untagged. The key is the ARN of the failed resource. The value is a
+  /// <code>FailureInfo</code> object that contains an error code, a status code,
+  /// and an error message. If there are no errors, the
+  /// <code>FailedResourcesMap</code> is empty.
   final Map<String, FailureInfo>? failedResourcesMap;
 
   UntagResourcesOutput({
     this.failedResourcesMap,
   });
+
   factory UntagResourcesOutput.fromJson(Map<String, dynamic> json) {
     return UntagResourcesOutput(
       failedResourcesMap: (json['FailedResourcesMap'] as Map<String, dynamic>?)

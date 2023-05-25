@@ -3,19 +3,16 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-The Amazon Chime API (application programming interface) is designed for
-developers to perform key tasks, such as creating and managing Amazon Chime
-accounts, users, and Voice Connectors. This guide provides detailed
+The Amazon Chime application programming interface (API) is designed so
+administrators can perform key tasks, such as creating and managing Amazon
+Chime accounts, users, and Voice Connectors. This guide provides detailed
 information about the Amazon Chime API, including operations, types, inputs
-and outputs, and error codes. It also includes some server-side API actions
-to use with the Amazon Chime SDK. For more information about the Amazon
-Chime SDK, see <a
-href="https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using
-the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i>.
+and outputs, and error codes.
 
 You can use an AWS SDK, the AWS Command Line Interface (AWS CLI), or the
-REST API to make API calls. We recommend using an AWS SDK or the AWS CLI.
-Each API operation includes links to information about using it with a
+REST API to make API calls for Amazon Chime. We recommend using an AWS SDK
+or the AWS CLI. The page for each API action contains a <i>See Also</i>
+section that includes links to information about using the action with a
 language-specific AWS SDK or the AWS CLI.
 <dl> <dt>Using an AWS SDK</dt> <dd>
 You don't need to write code to calculate a signature for request
@@ -30,7 +27,7 @@ the AWS Command Line Interface</a> in the <i>AWS Command Line Interface User
 Guide</i>. For a list of available Amazon Chime commands, see the <a
 href="https://docs.aws.amazon.com/cli/latest/reference/chime/index.html">Amazon
 Chime commands</a> in the <i>AWS CLI Command Reference</i>.
-</dd> <dt>Using REST</dt> <dd>
+</dd> <dt>Using REST APIs</dt> <dd>
 If you use REST to make API calls, you must authenticate your request by
 providing a signature. Amazon Chime supports Signature Version 4. For more
 information, see <a

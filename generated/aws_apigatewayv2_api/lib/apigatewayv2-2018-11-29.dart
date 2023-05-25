@@ -3378,6 +3378,7 @@ class AccessLogSettings {
     this.destinationArn,
     this.format,
   });
+
   factory AccessLogSettings.fromJson(Map<String, dynamic> json) {
     return AccessLogSettings(
       destinationArn: json['destinationArn'] as String?,
@@ -3480,6 +3481,7 @@ class Api {
     this.version,
     this.warnings,
   });
+
   factory Api.fromJson(Map<String, dynamic> json) {
     return Api(
       name: json['name'] as String,
@@ -3531,6 +3533,7 @@ class ApiMapping {
     this.apiMappingId,
     this.apiMappingKey,
   });
+
   factory ApiMapping.fromJson(Map<String, dynamic> json) {
     return ApiMapping(
       apiId: json['apiId'] as String,
@@ -3683,6 +3686,7 @@ class Authorizer {
     this.identityValidationExpression,
     this.jwtConfiguration,
   });
+
   factory Authorizer.fromJson(Map<String, dynamic> json) {
     return Authorizer(
       name: json['name'] as String,
@@ -3832,6 +3836,7 @@ class Cors {
     this.exposeHeaders,
     this.maxAge,
   });
+
   factory Cors.fromJson(Map<String, dynamic> json) {
     return Cors(
       allowCredentials: json['allowCredentials'] as bool?,
@@ -3892,6 +3897,7 @@ class CreateApiMappingResponse {
     this.apiMappingKey,
     this.stage,
   });
+
   factory CreateApiMappingResponse.fromJson(Map<String, dynamic> json) {
     return CreateApiMappingResponse(
       apiId: json['apiId'] as String?,
@@ -3986,6 +3992,7 @@ class CreateApiResponse {
     this.version,
     this.warnings,
   });
+
   factory CreateApiResponse.fromJson(Map<String, dynamic> json) {
     return CreateApiResponse(
       apiEndpoint: json['apiEndpoint'] as String?,
@@ -4115,6 +4122,7 @@ class CreateAuthorizerResponse {
     this.jwtConfiguration,
     this.name,
   });
+
   factory CreateAuthorizerResponse.fromJson(Map<String, dynamic> json) {
     return CreateAuthorizerResponse(
       authorizerCredentialsArn: json['authorizerCredentialsArn'] as String?,
@@ -4168,6 +4176,7 @@ class CreateDeploymentResponse {
     this.deploymentStatusMessage,
     this.description,
   });
+
   factory CreateDeploymentResponse.fromJson(Map<String, dynamic> json) {
     return CreateDeploymentResponse(
       autoDeployed: json['autoDeployed'] as bool?,
@@ -4204,6 +4213,7 @@ class CreateDomainNameResponse {
     this.mutualTlsAuthentication,
     this.tags,
   });
+
   factory CreateDomainNameResponse.fromJson(Map<String, dynamic> json) {
     return CreateDomainNameResponse(
       apiMappingSelectionExpression:
@@ -4432,6 +4442,7 @@ class CreateIntegrationResult {
     this.timeoutInMillis,
     this.tlsConfig,
   });
+
   factory CreateIntegrationResult.fromJson(Map<String, dynamic> json) {
     return CreateIntegrationResult(
       apiGatewayManaged: json['apiGatewayManaged'] as bool?,
@@ -4523,6 +4534,7 @@ class CreateIntegrationResponseResponse {
     this.responseTemplates,
     this.templateSelectionExpression,
   });
+
   factory CreateIntegrationResponseResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateIntegrationResponseResponse(
@@ -4564,6 +4576,7 @@ class CreateModelResponse {
     this.name,
     this.schema,
   });
+
   factory CreateModelResponse.fromJson(Map<String, dynamic> json) {
     return CreateModelResponse(
       contentType: json['contentType'] as String?,
@@ -4648,6 +4661,7 @@ class CreateRouteResult {
     this.routeResponseSelectionExpression,
     this.target,
   });
+
   factory CreateRouteResult.fromJson(Map<String, dynamic> json) {
     return CreateRouteResult(
       apiGatewayManaged: json['apiGatewayManaged'] as bool?,
@@ -4699,6 +4713,7 @@ class CreateRouteResponseResponse {
     this.routeResponseId,
     this.routeResponseKey,
   });
+
   factory CreateRouteResponseResponse.fromJson(Map<String, dynamic> json) {
     return CreateRouteResponseResponse(
       modelSelectionExpression: json['modelSelectionExpression'] as String?,
@@ -4781,6 +4796,7 @@ class CreateStageResponse {
     this.stageVariables,
     this.tags,
   });
+
   factory CreateStageResponse.fromJson(Map<String, dynamic> json) {
     return CreateStageResponse(
       accessLogSettings: json['accessLogSettings'] != null
@@ -4851,6 +4867,7 @@ class CreateVpcLinkResponse {
     this.vpcLinkStatusMessage,
     this.vpcLinkVersion,
   });
+
   factory CreateVpcLinkResponse.fromJson(Map<String, dynamic> json) {
     return CreateVpcLinkResponse(
       createdDate: timeStampFromJson(json['createdDate']),
@@ -4875,6 +4892,7 @@ class CreateVpcLinkResponse {
 
 class DeleteVpcLinkResponse {
   DeleteVpcLinkResponse();
+
   factory DeleteVpcLinkResponse.fromJson(Map<String, dynamic> _) {
     return DeleteVpcLinkResponse();
   }
@@ -4910,6 +4928,7 @@ class Deployment {
     this.deploymentStatusMessage,
     this.description,
   });
+
   factory Deployment.fromJson(Map<String, dynamic> json) {
     return Deployment(
       autoDeployed: json['autoDeployed'] as bool?,
@@ -4981,6 +5000,7 @@ class DomainName {
     this.mutualTlsAuthentication,
     this.tags,
   });
+
   factory DomainName.fromJson(Map<String, dynamic> json) {
     return DomainName(
       domainName: json['domainName'] as String,
@@ -5018,10 +5038,11 @@ class DomainNameConfiguration {
   /// for this domain name was uploaded.
   final DateTime? certificateUploadDate;
 
-  /// The status of the domain name migration. The valid values are AVAILABLE and
-  /// UPDATING. If the status is UPDATING, the domain cannot be modified further
-  /// until the existing operation is complete. If it is AVAILABLE, the domain can
-  /// be updated.
+  /// The status of the domain name migration. The valid values are AVAILABLE,
+  /// UPDATING, PENDING_CERTIFICATE_REIMPORT, and PENDING_OWNERSHIP_VERIFICATION.
+  /// If the status is UPDATING, the domain cannot be modified further until the
+  /// existing operation is complete. If it is AVAILABLE, the domain can be
+  /// updated.
   final DomainNameStatus? domainNameStatus;
 
   /// An optional text message containing detailed information about status of the
@@ -5033,6 +5054,11 @@ class DomainNameConfiguration {
 
   /// The Amazon Route 53 Hosted Zone ID of the endpoint.
   final String? hostedZoneId;
+
+  /// The ARN of the public certificate issued by ACM to validate ownership of
+  /// your custom domain. Only required when configuring mutual TLS and using an
+  /// ACM imported or private CA certificate ARN as the regionalCertificateArn
+  final String? ownershipVerificationCertificateArn;
 
   /// The Transport Layer Security (TLS) version of the security policy for this
   /// domain name. The valid values are TLS_1_0 and TLS_1_2.
@@ -5047,8 +5073,10 @@ class DomainNameConfiguration {
     this.domainNameStatusMessage,
     this.endpointType,
     this.hostedZoneId,
+    this.ownershipVerificationCertificateArn,
     this.securityPolicy,
   });
+
   factory DomainNameConfiguration.fromJson(Map<String, dynamic> json) {
     return DomainNameConfiguration(
       apiGatewayDomainName: json['apiGatewayDomainName'] as String?,
@@ -5060,6 +5088,8 @@ class DomainNameConfiguration {
       domainNameStatusMessage: json['domainNameStatusMessage'] as String?,
       endpointType: (json['endpointType'] as String?)?.toEndpointType(),
       hostedZoneId: json['hostedZoneId'] as String?,
+      ownershipVerificationCertificateArn:
+          json['ownershipVerificationCertificateArn'] as String?,
       securityPolicy: (json['securityPolicy'] as String?)?.toSecurityPolicy(),
     );
   }
@@ -5073,6 +5103,8 @@ class DomainNameConfiguration {
     final domainNameStatusMessage = this.domainNameStatusMessage;
     final endpointType = this.endpointType;
     final hostedZoneId = this.hostedZoneId;
+    final ownershipVerificationCertificateArn =
+        this.ownershipVerificationCertificateArn;
     final securityPolicy = this.securityPolicy;
     return {
       if (apiGatewayDomainName != null)
@@ -5087,18 +5119,24 @@ class DomainNameConfiguration {
         'domainNameStatusMessage': domainNameStatusMessage,
       if (endpointType != null) 'endpointType': endpointType.toValue(),
       if (hostedZoneId != null) 'hostedZoneId': hostedZoneId,
+      if (ownershipVerificationCertificateArn != null)
+        'ownershipVerificationCertificateArn':
+            ownershipVerificationCertificateArn,
       if (securityPolicy != null) 'securityPolicy': securityPolicy.toValue(),
     };
   }
 }
 
-/// The status of the domain name migration. The valid values are AVAILABLE and
-/// UPDATING. If the status is UPDATING, the domain cannot be modified further
-/// until the existing operation is complete. If it is AVAILABLE, the domain can
-/// be updated.
+/// The status of the domain name migration. The valid values are AVAILABLE,
+/// UPDATING, PENDING_CERTIFICATE_REIMPORT, and PENDING_OWNERSHIP_VERIFICATION.
+/// If the status is UPDATING, the domain cannot be modified further until the
+/// existing operation is complete. If it is AVAILABLE, the domain can be
+/// updated.
 enum DomainNameStatus {
   available,
   updating,
+  pendingCertificateReimport,
+  pendingOwnershipVerification,
 }
 
 extension DomainNameStatusValueExtension on DomainNameStatus {
@@ -5108,6 +5146,10 @@ extension DomainNameStatusValueExtension on DomainNameStatus {
         return 'AVAILABLE';
       case DomainNameStatus.updating:
         return 'UPDATING';
+      case DomainNameStatus.pendingCertificateReimport:
+        return 'PENDING_CERTIFICATE_REIMPORT';
+      case DomainNameStatus.pendingOwnershipVerification:
+        return 'PENDING_OWNERSHIP_VERIFICATION';
     }
   }
 }
@@ -5119,6 +5161,10 @@ extension DomainNameStatusFromString on String {
         return DomainNameStatus.available;
       case 'UPDATING':
         return DomainNameStatus.updating;
+      case 'PENDING_CERTIFICATE_REIMPORT':
+        return DomainNameStatus.pendingCertificateReimport;
+      case 'PENDING_OWNERSHIP_VERIFICATION':
+        return DomainNameStatus.pendingOwnershipVerification;
     }
     throw Exception('$this is not known in enum DomainNameStatus');
   }
@@ -5180,6 +5226,7 @@ class GetApiMappingResponse {
     this.apiMappingKey,
     this.stage,
   });
+
   factory GetApiMappingResponse.fromJson(Map<String, dynamic> json) {
     return GetApiMappingResponse(
       apiId: json['apiId'] as String?,
@@ -5202,6 +5249,7 @@ class GetApiMappingsResponse {
     this.items,
     this.nextToken,
   });
+
   factory GetApiMappingsResponse.fromJson(Map<String, dynamic> json) {
     return GetApiMappingsResponse(
       items: (json['items'] as List?)
@@ -5297,6 +5345,7 @@ class GetApiResponse {
     this.version,
     this.warnings,
   });
+
   factory GetApiResponse.fromJson(Map<String, dynamic> json) {
     return GetApiResponse(
       apiEndpoint: json['apiEndpoint'] as String?,
@@ -5340,6 +5389,7 @@ class GetApisResponse {
     this.items,
     this.nextToken,
   });
+
   factory GetApisResponse.fromJson(Map<String, dynamic> json) {
     return GetApisResponse(
       items: (json['items'] as List?)
@@ -5449,6 +5499,7 @@ class GetAuthorizerResponse {
     this.jwtConfiguration,
     this.name,
   });
+
   factory GetAuthorizerResponse.fromJson(Map<String, dynamic> json) {
     return GetAuthorizerResponse(
       authorizerCredentialsArn: json['authorizerCredentialsArn'] as String?,
@@ -5487,6 +5538,7 @@ class GetAuthorizersResponse {
     this.items,
     this.nextToken,
   });
+
   factory GetAuthorizersResponse.fromJson(Map<String, dynamic> json) {
     return GetAuthorizersResponse(
       items: (json['items'] as List?)
@@ -5525,6 +5577,7 @@ class GetDeploymentResponse {
     this.deploymentStatusMessage,
     this.description,
   });
+
   factory GetDeploymentResponse.fromJson(Map<String, dynamic> json) {
     return GetDeploymentResponse(
       autoDeployed: json['autoDeployed'] as bool?,
@@ -5550,6 +5603,7 @@ class GetDeploymentsResponse {
     this.items,
     this.nextToken,
   });
+
   factory GetDeploymentsResponse.fromJson(Map<String, dynamic> json) {
     return GetDeploymentsResponse(
       items: (json['items'] as List?)
@@ -5584,6 +5638,7 @@ class GetDomainNameResponse {
     this.mutualTlsAuthentication,
     this.tags,
   });
+
   factory GetDomainNameResponse.fromJson(Map<String, dynamic> json) {
     return GetDomainNameResponse(
       apiMappingSelectionExpression:
@@ -5616,6 +5671,7 @@ class GetDomainNamesResponse {
     this.items,
     this.nextToken,
   });
+
   factory GetDomainNamesResponse.fromJson(Map<String, dynamic> json) {
     return GetDomainNamesResponse(
       items: (json['items'] as List?)
@@ -5835,6 +5891,7 @@ class GetIntegrationResult {
     this.timeoutInMillis,
     this.tlsConfig,
   });
+
   factory GetIntegrationResult.fromJson(Map<String, dynamic> json) {
     return GetIntegrationResult(
       apiGatewayManaged: json['apiGatewayManaged'] as bool?,
@@ -5926,6 +5983,7 @@ class GetIntegrationResponseResponse {
     this.responseTemplates,
     this.templateSelectionExpression,
   });
+
   factory GetIntegrationResponseResponse.fromJson(Map<String, dynamic> json) {
     return GetIntegrationResponseResponse(
       contentHandlingStrategy: (json['contentHandlingStrategy'] as String?)
@@ -5954,6 +6012,7 @@ class GetIntegrationResponsesResponse {
     this.items,
     this.nextToken,
   });
+
   factory GetIntegrationResponsesResponse.fromJson(Map<String, dynamic> json) {
     return GetIntegrationResponsesResponse(
       items: (json['items'] as List?)
@@ -5977,6 +6036,7 @@ class GetIntegrationsResponse {
     this.items,
     this.nextToken,
   });
+
   factory GetIntegrationsResponse.fromJson(Map<String, dynamic> json) {
     return GetIntegrationsResponse(
       items: (json['items'] as List?)
@@ -6012,6 +6072,7 @@ class GetModelResponse {
     this.name,
     this.schema,
   });
+
   factory GetModelResponse.fromJson(Map<String, dynamic> json) {
     return GetModelResponse(
       contentType: json['contentType'] as String?,
@@ -6030,6 +6091,7 @@ class GetModelTemplateResponse {
   GetModelTemplateResponse({
     this.value,
   });
+
   factory GetModelTemplateResponse.fromJson(Map<String, dynamic> json) {
     return GetModelTemplateResponse(
       value: json['value'] as String?,
@@ -6049,6 +6111,7 @@ class GetModelsResponse {
     this.items,
     this.nextToken,
   });
+
   factory GetModelsResponse.fromJson(Map<String, dynamic> json) {
     return GetModelsResponse(
       items: (json['items'] as List?)
@@ -6133,6 +6196,7 @@ class GetRouteResult {
     this.routeResponseSelectionExpression,
     this.target,
   });
+
   factory GetRouteResult.fromJson(Map<String, dynamic> json) {
     return GetRouteResult(
       apiGatewayManaged: json['apiGatewayManaged'] as bool?,
@@ -6184,6 +6248,7 @@ class GetRouteResponseResponse {
     this.routeResponseId,
     this.routeResponseKey,
   });
+
   factory GetRouteResponseResponse.fromJson(Map<String, dynamic> json) {
     return GetRouteResponseResponse(
       modelSelectionExpression: json['modelSelectionExpression'] as String?,
@@ -6210,6 +6275,7 @@ class GetRouteResponsesResponse {
     this.items,
     this.nextToken,
   });
+
   factory GetRouteResponsesResponse.fromJson(Map<String, dynamic> json) {
     return GetRouteResponsesResponse(
       items: (json['items'] as List?)
@@ -6233,6 +6299,7 @@ class GetRoutesResponse {
     this.items,
     this.nextToken,
   });
+
   factory GetRoutesResponse.fromJson(Map<String, dynamic> json) {
     return GetRoutesResponse(
       items: (json['items'] as List?)
@@ -6312,6 +6379,7 @@ class GetStageResponse {
     this.stageVariables,
     this.tags,
   });
+
   factory GetStageResponse.fromJson(Map<String, dynamic> json) {
     return GetStageResponse(
       accessLogSettings: json['accessLogSettings'] != null
@@ -6355,6 +6423,7 @@ class GetStagesResponse {
     this.items,
     this.nextToken,
   });
+
   factory GetStagesResponse.fromJson(Map<String, dynamic> json) {
     return GetStagesResponse(
       items: (json['items'] as List?)
@@ -6372,6 +6441,7 @@ class GetTagsResponse {
   GetTagsResponse({
     this.tags,
   });
+
   factory GetTagsResponse.fromJson(Map<String, dynamic> json) {
     return GetTagsResponse(
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -6419,6 +6489,7 @@ class GetVpcLinkResponse {
     this.vpcLinkStatusMessage,
     this.vpcLinkVersion,
   });
+
   factory GetVpcLinkResponse.fromJson(Map<String, dynamic> json) {
     return GetVpcLinkResponse(
       createdDate: timeStampFromJson(json['createdDate']),
@@ -6453,6 +6524,7 @@ class GetVpcLinksResponse {
     this.items,
     this.nextToken,
   });
+
   factory GetVpcLinksResponse.fromJson(Map<String, dynamic> json) {
     return GetVpcLinksResponse(
       items: (json['items'] as List?)
@@ -6548,6 +6620,7 @@ class ImportApiResponse {
     this.version,
     this.warnings,
   });
+
   factory ImportApiResponse.fromJson(Map<String, dynamic> json) {
     return ImportApiResponse(
       apiEndpoint: json['apiEndpoint'] as String?,
@@ -6788,6 +6861,7 @@ class Integration {
     this.timeoutInMillis,
     this.tlsConfig,
   });
+
   factory Integration.fromJson(Map<String, dynamic> json) {
     return Integration(
       apiGatewayManaged: json['apiGatewayManaged'] as bool?,
@@ -6880,6 +6954,7 @@ class IntegrationResponse {
     this.responseTemplates,
     this.templateSelectionExpression,
   });
+
   factory IntegrationResponse.fromJson(Map<String, dynamic> json) {
     return IntegrationResponse(
       integrationResponseKey: json['integrationResponseKey'] as String,
@@ -6959,6 +7034,7 @@ class JWTConfiguration {
     this.audience,
     this.issuer,
   });
+
   factory JWTConfiguration.fromJson(Map<String, dynamic> json) {
     return JWTConfiguration(
       audience: (json['audience'] as List?)
@@ -7041,6 +7117,7 @@ class Model {
     this.modelId,
     this.schema,
   });
+
   factory Model.fromJson(Map<String, dynamic> json) {
     return Model(
       name: json['name'] as String,
@@ -7078,6 +7155,7 @@ class MutualTlsAuthentication {
     this.truststoreVersion,
     this.truststoreWarnings,
   });
+
   factory MutualTlsAuthentication.fromJson(Map<String, dynamic> json) {
     return MutualTlsAuthentication(
       truststoreUri: json['truststoreUri'] as String?,
@@ -7127,6 +7205,7 @@ class ParameterConstraints {
   ParameterConstraints({
     this.required,
   });
+
   factory ParameterConstraints.fromJson(Map<String, dynamic> json) {
     return ParameterConstraints(
       required: json['required'] as bool?,
@@ -7289,6 +7368,7 @@ class ReimportApiResponse {
     this.version,
     this.warnings,
   });
+
   factory ReimportApiResponse.fromJson(Map<String, dynamic> json) {
     return ReimportApiResponse(
       apiEndpoint: json['apiEndpoint'] as String?,
@@ -7394,6 +7474,7 @@ class Route {
     this.routeResponseSelectionExpression,
     this.target,
   });
+
   factory Route.fromJson(Map<String, dynamic> json) {
     return Route(
       routeKey: json['routeKey'] as String,
@@ -7446,6 +7527,7 @@ class RouteResponse {
     this.responseParameters,
     this.routeResponseId,
   });
+
   factory RouteResponse.fromJson(Map<String, dynamic> json) {
     return RouteResponse(
       routeResponseKey: json['routeResponseKey'] as String,
@@ -7488,6 +7570,7 @@ class RouteSettings {
     this.throttlingBurstLimit,
     this.throttlingRateLimit,
   });
+
   factory RouteSettings.fromJson(Map<String, dynamic> json) {
     return RouteSettings(
       dataTraceEnabled: json['dataTraceEnabled'] as bool?,
@@ -7616,6 +7699,7 @@ class Stage {
     this.stageVariables,
     this.tags,
   });
+
   factory Stage.fromJson(Map<String, dynamic> json) {
     return Stage(
       stageName: json['stageName'] as String,
@@ -7649,6 +7733,7 @@ class Stage {
 
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
@@ -7666,6 +7751,7 @@ class TlsConfig {
   TlsConfig({
     this.serverNameToVerify,
   });
+
   factory TlsConfig.fromJson(Map<String, dynamic> json) {
     return TlsConfig(
       serverNameToVerify: json['serverNameToVerify'] as String?,
@@ -7712,6 +7798,7 @@ class UpdateApiMappingResponse {
     this.apiMappingKey,
     this.stage,
   });
+
   factory UpdateApiMappingResponse.fromJson(Map<String, dynamic> json) {
     return UpdateApiMappingResponse(
       apiId: json['apiId'] as String?,
@@ -7806,6 +7893,7 @@ class UpdateApiResponse {
     this.version,
     this.warnings,
   });
+
   factory UpdateApiResponse.fromJson(Map<String, dynamic> json) {
     return UpdateApiResponse(
       apiEndpoint: json['apiEndpoint'] as String?,
@@ -7935,6 +8023,7 @@ class UpdateAuthorizerResponse {
     this.jwtConfiguration,
     this.name,
   });
+
   factory UpdateAuthorizerResponse.fromJson(Map<String, dynamic> json) {
     return UpdateAuthorizerResponse(
       authorizerCredentialsArn: json['authorizerCredentialsArn'] as String?,
@@ -7988,6 +8077,7 @@ class UpdateDeploymentResponse {
     this.deploymentStatusMessage,
     this.description,
   });
+
   factory UpdateDeploymentResponse.fromJson(Map<String, dynamic> json) {
     return UpdateDeploymentResponse(
       autoDeployed: json['autoDeployed'] as bool?,
@@ -8024,6 +8114,7 @@ class UpdateDomainNameResponse {
     this.mutualTlsAuthentication,
     this.tags,
   });
+
   factory UpdateDomainNameResponse.fromJson(Map<String, dynamic> json) {
     return UpdateDomainNameResponse(
       apiMappingSelectionExpression:
@@ -8252,6 +8343,7 @@ class UpdateIntegrationResult {
     this.timeoutInMillis,
     this.tlsConfig,
   });
+
   factory UpdateIntegrationResult.fromJson(Map<String, dynamic> json) {
     return UpdateIntegrationResult(
       apiGatewayManaged: json['apiGatewayManaged'] as bool?,
@@ -8343,6 +8435,7 @@ class UpdateIntegrationResponseResponse {
     this.responseTemplates,
     this.templateSelectionExpression,
   });
+
   factory UpdateIntegrationResponseResponse.fromJson(
       Map<String, dynamic> json) {
     return UpdateIntegrationResponseResponse(
@@ -8384,6 +8477,7 @@ class UpdateModelResponse {
     this.name,
     this.schema,
   });
+
   factory UpdateModelResponse.fromJson(Map<String, dynamic> json) {
     return UpdateModelResponse(
       contentType: json['contentType'] as String?,
@@ -8468,6 +8562,7 @@ class UpdateRouteResult {
     this.routeResponseSelectionExpression,
     this.target,
   });
+
   factory UpdateRouteResult.fromJson(Map<String, dynamic> json) {
     return UpdateRouteResult(
       apiGatewayManaged: json['apiGatewayManaged'] as bool?,
@@ -8519,6 +8614,7 @@ class UpdateRouteResponseResponse {
     this.routeResponseId,
     this.routeResponseKey,
   });
+
   factory UpdateRouteResponseResponse.fromJson(Map<String, dynamic> json) {
     return UpdateRouteResponseResponse(
       modelSelectionExpression: json['modelSelectionExpression'] as String?,
@@ -8601,6 +8697,7 @@ class UpdateStageResponse {
     this.stageVariables,
     this.tags,
   });
+
   factory UpdateStageResponse.fromJson(Map<String, dynamic> json) {
     return UpdateStageResponse(
       accessLogSettings: json['accessLogSettings'] != null
@@ -8671,6 +8768,7 @@ class UpdateVpcLinkResponse {
     this.vpcLinkStatusMessage,
     this.vpcLinkVersion,
   });
+
   factory UpdateVpcLinkResponse.fromJson(Map<String, dynamic> json) {
     return UpdateVpcLinkResponse(
       createdDate: timeStampFromJson(json['createdDate']),
@@ -8733,6 +8831,7 @@ class VpcLink {
     this.vpcLinkStatusMessage,
     this.vpcLinkVersion,
   });
+
   factory VpcLink.fromJson(Map<String, dynamic> json) {
     return VpcLink(
       name: json['name'] as String,

@@ -53,11 +53,62 @@ class DocDB {
     _protocol.close();
   }
 
+  /// Adds a source identifier to an existing event notification subscription.
+  ///
+  /// May throw [SubscriptionNotFoundFault].
+  /// May throw [SourceNotFoundFault].
+  ///
+  /// Parameter [sourceIdentifier] :
+  /// The identifier of the event source to be added:
+  ///
+  /// <ul>
+  /// <li>
+  /// If the source type is an instance, a <code>DBInstanceIdentifier</code>
+  /// must be provided.
+  /// </li>
+  /// <li>
+  /// If the source type is a security group, a <code>DBSecurityGroupName</code>
+  /// must be provided.
+  /// </li>
+  /// <li>
+  /// If the source type is a parameter group, a
+  /// <code>DBParameterGroupName</code> must be provided.
+  /// </li>
+  /// <li>
+  /// If the source type is a snapshot, a <code>DBSnapshotIdentifier</code> must
+  /// be provided.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [subscriptionName] :
+  /// The name of the Amazon DocumentDB event notification subscription that you
+  /// want to add a source identifier to.
+  Future<AddSourceIdentifierToSubscriptionResult>
+      addSourceIdentifierToSubscription({
+    required String sourceIdentifier,
+    required String subscriptionName,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['SourceIdentifier'] = sourceIdentifier;
+    $request['SubscriptionName'] = subscriptionName;
+    final $result = await _protocol.send(
+      $request,
+      action: 'AddSourceIdentifierToSubscription',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['AddSourceIdentifierToSubscriptionMessage'],
+      shapes: shapes,
+      resultWrapper: 'AddSourceIdentifierToSubscriptionResult',
+    );
+    return AddSourceIdentifierToSubscriptionResult.fromXml($result);
+  }
+
   /// Adds metadata tags to an Amazon DocumentDB resource. You can use these
   /// tags with cost allocation reporting to track costs that are associated
-  /// with Amazon DocumentDB resources. or in a <code>Condition</code> statement
-  /// in an AWS Identity and Access Management (IAM) policy for Amazon
-  /// DocumentDB.
+  /// with Amazon DocumentDB resources or in a <code>Condition</code> statement
+  /// in an Identity and Access Management (IAM) policy for Amazon DocumentDB.
   ///
   /// May throw [DBInstanceNotFoundFault].
   /// May throw [DBSnapshotNotFoundFault].
@@ -163,13 +214,13 @@ class DocDB {
   /// Must specify a valid cluster parameter group.
   /// </li>
   /// <li>
-  /// If the source cluster parameter group is in the same AWS Region as the
-  /// copy, specify a valid parameter group identifier; for example,
-  /// <code>my-db-cluster-param-group</code>, or a valid ARN.
+  /// If the source cluster parameter group is in the same Amazon Web Services
+  /// Region as the copy, specify a valid parameter group identifier; for
+  /// example, <code>my-db-cluster-param-group</code>, or a valid ARN.
   /// </li>
   /// <li>
-  /// If the source parameter group is in a different AWS Region than the copy,
-  /// specify a valid cluster parameter group ARN; for example,
+  /// If the source parameter group is in a different Amazon Web Services Region
+  /// than the copy, specify a valid cluster parameter group ARN; for example,
   /// <code>arn:aws:rds:us-east-1:123456789012:sample-cluster:sample-parameter-group</code>.
   /// </li>
   /// </ul>
@@ -233,7 +284,8 @@ class DocDB {
   /// To copy a cluster snapshot from a shared manual cluster snapshot,
   /// <code>SourceDBClusterSnapshotIdentifier</code> must be the Amazon Resource
   /// Name (ARN) of the shared cluster snapshot. You can only copy a shared DB
-  /// cluster snapshot, whether encrypted or not, in the same AWS Region.
+  /// cluster snapshot, whether encrypted or not, in the same Amazon Web
+  /// Services Region.
   ///
   /// To cancel the copy operation after it is in progress, delete the target
   /// cluster snapshot identified by
@@ -258,12 +310,12 @@ class DocDB {
   /// Must specify a valid system snapshot in the <i>available</i> state.
   /// </li>
   /// <li>
-  /// If the source snapshot is in the same AWS Region as the copy, specify a
-  /// valid snapshot identifier.
+  /// If the source snapshot is in the same Amazon Web Services Region as the
+  /// copy, specify a valid snapshot identifier.
   /// </li>
   /// <li>
-  /// If the source snapshot is in a different AWS Region than the copy, specify
-  /// a valid cluster snapshot ARN.
+  /// If the source snapshot is in a different Amazon Web Services Region than
+  /// the copy, specify a valid cluster snapshot ARN.
   /// </li>
   /// </ul>
   /// Example: <code>my-cluster-snapshot1</code>
@@ -293,46 +345,49 @@ class DocDB {
   /// default is <code>false</code>.
   ///
   /// Parameter [kmsKeyId] :
-  /// The AWS KMS key ID for an encrypted cluster snapshot. The AWS KMS key ID
-  /// is the Amazon Resource Name (ARN), AWS KMS key identifier, or the AWS KMS
-  /// key alias for the AWS KMS encryption key.
+  /// The KMS key ID for an encrypted cluster snapshot. The KMS key ID is the
+  /// Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for
+  /// the KMS encryption key.
   ///
-  /// If you copy an encrypted cluster snapshot from your AWS account, you can
-  /// specify a value for <code>KmsKeyId</code> to encrypt the copy with a new
-  /// AWS KMS encryption key. If you don't specify a value for
+  /// If you copy an encrypted cluster snapshot from your Amazon Web Services
+  /// account, you can specify a value for <code>KmsKeyId</code> to encrypt the
+  /// copy with a new KMS encryption key. If you don't specify a value for
   /// <code>KmsKeyId</code>, then the copy of the cluster snapshot is encrypted
-  /// with the same AWS KMS key as the source cluster snapshot.
+  /// with the same KMS key as the source cluster snapshot.
   ///
-  /// If you copy an encrypted cluster snapshot that is shared from another AWS
-  /// account, then you must specify a value for <code>KmsKeyId</code>.
+  /// If you copy an encrypted cluster snapshot that is shared from another
+  /// Amazon Web Services account, then you must specify a value for
+  /// <code>KmsKeyId</code>.
   ///
-  /// To copy an encrypted cluster snapshot to another AWS Region, set
-  /// <code>KmsKeyId</code> to the AWS KMS key ID that you want to use to
-  /// encrypt the copy of the cluster snapshot in the destination Region. AWS
-  /// KMS encryption keys are specific to the AWS Region that they are created
-  /// in, and you can't use encryption keys from one AWS Region in another AWS
-  /// Region.
+  /// To copy an encrypted cluster snapshot to another Amazon Web Services
+  /// Region, set <code>KmsKeyId</code> to the KMS key ID that you want to use
+  /// to encrypt the copy of the cluster snapshot in the destination Region. KMS
+  /// encryption keys are specific to the Amazon Web Services Region that they
+  /// are created in, and you can't use encryption keys from one Amazon Web
+  /// Services Region in another Amazon Web Services Region.
   ///
   /// If you copy an unencrypted cluster snapshot and specify a value for the
   /// <code>KmsKeyId</code> parameter, an error is returned.
   ///
   /// Parameter [preSignedUrl] :
-  /// The URL that contains a Signature Version 4 signed request for the
-  /// <code>CopyDBClusterSnapshot</code> API action in the AWS Region that
-  /// contains the source cluster snapshot to copy. You must use the
-  /// <code>PreSignedUrl</code> parameter when copying a cluster snapshot from
-  /// another AWS Region.
+  /// The URL that contains a Signature Version 4 signed request for
+  /// the<code>CopyDBClusterSnapshot</code> API action in the Amazon Web
+  /// Services Region that contains the source cluster snapshot to copy. You
+  /// must use the <code>PreSignedUrl</code> parameter when copying a cluster
+  /// snapshot from another Amazon Web Services Region.
   ///
-  /// If you are using an AWS SDK tool or the AWS CLI, you can specify
-  /// <code>SourceRegion</code> (or <code>--source-region</code> for the AWS
+  /// If you are using an Amazon Web Services SDK tool or the CLI, you can
+  /// specify <code>SourceRegion</code> (or <code>--source-region</code> for the
   /// CLI) instead of specifying <code>PreSignedUrl</code> manually. Specifying
   /// <code>SourceRegion</code> autogenerates a pre-signed URL that is a valid
-  /// request for the operation that can be executed in the source AWS Region.
+  /// request for the operation that can be executed in the source Amazon Web
+  /// Services Region.
   ///
   /// The presigned URL must be a valid request for the
   /// <code>CopyDBClusterSnapshot</code> API action that can be executed in the
-  /// source AWS Region that contains the cluster snapshot to be copied. The
-  /// presigned URL request must contain the following parameter values:
+  /// source Amazon Web Services Region that contains the cluster snapshot to be
+  /// copied. The presigned URL request must contain the following parameter
+  /// values:
   ///
   /// <ul>
   /// <li>
@@ -342,9 +397,9 @@ class DocDB {
   /// <li>
   /// <code>SourceDBClusterSnapshotIdentifier</code> - The identifier for the
   /// the encrypted cluster snapshot to be copied. This identifier must be in
-  /// the Amazon Resource Name (ARN) format for the source AWS Region. For
-  /// example, if you are copying an encrypted cluster snapshot from the
-  /// us-east-1 AWS Region, then your
+  /// the Amazon Resource Name (ARN) format for the source Amazon Web Services
+  /// Region. For example, if you are copying an encrypted cluster snapshot from
+  /// the us-east-1 Amazon Web Services Region, then your
   /// <code>SourceDBClusterSnapshotIdentifier</code> looks something like the
   /// following:
   /// <code>arn:aws:rds:us-east-1:12345678012:sample-cluster:sample-cluster-snapshot</code>.
@@ -405,6 +460,8 @@ class DocDB {
   /// May throw [DBClusterNotFoundFault].
   /// May throw [DBInstanceNotFoundFault].
   /// May throw [DBSubnetGroupDoesNotCoverEnoughAZs].
+  /// May throw [GlobalClusterNotFoundFault].
+  /// May throw [InvalidGlobalClusterStateFault].
   ///
   /// Parameter [dBClusterIdentifier] :
   /// The cluster identifier. This parameter is stored as a lowercase string.
@@ -428,30 +485,6 @@ class DocDB {
   /// The name of the database engine to be used for this cluster.
   ///
   /// Valid values: <code>docdb</code>
-  ///
-  /// Parameter [masterUserPassword] :
-  /// The password for the master database user. This password can contain any
-  /// printable ASCII character except forward slash (/), double quote ("), or
-  /// the "at" symbol (@).
-  ///
-  /// Constraints: Must contain from 8 to 100 characters.
-  ///
-  /// Parameter [masterUsername] :
-  /// The name of the master user for the cluster.
-  ///
-  /// Constraints:
-  ///
-  /// <ul>
-  /// <li>
-  /// Must be from 1 to 63 letters or numbers.
-  /// </li>
-  /// <li>
-  /// The first character must be a letter.
-  /// </li>
-  /// <li>
-  /// Cannot be a reserved word for the chosen database engine.
-  /// </li>
-  /// </ul>
   ///
   /// Parameter [availabilityZones] :
   /// A list of Amazon EC2 Availability Zones that instances in the cluster can
@@ -499,19 +532,22 @@ class DocDB {
   /// Profiling Amazon DocumentDB Operations</a>.
   ///
   /// Parameter [engineVersion] :
-  /// The version number of the database engine to use. The --engine-version
-  /// will default to the latest major engine version. For production workloads,
-  /// we recommend explicitly declaring this parameter with the intended major
-  /// engine version.
+  /// The version number of the database engine to use. The
+  /// <code>--engine-version</code> will default to the latest major engine
+  /// version. For production workloads, we recommend explicitly declaring this
+  /// parameter with the intended major engine version.
+  ///
+  /// Parameter [globalClusterIdentifier] :
+  /// The cluster identifier of the new global cluster.
   ///
   /// Parameter [kmsKeyId] :
-  /// The AWS KMS key identifier for an encrypted cluster.
+  /// The KMS key identifier for an encrypted cluster.
   ///
-  /// The AWS KMS key identifier is the Amazon Resource Name (ARN) for the AWS
-  /// KMS encryption key. If you are creating a cluster using the same AWS
-  /// account that owns the AWS KMS encryption key that is used to encrypt the
-  /// new cluster, you can use the AWS KMS key alias instead of the ARN for the
-  /// AWS KMS encryption key.
+  /// The KMS key identifier is the Amazon Resource Name (ARN) for the KMS
+  /// encryption key. If you are creating a cluster using the same Amazon Web
+  /// Services account that owns the KMS encryption key that is used to encrypt
+  /// the new cluster, you can use the KMS key alias instead of the ARN for the
+  /// KMS encryption key.
   ///
   /// If an encryption key is not specified in <code>KmsKeyId</code>:
   ///
@@ -521,8 +557,33 @@ class DocDB {
   /// Amazon DocumentDB uses your default encryption key.
   /// </li>
   /// </ul>
-  /// AWS KMS creates the default encryption key for your AWS account. Your AWS
-  /// account has a different default encryption key for each AWS Region.
+  /// KMS creates the default encryption key for your Amazon Web Services
+  /// account. Your Amazon Web Services account has a different default
+  /// encryption key for each Amazon Web Services Regions.
+  ///
+  /// Parameter [masterUserPassword] :
+  /// The password for the master database user. This password can contain any
+  /// printable ASCII character except forward slash (/), double quote ("), or
+  /// the "at" symbol (@).
+  ///
+  /// Constraints: Must contain from 8 to 100 characters.
+  ///
+  /// Parameter [masterUsername] :
+  /// The name of the master user for the cluster.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must be from 1 to 63 letters or numbers.
+  /// </li>
+  /// <li>
+  /// The first character must be a letter.
+  /// </li>
+  /// <li>
+  /// Cannot be a reserved word for the chosen database engine.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [port] :
   /// The port number on which the instances in the cluster accept connections.
@@ -536,7 +597,7 @@ class DocDB {
   /// parameter.
   ///
   /// The default is a 30-minute window selected at random from an 8-hour block
-  /// of time for each AWS Region.
+  /// of time for each Amazon Web Services Region.
   ///
   /// Constraints:
   ///
@@ -562,7 +623,8 @@ class DocDB {
   /// Format: <code>ddd:hh24:mi-ddd:hh24:mi</code>
   ///
   /// The default is a 30-minute window selected at random from an 8-hour block
-  /// of time for each AWS Region, occurring on a random day of the week.
+  /// of time for each Amazon Web Services Region, occurring on a random day of
+  /// the week.
   ///
   /// Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun
   ///
@@ -579,8 +641,6 @@ class DocDB {
   Future<CreateDBClusterResult> createDBCluster({
     required String dBClusterIdentifier,
     required String engine,
-    required String masterUserPassword,
-    required String masterUsername,
     List<String>? availabilityZones,
     int? backupRetentionPeriod,
     String? dBClusterParameterGroupName,
@@ -588,7 +648,10 @@ class DocDB {
     bool? deletionProtection,
     List<String>? enableCloudwatchLogsExports,
     String? engineVersion,
+    String? globalClusterIdentifier,
     String? kmsKeyId,
+    String? masterUserPassword,
+    String? masterUsername,
     int? port,
     String? preSignedUrl,
     String? preferredBackupWindow,
@@ -600,8 +663,6 @@ class DocDB {
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['Engine'] = engine;
-    $request['MasterUserPassword'] = masterUserPassword;
-    $request['MasterUsername'] = masterUsername;
     availabilityZones?.also((arg) => $request['AvailabilityZones'] = arg);
     backupRetentionPeriod
         ?.also((arg) => $request['BackupRetentionPeriod'] = arg);
@@ -612,7 +673,11 @@ class DocDB {
     enableCloudwatchLogsExports
         ?.also((arg) => $request['EnableCloudwatchLogsExports'] = arg);
     engineVersion?.also((arg) => $request['EngineVersion'] = arg);
+    globalClusterIdentifier
+        ?.also((arg) => $request['GlobalClusterIdentifier'] = arg);
     kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
+    masterUserPassword?.also((arg) => $request['MasterUserPassword'] = arg);
+    masterUsername?.also((arg) => $request['MasterUsername'] = arg);
     port?.also((arg) => $request['Port'] = arg);
     preSignedUrl?.also((arg) => $request['PreSignedUrl'] = arg);
     preferredBackupWindow
@@ -821,18 +886,39 @@ class DocDB {
   /// Valid value: <code>docdb</code>
   ///
   /// Parameter [autoMinorVersionUpgrade] :
-  /// Indicates that minor engine upgrades are applied automatically to the
-  /// instance during the maintenance window.
+  /// This parameter does not apply to Amazon DocumentDB. Amazon DocumentDB does
+  /// not perform minor version upgrades regardless of the value set.
   ///
-  /// Default: <code>true</code>
+  /// Default: <code>false</code>
   ///
   /// Parameter [availabilityZone] :
   /// The Amazon EC2 Availability Zone that the instance is created in.
   ///
-  /// Default: A random, system-chosen Availability Zone in the endpoint's AWS
-  /// Region.
+  /// Default: A random, system-chosen Availability Zone in the endpoint's
+  /// Amazon Web Services Region.
   ///
   /// Example: <code>us-east-1d</code>
+  ///
+  /// Parameter [copyTagsToSnapshot] :
+  /// A value that indicates whether to copy tags from the DB instance to
+  /// snapshots of the DB instance. By default, tags are not copied.
+  ///
+  /// Parameter [enablePerformanceInsights] :
+  /// A value that indicates whether to enable Performance Insights for the DB
+  /// Instance. For more information, see <a
+  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/performance-insights.html">Using
+  /// Amazon Performance Insights</a>.
+  ///
+  /// Parameter [performanceInsightsKMSKeyId] :
+  /// The KMS key identifier for encryption of Performance Insights data.
+  ///
+  /// The KMS key identifier is the key ARN, key ID, alias ARN, or alias name
+  /// for the KMS key.
+  ///
+  /// If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon
+  /// DocumentDB uses your default KMS key. There is a default KMS key for your
+  /// Amazon Web Services account. Your Amazon Web Services account has a
+  /// different default KMS key for each Amazon Web Services region.
   ///
   /// Parameter [preferredMaintenanceWindow] :
   /// The time range each week during which system maintenance can occur, in
@@ -841,7 +927,8 @@ class DocDB {
   /// Format: <code>ddd:hh24:mi-ddd:hh24:mi</code>
   ///
   /// The default is a 30-minute window selected at random from an 8-hour block
-  /// of time for each AWS Region, occurring on a random day of the week.
+  /// of time for each Amazon Web Services Region, occurring on a random day of
+  /// the week.
   ///
   /// Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun
   ///
@@ -866,6 +953,9 @@ class DocDB {
     required String engine,
     bool? autoMinorVersionUpgrade,
     String? availabilityZone,
+    bool? copyTagsToSnapshot,
+    bool? enablePerformanceInsights,
+    String? performanceInsightsKMSKeyId,
     String? preferredMaintenanceWindow,
     int? promotionTier,
     List<Tag>? tags,
@@ -878,6 +968,11 @@ class DocDB {
     autoMinorVersionUpgrade
         ?.also((arg) => $request['AutoMinorVersionUpgrade'] = arg);
     availabilityZone?.also((arg) => $request['AvailabilityZone'] = arg);
+    copyTagsToSnapshot?.also((arg) => $request['CopyTagsToSnapshot'] = arg);
+    enablePerformanceInsights
+        ?.also((arg) => $request['EnablePerformanceInsights'] = arg);
+    performanceInsightsKMSKeyId
+        ?.also((arg) => $request['PerformanceInsightsKMSKeyId'] = arg);
     preferredMaintenanceWindow
         ?.also((arg) => $request['PreferredMaintenanceWindow'] = arg);
     promotionTier?.also((arg) => $request['PromotionTier'] = arg);
@@ -897,7 +992,7 @@ class DocDB {
   }
 
   /// Creates a new subnet group. subnet groups must contain at least one subnet
-  /// in at least two Availability Zones in the AWS Region.
+  /// in at least two Availability Zones in the Amazon Web Services Region.
   ///
   /// May throw [DBSubnetGroupAlreadyExistsFault].
   /// May throw [DBSubnetGroupQuotaExceededFault].
@@ -944,6 +1039,209 @@ class DocDB {
       resultWrapper: 'CreateDBSubnetGroupResult',
     );
     return CreateDBSubnetGroupResult.fromXml($result);
+  }
+
+  /// Creates an Amazon DocumentDB event notification subscription. This action
+  /// requires a topic Amazon Resource Name (ARN) created by using the Amazon
+  /// DocumentDB console, the Amazon SNS console, or the Amazon SNS API. To
+  /// obtain an ARN with Amazon SNS, you must create a topic in Amazon SNS and
+  /// subscribe to the topic. The ARN is displayed in the Amazon SNS console.
+  ///
+  /// You can specify the type of source (<code>SourceType</code>) that you want
+  /// to be notified of. You can also provide a list of Amazon DocumentDB
+  /// sources (<code>SourceIds</code>) that trigger the events, and you can
+  /// provide a list of event categories (<code>EventCategories</code>) for
+  /// events that you want to be notified of. For example, you can specify
+  /// <code>SourceType = db-instance</code>, <code>SourceIds = mydbinstance1,
+  /// mydbinstance2</code> and <code>EventCategories = Availability,
+  /// Backup</code>.
+  ///
+  /// If you specify both the <code>SourceType</code> and <code>SourceIds</code>
+  /// (such as <code>SourceType = db-instance</code> and <code>SourceIdentifier
+  /// = myDBInstance1</code>), you are notified of all the
+  /// <code>db-instance</code> events for the specified source. If you specify a
+  /// <code>SourceType</code> but do not specify a
+  /// <code>SourceIdentifier</code>, you receive notice of the events for that
+  /// source type for all your Amazon DocumentDB sources. If you do not specify
+  /// either the <code>SourceType</code> or the <code>SourceIdentifier</code>,
+  /// you are notified of events generated from all Amazon DocumentDB sources
+  /// belonging to your customer account.
+  ///
+  /// May throw [EventSubscriptionQuotaExceededFault].
+  /// May throw [SubscriptionAlreadyExistFault].
+  /// May throw [SNSInvalidTopicFault].
+  /// May throw [SNSNoAuthorizationFault].
+  /// May throw [SNSTopicArnNotFoundFault].
+  /// May throw [SubscriptionCategoryNotFoundFault].
+  /// May throw [SourceNotFoundFault].
+  ///
+  /// Parameter [snsTopicArn] :
+  /// The Amazon Resource Name (ARN) of the SNS topic created for event
+  /// notification. Amazon SNS creates the ARN when you create a topic and
+  /// subscribe to it.
+  ///
+  /// Parameter [subscriptionName] :
+  /// The name of the subscription.
+  ///
+  /// Constraints: The name must be fewer than 255 characters.
+  ///
+  /// Parameter [enabled] :
+  /// A Boolean value; set to <code>true</code> to activate the subscription,
+  /// set to <code>false</code> to create the subscription but not active it.
+  ///
+  /// Parameter [eventCategories] :
+  /// A list of event categories for a <code>SourceType</code> that you want to
+  /// subscribe to.
+  ///
+  /// Parameter [sourceIds] :
+  /// The list of identifiers of the event sources for which events are
+  /// returned. If not specified, then all sources are included in the response.
+  /// An identifier must begin with a letter and must contain only ASCII
+  /// letters, digits, and hyphens; it can't end with a hyphen or contain two
+  /// consecutive hyphens.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// If <code>SourceIds</code> are provided, <code>SourceType</code> must also
+  /// be provided.
+  /// </li>
+  /// <li>
+  /// If the source type is an instance, a <code>DBInstanceIdentifier</code>
+  /// must be provided.
+  /// </li>
+  /// <li>
+  /// If the source type is a security group, a <code>DBSecurityGroupName</code>
+  /// must be provided.
+  /// </li>
+  /// <li>
+  /// If the source type is a parameter group, a
+  /// <code>DBParameterGroupName</code> must be provided.
+  /// </li>
+  /// <li>
+  /// If the source type is a snapshot, a <code>DBSnapshotIdentifier</code> must
+  /// be provided.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [sourceType] :
+  /// The type of source that is generating the events. For example, if you want
+  /// to be notified of events generated by an instance, you would set this
+  /// parameter to <code>db-instance</code>. If this value is not specified, all
+  /// events are returned.
+  ///
+  /// Valid values: <code>db-instance</code>, <code>db-cluster</code>,
+  /// <code>db-parameter-group</code>, <code>db-security-group</code>,
+  /// <code>db-cluster-snapshot</code>
+  ///
+  /// Parameter [tags] :
+  /// The tags to be assigned to the event subscription.
+  Future<CreateEventSubscriptionResult> createEventSubscription({
+    required String snsTopicArn,
+    required String subscriptionName,
+    bool? enabled,
+    List<String>? eventCategories,
+    List<String>? sourceIds,
+    String? sourceType,
+    List<Tag>? tags,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['SnsTopicArn'] = snsTopicArn;
+    $request['SubscriptionName'] = subscriptionName;
+    enabled?.also((arg) => $request['Enabled'] = arg);
+    eventCategories?.also((arg) => $request['EventCategories'] = arg);
+    sourceIds?.also((arg) => $request['SourceIds'] = arg);
+    sourceType?.also((arg) => $request['SourceType'] = arg);
+    tags?.also((arg) => $request['Tags'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'CreateEventSubscription',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateEventSubscriptionMessage'],
+      shapes: shapes,
+      resultWrapper: 'CreateEventSubscriptionResult',
+    );
+    return CreateEventSubscriptionResult.fromXml($result);
+  }
+
+  /// Creates an Amazon DocumentDB global cluster that can span multiple
+  /// multiple Amazon Web Services Regions. The global cluster contains one
+  /// primary cluster with read-write capability, and up-to give read-only
+  /// secondary clusters. Global clusters uses storage-based fast replication
+  /// across regions with latencies less than one second, using dedicated
+  /// infrastructure with no impact to your workload’s performance.
+  /// <p/>
+  /// You can create a global cluster that is initially empty, and then add a
+  /// primary and a secondary to it. Or you can specify an existing cluster
+  /// during the create operation, and this cluster becomes the primary of the
+  /// global cluster.
+  /// <note>
+  /// This action only applies to Amazon DocumentDB clusters.
+  /// </note>
+  ///
+  /// May throw [GlobalClusterAlreadyExistsFault].
+  /// May throw [GlobalClusterQuotaExceededFault].
+  /// May throw [InvalidDBClusterStateFault].
+  /// May throw [DBClusterNotFoundFault].
+  ///
+  /// Parameter [globalClusterIdentifier] :
+  /// The cluster identifier of the new global cluster.
+  ///
+  /// Parameter [databaseName] :
+  /// The name for your database of up to 64 alpha-numeric characters. If you do
+  /// not provide a name, Amazon DocumentDB will not create a database in the
+  /// global cluster you are creating.
+  ///
+  /// Parameter [deletionProtection] :
+  /// The deletion protection setting for the new global cluster. The global
+  /// cluster can't be deleted when deletion protection is enabled.
+  ///
+  /// Parameter [engine] :
+  /// The name of the database engine to be used for this cluster.
+  ///
+  /// Parameter [engineVersion] :
+  /// The engine version of the global cluster.
+  ///
+  /// Parameter [sourceDBClusterIdentifier] :
+  /// The Amazon Resource Name (ARN) to use as the primary cluster of the global
+  /// cluster. This parameter is optional.
+  ///
+  /// Parameter [storageEncrypted] :
+  /// The storage encryption setting for the new global cluster.
+  Future<CreateGlobalClusterResult> createGlobalCluster({
+    required String globalClusterIdentifier,
+    String? databaseName,
+    bool? deletionProtection,
+    String? engine,
+    String? engineVersion,
+    String? sourceDBClusterIdentifier,
+    bool? storageEncrypted,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['GlobalClusterIdentifier'] = globalClusterIdentifier;
+    databaseName?.also((arg) => $request['DatabaseName'] = arg);
+    deletionProtection?.also((arg) => $request['DeletionProtection'] = arg);
+    engine?.also((arg) => $request['Engine'] = arg);
+    engineVersion?.also((arg) => $request['EngineVersion'] = arg);
+    sourceDBClusterIdentifier
+        ?.also((arg) => $request['SourceDBClusterIdentifier'] = arg);
+    storageEncrypted?.also((arg) => $request['StorageEncrypted'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'CreateGlobalCluster',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateGlobalClusterMessage'],
+      shapes: shapes,
+      resultWrapper: 'CreateGlobalClusterResult',
+    );
+    return CreateGlobalClusterResult.fromXml($result);
   }
 
   /// Deletes a previously provisioned cluster. When you delete a cluster, all
@@ -1174,8 +1472,65 @@ class DocDB {
     );
   }
 
+  /// Deletes an Amazon DocumentDB event notification subscription.
+  ///
+  /// May throw [SubscriptionNotFoundFault].
+  /// May throw [InvalidEventSubscriptionStateFault].
+  ///
+  /// Parameter [subscriptionName] :
+  /// The name of the Amazon DocumentDB event notification subscription that you
+  /// want to delete.
+  Future<DeleteEventSubscriptionResult> deleteEventSubscription({
+    required String subscriptionName,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['SubscriptionName'] = subscriptionName;
+    final $result = await _protocol.send(
+      $request,
+      action: 'DeleteEventSubscription',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteEventSubscriptionMessage'],
+      shapes: shapes,
+      resultWrapper: 'DeleteEventSubscriptionResult',
+    );
+    return DeleteEventSubscriptionResult.fromXml($result);
+  }
+
+  /// Deletes a global cluster. The primary and secondary clusters must already
+  /// be detached or deleted before attempting to delete a global cluster.
+  /// <note>
+  /// This action only applies to Amazon DocumentDB clusters.
+  /// </note>
+  ///
+  /// May throw [GlobalClusterNotFoundFault].
+  /// May throw [InvalidGlobalClusterStateFault].
+  ///
+  /// Parameter [globalClusterIdentifier] :
+  /// The cluster identifier of the global cluster being deleted.
+  Future<DeleteGlobalClusterResult> deleteGlobalCluster({
+    required String globalClusterIdentifier,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['GlobalClusterIdentifier'] = globalClusterIdentifier;
+    final $result = await _protocol.send(
+      $request,
+      action: 'DeleteGlobalCluster',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteGlobalClusterMessage'],
+      shapes: shapes,
+      resultWrapper: 'DeleteGlobalClusterResult',
+    );
+    return DeleteGlobalClusterResult.fromXml($result);
+  }
+
   /// Returns a list of certificate authority (CA) certificates provided by
-  /// Amazon DocumentDB for this AWS account.
+  /// Amazon DocumentDB for this Amazon Web Services account.
   ///
   /// May throw [CertificateNotFoundFault].
   ///
@@ -1377,13 +1732,14 @@ class DocDB {
   /// Returns a list of cluster snapshot attribute names and values for a manual
   /// DB cluster snapshot.
   ///
-  /// When you share snapshots with other AWS accounts,
+  /// When you share snapshots with other Amazon Web Services accounts,
   /// <code>DescribeDBClusterSnapshotAttributes</code> returns the
-  /// <code>restore</code> attribute and a list of IDs for the AWS accounts that
-  /// are authorized to copy or restore the manual cluster snapshot. If
-  /// <code>all</code> is included in the list of values for the
-  /// <code>restore</code> attribute, then the manual cluster snapshot is public
-  /// and can be copied or restored by all AWS accounts.
+  /// <code>restore</code> attribute and a list of IDs for the Amazon Web
+  /// Services accounts that are authorized to copy or restore the manual
+  /// cluster snapshot. If <code>all</code> is included in the list of values
+  /// for the <code>restore</code> attribute, then the manual cluster snapshot
+  /// is public and can be copied or restored by all Amazon Web Services
+  /// accounts.
   ///
   /// May throw [DBClusterSnapshotNotFoundFault].
   ///
@@ -1451,14 +1807,14 @@ class DocDB {
   ///
   /// Parameter [includePublic] :
   /// Set to <code>true</code> to include manual cluster snapshots that are
-  /// public and can be copied or restored by any AWS account, and otherwise
-  /// <code>false</code>. The default is <code>false</code>.
+  /// public and can be copied or restored by any Amazon Web Services account,
+  /// and otherwise <code>false</code>. The default is <code>false</code>.
   ///
   /// Parameter [includeShared] :
   /// Set to <code>true</code> to include shared manual cluster snapshots from
-  /// other AWS accounts that this AWS account has been given permission to copy
-  /// or restore, and otherwise <code>false</code>. The default is
-  /// <code>false</code>.
+  /// other Amazon Web Services accounts that this Amazon Web Services account
+  /// has been given permission to copy or restore, and otherwise
+  /// <code>false</code>. The default is <code>false</code>.
   ///
   /// Parameter [marker] :
   /// An optional pagination token provided by a previous request. If this
@@ -1482,15 +1838,15 @@ class DocDB {
   /// <ul>
   /// <li>
   /// <code>automated</code> - Return all cluster snapshots that Amazon
-  /// DocumentDB has automatically created for your AWS account.
+  /// DocumentDB has automatically created for your Amazon Web Services account.
   /// </li>
   /// <li>
   /// <code>manual</code> - Return all cluster snapshots that you have manually
-  /// created for your AWS account.
+  /// created for your Amazon Web Services account.
   /// </li>
   /// <li>
   /// <code>shared</code> - Return all manual cluster snapshots that have been
-  /// shared to your AWS account.
+  /// shared to your Amazon Web Services account.
   /// </li>
   /// <li>
   /// <code>public</code> - Return all cluster snapshots that have been marked
@@ -1501,8 +1857,8 @@ class DocDB {
   /// automated and manual cluster snapshots are returned. You can include
   /// shared cluster snapshots with these results by setting the
   /// <code>IncludeShared</code> parameter to <code>true</code>. You can include
-  /// public cluster snapshots with these results by setting the
-  /// <code>IncludePublic</code> parameter to <code>true</code>.
+  /// public cluster snapshots with these results by setting
+  /// the<code>IncludePublic</code> parameter to <code>true</code>.
   ///
   /// The <code>IncludeShared</code> and <code>IncludePublic</code> parameters
   /// don't apply for <code>SnapshotType</code> values of <code>manual</code> or
@@ -1897,7 +2253,7 @@ class DocDB {
   /// The type of source that is generating the events.
   ///
   /// Valid values: <code>db-instance</code>, <code>db-parameter-group</code>,
-  /// <code>db-security-group</code>, <code>db-snapshot</code>
+  /// <code>db-security-group</code>
   Future<EventCategoriesMessage> describeEventCategories({
     List<Filter>? filters,
     String? sourceType,
@@ -1917,6 +2273,63 @@ class DocDB {
       resultWrapper: 'DescribeEventCategoriesResult',
     );
     return EventCategoriesMessage.fromXml($result);
+  }
+
+  /// Lists all the subscription descriptions for a customer account. The
+  /// description for a subscription includes <code>SubscriptionName</code>,
+  /// <code>SNSTopicARN</code>, <code>CustomerID</code>,
+  /// <code>SourceType</code>, <code>SourceID</code>, <code>CreationTime</code>,
+  /// and <code>Status</code>.
+  ///
+  /// If you specify a <code>SubscriptionName</code>, lists the description for
+  /// that subscription.
+  ///
+  /// May throw [SubscriptionNotFoundFault].
+  ///
+  /// Parameter [filters] :
+  /// This parameter is not currently supported.
+  ///
+  /// Parameter [marker] :
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// (marker) is included in the response so that the remaining results can be
+  /// retrieved.
+  ///
+  /// Default: 100
+  ///
+  /// Constraints: Minimum 20, maximum 100.
+  ///
+  /// Parameter [subscriptionName] :
+  /// The name of the Amazon DocumentDB event notification subscription that you
+  /// want to describe.
+  Future<EventSubscriptionsMessage> describeEventSubscriptions({
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+    String? subscriptionName,
+  }) async {
+    final $request = <String, dynamic>{};
+    filters?.also((arg) => $request['Filters'] = arg);
+    marker?.also((arg) => $request['Marker'] = arg);
+    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
+    subscriptionName?.also((arg) => $request['SubscriptionName'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeEventSubscriptions',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeEventSubscriptionsMessage'],
+      shapes: shapes,
+      resultWrapper: 'DescribeEventSubscriptionsResult',
+    );
+    return EventSubscriptionsMessage.fromXml($result);
   }
 
   /// Returns events related to instances, security groups, snapshots, and DB
@@ -2032,6 +2445,63 @@ class DocDB {
       resultWrapper: 'DescribeEventsResult',
     );
     return EventsMessage.fromXml($result);
+  }
+
+  /// Returns information about Amazon DocumentDB global clusters. This API
+  /// supports pagination.
+  /// <note>
+  /// This action only applies to Amazon DocumentDB clusters.
+  /// </note>
+  ///
+  /// May throw [GlobalClusterNotFoundFault].
+  ///
+  /// Parameter [filters] :
+  /// A filter that specifies one or more global DB clusters to describe.
+  ///
+  /// Supported filters: <code>db-cluster-id</code> accepts cluster identifiers
+  /// and cluster Amazon Resource Names (ARNs). The results list will only
+  /// include information about the clusters identified by these ARNs.
+  ///
+  /// Parameter [globalClusterIdentifier] :
+  /// The user-supplied cluster identifier. If this parameter is specified,
+  /// information from only the specific cluster is returned. This parameter
+  /// isn't case-sensitive.
+  ///
+  /// Parameter [marker] :
+  /// An optional pagination token provided by a previous
+  /// <code>DescribeGlobalClusters</code> request. If this parameter is
+  /// specified, the response includes only records beyond the marker, up to the
+  /// value specified by <code>MaxRecords</code>.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that you can retrieve the
+  /// remaining results.
+  Future<GlobalClustersMessage> describeGlobalClusters({
+    List<Filter>? filters,
+    String? globalClusterIdentifier,
+    String? marker,
+    int? maxRecords,
+  }) async {
+    final $request = <String, dynamic>{};
+    filters?.also((arg) => $request['Filters'] = arg);
+    globalClusterIdentifier
+        ?.also((arg) => $request['GlobalClusterIdentifier'] = arg);
+    marker?.also((arg) => $request['Marker'] = arg);
+    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeGlobalClusters',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeGlobalClustersMessage'],
+      shapes: shapes,
+      resultWrapper: 'DescribeGlobalClustersResult',
+    );
+    return GlobalClustersMessage.fromXml($result);
   }
 
   /// Returns a list of orderable instance options for the specified engine.
@@ -2334,9 +2804,7 @@ class DocDB {
   ///
   /// Parameter [engineVersion] :
   /// The version number of the database engine to which you want to upgrade.
-  /// Changing this parameter results in an outage. The change is applied during
-  /// the next maintenance window unless the <code>ApplyImmediately</code>
-  /// parameter is set to <code>true</code>.
+  /// Modifying engine version is not supported on Amazon DocumentDB.
   ///
   /// Parameter [masterUserPassword] :
   /// The password for the master database user. This password can contain any
@@ -2377,7 +2845,7 @@ class DocDB {
   /// <code>BackupRetentionPeriod</code> parameter.
   ///
   /// The default is a 30-minute window selected at random from an 8-hour block
-  /// of time for each AWS Region.
+  /// of time for each Amazon Web Services Region.
   ///
   /// Constraints:
   ///
@@ -2403,7 +2871,8 @@ class DocDB {
   /// Format: <code>ddd:hh24:mi-ddd:hh24:mi</code>
   ///
   /// The default is a 30-minute window selected at random from an 8-hour block
-  /// of time for each AWS Region, occurring on a random day of the week.
+  /// of time for each Amazon Web Services Region, occurring on a random day of
+  /// the week.
   ///
   /// Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun
   ///
@@ -2510,18 +2979,19 @@ class DocDB {
   }
 
   /// Adds an attribute and values to, or removes an attribute and values from,
-  /// a manual DB cluster snapshot.
+  /// a manual cluster snapshot.
   ///
-  /// To share a manual cluster snapshot with other AWS accounts, specify
-  /// <code>restore</code> as the <code>AttributeName</code>, and use the
-  /// <code>ValuesToAdd</code> parameter to add a list of IDs of the AWS
-  /// accounts that are authorized to restore the manual cluster snapshot. Use
-  /// the value <code>all</code> to make the manual cluster snapshot public,
-  /// which means that it can be copied or restored by all AWS accounts. Do not
-  /// add the <code>all</code> value for any manual DB cluster snapshots that
-  /// contain private information that you don't want available to all AWS
-  /// accounts. If a manual cluster snapshot is encrypted, it can be shared, but
-  /// only by specifying a list of authorized AWS account IDs for the
+  /// To share a manual cluster snapshot with other Amazon Web Services
+  /// accounts, specify <code>restore</code> as the <code>AttributeName</code>,
+  /// and use the <code>ValuesToAdd</code> parameter to add a list of IDs of the
+  /// Amazon Web Services accounts that are authorized to restore the manual
+  /// cluster snapshot. Use the value <code>all</code> to make the manual
+  /// cluster snapshot public, which means that it can be copied or restored by
+  /// all Amazon Web Services accounts. Do not add the <code>all</code> value
+  /// for any manual cluster snapshots that contain private information that you
+  /// don't want available to all Amazon Web Services accounts. If a manual
+  /// cluster snapshot is encrypted, it can be shared, but only by specifying a
+  /// list of authorized Amazon Web Services account IDs for the
   /// <code>ValuesToAdd</code> parameter. You can't use <code>all</code> as a
   /// value for that parameter in this case.
   ///
@@ -2532,8 +3002,8 @@ class DocDB {
   /// Parameter [attributeName] :
   /// The name of the cluster snapshot attribute to modify.
   ///
-  /// To manage authorization for other AWS accounts to copy or restore a manual
-  /// cluster snapshot, set this value to <code>restore</code>.
+  /// To manage authorization for other Amazon Web Services accounts to copy or
+  /// restore a manual cluster snapshot, set this value to <code>restore</code>.
   ///
   /// Parameter [dBClusterSnapshotIdentifier] :
   /// The identifier for the cluster snapshot to modify the attributes for.
@@ -2542,24 +3012,26 @@ class DocDB {
   /// A list of cluster snapshot attributes to add to the attribute specified by
   /// <code>AttributeName</code>.
   ///
-  /// To authorize other AWS accounts to copy or restore a manual cluster
-  /// snapshot, set this list to include one or more AWS account IDs. To make
-  /// the manual cluster snapshot restorable by any AWS account, set it to
-  /// <code>all</code>. Do not add the <code>all</code> value for any manual
-  /// cluster snapshots that contain private information that you don't want to
-  /// be available to all AWS accounts.
+  /// To authorize other Amazon Web Services accounts to copy or restore a
+  /// manual cluster snapshot, set this list to include one or more Amazon Web
+  /// Services account IDs. To make the manual cluster snapshot restorable by
+  /// any Amazon Web Services account, set it to <code>all</code>. Do not add
+  /// the <code>all</code> value for any manual cluster snapshots that contain
+  /// private information that you don't want to be available to all Amazon Web
+  /// Services accounts.
   ///
   /// Parameter [valuesToRemove] :
   /// A list of cluster snapshot attributes to remove from the attribute
   /// specified by <code>AttributeName</code>.
   ///
-  /// To remove authorization for other AWS accounts to copy or restore a manual
-  /// cluster snapshot, set this list to include one or more AWS account
-  /// identifiers. To remove authorization for any AWS account to copy or
-  /// restore the cluster snapshot, set it to <code>all</code> . If you specify
-  /// <code>all</code>, an AWS account whose account ID is explicitly added to
-  /// the <code>restore</code> attribute can still copy or restore a manual
-  /// cluster snapshot.
+  /// To remove authorization for other Amazon Web Services accounts to copy or
+  /// restore a manual cluster snapshot, set this list to include one or more
+  /// Amazon Web Services account identifiers. To remove authorization for any
+  /// Amazon Web Services account to copy or restore the cluster snapshot, set
+  /// it to <code>all</code> . If you specify <code>all</code>, an Amazon Web
+  /// Services account whose account ID is explicitly added to the
+  /// <code>restore</code> attribute can still copy or restore a manual cluster
+  /// snapshot.
   Future<ModifyDBClusterSnapshotAttributeResult>
       modifyDBClusterSnapshotAttribute({
     required String attributeName,
@@ -2627,21 +3099,20 @@ class DocDB {
   /// Default: <code>false</code>
   ///
   /// Parameter [autoMinorVersionUpgrade] :
-  /// Indicates that minor version upgrades are applied automatically to the
-  /// instance during the maintenance window. Changing this parameter doesn't
-  /// result in an outage except in the following case, and the change is
-  /// asynchronously applied as soon as possible. An outage results if this
-  /// parameter is set to <code>true</code> during the maintenance window, and a
-  /// newer minor version is available, and Amazon DocumentDB has enabled
-  /// automatic patching for that engine version.
+  /// This parameter does not apply to Amazon DocumentDB. Amazon DocumentDB does
+  /// not perform minor version upgrades regardless of the value set.
   ///
   /// Parameter [cACertificateIdentifier] :
   /// Indicates the certificate that needs to be associated with the instance.
   ///
+  /// Parameter [copyTagsToSnapshot] :
+  /// A value that indicates whether to copy all tags from the DB instance to
+  /// snapshots of the DB instance. By default, tags are not copied.
+  ///
   /// Parameter [dBInstanceClass] :
   /// The new compute and memory capacity of the instance; for example,
   /// <code>db.r5.large</code>. Not all instance classes are available in all
-  /// AWS Regions.
+  /// Amazon Web Services Regions.
   ///
   /// If you modify the instance class, an outage occurs during the change. The
   /// change is applied during the next maintenance window, unless
@@ -2649,6 +3120,12 @@ class DocDB {
   /// request.
   ///
   /// Default: Uses existing setting.
+  ///
+  /// Parameter [enablePerformanceInsights] :
+  /// A value that indicates whether to enable Performance Insights for the DB
+  /// Instance. For more information, see <a
+  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/performance-insights.html">Using
+  /// Amazon Performance Insights</a>.
   ///
   /// Parameter [newDBInstanceIdentifier] :
   /// The new instance identifier for the instance when renaming an instance.
@@ -2672,6 +3149,17 @@ class DocDB {
   /// </li>
   /// </ul>
   /// Example: <code>mydbinstance</code>
+  ///
+  /// Parameter [performanceInsightsKMSKeyId] :
+  /// The KMS key identifier for encryption of Performance Insights data.
+  ///
+  /// The KMS key identifier is the key ARN, key ID, alias ARN, or alias name
+  /// for the KMS key.
+  ///
+  /// If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon
+  /// DocumentDB uses your default KMS key. There is a default KMS key for your
+  /// Amazon Web Services account. Your Amazon Web Services account has a
+  /// different default KMS key for each Amazon Web Services region.
   ///
   /// Parameter [preferredMaintenanceWindow] :
   /// The weekly time range (in UTC) during which system maintenance can occur,
@@ -2705,8 +3193,11 @@ class DocDB {
     bool? applyImmediately,
     bool? autoMinorVersionUpgrade,
     String? cACertificateIdentifier,
+    bool? copyTagsToSnapshot,
     String? dBInstanceClass,
+    bool? enablePerformanceInsights,
     String? newDBInstanceIdentifier,
+    String? performanceInsightsKMSKeyId,
     String? preferredMaintenanceWindow,
     int? promotionTier,
   }) async {
@@ -2717,9 +3208,14 @@ class DocDB {
         ?.also((arg) => $request['AutoMinorVersionUpgrade'] = arg);
     cACertificateIdentifier
         ?.also((arg) => $request['CACertificateIdentifier'] = arg);
+    copyTagsToSnapshot?.also((arg) => $request['CopyTagsToSnapshot'] = arg);
     dBInstanceClass?.also((arg) => $request['DBInstanceClass'] = arg);
+    enablePerformanceInsights
+        ?.also((arg) => $request['EnablePerformanceInsights'] = arg);
     newDBInstanceIdentifier
         ?.also((arg) => $request['NewDBInstanceIdentifier'] = arg);
+    performanceInsightsKMSKeyId
+        ?.also((arg) => $request['PerformanceInsightsKMSKeyId'] = arg);
     preferredMaintenanceWindow
         ?.also((arg) => $request['PreferredMaintenanceWindow'] = arg);
     promotionTier?.also((arg) => $request['PromotionTier'] = arg);
@@ -2738,7 +3234,8 @@ class DocDB {
   }
 
   /// Modifies an existing subnet group. subnet groups must contain at least one
-  /// subnet in at least two Availability Zones in the AWS Region.
+  /// subnet in at least two Availability Zones in the Amazon Web Services
+  /// Region.
   ///
   /// May throw [DBSubnetGroupNotFoundFault].
   /// May throw [DBSubnetQuotaExceededFault].
@@ -2782,6 +3279,130 @@ class DocDB {
       resultWrapper: 'ModifyDBSubnetGroupResult',
     );
     return ModifyDBSubnetGroupResult.fromXml($result);
+  }
+
+  /// Modifies an existing Amazon DocumentDB event notification subscription.
+  ///
+  /// May throw [EventSubscriptionQuotaExceededFault].
+  /// May throw [SubscriptionNotFoundFault].
+  /// May throw [SNSInvalidTopicFault].
+  /// May throw [SNSNoAuthorizationFault].
+  /// May throw [SNSTopicArnNotFoundFault].
+  /// May throw [SubscriptionCategoryNotFoundFault].
+  ///
+  /// Parameter [subscriptionName] :
+  /// The name of the Amazon DocumentDB event notification subscription.
+  ///
+  /// Parameter [enabled] :
+  /// A Boolean value; set to <code>true</code> to activate the subscription.
+  ///
+  /// Parameter [eventCategories] :
+  /// A list of event categories for a <code>SourceType</code> that you want to
+  /// subscribe to.
+  ///
+  /// Parameter [snsTopicArn] :
+  /// The Amazon Resource Name (ARN) of the SNS topic created for event
+  /// notification. The ARN is created by Amazon SNS when you create a topic and
+  /// subscribe to it.
+  ///
+  /// Parameter [sourceType] :
+  /// The type of source that is generating the events. For example, if you want
+  /// to be notified of events generated by an instance, set this parameter to
+  /// <code>db-instance</code>. If this value is not specified, all events are
+  /// returned.
+  ///
+  /// Valid values: <code>db-instance</code>, <code>db-parameter-group</code>,
+  /// <code>db-security-group</code>
+  Future<ModifyEventSubscriptionResult> modifyEventSubscription({
+    required String subscriptionName,
+    bool? enabled,
+    List<String>? eventCategories,
+    String? snsTopicArn,
+    String? sourceType,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['SubscriptionName'] = subscriptionName;
+    enabled?.also((arg) => $request['Enabled'] = arg);
+    eventCategories?.also((arg) => $request['EventCategories'] = arg);
+    snsTopicArn?.also((arg) => $request['SnsTopicArn'] = arg);
+    sourceType?.also((arg) => $request['SourceType'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'ModifyEventSubscription',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyEventSubscriptionMessage'],
+      shapes: shapes,
+      resultWrapper: 'ModifyEventSubscriptionResult',
+    );
+    return ModifyEventSubscriptionResult.fromXml($result);
+  }
+
+  /// Modify a setting for an Amazon DocumentDB global cluster. You can change
+  /// one or more configuration parameters (for example: deletion protection),
+  /// or the global cluster identifier by specifying these parameters and the
+  /// new values in the request.
+  /// <note>
+  /// This action only applies to Amazon DocumentDB clusters.
+  /// </note>
+  ///
+  /// May throw [GlobalClusterNotFoundFault].
+  /// May throw [InvalidGlobalClusterStateFault].
+  ///
+  /// Parameter [globalClusterIdentifier] :
+  /// The identifier for the global cluster being modified. This parameter isn't
+  /// case-sensitive.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must match the identifier of an existing global cluster.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [deletionProtection] :
+  /// Indicates if the global cluster has deletion protection enabled. The
+  /// global cluster can't be deleted when deletion protection is enabled.
+  ///
+  /// Parameter [newGlobalClusterIdentifier] :
+  /// The new identifier for a global cluster when you modify a global cluster.
+  /// This value is stored as a lowercase string.
+  ///
+  /// <ul>
+  /// <li>
+  /// Must contain from 1 to 63 letters, numbers, or hyphens
+  ///
+  /// The first character must be a letter
+  ///
+  /// Can't end with a hyphen or contain two consecutive hyphens
+  /// </li>
+  /// </ul>
+  /// Example: <code>my-cluster2</code>
+  Future<ModifyGlobalClusterResult> modifyGlobalCluster({
+    required String globalClusterIdentifier,
+    bool? deletionProtection,
+    String? newGlobalClusterIdentifier,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['GlobalClusterIdentifier'] = globalClusterIdentifier;
+    deletionProtection?.also((arg) => $request['DeletionProtection'] = arg);
+    newGlobalClusterIdentifier
+        ?.also((arg) => $request['NewGlobalClusterIdentifier'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'ModifyGlobalCluster',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyGlobalClusterMessage'],
+      shapes: shapes,
+      resultWrapper: 'ModifyGlobalClusterResult',
+    );
+    return ModifyGlobalClusterResult.fromXml($result);
   }
 
   /// You might need to reboot your instance, usually for maintenance reasons.
@@ -2832,6 +3453,80 @@ class DocDB {
       resultWrapper: 'RebootDBInstanceResult',
     );
     return RebootDBInstanceResult.fromXml($result);
+  }
+
+  /// Detaches an Amazon DocumentDB secondary cluster from a global cluster. The
+  /// cluster becomes a standalone cluster with read-write capability instead of
+  /// being read-only and receiving data from a primary in a different region.
+  /// <note>
+  /// This action only applies to Amazon DocumentDB clusters.
+  /// </note>
+  ///
+  /// May throw [GlobalClusterNotFoundFault].
+  /// May throw [InvalidGlobalClusterStateFault].
+  /// May throw [DBClusterNotFoundFault].
+  ///
+  /// Parameter [dbClusterIdentifier] :
+  /// The Amazon Resource Name (ARN) identifying the cluster that was detached
+  /// from the Amazon DocumentDB global cluster.
+  ///
+  /// Parameter [globalClusterIdentifier] :
+  /// The cluster identifier to detach from the Amazon DocumentDB global
+  /// cluster.
+  Future<RemoveFromGlobalClusterResult> removeFromGlobalCluster({
+    required String dbClusterIdentifier,
+    required String globalClusterIdentifier,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['DbClusterIdentifier'] = dbClusterIdentifier;
+    $request['GlobalClusterIdentifier'] = globalClusterIdentifier;
+    final $result = await _protocol.send(
+      $request,
+      action: 'RemoveFromGlobalCluster',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['RemoveFromGlobalClusterMessage'],
+      shapes: shapes,
+      resultWrapper: 'RemoveFromGlobalClusterResult',
+    );
+    return RemoveFromGlobalClusterResult.fromXml($result);
+  }
+
+  /// Removes a source identifier from an existing Amazon DocumentDB event
+  /// notification subscription.
+  ///
+  /// May throw [SubscriptionNotFoundFault].
+  /// May throw [SourceNotFoundFault].
+  ///
+  /// Parameter [sourceIdentifier] :
+  /// The source identifier to be removed from the subscription, such as the
+  /// instance identifier for an instance, or the name of a security group.
+  ///
+  /// Parameter [subscriptionName] :
+  /// The name of the Amazon DocumentDB event notification subscription that you
+  /// want to remove a source identifier from.
+  Future<RemoveSourceIdentifierFromSubscriptionResult>
+      removeSourceIdentifierFromSubscription({
+    required String sourceIdentifier,
+    required String subscriptionName,
+  }) async {
+    final $request = <String, dynamic>{};
+    $request['SourceIdentifier'] = sourceIdentifier;
+    $request['SubscriptionName'] = subscriptionName;
+    final $result = await _protocol.send(
+      $request,
+      action: 'RemoveSourceIdentifierFromSubscription',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['RemoveSourceIdentifierFromSubscriptionMessage'],
+      shapes: shapes,
+      resultWrapper: 'RemoveSourceIdentifierFromSubscriptionResult',
+    );
+    return RemoveSourceIdentifierFromSubscriptionResult.fromXml($result);
   }
 
   /// Removes metadata tags from an Amazon DocumentDB resource.
@@ -2986,6 +3681,18 @@ class DocDB {
   /// Provides the list of Amazon EC2 Availability Zones that instances in the
   /// restored DB cluster can be created in.
   ///
+  /// Parameter [dBClusterParameterGroupName] :
+  /// The name of the DB cluster parameter group to associate with this DB
+  /// cluster.
+  ///
+  /// <i>Type:</i> String.       <i>Required:</i> No.
+  ///
+  /// If this argument is omitted, the default DB cluster parameter group is
+  /// used. If supplied, must match the name of an existing default DB cluster
+  /// parameter group. The string must consist of from 1 to 255 letters, numbers
+  /// or hyphens. Its first character must be a letter, and it cannot end with a
+  /// hyphen or contain two consecutive hyphens.
+  ///
   /// Parameter [dBSubnetGroupName] :
   /// The name of the subnet group to use for the new cluster.
   ///
@@ -3009,14 +3716,14 @@ class DocDB {
   /// The version of the database engine to use for the new cluster.
   ///
   /// Parameter [kmsKeyId] :
-  /// The AWS KMS key identifier to use when restoring an encrypted cluster from
-  /// a DB snapshot or cluster snapshot.
+  /// The KMS key identifier to use when restoring an encrypted cluster from a
+  /// DB snapshot or cluster snapshot.
   ///
-  /// The AWS KMS key identifier is the Amazon Resource Name (ARN) for the AWS
-  /// KMS encryption key. If you are restoring a cluster with the same AWS
-  /// account that owns the AWS KMS encryption key used to encrypt the new
-  /// cluster, then you can use the AWS KMS key alias instead of the ARN for the
-  /// AWS KMS encryption key.
+  /// The KMS key identifier is the Amazon Resource Name (ARN) for the KMS
+  /// encryption key. If you are restoring a cluster with the same Amazon Web
+  /// Services account that owns the KMS encryption key used to encrypt the new
+  /// cluster, then you can use the KMS key alias instead of the ARN for the KMS
+  /// encryption key.
   ///
   /// If you do not specify a value for the <code>KmsKeyId</code> parameter,
   /// then the following occurs:
@@ -3024,8 +3731,8 @@ class DocDB {
   /// <ul>
   /// <li>
   /// If the snapshot or cluster snapshot in <code>SnapshotIdentifier</code> is
-  /// encrypted, then the restored cluster is encrypted using the AWS KMS key
-  /// that was used to encrypt the snapshot or the cluster snapshot.
+  /// encrypted, then the restored cluster is encrypted using the KMS key that
+  /// was used to encrypt the snapshot or the cluster snapshot.
   /// </li>
   /// <li>
   /// If the snapshot or the cluster snapshot in <code>SnapshotIdentifier</code>
@@ -3051,6 +3758,7 @@ class DocDB {
     required String engine,
     required String snapshotIdentifier,
     List<String>? availabilityZones,
+    String? dBClusterParameterGroupName,
     String? dBSubnetGroupName,
     bool? deletionProtection,
     List<String>? enableCloudwatchLogsExports,
@@ -3065,6 +3773,8 @@ class DocDB {
     $request['Engine'] = engine;
     $request['SnapshotIdentifier'] = snapshotIdentifier;
     availabilityZones?.also((arg) => $request['AvailabilityZones'] = arg);
+    dBClusterParameterGroupName
+        ?.also((arg) => $request['DBClusterParameterGroupName'] = arg);
     dBSubnetGroupName?.also((arg) => $request['DBSubnetGroupName'] = arg);
     deletionProtection?.also((arg) => $request['DeletionProtection'] = arg);
     enableCloudwatchLogsExports
@@ -3159,19 +3869,19 @@ class DocDB {
   /// CloudWatch Logs.
   ///
   /// Parameter [kmsKeyId] :
-  /// The AWS KMS key identifier to use when restoring an encrypted cluster from
-  /// an encrypted cluster.
+  /// The KMS key identifier to use when restoring an encrypted cluster from an
+  /// encrypted cluster.
   ///
-  /// The AWS KMS key identifier is the Amazon Resource Name (ARN) for the AWS
-  /// KMS encryption key. If you are restoring a cluster with the same AWS
-  /// account that owns the AWS KMS encryption key used to encrypt the new
-  /// cluster, then you can use the AWS KMS key alias instead of the ARN for the
-  /// AWS KMS encryption key.
+  /// The KMS key identifier is the Amazon Resource Name (ARN) for the KMS
+  /// encryption key. If you are restoring a cluster with the same Amazon Web
+  /// Services account that owns the KMS encryption key used to encrypt the new
+  /// cluster, then you can use the KMS key alias instead of the ARN for the KMS
+  /// encryption key.
   ///
-  /// You can restore to a new cluster and encrypt the new cluster with an AWS
-  /// KMS key that is different from the AWS KMS key used to encrypt the source
-  /// cluster. The new DB cluster is encrypted with the AWS KMS key identified
-  /// by the <code>KmsKeyId</code> parameter.
+  /// You can restore to a new cluster and encrypt the new cluster with an KMS
+  /// key that is different from the KMS key used to encrypt the source cluster.
+  /// The new DB cluster is encrypted with the KMS key identified by the
+  /// <code>KmsKeyId</code> parameter.
   ///
   /// If you do not specify a value for the <code>KmsKeyId</code> parameter,
   /// then the following occurs:
@@ -3179,7 +3889,7 @@ class DocDB {
   /// <ul>
   /// <li>
   /// If the cluster is encrypted, then the restored cluster is encrypted using
-  /// the AWS KMS key that was used to encrypt the source cluster.
+  /// the KMS key that was used to encrypt the source cluster.
   /// </li>
   /// <li>
   /// If the cluster is not encrypted, then the restored cluster is not
@@ -3222,6 +3932,26 @@ class DocDB {
   /// </ul>
   /// Example: <code>2015-03-07T23:45:00Z</code>
   ///
+  /// Parameter [restoreType] :
+  /// The type of restore to be performed. You can specify one of the following
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>full-copy</code> - The new DB cluster is restored as a full copy of
+  /// the source DB cluster.
+  /// </li>
+  /// <li>
+  /// <code>copy-on-write</code> - The new DB cluster is restored as a clone of
+  /// the source DB cluster.
+  /// </li>
+  /// </ul>
+  /// Constraints: You can't specify <code>copy-on-write</code> if the engine
+  /// version of the source DB cluster is earlier than 1.11.
+  ///
+  /// If you don't specify a <code>RestoreType</code> value, then the new DB
+  /// cluster is restored as a full copy of the source DB cluster.
+  ///
   /// Parameter [tags] :
   /// The tags to be assigned to the restored cluster.
   ///
@@ -3245,6 +3975,7 @@ class DocDB {
     String? kmsKeyId,
     int? port,
     DateTime? restoreToTime,
+    String? restoreType,
     List<Tag>? tags,
     bool? useLatestRestorableTime,
     List<String>? vpcSecurityGroupIds,
@@ -3260,6 +3991,7 @@ class DocDB {
     port?.also((arg) => $request['Port'] = arg);
     restoreToTime
         ?.also((arg) => $request['RestoreToTime'] = _s.iso8601ToJson(arg));
+    restoreType?.also((arg) => $request['RestoreType'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
     useLatestRestorableTime
         ?.also((arg) => $request['UseLatestRestorableTime'] = arg);
@@ -3342,6 +4074,21 @@ class DocDB {
   }
 }
 
+class AddSourceIdentifierToSubscriptionResult {
+  final EventSubscription? eventSubscription;
+
+  AddSourceIdentifierToSubscriptionResult({
+    this.eventSubscription,
+  });
+  factory AddSourceIdentifierToSubscriptionResult.fromXml(_s.XmlElement elem) {
+    return AddSourceIdentifierToSubscriptionResult(
+      eventSubscription: _s
+          .extractXmlChild(elem, 'EventSubscription')
+          ?.let((e) => EventSubscription.fromXml(e)),
+    );
+  }
+}
+
 enum ApplyMethod {
   immediate,
   pendingReboot,
@@ -3400,7 +4147,7 @@ class AvailabilityZone {
   }
 }
 
-/// A certificate authority (CA) certificate for an AWS account.
+/// A certificate authority (CA) certificate for an Amazon Web Services account.
 class Certificate {
   /// The Amazon Resource Name (ARN) for the certificate.
   ///
@@ -3452,7 +4199,7 @@ class Certificate {
 }
 
 class CertificateMessage {
-  /// A list of certificates for this AWS account.
+  /// A list of certificates for this Amazon Web Services account.
   final List<Certificate>? certificates;
 
   /// An optional pagination token provided if the number of records retrieved is
@@ -3609,12 +4356,42 @@ class CreateDBSubnetGroupResult {
   }
 }
 
+class CreateEventSubscriptionResult {
+  final EventSubscription? eventSubscription;
+
+  CreateEventSubscriptionResult({
+    this.eventSubscription,
+  });
+  factory CreateEventSubscriptionResult.fromXml(_s.XmlElement elem) {
+    return CreateEventSubscriptionResult(
+      eventSubscription: _s
+          .extractXmlChild(elem, 'EventSubscription')
+          ?.let((e) => EventSubscription.fromXml(e)),
+    );
+  }
+}
+
+class CreateGlobalClusterResult {
+  final GlobalCluster? globalCluster;
+
+  CreateGlobalClusterResult({
+    this.globalCluster,
+  });
+  factory CreateGlobalClusterResult.fromXml(_s.XmlElement elem) {
+    return CreateGlobalClusterResult(
+      globalCluster: _s
+          .extractXmlChild(elem, 'GlobalCluster')
+          ?.let((e) => GlobalCluster.fromXml(e)),
+    );
+  }
+}
+
 /// Detailed information about a cluster.
 class DBCluster {
-  /// Provides a list of the AWS Identity and Access Management (IAM) roles that
-  /// are associated with the cluster. IAM roles that are associated with a
-  /// cluster grant permission for the cluster to access other AWS services on
-  /// your behalf.
+  /// Provides a list of the Identity and Access Management (IAM) roles that are
+  /// associated with the cluster. (IAM) roles that are associated with a cluster
+  /// grant permission for the cluster to access other Amazon Web Services
+  /// services on your behalf.
   final List<DBClusterRole>? associatedRoles;
 
   /// Provides the list of Amazon EC2 Availability Zones that instances in the
@@ -3623,6 +4400,9 @@ class DBCluster {
 
   /// Specifies the number of days for which automatic snapshots are retained.
   final int? backupRetentionPeriod;
+
+  /// Identifies the clone group to which the DB cluster is associated.
+  final String? cloneGroupId;
 
   /// Specifies the time when the cluster was created, in Universal Coordinated
   /// Time (UTC).
@@ -3645,9 +4425,9 @@ class DBCluster {
   /// cluster, including the name, description, and subnets in the subnet group.
   final String? dBSubnetGroup;
 
-  /// The AWS Region-unique, immutable identifier for the cluster. This identifier
-  /// is found in AWS CloudTrail log entries whenever the AWS KMS key for the
-  /// cluster is accessed.
+  /// The Amazon Web Services Region-unique, immutable identifier for the cluster.
+  /// This identifier is found in CloudTrail log entries whenever the KMS key for
+  /// the cluster is accessed.
   final String? dbClusterResourceId;
 
   /// Specifies whether this cluster can be deleted. If
@@ -3677,7 +4457,7 @@ class DBCluster {
   /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
   final String? hostedZoneId;
 
-  /// If <code>StorageEncrypted</code> is <code>true</code>, the AWS KMS key
+  /// If <code>StorageEncrypted</code> is <code>true</code>, the KMS key
   /// identifier for the encrypted cluster.
   final String? kmsKeyId;
 
@@ -3706,6 +4486,10 @@ class DBCluster {
   /// in Universal Coordinated Time (UTC).
   final String? preferredMaintenanceWindow;
 
+  /// Contains one or more identifiers of the secondary clusters that are
+  /// associated with this cluster.
+  final List<String>? readReplicaIdentifiers;
+
   /// The reader endpoint for the cluster. The reader endpoint for a cluster load
   /// balances connections across the Amazon DocumentDB replicas that are
   /// available in a cluster. As clients request new connections to the reader
@@ -3719,6 +4503,10 @@ class DBCluster {
   /// dropped. To continue sending your read workload to other Amazon DocumentDB
   /// replicas in the cluster, you can then reconnect to the reader endpoint.
   final String? readerEndpoint;
+
+  /// Contains the identifier of the source cluster if this cluster is a secondary
+  /// cluster.
+  final String? replicationSourceIdentifier;
 
   /// Specifies the current state of this cluster.
   final String? status;
@@ -3734,6 +4522,7 @@ class DBCluster {
     this.associatedRoles,
     this.availabilityZones,
     this.backupRetentionPeriod,
+    this.cloneGroupId,
     this.clusterCreateTime,
     this.dBClusterArn,
     this.dBClusterIdentifier,
@@ -3756,7 +4545,9 @@ class DBCluster {
     this.port,
     this.preferredBackupWindow,
     this.preferredMaintenanceWindow,
+    this.readReplicaIdentifiers,
     this.readerEndpoint,
+    this.replicationSourceIdentifier,
     this.status,
     this.storageEncrypted,
     this.vpcSecurityGroups,
@@ -3772,6 +4563,7 @@ class DBCluster {
           (elem) => _s.extractXmlStringListValues(elem, 'AvailabilityZone')),
       backupRetentionPeriod:
           _s.extractXmlIntValue(elem, 'BackupRetentionPeriod'),
+      cloneGroupId: _s.extractXmlStringValue(elem, 'CloneGroupId'),
       clusterCreateTime: _s.extractXmlDateTimeValue(elem, 'ClusterCreateTime'),
       dBClusterArn: _s.extractXmlStringValue(elem, 'DBClusterArn'),
       dBClusterIdentifier:
@@ -3807,7 +4599,13 @@ class DBCluster {
           _s.extractXmlStringValue(elem, 'PreferredBackupWindow'),
       preferredMaintenanceWindow:
           _s.extractXmlStringValue(elem, 'PreferredMaintenanceWindow'),
+      readReplicaIdentifiers: _s
+          .extractXmlChild(elem, 'ReadReplicaIdentifiers')
+          ?.let((elem) =>
+              _s.extractXmlStringListValues(elem, 'ReadReplicaIdentifier')),
       readerEndpoint: _s.extractXmlStringValue(elem, 'ReaderEndpoint'),
+      replicationSourceIdentifier:
+          _s.extractXmlStringValue(elem, 'ReplicationSourceIdentifier'),
       status: _s.extractXmlStringValue(elem, 'Status'),
       storageEncrypted: _s.extractXmlBoolValue(elem, 'StorageEncrypted'),
       vpcSecurityGroups: _s.extractXmlChild(elem, 'VpcSecurityGroups')?.let(
@@ -3999,29 +4797,28 @@ class DBClusterParameterGroupsMessage {
   }
 }
 
-/// Describes an AWS Identity and Access Management (IAM) role that is
-/// associated with a cluster.
+/// Describes an Identity and Access Management (IAM) role that is associated
+/// with a cluster.
 class DBClusterRole {
-  /// The Amazon Resource Name (ARN) of the IAM role that is associated with the
-  /// DB cluster.
+  /// The Amazon Resource Name (ARN) of the IAMrole that is associated with the DB
+  /// cluster.
   final String? roleArn;
 
-  /// Describes the state of association between the IAM role and the cluster. The
+  /// Describes the state of association between the IAMrole and the cluster. The
   /// <code>Status</code> property returns one of the following values:
   ///
   /// <ul>
   /// <li>
-  /// <code>ACTIVE</code> - The IAM role ARN is associated with the cluster and
-  /// can be used to access other AWS services on your behalf.
+  /// <code>ACTIVE</code> - The IAMrole ARN is associated with the cluster and can
+  /// be used to access other Amazon Web Services services on your behalf.
   /// </li>
   /// <li>
-  /// <code>PENDING</code> - The IAM role ARN is being associated with the DB
-  /// cluster.
+  /// <code>PENDING</code> - The IAMrole ARN is being associated with the cluster.
   /// </li>
   /// <li>
-  /// <code>INVALID</code> - The IAM role ARN is associated with the cluster, but
-  /// the cluster cannot assume the IAM role to access other AWS services on your
-  /// behalf.
+  /// <code>INVALID</code> - The IAMrole ARN is associated with the cluster, but
+  /// the cluster cannot assume the IAMrole to access other Amazon Web Services
+  /// services on your behalf.
   /// </li>
   /// </ul>
   final String? status;
@@ -4064,7 +4861,7 @@ class DBClusterSnapshot {
   /// Provides the version of the database engine for this cluster snapshot.
   final String? engineVersion;
 
-  /// If <code>StorageEncrypted</code> is <code>true</code>, the AWS KMS key
+  /// If <code>StorageEncrypted</code> is <code>true</code>, the KMS key
   /// identifier for the encrypted cluster snapshot.
   final String? kmsKeyId;
 
@@ -4148,22 +4945,23 @@ class DBClusterSnapshot {
 
 /// Contains the name and values of a manual cluster snapshot attribute.
 ///
-/// Manual cluster snapshot attributes are used to authorize other AWS accounts
-/// to restore a manual cluster snapshot.
+/// Manual cluster snapshot attributes are used to authorize other Amazon Web
+/// Services accounts to restore a manual cluster snapshot.
 class DBClusterSnapshotAttribute {
   /// The name of the manual cluster snapshot attribute.
   ///
-  /// The attribute named <code>restore</code> refers to the list of AWS accounts
-  /// that have permission to copy or restore the manual cluster snapshot.
+  /// The attribute named <code>restore</code> refers to the list of Amazon Web
+  /// Services accounts that have permission to copy or restore the manual cluster
+  /// snapshot.
   final String? attributeName;
 
   /// The values for the manual cluster snapshot attribute.
   ///
   /// If the <code>AttributeName</code> field is set to <code>restore</code>, then
-  /// this element returns a list of IDs of the AWS accounts that are authorized
-  /// to copy or restore the manual cluster snapshot. If a value of
+  /// this element returns a list of IDs of the Amazon Web Services accounts that
+  /// are authorized to copy or restore the manual cluster snapshot. If a value of
   /// <code>all</code> is in the list, then the manual cluster snapshot is public
-  /// and available for any AWS account to copy or restore.
+  /// and available for any Amazon Web Services account to copy or restore.
   final List<String>? attributeValues;
 
   DBClusterSnapshotAttribute({
@@ -4323,7 +5121,9 @@ class DBEngineVersionMessage {
 
 /// Detailed information about an instance.
 class DBInstance {
-  /// Indicates that minor version patches are applied automatically.
+  /// Does not apply. This parameter does not apply to Amazon DocumentDB. Amazon
+  /// DocumentDB does not perform minor version upgrades regardless of the value
+  /// set.
   final bool? autoMinorVersionUpgrade;
 
   /// Specifies the name of the Availability Zone that the instance is located in.
@@ -4334,6 +5134,10 @@ class DBInstance {
 
   /// The identifier of the CA certificate for this DB instance.
   final String? cACertificateIdentifier;
+
+  /// A value that indicates whether to copy tags from the DB instance to
+  /// snapshots of the DB instance. By default, tags are not copied.
+  final bool? copyTagsToSnapshot;
 
   /// Contains the name of the cluster that the instance is a member of if the
   /// instance is a member of a cluster.
@@ -4356,13 +5160,13 @@ class DBInstance {
   /// instance, including the name, description, and subnets in the subnet group.
   final DBSubnetGroup? dBSubnetGroup;
 
-  /// The AWS Region-unique, immutable identifier for the instance. This
-  /// identifier is found in AWS CloudTrail log entries whenever the AWS KMS key
-  /// for the instance is accessed.
+  /// The Amazon Web Services Region-unique, immutable identifier for the
+  /// instance. This identifier is found in CloudTrail log entries whenever the
+  /// KMS key for the instance is accessed.
   final String? dbiResourceId;
 
-  /// A list of log types that this instance is configured to export to Amazon
-  /// CloudWatch Logs.
+  /// A list of log types that this instance is configured to export to CloudWatch
+  /// Logs.
   final List<String>? enabledCloudwatchLogsExports;
 
   /// Specifies the connection endpoint.
@@ -4377,7 +5181,7 @@ class DBInstance {
   /// Provides the date and time that the instance was created.
   final DateTime? instanceCreateTime;
 
-  /// If <code>StorageEncrypted</code> is <code>true</code>, the AWS KMS key
+  /// If <code>StorageEncrypted</code> is <code>true</code>, the KMS key
   /// identifier for the encrypted instance.
   final String? kmsKeyId;
 
@@ -4424,6 +5228,7 @@ class DBInstance {
     this.availabilityZone,
     this.backupRetentionPeriod,
     this.cACertificateIdentifier,
+    this.copyTagsToSnapshot,
     this.dBClusterIdentifier,
     this.dBInstanceArn,
     this.dBInstanceClass,
@@ -4456,6 +5261,7 @@ class DBInstance {
           _s.extractXmlIntValue(elem, 'BackupRetentionPeriod'),
       cACertificateIdentifier:
           _s.extractXmlStringValue(elem, 'CACertificateIdentifier'),
+      copyTagsToSnapshot: _s.extractXmlBoolValue(elem, 'CopyTagsToSnapshot'),
       dBClusterIdentifier:
           _s.extractXmlStringValue(elem, 'DBClusterIdentifier'),
       dBInstanceArn: _s.extractXmlStringValue(elem, 'DBInstanceArn'),
@@ -4674,6 +5480,36 @@ class DeleteDBInstanceResult {
   }
 }
 
+class DeleteEventSubscriptionResult {
+  final EventSubscription? eventSubscription;
+
+  DeleteEventSubscriptionResult({
+    this.eventSubscription,
+  });
+  factory DeleteEventSubscriptionResult.fromXml(_s.XmlElement elem) {
+    return DeleteEventSubscriptionResult(
+      eventSubscription: _s
+          .extractXmlChild(elem, 'EventSubscription')
+          ?.let((e) => EventSubscription.fromXml(e)),
+    );
+  }
+}
+
+class DeleteGlobalClusterResult {
+  final GlobalCluster? globalCluster;
+
+  DeleteGlobalClusterResult({
+    this.globalCluster,
+  });
+  factory DeleteGlobalClusterResult.fromXml(_s.XmlElement elem) {
+    return DeleteGlobalClusterResult(
+      globalCluster: _s
+          .extractXmlChild(elem, 'GlobalCluster')
+          ?.let((e) => GlobalCluster.fromXml(e)),
+    );
+  }
+}
+
 class DescribeDBClusterSnapshotAttributesResult {
   final DBClusterSnapshotAttributesResult? dBClusterSnapshotAttributesResult;
 
@@ -4849,6 +5685,115 @@ class EventCategoriesMessage {
   }
 }
 
+/// Detailed information about an event to which you have subscribed.
+class EventSubscription {
+  /// The Amazon DocumentDB event notification subscription ID.
+  final String? custSubscriptionId;
+
+  /// The Amazon Web Services customer account that is associated with the Amazon
+  /// DocumentDB event notification subscription.
+  final String? customerAwsId;
+
+  /// A Boolean value indicating whether the subscription is enabled. A value of
+  /// <code>true</code> indicates that the subscription is enabled.
+  final bool? enabled;
+
+  /// A list of event categories for the Amazon DocumentDB event notification
+  /// subscription.
+  final List<String>? eventCategoriesList;
+
+  /// The Amazon Resource Name (ARN) for the event subscription.
+  final String? eventSubscriptionArn;
+
+  /// The topic ARN of the Amazon DocumentDB event notification subscription.
+  final String? snsTopicArn;
+
+  /// A list of source IDs for the Amazon DocumentDB event notification
+  /// subscription.
+  final List<String>? sourceIdsList;
+
+  /// The source type for the Amazon DocumentDB event notification subscription.
+  final String? sourceType;
+
+  /// The status of the Amazon DocumentDB event notification subscription.
+  ///
+  /// Constraints:
+  ///
+  /// Can be one of the following: <code>creating</code>, <code>modifying</code>,
+  /// <code>deleting</code>, <code>active</code>, <code>no-permission</code>,
+  /// <code>topic-not-exist</code>
+  ///
+  /// The <code>no-permission</code> status indicates that Amazon DocumentDB no
+  /// longer has permission to post to the SNS topic. The
+  /// <code>topic-not-exist</code> status indicates that the topic was deleted
+  /// after the subscription was created.
+  final String? status;
+
+  /// The time at which the Amazon DocumentDB event notification subscription was
+  /// created.
+  final String? subscriptionCreationTime;
+
+  EventSubscription({
+    this.custSubscriptionId,
+    this.customerAwsId,
+    this.enabled,
+    this.eventCategoriesList,
+    this.eventSubscriptionArn,
+    this.snsTopicArn,
+    this.sourceIdsList,
+    this.sourceType,
+    this.status,
+    this.subscriptionCreationTime,
+  });
+  factory EventSubscription.fromXml(_s.XmlElement elem) {
+    return EventSubscription(
+      custSubscriptionId: _s.extractXmlStringValue(elem, 'CustSubscriptionId'),
+      customerAwsId: _s.extractXmlStringValue(elem, 'CustomerAwsId'),
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
+      eventCategoriesList: _s
+          .extractXmlChild(elem, 'EventCategoriesList')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'EventCategory')),
+      eventSubscriptionArn:
+          _s.extractXmlStringValue(elem, 'EventSubscriptionArn'),
+      snsTopicArn: _s.extractXmlStringValue(elem, 'SnsTopicArn'),
+      sourceIdsList: _s
+          .extractXmlChild(elem, 'SourceIdsList')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'SourceId')),
+      sourceType: _s.extractXmlStringValue(elem, 'SourceType'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+      subscriptionCreationTime:
+          _s.extractXmlStringValue(elem, 'SubscriptionCreationTime'),
+    );
+  }
+}
+
+/// Represents the output of <a>DescribeEventSubscriptions</a>.
+class EventSubscriptionsMessage {
+  /// A list of event subscriptions.
+  final List<EventSubscription>? eventSubscriptionsList;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  EventSubscriptionsMessage({
+    this.eventSubscriptionsList,
+    this.marker,
+  });
+  factory EventSubscriptionsMessage.fromXml(_s.XmlElement elem) {
+    return EventSubscriptionsMessage(
+      eventSubscriptionsList: _s
+          .extractXmlChild(elem, 'EventSubscriptionsList')
+          ?.let((elem) => elem
+              .findElements('EventSubscription')
+              .map((c) => EventSubscription.fromXml(c))
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+}
+
 /// Represents the output of <a>DescribeEvents</a>.
 class EventsMessage {
   /// Detailed information about one or more events.
@@ -4913,6 +5858,131 @@ class Filter {
   }
 }
 
+/// A data type representing an Amazon DocumentDB global cluster.
+class GlobalCluster {
+  /// The default database name within the new global cluster.
+  final String? databaseName;
+
+  /// The deletion protection setting for the new global cluster.
+  final bool? deletionProtection;
+
+  /// The Amazon DocumentDB database engine used by the global cluster.
+  final String? engine;
+
+  /// Indicates the database engine version.
+  final String? engineVersion;
+
+  /// The Amazon Resource Name (ARN) for the global cluster.
+  final String? globalClusterArn;
+
+  /// Contains a user-supplied global cluster identifier. This identifier is the
+  /// unique key that identifies a global cluster.
+  final String? globalClusterIdentifier;
+
+  /// The list of cluster IDs for secondary clusters within the global cluster.
+  /// Currently limited to one item.
+  final List<GlobalClusterMember>? globalClusterMembers;
+
+  /// The Amazon Web Services Region-unique, immutable identifier for the global
+  /// database cluster. This identifier is found in CloudTrail log entries
+  /// whenever the KMS customer master key (CMK) for the cluster is accessed.
+  final String? globalClusterResourceId;
+
+  /// Specifies the current state of this global cluster.
+  final String? status;
+
+  /// The storage encryption setting for the global cluster.
+  final bool? storageEncrypted;
+
+  GlobalCluster({
+    this.databaseName,
+    this.deletionProtection,
+    this.engine,
+    this.engineVersion,
+    this.globalClusterArn,
+    this.globalClusterIdentifier,
+    this.globalClusterMembers,
+    this.globalClusterResourceId,
+    this.status,
+    this.storageEncrypted,
+  });
+  factory GlobalCluster.fromXml(_s.XmlElement elem) {
+    return GlobalCluster(
+      databaseName: _s.extractXmlStringValue(elem, 'DatabaseName'),
+      deletionProtection: _s.extractXmlBoolValue(elem, 'DeletionProtection'),
+      engine: _s.extractXmlStringValue(elem, 'Engine'),
+      engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
+      globalClusterArn: _s.extractXmlStringValue(elem, 'GlobalClusterArn'),
+      globalClusterIdentifier:
+          _s.extractXmlStringValue(elem, 'GlobalClusterIdentifier'),
+      globalClusterMembers: _s
+          .extractXmlChild(elem, 'GlobalClusterMembers')
+          ?.let((elem) => elem
+              .findElements('GlobalClusterMember')
+              .map((c) => GlobalClusterMember.fromXml(c))
+              .toList()),
+      globalClusterResourceId:
+          _s.extractXmlStringValue(elem, 'GlobalClusterResourceId'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+      storageEncrypted: _s.extractXmlBoolValue(elem, 'StorageEncrypted'),
+    );
+  }
+}
+
+/// A data structure with information about any primary and secondary clusters
+/// associated with an Amazon DocumentDB global clusters.
+class GlobalClusterMember {
+  /// The Amazon Resource Name (ARN) for each Amazon DocumentDB cluster.
+  final String? dBClusterArn;
+
+  /// Specifies whether the Amazon DocumentDB cluster is the primary cluster (that
+  /// is, has read-write capability) for the Amazon DocumentDB global cluster with
+  /// which it is associated.
+  final bool? isWriter;
+
+  /// The Amazon Resource Name (ARN) for each read-only secondary cluster
+  /// associated with the Aurora global cluster.
+  final List<String>? readers;
+
+  GlobalClusterMember({
+    this.dBClusterArn,
+    this.isWriter,
+    this.readers,
+  });
+  factory GlobalClusterMember.fromXml(_s.XmlElement elem) {
+    return GlobalClusterMember(
+      dBClusterArn: _s.extractXmlStringValue(elem, 'DBClusterArn'),
+      isWriter: _s.extractXmlBoolValue(elem, 'IsWriter'),
+      readers: _s
+          .extractXmlChild(elem, 'Readers')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+    );
+  }
+}
+
+class GlobalClustersMessage {
+  /// <p/>
+  final List<GlobalCluster>? globalClusters;
+
+  /// <p/>
+  final String? marker;
+
+  GlobalClustersMessage({
+    this.globalClusters,
+    this.marker,
+  });
+  factory GlobalClustersMessage.fromXml(_s.XmlElement elem) {
+    return GlobalClustersMessage(
+      globalClusters: _s.extractXmlChild(elem, 'GlobalClusters')?.let((elem) =>
+          elem
+              .findElements('GlobalClusterMember')
+              .map((c) => GlobalCluster.fromXml(c))
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+}
+
 class ModifyDBClusterResult {
   final DBCluster? dBCluster;
 
@@ -4969,6 +6039,36 @@ class ModifyDBSubnetGroupResult {
       dBSubnetGroup: _s
           .extractXmlChild(elem, 'DBSubnetGroup')
           ?.let((e) => DBSubnetGroup.fromXml(e)),
+    );
+  }
+}
+
+class ModifyEventSubscriptionResult {
+  final EventSubscription? eventSubscription;
+
+  ModifyEventSubscriptionResult({
+    this.eventSubscription,
+  });
+  factory ModifyEventSubscriptionResult.fromXml(_s.XmlElement elem) {
+    return ModifyEventSubscriptionResult(
+      eventSubscription: _s
+          .extractXmlChild(elem, 'EventSubscription')
+          ?.let((e) => EventSubscription.fromXml(e)),
+    );
+  }
+}
+
+class ModifyGlobalClusterResult {
+  final GlobalCluster? globalCluster;
+
+  ModifyGlobalClusterResult({
+    this.globalCluster,
+  });
+  factory ModifyGlobalClusterResult.fromXml(_s.XmlElement elem) {
+    return ModifyGlobalClusterResult(
+      globalCluster: _s
+          .extractXmlChild(elem, 'GlobalCluster')
+          ?.let((e) => GlobalCluster.fromXml(e)),
     );
   }
 }
@@ -5349,6 +6449,37 @@ class RebootDBInstanceResult {
   }
 }
 
+class RemoveFromGlobalClusterResult {
+  final GlobalCluster? globalCluster;
+
+  RemoveFromGlobalClusterResult({
+    this.globalCluster,
+  });
+  factory RemoveFromGlobalClusterResult.fromXml(_s.XmlElement elem) {
+    return RemoveFromGlobalClusterResult(
+      globalCluster: _s
+          .extractXmlChild(elem, 'GlobalCluster')
+          ?.let((e) => GlobalCluster.fromXml(e)),
+    );
+  }
+}
+
+class RemoveSourceIdentifierFromSubscriptionResult {
+  final EventSubscription? eventSubscription;
+
+  RemoveSourceIdentifierFromSubscriptionResult({
+    this.eventSubscription,
+  });
+  factory RemoveSourceIdentifierFromSubscriptionResult.fromXml(
+      _s.XmlElement elem) {
+    return RemoveSourceIdentifierFromSubscriptionResult(
+      eventSubscription: _s
+          .extractXmlChild(elem, 'EventSubscription')
+          ?.let((e) => EventSubscription.fromXml(e)),
+    );
+  }
+}
+
 /// Represents the output of <a>ApplyPendingMaintenanceAction</a>.
 class ResourcePendingMaintenanceActions {
   /// A list that provides details about the pending maintenance actions for the
@@ -5515,15 +6646,17 @@ class Subnet {
 /// pair.
 class Tag {
   /// The required name of the tag. The string value can be from 1 to 128 Unicode
-  /// characters in length and can't be prefixed with "aws:" or "rds:". The string
-  /// can contain only the set of Unicode letters, digits, white space, '_', '.',
-  /// '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+  /// characters in length and can't be prefixed with "<code>aws:</code>" or
+  /// "<code>rds:</code>". The string can contain only the set of Unicode letters,
+  /// digits, white space, '_', '.', '/', '=', '+', '-' (Java regex:
+  /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
   final String? key;
 
   /// The optional value of the tag. The string value can be from 1 to 256 Unicode
-  /// characters in length and can't be prefixed with "aws:" or "rds:". The string
-  /// can contain only the set of Unicode letters, digits, white space, '_', '.',
-  /// '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+  /// characters in length and can't be prefixed with "<code>aws:</code>" or
+  /// "<code>rds:</code>". The string can contain only the set of Unicode letters,
+  /// digits, white space, '_', '.', '/', '=', '+', '-' (Java regex:
+  /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
   final String? value;
 
   Tag({
@@ -5768,6 +6901,35 @@ class DBUpgradeDependencyFailureFault extends _s.GenericAwsException {
             message: message);
 }
 
+class EventSubscriptionQuotaExceededFault extends _s.GenericAwsException {
+  EventSubscriptionQuotaExceededFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'EventSubscriptionQuotaExceededFault',
+            message: message);
+}
+
+class GlobalClusterAlreadyExistsFault extends _s.GenericAwsException {
+  GlobalClusterAlreadyExistsFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'GlobalClusterAlreadyExistsFault',
+            message: message);
+}
+
+class GlobalClusterNotFoundFault extends _s.GenericAwsException {
+  GlobalClusterNotFoundFault({String? type, String? message})
+      : super(type: type, code: 'GlobalClusterNotFoundFault', message: message);
+}
+
+class GlobalClusterQuotaExceededFault extends _s.GenericAwsException {
+  GlobalClusterQuotaExceededFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'GlobalClusterQuotaExceededFault',
+            message: message);
+}
+
 class InstanceQuotaExceededFault extends _s.GenericAwsException {
   InstanceQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'InstanceQuotaExceededFault', message: message);
@@ -5851,6 +7013,22 @@ class InvalidDBSubnetStateFault extends _s.GenericAwsException {
       : super(type: type, code: 'InvalidDBSubnetStateFault', message: message);
 }
 
+class InvalidEventSubscriptionStateFault extends _s.GenericAwsException {
+  InvalidEventSubscriptionStateFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'InvalidEventSubscriptionStateFault',
+            message: message);
+}
+
+class InvalidGlobalClusterStateFault extends _s.GenericAwsException {
+  InvalidGlobalClusterStateFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'InvalidGlobalClusterStateFault',
+            message: message);
+}
+
 class InvalidRestoreFault extends _s.GenericAwsException {
   InvalidRestoreFault({String? type, String? message})
       : super(type: type, code: 'InvalidRestoreFault', message: message);
@@ -5877,6 +7055,21 @@ class ResourceNotFoundFault extends _s.GenericAwsException {
       : super(type: type, code: 'ResourceNotFoundFault', message: message);
 }
 
+class SNSInvalidTopicFault extends _s.GenericAwsException {
+  SNSInvalidTopicFault({String? type, String? message})
+      : super(type: type, code: 'SNSInvalidTopicFault', message: message);
+}
+
+class SNSNoAuthorizationFault extends _s.GenericAwsException {
+  SNSNoAuthorizationFault({String? type, String? message})
+      : super(type: type, code: 'SNSNoAuthorizationFault', message: message);
+}
+
+class SNSTopicArnNotFoundFault extends _s.GenericAwsException {
+  SNSTopicArnNotFoundFault({String? type, String? message})
+      : super(type: type, code: 'SNSTopicArnNotFoundFault', message: message);
+}
+
 class SharedSnapshotQuotaExceededFault extends _s.GenericAwsException {
   SharedSnapshotQuotaExceededFault({String? type, String? message})
       : super(
@@ -5888,6 +7081,11 @@ class SharedSnapshotQuotaExceededFault extends _s.GenericAwsException {
 class SnapshotQuotaExceededFault extends _s.GenericAwsException {
   SnapshotQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'SnapshotQuotaExceededFault', message: message);
+}
+
+class SourceNotFoundFault extends _s.GenericAwsException {
+  SourceNotFoundFault({String? type, String? message})
+      : super(type: type, code: 'SourceNotFoundFault', message: message);
 }
 
 class StorageQuotaExceededFault extends _s.GenericAwsException {
@@ -5904,6 +7102,27 @@ class StorageTypeNotSupportedFault extends _s.GenericAwsException {
 class SubnetAlreadyInUse extends _s.GenericAwsException {
   SubnetAlreadyInUse({String? type, String? message})
       : super(type: type, code: 'SubnetAlreadyInUse', message: message);
+}
+
+class SubscriptionAlreadyExistFault extends _s.GenericAwsException {
+  SubscriptionAlreadyExistFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'SubscriptionAlreadyExistFault',
+            message: message);
+}
+
+class SubscriptionCategoryNotFoundFault extends _s.GenericAwsException {
+  SubscriptionCategoryNotFoundFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'SubscriptionCategoryNotFoundFault',
+            message: message);
+}
+
+class SubscriptionNotFoundFault extends _s.GenericAwsException {
+  SubscriptionNotFoundFault({String? type, String? message})
+      : super(type: type, code: 'SubscriptionNotFoundFault', message: message);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
@@ -5951,6 +7170,14 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       DBSubnetQuotaExceededFault(type: type, message: message),
   'DBUpgradeDependencyFailureFault': (type, message) =>
       DBUpgradeDependencyFailureFault(type: type, message: message),
+  'EventSubscriptionQuotaExceededFault': (type, message) =>
+      EventSubscriptionQuotaExceededFault(type: type, message: message),
+  'GlobalClusterAlreadyExistsFault': (type, message) =>
+      GlobalClusterAlreadyExistsFault(type: type, message: message),
+  'GlobalClusterNotFoundFault': (type, message) =>
+      GlobalClusterNotFoundFault(type: type, message: message),
+  'GlobalClusterQuotaExceededFault': (type, message) =>
+      GlobalClusterQuotaExceededFault(type: type, message: message),
   'InstanceQuotaExceededFault': (type, message) =>
       InstanceQuotaExceededFault(type: type, message: message),
   'InsufficientDBClusterCapacityFault': (type, message) =>
@@ -5975,6 +7202,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidDBSubnetGroupStateFault(type: type, message: message),
   'InvalidDBSubnetStateFault': (type, message) =>
       InvalidDBSubnetStateFault(type: type, message: message),
+  'InvalidEventSubscriptionStateFault': (type, message) =>
+      InvalidEventSubscriptionStateFault(type: type, message: message),
+  'InvalidGlobalClusterStateFault': (type, message) =>
+      InvalidGlobalClusterStateFault(type: type, message: message),
   'InvalidRestoreFault': (type, message) =>
       InvalidRestoreFault(type: type, message: message),
   'InvalidSubnet': (type, message) =>
@@ -5985,14 +7216,28 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       KMSKeyNotAccessibleFault(type: type, message: message),
   'ResourceNotFoundFault': (type, message) =>
       ResourceNotFoundFault(type: type, message: message),
+  'SNSInvalidTopicFault': (type, message) =>
+      SNSInvalidTopicFault(type: type, message: message),
+  'SNSNoAuthorizationFault': (type, message) =>
+      SNSNoAuthorizationFault(type: type, message: message),
+  'SNSTopicArnNotFoundFault': (type, message) =>
+      SNSTopicArnNotFoundFault(type: type, message: message),
   'SharedSnapshotQuotaExceededFault': (type, message) =>
       SharedSnapshotQuotaExceededFault(type: type, message: message),
   'SnapshotQuotaExceededFault': (type, message) =>
       SnapshotQuotaExceededFault(type: type, message: message),
+  'SourceNotFoundFault': (type, message) =>
+      SourceNotFoundFault(type: type, message: message),
   'StorageQuotaExceededFault': (type, message) =>
       StorageQuotaExceededFault(type: type, message: message),
   'StorageTypeNotSupportedFault': (type, message) =>
       StorageTypeNotSupportedFault(type: type, message: message),
   'SubnetAlreadyInUse': (type, message) =>
       SubnetAlreadyInUse(type: type, message: message),
+  'SubscriptionAlreadyExistFault': (type, message) =>
+      SubscriptionAlreadyExistFault(type: type, message: message),
+  'SubscriptionCategoryNotFoundFault': (type, message) =>
+      SubscriptionCategoryNotFoundFault(type: type, message: message),
+  'SubscriptionNotFoundFault': (type, message) =>
+      SubscriptionNotFoundFault(type: type, message: message),
 };

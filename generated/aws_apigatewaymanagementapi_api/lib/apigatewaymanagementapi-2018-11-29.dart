@@ -124,6 +124,7 @@ class GetConnectionResponse {
     this.identity,
     this.lastActiveAt,
   });
+
   factory GetConnectionResponse.fromJson(Map<String, dynamic> json) {
     return GetConnectionResponse(
       connectedAt: timeStampFromJson(json['connectedAt']),
@@ -147,6 +148,7 @@ class Identity {
     required this.sourceIp,
     required this.userAgent,
   });
+
   factory Identity.fromJson(Map<String, dynamic> json) {
     return Identity(
       sourceIp: json['sourceIp'] as String,

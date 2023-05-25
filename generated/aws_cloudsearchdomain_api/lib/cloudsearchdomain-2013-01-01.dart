@@ -619,6 +619,7 @@ class Bucket {
     this.count,
     this.value,
   });
+
   factory Bucket.fromJson(Map<String, dynamic> json) {
     return Bucket(
       count: json['count'] as int?,
@@ -635,6 +636,7 @@ class BucketInfo {
   BucketInfo({
     this.buckets,
   });
+
   factory BucketInfo.fromJson(Map<String, dynamic> json) {
     return BucketInfo(
       buckets: (json['buckets'] as List?)
@@ -687,6 +689,7 @@ class DocumentServiceException implements _s.AwsException {
     this.message,
     this.status,
   });
+
   factory DocumentServiceException.fromJson(Map<String, dynamic> json) {
     return DocumentServiceException(
       message: json['message'] as String?,
@@ -704,6 +707,7 @@ class DocumentServiceWarning {
   DocumentServiceWarning({
     this.message,
   });
+
   factory DocumentServiceWarning.fromJson(Map<String, dynamic> json) {
     return DocumentServiceWarning(
       message: json['message'] as String?,
@@ -775,6 +779,7 @@ class FieldStats {
     this.sum,
     this.sumOfSquares,
   });
+
   factory FieldStats.fromJson(Map<String, dynamic> json) {
     return FieldStats(
       count: json['count'] as int?,
@@ -809,6 +814,7 @@ class Hit {
     this.highlights,
     this.id,
   });
+
   factory Hit.fromJson(Map<String, dynamic> json) {
     return Hit(
       exprs: (json['exprs'] as Map<String, dynamic>?)
@@ -843,6 +849,7 @@ class Hits {
     this.hit,
     this.start,
   });
+
   factory Hits.fromJson(Map<String, dynamic> json) {
     return Hits(
       cursor: json['cursor'] as String?,
@@ -903,6 +910,7 @@ class SearchException implements _s.AwsException {
   SearchException({
     this.message,
   });
+
   factory SearchException.fromJson(Map<String, dynamic> json) {
     return SearchException(
       message: json['message'] as String?,
@@ -932,6 +940,7 @@ class SearchResponse {
     this.stats,
     this.status,
   });
+
   factory SearchResponse.fromJson(Map<String, dynamic> json) {
     return SearchResponse(
       facets: (json['facets'] as Map<String, dynamic>?)?.map((k, e) =>
@@ -961,6 +970,7 @@ class SearchStatus {
     this.rid,
     this.timems,
   });
+
   factory SearchStatus.fromJson(Map<String, dynamic> json) {
     return SearchStatus(
       rid: json['rid'] as String?,
@@ -986,6 +996,7 @@ class SuggestModel {
     this.query,
     this.suggestions,
   });
+
   factory SuggestModel.fromJson(Map<String, dynamic> json) {
     return SuggestModel(
       found: json['found'] as int?,
@@ -1012,6 +1023,7 @@ class SuggestResponse {
     this.status,
     this.suggest,
   });
+
   factory SuggestResponse.fromJson(Map<String, dynamic> json) {
     return SuggestResponse(
       status: json['status'] != null
@@ -1037,6 +1049,7 @@ class SuggestStatus {
     this.rid,
     this.timems,
   });
+
   factory SuggestStatus.fromJson(Map<String, dynamic> json) {
     return SuggestStatus(
       rid: json['rid'] as String?,
@@ -1063,6 +1076,7 @@ class SuggestionMatch {
     this.score,
     this.suggestion,
   });
+
   factory SuggestionMatch.fromJson(Map<String, dynamic> json) {
     return SuggestionMatch(
       id: json['id'] as String?,
@@ -1093,6 +1107,7 @@ class UploadDocumentsResponse {
     this.status,
     this.warnings,
   });
+
   factory UploadDocumentsResponse.fromJson(Map<String, dynamic> json) {
     return UploadDocumentsResponse(
       adds: json['adds'] as int?,

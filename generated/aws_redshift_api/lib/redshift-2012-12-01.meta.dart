@@ -47,6 +47,32 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "ActionType": {"type": "string", "flattened": false},
+  "AquaConfiguration": {
+    "type": "structure",
+    "members": {
+      "AquaStatus": {"shape": "AquaStatus", "flattened": false},
+      "AquaConfigurationStatus": {
+        "shape": "AquaConfigurationStatus",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "AquaConfigurationStatus": {"type": "string", "flattened": false},
+  "AquaStatus": {"type": "string", "flattened": false},
+  "AssociateDataShareConsumerMessage": {
+    "type": "structure",
+    "members": {
+      "DataShareArn": {"shape": "String", "flattened": false},
+      "AssociateEntireAccount": {
+        "shape": "BooleanOptional",
+        "flattened": false
+      },
+      "ConsumerArn": {"shape": "String", "flattened": false},
+      "ConsumerRegion": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
   "AssociatedClusterList": {
     "type": "list",
     "member": {
@@ -80,6 +106,24 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "AuthenticationProfile": {
+    "type": "structure",
+    "members": {
+      "AuthenticationProfileName": {
+        "shape": "AuthenticationProfileNameString",
+        "flattened": false
+      },
+      "AuthenticationProfileContent": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "AuthenticationProfileList": {
+    "type": "list",
+    "member": {"shape": "AuthenticationProfile"},
+    "flattened": false
+  },
+  "AuthenticationProfileNameString": {"type": "string", "flattened": false},
+  "AuthorizationStatus": {"type": "string", "flattened": false},
   "AuthorizeClusterSecurityGroupIngressMessage": {
     "type": "structure",
     "members": {
@@ -100,10 +144,28 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "AuthorizeDataShareMessage": {
+    "type": "structure",
+    "members": {
+      "DataShareArn": {"shape": "String", "flattened": false},
+      "ConsumerIdentifier": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "AuthorizeEndpointAccessMessage": {
+    "type": "structure",
+    "members": {
+      "ClusterIdentifier": {"shape": "String", "flattened": false},
+      "Account": {"shape": "String", "flattened": false},
+      "VpcIds": {"shape": "VpcIdentifierList", "flattened": false}
+    },
+    "flattened": false
+  },
   "AuthorizeSnapshotAccessMessage": {
     "type": "structure",
     "members": {
       "SnapshotIdentifier": {"shape": "String", "flattened": false},
+      "SnapshotArn": {"shape": "String", "flattened": false},
       "SnapshotClusterIdentifier": {"shape": "String", "flattened": false},
       "AccountWithRestoreAccess": {"shape": "String", "flattened": false}
     },
@@ -284,7 +346,17 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "String",
         "flattened": false
       },
-      "ClusterNamespaceArn": {"shape": "String", "flattened": false}
+      "ClusterNamespaceArn": {"shape": "String", "flattened": false},
+      "TotalStorageCapacityInMegaBytes": {
+        "shape": "LongOptional",
+        "flattened": false
+      },
+      "AquaConfiguration": {"shape": "AquaConfiguration", "flattened": false},
+      "DefaultIamRoleArn": {"shape": "String", "flattened": false},
+      "ReservedNodeExchangeStatus": {
+        "shape": "ReservedNodeExchangeStatus",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -331,6 +403,16 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "ClusterDbRevisionsList",
         "flattened": false
       }
+    },
+    "flattened": false
+  },
+  "ClusterExtendedCredentials": {
+    "type": "structure",
+    "members": {
+      "DbUser": {"shape": "String", "flattened": false},
+      "DbPassword": {"shape": "SensitiveString", "flattened": false},
+      "Expiration": {"shape": "TStamp", "flattened": false},
+      "NextRefreshTime": {"shape": "TStamp", "flattened": false}
     },
     "flattened": false
   },
@@ -582,6 +664,28 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "CreateAuthenticationProfileMessage": {
+    "type": "structure",
+    "members": {
+      "AuthenticationProfileName": {
+        "shape": "AuthenticationProfileNameString",
+        "flattened": false
+      },
+      "AuthenticationProfileContent": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "CreateAuthenticationProfileResult": {
+    "type": "structure",
+    "members": {
+      "AuthenticationProfileName": {
+        "shape": "AuthenticationProfileNameString",
+        "flattened": false
+      },
+      "AuthenticationProfileContent": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
   "CreateClusterMessage": {
     "type": "structure",
     "members": {
@@ -630,7 +734,13 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "AvailabilityZoneRelocation": {
         "shape": "BooleanOptional",
         "flattened": false
-      }
+      },
+      "AquaConfigurationStatus": {
+        "shape": "AquaConfigurationStatus",
+        "flattened": false
+      },
+      "DefaultIamRoleArn": {"shape": "String", "flattened": false},
+      "LoadSampleData": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -714,6 +824,20 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "ClusterSubnetGroup": {"shape": "ClusterSubnetGroup", "flattened": false}
+    },
+    "flattened": false
+  },
+  "CreateEndpointAccessMessage": {
+    "type": "structure",
+    "members": {
+      "ClusterIdentifier": {"shape": "String", "flattened": false},
+      "ResourceOwner": {"shape": "String", "flattened": false},
+      "EndpointName": {"shape": "String", "flattened": false},
+      "SubnetGroupName": {"shape": "String", "flattened": false},
+      "VpcSecurityGroupIds": {
+        "shape": "VpcSecurityGroupIdList",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -853,6 +977,47 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "DataShare": {
+    "type": "structure",
+    "members": {
+      "DataShareArn": {"shape": "String", "flattened": false},
+      "ProducerArn": {"shape": "String", "flattened": false},
+      "AllowPubliclyAccessibleConsumers": {
+        "shape": "Boolean",
+        "flattened": false
+      },
+      "DataShareAssociations": {
+        "shape": "DataShareAssociationList",
+        "flattened": false
+      },
+      "ManagedBy": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DataShareAssociation": {
+    "type": "structure",
+    "members": {
+      "ConsumerIdentifier": {"shape": "String", "flattened": false},
+      "Status": {"shape": "DataShareStatus", "flattened": false},
+      "ConsumerRegion": {"shape": "String", "flattened": false},
+      "CreatedDate": {"shape": "TStamp", "flattened": false},
+      "StatusChangeDate": {"shape": "TStamp", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DataShareAssociationList": {
+    "type": "list",
+    "member": {"shape": "DataShareAssociation"},
+    "flattened": false
+  },
+  "DataShareList": {
+    "type": "list",
+    "member": {"shape": "DataShare"},
+    "flattened": false
+  },
+  "DataShareStatus": {"type": "string", "flattened": false},
+  "DataShareStatusForConsumer": {"type": "string", "flattened": false},
+  "DataShareStatusForProducer": {"type": "string", "flattened": false},
   "DataTransferProgress": {
     "type": "structure",
     "members": {
@@ -874,6 +1039,14 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "DbGroupList": {
     "type": "list",
     "member": {"shape": "String", "locationName": "DbGroup"},
+    "flattened": false
+  },
+  "DeauthorizeDataShareMessage": {
+    "type": "structure",
+    "members": {
+      "DataShareArn": {"shape": "String", "flattened": false},
+      "ConsumerIdentifier": {"shape": "String", "flattened": false}
+    },
     "flattened": false
   },
   "DefaultClusterParameters": {
@@ -899,6 +1072,26 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {
       "shape": "DeferredMaintenanceWindow",
       "locationName": "DeferredMaintenanceWindow"
+    },
+    "flattened": false
+  },
+  "DeleteAuthenticationProfileMessage": {
+    "type": "structure",
+    "members": {
+      "AuthenticationProfileName": {
+        "shape": "AuthenticationProfileNameString",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "DeleteAuthenticationProfileResult": {
+    "type": "structure",
+    "members": {
+      "AuthenticationProfileName": {
+        "shape": "AuthenticationProfileNameString",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -966,6 +1159,13 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "DeleteEndpointAccessMessage": {
+    "type": "structure",
+    "members": {
+      "EndpointName": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
   "DeleteEventSubscriptionMessage": {
     "type": "structure",
     "members": {
@@ -1030,6 +1230,26 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "DescribeAuthenticationProfilesMessage": {
+    "type": "structure",
+    "members": {
+      "AuthenticationProfileName": {
+        "shape": "AuthenticationProfileNameString",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "DescribeAuthenticationProfilesResult": {
+    "type": "structure",
+    "members": {
+      "AuthenticationProfiles": {
+        "shape": "AuthenticationProfileList",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
   "DescribeClusterDbRevisionsMessage": {
     "type": "structure",
     "members": {
@@ -1076,6 +1296,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "ClusterIdentifier": {"shape": "String", "flattened": false},
       "SnapshotIdentifier": {"shape": "String", "flattened": false},
+      "SnapshotArn": {"shape": "String", "flattened": false},
       "SnapshotType": {"shape": "String", "flattened": false},
       "StartTime": {"shape": "TStamp", "flattened": false},
       "EndTime": {"shape": "TStamp", "flattened": false},
@@ -1133,6 +1354,59 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "DescribeDataSharesForConsumerMessage": {
+    "type": "structure",
+    "members": {
+      "ConsumerArn": {"shape": "String", "flattened": false},
+      "Status": {"shape": "DataShareStatusForConsumer", "flattened": false},
+      "MaxRecords": {"shape": "IntegerOptional", "flattened": false},
+      "Marker": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeDataSharesForConsumerResult": {
+    "type": "structure",
+    "members": {
+      "DataShares": {"shape": "DataShareList", "flattened": false},
+      "Marker": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeDataSharesForProducerMessage": {
+    "type": "structure",
+    "members": {
+      "ProducerArn": {"shape": "String", "flattened": false},
+      "Status": {"shape": "DataShareStatusForProducer", "flattened": false},
+      "MaxRecords": {"shape": "IntegerOptional", "flattened": false},
+      "Marker": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeDataSharesForProducerResult": {
+    "type": "structure",
+    "members": {
+      "DataShares": {"shape": "DataShareList", "flattened": false},
+      "Marker": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeDataSharesMessage": {
+    "type": "structure",
+    "members": {
+      "DataShareArn": {"shape": "String", "flattened": false},
+      "MaxRecords": {"shape": "IntegerOptional", "flattened": false},
+      "Marker": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeDataSharesResult": {
+    "type": "structure",
+    "members": {
+      "DataShares": {"shape": "DataShareList", "flattened": false},
+      "Marker": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
   "DescribeDefaultClusterParametersMessage": {
     "type": "structure",
     "members": {
@@ -1149,6 +1423,29 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "DefaultClusterParameters",
         "flattened": false
       }
+    },
+    "flattened": false
+  },
+  "DescribeEndpointAccessMessage": {
+    "type": "structure",
+    "members": {
+      "ClusterIdentifier": {"shape": "String", "flattened": false},
+      "ResourceOwner": {"shape": "String", "flattened": false},
+      "EndpointName": {"shape": "String", "flattened": false},
+      "VpcId": {"shape": "String", "flattened": false},
+      "MaxRecords": {"shape": "IntegerOptional", "flattened": false},
+      "Marker": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeEndpointAuthorizationMessage": {
+    "type": "structure",
+    "members": {
+      "ClusterIdentifier": {"shape": "String", "flattened": false},
+      "Account": {"shape": "String", "flattened": false},
+      "Grantee": {"shape": "BooleanOptional", "flattened": false},
+      "MaxRecords": {"shape": "IntegerOptional", "flattened": false},
+      "Marker": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -1218,6 +1515,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "ActionType": {"shape": "ActionType", "flattened": false},
       "ClusterIdentifier": {"shape": "String", "flattened": false},
       "SnapshotIdentifier": {"shape": "String", "flattened": false},
+      "SnapshotArn": {"shape": "String", "flattened": false},
       "OwnerAccount": {"shape": "String", "flattened": false},
       "Filters": {
         "shape": "NodeConfigurationOptionsFilterList",
@@ -1234,6 +1532,56 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "ClusterVersion": {"shape": "String", "flattened": false},
       "NodeType": {"shape": "String", "flattened": false},
       "MaxRecords": {"shape": "IntegerOptional", "flattened": false},
+      "Marker": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribePartnersInputMessage": {
+    "type": "structure",
+    "members": {
+      "AccountId": {"shape": "PartnerIntegrationAccountId", "flattened": false},
+      "ClusterIdentifier": {
+        "shape": "PartnerIntegrationClusterIdentifier",
+        "flattened": false
+      },
+      "DatabaseName": {
+        "shape": "PartnerIntegrationDatabaseName",
+        "flattened": false
+      },
+      "PartnerName": {
+        "shape": "PartnerIntegrationPartnerName",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "DescribePartnersOutputMessage": {
+    "type": "structure",
+    "members": {
+      "PartnerIntegrationInfoList": {
+        "shape": "PartnerIntegrationInfoList",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "DescribeReservedNodeExchangeStatusInputMessage": {
+    "type": "structure",
+    "members": {
+      "ReservedNodeId": {"shape": "String", "flattened": false},
+      "ReservedNodeExchangeRequestId": {"shape": "String", "flattened": false},
+      "MaxRecords": {"shape": "IntegerOptional", "flattened": false},
+      "Marker": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeReservedNodeExchangeStatusOutputMessage": {
+    "type": "structure",
+    "members": {
+      "ReservedNodeExchangeStatusDetails": {
+        "shape": "ReservedNodeExchangeStatusList",
+        "flattened": false
+      },
       "Marker": {"shape": "String", "flattened": false}
     },
     "flattened": false
@@ -1370,6 +1718,19 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "DisassociateDataShareConsumerMessage": {
+    "type": "structure",
+    "members": {
+      "DataShareArn": {"shape": "String", "flattened": false},
+      "DisassociateEntireAccount": {
+        "shape": "BooleanOptional",
+        "flattened": false
+      },
+      "ConsumerArn": {"shape": "String", "flattened": false},
+      "ConsumerRegion": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
   "Double": {"type": "double", "flattened": false},
   "DoubleOptional": {"type": "double", "flattened": false},
   "EC2SecurityGroup": {
@@ -1405,7 +1766,9 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "ClusterIdentifier": {"shape": "String", "flattened": false},
       "BucketName": {"shape": "String", "flattened": false},
-      "S3KeyPrefix": {"shape": "String", "flattened": false}
+      "S3KeyPrefix": {"shape": "String", "flattened": false},
+      "LogDestinationType": {"shape": "LogDestinationType", "flattened": false},
+      "LogExports": {"shape": "LogTypeList", "flattened": false}
     },
     "flattened": false
   },
@@ -1435,11 +1798,71 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "Address": {"shape": "String", "flattened": false},
       "Port": {"shape": "Integer", "flattened": false},
-      "VpcEndpoints": {
-        "shape": "SpartaProxyVpcEndpointList",
-        "flattened": false
-      }
+      "VpcEndpoints": {"shape": "VpcEndpointsList", "flattened": false}
     },
+    "flattened": false
+  },
+  "EndpointAccess": {
+    "type": "structure",
+    "members": {
+      "ClusterIdentifier": {"shape": "String", "flattened": false},
+      "ResourceOwner": {"shape": "String", "flattened": false},
+      "SubnetGroupName": {"shape": "String", "flattened": false},
+      "EndpointStatus": {"shape": "String", "flattened": false},
+      "EndpointName": {"shape": "String", "flattened": false},
+      "EndpointCreateTime": {"shape": "TStamp", "flattened": false},
+      "Port": {"shape": "Integer", "flattened": false},
+      "Address": {"shape": "String", "flattened": false},
+      "VpcSecurityGroups": {
+        "shape": "VpcSecurityGroupMembershipList",
+        "flattened": false
+      },
+      "VpcEndpoint": {"shape": "VpcEndpoint", "flattened": false}
+    },
+    "flattened": false
+  },
+  "EndpointAccessList": {
+    "type": "structure",
+    "members": {
+      "EndpointAccessList": {"shape": "EndpointAccesses", "flattened": false},
+      "Marker": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "EndpointAccesses": {
+    "type": "list",
+    "member": {"shape": "EndpointAccess"},
+    "flattened": false
+  },
+  "EndpointAuthorization": {
+    "type": "structure",
+    "members": {
+      "Grantor": {"shape": "String", "flattened": false},
+      "Grantee": {"shape": "String", "flattened": false},
+      "ClusterIdentifier": {"shape": "String", "flattened": false},
+      "AuthorizeTime": {"shape": "TStamp", "flattened": false},
+      "ClusterStatus": {"shape": "String", "flattened": false},
+      "Status": {"shape": "AuthorizationStatus", "flattened": false},
+      "AllowedAllVPCs": {"shape": "Boolean", "flattened": false},
+      "AllowedVPCs": {"shape": "VpcIdentifierList", "flattened": false},
+      "EndpointCount": {"shape": "Integer", "flattened": false}
+    },
+    "flattened": false
+  },
+  "EndpointAuthorizationList": {
+    "type": "structure",
+    "members": {
+      "EndpointAuthorizationList": {
+        "shape": "EndpointAuthorizations",
+        "flattened": false
+      },
+      "Marker": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "EndpointAuthorizations": {
+    "type": "list",
+    "member": {"shape": "EndpointAuthorization"},
     "flattened": false
   },
   "Event": {
@@ -1565,6 +1988,40 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "GetClusterCredentialsWithIAMMessage": {
+    "type": "structure",
+    "members": {
+      "DbName": {"shape": "String", "flattened": false},
+      "ClusterIdentifier": {"shape": "String", "flattened": false},
+      "DurationSeconds": {"shape": "IntegerOptional", "flattened": false}
+    },
+    "flattened": false
+  },
+  "GetReservedNodeExchangeConfigurationOptionsInputMessage": {
+    "type": "structure",
+    "members": {
+      "ActionType": {
+        "shape": "ReservedNodeExchangeActionType",
+        "flattened": false
+      },
+      "ClusterIdentifier": {"shape": "String", "flattened": false},
+      "SnapshotIdentifier": {"shape": "String", "flattened": false},
+      "MaxRecords": {"shape": "IntegerOptional", "flattened": false},
+      "Marker": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "GetReservedNodeExchangeConfigurationOptionsOutputMessage": {
+    "type": "structure",
+    "members": {
+      "Marker": {"shape": "String", "flattened": false},
+      "ReservedNodeConfigurationOptionList": {
+        "shape": "ReservedNodeConfigurationOptionList",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
   "GetReservedNodeExchangeOfferingsInputMessage": {
     "type": "structure",
     "members": {
@@ -1682,6 +2139,12 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   },
   "Integer": {"type": "integer", "flattened": false},
   "IntegerOptional": {"type": "integer", "flattened": false},
+  "LogDestinationType": {"type": "string", "flattened": false},
+  "LogTypeList": {
+    "type": "list",
+    "member": {"shape": "String"},
+    "flattened": false
+  },
   "LoggingStatus": {
     "type": "structure",
     "members": {
@@ -1690,7 +2153,9 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "S3KeyPrefix": {"shape": "String", "flattened": false},
       "LastSuccessfulDeliveryTime": {"shape": "TStamp", "flattened": false},
       "LastFailureTime": {"shape": "TStamp", "flattened": false},
-      "LastFailureMessage": {"shape": "String", "flattened": false}
+      "LastFailureMessage": {"shape": "String", "flattened": false},
+      "LogDestinationType": {"shape": "LogDestinationType", "flattened": false},
+      "LogExports": {"shape": "LogTypeList", "flattened": false}
     },
     "flattened": false
   },
@@ -1709,6 +2174,46 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "Mode": {"type": "string", "flattened": false},
+  "ModifyAquaInputMessage": {
+    "type": "structure",
+    "members": {
+      "ClusterIdentifier": {"shape": "String", "flattened": false},
+      "AquaConfigurationStatus": {
+        "shape": "AquaConfigurationStatus",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "ModifyAquaOutputMessage": {
+    "type": "structure",
+    "members": {
+      "AquaConfiguration": {"shape": "AquaConfiguration", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ModifyAuthenticationProfileMessage": {
+    "type": "structure",
+    "members": {
+      "AuthenticationProfileName": {
+        "shape": "AuthenticationProfileNameString",
+        "flattened": false
+      },
+      "AuthenticationProfileContent": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ModifyAuthenticationProfileResult": {
+    "type": "structure",
+    "members": {
+      "AuthenticationProfileName": {
+        "shape": "AuthenticationProfileNameString",
+        "flattened": false
+      },
+      "AuthenticationProfileContent": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
   "ModifyClusterDbRevisionMessage": {
     "type": "structure",
     "members": {
@@ -1729,7 +2234,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "ClusterIdentifier": {"shape": "String", "flattened": false},
       "AddIamRoles": {"shape": "IamRoleArnList", "flattened": false},
-      "RemoveIamRoles": {"shape": "IamRoleArnList", "flattened": false}
+      "RemoveIamRoles": {"shape": "IamRoleArnList", "flattened": false},
+      "DefaultIamRoleArn": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -1867,6 +2373,17 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "ModifyEndpointAccessMessage": {
+    "type": "structure",
+    "members": {
+      "EndpointName": {"shape": "String", "flattened": false},
+      "VpcSecurityGroupIds": {
+        "shape": "VpcSecurityGroupIdList",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
   "ModifyEventSubscriptionMessage": {
     "type": "structure",
     "members": {
@@ -1935,6 +2452,21 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Amount": {"shape": "LongOptional", "flattened": false},
       "BreachAction": {"shape": "UsageLimitBreachAction", "flattened": false}
     },
+    "flattened": false
+  },
+  "NetworkInterface": {
+    "type": "structure",
+    "members": {
+      "NetworkInterfaceId": {"shape": "String", "flattened": false},
+      "SubnetId": {"shape": "String", "flattened": false},
+      "PrivateIpAddress": {"shape": "String", "flattened": false},
+      "AvailabilityZone": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "NetworkInterfaceList": {
+    "type": "list",
+    "member": {"shape": "NetworkInterface", "locationName": "NetworkInterface"},
     "flattened": false
   },
   "NodeConfigurationOption": {
@@ -2049,6 +2581,74 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "Parameter", "locationName": "Parameter"},
     "flattened": false
   },
+  "PartnerIntegrationAccountId": {"type": "string", "flattened": false},
+  "PartnerIntegrationClusterIdentifier": {"type": "string", "flattened": false},
+  "PartnerIntegrationDatabaseName": {"type": "string", "flattened": false},
+  "PartnerIntegrationInfo": {
+    "type": "structure",
+    "members": {
+      "DatabaseName": {
+        "shape": "PartnerIntegrationDatabaseName",
+        "flattened": false
+      },
+      "PartnerName": {
+        "shape": "PartnerIntegrationPartnerName",
+        "flattened": false
+      },
+      "Status": {"shape": "PartnerIntegrationStatus", "flattened": false},
+      "StatusMessage": {
+        "shape": "PartnerIntegrationStatusMessage",
+        "flattened": false
+      },
+      "CreatedAt": {"shape": "TStamp", "flattened": false},
+      "UpdatedAt": {"shape": "TStamp", "flattened": false}
+    },
+    "flattened": false
+  },
+  "PartnerIntegrationInfoList": {
+    "type": "list",
+    "member": {
+      "shape": "PartnerIntegrationInfo",
+      "locationName": "PartnerIntegrationInfo"
+    },
+    "flattened": false
+  },
+  "PartnerIntegrationInputMessage": {
+    "type": "structure",
+    "members": {
+      "AccountId": {"shape": "PartnerIntegrationAccountId", "flattened": false},
+      "ClusterIdentifier": {
+        "shape": "PartnerIntegrationClusterIdentifier",
+        "flattened": false
+      },
+      "DatabaseName": {
+        "shape": "PartnerIntegrationDatabaseName",
+        "flattened": false
+      },
+      "PartnerName": {
+        "shape": "PartnerIntegrationPartnerName",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "PartnerIntegrationOutputMessage": {
+    "type": "structure",
+    "members": {
+      "DatabaseName": {
+        "shape": "PartnerIntegrationDatabaseName",
+        "flattened": false
+      },
+      "PartnerName": {
+        "shape": "PartnerIntegrationPartnerName",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "PartnerIntegrationPartnerName": {"type": "string", "flattened": false},
+  "PartnerIntegrationStatus": {"type": "string", "flattened": false},
+  "PartnerIntegrationStatusMessage": {"type": "string", "flattened": false},
   "PauseClusterMessage": {
     "type": "structure",
     "members": {
@@ -2130,6 +2730,13 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "RecurringCharge", "locationName": "RecurringCharge"},
     "flattened": false
   },
+  "RejectDataShareMessage": {
+    "type": "structure",
+    "members": {
+      "DataShareArn": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
   "ReservedNode": {
     "type": "structure",
     "members": {
@@ -2152,6 +2759,51 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "ReservedNodeConfigurationOption": {
+    "type": "structure",
+    "members": {
+      "SourceReservedNode": {"shape": "ReservedNode", "flattened": false},
+      "TargetReservedNodeCount": {"shape": "Integer", "flattened": false},
+      "TargetReservedNodeOffering": {
+        "shape": "ReservedNodeOffering",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "ReservedNodeConfigurationOptionList": {
+    "type": "list",
+    "member": {
+      "shape": "ReservedNodeConfigurationOption",
+      "locationName": "ReservedNodeConfigurationOption"
+    },
+    "flattened": false
+  },
+  "ReservedNodeExchangeActionType": {"type": "string", "flattened": false},
+  "ReservedNodeExchangeStatus": {
+    "type": "structure",
+    "members": {
+      "ReservedNodeExchangeRequestId": {"shape": "String", "flattened": false},
+      "Status": {"shape": "ReservedNodeExchangeStatusType", "flattened": false},
+      "RequestTime": {"shape": "TStamp", "flattened": false},
+      "SourceReservedNodeId": {"shape": "String", "flattened": false},
+      "SourceReservedNodeType": {"shape": "String", "flattened": false},
+      "SourceReservedNodeCount": {"shape": "Integer", "flattened": false},
+      "TargetReservedNodeOfferingId": {"shape": "String", "flattened": false},
+      "TargetReservedNodeType": {"shape": "String", "flattened": false},
+      "TargetReservedNodeCount": {"shape": "Integer", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ReservedNodeExchangeStatusList": {
+    "type": "list",
+    "member": {
+      "shape": "ReservedNodeExchangeStatus",
+      "locationName": "ReservedNodeExchangeStatus"
+    },
+    "flattened": false
+  },
+  "ReservedNodeExchangeStatusType": {"type": "string", "flattened": false},
   "ReservedNodeList": {
     "type": "list",
     "member": {"shape": "ReservedNode", "locationName": "ReservedNode"},
@@ -2219,7 +2871,9 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "ClusterType": {"shape": "String", "flattened": false},
       "NodeType": {"shape": "String", "flattened": false},
       "NumberOfNodes": {"shape": "IntegerOptional", "flattened": false},
-      "Classic": {"shape": "BooleanOptional", "flattened": false}
+      "Classic": {"shape": "BooleanOptional", "flattened": false},
+      "ReservedNodeId": {"shape": "String", "flattened": false},
+      "TargetReservedNodeOfferingId": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -2291,6 +2945,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "ClusterIdentifier": {"shape": "String", "flattened": false},
       "SnapshotIdentifier": {"shape": "String", "flattened": false},
+      "SnapshotArn": {"shape": "String", "flattened": false},
       "SnapshotClusterIdentifier": {"shape": "String", "flattened": false},
       "Port": {"shape": "IntegerOptional", "flattened": false},
       "AvailabilityZone": {"shape": "String", "flattened": false},
@@ -2330,7 +2985,15 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "AvailabilityZoneRelocation": {
         "shape": "BooleanOptional",
         "flattened": false
-      }
+      },
+      "AquaConfigurationStatus": {
+        "shape": "AquaConfigurationStatus",
+        "flattened": false
+      },
+      "DefaultIamRoleArn": {"shape": "String", "flattened": false},
+      "ReservedNodeId": {"shape": "String", "flattened": false},
+      "TargetReservedNodeOfferingId": {"shape": "String", "flattened": false},
+      "Encrypted": {"shape": "BooleanOptional", "flattened": false}
     },
     "flattened": false
   },
@@ -2369,7 +3032,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "SourceTableName": {"shape": "String", "flattened": false},
       "TargetDatabaseName": {"shape": "String", "flattened": false},
       "TargetSchemaName": {"shape": "String", "flattened": false},
-      "NewTableName": {"shape": "String", "flattened": false}
+      "NewTableName": {"shape": "String", "flattened": false},
+      "EnableCaseSensitiveIdentifier": {
+        "shape": "BooleanOptional",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -2428,10 +3095,21 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "RevokeEndpointAccessMessage": {
+    "type": "structure",
+    "members": {
+      "ClusterIdentifier": {"shape": "String", "flattened": false},
+      "Account": {"shape": "String", "flattened": false},
+      "VpcIds": {"shape": "VpcIdentifierList", "flattened": false},
+      "Force": {"shape": "Boolean", "flattened": false}
+    },
+    "flattened": false
+  },
   "RevokeSnapshotAccessMessage": {
     "type": "structure",
     "members": {
       "SnapshotIdentifier": {"shape": "String", "flattened": false},
+      "SnapshotArn": {"shape": "String", "flattened": false},
       "SnapshotClusterIdentifier": {"shape": "String", "flattened": false},
       "AccountWithRestoreAccess": {"shape": "String", "flattened": false}
     },
@@ -2702,21 +3380,6 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "SourceType": {"type": "string", "flattened": false},
-  "SpartaProxyVpcEndpoint": {
-    "type": "structure",
-    "members": {
-      "VpcEndpointId": {"shape": "String", "flattened": false}
-    },
-    "flattened": false
-  },
-  "SpartaProxyVpcEndpointList": {
-    "type": "list",
-    "member": {
-      "shape": "SpartaProxyVpcEndpoint",
-      "locationName": "SpartaProxyVpcEndpoint"
-    },
-    "flattened": false
-  },
   "String": {"type": "string", "flattened": false},
   "Subnet": {
     "type": "structure",
@@ -2869,6 +3532,30 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "UpdatePartnerStatusInputMessage": {
+    "type": "structure",
+    "members": {
+      "AccountId": {"shape": "PartnerIntegrationAccountId", "flattened": false},
+      "ClusterIdentifier": {
+        "shape": "PartnerIntegrationClusterIdentifier",
+        "flattened": false
+      },
+      "DatabaseName": {
+        "shape": "PartnerIntegrationDatabaseName",
+        "flattened": false
+      },
+      "PartnerName": {
+        "shape": "PartnerIntegrationPartnerName",
+        "flattened": false
+      },
+      "Status": {"shape": "PartnerIntegrationStatus", "flattened": false},
+      "StatusMessage": {
+        "shape": "PartnerIntegrationStatusMessage",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
   "UpdateTarget": {
     "type": "structure",
     "members": {
@@ -2915,6 +3602,25 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "ValueStringList": {
     "type": "list",
     "member": {"shape": "String", "locationName": "item"},
+    "flattened": false
+  },
+  "VpcEndpoint": {
+    "type": "structure",
+    "members": {
+      "VpcEndpointId": {"shape": "String", "flattened": false},
+      "VpcId": {"shape": "String", "flattened": false},
+      "NetworkInterfaces": {"shape": "NetworkInterfaceList", "flattened": false}
+    },
+    "flattened": false
+  },
+  "VpcEndpointsList": {
+    "type": "list",
+    "member": {"shape": "VpcEndpoint", "locationName": "VpcEndpoint"},
+    "flattened": false
+  },
+  "VpcIdentifierList": {
+    "type": "list",
+    "member": {"shape": "String", "locationName": "VpcIdentifier"},
     "flattened": false
   },
   "VpcSecurityGroupIdList": {

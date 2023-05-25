@@ -19,21 +19,37 @@ import 'package:shared_aws_api/shared.dart'
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 /// Detective uses machine learning and purpose-built visualizations to help you
-/// analyze and investigate security issues across your Amazon Web Services
-/// (AWS) workloads. Detective automatically extracts time-based events such as
-/// login attempts, API calls, and network traffic from AWS CloudTrail and
-/// Amazon Virtual Private Cloud (Amazon VPC) flow logs. It also extracts
-/// findings detected by Amazon GuardDuty.
+/// to analyze and investigate security issues across your Amazon Web Services
+/// (Amazon Web Services) workloads. Detective automatically extracts time-based
+/// events such as login attempts, API calls, and network traffic from
+/// CloudTrail and Amazon Virtual Private Cloud (Amazon VPC) flow logs. It also
+/// extracts findings detected by Amazon GuardDuty.
 ///
 /// The Detective API primarily supports the creation and management of behavior
 /// graphs. A behavior graph contains the extracted data from a set of member
-/// accounts, and is created and managed by a master account.
+/// accounts, and is created and managed by an administrator account.
+///
+/// To add a member account to the behavior graph, the administrator account
+/// sends an invitation to the account. When the account accepts the invitation,
+/// it becomes a member account in the behavior graph.
+///
+/// Detective is also integrated with Organizations. The organization management
+/// account designates the Detective administrator account for the organization.
+/// That account becomes the administrator account for the organization behavior
+/// graph. The Detective administrator account is also the delegated
+/// administrator account for Detective in Organizations.
+///
+/// The Detective administrator account can enable any organization account as a
+/// member account in the organization behavior graph. The organization accounts
+/// do not receive invitations. The Detective administrator account can also
+/// invite other accounts to the organization behavior graph.
 ///
 /// Every behavior graph is specific to a Region. You can only use the API to
-/// manage graphs that belong to the Region that is associated with the
+/// manage behavior graphs that belong to the Region that is associated with the
 /// currently selected endpoint.
 ///
-/// A Detective master account can use the Detective API to do the following:
+/// The administrator account for a behavior graph can use the Detective API to
+/// do the following:
 ///
 /// <ul>
 /// <li>
@@ -49,8 +65,26 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// <li>
 /// Remove member accounts from a behavior graph.
 /// </li>
+/// <li>
+/// Apply tags to a behavior graph.
+/// </li>
 /// </ul>
-/// A member account can use the Detective API to do the following:
+/// The organization management account can use the Detective API to select the
+/// delegated administrator for Detective.
+///
+/// The Detective administrator account for an organization can use the
+/// Detective API to do the following:
+///
+/// <ul>
+/// <li>
+/// Perform all of the functions of an administrator account.
+/// </li>
+/// <li>
+/// Determine whether to automatically enable new organization accounts as
+/// member accounts in the organization behavior graph.
+/// </li>
+/// </ul>
+/// An invited member account can use the Detective API to do the following:
 ///
 /// <ul>
 /// <li>
@@ -69,6 +103,12 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// All API actions are logged as CloudTrail events. See <a
 /// href="https://docs.aws.amazon.com/detective/latest/adminguide/logging-using-cloudtrail.html">Logging
 /// Detective API Calls with CloudTrail</a>.
+/// <note>
+/// We replaced the term "master account" with the term "administrator account."
+/// An administrator account is used to centrally manage multiple accounts. In
+/// the case of Detective, the administrator account manages the accounts in
+/// their behavior graph.
+/// </note>
 class Detective {
   final _s.RestJsonProtocol _protocol;
   Detective({
@@ -106,6 +146,7 @@ class Detective {
   ///
   /// The member account status in the graph must be <code>INVITED</code>.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
@@ -131,9 +172,64 @@ class Detective {
     );
   }
 
+  /// Gets data source package information for the behavior graph.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [accountIds] :
+  /// The list of Amazon Web Services accounts to get data source package
+  /// information on.
+  ///
+  /// Parameter [graphArn] :
+  /// The ARN of the behavior graph.
+  Future<BatchGetGraphMemberDatasourcesResponse>
+      batchGetGraphMemberDatasources({
+    required List<String> accountIds,
+    required String graphArn,
+  }) async {
+    final $payload = <String, dynamic>{
+      'AccountIds': accountIds,
+      'GraphArn': graphArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/graph/datasources/get',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchGetGraphMemberDatasourcesResponse.fromJson(response);
+  }
+
+  /// Gets information on the data source package history for an account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [graphArns] :
+  /// The ARN of the behavior graph.
+  Future<BatchGetMembershipDatasourcesResponse> batchGetMembershipDatasources({
+    required List<String> graphArns,
+  }) async {
+    final $payload = <String, dynamic>{
+      'GraphArns': graphArns,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/membership/datasources/get',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchGetMembershipDatasourcesResponse.fromJson(response);
+  }
+
   /// Creates a new behavior graph for the calling account, and sets that
-  /// account as the master account. This operation is called by the account
-  /// that is enabling Detective.
+  /// account as the administrator account. This operation is called by the
+  /// account that is enabling Detective.
   ///
   /// Before you try to enable Detective, make sure that your account has been
   /// enrolled in Amazon GuardDuty for at least 48 hours. If you do not meet
@@ -148,17 +244,29 @@ class Detective {
   /// <code>CreateGraph</code> triggers a process to create the corresponding
   /// data tables for the new behavior graph.
   ///
-  /// An account can only be the master account for one behavior graph within a
-  /// Region. If the same account calls <code>CreateGraph</code> with the same
-  /// master account, it always returns the same behavior graph ARN. It does not
-  /// create a new behavior graph.
+  /// An account can only be the administrator account for one behavior graph
+  /// within a Region. If the same account calls <code>CreateGraph</code> with
+  /// the same administrator account, it always returns the same behavior graph
+  /// ARN. It does not create a new behavior graph.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
-  Future<CreateGraphResponse> createGraph() async {
+  ///
+  /// Parameter [tags] :
+  /// The tags to assign to the new behavior graph. You can add up to 50 tags.
+  /// For each tag, you provide the tag key and the tag value. Each tag key can
+  /// contain up to 128 characters. Each tag value can contain up to 256
+  /// characters.
+  Future<CreateGraphResponse> createGraph({
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (tags != null) 'Tags': tags,
+    };
     final response = await _protocol.send(
-      payload: null,
+      payload: $payload,
       method: 'POST',
       requestUri: '/graph',
       exceptionFnMap: _exceptionFns,
@@ -166,24 +274,37 @@ class Detective {
     return CreateGraphResponse.fromJson(response);
   }
 
-  /// Sends a request to invite the specified AWS accounts to be member accounts
-  /// in the behavior graph. This operation can only be called by the master
+  /// <code>CreateMembers</code> is used to send invitations to accounts. For
+  /// the organization behavior graph, the Detective administrator account uses
+  /// <code>CreateMembers</code> to enable organization accounts as member
+  /// accounts.
+  ///
+  /// For invited accounts, <code>CreateMembers</code> sends a request to invite
+  /// the specified Amazon Web Services accounts to be member accounts in the
+  /// behavior graph. This operation can only be called by the administrator
   /// account for a behavior graph.
   ///
-  /// <code>CreateMembers</code> verifies the accounts and then sends
-  /// invitations to the verified accounts.
+  /// <code>CreateMembers</code> verifies the accounts and then invites the
+  /// verified accounts. The administrator can optionally specify to not send
+  /// invitation emails to the member accounts. This would be used when the
+  /// administrator manages their member accounts centrally.
+  ///
+  /// For organization accounts in the organization behavior graph,
+  /// <code>CreateMembers</code> attempts to enable the accounts. The
+  /// organization accounts do not receive invitations.
   ///
   /// The request provides the behavior graph ARN and the list of accounts to
-  /// invite.
+  /// invite or to enable.
   ///
   /// The response separates the requested accounts into two lists:
   ///
   /// <ul>
   /// <li>
-  /// The accounts that <code>CreateMembers</code> was able to start the
-  /// verification for. This list includes member accounts that are being
-  /// verified, that have passed verification and are being sent an invitation,
-  /// and that have failed verification.
+  /// The accounts that <code>CreateMembers</code> was able to process. For
+  /// invited accounts, includes member accounts that are being verified, that
+  /// have passed verification and are to be invited, and that have failed
+  /// verification. For organization accounts in the organization behavior
+  /// graph, includes accounts that can be enabled and that cannot be enabled.
   /// </li>
   /// <li>
   /// The accounts that <code>CreateMembers</code> was unable to process. This
@@ -192,19 +313,29 @@ class Detective {
   /// </li>
   /// </ul>
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [accounts] :
-  /// The list of AWS accounts to invite to become member accounts in the
-  /// behavior graph. For each invited account, the account list contains the
-  /// account identifier and the AWS account root user email address.
+  /// The list of Amazon Web Services accounts to invite or to enable. You can
+  /// invite or enable up to 50 accounts at a time. For each invited account,
+  /// the account list contains the account identifier and the Amazon Web
+  /// Services account root user email address. For organization accounts in the
+  /// organization behavior graph, the email address is not required.
   ///
   /// Parameter [graphArn] :
-  /// The ARN of the behavior graph to invite the member accounts to contribute
-  /// their data to.
+  /// The ARN of the behavior graph.
+  ///
+  /// Parameter [disableEmailNotification] :
+  /// if set to <code>true</code>, then the invited accounts do not receive
+  /// email notifications. By default, this is set to <code>false</code>, and
+  /// the invited accounts receive email notifications.
+  ///
+  /// Organization accounts in the organization behavior graph do not receive
+  /// email notifications.
   ///
   /// Parameter [message] :
   /// Customized message text to include in the invitation email message to the
@@ -212,11 +343,14 @@ class Detective {
   Future<CreateMembersResponse> createMembers({
     required List<Account> accounts,
     required String graphArn,
+    bool? disableEmailNotification,
     String? message,
   }) async {
     final $payload = <String, dynamic>{
       'Accounts': accounts,
       'GraphArn': graphArn,
+      if (disableEmailNotification != null)
+        'DisableEmailNotification': disableEmailNotification,
       if (message != null) 'Message': message,
     };
     final response = await _protocol.send(
@@ -229,12 +363,13 @@ class Detective {
   }
 
   /// Disables the specified behavior graph and queues it to be deleted. This
-  /// operation removes the graph from each member account's list of behavior
-  /// graphs.
+  /// operation removes the behavior graph from each member account's list of
+  /// behavior graphs.
   ///
-  /// <code>DeleteGraph</code> can only be called by the master account for a
-  /// behavior graph.
+  /// <code>DeleteGraph</code> can only be called by the administrator account
+  /// for a behavior graph.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -255,23 +390,37 @@ class Detective {
     );
   }
 
-  /// Deletes one or more member accounts from the master account behavior
-  /// graph. This operation can only be called by a Detective master account.
-  /// That account cannot use <code>DeleteMembers</code> to delete their own
-  /// account from the behavior graph. To disable a behavior graph, the master
-  /// account uses the <code>DeleteGraph</code> API method.
+  /// Removes the specified member accounts from the behavior graph. The removed
+  /// accounts no longer contribute data to the behavior graph. This operation
+  /// can only be called by the administrator account for the behavior graph.
   ///
+  /// For invited accounts, the removed accounts are deleted from the list of
+  /// accounts in the behavior graph. To restore the account, the administrator
+  /// account must send another invitation.
+  ///
+  /// For organization accounts in the organization behavior graph, the
+  /// Detective administrator account can always enable the organization account
+  /// again. Organization accounts that are not enabled as member accounts are
+  /// not included in the <code>ListMembers</code> results for the organization
+  /// behavior graph.
+  ///
+  /// An administrator account cannot use <code>DeleteMembers</code> to remove
+  /// their own account from the behavior graph. To disable a behavior graph,
+  /// the administrator account uses the <code>DeleteGraph</code> API method.
+  ///
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
   /// Parameter [accountIds] :
-  /// The list of AWS account identifiers for the member accounts to delete from
-  /// the behavior graph.
+  /// The list of Amazon Web Services account identifiers for the member
+  /// accounts to remove from the behavior graph. You can remove up to 50 member
+  /// accounts at a time.
   ///
   /// Parameter [graphArn] :
-  /// The ARN of the behavior graph to delete members from.
+  /// The ARN of the behavior graph to remove members from.
   Future<DeleteMembersResponse> deleteMembers({
     required List<String> accountIds,
     required String graphArn,
@@ -289,10 +438,73 @@ class Detective {
     return DeleteMembersResponse.fromJson(response);
   }
 
+  /// Returns information about the configuration for the organization behavior
+  /// graph. Currently indicates whether to automatically enable new
+  /// organization accounts as member accounts.
+  ///
+  /// Can only be called by the Detective administrator account for the
+  /// organization.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [graphArn] :
+  /// The ARN of the organization behavior graph.
+  Future<DescribeOrganizationConfigurationResponse>
+      describeOrganizationConfiguration({
+    required String graphArn,
+  }) async {
+    final $payload = <String, dynamic>{
+      'GraphArn': graphArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/orgs/describeOrganizationConfiguration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeOrganizationConfigurationResponse.fromJson(response);
+  }
+
+  /// Removes the Detective administrator account in the current Region. Deletes
+  /// the organization behavior graph.
+  ///
+  /// Can only be called by the organization management account.
+  ///
+  /// Removing the Detective administrator account does not affect the delegated
+  /// administrator account for Detective in Organizations.
+  ///
+  /// To remove the delegated administrator account in Organizations, use the
+  /// Organizations API. Removing the delegated administrator account also
+  /// removes the Detective administrator account in all Regions, except for
+  /// Regions where the Detective administrator account is the organization
+  /// management account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [TooManyRequestsException].
+  Future<void> disableOrganizationAdminAccount() async {
+    await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri: '/orgs/disableAdminAccount',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Removes the member account from the specified behavior graph. This
-  /// operation can only be called by a member account that has the
+  /// operation can only be called by an invited member account that has the
   /// <code>ENABLED</code> status.
   ///
+  /// <code>DisassociateMembership</code> cannot be called by an organization
+  /// account in the organization behavior graph. For the organization behavior
+  /// graph, the Detective administrator account determines which organization
+  /// accounts to enable or disable as member accounts.
+  ///
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
@@ -317,16 +529,59 @@ class Detective {
     );
   }
 
+  /// Designates the Detective administrator account for the organization in the
+  /// current Region.
+  ///
+  /// If the account does not have Detective enabled, then enables Detective for
+  /// that account and creates a new behavior graph.
+  ///
+  /// Can only be called by the organization management account.
+  ///
+  /// If the organization has a delegated administrator account in
+  /// Organizations, then the Detective administrator account must be either the
+  /// delegated administrator account or the organization management account.
+  ///
+  /// If the organization does not have a delegated administrator account in
+  /// Organizations, then you can choose any account in the organization. If you
+  /// choose an account other than the organization management account,
+  /// Detective calls Organizations to make that account the delegated
+  /// administrator account for Detective. The organization management account
+  /// cannot be the delegated administrator account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account identifier of the account to designate as
+  /// the Detective administrator account for the organization.
+  Future<void> enableOrganizationAdminAccount({
+    required String accountId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'AccountId': accountId,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/orgs/enableAdminAccount',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Returns the membership details for specified member accounts for a
   /// behavior graph.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
   /// Parameter [accountIds] :
-  /// The list of AWS account identifiers for the member account for which to
-  /// return member details.
+  /// The list of Amazon Web Services account identifiers for the member account
+  /// for which to return member details. You can request details for up to 50
+  /// member accounts at a time.
   ///
   /// You cannot use <code>GetMembers</code> to retrieve information about
   /// member accounts that were removed from the behavior graph.
@@ -350,12 +605,56 @@ class Detective {
     return GetMembersResponse.fromJson(response);
   }
 
-  /// Returns the list of behavior graphs that the calling account is a master
-  /// of. This operation can only be called by a master account.
+  /// Lists data source packages in the behavior graph.
   ///
-  /// Because an account can currently only be the master of one behavior graph
-  /// within a Region, the results always contain a single graph.
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
+  /// Parameter [graphArn] :
+  /// The ARN of the behavior graph.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// For requests to get the next page of results, the pagination token that
+  /// was returned with the previous set of results. The initial request does
+  /// not include a pagination token.
+  Future<ListDatasourcePackagesResponse> listDatasourcePackages({
+    required String graphArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      200,
+    );
+    final $payload = <String, dynamic>{
+      'GraphArn': graphArn,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/graph/datasources/list',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListDatasourcePackagesResponse.fromJson(response);
+  }
+
+  /// Returns the list of behavior graphs that the calling account is an
+  /// administrator account of. This operation can only be called by an
+  /// administrator account.
+  ///
+  /// Because an account can currently only be the administrator of one behavior
+  /// graph within a Region, the results always contain a single behavior graph.
+  ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
   ///
@@ -392,7 +691,8 @@ class Detective {
   }
 
   /// Retrieves the list of open and accepted behavior graph invitations for the
-  /// member account. This operation can only be called by a member account.
+  /// member account. This operation can only be called by an invited member
+  /// account.
   ///
   /// Open invitations are invitations that the member account has not responded
   /// to.
@@ -401,6 +701,7 @@ class Detective {
   /// declined the invitation. The results also do not include behavior graphs
   /// that the member account resigned from or was removed from.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
   ///
@@ -436,9 +737,16 @@ class Detective {
     return ListInvitationsResponse.fromJson(response);
   }
 
-  /// Retrieves the list of member accounts for a behavior graph. Does not
-  /// return member accounts that were removed from the behavior graph.
+  /// Retrieves the list of member accounts for a behavior graph.
   ///
+  /// For invited accounts, the results do not include member accounts that were
+  /// removed from the behavior graph.
+  ///
+  /// For the organization behavior graph, the results do not include
+  /// organization accounts that the Detective administrator account has not
+  /// enabled as member accounts.
+  ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -481,10 +789,74 @@ class Detective {
     return ListMembersResponse.fromJson(response);
   }
 
+  /// Returns information about the Detective administrator account for an
+  /// organization. Can only be called by the organization management account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// For requests to get the next page of results, the pagination token that
+  /// was returned with the previous set of results. The initial request does
+  /// not include a pagination token.
+  Future<ListOrganizationAdminAccountsResponse> listOrganizationAdminAccounts({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      200,
+    );
+    final $payload = <String, dynamic>{
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/orgs/adminAccountslist',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListOrganizationAdminAccountsResponse.fromJson(response);
+  }
+
+  /// Returns the tag values that are assigned to a behavior graph.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the behavior graph for which to retrieve the tag values.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    required String resourceArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTagsForResourceResponse.fromJson(response);
+  }
+
   /// Rejects an invitation to contribute the account data to a behavior graph.
-  /// This operation must be called by a member account that has the
+  /// This operation must be called by an invited member account that has the
   /// <code>INVITED</code> status.
   ///
+  /// <code>RejectInvitation</code> cannot be called by an organization account
+  /// in the organization behavior graph. In the organization behavior graph,
+  /// organization accounts do not receive an invitation.
+  ///
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
@@ -525,6 +897,7 @@ class Detective {
   /// </li>
   /// </ul>
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
@@ -554,14 +927,135 @@ class Detective {
       exceptionFnMap: _exceptionFns,
     );
   }
+
+  /// Applies tag values to a behavior graph.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the behavior graph to assign the tags to.
+  ///
+  /// Parameter [tags] :
+  /// The tags to assign to the behavior graph. You can add up to 50 tags. For
+  /// each tag, you provide the tag key and the tag value. Each tag key can
+  /// contain up to 128 characters. Each tag value can contain up to 256
+  /// characters.
+  Future<void> tagResource({
+    required String resourceArn,
+    required Map<String, String> tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Removes tags from a behavior graph.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the behavior graph to remove the tags from.
+  ///
+  /// Parameter [tagKeys] :
+  /// The tag keys of the tags to remove from the behavior graph. You can remove
+  /// up to 50 tags at a time.
+  Future<void> untagResource({
+    required String resourceArn,
+    required List<String> tagKeys,
+  }) async {
+    final $query = <String, List<String>>{
+      'tagKeys': tagKeys,
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Starts a data source packages for the behavior graph.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [datasourcePackages] :
+  /// The data source package start for the behavior graph.
+  ///
+  /// Parameter [graphArn] :
+  /// The ARN of the behavior graph.
+  Future<void> updateDatasourcePackages({
+    required List<DatasourcePackage> datasourcePackages,
+    required String graphArn,
+  }) async {
+    final $payload = <String, dynamic>{
+      'DatasourcePackages': datasourcePackages.map((e) => e.toValue()).toList(),
+      'GraphArn': graphArn,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/graph/datasources/update',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Updates the configuration for the Organizations integration in the current
+  /// Region. Can only be called by the Detective administrator account for the
+  /// organization.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [graphArn] :
+  /// The ARN of the organization behavior graph.
+  ///
+  /// Parameter [autoEnable] :
+  /// Indicates whether to automatically enable new organization accounts as
+  /// member accounts in the organization behavior graph.
+  Future<void> updateOrganizationConfiguration({
+    required String graphArn,
+    bool? autoEnable,
+  }) async {
+    final $payload = <String, dynamic>{
+      'GraphArn': graphArn,
+      if (autoEnable != null) 'AutoEnable': autoEnable,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/orgs/updateOrganizationConfiguration',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
 }
 
-/// An AWS account that is the master of or a member of a behavior graph.
+/// An Amazon Web Services account that is the administrator account of or a
+/// member of a behavior graph.
 class Account {
-  /// The account identifier of the AWS account.
+  /// The account identifier of the Amazon Web Services account.
   final String accountId;
 
-  /// The AWS account root user email address for the AWS account.
+  /// The Amazon Web Services account root user email address for the Amazon Web
+  /// Services account.
   final String emailAddress;
 
   Account({
@@ -578,6 +1072,91 @@ class Account {
   }
 }
 
+/// Information about the Detective administrator account for an organization.
+class Administrator {
+  /// The Amazon Web Services account identifier of the Detective administrator
+  /// account for the organization.
+  final String? accountId;
+
+  /// The date and time when the Detective administrator account was enabled. The
+  /// value is an ISO8601 formatted string. For example,
+  /// <code>2021-08-18T16:35:56.284Z</code>.
+  final DateTime? delegationTime;
+
+  /// The ARN of the organization behavior graph.
+  final String? graphArn;
+
+  Administrator({
+    this.accountId,
+    this.delegationTime,
+    this.graphArn,
+  });
+
+  factory Administrator.fromJson(Map<String, dynamic> json) {
+    return Administrator(
+      accountId: json['AccountId'] as String?,
+      delegationTime: timeStampFromJson(json['DelegationTime']),
+      graphArn: json['GraphArn'] as String?,
+    );
+  }
+}
+
+class BatchGetGraphMemberDatasourcesResponse {
+  /// Details on the status of data source packages for members of the behavior
+  /// graph.
+  final List<MembershipDatasources>? memberDatasources;
+
+  /// Accounts that data source package information could not be retrieved for.
+  final List<UnprocessedAccount>? unprocessedAccounts;
+
+  BatchGetGraphMemberDatasourcesResponse({
+    this.memberDatasources,
+    this.unprocessedAccounts,
+  });
+
+  factory BatchGetGraphMemberDatasourcesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetGraphMemberDatasourcesResponse(
+      memberDatasources: (json['MemberDatasources'] as List?)
+          ?.whereNotNull()
+          .map((e) => MembershipDatasources.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      unprocessedAccounts: (json['UnprocessedAccounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+class BatchGetMembershipDatasourcesResponse {
+  /// Details on the data source package history for an member of the behavior
+  /// graph.
+  final List<MembershipDatasources>? membershipDatasources;
+
+  /// Graphs that data source package information could not be retrieved for.
+  final List<UnprocessedGraph>? unprocessedGraphs;
+
+  BatchGetMembershipDatasourcesResponse({
+    this.membershipDatasources,
+    this.unprocessedGraphs,
+  });
+
+  factory BatchGetMembershipDatasourcesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetMembershipDatasourcesResponse(
+      membershipDatasources: (json['MembershipDatasources'] as List?)
+          ?.whereNotNull()
+          .map((e) => MembershipDatasources.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      unprocessedGraphs: (json['UnprocessedGraphs'] as List?)
+          ?.whereNotNull()
+          .map((e) => UnprocessedGraph.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 class CreateGraphResponse {
   /// The ARN of the new behavior graph.
   final String? graphArn;
@@ -585,6 +1164,7 @@ class CreateGraphResponse {
   CreateGraphResponse({
     this.graphArn,
   });
+
   factory CreateGraphResponse.fromJson(Map<String, dynamic> json) {
     return CreateGraphResponse(
       graphArn: json['GraphArn'] as String?,
@@ -593,21 +1173,23 @@ class CreateGraphResponse {
 }
 
 class CreateMembersResponse {
-  /// The set of member account invitation requests that Detective was able to
-  /// process. This includes accounts that are being verified, that failed
-  /// verification, and that passed verification and are being sent an invitation.
+  /// The set of member account invitation or enablement requests that Detective
+  /// was able to process. This includes accounts that are being verified, that
+  /// failed verification, and that passed verification and are being sent an
+  /// invitation or are being enabled.
   final List<MemberDetail>? members;
 
   /// The list of accounts for which Detective was unable to process the
-  /// invitation request. For each account, the list provides the reason why the
-  /// request could not be processed. The list includes accounts that are already
-  /// member accounts in the behavior graph.
+  /// invitation or enablement request. For each account, the list provides the
+  /// reason why the request could not be processed. The list includes accounts
+  /// that are already member accounts in the behavior graph.
   final List<UnprocessedAccount>? unprocessedAccounts;
 
   CreateMembersResponse({
     this.members,
     this.unprocessedAccounts,
   });
+
   factory CreateMembersResponse.fromJson(Map<String, dynamic> json) {
     return CreateMembersResponse(
       members: (json['Members'] as List?)
@@ -622,12 +1204,130 @@ class CreateMembersResponse {
   }
 }
 
+enum DatasourcePackage {
+  detectiveCore,
+  eksAudit,
+  asffSecurityhubFinding,
+}
+
+extension DatasourcePackageValueExtension on DatasourcePackage {
+  String toValue() {
+    switch (this) {
+      case DatasourcePackage.detectiveCore:
+        return 'DETECTIVE_CORE';
+      case DatasourcePackage.eksAudit:
+        return 'EKS_AUDIT';
+      case DatasourcePackage.asffSecurityhubFinding:
+        return 'ASFF_SECURITYHUB_FINDING';
+    }
+  }
+}
+
+extension DatasourcePackageFromString on String {
+  DatasourcePackage toDatasourcePackage() {
+    switch (this) {
+      case 'DETECTIVE_CORE':
+        return DatasourcePackage.detectiveCore;
+      case 'EKS_AUDIT':
+        return DatasourcePackage.eksAudit;
+      case 'ASFF_SECURITYHUB_FINDING':
+        return DatasourcePackage.asffSecurityhubFinding;
+    }
+    throw Exception('$this is not known in enum DatasourcePackage');
+  }
+}
+
+/// Details about the data source packages ingested by your behavior graph.
+class DatasourcePackageIngestDetail {
+  /// Details on which data source packages are ingested for a member account.
+  final DatasourcePackageIngestState? datasourcePackageIngestState;
+
+  /// The date a data source package was enabled for this account
+  final Map<DatasourcePackageIngestState, TimestampForCollection>?
+      lastIngestStateChange;
+
+  DatasourcePackageIngestDetail({
+    this.datasourcePackageIngestState,
+    this.lastIngestStateChange,
+  });
+
+  factory DatasourcePackageIngestDetail.fromJson(Map<String, dynamic> json) {
+    return DatasourcePackageIngestDetail(
+      datasourcePackageIngestState:
+          (json['DatasourcePackageIngestState'] as String?)
+              ?.toDatasourcePackageIngestState(),
+      lastIngestStateChange:
+          (json['LastIngestStateChange'] as Map<String, dynamic>?)?.map(
+              (k, e) => MapEntry(k.toDatasourcePackageIngestState(),
+                  TimestampForCollection.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+}
+
+enum DatasourcePackageIngestState {
+  started,
+  stopped,
+  disabled,
+}
+
+extension DatasourcePackageIngestStateValueExtension
+    on DatasourcePackageIngestState {
+  String toValue() {
+    switch (this) {
+      case DatasourcePackageIngestState.started:
+        return 'STARTED';
+      case DatasourcePackageIngestState.stopped:
+        return 'STOPPED';
+      case DatasourcePackageIngestState.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension DatasourcePackageIngestStateFromString on String {
+  DatasourcePackageIngestState toDatasourcePackageIngestState() {
+    switch (this) {
+      case 'STARTED':
+        return DatasourcePackageIngestState.started;
+      case 'STOPPED':
+        return DatasourcePackageIngestState.stopped;
+      case 'DISABLED':
+        return DatasourcePackageIngestState.disabled;
+    }
+    throw Exception('$this is not known in enum DatasourcePackageIngestState');
+  }
+}
+
+/// Information on the usage of a data source package in the behavior graph.
+class DatasourcePackageUsageInfo {
+  /// Total volume of data in bytes per day ingested for a given data source
+  /// package.
+  final int? volumeUsageInBytes;
+
+  /// The data and time when the member account data volume was last updated. The
+  /// value is an ISO8601 formatted string. For example,
+  /// <code>2021-08-18T16:35:56.284Z</code>.
+  final DateTime? volumeUsageUpdateTime;
+
+  DatasourcePackageUsageInfo({
+    this.volumeUsageInBytes,
+    this.volumeUsageUpdateTime,
+  });
+
+  factory DatasourcePackageUsageInfo.fromJson(Map<String, dynamic> json) {
+    return DatasourcePackageUsageInfo(
+      volumeUsageInBytes: json['VolumeUsageInBytes'] as int?,
+      volumeUsageUpdateTime: timeStampFromJson(json['VolumeUsageUpdateTime']),
+    );
+  }
+}
+
 class DeleteMembersResponse {
-  /// The list of AWS account identifiers for the member accounts that Detective
-  /// successfully deleted from the behavior graph.
+  /// The list of Amazon Web Services account identifiers for the member accounts
+  /// that Detective successfully removed from the behavior graph.
   final List<String>? accountIds;
 
-  /// The list of member accounts that Detective was not able to delete from the
+  /// The list of member accounts that Detective was not able to remove from the
   /// behavior graph. For each member account, provides the reason that the
   /// deletion could not be processed.
   final List<UnprocessedAccount>? unprocessedAccounts;
@@ -636,6 +1336,7 @@ class DeleteMembersResponse {
     this.accountIds,
     this.unprocessedAccounts,
   });
+
   factory DeleteMembersResponse.fromJson(Map<String, dynamic> json) {
     return DeleteMembersResponse(
       accountIds: (json['AccountIds'] as List?)
@@ -646,6 +1347,23 @@ class DeleteMembersResponse {
           ?.whereNotNull()
           .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
           .toList(),
+    );
+  }
+}
+
+class DescribeOrganizationConfigurationResponse {
+  /// Indicates whether to automatically enable new organization accounts as
+  /// member accounts in the organization behavior graph.
+  final bool? autoEnable;
+
+  DescribeOrganizationConfigurationResponse({
+    this.autoEnable,
+  });
+
+  factory DescribeOrganizationConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeOrganizationConfigurationResponse(
+      autoEnable: json['AutoEnable'] as bool?,
     );
   }
 }
@@ -666,6 +1384,7 @@ class GetMembersResponse {
     this.memberDetails,
     this.unprocessedAccounts,
   });
+
   factory GetMembersResponse.fromJson(Map<String, dynamic> json) {
     return GetMembersResponse(
       memberDetails: (json['MemberDetails'] as List?)
@@ -685,14 +1404,16 @@ class Graph {
   /// The ARN of the behavior graph.
   final String? arn;
 
-  /// The date and time that the behavior graph was created. The value is in
-  /// milliseconds since the epoch.
+  /// The date and time that the behavior graph was created. The value is an
+  /// ISO8601 formatted string. For example,
+  /// <code>2021-08-18T16:35:56.284Z</code>.
   final DateTime? createdTime;
 
   Graph({
     this.arn,
     this.createdTime,
   });
+
   factory Graph.fromJson(Map<String, dynamic> json) {
     return Graph(
       arn: json['Arn'] as String?,
@@ -701,8 +1422,63 @@ class Graph {
   }
 }
 
+enum InvitationType {
+  invitation,
+  organization,
+}
+
+extension InvitationTypeValueExtension on InvitationType {
+  String toValue() {
+    switch (this) {
+      case InvitationType.invitation:
+        return 'INVITATION';
+      case InvitationType.organization:
+        return 'ORGANIZATION';
+    }
+  }
+}
+
+extension InvitationTypeFromString on String {
+  InvitationType toInvitationType() {
+    switch (this) {
+      case 'INVITATION':
+        return InvitationType.invitation;
+      case 'ORGANIZATION':
+        return InvitationType.organization;
+    }
+    throw Exception('$this is not known in enum InvitationType');
+  }
+}
+
+class ListDatasourcePackagesResponse {
+  /// Details on the data source packages active in the behavior graph.
+  final Map<DatasourcePackage, DatasourcePackageIngestDetail>?
+      datasourcePackages;
+
+  /// For requests to get the next page of results, the pagination token that was
+  /// returned with the previous set of results. The initial request does not
+  /// include a pagination token.
+  final String? nextToken;
+
+  ListDatasourcePackagesResponse({
+    this.datasourcePackages,
+    this.nextToken,
+  });
+
+  factory ListDatasourcePackagesResponse.fromJson(Map<String, dynamic> json) {
+    return ListDatasourcePackagesResponse(
+      datasourcePackages: (json['DatasourcePackages'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k.toDatasourcePackage(),
+              DatasourcePackageIngestDetail.fromJson(
+                  e as Map<String, dynamic>))),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
 class ListGraphsResponse {
-  /// A list of behavior graphs that the account is a master for.
+  /// A list of behavior graphs that the account is an administrator account for.
   final List<Graph>? graphList;
 
   /// If there are more behavior graphs remaining in the results, then this is the
@@ -713,6 +1489,7 @@ class ListGraphsResponse {
     this.graphList,
     this.nextToken,
   });
+
   factory ListGraphsResponse.fromJson(Map<String, dynamic> json) {
     return ListGraphsResponse(
       graphList: (json['GraphList'] as List?)
@@ -737,6 +1514,7 @@ class ListInvitationsResponse {
     this.invitations,
     this.nextToken,
   });
+
   factory ListInvitationsResponse.fromJson(Map<String, dynamic> json) {
     return ListInvitationsResponse(
       invitations: (json['Invitations'] as List?)
@@ -751,20 +1529,25 @@ class ListInvitationsResponse {
 class ListMembersResponse {
   /// The list of member accounts in the behavior graph.
   ///
-  /// The results include member accounts that did not pass verification and
-  /// member accounts that have not yet accepted the invitation to the behavior
-  /// graph. The results do not include member accounts that were removed from the
-  /// behavior graph.
+  /// For invited accounts, the results include member accounts that did not pass
+  /// verification and member accounts that have not yet accepted the invitation
+  /// to the behavior graph. The results do not include member accounts that were
+  /// removed from the behavior graph.
+  ///
+  /// For the organization behavior graph, the results do not include organization
+  /// accounts that the Detective administrator account has not enabled as member
+  /// accounts.
   final List<MemberDetail>? memberDetails;
 
-  /// If there are more member accounts remaining in the results, then this is the
-  /// pagination token to use to request the next page of member accounts.
+  /// If there are more member accounts remaining in the results, then use this
+  /// pagination token to request the next page of member accounts.
   final String? nextToken;
 
   ListMembersResponse({
     this.memberDetails,
     this.nextToken,
   });
+
   factory ListMembersResponse.fromJson(Map<String, dynamic> json) {
     return ListMembersResponse(
       memberDetails: (json['MemberDetails'] as List?)
@@ -776,11 +1559,60 @@ class ListMembersResponse {
   }
 }
 
-/// Details about a member account that was invited to contribute to a behavior
-/// graph.
+class ListOrganizationAdminAccountsResponse {
+  /// The list of Detective administrator accounts.
+  final List<Administrator>? administrators;
+
+  /// If there are more accounts remaining in the results, then this is the
+  /// pagination token to use to request the next page of accounts.
+  final String? nextToken;
+
+  ListOrganizationAdminAccountsResponse({
+    this.administrators,
+    this.nextToken,
+  });
+
+  factory ListOrganizationAdminAccountsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListOrganizationAdminAccountsResponse(
+      administrators: (json['Administrators'] as List?)
+          ?.whereNotNull()
+          .map((e) => Administrator.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// The tag values that are assigned to the behavior graph. The request returns
+  /// up to 50 tag values.
+  final Map<String, String>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+}
+
+/// Details about a member account in a behavior graph.
 class MemberDetail {
-  /// The AWS account identifier for the member account.
+  /// The Amazon Web Services account identifier for the member account.
   final String? accountId;
+
+  /// The Amazon Web Services account identifier of the administrator account for
+  /// the behavior graph.
+  final String? administratorId;
+
+  /// The state of a data source package for the behavior graph.
+  final Map<DatasourcePackage, DatasourcePackageIngestState>?
+      datasourcePackageIngestStates;
 
   /// For member accounts with a status of <code>ACCEPTED_BUT_DISABLED</code>, the
   /// reason that the member account is not enabled.
@@ -800,17 +1632,29 @@ class MemberDetail {
   /// </ul>
   final MemberDisabledReason? disabledReason;
 
-  /// The AWS account root user email address for the member account.
+  /// The Amazon Web Services account root user email address for the member
+  /// account.
   final String? emailAddress;
 
-  /// The ARN of the behavior graph that the member account was invited to.
+  /// The ARN of the behavior graph.
   final String? graphArn;
 
-  /// The date and time that Detective sent the invitation to the member account.
-  /// The value is in milliseconds since the epoch.
+  /// The type of behavior graph membership.
+  ///
+  /// For an organization account in the organization behavior graph, the type is
+  /// <code>ORGANIZATION</code>.
+  ///
+  /// For an account that was invited to a behavior graph, the type is
+  /// <code>INVITATION</code>.
+  final InvitationType? invitationType;
+
+  /// For invited accounts, the date and time that Detective sent the invitation
+  /// to the account. The value is an ISO8601 formatted string. For example,
+  /// <code>2021-08-18T16:35:56.284Z</code>.
   final DateTime? invitedTime;
 
-  /// The AWS account identifier of the master account for the behavior graph.
+  /// The Amazon Web Services account identifier of the administrator account for
+  /// the behavior graph.
   final String? masterId;
 
   /// The member account data volume as a percentage of the maximum allowed data
@@ -825,6 +1669,8 @@ class MemberDetail {
   final double? percentOfGraphUtilization;
 
   /// The date and time when the graph utilization percentage was last updated.
+  /// The value is an ISO8601 formatted string. For example,
+  /// <code>2021-08-18T16:35:56.284Z</code>.
   final DateTime? percentOfGraphUtilizationUpdatedTime;
 
   /// The current membership status of the member account. The status can have one
@@ -832,59 +1678,94 @@ class MemberDetail {
   ///
   /// <ul>
   /// <li>
-  /// <code>INVITED</code> - Indicates that the member was sent an invitation but
-  /// has not yet responded.
+  /// <code>INVITED</code> - For invited accounts only. Indicates that the member
+  /// was sent an invitation but has not yet responded.
   /// </li>
   /// <li>
-  /// <code>VERIFICATION_IN_PROGRESS</code> - Indicates that Detective is
-  /// verifying that the account identifier and email address provided for the
-  /// member account match. If they do match, then Detective sends the invitation.
-  /// If the email address and account identifier don't match, then the member
-  /// cannot be added to the behavior graph.
+  /// <code>VERIFICATION_IN_PROGRESS</code> - For invited accounts only, indicates
+  /// that Detective is verifying that the account identifier and email address
+  /// provided for the member account match. If they do match, then Detective
+  /// sends the invitation. If the email address and account identifier don't
+  /// match, then the member cannot be added to the behavior graph.
+  ///
+  /// For organization accounts in the organization behavior graph, indicates that
+  /// Detective is verifying that the account belongs to the organization.
   /// </li>
   /// <li>
-  /// <code>VERIFICATION_FAILED</code> - Indicates that the account and email
-  /// address provided for the member account do not match, and Detective did not
-  /// send an invitation to the account.
+  /// <code>VERIFICATION_FAILED</code> - For invited accounts only. Indicates that
+  /// the account and email address provided for the member account do not match,
+  /// and Detective did not send an invitation to the account.
   /// </li>
   /// <li>
-  /// <code>ENABLED</code> - Indicates that the member account accepted the
-  /// invitation to contribute to the behavior graph.
+  /// <code>ENABLED</code> - Indicates that the member account currently
+  /// contributes data to the behavior graph. For invited accounts, the member
+  /// account accepted the invitation. For organization accounts in the
+  /// organization behavior graph, the Detective administrator account enabled the
+  /// organization account as a member account.
   /// </li>
   /// <li>
-  /// <code>ACCEPTED_BUT_DISABLED</code> - Indicates that the member account
-  /// accepted the invitation but is prevented from contributing data to the
-  /// behavior graph. <code>DisabledReason</code> provides the reason why the
-  /// member account is not enabled.
+  /// <code>ACCEPTED_BUT_DISABLED</code> - The account accepted the invitation, or
+  /// was enabled by the Detective administrator account, but is prevented from
+  /// contributing data to the behavior graph. <code>DisabledReason</code>
+  /// provides the reason why the member account is not enabled.
   /// </li>
   /// </ul>
-  /// Member accounts that declined an invitation or that were removed from the
-  /// behavior graph are not included.
+  /// Invited accounts that declined an invitation or that were removed from the
+  /// behavior graph are not included. In the organization behavior graph,
+  /// organization accounts that the Detective administrator account did not
+  /// enable are not included.
   final MemberStatus? status;
 
-  /// The date and time that the member account was last updated. The value is in
-  /// milliseconds since the epoch.
+  /// The date and time that the member account was last updated. The value is an
+  /// ISO8601 formatted string. For example,
+  /// <code>2021-08-18T16:35:56.284Z</code>.
   final DateTime? updatedTime;
+
+  /// Details on the volume of usage for each data source package in a behavior
+  /// graph.
+  final Map<DatasourcePackage, DatasourcePackageUsageInfo>?
+      volumeUsageByDatasourcePackage;
+
+  /// The data volume in bytes per day for the member account.
+  final int? volumeUsageInBytes;
+
+  /// The data and time when the member account data volume was last updated. The
+  /// value is an ISO8601 formatted string. For example,
+  /// <code>2021-08-18T16:35:56.284Z</code>.
+  final DateTime? volumeUsageUpdatedTime;
 
   MemberDetail({
     this.accountId,
+    this.administratorId,
+    this.datasourcePackageIngestStates,
     this.disabledReason,
     this.emailAddress,
     this.graphArn,
+    this.invitationType,
     this.invitedTime,
     this.masterId,
     this.percentOfGraphUtilization,
     this.percentOfGraphUtilizationUpdatedTime,
     this.status,
     this.updatedTime,
+    this.volumeUsageByDatasourcePackage,
+    this.volumeUsageInBytes,
+    this.volumeUsageUpdatedTime,
   });
+
   factory MemberDetail.fromJson(Map<String, dynamic> json) {
     return MemberDetail(
       accountId: json['AccountId'] as String?,
+      administratorId: json['AdministratorId'] as String?,
+      datasourcePackageIngestStates:
+          (json['DatasourcePackageIngestStates'] as Map<String, dynamic>?)?.map(
+              (k, e) => MapEntry(k.toDatasourcePackage(),
+                  (e as String).toDatasourcePackageIngestState())),
       disabledReason:
           (json['DisabledReason'] as String?)?.toMemberDisabledReason(),
       emailAddress: json['EmailAddress'] as String?,
       graphArn: json['GraphArn'] as String?,
+      invitationType: (json['InvitationType'] as String?)?.toInvitationType(),
       invitedTime: timeStampFromJson(json['InvitedTime']),
       masterId: json['MasterId'] as String?,
       percentOfGraphUtilization: json['PercentOfGraphUtilization'] as double?,
@@ -892,6 +1773,12 @@ class MemberDetail {
           timeStampFromJson(json['PercentOfGraphUtilizationUpdatedTime']),
       status: (json['Status'] as String?)?.toMemberStatus(),
       updatedTime: timeStampFromJson(json['UpdatedTime']),
+      volumeUsageByDatasourcePackage: (json['VolumeUsageByDatasourcePackage']
+              as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toDatasourcePackage(),
+              DatasourcePackageUsageInfo.fromJson(e as Map<String, dynamic>))),
+      volumeUsageInBytes: json['VolumeUsageInBytes'] as int?,
+      volumeUsageUpdatedTime: timeStampFromJson(json['VolumeUsageUpdatedTime']),
     );
   }
 }
@@ -967,10 +1854,72 @@ extension MemberStatusFromString on String {
   }
 }
 
+/// Details on data source packages for members of the behavior graph.
+class MembershipDatasources {
+  /// The account identifier of the Amazon Web Services account.
+  final String? accountId;
+
+  /// Details on when a data source package was added to a behavior graph.
+  final Map<DatasourcePackage,
+          Map<DatasourcePackageIngestState, TimestampForCollection>>?
+      datasourcePackageIngestHistory;
+
+  /// The ARN of the organization behavior graph.
+  final String? graphArn;
+
+  MembershipDatasources({
+    this.accountId,
+    this.datasourcePackageIngestHistory,
+    this.graphArn,
+  });
+
+  factory MembershipDatasources.fromJson(Map<String, dynamic> json) {
+    return MembershipDatasources(
+      accountId: json['AccountId'] as String?,
+      datasourcePackageIngestHistory:
+          (json['DatasourcePackageIngestHistory'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(
+                  k.toDatasourcePackage(),
+                  (e as Map<String, dynamic>).map((k, e) => MapEntry(
+                      k.toDatasourcePackageIngestState(),
+                      TimestampForCollection.fromJson(
+                          e as Map<String, dynamic>))))),
+      graphArn: json['GraphArn'] as String?,
+    );
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+}
+
+/// Details on when data collection began for a source package.
+class TimestampForCollection {
+  /// The data and time when data collection began for a source package. The value
+  /// is an ISO8601 formatted string. For example,
+  /// <code>2021-08-18T16:35:56.284Z</code>.
+  final DateTime? timestamp;
+
+  TimestampForCollection({
+    this.timestamp,
+  });
+
+  factory TimestampForCollection.fromJson(Map<String, dynamic> json) {
+    return TimestampForCollection(
+      timestamp: timeStampFromJson(json['Timestamp']),
+    );
+  }
+}
+
 /// A member account that was included in a request but for which the request
 /// could not be processed.
 class UnprocessedAccount {
-  /// The AWS account identifier of the member account that was not processed.
+  /// The Amazon Web Services account identifier of the member account that was
+  /// not processed.
   final String? accountId;
 
   /// The reason that the member account request could not be processed.
@@ -980,12 +1929,48 @@ class UnprocessedAccount {
     this.accountId,
     this.reason,
   });
+
   factory UnprocessedAccount.fromJson(Map<String, dynamic> json) {
     return UnprocessedAccount(
       accountId: json['AccountId'] as String?,
       reason: json['Reason'] as String?,
     );
   }
+}
+
+/// Behavior graphs that could not be processed in the request.
+class UnprocessedGraph {
+  /// The ARN of the organization behavior graph.
+  final String? graphArn;
+
+  /// The reason data source package information could not be processed for a
+  /// behavior graph.
+  final String? reason;
+
+  UnprocessedGraph({
+    this.graphArn,
+    this.reason,
+  });
+
+  factory UnprocessedGraph.fromJson(Map<String, dynamic> json) {
+    return UnprocessedGraph(
+      graphArn: json['GraphArn'] as String?,
+      reason: json['Reason'] as String?,
+    );
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+}
+
+class AccessDeniedException extends _s.GenericAwsException {
+  AccessDeniedException({String? type, String? message})
+      : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
@@ -1011,12 +1996,19 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+class TooManyRequestsException extends _s.GenericAwsException {
+  TooManyRequestsException({String? type, String? message})
+      : super(type: type, code: 'TooManyRequestsException', message: message);
+}
+
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'AccessDeniedException': (type, message) =>
+      AccessDeniedException(type: type, message: message),
   'ConflictException': (type, message) =>
       ConflictException(type: type, message: message),
   'InternalServerException': (type, message) =>
@@ -1025,6 +2017,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceNotFoundException(type: type, message: message),
   'ServiceQuotaExceededException': (type, message) =>
       ServiceQuotaExceededException(type: type, message: message),
+  'TooManyRequestsException': (type, message) =>
+      TooManyRequestsException(type: type, message: message),
   'ValidationException': (type, message) =>
       ValidationException(type: type, message: message),
 };

@@ -552,6 +552,7 @@ class IoT1ClickProjects {
 
 class AssociateDeviceWithPlacementResponse {
   AssociateDeviceWithPlacementResponse();
+
   factory AssociateDeviceWithPlacementResponse.fromJson(
       Map<String, dynamic> _) {
     return AssociateDeviceWithPlacementResponse();
@@ -560,6 +561,7 @@ class AssociateDeviceWithPlacementResponse {
 
 class CreatePlacementResponse {
   CreatePlacementResponse();
+
   factory CreatePlacementResponse.fromJson(Map<String, dynamic> _) {
     return CreatePlacementResponse();
   }
@@ -567,6 +569,7 @@ class CreatePlacementResponse {
 
 class CreateProjectResponse {
   CreateProjectResponse();
+
   factory CreateProjectResponse.fromJson(Map<String, dynamic> _) {
     return CreateProjectResponse();
   }
@@ -574,6 +577,7 @@ class CreateProjectResponse {
 
 class DeletePlacementResponse {
   DeletePlacementResponse();
+
   factory DeletePlacementResponse.fromJson(Map<String, dynamic> _) {
     return DeletePlacementResponse();
   }
@@ -581,6 +585,7 @@ class DeletePlacementResponse {
 
 class DeleteProjectResponse {
   DeleteProjectResponse();
+
   factory DeleteProjectResponse.fromJson(Map<String, dynamic> _) {
     return DeleteProjectResponse();
   }
@@ -593,6 +598,7 @@ class DescribePlacementResponse {
   DescribePlacementResponse({
     required this.placement,
   });
+
   factory DescribePlacementResponse.fromJson(Map<String, dynamic> json) {
     return DescribePlacementResponse(
       placement: PlacementDescription.fromJson(
@@ -608,6 +614,7 @@ class DescribeProjectResponse {
   DescribeProjectResponse({
     required this.project,
   });
+
   factory DescribeProjectResponse.fromJson(Map<String, dynamic> json) {
     return DescribeProjectResponse(
       project:
@@ -630,6 +637,7 @@ class DeviceTemplate {
     this.callbackOverrides,
     this.deviceType,
   });
+
   factory DeviceTemplate.fromJson(Map<String, dynamic> json) {
     return DeviceTemplate(
       callbackOverrides: (json['callbackOverrides'] as Map<String, dynamic>?)
@@ -650,6 +658,7 @@ class DeviceTemplate {
 
 class DisassociateDeviceFromPlacementResponse {
   DisassociateDeviceFromPlacementResponse();
+
   factory DisassociateDeviceFromPlacementResponse.fromJson(
       Map<String, dynamic> _) {
     return DisassociateDeviceFromPlacementResponse();
@@ -663,6 +672,7 @@ class GetDevicesInPlacementResponse {
   GetDevicesInPlacementResponse({
     required this.devices,
   });
+
   factory GetDevicesInPlacementResponse.fromJson(Map<String, dynamic> json) {
     return GetDevicesInPlacementResponse(
       devices: (json['devices'] as Map<String, dynamic>)
@@ -683,6 +693,7 @@ class ListPlacementsResponse {
     required this.placements,
     this.nextToken,
   });
+
   factory ListPlacementsResponse.fromJson(Map<String, dynamic> json) {
     return ListPlacementsResponse(
       placements: (json['placements'] as List)
@@ -706,6 +717,7 @@ class ListProjectsResponse {
     required this.projects,
     this.nextToken,
   });
+
   factory ListProjectsResponse.fromJson(Map<String, dynamic> json) {
     return ListProjectsResponse(
       projects: (json['projects'] as List)
@@ -724,6 +736,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -759,6 +772,7 @@ class PlacementDescription {
     required this.projectName,
     required this.updatedDate,
   });
+
   factory PlacementDescription.fromJson(Map<String, dynamic> json) {
     return PlacementDescription(
       attributes: (json['attributes'] as Map<String, dynamic>)
@@ -794,6 +808,7 @@ class PlacementSummary {
     required this.projectName,
     required this.updatedDate,
   });
+
   factory PlacementSummary.fromJson(Map<String, dynamic> json) {
     return PlacementSummary(
       createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
@@ -818,6 +833,7 @@ class PlacementTemplate {
     this.defaultAttributes,
     this.deviceTemplates,
   });
+
   factory PlacementTemplate.fromJson(Map<String, dynamic> json) {
     return PlacementTemplate(
       defaultAttributes: (json['defaultAttributes'] as Map<String, dynamic>?)
@@ -873,6 +889,7 @@ class ProjectDescription {
     this.placementTemplate,
     this.tags,
   });
+
   factory ProjectDescription.fromJson(Map<String, dynamic> json) {
     return ProjectDescription(
       createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
@@ -917,6 +934,7 @@ class ProjectSummary {
     this.arn,
     this.tags,
   });
+
   factory ProjectSummary.fromJson(Map<String, dynamic> json) {
     return ProjectSummary(
       createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
@@ -931,6 +949,7 @@ class ProjectSummary {
 
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
@@ -938,6 +957,7 @@ class TagResourceResponse {
 
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
   }
@@ -945,6 +965,7 @@ class UntagResourceResponse {
 
 class UpdatePlacementResponse {
   UpdatePlacementResponse();
+
   factory UpdatePlacementResponse.fromJson(Map<String, dynamic> _) {
     return UpdatePlacementResponse();
   }
@@ -952,6 +973,7 @@ class UpdatePlacementResponse {
 
 class UpdateProjectResponse {
   UpdateProjectResponse();
+
   factory UpdateProjectResponse.fromJson(Map<String, dynamic> _) {
     return UpdateProjectResponse();
   }

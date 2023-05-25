@@ -5,8 +5,8 @@
 *About the service:*
 Amazon Kinesis Data Firehose is a fully managed service that delivers
 real-time streaming data to destinations such as Amazon Simple Storage
-Service (Amazon S3), Amazon Elasticsearch Service (Amazon ES), Amazon
-Redshift, and Splunk.
+Service (Amazon S3), Amazon OpenSearch Service, Amazon Redshift, Splunk, and
+various other supportd destinations.
 
 ## Links
 

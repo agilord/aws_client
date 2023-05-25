@@ -5,9 +5,9 @@
 *About the service:*
 When you create a VPC using Amazon VPC, you automatically get DNS resolution
 within the VPC from Route 53 Resolver. By default, Resolver answers DNS
-queries for VPC domain names such as domain names for EC2 instances or ELB
-load balancers. Resolver performs recursive lookups against public name
-servers for all other domain names.
+queries for VPC domain names such as domain names for EC2 instances or
+Elastic Load Balancing load balancers. Resolver performs recursive lookups
+against public name servers for all other domain names.
 
 You can also configure DNS resolution between your VPC and your network over
 a Direct Connect or VPN connection:
@@ -17,8 +17,8 @@ Resolver</b>
 
 DNS resolvers on your network can forward DNS queries to Resolver in a
 specified VPC. This allows your DNS resolvers to easily resolve domain names
-for AWS resources such as EC2 instances or records in a Route 53 private
-hosted zone. For more information, see <a
+for Amazon Web Services resources such as EC2 instances or records in a
+Route 53 private hosted zone. For more information, see <a
 href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver.html#resolver-overview-forward-network-to-vpc">How
 DNS Resolvers on Your Network Forward DNS Queries to Route 53 Resolver</a>
 in the <i>Amazon Route 53 Developer Guide</i>.
@@ -38,7 +38,7 @@ href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver.html#re
 Route 53 Resolver Forwards DNS Queries from Your VPCs to Your Network</a> in
 the <i>Amazon Route 53 Developer Guide</i>.
 
-Like Amazon VPC, Resolver is regional. In each region where you have VPCs,
+Like Amazon VPC, Resolver is Regional. In each Region where you have VPCs,
 you can choose whether to forward queries from your VPCs to your network
 (outbound queries), from your network to your VPCs (inbound queries), or
 both.

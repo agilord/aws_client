@@ -4831,6 +4831,7 @@ class Approval {
     this.approvalState,
     this.userArn,
   });
+
   factory Approval.fromJson(Map<String, dynamic> json) {
     return Approval(
       approvalState: (json['approvalState'] as String?)?.toApprovalState(),
@@ -4876,6 +4877,7 @@ class ApprovalRule {
     this.originApprovalRuleTemplate,
     this.ruleContentSha256,
   });
+
   factory ApprovalRule.fromJson(Map<String, dynamic> json) {
     return ApprovalRule(
       approvalRuleContent: json['approvalRuleContent'] as String?,
@@ -4909,6 +4911,7 @@ class ApprovalRuleEventMetadata {
     this.approvalRuleId,
     this.approvalRuleName,
   });
+
   factory ApprovalRuleEventMetadata.fromJson(Map<String, dynamic> json) {
     return ApprovalRuleEventMetadata(
       approvalRuleContent: json['approvalRuleContent'] as String?,
@@ -4931,6 +4934,7 @@ class ApprovalRuleOverriddenEventMetadata {
     this.overrideStatus,
     this.revisionId,
   });
+
   factory ApprovalRuleOverriddenEventMetadata.fromJson(
       Map<String, dynamic> json) {
     return ApprovalRuleOverriddenEventMetadata(
@@ -4978,6 +4982,7 @@ class ApprovalRuleTemplate {
     this.lastModifiedUser,
     this.ruleContentSha256,
   });
+
   factory ApprovalRuleTemplate.fromJson(Map<String, dynamic> json) {
     return ApprovalRuleTemplate(
       approvalRuleTemplateContent:
@@ -5034,6 +5039,7 @@ class ApprovalStateChangedEventMetadata {
     this.approvalStatus,
     this.revisionId,
   });
+
   factory ApprovalStateChangedEventMetadata.fromJson(
       Map<String, dynamic> json) {
     return ApprovalStateChangedEventMetadata(
@@ -5062,6 +5068,7 @@ class BatchAssociateApprovalRuleTemplateWithRepositoriesError {
     this.errorMessage,
     this.repositoryName,
   });
+
   factory BatchAssociateApprovalRuleTemplateWithRepositoriesError.fromJson(
       Map<String, dynamic> json) {
     return BatchAssociateApprovalRuleTemplateWithRepositoriesError(
@@ -5085,6 +5092,7 @@ class BatchAssociateApprovalRuleTemplateWithRepositoriesOutput {
     required this.associatedRepositoryNames,
     required this.errors,
   });
+
   factory BatchAssociateApprovalRuleTemplateWithRepositoriesOutput.fromJson(
       Map<String, dynamic> json) {
     return BatchAssociateApprovalRuleTemplateWithRepositoriesOutput(
@@ -5118,6 +5126,7 @@ class BatchDescribeMergeConflictsError {
     required this.filePath,
     required this.message,
   });
+
   factory BatchDescribeMergeConflictsError.fromJson(Map<String, dynamic> json) {
     return BatchDescribeMergeConflictsError(
       exceptionName: json['exceptionName'] as String,
@@ -5159,6 +5168,7 @@ class BatchDescribeMergeConflictsOutput {
     this.errors,
     this.nextToken,
   });
+
   factory BatchDescribeMergeConflictsOutput.fromJson(
       Map<String, dynamic> json) {
     return BatchDescribeMergeConflictsOutput(
@@ -5199,6 +5209,7 @@ class BatchDisassociateApprovalRuleTemplateFromRepositoriesError {
     this.errorMessage,
     this.repositoryName,
   });
+
   factory BatchDisassociateApprovalRuleTemplateFromRepositoriesError.fromJson(
       Map<String, dynamic> json) {
     return BatchDisassociateApprovalRuleTemplateFromRepositoriesError(
@@ -5222,6 +5233,7 @@ class BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput {
     required this.disassociatedRepositoryNames,
     required this.errors,
   });
+
   factory BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput.fromJson(
       Map<String, dynamic> json) {
     return BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput(
@@ -5257,6 +5269,7 @@ class BatchGetCommitsError {
     this.errorCode,
     this.errorMessage,
   });
+
   factory BatchGetCommitsError.fromJson(Map<String, dynamic> json) {
     return BatchGetCommitsError(
       commitId: json['commitId'] as String?,
@@ -5281,6 +5294,7 @@ class BatchGetCommitsOutput {
     this.commits,
     this.errors,
   });
+
   factory BatchGetCommitsOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetCommitsOutput(
       commits: (json['commits'] as List?)
@@ -5307,6 +5321,7 @@ class BatchGetRepositoriesOutput {
     this.repositories,
     this.repositoriesNotFound,
   });
+
   factory BatchGetRepositoriesOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetRepositoriesOutput(
       repositories: (json['repositories'] as List?)
@@ -5352,6 +5367,7 @@ class BlobMetadata {
     this.mode,
     this.path,
   });
+
   factory BlobMetadata.fromJson(Map<String, dynamic> json) {
     return BlobMetadata(
       blobId: json['blobId'] as String?,
@@ -5373,6 +5389,7 @@ class BranchInfo {
     this.branchName,
     this.commitId,
   });
+
   factory BranchInfo.fromJson(Map<String, dynamic> json) {
     return BranchInfo(
       branchName: json['branchName'] as String?,
@@ -5464,6 +5481,7 @@ class Comment {
     this.lastModifiedDate,
     this.reactionCounts,
   });
+
   factory Comment.fromJson(Map<String, dynamic> json) {
     return Comment(
       authorArn: json['authorArn'] as String?,
@@ -5523,6 +5541,7 @@ class CommentsForComparedCommit {
     this.location,
     this.repositoryName,
   });
+
   factory CommentsForComparedCommit.fromJson(Map<String, dynamic> json) {
     return CommentsForComparedCommit(
       afterBlobId: json['afterBlobId'] as String?,
@@ -5586,6 +5605,7 @@ class CommentsForPullRequest {
     this.pullRequestId,
     this.repositoryName,
   });
+
   factory CommentsForPullRequest.fromJson(Map<String, dynamic> json) {
     return CommentsForPullRequest(
       afterBlobId: json['afterBlobId'] as String?,
@@ -5647,6 +5667,7 @@ class Commit {
     this.parents,
     this.treeId,
   });
+
   factory Commit.fromJson(Map<String, dynamic> json) {
     return Commit(
       additionalData: json['additionalData'] as String?,
@@ -5680,6 +5701,7 @@ class Conflict {
     this.conflictMetadata,
     this.mergeHunks,
   });
+
   factory Conflict.fromJson(Map<String, dynamic> json) {
     return Conflict(
       conflictMetadata: json['conflictMetadata'] != null
@@ -5775,6 +5797,7 @@ class ConflictMetadata {
     this.objectTypeConflict,
     this.objectTypes,
   });
+
   factory ConflictMetadata.fromJson(Map<String, dynamic> json) {
     return ConflictMetadata(
       contentConflict: json['contentConflict'] as bool?,
@@ -5878,6 +5901,7 @@ class CreateApprovalRuleTemplateOutput {
   CreateApprovalRuleTemplateOutput({
     required this.approvalRuleTemplate,
   });
+
   factory CreateApprovalRuleTemplateOutput.fromJson(Map<String, dynamic> json) {
     return CreateApprovalRuleTemplateOutput(
       approvalRuleTemplate: ApprovalRuleTemplate.fromJson(
@@ -5910,6 +5934,7 @@ class CreateCommitOutput {
     this.filesUpdated,
     this.treeId,
   });
+
   factory CreateCommitOutput.fromJson(Map<String, dynamic> json) {
     return CreateCommitOutput(
       commitId: json['commitId'] as String?,
@@ -5937,6 +5962,7 @@ class CreatePullRequestApprovalRuleOutput {
   CreatePullRequestApprovalRuleOutput({
     required this.approvalRule,
   });
+
   factory CreatePullRequestApprovalRuleOutput.fromJson(
       Map<String, dynamic> json) {
     return CreatePullRequestApprovalRuleOutput(
@@ -5953,6 +5979,7 @@ class CreatePullRequestOutput {
   CreatePullRequestOutput({
     required this.pullRequest,
   });
+
   factory CreatePullRequestOutput.fromJson(Map<String, dynamic> json) {
     return CreatePullRequestOutput(
       pullRequest:
@@ -5969,6 +5996,7 @@ class CreateRepositoryOutput {
   CreateRepositoryOutput({
     this.repositoryMetadata,
   });
+
   factory CreateRepositoryOutput.fromJson(Map<String, dynamic> json) {
     return CreateRepositoryOutput(
       repositoryMetadata: json['repositoryMetadata'] != null
@@ -5991,6 +6019,7 @@ class CreateUnreferencedMergeCommitOutput {
     this.commitId,
     this.treeId,
   });
+
   factory CreateUnreferencedMergeCommitOutput.fromJson(
       Map<String, dynamic> json) {
     return CreateUnreferencedMergeCommitOutput(
@@ -6008,6 +6037,7 @@ class DeleteApprovalRuleTemplateOutput {
   DeleteApprovalRuleTemplateOutput({
     required this.approvalRuleTemplateId,
   });
+
   factory DeleteApprovalRuleTemplateOutput.fromJson(Map<String, dynamic> json) {
     return DeleteApprovalRuleTemplateOutput(
       approvalRuleTemplateId: json['approvalRuleTemplateId'] as String,
@@ -6024,6 +6054,7 @@ class DeleteBranchOutput {
   DeleteBranchOutput({
     this.deletedBranch,
   });
+
   factory DeleteBranchOutput.fromJson(Map<String, dynamic> json) {
     return DeleteBranchOutput(
       deletedBranch: json['deletedBranch'] != null
@@ -6040,6 +6071,7 @@ class DeleteCommentContentOutput {
   DeleteCommentContentOutput({
     this.comment,
   });
+
   factory DeleteCommentContentOutput.fromJson(Map<String, dynamic> json) {
     return DeleteCommentContentOutput(
       comment: json['comment'] != null
@@ -6087,6 +6119,7 @@ class DeleteFileOutput {
     required this.filePath,
     required this.treeId,
   });
+
   factory DeleteFileOutput.fromJson(Map<String, dynamic> json) {
     return DeleteFileOutput(
       blobId: json['blobId'] as String,
@@ -6108,6 +6141,7 @@ class DeletePullRequestApprovalRuleOutput {
   DeletePullRequestApprovalRuleOutput({
     required this.approvalRuleId,
   });
+
   factory DeletePullRequestApprovalRuleOutput.fromJson(
       Map<String, dynamic> json) {
     return DeletePullRequestApprovalRuleOutput(
@@ -6124,6 +6158,7 @@ class DeleteRepositoryOutput {
   DeleteRepositoryOutput({
     this.repositoryId,
   });
+
   factory DeleteRepositoryOutput.fromJson(Map<String, dynamic> json) {
     return DeleteRepositoryOutput(
       repositoryId: json['repositoryId'] as String?,
@@ -6161,6 +6196,7 @@ class DescribeMergeConflictsOutput {
     this.baseCommitId,
     this.nextToken,
   });
+
   factory DescribeMergeConflictsOutput.fromJson(Map<String, dynamic> json) {
     return DescribeMergeConflictsOutput(
       conflictMetadata: ConflictMetadata.fromJson(
@@ -6189,6 +6225,7 @@ class DescribePullRequestEventsOutput {
     required this.pullRequestEvents,
     this.nextToken,
   });
+
   factory DescribePullRequestEventsOutput.fromJson(Map<String, dynamic> json) {
     return DescribePullRequestEventsOutput(
       pullRequestEvents: (json['pullRequestEvents'] as List)
@@ -6219,6 +6256,7 @@ class Difference {
     this.beforeBlob,
     this.changeType,
   });
+
   factory Difference.fromJson(Map<String, dynamic> json) {
     return Difference(
       afterBlob: json['afterBlob'] != null
@@ -6243,6 +6281,7 @@ class EvaluatePullRequestApprovalRulesOutput {
   EvaluatePullRequestApprovalRulesOutput({
     required this.evaluation,
   });
+
   factory EvaluatePullRequestApprovalRulesOutput.fromJson(
       Map<String, dynamic> json) {
     return EvaluatePullRequestApprovalRulesOutput(
@@ -6274,6 +6313,7 @@ class Evaluation {
     this.approved,
     this.overridden,
   });
+
   factory Evaluation.fromJson(Map<String, dynamic> json) {
     return Evaluation(
       approvalRulesNotSatisfied: (json['approvalRulesNotSatisfied'] as List?)
@@ -6311,6 +6351,7 @@ class File {
     this.fileMode,
     this.relativePath,
   });
+
   factory File.fromJson(Map<String, dynamic> json) {
     return File(
       absolutePath: json['absolutePath'] as String?,
@@ -6339,6 +6380,7 @@ class FileMetadata {
     this.blobId,
     this.fileMode,
   });
+
   factory FileMetadata.fromJson(Map<String, dynamic> json) {
     return FileMetadata(
       absolutePath: json['absolutePath'] as String?,
@@ -6397,6 +6439,7 @@ class FileModes {
     this.destination,
     this.source,
   });
+
   factory FileModes.fromJson(Map<String, dynamic> json) {
     return FileModes(
       base: (json['base'] as String?)?.toFileModeTypeEnum(),
@@ -6422,6 +6465,7 @@ class FileSizes {
     this.destination,
     this.source,
   });
+
   factory FileSizes.fromJson(Map<String, dynamic> json) {
     return FileSizes(
       base: json['base'] as int?,
@@ -6449,6 +6493,7 @@ class Folder {
     this.relativePath,
     this.treeId,
   });
+
   factory Folder.fromJson(Map<String, dynamic> json) {
     return Folder(
       absolutePath: json['absolutePath'] as String?,
@@ -6465,6 +6510,7 @@ class GetApprovalRuleTemplateOutput {
   GetApprovalRuleTemplateOutput({
     required this.approvalRuleTemplate,
   });
+
   factory GetApprovalRuleTemplateOutput.fromJson(Map<String, dynamic> json) {
     return GetApprovalRuleTemplateOutput(
       approvalRuleTemplate: ApprovalRuleTemplate.fromJson(
@@ -6481,6 +6527,7 @@ class GetBlobOutput {
   GetBlobOutput({
     required this.content,
   });
+
   factory GetBlobOutput.fromJson(Map<String, dynamic> json) {
     return GetBlobOutput(
       content: _s.decodeUint8List(json['content']! as String),
@@ -6496,6 +6543,7 @@ class GetBranchOutput {
   GetBranchOutput({
     this.branch,
   });
+
   factory GetBranchOutput.fromJson(Map<String, dynamic> json) {
     return GetBranchOutput(
       branch: json['branch'] != null
@@ -6512,6 +6560,7 @@ class GetCommentOutput {
   GetCommentOutput({
     this.comment,
   });
+
   factory GetCommentOutput.fromJson(Map<String, dynamic> json) {
     return GetCommentOutput(
       comment: json['comment'] != null
@@ -6533,6 +6582,7 @@ class GetCommentReactionsOutput {
     required this.reactionsForComment,
     this.nextToken,
   });
+
   factory GetCommentReactionsOutput.fromJson(Map<String, dynamic> json) {
     return GetCommentReactionsOutput(
       reactionsForComment: (json['reactionsForComment'] as List)
@@ -6556,6 +6606,7 @@ class GetCommentsForComparedCommitOutput {
     this.commentsForComparedCommitData,
     this.nextToken,
   });
+
   factory GetCommentsForComparedCommitOutput.fromJson(
       Map<String, dynamic> json) {
     return GetCommentsForComparedCommitOutput(
@@ -6582,6 +6633,7 @@ class GetCommentsForPullRequestOutput {
     this.commentsForPullRequestData,
     this.nextToken,
   });
+
   factory GetCommentsForPullRequestOutput.fromJson(Map<String, dynamic> json) {
     return GetCommentsForPullRequestOutput(
       commentsForPullRequestData: (json['commentsForPullRequestData'] as List?)
@@ -6603,6 +6655,7 @@ class GetCommitOutput {
   GetCommitOutput({
     required this.commit,
   });
+
   factory GetCommitOutput.fromJson(Map<String, dynamic> json) {
     return GetCommitOutput(
       commit: Commit.fromJson(json['commit'] as Map<String, dynamic>),
@@ -6623,6 +6676,7 @@ class GetDifferencesOutput {
     this.nextToken,
     this.differences,
   });
+
   factory GetDifferencesOutput.fromJson(Map<String, dynamic> json) {
     return GetDifferencesOutput(
       nextToken: json['NextToken'] as String?,
@@ -6670,6 +6724,7 @@ class GetFileOutput {
     required this.filePath,
     required this.fileSize,
   });
+
   factory GetFileOutput.fromJson(Map<String, dynamic> json) {
     return GetFileOutput(
       blobId: json['blobId'] as String,
@@ -6716,6 +6771,7 @@ class GetFolderOutput {
     this.symbolicLinks,
     this.treeId,
   });
+
   factory GetFolderOutput.fromJson(Map<String, dynamic> json) {
     return GetFolderOutput(
       commitId: json['commitId'] as String,
@@ -6764,6 +6820,7 @@ class GetMergeCommitOutput {
     this.mergedCommitId,
     this.sourceCommitId,
   });
+
   factory GetMergeCommitOutput.fromJson(Map<String, dynamic> json) {
     return GetMergeCommitOutput(
       baseCommitId: json['baseCommitId'] as String?,
@@ -6806,6 +6863,7 @@ class GetMergeConflictsOutput {
     this.baseCommitId,
     this.nextToken,
   });
+
   factory GetMergeConflictsOutput.fromJson(Map<String, dynamic> json) {
     return GetMergeConflictsOutput(
       conflictMetadataList: (json['conflictMetadataList'] as List)
@@ -6842,6 +6900,7 @@ class GetMergeOptionsOutput {
     required this.mergeOptions,
     required this.sourceCommitId,
   });
+
   factory GetMergeOptionsOutput.fromJson(Map<String, dynamic> json) {
     return GetMergeOptionsOutput(
       baseCommitId: json['baseCommitId'] as String,
@@ -6862,6 +6921,7 @@ class GetPullRequestApprovalStatesOutput {
   GetPullRequestApprovalStatesOutput({
     this.approvals,
   });
+
   factory GetPullRequestApprovalStatesOutput.fromJson(
       Map<String, dynamic> json) {
     return GetPullRequestApprovalStatesOutput(
@@ -6880,6 +6940,7 @@ class GetPullRequestOutput {
   GetPullRequestOutput({
     required this.pullRequest,
   });
+
   factory GetPullRequestOutput.fromJson(Map<String, dynamic> json) {
     return GetPullRequestOutput(
       pullRequest:
@@ -6901,6 +6962,7 @@ class GetPullRequestOverrideStateOutput {
     this.overridden,
     this.overrider,
   });
+
   factory GetPullRequestOverrideStateOutput.fromJson(
       Map<String, dynamic> json) {
     return GetPullRequestOverrideStateOutput(
@@ -6918,6 +6980,7 @@ class GetRepositoryOutput {
   GetRepositoryOutput({
     this.repositoryMetadata,
   });
+
   factory GetRepositoryOutput.fromJson(Map<String, dynamic> json) {
     return GetRepositoryOutput(
       repositoryMetadata: json['repositoryMetadata'] != null
@@ -6940,6 +7003,7 @@ class GetRepositoryTriggersOutput {
     this.configurationId,
     this.triggers,
   });
+
   factory GetRepositoryTriggersOutput.fromJson(Map<String, dynamic> json) {
     return GetRepositoryTriggersOutput(
       configurationId: json['configurationId'] as String?,
@@ -6971,6 +7035,7 @@ class IsBinaryFile {
     this.destination,
     this.source,
   });
+
   factory IsBinaryFile.fromJson(Map<String, dynamic> json) {
     return IsBinaryFile(
       base: json['base'] as bool?,
@@ -6993,6 +7058,7 @@ class ListApprovalRuleTemplatesOutput {
     this.approvalRuleTemplateNames,
     this.nextToken,
   });
+
   factory ListApprovalRuleTemplatesOutput.fromJson(Map<String, dynamic> json) {
     return ListApprovalRuleTemplatesOutput(
       approvalRuleTemplateNames: (json['approvalRuleTemplateNames'] as List?)
@@ -7016,6 +7082,7 @@ class ListAssociatedApprovalRuleTemplatesForRepositoryOutput {
     this.approvalRuleTemplateNames,
     this.nextToken,
   });
+
   factory ListAssociatedApprovalRuleTemplatesForRepositoryOutput.fromJson(
       Map<String, dynamic> json) {
     return ListAssociatedApprovalRuleTemplatesForRepositoryOutput(
@@ -7040,6 +7107,7 @@ class ListBranchesOutput {
     this.branches,
     this.nextToken,
   });
+
   factory ListBranchesOutput.fromJson(Map<String, dynamic> json) {
     return ListBranchesOutput(
       branches: (json['branches'] as List?)
@@ -7063,6 +7131,7 @@ class ListPullRequestsOutput {
     required this.pullRequestIds,
     this.nextToken,
   });
+
   factory ListPullRequestsOutput.fromJson(Map<String, dynamic> json) {
     return ListPullRequestsOutput(
       pullRequestIds: (json['pullRequestIds'] as List)
@@ -7087,6 +7156,7 @@ class ListRepositoriesForApprovalRuleTemplateOutput {
     this.nextToken,
     this.repositoryNames,
   });
+
   factory ListRepositoriesForApprovalRuleTemplateOutput.fromJson(
       Map<String, dynamic> json) {
     return ListRepositoriesForApprovalRuleTemplateOutput(
@@ -7114,6 +7184,7 @@ class ListRepositoriesOutput {
     this.nextToken,
     this.repositories,
   });
+
   factory ListRepositoriesOutput.fromJson(Map<String, dynamic> json) {
     return ListRepositoriesOutput(
       nextToken: json['nextToken'] as String?,
@@ -7137,6 +7208,7 @@ class ListTagsForResourceOutput {
     this.nextToken,
     this.tags,
   });
+
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceOutput(
       nextToken: json['nextToken'] as String?,
@@ -7165,6 +7237,7 @@ class Location {
     this.filePosition,
     this.relativeFileVersion,
   });
+
   factory Location.fromJson(Map<String, dynamic> json) {
     return Location(
       filePath: json['filePath'] as String?,
@@ -7198,6 +7271,7 @@ class MergeBranchesByFastForwardOutput {
     this.commitId,
     this.treeId,
   });
+
   factory MergeBranchesByFastForwardOutput.fromJson(Map<String, dynamic> json) {
     return MergeBranchesByFastForwardOutput(
       commitId: json['commitId'] as String?,
@@ -7217,6 +7291,7 @@ class MergeBranchesBySquashOutput {
     this.commitId,
     this.treeId,
   });
+
   factory MergeBranchesBySquashOutput.fromJson(Map<String, dynamic> json) {
     return MergeBranchesBySquashOutput(
       commitId: json['commitId'] as String?,
@@ -7236,6 +7311,7 @@ class MergeBranchesByThreeWayOutput {
     this.commitId,
     this.treeId,
   });
+
   factory MergeBranchesByThreeWayOutput.fromJson(Map<String, dynamic> json) {
     return MergeBranchesByThreeWayOutput(
       commitId: json['commitId'] as String?,
@@ -7270,6 +7346,7 @@ class MergeHunk {
     this.isConflict,
     this.source,
   });
+
   factory MergeHunk.fromJson(Map<String, dynamic> json) {
     return MergeHunk(
       base: json['base'] != null
@@ -7305,6 +7382,7 @@ class MergeHunkDetail {
     this.hunkContent,
     this.startLine,
   });
+
   factory MergeHunkDetail.fromJson(Map<String, dynamic> json) {
     return MergeHunkDetail(
       endLine: json['endLine'] as int?,
@@ -7335,6 +7413,7 @@ class MergeMetadata {
     this.mergeOption,
     this.mergedBy,
   });
+
   factory MergeMetadata.fromJson(Map<String, dynamic> json) {
     return MergeMetadata(
       isMerged: json['isMerged'] as bool?,
@@ -7358,6 +7437,7 @@ class MergeOperations {
     this.destination,
     this.source,
   });
+
   factory MergeOperations.fromJson(Map<String, dynamic> json) {
     return MergeOperations(
       destination: (json['destination'] as String?)?.toChangeTypeEnum(),
@@ -7406,6 +7486,7 @@ class MergePullRequestByFastForwardOutput {
   MergePullRequestByFastForwardOutput({
     this.pullRequest,
   });
+
   factory MergePullRequestByFastForwardOutput.fromJson(
       Map<String, dynamic> json) {
     return MergePullRequestByFastForwardOutput(
@@ -7422,6 +7503,7 @@ class MergePullRequestBySquashOutput {
   MergePullRequestBySquashOutput({
     this.pullRequest,
   });
+
   factory MergePullRequestBySquashOutput.fromJson(Map<String, dynamic> json) {
     return MergePullRequestBySquashOutput(
       pullRequest: json['pullRequest'] != null
@@ -7437,6 +7519,7 @@ class MergePullRequestByThreeWayOutput {
   MergePullRequestByThreeWayOutput({
     this.pullRequest,
   });
+
   factory MergePullRequestByThreeWayOutput.fromJson(Map<String, dynamic> json) {
     return MergePullRequestByThreeWayOutput(
       pullRequest: json['pullRequest'] != null
@@ -7500,6 +7583,7 @@ class ObjectTypes {
     this.destination,
     this.source,
   });
+
   factory ObjectTypes.fromJson(Map<String, dynamic> json) {
     return ObjectTypes(
       base: (json['base'] as String?)?.toObjectTypeEnum(),
@@ -7550,6 +7634,7 @@ class OriginApprovalRuleTemplate {
     this.approvalRuleTemplateId,
     this.approvalRuleTemplateName,
   });
+
   factory OriginApprovalRuleTemplate.fromJson(Map<String, dynamic> json) {
     return OriginApprovalRuleTemplate(
       approvalRuleTemplateId: json['approvalRuleTemplateId'] as String?,
@@ -7620,6 +7705,7 @@ class PostCommentForComparedCommitOutput {
     this.location,
     this.repositoryName,
   });
+
   factory PostCommentForComparedCommitOutput.fromJson(
       Map<String, dynamic> json) {
     return PostCommentForComparedCommitOutput(
@@ -7676,6 +7762,7 @@ class PostCommentForPullRequestOutput {
     this.pullRequestId,
     this.repositoryName,
   });
+
   factory PostCommentForPullRequestOutput.fromJson(Map<String, dynamic> json) {
     return PostCommentForPullRequestOutput(
       afterBlobId: json['afterBlobId'] as String?,
@@ -7701,6 +7788,7 @@ class PostCommentReplyOutput {
   PostCommentReplyOutput({
     this.comment,
   });
+
   factory PostCommentReplyOutput.fromJson(Map<String, dynamic> json) {
     return PostCommentReplyOutput(
       comment: json['comment'] != null
@@ -7767,6 +7855,7 @@ class PullRequest {
     this.revisionId,
     this.title,
   });
+
   factory PullRequest.fromJson(Map<String, dynamic> json) {
     return PullRequest(
       approvalRules: (json['approvalRules'] as List?)
@@ -7814,6 +7903,7 @@ class PullRequestCreatedEventMetadata {
     this.repositoryName,
     this.sourceCommitId,
   });
+
   factory PullRequestCreatedEventMetadata.fromJson(Map<String, dynamic> json) {
     return PullRequestCreatedEventMetadata(
       destinationCommitId: json['destinationCommitId'] as String?,
@@ -7881,6 +7971,7 @@ class PullRequestEvent {
     this.pullRequestSourceReferenceUpdatedEventMetadata,
     this.pullRequestStatusChangedEventMetadata,
   });
+
   factory PullRequestEvent.fromJson(Map<String, dynamic> json) {
     return PullRequestEvent(
       actorArn: json['actorArn'] as String?,
@@ -8012,6 +8103,7 @@ class PullRequestMergedStateChangedEventMetadata {
     this.mergeMetadata,
     this.repositoryName,
   });
+
   factory PullRequestMergedStateChangedEventMetadata.fromJson(
       Map<String, dynamic> json) {
     return PullRequestMergedStateChangedEventMetadata(
@@ -8048,6 +8140,7 @@ class PullRequestSourceReferenceUpdatedEventMetadata {
     this.mergeBase,
     this.repositoryName,
   });
+
   factory PullRequestSourceReferenceUpdatedEventMetadata.fromJson(
       Map<String, dynamic> json) {
     return PullRequestSourceReferenceUpdatedEventMetadata(
@@ -8067,6 +8160,7 @@ class PullRequestStatusChangedEventMetadata {
   PullRequestStatusChangedEventMetadata({
     this.pullRequestStatus,
   });
+
   factory PullRequestStatusChangedEventMetadata.fromJson(
       Map<String, dynamic> json) {
     return PullRequestStatusChangedEventMetadata(
@@ -8144,6 +8238,7 @@ class PullRequestTarget {
     this.sourceCommit,
     this.sourceReference,
   });
+
   factory PullRequestTarget.fromJson(Map<String, dynamic> json) {
     return PullRequestTarget(
       destinationCommit: json['destinationCommit'] as String?,
@@ -8213,6 +8308,7 @@ class PutFileOutput {
     required this.commitId,
     required this.treeId,
   });
+
   factory PutFileOutput.fromJson(Map<String, dynamic> json) {
     return PutFileOutput(
       blobId: json['blobId'] as String,
@@ -8230,6 +8326,7 @@ class PutRepositoryTriggersOutput {
   PutRepositoryTriggersOutput({
     this.configurationId,
   });
+
   factory PutRepositoryTriggersOutput.fromJson(Map<String, dynamic> json) {
     return PutRepositoryTriggersOutput(
       configurationId: json['configurationId'] as String?,
@@ -8257,6 +8354,7 @@ class ReactionForComment {
     this.reactionUsers,
     this.reactionsFromDeletedUsersCount,
   });
+
   factory ReactionForComment.fromJson(Map<String, dynamic> json) {
     return ReactionForComment(
       reaction: json['reaction'] != null
@@ -8292,6 +8390,7 @@ class ReactionValueFormats {
     this.shortCode,
     this.unicode,
   });
+
   factory ReactionValueFormats.fromJson(Map<String, dynamic> json) {
     return ReactionValueFormats(
       emoji: json['emoji'] as String?,
@@ -8447,6 +8546,7 @@ class RepositoryMetadata {
     this.repositoryId,
     this.repositoryName,
   });
+
   factory RepositoryMetadata.fromJson(Map<String, dynamic> json) {
     return RepositoryMetadata(
       arn: json['Arn'] as String?,
@@ -8475,6 +8575,7 @@ class RepositoryNameIdPair {
     this.repositoryId,
     this.repositoryName,
   });
+
   factory RepositoryNameIdPair.fromJson(Map<String, dynamic> json) {
     return RepositoryNameIdPair(
       repositoryId: json['repositoryId'] as String?,
@@ -8518,6 +8619,7 @@ class RepositoryTrigger {
     this.branches,
     this.customData,
   });
+
   factory RepositoryTrigger.fromJson(Map<String, dynamic> json) {
     return RepositoryTrigger(
       destinationArn: json['destinationArn'] as String,
@@ -8601,6 +8703,7 @@ class RepositoryTriggerExecutionFailure {
     this.failureMessage,
     this.trigger,
   });
+
   factory RepositoryTriggerExecutionFailure.fromJson(
       Map<String, dynamic> json) {
     return RepositoryTriggerExecutionFailure(
@@ -8700,6 +8803,7 @@ class SubModule {
     this.commitId,
     this.relativePath,
   });
+
   factory SubModule.fromJson(Map<String, dynamic> json) {
     return SubModule(
       absolutePath: json['absolutePath'] as String?,
@@ -8731,6 +8835,7 @@ class SymbolicLink {
     this.fileMode,
     this.relativePath,
   });
+
   factory SymbolicLink.fromJson(Map<String, dynamic> json) {
     return SymbolicLink(
       absolutePath: json['absolutePath'] as String?,
@@ -8786,6 +8891,7 @@ class TestRepositoryTriggersOutput {
     this.failedExecutions,
     this.successfulExecutions,
   });
+
   factory TestRepositoryTriggersOutput.fromJson(Map<String, dynamic> json) {
     return TestRepositoryTriggersOutput(
       failedExecutions: (json['failedExecutions'] as List?)
@@ -8807,6 +8913,7 @@ class UpdateApprovalRuleTemplateContentOutput {
   UpdateApprovalRuleTemplateContentOutput({
     required this.approvalRuleTemplate,
   });
+
   factory UpdateApprovalRuleTemplateContentOutput.fromJson(
       Map<String, dynamic> json) {
     return UpdateApprovalRuleTemplateContentOutput(
@@ -8823,6 +8930,7 @@ class UpdateApprovalRuleTemplateDescriptionOutput {
   UpdateApprovalRuleTemplateDescriptionOutput({
     required this.approvalRuleTemplate,
   });
+
   factory UpdateApprovalRuleTemplateDescriptionOutput.fromJson(
       Map<String, dynamic> json) {
     return UpdateApprovalRuleTemplateDescriptionOutput(
@@ -8839,6 +8947,7 @@ class UpdateApprovalRuleTemplateNameOutput {
   UpdateApprovalRuleTemplateNameOutput({
     required this.approvalRuleTemplate,
   });
+
   factory UpdateApprovalRuleTemplateNameOutput.fromJson(
       Map<String, dynamic> json) {
     return UpdateApprovalRuleTemplateNameOutput(
@@ -8855,6 +8964,7 @@ class UpdateCommentOutput {
   UpdateCommentOutput({
     this.comment,
   });
+
   factory UpdateCommentOutput.fromJson(Map<String, dynamic> json) {
     return UpdateCommentOutput(
       comment: json['comment'] != null
@@ -8871,6 +8981,7 @@ class UpdatePullRequestApprovalRuleContentOutput {
   UpdatePullRequestApprovalRuleContentOutput({
     required this.approvalRule,
   });
+
   factory UpdatePullRequestApprovalRuleContentOutput.fromJson(
       Map<String, dynamic> json) {
     return UpdatePullRequestApprovalRuleContentOutput(
@@ -8887,6 +8998,7 @@ class UpdatePullRequestDescriptionOutput {
   UpdatePullRequestDescriptionOutput({
     required this.pullRequest,
   });
+
   factory UpdatePullRequestDescriptionOutput.fromJson(
       Map<String, dynamic> json) {
     return UpdatePullRequestDescriptionOutput(
@@ -8903,6 +9015,7 @@ class UpdatePullRequestStatusOutput {
   UpdatePullRequestStatusOutput({
     required this.pullRequest,
   });
+
   factory UpdatePullRequestStatusOutput.fromJson(Map<String, dynamic> json) {
     return UpdatePullRequestStatusOutput(
       pullRequest:
@@ -8918,6 +9031,7 @@ class UpdatePullRequestTitleOutput {
   UpdatePullRequestTitleOutput({
     required this.pullRequest,
   });
+
   factory UpdatePullRequestTitleOutput.fromJson(Map<String, dynamic> json) {
     return UpdatePullRequestTitleOutput(
       pullRequest:
@@ -8943,6 +9057,7 @@ class UserInfo {
     this.email,
     this.name,
   });
+
   factory UserInfo.fromJson(Map<String, dynamic> json) {
     return UserInfo(
       date: json['date'] as String?,

@@ -18,10 +18,10 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// The AWS Budgets API enables you to use AWS Budgets to plan your service
-/// usage, service costs, and instance reservations. The API reference provides
-/// descriptions, syntax, and usage examples for each of the actions and data
-/// types for AWS Budgets.
+/// Use the Amazon Web Services Budgets API to plan your service usage, service
+/// costs, and instance reservations. This API reference provides descriptions,
+/// syntax, and usage examples for each of the actions and data types for the
+/// Amazon Web Services Budgets feature.
 ///
 /// Budgets provide you with a way to see the following information:
 ///
@@ -34,16 +34,16 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// Instances (RIs)
 /// </li>
 /// <li>
-/// Your current estimated charges from AWS, and how much your predicted usage
-/// will accrue in charges by the end of the month
+/// Your current estimated charges from Amazon Web Services, and how much your
+/// predicted usage will accrue in charges by the end of the month
 /// </li>
 /// <li>
 /// How much of your budget has been used
 /// </li>
 /// </ul>
-/// AWS updates your budget status several times a day. Budgets track your
-/// unblended costs, subscriptions, refunds, and RIs. You can create the
-/// following types of budgets:
+/// Amazon Web Services updates your budget status several times a day. Budgets
+/// track your unblended costs, subscriptions, refunds, and RIs. You can create
+/// the following types of budgets:
 ///
 /// <ul>
 /// <li>
@@ -66,16 +66,17 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// </ul>
 /// Service Endpoint
 ///
-/// The AWS Budgets API provides the following endpoint:
+/// The Amazon Web Services Budgets API provides the following endpoint:
 ///
 /// <ul>
 /// <li>
 /// https://budgets.amazonaws.com
 /// </li>
 /// </ul>
-/// For information about costs that are associated with the AWS Budgets API,
-/// see <a href="https://aws.amazon.com/aws-cost-management/pricing/">AWS Cost
-/// Management Pricing</a>.
+/// For information about costs that are associated with the Amazon Web Services
+/// Budgets API, see <a
+/// href="https://aws.amazon.com/aws-cost-management/pricing/">Amazon Web
+/// Services Cost Management Pricing</a>.
 class Budgets {
   final _s.JsonProtocol _protocol;
   Budgets({
@@ -119,6 +120,7 @@ class Budgets {
   /// May throw [CreationLimitExceededException].
   /// May throw [DuplicateRecordException].
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [accountId] :
   /// The <code>accountId</code> that is associated with the budget.
@@ -130,8 +132,8 @@ class Budgets {
   /// A notification that you want to associate with a budget. A budget can have
   /// up to five notifications, and each notification can have one SNS
   /// subscriber and up to 10 email subscribers. If you include notifications
-  /// and subscribers in your <code>CreateBudget</code> call, AWS creates the
-  /// notifications and subscribers for you.
+  /// and subscribers in your <code>CreateBudget</code> call, Amazon Web
+  /// Services creates the notifications and subscribers for you.
   Future<void> createBudget({
     required String accountId,
     required Budget budget,
@@ -164,6 +166,7 @@ class Budgets {
   /// May throw [DuplicateRecordException].
   /// May throw [NotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [actionType] :
   /// The type of action. This defines the type of tasks that can be carried out
@@ -221,14 +224,15 @@ class Budgets {
   /// May throw [CreationLimitExceededException].
   /// May throw [DuplicateRecordException].
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [accountId] :
   /// The <code>accountId</code> that is associated with the budget that you
   /// want to create a notification for.
   ///
   /// Parameter [budgetName] :
-  /// The name of the budget that you want AWS to notify you about. Budget names
-  /// must be unique within an account.
+  /// The name of the budget that you want Amazon Web Services to notify you
+  /// about. Budget names must be unique within an account.
   ///
   /// Parameter [notification] :
   /// The notification that you want to create.
@@ -271,6 +275,7 @@ class Budgets {
   /// May throw [DuplicateRecordException].
   /// May throw [NotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [accountId] :
   /// The <code>accountId</code> that is associated with the budget that you
@@ -320,6 +325,7 @@ class Budgets {
   /// May throw [InvalidParameterException].
   /// May throw [NotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [accountId] :
   /// The <code>accountId</code> that is associated with the budget that you
@@ -355,6 +361,7 @@ class Budgets {
   /// May throw [NotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [ResourceLockedException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [actionId] :
   /// A system-generated universally unique identifier (UUID) for the action.
@@ -393,6 +400,7 @@ class Budgets {
   /// May throw [InternalErrorException].
   /// May throw [NotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [accountId] :
   /// The <code>accountId</code> that is associated with the budget whose
@@ -436,6 +444,7 @@ class Budgets {
   /// May throw [InvalidParameterException].
   /// May throw [NotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [accountId] :
   /// The <code>accountId</code> that is associated with the budget whose
@@ -486,6 +495,7 @@ class Budgets {
   /// May throw [InvalidParameterException].
   /// May throw [NotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [accountId] :
   /// The <code>accountId</code> that is associated with the budget that you
@@ -522,6 +532,7 @@ class Budgets {
   /// May throw [InvalidParameterException].
   /// May throw [NotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [actionId] :
   /// A system-generated universally unique identifier (UUID) for the action.
@@ -557,6 +568,7 @@ class Budgets {
   /// May throw [NotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [actionId] :
   /// A system-generated universally unique identifier (UUID) for the action.
@@ -603,6 +615,7 @@ class Budgets {
   /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [ThrottlingException].
   Future<DescribeBudgetActionsForAccountResponse>
       describeBudgetActionsForAccount({
     required String accountId,
@@ -642,6 +655,7 @@ class Budgets {
   /// May throw [NotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [ThrottlingException].
   Future<DescribeBudgetActionsForBudgetResponse>
       describeBudgetActionsForBudget({
     required String accountId,
@@ -676,6 +690,54 @@ class Budgets {
     return DescribeBudgetActionsForBudgetResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists the budget names and notifications that are associated with an
+  /// account.
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotFoundException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [ExpiredNextTokenException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [maxResults] :
+  /// An integer that shows how many budget name entries a paginated response
+  /// contains.
+  Future<DescribeBudgetNotificationsForAccountResponse>
+      describeBudgetNotificationsForAccount({
+    required String accountId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSBudgetServiceGateway.DescribeBudgetNotificationsForAccount'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AccountId': accountId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeBudgetNotificationsForAccountResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Describes the history for <code>DAILY</code>, <code>MONTHLY</code>, and
   /// <code>QUARTERLY</code> budgets. Budget history isn't available for
   /// <code>ANNUAL</code> budgets.
@@ -686,6 +748,7 @@ class Budgets {
   /// May throw [InvalidNextTokenException].
   /// May throw [ExpiredNextTokenException].
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [timePeriod] :
   /// Retrieves how often the budget went into an <code>ALARM</code> state for
@@ -740,6 +803,7 @@ class Budgets {
   /// May throw [InvalidNextTokenException].
   /// May throw [ExpiredNextTokenException].
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [accountId] :
   /// The <code>accountId</code> that is associated with the budgets that you
@@ -791,6 +855,7 @@ class Budgets {
   /// May throw [InvalidNextTokenException].
   /// May throw [ExpiredNextTokenException].
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [accountId] :
   /// The <code>accountId</code> that is associated with the budget whose
@@ -848,6 +913,7 @@ class Budgets {
   /// May throw [InvalidNextTokenException].
   /// May throw [ExpiredNextTokenException].
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [accountId] :
   /// The <code>accountId</code> that is associated with the budget whose
@@ -911,6 +977,7 @@ class Budgets {
   /// May throw [NotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [ResourceLockedException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [actionId] :
   /// A system-generated universally unique identifier (UUID) for the action.
@@ -946,8 +1013,8 @@ class Budgets {
 
   /// Updates a budget. You can change every part of a budget except for the
   /// <code>budgetName</code> and the <code>calculatedSpend</code>. When you
-  /// modify a budget, the <code>calculatedSpend</code> drops to zero until AWS
-  /// has new usage data to use for forecasting.
+  /// modify a budget, the <code>calculatedSpend</code> drops to zero until
+  /// Amazon Web Services has new usage data to use for forecasting.
   /// <important>
   /// Only one of <code>BudgetLimit</code> or <code>PlannedBudgetLimits</code>
   /// can be present in the syntax at one time. Use the syntax that matches your
@@ -961,6 +1028,7 @@ class Budgets {
   /// May throw [InvalidParameterException].
   /// May throw [NotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [accountId] :
   /// The <code>accountId</code> that is associated with the budget that you
@@ -996,6 +1064,7 @@ class Budgets {
   /// May throw [NotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [ResourceLockedException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [actionId] :
   /// A system-generated universally unique identifier (UUID) for the action.
@@ -1051,6 +1120,7 @@ class Budgets {
   /// May throw [NotFoundException].
   /// May throw [DuplicateRecordException].
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [accountId] :
   /// The <code>accountId</code> that is associated with the budget whose
@@ -1096,6 +1166,7 @@ class Budgets {
   /// May throw [NotFoundException].
   /// May throw [DuplicateRecordException].
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [accountId] :
   /// The <code>accountId</code> that is associated with the budget whose
@@ -1164,7 +1235,7 @@ class Action {
   final String executionRoleArn;
   final NotificationType notificationType;
 
-  /// The status of action.
+  /// The status of the action.
   final ActionStatus status;
   final List<Subscriber> subscribers;
 
@@ -1180,6 +1251,7 @@ class Action {
     required this.status,
     required this.subscribers,
   });
+
   factory Action.fromJson(Map<String, dynamic> json) {
     return Action(
       actionId: json['ActionId'] as String,
@@ -1204,11 +1276,11 @@ class Action {
 
 /// The historical records for a budget action.
 class ActionHistory {
-  /// The description of details of the event.
+  /// The description of the details for the event.
   final ActionHistoryDetails actionHistoryDetails;
 
   /// This distinguishes between whether the events are triggered by the user or
-  /// generated by the system.
+  /// are generated by the system.
   final EventType eventType;
 
   /// The status of action at the time of the event.
@@ -1221,6 +1293,7 @@ class ActionHistory {
     required this.status,
     required this.timestamp,
   });
+
   factory ActionHistory.fromJson(Map<String, dynamic> json) {
     return ActionHistory(
       actionHistoryDetails: ActionHistoryDetails.fromJson(
@@ -1232,7 +1305,7 @@ class ActionHistory {
   }
 }
 
-/// The description of details of the event.
+/// The description of the details for the event.
 class ActionHistoryDetails {
   /// The budget action resource.
   final Action action;
@@ -1242,6 +1315,7 @@ class ActionHistoryDetails {
     required this.action,
     required this.message,
   });
+
   factory ActionHistoryDetails.fromJson(Map<String, dynamic> json) {
     return ActionHistoryDetails(
       action: Action.fromJson(json['Action'] as Map<String, dynamic>),
@@ -1355,6 +1429,7 @@ class ActionThreshold {
     required this.actionThresholdType,
     required this.actionThresholdValue,
   });
+
   factory ActionThreshold.fromJson(Map<String, dynamic> json) {
     return ActionThreshold(
       actionThresholdType:
@@ -1434,11 +1509,83 @@ extension ApprovalModelFromString on String {
   }
 }
 
+/// The parameters that determine the budget amount for an auto-adjusting
+/// budget.
+class AutoAdjustData {
+  /// The string that defines whether your budget auto-adjusts based on historical
+  /// or forecasted data.
+  final AutoAdjustType autoAdjustType;
+
+  /// The parameters that define or describe the historical data that your
+  /// auto-adjusting budget is based on.
+  final HistoricalOptions? historicalOptions;
+
+  /// The last time that your budget was auto-adjusted.
+  final DateTime? lastAutoAdjustTime;
+
+  AutoAdjustData({
+    required this.autoAdjustType,
+    this.historicalOptions,
+    this.lastAutoAdjustTime,
+  });
+
+  factory AutoAdjustData.fromJson(Map<String, dynamic> json) {
+    return AutoAdjustData(
+      autoAdjustType: (json['AutoAdjustType'] as String).toAutoAdjustType(),
+      historicalOptions: json['HistoricalOptions'] != null
+          ? HistoricalOptions.fromJson(
+              json['HistoricalOptions'] as Map<String, dynamic>)
+          : null,
+      lastAutoAdjustTime: timeStampFromJson(json['LastAutoAdjustTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoAdjustType = this.autoAdjustType;
+    final historicalOptions = this.historicalOptions;
+    final lastAutoAdjustTime = this.lastAutoAdjustTime;
+    return {
+      'AutoAdjustType': autoAdjustType.toValue(),
+      if (historicalOptions != null) 'HistoricalOptions': historicalOptions,
+      if (lastAutoAdjustTime != null)
+        'LastAutoAdjustTime': unixTimestampToJson(lastAutoAdjustTime),
+    };
+  }
+}
+
+enum AutoAdjustType {
+  historical,
+  forecast,
+}
+
+extension AutoAdjustTypeValueExtension on AutoAdjustType {
+  String toValue() {
+    switch (this) {
+      case AutoAdjustType.historical:
+        return 'HISTORICAL';
+      case AutoAdjustType.forecast:
+        return 'FORECAST';
+    }
+  }
+}
+
+extension AutoAdjustTypeFromString on String {
+  AutoAdjustType toAutoAdjustType() {
+    switch (this) {
+      case 'HISTORICAL':
+        return AutoAdjustType.historical;
+      case 'FORECAST':
+        return AutoAdjustType.forecast;
+    }
+    throw Exception('$this is not known in enum AutoAdjustType');
+  }
+}
+
 /// Represents the output of the <code>CreateBudget</code> operation. The
 /// content consists of the detailed metadata and data file information, and the
 /// current status of the <code>budget</code> object.
 ///
-/// This is the ARN pattern for a budget:
+/// This is the Amazon Resource Name (ARN) pattern for a budget:
 ///
 /// <code>arn:aws:budgets::AccountId:budget/budgetName</code>
 class Budget {
@@ -1447,12 +1594,16 @@ class Budget {
   /// <code>BudgetName</code>.
   final String budgetName;
 
-  /// Whether this budget tracks costs, usage, RI utilization, RI coverage,
-  /// Savings Plans utilization, or Savings Plans coverage.
+  /// Specifies whether this budget tracks costs, usage, RI utilization, RI
+  /// coverage, Savings Plans utilization, or Savings Plans coverage.
   final BudgetType budgetType;
 
   /// The length of time until a budget resets the actual and forecasted spend.
   final TimeUnit timeUnit;
+
+  /// The parameters that determine the budget amount for an auto-adjusting
+  /// budget.
+  final AutoAdjustData? autoAdjustData;
 
   /// The total amount of cost, usage, RI utilization, RI coverage, Savings Plans
   /// utilization, or Savings Plans coverage that you want to track with your
@@ -1460,7 +1611,7 @@ class Budget {
   ///
   /// <code>BudgetLimit</code> is required for cost or usage budgets, but optional
   /// for RI or Savings Plans utilization or coverage budgets. RI and Savings
-  /// Plans utilization or coverage budgets default to <code>100</code>, which is
+  /// Plans utilization or coverage budgets default to <code>100</code>. This is
   /// the only valid value for RI or Savings Plans utilization or coverage
   /// budgets. You can't use <code>BudgetLimit</code> with
   /// <code>PlannedBudgetLimits</code> for <code>CreateBudget</code> and
@@ -1470,13 +1621,16 @@ class Budget {
   /// The actual and forecasted cost or usage that the budget tracks.
   final CalculatedSpend? calculatedSpend;
 
-  /// The cost filters, such as service or tag, that are applied to a budget.
+  /// The cost filters, such as <code>Region</code>, <code>Service</code>,
+  /// <code>member account</code>, <code>Tag</code>, or <code>Cost
+  /// Category</code>, that are applied to a budget.
   ///
-  /// AWS Budgets supports the following services as a filter for RI budgets:
+  /// Amazon Web Services Budgets supports the following services as a
+  /// <code>Service</code> filter for RI budgets:
   ///
   /// <ul>
   /// <li>
-  /// Amazon Elastic Compute Cloud - Compute
+  /// Amazon EC2
   /// </li>
   /// <li>
   /// Amazon Redshift
@@ -1488,7 +1642,7 @@ class Budget {
   /// Amazon ElastiCache
   /// </li>
   /// <li>
-  /// Amazon Elasticsearch Service
+  /// Amazon OpenSearch Service
   /// </li>
   /// </ul>
   final Map<String, List<String>>? costFilters;
@@ -1508,22 +1662,22 @@ class Budget {
   /// future limits.
   ///
   /// <code>PlannedBudgetLimits</code> is available for cost or usage budget and
-  /// supports monthly and quarterly <code>TimeUnit</code>.
+  /// supports both monthly and quarterly <code>TimeUnit</code>.
   ///
   /// For monthly budgets, provide 12 months of <code>PlannedBudgetLimits</code>
   /// values. This must start from the current month and include the next 11
   /// months. The <code>key</code> is the start of the month, <code>UTC</code> in
   /// epoch seconds.
   ///
-  /// For quarterly budgets, provide 4 quarters of
+  /// For quarterly budgets, provide four quarters of
   /// <code>PlannedBudgetLimits</code> value entries in standard calendar quarter
-  /// increments. This must start from the current quarter and include the next 3
-  /// quarters. The <code>key</code> is the start of the quarter, <code>UTC</code>
-  /// in epoch seconds.
+  /// increments. This must start from the current quarter and include the next
+  /// three quarters. The <code>key</code> is the start of the quarter,
+  /// <code>UTC</code> in epoch seconds.
   ///
-  /// If the planned budget expires before 12 months for monthly or 4 quarters for
-  /// quarterly, provide the <code>PlannedBudgetLimits</code> values only for the
-  /// remaining periods.
+  /// If the planned budget expires before 12 months for monthly or four quarters
+  /// for quarterly, provide the <code>PlannedBudgetLimits</code> values only for
+  /// the remaining periods.
   ///
   /// If the budget begins at a date in the future, provide
   /// <code>PlannedBudgetLimits</code> values from the start date of the budget.
@@ -1534,38 +1688,41 @@ class Budget {
   /// budget provides the same experience as a fixed budget.
   ///
   /// <code>DescribeBudget</code> and <code>DescribeBudgets</code> response along
-  /// with <code>PlannedBudgetLimits</code> will also contain
-  /// <code>BudgetLimit</code> representing the current month or quarter limit
-  /// present in <code>PlannedBudgetLimits</code>. This only applies to budgets
-  /// created with <code>PlannedBudgetLimits</code>. Budgets created without
-  /// <code>PlannedBudgetLimits</code> will only contain <code>BudgetLimit</code>,
-  /// and no <code>PlannedBudgetLimits</code>.
+  /// with <code>PlannedBudgetLimits</code> also contain <code>BudgetLimit</code>
+  /// representing the current month or quarter limit present in
+  /// <code>PlannedBudgetLimits</code>. This only applies to budgets that are
+  /// created with <code>PlannedBudgetLimits</code>. Budgets that are created
+  /// without <code>PlannedBudgetLimits</code> only contain
+  /// <code>BudgetLimit</code>. They don't contain
+  /// <code>PlannedBudgetLimits</code>.
   final Map<String, Spend>? plannedBudgetLimits;
 
-  /// The period of time that is covered by a budget. The period has a start date
-  /// and an end date. The start date must come before the end date. The end date
-  /// must come before <code>06/15/87 00:00 UTC</code>.
+  /// The period of time that's covered by a budget. You setthe start date and end
+  /// date. The start date must come before the end date. The end date must come
+  /// before <code>06/15/87 00:00 UTC</code>.
   ///
-  /// If you create your budget and don't specify a start date, AWS defaults to
-  /// the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, or
-  /// ANNUALLY). For example, if you created your budget on January 24, 2018,
-  /// chose <code>DAILY</code>, and didn't set a start date, AWS set your start
-  /// date to <code>01/24/18 00:00 UTC</code>. If you chose <code>MONTHLY</code>,
-  /// AWS set your start date to <code>01/01/18 00:00 UTC</code>. If you didn't
-  /// specify an end date, AWS set your end date to <code>06/15/87 00:00
-  /// UTC</code>. The defaults are the same for the AWS Billing and Cost
-  /// Management console and the API.
+  /// If you create your budget and don't specify a start date, Amazon Web
+  /// Services defaults to the start of your chosen time period (DAILY, MONTHLY,
+  /// QUARTERLY, or ANNUALLY). For example, if you created your budget on January
+  /// 24, 2018, chose <code>DAILY</code>, and didn't set a start date, Amazon Web
+  /// Services set your start date to <code>01/24/18 00:00 UTC</code>. If you
+  /// chose <code>MONTHLY</code>, Amazon Web Services set your start date to
+  /// <code>01/01/18 00:00 UTC</code>. If you didn't specify an end date, Amazon
+  /// Web Services set your end date to <code>06/15/87 00:00 UTC</code>. The
+  /// defaults are the same for the Billing and Cost Management console and the
+  /// API.
   ///
   /// You can change either date with the <code>UpdateBudget</code> operation.
   ///
-  /// After the end date, AWS deletes the budget and all associated notifications
-  /// and subscribers.
+  /// After the end date, Amazon Web Services deletes the budget and all the
+  /// associated notifications and subscribers.
   final TimePeriod? timePeriod;
 
   Budget({
     required this.budgetName,
     required this.budgetType,
     required this.timeUnit,
+    this.autoAdjustData,
     this.budgetLimit,
     this.calculatedSpend,
     this.costFilters,
@@ -1574,11 +1731,16 @@ class Budget {
     this.plannedBudgetLimits,
     this.timePeriod,
   });
+
   factory Budget.fromJson(Map<String, dynamic> json) {
     return Budget(
       budgetName: json['BudgetName'] as String,
       budgetType: (json['BudgetType'] as String).toBudgetType(),
       timeUnit: (json['TimeUnit'] as String).toTimeUnit(),
+      autoAdjustData: json['AutoAdjustData'] != null
+          ? AutoAdjustData.fromJson(
+              json['AutoAdjustData'] as Map<String, dynamic>)
+          : null,
       budgetLimit: json['BudgetLimit'] != null
           ? Spend.fromJson(json['BudgetLimit'] as Map<String, dynamic>)
           : null,
@@ -1606,6 +1768,7 @@ class Budget {
     final budgetName = this.budgetName;
     final budgetType = this.budgetType;
     final timeUnit = this.timeUnit;
+    final autoAdjustData = this.autoAdjustData;
     final budgetLimit = this.budgetLimit;
     final calculatedSpend = this.calculatedSpend;
     final costFilters = this.costFilters;
@@ -1617,6 +1780,7 @@ class Budget {
       'BudgetName': budgetName,
       'BudgetType': budgetType.toValue(),
       'TimeUnit': timeUnit.toValue(),
+      if (autoAdjustData != null) 'AutoAdjustData': autoAdjustData,
       if (budgetLimit != null) 'BudgetLimit': budgetLimit,
       if (calculatedSpend != null) 'CalculatedSpend': calculatedSpend,
       if (costFilters != null) 'CostFilters': costFilters,
@@ -1630,14 +1794,35 @@ class Budget {
   }
 }
 
+/// The budget name and associated notifications for an account.
+class BudgetNotificationsForAccount {
+  final String? budgetName;
+  final List<Notification>? notifications;
+
+  BudgetNotificationsForAccount({
+    this.budgetName,
+    this.notifications,
+  });
+
+  factory BudgetNotificationsForAccount.fromJson(Map<String, dynamic> json) {
+    return BudgetNotificationsForAccount(
+      budgetName: json['BudgetName'] as String?,
+      notifications: (json['Notifications'] as List?)
+          ?.whereNotNull()
+          .map((e) => Notification.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 /// A history of the state of a budget at the end of the budget's specified time
 /// period.
 class BudgetPerformanceHistory {
   final String? budgetName;
   final BudgetType? budgetType;
 
-  /// A list of amounts of cost or usage that you created budgets for, compared to
-  /// your actual costs or usage.
+  /// A list of amounts of cost or usage that you created budgets for, which are
+  /// compared to your actual costs or usage.
   final List<BudgetedAndActualAmounts>? budgetedAndActualAmountsList;
 
   /// The history of the cost filters for a budget during the specified time
@@ -1656,6 +1841,7 @@ class BudgetPerformanceHistory {
     this.costTypes,
     this.timeUnit,
   });
+
   factory BudgetPerformanceHistory.fromJson(Map<String, dynamic> json) {
     return BudgetPerformanceHistory(
       budgetName: json['BudgetName'] as String?,
@@ -1739,7 +1925,7 @@ class BudgetedAndActualAmounts {
   /// The amount of cost or usage that you created the budget for.
   final Spend? budgetedAmount;
 
-  /// The time period covered by this budget comparison.
+  /// The time period that's covered by this budget comparison.
   final TimePeriod? timePeriod;
 
   BudgetedAndActualAmounts({
@@ -1747,6 +1933,7 @@ class BudgetedAndActualAmounts {
     this.budgetedAmount,
     this.timePeriod,
   });
+
   factory BudgetedAndActualAmounts.fromJson(Map<String, dynamic> json) {
     return BudgetedAndActualAmounts(
       actualAmount: json['ActualAmount'] != null
@@ -1765,18 +1952,17 @@ class BudgetedAndActualAmounts {
 /// The spend objects that are associated with this budget. The
 /// <code>actualSpend</code> tracks how much you've used, cost, usage, RI units,
 /// or Savings Plans units and the <code>forecastedSpend</code> tracks how much
-/// you are predicted to spend based on your historical usage profile.
+/// that you're predicted to spend based on your historical usage profile.
 ///
-/// For example, if it is the 20th of the month and you have spent
+/// For example, if it's the 20th of the month and you have spent
 /// <code>50</code> dollars on Amazon EC2, your <code>actualSpend</code> is
 /// <code>50 USD</code>, and your <code>forecastedSpend</code> is <code>75
 /// USD</code>.
 class CalculatedSpend {
-  /// The amount of cost, usage, RI units, or Savings Plans units that you have
-  /// used.
+  /// The amount of cost, usage, RI units, or Savings Plans units that you used.
   final Spend actualSpend;
 
-  /// The amount of cost, usage, RI units, or Savings Plans units that you are
+  /// The amount of cost, usage, RI units, or Savings Plans units that you're
   /// forecasted to use.
   final Spend? forecastedSpend;
 
@@ -1784,6 +1970,7 @@ class CalculatedSpend {
     required this.actualSpend,
     this.forecastedSpend,
   });
+
   factory CalculatedSpend.fromJson(Map<String, dynamic> json) {
     return CalculatedSpend(
       actualSpend: Spend.fromJson(json['ActualSpend'] as Map<String, dynamic>),
@@ -1803,7 +1990,7 @@ class CalculatedSpend {
   }
 }
 
-/// The comparison operator of a notification. Currently the service supports
+/// The comparison operator of a notification. Currently, the service supports
 /// the following operators:
 ///
 /// <code>GREATER_THAN</code>, <code>LESS_THAN</code>, <code>EQUAL_TO</code>
@@ -1845,7 +2032,7 @@ extension ComparisonOperatorFromString on String {
 ///
 /// <code>USAGE</code>, <code>RI_UTILIZATION</code>, <code>RI_COVERAGE</code>,
 /// <code>SAVINGS_PLANS_UTILIZATION</code>, and
-/// <code>SAVINGS_PLANS_COVERAGE</code> budgets do not have
+/// <code>SAVINGS_PLANS_COVERAGE</code> budgets don't have
 /// <code>CostTypes</code>.
 class CostTypes {
   /// Specifies whether a budget includes credits.
@@ -1916,6 +2103,7 @@ class CostTypes {
     this.useAmortized,
     this.useBlended,
   });
+
   factory CostTypes.fromJson(Map<String, dynamic> json) {
     return CostTypes(
       includeCredit: json['IncludeCredit'] as bool?,
@@ -1974,6 +2162,7 @@ class CreateBudgetActionResponse {
     required this.actionId,
     required this.budgetName,
   });
+
   factory CreateBudgetActionResponse.fromJson(Map<String, dynamic> json) {
     return CreateBudgetActionResponse(
       accountId: json['AccountId'] as String,
@@ -1986,6 +2175,7 @@ class CreateBudgetActionResponse {
 /// Response of CreateBudget
 class CreateBudgetResponse {
   CreateBudgetResponse();
+
   factory CreateBudgetResponse.fromJson(Map<String, dynamic> _) {
     return CreateBudgetResponse();
   }
@@ -1994,6 +2184,7 @@ class CreateBudgetResponse {
 /// Response of CreateNotification
 class CreateNotificationResponse {
   CreateNotificationResponse();
+
   factory CreateNotificationResponse.fromJson(Map<String, dynamic> _) {
     return CreateNotificationResponse();
   }
@@ -2002,6 +2193,7 @@ class CreateNotificationResponse {
 /// Response of CreateSubscriber
 class CreateSubscriberResponse {
   CreateSubscriberResponse();
+
   factory CreateSubscriberResponse.fromJson(Map<String, dynamic> _) {
     return CreateSubscriberResponse();
   }
@@ -2009,13 +2201,13 @@ class CreateSubscriberResponse {
 
 /// Specifies all of the type-specific parameters.
 class Definition {
-  /// The AWS Identity and Access Management (IAM) action definition details.
+  /// The Identity and Access Management (IAM) action definition details.
   final IamActionDefinition? iamActionDefinition;
 
   /// The service control policies (SCPs) action definition details.
   final ScpActionDefinition? scpActionDefinition;
 
-  /// The AWS Systems Manager (SSM) action definition details.
+  /// The Amazon Web Services Systems Manager (SSM) action definition details.
   final SsmActionDefinition? ssmActionDefinition;
 
   Definition({
@@ -2023,6 +2215,7 @@ class Definition {
     this.scpActionDefinition,
     this.ssmActionDefinition,
   });
+
   factory Definition.fromJson(Map<String, dynamic> json) {
     return Definition(
       iamActionDefinition: json['IamActionDefinition'] != null
@@ -2065,6 +2258,7 @@ class DeleteBudgetActionResponse {
     required this.action,
     required this.budgetName,
   });
+
   factory DeleteBudgetActionResponse.fromJson(Map<String, dynamic> json) {
     return DeleteBudgetActionResponse(
       accountId: json['AccountId'] as String,
@@ -2077,6 +2271,7 @@ class DeleteBudgetActionResponse {
 /// Response of DeleteBudget
 class DeleteBudgetResponse {
   DeleteBudgetResponse();
+
   factory DeleteBudgetResponse.fromJson(Map<String, dynamic> _) {
     return DeleteBudgetResponse();
   }
@@ -2085,6 +2280,7 @@ class DeleteBudgetResponse {
 /// Response of DeleteNotification
 class DeleteNotificationResponse {
   DeleteNotificationResponse();
+
   factory DeleteNotificationResponse.fromJson(Map<String, dynamic> _) {
     return DeleteNotificationResponse();
   }
@@ -2093,6 +2289,7 @@ class DeleteNotificationResponse {
 /// Response of DeleteSubscriber
 class DeleteSubscriberResponse {
   DeleteSubscriberResponse();
+
   factory DeleteSubscriberResponse.fromJson(Map<String, dynamic> _) {
     return DeleteSubscriberResponse();
   }
@@ -2107,6 +2304,7 @@ class DescribeBudgetActionHistoriesResponse {
     required this.actionHistories,
     this.nextToken,
   });
+
   factory DescribeBudgetActionHistoriesResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeBudgetActionHistoriesResponse(
@@ -2131,6 +2329,7 @@ class DescribeBudgetActionResponse {
     required this.action,
     required this.budgetName,
   });
+
   factory DescribeBudgetActionResponse.fromJson(Map<String, dynamic> json) {
     return DescribeBudgetActionResponse(
       accountId: json['AccountId'] as String,
@@ -2149,6 +2348,7 @@ class DescribeBudgetActionsForAccountResponse {
     required this.actions,
     this.nextToken,
   });
+
   factory DescribeBudgetActionsForAccountResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeBudgetActionsForAccountResponse(
@@ -2170,12 +2370,37 @@ class DescribeBudgetActionsForBudgetResponse {
     required this.actions,
     this.nextToken,
   });
+
   factory DescribeBudgetActionsForBudgetResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeBudgetActionsForBudgetResponse(
       actions: (json['Actions'] as List)
           .whereNotNull()
           .map((e) => Action.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
+class DescribeBudgetNotificationsForAccountResponse {
+  /// A list of budget names and associated notifications for an account.
+  final List<BudgetNotificationsForAccount>? budgetNotificationsForAccount;
+  final String? nextToken;
+
+  DescribeBudgetNotificationsForAccountResponse({
+    this.budgetNotificationsForAccount,
+    this.nextToken,
+  });
+
+  factory DescribeBudgetNotificationsForAccountResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeBudgetNotificationsForAccountResponse(
+      budgetNotificationsForAccount: (json['BudgetNotificationsForAccount']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              BudgetNotificationsForAccount.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
     );
@@ -2198,6 +2423,7 @@ class DescribeBudgetPerformanceHistoryResponse {
     this.budgetPerformanceHistory,
     this.nextToken,
   });
+
   factory DescribeBudgetPerformanceHistoryResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeBudgetPerformanceHistoryResponse(
@@ -2218,6 +2444,7 @@ class DescribeBudgetResponse {
   DescribeBudgetResponse({
     this.budget,
   });
+
   factory DescribeBudgetResponse.fromJson(Map<String, dynamic> json) {
     return DescribeBudgetResponse(
       budget: json['Budget'] != null
@@ -2240,6 +2467,7 @@ class DescribeBudgetsResponse {
     this.budgets,
     this.nextToken,
   });
+
   factory DescribeBudgetsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeBudgetsResponse(
       budgets: (json['Budgets'] as List?)
@@ -2264,6 +2492,7 @@ class DescribeNotificationsForBudgetResponse {
     this.nextToken,
     this.notifications,
   });
+
   factory DescribeNotificationsForBudgetResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeNotificationsForBudgetResponse(
@@ -2289,6 +2518,7 @@ class DescribeSubscribersForNotificationResponse {
     this.nextToken,
     this.subscribers,
   });
+
   factory DescribeSubscribersForNotificationResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeSubscribersForNotificationResponse(
@@ -2360,6 +2590,7 @@ class ExecuteBudgetActionResponse {
     required this.budgetName,
     required this.executionType,
   });
+
   factory ExecuteBudgetActionResponse.fromJson(Map<String, dynamic> json) {
     return ExecuteBudgetActionResponse(
       accountId: json['AccountId'] as String,
@@ -2408,7 +2639,74 @@ extension ExecutionTypeFromString on String {
   }
 }
 
-/// The AWS Identity and Access Management (IAM) action definition details.
+/// The parameters that define or describe the historical data that your
+/// auto-adjusting budget is based on.
+class HistoricalOptions {
+  /// The number of budget periods included in the moving-average calculation that
+  /// determines your auto-adjusted budget amount. The maximum value depends on
+  /// the <code>TimeUnit</code> granularity of the budget:
+  ///
+  /// <ul>
+  /// <li>
+  /// For the <code>DAILY</code> granularity, the maximum value is
+  /// <code>60</code>.
+  /// </li>
+  /// <li>
+  /// For the <code>MONTHLY</code> granularity, the maximum value is
+  /// <code>12</code>.
+  /// </li>
+  /// <li>
+  /// For the <code>QUARTERLY</code> granularity, the maximum value is
+  /// <code>4</code>.
+  /// </li>
+  /// <li>
+  /// For the <code>ANNUALLY</code> granularity, the maximum value is
+  /// <code>1</code>.
+  /// </li>
+  /// </ul>
+  final int budgetAdjustmentPeriod;
+
+  /// The integer that describes how many budget periods in your
+  /// <code>BudgetAdjustmentPeriod</code> are included in the calculation of your
+  /// current <code>BudgetLimit</code>. If the first budget period in your
+  /// <code>BudgetAdjustmentPeriod</code> has no cost data, then that budget
+  /// period isn’t included in the average that determines your budget limit.
+  ///
+  /// For example, if you set <code>BudgetAdjustmentPeriod</code> as
+  /// <code>4</code> quarters, but your account had no cost data in the first
+  /// quarter, then only the last three quarters are included in the calculation.
+  /// In this scenario, <code>LookBackAvailablePeriods</code> returns
+  /// <code>3</code>.
+  ///
+  /// You can’t set your own <code>LookBackAvailablePeriods</code>. The value is
+  /// automatically calculated from the <code>BudgetAdjustmentPeriod</code> and
+  /// your historical cost data.
+  final int? lookBackAvailablePeriods;
+
+  HistoricalOptions({
+    required this.budgetAdjustmentPeriod,
+    this.lookBackAvailablePeriods,
+  });
+
+  factory HistoricalOptions.fromJson(Map<String, dynamic> json) {
+    return HistoricalOptions(
+      budgetAdjustmentPeriod: json['BudgetAdjustmentPeriod'] as int,
+      lookBackAvailablePeriods: json['LookBackAvailablePeriods'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final budgetAdjustmentPeriod = this.budgetAdjustmentPeriod;
+    final lookBackAvailablePeriods = this.lookBackAvailablePeriods;
+    return {
+      'BudgetAdjustmentPeriod': budgetAdjustmentPeriod,
+      if (lookBackAvailablePeriods != null)
+        'LookBackAvailablePeriods': lookBackAvailablePeriods,
+    };
+  }
+}
+
+/// The Identity and Access Management (IAM) action definition details.
 class IamActionDefinition {
   /// The Amazon Resource Name (ARN) of the policy to be attached.
   final String policyArn;
@@ -2428,6 +2726,7 @@ class IamActionDefinition {
     this.roles,
     this.users,
   });
+
   factory IamActionDefinition.fromJson(Map<String, dynamic> json) {
     return IamActionDefinition(
       policyArn: json['PolicyArn'] as String,
@@ -2460,7 +2759,7 @@ class IamActionDefinition {
   }
 }
 
-/// A notification that is associated with a budget. A budget can have up to ten
+/// A notification that's associated with a budget. A budget can have up to ten
 /// notifications.
 ///
 /// Each notification must have at least one subscriber. A notification can have
@@ -2486,31 +2785,33 @@ class IamActionDefinition {
 /// </li>
 /// </ul>
 class Notification {
-  /// The comparison that is used for this notification.
+  /// The comparison that's used for this notification.
   final ComparisonOperator comparisonOperator;
 
-  /// Whether the notification is for how much you have spent
-  /// (<code>ACTUAL</code>) or for how much you're forecasted to spend
+  /// Specifies whether the notification is for how much you have spent
+  /// (<code>ACTUAL</code>) or for how much that you're forecasted to spend
   /// (<code>FORECASTED</code>).
   final NotificationType notificationType;
 
-  /// The threshold that is associated with a notification. Thresholds are always
-  /// a percentage, and many customers find value being alerted between 50% - 200%
+  /// The threshold that's associated with a notification. Thresholds are always a
+  /// percentage, and many customers find value being alerted between 50% - 200%
   /// of the budgeted amount. The maximum limit for your threshold is 1,000,000%
   /// above the budgeted amount.
   final double threshold;
 
-  /// Whether this notification is in alarm. If a budget notification is in the
-  /// <code>ALARM</code> state, you have passed the set threshold for the budget.
+  /// Specifies whether this notification is in alarm. If a budget notification is
+  /// in the <code>ALARM</code> state, you passed the set threshold for the
+  /// budget.
   final NotificationState? notificationState;
 
   /// The type of threshold for a notification. For <code>ABSOLUTE_VALUE</code>
-  /// thresholds, AWS notifies you when you go over or are forecasted to go over
-  /// your total cost threshold. For <code>PERCENTAGE</code> thresholds, AWS
-  /// notifies you when you go over or are forecasted to go over a certain
-  /// percentage of your forecasted spend. For example, if you have a budget for
-  /// 200 dollars and you have a <code>PERCENTAGE</code> threshold of 80%, AWS
-  /// notifies you when you go over 160 dollars.
+  /// thresholds, Amazon Web Services notifies you when you go over or are
+  /// forecasted to go over your total cost threshold. For <code>PERCENTAGE</code>
+  /// thresholds, Amazon Web Services notifies you when you go over or are
+  /// forecasted to go over a certain percentage of your forecasted spend. For
+  /// example, if you have a budget for 200 dollars and you have a
+  /// <code>PERCENTAGE</code> threshold of 80%, Amazon Web Services notifies you
+  /// when you go over 160 dollars.
   final ThresholdType? thresholdType;
 
   Notification({
@@ -2520,6 +2821,7 @@ class Notification {
     this.notificationState,
     this.thresholdType,
   });
+
   factory Notification.fromJson(Map<String, dynamic> json) {
     return Notification(
       comparisonOperator:
@@ -2610,7 +2912,7 @@ extension NotificationTypeFromString on String {
 /// A notification with subscribers. A notification can have one SNS subscriber
 /// and up to 10 email subscribers, for a total of 11 subscribers.
 class NotificationWithSubscribers {
-  /// The notification that is associated with a budget.
+  /// The notification that's associated with a budget.
   final Notification notification;
 
   /// A list of subscribers who are subscribed to this notification.
@@ -2642,6 +2944,7 @@ class ScpActionDefinition {
     required this.policyId,
     required this.targetIds,
   });
+
   factory ScpActionDefinition.fromJson(Map<String, dynamic> json) {
     return ScpActionDefinition(
       policyId: json['PolicyId'] as String,
@@ -2662,10 +2965,10 @@ class ScpActionDefinition {
   }
 }
 
-/// The amount of cost or usage that is measured for a budget.
+/// The amount of cost or usage that's measured for a budget.
 ///
-/// For example, a <code>Spend</code> for <code>3 GB</code> of S3 usage would
-/// have the following parameters:
+/// For example, a <code>Spend</code> for <code>3 GB</code> of S3 usage has the
+/// following parameters:
 ///
 /// <ul>
 /// <li>
@@ -2676,18 +2979,19 @@ class ScpActionDefinition {
 /// </li>
 /// </ul>
 class Spend {
-  /// The cost or usage amount that is associated with a budget forecast, actual
+  /// The cost or usage amount that's associated with a budget forecast, actual
   /// spend, or budget threshold.
   final String amount;
 
-  /// The unit of measurement that is used for the budget forecast, actual spend,
-  /// or budget threshold, such as dollars or GB.
+  /// The unit of measurement that's used for the budget forecast, actual spend,
+  /// or budget threshold, such as USD or GBP.
   final String unit;
 
   Spend({
     required this.amount,
     required this.unit,
   });
+
   factory Spend.fromJson(Map<String, dynamic> json) {
     return Spend(
       amount: json['Amount'] as String,
@@ -2705,7 +3009,7 @@ class Spend {
   }
 }
 
-/// The AWS Systems Manager (SSM) action definition details.
+/// The Amazon Web Services Systems Manager (SSM) action definition details.
 class SsmActionDefinition {
   /// The action subType.
   final ActionSubType actionSubType;
@@ -2721,6 +3025,7 @@ class SsmActionDefinition {
     required this.instanceIds,
     required this.region,
   });
+
   factory SsmActionDefinition.fromJson(Map<String, dynamic> json) {
     return SsmActionDefinition(
       actionSubType: (json['ActionSubType'] as String).toActionSubType(),
@@ -2747,7 +3052,7 @@ class SsmActionDefinition {
 /// The subscriber to a budget notification. The subscriber consists of a
 /// subscription type and either an Amazon SNS topic or an email address.
 ///
-/// For example, an email subscriber would have the following parameters:
+/// For example, an email subscriber has the following parameters:
 ///
 /// <ul>
 /// <li>
@@ -2758,20 +3063,21 @@ class SsmActionDefinition {
 /// </li>
 /// </ul>
 class Subscriber {
-  /// The address that AWS sends budget notifications to, either an SNS topic or
-  /// an email.
+  /// The address that Amazon Web Services sends budget notifications to, either
+  /// an SNS topic or an email.
   ///
   /// When you create a subscriber, the value of <code>Address</code> can't
   /// contain line breaks.
   final String address;
 
-  /// The type of notification that AWS sends to a subscriber.
+  /// The type of notification that Amazon Web Services sends to a subscriber.
   final SubscriptionType subscriptionType;
 
   Subscriber({
     required this.address,
     required this.subscriptionType,
   });
+
   factory Subscriber.fromJson(Map<String, dynamic> json) {
     return Subscriber(
       address: json['Address'] as String,
@@ -2848,27 +3154,27 @@ extension ThresholdTypeFromString on String {
   }
 }
 
-/// The period of time that is covered by a budget. The period has a start date
+/// The period of time that's covered by a budget. The period has a start date
 /// and an end date. The start date must come before the end date. There are no
 /// restrictions on the end date.
 class TimePeriod {
-  /// The end date for a budget. If you didn't specify an end date, AWS set your
-  /// end date to <code>06/15/87 00:00 UTC</code>. The defaults are the same for
-  /// the AWS Billing and Cost Management console and the API.
+  /// The end date for a budget. If you didn't specify an end date, Amazon Web
+  /// Services set your end date to <code>06/15/87 00:00 UTC</code>. The defaults
+  /// are the same for the Billing and Cost Management console and the API.
   ///
-  /// After the end date, AWS deletes the budget and all associated notifications
-  /// and subscribers. You can change your end date with the
-  /// <code>UpdateBudget</code> operation.
+  /// After the end date, Amazon Web Services deletes the budget and all the
+  /// associated notifications and subscribers. You can change your end date with
+  /// the <code>UpdateBudget</code> operation.
   final DateTime? end;
 
   /// The start date for a budget. If you created your budget and didn't specify a
-  /// start date, AWS defaults to the start of your chosen time period (DAILY,
-  /// MONTHLY, QUARTERLY, or ANNUALLY). For example, if you created your budget on
-  /// January 24, 2018, chose <code>DAILY</code>, and didn't set a start date, AWS
-  /// set your start date to <code>01/24/18 00:00 UTC</code>. If you chose
-  /// <code>MONTHLY</code>, AWS set your start date to <code>01/01/18 00:00
-  /// UTC</code>. The defaults are the same for the AWS Billing and Cost
-  /// Management console and the API.
+  /// start date, Amazon Web Services defaults to the start of your chosen time
+  /// period (DAILY, MONTHLY, QUARTERLY, or ANNUALLY). For example, if you created
+  /// your budget on January 24, 2018, chose <code>DAILY</code>, and didn't set a
+  /// start date, Amazon Web Services set your start date to <code>01/24/18 00:00
+  /// UTC</code>. If you chose <code>MONTHLY</code>, Amazon Web Services set your
+  /// start date to <code>01/01/18 00:00 UTC</code>. The defaults are the same for
+  /// the Billing and Cost Management console and the API.
   ///
   /// You can change your start date with the <code>UpdateBudget</code> operation.
   final DateTime? start;
@@ -2877,6 +3183,7 @@ class TimePeriod {
     this.end,
     this.start,
   });
+
   factory TimePeriod.fromJson(Map<String, dynamic> json) {
     return TimePeriod(
       end: timeStampFromJson(json['End']),
@@ -2949,6 +3256,7 @@ class UpdateBudgetActionResponse {
     required this.newAction,
     required this.oldAction,
   });
+
   factory UpdateBudgetActionResponse.fromJson(Map<String, dynamic> json) {
     return UpdateBudgetActionResponse(
       accountId: json['AccountId'] as String,
@@ -2962,6 +3270,7 @@ class UpdateBudgetActionResponse {
 /// Response of UpdateBudget
 class UpdateBudgetResponse {
   UpdateBudgetResponse();
+
   factory UpdateBudgetResponse.fromJson(Map<String, dynamic> _) {
     return UpdateBudgetResponse();
   }
@@ -2970,6 +3279,7 @@ class UpdateBudgetResponse {
 /// Response of UpdateNotification
 class UpdateNotificationResponse {
   UpdateNotificationResponse();
+
   factory UpdateNotificationResponse.fromJson(Map<String, dynamic> _) {
     return UpdateNotificationResponse();
   }
@@ -2978,6 +3288,7 @@ class UpdateNotificationResponse {
 /// Response of UpdateSubscriber
 class UpdateSubscriberResponse {
   UpdateSubscriberResponse();
+
   factory UpdateSubscriberResponse.fromJson(Map<String, dynamic> _) {
     return UpdateSubscriberResponse();
   }
@@ -3031,6 +3342,11 @@ class ResourceLockedException extends _s.GenericAwsException {
       : super(type: type, code: 'ResourceLockedException', message: message);
 }
 
+class ThrottlingException extends _s.GenericAwsException {
+  ThrottlingException({String? type, String? message})
+      : super(type: type, code: 'ThrottlingException', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'AccessDeniedException': (type, message) =>
       AccessDeniedException(type: type, message: message),
@@ -3050,4 +3366,6 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       NotFoundException(type: type, message: message),
   'ResourceLockedException': (type, message) =>
       ResourceLockedException(type: type, message: message),
+  'ThrottlingException': (type, message) =>
+      ThrottlingException(type: type, message: message),
 };

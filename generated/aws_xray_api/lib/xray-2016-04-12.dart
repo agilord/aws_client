@@ -18,8 +18,8 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// AWS X-Ray provides APIs for managing debug traces and retrieving service
-/// maps and other data created by processing those traces.
+/// Amazon Web Services X-Ray provides APIs for managing debug traces and
+/// retrieving service maps and other data created by processing those traces.
 class XRay {
   final _s.RestJsonProtocol _protocol;
   XRay({
@@ -98,7 +98,7 @@ class XRay {
   /// new group or false to disable insights for the new group.
   /// </li>
   /// <li>
-  /// The NotifcationsEnabled boolean can be set to true to enable insights
+  /// The NotificationsEnabled boolean can be set to true to enable insights
   /// notifications for the new group. Notifications may only be enabled on a
   /// group with InsightsEnabled set to true.
   /// </li>
@@ -108,7 +108,8 @@ class XRay {
   /// A map that contains one or more tag keys and tag values to attach to an
   /// X-Ray group. For more information about ways to use tags, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
-  /// AWS resources</a> in the <i>AWS General Reference</i>.
+  /// Amazon Web Services resources</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
   ///
   /// The following restrictions apply to tags:
   ///
@@ -130,8 +131,8 @@ class XRay {
   /// Tag keys and values are case sensitive.
   /// </li>
   /// <li>
-  /// Don't use <code>aws:</code> as a prefix for keys; it's reserved for AWS
-  /// use.
+  /// Don't use <code>aws:</code> as a prefix for keys; it's reserved for Amazon
+  /// Web Services use.
   /// </li>
   /// </ul>
   Future<CreateGroupResult> createGroup({
@@ -157,13 +158,16 @@ class XRay {
   }
 
   /// Creates a rule to control sampling behavior for instrumented applications.
-  /// Services retrieve rules with <a>GetSamplingRules</a>, and evaluate each
-  /// rule in ascending order of <i>priority</i> for each request. If a rule
-  /// matches, the service records a trace, borrowing it from the reservoir
-  /// size. After 10 seconds, the service reports back to X-Ray with
-  /// <a>GetSamplingTargets</a> to get updated versions of each in-use rule. The
-  /// updated rule contains a trace quota that the service can use instead of
-  /// borrowing from the reservoir.
+  /// Services retrieve rules with <a
+  /// href="https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingRules.html">GetSamplingRules</a>,
+  /// and evaluate each rule in ascending order of <i>priority</i> for each
+  /// request. If a rule matches, the service records a trace, borrowing it from
+  /// the reservoir size. After 10 seconds, the service reports back to X-Ray
+  /// with <a
+  /// href="https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingTargets.html">GetSamplingTargets</a>
+  /// to get updated versions of each in-use rule. The updated rule contains a
+  /// trace quota that the service can use instead of borrowing from the
+  /// reservoir.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottledException].
@@ -176,7 +180,8 @@ class XRay {
   /// A map that contains one or more tag keys and tag values to attach to an
   /// X-Ray sampling rule. For more information about ways to use tags, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
-  /// AWS resources</a> in the <i>AWS General Reference</i>.
+  /// Amazon Web Services resources</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
   ///
   /// The following restrictions apply to tags:
   ///
@@ -198,8 +203,8 @@ class XRay {
   /// Tag keys and values are case sensitive.
   /// </li>
   /// <li>
-  /// Don't use <code>aws:</code> as a prefix for keys; it's reserved for AWS
-  /// use.
+  /// Don't use <code>aws:</code> as a prefix for keys; it's reserved for Amazon
+  /// Web Services use.
   /// </li>
   /// </ul>
   Future<CreateSamplingRuleResult> createSamplingRule({
@@ -241,6 +246,36 @@ class XRay {
       payload: $payload,
       method: 'POST',
       requestUri: '/DeleteGroup',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a resource policy from the target Amazon Web Services account.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidPolicyRevisionIdException].
+  /// May throw [ThrottledException].
+  ///
+  /// Parameter [policyName] :
+  /// The name of the resource policy to delete.
+  ///
+  /// Parameter [policyRevisionId] :
+  /// Specifies a specific policy revision to delete. Provide a
+  /// <code>PolicyRevisionId</code> to ensure an atomic delete operation. If the
+  /// provided revision id does not match the latest policy revision id, an
+  /// <code>InvalidPolicyRevisionIdException</code> exception is returned.
+  Future<void> deleteResourcePolicy({
+    required String policyName,
+    String? policyRevisionId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'PolicyName': policyName,
+      if (policyRevisionId != null) 'PolicyRevisionId': policyRevisionId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/DeleteResourcePolicy',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -583,9 +618,9 @@ class XRay {
   /// requests, and downstream services that they call as a result. Root
   /// services process incoming requests and make calls to downstream services.
   /// Root services are applications that use the <a
-  /// href="https://docs.aws.amazon.com/xray/index.html">AWS X-Ray SDK</a>.
-  /// Downstream services can be other applications, AWS resources, HTTP web
-  /// APIs, or SQL databases.
+  /// href="https://docs.aws.amazon.com/xray/index.html">Amazon Web Services
+  /// X-Ray SDK</a>. Downstream services can be other applications, Amazon Web
+  /// Services resources, HTTP web APIs, or SQL databases.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottledException].
@@ -736,7 +771,8 @@ class XRay {
   /// For a full list of indexed fields and keywords that you can use in filter
   /// expressions, see <a
   /// href="https://docs.aws.amazon.com/xray/latest/devguide/xray-console-filters.html">Using
-  /// Filter Expressions</a> in the <i>AWS X-Ray Developer Guide</i>.
+  /// Filter Expressions</a> in the <i>Amazon Web Services X-Ray Developer
+  /// Guide</i>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottledException].
@@ -793,8 +829,31 @@ class XRay {
     return GetTraceSummariesResult.fromJson(response);
   }
 
-  /// Returns a list of tags that are applied to the specified AWS X-Ray group
-  /// or sampling rule.
+  /// Returns the list of resource policies in the target Amazon Web Services
+  /// account.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottledException].
+  ///
+  /// Parameter [nextToken] :
+  /// Not currently supported.
+  Future<ListResourcePoliciesResult> listResourcePolicies({
+    String? nextToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ListResourcePolicies',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListResourcePoliciesResult.fromJson(response);
+  }
+
+  /// Returns a list of tags that are applied to the specified Amazon Web
+  /// Services X-Ray group or sampling rule.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottledException].
@@ -834,7 +893,7 @@ class XRay {
   /// encryption. Set to <code>NONE</code> for default encryption.
   ///
   /// Parameter [keyId] :
-  /// An AWS KMS customer master key (CMK) in one of the following formats:
+  /// An Amazon Web Services KMS key in one of the following formats:
   ///
   /// <ul>
   /// <li>
@@ -842,8 +901,8 @@ class XRay {
   /// </li>
   /// <li>
   /// <b>Key ID</b> - The KMS key ID of the key. For example,
-  /// <code>ae4aa6d49-a4d8-9df9-a475-4ff6d7898456</code>. AWS X-Ray does not
-  /// support asymmetric CMKs.
+  /// <code>ae4aa6d49-a4d8-9df9-a475-4ff6d7898456</code>. Amazon Web Services
+  /// X-Ray does not support asymmetric KMS keys.
   /// </li>
   /// <li>
   /// <b>ARN</b> - The full Amazon Resource Name of the key ID or alias. For
@@ -870,7 +929,75 @@ class XRay {
     return PutEncryptionConfigResult.fromJson(response);
   }
 
-  /// Used by the AWS X-Ray daemon to upload telemetry.
+  /// Sets the resource policy to grant one or more Amazon Web Services services
+  /// and accounts permissions to access X-Ray. Each resource policy will be
+  /// associated with a specific Amazon Web Services account. Each Amazon Web
+  /// Services account can have a maximum of 5 resource policies, and each
+  /// policy name must be unique within that account. The maximum size of each
+  /// resource policy is 5KB.
+  ///
+  /// May throw [MalformedPolicyDocumentException].
+  /// May throw [LockoutPreventionException].
+  /// May throw [InvalidPolicyRevisionIdException].
+  /// May throw [PolicySizeLimitExceededException].
+  /// May throw [PolicyCountLimitExceededException].
+  /// May throw [ThrottledException].
+  ///
+  /// Parameter [policyDocument] :
+  /// The resource policy document, which can be up to 5kb in size.
+  ///
+  /// Parameter [policyName] :
+  /// The name of the resource policy. Must be unique within a specific Amazon
+  /// Web Services account.
+  ///
+  /// Parameter [bypassPolicyLockoutCheck] :
+  /// A flag to indicate whether to bypass the resource policy lockout safety
+  /// check.
+  /// <important>
+  /// Setting this value to true increases the risk that the policy becomes
+  /// unmanageable. Do not set this value to true indiscriminately.
+  /// </important>
+  /// Use this parameter only when you include a policy in the request and you
+  /// intend to prevent the principal that is making the request from making a
+  /// subsequent <code>PutResourcePolicy</code> request.
+  ///
+  /// The default value is false.
+  ///
+  /// Parameter [policyRevisionId] :
+  /// Specifies a specific policy revision, to ensure an atomic create
+  /// operation. By default the resource policy is created if it does not exist,
+  /// or updated with an incremented revision id. The revision id is unique to
+  /// each policy in the account.
+  ///
+  /// If the policy revision id does not match the latest revision id, the
+  /// operation will fail with an <code>InvalidPolicyRevisionIdException</code>
+  /// exception. You can also provide a <code>PolicyRevisionId</code> of 0. In
+  /// this case, the operation will fail with an
+  /// <code>InvalidPolicyRevisionIdException</code> exception if a resource
+  /// policy with the same name already exists.
+  Future<PutResourcePolicyResult> putResourcePolicy({
+    required String policyDocument,
+    required String policyName,
+    bool? bypassPolicyLockoutCheck,
+    String? policyRevisionId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'PolicyDocument': policyDocument,
+      'PolicyName': policyName,
+      if (bypassPolicyLockoutCheck != null)
+        'BypassPolicyLockoutCheck': bypassPolicyLockoutCheck,
+      if (policyRevisionId != null) 'PolicyRevisionId': policyRevisionId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/PutResourcePolicy',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutResourcePolicyResult.fromJson(response);
+  }
+
+  /// Used by the Amazon Web Services X-Ray daemon to upload telemetry.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottledException].
@@ -906,7 +1033,7 @@ class XRay {
     );
   }
 
-  /// Uploads segment documents to AWS X-Ray. The <a
+  /// Uploads segment documents to Amazon Web Services X-Ray. The <a
   /// href="https://docs.aws.amazon.com/xray/index.html">X-Ray SDK</a> generates
   /// segment documents and sends them to the X-Ray daemon, which uploads them
   /// in batches. A segment document can be a completed segment, an in-progress
@@ -914,8 +1041,9 @@ class XRay {
   ///
   /// Segments must include the following fields. For the full segment document
   /// schema, see <a
-  /// href="https://docs.aws.amazon.com/xray/latest/devguide/xray-api-segmentdocuments.html">AWS
-  /// X-Ray Segment Documents</a> in the <i>AWS X-Ray Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/xray/latest/devguide/xray-api-segmentdocuments.html">Amazon
+  /// Web Services X-Ray Segment Documents</a> in the <i>Amazon Web Services
+  /// X-Ray Developer Guide</i>.
   /// <p class="title"> <b>Required segment document fields</b>
   ///
   /// <ul>
@@ -989,7 +1117,8 @@ class XRay {
     return PutTraceSegmentsResult.fromJson(response);
   }
 
-  /// Applies tags to an existing AWS X-Ray group or sampling rule.
+  /// Applies tags to an existing Amazon Web Services X-Ray group or sampling
+  /// rule.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottledException].
@@ -1004,7 +1133,8 @@ class XRay {
   /// X-Ray group or sampling rule. For more information about ways to use tags,
   /// see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
-  /// AWS resources</a> in the <i>AWS General Reference</i>.
+  /// Amazon Web Services resources</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
   ///
   /// The following restrictions apply to tags:
   ///
@@ -1026,8 +1156,8 @@ class XRay {
   /// Tag keys and values are case sensitive.
   /// </li>
   /// <li>
-  /// Don't use <code>aws:</code> as a prefix for keys; it's reserved for AWS
-  /// use. You cannot edit or delete system tags.
+  /// Don't use <code>aws:</code> as a prefix for keys; it's reserved for Amazon
+  /// Web Services use. You cannot edit or delete system tags.
   /// </li>
   /// </ul>
   Future<void> tagResource({
@@ -1046,8 +1176,9 @@ class XRay {
     );
   }
 
-  /// Removes tags from an AWS X-Ray group or sampling rule. You cannot edit or
-  /// delete system tags (those with an <code>aws:</code> prefix).
+  /// Removes tags from an Amazon Web Services X-Ray group or sampling rule. You
+  /// cannot edit or delete system tags (those with an <code>aws:</code>
+  /// prefix).
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottledException].
@@ -1098,7 +1229,7 @@ class XRay {
   /// group or false to disable insights for the group.
   /// </li>
   /// <li>
-  /// The NotifcationsEnabled boolean can be set to true to enable insights
+  /// The NotificationsEnabled boolean can be set to true to enable insights
   /// notifications for the group. Notifications can only be enabled on a group
   /// with InsightsEnabled set to true.
   /// </li>
@@ -1164,6 +1295,7 @@ class Alias {
     this.names,
     this.type,
   });
+
   factory Alias.fromJson(Map<String, dynamic> json) {
     return Alias(
       name: json['Name'] as String?,
@@ -1193,6 +1325,7 @@ class AnnotationValue {
     this.numberValue,
     this.stringValue,
   });
+
   factory AnnotationValue.fromJson(Map<String, dynamic> json) {
     return AnnotationValue(
       booleanValue: json['BooleanValue'] as bool?,
@@ -1209,6 +1342,7 @@ class AnomalousService {
   AnomalousService({
     this.serviceId,
   });
+
   factory AnomalousService.fromJson(Map<String, dynamic> json) {
     return AnomalousService(
       serviceId: json['ServiceId'] != null
@@ -1226,6 +1360,7 @@ class AvailabilityZoneDetail {
   AvailabilityZoneDetail({
     this.name,
   });
+
   factory AvailabilityZoneDetail.fromJson(Map<String, dynamic> json) {
     return AvailabilityZoneDetail(
       name: json['Name'] as String?,
@@ -1295,6 +1430,7 @@ class BatchGetTracesResult {
     this.traces,
     this.unprocessedTraceIds,
   });
+
   factory BatchGetTracesResult.fromJson(Map<String, dynamic> json) {
     return BatchGetTracesResult(
       nextToken: json['NextToken'] as String?,
@@ -1320,6 +1456,7 @@ class CreateGroupResult {
   CreateGroupResult({
     this.group,
   });
+
   factory CreateGroupResult.fromJson(Map<String, dynamic> json) {
     return CreateGroupResult(
       group: json['Group'] != null
@@ -1336,6 +1473,7 @@ class CreateSamplingRuleResult {
   CreateSamplingRuleResult({
     this.samplingRuleRecord,
   });
+
   factory CreateSamplingRuleResult.fromJson(Map<String, dynamic> json) {
     return CreateSamplingRuleResult(
       samplingRuleRecord: json['SamplingRuleRecord'] != null
@@ -1348,8 +1486,17 @@ class CreateSamplingRuleResult {
 
 class DeleteGroupResult {
   DeleteGroupResult();
+
   factory DeleteGroupResult.fromJson(Map<String, dynamic> _) {
     return DeleteGroupResult();
+  }
+}
+
+class DeleteResourcePolicyResult {
+  DeleteResourcePolicyResult();
+
+  factory DeleteResourcePolicyResult.fromJson(Map<String, dynamic> _) {
+    return DeleteResourcePolicyResult();
   }
 }
 
@@ -1360,6 +1507,7 @@ class DeleteSamplingRuleResult {
   DeleteSamplingRuleResult({
     this.samplingRuleRecord,
   });
+
   factory DeleteSamplingRuleResult.fromJson(Map<String, dynamic> json) {
     return DeleteSamplingRuleResult(
       samplingRuleRecord: json['SamplingRuleRecord'] != null
@@ -1370,18 +1518,30 @@ class DeleteSamplingRuleResult {
   }
 }
 
-/// Information about a connection between two services.
+/// Information about a connection between two services. An edge can be a
+/// synchronous connection, such as typical call between client and service, or
+/// an asynchronous link, such as a Lambda function which retrieves an event
+/// from an SNS queue.
 class Edge {
   /// Aliases for the edge.
   final List<Alias>? aliases;
 
+  /// Describes an asynchronous connection, with a value of <code>link</code>.
+  final String? edgeType;
+
   /// The end time of the last segment on the edge.
   final DateTime? endTime;
+
+  /// A histogram that maps the spread of event age when received by consumers.
+  /// Age is calculated each time an event is received. Only populated when
+  /// <i>EdgeType</i> is <code>link</code>.
+  final List<HistogramEntry>? receivedEventAgeHistogram;
 
   /// Identifier of the edge. Unique within a service map.
   final int? referenceId;
 
-  /// A histogram that maps the spread of client response times on an edge.
+  /// A histogram that maps the spread of client response times on an edge. Only
+  /// populated for synchronous edges.
   final List<HistogramEntry>? responseTimeHistogram;
 
   /// The start time of the first segment on the edge.
@@ -1392,19 +1552,27 @@ class Edge {
 
   Edge({
     this.aliases,
+    this.edgeType,
     this.endTime,
+    this.receivedEventAgeHistogram,
     this.referenceId,
     this.responseTimeHistogram,
     this.startTime,
     this.summaryStatistics,
   });
+
   factory Edge.fromJson(Map<String, dynamic> json) {
     return Edge(
       aliases: (json['Aliases'] as List?)
           ?.whereNotNull()
           .map((e) => Alias.fromJson(e as Map<String, dynamic>))
           .toList(),
+      edgeType: json['EdgeType'] as String?,
       endTime: timeStampFromJson(json['EndTime']),
+      receivedEventAgeHistogram: (json['ReceivedEventAgeHistogram'] as List?)
+          ?.whereNotNull()
+          .map((e) => HistogramEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
       referenceId: json['ReferenceId'] as int?,
       responseTimeHistogram: (json['ResponseTimeHistogram'] as List?)
           ?.whereNotNull()
@@ -1443,6 +1611,7 @@ class EdgeStatistics {
     this.totalCount,
     this.totalResponseTime,
   });
+
   factory EdgeStatistics.fromJson(Map<String, dynamic> json) {
     return EdgeStatistics(
       errorStatistics: json['ErrorStatistics'] != null
@@ -1462,15 +1631,15 @@ class EdgeStatistics {
 
 /// A configuration document that specifies encryption configuration settings.
 class EncryptionConfig {
-  /// The ID of the customer master key (CMK) used for encryption, if applicable.
+  /// The ID of the KMS key used for encryption, if applicable.
   final String? keyId;
 
   /// The encryption status. While the status is <code>UPDATING</code>, X-Ray may
   /// encrypt data with a combination of the new and old settings.
   final EncryptionStatus? status;
 
-  /// The type of encryption. Set to <code>KMS</code> for encryption with CMKs.
-  /// Set to <code>NONE</code> for default encryption.
+  /// The type of encryption. Set to <code>KMS</code> for encryption with KMS
+  /// keys. Set to <code>NONE</code> for default encryption.
   final EncryptionType? type;
 
   EncryptionConfig({
@@ -1478,6 +1647,7 @@ class EncryptionConfig {
     this.status,
     this.type,
   });
+
   factory EncryptionConfig.fromJson(Map<String, dynamic> json) {
     return EncryptionConfig(
       keyId: json['KeyId'] as String?,
@@ -1556,6 +1726,7 @@ class ErrorRootCause {
     this.clientImpacting,
     this.services,
   });
+
   factory ErrorRootCause.fromJson(Map<String, dynamic> json) {
     return ErrorRootCause(
       clientImpacting: json['ClientImpacting'] as bool?,
@@ -1584,6 +1755,7 @@ class ErrorRootCauseEntity {
     this.name,
     this.remote,
   });
+
   factory ErrorRootCauseEntity.fromJson(Map<String, dynamic> json) {
     return ErrorRootCauseEntity(
       exceptions: (json['Exceptions'] as List?)
@@ -1624,6 +1796,7 @@ class ErrorRootCauseService {
     this.names,
     this.type,
   });
+
   factory ErrorRootCauseService.fromJson(Map<String, dynamic> json) {
     return ErrorRootCauseService(
       accountId: json['AccountId'] as String?,
@@ -1660,6 +1833,7 @@ class ErrorStatistics {
     this.throttleCount,
     this.totalCount,
   });
+
   factory ErrorStatistics.fromJson(Map<String, dynamic> json) {
     return ErrorStatistics(
       otherCount: json['OtherCount'] as int?,
@@ -1682,6 +1856,7 @@ class FaultRootCause {
     this.clientImpacting,
     this.services,
   });
+
   factory FaultRootCause.fromJson(Map<String, dynamic> json) {
     return FaultRootCause(
       clientImpacting: json['ClientImpacting'] as bool?,
@@ -1710,6 +1885,7 @@ class FaultRootCauseEntity {
     this.name,
     this.remote,
   });
+
   factory FaultRootCauseEntity.fromJson(Map<String, dynamic> json) {
     return FaultRootCauseEntity(
       exceptions: (json['Exceptions'] as List?)
@@ -1750,6 +1926,7 @@ class FaultRootCauseService {
     this.names,
     this.type,
   });
+
   factory FaultRootCauseService.fromJson(Map<String, dynamic> json) {
     return FaultRootCauseService(
       accountId: json['AccountId'] as String?,
@@ -1782,6 +1959,7 @@ class FaultStatistics {
     this.otherCount,
     this.totalCount,
   });
+
   factory FaultStatistics.fromJson(Map<String, dynamic> json) {
     return FaultStatistics(
       otherCount: json['OtherCount'] as int?,
@@ -1803,6 +1981,7 @@ class ForecastStatistics {
     this.faultCountHigh,
     this.faultCountLow,
   });
+
   factory ForecastStatistics.fromJson(Map<String, dynamic> json) {
     return ForecastStatistics(
       faultCountHigh: json['FaultCountHigh'] as int?,
@@ -1818,6 +1997,7 @@ class GetEncryptionConfigResult {
   GetEncryptionConfigResult({
     this.encryptionConfig,
   });
+
   factory GetEncryptionConfigResult.fromJson(Map<String, dynamic> json) {
     return GetEncryptionConfigResult(
       encryptionConfig: json['EncryptionConfig'] != null
@@ -1837,6 +2017,7 @@ class GetGroupResult {
   GetGroupResult({
     this.group,
   });
+
   factory GetGroupResult.fromJson(Map<String, dynamic> json) {
     return GetGroupResult(
       group: json['Group'] != null
@@ -1857,6 +2038,7 @@ class GetGroupsResult {
     this.groups,
     this.nextToken,
   });
+
   factory GetGroupsResult.fromJson(Map<String, dynamic> json) {
     return GetGroupsResult(
       groups: (json['Groups'] as List?)
@@ -1881,6 +2063,7 @@ class GetInsightEventsResult {
     this.insightEvents,
     this.nextToken,
   });
+
   factory GetInsightEventsResult.fromJson(Map<String, dynamic> json) {
     return GetInsightEventsResult(
       insightEvents: (json['InsightEvents'] as List?)
@@ -1908,7 +2091,7 @@ class GetInsightImpactGraphResult {
   /// The time, in Unix seconds, at which the service graph started.
   final DateTime? serviceGraphStartTime;
 
-  /// The AWS instrumented services related to the insight.
+  /// The Amazon Web Services instrumented services related to the insight.
   final List<InsightImpactGraphService>? services;
 
   /// The provided start time.
@@ -1923,6 +2106,7 @@ class GetInsightImpactGraphResult {
     this.services,
     this.startTime,
   });
+
   factory GetInsightImpactGraphResult.fromJson(Map<String, dynamic> json) {
     return GetInsightImpactGraphResult(
       endTime: timeStampFromJson(json['EndTime']),
@@ -1947,6 +2131,7 @@ class GetInsightResult {
   GetInsightResult({
     this.insight,
   });
+
   factory GetInsightResult.fromJson(Map<String, dynamic> json) {
     return GetInsightResult(
       insight: json['Insight'] != null
@@ -1970,6 +2155,7 @@ class GetInsightSummariesResult {
     this.insightSummaries,
     this.nextToken,
   });
+
   factory GetInsightSummariesResult.fromJson(Map<String, dynamic> json) {
     return GetInsightSummariesResult(
       insightSummaries: (json['InsightSummaries'] as List?)
@@ -1992,6 +2178,7 @@ class GetSamplingRulesResult {
     this.nextToken,
     this.samplingRuleRecords,
   });
+
   factory GetSamplingRulesResult.fromJson(Map<String, dynamic> json) {
     return GetSamplingRulesResult(
       nextToken: json['NextToken'] as String?,
@@ -2015,6 +2202,7 @@ class GetSamplingStatisticSummariesResult {
     this.nextToken,
     this.samplingStatisticSummaries,
   });
+
   factory GetSamplingStatisticSummariesResult.fromJson(
       Map<String, dynamic> json) {
     return GetSamplingStatisticSummariesResult(
@@ -2031,14 +2219,17 @@ class GetSamplingStatisticSummariesResult {
 class GetSamplingTargetsResult {
   /// The last time a user changed the sampling rule configuration. If the
   /// sampling rule configuration changed since the service last retrieved it, the
-  /// service should call <a>GetSamplingRules</a> to get the latest version.
+  /// service should call <a
+  /// href="https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingRules.html">GetSamplingRules</a>
+  /// to get the latest version.
   final DateTime? lastRuleModification;
 
   /// Updated rules that the service should use to sample requests.
   final List<SamplingTargetDocument>? samplingTargetDocuments;
 
-  /// Information about <a>SamplingStatisticsDocument</a> that X-Ray could not
-  /// process.
+  /// Information about <a
+  /// href="https://docs.aws.amazon.com/xray/latest/api/API_SamplingStatisticsDocument.html">SamplingStatisticsDocument</a>
+  /// that X-Ray could not process.
   final List<UnprocessedStatistics>? unprocessedStatistics;
 
   GetSamplingTargetsResult({
@@ -2046,6 +2237,7 @@ class GetSamplingTargetsResult {
     this.samplingTargetDocuments,
     this.unprocessedStatistics,
   });
+
   factory GetSamplingTargetsResult.fromJson(Map<String, dynamic> json) {
     return GetSamplingTargetsResult(
       lastRuleModification: timeStampFromJson(json['LastRuleModification']),
@@ -2088,6 +2280,7 @@ class GetServiceGraphResult {
     this.services,
     this.startTime,
   });
+
   factory GetServiceGraphResult.fromJson(Map<String, dynamic> json) {
     return GetServiceGraphResult(
       containsOldGroupVersions: json['ContainsOldGroupVersions'] as bool?,
@@ -2119,6 +2312,7 @@ class GetTimeSeriesServiceStatisticsResult {
     this.nextToken,
     this.timeSeriesServiceStatistics,
   });
+
   factory GetTimeSeriesServiceStatisticsResult.fromJson(
       Map<String, dynamic> json) {
     return GetTimeSeriesServiceStatisticsResult(
@@ -2145,6 +2339,7 @@ class GetTraceGraphResult {
     this.nextToken,
     this.services,
   });
+
   factory GetTraceGraphResult.fromJson(Map<String, dynamic> json) {
     return GetTraceGraphResult(
       nextToken: json['NextToken'] as String?,
@@ -2179,6 +2374,7 @@ class GetTraceSummariesResult {
     this.traceSummaries,
     this.tracesProcessedCount,
   });
+
   factory GetTraceSummariesResult.fromJson(Map<String, dynamic> json) {
     return GetTraceSummariesResult(
       approximateTime: timeStampFromJson(json['ApproximateTime']),
@@ -2212,7 +2408,7 @@ class Group {
   /// group or false to disable insights for the group.
   /// </li>
   /// <li>
-  /// The NotifcationsEnabled boolean can be set to true to enable insights
+  /// The NotificationsEnabled boolean can be set to true to enable insights
   /// notifications through Amazon EventBridge for the group.
   /// </li>
   /// </ul>
@@ -2224,6 +2420,7 @@ class Group {
     this.groupName,
     this.insightsConfiguration,
   });
+
   factory Group.fromJson(Map<String, dynamic> json) {
     return Group(
       filterExpression: json['FilterExpression'] as String?,
@@ -2269,6 +2466,7 @@ class GroupSummary {
     this.groupName,
     this.insightsConfiguration,
   });
+
   factory GroupSummary.fromJson(Map<String, dynamic> json) {
     return GroupSummary(
       filterExpression: json['FilterExpression'] as String?,
@@ -2296,6 +2494,7 @@ class HistogramEntry {
     this.count,
     this.value,
   });
+
   factory HistogramEntry.fromJson(Map<String, dynamic> json) {
     return HistogramEntry(
       count: json['Count'] as int?,
@@ -2328,6 +2527,7 @@ class Http {
     this.httpURL,
     this.userAgent,
   });
+
   factory Http.fromJson(Map<String, dynamic> json) {
     return Http(
       clientIp: json['ClientIp'] as String?,
@@ -2393,6 +2593,7 @@ class Insight {
     this.summary,
     this.topAnomalousServices,
   });
+
   factory Insight.fromJson(Map<String, dynamic> json) {
     return Insight(
       categories: (json['Categories'] as List?)
@@ -2481,6 +2682,7 @@ class InsightEvent {
     this.summary,
     this.topAnomalousServices,
   });
+
   factory InsightEvent.fromJson(Map<String, dynamic> json) {
     return InsightEvent(
       clientRequestImpactStatistics:
@@ -2512,6 +2714,7 @@ class InsightImpactGraphEdge {
   InsightImpactGraphEdge({
     this.referenceId,
   });
+
   factory InsightImpactGraphEdge.fromJson(Map<String, dynamic> json) {
     return InsightImpactGraphEdge(
       referenceId: json['ReferenceId'] as int?,
@@ -2523,7 +2726,7 @@ class InsightImpactGraphEdge {
 /// requests, or downstream services, resources, and applications that an
 /// application used.
 class InsightImpactGraphService {
-  /// Identifier of the AWS account in which the service runs.
+  /// Identifier of the Amazon Web Services account in which the service runs.
   final String? accountId;
 
   /// Connections to downstream services.
@@ -2542,17 +2745,19 @@ class InsightImpactGraphService {
   ///
   /// <ul>
   /// <li>
-  /// AWS Resource - The type of an AWS resource. For example, AWS::EC2::Instance
-  /// for an application running on Amazon EC2 or AWS::DynamoDB::Table for an
-  /// Amazon DynamoDB table that the application used.
+  /// Amazon Web Services Resource - The type of an Amazon Web Services resource.
+  /// For example, AWS::EC2::Instance for an application running on Amazon EC2 or
+  /// AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.
   /// </li>
   /// <li>
-  /// AWS Service - The type of an AWS service. For example, AWS::DynamoDB for
-  /// downstream calls to Amazon DynamoDB that didn't target a specific table.
+  /// Amazon Web Services Service - The type of an Amazon Web Services service.
+  /// For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that
+  /// didn't target a specific table.
   /// </li>
   /// <li>
-  /// AWS Service - The type of an AWS service. For example, AWS::DynamoDB for
-  /// downstream calls to Amazon DynamoDB that didn't target a specific table.
+  /// Amazon Web Services Service - The type of an Amazon Web Services service.
+  /// For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that
+  /// didn't target a specific table.
   /// </li>
   /// <li>
   /// remote - A downstream service of indeterminate type.
@@ -2568,6 +2773,7 @@ class InsightImpactGraphService {
     this.referenceId,
     this.type,
   });
+
   factory InsightImpactGraphService.fromJson(Map<String, dynamic> json) {
     return InsightImpactGraphService(
       accountId: json['AccountId'] as String?,
@@ -2672,6 +2878,7 @@ class InsightSummary {
     this.summary,
     this.topAnomalousServices,
   });
+
   factory InsightSummary.fromJson(Map<String, dynamic> json) {
     return InsightSummary(
       categories: (json['Categories'] as List?)
@@ -2724,6 +2931,7 @@ class InsightsConfiguration {
     this.insightsEnabled,
     this.notificationsEnabled,
   });
+
   factory InsightsConfiguration.fromJson(Map<String, dynamic> json) {
     return InsightsConfiguration(
       insightsEnabled: json['InsightsEnabled'] as bool?,
@@ -2750,9 +2958,33 @@ class InstanceIdDetail {
   InstanceIdDetail({
     this.id,
   });
+
   factory InstanceIdDetail.fromJson(Map<String, dynamic> json) {
     return InstanceIdDetail(
       id: json['Id'] as String?,
+    );
+  }
+}
+
+class ListResourcePoliciesResult {
+  /// Pagination token. Not currently supported.
+  final String? nextToken;
+
+  /// The list of resource policies in the target Amazon Web Services account.
+  final List<ResourcePolicy>? resourcePolicies;
+
+  ListResourcePoliciesResult({
+    this.nextToken,
+    this.resourcePolicies,
+  });
+
+  factory ListResourcePoliciesResult.fromJson(Map<String, dynamic> json) {
+    return ListResourcePoliciesResult(
+      nextToken: json['NextToken'] as String?,
+      resourcePolicies: (json['ResourcePolicies'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourcePolicy.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }
@@ -2771,6 +3003,7 @@ class ListTagsForResourceResponse {
     this.nextToken,
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       nextToken: json['NextToken'] as String?,
@@ -2789,6 +3022,7 @@ class PutEncryptionConfigResult {
   PutEncryptionConfigResult({
     this.encryptionConfig,
   });
+
   factory PutEncryptionConfigResult.fromJson(Map<String, dynamic> json) {
     return PutEncryptionConfigResult(
       encryptionConfig: json['EncryptionConfig'] != null
@@ -2799,8 +3033,28 @@ class PutEncryptionConfigResult {
   }
 }
 
+class PutResourcePolicyResult {
+  /// The resource policy document, as provided in the
+  /// <code>PutResourcePolicyRequest</code>.
+  final ResourcePolicy? resourcePolicy;
+
+  PutResourcePolicyResult({
+    this.resourcePolicy,
+  });
+
+  factory PutResourcePolicyResult.fromJson(Map<String, dynamic> json) {
+    return PutResourcePolicyResult(
+      resourcePolicy: json['ResourcePolicy'] != null
+          ? ResourcePolicy.fromJson(
+              json['ResourcePolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 class PutTelemetryRecordsResult {
   PutTelemetryRecordsResult();
+
   factory PutTelemetryRecordsResult.fromJson(Map<String, dynamic> _) {
     return PutTelemetryRecordsResult();
   }
@@ -2813,6 +3067,7 @@ class PutTraceSegmentsResult {
   PutTraceSegmentsResult({
     this.unprocessedTraceSegments,
   });
+
   factory PutTraceSegmentsResult.fromJson(Map<String, dynamic> json) {
     return PutTraceSegmentsResult(
       unprocessedTraceSegments: (json['UnprocessedTraceSegments'] as List?)
@@ -2840,6 +3095,7 @@ class RequestImpactStatistics {
     this.okCount,
     this.totalCount,
   });
+
   factory RequestImpactStatistics.fromJson(Map<String, dynamic> json) {
     return RequestImpactStatistics(
       faultCount: json['FaultCount'] as int?,
@@ -2857,9 +3113,44 @@ class ResourceARNDetail {
   ResourceARNDetail({
     this.arn,
   });
+
   factory ResourceARNDetail.fromJson(Map<String, dynamic> json) {
     return ResourceARNDetail(
       arn: json['ARN'] as String?,
+    );
+  }
+}
+
+/// A resource policy grants one or more Amazon Web Services services and
+/// accounts permissions to access X-Ray. Each resource policy is associated
+/// with a specific Amazon Web Services account.
+class ResourcePolicy {
+  /// When the policy was last updated, in Unix time seconds.
+  final DateTime? lastUpdatedTime;
+
+  /// The resource policy document, which can be up to 5kb in size.
+  final String? policyDocument;
+
+  /// The name of the resource policy. Must be unique within a specific Amazon Web
+  /// Services account.
+  final String? policyName;
+
+  /// Returns the current policy revision id for this policy name.
+  final String? policyRevisionId;
+
+  ResourcePolicy({
+    this.lastUpdatedTime,
+    this.policyDocument,
+    this.policyName,
+    this.policyRevisionId,
+  });
+
+  factory ResourcePolicy.fromJson(Map<String, dynamic> json) {
+    return ResourcePolicy(
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      policyDocument: json['PolicyDocument'] as String?,
+      policyName: json['PolicyName'] as String?,
+      policyRevisionId: json['PolicyRevisionId'] as String?,
     );
   }
 }
@@ -2877,6 +3168,7 @@ class ResponseTimeRootCause {
     this.clientImpacting,
     this.services,
   });
+
   factory ResponseTimeRootCause.fromJson(Map<String, dynamic> json) {
     return ResponseTimeRootCause(
       clientImpacting: json['ClientImpacting'] as bool?,
@@ -2906,6 +3198,7 @@ class ResponseTimeRootCauseEntity {
     this.name,
     this.remote,
   });
+
   factory ResponseTimeRootCauseEntity.fromJson(Map<String, dynamic> json) {
     return ResponseTimeRootCauseEntity(
       coverage: json['Coverage'] as double?,
@@ -2943,6 +3236,7 @@ class ResponseTimeRootCauseService {
     this.names,
     this.type,
   });
+
   factory ResponseTimeRootCauseService.fromJson(Map<String, dynamic> json) {
     return ResponseTimeRootCauseService(
       accountId: json['AccountId'] as String?,
@@ -2974,6 +3268,7 @@ class RootCauseException {
     this.message,
     this.name,
   });
+
   factory RootCauseException.fromJson(Map<String, dynamic> json) {
     return RootCauseException(
       message: json['Message'] as String?,
@@ -3004,7 +3299,8 @@ class SamplingRule {
   /// applies to all services using the rule collectively.
   final int reservoirSize;
 
-  /// Matches the ARN of the AWS resource on which the service runs.
+  /// Matches the ARN of the Amazon Web Services resource on which the service
+  /// runs.
   final String resourceARN;
 
   /// Matches the <code>name</code> that the service uses to identify itself in
@@ -3047,6 +3343,7 @@ class SamplingRule {
     this.ruleARN,
     this.ruleName,
   });
+
   factory SamplingRule.fromJson(Map<String, dynamic> json) {
     return SamplingRule(
       fixedRate: json['FixedRate'] as double,
@@ -3098,7 +3395,9 @@ class SamplingRule {
   }
 }
 
-/// A <a>SamplingRule</a> and its metadata.
+/// A <a
+/// href="https://docs.aws.amazon.com/xray/latest/api/API_SamplingRule.html">SamplingRule</a>
+/// and its metadata.
 class SamplingRuleRecord {
   /// When the rule was created.
   final DateTime? createdAt;
@@ -3114,6 +3413,7 @@ class SamplingRuleRecord {
     this.modifiedAt,
     this.samplingRule,
   });
+
   factory SamplingRuleRecord.fromJson(Map<String, dynamic> json) {
     return SamplingRuleRecord(
       createdAt: timeStampFromJson(json['CreatedAt']),
@@ -3148,7 +3448,8 @@ class SamplingRuleUpdate {
   /// applies to all services using the rule collectively.
   final int? reservoirSize;
 
-  /// Matches the ARN of the AWS resource on which the service runs.
+  /// Matches the ARN of the Amazon Web Services resource on which the service
+  /// runs.
   final String? resourceARN;
 
   /// The ARN of the sampling rule. Specify a rule by either name or ARN, but not
@@ -3239,6 +3540,7 @@ class SamplingStatisticSummary {
     this.sampledCount,
     this.timestamp,
   });
+
   factory SamplingStatisticSummary.fromJson(Map<String, dynamic> json) {
     return SamplingStatisticSummary(
       borrowCount: json['BorrowCount'] as int?,
@@ -3252,7 +3554,8 @@ class SamplingStatisticSummary {
 
 /// Request sampling results for a single rule from a service. Results are for
 /// the last 10 seconds unless the service has been assigned a longer reporting
-/// interval after a previous call to <a>GetSamplingTargets</a>.
+/// interval after a previous call to <a
+/// href="https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingTargets.html">GetSamplingTargets</a>.
 class SamplingStatisticsDocument {
   /// A unique identifier for the service in hexadecimal.
   final String clientID;
@@ -3350,8 +3653,8 @@ extension SamplingStrategyNameFromString on String {
 
 /// Temporary changes to a sampling rule configuration. To meet the global
 /// sampling target for a rule, X-Ray calculates a new reservoir for each
-/// service based on the recent sampling results of all services that called
-/// <a>GetSamplingTargets</a>.
+/// service based on the recent sampling results of all services that called <a
+/// href="https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingTargets.html">GetSamplingTargets</a>.
 class SamplingTargetDocument {
   /// The percentage of matching requests to instrument, after the reservoir is
   /// exhausted.
@@ -3377,6 +3680,7 @@ class SamplingTargetDocument {
     this.reservoirQuotaTTL,
     this.ruleName,
   });
+
   factory SamplingTargetDocument.fromJson(Map<String, dynamic> json) {
     return SamplingTargetDocument(
       fixedRate: json['FixedRate'] as double?,
@@ -3389,14 +3693,15 @@ class SamplingTargetDocument {
 }
 
 /// A segment from a trace that has been ingested by the X-Ray service. The
-/// segment can be compiled from documents uploaded with
-/// <a>PutTraceSegments</a>, or an <code>inferred</code> segment for a
-/// downstream service, generated from a subsegment sent by the service that
-/// called it.
+/// segment can be compiled from documents uploaded with <a
+/// href="https://docs.aws.amazon.com/xray/latest/api/API_PutTraceSegments.html">PutTraceSegments</a>,
+/// or an <code>inferred</code> segment for a downstream service, generated from
+/// a subsegment sent by the service that called it.
 ///
 /// For the full segment document schema, see <a
-/// href="https://docs.aws.amazon.com/xray/latest/devguide/xray-api-segmentdocuments.html">AWS
-/// X-Ray Segment Documents</a> in the <i>AWS X-Ray Developer Guide</i>.
+/// href="https://docs.aws.amazon.com/xray/latest/devguide/xray-api-segmentdocuments.html">Amazon
+/// Web Services X-Ray Segment Documents</a> in the <i>Amazon Web Services X-Ray
+/// Developer Guide</i>.
 class Segment {
   /// The segment document.
   final String? document;
@@ -3408,6 +3713,7 @@ class Segment {
     this.document,
     this.id,
   });
+
   factory Segment.fromJson(Map<String, dynamic> json) {
     return Segment(
       document: json['Document'] as String?,
@@ -3420,7 +3726,7 @@ class Segment {
 /// requests, or downstream services, resources, and applications that an
 /// application used.
 class Service {
-  /// Identifier of the AWS account in which the service runs.
+  /// Identifier of the Amazon Web Services account in which the service runs.
   final String? accountId;
 
   /// A histogram that maps the spread of service durations.
@@ -3460,15 +3766,15 @@ class Service {
   ///
   /// <ul>
   /// <li>
-  /// AWS Resource - The type of an AWS resource. For example,
-  /// <code>AWS::EC2::Instance</code> for an application running on Amazon EC2 or
-  /// <code>AWS::DynamoDB::Table</code> for an Amazon DynamoDB table that the
-  /// application used.
+  /// Amazon Web Services Resource - The type of an Amazon Web Services resource.
+  /// For example, <code>AWS::EC2::Instance</code> for an application running on
+  /// Amazon EC2 or <code>AWS::DynamoDB::Table</code> for an Amazon DynamoDB table
+  /// that the application used.
   /// </li>
   /// <li>
-  /// AWS Service - The type of an AWS service. For example,
-  /// <code>AWS::DynamoDB</code> for downstream calls to Amazon DynamoDB that
-  /// didn't target a specific table.
+  /// Amazon Web Services Service - The type of an Amazon Web Services service.
+  /// For example, <code>AWS::DynamoDB</code> for downstream calls to Amazon
+  /// DynamoDB that didn't target a specific table.
   /// </li>
   /// <li>
   /// <code>client</code> - Represents the clients that sent requests to a root
@@ -3495,6 +3801,7 @@ class Service {
     this.summaryStatistics,
     this.type,
   });
+
   factory Service.fromJson(Map<String, dynamic> json) {
     return Service(
       accountId: json['AccountId'] as String?,
@@ -3549,6 +3856,7 @@ class ServiceId {
     this.names,
     this.type,
   });
+
   factory ServiceId.fromJson(Map<String, dynamic> json) {
     return ServiceId(
       accountId: json['AccountId'] as String?,
@@ -3586,6 +3894,7 @@ class ServiceStatistics {
     this.totalCount,
     this.totalResponseTime,
   });
+
   factory ServiceStatistics.fromJson(Map<String, dynamic> json) {
     return ServiceStatistics(
       errorStatistics: json['ErrorStatistics'] != null
@@ -3603,10 +3912,12 @@ class ServiceStatistics {
   }
 }
 
-/// A map that contains tag keys and tag values to attach to an AWS X-Ray group
-/// or sampling rule. For more information about ways to use tags, see <a
+/// A map that contains tag keys and tag values to attach to an Amazon Web
+/// Services X-Ray group or sampling rule. For more information about ways to
+/// use tags, see <a
 /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
-/// AWS resources</a> in the <i>AWS General Reference</i>.
+/// Amazon Web Services resources</a> in the <i>Amazon Web Services General
+/// Reference</i>.
 ///
 /// The following restrictions apply to tags:
 ///
@@ -3618,8 +3929,8 @@ class ServiceStatistics {
 /// Tag keys and values are case sensitive.
 /// </li>
 /// <li>
-/// Don't use <code>aws:</code> as a prefix for keys; it's reserved for AWS use.
-/// You cannot edit or delete system tags.
+/// Don't use <code>aws:</code> as a prefix for keys; it's reserved for Amazon
+/// Web Services use. You cannot edit or delete system tags.
 /// </li>
 /// </ul>
 class Tag {
@@ -3639,6 +3950,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -3658,6 +3970,7 @@ class Tag {
 
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
@@ -3762,6 +4075,7 @@ class TimeSeriesServiceStatistics {
     this.serviceSummaryStatistics,
     this.timestamp,
   });
+
   factory TimeSeriesServiceStatistics.fromJson(Map<String, dynamic> json) {
     return TimeSeriesServiceStatistics(
       edgeSummaryStatistics: json['EdgeSummaryStatistics'] != null
@@ -3795,10 +4109,11 @@ class Trace {
   /// and subsegments.
   final String? id;
 
-  /// LimitExceeded is set to true when the trace has exceeded one of the defined
-  /// quotas. For more information about quotas, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/xray.html">AWS X-Ray
-  /// endpoints and quotas</a>.
+  /// LimitExceeded is set to true when the trace has exceeded the <code>Trace
+  /// document size</code> limit. For more information about this limit and other
+  /// X-Ray limits and quotas, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/xray.html">Amazon Web
+  /// Services X-Ray endpoints and quotas</a>.
   final bool? limitExceeded;
 
   /// Segment documents for the segments and subsegments that comprise the trace.
@@ -3810,6 +4125,7 @@ class Trace {
     this.limitExceeded,
     this.segments,
   });
+
   factory Trace.fromJson(Map<String, dynamic> json) {
     return Trace(
       duration: json['Duration'] as double?,
@@ -3919,6 +4235,7 @@ class TraceSummary {
     this.serviceIds,
     this.users,
   });
+
   factory TraceSummary.fromJson(Map<String, dynamic> json) {
     return TraceSummary(
       annotations: (json['Annotations'] as Map<String, dynamic>?)?.map((k, e) =>
@@ -3993,6 +4310,7 @@ class TraceUser {
     this.serviceIds,
     this.userName,
   });
+
   factory TraceUser.fromJson(Map<String, dynamic> json) {
     return TraceUser(
       serviceIds: (json['ServiceIds'] as List?)
@@ -4004,8 +4322,9 @@ class TraceUser {
   }
 }
 
-/// Sampling statistics from a call to <a>GetSamplingTargets</a> that X-Ray
-/// could not process.
+/// Sampling statistics from a call to <a
+/// href="https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingTargets.html">GetSamplingTargets</a>
+/// that X-Ray could not process.
 class UnprocessedStatistics {
   /// The error code.
   final String? errorCode;
@@ -4021,6 +4340,7 @@ class UnprocessedStatistics {
     this.message,
     this.ruleName,
   });
+
   factory UnprocessedStatistics.fromJson(Map<String, dynamic> json) {
     return UnprocessedStatistics(
       errorCode: json['ErrorCode'] as String?,
@@ -4046,6 +4366,7 @@ class UnprocessedTraceSegment {
     this.id,
     this.message,
   });
+
   factory UnprocessedTraceSegment.fromJson(Map<String, dynamic> json) {
     return UnprocessedTraceSegment(
       errorCode: json['ErrorCode'] as String?,
@@ -4057,6 +4378,7 @@ class UnprocessedTraceSegment {
 
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
   }
@@ -4071,6 +4393,7 @@ class UpdateGroupResult {
   UpdateGroupResult({
     this.group,
   });
+
   factory UpdateGroupResult.fromJson(Map<String, dynamic> json) {
     return UpdateGroupResult(
       group: json['Group'] != null
@@ -4087,6 +4410,7 @@ class UpdateSamplingRuleResult {
   UpdateSamplingRuleResult({
     this.samplingRuleRecord,
   });
+
   factory UpdateSamplingRuleResult.fromJson(Map<String, dynamic> json) {
     return UpdateSamplingRuleResult(
       samplingRuleRecord: json['SamplingRuleRecord'] != null
@@ -4109,6 +4433,7 @@ class ValueWithServiceIds {
     this.annotationValue,
     this.serviceIds,
   });
+
   factory ValueWithServiceIds.fromJson(Map<String, dynamic> json) {
     return ValueWithServiceIds(
       annotationValue: json['AnnotationValue'] != null
@@ -4123,9 +4448,46 @@ class ValueWithServiceIds {
   }
 }
 
+class InvalidPolicyRevisionIdException extends _s.GenericAwsException {
+  InvalidPolicyRevisionIdException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'InvalidPolicyRevisionIdException',
+            message: message);
+}
+
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
+}
+
+class LockoutPreventionException extends _s.GenericAwsException {
+  LockoutPreventionException({String? type, String? message})
+      : super(type: type, code: 'LockoutPreventionException', message: message);
+}
+
+class MalformedPolicyDocumentException extends _s.GenericAwsException {
+  MalformedPolicyDocumentException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'MalformedPolicyDocumentException',
+            message: message);
+}
+
+class PolicyCountLimitExceededException extends _s.GenericAwsException {
+  PolicyCountLimitExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'PolicyCountLimitExceededException',
+            message: message);
+}
+
+class PolicySizeLimitExceededException extends _s.GenericAwsException {
+  PolicySizeLimitExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'PolicySizeLimitExceededException',
+            message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
@@ -4149,8 +4511,18 @@ class TooManyTagsException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'InvalidPolicyRevisionIdException': (type, message) =>
+      InvalidPolicyRevisionIdException(type: type, message: message),
   'InvalidRequestException': (type, message) =>
       InvalidRequestException(type: type, message: message),
+  'LockoutPreventionException': (type, message) =>
+      LockoutPreventionException(type: type, message: message),
+  'MalformedPolicyDocumentException': (type, message) =>
+      MalformedPolicyDocumentException(type: type, message: message),
+  'PolicyCountLimitExceededException': (type, message) =>
+      PolicyCountLimitExceededException(type: type, message: message),
+  'PolicySizeLimitExceededException': (type, message) =>
+      PolicySizeLimitExceededException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
   'RuleLimitExceededException': (type, message) =>

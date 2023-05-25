@@ -821,6 +821,7 @@ class AddProfilePermissionResponse {
   AddProfilePermissionResponse({
     this.revisionId,
   });
+
   factory AddProfilePermissionResponse.fromJson(Map<String, dynamic> json) {
     return AddProfilePermissionResponse(
       revisionId: json['revisionId'] as String?,
@@ -935,6 +936,7 @@ class DescribeSigningJobResponse {
     this.status,
     this.statusReason,
   });
+
   factory DescribeSigningJobResponse.fromJson(Map<String, dynamic> json) {
     return DescribeSigningJobResponse(
       completedAt: timeStampFromJson(json['completedAt']),
@@ -1032,6 +1034,7 @@ class EncryptionAlgorithmOptions {
     required this.allowedValues,
     required this.defaultValue,
   });
+
   factory EncryptionAlgorithmOptions.fromJson(Map<String, dynamic> json) {
     return EncryptionAlgorithmOptions(
       allowedValues: (json['allowedValues'] as List)
@@ -1084,6 +1087,7 @@ class GetSigningPlatformResponse {
     this.signingImageFormat,
     this.target,
   });
+
   factory GetSigningPlatformResponse.fromJson(Map<String, dynamic> json) {
     return GetSigningPlatformResponse(
       category: (json['category'] as String?)?.toCategory(),
@@ -1164,6 +1168,7 @@ class GetSigningProfileResponse {
     this.statusReason,
     this.tags,
   });
+
   factory GetSigningProfileResponse.fromJson(Map<String, dynamic> json) {
     return GetSigningProfileResponse(
       arn: json['arn'] as String?,
@@ -1238,6 +1243,7 @@ class HashAlgorithmOptions {
     required this.allowedValues,
     required this.defaultValue,
   });
+
   factory HashAlgorithmOptions.fromJson(Map<String, dynamic> json) {
     return HashAlgorithmOptions(
       allowedValues: (json['allowedValues'] as List)
@@ -1301,6 +1307,7 @@ class ListProfilePermissionsResponse {
     this.policySizeBytes,
     this.revisionId,
   });
+
   factory ListProfilePermissionsResponse.fromJson(Map<String, dynamic> json) {
     return ListProfilePermissionsResponse(
       nextToken: json['nextToken'] as String?,
@@ -1325,6 +1332,7 @@ class ListSigningJobsResponse {
     this.jobs,
     this.nextToken,
   });
+
   factory ListSigningJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListSigningJobsResponse(
       jobs: (json['jobs'] as List?)
@@ -1347,6 +1355,7 @@ class ListSigningPlatformsResponse {
     this.nextToken,
     this.platforms,
   });
+
   factory ListSigningPlatformsResponse.fromJson(Map<String, dynamic> json) {
     return ListSigningPlatformsResponse(
       nextToken: json['nextToken'] as String?,
@@ -1371,6 +1380,7 @@ class ListSigningProfilesResponse {
     this.nextToken,
     this.profiles,
   });
+
   factory ListSigningProfilesResponse.fromJson(Map<String, dynamic> json) {
     return ListSigningProfilesResponse(
       nextToken: json['nextToken'] as String?,
@@ -1389,6 +1399,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -1417,6 +1428,7 @@ class Permission {
     this.profileVersion,
     this.statementId,
   });
+
   factory Permission.fromJson(Map<String, dynamic> json) {
     return Permission(
       action: json['action'] as String?,
@@ -1442,6 +1454,7 @@ class PutSigningProfileResponse {
     this.profileVersion,
     this.profileVersionArn,
   });
+
   factory PutSigningProfileResponse.fromJson(Map<String, dynamic> json) {
     return PutSigningProfileResponse(
       arn: json['arn'] as String?,
@@ -1458,6 +1471,7 @@ class RemoveProfilePermissionResponse {
   RemoveProfilePermissionResponse({
     this.revisionId,
   });
+
   factory RemoveProfilePermissionResponse.fromJson(Map<String, dynamic> json) {
     return RemoveProfilePermissionResponse(
       revisionId: json['revisionId'] as String?,
@@ -1501,6 +1515,7 @@ class S3SignedObject {
     this.bucketName,
     this.key,
   });
+
   factory S3SignedObject.fromJson(Map<String, dynamic> json) {
     return S3SignedObject(
       bucketName: json['bucketName'] as String?,
@@ -1525,6 +1540,7 @@ class S3Source {
     required this.key,
     required this.version,
   });
+
   factory S3Source.fromJson(Map<String, dynamic> json) {
     return S3Source(
       bucketName: json['bucketName'] as String,
@@ -1557,6 +1573,7 @@ class SignatureValidityPeriod {
     this.type,
     this.value,
   });
+
   factory SignatureValidityPeriod.fromJson(Map<String, dynamic> json) {
     return SignatureValidityPeriod(
       type: (json['type'] as String?)?.toValidityType(),
@@ -1583,6 +1600,7 @@ class SignedObject {
   SignedObject({
     this.s3,
   });
+
   factory SignedObject.fromJson(Map<String, dynamic> json) {
     return SignedObject(
       s3: json['s3'] != null
@@ -1604,6 +1622,7 @@ class SigningConfiguration {
     required this.encryptionAlgorithmOptions,
     required this.hashAlgorithmOptions,
   });
+
   factory SigningConfiguration.fromJson(Map<String, dynamic> json) {
     return SigningConfiguration(
       encryptionAlgorithmOptions: EncryptionAlgorithmOptions.fromJson(
@@ -1629,6 +1648,7 @@ class SigningConfigurationOverrides {
     this.encryptionAlgorithm,
     this.hashAlgorithm,
   });
+
   factory SigningConfigurationOverrides.fromJson(Map<String, dynamic> json) {
     return SigningConfigurationOverrides(
       encryptionAlgorithm:
@@ -1660,6 +1680,7 @@ class SigningImageFormat {
     required this.defaultFormat,
     required this.supportedFormats,
   });
+
   factory SigningImageFormat.fromJson(Map<String, dynamic> json) {
     return SigningImageFormat(
       defaultFormat: (json['defaultFormat'] as String).toImageFormat(),
@@ -1734,6 +1755,7 @@ class SigningJob {
     this.source,
     this.status,
   });
+
   factory SigningJob.fromJson(Map<String, dynamic> json) {
     return SigningJob(
       createdAt: timeStampFromJson(json['createdAt']),
@@ -1777,6 +1799,7 @@ class SigningJobRevocationRecord {
     this.revokedAt,
     this.revokedBy,
   });
+
   factory SigningJobRevocationRecord.fromJson(Map<String, dynamic> json) {
     return SigningJobRevocationRecord(
       reason: json['reason'] as String?,
@@ -1795,6 +1818,7 @@ class SigningMaterial {
   SigningMaterial({
     required this.certificateArn,
   });
+
   factory SigningMaterial.fromJson(Map<String, dynamic> json) {
     return SigningMaterial(
       certificateArn: json['certificateArn'] as String,
@@ -1850,6 +1874,7 @@ class SigningPlatform {
     this.signingImageFormat,
     this.target,
   });
+
   factory SigningPlatform.fromJson(Map<String, dynamic> json) {
     return SigningPlatform(
       category: (json['category'] as String?)?.toCategory(),
@@ -1891,6 +1916,7 @@ class SigningPlatformOverrides {
     this.signingConfiguration,
     this.signingImageFormat,
   });
+
   factory SigningPlatformOverrides.fromJson(Map<String, dynamic> json) {
     return SigningPlatformOverrides(
       signingConfiguration: json['signingConfiguration'] != null
@@ -1963,6 +1989,7 @@ class SigningProfile {
     this.status,
     this.tags,
   });
+
   factory SigningProfile.fromJson(Map<String, dynamic> json) {
     return SigningProfile(
       arn: json['arn'] as String?,
@@ -2004,6 +2031,7 @@ class SigningProfileRevocationRecord {
     this.revokedAt,
     this.revokedBy,
   });
+
   factory SigningProfileRevocationRecord.fromJson(Map<String, dynamic> json) {
     return SigningProfileRevocationRecord(
       revocationEffectiveFrom:
@@ -2089,6 +2117,7 @@ class Source {
   Source({
     this.s3,
   });
+
   factory Source.fromJson(Map<String, dynamic> json) {
     return Source(
       s3: json['s3'] != null
@@ -2116,6 +2145,7 @@ class StartSigningJobResponse {
     this.jobId,
     this.jobOwner,
   });
+
   factory StartSigningJobResponse.fromJson(Map<String, dynamic> json) {
     return StartSigningJobResponse(
       jobId: json['jobId'] as String?,
@@ -2126,6 +2156,7 @@ class StartSigningJobResponse {
 
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
@@ -2133,6 +2164,7 @@ class TagResourceResponse {
 
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
   }

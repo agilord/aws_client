@@ -18,12 +18,17 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// This is the <i>AWS Firewall Manager API Reference</i>. This guide is for
-/// developers who need detailed information about the AWS Firewall Manager API
-/// actions, data types, and errors. For detailed information about AWS Firewall
+/// This is the <i>Firewall Manager API Reference</i>. This guide is for
+/// developers who need detailed information about the Firewall Manager API
+/// actions, data types, and errors. For detailed information about Firewall
 /// Manager features, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/fms-chapter.html">AWS
-/// Firewall Manager Developer Guide</a>.
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/fms-chapter.html">Firewall
+/// Manager Developer Guide</a>.
+///
+/// Some API actions require explicit resource permissions. For information, see
+/// the developer guide topic <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/fms-security_iam_service-with-iam.html#fms-security_iam_service-with-iam-roles-service">Service
+/// roles for Firewall Manager</a>.
 class FMS {
   final _s.JsonProtocol _protocol;
   FMS({
@@ -52,28 +57,32 @@ class FMS {
     _protocol.close();
   }
 
-  /// Sets the AWS Firewall Manager administrator account. AWS Firewall Manager
-  /// must be associated with the master account of your AWS organization or
-  /// associated with a member account that has the appropriate permissions. If
-  /// the account ID that you submit is not an AWS Organizations master account,
-  /// AWS Firewall Manager will set the appropriate permissions for the given
-  /// member account.
+  /// Sets a Firewall Manager default administrator account. The Firewall
+  /// Manager default administrator account can manage third-party firewalls and
+  /// has full administrative scope that allows administration of all policy
+  /// types, accounts, organizational units, and Regions. This account must be a
+  /// member account of the organization in Organizations whose resources you
+  /// want to protect.
   ///
-  /// The account that you associate with AWS Firewall Manager is called the AWS
-  /// Firewall Manager administrator account.
+  /// For information about working with Firewall Manager administrator
+  /// accounts, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/fms-administrators.html">Managing
+  /// Firewall Manager administrators</a> in the <i>Firewall Manager Developer
+  /// Guide</i>.
   ///
   /// May throw [InvalidOperationException].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalErrorException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [adminAccount] :
-  /// The AWS account ID to associate with AWS Firewall Manager as the AWS
-  /// Firewall Manager administrator account. This can be an AWS Organizations
-  /// master account or a member account. For more information about AWS
-  /// Organizations and master accounts, see <a
+  /// The Amazon Web Services account ID to associate with Firewall Manager as
+  /// the Firewall Manager default administrator account. This account must be a
+  /// member account of the organization in Organizations whose resources you
+  /// want to protect. For more information about Organizations, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html">Managing
-  /// the AWS Accounts in Your Organization</a>.
+  /// the Amazon Web Services Accounts in Your Organization</a>.
   Future<void> associateAdminAccount({
     required String adminAccount,
   }) async {
@@ -93,7 +102,117 @@ class FMS {
     );
   }
 
-  /// Permanently deletes an AWS Firewall Manager applications list.
+  /// Sets the Firewall Manager policy administrator as a tenant administrator
+  /// of a third-party firewall service. A tenant is an instance of the
+  /// third-party firewall service that's associated with your Amazon Web
+  /// Services customer account.
+  ///
+  /// May throw [InvalidOperationException].
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalErrorException].
+  ///
+  /// Parameter [thirdPartyFirewall] :
+  /// The name of the third-party firewall vendor.
+  Future<AssociateThirdPartyFirewallResponse> associateThirdPartyFirewall({
+    required ThirdPartyFirewall thirdPartyFirewall,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSFMS_20180101.AssociateThirdPartyFirewall'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ThirdPartyFirewall': thirdPartyFirewall.toValue(),
+      },
+    );
+
+    return AssociateThirdPartyFirewallResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Associate resources to a Firewall Manager resource set.
+  ///
+  /// May throw [InvalidOperationException].
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [items] :
+  /// The uniform resource identifiers (URIs) of resources that should be
+  /// associated to the resource set. The URIs must be Amazon Resource Names
+  /// (ARNs).
+  ///
+  /// Parameter [resourceSetIdentifier] :
+  /// A unique identifier for the resource set, used in a request to refer to
+  /// the resource set.
+  Future<BatchAssociateResourceResponse> batchAssociateResource({
+    required List<String> items,
+    required String resourceSetIdentifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSFMS_20180101.BatchAssociateResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Items': items,
+        'ResourceSetIdentifier': resourceSetIdentifier,
+      },
+    );
+
+    return BatchAssociateResourceResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Disassociates resources from a Firewall Manager resource set.
+  ///
+  /// May throw [InvalidOperationException].
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [items] :
+  /// The uniform resource identifiers (URI) of resources that should be
+  /// disassociated from the resource set. The URIs must be Amazon Resource
+  /// Names (ARNs).
+  ///
+  /// Parameter [resourceSetIdentifier] :
+  /// A unique identifier for the resource set, used in a request to refer to
+  /// the resource set.
+  Future<BatchDisassociateResourceResponse> batchDisassociateResource({
+    required List<String> items,
+    required String resourceSetIdentifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSFMS_20180101.BatchDisassociateResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Items': items,
+        'ResourceSetIdentifier': resourceSetIdentifier,
+      },
+    );
+
+    return BatchDisassociateResourceResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Permanently deletes an Firewall Manager applications list.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidOperationException].
@@ -122,9 +241,9 @@ class FMS {
     );
   }
 
-  /// Deletes an AWS Firewall Manager association with the IAM role and the
-  /// Amazon Simple Notification Service (SNS) topic that is used to record AWS
-  /// Firewall Manager SNS logs.
+  /// Deletes an Firewall Manager association with the IAM role and the Amazon
+  /// Simple Notification Service (SNS) topic that is used to record Firewall
+  /// Manager SNS logs.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidOperationException].
@@ -143,7 +262,7 @@ class FMS {
     );
   }
 
-  /// Permanently deletes an AWS Firewall Manager policy.
+  /// Permanently deletes an Firewall Manager policy.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidOperationException].
@@ -159,11 +278,11 @@ class FMS {
   /// If <code>True</code>, the request performs cleanup according to the policy
   /// type.
   ///
-  /// For AWS WAF and Shield Advanced policies, the cleanup does the following:
+  /// For WAF and Shield Advanced policies, the cleanup does the following:
   ///
   /// <ul>
   /// <li>
-  /// Deletes rule groups created by AWS Firewall Manager
+  /// Deletes rule groups created by Firewall Manager
   /// </li>
   /// <li>
   /// Removes web ACLs from in-scope resources
@@ -214,7 +333,7 @@ class FMS {
     );
   }
 
-  /// Permanently deletes an AWS Firewall Manager protocols list.
+  /// Permanently deletes an Firewall Manager protocols list.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidOperationException].
@@ -243,9 +362,45 @@ class FMS {
     );
   }
 
-  /// Disassociates the account that has been set as the AWS Firewall Manager
-  /// administrator account. To set a different account as the administrator
-  /// account, you must submit an <code>AssociateAdminAccount</code> request.
+  /// Deletes the specified <a>ResourceSet</a>.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidOperationException].
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [identifier] :
+  /// A unique identifier for the resource set, used in a request to refer to
+  /// the resource set.
+  Future<void> deleteResourceSet({
+    required String identifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSFMS_20180101.DeleteResourceSet'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Identifier': identifier,
+      },
+    );
+  }
+
+  /// Disassociates an Firewall Manager administrator account. To set a
+  /// different account as an Firewall Manager administrator, submit a
+  /// <a>PutAdminAccount</a> request. To set an account as a default
+  /// administrator account, you must submit an <a>AssociateAdminAccount</a>
+  /// request.
+  ///
+  /// Disassociation of the default administrator account follows the first in,
+  /// last out principle. If you are the default administrator, all Firewall
+  /// Manager administrators within the organization must first disassociate
+  /// their accounts before you can disassociate your account.
   ///
   /// May throw [InvalidOperationException].
   /// May throw [ResourceNotFoundException].
@@ -264,8 +419,42 @@ class FMS {
     );
   }
 
-  /// Returns the AWS Organizations master account that is associated with AWS
-  /// Firewall Manager as the AWS Firewall Manager administrator.
+  /// Disassociates a Firewall Manager policy administrator from a third-party
+  /// firewall tenant. When you call
+  /// <code>DisassociateThirdPartyFirewall</code>, the third-party firewall
+  /// vendor deletes all of the firewalls that are associated with the account.
+  ///
+  /// May throw [InvalidOperationException].
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalErrorException].
+  ///
+  /// Parameter [thirdPartyFirewall] :
+  /// The name of the third-party firewall vendor.
+  Future<DisassociateThirdPartyFirewallResponse>
+      disassociateThirdPartyFirewall({
+    required ThirdPartyFirewall thirdPartyFirewall,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSFMS_20180101.DisassociateThirdPartyFirewall'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ThirdPartyFirewall': thirdPartyFirewall.toValue(),
+      },
+    );
+
+    return DisassociateThirdPartyFirewallResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns the Organizations account that is associated with Firewall Manager
+  /// as the Firewall Manager default administrator.
   ///
   /// May throw [InvalidOperationException].
   /// May throw [ResourceNotFoundException].
@@ -286,7 +475,40 @@ class FMS {
     return GetAdminAccountResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns information about the specified AWS Firewall Manager applications
+  /// Returns information about the specified account's administrative scope.
+  /// The admistrative scope defines the resources that an Firewall Manager
+  /// administrator can manage.
+  ///
+  /// May throw [InvalidOperationException].
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalErrorException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [adminAccount] :
+  /// The administator account that you want to get the details for.
+  Future<GetAdminScopeResponse> getAdminScope({
+    required String adminAccount,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSFMS_20180101.GetAdminScope'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AdminAccount': adminAccount,
+      },
+    );
+
+    return GetAdminScopeResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns information about the specified Firewall Manager applications
   /// list.
   ///
   /// May throw [ResourceNotFoundException].
@@ -294,12 +516,12 @@ class FMS {
   /// May throw [InternalErrorException].
   ///
   /// Parameter [listId] :
-  /// The ID of the AWS Firewall Manager applications list that you want the
-  /// details for.
+  /// The ID of the Firewall Manager applications list that you want the details
+  /// for.
   ///
   /// Parameter [defaultList] :
-  /// Specifies whether the list to retrieve is a default list owned by AWS
-  /// Firewall Manager.
+  /// Specifies whether the list to retrieve is a default list owned by Firewall
+  /// Manager.
   Future<GetAppsListResponse> getAppsList({
     required String listId,
     bool? defaultList,
@@ -325,16 +547,32 @@ class FMS {
 
   /// Returns detailed compliance information about the specified member
   /// account. Details include resources that are in and out of compliance with
-  /// the specified policy. Resources are considered noncompliant for AWS WAF
-  /// and Shield Advanced policies if the specified policy has not been applied
-  /// to them. Resources are considered noncompliant for security group policies
-  /// if they are in scope of the policy, they violate one or more of the policy
-  /// rules, and remediation is disabled or not possible. Resources are
-  /// considered noncompliant for Network Firewall policies if a firewall is
-  /// missing in the VPC, if the firewall endpoint isn't set up in an expected
-  /// Availability Zone and subnet, if a subnet created by the Firewall Manager
-  /// doesn't have the expected route table, and for modifications to a firewall
-  /// policy that violate the Firewall Manager policy's rules.
+  /// the specified policy.
+  ///
+  /// <ul>
+  /// <li>
+  /// Resources are considered noncompliant for WAF and Shield Advanced policies
+  /// if the specified policy has not been applied to them.
+  /// </li>
+  /// <li>
+  /// Resources are considered noncompliant for security group policies if they
+  /// are in scope of the policy, they violate one or more of the policy rules,
+  /// and remediation is disabled or not possible.
+  /// </li>
+  /// <li>
+  /// Resources are considered noncompliant for Network Firewall policies if a
+  /// firewall is missing in the VPC, if the firewall endpoint isn't set up in
+  /// an expected Availability Zone and subnet, if a subnet created by the
+  /// Firewall Manager doesn't have the expected route table, and for
+  /// modifications to a firewall policy that violate the Firewall Manager
+  /// policy's rules.
+  /// </li>
+  /// <li>
+  /// Resources are considered noncompliant for DNS Firewall policies if a DNS
+  /// Firewall rule group is missing from the rule group associations for the
+  /// VPC.
+  /// </li>
+  /// </ul>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalErrorException].
@@ -342,8 +580,8 @@ class FMS {
   /// May throw [InvalidOperationException].
   ///
   /// Parameter [memberAccount] :
-  /// The AWS account that owns the resources that you want to get the details
-  /// for.
+  /// The Amazon Web Services account that owns the resources that you want to
+  /// get the details for.
   ///
   /// Parameter [policyId] :
   /// The ID of the policy that you want to get the details for.
@@ -373,7 +611,7 @@ class FMS {
   }
 
   /// Information about the Amazon Simple Notification Service (SNS) topic that
-  /// is used to record AWS Firewall Manager SNS logs.
+  /// is used to record Firewall Manager SNS logs.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidOperationException].
@@ -394,7 +632,7 @@ class FMS {
     return GetNotificationChannelResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns information about the specified AWS Firewall Manager policy.
+  /// Returns information about the specified Firewall Manager policy.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidOperationException].
@@ -402,7 +640,7 @@ class FMS {
   /// May throw [InvalidTypeException].
   ///
   /// Parameter [policyId] :
-  /// The ID of the AWS Firewall Manager policy that you want the details for.
+  /// The ID of the Firewall Manager policy that you want the details for.
   Future<GetPolicyResponse> getPolicy({
     required String policyId,
   }) async {
@@ -438,24 +676,24 @@ class FMS {
   /// Parameter [endTime] :
   /// The end of the time period to query for the attacks. This is a
   /// <code>timestamp</code> type. The request syntax listing indicates a
-  /// <code>number</code> type because the default used by AWS Firewall Manager
-  /// is Unix time in seconds. However, any valid <code>timestamp</code> format
-  /// is allowed.
+  /// <code>number</code> type because the default used by Firewall Manager is
+  /// Unix time in seconds. However, any valid <code>timestamp</code> format is
+  /// allowed.
   ///
   /// Parameter [maxResults] :
-  /// Specifies the number of objects that you want AWS Firewall Manager to
-  /// return for this request. If you have more objects than the number that you
+  /// Specifies the number of objects that you want Firewall Manager to return
+  /// for this request. If you have more objects than the number that you
   /// specify for <code>MaxResults</code>, the response includes a
   /// <code>NextToken</code> value that you can use to get another batch of
   /// objects.
   ///
   /// Parameter [memberAccountId] :
-  /// The AWS account that is in scope of the policy that you want to get the
-  /// details for.
+  /// The Amazon Web Services account that is in scope of the policy that you
+  /// want to get the details for.
   ///
   /// Parameter [nextToken] :
   /// If you specify a value for <code>MaxResults</code> and you have more
-  /// objects than the number that you specify for <code>MaxResults</code>, AWS
+  /// objects than the number that you specify for <code>MaxResults</code>,
   /// Firewall Manager returns a <code>NextToken</code> value in the response,
   /// which you can use to retrieve another group of objects. For the second and
   /// subsequent <code>GetProtectionStatus</code> requests, specify the value of
@@ -465,9 +703,9 @@ class FMS {
   /// Parameter [startTime] :
   /// The start of the time period to query for the attacks. This is a
   /// <code>timestamp</code> type. The request syntax listing indicates a
-  /// <code>number</code> type because the default used by AWS Firewall Manager
-  /// is Unix time in seconds. However, any valid <code>timestamp</code> format
-  /// is allowed.
+  /// <code>number</code> type because the default used by Firewall Manager is
+  /// Unix time in seconds. However, any valid <code>timestamp</code> format is
+  /// allowed.
   Future<GetProtectionStatusResponse> getProtectionStatus({
     required String policyId,
     DateTime? endTime,
@@ -505,20 +743,19 @@ class FMS {
     return GetProtectionStatusResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns information about the specified AWS Firewall Manager protocols
-  /// list.
+  /// Returns information about the specified Firewall Manager protocols list.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidOperationException].
   /// May throw [InternalErrorException].
   ///
   /// Parameter [listId] :
-  /// The ID of the AWS Firewall Manager protocols list that you want the
-  /// details for.
+  /// The ID of the Firewall Manager protocols list that you want the details
+  /// for.
   ///
   /// Parameter [defaultList] :
-  /// Specifies whether the list to retrieve is a default list owned by AWS
-  /// Firewall Manager.
+  /// Specifies whether the list to retrieve is a default list owned by Firewall
+  /// Manager.
   Future<GetProtocolsListResponse> getProtocolsList({
     required String listId,
     bool? defaultList,
@@ -542,27 +779,91 @@ class FMS {
     return GetProtocolsListResponse.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves violations for a resource based on the specified AWS Firewall
-  /// Manager policy and AWS account.
+  /// Gets information about a specific resource set.
+  ///
+  /// May throw [InvalidOperationException].
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalErrorException].
+  ///
+  /// Parameter [identifier] :
+  /// A unique identifier for the resource set, used in a request to refer to
+  /// the resource set.
+  Future<GetResourceSetResponse> getResourceSet({
+    required String identifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSFMS_20180101.GetResourceSet'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Identifier': identifier,
+      },
+    );
+
+    return GetResourceSetResponse.fromJson(jsonResponse.body);
+  }
+
+  /// The onboarding status of a Firewall Manager admin account to third-party
+  /// firewall vendor tenant.
+  ///
+  /// May throw [InvalidOperationException].
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalErrorException].
+  ///
+  /// Parameter [thirdPartyFirewall] :
+  /// The name of the third-party firewall vendor.
+  Future<GetThirdPartyFirewallAssociationStatusResponse>
+      getThirdPartyFirewallAssociationStatus({
+    required ThirdPartyFirewall thirdPartyFirewall,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSFMS_20180101.GetThirdPartyFirewallAssociationStatus'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ThirdPartyFirewall': thirdPartyFirewall.toValue(),
+      },
+    );
+
+    return GetThirdPartyFirewallAssociationStatusResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Retrieves violations for a resource based on the specified Firewall
+  /// Manager policy and Amazon Web Services account.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidInputException].
   /// May throw [InternalErrorException].
   ///
   /// Parameter [memberAccount] :
-  /// The AWS account ID that you want the details for.
+  /// The Amazon Web Services account ID that you want the details for.
   ///
   /// Parameter [policyId] :
-  /// The ID of the AWS Firewall Manager policy that you want the details for.
-  /// This currently only supports security group content audit policies.
+  /// The ID of the Firewall Manager policy that you want the details for. This
+  /// currently only supports security group content audit policies.
   ///
   /// Parameter [resourceId] :
   /// The ID of the resource that has violations.
   ///
   /// Parameter [resourceType] :
   /// The resource type. This is in the format shown in the <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">AWS
-  /// Resource Types Reference</a>. Supported resource types are:
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">Amazon
+  /// Web Services Resource Types Reference</a>. Supported resource types are:
   /// <code>AWS::EC2::Instance</code>, <code>AWS::EC2::NetworkInterface</code>,
   /// <code>AWS::EC2::SecurityGroup</code>,
   /// <code>AWS::NetworkFirewall::FirewallPolicy</code>, and
@@ -594,6 +895,113 @@ class FMS {
     return GetViolationDetailsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns a <code>AdminAccounts</code> object that lists the Firewall
+  /// Manager administrators within the organization that are onboarded to
+  /// Firewall Manager by <a>AssociateAdminAccount</a>.
+  ///
+  /// This operation can be called only from the organization's management
+  /// account.
+  ///
+  /// May throw [InvalidOperationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalErrorException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of objects that you want Firewall Manager to return for
+  /// this request. If more objects are available, in the response, Firewall
+  /// Manager provides a <code>NextToken</code> value that you can use in a
+  /// subsequent call to get the next batch of objects.
+  ///
+  /// Parameter [nextToken] :
+  /// When you request a list of objects with a <code>MaxResults</code> setting,
+  /// if the number of objects that are still available for retrieval exceeds
+  /// the maximum you requested, Firewall Manager returns a
+  /// <code>NextToken</code> value in the response. To retrieve the next batch
+  /// of objects, use the token returned from the prior request in your next
+  /// request.
+  Future<ListAdminAccountsForOrganizationResponse>
+      listAdminAccountsForOrganization({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSFMS_20180101.ListAdminAccountsForOrganization'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListAdminAccountsForOrganizationResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists the accounts that are managing the specified Organizations member
+  /// account. This is useful for any member account so that they can view the
+  /// accounts who are managing their account. This operation only returns the
+  /// managing administrators that have the requested account within their
+  /// <a>AdminScope</a>.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidInputException].
+  /// May throw [InternalErrorException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of objects that you want Firewall Manager to return for
+  /// this request. If more objects are available, in the response, Firewall
+  /// Manager provides a <code>NextToken</code> value that you can use in a
+  /// subsequent call to get the next batch of objects.
+  ///
+  /// Parameter [nextToken] :
+  /// When you request a list of objects with a <code>MaxResults</code> setting,
+  /// if the number of objects that are still available for retrieval exceeds
+  /// the maximum you requested, Firewall Manager returns a
+  /// <code>NextToken</code> value in the response. To retrieve the next batch
+  /// of objects, use the token returned from the prior request in your next
+  /// request.
+  Future<ListAdminsManagingAccountResponse> listAdminsManagingAccount({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSFMS_20180101.ListAdminsManagingAccount'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListAdminsManagingAccountResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns an array of <code>AppsListDataSummary</code> objects.
   ///
   /// May throw [ResourceNotFoundException].
@@ -602,22 +1010,21 @@ class FMS {
   /// May throw [InternalErrorException].
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of objects that you want AWS Firewall Manager to return
-  /// for this request. If more objects are available, in the response, AWS
-  /// Firewall Manager provides a <code>NextToken</code> value that you can use
-  /// in a subsequent call to get the next batch of objects.
+  /// The maximum number of objects that you want Firewall Manager to return for
+  /// this request. If more objects are available, in the response, Firewall
+  /// Manager provides a <code>NextToken</code> value that you can use in a
+  /// subsequent call to get the next batch of objects.
   ///
-  /// If you don't specify this, AWS Firewall Manager returns all available
-  /// objects.
+  /// If you don't specify this, Firewall Manager returns all available objects.
   ///
   /// Parameter [defaultLists] :
-  /// Specifies whether the lists to retrieve are default lists owned by AWS
+  /// Specifies whether the lists to retrieve are default lists owned by
   /// Firewall Manager.
   ///
   /// Parameter [nextToken] :
   /// If you specify a value for <code>MaxResults</code> in your list request,
-  /// and you have more objects than the maximum, AWS Firewall Manager returns
-  /// this token in the response. For all but the first request, you provide the
+  /// and you have more objects than the maximum, Firewall Manager returns this
+  /// token in the response. For all but the first request, you provide the
   /// token returned by the prior request in the request parameters, to retrieve
   /// the next batch of objects.
   Future<ListAppsListsResponse> listAppsLists({
@@ -660,11 +1067,11 @@ class FMS {
   /// May throw [InternalErrorException].
   ///
   /// Parameter [policyId] :
-  /// The ID of the AWS Firewall Manager policy that you want the details for.
+  /// The ID of the Firewall Manager policy that you want the details for.
   ///
   /// Parameter [maxResults] :
   /// Specifies the number of <code>PolicyComplianceStatus</code> objects that
-  /// you want AWS Firewall Manager to return for this request. If you have more
+  /// you want Firewall Manager to return for this request. If you have more
   /// <code>PolicyComplianceStatus</code> objects than the number that you
   /// specify for <code>MaxResults</code>, the response includes a
   /// <code>NextToken</code> value that you can use to get another batch of
@@ -673,7 +1080,7 @@ class FMS {
   /// Parameter [nextToken] :
   /// If you specify a value for <code>MaxResults</code> and you have more
   /// <code>PolicyComplianceStatus</code> objects than the number that you
-  /// specify for <code>MaxResults</code>, AWS Firewall Manager returns a
+  /// specify for <code>MaxResults</code>, Firewall Manager returns a
   /// <code>NextToken</code> value in the response that allows you to list
   /// another group of <code>PolicyComplianceStatus</code> objects. For the
   /// second and subsequent <code>ListComplianceStatus</code> requests, specify
@@ -711,27 +1118,88 @@ class FMS {
     return ListComplianceStatusResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns a <code>MemberAccounts</code> object that lists the member
-  /// accounts in the administrator's AWS organization.
+  /// Returns an array of resources in the organization's accounts that are
+  /// available to be associated with a resource set.
   ///
-  /// The <code>ListMemberAccounts</code> must be submitted by the account that
-  /// is set as the AWS Firewall Manager administrator.
+  /// May throw [InvalidOperationException].
+  /// May throw [InvalidInputException].
+  /// May throw [InternalErrorException].
+  ///
+  /// Parameter [memberAccountIds] :
+  /// The Amazon Web Services account IDs to discover resources in. Only one
+  /// account is supported per request. The account must be a member of your
+  /// organization.
+  ///
+  /// Parameter [resourceType] :
+  /// The type of resources to discover.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of objects that you want Firewall Manager to return for
+  /// this request. If more objects are available, in the response, Firewall
+  /// Manager provides a <code>NextToken</code> value that you can use in a
+  /// subsequent call to get the next batch of objects.
+  ///
+  /// Parameter [nextToken] :
+  /// When you request a list of objects with a <code>MaxResults</code> setting,
+  /// if the number of objects that are still available for retrieval exceeds
+  /// the maximum you requested, Firewall Manager returns a
+  /// <code>NextToken</code> value in the response. To retrieve the next batch
+  /// of objects, use the token returned from the prior request in your next
+  /// request.
+  Future<ListDiscoveredResourcesResponse> listDiscoveredResources({
+    required List<String> memberAccountIds,
+    required String resourceType,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSFMS_20180101.ListDiscoveredResources'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MemberAccountIds': memberAccountIds,
+        'ResourceType': resourceType,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListDiscoveredResourcesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a <code>MemberAccounts</code> object that lists the member
+  /// accounts in the administrator's Amazon Web Services organization.
+  ///
+  /// Either an Firewall Manager administrator or the organization's management
+  /// account can make this request.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalErrorException].
   ///
   /// Parameter [maxResults] :
-  /// Specifies the number of member account IDs that you want AWS Firewall
-  /// Manager to return for this request. If you have more IDs than the number
-  /// that you specify for <code>MaxResults</code>, the response includes a
+  /// Specifies the number of member account IDs that you want Firewall Manager
+  /// to return for this request. If you have more IDs than the number that you
+  /// specify for <code>MaxResults</code>, the response includes a
   /// <code>NextToken</code> value that you can use to get another batch of
   /// member account IDs.
   ///
   /// Parameter [nextToken] :
   /// If you specify a value for <code>MaxResults</code> and you have more
   /// account IDs than the number that you specify for <code>MaxResults</code>,
-  /// AWS Firewall Manager returns a <code>NextToken</code> value in the
-  /// response that allows you to list another group of IDs. For the second and
+  /// Firewall Manager returns a <code>NextToken</code> value in the response
+  /// that allows you to list another group of IDs. For the second and
   /// subsequent <code>ListMemberAccountsRequest</code> requests, specify the
   /// value of <code>NextToken</code> from the previous response to get
   /// information about another batch of member account IDs.
@@ -773,7 +1241,7 @@ class FMS {
   ///
   /// Parameter [maxResults] :
   /// Specifies the number of <code>PolicySummary</code> objects that you want
-  /// AWS Firewall Manager to return for this request. If you have more
+  /// Firewall Manager to return for this request. If you have more
   /// <code>PolicySummary</code> objects than the number that you specify for
   /// <code>MaxResults</code>, the response includes a <code>NextToken</code>
   /// value that you can use to get another batch of <code>PolicySummary</code>
@@ -782,10 +1250,10 @@ class FMS {
   /// Parameter [nextToken] :
   /// If you specify a value for <code>MaxResults</code> and you have more
   /// <code>PolicySummary</code> objects than the number that you specify for
-  /// <code>MaxResults</code>, AWS Firewall Manager returns a
-  /// <code>NextToken</code> value in the response that allows you to list
-  /// another group of <code>PolicySummary</code> objects. For the second and
-  /// subsequent <code>ListPolicies</code> requests, specify the value of
+  /// <code>MaxResults</code>, Firewall Manager returns a <code>NextToken</code>
+  /// value in the response that allows you to list another group of
+  /// <code>PolicySummary</code> objects. For the second and subsequent
+  /// <code>ListPolicies</code> requests, specify the value of
   /// <code>NextToken</code> from the previous response to get information about
   /// another batch of <code>PolicySummary</code> objects.
   Future<ListPoliciesResponse> listPolicies({
@@ -824,22 +1292,21 @@ class FMS {
   /// May throw [InternalErrorException].
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of objects that you want AWS Firewall Manager to return
-  /// for this request. If more objects are available, in the response, AWS
-  /// Firewall Manager provides a <code>NextToken</code> value that you can use
-  /// in a subsequent call to get the next batch of objects.
+  /// The maximum number of objects that you want Firewall Manager to return for
+  /// this request. If more objects are available, in the response, Firewall
+  /// Manager provides a <code>NextToken</code> value that you can use in a
+  /// subsequent call to get the next batch of objects.
   ///
-  /// If you don't specify this, AWS Firewall Manager returns all available
-  /// objects.
+  /// If you don't specify this, Firewall Manager returns all available objects.
   ///
   /// Parameter [defaultLists] :
-  /// Specifies whether the lists to retrieve are default lists owned by AWS
+  /// Specifies whether the lists to retrieve are default lists owned by
   /// Firewall Manager.
   ///
   /// Parameter [nextToken] :
   /// If you specify a value for <code>MaxResults</code> in your list request,
-  /// and you have more objects than the maximum, AWS Firewall Manager returns
-  /// this token in the response. For all but the first request, you provide the
+  /// and you have more objects than the maximum, Firewall Manager returns this
+  /// token in the response. For all but the first request, you provide the
   /// token returned by the prior request in the request parameters, to retrieve
   /// the next batch of objects.
   Future<ListProtocolsListsResponse> listProtocolsLists({
@@ -874,7 +1341,111 @@ class FMS {
     return ListProtocolsListsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves the list of tags for the specified AWS resource.
+  /// Returns an array of resources that are currently associated to a resource
+  /// set.
+  ///
+  /// May throw [InvalidOperationException].
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [identifier] :
+  /// A unique identifier for the resource set, used in a request to refer to
+  /// the resource set.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of objects that you want Firewall Manager to return for
+  /// this request. If more objects are available, in the response, Firewall
+  /// Manager provides a <code>NextToken</code> value that you can use in a
+  /// subsequent call to get the next batch of objects.
+  ///
+  /// Parameter [nextToken] :
+  /// When you request a list of objects with a <code>MaxResults</code> setting,
+  /// if the number of objects that are still available for retrieval exceeds
+  /// the maximum you requested, Firewall Manager returns a
+  /// <code>NextToken</code> value in the response. To retrieve the next batch
+  /// of objects, use the token returned from the prior request in your next
+  /// request.
+  Future<ListResourceSetResourcesResponse> listResourceSetResources({
+    required String identifier,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSFMS_20180101.ListResourceSetResources'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Identifier': identifier,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListResourceSetResourcesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns an array of <code>ResourceSetSummary</code> objects.
+  ///
+  /// May throw [InvalidOperationException].
+  /// May throw [InvalidInputException].
+  /// May throw [InternalErrorException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of objects that you want Firewall Manager to return for
+  /// this request. If more objects are available, in the response, Firewall
+  /// Manager provides a <code>NextToken</code> value that you can use in a
+  /// subsequent call to get the next batch of objects.
+  ///
+  /// Parameter [nextToken] :
+  /// When you request a list of objects with a <code>MaxResults</code> setting,
+  /// if the number of objects that are still available for retrieval exceeds
+  /// the maximum you requested, Firewall Manager returns a
+  /// <code>NextToken</code> value in the response. To retrieve the next batch
+  /// of objects, use the token returned from the prior request in your next
+  /// request.
+  Future<ListResourceSetsResponse> listResourceSets({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSFMS_20180101.ListResourceSets'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListResourceSetsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves the list of tags for the specified Amazon Web Services resource.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidOperationException].
@@ -882,7 +1453,7 @@ class FMS {
   /// May throw [InvalidInputException].
   ///
   /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) of the resource to return tags for. The AWS
+  /// The Amazon Resource Name (ARN) of the resource to return tags for. The
   /// Firewall Manager resources that support tagging are policies, applications
   /// lists, and protocols lists.
   Future<ListTagsForResourceResponse> listTagsForResource({
@@ -906,7 +1477,124 @@ class FMS {
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates an AWS Firewall Manager applications list.
+  /// Retrieves a list of all of the third-party firewall policies that are
+  /// associated with the third-party firewall administrator's account.
+  ///
+  /// May throw [InvalidOperationException].
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalErrorException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of third-party firewall policies that you want Firewall
+  /// Manager to return. If the specified third-party firewall vendor is
+  /// associated with more than <code>MaxResults</code> firewall policies, the
+  /// response includes a <code>NextToken</code> element. <code>NextToken</code>
+  /// contains an encrypted token that identifies the first third-party firewall
+  /// policies that Firewall Manager will return if you submit another request.
+  ///
+  /// Parameter [thirdPartyFirewall] :
+  /// The name of the third-party firewall vendor.
+  ///
+  /// Parameter [nextToken] :
+  /// If the previous response included a <code>NextToken</code> element, the
+  /// specified third-party firewall vendor is associated with more third-party
+  /// firewall policies. To get more third-party firewall policies, submit
+  /// another <code>ListThirdPartyFirewallFirewallPoliciesRequest</code>
+  /// request.
+  ///
+  /// For the value of <code>NextToken</code>, specify the value of
+  /// <code>NextToken</code> from the previous response. If the previous
+  /// response didn't include a <code>NextToken</code> element, there are no
+  /// more third-party firewall policies to get.
+  Future<ListThirdPartyFirewallFirewallPoliciesResponse>
+      listThirdPartyFirewallFirewallPolicies({
+    required int maxResults,
+    required ThirdPartyFirewall thirdPartyFirewall,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSFMS_20180101.ListThirdPartyFirewallFirewallPolicies'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MaxResults': maxResults,
+        'ThirdPartyFirewall': thirdPartyFirewall.toValue(),
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListThirdPartyFirewallFirewallPoliciesResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Creates or updates an Firewall Manager administrator account. The account
+  /// must be a member of the organization that was onboarded to Firewall
+  /// Manager by <a>AssociateAdminAccount</a>. Only the organization's
+  /// management account can create an Firewall Manager administrator account.
+  /// When you create an Firewall Manager administrator account, the service
+  /// checks to see if the account is already a delegated administrator within
+  /// Organizations. If the account isn't a delegated administrator, Firewall
+  /// Manager calls Organizations to delegate the account within Organizations.
+  /// For more information about administrator accounts within Organizations,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html">Managing
+  /// the Amazon Web Services Accounts in Your Organization</a>.
+  ///
+  /// May throw [InvalidOperationException].
+  /// May throw [InvalidInputException].
+  /// May throw [InternalErrorException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [adminAccount] :
+  /// The Amazon Web Services account ID to add as an Firewall Manager
+  /// administrator account. The account must be a member of the organization
+  /// that was onboarded to Firewall Manager by <a>AssociateAdminAccount</a>.
+  /// For more information about Organizations, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html">Managing
+  /// the Amazon Web Services Accounts in Your Organization</a>.
+  ///
+  /// Parameter [adminScope] :
+  /// Configures the resources that the specified Firewall Manager administrator
+  /// can manage. As a best practice, set the administrative scope according to
+  /// the principles of least privilege. Only grant the administrator the
+  /// specific resources or permissions that they need to perform the duties of
+  /// their role.
+  Future<void> putAdminAccount({
+    required String adminAccount,
+    AdminScope? adminScope,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSFMS_20180101.PutAdminAccount'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AdminAccount': adminAccount,
+        if (adminScope != null) 'AdminScope': adminScope,
+      },
+    );
+  }
+
+  /// Creates an Firewall Manager applications list.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidOperationException].
@@ -915,7 +1603,7 @@ class FMS {
   /// May throw [InternalErrorException].
   ///
   /// Parameter [appsList] :
-  /// The details of the AWS Firewall Manager applications list to be created.
+  /// The details of the Firewall Manager applications list to be created.
   ///
   /// Parameter [tagList] :
   /// The tags associated with the resource.
@@ -943,14 +1631,18 @@ class FMS {
   }
 
   /// Designates the IAM role and Amazon Simple Notification Service (SNS) topic
-  /// that AWS Firewall Manager uses to record SNS logs.
+  /// that Firewall Manager uses to record SNS logs.
   ///
-  /// To perform this action outside of the console, you must configure the SNS
-  /// topic to allow the Firewall Manager role <code>AWSServiceRoleForFMS</code>
-  /// to publish SNS logs. For more information, see <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/fms-api-permissions-ref.html">Firewall
-  /// Manager required permissions for API actions</a> in the <i>AWS Firewall
-  /// Manager Developer Guide</i>.
+  /// To perform this action outside of the console, you must first configure
+  /// the SNS topic's access policy to allow the <code>SnsRoleName</code> to
+  /// publish SNS logs. If the <code>SnsRoleName</code> provided is a role other
+  /// than the <code>AWSServiceRoleForFMS</code> service-linked role, this role
+  /// must have a trust relationship configured to allow the Firewall Manager
+  /// service principal <code>fms.amazonaws.com</code> to assume this role. For
+  /// information about configuring an SNS access policy, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/fms-security_iam_service-with-iam.html#fms-security_iam_service-with-iam-roles-service">Service
+  /// roles for Firewall Manager</a> in the <i>Firewall Manager Developer
+  /// Guide</i>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidOperationException].
@@ -958,11 +1650,11 @@ class FMS {
   ///
   /// Parameter [snsRoleName] :
   /// The Amazon Resource Name (ARN) of the IAM role that allows Amazon SNS to
-  /// record AWS Firewall Manager activity.
+  /// record Firewall Manager activity.
   ///
   /// Parameter [snsTopicArn] :
   /// The Amazon Resource Name (ARN) of the SNS topic that collects
-  /// notifications from AWS Firewall Manager.
+  /// notifications from Firewall Manager.
   Future<void> putNotificationChannel({
     required String snsRoleName,
     required String snsTopicArn,
@@ -984,30 +1676,33 @@ class FMS {
     );
   }
 
-  /// Creates an AWS Firewall Manager policy.
+  /// Creates an Firewall Manager policy.
   ///
   /// Firewall Manager provides the following types of policies:
   ///
   /// <ul>
   /// <li>
-  /// An AWS WAF policy (type WAFV2), which defines rule groups to run first in
-  /// the corresponding AWS WAF web ACL and rule groups to run last in the web
-  /// ACL.
+  /// An WAF policy (type WAFV2), which defines rule groups to run first in the
+  /// corresponding WAF web ACL and rule groups to run last in the web ACL.
   /// </li>
   /// <li>
-  /// An AWS WAF Classic policy (type WAF), which defines a rule group.
+  /// An WAF Classic policy (type WAF), which defines a rule group.
   /// </li>
   /// <li>
   /// A Shield Advanced policy, which applies Shield Advanced protection to
   /// specified accounts and resources.
   /// </li>
   /// <li>
-  /// A security group policy, which manages VPC security groups across your AWS
-  /// organization.
+  /// A security group policy, which manages VPC security groups across your
+  /// Amazon Web Services organization.
   /// </li>
   /// <li>
-  /// An AWS Network Firewall policy, which provides firewall rules to filter
+  /// An Network Firewall policy, which provides firewall rules to filter
   /// network traffic in specified Amazon VPCs.
+  /// </li>
+  /// <li>
+  /// A DNS Firewall policy, which provides Route 53 Resolver DNS Firewall rules
+  /// to filter DNS queries for specified VPCs.
   /// </li>
   /// </ul>
   /// Each policy is specific to one of the types. If you want to enforce more
@@ -1026,10 +1721,10 @@ class FMS {
   /// May throw [InvalidTypeException].
   ///
   /// Parameter [policy] :
-  /// The details of the AWS Firewall Manager policy to be created.
+  /// The details of the Firewall Manager policy to be created.
   ///
   /// Parameter [tagList] :
-  /// The tags to add to the AWS resource.
+  /// The tags to add to the Amazon Web Services resource.
   Future<PutPolicyResponse> putPolicy({
     required Policy policy,
     List<Tag>? tagList,
@@ -1053,7 +1748,7 @@ class FMS {
     return PutPolicyResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates an AWS Firewall Manager protocols list.
+  /// Creates an Firewall Manager protocols list.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidOperationException].
@@ -1062,7 +1757,7 @@ class FMS {
   /// May throw [InternalErrorException].
   ///
   /// Parameter [protocolsList] :
-  /// The details of the AWS Firewall Manager protocols list to be created.
+  /// The details of the Firewall Manager protocols list to be created.
   ///
   /// Parameter [tagList] :
   /// The tags associated with the resource.
@@ -1089,7 +1784,50 @@ class FMS {
     return PutProtocolsListResponse.fromJson(jsonResponse.body);
   }
 
-  /// Adds one or more tags to an AWS resource.
+  /// Creates the resource set.
+  ///
+  /// An Firewall Manager resource set defines the resources to import into an
+  /// Firewall Manager policy from another Amazon Web Services service.
+  ///
+  /// May throw [InvalidOperationException].
+  /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalErrorException].
+  ///
+  /// Parameter [resourceSet] :
+  /// Details about the resource set to be created or updated.&gt;
+  ///
+  /// Parameter [tagList] :
+  /// Retrieves the tags associated with the specified resource set. Tags are
+  /// key:value pairs that you can use to categorize and manage your resources,
+  /// for purposes like billing. For example, you might set the tag key to
+  /// "customer" and the value to the customer name or ID. You can specify one
+  /// or more tags to add to each Amazon Web Services resource, up to 50 tags
+  /// for a resource.
+  Future<PutResourceSetResponse> putResourceSet({
+    required ResourceSet resourceSet,
+    List<Tag>? tagList,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSFMS_20180101.PutResourceSet'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceSet': resourceSet,
+        if (tagList != null) 'TagList': tagList,
+      },
+    );
+
+    return PutResourceSetResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Adds one or more tags to an Amazon Web Services resource.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidOperationException].
@@ -1098,7 +1836,7 @@ class FMS {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) of the resource to return tags for. The AWS
+  /// The Amazon Resource Name (ARN) of the resource to return tags for. The
   /// Firewall Manager resources that support tagging are policies, applications
   /// lists, and protocols lists.
   ///
@@ -1125,7 +1863,7 @@ class FMS {
     );
   }
 
-  /// Removes one or more tags from an AWS resource.
+  /// Removes one or more tags from an Amazon Web Services resource.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidOperationException].
@@ -1133,7 +1871,7 @@ class FMS {
   /// May throw [InvalidInputException].
   ///
   /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) of the resource to return tags for. The AWS
+  /// The Amazon Resource Name (ARN) of the resource to return tags for. The
   /// Firewall Manager resources that support tagging are policies, applications
   /// lists, and protocols lists.
   ///
@@ -1204,7 +1942,214 @@ extension AccountRoleStatusFromString on String {
   }
 }
 
-/// An individual AWS Firewall Manager application.
+/// Configures the accounts within the administrator's Organizations
+/// organization that the specified Firewall Manager administrator can apply
+/// policies to.
+class AccountScope {
+  /// The list of accounts within the organization that the specified Firewall
+  /// Manager administrator either can or cannot apply policies to, based on the
+  /// value of <code>ExcludeSpecifiedAccounts</code>. If
+  /// <code>ExcludeSpecifiedAccounts</code> is set to <code>true</code>, then the
+  /// Firewall Manager administrator can apply policies to all members of the
+  /// organization except for the accounts in this list. If
+  /// <code>ExcludeSpecifiedAccounts</code> is set to <code>false</code>, then the
+  /// Firewall Manager administrator can only apply policies to the accounts in
+  /// this list.
+  final List<String>? accounts;
+
+  /// A boolean value that indicates if the administrator can apply policies to
+  /// all accounts within an organization. If true, the administrator can apply
+  /// policies to all accounts within the organization. You can either enable
+  /// management of all accounts through this operation, or you can specify a list
+  /// of accounts to manage in <code>AccountScope$Accounts</code>. You cannot
+  /// specify both.
+  final bool? allAccountsEnabled;
+
+  /// A boolean value that excludes the accounts in
+  /// <code>AccountScope$Accounts</code> from the administrator's scope. If true,
+  /// the Firewall Manager administrator can apply policies to all members of the
+  /// organization except for the accounts listed in
+  /// <code>AccountScope$Accounts</code>. You can either specify a list of
+  /// accounts to exclude by <code>AccountScope$Accounts</code>, or you can enable
+  /// management of all accounts by <code>AccountScope$AllAccountsEnabled</code>.
+  /// You cannot specify both.
+  final bool? excludeSpecifiedAccounts;
+
+  AccountScope({
+    this.accounts,
+    this.allAccountsEnabled,
+    this.excludeSpecifiedAccounts,
+  });
+
+  factory AccountScope.fromJson(Map<String, dynamic> json) {
+    return AccountScope(
+      accounts: (json['Accounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      allAccountsEnabled: json['AllAccountsEnabled'] as bool?,
+      excludeSpecifiedAccounts: json['ExcludeSpecifiedAccounts'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accounts = this.accounts;
+    final allAccountsEnabled = this.allAccountsEnabled;
+    final excludeSpecifiedAccounts = this.excludeSpecifiedAccounts;
+    return {
+      if (accounts != null) 'Accounts': accounts,
+      if (allAccountsEnabled != null) 'AllAccountsEnabled': allAccountsEnabled,
+      if (excludeSpecifiedAccounts != null)
+        'ExcludeSpecifiedAccounts': excludeSpecifiedAccounts,
+    };
+  }
+}
+
+/// Describes a remediation action target.
+class ActionTarget {
+  /// A description of the remediation action target.
+  final String? description;
+
+  /// The ID of the remediation target.
+  final String? resourceId;
+
+  ActionTarget({
+    this.description,
+    this.resourceId,
+  });
+
+  factory ActionTarget.fromJson(Map<String, dynamic> json) {
+    return ActionTarget(
+      description: json['Description'] as String?,
+      resourceId: json['ResourceId'] as String?,
+    );
+  }
+}
+
+/// Contains high level information about the Firewall Manager administrator
+/// account.
+class AdminAccountSummary {
+  /// The Amazon Web Services account ID of the Firewall Manager administrator's
+  /// account.
+  final String? adminAccount;
+
+  /// A boolean value that indicates if the administrator is the default
+  /// administrator. If true, then this is the default administrator account. The
+  /// default administrator can manage third-party firewalls and has full
+  /// administrative scope. There is only one default administrator account per
+  /// organization. For information about Firewall Manager default administrator
+  /// accounts, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/fms-administrators.html">Managing
+  /// Firewall Manager administrators</a> in the <i>Firewall Manager Developer
+  /// Guide</i>.
+  final bool? defaultAdmin;
+
+  /// The current status of the request to onboard a member account as an Firewall
+  /// Manager administator.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ONBOARDING</code> - The account is onboarding to Firewall Manager as
+  /// an administrator.
+  /// </li>
+  /// <li>
+  /// <code>ONBOARDING_COMPLETE</code> - Firewall Manager The account is onboarded
+  /// to Firewall Manager as an administrator, and can perform actions on the
+  /// resources defined in their <a>AdminScope</a>.
+  /// </li>
+  /// <li>
+  /// <code>OFFBOARDING</code> - The account is being removed as an Firewall
+  /// Manager administrator.
+  /// </li>
+  /// <li>
+  /// <code>OFFBOARDING_COMPLETE</code> - The account has been removed as an
+  /// Firewall Manager administrator.
+  /// </li>
+  /// </ul>
+  final OrganizationStatus? status;
+
+  AdminAccountSummary({
+    this.adminAccount,
+    this.defaultAdmin,
+    this.status,
+  });
+
+  factory AdminAccountSummary.fromJson(Map<String, dynamic> json) {
+    return AdminAccountSummary(
+      adminAccount: json['AdminAccount'] as String?,
+      defaultAdmin: json['DefaultAdmin'] as bool?,
+      status: (json['Status'] as String?)?.toOrganizationStatus(),
+    );
+  }
+}
+
+/// Defines the resources that the Firewall Manager administrator can manage.
+/// For more information about administrative scope, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/fms-administrators.html">Managing
+/// Firewall Manager administrators</a> in the <i>Firewall Manager Developer
+/// Guide</i>.
+class AdminScope {
+  /// Defines the accounts that the specified Firewall Manager administrator can
+  /// apply policies to.
+  final AccountScope? accountScope;
+
+  /// Defines the Organizations organizational units that the specified Firewall
+  /// Manager administrator can apply policies to. For more information about OUs
+  /// in Organizations, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_ous.html">Managing
+  /// organizational units (OUs) </a> in the <i>Organizations User Guide</i>.
+  final OrganizationalUnitScope? organizationalUnitScope;
+
+  /// Defines the Firewall Manager policy types that the specified Firewall
+  /// Manager administrator can create and manage.
+  final PolicyTypeScope? policyTypeScope;
+
+  /// Defines the Amazon Web Services Regions that the specified Firewall Manager
+  /// administrator can perform actions in.
+  final RegionScope? regionScope;
+
+  AdminScope({
+    this.accountScope,
+    this.organizationalUnitScope,
+    this.policyTypeScope,
+    this.regionScope,
+  });
+
+  factory AdminScope.fromJson(Map<String, dynamic> json) {
+    return AdminScope(
+      accountScope: json['AccountScope'] != null
+          ? AccountScope.fromJson(json['AccountScope'] as Map<String, dynamic>)
+          : null,
+      organizationalUnitScope: json['OrganizationalUnitScope'] != null
+          ? OrganizationalUnitScope.fromJson(
+              json['OrganizationalUnitScope'] as Map<String, dynamic>)
+          : null,
+      policyTypeScope: json['PolicyTypeScope'] != null
+          ? PolicyTypeScope.fromJson(
+              json['PolicyTypeScope'] as Map<String, dynamic>)
+          : null,
+      regionScope: json['RegionScope'] != null
+          ? RegionScope.fromJson(json['RegionScope'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountScope = this.accountScope;
+    final organizationalUnitScope = this.organizationalUnitScope;
+    final policyTypeScope = this.policyTypeScope;
+    final regionScope = this.regionScope;
+    return {
+      if (accountScope != null) 'AccountScope': accountScope,
+      if (organizationalUnitScope != null)
+        'OrganizationalUnitScope': organizationalUnitScope,
+      if (policyTypeScope != null) 'PolicyTypeScope': policyTypeScope,
+      if (regionScope != null) 'RegionScope': regionScope,
+    };
+  }
+}
+
+/// An individual Firewall Manager application.
 class App {
   /// The application's name.
   final String appName;
@@ -1224,6 +2169,7 @@ class App {
     required this.port,
     required this.protocol,
   });
+
   factory App.fromJson(Map<String, dynamic> json) {
     return App(
       appName: json['AppName'] as String,
@@ -1244,21 +2190,21 @@ class App {
   }
 }
 
-/// An AWS Firewall Manager applications list.
+/// An Firewall Manager applications list.
 class AppsListData {
-  /// An array of applications in the AWS Firewall Manager applications list.
+  /// An array of applications in the Firewall Manager applications list.
   final List<App> appsList;
 
-  /// The name of the AWS Firewall Manager applications list.
+  /// The name of the Firewall Manager applications list.
   final String listName;
 
-  /// The time that the AWS Firewall Manager applications list was created.
+  /// The time that the Firewall Manager applications list was created.
   final DateTime? createTime;
 
-  /// The time that the AWS Firewall Manager applications list was last updated.
+  /// The time that the Firewall Manager applications list was last updated.
   final DateTime? lastUpdateTime;
 
-  /// The ID of the AWS Firewall Manager applications list.
+  /// The ID of the Firewall Manager applications list.
   final String? listId;
 
   /// A unique identifier for each update to the list. When you update the list,
@@ -1279,6 +2225,7 @@ class AppsListData {
     this.listUpdateToken,
     this.previousAppsList,
   });
+
   factory AppsListData.fromJson(Map<String, dynamic> json) {
     return AppsListData(
       appsList: (json['AppsList'] as List)
@@ -1321,10 +2268,10 @@ class AppsListData {
   }
 }
 
-/// Details of the AWS Firewall Manager applications list.
+/// Details of the Firewall Manager applications list.
 class AppsListDataSummary {
-  /// An array of <code>App</code> objects in the AWS Firewall Manager
-  /// applications list.
+  /// An array of <code>App</code> objects in the Firewall Manager applications
+  /// list.
   final List<App>? appsList;
 
   /// The Amazon Resource Name (ARN) of the applications list.
@@ -1342,6 +2289,7 @@ class AppsListDataSummary {
     this.listId,
     this.listName,
   });
+
   factory AppsListDataSummary.fromJson(Map<String, dynamic> json) {
     return AppsListDataSummary(
       appsList: (json['AppsList'] as List?)
@@ -1355,9 +2303,50 @@ class AppsListDataSummary {
   }
 }
 
-/// Violations for an EC2 instance resource.
+class AssociateThirdPartyFirewallResponse {
+  /// The current status for setting a Firewall Manager policy administrator's
+  /// account as an administrator of the third-party firewall tenant.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ONBOARDING</code> - The Firewall Manager policy administrator is being
+  /// designated as a tenant administrator.
+  /// </li>
+  /// <li>
+  /// <code>ONBOARD_COMPLETE</code> - The Firewall Manager policy administrator is
+  /// designated as a tenant administrator.
+  /// </li>
+  /// <li>
+  /// <code>OFFBOARDING</code> - The Firewall Manager policy administrator is
+  /// being removed as a tenant administrator.
+  /// </li>
+  /// <li>
+  /// <code>OFFBOARD_COMPLETE</code> - The Firewall Manager policy administrator
+  /// has been removed as a tenant administrator.
+  /// </li>
+  /// <li>
+  /// <code>NOT_EXIST</code> - The Firewall Manager policy administrator doesn't
+  /// exist as a tenant administrator.
+  /// </li>
+  /// </ul>
+  final ThirdPartyFirewallAssociationStatus? thirdPartyFirewallStatus;
+
+  AssociateThirdPartyFirewallResponse({
+    this.thirdPartyFirewallStatus,
+  });
+
+  factory AssociateThirdPartyFirewallResponse.fromJson(
+      Map<String, dynamic> json) {
+    return AssociateThirdPartyFirewallResponse(
+      thirdPartyFirewallStatus: (json['ThirdPartyFirewallStatus'] as String?)
+          ?.toThirdPartyFirewallAssociationStatus(),
+    );
+  }
+}
+
+/// Violation detail for an EC2 instance resource.
 class AwsEc2InstanceViolation {
-  /// Violations for network interfaces associated with the EC2 instance.
+  /// Violation detail for network interfaces associated with the EC2 instance.
   final List<AwsEc2NetworkInterfaceViolation>? awsEc2NetworkInterfaceViolations;
 
   /// The resource ID of the EC2 instance.
@@ -1367,6 +2356,7 @@ class AwsEc2InstanceViolation {
     this.awsEc2NetworkInterfaceViolations,
     this.violationTarget,
   });
+
   factory AwsEc2InstanceViolation.fromJson(Map<String, dynamic> json) {
     return AwsEc2InstanceViolation(
       awsEc2NetworkInterfaceViolations:
@@ -1380,10 +2370,10 @@ class AwsEc2InstanceViolation {
   }
 }
 
-/// Violations for network interfaces associated with an EC2 instance.
+/// Violation detail for network interfaces associated with an EC2 instance.
 class AwsEc2NetworkInterfaceViolation {
-  /// List of security groups that violate the rules specified in the master
-  /// security group of the AWS Firewall Manager policy.
+  /// List of security groups that violate the rules specified in the primary
+  /// security group of the Firewall Manager policy.
   final List<String>? violatingSecurityGroups;
 
   /// The resource ID of the network interface.
@@ -1393,6 +2383,7 @@ class AwsEc2NetworkInterfaceViolation {
     this.violatingSecurityGroups,
     this.violationTarget,
   });
+
   factory AwsEc2NetworkInterfaceViolation.fromJson(Map<String, dynamic> json) {
     return AwsEc2NetworkInterfaceViolation(
       violatingSecurityGroups: (json['ViolatingSecurityGroups'] as List?)
@@ -1404,11 +2395,11 @@ class AwsEc2NetworkInterfaceViolation {
   }
 }
 
-/// Details of the rule violation in a security group when compared to the
-/// master security group of the AWS Firewall Manager policy.
+/// Violation detail for the rule violation in a security group when compared to
+/// the primary security group of the Firewall Manager policy.
 class AwsVPCSecurityGroupViolation {
-  /// List of rules specified in the security group of the AWS Firewall Manager
-  /// policy that partially match the <code>ViolationTarget</code> rule.
+  /// List of rules specified in the security group of the Firewall Manager policy
+  /// that partially match the <code>ViolationTarget</code> rule.
   final List<PartialMatch>? partialMatches;
 
   /// Remediation options for the rule specified in the
@@ -1428,6 +2419,7 @@ class AwsVPCSecurityGroupViolation {
     this.violationTarget,
     this.violationTargetDescription,
   });
+
   factory AwsVPCSecurityGroupViolation.fromJson(Map<String, dynamic> json) {
     return AwsVPCSecurityGroupViolation(
       partialMatches: (json['PartialMatches'] as List?)
@@ -1446,14 +2438,66 @@ class AwsVPCSecurityGroupViolation {
   }
 }
 
+class BatchAssociateResourceResponse {
+  /// The resources that failed to associate to the resource set.
+  final List<FailedItem> failedItems;
+
+  /// A unique identifier for the resource set, used in a request to refer to the
+  /// resource set.
+  final String resourceSetIdentifier;
+
+  BatchAssociateResourceResponse({
+    required this.failedItems,
+    required this.resourceSetIdentifier,
+  });
+
+  factory BatchAssociateResourceResponse.fromJson(Map<String, dynamic> json) {
+    return BatchAssociateResourceResponse(
+      failedItems: (json['FailedItems'] as List)
+          .whereNotNull()
+          .map((e) => FailedItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceSetIdentifier: json['ResourceSetIdentifier'] as String,
+    );
+  }
+}
+
+class BatchDisassociateResourceResponse {
+  /// The resources that failed to disassociate from the resource set.
+  final List<FailedItem> failedItems;
+
+  /// A unique identifier for the resource set, used in a request to refer to the
+  /// resource set.
+  final String resourceSetIdentifier;
+
+  BatchDisassociateResourceResponse({
+    required this.failedItems,
+    required this.resourceSetIdentifier,
+  });
+
+  factory BatchDisassociateResourceResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchDisassociateResourceResponse(
+      failedItems: (json['FailedItems'] as List)
+          .whereNotNull()
+          .map((e) => FailedItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceSetIdentifier: json['ResourceSetIdentifier'] as String,
+    );
+  }
+}
+
 /// Details of the resource that is not protected by the policy.
 class ComplianceViolator {
+  /// Metadata about the resource that doesn't comply with the policy scope.
+  final Map<String, String>? metadata;
+
   /// The resource ID.
   final String? resourceId;
 
   /// The resource type. This is in the format shown in the <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">AWS
-  /// Resource Types Reference</a>. For example:
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">Amazon
+  /// Web Services Resource Types Reference</a>. For example:
   /// <code>AWS::ElasticLoadBalancingV2::LoadBalancer</code>,
   /// <code>AWS::CloudFront::Distribution</code>, or
   /// <code>AWS::NetworkFirewall::FirewallPolicy</code>.
@@ -1463,12 +2507,16 @@ class ComplianceViolator {
   final ViolationReason? violationReason;
 
   ComplianceViolator({
+    this.metadata,
     this.resourceId,
     this.resourceType,
     this.violationReason,
   });
+
   factory ComplianceViolator.fromJson(Map<String, dynamic> json) {
     return ComplianceViolator(
+      metadata: (json['Metadata'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
       resourceId: json['ResourceId'] as String?,
       resourceType: json['ResourceType'] as String?,
       violationReason:
@@ -1502,6 +2550,34 @@ extension CustomerPolicyScopeIdTypeFromString on String {
         return CustomerPolicyScopeIdType.orgUnit;
     }
     throw Exception('$this is not known in enum CustomerPolicyScopeIdType');
+  }
+}
+
+enum CustomerPolicyStatus {
+  active,
+  outOfAdminScope,
+}
+
+extension CustomerPolicyStatusValueExtension on CustomerPolicyStatus {
+  String toValue() {
+    switch (this) {
+      case CustomerPolicyStatus.active:
+        return 'ACTIVE';
+      case CustomerPolicyStatus.outOfAdminScope:
+        return 'OUT_OF_ADMIN_SCOPE';
+    }
+  }
+}
+
+extension CustomerPolicyStatusFromString on String {
+  CustomerPolicyStatus toCustomerPolicyStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return CustomerPolicyStatus.active;
+      case 'OUT_OF_ADMIN_SCOPE':
+        return CustomerPolicyStatus.outOfAdminScope;
+    }
+    throw Exception('$this is not known in enum CustomerPolicyStatus');
   }
 }
 
@@ -1543,20 +2619,465 @@ extension DependentServiceNameFromString on String {
   }
 }
 
+enum DestinationType {
+  ipv4,
+  ipv6,
+  prefixList,
+}
+
+extension DestinationTypeValueExtension on DestinationType {
+  String toValue() {
+    switch (this) {
+      case DestinationType.ipv4:
+        return 'IPV4';
+      case DestinationType.ipv6:
+        return 'IPV6';
+      case DestinationType.prefixList:
+        return 'PREFIX_LIST';
+    }
+  }
+}
+
+extension DestinationTypeFromString on String {
+  DestinationType toDestinationType() {
+    switch (this) {
+      case 'IPV4':
+        return DestinationType.ipv4;
+      case 'IPV6':
+        return DestinationType.ipv6;
+      case 'PREFIX_LIST':
+        return DestinationType.prefixList;
+    }
+    throw Exception('$this is not known in enum DestinationType');
+  }
+}
+
+class DisassociateThirdPartyFirewallResponse {
+  /// The current status for the disassociation of a Firewall Manager
+  /// administrators account with a third-party firewall.
+  final ThirdPartyFirewallAssociationStatus? thirdPartyFirewallStatus;
+
+  DisassociateThirdPartyFirewallResponse({
+    this.thirdPartyFirewallStatus,
+  });
+
+  factory DisassociateThirdPartyFirewallResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DisassociateThirdPartyFirewallResponse(
+      thirdPartyFirewallStatus: (json['ThirdPartyFirewallStatus'] as String?)
+          ?.toThirdPartyFirewallAssociationStatus(),
+    );
+  }
+}
+
+/// A resource in the organization that's available to be associated with a
+/// Firewall Manager resource set.
+class DiscoveredResource {
+  /// The Amazon Web Services account ID associated with the discovered resource.
+  final String? accountId;
+
+  /// The name of the discovered resource.
+  final String? name;
+
+  /// The type of the discovered resource.
+  final String? type;
+
+  /// The universal resource identifier (URI) of the discovered resource.
+  final String? uri;
+
+  DiscoveredResource({
+    this.accountId,
+    this.name,
+    this.type,
+    this.uri,
+  });
+
+  factory DiscoveredResource.fromJson(Map<String, dynamic> json) {
+    return DiscoveredResource(
+      accountId: json['AccountId'] as String?,
+      name: json['Name'] as String?,
+      type: json['Type'] as String?,
+      uri: json['URI'] as String?,
+    );
+  }
+}
+
+/// A DNS Firewall rule group that Firewall Manager tried to associate with a
+/// VPC is already associated with the VPC and can't be associated again.
+class DnsDuplicateRuleGroupViolation {
+  /// Information about the VPC ID.
+  final String? violationTarget;
+
+  /// A description of the violation that specifies the rule group and VPC.
+  final String? violationTargetDescription;
+
+  DnsDuplicateRuleGroupViolation({
+    this.violationTarget,
+    this.violationTargetDescription,
+  });
+
+  factory DnsDuplicateRuleGroupViolation.fromJson(Map<String, dynamic> json) {
+    return DnsDuplicateRuleGroupViolation(
+      violationTarget: json['ViolationTarget'] as String?,
+      violationTargetDescription: json['ViolationTargetDescription'] as String?,
+    );
+  }
+}
+
+/// The VPC that Firewall Manager was applying a DNS Fireall policy to reached
+/// the limit for associated DNS Firewall rule groups. Firewall Manager tried to
+/// associate another rule group with the VPC and failed due to the limit.
+class DnsRuleGroupLimitExceededViolation {
+  /// The number of rule groups currently associated with the VPC.
+  final int? numberOfRuleGroupsAlreadyAssociated;
+
+  /// Information about the VPC ID.
+  final String? violationTarget;
+
+  /// A description of the violation that specifies the rule group and VPC.
+  final String? violationTargetDescription;
+
+  DnsRuleGroupLimitExceededViolation({
+    this.numberOfRuleGroupsAlreadyAssociated,
+    this.violationTarget,
+    this.violationTargetDescription,
+  });
+
+  factory DnsRuleGroupLimitExceededViolation.fromJson(
+      Map<String, dynamic> json) {
+    return DnsRuleGroupLimitExceededViolation(
+      numberOfRuleGroupsAlreadyAssociated:
+          json['NumberOfRuleGroupsAlreadyAssociated'] as int?,
+      violationTarget: json['ViolationTarget'] as String?,
+      violationTargetDescription: json['ViolationTargetDescription'] as String?,
+    );
+  }
+}
+
+/// A rule group that Firewall Manager tried to associate with a VPC has the
+/// same priority as a rule group that's already associated.
+class DnsRuleGroupPriorityConflictViolation {
+  /// The ID of the Firewall Manager DNS Firewall policy that was already applied
+  /// to the VPC. This policy contains the rule group that's already associated
+  /// with the VPC.
+  final String? conflictingPolicyId;
+
+  /// The priority setting of the two conflicting rule groups.
+  final int? conflictingPriority;
+
+  /// The priorities of rule groups that are already associated with the VPC. To
+  /// retry your operation, choose priority settings that aren't in this list for
+  /// the rule groups in your new DNS Firewall policy.
+  final List<int>? unavailablePriorities;
+
+  /// Information about the VPC ID.
+  final String? violationTarget;
+
+  /// A description of the violation that specifies the VPC and the rule group
+  /// that's already associated with it.
+  final String? violationTargetDescription;
+
+  DnsRuleGroupPriorityConflictViolation({
+    this.conflictingPolicyId,
+    this.conflictingPriority,
+    this.unavailablePriorities,
+    this.violationTarget,
+    this.violationTargetDescription,
+  });
+
+  factory DnsRuleGroupPriorityConflictViolation.fromJson(
+      Map<String, dynamic> json) {
+    return DnsRuleGroupPriorityConflictViolation(
+      conflictingPolicyId: json['ConflictingPolicyId'] as String?,
+      conflictingPriority: json['ConflictingPriority'] as int?,
+      unavailablePriorities: (json['UnavailablePriorities'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as int)
+          .toList(),
+      violationTarget: json['ViolationTarget'] as String?,
+      violationTargetDescription: json['ViolationTargetDescription'] as String?,
+    );
+  }
+}
+
+/// The action of associating an EC2 resource, such as a subnet or internet
+/// gateway, with a route table.
+class EC2AssociateRouteTableAction {
+  /// The ID of the EC2 route table that is associated with the remediation
+  /// action.
+  final ActionTarget routeTableId;
+
+  /// A description of the EC2 route table that is associated with the remediation
+  /// action.
+  final String? description;
+
+  /// The ID of the gateway to be used with the EC2 route table that is associated
+  /// with the remediation action.
+  final ActionTarget? gatewayId;
+
+  /// The ID of the subnet for the EC2 route table that is associated with the
+  /// remediation action.
+  final ActionTarget? subnetId;
+
+  EC2AssociateRouteTableAction({
+    required this.routeTableId,
+    this.description,
+    this.gatewayId,
+    this.subnetId,
+  });
+
+  factory EC2AssociateRouteTableAction.fromJson(Map<String, dynamic> json) {
+    return EC2AssociateRouteTableAction(
+      routeTableId:
+          ActionTarget.fromJson(json['RouteTableId'] as Map<String, dynamic>),
+      description: json['Description'] as String?,
+      gatewayId: json['GatewayId'] != null
+          ? ActionTarget.fromJson(json['GatewayId'] as Map<String, dynamic>)
+          : null,
+      subnetId: json['SubnetId'] != null
+          ? ActionTarget.fromJson(json['SubnetId'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// An action that copies the EC2 route table for use in remediation.
+class EC2CopyRouteTableAction {
+  /// The ID of the copied EC2 route table that is associated with the remediation
+  /// action.
+  final ActionTarget routeTableId;
+
+  /// The VPC ID of the copied EC2 route table that is associated with the
+  /// remediation action.
+  final ActionTarget vpcId;
+
+  /// A description of the copied EC2 route table that is associated with the
+  /// remediation action.
+  final String? description;
+
+  EC2CopyRouteTableAction({
+    required this.routeTableId,
+    required this.vpcId,
+    this.description,
+  });
+
+  factory EC2CopyRouteTableAction.fromJson(Map<String, dynamic> json) {
+    return EC2CopyRouteTableAction(
+      routeTableId:
+          ActionTarget.fromJson(json['RouteTableId'] as Map<String, dynamic>),
+      vpcId: ActionTarget.fromJson(json['VpcId'] as Map<String, dynamic>),
+      description: json['Description'] as String?,
+    );
+  }
+}
+
+/// Information about the CreateRoute action in Amazon EC2.
+class EC2CreateRouteAction {
+  /// Information about the ID of the route table for the route.
+  final ActionTarget routeTableId;
+
+  /// A description of CreateRoute action in Amazon EC2.
+  final String? description;
+
+  /// Information about the IPv4 CIDR address block used for the destination
+  /// match.
+  final String? destinationCidrBlock;
+
+  /// Information about the IPv6 CIDR block destination.
+  final String? destinationIpv6CidrBlock;
+
+  /// Information about the ID of a prefix list used for the destination match.
+  final String? destinationPrefixListId;
+
+  /// Information about the ID of an internet gateway or virtual private gateway
+  /// attached to your VPC.
+  final ActionTarget? gatewayId;
+
+  /// Information about the ID of a VPC endpoint. Supported for Gateway Load
+  /// Balancer endpoints only.
+  final ActionTarget? vpcEndpointId;
+
+  EC2CreateRouteAction({
+    required this.routeTableId,
+    this.description,
+    this.destinationCidrBlock,
+    this.destinationIpv6CidrBlock,
+    this.destinationPrefixListId,
+    this.gatewayId,
+    this.vpcEndpointId,
+  });
+
+  factory EC2CreateRouteAction.fromJson(Map<String, dynamic> json) {
+    return EC2CreateRouteAction(
+      routeTableId:
+          ActionTarget.fromJson(json['RouteTableId'] as Map<String, dynamic>),
+      description: json['Description'] as String?,
+      destinationCidrBlock: json['DestinationCidrBlock'] as String?,
+      destinationIpv6CidrBlock: json['DestinationIpv6CidrBlock'] as String?,
+      destinationPrefixListId: json['DestinationPrefixListId'] as String?,
+      gatewayId: json['GatewayId'] != null
+          ? ActionTarget.fromJson(json['GatewayId'] as Map<String, dynamic>)
+          : null,
+      vpcEndpointId: json['VpcEndpointId'] != null
+          ? ActionTarget.fromJson(json['VpcEndpointId'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// Information about the CreateRouteTable action in Amazon EC2.
+class EC2CreateRouteTableAction {
+  /// Information about the ID of a VPC.
+  final ActionTarget vpcId;
+
+  /// A description of the CreateRouteTable action.
+  final String? description;
+
+  EC2CreateRouteTableAction({
+    required this.vpcId,
+    this.description,
+  });
+
+  factory EC2CreateRouteTableAction.fromJson(Map<String, dynamic> json) {
+    return EC2CreateRouteTableAction(
+      vpcId: ActionTarget.fromJson(json['VpcId'] as Map<String, dynamic>),
+      description: json['Description'] as String?,
+    );
+  }
+}
+
+/// Information about the DeleteRoute action in Amazon EC2.
+class EC2DeleteRouteAction {
+  /// Information about the ID of the route table.
+  final ActionTarget routeTableId;
+
+  /// A description of the DeleteRoute action.
+  final String? description;
+
+  /// Information about the IPv4 CIDR range for the route. The value you specify
+  /// must match the CIDR for the route exactly.
+  final String? destinationCidrBlock;
+
+  /// Information about the IPv6 CIDR range for the route. The value you specify
+  /// must match the CIDR for the route exactly.
+  final String? destinationIpv6CidrBlock;
+
+  /// Information about the ID of the prefix list for the route.
+  final String? destinationPrefixListId;
+
+  EC2DeleteRouteAction({
+    required this.routeTableId,
+    this.description,
+    this.destinationCidrBlock,
+    this.destinationIpv6CidrBlock,
+    this.destinationPrefixListId,
+  });
+
+  factory EC2DeleteRouteAction.fromJson(Map<String, dynamic> json) {
+    return EC2DeleteRouteAction(
+      routeTableId:
+          ActionTarget.fromJson(json['RouteTableId'] as Map<String, dynamic>),
+      description: json['Description'] as String?,
+      destinationCidrBlock: json['DestinationCidrBlock'] as String?,
+      destinationIpv6CidrBlock: json['DestinationIpv6CidrBlock'] as String?,
+      destinationPrefixListId: json['DestinationPrefixListId'] as String?,
+    );
+  }
+}
+
+/// Information about the ReplaceRoute action in Amazon EC2.
+class EC2ReplaceRouteAction {
+  /// Information about the ID of the route table.
+  final ActionTarget routeTableId;
+
+  /// A description of the ReplaceRoute action in Amazon EC2.
+  final String? description;
+
+  /// Information about the IPv4 CIDR address block used for the destination
+  /// match. The value that you provide must match the CIDR of an existing route
+  /// in the table.
+  final String? destinationCidrBlock;
+
+  /// Information about the IPv6 CIDR address block used for the destination
+  /// match. The value that you provide must match the CIDR of an existing route
+  /// in the table.
+  final String? destinationIpv6CidrBlock;
+
+  /// Information about the ID of the prefix list for the route.
+  final String? destinationPrefixListId;
+
+  /// Information about the ID of an internet gateway or virtual private gateway.
+  final ActionTarget? gatewayId;
+
+  EC2ReplaceRouteAction({
+    required this.routeTableId,
+    this.description,
+    this.destinationCidrBlock,
+    this.destinationIpv6CidrBlock,
+    this.destinationPrefixListId,
+    this.gatewayId,
+  });
+
+  factory EC2ReplaceRouteAction.fromJson(Map<String, dynamic> json) {
+    return EC2ReplaceRouteAction(
+      routeTableId:
+          ActionTarget.fromJson(json['RouteTableId'] as Map<String, dynamic>),
+      description: json['Description'] as String?,
+      destinationCidrBlock: json['DestinationCidrBlock'] as String?,
+      destinationIpv6CidrBlock: json['DestinationIpv6CidrBlock'] as String?,
+      destinationPrefixListId: json['DestinationPrefixListId'] as String?,
+      gatewayId: json['GatewayId'] != null
+          ? ActionTarget.fromJson(json['GatewayId'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// Information about the ReplaceRouteTableAssociation action in Amazon EC2.
+class EC2ReplaceRouteTableAssociationAction {
+  /// Information about the association ID.
+  final ActionTarget associationId;
+
+  /// Information about the ID of the new route table to associate with the
+  /// subnet.
+  final ActionTarget routeTableId;
+
+  /// A description of the ReplaceRouteTableAssociation action in Amazon EC2.
+  final String? description;
+
+  EC2ReplaceRouteTableAssociationAction({
+    required this.associationId,
+    required this.routeTableId,
+    this.description,
+  });
+
+  factory EC2ReplaceRouteTableAssociationAction.fromJson(
+      Map<String, dynamic> json) {
+    return EC2ReplaceRouteTableAssociationAction(
+      associationId:
+          ActionTarget.fromJson(json['AssociationId'] as Map<String, dynamic>),
+      routeTableId:
+          ActionTarget.fromJson(json['RouteTableId'] as Map<String, dynamic>),
+      description: json['Description'] as String?,
+    );
+  }
+}
+
 /// Describes the compliance status for the account. An account is considered
 /// noncompliant if it includes resources that are not protected by the
 /// specified policy or that don't comply with the policy.
 class EvaluationResult {
-  /// Describes an AWS account's compliance with the AWS Firewall Manager policy.
+  /// Describes an Amazon Web Services account's compliance with the Firewall
+  /// Manager policy.
   final PolicyComplianceStatusType? complianceStatus;
 
-  /// Indicates that over 100 resources are noncompliant with the AWS Firewall
-  /// Manager policy.
+  /// Indicates that over 100 resources are noncompliant with the Firewall Manager
+  /// policy.
   final bool? evaluationLimitExceeded;
 
   /// The number of resources that are noncompliant with the specified policy. For
-  /// AWS WAF and Shield Advanced policies, a resource is considered noncompliant
-  /// if it is not associated with the policy. For security group policies, a
+  /// WAF and Shield Advanced policies, a resource is considered noncompliant if
+  /// it is not associated with the policy. For security group policies, a
   /// resource is considered noncompliant if it doesn't comply with the rules of
   /// the policy and remediation is disabled or not possible.
   final int? violatorCount;
@@ -1566,6 +3087,7 @@ class EvaluationResult {
     this.evaluationLimitExceeded,
     this.violatorCount,
   });
+
   factory EvaluationResult.fromJson(Map<String, dynamic> json) {
     return EvaluationResult(
       complianceStatus:
@@ -1576,11 +3098,256 @@ class EvaluationResult {
   }
 }
 
+/// Information about the expected route in the route table.
+class ExpectedRoute {
+  /// Information about the allowed targets.
+  final List<String>? allowedTargets;
+
+  /// Information about the contributing subnets.
+  final List<String>? contributingSubnets;
+
+  /// Information about the IPv4 CIDR block.
+  final String? ipV4Cidr;
+
+  /// Information about the IPv6 CIDR block.
+  final String? ipV6Cidr;
+
+  /// Information about the ID of the prefix list for the route.
+  final String? prefixListId;
+
+  /// Information about the route table ID.
+  final String? routeTableId;
+
+  ExpectedRoute({
+    this.allowedTargets,
+    this.contributingSubnets,
+    this.ipV4Cidr,
+    this.ipV6Cidr,
+    this.prefixListId,
+    this.routeTableId,
+  });
+
+  factory ExpectedRoute.fromJson(Map<String, dynamic> json) {
+    return ExpectedRoute(
+      allowedTargets: (json['AllowedTargets'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      contributingSubnets: (json['ContributingSubnets'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      ipV4Cidr: json['IpV4Cidr'] as String?,
+      ipV6Cidr: json['IpV6Cidr'] as String?,
+      prefixListId: json['PrefixListId'] as String?,
+      routeTableId: json['RouteTableId'] as String?,
+    );
+  }
+}
+
+/// Contains information about the actions that you can take to remediate scope
+/// violations caused by your policy's <code>FirewallCreationConfig</code>.
+/// <code>FirewallCreationConfig</code> is an optional configuration that you
+/// can use to choose which Availability Zones Firewall Manager creates Network
+/// Firewall endpoints in.
+class FMSPolicyUpdateFirewallCreationConfigAction {
+  /// Describes the remedial action.
+  final String? description;
+
+  /// A <code>FirewallCreationConfig</code> that you can copy into your current
+  /// policy's <a
+  /// href="https://docs.aws.amazon.com/fms/2018-01-01/APIReference/API_SecurityServicePolicyData.html">SecurityServiceData</a>
+  /// in order to remedy scope violations.
+  final String? firewallCreationConfig;
+
+  FMSPolicyUpdateFirewallCreationConfigAction({
+    this.description,
+    this.firewallCreationConfig,
+  });
+
+  factory FMSPolicyUpdateFirewallCreationConfigAction.fromJson(
+      Map<String, dynamic> json) {
+    return FMSPolicyUpdateFirewallCreationConfigAction(
+      description: json['Description'] as String?,
+      firewallCreationConfig: json['FirewallCreationConfig'] as String?,
+    );
+  }
+}
+
+/// Details of a resource that failed when trying to update it's association to
+/// a resource set.
+class FailedItem {
+  /// The reason the resource's association could not be updated.
+  final FailedItemReason? reason;
+
+  /// The univeral resource indicator (URI) of the resource that failed.
+  final String? uri;
+
+  FailedItem({
+    this.reason,
+    this.uri,
+  });
+
+  factory FailedItem.fromJson(Map<String, dynamic> json) {
+    return FailedItem(
+      reason: (json['Reason'] as String?)?.toFailedItemReason(),
+      uri: json['URI'] as String?,
+    );
+  }
+}
+
+enum FailedItemReason {
+  notValidArn,
+  notValidPartition,
+  notValidRegion,
+  notValidService,
+  notValidResourceType,
+  notValidAccountId,
+}
+
+extension FailedItemReasonValueExtension on FailedItemReason {
+  String toValue() {
+    switch (this) {
+      case FailedItemReason.notValidArn:
+        return 'NOT_VALID_ARN';
+      case FailedItemReason.notValidPartition:
+        return 'NOT_VALID_PARTITION';
+      case FailedItemReason.notValidRegion:
+        return 'NOT_VALID_REGION';
+      case FailedItemReason.notValidService:
+        return 'NOT_VALID_SERVICE';
+      case FailedItemReason.notValidResourceType:
+        return 'NOT_VALID_RESOURCE_TYPE';
+      case FailedItemReason.notValidAccountId:
+        return 'NOT_VALID_ACCOUNT_ID';
+    }
+  }
+}
+
+extension FailedItemReasonFromString on String {
+  FailedItemReason toFailedItemReason() {
+    switch (this) {
+      case 'NOT_VALID_ARN':
+        return FailedItemReason.notValidArn;
+      case 'NOT_VALID_PARTITION':
+        return FailedItemReason.notValidPartition;
+      case 'NOT_VALID_REGION':
+        return FailedItemReason.notValidRegion;
+      case 'NOT_VALID_SERVICE':
+        return FailedItemReason.notValidService;
+      case 'NOT_VALID_RESOURCE_TYPE':
+        return FailedItemReason.notValidResourceType;
+      case 'NOT_VALID_ACCOUNT_ID':
+        return FailedItemReason.notValidAccountId;
+    }
+    throw Exception('$this is not known in enum FailedItemReason');
+  }
+}
+
+enum FirewallDeploymentModel {
+  centralized,
+  distributed,
+}
+
+extension FirewallDeploymentModelValueExtension on FirewallDeploymentModel {
+  String toValue() {
+    switch (this) {
+      case FirewallDeploymentModel.centralized:
+        return 'CENTRALIZED';
+      case FirewallDeploymentModel.distributed:
+        return 'DISTRIBUTED';
+    }
+  }
+}
+
+extension FirewallDeploymentModelFromString on String {
+  FirewallDeploymentModel toFirewallDeploymentModel() {
+    switch (this) {
+      case 'CENTRALIZED':
+        return FirewallDeploymentModel.centralized;
+      case 'DISTRIBUTED':
+        return FirewallDeploymentModel.distributed;
+    }
+    throw Exception('$this is not known in enum FirewallDeploymentModel');
+  }
+}
+
+/// Contains details about the firewall subnet that violates the policy scope.
+class FirewallSubnetIsOutOfScopeViolation {
+  /// The ID of the firewall subnet that violates the policy scope.
+  final String? firewallSubnetId;
+
+  /// The Availability Zone of the firewall subnet that violates the policy scope.
+  final String? subnetAvailabilityZone;
+
+  /// The Availability Zone ID of the firewall subnet that violates the policy
+  /// scope.
+  final String? subnetAvailabilityZoneId;
+
+  /// The VPC endpoint ID of the firewall subnet that violates the policy scope.
+  final String? vpcEndpointId;
+
+  /// The VPC ID of the firewall subnet that violates the policy scope.
+  final String? vpcId;
+
+  FirewallSubnetIsOutOfScopeViolation({
+    this.firewallSubnetId,
+    this.subnetAvailabilityZone,
+    this.subnetAvailabilityZoneId,
+    this.vpcEndpointId,
+    this.vpcId,
+  });
+
+  factory FirewallSubnetIsOutOfScopeViolation.fromJson(
+      Map<String, dynamic> json) {
+    return FirewallSubnetIsOutOfScopeViolation(
+      firewallSubnetId: json['FirewallSubnetId'] as String?,
+      subnetAvailabilityZone: json['SubnetAvailabilityZone'] as String?,
+      subnetAvailabilityZoneId: json['SubnetAvailabilityZoneId'] as String?,
+      vpcEndpointId: json['VpcEndpointId'] as String?,
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+}
+
+/// The violation details for a firewall subnet's VPC endpoint that's deleted or
+/// missing.
+class FirewallSubnetMissingVPCEndpointViolation {
+  /// The ID of the firewall that this VPC endpoint is associated with.
+  final String? firewallSubnetId;
+
+  /// The name of the Availability Zone of the deleted VPC subnet.
+  final String? subnetAvailabilityZone;
+
+  /// The ID of the Availability Zone of the deleted VPC subnet.
+  final String? subnetAvailabilityZoneId;
+
+  /// The resource ID of the VPC associated with the deleted VPC subnet.
+  final String? vpcId;
+
+  FirewallSubnetMissingVPCEndpointViolation({
+    this.firewallSubnetId,
+    this.subnetAvailabilityZone,
+    this.subnetAvailabilityZoneId,
+    this.vpcId,
+  });
+
+  factory FirewallSubnetMissingVPCEndpointViolation.fromJson(
+      Map<String, dynamic> json) {
+    return FirewallSubnetMissingVPCEndpointViolation(
+      firewallSubnetId: json['FirewallSubnetId'] as String?,
+      subnetAvailabilityZone: json['SubnetAvailabilityZone'] as String?,
+      subnetAvailabilityZoneId: json['SubnetAvailabilityZoneId'] as String?,
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+}
+
 class GetAdminAccountResponse {
-  /// The AWS account that is set as the AWS Firewall Manager administrator.
+  /// The account that is set as the Firewall Manager default administrator.
   final String? adminAccount;
 
-  /// The status of the AWS account that you set as the AWS Firewall Manager
+  /// The status of the account that you set as the Firewall Manager default
   /// administrator.
   final AccountRoleStatus? roleStatus;
 
@@ -1588,6 +3355,7 @@ class GetAdminAccountResponse {
     this.adminAccount,
     this.roleStatus,
   });
+
   factory GetAdminAccountResponse.fromJson(Map<String, dynamic> json) {
     return GetAdminAccountResponse(
       adminAccount: json['AdminAccount'] as String?,
@@ -1596,8 +3364,51 @@ class GetAdminAccountResponse {
   }
 }
 
+class GetAdminScopeResponse {
+  /// Contains details about the administrative scope of the requested account.
+  final AdminScope? adminScope;
+
+  /// The current status of the request to onboard a member account as an Firewall
+  /// Manager administator.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ONBOARDING</code> - The account is onboarding to Firewall Manager as
+  /// an administrator.
+  /// </li>
+  /// <li>
+  /// <code>ONBOARDING_COMPLETE</code> - Firewall Manager The account is onboarded
+  /// to Firewall Manager as an administrator, and can perform actions on the
+  /// resources defined in their <a>AdminScope</a>.
+  /// </li>
+  /// <li>
+  /// <code>OFFBOARDING</code> - The account is being removed as an Firewall
+  /// Manager administrator.
+  /// </li>
+  /// <li>
+  /// <code>OFFBOARDING_COMPLETE</code> - The account has been removed as an
+  /// Firewall Manager administrator.
+  /// </li>
+  /// </ul>
+  final OrganizationStatus? status;
+
+  GetAdminScopeResponse({
+    this.adminScope,
+    this.status,
+  });
+
+  factory GetAdminScopeResponse.fromJson(Map<String, dynamic> json) {
+    return GetAdminScopeResponse(
+      adminScope: json['AdminScope'] != null
+          ? AdminScope.fromJson(json['AdminScope'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.toOrganizationStatus(),
+    );
+  }
+}
+
 class GetAppsListResponse {
-  /// Information about the specified AWS Firewall Manager applications list.
+  /// Information about the specified Firewall Manager applications list.
   final AppsListData? appsList;
 
   /// The Amazon Resource Name (ARN) of the applications list.
@@ -1607,6 +3418,7 @@ class GetAppsListResponse {
     this.appsList,
     this.appsListArn,
   });
+
   factory GetAppsListResponse.fromJson(Map<String, dynamic> json) {
     return GetAppsListResponse(
       appsList: json['AppsList'] != null
@@ -1625,6 +3437,7 @@ class GetComplianceDetailResponse {
   GetComplianceDetailResponse({
     this.policyComplianceDetail,
   });
+
   factory GetComplianceDetailResponse.fromJson(Map<String, dynamic> json) {
     return GetComplianceDetailResponse(
       policyComplianceDetail: json['PolicyComplianceDetail'] != null
@@ -1636,16 +3449,17 @@ class GetComplianceDetailResponse {
 }
 
 class GetNotificationChannelResponse {
-  /// The IAM role that is used by AWS Firewall Manager to record activity to SNS.
+  /// The IAM role that is used by Firewall Manager to record activity to SNS.
   final String? snsRoleName;
 
-  /// The SNS topic that records AWS Firewall Manager activity.
+  /// The SNS topic that records Firewall Manager activity.
   final String? snsTopicArn;
 
   GetNotificationChannelResponse({
     this.snsRoleName,
     this.snsTopicArn,
   });
+
   factory GetNotificationChannelResponse.fromJson(Map<String, dynamic> json) {
     return GetNotificationChannelResponse(
       snsRoleName: json['SnsRoleName'] as String?,
@@ -1655,7 +3469,7 @@ class GetNotificationChannelResponse {
 }
 
 class GetPolicyResponse {
-  /// Information about the specified AWS Firewall Manager policy.
+  /// Information about the specified Firewall Manager policy.
   final Policy? policy;
 
   /// The Amazon Resource Name (ARN) of the specified policy.
@@ -1665,6 +3479,7 @@ class GetPolicyResponse {
     this.policy,
     this.policyArn,
   });
+
   factory GetPolicyResponse.fromJson(Map<String, dynamic> json) {
     return GetPolicyResponse(
       policy: json['Policy'] != null
@@ -1676,7 +3491,7 @@ class GetPolicyResponse {
 }
 
 class GetProtectionStatusResponse {
-  /// The ID of the AWS Firewall administrator account for this policy.
+  /// The ID of the Firewall Manager administrator account for this policy.
   final String? adminAccountId;
 
   /// Details about the attack, including the following:
@@ -1708,11 +3523,11 @@ class GetProtectionStatusResponse {
   /// <code>NextToken</code> value from the response in the <code>NextToken</code>
   /// value in the next request.
   ///
-  /// AWS SDKs provide auto-pagination that identify <code>NextToken</code> in a
-  /// response and make subsequent request calls automatically on your behalf.
-  /// However, this feature is not supported by <code>GetProtectionStatus</code>.
-  /// You must submit subsequent requests with <code>NextToken</code> using your
-  /// own processes.
+  /// Amazon Web Services SDKs provide auto-pagination that identify
+  /// <code>NextToken</code> in a response and make subsequent request calls
+  /// automatically on your behalf. However, this feature is not supported by
+  /// <code>GetProtectionStatus</code>. You must submit subsequent requests with
+  /// <code>NextToken</code> using your own processes.
   final String? nextToken;
 
   /// The service type that is protected by the policy. Currently, this is always
@@ -1725,6 +3540,7 @@ class GetProtectionStatusResponse {
     this.nextToken,
     this.serviceType,
   });
+
   factory GetProtectionStatusResponse.fromJson(Map<String, dynamic> json) {
     return GetProtectionStatusResponse(
       adminAccountId: json['AdminAccountId'] as String?,
@@ -1736,7 +3552,7 @@ class GetProtectionStatusResponse {
 }
 
 class GetProtocolsListResponse {
-  /// Information about the specified AWS Firewall Manager protocols list.
+  /// Information about the specified Firewall Manager protocols list.
   final ProtocolsListData? protocolsList;
 
   /// The Amazon Resource Name (ARN) of the specified protocols list.
@@ -1746,6 +3562,7 @@ class GetProtocolsListResponse {
     this.protocolsList,
     this.protocolsListArn,
   });
+
   factory GetProtocolsListResponse.fromJson(Map<String, dynamic> json) {
     return GetProtocolsListResponse(
       protocolsList: json['ProtocolsList'] != null
@@ -1757,6 +3574,94 @@ class GetProtocolsListResponse {
   }
 }
 
+class GetResourceSetResponse {
+  /// Information about the specified resource set.
+  final ResourceSet resourceSet;
+
+  /// The Amazon Resource Name (ARN) of the resource set.
+  final String resourceSetArn;
+
+  GetResourceSetResponse({
+    required this.resourceSet,
+    required this.resourceSetArn,
+  });
+
+  factory GetResourceSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetResourceSetResponse(
+      resourceSet:
+          ResourceSet.fromJson(json['ResourceSet'] as Map<String, dynamic>),
+      resourceSetArn: json['ResourceSetArn'] as String,
+    );
+  }
+}
+
+class GetThirdPartyFirewallAssociationStatusResponse {
+  /// The status for subscribing to the third-party firewall vendor in the Amazon
+  /// Web Services Marketplace.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>NO_SUBSCRIPTION</code> - The Firewall Manager policy administrator
+  /// isn't subscribed to the third-party firewall service in the Amazon Web
+  /// Services Marketplace.
+  /// </li>
+  /// <li>
+  /// <code>NOT_COMPLETE</code> - The Firewall Manager policy administrator is in
+  /// the process of subscribing to the third-party firewall service in the Amazon
+  /// Web Services Marketplace, but doesn't yet have an active subscription.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETE</code> - The Firewall Manager policy administrator has an
+  /// active subscription to the third-party firewall service in the Amazon Web
+  /// Services Marketplace.
+  /// </li>
+  /// </ul>
+  final MarketplaceSubscriptionOnboardingStatus? marketplaceOnboardingStatus;
+
+  /// The current status for setting a Firewall Manager policy administrators
+  /// account as an administrator of the third-party firewall tenant.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ONBOARDING</code> - The Firewall Manager policy administrator is being
+  /// designated as a tenant administrator.
+  /// </li>
+  /// <li>
+  /// <code>ONBOARD_COMPLETE</code> - The Firewall Manager policy administrator is
+  /// designated as a tenant administrator.
+  /// </li>
+  /// <li>
+  /// <code>OFFBOARDING</code> - The Firewall Manager policy administrator is
+  /// being removed as a tenant administrator.
+  /// </li>
+  /// <li>
+  /// <code>OFFBOARD_COMPLETE</code> - The Firewall Manager policy administrator
+  /// has been removed as a tenant administrator.
+  /// </li>
+  /// <li>
+  /// <code>NOT_EXIST</code> - The Firewall Manager policy administrator doesn't
+  /// exist as a tenant administrator.
+  /// </li>
+  /// </ul>
+  final ThirdPartyFirewallAssociationStatus? thirdPartyFirewallStatus;
+
+  GetThirdPartyFirewallAssociationStatusResponse({
+    this.marketplaceOnboardingStatus,
+    this.thirdPartyFirewallStatus,
+  });
+
+  factory GetThirdPartyFirewallAssociationStatusResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetThirdPartyFirewallAssociationStatusResponse(
+      marketplaceOnboardingStatus:
+          (json['MarketplaceOnboardingStatus'] as String?)
+              ?.toMarketplaceSubscriptionOnboardingStatus(),
+      thirdPartyFirewallStatus: (json['ThirdPartyFirewallStatus'] as String?)
+          ?.toThirdPartyFirewallAssociationStatus(),
+    );
+  }
+}
+
 class GetViolationDetailsResponse {
   /// Violation detail for a resource.
   final ViolationDetail? violationDetail;
@@ -1764,6 +3669,7 @@ class GetViolationDetailsResponse {
   GetViolationDetailsResponse({
     this.violationDetail,
   });
+
   factory GetViolationDetailsResponse.fromJson(Map<String, dynamic> json) {
     return GetViolationDetailsResponse(
       violationDetail: json['ViolationDetail'] != null
@@ -1774,20 +3680,80 @@ class GetViolationDetailsResponse {
   }
 }
 
+class ListAdminAccountsForOrganizationResponse {
+  /// A list of Firewall Manager administrator accounts within the organization
+  /// that were onboarded as administrators by <a>AssociateAdminAccount</a> or
+  /// <a>PutAdminAccount</a>.
+  final List<AdminAccountSummary>? adminAccounts;
+
+  /// When you request a list of objects with a <code>MaxResults</code> setting,
+  /// if the number of objects that are still available for retrieval exceeds the
+  /// maximum you requested, Firewall Manager returns a <code>NextToken</code>
+  /// value in the response. To retrieve the next batch of objects, use the token
+  /// returned from the prior request in your next request.
+  final String? nextToken;
+
+  ListAdminAccountsForOrganizationResponse({
+    this.adminAccounts,
+    this.nextToken,
+  });
+
+  factory ListAdminAccountsForOrganizationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAdminAccountsForOrganizationResponse(
+      adminAccounts: (json['AdminAccounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => AdminAccountSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
+class ListAdminsManagingAccountResponse {
+  /// The list of accounts who manage member accounts within their
+  /// <a>AdminScope</a>.
+  final List<String>? adminAccounts;
+
+  /// When you request a list of objects with a <code>MaxResults</code> setting,
+  /// if the number of objects that are still available for retrieval exceeds the
+  /// maximum you requested, Firewall Manager returns a <code>NextToken</code>
+  /// value in the response. To retrieve the next batch of objects, use the token
+  /// returned from the prior request in your next request.
+  final String? nextToken;
+
+  ListAdminsManagingAccountResponse({
+    this.adminAccounts,
+    this.nextToken,
+  });
+
+  factory ListAdminsManagingAccountResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAdminsManagingAccountResponse(
+      adminAccounts: (json['AdminAccounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
 class ListAppsListsResponse {
   /// An array of <code>AppsListDataSummary</code> objects.
   final List<AppsListDataSummary>? appsLists;
 
   /// If you specify a value for <code>MaxResults</code> in your list request, and
-  /// you have more objects than the maximum, AWS Firewall Manager returns this
-  /// token in the response. You can use this token in subsequent requests to
-  /// retrieve the next batch of objects.
+  /// you have more objects than the maximum, Firewall Manager returns this token
+  /// in the response. You can use this token in subsequent requests to retrieve
+  /// the next batch of objects.
   final String? nextToken;
 
   ListAppsListsResponse({
     this.appsLists,
     this.nextToken,
   });
+
   factory ListAppsListsResponse.fromJson(Map<String, dynamic> json) {
     return ListAppsListsResponse(
       appsLists: (json['AppsLists'] as List?)
@@ -1816,6 +3782,7 @@ class ListComplianceStatusResponse {
     this.nextToken,
     this.policyComplianceStatusList,
   });
+
   factory ListComplianceStatusResponse.fromJson(Map<String, dynamic> json) {
     return ListComplianceStatusResponse(
       nextToken: json['NextToken'] as String?,
@@ -1824,6 +3791,33 @@ class ListComplianceStatusResponse {
           .map(
               (e) => PolicyComplianceStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
+    );
+  }
+}
+
+class ListDiscoveredResourcesResponse {
+  /// Details of the resources that were discovered.
+  final List<DiscoveredResource>? items;
+
+  /// When you request a list of objects with a <code>MaxResults</code> setting,
+  /// if the number of objects that are still available for retrieval exceeds the
+  /// maximum you requested, Firewall Manager returns a <code>NextToken</code>
+  /// value in the response. To retrieve the next batch of objects, use the token
+  /// returned from the prior request in your next request.
+  final String? nextToken;
+
+  ListDiscoveredResourcesResponse({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ListDiscoveredResourcesResponse.fromJson(Map<String, dynamic> json) {
+    return ListDiscoveredResourcesResponse(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => DiscoveredResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
     );
   }
 }
@@ -1844,6 +3838,7 @@ class ListMemberAccountsResponse {
     this.memberAccounts,
     this.nextToken,
   });
+
   factory ListMemberAccountsResponse.fromJson(Map<String, dynamic> json) {
     return ListMemberAccountsResponse(
       memberAccounts: (json['MemberAccounts'] as List?)
@@ -1871,6 +3866,7 @@ class ListPoliciesResponse {
     this.nextToken,
     this.policyList,
   });
+
   factory ListPoliciesResponse.fromJson(Map<String, dynamic> json) {
     return ListPoliciesResponse(
       nextToken: json['NextToken'] as String?,
@@ -1884,9 +3880,9 @@ class ListPoliciesResponse {
 
 class ListProtocolsListsResponse {
   /// If you specify a value for <code>MaxResults</code> in your list request, and
-  /// you have more objects than the maximum, AWS Firewall Manager returns this
-  /// token in the response. You can use this token in subsequent requests to
-  /// retrieve the next batch of objects.
+  /// you have more objects than the maximum, Firewall Manager returns this token
+  /// in the response. You can use this token in subsequent requests to retrieve
+  /// the next batch of objects.
   final String? nextToken;
 
   /// An array of <code>ProtocolsListDataSummary</code> objects.
@@ -1896,6 +3892,7 @@ class ListProtocolsListsResponse {
     this.nextToken,
     this.protocolsLists,
   });
+
   factory ListProtocolsListsResponse.fromJson(Map<String, dynamic> json) {
     return ListProtocolsListsResponse(
       nextToken: json['NextToken'] as String?,
@@ -1908,6 +3905,60 @@ class ListProtocolsListsResponse {
   }
 }
 
+class ListResourceSetResourcesResponse {
+  /// An array of the associated resources' uniform resource identifiers (URI).
+  final List<Resource> items;
+
+  /// When you request a list of objects with a <code>MaxResults</code> setting,
+  /// if the number of objects that are still available for retrieval exceeds the
+  /// maximum you requested, Firewall Manager returns a <code>NextToken</code>
+  /// value in the response. To retrieve the next batch of objects, use the token
+  /// returned from the prior request in your next request.
+  final String? nextToken;
+
+  ListResourceSetResourcesResponse({
+    required this.items,
+    this.nextToken,
+  });
+
+  factory ListResourceSetResourcesResponse.fromJson(Map<String, dynamic> json) {
+    return ListResourceSetResourcesResponse(
+      items: (json['Items'] as List)
+          .whereNotNull()
+          .map((e) => Resource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
+class ListResourceSetsResponse {
+  /// When you request a list of objects with a <code>MaxResults</code> setting,
+  /// if the number of objects that are still available for retrieval exceeds the
+  /// maximum you requested, Firewall Manager returns a <code>NextToken</code>
+  /// value in the response. To retrieve the next batch of objects, use the token
+  /// returned from the prior request in your next request.
+  final String? nextToken;
+
+  /// An array of <code>ResourceSetSummary</code> objects.
+  final List<ResourceSetSummary>? resourceSets;
+
+  ListResourceSetsResponse({
+    this.nextToken,
+    this.resourceSets,
+  });
+
+  factory ListResourceSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListResourceSetsResponse(
+      nextToken: json['NextToken'] as String?,
+      resourceSets: (json['ResourceSets'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceSetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 class ListTagsForResourceResponse {
   /// The tags associated with the resource.
   final List<Tag>? tagList;
@@ -1915,6 +3966,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.tagList,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tagList: (json['TagList'] as List?)
@@ -1925,8 +3977,340 @@ class ListTagsForResourceResponse {
   }
 }
 
-/// Violation details for AWS Network Firewall for a subnet that's not
-/// associated to the expected Firewall Manager managed route table.
+class ListThirdPartyFirewallFirewallPoliciesResponse {
+  /// The value that you will use for <code>NextToken</code> in the next
+  /// <code>ListThirdPartyFirewallFirewallPolicies</code> request.
+  final String? nextToken;
+
+  /// A list that contains one <code>ThirdPartyFirewallFirewallPolicies</code>
+  /// element for each third-party firewall policies that the specified
+  /// third-party firewall vendor is associated with. Each
+  /// <code>ThirdPartyFirewallFirewallPolicies</code> element contains the
+  /// firewall policy name and ID.
+  final List<ThirdPartyFirewallFirewallPolicy>?
+      thirdPartyFirewallFirewallPolicies;
+
+  ListThirdPartyFirewallFirewallPoliciesResponse({
+    this.nextToken,
+    this.thirdPartyFirewallFirewallPolicies,
+  });
+
+  factory ListThirdPartyFirewallFirewallPoliciesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListThirdPartyFirewallFirewallPoliciesResponse(
+      nextToken: json['NextToken'] as String?,
+      thirdPartyFirewallFirewallPolicies:
+          (json['ThirdPartyFirewallFirewallPolicies'] as List?)
+              ?.whereNotNull()
+              .map((e) => ThirdPartyFirewallFirewallPolicy.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+}
+
+enum MarketplaceSubscriptionOnboardingStatus {
+  noSubscription,
+  notComplete,
+  complete,
+}
+
+extension MarketplaceSubscriptionOnboardingStatusValueExtension
+    on MarketplaceSubscriptionOnboardingStatus {
+  String toValue() {
+    switch (this) {
+      case MarketplaceSubscriptionOnboardingStatus.noSubscription:
+        return 'NO_SUBSCRIPTION';
+      case MarketplaceSubscriptionOnboardingStatus.notComplete:
+        return 'NOT_COMPLETE';
+      case MarketplaceSubscriptionOnboardingStatus.complete:
+        return 'COMPLETE';
+    }
+  }
+}
+
+extension MarketplaceSubscriptionOnboardingStatusFromString on String {
+  MarketplaceSubscriptionOnboardingStatus
+      toMarketplaceSubscriptionOnboardingStatus() {
+    switch (this) {
+      case 'NO_SUBSCRIPTION':
+        return MarketplaceSubscriptionOnboardingStatus.noSubscription;
+      case 'NOT_COMPLETE':
+        return MarketplaceSubscriptionOnboardingStatus.notComplete;
+      case 'COMPLETE':
+        return MarketplaceSubscriptionOnboardingStatus.complete;
+    }
+    throw Exception(
+        '$this is not known in enum MarketplaceSubscriptionOnboardingStatus');
+  }
+}
+
+/// Violation detail for an internet gateway route with an inactive state in the
+/// customer subnet route table or Network Firewall subnet route table.
+class NetworkFirewallBlackHoleRouteDetectedViolation {
+  /// Information about the route table ID.
+  final String? routeTableId;
+
+  /// Information about the route or routes that are in violation.
+  final List<Route>? violatingRoutes;
+
+  /// The subnet that has an inactive state.
+  final String? violationTarget;
+
+  /// Information about the VPC ID.
+  final String? vpcId;
+
+  NetworkFirewallBlackHoleRouteDetectedViolation({
+    this.routeTableId,
+    this.violatingRoutes,
+    this.violationTarget,
+    this.vpcId,
+  });
+
+  factory NetworkFirewallBlackHoleRouteDetectedViolation.fromJson(
+      Map<String, dynamic> json) {
+    return NetworkFirewallBlackHoleRouteDetectedViolation(
+      routeTableId: json['RouteTableId'] as String?,
+      violatingRoutes: (json['ViolatingRoutes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Route.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      violationTarget: json['ViolationTarget'] as String?,
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+}
+
+/// Violation detail for the subnet for which internet traffic that hasn't been
+/// inspected.
+class NetworkFirewallInternetTrafficNotInspectedViolation {
+  /// The actual firewall subnet routes.
+  final List<Route>? actualFirewallSubnetRoutes;
+
+  /// The actual internet gateway routes.
+  final List<Route>? actualInternetGatewayRoutes;
+
+  /// Information about the subnet route table for the current firewall.
+  final String? currentFirewallSubnetRouteTable;
+
+  /// The current route table for the internet gateway.
+  final String? currentInternetGatewayRouteTable;
+
+  /// The expected endpoint for the current firewall.
+  final String? expectedFirewallEndpoint;
+
+  /// The firewall subnet routes that are expected.
+  final List<ExpectedRoute>? expectedFirewallSubnetRoutes;
+
+  /// The internet gateway routes that are expected.
+  final List<ExpectedRoute>? expectedInternetGatewayRoutes;
+
+  /// The firewall subnet ID.
+  final String? firewallSubnetId;
+
+  /// The internet gateway ID.
+  final String? internetGatewayId;
+
+  /// Information about whether the route table is used in another Availability
+  /// Zone.
+  final bool? isRouteTableUsedInDifferentAZ;
+
+  /// Information about the route table ID.
+  final String? routeTableId;
+
+  /// The subnet Availability Zone.
+  final String? subnetAvailabilityZone;
+
+  /// The subnet ID.
+  final String? subnetId;
+
+  /// The route or routes that are in violation.
+  final List<Route>? violatingRoutes;
+
+  /// Information about the VPC ID.
+  final String? vpcId;
+
+  NetworkFirewallInternetTrafficNotInspectedViolation({
+    this.actualFirewallSubnetRoutes,
+    this.actualInternetGatewayRoutes,
+    this.currentFirewallSubnetRouteTable,
+    this.currentInternetGatewayRouteTable,
+    this.expectedFirewallEndpoint,
+    this.expectedFirewallSubnetRoutes,
+    this.expectedInternetGatewayRoutes,
+    this.firewallSubnetId,
+    this.internetGatewayId,
+    this.isRouteTableUsedInDifferentAZ,
+    this.routeTableId,
+    this.subnetAvailabilityZone,
+    this.subnetId,
+    this.violatingRoutes,
+    this.vpcId,
+  });
+
+  factory NetworkFirewallInternetTrafficNotInspectedViolation.fromJson(
+      Map<String, dynamic> json) {
+    return NetworkFirewallInternetTrafficNotInspectedViolation(
+      actualFirewallSubnetRoutes: (json['ActualFirewallSubnetRoutes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Route.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      actualInternetGatewayRoutes:
+          (json['ActualInternetGatewayRoutes'] as List?)
+              ?.whereNotNull()
+              .map((e) => Route.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      currentFirewallSubnetRouteTable:
+          json['CurrentFirewallSubnetRouteTable'] as String?,
+      currentInternetGatewayRouteTable:
+          json['CurrentInternetGatewayRouteTable'] as String?,
+      expectedFirewallEndpoint: json['ExpectedFirewallEndpoint'] as String?,
+      expectedFirewallSubnetRoutes:
+          (json['ExpectedFirewallSubnetRoutes'] as List?)
+              ?.whereNotNull()
+              .map((e) => ExpectedRoute.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      expectedInternetGatewayRoutes:
+          (json['ExpectedInternetGatewayRoutes'] as List?)
+              ?.whereNotNull()
+              .map((e) => ExpectedRoute.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      firewallSubnetId: json['FirewallSubnetId'] as String?,
+      internetGatewayId: json['InternetGatewayId'] as String?,
+      isRouteTableUsedInDifferentAZ:
+          json['IsRouteTableUsedInDifferentAZ'] as bool?,
+      routeTableId: json['RouteTableId'] as String?,
+      subnetAvailabilityZone: json['SubnetAvailabilityZone'] as String?,
+      subnetId: json['SubnetId'] as String?,
+      violatingRoutes: (json['ViolatingRoutes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Route.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+}
+
+/// Violation detail for the improperly configured subnet route. It's possible
+/// there is a missing route table route, or a configuration that causes traffic
+/// to cross an Availability Zone boundary.
+class NetworkFirewallInvalidRouteConfigurationViolation {
+  /// The actual firewall endpoint.
+  final String? actualFirewallEndpoint;
+
+  /// The actual subnet ID for the firewall.
+  final String? actualFirewallSubnetId;
+
+  /// The actual firewall subnet routes that are expected.
+  final List<Route>? actualFirewallSubnetRoutes;
+
+  /// The actual internet gateway routes.
+  final List<Route>? actualInternetGatewayRoutes;
+
+  /// The subnets that are affected.
+  final List<String>? affectedSubnets;
+
+  /// The subnet route table for the current firewall.
+  final String? currentFirewallSubnetRouteTable;
+
+  /// The route table for the current internet gateway.
+  final String? currentInternetGatewayRouteTable;
+
+  /// The firewall endpoint that's expected.
+  final String? expectedFirewallEndpoint;
+
+  /// The expected subnet ID for the firewall.
+  final String? expectedFirewallSubnetId;
+
+  /// The firewall subnet routes that are expected.
+  final List<ExpectedRoute>? expectedFirewallSubnetRoutes;
+
+  /// The expected routes for the internet gateway.
+  final List<ExpectedRoute>? expectedInternetGatewayRoutes;
+
+  /// The internet gateway ID.
+  final String? internetGatewayId;
+
+  /// Information about whether the route table is used in another Availability
+  /// Zone.
+  final bool? isRouteTableUsedInDifferentAZ;
+
+  /// The route table ID.
+  final String? routeTableId;
+
+  /// The route that's in violation.
+  final Route? violatingRoute;
+
+  /// Information about the VPC ID.
+  final String? vpcId;
+
+  NetworkFirewallInvalidRouteConfigurationViolation({
+    this.actualFirewallEndpoint,
+    this.actualFirewallSubnetId,
+    this.actualFirewallSubnetRoutes,
+    this.actualInternetGatewayRoutes,
+    this.affectedSubnets,
+    this.currentFirewallSubnetRouteTable,
+    this.currentInternetGatewayRouteTable,
+    this.expectedFirewallEndpoint,
+    this.expectedFirewallSubnetId,
+    this.expectedFirewallSubnetRoutes,
+    this.expectedInternetGatewayRoutes,
+    this.internetGatewayId,
+    this.isRouteTableUsedInDifferentAZ,
+    this.routeTableId,
+    this.violatingRoute,
+    this.vpcId,
+  });
+
+  factory NetworkFirewallInvalidRouteConfigurationViolation.fromJson(
+      Map<String, dynamic> json) {
+    return NetworkFirewallInvalidRouteConfigurationViolation(
+      actualFirewallEndpoint: json['ActualFirewallEndpoint'] as String?,
+      actualFirewallSubnetId: json['ActualFirewallSubnetId'] as String?,
+      actualFirewallSubnetRoutes: (json['ActualFirewallSubnetRoutes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Route.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      actualInternetGatewayRoutes:
+          (json['ActualInternetGatewayRoutes'] as List?)
+              ?.whereNotNull()
+              .map((e) => Route.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      affectedSubnets: (json['AffectedSubnets'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      currentFirewallSubnetRouteTable:
+          json['CurrentFirewallSubnetRouteTable'] as String?,
+      currentInternetGatewayRouteTable:
+          json['CurrentInternetGatewayRouteTable'] as String?,
+      expectedFirewallEndpoint: json['ExpectedFirewallEndpoint'] as String?,
+      expectedFirewallSubnetId: json['ExpectedFirewallSubnetId'] as String?,
+      expectedFirewallSubnetRoutes:
+          (json['ExpectedFirewallSubnetRoutes'] as List?)
+              ?.whereNotNull()
+              .map((e) => ExpectedRoute.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      expectedInternetGatewayRoutes:
+          (json['ExpectedInternetGatewayRoutes'] as List?)
+              ?.whereNotNull()
+              .map((e) => ExpectedRoute.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      internetGatewayId: json['InternetGatewayId'] as String?,
+      isRouteTableUsedInDifferentAZ:
+          json['IsRouteTableUsedInDifferentAZ'] as bool?,
+      routeTableId: json['RouteTableId'] as String?,
+      violatingRoute: json['ViolatingRoute'] != null
+          ? Route.fromJson(json['ViolatingRoute'] as Map<String, dynamic>)
+          : null,
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+}
+
+/// Violation detail for Network Firewall for a subnet that's not associated to
+/// the expected Firewall Manager managed route table.
 class NetworkFirewallMissingExpectedRTViolation {
   /// The Availability Zone of a violating subnet.
   final String? availabilityZone;
@@ -1942,7 +4326,7 @@ class NetworkFirewallMissingExpectedRTViolation {
   /// The resource ID of the VPC associated with a violating subnet.
   final String? vpc;
 
-  /// The ID of the AWS Network Firewall or VPC resource that's in violation.
+  /// The ID of the Network Firewall or VPC resource that's in violation.
   final String? violationTarget;
 
   NetworkFirewallMissingExpectedRTViolation({
@@ -1952,6 +4336,7 @@ class NetworkFirewallMissingExpectedRTViolation {
     this.vpc,
     this.violationTarget,
   });
+
   factory NetworkFirewallMissingExpectedRTViolation.fromJson(
       Map<String, dynamic> json) {
     return NetworkFirewallMissingExpectedRTViolation(
@@ -1964,7 +4349,37 @@ class NetworkFirewallMissingExpectedRTViolation {
   }
 }
 
-/// Violation details for AWS Network Firewall for a subnet that doesn't have a
+/// Violation detail for an expected route missing in Network Firewall.
+class NetworkFirewallMissingExpectedRoutesViolation {
+  /// The expected routes.
+  final List<ExpectedRoute>? expectedRoutes;
+
+  /// The target of the violation.
+  final String? violationTarget;
+
+  /// Information about the VPC ID.
+  final String? vpcId;
+
+  NetworkFirewallMissingExpectedRoutesViolation({
+    this.expectedRoutes,
+    this.violationTarget,
+    this.vpcId,
+  });
+
+  factory NetworkFirewallMissingExpectedRoutesViolation.fromJson(
+      Map<String, dynamic> json) {
+    return NetworkFirewallMissingExpectedRoutesViolation(
+      expectedRoutes: (json['ExpectedRoutes'] as List?)
+          ?.whereNotNull()
+          .map((e) => ExpectedRoute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      violationTarget: json['ViolationTarget'] as String?,
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+}
+
+/// Violation detail for Network Firewall for a subnet that doesn't have a
 /// Firewall Manager managed firewall in its VPC.
 class NetworkFirewallMissingFirewallViolation {
   /// The Availability Zone of a violating subnet.
@@ -1976,7 +4391,7 @@ class NetworkFirewallMissingFirewallViolation {
   /// The resource ID of the VPC associated with a violating subnet.
   final String? vpc;
 
-  /// The ID of the AWS Network Firewall or VPC resource that's in violation.
+  /// The ID of the Network Firewall or VPC resource that's in violation.
   final String? violationTarget;
 
   NetworkFirewallMissingFirewallViolation({
@@ -1985,6 +4400,7 @@ class NetworkFirewallMissingFirewallViolation {
     this.vpc,
     this.violationTarget,
   });
+
   factory NetworkFirewallMissingFirewallViolation.fromJson(
       Map<String, dynamic> json) {
     return NetworkFirewallMissingFirewallViolation(
@@ -1996,7 +4412,7 @@ class NetworkFirewallMissingFirewallViolation {
   }
 }
 
-/// Violation details for AWS Network Firewall for an Availability Zone that's
+/// Violation detail for Network Firewall for an Availability Zone that's
 /// missing the expected Firewall Manager managed subnet.
 class NetworkFirewallMissingSubnetViolation {
   /// The Availability Zone of a violating subnet.
@@ -2008,7 +4424,7 @@ class NetworkFirewallMissingSubnetViolation {
   /// The resource ID of the VPC associated with a violating subnet.
   final String? vpc;
 
-  /// The ID of the AWS Network Firewall or VPC resource that's in violation.
+  /// The ID of the Network Firewall or VPC resource that's in violation.
   final String? violationTarget;
 
   NetworkFirewallMissingSubnetViolation({
@@ -2017,6 +4433,7 @@ class NetworkFirewallMissingSubnetViolation {
     this.vpc,
     this.violationTarget,
   });
+
   factory NetworkFirewallMissingSubnetViolation.fromJson(
       Map<String, dynamic> json) {
     return NetworkFirewallMissingSubnetViolation(
@@ -2028,8 +4445,91 @@ class NetworkFirewallMissingSubnetViolation {
   }
 }
 
-/// The definition of the AWS Network Firewall firewall policy.
+enum NetworkFirewallOverrideAction {
+  dropToAlert,
+}
+
+extension NetworkFirewallOverrideActionValueExtension
+    on NetworkFirewallOverrideAction {
+  String toValue() {
+    switch (this) {
+      case NetworkFirewallOverrideAction.dropToAlert:
+        return 'DROP_TO_ALERT';
+    }
+  }
+}
+
+extension NetworkFirewallOverrideActionFromString on String {
+  NetworkFirewallOverrideAction toNetworkFirewallOverrideAction() {
+    switch (this) {
+      case 'DROP_TO_ALERT':
+        return NetworkFirewallOverrideAction.dropToAlert;
+    }
+    throw Exception('$this is not known in enum NetworkFirewallOverrideAction');
+  }
+}
+
+/// Configures the firewall policy deployment model of Network Firewall. For
+/// information about Network Firewall deployment models, see <a
+/// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/architectures.html">Network
+/// Firewall example architectures with routing</a> in the <i>Network Firewall
+/// Developer Guide</i>.
+class NetworkFirewallPolicy {
+  /// Defines the deployment model to use for the firewall policy. To use a
+  /// distributed model, set <a
+  /// href="https://docs.aws.amazon.com/fms/2018-01-01/APIReference/API_PolicyOption.html">PolicyOption</a>
+  /// to <code>NULL</code>.
+  final FirewallDeploymentModel? firewallDeploymentModel;
+
+  NetworkFirewallPolicy({
+    this.firewallDeploymentModel,
+  });
+
+  factory NetworkFirewallPolicy.fromJson(Map<String, dynamic> json) {
+    return NetworkFirewallPolicy(
+      firewallDeploymentModel: (json['FirewallDeploymentModel'] as String?)
+          ?.toFirewallDeploymentModel(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewallDeploymentModel = this.firewallDeploymentModel;
+    return {
+      if (firewallDeploymentModel != null)
+        'FirewallDeploymentModel': firewallDeploymentModel.toValue(),
+    };
+  }
+}
+
+/// The definition of the Network Firewall firewall policy.
 class NetworkFirewallPolicyDescription {
+  /// The default actions to take on a packet that doesn't match any stateful
+  /// rules. The stateful default action is optional, and is only valid when using
+  /// the strict rule order.
+  ///
+  /// Valid values of the stateful default action:
+  ///
+  /// <ul>
+  /// <li>
+  /// aws:drop_strict
+  /// </li>
+  /// <li>
+  /// aws:drop_established
+  /// </li>
+  /// <li>
+  /// aws:alert_strict
+  /// </li>
+  /// <li>
+  /// aws:alert_established
+  /// </li>
+  /// </ul>
+  final List<String>? statefulDefaultActions;
+
+  /// Additional options governing how Network Firewall handles stateful rules.
+  /// The stateful rule groups that you use in your policy must have stateful rule
+  /// options settings that are compatible with these settings.
+  final StatefulEngineOptions? statefulEngineOptions;
+
   /// The stateful rule groups that are used in the Network Firewall firewall
   /// policy.
   final List<StatefulRuleGroup>? statefulRuleGroups;
@@ -2051,14 +4551,25 @@ class NetworkFirewallPolicyDescription {
   final List<StatelessRuleGroup>? statelessRuleGroups;
 
   NetworkFirewallPolicyDescription({
+    this.statefulDefaultActions,
+    this.statefulEngineOptions,
     this.statefulRuleGroups,
     this.statelessCustomActions,
     this.statelessDefaultActions,
     this.statelessFragmentDefaultActions,
     this.statelessRuleGroups,
   });
+
   factory NetworkFirewallPolicyDescription.fromJson(Map<String, dynamic> json) {
     return NetworkFirewallPolicyDescription(
+      statefulDefaultActions: (json['StatefulDefaultActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      statefulEngineOptions: json['StatefulEngineOptions'] != null
+          ? StatefulEngineOptions.fromJson(
+              json['StatefulEngineOptions'] as Map<String, dynamic>)
+          : null,
       statefulRuleGroups: (json['StatefulRuleGroups'] as List?)
           ?.whereNotNull()
           .map((e) => StatefulRuleGroup.fromJson(e as Map<String, dynamic>))
@@ -2084,7 +4595,7 @@ class NetworkFirewallPolicyDescription {
   }
 }
 
-/// Violation details for AWS Network Firewall for a firewall policy that has a
+/// Violation detail for Network Firewall for a firewall policy that has a
 /// different <a>NetworkFirewallPolicyDescription</a> than is required by the
 /// Firewall Manager policy.
 class NetworkFirewallPolicyModifiedViolation {
@@ -2095,7 +4606,7 @@ class NetworkFirewallPolicyModifiedViolation {
   /// compliant.
   final NetworkFirewallPolicyDescription? expectedPolicyDescription;
 
-  /// The ID of the AWS Network Firewall or VPC resource that's in violation.
+  /// The ID of the Network Firewall or VPC resource that's in violation.
   final String? violationTarget;
 
   NetworkFirewallPolicyModifiedViolation({
@@ -2103,6 +4614,7 @@ class NetworkFirewallPolicyModifiedViolation {
     this.expectedPolicyDescription,
     this.violationTarget,
   });
+
   factory NetworkFirewallPolicyModifiedViolation.fromJson(
       Map<String, dynamic> json) {
     return NetworkFirewallPolicyModifiedViolation(
@@ -2119,11 +4631,217 @@ class NetworkFirewallPolicyModifiedViolation {
   }
 }
 
+/// The setting that allows the policy owner to change the behavior of the rule
+/// group within a policy.
+class NetworkFirewallStatefulRuleGroupOverride {
+  /// The action that changes the rule group from <code>DROP</code> to
+  /// <code>ALERT</code>. This only applies to managed rule groups.
+  final NetworkFirewallOverrideAction? action;
+
+  NetworkFirewallStatefulRuleGroupOverride({
+    this.action,
+  });
+
+  factory NetworkFirewallStatefulRuleGroupOverride.fromJson(
+      Map<String, dynamic> json) {
+    return NetworkFirewallStatefulRuleGroupOverride(
+      action: (json['Action'] as String?)?.toNetworkFirewallOverrideAction(),
+    );
+  }
+}
+
+/// Violation detail for an unexpected route that's present in a route table.
+class NetworkFirewallUnexpectedFirewallRoutesViolation {
+  /// The endpoint of the firewall.
+  final String? firewallEndpoint;
+
+  /// The subnet ID for the firewall.
+  final String? firewallSubnetId;
+
+  /// The ID of the route table.
+  final String? routeTableId;
+
+  /// The routes that are in violation.
+  final List<Route>? violatingRoutes;
+
+  /// Information about the VPC ID.
+  final String? vpcId;
+
+  NetworkFirewallUnexpectedFirewallRoutesViolation({
+    this.firewallEndpoint,
+    this.firewallSubnetId,
+    this.routeTableId,
+    this.violatingRoutes,
+    this.vpcId,
+  });
+
+  factory NetworkFirewallUnexpectedFirewallRoutesViolation.fromJson(
+      Map<String, dynamic> json) {
+    return NetworkFirewallUnexpectedFirewallRoutesViolation(
+      firewallEndpoint: json['FirewallEndpoint'] as String?,
+      firewallSubnetId: json['FirewallSubnetId'] as String?,
+      routeTableId: json['RouteTableId'] as String?,
+      violatingRoutes: (json['ViolatingRoutes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Route.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+}
+
+/// Violation detail for an unexpected gateway route that’s present in a route
+/// table.
+class NetworkFirewallUnexpectedGatewayRoutesViolation {
+  /// Information about the gateway ID.
+  final String? gatewayId;
+
+  /// Information about the route table.
+  final String? routeTableId;
+
+  /// The routes that are in violation.
+  final List<Route>? violatingRoutes;
+
+  /// Information about the VPC ID.
+  final String? vpcId;
+
+  NetworkFirewallUnexpectedGatewayRoutesViolation({
+    this.gatewayId,
+    this.routeTableId,
+    this.violatingRoutes,
+    this.vpcId,
+  });
+
+  factory NetworkFirewallUnexpectedGatewayRoutesViolation.fromJson(
+      Map<String, dynamic> json) {
+    return NetworkFirewallUnexpectedGatewayRoutesViolation(
+      gatewayId: json['GatewayId'] as String?,
+      routeTableId: json['RouteTableId'] as String?,
+      violatingRoutes: (json['ViolatingRoutes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Route.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+}
+
+enum OrganizationStatus {
+  onboarding,
+  onboardingComplete,
+  offboarding,
+  offboardingComplete,
+}
+
+extension OrganizationStatusValueExtension on OrganizationStatus {
+  String toValue() {
+    switch (this) {
+      case OrganizationStatus.onboarding:
+        return 'ONBOARDING';
+      case OrganizationStatus.onboardingComplete:
+        return 'ONBOARDING_COMPLETE';
+      case OrganizationStatus.offboarding:
+        return 'OFFBOARDING';
+      case OrganizationStatus.offboardingComplete:
+        return 'OFFBOARDING_COMPLETE';
+    }
+  }
+}
+
+extension OrganizationStatusFromString on String {
+  OrganizationStatus toOrganizationStatus() {
+    switch (this) {
+      case 'ONBOARDING':
+        return OrganizationStatus.onboarding;
+      case 'ONBOARDING_COMPLETE':
+        return OrganizationStatus.onboardingComplete;
+      case 'OFFBOARDING':
+        return OrganizationStatus.offboarding;
+      case 'OFFBOARDING_COMPLETE':
+        return OrganizationStatus.offboardingComplete;
+    }
+    throw Exception('$this is not known in enum OrganizationStatus');
+  }
+}
+
+/// Defines the Organizations organizational units (OUs) that the specified
+/// Firewall Manager administrator can apply policies to. For more information
+/// about OUs in Organizations, see <a
+/// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_ous.html">Managing
+/// organizational units (OUs) </a> in the <i>Organizations User Guide</i>.
+class OrganizationalUnitScope {
+  /// A boolean value that indicates if the administrator can apply policies to
+  /// all OUs within an organization. If true, the administrator can manage all
+  /// OUs within the organization. You can either enable management of all OUs
+  /// through this operation, or you can specify OUs to manage in
+  /// <code>OrganizationalUnitScope$OrganizationalUnits</code>. You cannot specify
+  /// both.
+  final bool? allOrganizationalUnitsEnabled;
+
+  /// A boolean value that excludes the OUs in
+  /// <code>OrganizationalUnitScope$OrganizationalUnits</code> from the
+  /// administrator's scope. If true, the Firewall Manager administrator can apply
+  /// policies to all OUs in the organization except for the OUs listed in
+  /// <code>OrganizationalUnitScope$OrganizationalUnits</code>. You can either
+  /// specify a list of OUs to exclude by
+  /// <code>OrganizationalUnitScope$OrganizationalUnits</code>, or you can enable
+  /// management of all OUs by
+  /// <code>OrganizationalUnitScope$AllOrganizationalUnitsEnabled</code>. You
+  /// cannot specify both.
+  final bool? excludeSpecifiedOrganizationalUnits;
+
+  /// The list of OUs within the organization that the specified Firewall Manager
+  /// administrator either can or cannot apply policies to, based on the value of
+  /// <code>OrganizationalUnitScope$ExcludeSpecifiedOrganizationalUnits</code>. If
+  /// <code>OrganizationalUnitScope$ExcludeSpecifiedOrganizationalUnits</code> is
+  /// set to <code>true</code>, then the Firewall Manager administrator can apply
+  /// policies to all OUs in the organization except for the OUs in this list. If
+  /// <code>OrganizationalUnitScope$ExcludeSpecifiedOrganizationalUnits</code> is
+  /// set to <code>false</code>, then the Firewall Manager administrator can only
+  /// apply policies to the OUs in this list.
+  final List<String>? organizationalUnits;
+
+  OrganizationalUnitScope({
+    this.allOrganizationalUnitsEnabled,
+    this.excludeSpecifiedOrganizationalUnits,
+    this.organizationalUnits,
+  });
+
+  factory OrganizationalUnitScope.fromJson(Map<String, dynamic> json) {
+    return OrganizationalUnitScope(
+      allOrganizationalUnitsEnabled:
+          json['AllOrganizationalUnitsEnabled'] as bool?,
+      excludeSpecifiedOrganizationalUnits:
+          json['ExcludeSpecifiedOrganizationalUnits'] as bool?,
+      organizationalUnits: (json['OrganizationalUnits'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allOrganizationalUnitsEnabled = this.allOrganizationalUnitsEnabled;
+    final excludeSpecifiedOrganizationalUnits =
+        this.excludeSpecifiedOrganizationalUnits;
+    final organizationalUnits = this.organizationalUnits;
+    return {
+      if (allOrganizationalUnitsEnabled != null)
+        'AllOrganizationalUnitsEnabled': allOrganizationalUnitsEnabled,
+      if (excludeSpecifiedOrganizationalUnits != null)
+        'ExcludeSpecifiedOrganizationalUnits':
+            excludeSpecifiedOrganizationalUnits,
+      if (organizationalUnits != null)
+        'OrganizationalUnits': organizationalUnits,
+    };
+  }
+}
+
 /// The reference rule that partially matches the <code>ViolationTarget</code>
 /// rule and violation reason.
 class PartialMatch {
-  /// The reference rule from the master security group of the AWS Firewall
-  /// Manager policy.
+  /// The reference rule from the primary security group of the Firewall Manager
+  /// policy.
   final String? reference;
 
   /// The violation reason.
@@ -2133,6 +4851,7 @@ class PartialMatch {
     this.reference,
     this.targetViolationReasons,
   });
+
   factory PartialMatch.fromJson(Map<String, dynamic> json) {
     return PartialMatch(
       reference: json['Reference'] as String?,
@@ -2144,7 +4863,7 @@ class PartialMatch {
   }
 }
 
-/// An AWS Firewall Manager policy.
+/// An Firewall Manager policy.
 class Policy {
   /// If set to <code>True</code>, resources with the tags that are specified in
   /// the <code>ResourceTag</code> array are not in scope of the policy. If set to
@@ -2152,7 +4871,7 @@ class Policy {
   /// resources with the specified tags are in scope of the policy.
   final bool excludeResourceTags;
 
-  /// The name of the AWS Firewall Manager policy.
+  /// The name of the Firewall Manager policy.
   final String policyName;
 
   /// Indicates if the policy should be automatically applied to new resources.
@@ -2160,31 +4879,50 @@ class Policy {
 
   /// The type of resource protected by or in scope of the policy. This is in the
   /// format shown in the <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">AWS
-  /// Resource Types Reference</a>. For AWS WAF and Shield Advanced, examples
-  /// include <code>AWS::ElasticLoadBalancingV2::LoadBalancer</code> and
-  /// <code>AWS::CloudFront::Distribution</code>. For a security group common
-  /// policy, valid values are <code>AWS::EC2::NetworkInterface</code> and
-  /// <code>AWS::EC2::Instance</code>. For a security group content audit policy,
-  /// valid values are <code>AWS::EC2::SecurityGroup</code>,
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">Amazon
+  /// Web Services Resource Types Reference</a>. To apply this policy to multiple
+  /// resource types, specify a resource type of <code>ResourceTypeList</code> and
+  /// then specify the resource types in a <code>ResourceTypeList</code>.
+  ///
+  /// For WAF and Shield Advanced, resource types include
+  /// <code>AWS::ElasticLoadBalancingV2::LoadBalancer</code>,
+  /// <code>AWS::ElasticLoadBalancing::LoadBalancer</code>,
+  /// <code>AWS::EC2::EIP</code>, and <code>AWS::CloudFront::Distribution</code>.
+  /// For a security group common policy, valid values are
+  /// <code>AWS::EC2::NetworkInterface</code> and <code>AWS::EC2::Instance</code>.
+  /// For a security group content audit policy, valid values are
+  /// <code>AWS::EC2::SecurityGroup</code>,
   /// <code>AWS::EC2::NetworkInterface</code>, and
   /// <code>AWS::EC2::Instance</code>. For a security group usage audit policy,
-  /// the value is <code>AWS::EC2::SecurityGroup</code>. For an AWS Network
-  /// Firewall policy, the value is <code>AWS::EC2::VPC</code>.
+  /// the value is <code>AWS::EC2::SecurityGroup</code>. For an Network Firewall
+  /// policy or DNS Firewall policy, the value is <code>AWS::EC2::VPC</code>.
   final String resourceType;
 
   /// Details about the security service that is being used to protect the
   /// resources.
   final SecurityServicePolicyData securityServicePolicyData;
 
-  /// Specifies the AWS account IDs and AWS Organizations organizational units
-  /// (OUs) to exclude from the policy. Specifying an OU is the equivalent of
-  /// specifying all accounts in the OU and in any of its child OUs, including any
-  /// child OUs and accounts that are added at a later time.
+  /// Indicates whether Firewall Manager should automatically remove protections
+  /// from resources that leave the policy scope and clean up resources that
+  /// Firewall Manager is managing for accounts when those accounts leave policy
+  /// scope. For example, Firewall Manager will disassociate a Firewall Manager
+  /// managed web ACL from a protected customer resource when the customer
+  /// resource leaves policy scope.
+  ///
+  /// By default, Firewall Manager doesn't remove protections or delete Firewall
+  /// Manager managed resources.
+  ///
+  /// This option is not available for Shield Advanced or WAF Classic policies.
+  final bool? deleteUnusedFMManagedResources;
+
+  /// Specifies the Amazon Web Services account IDs and Organizations
+  /// organizational units (OUs) to exclude from the policy. Specifying an OU is
+  /// the equivalent of specifying all accounts in the OU and in any of its child
+  /// OUs, including any child OUs and accounts that are added at a later time.
   ///
   /// You can specify inclusions or exclusions, but not both. If you specify an
-  /// <code>IncludeMap</code>, AWS Firewall Manager applies the policy to all
-  /// accounts specified by the <code>IncludeMap</code>, and does not evaluate any
+  /// <code>IncludeMap</code>, Firewall Manager applies the policy to all accounts
+  /// specified by the <code>IncludeMap</code>, and does not evaluate any
   /// <code>ExcludeMap</code> specifications. If you do not specify an
   /// <code>IncludeMap</code>, then Firewall Manager applies the policy to all
   /// accounts except for those specified by the <code>ExcludeMap</code>.
@@ -2210,14 +4948,14 @@ class Policy {
   /// </ul>
   final Map<CustomerPolicyScopeIdType, List<String>>? excludeMap;
 
-  /// Specifies the AWS account IDs and AWS Organizations organizational units
-  /// (OUs) to include in the policy. Specifying an OU is the equivalent of
-  /// specifying all accounts in the OU and in any of its child OUs, including any
-  /// child OUs and accounts that are added at a later time.
+  /// Specifies the Amazon Web Services account IDs and Organizations
+  /// organizational units (OUs) to include in the policy. Specifying an OU is the
+  /// equivalent of specifying all accounts in the OU and in any of its child OUs,
+  /// including any child OUs and accounts that are added at a later time.
   ///
   /// You can specify inclusions or exclusions, but not both. If you specify an
-  /// <code>IncludeMap</code>, AWS Firewall Manager applies the policy to all
-  /// accounts specified by the <code>IncludeMap</code>, and does not evaluate any
+  /// <code>IncludeMap</code>, Firewall Manager applies the policy to all accounts
+  /// specified by the <code>IncludeMap</code>, and does not evaluate any
   /// <code>ExcludeMap</code> specifications. If you do not specify an
   /// <code>IncludeMap</code>, then Firewall Manager applies the policy to all
   /// accounts except for those specified by the <code>ExcludeMap</code>.
@@ -2243,8 +4981,27 @@ class Policy {
   /// </ul>
   final Map<CustomerPolicyScopeIdType, List<String>>? includeMap;
 
-  /// The ID of the AWS Firewall Manager policy.
+  /// The definition of the Network Firewall firewall policy.
+  final String? policyDescription;
+
+  /// The ID of the Firewall Manager policy.
   final String? policyId;
+
+  /// Indicates whether the policy is in or out of an admin's policy or Region
+  /// scope.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code> - The administrator can manage and delete the policy.
+  /// </li>
+  /// <li>
+  /// <code>OUT_OF_ADMIN_SCOPE</code> - The administrator can view the policy, but
+  /// they can't edit or delete the policy. Existing policy protections stay in
+  /// place. Any new resources that come into scope of the policy won't be
+  /// protected.
+  /// </li>
+  /// </ul>
+  final CustomerPolicyStatus? policyStatus;
 
   /// A unique identifier for each update to the policy. When issuing a
   /// <code>PutPolicy</code> request, the <code>PolicyUpdateToken</code> in the
@@ -2253,10 +5010,15 @@ class Policy {
   /// version, use a <code>GetPolicy</code> request.
   final String? policyUpdateToken;
 
+  /// The unique identifiers of the resource sets used by the policy.
+  final List<String>? resourceSetIds;
+
   /// An array of <code>ResourceTag</code> objects.
   final List<ResourceTag>? resourceTags;
 
-  /// An array of <code>ResourceType</code>.
+  /// An array of <code>ResourceType</code> objects. Use this only to specify
+  /// multiple resource types. To specify a single resource type, use
+  /// <code>ResourceType</code>.
   final List<String>? resourceTypeList;
 
   Policy({
@@ -2265,13 +5027,18 @@ class Policy {
     required this.remediationEnabled,
     required this.resourceType,
     required this.securityServicePolicyData,
+    this.deleteUnusedFMManagedResources,
     this.excludeMap,
     this.includeMap,
+    this.policyDescription,
     this.policyId,
+    this.policyStatus,
     this.policyUpdateToken,
+    this.resourceSetIds,
     this.resourceTags,
     this.resourceTypeList,
   });
+
   factory Policy.fromJson(Map<String, dynamic> json) {
     return Policy(
       excludeResourceTags: json['ExcludeResourceTags'] as bool,
@@ -2280,14 +5047,22 @@ class Policy {
       resourceType: json['ResourceType'] as String,
       securityServicePolicyData: SecurityServicePolicyData.fromJson(
           json['SecurityServicePolicyData'] as Map<String, dynamic>),
+      deleteUnusedFMManagedResources:
+          json['DeleteUnusedFMManagedResources'] as bool?,
       excludeMap: (json['ExcludeMap'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(k.toCustomerPolicyScopeIdType(),
               (e as List).whereNotNull().map((e) => e as String).toList())),
       includeMap: (json['IncludeMap'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(k.toCustomerPolicyScopeIdType(),
               (e as List).whereNotNull().map((e) => e as String).toList())),
+      policyDescription: json['PolicyDescription'] as String?,
       policyId: json['PolicyId'] as String?,
+      policyStatus: (json['PolicyStatus'] as String?)?.toCustomerPolicyStatus(),
       policyUpdateToken: json['PolicyUpdateToken'] as String?,
+      resourceSetIds: (json['ResourceSetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       resourceTags: (json['ResourceTags'] as List?)
           ?.whereNotNull()
           .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
@@ -2305,10 +5080,14 @@ class Policy {
     final remediationEnabled = this.remediationEnabled;
     final resourceType = this.resourceType;
     final securityServicePolicyData = this.securityServicePolicyData;
+    final deleteUnusedFMManagedResources = this.deleteUnusedFMManagedResources;
     final excludeMap = this.excludeMap;
     final includeMap = this.includeMap;
+    final policyDescription = this.policyDescription;
     final policyId = this.policyId;
+    final policyStatus = this.policyStatus;
     final policyUpdateToken = this.policyUpdateToken;
+    final resourceSetIds = this.resourceSetIds;
     final resourceTags = this.resourceTags;
     final resourceTypeList = this.resourceTypeList;
     return {
@@ -2317,48 +5096,51 @@ class Policy {
       'RemediationEnabled': remediationEnabled,
       'ResourceType': resourceType,
       'SecurityServicePolicyData': securityServicePolicyData,
+      if (deleteUnusedFMManagedResources != null)
+        'DeleteUnusedFMManagedResources': deleteUnusedFMManagedResources,
       if (excludeMap != null)
         'ExcludeMap': excludeMap.map((k, e) => MapEntry(k.toValue(), e)),
       if (includeMap != null)
         'IncludeMap': includeMap.map((k, e) => MapEntry(k.toValue(), e)),
+      if (policyDescription != null) 'PolicyDescription': policyDescription,
       if (policyId != null) 'PolicyId': policyId,
+      if (policyStatus != null) 'PolicyStatus': policyStatus.toValue(),
       if (policyUpdateToken != null) 'PolicyUpdateToken': policyUpdateToken,
+      if (resourceSetIds != null) 'ResourceSetIds': resourceSetIds,
       if (resourceTags != null) 'ResourceTags': resourceTags,
       if (resourceTypeList != null) 'ResourceTypeList': resourceTypeList,
     };
   }
 }
 
-/// Describes the noncompliant resources in a member account for a specific AWS
+/// Describes the noncompliant resources in a member account for a specific
 /// Firewall Manager policy. A maximum of 100 entries are displayed. If more
 /// than 100 resources are noncompliant, <code>EvaluationLimitExceeded</code> is
 /// set to <code>True</code>.
 class PolicyComplianceDetail {
-  /// Indicates if over 100 resources are noncompliant with the AWS Firewall
-  /// Manager policy.
+  /// Indicates if over 100 resources are noncompliant with the Firewall Manager
+  /// policy.
   final bool? evaluationLimitExceeded;
 
   /// A timestamp that indicates when the returned information should be
   /// considered out of date.
   final DateTime? expiredAt;
 
-  /// Details about problems with dependent services, such as AWS WAF or AWS
-  /// Config, that are causing a resource to be noncompliant. The details include
-  /// the name of the dependent service and the error message received that
-  /// indicates the problem with the service.
+  /// Details about problems with dependent services, such as WAF or Config, and
+  /// the error message received that indicates the problem with the service.
   final Map<DependentServiceName, String>? issueInfoMap;
 
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   final String? memberAccount;
 
-  /// The ID of the AWS Firewall Manager policy.
+  /// The ID of the Firewall Manager policy.
   final String? policyId;
 
-  /// The AWS account that created the AWS Firewall Manager policy.
+  /// The Amazon Web Services account that created the Firewall Manager policy.
   final String? policyOwner;
 
-  /// An array of resources that aren't protected by the AWS WAF or Shield
-  /// Advanced policy or that aren't in compliance with the security group policy.
+  /// An array of resources that aren't protected by the WAF or Shield Advanced
+  /// policy or that aren't in compliance with the security group policy.
   final List<ComplianceViolator>? violators;
 
   PolicyComplianceDetail({
@@ -2370,6 +5152,7 @@ class PolicyComplianceDetail {
     this.policyOwner,
     this.violators,
   });
+
   factory PolicyComplianceDetail.fromJson(Map<String, dynamic> json) {
     return PolicyComplianceDetail(
       evaluationLimitExceeded: json['EvaluationLimitExceeded'] as bool?,
@@ -2389,16 +5172,14 @@ class PolicyComplianceDetail {
 
 /// Indicates whether the account is compliant with the specified policy. An
 /// account is considered noncompliant if it includes resources that are not
-/// protected by the policy, for AWS WAF and Shield Advanced policies, or that
-/// are noncompliant with the policy, for security group policies.
+/// protected by the policy, for WAF and Shield Advanced policies, or that are
+/// noncompliant with the policy, for security group policies.
 class PolicyComplianceStatus {
   /// An array of <code>EvaluationResult</code> objects.
   final List<EvaluationResult>? evaluationResults;
 
-  /// Details about problems with dependent services, such as AWS WAF or AWS
-  /// Config, that are causing a resource to be noncompliant. The details include
-  /// the name of the dependent service and the error message received that
-  /// indicates the problem with the service.
+  /// Details about problems with dependent services, such as WAF or Config, and
+  /// the error message received that indicates the problem with the service.
   final Map<DependentServiceName, String>? issueInfoMap;
 
   /// Timestamp of the last update to the <code>EvaluationResult</code> objects.
@@ -2407,13 +5188,13 @@ class PolicyComplianceStatus {
   /// The member account ID.
   final String? memberAccount;
 
-  /// The ID of the AWS Firewall Manager policy.
+  /// The ID of the Firewall Manager policy.
   final String? policyId;
 
-  /// The name of the AWS Firewall Manager policy.
+  /// The name of the Firewall Manager policy.
   final String? policyName;
 
-  /// The AWS account that created the AWS Firewall Manager policy.
+  /// The Amazon Web Services account that created the Firewall Manager policy.
   final String? policyOwner;
 
   PolicyComplianceStatus({
@@ -2425,6 +5206,7 @@ class PolicyComplianceStatus {
     this.policyName,
     this.policyOwner,
   });
+
   factory PolicyComplianceStatus.fromJson(Map<String, dynamic> json) {
     return PolicyComplianceStatus(
       evaluationResults: (json['EvaluationResults'] as List?)
@@ -2471,8 +5253,60 @@ extension PolicyComplianceStatusTypeFromString on String {
   }
 }
 
-/// Details of the AWS Firewall Manager policy.
+/// Contains the Network Firewall firewall policy options to configure the
+/// policy's deployment model and third-party firewall policy settings.
+class PolicyOption {
+  /// Defines the deployment model to use for the firewall policy.
+  final NetworkFirewallPolicy? networkFirewallPolicy;
+
+  /// Defines the policy options for a third-party firewall policy.
+  final ThirdPartyFirewallPolicy? thirdPartyFirewallPolicy;
+
+  PolicyOption({
+    this.networkFirewallPolicy,
+    this.thirdPartyFirewallPolicy,
+  });
+
+  factory PolicyOption.fromJson(Map<String, dynamic> json) {
+    return PolicyOption(
+      networkFirewallPolicy: json['NetworkFirewallPolicy'] != null
+          ? NetworkFirewallPolicy.fromJson(
+              json['NetworkFirewallPolicy'] as Map<String, dynamic>)
+          : null,
+      thirdPartyFirewallPolicy: json['ThirdPartyFirewallPolicy'] != null
+          ? ThirdPartyFirewallPolicy.fromJson(
+              json['ThirdPartyFirewallPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final networkFirewallPolicy = this.networkFirewallPolicy;
+    final thirdPartyFirewallPolicy = this.thirdPartyFirewallPolicy;
+    return {
+      if (networkFirewallPolicy != null)
+        'NetworkFirewallPolicy': networkFirewallPolicy,
+      if (thirdPartyFirewallPolicy != null)
+        'ThirdPartyFirewallPolicy': thirdPartyFirewallPolicy,
+    };
+  }
+}
+
+/// Details of the Firewall Manager policy.
 class PolicySummary {
+  /// Indicates whether Firewall Manager should automatically remove protections
+  /// from resources that leave the policy scope and clean up resources that
+  /// Firewall Manager is managing for accounts when those accounts leave policy
+  /// scope. For example, Firewall Manager will disassociate a Firewall Manager
+  /// managed web ACL from a protected customer resource when the customer
+  /// resource leaves policy scope.
+  ///
+  /// By default, Firewall Manager doesn't remove protections or delete Firewall
+  /// Manager managed resources.
+  ///
+  /// This option is not available for Shield Advanced or WAF Classic policies.
+  final bool? deleteUnusedFMManagedResources;
+
   /// The Amazon Resource Name (ARN) of the specified policy.
   final String? policyArn;
 
@@ -2482,42 +5316,64 @@ class PolicySummary {
   /// The name of the specified policy.
   final String? policyName;
 
+  /// Indicates whether the policy is in or out of an admin's policy or Region
+  /// scope.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code> - The administrator can manage and delete the policy.
+  /// </li>
+  /// <li>
+  /// <code>OUT_OF_ADMIN_SCOPE</code> - The administrator can view the policy, but
+  /// they can't edit or delete the policy. Existing policy protections stay in
+  /// place. Any new resources that come into scope of the policy won't be
+  /// protected.
+  /// </li>
+  /// </ul>
+  final CustomerPolicyStatus? policyStatus;
+
   /// Indicates if the policy should be automatically applied to new resources.
   final bool? remediationEnabled;
 
   /// The type of resource protected by or in scope of the policy. This is in the
   /// format shown in the <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">AWS
-  /// Resource Types Reference</a>. For AWS WAF and Shield Advanced, examples
-  /// include <code>AWS::ElasticLoadBalancingV2::LoadBalancer</code> and
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">Amazon
+  /// Web Services Resource Types Reference</a>. For WAF and Shield Advanced,
+  /// examples include <code>AWS::ElasticLoadBalancingV2::LoadBalancer</code> and
   /// <code>AWS::CloudFront::Distribution</code>. For a security group common
   /// policy, valid values are <code>AWS::EC2::NetworkInterface</code> and
   /// <code>AWS::EC2::Instance</code>. For a security group content audit policy,
   /// valid values are <code>AWS::EC2::SecurityGroup</code>,
   /// <code>AWS::EC2::NetworkInterface</code>, and
   /// <code>AWS::EC2::Instance</code>. For a security group usage audit policy,
-  /// the value is <code>AWS::EC2::SecurityGroup</code>. For an AWS Network
-  /// Firewall policy, the value is <code>AWS::EC2::VPC</code>.
+  /// the value is <code>AWS::EC2::SecurityGroup</code>. For an Network Firewall
+  /// policy or DNS Firewall policy, the value is <code>AWS::EC2::VPC</code>.
   final String? resourceType;
 
   /// The service that the policy is using to protect the resources. This
-  /// specifies the type of policy that is created, either an AWS WAF policy, a
-  /// Shield Advanced policy, or a security group policy.
+  /// specifies the type of policy that is created, either an WAF policy, a Shield
+  /// Advanced policy, or a security group policy.
   final SecurityServiceType? securityServiceType;
 
   PolicySummary({
+    this.deleteUnusedFMManagedResources,
     this.policyArn,
     this.policyId,
     this.policyName,
+    this.policyStatus,
     this.remediationEnabled,
     this.resourceType,
     this.securityServiceType,
   });
+
   factory PolicySummary.fromJson(Map<String, dynamic> json) {
     return PolicySummary(
+      deleteUnusedFMManagedResources:
+          json['DeleteUnusedFMManagedResources'] as bool?,
       policyArn: json['PolicyArn'] as String?,
       policyId: json['PolicyId'] as String?,
       policyName: json['PolicyName'] as String?,
+      policyStatus: (json['PolicyStatus'] as String?)?.toCustomerPolicyStatus(),
       remediationEnabled: json['RemediationEnabled'] as bool?,
       resourceType: json['ResourceType'] as String?,
       securityServiceType:
@@ -2526,21 +5382,117 @@ class PolicySummary {
   }
 }
 
-/// An AWS Firewall Manager protocols list.
+/// Defines the policy types that the specified Firewall Manager administrator
+/// can manage.
+class PolicyTypeScope {
+  /// Allows the specified Firewall Manager administrator to manage all Firewall
+  /// Manager policy types, except for third-party policy types. Third-party
+  /// policy types can only be managed by the Firewall Manager default
+  /// administrator.
+  final bool? allPolicyTypesEnabled;
+
+  /// The list of policy types that the specified Firewall Manager administrator
+  /// can manage.
+  final List<SecurityServiceType>? policyTypes;
+
+  PolicyTypeScope({
+    this.allPolicyTypesEnabled,
+    this.policyTypes,
+  });
+
+  factory PolicyTypeScope.fromJson(Map<String, dynamic> json) {
+    return PolicyTypeScope(
+      allPolicyTypesEnabled: json['AllPolicyTypesEnabled'] as bool?,
+      policyTypes: (json['PolicyTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toSecurityServiceType())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allPolicyTypesEnabled = this.allPolicyTypesEnabled;
+    final policyTypes = this.policyTypes;
+    return {
+      if (allPolicyTypesEnabled != null)
+        'AllPolicyTypesEnabled': allPolicyTypesEnabled,
+      if (policyTypes != null)
+        'PolicyTypes': policyTypes.map((e) => e.toValue()).toList(),
+    };
+  }
+}
+
+/// A list of remediation actions.
+class PossibleRemediationAction {
+  /// The ordered list of remediation actions.
+  final List<RemediationActionWithOrder> orderedRemediationActions;
+
+  /// A description of the list of remediation actions.
+  final String? description;
+
+  /// Information about whether an action is taken by default.
+  final bool? isDefaultAction;
+
+  PossibleRemediationAction({
+    required this.orderedRemediationActions,
+    this.description,
+    this.isDefaultAction,
+  });
+
+  factory PossibleRemediationAction.fromJson(Map<String, dynamic> json) {
+    return PossibleRemediationAction(
+      orderedRemediationActions: (json['OrderedRemediationActions'] as List)
+          .whereNotNull()
+          .map((e) =>
+              RemediationActionWithOrder.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      description: json['Description'] as String?,
+      isDefaultAction: json['IsDefaultAction'] as bool?,
+    );
+  }
+}
+
+/// A list of possible remediation action lists. Each individual possible
+/// remediation action is a list of individual remediation actions.
+class PossibleRemediationActions {
+  /// Information about the actions.
+  final List<PossibleRemediationAction>? actions;
+
+  /// A description of the possible remediation actions list.
+  final String? description;
+
+  PossibleRemediationActions({
+    this.actions,
+    this.description,
+  });
+
+  factory PossibleRemediationActions.fromJson(Map<String, dynamic> json) {
+    return PossibleRemediationActions(
+      actions: (json['Actions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              PossibleRemediationAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      description: json['Description'] as String?,
+    );
+  }
+}
+
+/// An Firewall Manager protocols list.
 class ProtocolsListData {
-  /// The name of the AWS Firewall Manager protocols list.
+  /// The name of the Firewall Manager protocols list.
   final String listName;
 
-  /// An array of protocols in the AWS Firewall Manager protocols list.
+  /// An array of protocols in the Firewall Manager protocols list.
   final List<String> protocolsList;
 
-  /// The time that the AWS Firewall Manager protocols list was created.
+  /// The time that the Firewall Manager protocols list was created.
   final DateTime? createTime;
 
-  /// The time that the AWS Firewall Manager protocols list was last updated.
+  /// The time that the Firewall Manager protocols list was last updated.
   final DateTime? lastUpdateTime;
 
-  /// The ID of the AWS Firewall Manager protocols list.
+  /// The ID of the Firewall Manager protocols list.
   final String? listId;
 
   /// A unique identifier for each update to the list. When you update the list,
@@ -2560,6 +5512,7 @@ class ProtocolsListData {
     this.listUpdateToken,
     this.previousProtocolsList,
   });
+
   factory ProtocolsListData.fromJson(Map<String, dynamic> json) {
     return ProtocolsListData(
       listName: json['ListName'] as String,
@@ -2600,7 +5553,7 @@ class ProtocolsListData {
   }
 }
 
-/// Details of the AWS Firewall Manager protocols list.
+/// Details of the Firewall Manager protocols list.
 class ProtocolsListDataSummary {
   /// The Amazon Resource Name (ARN) of the specified protocols list.
   final String? listArn;
@@ -2611,7 +5564,7 @@ class ProtocolsListDataSummary {
   /// The name of the specified protocols list.
   final String? listName;
 
-  /// An array of protocols in the AWS Firewall Manager protocols list.
+  /// An array of protocols in the Firewall Manager protocols list.
   final List<String>? protocolsList;
 
   ProtocolsListDataSummary({
@@ -2620,6 +5573,7 @@ class ProtocolsListDataSummary {
     this.listName,
     this.protocolsList,
   });
+
   factory ProtocolsListDataSummary.fromJson(Map<String, dynamic> json) {
     return ProtocolsListDataSummary(
       listArn: json['ListArn'] as String?,
@@ -2634,7 +5588,7 @@ class ProtocolsListDataSummary {
 }
 
 class PutAppsListResponse {
-  /// The details of the AWS Firewall Manager applications list.
+  /// The details of the Firewall Manager applications list.
   final AppsListData? appsList;
 
   /// The Amazon Resource Name (ARN) of the applications list.
@@ -2644,6 +5598,7 @@ class PutAppsListResponse {
     this.appsList,
     this.appsListArn,
   });
+
   factory PutAppsListResponse.fromJson(Map<String, dynamic> json) {
     return PutAppsListResponse(
       appsList: json['AppsList'] != null
@@ -2655,7 +5610,7 @@ class PutAppsListResponse {
 }
 
 class PutPolicyResponse {
-  /// The details of the AWS Firewall Manager policy.
+  /// The details of the Firewall Manager policy.
   final Policy? policy;
 
   /// The Amazon Resource Name (ARN) of the policy.
@@ -2665,6 +5620,7 @@ class PutPolicyResponse {
     this.policy,
     this.policyArn,
   });
+
   factory PutPolicyResponse.fromJson(Map<String, dynamic> json) {
     return PutPolicyResponse(
       policy: json['Policy'] != null
@@ -2676,7 +5632,7 @@ class PutPolicyResponse {
 }
 
 class PutProtocolsListResponse {
-  /// The details of the AWS Firewall Manager protocols list.
+  /// The details of the Firewall Manager protocols list.
   final ProtocolsListData? protocolsList;
 
   /// The Amazon Resource Name (ARN) of the protocols list.
@@ -2686,6 +5642,7 @@ class PutProtocolsListResponse {
     this.protocolsList,
     this.protocolsListArn,
   });
+
   factory PutProtocolsListResponse.fromJson(Map<String, dynamic> json) {
     return PutProtocolsListResponse(
       protocolsList: json['ProtocolsList'] != null
@@ -2693,6 +5650,151 @@ class PutProtocolsListResponse {
               json['ProtocolsList'] as Map<String, dynamic>)
           : null,
       protocolsListArn: json['ProtocolsListArn'] as String?,
+    );
+  }
+}
+
+class PutResourceSetResponse {
+  /// Details about the resource set.
+  final ResourceSet resourceSet;
+
+  /// The Amazon Resource Name (ARN) of the resource set.
+  final String resourceSetArn;
+
+  PutResourceSetResponse({
+    required this.resourceSet,
+    required this.resourceSetArn,
+  });
+
+  factory PutResourceSetResponse.fromJson(Map<String, dynamic> json) {
+    return PutResourceSetResponse(
+      resourceSet:
+          ResourceSet.fromJson(json['ResourceSet'] as Map<String, dynamic>),
+      resourceSetArn: json['ResourceSetArn'] as String,
+    );
+  }
+}
+
+/// Defines the Amazon Web Services Regions that the specified Firewall Manager
+/// administrator can manage.
+class RegionScope {
+  /// Allows the specified Firewall Manager administrator to manage all Amazon Web
+  /// Services Regions.
+  final bool? allRegionsEnabled;
+
+  /// The Amazon Web Services Regions that the specified Firewall Manager
+  /// administrator can perform actions in.
+  final List<String>? regions;
+
+  RegionScope({
+    this.allRegionsEnabled,
+    this.regions,
+  });
+
+  factory RegionScope.fromJson(Map<String, dynamic> json) {
+    return RegionScope(
+      allRegionsEnabled: json['AllRegionsEnabled'] as bool?,
+      regions: (json['Regions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allRegionsEnabled = this.allRegionsEnabled;
+    final regions = this.regions;
+    return {
+      if (allRegionsEnabled != null) 'AllRegionsEnabled': allRegionsEnabled,
+      if (regions != null) 'Regions': regions,
+    };
+  }
+}
+
+/// Information about an individual action you can take to remediate a
+/// violation.
+class RemediationAction {
+  /// A description of a remediation action.
+  final String? description;
+
+  /// Information about the AssociateRouteTable action in the Amazon EC2 API.
+  final EC2AssociateRouteTableAction? eC2AssociateRouteTableAction;
+
+  /// Information about the CopyRouteTable action in the Amazon EC2 API.
+  final EC2CopyRouteTableAction? eC2CopyRouteTableAction;
+
+  /// Information about the CreateRoute action in the Amazon EC2 API.
+  final EC2CreateRouteAction? eC2CreateRouteAction;
+
+  /// Information about the CreateRouteTable action in the Amazon EC2 API.
+  final EC2CreateRouteTableAction? eC2CreateRouteTableAction;
+
+  /// Information about the DeleteRoute action in the Amazon EC2 API.
+  final EC2DeleteRouteAction? eC2DeleteRouteAction;
+
+  /// Information about the ReplaceRoute action in the Amazon EC2 API.
+  final EC2ReplaceRouteAction? eC2ReplaceRouteAction;
+
+  /// Information about the ReplaceRouteTableAssociation action in the Amazon EC2
+  /// API.
+  final EC2ReplaceRouteTableAssociationAction?
+      eC2ReplaceRouteTableAssociationAction;
+
+  /// The remedial action to take when updating a firewall configuration.
+  final FMSPolicyUpdateFirewallCreationConfigAction?
+      fMSPolicyUpdateFirewallCreationConfigAction;
+
+  RemediationAction({
+    this.description,
+    this.eC2AssociateRouteTableAction,
+    this.eC2CopyRouteTableAction,
+    this.eC2CreateRouteAction,
+    this.eC2CreateRouteTableAction,
+    this.eC2DeleteRouteAction,
+    this.eC2ReplaceRouteAction,
+    this.eC2ReplaceRouteTableAssociationAction,
+    this.fMSPolicyUpdateFirewallCreationConfigAction,
+  });
+
+  factory RemediationAction.fromJson(Map<String, dynamic> json) {
+    return RemediationAction(
+      description: json['Description'] as String?,
+      eC2AssociateRouteTableAction: json['EC2AssociateRouteTableAction'] != null
+          ? EC2AssociateRouteTableAction.fromJson(
+              json['EC2AssociateRouteTableAction'] as Map<String, dynamic>)
+          : null,
+      eC2CopyRouteTableAction: json['EC2CopyRouteTableAction'] != null
+          ? EC2CopyRouteTableAction.fromJson(
+              json['EC2CopyRouteTableAction'] as Map<String, dynamic>)
+          : null,
+      eC2CreateRouteAction: json['EC2CreateRouteAction'] != null
+          ? EC2CreateRouteAction.fromJson(
+              json['EC2CreateRouteAction'] as Map<String, dynamic>)
+          : null,
+      eC2CreateRouteTableAction: json['EC2CreateRouteTableAction'] != null
+          ? EC2CreateRouteTableAction.fromJson(
+              json['EC2CreateRouteTableAction'] as Map<String, dynamic>)
+          : null,
+      eC2DeleteRouteAction: json['EC2DeleteRouteAction'] != null
+          ? EC2DeleteRouteAction.fromJson(
+              json['EC2DeleteRouteAction'] as Map<String, dynamic>)
+          : null,
+      eC2ReplaceRouteAction: json['EC2ReplaceRouteAction'] != null
+          ? EC2ReplaceRouteAction.fromJson(
+              json['EC2ReplaceRouteAction'] as Map<String, dynamic>)
+          : null,
+      eC2ReplaceRouteTableAssociationAction:
+          json['EC2ReplaceRouteTableAssociationAction'] != null
+              ? EC2ReplaceRouteTableAssociationAction.fromJson(
+                  json['EC2ReplaceRouteTableAssociationAction']
+                      as Map<String, dynamic>)
+              : null,
+      fMSPolicyUpdateFirewallCreationConfigAction:
+          json['FMSPolicyUpdateFirewallCreationConfigAction'] != null
+              ? FMSPolicyUpdateFirewallCreationConfigAction.fromJson(
+                  json['FMSPolicyUpdateFirewallCreationConfigAction']
+                      as Map<String, dynamic>)
+              : null,
     );
   }
 }
@@ -2725,9 +5827,242 @@ extension RemediationActionTypeFromString on String {
   }
 }
 
-/// The resource tags that AWS Firewall Manager uses to determine if a
-/// particular resource should be included or excluded from the AWS Firewall
-/// Manager policy. Tags enable you to categorize your AWS resources in
+/// An ordered list of actions you can take to remediate a violation.
+class RemediationActionWithOrder {
+  /// The order of the remediation actions in the list.
+  final int? order;
+
+  /// Information about an action you can take to remediate a violation.
+  final RemediationAction? remediationAction;
+
+  RemediationActionWithOrder({
+    this.order,
+    this.remediationAction,
+  });
+
+  factory RemediationActionWithOrder.fromJson(Map<String, dynamic> json) {
+    return RemediationActionWithOrder(
+      order: json['Order'] as int?,
+      remediationAction: json['RemediationAction'] != null
+          ? RemediationAction.fromJson(
+              json['RemediationAction'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// Details of a resource that is associated to an Firewall Manager resource
+/// set.
+class Resource {
+  /// The resource's universal resource indicator (URI).
+  final String uri;
+
+  /// The Amazon Web Services account ID that the associated resource belongs to.
+  final String? accountId;
+
+  Resource({
+    required this.uri,
+    this.accountId,
+  });
+
+  factory Resource.fromJson(Map<String, dynamic> json) {
+    return Resource(
+      uri: json['URI'] as String,
+      accountId: json['AccountId'] as String?,
+    );
+  }
+}
+
+/// A set of resources to include in a policy.
+class ResourceSet {
+  /// The descriptive name of the resource set. You can't change the name of a
+  /// resource set after you create it.
+  final String name;
+
+  /// Determines the resources that can be associated to the resource set.
+  /// Depending on your setting for max results and the number of resource sets, a
+  /// single call might not return the full list.
+  final List<String> resourceTypeList;
+
+  /// A description of the resource set.
+  final String? description;
+
+  /// A unique identifier for the resource set. This ID is returned in the
+  /// responses to create and list commands. You provide it to operations like
+  /// update and delete.
+  final String? id;
+
+  /// The last time that the resource set was changed.
+  final DateTime? lastUpdateTime;
+
+  /// Indicates whether the resource set is in or out of an admin's Region scope.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code> - The administrator can manage and delete the resource
+  /// set.
+  /// </li>
+  /// <li>
+  /// <code>OUT_OF_ADMIN_SCOPE</code> - The administrator can view the resource
+  /// set, but they can't edit or delete the resource set. Existing protections
+  /// stay in place. Any new resource that come into scope of the resource set
+  /// won't be protected.
+  /// </li>
+  /// </ul>
+  final ResourceSetStatus? resourceSetStatus;
+
+  /// An optional token that you can use for optimistic locking. Firewall Manager
+  /// returns a token to your requests that access the resource set. The token
+  /// marks the state of the resource set resource at the time of the request.
+  /// Update tokens are not allowed when creating a resource set. After creation,
+  /// each subsequent update call to the resource set requires the update token.
+  ///
+  /// To make an unconditional change to the resource set, omit the token in your
+  /// update request. Without the token, Firewall Manager performs your updates
+  /// regardless of whether the resource set has changed since you last retrieved
+  /// it.
+  ///
+  /// To make a conditional change to the resource set, provide the token in your
+  /// update request. Firewall Manager uses the token to ensure that the resource
+  /// set hasn't changed since you last retrieved it. If it has changed, the
+  /// operation fails with an <code>InvalidTokenException</code>. If this happens,
+  /// retrieve the resource set again to get a current copy of it with a new
+  /// token. Reapply your changes as needed, then try the operation again using
+  /// the new token.
+  final String? updateToken;
+
+  ResourceSet({
+    required this.name,
+    required this.resourceTypeList,
+    this.description,
+    this.id,
+    this.lastUpdateTime,
+    this.resourceSetStatus,
+    this.updateToken,
+  });
+
+  factory ResourceSet.fromJson(Map<String, dynamic> json) {
+    return ResourceSet(
+      name: json['Name'] as String,
+      resourceTypeList: (json['ResourceTypeList'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
+      resourceSetStatus:
+          (json['ResourceSetStatus'] as String?)?.toResourceSetStatus(),
+      updateToken: json['UpdateToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final resourceTypeList = this.resourceTypeList;
+    final description = this.description;
+    final id = this.id;
+    final lastUpdateTime = this.lastUpdateTime;
+    final resourceSetStatus = this.resourceSetStatus;
+    final updateToken = this.updateToken;
+    return {
+      'Name': name,
+      'ResourceTypeList': resourceTypeList,
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (lastUpdateTime != null)
+        'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      if (resourceSetStatus != null)
+        'ResourceSetStatus': resourceSetStatus.toValue(),
+      if (updateToken != null) 'UpdateToken': updateToken,
+    };
+  }
+}
+
+enum ResourceSetStatus {
+  active,
+  outOfAdminScope,
+}
+
+extension ResourceSetStatusValueExtension on ResourceSetStatus {
+  String toValue() {
+    switch (this) {
+      case ResourceSetStatus.active:
+        return 'ACTIVE';
+      case ResourceSetStatus.outOfAdminScope:
+        return 'OUT_OF_ADMIN_SCOPE';
+    }
+  }
+}
+
+extension ResourceSetStatusFromString on String {
+  ResourceSetStatus toResourceSetStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return ResourceSetStatus.active;
+      case 'OUT_OF_ADMIN_SCOPE':
+        return ResourceSetStatus.outOfAdminScope;
+    }
+    throw Exception('$this is not known in enum ResourceSetStatus');
+  }
+}
+
+/// Summarizes the resource sets used in a policy.
+class ResourceSetSummary {
+  /// A description of the resource set.
+  final String? description;
+
+  /// A unique identifier for the resource set. This ID is returned in the
+  /// responses to create and list commands. You provide it to operations like
+  /// update and delete.
+  final String? id;
+
+  /// The last time that the resource set was changed.
+  final DateTime? lastUpdateTime;
+
+  /// The descriptive name of the resource set. You can't change the name of a
+  /// resource set after you create it.
+  final String? name;
+
+  /// Indicates whether the resource set is in or out of an admin's Region scope.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code> - The administrator can manage and delete the resource
+  /// set.
+  /// </li>
+  /// <li>
+  /// <code>OUT_OF_ADMIN_SCOPE</code> - The administrator can view the resource
+  /// set, but they can't edit or delete the resource set. Existing protections
+  /// stay in place. Any new resource that come into scope of the resource set
+  /// won't be protected.
+  /// </li>
+  /// </ul>
+  final ResourceSetStatus? resourceSetStatus;
+
+  ResourceSetSummary({
+    this.description,
+    this.id,
+    this.lastUpdateTime,
+    this.name,
+    this.resourceSetStatus,
+  });
+
+  factory ResourceSetSummary.fromJson(Map<String, dynamic> json) {
+    return ResourceSetSummary(
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
+      name: json['Name'] as String?,
+      resourceSetStatus:
+          (json['ResourceSetStatus'] as String?)?.toResourceSetStatus(),
+    );
+  }
+}
+
+/// The resource tags that Firewall Manager uses to determine if a particular
+/// resource should be included or excluded from the Firewall Manager policy.
+/// Tags enable you to categorize your Amazon Web Services resources in
 /// different ways, for example, by purpose, owner, or environment. Each tag
 /// consists of a key and an optional value. Firewall Manager combines the tags
 /// with "AND" so that, if you add more than one tag to a policy scope, a
@@ -2746,6 +6081,7 @@ class ResourceTag {
     required this.key,
     this.value,
   });
+
   factory ResourceTag.fromJson(Map<String, dynamic> json) {
     return ResourceTag(
       key: json['Key'] as String,
@@ -2765,19 +6101,59 @@ class ResourceTag {
 
 /// Violation detail based on resource type.
 class ResourceViolation {
-  /// Violation details for an EC2 instance.
+  /// Violation detail for an EC2 instance.
   final AwsEc2InstanceViolation? awsEc2InstanceViolation;
 
-  /// Violation details for network interface.
+  /// Violation detail for a network interface.
   final AwsEc2NetworkInterfaceViolation? awsEc2NetworkInterfaceViolation;
 
-  /// Violation details for security groups.
+  /// Violation detail for security groups.
   final AwsVPCSecurityGroupViolation? awsVPCSecurityGroupViolation;
+
+  /// Violation detail for a DNS Firewall policy that indicates that a rule group
+  /// that Firewall Manager tried to associate with a VPC is already associated
+  /// with the VPC and can't be associated again.
+  final DnsDuplicateRuleGroupViolation? dnsDuplicateRuleGroupViolation;
+
+  /// Violation detail for a DNS Firewall policy that indicates that the VPC
+  /// reached the limit for associated DNS Firewall rule groups. Firewall Manager
+  /// tried to associate another rule group with the VPC and failed.
+  final DnsRuleGroupLimitExceededViolation? dnsRuleGroupLimitExceededViolation;
+
+  /// Violation detail for a DNS Firewall policy that indicates that a rule group
+  /// that Firewall Manager tried to associate with a VPC has the same priority as
+  /// a rule group that's already associated.
+  final DnsRuleGroupPriorityConflictViolation?
+      dnsRuleGroupPriorityConflictViolation;
+
+  /// Contains details about the firewall subnet that violates the policy scope.
+  final FirewallSubnetIsOutOfScopeViolation?
+      firewallSubnetIsOutOfScopeViolation;
+
+  /// The violation details for a third-party firewall's VPC endpoint subnet that
+  /// was deleted.
+  final FirewallSubnetMissingVPCEndpointViolation?
+      firewallSubnetMissingVPCEndpointViolation;
+  final NetworkFirewallBlackHoleRouteDetectedViolation?
+      networkFirewallBlackHoleRouteDetectedViolation;
+
+  /// Violation detail for the subnet for which internet traffic hasn't been
+  /// inspected.
+  final NetworkFirewallInternetTrafficNotInspectedViolation?
+      networkFirewallInternetTrafficNotInspectedViolation;
+
+  /// The route configuration is invalid.
+  final NetworkFirewallInvalidRouteConfigurationViolation?
+      networkFirewallInvalidRouteConfigurationViolation;
 
   /// Violation detail for an Network Firewall policy that indicates that a subnet
   /// is not associated with the expected Firewall Manager managed route table.
   final NetworkFirewallMissingExpectedRTViolation?
       networkFirewallMissingExpectedRTViolation;
+
+  /// Expected routes are missing from Network Firewall.
+  final NetworkFirewallMissingExpectedRoutesViolation?
+      networkFirewallMissingExpectedRoutesViolation;
 
   /// Violation detail for an Network Firewall policy that indicates that a subnet
   /// has no Firewall Manager managed firewall in its VPC.
@@ -2797,15 +6173,63 @@ class ResourceViolation {
   final NetworkFirewallPolicyModifiedViolation?
       networkFirewallPolicyModifiedViolation;
 
+  /// There's an unexpected firewall route.
+  final NetworkFirewallUnexpectedFirewallRoutesViolation?
+      networkFirewallUnexpectedFirewallRoutesViolation;
+
+  /// There's an unexpected gateway route.
+  final NetworkFirewallUnexpectedGatewayRoutesViolation?
+      networkFirewallUnexpectedGatewayRoutesViolation;
+
+  /// A list of possible remediation action lists. Each individual possible
+  /// remediation action is a list of individual remediation actions.
+  final PossibleRemediationActions? possibleRemediationActions;
+
+  /// Contains details about the route endpoint that violates the policy scope.
+  final RouteHasOutOfScopeEndpointViolation?
+      routeHasOutOfScopeEndpointViolation;
+
+  /// The violation details for a third-party firewall that has the Firewall
+  /// Manager managed route table that was associated with the third-party
+  /// firewall has been deleted.
+  final ThirdPartyFirewallMissingExpectedRouteTableViolation?
+      thirdPartyFirewallMissingExpectedRouteTableViolation;
+
+  /// The violation details for a third-party firewall that's been deleted.
+  final ThirdPartyFirewallMissingFirewallViolation?
+      thirdPartyFirewallMissingFirewallViolation;
+
+  /// The violation details for a third-party firewall's subnet that's been
+  /// deleted.
+  final ThirdPartyFirewallMissingSubnetViolation?
+      thirdPartyFirewallMissingSubnetViolation;
+
   ResourceViolation({
     this.awsEc2InstanceViolation,
     this.awsEc2NetworkInterfaceViolation,
     this.awsVPCSecurityGroupViolation,
+    this.dnsDuplicateRuleGroupViolation,
+    this.dnsRuleGroupLimitExceededViolation,
+    this.dnsRuleGroupPriorityConflictViolation,
+    this.firewallSubnetIsOutOfScopeViolation,
+    this.firewallSubnetMissingVPCEndpointViolation,
+    this.networkFirewallBlackHoleRouteDetectedViolation,
+    this.networkFirewallInternetTrafficNotInspectedViolation,
+    this.networkFirewallInvalidRouteConfigurationViolation,
     this.networkFirewallMissingExpectedRTViolation,
+    this.networkFirewallMissingExpectedRoutesViolation,
     this.networkFirewallMissingFirewallViolation,
     this.networkFirewallMissingSubnetViolation,
     this.networkFirewallPolicyModifiedViolation,
+    this.networkFirewallUnexpectedFirewallRoutesViolation,
+    this.networkFirewallUnexpectedGatewayRoutesViolation,
+    this.possibleRemediationActions,
+    this.routeHasOutOfScopeEndpointViolation,
+    this.thirdPartyFirewallMissingExpectedRouteTableViolation,
+    this.thirdPartyFirewallMissingFirewallViolation,
+    this.thirdPartyFirewallMissingSubnetViolation,
   });
+
   factory ResourceViolation.fromJson(Map<String, dynamic> json) {
     return ResourceViolation(
       awsEc2InstanceViolation: json['AwsEc2InstanceViolation'] != null
@@ -2822,10 +6246,63 @@ class ResourceViolation {
           ? AwsVPCSecurityGroupViolation.fromJson(
               json['AwsVPCSecurityGroupViolation'] as Map<String, dynamic>)
           : null,
+      dnsDuplicateRuleGroupViolation: json['DnsDuplicateRuleGroupViolation'] !=
+              null
+          ? DnsDuplicateRuleGroupViolation.fromJson(
+              json['DnsDuplicateRuleGroupViolation'] as Map<String, dynamic>)
+          : null,
+      dnsRuleGroupLimitExceededViolation:
+          json['DnsRuleGroupLimitExceededViolation'] != null
+              ? DnsRuleGroupLimitExceededViolation.fromJson(
+                  json['DnsRuleGroupLimitExceededViolation']
+                      as Map<String, dynamic>)
+              : null,
+      dnsRuleGroupPriorityConflictViolation:
+          json['DnsRuleGroupPriorityConflictViolation'] != null
+              ? DnsRuleGroupPriorityConflictViolation.fromJson(
+                  json['DnsRuleGroupPriorityConflictViolation']
+                      as Map<String, dynamic>)
+              : null,
+      firewallSubnetIsOutOfScopeViolation:
+          json['FirewallSubnetIsOutOfScopeViolation'] != null
+              ? FirewallSubnetIsOutOfScopeViolation.fromJson(
+                  json['FirewallSubnetIsOutOfScopeViolation']
+                      as Map<String, dynamic>)
+              : null,
+      firewallSubnetMissingVPCEndpointViolation:
+          json['FirewallSubnetMissingVPCEndpointViolation'] != null
+              ? FirewallSubnetMissingVPCEndpointViolation.fromJson(
+                  json['FirewallSubnetMissingVPCEndpointViolation']
+                      as Map<String, dynamic>)
+              : null,
+      networkFirewallBlackHoleRouteDetectedViolation:
+          json['NetworkFirewallBlackHoleRouteDetectedViolation'] != null
+              ? NetworkFirewallBlackHoleRouteDetectedViolation.fromJson(
+                  json['NetworkFirewallBlackHoleRouteDetectedViolation']
+                      as Map<String, dynamic>)
+              : null,
+      networkFirewallInternetTrafficNotInspectedViolation:
+          json['NetworkFirewallInternetTrafficNotInspectedViolation'] != null
+              ? NetworkFirewallInternetTrafficNotInspectedViolation.fromJson(
+                  json['NetworkFirewallInternetTrafficNotInspectedViolation']
+                      as Map<String, dynamic>)
+              : null,
+      networkFirewallInvalidRouteConfigurationViolation:
+          json['NetworkFirewallInvalidRouteConfigurationViolation'] != null
+              ? NetworkFirewallInvalidRouteConfigurationViolation.fromJson(
+                  json['NetworkFirewallInvalidRouteConfigurationViolation']
+                      as Map<String, dynamic>)
+              : null,
       networkFirewallMissingExpectedRTViolation:
           json['NetworkFirewallMissingExpectedRTViolation'] != null
               ? NetworkFirewallMissingExpectedRTViolation.fromJson(
                   json['NetworkFirewallMissingExpectedRTViolation']
+                      as Map<String, dynamic>)
+              : null,
+      networkFirewallMissingExpectedRoutesViolation:
+          json['NetworkFirewallMissingExpectedRoutesViolation'] != null
+              ? NetworkFirewallMissingExpectedRoutesViolation.fromJson(
+                  json['NetworkFirewallMissingExpectedRoutesViolation']
                       as Map<String, dynamic>)
               : null,
       networkFirewallMissingFirewallViolation:
@@ -2846,7 +6323,191 @@ class ResourceViolation {
                   json['NetworkFirewallPolicyModifiedViolation']
                       as Map<String, dynamic>)
               : null,
+      networkFirewallUnexpectedFirewallRoutesViolation:
+          json['NetworkFirewallUnexpectedFirewallRoutesViolation'] != null
+              ? NetworkFirewallUnexpectedFirewallRoutesViolation.fromJson(
+                  json['NetworkFirewallUnexpectedFirewallRoutesViolation']
+                      as Map<String, dynamic>)
+              : null,
+      networkFirewallUnexpectedGatewayRoutesViolation:
+          json['NetworkFirewallUnexpectedGatewayRoutesViolation'] != null
+              ? NetworkFirewallUnexpectedGatewayRoutesViolation.fromJson(
+                  json['NetworkFirewallUnexpectedGatewayRoutesViolation']
+                      as Map<String, dynamic>)
+              : null,
+      possibleRemediationActions: json['PossibleRemediationActions'] != null
+          ? PossibleRemediationActions.fromJson(
+              json['PossibleRemediationActions'] as Map<String, dynamic>)
+          : null,
+      routeHasOutOfScopeEndpointViolation:
+          json['RouteHasOutOfScopeEndpointViolation'] != null
+              ? RouteHasOutOfScopeEndpointViolation.fromJson(
+                  json['RouteHasOutOfScopeEndpointViolation']
+                      as Map<String, dynamic>)
+              : null,
+      thirdPartyFirewallMissingExpectedRouteTableViolation:
+          json['ThirdPartyFirewallMissingExpectedRouteTableViolation'] != null
+              ? ThirdPartyFirewallMissingExpectedRouteTableViolation.fromJson(
+                  json['ThirdPartyFirewallMissingExpectedRouteTableViolation']
+                      as Map<String, dynamic>)
+              : null,
+      thirdPartyFirewallMissingFirewallViolation:
+          json['ThirdPartyFirewallMissingFirewallViolation'] != null
+              ? ThirdPartyFirewallMissingFirewallViolation.fromJson(
+                  json['ThirdPartyFirewallMissingFirewallViolation']
+                      as Map<String, dynamic>)
+              : null,
+      thirdPartyFirewallMissingSubnetViolation:
+          json['ThirdPartyFirewallMissingSubnetViolation'] != null
+              ? ThirdPartyFirewallMissingSubnetViolation.fromJson(
+                  json['ThirdPartyFirewallMissingSubnetViolation']
+                      as Map<String, dynamic>)
+              : null,
     );
+  }
+}
+
+/// Describes a route in a route table.
+class Route {
+  /// The destination of the route.
+  final String? destination;
+
+  /// The type of destination for the route.
+  final DestinationType? destinationType;
+
+  /// The route's target.
+  final String? target;
+
+  /// The type of target for the route.
+  final TargetType? targetType;
+
+  Route({
+    this.destination,
+    this.destinationType,
+    this.target,
+    this.targetType,
+  });
+
+  factory Route.fromJson(Map<String, dynamic> json) {
+    return Route(
+      destination: json['Destination'] as String?,
+      destinationType:
+          (json['DestinationType'] as String?)?.toDestinationType(),
+      target: json['Target'] as String?,
+      targetType: (json['TargetType'] as String?)?.toTargetType(),
+    );
+  }
+}
+
+/// Contains details about the route endpoint that violates the policy scope.
+class RouteHasOutOfScopeEndpointViolation {
+  /// The route table associated with the current firewall subnet.
+  final String? currentFirewallSubnetRouteTable;
+
+  /// The current route table associated with the Internet Gateway.
+  final String? currentInternetGatewayRouteTable;
+
+  /// The ID of the firewall subnet.
+  final String? firewallSubnetId;
+
+  /// The list of firewall subnet routes.
+  final List<Route>? firewallSubnetRoutes;
+
+  /// The ID of the Internet Gateway.
+  final String? internetGatewayId;
+
+  /// The routes in the route table associated with the Internet Gateway.
+  final List<Route>? internetGatewayRoutes;
+
+  /// The ID of the route table.
+  final String? routeTableId;
+
+  /// The subnet's Availability Zone.
+  final String? subnetAvailabilityZone;
+
+  /// The ID of the subnet's Availability Zone.
+  final String? subnetAvailabilityZoneId;
+
+  /// The ID of the subnet associated with the route that violates the policy
+  /// scope.
+  final String? subnetId;
+
+  /// The list of routes that violate the route table.
+  final List<Route>? violatingRoutes;
+
+  /// The VPC ID of the route that violates the policy scope.
+  final String? vpcId;
+
+  RouteHasOutOfScopeEndpointViolation({
+    this.currentFirewallSubnetRouteTable,
+    this.currentInternetGatewayRouteTable,
+    this.firewallSubnetId,
+    this.firewallSubnetRoutes,
+    this.internetGatewayId,
+    this.internetGatewayRoutes,
+    this.routeTableId,
+    this.subnetAvailabilityZone,
+    this.subnetAvailabilityZoneId,
+    this.subnetId,
+    this.violatingRoutes,
+    this.vpcId,
+  });
+
+  factory RouteHasOutOfScopeEndpointViolation.fromJson(
+      Map<String, dynamic> json) {
+    return RouteHasOutOfScopeEndpointViolation(
+      currentFirewallSubnetRouteTable:
+          json['CurrentFirewallSubnetRouteTable'] as String?,
+      currentInternetGatewayRouteTable:
+          json['CurrentInternetGatewayRouteTable'] as String?,
+      firewallSubnetId: json['FirewallSubnetId'] as String?,
+      firewallSubnetRoutes: (json['FirewallSubnetRoutes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Route.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      internetGatewayId: json['InternetGatewayId'] as String?,
+      internetGatewayRoutes: (json['InternetGatewayRoutes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Route.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      routeTableId: json['RouteTableId'] as String?,
+      subnetAvailabilityZone: json['SubnetAvailabilityZone'] as String?,
+      subnetAvailabilityZoneId: json['SubnetAvailabilityZoneId'] as String?,
+      subnetId: json['SubnetId'] as String?,
+      violatingRoutes: (json['ViolatingRoutes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Route.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+}
+
+enum RuleOrder {
+  strictOrder,
+  defaultActionOrder,
+}
+
+extension RuleOrderValueExtension on RuleOrder {
+  String toValue() {
+    switch (this) {
+      case RuleOrder.strictOrder:
+        return 'STRICT_ORDER';
+      case RuleOrder.defaultActionOrder:
+        return 'DEFAULT_ACTION_ORDER';
+    }
+  }
+}
+
+extension RuleOrderFromString on String {
+  RuleOrder toRuleOrder() {
+    switch (this) {
+      case 'STRICT_ORDER':
+        return RuleOrder.strictOrder;
+      case 'DEFAULT_ACTION_ORDER':
+        return RuleOrder.defaultActionOrder;
+    }
+    throw Exception('$this is not known in enum RuleOrder');
   }
 }
 
@@ -2872,6 +6533,7 @@ class SecurityGroupRemediationAction {
     this.remediationActionType,
     this.remediationResult,
   });
+
   factory SecurityGroupRemediationAction.fromJson(Map<String, dynamic> json) {
     return SecurityGroupRemediationAction(
       description: json['Description'] as String?,
@@ -2917,6 +6579,7 @@ class SecurityGroupRuleDescription {
     this.protocol,
     this.toPort,
   });
+
   factory SecurityGroupRuleDescription.fromJson(Map<String, dynamic> json) {
     return SecurityGroupRuleDescription(
       fromPort: json['FromPort'] as int?,
@@ -2933,47 +6596,149 @@ class SecurityGroupRuleDescription {
 /// resources.
 class SecurityServicePolicyData {
   /// The service that the policy is using to protect the resources. This
-  /// specifies the type of policy that is created, either an AWS WAF policy, a
-  /// Shield Advanced policy, or a security group policy. For security group
-  /// policies, Firewall Manager supports one security group for each common
-  /// policy and for each content audit policy. This is an adjustable limit that
-  /// you can increase by contacting AWS Support.
+  /// specifies the type of policy that is created, either an WAF policy, a Shield
+  /// Advanced policy, or a security group policy. For security group policies,
+  /// Firewall Manager supports one security group for each common policy and for
+  /// each content audit policy. This is an adjustable limit that you can increase
+  /// by contacting Amazon Web Services Support.
   final SecurityServiceType type;
 
   /// Details about the service that are specific to the service type, in JSON
-  /// format. For service type <code>SHIELD_ADVANCED</code>, this is an empty
-  /// string.
+  /// format.
   ///
   /// <ul>
   /// <li>
-  /// Example: <code>NETWORK_FIREWALL</code>
+  /// Example: <code>DNS_FIREWALL</code>
   ///
-  /// <code>"{\"type\":\"NETWORK_FIREWALL\",\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-west-1:1234567891011:stateless-rulegroup/rulegroup2\",\"priority\":10}],\"networkFirewallStatelessDefaultActions\":[\"aws:pass\",\"custom1\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"custom2\",\"aws:pass\"],\"networkFirewallStatelessCustomActions\":[{\"actionName\":\"custom1\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"dimension1\"}]}}},{\"actionName\":\"custom2\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"dimension2\"}]}}}],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-west-1:1234567891011:stateful-rulegroup/rulegroup1\"}],\"networkFirewallOrchestrationConfig\":{\"singleFirewallEndpointPerVPC\":true,\"allowedIPV4CidrList\":[\"10.24.34.0/28\"]}
-  /// }"</code>
+  /// <code>"{\"type\":\"DNS_FIREWALL\",\"preProcessRuleGroups\":[{\"ruleGroupId\":\"rslvr-frg-1\",\"priority\":10}],\"postProcessRuleGroups\":[{\"ruleGroupId\":\"rslvr-frg-2\",\"priority\":9911}]}"</code>
+  /// <note>
+  /// Valid values for <code>preProcessRuleGroups</code> are between 1 and 99.
+  /// Valid values for <code>postProcessRuleGroups</code> are between 9901 and
+  /// 10000.
+  /// </note> </li>
+  /// <li>
+  /// Example: <code>IMPORT_NETWORK_FIREWALL</code>
+  /// <code>"{\"type\":\"IMPORT_NETWORK_FIREWALL\",\"awsNetworkFirewallConfig\":{\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-west-2:000000000000:stateless-rulegroup\/rg1\",\"priority\":1}],\"networkFirewallStatelessDefaultActions\":[\"aws:drop\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"aws:pass\"],\"networkFirewallStatelessCustomActions\":[],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-west-2:aws-managed:stateful-rulegroup\/ThreatSignaturesEmergingEventsStrictOrder\",\"priority\":8}],\"networkFirewallStatefulEngineOptions\":{\"ruleOrder\":\"STRICT_ORDER\"},\"networkFirewallStatefulDefaultActions\":[\"aws:drop_strict\"]}}"</code>
+  ///
+  /// <code>"{\"type\":\"DNS_FIREWALL\",\"preProcessRuleGroups\":[{\"ruleGroupId\":\"rslvr-frg-1\",\"priority\":10}],\"postProcessRuleGroups\":[{\"ruleGroupId\":\"rslvr-frg-2\",\"priority\":9911}]}"</code>
+  /// <note>
+  /// Valid values for <code>preProcessRuleGroups</code> are between 1 and 99.
+  /// Valid values for <code>postProcessRuleGroups</code> are between 9901 and
+  /// 10000.
+  /// </note> </li>
+  /// <li>
+  /// Example: <code>NETWORK_FIREWALL</code> - Centralized deployment model
+  ///
+  /// <code>"{\"type\":\"NETWORK_FIREWALL\",\"awsNetworkFirewallConfig\":{\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test\",\"priority\":1}],\"networkFirewallStatelessDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessCustomActions\":[{\"actionName\":\"customActionName\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"metricdimensionvalue\"}]}}}],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test\"}],\"networkFirewallLoggingConfiguration\":{\"logDestinationConfigs\":[{\"logDestinationType\":\"S3\",\"logType\":\"ALERT\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}},{\"logDestinationType\":\"S3\",\"logType\":\"FLOW\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}}],\"overrideExistingConfig\":true}},\"firewallDeploymentModel\":{\"centralizedFirewallDeploymentModel\":{\"centralizedFirewallOrchestrationConfig\":{\"inspectionVpcIds\":[{\"resourceId\":\"vpc-1234\",\"accountId\":\"123456789011\"}],\"firewallCreationConfig\":{\"endpointLocation\":{\"availabilityZoneConfigList\":[{\"availabilityZoneId\":null,\"availabilityZoneName\":\"us-east-1a\",\"allowedIPV4CidrList\":[\"10.0.0.0/28\"]}]}},\"allowedIPV4CidrList\":[]}}}}"</code>
+  ///
+  /// To use the centralized deployment model, you must set <a
+  /// href="https://docs.aws.amazon.com/fms/2018-01-01/APIReference/API_PolicyOption.html">PolicyOption</a>
+  /// to <code>CENTRALIZED</code>.
   /// </li>
   /// <li>
-  /// Example: <code>WAFV2</code>
+  /// Example: <code>NETWORK_FIREWALL</code> - Distributed deployment model with
+  /// automatic Availability Zone configuration
   ///
-  /// <code>"{\"type\":\"WAFV2\",\"preProcessRuleGroups\":[{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"version\":null,\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesAmazonIpReputationList\"},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[]}],\"postProcessRuleGroups\":[],\"defaultAction\":{\"type\":\"ALLOW\"},\"overrideCustomerWebACLAssociation\":false,\"loggingConfiguration\":{\"logDestinationConfigs\":[\"arn:aws:firehose:us-west-2:12345678912:deliverystream/aws-waf-logs-fms-admin-destination\"],\"redactedFields\":[{\"redactedFieldType\":\"SingleHeader\",\"redactedFieldValue\":\"Cookies\"},{\"redactedFieldType\":\"Method\"}]}}"</code>
+  /// <code>
+  /// "{\"type\":\"NETWORK_FIREWALL\",\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test\",\"priority\":1}],\"networkFirewallStatelessDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessCustomActions\":[{\"actionName\":\"customActionName\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"metricdimensionvalue\"}]}}}],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test\"}],\"networkFirewallOrchestrationConfig\":{\"singleFirewallEndpointPerVPC\":false,\"allowedIPV4CidrList\":[\"10.0.0.0/28\",\"192.168.0.0/28\"],\"routeManagementAction\":\"OFF\"},\"networkFirewallLoggingConfiguration\":{\"logDestinationConfigs\":[{\"logDestinationType\":\"S3\",\"logType\":\"ALERT\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}},{\"logDestinationType\":\"S3\",\"logType\":\"FLOW\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}}],\"overrideExistingConfig\":true}}"
+  /// </code>
   ///
-  /// In the <code>loggingConfiguration</code>, you can specify one
-  /// <code>logDestinationConfigs</code>, you can optionally provide up to 20
-  /// <code>redactedFields</code>, and the <code>RedactedFieldType</code> must be
-  /// one of <code>URI</code>, <code>QUERY_STRING</code>, <code>HEADER</code>, or
-  /// <code>METHOD</code>.
+  /// With automatic Availbility Zone configuration, Firewall Manager chooses
+  /// which Availability Zones to create the endpoints in. To use the distributed
+  /// deployment model, you must set <a
+  /// href="https://docs.aws.amazon.com/fms/2018-01-01/APIReference/API_PolicyOption.html">PolicyOption</a>
+  /// to <code>NULL</code>.
   /// </li>
   /// <li>
-  /// Example: <code>WAF Classic</code>
+  /// Example: <code>NETWORK_FIREWALL</code> - Distributed deployment model with
+  /// automatic Availability Zone configuration and route management
   ///
-  /// <code>"{\"type\": \"WAF\", \"ruleGroups\":
-  /// [{\"id\":\"12345678-1bcd-9012-efga-0987654321ab\", \"overrideAction\" :
-  /// {\"type\": \"COUNT\"}}], \"defaultAction\": {\"type\": \"BLOCK\"}}"</code>
+  /// <code>
+  /// "{\"type\":\"NETWORK_FIREWALL\",\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test\",\"priority\":1}],\"networkFirewallStatelessDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessCustomActions\":[{\"actionName\":\"customActionName\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"metricdimensionvalue\"}]}}}],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test\"}],\"networkFirewallOrchestrationConfig\":{\"singleFirewallEndpointPerVPC\":false,\"allowedIPV4CidrList\":[\"10.0.0.0/28\",\"192.168.0.0/28\"],\"routeManagementAction\":\"MONITOR\",\"routeManagementTargetTypes\":[\"InternetGateway\"]},\"networkFirewallLoggingConfiguration\":{\"logDestinationConfigs\":[{\"logDestinationType\":\"S3\",\"logType\":\"ALERT\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}},{\"logDestinationType\":\"S3\",\"logType\":
+  /// \"FLOW\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}}],\"overrideExistingConfig\":true}}"
+  /// </code>
+  ///
+  /// To use the distributed deployment model, you must set <a
+  /// href="https://docs.aws.amazon.com/fms/2018-01-01/APIReference/API_PolicyOption.html">PolicyOption</a>
+  /// to <code>NULL</code>.
+  /// </li>
+  /// <li>
+  /// Example: <code>NETWORK_FIREWALL</code> - Distributed deployment model with
+  /// custom Availability Zone configuration
+  ///
+  /// <code>"{\"type\":\"NETWORK_FIREWALL\",\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test\",\"priority\":1}],\"networkFirewallStatelessDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"aws:forward_to_sfe\",\"fragmentcustomactionname\"],\"networkFirewallStatelessCustomActions\":[{\"actionName\":\"customActionName\",
+  /// \"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"metricdimensionvalue\"}]}}},{\"actionName\":\"fragmentcustomactionname\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"fragmentmetricdimensionvalue\"}]}}}],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test\"}],\"networkFirewallOrchestrationConfig\":{\"firewallCreationConfig\":{
+  /// \"endpointLocation\":{\"availabilityZoneConfigList\":[{\"availabilityZoneName\":\"us-east-1a\",\"allowedIPV4CidrList\":[\"10.0.0.0/28\"]},{\"availabilityZoneName\":\"us-east-1b\",\"allowedIPV4CidrList\":[
+  /// \"10.0.0.0/28\"]}]}
+  /// },\"singleFirewallEndpointPerVPC\":false,\"allowedIPV4CidrList\":null,\"routeManagementAction\":\"OFF\",\"networkFirewallLoggingConfiguration\":{\"logDestinationConfigs\":[{\"logDestinationType\":\"S3\",\"logType\":\"ALERT\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}},{\"logDestinationType\":\"S3\",\"logType\":\"FLOW\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}}],\"overrideExistingConfig\":boolean}}"
+  /// </code>
+  ///
+  /// With custom Availability Zone configuration, you define which specific
+  /// Availability Zones to create endpoints in by configuring
+  /// <code>firewallCreationConfig</code>. To configure the Availability Zones in
+  /// <code>firewallCreationConfig</code>, specify either the
+  /// <code>availabilityZoneName</code> or <code>availabilityZoneId</code>
+  /// parameter, not both parameters.
+  ///
+  /// To use the distributed deployment model, you must set <a
+  /// href="https://docs.aws.amazon.com/fms/2018-01-01/APIReference/API_PolicyOption.html">PolicyOption</a>
+  /// to <code>NULL</code>.
+  /// </li>
+  /// <li>
+  /// Example: <code>NETWORK_FIREWALL</code> - Distributed deployment model with
+  /// custom Availability Zone configuration and route management
+  ///
+  /// <code>"{\"type\":\"NETWORK_FIREWALL\",\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test\",\"priority\":1}],\"networkFirewallStatelessDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"aws:forward_to_sfe\",\"fragmentcustomactionname\"],\"networkFirewallStatelessCustomActions\":[{\"actionName\":\"customActionName\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"metricdimensionvalue\"}]}}},{\"actionName\":\"fragmentcustomactionname\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"fragmentmetricdimensionvalue\"}]}}}],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test\"}],\"networkFirewallOrchestrationConfig\":{\"firewallCreationConfig\":{\"endpointLocation\":{\"availabilityZoneConfigList\":[{\"availabilityZoneName\":\"us-east-1a\",\"allowedIPV4CidrList\":[\"10.0.0.0/28\"]},{\"availabilityZoneName\":\"us-east-1b\",\"allowedIPV4CidrList\":[\"10.0.0.0/28\"]}]}},\"singleFirewallEndpointPerVPC\":false,\"allowedIPV4CidrList\":null,\"routeManagementAction\":\"MONITOR\",\"routeManagementTargetTypes\":[\"InternetGateway\"],\"routeManagementConfig\":{\"allowCrossAZTrafficIfNoEndpoint\":true}},\"networkFirewallLoggingConfiguration\":{\"logDestinationConfigs\":[{\"logDestinationType\":\"S3\",\"logType\":\"ALERT\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}},{\"logDestinationType\":\"S3\",\"logType\":\"FLOW\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}}],\"overrideExistingConfig\":boolean}}"
+  /// </code>
+  ///
+  /// To use the distributed deployment model, you must set <a
+  /// href="https://docs.aws.amazon.com/fms/2018-01-01/APIReference/API_PolicyOption.html">PolicyOption</a>
+  /// to <code>NULL</code>.
+  /// </li>
+  /// <li>
+  /// Example: <code>THIRD_PARTY_FIREWALL</code>
+  ///
+  /// <code>"{ "type":"THIRD_PARTY_FIREWALL",
+  /// "thirdPartyFirewall":"PALO_ALTO_NETWORKS_CLOUD_NGFW",
+  /// "thirdPartyFirewallConfig":{ "thirdPartyFirewallPolicyList":["global-1"] },
+  /// "firewallDeploymentModel":{ "distributedFirewallDeploymentModel":{
+  /// "distributedFirewallOrchestrationConfig":{ "firewallCreationConfig":{
+  /// "endpointLocation":{ "availabilityZoneConfigList":[ {
+  /// "availabilityZoneName":"${AvailabilityZone}" } ] } },
+  /// "allowedIPV4CidrList":[ ] } } } }"</code>
   /// </li>
   /// <li>
   /// Example: <code>SECURITY_GROUPS_COMMON</code>
   ///
   /// <code>"{\"type\":\"SECURITY_GROUPS_COMMON\",\"revertManualSecurityGroupChanges\":false,\"exclusiveResourceSecurityGroupManagement\":false,
   /// \"applyToAllEC2InstanceENIs\":false,\"securityGroups\":[{\"id\":\"
+  /// sg-000e55995d61a06bd\"}]}"</code>
+  /// </li>
+  /// <li>
+  /// Example: <code>SECURITY_GROUPS_COMMON</code> - Security group tag
+  /// distribution
+  ///
+  /// <code>""{\"type\":\"SECURITY_GROUPS_COMMON\",\"securityGroups\":[{\"id\":\"sg-000e55995d61a06bd\"}],\"revertManualSecurityGroupChanges\":true,\"exclusiveResourceSecurityGroupManagement\":false,\"applyToAllEC2InstanceENIs\":false,\"includeSharedVPC\":false,\"enableTagDistribution\":true}""</code>
+  ///
+  /// Firewall Manager automatically distributes tags from the primary group to
+  /// the security groups created by this policy. To use security group tag
+  /// distribution, you must also set
+  /// <code>revertManualSecurityGroupChanges</code> to <code>true</code>,
+  /// otherwise Firewall Manager won't be able to create the policy. When you
+  /// enable <code>revertManualSecurityGroupChanges</code>, Firewall Manager
+  /// identifies and reports when the security groups created by this policy
+  /// become non-compliant.
+  ///
+  /// Firewall Manager won't distrubute system tags added by Amazon Web Services
+  /// services into the replica security groups. System tags begin with the
+  /// <code>aws:</code> prefix.
+  /// </li>
+  /// <li>
+  /// Example: Shared VPCs. Apply the preceding policy to resources in shared VPCs
+  /// as well as to those in VPCs that the account owns
+  ///
+  /// <code>"{\"type\":\"SECURITY_GROUPS_COMMON\",\"revertManualSecurityGroupChanges\":false,\"exclusiveResourceSecurityGroupManagement\":false,
+  /// \"applyToAllEC2InstanceENIs\":false,\"includeSharedVPC\":true,\"securityGroups\":[{\"id\":\"
   /// sg-000e55995d61a06bd\"}]}"</code>
   /// </li>
   /// <li>
@@ -2993,26 +6758,160 @@ class SecurityServicePolicyData {
   ///
   /// <code>"{\"type\":\"SECURITY_GROUPS_USAGE_AUDIT\",\"deleteUnusedSecurityGroups\":true,\"coalesceRedundantSecurityGroups\":true}"</code>
   /// </li>
+  /// <li>
+  /// Specification for <code>SHIELD_ADVANCED</code> for Amazon CloudFront
+  /// distributions
+  ///
+  /// <code>"{\"type\":\"SHIELD_ADVANCED\",\"automaticResponseConfiguration\":
+  /// {\"automaticResponseStatus\":\"ENABLED|IGNORED|DISABLED\",
+  /// \"automaticResponseAction\":\"BLOCK|COUNT\"},
+  /// \"overrideCustomerWebaclClassic\":true|false}"</code>
+  ///
+  /// For example:
+  /// <code>"{\"type\":\"SHIELD_ADVANCED\",\"automaticResponseConfiguration\":
+  /// {\"automaticResponseStatus\":\"ENABLED\",
+  /// \"automaticResponseAction\":\"COUNT\"}}"</code>
+  ///
+  /// The default value for <code>automaticResponseStatus</code> is
+  /// <code>IGNORED</code>. The value for <code>automaticResponseAction</code> is
+  /// only required when <code>automaticResponseStatus</code> is set to
+  /// <code>ENABLED</code>. The default value for
+  /// <code>overrideCustomerWebaclClassic</code> is <code>false</code>.
+  ///
+  /// For other resource types that you can protect with a Shield Advanced policy,
+  /// this <code>ManagedServiceData</code> configuration is an empty string.
+  /// </li>
+  /// <li>
+  /// Example: <code>WAFV2</code> - Account takeover prevention and Bot Control
+  /// managed rule groups, and rule action override
+  ///
+  /// <code>"{\"type\":\"WAFV2\",\"preProcessRuleGroups\":[{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"versionEnabled\":null,\"version\":null,\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesATPRuleSet\",\"managedRuleGroupConfigs\":[{\"awsmanagedRulesATPRuleSet\":{\"loginPath\":\"/loginpath\",\"requestInspection\":{\"payloadType\":\"FORM_ENCODED|JSON\",\"usernameField\":{\"identifier\":\"/form/username\"},\"passwordField\":{\"identifier\":\"/form/password\"}}}}]},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[],\"sampledRequestsEnabled\":true},{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"versionEnabled\":null,\"version\":null,\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesBotControlRuleSet\",\"managedRuleGroupConfigs\":[{\"awsmanagedRulesBotControlRuleSet\":{\"inspectionLevel\":\"TARGETED|COMMON\"}}]},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[],\"sampledRequestsEnabled\":true,\"ruleActionOverrides\":[{\"name\":\"Rule1\",\"actionToUse\":{\"allow|block|count|captcha|challenge\":{}}},{\"name\":\"Rule2\",\"actionToUse\":{\"allow|block|count|captcha|challenge\":{}}}]}],\"postProcessRuleGroups\":[],\"defaultAction\":{\"type\":\"ALLOW\"},\"customRequestHandling\":null,\"customResponse\":null,\"overrideCustomerWebACLAssociation\":false,\"loggingConfiguration\":null,\"sampledRequestsEnabledForDefaultActions\":true}"</code>
+  ///
+  /// <ul>
+  /// <li>
+  /// Fraud Control account takeover prevention (ATP) - For information about the
+  /// properties available for <code>AWSManagedRulesATPRuleSet</code> managed rule
+  /// groups, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/APIReference/API_AWSManagedRulesATPRuleSet.html">AWSManagedRulesATPRuleSet</a>
+  /// in the <i>WAF API Reference</i>.
+  /// </li>
+  /// <li>
+  /// Bot Control - For information about
+  /// <code>AWSManagedRulesBotControlRuleSet</code> managed rule groups, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/APIReference/API_AWSManagedRulesBotControlRuleSet.html">AWSManagedRulesBotControlRuleSet</a>
+  /// in the <i>WAF API Reference</i>.
+  /// </li>
+  /// <li>
+  /// Rule action overrides - Firewall Manager supports rule action overrides only
+  /// for managed rule groups. To configure a <code>RuleActionOverrides</code> add
+  /// the <code>Name</code> of the rule to override, and <code>ActionToUse</code>,
+  /// which is the new action to use for the rule. For information about using
+  /// rule action override, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/APIReference/API_RuleActionOverride.html">RuleActionOverride</a>
+  /// in the <i>WAF API Reference</i>.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// Example: <code>WAFV2</code> - <code>CAPTCHA</code> and
+  /// <code>Challenge</code> configs
+  ///
+  /// <code>"{\"type\":\"WAFV2\",\"preProcessRuleGroups\":[{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"versionEnabled\":null,\"version\":null,\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesAdminProtectionRuleSet\"},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[],\"sampledRequestsEnabled\":true}],\"postProcessRuleGroups\":[],\"defaultAction\":{\"type\":\"ALLOW\"},\"customRequestHandling\":null,\"customResponse\":null,\"overrideCustomerWebACLAssociation\":false,\"loggingConfiguration\":null,\"sampledRequestsEnabledForDefaultActions\":true,\"captchaConfig\":{\"immunityTimeProperty\":{\"immunityTime\":500}},\"challengeConfig\":{\"immunityTimeProperty\":{\"immunityTime\":800}},\"tokenDomains\":[\"google.com\",\"amazon.com\"]}"</code>
+  ///
+  /// If you update the policy's values for <code>captchaConfig</code>,
+  /// <code>challengeConfig</code>, or <code>tokenDomains</code>, Firewall Manager
+  /// will overwrite your local web ACLs to contain the new value(s). However, if
+  /// you don't update the policy's <code>captchaConfig</code>,
+  /// <code>challengeConfig</code>, or <code>tokenDomains</code> values, the
+  /// values in your local web ACLs will remain unchanged. For information about
+  /// CAPTCHA and Challenge configs, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/APIReference/API_CaptchaConfig.html">CaptchaConfig</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/waf/latest/APIReference/API_ChallengeConfig.html">ChallengeConfig</a>
+  /// in the <i>WAF API Reference</i>.
+  /// </li>
+  /// <li>
+  /// Example: <code>WAFV2</code> - Firewall Manager support for WAF managed rule
+  /// group versioning
+  ///
+  /// <code>"{\"type\":\"WAFV2\",\"preProcessRuleGroups\":[{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"versionEnabled\":true,\"version\":\"Version_2.0\",\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesCommonRuleSet\"},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[{\"name\":\"NoUserAgent_HEADER\"}]}],\"postProcessRuleGroups\":[],\"defaultAction\":{\"type\":\"ALLOW\"},\"overrideCustomerWebACLAssociation\":false,\"loggingConfiguration\":{\"logDestinationConfigs\":[\"arn:aws:firehose:us-west-2:12345678912:deliverystream/aws-waf-logs-fms-admin-destination\"],\"redactedFields\":[{\"redactedFieldType\":\"SingleHeader\",\"redactedFieldValue\":\"Cookies\"},{\"redactedFieldType\":\"Method\"}]}}"</code>
+  ///
+  /// To use a specific version of a WAF managed rule group in your Firewall
+  /// Manager policy, you must set <code>versionEnabled</code> to
+  /// <code>true</code>, and set <code>version</code> to the version you'd like to
+  /// use. If you don't set <code>versionEnabled</code> to <code>true</code>, or
+  /// if you omit <code>versionEnabled</code>, then Firewall Manager uses the
+  /// default version of the WAF managed rule group.
+  /// </li>
+  /// <li>
+  /// Example: <code>WAFV2</code> - Logging configurations
+  ///
+  /// <code>"{\"type\":\"WAFV2\",\"preProcessRuleGroups\":[{\"ruleGroupArn\":null,
+  /// \"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":
+  /// {\"versionEnabled\":null,\"version\":null,\"vendorName\":\"AWS\",
+  /// \"managedRuleGroupName\":\"AWSManagedRulesAdminProtectionRuleSet\"}
+  /// ,\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[],
+  /// \"sampledRequestsEnabled\":true}],\"postProcessRuleGroups\":[],
+  /// \"defaultAction\":{\"type\":\"ALLOW\"},\"customRequestHandling\"
+  /// :null,\"customResponse\":null,\"overrideCustomerWebACLAssociation\"
+  /// :false,\"loggingConfiguration\":{\"logDestinationConfigs\":
+  /// [\"arn:aws:s3:::aws-waf-logs-example-bucket\"]
+  /// ,\"redactedFields\":[],\"loggingFilterConfigs\":{\"defaultBehavior\":\"KEEP\",
+  /// \"filters\":[{\"behavior\":\"KEEP\",\"requirement\":\"MEETS_ALL\",
+  /// \"conditions\":[{\"actionCondition\":\"CAPTCHA\"},{\"actionCondition\":
+  /// \"CHALLENGE\"},
+  /// {\"actionCondition\":\"EXCLUDED_AS_COUNT\"}]}]}},\"sampledRequestsEnabledForDefaultActions\":true}"</code>
+  ///
+  /// Firewall Manager supports Amazon Kinesis Data Firehose and Amazon S3 as the
+  /// <code>logDestinationConfigs</code> in your
+  /// <code>loggingConfiguration</code>. For information about WAF logging
+  /// configurations, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/APIReference/API_LoggingConfiguration.html">LoggingConfiguration</a>
+  /// in the <i>WAF API Reference</i>
+  ///
+  /// In the <code>loggingConfiguration</code>, you can specify one
+  /// <code>logDestinationConfigs</code>. Optionally provide as many as 20
+  /// <code>redactedFields</code>. The <code>RedactedFieldType</code> must be one
+  /// of <code>URI</code>, <code>QUERY_STRING</code>, <code>HEADER</code>, or
+  /// <code>METHOD</code>.
+  /// </li>
+  /// <li>
+  /// Example: <code>WAF Classic</code>
+  ///
+  /// <code>"{\"type\": \"WAF\", \"ruleGroups\":
+  /// [{\"id\":\"12345678-1bcd-9012-efga-0987654321ab\", \"overrideAction\" :
+  /// {\"type\": \"COUNT\"}}], \"defaultAction\": {\"type\": \"BLOCK\"}}"</code>
+  /// </li>
   /// </ul>
   final String? managedServiceData;
+
+  /// Contains the Network Firewall firewall policy options to configure a
+  /// centralized deployment model.
+  final PolicyOption? policyOption;
 
   SecurityServicePolicyData({
     required this.type,
     this.managedServiceData,
+    this.policyOption,
   });
+
   factory SecurityServicePolicyData.fromJson(Map<String, dynamic> json) {
     return SecurityServicePolicyData(
       type: (json['Type'] as String).toSecurityServiceType(),
       managedServiceData: json['ManagedServiceData'] as String?,
+      policyOption: json['PolicyOption'] != null
+          ? PolicyOption.fromJson(json['PolicyOption'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final type = this.type;
     final managedServiceData = this.managedServiceData;
+    final policyOption = this.policyOption;
     return {
       'Type': type.toValue(),
       if (managedServiceData != null) 'ManagedServiceData': managedServiceData,
+      if (policyOption != null) 'PolicyOption': policyOption,
     };
   }
 }
@@ -3025,6 +6924,9 @@ enum SecurityServiceType {
   securityGroupsContentAudit,
   securityGroupsUsageAudit,
   networkFirewall,
+  dnsFirewall,
+  thirdPartyFirewall,
+  importNetworkFirewall,
 }
 
 extension SecurityServiceTypeValueExtension on SecurityServiceType {
@@ -3044,6 +6946,12 @@ extension SecurityServiceTypeValueExtension on SecurityServiceType {
         return 'SECURITY_GROUPS_USAGE_AUDIT';
       case SecurityServiceType.networkFirewall:
         return 'NETWORK_FIREWALL';
+      case SecurityServiceType.dnsFirewall:
+        return 'DNS_FIREWALL';
+      case SecurityServiceType.thirdPartyFirewall:
+        return 'THIRD_PARTY_FIREWALL';
+      case SecurityServiceType.importNetworkFirewall:
+        return 'IMPORT_NETWORK_FIREWALL';
     }
   }
 }
@@ -3065,14 +6973,61 @@ extension SecurityServiceTypeFromString on String {
         return SecurityServiceType.securityGroupsUsageAudit;
       case 'NETWORK_FIREWALL':
         return SecurityServiceType.networkFirewall;
+      case 'DNS_FIREWALL':
+        return SecurityServiceType.dnsFirewall;
+      case 'THIRD_PARTY_FIREWALL':
+        return SecurityServiceType.thirdPartyFirewall;
+      case 'IMPORT_NETWORK_FIREWALL':
+        return SecurityServiceType.importNetworkFirewall;
     }
     throw Exception('$this is not known in enum SecurityServiceType');
   }
 }
 
-/// AWS Network Firewall stateful rule group, used in a
+/// Configuration settings for the handling of the stateful rule groups in a
+/// Network Firewall firewall policy.
+class StatefulEngineOptions {
+  /// Indicates how to manage the order of stateful rule evaluation for the
+  /// policy. <code>DEFAULT_ACTION_ORDER</code> is the default behavior. Stateful
+  /// rules are provided to the rule engine as Suricata compatible strings, and
+  /// Suricata evaluates them based on certain settings. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-rule-evaluation-order.html">Evaluation
+  /// order for stateful rules</a> in the <i>Network Firewall Developer Guide</i>.
+  final RuleOrder? ruleOrder;
+
+  StatefulEngineOptions({
+    this.ruleOrder,
+  });
+
+  factory StatefulEngineOptions.fromJson(Map<String, dynamic> json) {
+    return StatefulEngineOptions(
+      ruleOrder: (json['RuleOrder'] as String?)?.toRuleOrder(),
+    );
+  }
+}
+
+/// Network Firewall stateful rule group, used in a
 /// <a>NetworkFirewallPolicyDescription</a>.
 class StatefulRuleGroup {
+  /// The action that allows the policy owner to override the behavior of the rule
+  /// group within a policy.
+  final NetworkFirewallStatefulRuleGroupOverride? override;
+
+  /// An integer setting that indicates the order in which to run the stateful
+  /// rule groups in a single Network Firewall firewall policy. This setting only
+  /// applies to firewall policies that specify the <code>STRICT_ORDER</code> rule
+  /// order in the stateful engine options settings.
+  ///
+  /// Network Firewall evalutes each stateful rule group against a packet starting
+  /// with the group that has the lowest priority setting. You must ensure that
+  /// the priority settings are unique within each policy. For information about
+  ///
+  /// You can change the priority settings of your rule groups at any time. To
+  /// make it easier to insert rule groups later, number them so there's a wide
+  /// range in between, for example use 100, 200, and so on.
+  final int? priority;
+
   /// The resource ID of the rule group.
   final String? resourceId;
 
@@ -3080,21 +7035,29 @@ class StatefulRuleGroup {
   final String? ruleGroupName;
 
   StatefulRuleGroup({
+    this.override,
+    this.priority,
     this.resourceId,
     this.ruleGroupName,
   });
+
   factory StatefulRuleGroup.fromJson(Map<String, dynamic> json) {
     return StatefulRuleGroup(
+      override: json['Override'] != null
+          ? NetworkFirewallStatefulRuleGroupOverride.fromJson(
+              json['Override'] as Map<String, dynamic>)
+          : null,
+      priority: json['Priority'] as int?,
       resourceId: json['ResourceId'] as String?,
       ruleGroupName: json['RuleGroupName'] as String?,
     );
   }
 }
 
-/// AWS Network Firewall stateless rule group, used in a
+/// Network Firewall stateless rule group, used in a
 /// <a>NetworkFirewallPolicyDescription</a>.
 class StatelessRuleGroup {
-  /// The priority of the rule group. AWS Network Firewall evaluates the stateless
+  /// The priority of the rule group. Network Firewall evaluates the stateless
   /// rule groups in a firewall policy starting from the lowest priority setting.
   final int? priority;
 
@@ -3109,6 +7072,7 @@ class StatelessRuleGroup {
     this.resourceId,
     this.ruleGroupName,
   });
+
   factory StatelessRuleGroup.fromJson(Map<String, dynamic> json) {
     return StatelessRuleGroup(
       priority: json['Priority'] as int?,
@@ -3118,11 +7082,12 @@ class StatelessRuleGroup {
   }
 }
 
-/// A collection of key:value pairs associated with an AWS resource. The
-/// key:value pair can be anything you define. Typically, the tag key represents
-/// a category (such as "environment") and the tag value represents a specific
-/// value within that category (such as "test," "development," or "production").
-/// You can add up to 50 tags to each AWS resource.
+/// A collection of key:value pairs associated with an Amazon Web Services
+/// resource. The key:value pair can be anything you define. Typically, the tag
+/// key represents a category (such as "environment") and the tag value
+/// represents a specific value within that category (such as "test,"
+/// "development," or "production"). You can add up to 50 tags to each Amazon
+/// Web Services resource.
 class Tag {
   /// Part of the key:value pair that defines a tag. You can use a tag key to
   /// describe a category of information, such as "customer." Tag keys are
@@ -3138,6 +7103,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -3157,25 +7123,326 @@ class Tag {
 
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
 }
 
+enum TargetType {
+  gateway,
+  carrierGateway,
+  instance,
+  localGateway,
+  natGateway,
+  networkInterface,
+  vpcEndpoint,
+  vpcPeeringConnection,
+  egressOnlyInternetGateway,
+  transitGateway,
+}
+
+extension TargetTypeValueExtension on TargetType {
+  String toValue() {
+    switch (this) {
+      case TargetType.gateway:
+        return 'GATEWAY';
+      case TargetType.carrierGateway:
+        return 'CARRIER_GATEWAY';
+      case TargetType.instance:
+        return 'INSTANCE';
+      case TargetType.localGateway:
+        return 'LOCAL_GATEWAY';
+      case TargetType.natGateway:
+        return 'NAT_GATEWAY';
+      case TargetType.networkInterface:
+        return 'NETWORK_INTERFACE';
+      case TargetType.vpcEndpoint:
+        return 'VPC_ENDPOINT';
+      case TargetType.vpcPeeringConnection:
+        return 'VPC_PEERING_CONNECTION';
+      case TargetType.egressOnlyInternetGateway:
+        return 'EGRESS_ONLY_INTERNET_GATEWAY';
+      case TargetType.transitGateway:
+        return 'TRANSIT_GATEWAY';
+    }
+  }
+}
+
+extension TargetTypeFromString on String {
+  TargetType toTargetType() {
+    switch (this) {
+      case 'GATEWAY':
+        return TargetType.gateway;
+      case 'CARRIER_GATEWAY':
+        return TargetType.carrierGateway;
+      case 'INSTANCE':
+        return TargetType.instance;
+      case 'LOCAL_GATEWAY':
+        return TargetType.localGateway;
+      case 'NAT_GATEWAY':
+        return TargetType.natGateway;
+      case 'NETWORK_INTERFACE':
+        return TargetType.networkInterface;
+      case 'VPC_ENDPOINT':
+        return TargetType.vpcEndpoint;
+      case 'VPC_PEERING_CONNECTION':
+        return TargetType.vpcPeeringConnection;
+      case 'EGRESS_ONLY_INTERNET_GATEWAY':
+        return TargetType.egressOnlyInternetGateway;
+      case 'TRANSIT_GATEWAY':
+        return TargetType.transitGateway;
+    }
+    throw Exception('$this is not known in enum TargetType');
+  }
+}
+
+enum ThirdPartyFirewall {
+  paloAltoNetworksCloudNgfw,
+  fortigateCloudNativeFirewall,
+}
+
+extension ThirdPartyFirewallValueExtension on ThirdPartyFirewall {
+  String toValue() {
+    switch (this) {
+      case ThirdPartyFirewall.paloAltoNetworksCloudNgfw:
+        return 'PALO_ALTO_NETWORKS_CLOUD_NGFW';
+      case ThirdPartyFirewall.fortigateCloudNativeFirewall:
+        return 'FORTIGATE_CLOUD_NATIVE_FIREWALL';
+    }
+  }
+}
+
+extension ThirdPartyFirewallFromString on String {
+  ThirdPartyFirewall toThirdPartyFirewall() {
+    switch (this) {
+      case 'PALO_ALTO_NETWORKS_CLOUD_NGFW':
+        return ThirdPartyFirewall.paloAltoNetworksCloudNgfw;
+      case 'FORTIGATE_CLOUD_NATIVE_FIREWALL':
+        return ThirdPartyFirewall.fortigateCloudNativeFirewall;
+    }
+    throw Exception('$this is not known in enum ThirdPartyFirewall');
+  }
+}
+
+enum ThirdPartyFirewallAssociationStatus {
+  onboarding,
+  onboardComplete,
+  offboarding,
+  offboardComplete,
+  notExist,
+}
+
+extension ThirdPartyFirewallAssociationStatusValueExtension
+    on ThirdPartyFirewallAssociationStatus {
+  String toValue() {
+    switch (this) {
+      case ThirdPartyFirewallAssociationStatus.onboarding:
+        return 'ONBOARDING';
+      case ThirdPartyFirewallAssociationStatus.onboardComplete:
+        return 'ONBOARD_COMPLETE';
+      case ThirdPartyFirewallAssociationStatus.offboarding:
+        return 'OFFBOARDING';
+      case ThirdPartyFirewallAssociationStatus.offboardComplete:
+        return 'OFFBOARD_COMPLETE';
+      case ThirdPartyFirewallAssociationStatus.notExist:
+        return 'NOT_EXIST';
+    }
+  }
+}
+
+extension ThirdPartyFirewallAssociationStatusFromString on String {
+  ThirdPartyFirewallAssociationStatus toThirdPartyFirewallAssociationStatus() {
+    switch (this) {
+      case 'ONBOARDING':
+        return ThirdPartyFirewallAssociationStatus.onboarding;
+      case 'ONBOARD_COMPLETE':
+        return ThirdPartyFirewallAssociationStatus.onboardComplete;
+      case 'OFFBOARDING':
+        return ThirdPartyFirewallAssociationStatus.offboarding;
+      case 'OFFBOARD_COMPLETE':
+        return ThirdPartyFirewallAssociationStatus.offboardComplete;
+      case 'NOT_EXIST':
+        return ThirdPartyFirewallAssociationStatus.notExist;
+    }
+    throw Exception(
+        '$this is not known in enum ThirdPartyFirewallAssociationStatus');
+  }
+}
+
+/// Configures the third-party firewall's firewall policy.
+class ThirdPartyFirewallFirewallPolicy {
+  /// The ID of the specified firewall policy.
+  final String? firewallPolicyId;
+
+  /// The name of the specified firewall policy.
+  final String? firewallPolicyName;
+
+  ThirdPartyFirewallFirewallPolicy({
+    this.firewallPolicyId,
+    this.firewallPolicyName,
+  });
+
+  factory ThirdPartyFirewallFirewallPolicy.fromJson(Map<String, dynamic> json) {
+    return ThirdPartyFirewallFirewallPolicy(
+      firewallPolicyId: json['FirewallPolicyId'] as String?,
+      firewallPolicyName: json['FirewallPolicyName'] as String?,
+    );
+  }
+}
+
+/// The violation details for a third-party firewall that's not associated with
+/// an Firewall Manager managed route table.
+class ThirdPartyFirewallMissingExpectedRouteTableViolation {
+  /// The Availability Zone of the firewall subnet that's causing the violation.
+  final String? availabilityZone;
+
+  /// The resource ID of the current route table that's associated with the
+  /// subnet, if one is available.
+  final String? currentRouteTable;
+
+  /// The resource ID of the route table that should be associated with the
+  /// subnet.
+  final String? expectedRouteTable;
+
+  /// The resource ID of the VPC associated with a fireawll subnet that's causing
+  /// the violation.
+  final String? vpc;
+
+  /// The ID of the third-party firewall or VPC resource that's causing the
+  /// violation.
+  final String? violationTarget;
+
+  ThirdPartyFirewallMissingExpectedRouteTableViolation({
+    this.availabilityZone,
+    this.currentRouteTable,
+    this.expectedRouteTable,
+    this.vpc,
+    this.violationTarget,
+  });
+
+  factory ThirdPartyFirewallMissingExpectedRouteTableViolation.fromJson(
+      Map<String, dynamic> json) {
+    return ThirdPartyFirewallMissingExpectedRouteTableViolation(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      currentRouteTable: json['CurrentRouteTable'] as String?,
+      expectedRouteTable: json['ExpectedRouteTable'] as String?,
+      vpc: json['VPC'] as String?,
+      violationTarget: json['ViolationTarget'] as String?,
+    );
+  }
+}
+
+/// The violation details about a third-party firewall's subnet that doesn't
+/// have a Firewall Manager managed firewall in its VPC.
+class ThirdPartyFirewallMissingFirewallViolation {
+  /// The Availability Zone of the third-party firewall that's causing the
+  /// violation.
+  final String? availabilityZone;
+
+  /// The reason the resource is causing this violation, if a reason is available.
+  final String? targetViolationReason;
+
+  /// The resource ID of the VPC associated with a third-party firewall.
+  final String? vpc;
+
+  /// The ID of the third-party firewall that's causing the violation.
+  final String? violationTarget;
+
+  ThirdPartyFirewallMissingFirewallViolation({
+    this.availabilityZone,
+    this.targetViolationReason,
+    this.vpc,
+    this.violationTarget,
+  });
+
+  factory ThirdPartyFirewallMissingFirewallViolation.fromJson(
+      Map<String, dynamic> json) {
+    return ThirdPartyFirewallMissingFirewallViolation(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      targetViolationReason: json['TargetViolationReason'] as String?,
+      vpc: json['VPC'] as String?,
+      violationTarget: json['ViolationTarget'] as String?,
+    );
+  }
+}
+
+/// The violation details for a third-party firewall for an Availability Zone
+/// that's missing the Firewall Manager managed subnet.
+class ThirdPartyFirewallMissingSubnetViolation {
+  /// The Availability Zone of a subnet that's causing the violation.
+  final String? availabilityZone;
+
+  /// The reason the resource is causing the violation, if a reason is available.
+  final String? targetViolationReason;
+
+  /// The resource ID of the VPC associated with a subnet that's causing the
+  /// violation.
+  final String? vpc;
+
+  /// The ID of the third-party firewall or VPC resource that's causing the
+  /// violation.
+  final String? violationTarget;
+
+  ThirdPartyFirewallMissingSubnetViolation({
+    this.availabilityZone,
+    this.targetViolationReason,
+    this.vpc,
+    this.violationTarget,
+  });
+
+  factory ThirdPartyFirewallMissingSubnetViolation.fromJson(
+      Map<String, dynamic> json) {
+    return ThirdPartyFirewallMissingSubnetViolation(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      targetViolationReason: json['TargetViolationReason'] as String?,
+      vpc: json['VPC'] as String?,
+      violationTarget: json['ViolationTarget'] as String?,
+    );
+  }
+}
+
+/// Configures the deployment model for the third-party firewall.
+class ThirdPartyFirewallPolicy {
+  /// Defines the deployment model to use for the third-party firewall policy.
+  final FirewallDeploymentModel? firewallDeploymentModel;
+
+  ThirdPartyFirewallPolicy({
+    this.firewallDeploymentModel,
+  });
+
+  factory ThirdPartyFirewallPolicy.fromJson(Map<String, dynamic> json) {
+    return ThirdPartyFirewallPolicy(
+      firewallDeploymentModel: (json['FirewallDeploymentModel'] as String?)
+          ?.toFirewallDeploymentModel(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewallDeploymentModel = this.firewallDeploymentModel;
+    return {
+      if (firewallDeploymentModel != null)
+        'FirewallDeploymentModel': firewallDeploymentModel.toValue(),
+    };
+  }
+}
+
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
   }
 }
 
-/// Violations for a resource based on the specified AWS Firewall Manager policy
-/// and AWS account.
+/// Violations for a resource based on the specified Firewall Manager policy and
+/// Amazon Web Services account.
 class ViolationDetail {
-  /// The AWS account that the violation details were requested for.
+  /// The Amazon Web Services account that the violation details were requested
+  /// for.
   final String memberAccount;
 
-  /// The ID of the AWS Firewall Manager policy that the violation details were
+  /// The ID of the Firewall Manager policy that the violation details were
   /// requested for.
   final String policyId;
 
@@ -3203,6 +7470,7 @@ class ViolationDetail {
     this.resourceDescription,
     this.resourceTags,
   });
+
   factory ViolationDetail.fromJson(Map<String, dynamic> json) {
     return ViolationDetail(
       memberAccount: json['MemberAccount'] as String,
@@ -3232,10 +7500,25 @@ enum ViolationReason {
   resourceViolatesAuditSecurityGroup,
   securityGroupUnused,
   securityGroupRedundant,
+  fmsCreatedSecurityGroupEdited,
   missingFirewall,
   missingFirewallSubnetInAz,
   missingExpectedRouteTable,
   networkFirewallPolicyModified,
+  firewallSubnetIsOutOfScope,
+  internetGatewayMissingExpectedRoute,
+  firewallSubnetMissingExpectedRoute,
+  unexpectedFirewallRoutes,
+  unexpectedTargetGatewayRoutes,
+  trafficInspectionCrossesAzBoundary,
+  invalidRouteConfiguration,
+  missingTargetGateway,
+  internetTrafficNotInspected,
+  blackHoleRouteDetected,
+  blackHoleRouteDetectedInFirewallSubnet,
+  resourceMissingDnsFirewall,
+  routeHasOutOfScopeEndpoint,
+  firewallSubnetMissingVpceEndpoint,
 }
 
 extension ViolationReasonValueExtension on ViolationReason {
@@ -3259,6 +7542,8 @@ extension ViolationReasonValueExtension on ViolationReason {
         return 'SECURITY_GROUP_UNUSED';
       case ViolationReason.securityGroupRedundant:
         return 'SECURITY_GROUP_REDUNDANT';
+      case ViolationReason.fmsCreatedSecurityGroupEdited:
+        return 'FMS_CREATED_SECURITY_GROUP_EDITED';
       case ViolationReason.missingFirewall:
         return 'MISSING_FIREWALL';
       case ViolationReason.missingFirewallSubnetInAz:
@@ -3267,6 +7552,34 @@ extension ViolationReasonValueExtension on ViolationReason {
         return 'MISSING_EXPECTED_ROUTE_TABLE';
       case ViolationReason.networkFirewallPolicyModified:
         return 'NETWORK_FIREWALL_POLICY_MODIFIED';
+      case ViolationReason.firewallSubnetIsOutOfScope:
+        return 'FIREWALL_SUBNET_IS_OUT_OF_SCOPE';
+      case ViolationReason.internetGatewayMissingExpectedRoute:
+        return 'INTERNET_GATEWAY_MISSING_EXPECTED_ROUTE';
+      case ViolationReason.firewallSubnetMissingExpectedRoute:
+        return 'FIREWALL_SUBNET_MISSING_EXPECTED_ROUTE';
+      case ViolationReason.unexpectedFirewallRoutes:
+        return 'UNEXPECTED_FIREWALL_ROUTES';
+      case ViolationReason.unexpectedTargetGatewayRoutes:
+        return 'UNEXPECTED_TARGET_GATEWAY_ROUTES';
+      case ViolationReason.trafficInspectionCrossesAzBoundary:
+        return 'TRAFFIC_INSPECTION_CROSSES_AZ_BOUNDARY';
+      case ViolationReason.invalidRouteConfiguration:
+        return 'INVALID_ROUTE_CONFIGURATION';
+      case ViolationReason.missingTargetGateway:
+        return 'MISSING_TARGET_GATEWAY';
+      case ViolationReason.internetTrafficNotInspected:
+        return 'INTERNET_TRAFFIC_NOT_INSPECTED';
+      case ViolationReason.blackHoleRouteDetected:
+        return 'BLACK_HOLE_ROUTE_DETECTED';
+      case ViolationReason.blackHoleRouteDetectedInFirewallSubnet:
+        return 'BLACK_HOLE_ROUTE_DETECTED_IN_FIREWALL_SUBNET';
+      case ViolationReason.resourceMissingDnsFirewall:
+        return 'RESOURCE_MISSING_DNS_FIREWALL';
+      case ViolationReason.routeHasOutOfScopeEndpoint:
+        return 'ROUTE_HAS_OUT_OF_SCOPE_ENDPOINT';
+      case ViolationReason.firewallSubnetMissingVpceEndpoint:
+        return 'FIREWALL_SUBNET_MISSING_VPCE_ENDPOINT';
     }
   }
 }
@@ -3292,6 +7605,8 @@ extension ViolationReasonFromString on String {
         return ViolationReason.securityGroupUnused;
       case 'SECURITY_GROUP_REDUNDANT':
         return ViolationReason.securityGroupRedundant;
+      case 'FMS_CREATED_SECURITY_GROUP_EDITED':
+        return ViolationReason.fmsCreatedSecurityGroupEdited;
       case 'MISSING_FIREWALL':
         return ViolationReason.missingFirewall;
       case 'MISSING_FIREWALL_SUBNET_IN_AZ':
@@ -3300,6 +7615,34 @@ extension ViolationReasonFromString on String {
         return ViolationReason.missingExpectedRouteTable;
       case 'NETWORK_FIREWALL_POLICY_MODIFIED':
         return ViolationReason.networkFirewallPolicyModified;
+      case 'FIREWALL_SUBNET_IS_OUT_OF_SCOPE':
+        return ViolationReason.firewallSubnetIsOutOfScope;
+      case 'INTERNET_GATEWAY_MISSING_EXPECTED_ROUTE':
+        return ViolationReason.internetGatewayMissingExpectedRoute;
+      case 'FIREWALL_SUBNET_MISSING_EXPECTED_ROUTE':
+        return ViolationReason.firewallSubnetMissingExpectedRoute;
+      case 'UNEXPECTED_FIREWALL_ROUTES':
+        return ViolationReason.unexpectedFirewallRoutes;
+      case 'UNEXPECTED_TARGET_GATEWAY_ROUTES':
+        return ViolationReason.unexpectedTargetGatewayRoutes;
+      case 'TRAFFIC_INSPECTION_CROSSES_AZ_BOUNDARY':
+        return ViolationReason.trafficInspectionCrossesAzBoundary;
+      case 'INVALID_ROUTE_CONFIGURATION':
+        return ViolationReason.invalidRouteConfiguration;
+      case 'MISSING_TARGET_GATEWAY':
+        return ViolationReason.missingTargetGateway;
+      case 'INTERNET_TRAFFIC_NOT_INSPECTED':
+        return ViolationReason.internetTrafficNotInspected;
+      case 'BLACK_HOLE_ROUTE_DETECTED':
+        return ViolationReason.blackHoleRouteDetected;
+      case 'BLACK_HOLE_ROUTE_DETECTED_IN_FIREWALL_SUBNET':
+        return ViolationReason.blackHoleRouteDetectedInFirewallSubnet;
+      case 'RESOURCE_MISSING_DNS_FIREWALL':
+        return ViolationReason.resourceMissingDnsFirewall;
+      case 'ROUTE_HAS_OUT_OF_SCOPE_ENDPOINT':
+        return ViolationReason.routeHasOutOfScopeEndpoint;
+      case 'FIREWALL_SUBNET_MISSING_VPCE_ENDPOINT':
+        return ViolationReason.firewallSubnetMissingVpceEndpoint;
     }
     throw Exception('$this is not known in enum ViolationReason');
   }

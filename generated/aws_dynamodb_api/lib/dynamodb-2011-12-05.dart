@@ -755,6 +755,7 @@ class AttributeValue {
     this.s,
     this.ss,
   });
+
   factory AttributeValue.fromJson(Map<String, dynamic> json) {
     return AttributeValue(
       b: _s.decodeNullableUint8List(json['B'] as String?),
@@ -828,6 +829,7 @@ class BatchGetItemOutput {
     this.responses,
     this.unprocessedKeys,
   });
+
   factory BatchGetItemOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetItemOutput(
       responses: (json['Responses'] as Map<String, dynamic>?)?.map((k, e) =>
@@ -849,6 +851,7 @@ class BatchResponse {
     this.consumedCapacityUnits,
     this.items,
   });
+
   factory BatchResponse.fromJson(Map<String, dynamic> json) {
     return BatchResponse(
       consumedCapacityUnits: json['ConsumedCapacityUnits'] as double?,
@@ -876,6 +879,7 @@ class BatchWriteItemOutput {
     this.responses,
     this.unprocessedItems,
   });
+
   factory BatchWriteItemOutput.fromJson(Map<String, dynamic> json) {
     return BatchWriteItemOutput(
       responses: (json['Responses'] as Map<String, dynamic>?)?.map((k, e) =>
@@ -897,6 +901,7 @@ class BatchWriteResponse {
   BatchWriteResponse({
     this.consumedCapacityUnits,
   });
+
   factory BatchWriteResponse.fromJson(Map<String, dynamic> json) {
     return BatchWriteResponse(
       consumedCapacityUnits: json['ConsumedCapacityUnits'] as double?,
@@ -1033,6 +1038,7 @@ class CreateTableOutput {
   CreateTableOutput({
     this.tableDescription,
   });
+
   factory CreateTableOutput.fromJson(Map<String, dynamic> json) {
     return CreateTableOutput(
       tableDescription: json['TableDescription'] != null
@@ -1055,6 +1061,7 @@ class DeleteItemOutput {
     this.attributes,
     this.consumedCapacityUnits,
   });
+
   factory DeleteItemOutput.fromJson(Map<String, dynamic> json) {
     return DeleteItemOutput(
       attributes: (json['Attributes'] as Map<String, dynamic>?)?.map((k, e) =>
@@ -1072,6 +1079,7 @@ class DeleteRequest {
   DeleteRequest({
     required this.key,
   });
+
   factory DeleteRequest.fromJson(Map<String, dynamic> json) {
     return DeleteRequest(
       key: Key.fromJson(json['Key'] as Map<String, dynamic>),
@@ -1092,6 +1100,7 @@ class DeleteTableOutput {
   DeleteTableOutput({
     this.tableDescription,
   });
+
   factory DeleteTableOutput.fromJson(Map<String, dynamic> json) {
     return DeleteTableOutput(
       tableDescription: json['TableDescription'] != null
@@ -1108,6 +1117,7 @@ class DescribeTableOutput {
   DescribeTableOutput({
     this.table,
   });
+
   factory DescribeTableOutput.fromJson(Map<String, dynamic> json) {
     return DescribeTableOutput(
       table: json['Table'] != null
@@ -1153,6 +1163,7 @@ class GetItemOutput {
     this.consumedCapacityUnits,
     this.item,
   });
+
   factory GetItemOutput.fromJson(Map<String, dynamic> json) {
     return GetItemOutput(
       consumedCapacityUnits: json['ConsumedCapacityUnits'] as double?,
@@ -1182,6 +1193,7 @@ class Key {
     required this.hashKeyElement,
     this.rangeKeyElement,
   });
+
   factory Key.fromJson(Map<String, dynamic> json) {
     return Key(
       hashKeyElement: AttributeValue.fromJson(
@@ -1225,6 +1237,7 @@ class KeySchema {
     required this.hashKeyElement,
     this.rangeKeyElement,
   });
+
   factory KeySchema.fromJson(Map<String, dynamic> json) {
     return KeySchema(
       hashKeyElement: KeySchemaElement.fromJson(
@@ -1260,6 +1273,7 @@ class KeySchemaElement {
     required this.attributeName,
     required this.attributeType,
   });
+
   factory KeySchemaElement.fromJson(Map<String, dynamic> json) {
     return KeySchemaElement(
       attributeName: json['AttributeName'] as String,
@@ -1287,6 +1301,7 @@ class KeysAndAttributes {
     this.attributesToGet,
     this.consistentRead,
   });
+
   factory KeysAndAttributes.fromJson(Map<String, dynamic> json) {
     return KeysAndAttributes(
       keys: (json['Keys'] as List)
@@ -1325,6 +1340,7 @@ class ListTablesOutput {
     this.lastEvaluatedTableName,
     this.tableNames,
   });
+
   factory ListTablesOutput.fromJson(Map<String, dynamic> json) {
     return ListTablesOutput(
       lastEvaluatedTableName: json['LastEvaluatedTableName'] as String?,
@@ -1384,6 +1400,7 @@ class ProvisionedThroughputDescription {
     this.readCapacityUnits,
     this.writeCapacityUnits,
   });
+
   factory ProvisionedThroughputDescription.fromJson(Map<String, dynamic> json) {
     return ProvisionedThroughputDescription(
       lastDecreaseDateTime: timeStampFromJson(json['LastDecreaseDateTime']),
@@ -1406,6 +1423,7 @@ class PutItemOutput {
     this.attributes,
     this.consumedCapacityUnits,
   });
+
   factory PutItemOutput.fromJson(Map<String, dynamic> json) {
     return PutItemOutput(
       attributes: (json['Attributes'] as Map<String, dynamic>?)?.map((k, e) =>
@@ -1423,6 +1441,7 @@ class PutRequest {
   PutRequest({
     required this.item,
   });
+
   factory PutRequest.fromJson(Map<String, dynamic> json) {
     return PutRequest(
       item: (json['Item'] as Map<String, dynamic>).map((k, e) =>
@@ -1458,6 +1477,7 @@ class QueryOutput {
     this.items,
     this.lastEvaluatedKey,
   });
+
   factory QueryOutput.fromJson(Map<String, dynamic> json) {
     return QueryOutput(
       consumedCapacityUnits: json['ConsumedCapacityUnits'] as double?,
@@ -1593,6 +1613,7 @@ class ScanOutput {
     this.lastEvaluatedKey,
     this.scannedCount,
   });
+
   factory ScanOutput.fromJson(Map<String, dynamic> json) {
     return ScanOutput(
       consumedCapacityUnits: json['ConsumedCapacityUnits'] as double?,
@@ -1630,6 +1651,7 @@ class TableDescription {
     this.tableSizeBytes,
     this.tableStatus,
   });
+
   factory TableDescription.fromJson(Map<String, dynamic> json) {
     return TableDescription(
       creationDateTime: timeStampFromJson(json['CreationDateTime']),
@@ -1697,6 +1719,7 @@ class UpdateItemOutput {
     this.attributes,
     this.consumedCapacityUnits,
   });
+
   factory UpdateItemOutput.fromJson(Map<String, dynamic> json) {
     return UpdateItemOutput(
       attributes: (json['Attributes'] as Map<String, dynamic>?)?.map((k, e) =>
@@ -1712,6 +1735,7 @@ class UpdateTableOutput {
   UpdateTableOutput({
     this.tableDescription,
   });
+
   factory UpdateTableOutput.fromJson(Map<String, dynamic> json) {
     return UpdateTableOutput(
       tableDescription: json['TableDescription'] != null
@@ -1733,6 +1757,7 @@ class WriteRequest {
     this.deleteRequest,
     this.putRequest,
   });
+
   factory WriteRequest.fromJson(Map<String, dynamic> json) {
     return WriteRequest(
       deleteRequest: json['DeleteRequest'] != null

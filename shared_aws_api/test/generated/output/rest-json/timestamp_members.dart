@@ -103,6 +103,7 @@ class TimeContainer {
     this.bar,
     this.foo,
   });
+
   factory TimeContainer.fromJson(Map<String, dynamic> json) {
     return TimeContainer(
       bar: timeStampFromJson(json['bar']),

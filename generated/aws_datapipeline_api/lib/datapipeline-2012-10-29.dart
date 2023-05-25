@@ -980,6 +980,7 @@ class DataPipeline {
 /// Contains the output of ActivatePipeline.
 class ActivatePipelineOutput {
   ActivatePipelineOutput();
+
   factory ActivatePipelineOutput.fromJson(Map<String, dynamic> _) {
     return ActivatePipelineOutput();
   }
@@ -988,6 +989,7 @@ class ActivatePipelineOutput {
 /// Contains the output of AddTags.
 class AddTagsOutput {
   AddTagsOutput();
+
   factory AddTagsOutput.fromJson(Map<String, dynamic> _) {
     return AddTagsOutput();
   }
@@ -1002,6 +1004,7 @@ class CreatePipelineOutput {
   CreatePipelineOutput({
     required this.pipelineId,
   });
+
   factory CreatePipelineOutput.fromJson(Map<String, dynamic> json) {
     return CreatePipelineOutput(
       pipelineId: json['pipelineId'] as String,
@@ -1012,6 +1015,7 @@ class CreatePipelineOutput {
 /// Contains the output of DeactivatePipeline.
 class DeactivatePipelineOutput {
   DeactivatePipelineOutput();
+
   factory DeactivatePipelineOutput.fromJson(Map<String, dynamic> _) {
     return DeactivatePipelineOutput();
   }
@@ -1035,6 +1039,7 @@ class DescribeObjectsOutput {
     this.hasMoreResults,
     this.marker,
   });
+
   factory DescribeObjectsOutput.fromJson(Map<String, dynamic> json) {
     return DescribeObjectsOutput(
       pipelineObjects: (json['pipelineObjects'] as List)
@@ -1055,6 +1060,7 @@ class DescribePipelinesOutput {
   DescribePipelinesOutput({
     required this.pipelineDescriptionList,
   });
+
   factory DescribePipelinesOutput.fromJson(Map<String, dynamic> json) {
     return DescribePipelinesOutput(
       pipelineDescriptionList: (json['pipelineDescriptionList'] as List)
@@ -1073,6 +1079,7 @@ class EvaluateExpressionOutput {
   EvaluateExpressionOutput({
     required this.evaluatedExpression,
   });
+
   factory EvaluateExpressionOutput.fromJson(Map<String, dynamic> json) {
     return EvaluateExpressionOutput(
       evaluatedExpression: json['evaluatedExpression'] as String,
@@ -1098,6 +1105,7 @@ class Field {
     this.refValue,
     this.stringValue,
   });
+
   factory Field.fromJson(Map<String, dynamic> json) {
     return Field(
       key: json['key'] as String,
@@ -1134,6 +1142,7 @@ class GetPipelineDefinitionOutput {
     this.parameterValues,
     this.pipelineObjects,
   });
+
   factory GetPipelineDefinitionOutput.fromJson(Map<String, dynamic> json) {
     return GetPipelineDefinitionOutput(
       parameterObjects: (json['parameterObjects'] as List?)
@@ -1186,38 +1195,6 @@ class InstanceIdentity {
   }
 }
 
-/// An internal service error occurred.
-class InternalServiceError implements _s.AwsException {
-  /// Description of the error message.
-  final String? message;
-
-  InternalServiceError({
-    this.message,
-  });
-  factory InternalServiceError.fromJson(Map<String, dynamic> json) {
-    return InternalServiceError(
-      message: json['message'] as String?,
-    );
-  }
-}
-
-/// The request was not valid. Verify that your request was properly formatted,
-/// that the signature was generated with the correct credentials, and that you
-/// haven't exceeded any of the service limits for your account.
-class InvalidRequestException implements _s.AwsException {
-  /// Description of the error message.
-  final String? message;
-
-  InvalidRequestException({
-    this.message,
-  });
-  factory InvalidRequestException.fromJson(Map<String, dynamic> json) {
-    return InvalidRequestException(
-      message: json['message'] as String?,
-    );
-  }
-}
-
 /// Contains the output of ListPipelines.
 class ListPipelinesOutput {
   /// The pipeline identifiers. If you require additional information about the
@@ -1239,6 +1216,7 @@ class ListPipelinesOutput {
     this.hasMoreResults,
     this.marker,
   });
+
   factory ListPipelinesOutput.fromJson(Map<String, dynamic> json) {
     return ListPipelinesOutput(
       pipelineIdList: (json['pipelineIdList'] as List)
@@ -1364,6 +1342,7 @@ class ParameterAttribute {
     required this.key,
     required this.stringValue,
   });
+
   factory ParameterAttribute.fromJson(Map<String, dynamic> json) {
     return ParameterAttribute(
       key: json['key'] as String,
@@ -1393,6 +1372,7 @@ class ParameterObject {
     required this.attributes,
     required this.id,
   });
+
   factory ParameterObject.fromJson(Map<String, dynamic> json) {
     return ParameterObject(
       attributes: (json['attributes'] as List)
@@ -1425,6 +1405,7 @@ class ParameterValue {
     required this.id,
     required this.stringValue,
   });
+
   factory ParameterValue.fromJson(Map<String, dynamic> json) {
     return ParameterValue(
       id: json['id'] as String,
@@ -1439,21 +1420,6 @@ class ParameterValue {
       'id': id,
       'stringValue': stringValue,
     };
-  }
-}
-
-/// The specified pipeline has been deleted.
-class PipelineDeletedException implements _s.AwsException {
-  /// Description of the error message.
-  final String? message;
-
-  PipelineDeletedException({
-    this.message,
-  });
-  factory PipelineDeletedException.fromJson(Map<String, dynamic> json) {
-    return PipelineDeletedException(
-      message: json['message'] as String?,
-    );
   }
 }
 
@@ -1487,6 +1453,7 @@ class PipelineDescription {
     this.description,
     this.tags,
   });
+
   factory PipelineDescription.fromJson(Map<String, dynamic> json) {
     return PipelineDescription(
       fields: (json['fields'] as List)
@@ -1517,26 +1484,11 @@ class PipelineIdName {
     this.id,
     this.name,
   });
+
   factory PipelineIdName.fromJson(Map<String, dynamic> json) {
     return PipelineIdName(
       id: json['id'] as String?,
       name: json['name'] as String?,
-    );
-  }
-}
-
-/// The specified pipeline was not found. Verify that you used the correct user
-/// and account identifiers.
-class PipelineNotFoundException implements _s.AwsException {
-  /// Description of the error message.
-  final String? message;
-
-  PipelineNotFoundException({
-    this.message,
-  });
-  factory PipelineNotFoundException.fromJson(Map<String, dynamic> json) {
-    return PipelineNotFoundException(
-      message: json['message'] as String?,
     );
   }
 }
@@ -1559,6 +1511,7 @@ class PipelineObject {
     required this.id,
     required this.name,
   });
+
   factory PipelineObject.fromJson(Map<String, dynamic> json) {
     return PipelineObject(
       fields: (json['fields'] as List)
@@ -1594,6 +1547,7 @@ class PollForTaskOutput {
   PollForTaskOutput({
     this.taskObject,
   });
+
   factory PollForTaskOutput.fromJson(Map<String, dynamic> json) {
     return PollForTaskOutput(
       taskObject: json['taskObject'] != null
@@ -1623,6 +1577,7 @@ class PutPipelineDefinitionOutput {
     this.validationErrors,
     this.validationWarnings,
   });
+
   factory PutPipelineDefinitionOutput.fromJson(Map<String, dynamic> json) {
     return PutPipelineDefinitionOutput(
       errored: json['errored'] as bool,
@@ -1674,6 +1629,7 @@ class QueryObjectsOutput {
     this.ids,
     this.marker,
   });
+
   factory QueryObjectsOutput.fromJson(Map<String, dynamic> json) {
     return QueryObjectsOutput(
       hasMoreResults: json['hasMoreResults'] as bool?,
@@ -1689,6 +1645,7 @@ class QueryObjectsOutput {
 /// Contains the output of RemoveTags.
 class RemoveTagsOutput {
   RemoveTagsOutput();
+
   factory RemoveTagsOutput.fromJson(Map<String, dynamic> _) {
     return RemoveTagsOutput();
   }
@@ -1703,6 +1660,7 @@ class ReportTaskProgressOutput {
   ReportTaskProgressOutput({
     required this.canceled,
   });
+
   factory ReportTaskProgressOutput.fromJson(Map<String, dynamic> json) {
     return ReportTaskProgressOutput(
       canceled: json['canceled'] as bool,
@@ -1718,6 +1676,7 @@ class ReportTaskRunnerHeartbeatOutput {
   ReportTaskRunnerHeartbeatOutput({
     required this.terminate,
   });
+
   factory ReportTaskRunnerHeartbeatOutput.fromJson(Map<String, dynamic> json) {
     return ReportTaskRunnerHeartbeatOutput(
       terminate: json['terminate'] as bool,
@@ -1752,6 +1711,7 @@ class Selector {
 /// Contains the output of SetTaskStatus.
 class SetTaskStatusOutput {
   SetTaskStatusOutput();
+
   factory SetTaskStatusOutput.fromJson(Map<String, dynamic> _) {
     return SetTaskStatusOutput();
   }
@@ -1781,6 +1741,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['key'] as String,
@@ -1795,21 +1756,6 @@ class Tag {
       'key': key,
       'value': value,
     };
-  }
-}
-
-/// The specified task was not found.
-class TaskNotFoundException implements _s.AwsException {
-  /// Description of the error message.
-  final String? message;
-
-  TaskNotFoundException({
-    this.message,
-  });
-  factory TaskNotFoundException.fromJson(Map<String, dynamic> json) {
-    return TaskNotFoundException(
-      message: json['message'] as String?,
-    );
   }
 }
 
@@ -1837,6 +1783,7 @@ class TaskObject {
     this.pipelineId,
     this.taskId,
   });
+
   factory TaskObject.fromJson(Map<String, dynamic> json) {
     return TaskObject(
       attemptId: json['attemptId'] as String?,
@@ -1897,6 +1844,7 @@ class ValidatePipelineDefinitionOutput {
     this.validationErrors,
     this.validationWarnings,
   });
+
   factory ValidatePipelineDefinitionOutput.fromJson(Map<String, dynamic> json) {
     return ValidatePipelineDefinitionOutput(
       errored: json['errored'] as bool,
@@ -1926,6 +1874,7 @@ class ValidationError {
     this.errors,
     this.id,
   });
+
   factory ValidationError.fromJson(Map<String, dynamic> json) {
     return ValidationError(
       errors: (json['errors'] as List?)
@@ -1951,6 +1900,7 @@ class ValidationWarning {
     this.id,
     this.warnings,
   });
+
   factory ValidationWarning.fromJson(Map<String, dynamic> json) {
     return ValidationWarning(
       id: json['id'] as String?,
@@ -1962,15 +1912,40 @@ class ValidationWarning {
   }
 }
 
+class InternalServiceError extends _s.GenericAwsException {
+  InternalServiceError({String? type, String? message})
+      : super(type: type, code: 'InternalServiceError', message: message);
+}
+
+class InvalidRequestException extends _s.GenericAwsException {
+  InvalidRequestException({String? type, String? message})
+      : super(type: type, code: 'InvalidRequestException', message: message);
+}
+
+class PipelineDeletedException extends _s.GenericAwsException {
+  PipelineDeletedException({String? type, String? message})
+      : super(type: type, code: 'PipelineDeletedException', message: message);
+}
+
+class PipelineNotFoundException extends _s.GenericAwsException {
+  PipelineNotFoundException({String? type, String? message})
+      : super(type: type, code: 'PipelineNotFoundException', message: message);
+}
+
+class TaskNotFoundException extends _s.GenericAwsException {
+  TaskNotFoundException({String? type, String? message})
+      : super(type: type, code: 'TaskNotFoundException', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'InternalServiceError': (type, message) =>
-      InternalServiceError(message: message),
+      InternalServiceError(type: type, message: message),
   'InvalidRequestException': (type, message) =>
-      InvalidRequestException(message: message),
+      InvalidRequestException(type: type, message: message),
   'PipelineDeletedException': (type, message) =>
-      PipelineDeletedException(message: message),
+      PipelineDeletedException(type: type, message: message),
   'PipelineNotFoundException': (type, message) =>
-      PipelineNotFoundException(message: message),
+      PipelineNotFoundException(type: type, message: message),
   'TaskNotFoundException': (type, message) =>
-      TaskNotFoundException(message: message),
+      TaskNotFoundException(type: type, message: message),
 };

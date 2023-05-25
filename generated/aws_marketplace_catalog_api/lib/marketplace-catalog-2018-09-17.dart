@@ -92,6 +92,33 @@ class MarketplaceCatalog {
     return CancelChangeSetResponse.fromJson(response);
   }
 
+  /// Deletes a resource-based policy on an Entity that is identified by its
+  /// resource ARN.
+  ///
+  /// May throw [InternalServiceException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the Entity resource that is associated
+  /// with the resource policy.
+  Future<void> deleteResourcePolicy({
+    required String resourceArn,
+  }) async {
+    final $query = <String, List<String>>{
+      'resourceArn': [resourceArn],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/DeleteResourcePolicy',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Provides information about a given change set.
   ///
   /// May throw [InternalServiceException].
@@ -156,6 +183,34 @@ class MarketplaceCatalog {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeEntityResponse.fromJson(response);
+  }
+
+  /// Gets a resource-based policy of an Entity that is identified by its
+  /// resource ARN.
+  ///
+  /// May throw [InternalServiceException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the Entity resource that is associated
+  /// with the resource policy.
+  Future<GetResourcePolicyResponse> getResourcePolicy({
+    required String resourceArn,
+  }) async {
+    final $query = <String, List<String>>{
+      'resourceArn': [resourceArn],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/GetResourcePolicy',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetResourcePolicyResponse.fromJson(response);
   }
 
   /// Returns the list of change sets owned by the account being used to make
@@ -256,13 +311,14 @@ class MarketplaceCatalog {
     List<Filter>? filterList,
     int? maxResults,
     String? nextToken,
+    OwnershipType? ownershipType,
     Sort? sort,
   }) async {
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
-      20,
+      50,
     );
     final $payload = <String, dynamic>{
       'Catalog': catalog,
@@ -270,6 +326,7 @@ class MarketplaceCatalog {
       if (filterList != null) 'FilterList': filterList,
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
+      if (ownershipType != null) 'OwnershipType': ownershipType.toValue(),
       if (sort != null) 'Sort': sort,
     };
     final response = await _protocol.send(
@@ -281,19 +338,92 @@ class MarketplaceCatalog {
     return ListEntitiesResponse.fromJson(response);
   }
 
-  /// This operation allows you to request changes for your entities. Within a
-  /// single ChangeSet, you cannot start the same change type against the same
-  /// entity multiple times. Additionally, when a ChangeSet is running, all the
-  /// entities targeted by the different changes are locked until the ChangeSet
-  /// has completed (either succeeded, cancelled, or failed). If you try to
-  /// start a ChangeSet containing a change against an entity that is already
-  /// locked, you will receive a <code>ResourceInUseException</code>.
+  /// Lists all tags that have been added to a resource (either an <a
+  /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#catalog-api-entities">entity</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets">change
+  /// set</a>).
   ///
-  /// For example, you cannot start the ChangeSet described in the <a
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [resourceArn] :
+  /// Required. The Amazon Resource Name (ARN) associated with the resource you
+  /// want to list tags on.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    required String resourceArn,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ResourceArn': resourceArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ListTagsForResource',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTagsForResourceResponse.fromJson(response);
+  }
+
+  /// Attaches a resource-based policy to an Entity. Examples of an entity
+  /// include: <code>AmiProduct</code> and <code>ContainerProduct</code>.
+  ///
+  /// May throw [InternalServiceException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [policy] :
+  /// The policy document to set; formatted in JSON.
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the Entity resource you want to
+  /// associate with a resource policy.
+  Future<void> putResourcePolicy({
+    required String policy,
+    required String resourceArn,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Policy': policy,
+      'ResourceArn': resourceArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/PutResourcePolicy',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Allows you to request changes for your entities. Within a single
+  /// <code>ChangeSet</code>, you can't start the same change type against the
+  /// same entity multiple times. Additionally, when a <code>ChangeSet</code> is
+  /// running, all the entities targeted by the different changes are locked
+  /// until the change set has completed (either succeeded, cancelled, or
+  /// failed). If you try to start a change set containing a change against an
+  /// entity that is already locked, you will receive a
+  /// <code>ResourceInUseException</code> error.
+  ///
+  /// For example, you can't start the <code>ChangeSet</code> described in the
+  /// <a
   /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/API_StartChangeSet.html#API_StartChangeSet_Examples">example</a>
-  /// below because it contains two changes to execute the same change type
-  /// (<code>AddRevisions</code>) against the same entity
-  /// (<code>entity-id@1)</code>.
+  /// later in this topic because it contains two changes to run the same change
+  /// type (<code>AddRevisions</code>) against the same entity
+  /// (<code>entity-id@1</code>).
+  ///
+  /// For more information about working with change sets, see <a
+  /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets">
+  /// Working with change sets</a>. For information on change types for
+  /// single-AMI products, see <a
+  /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products">Working
+  /// with single-AMI products</a>. Als, for more information on change types
+  /// available for container-based products, see <a
+  /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products">Working
+  /// with container products</a>.
   ///
   /// May throw [InternalServiceException].
   /// May throw [AccessDeniedException].
@@ -314,19 +444,25 @@ class MarketplaceCatalog {
   /// Optional case sensitive string of up to 100 ASCII characters. The change
   /// set name can be used to filter the list of change sets.
   ///
+  /// Parameter [changeSetTags] :
+  /// A list of objects specifying each key name and value for the
+  /// <code>ChangeSetTags</code> property.
+  ///
   /// Parameter [clientRequestToken] :
   /// A unique token to identify the request to ensure idempotency.
   Future<StartChangeSetResponse> startChangeSet({
     required String catalog,
     required List<Change> changeSet,
     String? changeSetName,
+    List<Tag>? changeSetTags,
     String? clientRequestToken,
   }) async {
     final $payload = <String, dynamic>{
       'Catalog': catalog,
       'ChangeSet': changeSet,
       if (changeSetName != null) 'ChangeSetName': changeSetName,
-      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
+      if (changeSetTags != null) 'ChangeSetTags': changeSetTags,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -335,6 +471,76 @@ class MarketplaceCatalog {
       exceptionFnMap: _exceptionFns,
     );
     return StartChangeSetResponse.fromJson(response);
+  }
+
+  /// Tags a resource (either an <a
+  /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#catalog-api-entities">entity</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets">change
+  /// set</a>).
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [resourceArn] :
+  /// Required. The Amazon Resource Name (ARN) associated with the resource you
+  /// want to tag.
+  ///
+  /// Parameter [tags] :
+  /// Required. A list of objects specifying each key name and value. Number of
+  /// objects allowed: 1-50.
+  Future<void> tagResource({
+    required String resourceArn,
+    required List<Tag> tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ResourceArn': resourceArn,
+      'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/TagResource',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Removes a tag or list of tags from a resource (either an <a
+  /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#catalog-api-entities">entity</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets">change
+  /// set</a>).
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [resourceArn] :
+  /// Required. The Amazon Resource Name (ARN) associated with the resource you
+  /// want to remove the tag from.
+  ///
+  /// Parameter [tagKeys] :
+  /// Required. A list of key names of tags to be removed. Number of strings
+  /// allowed: 0-256.
+  Future<void> untagResource({
+    required String resourceArn,
+    required List<String> tagKeys,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ResourceArn': resourceArn,
+      'TagKeys': tagKeys,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/UntagResource',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 }
 
@@ -349,6 +555,7 @@ class CancelChangeSetResponse {
     this.changeSetArn,
     this.changeSetId,
   });
+
   factory CancelChangeSetResponse.fromJson(Map<String, dynamic> json) {
     return CancelChangeSetResponse(
       changeSetArn: json['ChangeSetArn'] as String?,
@@ -362,29 +569,53 @@ class CancelChangeSetResponse {
 class Change {
   /// Change types are single string values that describe your intention for the
   /// change. Each change type is unique for each <code>EntityType</code> provided
-  /// in the change's scope.
+  /// in the change's scope. For more information on change types available for
+  /// single-AMI products, see <a
+  /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products">Working
+  /// with single-AMI products</a>. Also, for more information on change types
+  /// available for container-based products, see <a
+  /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products">Working
+  /// with container products</a>.
   final String changeType;
 
   /// This object contains details specific to the change type of the requested
-  /// change.
+  /// change. For more information on change types available for single-AMI
+  /// products, see <a
+  /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products">Working
+  /// with single-AMI products</a>. Also, for more information on change types
+  /// available for container-based products, see <a
+  /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products">Working
+  /// with container products</a>.
   final String details;
 
   /// The entity to be changed.
   final Entity entity;
 
+  /// Optional name for the change.
+  final String? changeName;
+
+  /// The tags associated with the change.
+  final List<Tag>? entityTags;
+
   Change({
     required this.changeType,
     required this.details,
     required this.entity,
+    this.changeName,
+    this.entityTags,
   });
   Map<String, dynamic> toJson() {
     final changeType = this.changeType;
     final details = this.details;
     final entity = this.entity;
+    final changeName = this.changeName;
+    final entityTags = this.entityTags;
     return {
       'ChangeType': changeType,
       'Details': details,
       'Entity': entity,
+      if (changeName != null) 'ChangeName': changeName,
+      if (entityTags != null) 'EntityTags': entityTags,
     };
   }
 }
@@ -435,6 +666,7 @@ class ChangeSetSummaryListItem {
     this.startTime,
     this.status,
   });
+
   factory ChangeSetSummaryListItem.fromJson(Map<String, dynamic> json) {
     return ChangeSetSummaryListItem(
       changeSetArn: json['ChangeSetArn'] as String?,
@@ -498,6 +730,9 @@ extension ChangeStatusFromString on String {
 /// This object is a container for common summary information about the change.
 /// The summary doesn't contain the whole change structure.
 class ChangeSummary {
+  /// Optional name for the change.
+  final String? changeName;
+
   /// The type of the change.
   final String? changeType;
 
@@ -512,13 +747,16 @@ class ChangeSummary {
   final List<ErrorDetail>? errorDetailList;
 
   ChangeSummary({
+    this.changeName,
     this.changeType,
     this.details,
     this.entity,
     this.errorDetailList,
   });
+
   factory ChangeSummary.fromJson(Map<String, dynamic> json) {
     return ChangeSummary(
+      changeName: json['ChangeName'] as String?,
       changeType: json['ChangeType'] as String?,
       details: json['Details'] as String?,
       entity: json['Entity'] != null
@@ -529,6 +767,14 @@ class ChangeSummary {
           .map((e) => ErrorDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+  }
+}
+
+class DeleteResourcePolicyResponse {
+  DeleteResourcePolicyResponse();
+
+  factory DeleteResourcePolicyResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteResourcePolicyResponse();
   }
 }
 
@@ -582,6 +828,7 @@ class DescribeChangeSetResponse {
     this.startTime,
     this.status,
   });
+
   factory DescribeChangeSetResponse.fromJson(Map<String, dynamic> json) {
     return DescribeChangeSetResponse(
       changeSet: (json['ChangeSet'] as List?)
@@ -604,7 +851,7 @@ class DescribeEntityResponse {
   /// This stringified JSON object includes the details of the entity.
   final String? details;
 
-  /// The ARN associated to the unique identifier for the change set referenced in
+  /// The ARN associated to the unique identifier for the entity referenced in
   /// this request.
   final String? entityArn;
 
@@ -627,6 +874,7 @@ class DescribeEntityResponse {
     this.entityType,
     this.lastModifiedDate,
   });
+
   factory DescribeEntityResponse.fromJson(Map<String, dynamic> json) {
     return DescribeEntityResponse(
       details: json['Details'] as String?,
@@ -638,8 +886,8 @@ class DescribeEntityResponse {
   }
 }
 
-/// A product entity contains data that describes your product, its supported
-/// features, and how it can be used or launched by your customer.
+/// An entity contains data that describes your product, its supported features,
+/// and how it can be used or launched by your customer.
 class Entity {
   /// The type of entity.
   final String type;
@@ -651,6 +899,7 @@ class Entity {
     required this.type,
     this.identifier,
   });
+
   factory Entity.fromJson(Map<String, dynamic> json) {
     return Entity(
       type: json['Type'] as String,
@@ -704,6 +953,7 @@ class EntitySummary {
     this.name,
     this.visibility,
   });
+
   factory EntitySummary.fromJson(Map<String, dynamic> json) {
     return EntitySummary(
       entityArn: json['EntityArn'] as String?,
@@ -728,6 +978,7 @@ class ErrorDetail {
     this.errorCode,
     this.errorMessage,
   });
+
   factory ErrorDetail.fromJson(Map<String, dynamic> json) {
     return ErrorDetail(
       errorCode: json['ErrorCode'] as String?,
@@ -825,6 +1076,21 @@ class Filter {
   }
 }
 
+class GetResourcePolicyResponse {
+  /// The policy document to set; formatted in JSON.
+  final String? policy;
+
+  GetResourcePolicyResponse({
+    this.policy,
+  });
+
+  factory GetResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetResourcePolicyResponse(
+      policy: json['Policy'] as String?,
+    );
+  }
+}
+
 class ListChangeSetsResponse {
   /// Array of <code>ChangeSetSummaryListItem</code> objects.
   final List<ChangeSetSummaryListItem>? changeSetSummaryList;
@@ -837,6 +1103,7 @@ class ListChangeSetsResponse {
     this.changeSetSummaryList,
     this.nextToken,
   });
+
   factory ListChangeSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListChangeSetsResponse(
       changeSetSummaryList: (json['ChangeSetSummaryList'] as List?)
@@ -860,6 +1127,7 @@ class ListEntitiesResponse {
     this.entitySummaryList,
     this.nextToken,
   });
+
   factory ListEntitiesResponse.fromJson(Map<String, dynamic> json) {
     return ListEntitiesResponse(
       entitySummaryList: (json['EntitySummaryList'] as List?)
@@ -868,6 +1136,66 @@ class ListEntitiesResponse {
           .toList(),
       nextToken: json['NextToken'] as String?,
     );
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// Required. The ARN associated with the resource you want to list tags on.
+  final String? resourceArn;
+
+  /// Required. A list of objects specifying each key name and value. Number of
+  /// objects allowed: 1-50.
+  final List<Tag>? tags;
+
+  ListTagsForResourceResponse({
+    this.resourceArn,
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      resourceArn: json['ResourceArn'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+enum OwnershipType {
+  self,
+  shared,
+}
+
+extension OwnershipTypeValueExtension on OwnershipType {
+  String toValue() {
+    switch (this) {
+      case OwnershipType.self:
+        return 'SELF';
+      case OwnershipType.shared:
+        return 'SHARED';
+    }
+  }
+}
+
+extension OwnershipTypeFromString on String {
+  OwnershipType toOwnershipType() {
+    switch (this) {
+      case 'SELF':
+        return OwnershipType.self;
+      case 'SHARED':
+        return OwnershipType.shared;
+    }
+    throw Exception('$this is not known in enum OwnershipType');
+  }
+}
+
+class PutResourcePolicyResponse {
+  PutResourcePolicyResponse();
+
+  factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> _) {
+    return PutResourcePolicyResponse();
   }
 }
 
@@ -939,11 +1267,58 @@ class StartChangeSetResponse {
     this.changeSetArn,
     this.changeSetId,
   });
+
   factory StartChangeSetResponse.fromJson(Map<String, dynamic> json) {
     return StartChangeSetResponse(
       changeSetArn: json['ChangeSetArn'] as String?,
       changeSetId: json['ChangeSetId'] as String?,
     );
+  }
+}
+
+/// A list of objects specifying each key name and value.
+class Tag {
+  /// The key associated with the tag.
+  final String key;
+
+  /// The value associated with the tag.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
   }
 }
 

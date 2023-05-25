@@ -3,7 +3,7 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-Defines the public endpoint for the AWS Lake Formation service.
+Defines the public endpoint for the Lake Formation service.
 
 ## Links
 

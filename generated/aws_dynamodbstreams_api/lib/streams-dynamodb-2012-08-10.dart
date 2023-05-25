@@ -326,7 +326,7 @@ class AttributeValue {
 
   /// An attribute of type List. For example:
   ///
-  /// <code>"L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N", "3.14159"}]</code>
+  /// <code>"L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N": "3.14159"}]</code>
   final List<AttributeValue>? l;
 
   /// An attribute of type Map. For example:
@@ -379,6 +379,7 @@ class AttributeValue {
     this.s,
     this.ss,
   });
+
   factory AttributeValue.fromJson(Map<String, dynamic> json) {
     return AttributeValue(
       b: _s.decodeNullableUint8List(json['B'] as String?),
@@ -419,6 +420,7 @@ class DescribeStreamOutput {
   DescribeStreamOutput({
     this.streamDescription,
   });
+
   factory DescribeStreamOutput.fromJson(Map<String, dynamic> json) {
     return DescribeStreamOutput(
       streamDescription: json['StreamDescription'] != null
@@ -444,6 +446,7 @@ class GetRecordsOutput {
     this.nextShardIterator,
     this.records,
   });
+
   factory GetRecordsOutput.fromJson(Map<String, dynamic> json) {
     return GetRecordsOutput(
       nextShardIterator: json['NextShardIterator'] as String?,
@@ -465,6 +468,7 @@ class GetShardIteratorOutput {
   GetShardIteratorOutput({
     this.shardIterator,
   });
+
   factory GetShardIteratorOutput.fromJson(Map<String, dynamic> json) {
     return GetShardIteratorOutput(
       shardIterator: json['ShardIterator'] as String?,
@@ -485,6 +489,7 @@ class Identity {
     this.principalId,
     this.type,
   });
+
   factory Identity.fromJson(Map<String, dynamic> json) {
     return Identity(
       principalId: json['PrincipalId'] as String?,
@@ -536,6 +541,7 @@ class KeySchemaElement {
     required this.attributeName,
     required this.keyType,
   });
+
   factory KeySchemaElement.fromJson(Map<String, dynamic> json) {
     return KeySchemaElement(
       attributeName: json['AttributeName'] as String,
@@ -595,6 +601,7 @@ class ListStreamsOutput {
     this.lastEvaluatedStreamArn,
     this.streams,
   });
+
   factory ListStreamsOutput.fromJson(Map<String, dynamic> json) {
     return ListStreamsOutput(
       lastEvaluatedStreamArn: json['LastEvaluatedStreamArn'] as String?,
@@ -707,6 +714,7 @@ class Record {
     this.eventVersion,
     this.userIdentity,
   });
+
   factory Record.fromJson(Map<String, dynamic> json) {
     return Record(
       awsRegion: json['awsRegion'] as String?,
@@ -739,6 +747,7 @@ class SequenceNumberRange {
     this.endingSequenceNumber,
     this.startingSequenceNumber,
   });
+
   factory SequenceNumberRange.fromJson(Map<String, dynamic> json) {
     return SequenceNumberRange(
       endingSequenceNumber: json['EndingSequenceNumber'] as String?,
@@ -763,6 +772,7 @@ class Shard {
     this.sequenceNumberRange,
     this.shardId,
   });
+
   factory Shard.fromJson(Map<String, dynamic> json) {
     return Shard(
       parentShardId: json['ParentShardId'] as String?,
@@ -846,6 +856,7 @@ class Stream {
     this.streamLabel,
     this.tableName,
   });
+
   factory Stream.fromJson(Map<String, dynamic> json) {
     return Stream(
       streamArn: json['StreamArn'] as String?,
@@ -959,6 +970,7 @@ class StreamDescription {
     this.streamViewType,
     this.tableName,
   });
+
   factory StreamDescription.fromJson(Map<String, dynamic> json) {
     return StreamDescription(
       creationRequestDateTime:
@@ -1034,6 +1046,7 @@ class StreamRecord {
     this.sizeBytes,
     this.streamViewType,
   });
+
   factory StreamRecord.fromJson(Map<String, dynamic> json) {
     return StreamRecord(
       approximateCreationDateTime:

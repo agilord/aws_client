@@ -219,6 +219,7 @@ class CreateHomeRegionControlResult {
   CreateHomeRegionControlResult({
     this.homeRegionControl,
   });
+
   factory CreateHomeRegionControlResult.fromJson(Map<String, dynamic> json) {
     return CreateHomeRegionControlResult(
       homeRegionControl: json['HomeRegionControl'] != null
@@ -242,6 +243,7 @@ class DescribeHomeRegionControlsResult {
     this.homeRegionControls,
     this.nextToken,
   });
+
   factory DescribeHomeRegionControlsResult.fromJson(Map<String, dynamic> json) {
     return DescribeHomeRegionControlsResult(
       homeRegionControls: (json['HomeRegionControls'] as List?)
@@ -260,6 +262,7 @@ class GetHomeRegionResult {
   GetHomeRegionResult({
     this.homeRegion,
   });
+
   factory GetHomeRegionResult.fromJson(Map<String, dynamic> json) {
     return GetHomeRegionResult(
       homeRegion: json['HomeRegion'] as String?,
@@ -297,6 +300,7 @@ class HomeRegionControl {
     this.requestedTime,
     this.target,
   });
+
   factory HomeRegionControl.fromJson(Map<String, dynamic> json) {
     return HomeRegionControl(
       controlId: json['ControlId'] as String?,
@@ -325,6 +329,7 @@ class Target {
     required this.type,
     this.id,
   });
+
   factory Target.fromJson(Map<String, dynamic> json) {
     return Target(
       type: (json['Type'] as String).toTargetType(),

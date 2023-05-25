@@ -9,12 +9,8 @@ final rules = <String, RegionConfig>{
   'cn-*/*': RegionConfig(
     endpoint: '{service}.{region}.amazonaws.com.cn',
   ),
-  'us-iso-*/*': RegionConfig(
-    endpoint: '{service}.{region}.c2s.ic.gov',
-  ),
-  'us-isob-*/*': RegionConfig(
-    endpoint: '{service}.{region}.sc2s.sgov.gov',
-  ),
+  'us-iso-*/*': _usIso,
+  'us-isob-*/*': _usIsob,
   '*/budgets': _globalSSL,
   '*/cloudfront': _globalSSL,
   '*/sts': _globalSSL,
@@ -30,6 +26,16 @@ final rules = <String, RegionConfig>{
     signingRegion: 'cn-northwest-1',
   ),
   'us-gov-*/route53': _globalGovCloud,
+  'us-iso-*/route53': RegionConfig(
+    endpoint: '{service}.c2s.ic.gov',
+    globalEndpoint: true,
+    signingRegion: 'us-iso-east-1',
+  ),
+  'us-isob-*/route53': RegionConfig(
+    endpoint: '{service}.sc2s.sgov.gov',
+    globalEndpoint: true,
+    signingRegion: 'us-isob-east-1',
+  ),
   '*/waf': _globalSSL,
   '*/iam': _globalSSL,
   'cn-*/iam': RegionConfig(
@@ -37,18 +43,23 @@ final rules = <String, RegionConfig>{
     globalEndpoint: true,
     signingRegion: 'cn-north-1',
   ),
+  'us-iso-*/iam': RegionConfig(
+    endpoint: '{service}.us-iso-east-1.c2s.ic.gov',
+    globalEndpoint: true,
+    signingRegion: 'us-iso-east-1',
+  ),
   'us-gov-*/iam': _globalGovCloud,
   'us-gov-*/sts': RegionConfig(
     endpoint: '{service}.{region}.amazonaws.com',
   ),
-  'us-gov-west-1/s3': _s3signature,
-  'us-west-1/s3': _s3signature,
-  'us-west-2/s3': _s3signature,
-  'eu-west-1/s3': _s3signature,
-  'ap-southeast-1/s3': _s3signature,
-  'ap-southeast-2/s3': _s3signature,
-  'ap-northeast-1/s3': _s3signature,
-  'sa-east-1/s3': _s3signature,
+  'us-gov-west-1/s3': _s3Signature,
+  'us-west-1/s3': _s3Signature,
+  'us-west-2/s3': _s3Signature,
+  'eu-west-1/s3': _s3Signature,
+  'ap-southeast-1/s3': _s3Signature,
+  'ap-southeast-2/s3': _s3Signature,
+  'ap-northeast-1/s3': _s3Signature,
+  'sa-east-1/s3': _s3Signature,
   'us-east-1/s3': RegionConfig(
     endpoint: '{service}.amazonaws.com',
     signatureVersion: 's3',
@@ -61,6 +72,10 @@ final rules = <String, RegionConfig>{
     endpoint: '{service}.{region}.amazonaws.com',
     signatureVersion: 'v2',
   ),
+  '*/resource-explorer-2': _dualstackByDefault,
+  '*/kendra-ranking': _dualstackByDefault,
+  '*/internetmonitor': _dualstackByDefault,
+  '*/codecatalyst': _globalDualstackByDefault,
 };
 
 final _globalSSL = RegionConfig(
@@ -75,7 +90,23 @@ final _globalGovCloud = RegionConfig(
   signingRegion: 'us-gov-west-1',
 );
 
-final _s3signature = RegionConfig(
+final _s3Signature = RegionConfig(
   endpoint: '{service}.{region}.amazonaws.com',
   signatureVersion: 's3',
+);
+
+final _usIso = RegionConfig(
+  endpoint: '{service}.{region}.c2s.ic.gov',
+);
+
+final _usIsob = RegionConfig(
+  endpoint: '{service}.{region}.sc2s.sgov.gov',
+);
+
+final _dualstackByDefault = RegionConfig(
+  endpoint: '{service}.{region}.api.aws',
+);
+
+final _globalDualstackByDefault = RegionConfig(
+  endpoint: '{service}.global.api.aws',
 );

@@ -19,33 +19,34 @@ import 'package:shared_aws_api/shared.dart'
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 /// You can use the Amazon Elastic Block Store (Amazon EBS) direct APIs to
-/// create EBS snapshots, write data directly to your snapshots, read data on
-/// your snapshots, and identify the differences or changes between two
+/// create Amazon EBS snapshots, write data directly to your snapshots, read
+/// data on your snapshots, and identify the differences or changes between two
 /// snapshots. If you’re an independent software vendor (ISV) who offers backup
 /// services for Amazon EBS, the EBS direct APIs make it more efficient and
-/// cost-effective to track incremental changes on your EBS volumes through
-/// snapshots. This can be done without having to create new volumes from
-/// snapshots, and then use Amazon Elastic Compute Cloud (Amazon EC2) instances
-/// to compare the differences.
+/// cost-effective to track incremental changes on your Amazon EBS volumes
+/// through snapshots. This can be done without having to create new volumes
+/// from snapshots, and then use Amazon Elastic Compute Cloud (Amazon EC2)
+/// instances to compare the differences.
 ///
-/// You can create incremental snapshots directly from data on-premises into EBS
+/// You can create incremental snapshots directly from data on-premises into
 /// volumes and the cloud to use for quick disaster recovery. With the ability
-/// to write and read snapshots, you can write your on-premises data to an EBS
+/// to write and read snapshots, you can write your on-premises data to an
 /// snapshot during a disaster. Then after recovery, you can restore it back to
-/// AWS or on-premises from the snapshot. You no longer need to build and
-/// maintain complex mechanisms to copy data to and from Amazon EBS.
+/// Amazon Web Services or on-premises from the snapshot. You no longer need to
+/// build and maintain complex mechanisms to copy data to and from Amazon EBS.
 ///
 /// This API reference provides detailed information about the actions, data
 /// types, parameters, and errors of the EBS direct APIs. For more information
 /// about the elements that make up the EBS direct APIs, and examples of how to
 /// use them effectively, see <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-accessing-snapshot.html">Accessing
-/// the Contents of an EBS Snapshot</a> in the <i>Amazon Elastic Compute Cloud
-/// User Guide</i>. For more information about the supported AWS Regions,
-/// endpoints, and service quotas for the EBS direct APIs, see <a
+/// the Contents of an Amazon EBS Snapshot</a> in the <i>Amazon Elastic Compute
+/// Cloud User Guide</i>. For more information about the supported Amazon Web
+/// Services Regions, endpoints, and service quotas for the EBS direct APIs, see
+/// <a
 /// href="https://docs.aws.amazon.com/general/latest/gr/ebs-service.html">Amazon
-/// Elastic Block Store Endpoints and Quotas</a> in the <i>AWS General
-/// Reference</i>.
+/// Elastic Block Store Endpoints and Quotas</a> in the <i>Amazon Web Services
+/// General Reference</i>.
 class EBS {
   final _s.RestJsonProtocol _protocol;
   EBS({
@@ -151,21 +152,27 @@ class EBS {
   /// May throw [InternalServerException].
   ///
   /// Parameter [blockIndex] :
-  /// The block index of the block from which to get data.
-  ///
-  /// Obtain the <code>BlockIndex</code> by running the
-  /// <code>ListChangedBlocks</code> or <code>ListSnapshotBlocks</code>
-  /// operations.
+  /// The block index of the block in which to read the data. A block index is a
+  /// logical index in units of <code>512</code> KiB blocks. To identify the
+  /// block index, divide the logical offset of the data in the logical volume
+  /// by the block size (logical offset of data/<code>524288</code>). The
+  /// logical offset of the data must be <code>512</code> KiB aligned.
   ///
   /// Parameter [blockToken] :
-  /// The block token of the block from which to get data.
-  ///
-  /// Obtain the <code>BlockToken</code> by running the
-  /// <code>ListChangedBlocks</code> or <code>ListSnapshotBlocks</code>
-  /// operations.
+  /// The block token of the block from which to get data. You can obtain the
+  /// <code>BlockToken</code> by running the <code>ListChangedBlocks</code> or
+  /// <code>ListSnapshotBlocks</code> operations.
   ///
   /// Parameter [snapshotId] :
   /// The ID of the snapshot containing the block from which to get data.
+  /// <important>
+  /// If the specified snapshot is encrypted, you must have permission to use
+  /// the KMS key that was used to encrypt the snapshot. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapis-using-encryption.html">
+  /// Using encryption</a> in the <i>Amazon Elastic Compute Cloud User
+  /// Guide</i>.
+  /// </important>
   Future<GetSnapshotBlockResponse> getSnapshotBlock({
     required int blockIndex,
     required String blockToken,
@@ -226,16 +233,29 @@ class EBS {
   /// </important>
   ///
   /// Parameter [maxResults] :
-  /// The number of results to return.
+  /// The maximum number of blocks to be returned by the request.
+  ///
+  /// Even if additional blocks can be retrieved from the snapshot, the request
+  /// can return less blocks than <b>MaxResults</b> or an empty array of blocks.
+  ///
+  /// To retrieve the next set of blocks from the snapshot, make another request
+  /// with the returned <b>NextToken</b> value. The value of <b>NextToken</b> is
+  /// <code>null</code> when there are no more blocks to return.
   ///
   /// Parameter [nextToken] :
   /// The token to request the next page of results.
+  ///
+  /// If you specify <b>NextToken</b>, then <b>StartingBlockIndex</b> is
+  /// ignored.
   ///
   /// Parameter [startingBlockIndex] :
   /// The block index from which the comparison should start.
   ///
   /// The list in the response will start from this block index or the next
   /// valid block index in the snapshots.
+  ///
+  /// If you specify <b>NextToken</b>, then <b>StartingBlockIndex</b> is
+  /// ignored.
   Future<ListChangedBlocksResponse> listChangedBlocks({
     required String secondSnapshotId,
     String? firstSnapshotId,
@@ -287,15 +307,28 @@ class EBS {
   /// The ID of the snapshot from which to get block indexes and block tokens.
   ///
   /// Parameter [maxResults] :
-  /// The number of results to return.
+  /// The maximum number of blocks to be returned by the request.
+  ///
+  /// Even if additional blocks can be retrieved from the snapshot, the request
+  /// can return less blocks than <b>MaxResults</b> or an empty array of blocks.
+  ///
+  /// To retrieve the next set of blocks from the snapshot, make another request
+  /// with the returned <b>NextToken</b> value. The value of <b>NextToken</b> is
+  /// <code>null</code> when there are no more blocks to return.
   ///
   /// Parameter [nextToken] :
   /// The token to request the next page of results.
+  ///
+  /// If you specify <b>NextToken</b>, then <b>StartingBlockIndex</b> is
+  /// ignored.
   ///
   /// Parameter [startingBlockIndex] :
   /// The block index from which the list should start. The list in the response
   /// will start from this block index or the next valid block index in the
   /// snapshot.
+  ///
+  /// If you specify <b>NextToken</b>, then <b>StartingBlockIndex</b> is
+  /// ignored.
   Future<ListSnapshotBlocksResponse> listSnapshotBlocks({
     required String snapshotId,
     int? maxResults,
@@ -334,7 +367,7 @@ class EBS {
   /// data, the existing data is overwritten. The target snapshot must be in the
   /// <code>pending</code> state.
   ///
-  /// Data written to a snapshot must be aligned with 512-byte sectors.
+  /// Data written to a snapshot must be aligned with 512-KiB sectors.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
@@ -376,12 +409,20 @@ class EBS {
   ///
   /// Parameter [dataLength] :
   /// The size of the data to write to the block, in bytes. Currently, the only
-  /// supported size is <code>524288</code>.
+  /// supported size is <code>524288</code> bytes.
   ///
   /// Valid values: <code>524288</code>
   ///
   /// Parameter [snapshotId] :
   /// The ID of the snapshot.
+  /// <important>
+  /// If the specified snapshot is encrypted, you must have permission to use
+  /// the KMS key that was used to encrypt the snapshot. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapis-using-encryption.html">
+  /// Using encryption</a> in the <i>Amazon Elastic Compute Cloud User
+  /// Guide</i>..
+  /// </important>
   ///
   /// Parameter [progress] :
   /// The progress of the write process, as a percentage.
@@ -448,8 +489,8 @@ class EBS {
   /// May throw [ConflictException].
   ///
   /// Parameter [volumeSize] :
-  /// The size of the volume, in GiB. The maximum size is <code>16384</code> GiB
-  /// (16 TiB).
+  /// The size of the volume, in GiB. The maximum size is <code>65536</code> GiB
+  /// (64 TiB).
   ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier that you provide to ensure the
@@ -460,7 +501,7 @@ class EBS {
   /// additional effect.
   ///
   /// If you do not specify a client token, one is automatically generated by
-  /// the AWS SDK.
+  /// the Amazon Web Services SDK.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-direct-api-idempotency.html">
@@ -471,50 +512,76 @@ class EBS {
   /// A description for the snapshot.
   ///
   /// Parameter [encrypted] :
-  /// Indicates whether to encrypt the snapshot. To create an encrypted
-  /// snapshot, specify <code>true</code>. To create an unencrypted snapshot,
-  /// omit this parameter.
+  /// Indicates whether to encrypt the snapshot.
   ///
-  /// If you specify a value for <b>ParentSnapshotId</b>, omit this parameter.
+  /// You can't specify <b>Encrypted</b> and <b> ParentSnapshotId</b> in the
+  /// same request. If you specify both parameters, the request fails with
+  /// <code>ValidationException</code>.
   ///
-  /// If you specify <code>true</code>, the snapshot is encrypted using the CMK
-  /// specified using the <b>KmsKeyArn</b> parameter. If no value is specified
-  /// for <b>KmsKeyArn</b>, the default CMK for your account is used. If no
-  /// default CMK has been specified for your account, the AWS managed CMK is
-  /// used. To set a default CMK for your account, use <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyEbsDefaultKmsKeyId.html">
-  /// ModifyEbsDefaultKmsKeyId</a>.
-  ///
-  /// If your account is enabled for encryption by default, you cannot set this
-  /// parameter to <code>false</code>. In this case, you can omit this
-  /// parameter.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-accessing-snapshot.html#ebsapis-using-encryption">
+  /// The encryption status of the snapshot depends on the values that you
+  /// specify for <b>Encrypted</b>, <b>KmsKeyArn</b>, and
+  /// <b>ParentSnapshotId</b>, and whether your Amazon Web Services account is
+  /// enabled for <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default">
+  /// encryption by default</a>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapis-using-encryption.html">
   /// Using encryption</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
+  /// <important>
+  /// To create an encrypted snapshot, you must have permission to use the KMS
+  /// key. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapi-permissions.html#ebsapi-kms-permissions">
+  /// Permissions to use Key Management Service keys</a> in the <i>Amazon
+  /// Elastic Compute Cloud User Guide</i>.
+  /// </important>
   ///
   /// Parameter [kmsKeyArn] :
-  /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS)
-  /// customer master key (CMK) to be used to encrypt the snapshot. If you do
-  /// not specify a CMK, the default AWS managed CMK is used.
+  /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key to
+  /// be used to encrypt the snapshot.
   ///
-  /// If you specify a <b>ParentSnapshotId</b>, omit this parameter; the
-  /// snapshot will be encrypted using the same CMK that was used to encrypt the
-  /// parent snapshot.
-  ///
-  /// If <b>Encrypted</b> is set to <code>true</code>, you must specify a CMK
-  /// ARN.
+  /// The encryption status of the snapshot depends on the values that you
+  /// specify for <b>Encrypted</b>, <b>KmsKeyArn</b>, and
+  /// <b>ParentSnapshotId</b>, and whether your Amazon Web Services account is
+  /// enabled for <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default">
+  /// encryption by default</a>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapis-using-encryption.html">
+  /// Using encryption</a> in the <i>Amazon Elastic Compute Cloud User
+  /// Guide</i>.
+  /// <important>
+  /// To create an encrypted snapshot, you must have permission to use the KMS
+  /// key. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapi-permissions.html#ebsapi-kms-permissions">
+  /// Permissions to use Key Management Service keys</a> in the <i>Amazon
+  /// Elastic Compute Cloud User Guide</i>.
+  /// </important>
   ///
   /// Parameter [parentSnapshotId] :
   /// The ID of the parent snapshot. If there is no parent snapshot, or if you
   /// are creating the first snapshot for an on-premises volume, omit this
   /// parameter.
   ///
-  /// If your account is enabled for encryption by default, you cannot use an
-  /// unencrypted snapshot as a parent snapshot. You must first create an
-  /// encrypted copy of the parent snapshot using <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CopySnapshot.html">CopySnapshot</a>.
+  /// You can't specify <b>ParentSnapshotId</b> and <b>Encrypted</b> in the same
+  /// request. If you specify both parameters, the request fails with
+  /// <code>ValidationException</code>.
+  ///
+  /// The encryption status of the snapshot depends on the values that you
+  /// specify for <b>Encrypted</b>, <b>KmsKeyArn</b>, and
+  /// <b>ParentSnapshotId</b>, and whether your Amazon Web Services account is
+  /// enabled for <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default">
+  /// encryption by default</a>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapis-using-encryption.html">
+  /// Using encryption</a> in the <i>Amazon Elastic Compute Cloud User
+  /// Guide</i>.
+  /// <important>
+  /// If you specify an encrypted parent snapshot, you must have permission to
+  /// use the KMS key that was used to encrypt the parent snapshot. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapi-permissions.html#ebsapi-kms-permissions">
+  /// Permissions to use Key Management Service keys</a> in the <i>Amazon
+  /// Elastic Compute Cloud User Guide</i>.
+  /// </important>
   ///
   /// Parameter [tags] :
   /// The tags to apply to the snapshot.
@@ -553,7 +620,7 @@ class EBS {
       'timeout',
       timeout,
       10,
-      60,
+      4320,
     );
     final $payload = <String, dynamic>{
       'VolumeSize': volumeSize,
@@ -587,6 +654,7 @@ class Block {
     this.blockIndex,
     this.blockToken,
   });
+
   factory Block.fromJson(Map<String, dynamic> json) {
     return Block(
       blockIndex: json['BlockIndex'] as int?,
@@ -616,6 +684,7 @@ class ChangedBlock {
     this.firstBlockToken,
     this.secondBlockToken,
   });
+
   factory ChangedBlock.fromJson(Map<String, dynamic> json) {
     return ChangedBlock(
       blockIndex: json['BlockIndex'] as int?,
@@ -678,6 +747,7 @@ class CompleteSnapshotResponse {
   CompleteSnapshotResponse({
     this.status,
   });
+
   factory CompleteSnapshotResponse.fromJson(Map<String, dynamic> json) {
     return CompleteSnapshotResponse(
       status: (json['Status'] as String?)?.toStatus(),
@@ -707,7 +777,7 @@ class GetSnapshotBlockResponse {
 }
 
 class ListChangedBlocksResponse {
-  /// The size of the block.
+  /// The size of the blocks in the snapshot, in bytes.
   final int? blockSize;
 
   /// An array of objects containing information about the changed blocks.
@@ -730,6 +800,7 @@ class ListChangedBlocksResponse {
     this.nextToken,
     this.volumeSize,
   });
+
   factory ListChangedBlocksResponse.fromJson(Map<String, dynamic> json) {
     return ListChangedBlocksResponse(
       blockSize: json['BlockSize'] as int?,
@@ -745,7 +816,7 @@ class ListChangedBlocksResponse {
 }
 
 class ListSnapshotBlocksResponse {
-  /// The size of the block.
+  /// The size of the blocks in the snapshot, in bytes.
   final int? blockSize;
 
   /// An array of objects containing information about the blocks.
@@ -768,6 +839,7 @@ class ListSnapshotBlocksResponse {
     this.nextToken,
     this.volumeSize,
   });
+
   factory ListSnapshotBlocksResponse.fromJson(Map<String, dynamic> json) {
     return ListSnapshotBlocksResponse(
       blockSize: json['BlockSize'] as int?,
@@ -802,11 +874,11 @@ class StartSnapshotResponse {
   /// The description of the snapshot.
   final String? description;
 
-  /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS)
-  /// customer master key (CMK) used to encrypt the snapshot.
+  /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key used
+  /// to encrypt the snapshot.
   final String? kmsKeyArn;
 
-  /// The AWS account ID of the snapshot owner.
+  /// The Amazon Web Services account ID of the snapshot owner.
   final String? ownerId;
 
   /// The ID of the parent snapshot.
@@ -843,6 +915,7 @@ class StartSnapshotResponse {
     this.tags,
     this.volumeSize,
   });
+
   factory StartSnapshotResponse.fromJson(Map<String, dynamic> json) {
     return StartSnapshotResponse(
       blockSize: json['BlockSize'] as int?,
@@ -907,6 +980,7 @@ class Tag {
     this.key,
     this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String?,

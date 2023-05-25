@@ -5,7 +5,7 @@ import 'descriptor.dart';
 
 part 'operation.g.dart';
 
-@JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
+@JsonSerializable(createToJson: false)
 class Operation {
   @JsonKey(includeFromJson: false, includeToJson: false)
   late Api api;

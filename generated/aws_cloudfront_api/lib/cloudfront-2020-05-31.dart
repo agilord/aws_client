@@ -50,10 +50,184 @@ class CloudFront {
     _protocol.close();
   }
 
+  /// Associates an alias (also known as a CNAME or an alternate domain name)
+  /// with a CloudFront distribution.
+  ///
+  /// With this operation you can move an alias that's already in use on a
+  /// CloudFront distribution to a different distribution in one step. This
+  /// prevents the downtime that could occur if you first remove the alias from
+  /// one distribution and then separately add the alias to another
+  /// distribution.
+  ///
+  /// To use this operation to associate an alias with a distribution, you
+  /// provide the alias and the ID of the target distribution for the alias. For
+  /// more information, including how to set up the target distribution,
+  /// prerequisites that you must complete, and other restrictions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move">Moving
+  /// an alternate domain name to a different distribution</a> in the <i>Amazon
+  /// CloudFront Developer Guide</i>.
+  ///
+  /// May throw [InvalidArgument].
+  /// May throw [NoSuchDistribution].
+  /// May throw [TooManyDistributionCNAMEs].
+  /// May throw [IllegalUpdate].
+  /// May throw [AccessDenied].
+  ///
+  /// Parameter [alias] :
+  /// The alias (also known as a CNAME) to add to the target distribution.
+  ///
+  /// Parameter [targetDistributionId] :
+  /// The ID of the distribution that you're associating the alias with.
+  Future<void> associateAlias2020_05_31({
+    required String alias,
+    required String targetDistributionId,
+  }) async {
+    final $query = <String, List<String>>{
+      'Alias': [alias],
+    };
+    await _protocol.send(
+      method: 'PUT',
+      requestUri:
+          '/2020-05-31/distribution/${Uri.encodeComponent(targetDistributionId)}/associate-alias',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Creates a staging distribution using the configuration of the provided
+  /// primary distribution. A staging distribution is a copy of an existing
+  /// distribution (called the primary distribution) that you can use in a
+  /// continuous deployment workflow.
+  ///
+  /// After you create a staging distribution, you can use
+  /// <code>UpdateDistribution</code> to modify the staging distribution's
+  /// configuration. Then you can use
+  /// <code>CreateContinuousDeploymentPolicy</code> to incrementally move
+  /// traffic to the staging distribution.
+  ///
+  /// May throw [CNAMEAlreadyExists].
+  /// May throw [DistributionAlreadyExists].
+  /// May throw [InvalidOrigin].
+  /// May throw [InvalidOriginAccessIdentity].
+  /// May throw [InvalidOriginAccessControl].
+  /// May throw [InvalidIfMatchVersion].
+  /// May throw [NoSuchDistribution].
+  /// May throw [PreconditionFailed].
+  /// May throw [AccessDenied].
+  /// May throw [TooManyTrustedSigners].
+  /// May throw [TrustedSignerDoesNotExist].
+  /// May throw [InvalidViewerCertificate].
+  /// May throw [InvalidMinimumProtocolVersion].
+  /// May throw [MissingBody].
+  /// May throw [TooManyDistributionCNAMEs].
+  /// May throw [TooManyDistributions].
+  /// May throw [InvalidDefaultRootObject].
+  /// May throw [InvalidRelativePath].
+  /// May throw [InvalidErrorCode].
+  /// May throw [InvalidResponseCode].
+  /// May throw [InvalidArgument].
+  /// May throw [InvalidRequiredProtocol].
+  /// May throw [NoSuchOrigin].
+  /// May throw [TooManyOrigins].
+  /// May throw [TooManyOriginGroupsPerDistribution].
+  /// May throw [TooManyCacheBehaviors].
+  /// May throw [TooManyCookieNamesInWhiteList].
+  /// May throw [InvalidForwardCookies].
+  /// May throw [TooManyHeadersInForwardedValues].
+  /// May throw [InvalidHeadersForS3Origin].
+  /// May throw [InconsistentQuantities].
+  /// May throw [TooManyCertificates].
+  /// May throw [InvalidLocationCode].
+  /// May throw [InvalidGeoRestrictionParameter].
+  /// May throw [InvalidProtocolSettings].
+  /// May throw [InvalidTTLOrder].
+  /// May throw [InvalidWebACLId].
+  /// May throw [TooManyOriginCustomHeaders].
+  /// May throw [TooManyQueryStringParameters].
+  /// May throw [InvalidQueryStringParameters].
+  /// May throw [TooManyDistributionsWithLambdaAssociations].
+  /// May throw [TooManyDistributionsWithSingleFunctionARN].
+  /// May throw [TooManyLambdaFunctionAssociations].
+  /// May throw [InvalidLambdaFunctionAssociation].
+  /// May throw [TooManyDistributionsWithFunctionAssociations].
+  /// May throw [TooManyFunctionAssociations].
+  /// May throw [InvalidFunctionAssociation].
+  /// May throw [InvalidOriginReadTimeout].
+  /// May throw [InvalidOriginKeepaliveTimeout].
+  /// May throw [NoSuchFieldLevelEncryptionConfig].
+  /// May throw [IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior].
+  /// May throw [TooManyDistributionsAssociatedToFieldLevelEncryptionConfig].
+  /// May throw [NoSuchCachePolicy].
+  /// May throw [TooManyDistributionsAssociatedToCachePolicy].
+  /// May throw [NoSuchResponseHeadersPolicy].
+  /// May throw [TooManyDistributionsAssociatedToResponseHeadersPolicy].
+  /// May throw [NoSuchOriginRequestPolicy].
+  /// May throw [TooManyDistributionsAssociatedToOriginRequestPolicy].
+  /// May throw [TooManyDistributionsAssociatedToKeyGroup].
+  /// May throw [TooManyKeyGroupsAssociatedToDistribution].
+  /// May throw [TrustedKeyGroupDoesNotExist].
+  /// May throw [NoSuchRealtimeLogConfig].
+  /// May throw [RealtimeLogConfigOwnerMismatch].
+  ///
+  /// Parameter [callerReference] :
+  /// A value that uniquely identifies a request to create a resource. This
+  /// helps to prevent CloudFront from creating a duplicate resource if you
+  /// accidentally resubmit an identical request.
+  ///
+  /// Parameter [primaryDistributionId] :
+  /// The identifier of the primary distribution whose configuration you are
+  /// copying. To get a distribution ID, use <code>ListDistributions</code>.
+  ///
+  /// Parameter [ifMatch] :
+  /// The version identifier of the primary distribution whose configuration you
+  /// are copying. This is the <code>ETag</code> value returned in the response
+  /// to <code>GetDistribution</code> and <code>GetDistributionConfig</code>.
+  ///
+  /// Parameter [staging] :
+  /// The type of distribution that your primary distribution will be copied to.
+  /// The only valid value is <code>True</code>, indicating that you are copying
+  /// to a staging distribution.
+  Future<CopyDistributionResult> copyDistribution2020_05_31({
+    required String callerReference,
+    required String primaryDistributionId,
+    String? ifMatch,
+    bool? staging,
+  }) async {
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+      if (staging != null) 'Staging': staging.toString(),
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'POST',
+      requestUri:
+          '/2020-05-31/distribution/${Uri.encodeComponent(primaryDistributionId)}/copy',
+      headers: headers,
+      payload: CopyDistributionRequest(
+              callerReference: callerReference,
+              primaryDistributionId: primaryDistributionId,
+              ifMatch: ifMatch,
+              staging: staging)
+          .toXml(
+        'CopyDistributionRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'http://cloudfront.amazonaws.com/doc/2020-05-31/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return CopyDistributionResult(
+      distribution: Distribution.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
+  }
+
   /// Creates a cache policy.
   ///
   /// After you create a cache policy, you can attach it to one or more cache
-  /// behaviors. When it’s attached to a cache behavior, the cache policy
+  /// behaviors. When it's attached to a cache behavior, the cache policy
   /// determines the following:
   ///
   /// <ul>
@@ -69,10 +243,10 @@ class CloudFront {
   /// </li>
   /// </ul>
   /// The headers, cookies, and query strings that are included in the cache key
-  /// are automatically included in requests that CloudFront sends to the
-  /// origin. CloudFront sends a request when it can’t find an object in its
-  /// cache that matches the request’s cache key. If you want to send values to
-  /// the origin but <i>not</i> include them in the cache key, use
+  /// are also included in requests that CloudFront sends to the origin.
+  /// CloudFront sends a request when it can't find an object in its cache that
+  /// matches the request's cache key. If you want to send values to the origin
+  /// but <i>not</i> include them in the cache key, use
   /// <code>OriginRequestPolicy</code>.
   ///
   /// For more information about cache policies, see <a
@@ -144,27 +318,57 @@ class CloudFront {
     );
   }
 
-  /// Creates a new web distribution. You create a CloudFront distribution to
-  /// tell CloudFront where you want content to be delivered from, and the
-  /// details about how to track and manage content delivery. Send a
-  /// <code>POST</code> request to the <code>/<i>CloudFront API
-  /// version</i>/distribution</code>/<code>distribution ID</code> resource.
-  /// <important>
-  /// When you update a distribution, there are more required fields than when
-  /// you create a distribution. When you update your distribution by using <a
-  /// href="https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html">UpdateDistribution</a>,
-  /// follow the steps included in the documentation to get the current
-  /// configuration and then make your updates. This helps to make sure that you
-  /// include all of the required fields. To view a summary, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-overview-required-fields.html">Required
-  /// Fields for Create Distribution and Update Distribution</a> in the
-  /// <i>Amazon CloudFront Developer Guide</i>.
-  /// </important>
+  /// Creates a continuous deployment policy that distributes traffic for a
+  /// custom domain name to two different CloudFront distributions.
+  ///
+  /// To use a continuous deployment policy, first use
+  /// <code>CopyDistribution</code> to create a staging distribution, then use
+  /// <code>UpdateDistribution</code> to modify the staging distribution's
+  /// configuration.
+  ///
+  /// After you create and update a staging distribution, you can use a
+  /// continuous deployment policy to incrementally move traffic to the staging
+  /// distribution. This workflow enables you to test changes to a
+  /// distribution's configuration before moving all of your domain's production
+  /// traffic to the new configuration.
+  ///
+  /// May throw [AccessDenied].
+  /// May throw [InvalidArgument].
+  /// May throw [InconsistentQuantities].
+  /// May throw [ContinuousDeploymentPolicyAlreadyExists].
+  /// May throw [TooManyContinuousDeploymentPolicies].
+  /// May throw [StagingDistributionInUse].
+  ///
+  /// Parameter [continuousDeploymentPolicyConfig] :
+  /// Contains the configuration for a continuous deployment policy.
+  Future<CreateContinuousDeploymentPolicyResult>
+      createContinuousDeploymentPolicy2020_05_31({
+    required ContinuousDeploymentPolicyConfig continuousDeploymentPolicyConfig,
+  }) async {
+    final $result = await _protocol.sendRaw(
+      method: 'POST',
+      requestUri: '/2020-05-31/continuous-deployment-policy',
+      payload: continuousDeploymentPolicyConfig
+          .toXml('ContinuousDeploymentPolicyConfig'),
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateContinuousDeploymentPolicyResult(
+      continuousDeploymentPolicy: ContinuousDeploymentPolicy.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
+  }
+
+  /// Creates a CloudFront distribution.
   ///
   /// May throw [CNAMEAlreadyExists].
   /// May throw [DistributionAlreadyExists].
   /// May throw [InvalidOrigin].
   /// May throw [InvalidOriginAccessIdentity].
+  /// May throw [InvalidOriginAccessControl].
+  /// May throw [IllegalOriginAccessConfiguration].
+  /// May throw [TooManyDistributionsAssociatedToOriginAccessControl].
   /// May throw [AccessDenied].
   /// May throw [TooManyTrustedSigners].
   /// May throw [TrustedSignerDoesNotExist].
@@ -201,6 +405,9 @@ class CloudFront {
   /// May throw [TooManyDistributionsWithSingleFunctionARN].
   /// May throw [TooManyLambdaFunctionAssociations].
   /// May throw [InvalidLambdaFunctionAssociation].
+  /// May throw [TooManyDistributionsWithFunctionAssociations].
+  /// May throw [TooManyFunctionAssociations].
+  /// May throw [InvalidFunctionAssociation].
   /// May throw [InvalidOriginReadTimeout].
   /// May throw [InvalidOriginKeepaliveTimeout].
   /// May throw [NoSuchFieldLevelEncryptionConfig].
@@ -208,11 +415,18 @@ class CloudFront {
   /// May throw [TooManyDistributionsAssociatedToFieldLevelEncryptionConfig].
   /// May throw [NoSuchCachePolicy].
   /// May throw [TooManyDistributionsAssociatedToCachePolicy].
+  /// May throw [NoSuchResponseHeadersPolicy].
+  /// May throw [TooManyDistributionsAssociatedToResponseHeadersPolicy].
   /// May throw [NoSuchOriginRequestPolicy].
   /// May throw [TooManyDistributionsAssociatedToOriginRequestPolicy].
   /// May throw [TooManyDistributionsAssociatedToKeyGroup].
   /// May throw [TooManyKeyGroupsAssociatedToDistribution].
   /// May throw [TrustedKeyGroupDoesNotExist].
+  /// May throw [NoSuchRealtimeLogConfig].
+  /// May throw [RealtimeLogConfigOwnerMismatch].
+  /// May throw [ContinuousDeploymentPolicyInUse].
+  /// May throw [NoSuchContinuousDeploymentPolicy].
+  /// May throw [InvalidDomainNameForOriginAccessControl].
   ///
   /// Parameter [distributionConfig] :
   /// The distribution's configuration information.
@@ -239,6 +453,7 @@ class CloudFront {
   /// May throw [DistributionAlreadyExists].
   /// May throw [InvalidOrigin].
   /// May throw [InvalidOriginAccessIdentity].
+  /// May throw [InvalidOriginAccessControl].
   /// May throw [AccessDenied].
   /// May throw [TooManyTrustedSigners].
   /// May throw [TrustedSignerDoesNotExist].
@@ -276,6 +491,9 @@ class CloudFront {
   /// May throw [TooManyDistributionsWithSingleFunctionARN].
   /// May throw [TooManyLambdaFunctionAssociations].
   /// May throw [InvalidLambdaFunctionAssociation].
+  /// May throw [TooManyDistributionsWithFunctionAssociations].
+  /// May throw [TooManyFunctionAssociations].
+  /// May throw [InvalidFunctionAssociation].
   /// May throw [InvalidOriginReadTimeout].
   /// May throw [InvalidOriginKeepaliveTimeout].
   /// May throw [NoSuchFieldLevelEncryptionConfig].
@@ -283,11 +501,18 @@ class CloudFront {
   /// May throw [TooManyDistributionsAssociatedToFieldLevelEncryptionConfig].
   /// May throw [NoSuchCachePolicy].
   /// May throw [TooManyDistributionsAssociatedToCachePolicy].
+  /// May throw [NoSuchResponseHeadersPolicy].
+  /// May throw [TooManyDistributionsAssociatedToResponseHeadersPolicy].
   /// May throw [NoSuchOriginRequestPolicy].
   /// May throw [TooManyDistributionsAssociatedToOriginRequestPolicy].
   /// May throw [TooManyDistributionsAssociatedToKeyGroup].
   /// May throw [TooManyKeyGroupsAssociatedToDistribution].
   /// May throw [TrustedKeyGroupDoesNotExist].
+  /// May throw [NoSuchRealtimeLogConfig].
+  /// May throw [RealtimeLogConfigOwnerMismatch].
+  /// May throw [ContinuousDeploymentPolicyInUse].
+  /// May throw [NoSuchContinuousDeploymentPolicy].
+  /// May throw [InvalidDomainNameForOriginAccessControl].
   ///
   /// Parameter [distributionConfigWithTags] :
   /// The distribution's configuration information.
@@ -368,6 +593,70 @@ class CloudFront {
     final $elem = await _s.xmlFromResponse($result);
     return CreateFieldLevelEncryptionProfileResult(
       fieldLevelEncryptionProfile: FieldLevelEncryptionProfile.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
+  }
+
+  /// Creates a CloudFront function.
+  ///
+  /// To create a function, you provide the function code and some configuration
+  /// information about the function. The response contains an Amazon Resource
+  /// Name (ARN) that uniquely identifies the function.
+  ///
+  /// When you create a function, it's in the <code>DEVELOPMENT</code> stage. In
+  /// this stage, you can test the function with <code>TestFunction</code>, and
+  /// update it with <code>UpdateFunction</code>.
+  ///
+  /// When you're ready to use your function with a CloudFront distribution, use
+  /// <code>PublishFunction</code> to copy the function from the
+  /// <code>DEVELOPMENT</code> stage to <code>LIVE</code>. When it's live, you
+  /// can attach the function to a distribution's cache behavior, using the
+  /// function's ARN.
+  ///
+  /// May throw [TooManyFunctions].
+  /// May throw [FunctionAlreadyExists].
+  /// May throw [FunctionSizeLimitExceeded].
+  /// May throw [InvalidArgument].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [functionCode] :
+  /// The function code. For more information about writing a CloudFront
+  /// function, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/writing-function-code.html">Writing
+  /// function code for CloudFront Functions</a> in the <i>Amazon CloudFront
+  /// Developer Guide</i>.
+  ///
+  /// Parameter [functionConfig] :
+  /// Configuration information about the function, including an optional
+  /// comment and the function's runtime.
+  ///
+  /// Parameter [name] :
+  /// A name to identify the function.
+  Future<CreateFunctionResult> createFunction2020_05_31({
+    required Uint8List functionCode,
+    required FunctionConfig functionConfig,
+    required String name,
+  }) async {
+    final $result = await _protocol.sendRaw(
+      method: 'POST',
+      requestUri: '/2020-05-31/function',
+      payload: CreateFunctionRequest(
+              functionCode: functionCode,
+              functionConfig: functionConfig,
+              name: name)
+          .toXml(
+        'CreateFunctionRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'http://cloudfront.amazonaws.com/doc/2020-05-31/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateFunctionResult(
+      functionSummary: FunctionSummary.fromXml($elem),
       eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
       location: _s.extractHeaderStringValue($result.headers, 'Location'),
     );
@@ -455,6 +744,8 @@ class CloudFront {
   ///
   /// May throw [AccessDenied].
   /// May throw [NoSuchDistribution].
+  /// May throw [MonitoringSubscriptionAlreadyExists].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [distributionId] :
   /// The ID of the distribution that you are enabling metrics for.
@@ -471,7 +762,7 @@ class CloudFront {
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri:
-          '/2020-05-31/distributions/${Uri.encodeComponent(distributionId)}/monitoring-subscription',
+          '/2020-05-31/distributions/${Uri.encodeComponent(distributionId)}/monitoring-subscription/',
       payload: monitoringSubscription.toXml('MonitoringSubscription'),
       exceptionFnMap: _exceptionFns,
     );
@@ -481,10 +772,47 @@ class CloudFront {
     );
   }
 
+  /// Creates a new origin access control in CloudFront. After you create an
+  /// origin access control, you can add it to an origin in a CloudFront
+  /// distribution so that CloudFront sends authenticated (signed) requests to
+  /// the origin.
+  ///
+  /// This makes it possible to block public access to the origin, allowing
+  /// viewers (users) to access the origin's content only through CloudFront.
+  ///
+  /// For more information about using a CloudFront origin access control, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-origin.html">Restricting
+  /// access to an Amazon Web Services origin</a> in the <i>Amazon CloudFront
+  /// Developer Guide</i>.
+  ///
+  /// May throw [OriginAccessControlAlreadyExists].
+  /// May throw [TooManyOriginAccessControls].
+  /// May throw [InvalidArgument].
+  ///
+  /// Parameter [originAccessControlConfig] :
+  /// Contains the origin access control.
+  Future<CreateOriginAccessControlResult> createOriginAccessControl2020_05_31({
+    required OriginAccessControlConfig originAccessControlConfig,
+  }) async {
+    final $result = await _protocol.sendRaw(
+      method: 'POST',
+      requestUri: '/2020-05-31/origin-access-control',
+      payload: originAccessControlConfig.toXml('OriginAccessControlConfig'),
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateOriginAccessControlResult(
+      originAccessControl: OriginAccessControl.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
+  }
+
   /// Creates an origin request policy.
   ///
   /// After you create an origin request policy, you can attach it to one or
-  /// more cache behaviors. When it’s attached to a cache behavior, the origin
+  /// more cache behaviors. When it's attached to a cache behavior, the origin
   /// request policy determines the values that CloudFront includes in requests
   /// that it sends to the origin. Each request that CloudFront sends to the
   /// origin includes the following:
@@ -506,7 +834,7 @@ class CloudFront {
   /// added by CloudFront.
   /// </li>
   /// </ul>
-  /// CloudFront sends a request when it can’t find a valid object in its cache
+  /// CloudFront sends a request when it can't find a valid object in its cache
   /// that matches the request. If you want to send values to the origin and
   /// also include them in the cache key, use <code>CachePolicy</code>.
   ///
@@ -632,6 +960,54 @@ class CloudFront {
     return CreateRealtimeLogConfigResult.fromXml($result.body);
   }
 
+  /// Creates a response headers policy.
+  ///
+  /// A response headers policy contains information about a set of HTTP
+  /// headers. To create a response headers policy, you provide some metadata
+  /// about the policy and a set of configurations that specify the headers.
+  ///
+  /// After you create a response headers policy, you can use its ID to attach
+  /// it to one or more cache behaviors in a CloudFront distribution. When it's
+  /// attached to a cache behavior, the response headers policy affects the HTTP
+  /// headers that CloudFront includes in HTTP responses to requests that match
+  /// the cache behavior. CloudFront adds or removes response headers according
+  /// to the configuration of the response headers policy.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/modifying-response-headers.html">Adding
+  /// or removing HTTP headers in CloudFront responses</a> in the <i>Amazon
+  /// CloudFront Developer Guide</i>.
+  ///
+  /// May throw [AccessDenied].
+  /// May throw [InconsistentQuantities].
+  /// May throw [InvalidArgument].
+  /// May throw [ResponseHeadersPolicyAlreadyExists].
+  /// May throw [TooManyResponseHeadersPolicies].
+  /// May throw [TooManyCustomHeadersInResponseHeadersPolicy].
+  /// May throw [TooLongCSPInResponseHeadersPolicy].
+  /// May throw [TooManyRemoveHeadersInResponseHeadersPolicy].
+  ///
+  /// Parameter [responseHeadersPolicyConfig] :
+  /// Contains metadata about the response headers policy, and a set of
+  /// configurations that specify the HTTP headers.
+  Future<CreateResponseHeadersPolicyResult>
+      createResponseHeadersPolicy2020_05_31({
+    required ResponseHeadersPolicyConfig responseHeadersPolicyConfig,
+  }) async {
+    final $result = await _protocol.sendRaw(
+      method: 'POST',
+      requestUri: '/2020-05-31/response-headers-policy',
+      payload: responseHeadersPolicyConfig.toXml('ResponseHeadersPolicyConfig'),
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateResponseHeadersPolicyResult(
+      responseHeadersPolicy: ResponseHeadersPolicy.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
+  }
+
   /// This API is deprecated. Amazon CloudFront is deprecating real-time
   /// messaging protocol (RTMP) distributions on December 31, 2020. For more
   /// information, <a
@@ -642,6 +1018,7 @@ class CloudFront {
   /// May throw [StreamingDistributionAlreadyExists].
   /// May throw [InvalidOrigin].
   /// May throw [InvalidOriginAccessIdentity].
+  /// May throw [InvalidOriginAccessControl].
   /// May throw [AccessDenied].
   /// May throw [TooManyTrustedSigners].
   /// May throw [TrustedSignerDoesNotExist].
@@ -681,6 +1058,7 @@ class CloudFront {
   /// May throw [StreamingDistributionAlreadyExists].
   /// May throw [InvalidOrigin].
   /// May throw [InvalidOriginAccessIdentity].
+  /// May throw [InvalidOriginAccessControl].
   /// May throw [AccessDenied].
   /// May throw [TooManyTrustedSigners].
   /// May throw [TrustedSignerDoesNotExist].
@@ -715,11 +1093,11 @@ class CloudFront {
 
   /// Deletes a cache policy.
   ///
-  /// You cannot delete a cache policy if it’s attached to a cache behavior.
+  /// You cannot delete a cache policy if it's attached to a cache behavior.
   /// First update your distributions to remove the cache policy from all cache
   /// behaviors, then delete the cache policy.
   ///
-  /// To delete a cache policy, you must provide the policy’s identifier and
+  /// To delete a cache policy, you must provide the policy's identifier and
   /// version. To get these values, you can use <code>ListCachePolicies</code>
   /// or <code>GetCachePolicy</code>.
   ///
@@ -736,7 +1114,7 @@ class CloudFront {
   ///
   /// Parameter [ifMatch] :
   /// The version of the cache policy that you are deleting. The version is the
-  /// cache policy’s <code>ETag</code> value, which you can get using
+  /// cache policy's <code>ETag</code> value, which you can get using
   /// <code>ListCachePolicies</code>, <code>GetCachePolicy</code>, or
   /// <code>GetCachePolicyConfig</code>.
   Future<void> deleteCachePolicy2020_05_31({
@@ -780,6 +1158,41 @@ class CloudFront {
       method: 'DELETE',
       requestUri:
           '/2020-05-31/origin-access-identity/cloudfront/${Uri.encodeComponent(id)}',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a continuous deployment policy.
+  ///
+  /// You cannot delete a continuous deployment policy that's attached to a
+  /// primary distribution. First update your distribution to remove the
+  /// continuous deployment policy, then you can delete the policy.
+  ///
+  /// May throw [InvalidIfMatchVersion].
+  /// May throw [InvalidArgument].
+  /// May throw [AccessDenied].
+  /// May throw [PreconditionFailed].
+  /// May throw [ContinuousDeploymentPolicyInUse].
+  /// May throw [NoSuchContinuousDeploymentPolicy].
+  ///
+  /// Parameter [id] :
+  /// The identifier of the continuous deployment policy that you are deleting.
+  ///
+  /// Parameter [ifMatch] :
+  /// The current version (<code>ETag</code> value) of the continuous deployment
+  /// policy that you are deleting.
+  Future<void> deleteContinuousDeploymentPolicy2020_05_31({
+    required String id,
+    String? ifMatch,
+  }) async {
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
+    await _protocol.send(
+      method: 'DELETE',
+      requestUri:
+          '/2020-05-31/continuous-deployment-policy/${Uri.encodeComponent(id)}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -876,13 +1289,50 @@ class CloudFront {
     );
   }
 
+  /// Deletes a CloudFront function.
+  ///
+  /// You cannot delete a function if it's associated with a cache behavior.
+  /// First, update your distributions to remove the function association from
+  /// all cache behaviors, then delete the function.
+  ///
+  /// To delete a function, you must provide the function's name and version
+  /// (<code>ETag</code> value). To get these values, you can use
+  /// <code>ListFunctions</code> and <code>DescribeFunction</code>.
+  ///
+  /// May throw [InvalidIfMatchVersion].
+  /// May throw [NoSuchFunctionExists].
+  /// May throw [FunctionInUse].
+  /// May throw [PreconditionFailed].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [ifMatch] :
+  /// The current version (<code>ETag</code> value) of the function that you are
+  /// deleting, which you can get using <code>DescribeFunction</code>.
+  ///
+  /// Parameter [name] :
+  /// The name of the function that you are deleting.
+  Future<void> deleteFunction2020_05_31({
+    required String ifMatch,
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'If-Match': ifMatch.toString(),
+    };
+    await _protocol.send(
+      method: 'DELETE',
+      requestUri: '/2020-05-31/function/${Uri.encodeComponent(name)}',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Deletes a key group.
   ///
   /// You cannot delete a key group that is referenced in a cache behavior.
   /// First update your distributions to remove the key group from all cache
   /// behaviors, then delete the key group.
   ///
-  /// To delete a key group, you must provide the key group’s identifier and
+  /// To delete a key group, you must provide the key group's identifier and
   /// version. To get these values, use <code>ListKeyGroups</code> followed by
   /// <code>GetKeyGroup</code> or <code>GetKeyGroupConfig</code>.
   ///
@@ -897,7 +1347,7 @@ class CloudFront {
   ///
   /// Parameter [ifMatch] :
   /// The version of the key group that you are deleting. The version is the key
-  /// group’s <code>ETag</code> value. To get the <code>ETag</code>, use
+  /// group's <code>ETag</code> value. To get the <code>ETag</code>, use
   /// <code>GetKeyGroup</code> or <code>GetKeyGroupConfig</code>.
   Future<void> deleteKeyGroup2020_05_31({
     required String id,
@@ -919,6 +1369,8 @@ class CloudFront {
   ///
   /// May throw [AccessDenied].
   /// May throw [NoSuchDistribution].
+  /// May throw [NoSuchMonitoringSubscription].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [distributionId] :
   /// The ID of the distribution that you are disabling metrics for.
@@ -928,18 +1380,52 @@ class CloudFront {
     await _protocol.send(
       method: 'DELETE',
       requestUri:
-          '/2020-05-31/distributions/${Uri.encodeComponent(distributionId)}/monitoring-subscription',
+          '/2020-05-31/distributions/${Uri.encodeComponent(distributionId)}/monitoring-subscription/',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a CloudFront origin access control.
+  ///
+  /// You cannot delete an origin access control if it's in use. First, update
+  /// all distributions to remove the origin access control from all origins,
+  /// then delete the origin access control.
+  ///
+  /// May throw [AccessDenied].
+  /// May throw [InvalidIfMatchVersion].
+  /// May throw [NoSuchOriginAccessControl].
+  /// May throw [PreconditionFailed].
+  /// May throw [OriginAccessControlInUse].
+  ///
+  /// Parameter [id] :
+  /// The unique identifier of the origin access control that you are deleting.
+  ///
+  /// Parameter [ifMatch] :
+  /// The current version (<code>ETag</code> value) of the origin access control
+  /// that you are deleting.
+  Future<void> deleteOriginAccessControl2020_05_31({
+    required String id,
+    String? ifMatch,
+  }) async {
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
+    await _protocol.send(
+      method: 'DELETE',
+      requestUri:
+          '/2020-05-31/origin-access-control/${Uri.encodeComponent(id)}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
 
   /// Deletes an origin request policy.
   ///
-  /// You cannot delete an origin request policy if it’s attached to any cache
+  /// You cannot delete an origin request policy if it's attached to any cache
   /// behaviors. First update your distributions to remove the origin request
   /// policy from all cache behaviors, then delete the origin request policy.
   ///
-  /// To delete an origin request policy, you must provide the policy’s
+  /// To delete an origin request policy, you must provide the policy's
   /// identifier and version. To get the identifier, you can use
   /// <code>ListOriginRequestPolicies</code> or
   /// <code>GetOriginRequestPolicy</code>.
@@ -957,7 +1443,7 @@ class CloudFront {
   ///
   /// Parameter [ifMatch] :
   /// The version of the origin request policy that you are deleting. The
-  /// version is the origin request policy’s <code>ETag</code> value, which you
+  /// version is the origin request policy's <code>ETag</code> value, which you
   /// can get using <code>ListOriginRequestPolicies</code>,
   /// <code>GetOriginRequestPolicy</code>, or
   /// <code>GetOriginRequestPolicyConfig</code>.
@@ -1009,13 +1495,13 @@ class CloudFront {
 
   /// Deletes a real-time log configuration.
   ///
-  /// You cannot delete a real-time log configuration if it’s attached to a
+  /// You cannot delete a real-time log configuration if it's attached to a
   /// cache behavior. First update your distributions to remove the real-time
   /// log configuration from all cache behaviors, then delete the real-time log
   /// configuration.
   ///
   /// To delete a real-time log configuration, you can provide the
-  /// configuration’s name or its Amazon Resource Name (ARN). You must provide
+  /// configuration's name or its Amazon Resource Name (ARN). You must provide
   /// at least one. If you provide both, CloudFront uses the name to identify
   /// the real-time log configuration to delete.
   ///
@@ -1044,6 +1530,53 @@ class CloudFront {
               'http://cloudfront.amazonaws.com/doc/2020-05-31/'),
         ],
       ),
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a response headers policy.
+  ///
+  /// You cannot delete a response headers policy if it's attached to a cache
+  /// behavior. First update your distributions to remove the response headers
+  /// policy from all cache behaviors, then delete the response headers policy.
+  ///
+  /// To delete a response headers policy, you must provide the policy's
+  /// identifier and version. To get these values, you can use
+  /// <code>ListResponseHeadersPolicies</code> or
+  /// <code>GetResponseHeadersPolicy</code>.
+  ///
+  /// May throw [AccessDenied].
+  /// May throw [InvalidIfMatchVersion].
+  /// May throw [NoSuchResponseHeadersPolicy].
+  /// May throw [PreconditionFailed].
+  /// May throw [IllegalDelete].
+  /// May throw [ResponseHeadersPolicyInUse].
+  ///
+  /// Parameter [id] :
+  /// The identifier for the response headers policy that you are deleting.
+  ///
+  /// To get the identifier, you can use
+  /// <code>ListResponseHeadersPolicies</code>.
+  ///
+  /// Parameter [ifMatch] :
+  /// The version of the response headers policy that you are deleting.
+  ///
+  /// The version is the response headers policy's <code>ETag</code> value,
+  /// which you can get using <code>ListResponseHeadersPolicies</code>,
+  /// <code>GetResponseHeadersPolicy</code>, or
+  /// <code>GetResponseHeadersPolicyConfig</code>.
+  Future<void> deleteResponseHeadersPolicy2020_05_31({
+    required String id,
+    String? ifMatch,
+  }) async {
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
+    await _protocol.send(
+      method: 'DELETE',
+      requestUri:
+          '/2020-05-31/response-headers-policy/${Uri.encodeComponent(id)}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1127,19 +1660,56 @@ class CloudFront {
     );
   }
 
+  /// Gets configuration information and metadata about a CloudFront function,
+  /// but not the function's code. To get a function's code, use
+  /// <code>GetFunction</code>.
+  ///
+  /// To get configuration information and metadata about a function, you must
+  /// provide the function's name and stage. To get these values, you can use
+  /// <code>ListFunctions</code>.
+  ///
+  /// May throw [NoSuchFunctionExists].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [name] :
+  /// The name of the function that you are getting information about.
+  ///
+  /// Parameter [stage] :
+  /// The function's stage, either <code>DEVELOPMENT</code> or
+  /// <code>LIVE</code>.
+  Future<DescribeFunctionResult> describeFunction2020_05_31({
+    required String name,
+    FunctionStage? stage,
+  }) async {
+    final $query = <String, List<String>>{
+      if (stage != null) 'Stage': [stage.toValue()],
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri: '/2020-05-31/function/${Uri.encodeComponent(name)}/describe',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return DescribeFunctionResult(
+      functionSummary: FunctionSummary.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
+  }
+
   /// Gets a cache policy, including the following metadata:
   ///
   /// <ul>
   /// <li>
-  /// The policy’s identifier.
+  /// The policy's identifier.
   /// </li>
   /// <li>
   /// The date and time when the policy was last modified.
   /// </li>
   /// </ul>
-  /// To get a cache policy, you must provide the policy’s identifier. If the
-  /// cache policy is attached to a distribution’s cache behavior, you can get
-  /// the policy’s identifier using <code>ListDistributions</code> or
+  /// To get a cache policy, you must provide the policy's identifier. If the
+  /// cache policy is attached to a distribution's cache behavior, you can get
+  /// the policy's identifier using <code>ListDistributions</code> or
   /// <code>GetDistribution</code>. If the cache policy is not attached to a
   /// cache behavior, you can get the identifier using
   /// <code>ListCachePolicies</code>.
@@ -1149,7 +1719,7 @@ class CloudFront {
   ///
   /// Parameter [id] :
   /// The unique identifier for the cache policy. If the cache policy is
-  /// attached to a distribution’s cache behavior, you can get the policy’s
+  /// attached to a distribution's cache behavior, you can get the policy's
   /// identifier using <code>ListDistributions</code> or
   /// <code>GetDistribution</code>. If the cache policy is not attached to a
   /// cache behavior, you can get the identifier using
@@ -1171,9 +1741,9 @@ class CloudFront {
 
   /// Gets a cache policy configuration.
   ///
-  /// To get a cache policy configuration, you must provide the policy’s
-  /// identifier. If the cache policy is attached to a distribution’s cache
-  /// behavior, you can get the policy’s identifier using
+  /// To get a cache policy configuration, you must provide the policy's
+  /// identifier. If the cache policy is attached to a distribution's cache
+  /// behavior, you can get the policy's identifier using
   /// <code>ListDistributions</code> or <code>GetDistribution</code>. If the
   /// cache policy is not attached to a cache behavior, you can get the
   /// identifier using <code>ListCachePolicies</code>.
@@ -1183,7 +1753,7 @@ class CloudFront {
   ///
   /// Parameter [id] :
   /// The unique identifier for the cache policy. If the cache policy is
-  /// attached to a distribution’s cache behavior, you can get the policy’s
+  /// attached to a distribution's cache behavior, you can get the policy's
   /// identifier using <code>ListDistributions</code> or
   /// <code>GetDistribution</code>. If the cache policy is not attached to a
   /// cache behavior, you can get the identifier using
@@ -1249,6 +1819,57 @@ class CloudFront {
     return GetCloudFrontOriginAccessIdentityConfigResult(
       cloudFrontOriginAccessIdentityConfig:
           CloudFrontOriginAccessIdentityConfig.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
+  }
+
+  /// Gets a continuous deployment policy, including metadata (the policy's
+  /// identifier and the date and time when the policy was last modified).
+  ///
+  /// May throw [AccessDenied].
+  /// May throw [NoSuchContinuousDeploymentPolicy].
+  ///
+  /// Parameter [id] :
+  /// The identifier of the continuous deployment policy that you are getting.
+  Future<GetContinuousDeploymentPolicyResult>
+      getContinuousDeploymentPolicy2020_05_31({
+    required String id,
+  }) async {
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri:
+          '/2020-05-31/continuous-deployment-policy/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return GetContinuousDeploymentPolicyResult(
+      continuousDeploymentPolicy: ContinuousDeploymentPolicy.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
+  }
+
+  /// Gets configuration information about a continuous deployment policy.
+  ///
+  /// May throw [AccessDenied].
+  /// May throw [NoSuchContinuousDeploymentPolicy].
+  ///
+  /// Parameter [id] :
+  /// The identifier of the continuous deployment policy whose configuration you
+  /// are getting.
+  Future<GetContinuousDeploymentPolicyConfigResult>
+      getContinuousDeploymentPolicyConfig2020_05_31({
+    required String id,
+  }) async {
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri:
+          '/2020-05-31/continuous-deployment-policy/${Uri.encodeComponent(id)}/config',
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return GetContinuousDeploymentPolicyConfigResult(
+      continuousDeploymentPolicyConfig:
+          ContinuousDeploymentPolicyConfig.fromXml($elem),
       eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
     );
   }
@@ -1396,6 +2017,41 @@ class CloudFront {
     );
   }
 
+  /// Gets the code of a CloudFront function. To get configuration information
+  /// and metadata about a function, use <code>DescribeFunction</code>.
+  ///
+  /// To get a function's code, you must provide the function's name and stage.
+  /// To get these values, you can use <code>ListFunctions</code>.
+  ///
+  /// May throw [NoSuchFunctionExists].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [name] :
+  /// The name of the function whose code you are getting.
+  ///
+  /// Parameter [stage] :
+  /// The function's stage, either <code>DEVELOPMENT</code> or
+  /// <code>LIVE</code>.
+  Future<GetFunctionResult> getFunction2020_05_31({
+    required String name,
+    FunctionStage? stage,
+  }) async {
+    final $query = <String, List<String>>{
+      if (stage != null) 'Stage': [stage.toValue()],
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri: '/2020-05-31/function/${Uri.encodeComponent(name)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetFunctionResult(
+      functionCode: await $result.stream.toBytes(),
+      contentType: _s.extractHeaderStringValue($result.headers, 'Content-Type'),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
+  }
+
   /// Get the information about an invalidation.
   ///
   /// May throw [NoSuchInvalidation].
@@ -1427,9 +2083,9 @@ class CloudFront {
   /// Gets a key group, including the date and time when the key group was last
   /// modified.
   ///
-  /// To get a key group, you must provide the key group’s identifier. If the
-  /// key group is referenced in a distribution’s cache behavior, you can get
-  /// the key group’s identifier using <code>ListDistributions</code> or
+  /// To get a key group, you must provide the key group's identifier. If the
+  /// key group is referenced in a distribution's cache behavior, you can get
+  /// the key group's identifier using <code>ListDistributions</code> or
   /// <code>GetDistribution</code>. If the key group is not referenced in a
   /// cache behavior, you can get the identifier using
   /// <code>ListKeyGroups</code>.
@@ -1456,9 +2112,9 @@ class CloudFront {
 
   /// Gets a key group configuration.
   ///
-  /// To get a key group configuration, you must provide the key group’s
-  /// identifier. If the key group is referenced in a distribution’s cache
-  /// behavior, you can get the key group’s identifier using
+  /// To get a key group configuration, you must provide the key group's
+  /// identifier. If the key group is referenced in a distribution's cache
+  /// behavior, you can get the key group's identifier using
   /// <code>ListDistributions</code> or <code>GetDistribution</code>. If the key
   /// group is not referenced in a cache behavior, you can get the identifier
   /// using <code>ListKeyGroups</code>.
@@ -1488,6 +2144,8 @@ class CloudFront {
   ///
   /// May throw [AccessDenied].
   /// May throw [NoSuchDistribution].
+  /// May throw [NoSuchMonitoringSubscription].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [distributionId] :
   /// The ID of the distribution that you are getting metrics information for.
@@ -1497,7 +2155,7 @@ class CloudFront {
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
-          '/2020-05-31/distributions/${Uri.encodeComponent(distributionId)}/monitoring-subscription',
+          '/2020-05-31/distributions/${Uri.encodeComponent(distributionId)}/monitoring-subscription/',
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -1506,19 +2164,66 @@ class CloudFront {
     );
   }
 
+  /// Gets a CloudFront origin access control, including its unique identifier.
+  ///
+  /// May throw [NoSuchOriginAccessControl].
+  /// May throw [AccessDenied].
+  ///
+  /// Parameter [id] :
+  /// The unique identifier of the origin access control.
+  Future<GetOriginAccessControlResult> getOriginAccessControl2020_05_31({
+    required String id,
+  }) async {
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri:
+          '/2020-05-31/origin-access-control/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return GetOriginAccessControlResult(
+      originAccessControl: OriginAccessControl.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
+  }
+
+  /// Gets a CloudFront origin access control configuration.
+  ///
+  /// May throw [NoSuchOriginAccessControl].
+  /// May throw [AccessDenied].
+  ///
+  /// Parameter [id] :
+  /// The unique identifier of the origin access control.
+  Future<GetOriginAccessControlConfigResult>
+      getOriginAccessControlConfig2020_05_31({
+    required String id,
+  }) async {
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri:
+          '/2020-05-31/origin-access-control/${Uri.encodeComponent(id)}/config',
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return GetOriginAccessControlConfigResult(
+      originAccessControlConfig: OriginAccessControlConfig.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
+  }
+
   /// Gets an origin request policy, including the following metadata:
   ///
   /// <ul>
   /// <li>
-  /// The policy’s identifier.
+  /// The policy's identifier.
   /// </li>
   /// <li>
   /// The date and time when the policy was last modified.
   /// </li>
   /// </ul>
-  /// To get an origin request policy, you must provide the policy’s identifier.
-  /// If the origin request policy is attached to a distribution’s cache
-  /// behavior, you can get the policy’s identifier using
+  /// To get an origin request policy, you must provide the policy's identifier.
+  /// If the origin request policy is attached to a distribution's cache
+  /// behavior, you can get the policy's identifier using
   /// <code>ListDistributions</code> or <code>GetDistribution</code>. If the
   /// origin request policy is not attached to a cache behavior, you can get the
   /// identifier using <code>ListOriginRequestPolicies</code>.
@@ -1528,8 +2233,8 @@ class CloudFront {
   ///
   /// Parameter [id] :
   /// The unique identifier for the origin request policy. If the origin request
-  /// policy is attached to a distribution’s cache behavior, you can get the
-  /// policy’s identifier using <code>ListDistributions</code> or
+  /// policy is attached to a distribution's cache behavior, you can get the
+  /// policy's identifier using <code>ListDistributions</code> or
   /// <code>GetDistribution</code>. If the origin request policy is not attached
   /// to a cache behavior, you can get the identifier using
   /// <code>ListOriginRequestPolicies</code>.
@@ -1552,8 +2257,8 @@ class CloudFront {
   /// Gets an origin request policy configuration.
   ///
   /// To get an origin request policy configuration, you must provide the
-  /// policy’s identifier. If the origin request policy is attached to a
-  /// distribution’s cache behavior, you can get the policy’s identifier using
+  /// policy's identifier. If the origin request policy is attached to a
+  /// distribution's cache behavior, you can get the policy's identifier using
   /// <code>ListDistributions</code> or <code>GetDistribution</code>. If the
   /// origin request policy is not attached to a cache behavior, you can get the
   /// identifier using <code>ListOriginRequestPolicies</code>.
@@ -1563,8 +2268,8 @@ class CloudFront {
   ///
   /// Parameter [id] :
   /// The unique identifier for the origin request policy. If the origin request
-  /// policy is attached to a distribution’s cache behavior, you can get the
-  /// policy’s identifier using <code>ListDistributions</code> or
+  /// policy is attached to a distribution's cache behavior, you can get the
+  /// policy's identifier using <code>ListDistributions</code> or
   /// <code>GetDistribution</code>. If the origin request policy is not attached
   /// to a cache behavior, you can get the identifier using
   /// <code>ListOriginRequestPolicies</code>.
@@ -1631,7 +2336,7 @@ class CloudFront {
 
   /// Gets a real-time log configuration.
   ///
-  /// To get a real-time log configuration, you can provide the configuration’s
+  /// To get a real-time log configuration, you can provide the configuration's
   /// name or its Amazon Resource Name (ARN). You must provide at least one. If
   /// you provide both, CloudFront uses the name to identify the real-time log
   /// configuration to get.
@@ -1662,6 +2367,80 @@ class CloudFront {
       exceptionFnMap: _exceptionFns,
     );
     return GetRealtimeLogConfigResult.fromXml($result.body);
+  }
+
+  /// Gets a response headers policy, including metadata (the policy's
+  /// identifier and the date and time when the policy was last modified).
+  ///
+  /// To get a response headers policy, you must provide the policy's
+  /// identifier. If the response headers policy is attached to a distribution's
+  /// cache behavior, you can get the policy's identifier using
+  /// <code>ListDistributions</code> or <code>GetDistribution</code>. If the
+  /// response headers policy is not attached to a cache behavior, you can get
+  /// the identifier using <code>ListResponseHeadersPolicies</code>.
+  ///
+  /// May throw [AccessDenied].
+  /// May throw [NoSuchResponseHeadersPolicy].
+  ///
+  /// Parameter [id] :
+  /// The identifier for the response headers policy.
+  ///
+  /// If the response headers policy is attached to a distribution's cache
+  /// behavior, you can get the policy's identifier using
+  /// <code>ListDistributions</code> or <code>GetDistribution</code>. If the
+  /// response headers policy is not attached to a cache behavior, you can get
+  /// the identifier using <code>ListResponseHeadersPolicies</code>.
+  Future<GetResponseHeadersPolicyResult> getResponseHeadersPolicy2020_05_31({
+    required String id,
+  }) async {
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri:
+          '/2020-05-31/response-headers-policy/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return GetResponseHeadersPolicyResult(
+      responseHeadersPolicy: ResponseHeadersPolicy.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
+  }
+
+  /// Gets a response headers policy configuration.
+  ///
+  /// To get a response headers policy configuration, you must provide the
+  /// policy's identifier. If the response headers policy is attached to a
+  /// distribution's cache behavior, you can get the policy's identifier using
+  /// <code>ListDistributions</code> or <code>GetDistribution</code>. If the
+  /// response headers policy is not attached to a cache behavior, you can get
+  /// the identifier using <code>ListResponseHeadersPolicies</code>.
+  ///
+  /// May throw [AccessDenied].
+  /// May throw [NoSuchResponseHeadersPolicy].
+  ///
+  /// Parameter [id] :
+  /// The identifier for the response headers policy.
+  ///
+  /// If the response headers policy is attached to a distribution's cache
+  /// behavior, you can get the policy's identifier using
+  /// <code>ListDistributions</code> or <code>GetDistribution</code>. If the
+  /// response headers policy is not attached to a cache behavior, you can get
+  /// the identifier using <code>ListResponseHeadersPolicies</code>.
+  Future<GetResponseHeadersPolicyConfigResult>
+      getResponseHeadersPolicyConfig2020_05_31({
+    required String id,
+  }) async {
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri:
+          '/2020-05-31/response-headers-policy/${Uri.encodeComponent(id)}/config',
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return GetResponseHeadersPolicyConfigResult(
+      responseHeadersPolicyConfig: ResponseHeadersPolicyConfig.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
   }
 
   /// Gets information about a specified RTMP distribution, including the
@@ -1715,7 +2494,8 @@ class CloudFront {
   /// Gets a list of cache policies.
   ///
   /// You can optionally apply a filter to return only the managed policies
-  /// created by AWS, or only the custom policies created in your AWS account.
+  /// created by Amazon Web Services, or only the custom policies created in
+  /// your Amazon Web Services account.
   ///
   /// You can optionally specify the maximum number of items to receive in the
   /// response. If the total number of items in the list exceeds the maximum
@@ -1732,8 +2512,8 @@ class CloudFront {
   /// Use this field when paginating results to indicate where to begin in your
   /// list of cache policies. The response includes cache policies in the list
   /// that occur after the marker. To get the next page of the list, set this
-  /// field’s value to the value of <code>NextMarker</code> from the current
-  /// page’s response.
+  /// field's value to the value of <code>NextMarker</code> from the current
+  /// page's response.
   ///
   /// Parameter [maxItems] :
   /// The maximum number of cache policies that you want in the response.
@@ -1744,11 +2524,12 @@ class CloudFront {
   ///
   /// <ul>
   /// <li>
-  /// <code>managed</code> – Returns only the managed policies created by AWS.
+  /// <code>managed</code> – Returns only the managed policies created by Amazon
+  /// Web Services.
   /// </li>
   /// <li>
-  /// <code>custom</code> – Returns only the custom policies created in your AWS
-  /// account.
+  /// <code>custom</code> – Returns only the custom policies created in your
+  /// Amazon Web Services account.
   /// </li>
   /// </ul>
   Future<ListCachePoliciesResult> listCachePolicies2020_05_31({
@@ -1810,6 +2591,134 @@ class CloudFront {
     );
   }
 
+  /// Gets a list of aliases (also called CNAMEs or alternate domain names) that
+  /// conflict or overlap with the provided alias, and the associated CloudFront
+  /// distributions and Amazon Web Services accounts for each conflicting alias.
+  /// In the returned list, the distribution and account IDs are partially
+  /// hidden, which allows you to identify the distributions and accounts that
+  /// you own, but helps to protect the information of ones that you don't own.
+  ///
+  /// Use this operation to find aliases that are in use in CloudFront that
+  /// conflict or overlap with the provided alias. For example, if you provide
+  /// <code>www.example.com</code> as input, the returned list can include
+  /// <code>www.example.com</code> and the overlapping wildcard alternate domain
+  /// name (<code>*.example.com</code>), if they exist. If you provide
+  /// <code>*.example.com</code> as input, the returned list can include
+  /// <code>*.example.com</code> and any alternate domain names covered by that
+  /// wildcard (for example, <code>www.example.com</code>,
+  /// <code>test.example.com</code>, <code>dev.example.com</code>, and so on),
+  /// if they exist.
+  ///
+  /// To list conflicting aliases, you provide the alias to search and the ID of
+  /// a distribution in your account that has an attached SSL/TLS certificate
+  /// that includes the provided alias. For more information, including how to
+  /// set up the distribution and certificate, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move">Moving
+  /// an alternate domain name to a different distribution</a> in the <i>Amazon
+  /// CloudFront Developer Guide</i>.
+  ///
+  /// You can optionally specify the maximum number of items to receive in the
+  /// response. If the total number of items in the list exceeds the maximum
+  /// that you specify, or the default maximum, the response is paginated. To
+  /// get the next page of items, send a subsequent request that specifies the
+  /// <code>NextMarker</code> value from the current response as the
+  /// <code>Marker</code> value in the subsequent request.
+  ///
+  /// May throw [InvalidArgument].
+  /// May throw [NoSuchDistribution].
+  ///
+  /// Parameter [alias] :
+  /// The alias (also called a CNAME) to search for conflicting aliases.
+  ///
+  /// Parameter [distributionId] :
+  /// The ID of a distribution in your account that has an attached SSL/TLS
+  /// certificate that includes the provided alias.
+  ///
+  /// Parameter [marker] :
+  /// Use this field when paginating results to indicate where to begin in the
+  /// list of conflicting aliases. The response includes conflicting aliases in
+  /// the list that occur after the marker. To get the next page of the list,
+  /// set this field's value to the value of <code>NextMarker</code> from the
+  /// current page's response.
+  ///
+  /// Parameter [maxItems] :
+  /// The maximum number of conflicting aliases that you want in the response.
+  Future<ListConflictingAliasesResult> listConflictingAliases2020_05_31({
+    required String alias,
+    required String distributionId,
+    String? marker,
+    int? maxItems,
+  }) async {
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      0,
+      100,
+    );
+    final $query = <String, List<String>>{
+      'Alias': [alias],
+      'DistributionId': [distributionId],
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems.toString()],
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri: '/2020-05-31/conflicting-alias',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return ListConflictingAliasesResult(
+      conflictingAliasesList: ConflictingAliasesList.fromXml($elem),
+    );
+  }
+
+  /// Gets a list of the continuous deployment policies in your Amazon Web
+  /// Services account.
+  ///
+  /// You can optionally specify the maximum number of items to receive in the
+  /// response. If the total number of items in the list exceeds the maximum
+  /// that you specify, or the default maximum, the response is paginated. To
+  /// get the next page of items, send a subsequent request that specifies the
+  /// <code>NextMarker</code> value from the current response as the
+  /// <code>Marker</code> value in the subsequent request.
+  ///
+  /// May throw [InvalidArgument].
+  /// May throw [AccessDenied].
+  /// May throw [NoSuchContinuousDeploymentPolicy].
+  ///
+  /// Parameter [marker] :
+  /// Use this field when paginating results to indicate where to begin in your
+  /// list of continuous deployment policies. The response includes policies in
+  /// the list that occur after the marker. To get the next page of the list,
+  /// set this field's value to the value of <code>NextMarker</code> from the
+  /// current page's response.
+  ///
+  /// Parameter [maxItems] :
+  /// The maximum number of continuous deployment policies that you want
+  /// returned in the response.
+  Future<ListContinuousDeploymentPoliciesResult>
+      listContinuousDeploymentPolicies2020_05_31({
+    String? marker,
+    String? maxItems,
+  }) async {
+    final $query = <String, List<String>>{
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems],
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri: '/2020-05-31/continuous-deployment-policy',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return ListContinuousDeploymentPoliciesResult(
+      continuousDeploymentPolicyList:
+          ContinuousDeploymentPolicyList.fromXml($elem),
+    );
+  }
+
   /// List CloudFront distributions.
   ///
   /// May throw [InvalidArgument].
@@ -1845,7 +2754,7 @@ class CloudFront {
   }
 
   /// Gets a list of distribution IDs for distributions that have a cache
-  /// behavior that’s associated with the specified cache policy.
+  /// behavior that's associated with the specified cache policy.
   ///
   /// You can optionally specify the maximum number of items to receive in the
   /// response. If the total number of items in the list exceeds the maximum
@@ -1866,8 +2775,8 @@ class CloudFront {
   /// Use this field when paginating results to indicate where to begin in your
   /// list of distribution IDs. The response includes distribution IDs in the
   /// list that occur after the marker. To get the next page of the list, set
-  /// this field’s value to the value of <code>NextMarker</code> from the
-  /// current page’s response.
+  /// this field's value to the value of <code>NextMarker</code> from the
+  /// current page's response.
   ///
   /// Parameter [maxItems] :
   /// The maximum number of distribution IDs that you want in the response.
@@ -1914,8 +2823,8 @@ class CloudFront {
   /// Use this field when paginating results to indicate where to begin in your
   /// list of distribution IDs. The response includes distribution IDs in the
   /// list that occur after the marker. To get the next page of the list, set
-  /// this field’s value to the value of <code>NextMarker</code> from the
-  /// current page’s response.
+  /// this field's value to the value of <code>NextMarker</code> from the
+  /// current page's response.
   ///
   /// Parameter [maxItems] :
   /// The maximum number of distribution IDs that you want in the response.
@@ -1943,7 +2852,7 @@ class CloudFront {
   }
 
   /// Gets a list of distribution IDs for distributions that have a cache
-  /// behavior that’s associated with the specified origin request policy.
+  /// behavior that's associated with the specified origin request policy.
   ///
   /// You can optionally specify the maximum number of items to receive in the
   /// response. If the total number of items in the list exceeds the maximum
@@ -1964,8 +2873,8 @@ class CloudFront {
   /// Use this field when paginating results to indicate where to begin in your
   /// list of distribution IDs. The response includes distribution IDs in the
   /// list that occur after the marker. To get the next page of the list, set
-  /// this field’s value to the value of <code>NextMarker</code> from the
-  /// current page’s response.
+  /// this field's value to the value of <code>NextMarker</code> from the
+  /// current page's response.
   ///
   /// Parameter [maxItems] :
   /// The maximum number of distribution IDs that you want in the response.
@@ -1992,7 +2901,7 @@ class CloudFront {
     );
   }
 
-  /// Gets a list of distributions that have a cache behavior that’s associated
+  /// Gets a list of distributions that have a cache behavior that's associated
   /// with the specified real-time log configuration.
   ///
   /// You can specify the real-time log configuration by its name or its Amazon
@@ -2013,8 +2922,8 @@ class CloudFront {
   /// Use this field when paginating results to indicate where to begin in your
   /// list of distributions. The response includes distributions in the list
   /// that occur after the marker. To get the next page of the list, set this
-  /// field’s value to the value of <code>NextMarker</code> from the current
-  /// page’s response.
+  /// field's value to the value of <code>NextMarker</code> from the current
+  /// page's response.
   ///
   /// Parameter [maxItems] :
   /// The maximum number of distributions that you want in the response.
@@ -2056,14 +2965,64 @@ class CloudFront {
     );
   }
 
-  /// List the distributions that are associated with a specified AWS WAF web
-  /// ACL.
+  /// Gets a list of distribution IDs for distributions that have a cache
+  /// behavior that's associated with the specified response headers policy.
+  ///
+  /// You can optionally specify the maximum number of items to receive in the
+  /// response. If the total number of items in the list exceeds the maximum
+  /// that you specify, or the default maximum, the response is paginated. To
+  /// get the next page of items, send a subsequent request that specifies the
+  /// <code>NextMarker</code> value from the current response as the
+  /// <code>Marker</code> value in the subsequent request.
+  ///
+  /// May throw [NoSuchResponseHeadersPolicy].
+  /// May throw [InvalidArgument].
+  /// May throw [AccessDenied].
+  ///
+  /// Parameter [responseHeadersPolicyId] :
+  /// The ID of the response headers policy whose associated distribution IDs
+  /// you want to list.
+  ///
+  /// Parameter [marker] :
+  /// Use this field when paginating results to indicate where to begin in your
+  /// list of distribution IDs. The response includes distribution IDs in the
+  /// list that occur after the marker. To get the next page of the list, set
+  /// this field's value to the value of <code>NextMarker</code> from the
+  /// current page's response.
+  ///
+  /// Parameter [maxItems] :
+  /// The maximum number of distribution IDs that you want to get in the
+  /// response.
+  Future<ListDistributionsByResponseHeadersPolicyIdResult>
+      listDistributionsByResponseHeadersPolicyId2020_05_31({
+    required String responseHeadersPolicyId,
+    String? marker,
+    String? maxItems,
+  }) async {
+    final $query = <String, List<String>>{
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems],
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri:
+          '/2020-05-31/distributionsByResponseHeadersPolicyId/${Uri.encodeComponent(responseHeadersPolicyId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return ListDistributionsByResponseHeadersPolicyIdResult(
+      distributionIdList: DistributionIdList.fromXml($elem),
+    );
+  }
+
+  /// List the distributions that are associated with a specified WAF web ACL.
   ///
   /// May throw [InvalidArgument].
   /// May throw [InvalidWebACLId].
   ///
   /// Parameter [webACLId] :
-  /// The ID of the AWS WAF web ACL that you want to list the associated
+  /// The ID of the WAF web ACL that you want to list the associated
   /// distributions. If you specify "null" for the ID, the request returns a
   /// list of the distributions that aren't associated with a web ACL.
   ///
@@ -2175,6 +3134,56 @@ class CloudFront {
     );
   }
 
+  /// Gets a list of all CloudFront functions in your Amazon Web Services
+  /// account.
+  ///
+  /// You can optionally apply a filter to return only the functions that are in
+  /// the specified stage, either <code>DEVELOPMENT</code> or <code>LIVE</code>.
+  ///
+  /// You can optionally specify the maximum number of items to receive in the
+  /// response. If the total number of items in the list exceeds the maximum
+  /// that you specify, or the default maximum, the response is paginated. To
+  /// get the next page of items, send a subsequent request that specifies the
+  /// <code>NextMarker</code> value from the current response as the
+  /// <code>Marker</code> value in the subsequent request.
+  ///
+  /// May throw [InvalidArgument].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [marker] :
+  /// Use this field when paginating results to indicate where to begin in your
+  /// list of functions. The response includes functions in the list that occur
+  /// after the marker. To get the next page of the list, set this field's value
+  /// to the value of <code>NextMarker</code> from the current page's response.
+  ///
+  /// Parameter [maxItems] :
+  /// The maximum number of functions that you want in the response.
+  ///
+  /// Parameter [stage] :
+  /// An optional filter to return only the functions that are in the specified
+  /// stage, either <code>DEVELOPMENT</code> or <code>LIVE</code>.
+  Future<ListFunctionsResult> listFunctions2020_05_31({
+    String? marker,
+    String? maxItems,
+    FunctionStage? stage,
+  }) async {
+    final $query = <String, List<String>>{
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems],
+      if (stage != null) 'Stage': [stage.toValue()],
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri: '/2020-05-31/function',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return ListFunctionsResult(
+      functionList: FunctionList.fromXml($elem),
+    );
+  }
+
   /// Lists invalidation batches.
   ///
   /// May throw [InvalidArgument].
@@ -2232,8 +3241,8 @@ class CloudFront {
   /// Parameter [marker] :
   /// Use this field when paginating results to indicate where to begin in your
   /// list of key groups. The response includes key groups in the list that
-  /// occur after the marker. To get the next page of the list, set this field’s
-  /// value to the value of <code>NextMarker</code> from the current page’s
+  /// occur after the marker. To get the next page of the list, set this field's
+  /// value to the value of <code>NextMarker</code> from the current page's
   /// response.
   ///
   /// Parameter [maxItems] :
@@ -2258,10 +3267,53 @@ class CloudFront {
     );
   }
 
+  /// Gets the list of CloudFront origin access controls in this Amazon Web
+  /// Services account.
+  ///
+  /// You can optionally specify the maximum number of items to receive in the
+  /// response. If the total number of items in the list exceeds the maximum
+  /// that you specify, or the default maximum, the response is paginated. To
+  /// get the next page of items, send another request that specifies the
+  /// <code>NextMarker</code> value from the current response as the
+  /// <code>Marker</code> value in the next request.
+  ///
+  /// May throw [InvalidArgument].
+  ///
+  /// Parameter [marker] :
+  /// Use this field when paginating results to indicate where to begin in your
+  /// list of origin access controls. The response includes the items in the
+  /// list that occur after the marker. To get the next page of the list, set
+  /// this field's value to the value of <code>NextMarker</code> from the
+  /// current page's response.
+  ///
+  /// Parameter [maxItems] :
+  /// The maximum number of origin access controls that you want in the
+  /// response.
+  Future<ListOriginAccessControlsResult> listOriginAccessControls2020_05_31({
+    String? marker,
+    String? maxItems,
+  }) async {
+    final $query = <String, List<String>>{
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems],
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri: '/2020-05-31/origin-access-control',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return ListOriginAccessControlsResult(
+      originAccessControlList: OriginAccessControlList.fromXml($elem),
+    );
+  }
+
   /// Gets a list of origin request policies.
   ///
   /// You can optionally apply a filter to return only the managed policies
-  /// created by AWS, or only the custom policies created in your AWS account.
+  /// created by Amazon Web Services, or only the custom policies created in
+  /// your Amazon Web Services account.
   ///
   /// You can optionally specify the maximum number of items to receive in the
   /// response. If the total number of items in the list exceeds the maximum
@@ -2278,8 +3330,8 @@ class CloudFront {
   /// Use this field when paginating results to indicate where to begin in your
   /// list of origin request policies. The response includes origin request
   /// policies in the list that occur after the marker. To get the next page of
-  /// the list, set this field’s value to the value of <code>NextMarker</code>
-  /// from the current page’s response.
+  /// the list, set this field's value to the value of <code>NextMarker</code>
+  /// from the current page's response.
   ///
   /// Parameter [maxItems] :
   /// The maximum number of origin request policies that you want in the
@@ -2291,11 +3343,12 @@ class CloudFront {
   ///
   /// <ul>
   /// <li>
-  /// <code>managed</code> – Returns only the managed policies created by AWS.
+  /// <code>managed</code> – Returns only the managed policies created by Amazon
+  /// Web Services.
   /// </li>
   /// <li>
-  /// <code>custom</code> – Returns only the custom policies created in your AWS
-  /// account.
+  /// <code>custom</code> – Returns only the custom policies created in your
+  /// Amazon Web Services account.
   /// </li>
   /// </ul>
   Future<ListOriginRequestPoliciesResult> listOriginRequestPolicies2020_05_31({
@@ -2371,8 +3424,8 @@ class CloudFront {
   /// Use this field when paginating results to indicate where to begin in your
   /// list of real-time log configurations. The response includes real-time log
   /// configurations in the list that occur after the marker. To get the next
-  /// page of the list, set this field’s value to the value of
-  /// <code>NextMarker</code> from the current page’s response.
+  /// page of the list, set this field's value to the value of
+  /// <code>NextMarker</code> from the current page's response.
   ///
   /// Parameter [maxItems] :
   /// The maximum number of real-time log configurations that you want in the
@@ -2394,6 +3447,71 @@ class CloudFront {
     final $elem = await _s.xmlFromResponse($result);
     return ListRealtimeLogConfigsResult(
       realtimeLogConfigs: RealtimeLogConfigs.fromXml($elem),
+    );
+  }
+
+  /// Gets a list of response headers policies.
+  ///
+  /// You can optionally apply a filter to get only the managed policies created
+  /// by Amazon Web Services, or only the custom policies created in your Amazon
+  /// Web Services account.
+  ///
+  /// You can optionally specify the maximum number of items to receive in the
+  /// response. If the total number of items in the list exceeds the maximum
+  /// that you specify, or the default maximum, the response is paginated. To
+  /// get the next page of items, send a subsequent request that specifies the
+  /// <code>NextMarker</code> value from the current response as the
+  /// <code>Marker</code> value in the subsequent request.
+  ///
+  /// May throw [AccessDenied].
+  /// May throw [NoSuchResponseHeadersPolicy].
+  /// May throw [InvalidArgument].
+  ///
+  /// Parameter [marker] :
+  /// Use this field when paginating results to indicate where to begin in your
+  /// list of response headers policies. The response includes response headers
+  /// policies in the list that occur after the marker. To get the next page of
+  /// the list, set this field's value to the value of <code>NextMarker</code>
+  /// from the current page's response.
+  ///
+  /// Parameter [maxItems] :
+  /// The maximum number of response headers policies that you want to get in
+  /// the response.
+  ///
+  /// Parameter [type] :
+  /// A filter to get only the specified kind of response headers policies.
+  /// Valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>managed</code> – Gets only the managed policies created by Amazon
+  /// Web Services.
+  /// </li>
+  /// <li>
+  /// <code>custom</code> – Gets only the custom policies created in your Amazon
+  /// Web Services account.
+  /// </li>
+  /// </ul>
+  Future<ListResponseHeadersPoliciesResult>
+      listResponseHeadersPolicies2020_05_31({
+    String? marker,
+    String? maxItems,
+    ResponseHeadersPolicyType? type,
+  }) async {
+    final $query = <String, List<String>>{
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems],
+      if (type != null) 'Type': [type.toValue()],
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri: '/2020-05-31/response-headers-policy',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return ListResponseHeadersPoliciesResult(
+      responseHeadersPolicyList: ResponseHeadersPolicyList.fromXml($elem),
     );
   }
 
@@ -2455,6 +3573,50 @@ class CloudFront {
     );
   }
 
+  /// Publishes a CloudFront function by copying the function code from the
+  /// <code>DEVELOPMENT</code> stage to <code>LIVE</code>. This automatically
+  /// updates all cache behaviors that are using this function to use the newly
+  /// published copy in the <code>LIVE</code> stage.
+  ///
+  /// When a function is published to the <code>LIVE</code> stage, you can
+  /// attach the function to a distribution's cache behavior, using the
+  /// function's Amazon Resource Name (ARN).
+  ///
+  /// To publish a function, you must provide the function's name and version
+  /// (<code>ETag</code> value). To get these values, you can use
+  /// <code>ListFunctions</code> and <code>DescribeFunction</code>.
+  ///
+  /// May throw [InvalidArgument].
+  /// May throw [InvalidIfMatchVersion].
+  /// May throw [NoSuchFunctionExists].
+  /// May throw [PreconditionFailed].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [ifMatch] :
+  /// The current version (<code>ETag</code> value) of the function that you are
+  /// publishing, which you can get using <code>DescribeFunction</code>.
+  ///
+  /// Parameter [name] :
+  /// The name of the function that you are publishing.
+  Future<PublishFunctionResult> publishFunction2020_05_31({
+    required String ifMatch,
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'If-Match': ifMatch.toString(),
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'POST',
+      requestUri: '/2020-05-31/function/${Uri.encodeComponent(name)}/publish',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return PublishFunctionResult(
+      functionSummary: FunctionSummary.fromXml($elem),
+    );
+  }
+
   /// Add tags to a CloudFront resource.
   ///
   /// May throw [AccessDenied].
@@ -2480,6 +3642,78 @@ class CloudFront {
       queryParams: $query,
       payload: tags.toXml('Tags'),
       exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Tests a CloudFront function.
+  ///
+  /// To test a function, you provide an <i>event object</i> that represents an
+  /// HTTP request or response that your CloudFront distribution could receive
+  /// in production. CloudFront runs the function, passing it the event object
+  /// that you provided, and returns the function's result (the modified event
+  /// object) in the response. The response also contains function logs and
+  /// error messages, if any exist. For more information about testing
+  /// functions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/managing-functions.html#test-function">Testing
+  /// functions</a> in the <i>Amazon CloudFront Developer Guide</i>.
+  ///
+  /// To test a function, you provide the function's name and version
+  /// (<code>ETag</code> value) along with the event object. To get the
+  /// function's name and version, you can use <code>ListFunctions</code> and
+  /// <code>DescribeFunction</code>.
+  ///
+  /// May throw [InvalidArgument].
+  /// May throw [InvalidIfMatchVersion].
+  /// May throw [NoSuchFunctionExists].
+  /// May throw [TestFunctionFailed].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [eventObject] :
+  /// The event object to test the function with. For more information about the
+  /// structure of the event object, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/managing-functions.html#test-function">Testing
+  /// functions</a> in the <i>Amazon CloudFront Developer Guide</i>.
+  ///
+  /// Parameter [ifMatch] :
+  /// The current version (<code>ETag</code> value) of the function that you are
+  /// testing, which you can get using <code>DescribeFunction</code>.
+  ///
+  /// Parameter [name] :
+  /// The name of the function that you are testing.
+  ///
+  /// Parameter [stage] :
+  /// The stage of the function that you are testing, either
+  /// <code>DEVELOPMENT</code> or <code>LIVE</code>.
+  Future<TestFunctionResult> testFunction2020_05_31({
+    required Uint8List eventObject,
+    required String ifMatch,
+    required String name,
+    FunctionStage? stage,
+  }) async {
+    final headers = <String, String>{
+      'If-Match': ifMatch.toString(),
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'POST',
+      requestUri: '/2020-05-31/function/${Uri.encodeComponent(name)}/test',
+      headers: headers,
+      payload: TestFunctionRequest(
+              eventObject: eventObject,
+              ifMatch: ifMatch,
+              name: name,
+              stage: stage)
+          .toXml(
+        'TestFunctionRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'http://cloudfront.amazonaws.com/doc/2020-05-31/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return TestFunctionResult(
+      testResult: TestResult.fromXml($elem),
     );
   }
 
@@ -2527,7 +3761,7 @@ class CloudFront {
   /// <li>
   /// Call <code>UpdateCachePolicy</code> by providing the entire cache policy
   /// configuration, including the fields that you modified and those that you
-  /// didn’t.
+  /// didn't.
   /// </li> </ol>
   ///
   /// May throw [AccessDenied].
@@ -2547,12 +3781,12 @@ class CloudFront {
   ///
   /// Parameter [id] :
   /// The unique identifier for the cache policy that you are updating. The
-  /// identifier is returned in a cache behavior’s <code>CachePolicyId</code>
+  /// identifier is returned in a cache behavior's <code>CachePolicyId</code>
   /// field in the response to <code>GetDistributionConfig</code>.
   ///
   /// Parameter [ifMatch] :
   /// The version of the cache policy that you are updating. The version is
-  /// returned in the cache policy’s <code>ETag</code> field in the response to
+  /// returned in the cache policy's <code>ETag</code> field in the response to
   /// <code>GetCachePolicyConfig</code>.
   Future<UpdateCachePolicyResult> updateCachePolicy2020_05_31({
     required CachePolicyConfig cachePolicyConfig,
@@ -2624,93 +3858,105 @@ class CloudFront {
     );
   }
 
-  /// Updates the configuration for a web distribution.
-  /// <important>
-  /// When you update a distribution, there are more required fields than when
-  /// you create a distribution. When you update your distribution by using this
-  /// API action, follow the steps here to get the current configuration and
-  /// then make your updates, to make sure that you include all of the required
-  /// fields. To view a summary, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-overview-required-fields.html">Required
-  /// Fields for Create Distribution and Update Distribution</a> in the
-  /// <i>Amazon CloudFront Developer Guide</i>.
-  /// </important>
-  /// The update process includes getting the current distribution
-  /// configuration, updating the XML document that is returned to make your
-  /// changes, and then submitting an <code>UpdateDistribution</code> request to
-  /// make the updates.
+  /// Updates a continuous deployment policy. You can update a continuous
+  /// deployment policy to enable or disable it, to change the percentage of
+  /// traffic that it sends to the staging distribution, or to change the
+  /// staging distribution that it sends traffic to.
   ///
-  /// For information about updating a distribution using the CloudFront console
-  /// instead, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-creating-console.html">Creating
-  /// a Distribution</a> in the <i>Amazon CloudFront Developer Guide</i>.
+  /// When you update a continuous deployment policy configuration, all the
+  /// fields are updated with the values that are provided in the request. You
+  /// cannot update some fields independent of others. To update a continuous
+  /// deployment policy configuration:
+  /// <ol>
+  /// <li>
+  /// Use <code>GetContinuousDeploymentPolicyConfig</code> to get the current
+  /// configuration.
+  /// </li>
+  /// <li>
+  /// Locally modify the fields in the continuous deployment policy
+  /// configuration that you want to update.
+  /// </li>
+  /// <li>
+  /// Use <code>UpdateContinuousDeploymentPolicy</code>, providing the entire
+  /// continuous deployment policy configuration, including the fields that you
+  /// modified and those that you didn't.
+  /// </li> </ol>
+  ///
+  /// May throw [InvalidIfMatchVersion].
+  /// May throw [InvalidArgument].
+  /// May throw [AccessDenied].
+  /// May throw [InconsistentQuantities].
+  /// May throw [PreconditionFailed].
+  /// May throw [StagingDistributionInUse].
+  /// May throw [NoSuchContinuousDeploymentPolicy].
+  ///
+  /// Parameter [continuousDeploymentPolicyConfig] :
+  /// The continuous deployment policy configuration.
+  ///
+  /// Parameter [id] :
+  /// The identifier of the continuous deployment policy that you are updating.
+  ///
+  /// Parameter [ifMatch] :
+  /// The current version (<code>ETag</code> value) of the continuous deployment
+  /// policy that you are updating.
+  Future<UpdateContinuousDeploymentPolicyResult>
+      updateContinuousDeploymentPolicy2020_05_31({
+    required ContinuousDeploymentPolicyConfig continuousDeploymentPolicyConfig,
+    required String id,
+    String? ifMatch,
+  }) async {
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'PUT',
+      requestUri:
+          '/2020-05-31/continuous-deployment-policy/${Uri.encodeComponent(id)}',
+      headers: headers,
+      payload: continuousDeploymentPolicyConfig
+          .toXml('ContinuousDeploymentPolicyConfig'),
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return UpdateContinuousDeploymentPolicyResult(
+      continuousDeploymentPolicy: ContinuousDeploymentPolicy.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
+  }
+
+  /// Updates the configuration for a CloudFront distribution.
+  ///
+  /// The update process includes getting the current distribution
+  /// configuration, updating it to make your changes, and then submitting an
+  /// <code>UpdateDistribution</code> request to make the updates.
   ///
   /// <b>To update a web distribution using the CloudFront API</b>
   /// <ol>
   /// <li>
-  /// Submit a <a
-  /// href="https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_GetDistributionConfig.html">GetDistributionConfig</a>
-  /// request to get the current configuration and an <code>Etag</code> header
-  /// for the distribution.
-  /// <note>
-  /// If you update the distribution again, you must get a new <code>Etag</code>
-  /// header.
-  /// </note> </li>
+  /// Use <code>GetDistributionConfig</code> to get the current configuration,
+  /// including the version identifier (<code>ETag</code>).
+  /// </li>
   /// <li>
-  /// Update the XML document that was returned in the response to your
-  /// <code>GetDistributionConfig</code> request to include your changes.
-  /// <important>
-  /// When you edit the XML file, be aware of the following:
+  /// Update the distribution configuration that was returned in the response.
+  /// Note the following important requirements and restrictions:
   ///
   /// <ul>
   /// <li>
-  /// You must strip out the ETag parameter that is returned.
+  /// You must rename the <code>ETag</code> field to <code>IfMatch</code>,
+  /// leaving the value unchanged. (Set the value of <code>IfMatch</code> to the
+  /// value of <code>ETag</code>, then remove the <code>ETag</code> field.)
   /// </li>
   /// <li>
-  /// Additional fields are required when you update a distribution. There may
-  /// be fields included in the XML file for features that you haven't
-  /// configured for your distribution. This is expected and required to
-  /// successfully update the distribution.
-  /// </li>
-  /// <li>
-  /// You can't change the value of <code>CallerReference</code>. If you try to
-  /// change this value, CloudFront returns an <code>IllegalUpdate</code> error.
-  /// </li>
-  /// <li>
-  /// The new configuration replaces the existing configuration; the values that
-  /// you specify in an <code>UpdateDistribution</code> request are not merged
-  /// into your existing configuration. When you add, delete, or replace values
-  /// in an element that allows multiple values (for example,
-  /// <code>CNAME</code>), you must specify all of the values that you want to
-  /// appear in the updated distribution. In addition, you must update the
-  /// corresponding <code>Quantity</code> element.
-  /// </li>
-  /// </ul> </important> </li>
-  /// <li>
-  /// Submit an <code>UpdateDistribution</code> request to update the
-  /// configuration for your distribution:
-  ///
-  /// <ul>
-  /// <li>
-  /// In the request body, include the XML document that you updated in Step 2.
-  /// The request body must include an XML document with a
-  /// <code>DistributionConfig</code> element.
-  /// </li>
-  /// <li>
-  /// Set the value of the HTTP <code>If-Match</code> header to the value of the
-  /// <code>ETag</code> header that CloudFront returned when you submitted the
-  /// <code>GetDistributionConfig</code> request in Step 1.
+  /// You can't change the value of <code>CallerReference</code>.
   /// </li>
   /// </ul> </li>
   /// <li>
-  /// Review the response to the <code>UpdateDistribution</code> request to
-  /// confirm that the configuration was successfully updated.
-  /// </li>
-  /// <li>
-  /// Optional: Submit a <a
-  /// href="https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_GetDistribution.html">GetDistribution</a>
-  /// request to confirm that your changes have propagated. When propagation is
-  /// complete, the value of <code>Status</code> is <code>Deployed</code>.
+  /// Submit an <code>UpdateDistribution</code> request, providing the
+  /// distribution configuration. The new configuration replaces the existing
+  /// configuration. The values that you specify in an
+  /// <code>UpdateDistribution</code> request are not merged into your existing
+  /// configuration. Make sure to include all fields: the ones that you modified
+  /// and also the ones that you didn't.
   /// </li> </ol>
   ///
   /// May throw [AccessDenied].
@@ -2727,6 +3973,7 @@ class CloudFront {
   /// May throw [InvalidResponseCode].
   /// May throw [InvalidArgument].
   /// May throw [InvalidOriginAccessIdentity].
+  /// May throw [InvalidOriginAccessControl].
   /// May throw [TooManyTrustedSigners].
   /// May throw [TrustedSignerDoesNotExist].
   /// May throw [InvalidViewerCertificate].
@@ -2753,6 +4000,9 @@ class CloudFront {
   /// May throw [TooManyDistributionsWithSingleFunctionARN].
   /// May throw [TooManyLambdaFunctionAssociations].
   /// May throw [InvalidLambdaFunctionAssociation].
+  /// May throw [TooManyDistributionsWithFunctionAssociations].
+  /// May throw [TooManyFunctionAssociations].
+  /// May throw [InvalidFunctionAssociation].
   /// May throw [InvalidOriginReadTimeout].
   /// May throw [InvalidOriginKeepaliveTimeout].
   /// May throw [NoSuchFieldLevelEncryptionConfig].
@@ -2760,11 +4010,20 @@ class CloudFront {
   /// May throw [TooManyDistributionsAssociatedToFieldLevelEncryptionConfig].
   /// May throw [NoSuchCachePolicy].
   /// May throw [TooManyDistributionsAssociatedToCachePolicy].
+  /// May throw [NoSuchResponseHeadersPolicy].
+  /// May throw [TooManyDistributionsAssociatedToResponseHeadersPolicy].
   /// May throw [NoSuchOriginRequestPolicy].
   /// May throw [TooManyDistributionsAssociatedToOriginRequestPolicy].
   /// May throw [TooManyDistributionsAssociatedToKeyGroup].
   /// May throw [TooManyKeyGroupsAssociatedToDistribution].
   /// May throw [TrustedKeyGroupDoesNotExist].
+  /// May throw [NoSuchRealtimeLogConfig].
+  /// May throw [RealtimeLogConfigOwnerMismatch].
+  /// May throw [ContinuousDeploymentPolicyInUse].
+  /// May throw [NoSuchContinuousDeploymentPolicy].
+  /// May throw [StagingDistributionInUse].
+  /// May throw [IllegalOriginAccessConfiguration].
+  /// May throw [InvalidDomainNameForOriginAccessControl].
   ///
   /// Parameter [distributionConfig] :
   /// The distribution's configuration information.
@@ -2793,6 +4052,123 @@ class CloudFront {
     );
     final $elem = await _s.xmlFromResponse($result);
     return UpdateDistributionResult(
+      distribution: Distribution.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
+  }
+
+  /// Copies the staging distribution's configuration to its corresponding
+  /// primary distribution. The primary distribution retains its
+  /// <code>Aliases</code> (also known as alternate domain names or CNAMEs) and
+  /// <code>ContinuousDeploymentPolicyId</code> value, but otherwise its
+  /// configuration is overwritten to match the staging distribution.
+  ///
+  /// You can use this operation in a continuous deployment workflow after you
+  /// have tested configuration changes on the staging distribution. After using
+  /// a continuous deployment policy to move a portion of your domain name's
+  /// traffic to the staging distribution and verifying that it works as
+  /// intended, you can use this operation to copy the staging distribution's
+  /// configuration to the primary distribution. This action will disable the
+  /// continuous deployment policy and move your domain's traffic back to the
+  /// primary distribution.
+  ///
+  /// May throw [AccessDenied].
+  /// May throw [CNAMEAlreadyExists].
+  /// May throw [IllegalUpdate].
+  /// May throw [InvalidIfMatchVersion].
+  /// May throw [MissingBody].
+  /// May throw [NoSuchDistribution].
+  /// May throw [PreconditionFailed].
+  /// May throw [TooManyDistributionCNAMEs].
+  /// May throw [InvalidDefaultRootObject].
+  /// May throw [InvalidRelativePath].
+  /// May throw [InvalidErrorCode].
+  /// May throw [InvalidResponseCode].
+  /// May throw [InvalidArgument].
+  /// May throw [InvalidOriginAccessIdentity].
+  /// May throw [InvalidOriginAccessControl].
+  /// May throw [TooManyTrustedSigners].
+  /// May throw [TrustedSignerDoesNotExist].
+  /// May throw [InvalidViewerCertificate].
+  /// May throw [InvalidMinimumProtocolVersion].
+  /// May throw [InvalidRequiredProtocol].
+  /// May throw [NoSuchOrigin].
+  /// May throw [TooManyOrigins].
+  /// May throw [TooManyOriginGroupsPerDistribution].
+  /// May throw [TooManyCacheBehaviors].
+  /// May throw [TooManyCookieNamesInWhiteList].
+  /// May throw [InvalidForwardCookies].
+  /// May throw [TooManyHeadersInForwardedValues].
+  /// May throw [InvalidHeadersForS3Origin].
+  /// May throw [InconsistentQuantities].
+  /// May throw [TooManyCertificates].
+  /// May throw [InvalidLocationCode].
+  /// May throw [InvalidGeoRestrictionParameter].
+  /// May throw [InvalidTTLOrder].
+  /// May throw [InvalidWebACLId].
+  /// May throw [TooManyOriginCustomHeaders].
+  /// May throw [TooManyQueryStringParameters].
+  /// May throw [InvalidQueryStringParameters].
+  /// May throw [TooManyDistributionsWithLambdaAssociations].
+  /// May throw [TooManyDistributionsWithSingleFunctionARN].
+  /// May throw [TooManyLambdaFunctionAssociations].
+  /// May throw [InvalidLambdaFunctionAssociation].
+  /// May throw [TooManyDistributionsWithFunctionAssociations].
+  /// May throw [TooManyFunctionAssociations].
+  /// May throw [InvalidFunctionAssociation].
+  /// May throw [InvalidOriginReadTimeout].
+  /// May throw [InvalidOriginKeepaliveTimeout].
+  /// May throw [NoSuchFieldLevelEncryptionConfig].
+  /// May throw [IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior].
+  /// May throw [TooManyDistributionsAssociatedToFieldLevelEncryptionConfig].
+  /// May throw [NoSuchCachePolicy].
+  /// May throw [TooManyDistributionsAssociatedToCachePolicy].
+  /// May throw [NoSuchResponseHeadersPolicy].
+  /// May throw [TooManyDistributionsAssociatedToResponseHeadersPolicy].
+  /// May throw [NoSuchOriginRequestPolicy].
+  /// May throw [TooManyDistributionsAssociatedToOriginRequestPolicy].
+  /// May throw [TooManyDistributionsAssociatedToKeyGroup].
+  /// May throw [TooManyKeyGroupsAssociatedToDistribution].
+  /// May throw [TrustedKeyGroupDoesNotExist].
+  /// May throw [NoSuchRealtimeLogConfig].
+  /// May throw [RealtimeLogConfigOwnerMismatch].
+  ///
+  /// Parameter [id] :
+  /// The identifier of the primary distribution to which you are copying a
+  /// staging distribution's configuration.
+  ///
+  /// Parameter [ifMatch] :
+  /// The current versions (<code>ETag</code> values) of both primary and
+  /// staging distributions. Provide these in the following format:
+  ///
+  /// <code>&lt;primary ETag&gt;, &lt;staging ETag&gt;</code>
+  ///
+  /// Parameter [stagingDistributionId] :
+  /// The identifier of the staging distribution whose configuration you are
+  /// copying to the primary distribution.
+  Future<UpdateDistributionWithStagingConfigResult>
+      updateDistributionWithStagingConfig2020_05_31({
+    required String id,
+    String? ifMatch,
+    String? stagingDistributionId,
+  }) async {
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
+    final $query = <String, List<String>>{
+      if (stagingDistributionId != null)
+        'StagingDistributionId': [stagingDistributionId],
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'PUT',
+      requestUri:
+          '/2020-05-31/distribution/${Uri.encodeComponent(id)}/promote-staging-config',
+      queryParams: $query,
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return UpdateDistributionWithStagingConfigResult(
       distribution: Distribution.fromXml($elem),
       eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
     );
@@ -2897,6 +4273,73 @@ class CloudFront {
     );
   }
 
+  /// Updates a CloudFront function.
+  ///
+  /// You can update a function's code or the comment that describes the
+  /// function. You cannot update a function's name.
+  ///
+  /// To update a function, you provide the function's name and version
+  /// (<code>ETag</code> value) along with the updated function code. To get the
+  /// name and version, you can use <code>ListFunctions</code> and
+  /// <code>DescribeFunction</code>.
+  ///
+  /// May throw [InvalidArgument].
+  /// May throw [InvalidIfMatchVersion].
+  /// May throw [NoSuchFunctionExists].
+  /// May throw [PreconditionFailed].
+  /// May throw [FunctionSizeLimitExceeded].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [functionCode] :
+  /// The function code. For more information about writing a CloudFront
+  /// function, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/writing-function-code.html">Writing
+  /// function code for CloudFront Functions</a> in the <i>Amazon CloudFront
+  /// Developer Guide</i>.
+  ///
+  /// Parameter [functionConfig] :
+  /// Configuration information about the function.
+  ///
+  /// Parameter [ifMatch] :
+  /// The current version (<code>ETag</code> value) of the function that you are
+  /// updating, which you can get using <code>DescribeFunction</code>.
+  ///
+  /// Parameter [name] :
+  /// The name of the function that you are updating.
+  Future<UpdateFunctionResult> updateFunction2020_05_31({
+    required Uint8List functionCode,
+    required FunctionConfig functionConfig,
+    required String ifMatch,
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'If-Match': ifMatch.toString(),
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'PUT',
+      requestUri: '/2020-05-31/function/${Uri.encodeComponent(name)}',
+      headers: headers,
+      payload: UpdateFunctionRequest(
+              functionCode: functionCode,
+              functionConfig: functionConfig,
+              ifMatch: ifMatch,
+              name: name)
+          .toXml(
+        'UpdateFunctionRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'http://cloudfront.amazonaws.com/doc/2020-05-31/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return UpdateFunctionResult(
+      functionSummary: FunctionSummary.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETtag'),
+    );
+  }
+
   /// Updates a key group.
   ///
   /// When you update a key group, all the fields are updated with the values
@@ -2913,7 +4356,7 @@ class CloudFront {
   /// </li>
   /// <li>
   /// Call <code>UpdateKeyGroup</code> with the entire key group object,
-  /// including the fields that you modified and those that you didn’t.
+  /// including the fields that you modified and those that you didn't.
   /// </li> </ol>
   ///
   /// May throw [InvalidIfMatchVersion].
@@ -2931,7 +4374,7 @@ class CloudFront {
   ///
   /// Parameter [ifMatch] :
   /// The version of the key group that you are updating. The version is the key
-  /// group’s <code>ETag</code> value.
+  /// group's <code>ETag</code> value.
   Future<UpdateKeyGroupResult> updateKeyGroup2020_05_31({
     required String id,
     required KeyGroupConfig keyGroupConfig,
@@ -2954,6 +4397,48 @@ class CloudFront {
     );
   }
 
+  /// Updates a CloudFront origin access control.
+  ///
+  /// May throw [AccessDenied].
+  /// May throw [IllegalUpdate].
+  /// May throw [InvalidIfMatchVersion].
+  /// May throw [OriginAccessControlAlreadyExists].
+  /// May throw [NoSuchOriginAccessControl].
+  /// May throw [PreconditionFailed].
+  /// May throw [InvalidArgument].
+  ///
+  /// Parameter [id] :
+  /// The unique identifier of the origin access control that you are updating.
+  ///
+  /// Parameter [originAccessControlConfig] :
+  /// An origin access control.
+  ///
+  /// Parameter [ifMatch] :
+  /// The current version (<code>ETag</code> value) of the origin access control
+  /// that you are updating.
+  Future<UpdateOriginAccessControlResult> updateOriginAccessControl2020_05_31({
+    required String id,
+    required OriginAccessControlConfig originAccessControlConfig,
+    String? ifMatch,
+  }) async {
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'PUT',
+      requestUri:
+          '/2020-05-31/origin-access-control/${Uri.encodeComponent(id)}/config',
+      headers: headers,
+      payload: originAccessControlConfig.toXml('OriginAccessControlConfig'),
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return UpdateOriginAccessControlResult(
+      originAccessControl: OriginAccessControl.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
+  }
+
   /// Updates an origin request policy configuration.
   ///
   /// When you update an origin request policy configuration, all the fields are
@@ -2972,7 +4457,7 @@ class CloudFront {
   /// <li>
   /// Call <code>UpdateOriginRequestPolicy</code> by providing the entire origin
   /// request policy configuration, including the fields that you modified and
-  /// those that you didn’t.
+  /// those that you didn't.
   /// </li> </ol>
   ///
   /// May throw [AccessDenied].
@@ -2989,7 +4474,7 @@ class CloudFront {
   ///
   /// Parameter [id] :
   /// The unique identifier for the origin request policy that you are updating.
-  /// The identifier is returned in a cache behavior’s
+  /// The identifier is returned in a cache behavior's
   /// <code>OriginRequestPolicyId</code> field in the response to
   /// <code>GetDistributionConfig</code>.
   ///
@@ -2998,7 +4483,7 @@ class CloudFront {
   ///
   /// Parameter [ifMatch] :
   /// The version of the origin request policy that you are updating. The
-  /// version is returned in the origin request policy’s <code>ETag</code> field
+  /// version is returned in the origin request policy's <code>ETag</code> field
   /// in the response to <code>GetOriginRequestPolicyConfig</code>.
   Future<UpdateOriginRequestPolicyResult> updateOriginRequestPolicy2020_05_31({
     required String id,
@@ -3083,9 +4568,9 @@ class CloudFront {
   /// <li>
   /// Call this API (<code>UpdateRealtimeLogConfig</code>) by providing the
   /// entire real-time log configuration, including the parameters that you
-  /// modified and those that you didn’t.
+  /// modified and those that you didn't.
   /// </li> </ol>
-  /// You cannot update a real-time log configuration’s <code>Name</code> or
+  /// You cannot update a real-time log configuration's <code>Name</code> or
   /// <code>ARN</code>.
   ///
   /// May throw [NoSuchRealtimeLogConfig].
@@ -3143,6 +4628,73 @@ class CloudFront {
     return UpdateRealtimeLogConfigResult.fromXml($result.body);
   }
 
+  /// Updates a response headers policy.
+  ///
+  /// When you update a response headers policy, the entire policy is replaced.
+  /// You cannot update some policy fields independent of others. To update a
+  /// response headers policy configuration:
+  /// <ol>
+  /// <li>
+  /// Use <code>GetResponseHeadersPolicyConfig</code> to get the current
+  /// policy's configuration.
+  /// </li>
+  /// <li>
+  /// Modify the fields in the response headers policy configuration that you
+  /// want to update.
+  /// </li>
+  /// <li>
+  /// Call <code>UpdateResponseHeadersPolicy</code>, providing the entire
+  /// response headers policy configuration, including the fields that you
+  /// modified and those that you didn't.
+  /// </li> </ol>
+  ///
+  /// May throw [AccessDenied].
+  /// May throw [IllegalUpdate].
+  /// May throw [InconsistentQuantities].
+  /// May throw [InvalidArgument].
+  /// May throw [InvalidIfMatchVersion].
+  /// May throw [NoSuchResponseHeadersPolicy].
+  /// May throw [PreconditionFailed].
+  /// May throw [ResponseHeadersPolicyAlreadyExists].
+  /// May throw [TooManyCustomHeadersInResponseHeadersPolicy].
+  /// May throw [TooLongCSPInResponseHeadersPolicy].
+  /// May throw [TooManyRemoveHeadersInResponseHeadersPolicy].
+  ///
+  /// Parameter [id] :
+  /// The identifier for the response headers policy that you are updating.
+  ///
+  /// Parameter [responseHeadersPolicyConfig] :
+  /// A response headers policy configuration.
+  ///
+  /// Parameter [ifMatch] :
+  /// The version of the response headers policy that you are updating.
+  ///
+  /// The version is returned in the cache policy's <code>ETag</code> field in
+  /// the response to <code>GetResponseHeadersPolicyConfig</code>.
+  Future<UpdateResponseHeadersPolicyResult>
+      updateResponseHeadersPolicy2020_05_31({
+    required String id,
+    required ResponseHeadersPolicyConfig responseHeadersPolicyConfig,
+    String? ifMatch,
+  }) async {
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'PUT',
+      requestUri:
+          '/2020-05-31/response-headers-policy/${Uri.encodeComponent(id)}',
+      headers: headers,
+      payload: responseHeadersPolicyConfig.toXml('ResponseHeadersPolicyConfig'),
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return UpdateResponseHeadersPolicyResult(
+      responseHeadersPolicy: ResponseHeadersPolicy.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
+  }
+
   /// Update a streaming distribution.
   ///
   /// May throw [AccessDenied].
@@ -3155,6 +4707,7 @@ class CloudFront {
   /// May throw [TooManyStreamingDistributionCNAMEs].
   /// May throw [InvalidArgument].
   /// May throw [InvalidOriginAccessIdentity].
+  /// May throw [InvalidOriginAccessControl].
   /// May throw [TooManyTrustedSigners].
   /// May throw [TrustedSignerDoesNotExist].
   /// May throw [InconsistentQuantities].
@@ -3227,21 +4780,22 @@ class ActiveTrustedKeyGroups {
   }
 }
 
-/// A list of AWS accounts and the active CloudFront key pairs in each account
-/// that CloudFront can use to verify the signatures of signed URLs and signed
-/// cookies.
+/// A list of Amazon Web Services accounts and the active CloudFront key pairs
+/// in each account that CloudFront can use to verify the signatures of signed
+/// URLs and signed cookies.
 class ActiveTrustedSigners {
-  /// This field is <code>true</code> if any of the AWS accounts in the list have
-  /// active CloudFront key pairs that CloudFront can use to verify the signatures
-  /// of signed URLs and signed cookies. If not, this field is <code>false</code>.
+  /// This field is <code>true</code> if any of the Amazon Web Services accounts
+  /// in the list have active CloudFront key pairs that CloudFront can use to
+  /// verify the signatures of signed URLs and signed cookies. If not, this field
+  /// is <code>false</code>.
   final bool enabled;
 
-  /// The number of AWS accounts in the list.
+  /// The number of Amazon Web Services accounts in the list.
   final int quantity;
 
-  /// A list of AWS accounts and the identifiers of active CloudFront key pairs in
-  /// each account that CloudFront can use to verify the signatures of signed URLs
-  /// and signed cookies.
+  /// A list of Amazon Web Services accounts and the identifiers of active
+  /// CloudFront key pairs in each account that CloudFront can use to verify the
+  /// signatures of signed URLs and signed cookies.
   final List<Signer>? items;
 
   ActiveTrustedSigners({
@@ -3259,17 +4813,17 @@ class ActiveTrustedSigners {
   }
 }
 
-/// AWS services in China customers must file for an Internet Content Provider
-/// (ICP) recordal if they want to serve content publicly on an alternate domain
-/// name, also known as a CNAME, that they've added to CloudFront.
-/// AliasICPRecordal provides the ICP recordal status for CNAMEs associated with
-/// distributions. The status is returned in the CloudFront response; you can't
-/// configure it yourself.
+/// Amazon Web Services services in China customers must file for an Internet
+/// Content Provider (ICP) recordal if they want to serve content publicly on an
+/// alternate domain name, also known as a CNAME, that they've added to
+/// CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs
+/// associated with distributions. The status is returned in the CloudFront
+/// response; you can't configure it yourself.
 ///
 /// For more information about ICP recordals, see <a
 /// href="https://docs.amazonaws.cn/en_us/aws/latest/userguide/accounts-and-credentials.html">
-/// Signup, Accounts, and Credentials</a> in <i>Getting Started with AWS
-/// services in China</i>.
+/// Signup, Accounts, and Credentials</a> in <i>Getting Started with Amazon Web
+/// Services services in China</i>.
 class AliasICPRecordal {
   /// A domain name associated with a distribution.
   final String? cname;
@@ -3448,8 +5002,8 @@ class AllowedMethods {
 /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html">Quotas</a>
 /// in the <i>Amazon CloudFront Developer Guide</i>.
 ///
-/// If you don’t want to specify any cache behaviors, include only an empty
-/// <code>CacheBehaviors</code> element. Don’t include an empty
+/// If you don't want to specify any cache behaviors, include only an empty
+/// <code>CacheBehaviors</code> element. Don't include an empty
 /// <code>CacheBehavior</code> element because this is invalid.
 ///
 /// To delete all cache behaviors in an existing distribution, update the
@@ -3514,7 +5068,7 @@ class CacheBehavior {
   /// The only way to guarantee that viewers retrieve an object that was fetched
   /// from the origin using HTTPS is never to use any other protocol to fetch the
   /// object. If you have recently changed from HTTP to HTTPS, we recommend that
-  /// you clear your objects’ cache because cached objects are protocol agnostic.
+  /// you clear your objects' cache because cached objects are protocol agnostic.
   /// That means that an edge location will return an object from the cache
   /// regardless of whether the current request protocol matches the protocol used
   /// previously. For more information, see <a
@@ -3531,6 +5085,10 @@ class CacheBehavior {
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html">Using
   /// the managed cache policies</a> in the <i>Amazon CloudFront Developer
   /// Guide</i>.
+  ///
+  /// A <code>CacheBehavior</code> must include either a
+  /// <code>CachePolicyId</code> or <code>ForwardedValues</code>. We recommend
+  /// that you use a <code>CachePolicyId</code>.
   final String? cachePolicyId;
 
   /// Whether you want CloudFront to automatically compress certain files for this
@@ -3586,12 +5144,21 @@ class CacheBehavior {
   /// the managed origin request policies</a> in the <i>Amazon CloudFront
   /// Developer Guide</i>.
   ///
+  /// A <code>CacheBehavior</code> must include either a
+  /// <code>CachePolicyId</code> or <code>ForwardedValues</code>. We recommend
+  /// that you use a <code>CachePolicyId</code>.
+  ///
   /// A complex type that specifies how CloudFront handles query strings, cookies,
   /// and HTTP headers.
   final ForwardedValues? forwardedValues;
 
-  /// A complex type that contains zero or more Lambda function associations for a
-  /// cache behavior.
+  /// A list of CloudFront functions that are associated with this cache behavior.
+  /// CloudFront functions must be published to the <code>LIVE</code> stage to
+  /// associate them with a cache behavior.
+  final FunctionAssociations? functionAssociations;
+
+  /// A complex type that contains zero or more Lambda@Edge function associations
+  /// for a cache behavior.
   final LambdaFunctionAssociations? lambdaFunctionAssociations;
 
   /// This field is deprecated. We recommend that you use the <code>MaxTTL</code>
@@ -3649,6 +5216,9 @@ class CacheBehavior {
   /// logs</a> in the <i>Amazon CloudFront Developer Guide</i>.
   final String? realtimeLogConfigArn;
 
+  /// The identifier for a response headers policy.
+  final String? responseHeadersPolicyId;
+
   /// Indicates whether you want to distribute media files in the Microsoft Smooth
   /// Streaming format using the origin that is associated with this cache
   /// behavior. If so, specify <code>true</code>; if not, specify
@@ -3675,15 +5245,15 @@ class CacheBehavior {
   /// We recommend using <code>TrustedKeyGroups</code> instead of
   /// <code>TrustedSigners</code>.
   /// </important>
-  /// A list of AWS account IDs whose public keys CloudFront can use to validate
-  /// signed URLs or signed cookies.
+  /// A list of Amazon Web Services account IDs whose public keys CloudFront can
+  /// use to validate signed URLs or signed cookies.
   ///
   /// When a cache behavior contains trusted signers, CloudFront requires signed
   /// URLs or signed cookies for all requests that match the cache behavior. The
   /// URLs or cookies must be signed with the private key of a CloudFront key pair
-  /// in the trusted signer’s AWS account. The signed URL or cookie contains
-  /// information about which public key CloudFront should use to verify the
-  /// signature. For more information, see <a
+  /// in the trusted signer's Amazon Web Services account. The signed URL or
+  /// cookie contains information about which public key CloudFront should use to
+  /// verify the signature. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html">Serving
   /// private content</a> in the <i>Amazon CloudFront Developer Guide</i>.
   final TrustedSigners? trustedSigners;
@@ -3698,11 +5268,13 @@ class CacheBehavior {
     this.defaultTTL,
     this.fieldLevelEncryptionId,
     this.forwardedValues,
+    this.functionAssociations,
     this.lambdaFunctionAssociations,
     this.maxTTL,
     this.minTTL,
     this.originRequestPolicyId,
     this.realtimeLogConfigArn,
+    this.responseHeadersPolicyId,
     this.smoothStreaming,
     this.trustedKeyGroups,
     this.trustedSigners,
@@ -3725,6 +5297,9 @@ class CacheBehavior {
       forwardedValues: _s
           .extractXmlChild(elem, 'ForwardedValues')
           ?.let((e) => ForwardedValues.fromXml(e)),
+      functionAssociations: _s
+          .extractXmlChild(elem, 'FunctionAssociations')
+          ?.let((e) => FunctionAssociations.fromXml(e)),
       lambdaFunctionAssociations: _s
           .extractXmlChild(elem, 'LambdaFunctionAssociations')
           ?.let((e) => LambdaFunctionAssociations.fromXml(e)),
@@ -3734,6 +5309,8 @@ class CacheBehavior {
           _s.extractXmlStringValue(elem, 'OriginRequestPolicyId'),
       realtimeLogConfigArn:
           _s.extractXmlStringValue(elem, 'RealtimeLogConfigArn'),
+      responseHeadersPolicyId:
+          _s.extractXmlStringValue(elem, 'ResponseHeadersPolicyId'),
       smoothStreaming: _s.extractXmlBoolValue(elem, 'SmoothStreaming'),
       trustedKeyGroups: _s
           .extractXmlChild(elem, 'TrustedKeyGroups')
@@ -3754,11 +5331,13 @@ class CacheBehavior {
     final defaultTTL = this.defaultTTL;
     final fieldLevelEncryptionId = this.fieldLevelEncryptionId;
     final forwardedValues = this.forwardedValues;
+    final functionAssociations = this.functionAssociations;
     final lambdaFunctionAssociations = this.lambdaFunctionAssociations;
     final maxTTL = this.maxTTL;
     final minTTL = this.minTTL;
     final originRequestPolicyId = this.originRequestPolicyId;
     final realtimeLogConfigArn = this.realtimeLogConfigArn;
+    final responseHeadersPolicyId = this.responseHeadersPolicyId;
     final smoothStreaming = this.smoothStreaming;
     final trustedKeyGroups = this.trustedKeyGroups;
     final trustedSigners = this.trustedSigners;
@@ -3775,6 +5354,8 @@ class CacheBehavior {
       if (compress != null) _s.encodeXmlBoolValue('Compress', compress),
       if (lambdaFunctionAssociations != null)
         lambdaFunctionAssociations.toXml('LambdaFunctionAssociations'),
+      if (functionAssociations != null)
+        functionAssociations.toXml('FunctionAssociations'),
       if (fieldLevelEncryptionId != null)
         _s.encodeXmlStringValue(
             'FieldLevelEncryptionId', fieldLevelEncryptionId),
@@ -3784,6 +5365,9 @@ class CacheBehavior {
         _s.encodeXmlStringValue('CachePolicyId', cachePolicyId),
       if (originRequestPolicyId != null)
         _s.encodeXmlStringValue('OriginRequestPolicyId', originRequestPolicyId),
+      if (responseHeadersPolicyId != null)
+        _s.encodeXmlStringValue(
+            'ResponseHeadersPolicyId', responseHeadersPolicyId),
       if (forwardedValues != null) forwardedValues.toXml('ForwardedValues'),
       if (minTTL != null) _s.encodeXmlIntValue('MinTTL', minTTL),
       if (defaultTTL != null) _s.encodeXmlIntValue('DefaultTTL', defaultTTL),
@@ -3847,7 +5431,7 @@ class CacheBehaviors {
 
 /// A cache policy.
 ///
-/// When it’s attached to a cache behavior, the cache policy determines the
+/// When it's attached to a cache behavior, the cache policy determines the
 /// following:
 ///
 /// <ul>
@@ -3862,9 +5446,9 @@ class CacheBehaviors {
 /// </li>
 /// </ul>
 /// The headers, cookies, and query strings that are included in the cache key
-/// are automatically included in requests that CloudFront sends to the origin.
-/// CloudFront sends a request when it can’t find a valid object in its cache
-/// that matches the request’s cache key. If you want to send values to the
+/// are also included in requests that CloudFront sends to the origin.
+/// CloudFront sends a request when it can't find a valid object in its cache
+/// that matches the request's cache key. If you want to send values to the
 /// origin but <i>not</i> include them in the cache key, use
 /// <code>OriginRequestPolicy</code>.
 class CachePolicy {
@@ -3908,9 +5492,9 @@ class CachePolicy {
 /// </li>
 /// </ul>
 /// The headers, cookies, and query strings that are included in the cache key
-/// are automatically included in requests that CloudFront sends to the origin.
-/// CloudFront sends a request when it can’t find a valid object in its cache
-/// that matches the request’s cache key. If you want to send values to the
+/// are also included in requests that CloudFront sends to the origin.
+/// CloudFront sends a request when it can't find a valid object in its cache
+/// that matches the request's cache key. If you want to send values to the
 /// origin but <i>not</i> include them in the cache key, use
 /// <code>OriginRequestPolicy</code>.
 class CachePolicyConfig {
@@ -3925,13 +5509,14 @@ class CachePolicyConfig {
   /// A unique name to identify the cache policy.
   final String name;
 
-  /// A comment to describe the cache policy.
+  /// A comment to describe the cache policy. The comment cannot be longer than
+  /// 128 characters.
   final String? comment;
 
   /// The default amount of time, in seconds, that you want objects to stay in the
   /// CloudFront cache before CloudFront sends another request to the origin to
   /// see if the object has been updated. CloudFront uses this value as the
-  /// object’s time to live (TTL) only when the origin does <i>not</i> send
+  /// object's time to live (TTL) only when the origin does <i>not</i> send
   /// <code>Cache-Control</code> or <code>Expires</code> headers with the object.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html">Managing
@@ -3959,8 +5544,8 @@ class CachePolicyConfig {
   final int? maxTTL;
 
   /// The HTTP headers, cookies, and URL query strings to include in the cache
-  /// key. The values included in the cache key are automatically included in
-  /// requests that CloudFront sends to the origin.
+  /// key. The values included in the cache key are also included in requests that
+  /// CloudFront sends to the origin.
   final ParametersInCacheKeyAndForwardedToOrigin?
       parametersInCacheKeyAndForwardedToOrigin;
 
@@ -4053,36 +5638,33 @@ extension CachePolicyCookieBehaviorFromString on String {
 }
 
 /// An object that determines whether any cookies in viewer requests (and if so,
-/// which cookies) are included in the cache key and automatically included in
-/// requests that CloudFront sends to the origin.
+/// which cookies) are included in the cache key and in requests that CloudFront
+/// sends to the origin.
 class CachePolicyCookiesConfig {
   /// Determines whether any cookies in viewer requests are included in the cache
-  /// key and automatically included in requests that CloudFront sends to the
-  /// origin. Valid values are:
+  /// key and in requests that CloudFront sends to the origin. Valid values are:
   ///
   /// <ul>
   /// <li>
-  /// <code>none</code> – Cookies in viewer requests are not included in the cache
-  /// key and are not automatically included in requests that CloudFront sends to
-  /// the origin. Even when this field is set to <code>none</code>, any cookies
-  /// that are listed in an <code>OriginRequestPolicy</code> <i>are</i> included
-  /// in origin requests.
+  /// <code>none</code> – No cookies in viewer requests are included in the cache
+  /// key or in requests that CloudFront sends to the origin. Even when this field
+  /// is set to <code>none</code>, any cookies that are listed in an
+  /// <code>OriginRequestPolicy</code> <i>are</i> included in origin requests.
   /// </li>
   /// <li>
-  /// <code>whitelist</code> – The cookies in viewer requests that are listed in
-  /// the <code>CookieNames</code> type are included in the cache key and
-  /// automatically included in requests that CloudFront sends to the origin.
+  /// <code>whitelist</code> – Only the cookies in viewer requests that are listed
+  /// in the <code>CookieNames</code> type are included in the cache key and in
+  /// requests that CloudFront sends to the origin.
   /// </li>
   /// <li>
-  /// <code>allExcept</code> – All cookies in viewer requests that are <i>
-  /// <b>not</b> </i> listed in the <code>CookieNames</code> type are included in
-  /// the cache key and automatically included in requests that CloudFront sends
-  /// to the origin.
+  /// <code>allExcept</code> – All cookies in viewer requests are included in the
+  /// cache key and in requests that CloudFront sends to the origin, <i>
+  /// <b>except</b> </i> for those that are listed in the <code>CookieNames</code>
+  /// type, which are not included.
   /// </li>
   /// <li>
   /// <code>all</code> – All cookies in viewer requests are included in the cache
-  /// key and are automatically included in requests that CloudFront sends to the
-  /// origin.
+  /// key and in requests that CloudFront sends to the origin.
   /// </li>
   /// </ul>
   final CachePolicyCookieBehavior cookieBehavior;
@@ -4150,25 +5732,23 @@ extension CachePolicyHeaderBehaviorFromString on String {
 }
 
 /// An object that determines whether any HTTP headers (and if so, which
-/// headers) are included in the cache key and automatically included in
-/// requests that CloudFront sends to the origin.
+/// headers) are included in the cache key and in requests that CloudFront sends
+/// to the origin.
 class CachePolicyHeadersConfig {
-  /// Determines whether any HTTP headers are included in the cache key and
-  /// automatically included in requests that CloudFront sends to the origin.
-  /// Valid values are:
+  /// Determines whether any HTTP headers are included in the cache key and in
+  /// requests that CloudFront sends to the origin. Valid values are:
   ///
   /// <ul>
   /// <li>
-  /// <code>none</code> – HTTP headers are not included in the cache key and are
-  /// not automatically included in requests that CloudFront sends to the origin.
-  /// Even when this field is set to <code>none</code>, any headers that are
-  /// listed in an <code>OriginRequestPolicy</code> <i>are</i> included in origin
-  /// requests.
+  /// <code>none</code> – No HTTP headers are included in the cache key or in
+  /// requests that CloudFront sends to the origin. Even when this field is set to
+  /// <code>none</code>, any headers that are listed in an
+  /// <code>OriginRequestPolicy</code> <i>are</i> included in origin requests.
   /// </li>
   /// <li>
-  /// <code>whitelist</code> – The HTTP headers that are listed in the
-  /// <code>Headers</code> type are included in the cache key and are
-  /// automatically included in requests that CloudFront sends to the origin.
+  /// <code>whitelist</code> – Only the HTTP headers that are listed in the
+  /// <code>Headers</code> type are included in the cache key and in requests that
+  /// CloudFront sends to the origin.
   /// </li>
   /// </ul>
   final CachePolicyHeaderBehavior headerBehavior;
@@ -4283,46 +5863,43 @@ extension CachePolicyQueryStringBehaviorFromString on String {
 }
 
 /// An object that determines whether any URL query strings in viewer requests
-/// (and if so, which query strings) are included in the cache key and
-/// automatically included in requests that CloudFront sends to the origin.
+/// (and if so, which query strings) are included in the cache key and in
+/// requests that CloudFront sends to the origin.
 class CachePolicyQueryStringsConfig {
   /// Determines whether any URL query strings in viewer requests are included in
-  /// the cache key and automatically included in requests that CloudFront sends
-  /// to the origin. Valid values are:
+  /// the cache key and in requests that CloudFront sends to the origin. Valid
+  /// values are:
   ///
   /// <ul>
   /// <li>
-  /// <code>none</code> – Query strings in viewer requests are not included in the
-  /// cache key and are not automatically included in requests that CloudFront
-  /// sends to the origin. Even when this field is set to <code>none</code>, any
-  /// query strings that are listed in an <code>OriginRequestPolicy</code>
-  /// <i>are</i> included in origin requests.
+  /// <code>none</code> – No query strings in viewer requests are included in the
+  /// cache key or in requests that CloudFront sends to the origin. Even when this
+  /// field is set to <code>none</code>, any query strings that are listed in an
+  /// <code>OriginRequestPolicy</code> <i>are</i> included in origin requests.
   /// </li>
   /// <li>
-  /// <code>whitelist</code> – The query strings in viewer requests that are
+  /// <code>whitelist</code> – Only the query strings in viewer requests that are
   /// listed in the <code>QueryStringNames</code> type are included in the cache
-  /// key and automatically included in requests that CloudFront sends to the
-  /// origin.
+  /// key and in requests that CloudFront sends to the origin.
   /// </li>
   /// <li>
-  /// <code>allExcept</code> – All query strings in viewer requests that are <i>
-  /// <b>not</b> </i> listed in the <code>QueryStringNames</code> type are
-  /// included in the cache key and automatically included in requests that
-  /// CloudFront sends to the origin.
+  /// <code>allExcept</code> – All query strings in viewer requests are included
+  /// in the cache key and in requests that CloudFront sends to the origin, <i>
+  /// <b>except</b> </i> those that are listed in the
+  /// <code>QueryStringNames</code> type, which are not included.
   /// </li>
   /// <li>
   /// <code>all</code> – All query strings in viewer requests are included in the
-  /// cache key and are automatically included in requests that CloudFront sends
-  /// to the origin.
+  /// cache key and in requests that CloudFront sends to the origin.
   /// </li>
   /// </ul>
   final CachePolicyQueryStringBehavior queryStringBehavior;
 
   /// Contains the specific query strings in viewer requests that either <i>
-  /// <b>are</b> </i> or <i> <b>are not</b> </i> included in the cache key and
-  /// automatically included in requests that CloudFront sends to the origin. The
-  /// behavior depends on whether the <code>QueryStringBehavior</code> field in
-  /// the <code>CachePolicyQueryStringsConfig</code> type is set to
+  /// <b>are</b> </i> or <i> <b>are not</b> </i> included in the cache key and in
+  /// requests that CloudFront sends to the origin. The behavior depends on
+  /// whether the <code>QueryStringBehavior</code> field in the
+  /// <code>CachePolicyQueryStringsConfig</code> type is set to
   /// <code>whitelist</code> (the listed query strings <i> <b>are</b> </i>
   /// included) or <code>allExcept</code> (the listed query strings <i> <b>are
   /// not</b> </i> included, but all other query strings are).
@@ -4367,8 +5944,9 @@ class CachePolicySummary {
   /// The cache policy.
   final CachePolicy cachePolicy;
 
-  /// The type of cache policy, either <code>managed</code> (created by AWS) or
-  /// <code>custom</code> (created in this AWS account).
+  /// The type of cache policy, either <code>managed</code> (created by Amazon Web
+  /// Services) or <code>custom</code> (created in this Amazon Web Services
+  /// account).
   final CachePolicyType type;
 
   CachePolicySummary({
@@ -4560,7 +6138,8 @@ class CloudFrontOriginAccessIdentityConfig {
   /// <code>CloudFrontOriginAccessIdentityAlreadyExists</code> error.
   final String callerReference;
 
-  /// Any comments you want to include about the origin access identity.
+  /// A comment to describe the origin access identity. The comment cannot be
+  /// longer than 128 characters.
   final String comment;
 
   CloudFrontOriginAccessIdentityConfig({
@@ -4620,12 +6199,12 @@ class CloudFrontOriginAccessIdentityList {
   final int maxItems;
 
   /// The number of CloudFront origin access identities that were created by the
-  /// current AWS account.
+  /// current Amazon Web Services account.
   final int quantity;
 
   /// A complex type that contains one
   /// <code>CloudFrontOriginAccessIdentitySummary</code> element for each origin
-  /// access identity that was created by the current AWS account.
+  /// access identity that was created by the current Amazon Web Services account.
   final List<CloudFrontOriginAccessIdentitySummary>? items;
 
   /// If <code>IsTruncated</code> is <code>true</code>, this element is present
@@ -4682,6 +6261,77 @@ class CloudFrontOriginAccessIdentitySummary {
       comment: _s.extractXmlStringValue(elem, 'Comment')!,
       id: _s.extractXmlStringValue(elem, 'Id')!,
       s3CanonicalUserId: _s.extractXmlStringValue(elem, 'S3CanonicalUserId')!,
+    );
+  }
+}
+
+/// An alias (also called a CNAME) and the CloudFront distribution and Amazon
+/// Web Services account ID that it's associated with. The distribution and
+/// account IDs are partially hidden, which allows you to identify the
+/// distributions and accounts that you own, but helps to protect the
+/// information of ones that you don't own.
+class ConflictingAlias {
+  /// The (partially hidden) ID of the Amazon Web Services account that owns the
+  /// distribution that's associated with the alias.
+  final String? accountId;
+
+  /// An alias (also called a CNAME).
+  final String? alias;
+
+  /// The (partially hidden) ID of the CloudFront distribution associated with the
+  /// alias.
+  final String? distributionId;
+
+  ConflictingAlias({
+    this.accountId,
+    this.alias,
+    this.distributionId,
+  });
+  factory ConflictingAlias.fromXml(_s.XmlElement elem) {
+    return ConflictingAlias(
+      accountId: _s.extractXmlStringValue(elem, 'AccountId'),
+      alias: _s.extractXmlStringValue(elem, 'Alias'),
+      distributionId: _s.extractXmlStringValue(elem, 'DistributionId'),
+    );
+  }
+}
+
+/// A list of aliases (also called CNAMEs) and the CloudFront distributions and
+/// Amazon Web Services accounts that they are associated with. In the list, the
+/// distribution and account IDs are partially hidden, which allows you to
+/// identify the distributions and accounts that you own, but helps to protect
+/// the information of ones that you don't own.
+class ConflictingAliasesList {
+  /// Contains the conflicting aliases in the list.
+  final List<ConflictingAlias>? items;
+
+  /// The maximum number of conflicting aliases requested.
+  final int? maxItems;
+
+  /// If there are more items in the list than are in this response, this element
+  /// is present. It contains the value that you should use in the
+  /// <code>Marker</code> field of a subsequent request to continue listing
+  /// conflicting aliases where you left off.
+  final String? nextMarker;
+
+  /// The number of conflicting aliases returned in the response.
+  final int? quantity;
+
+  ConflictingAliasesList({
+    this.items,
+    this.maxItems,
+    this.nextMarker,
+    this.quantity,
+  });
+  factory ConflictingAliasesList.fromXml(_s.XmlElement elem) {
+    return ConflictingAliasesList(
+      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
+          .findElements('ConflictingAlias')
+          .map((c) => ConflictingAlias.fromXml(c))
+          .toList()),
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems'),
+      nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
     );
   }
 }
@@ -4819,6 +6469,247 @@ class ContentTypeProfiles {
   }
 }
 
+/// A continuous deployment policy.
+class ContinuousDeploymentPolicy {
+  final ContinuousDeploymentPolicyConfig continuousDeploymentPolicyConfig;
+
+  /// The identifier of the continuous deployment policy.
+  final String id;
+
+  /// The date and time the continuous deployment policy was last modified.
+  final DateTime lastModifiedTime;
+
+  ContinuousDeploymentPolicy({
+    required this.continuousDeploymentPolicyConfig,
+    required this.id,
+    required this.lastModifiedTime,
+  });
+  factory ContinuousDeploymentPolicy.fromXml(_s.XmlElement elem) {
+    return ContinuousDeploymentPolicy(
+      continuousDeploymentPolicyConfig:
+          ContinuousDeploymentPolicyConfig.fromXml(
+              _s.extractXmlChild(elem, 'ContinuousDeploymentPolicyConfig')!),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime')!,
+    );
+  }
+}
+
+/// Contains the configuration for a continuous deployment policy.
+class ContinuousDeploymentPolicyConfig {
+  /// A Boolean that indicates whether this continuous deployment policy is
+  /// enabled (in effect). When this value is <code>true</code>, this policy is
+  /// enabled and in effect. When this value is <code>false</code>, this policy is
+  /// not enabled and has no effect.
+  final bool enabled;
+
+  /// The CloudFront domain name of the staging distribution. For example:
+  /// <code>d111111abcdef8.cloudfront.net</code>.
+  final StagingDistributionDnsNames stagingDistributionDnsNames;
+
+  /// Contains the parameters for routing production traffic from your primary to
+  /// staging distributions.
+  final TrafficConfig? trafficConfig;
+
+  ContinuousDeploymentPolicyConfig({
+    required this.enabled,
+    required this.stagingDistributionDnsNames,
+    this.trafficConfig,
+  });
+  factory ContinuousDeploymentPolicyConfig.fromXml(_s.XmlElement elem) {
+    return ContinuousDeploymentPolicyConfig(
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
+      stagingDistributionDnsNames: StagingDistributionDnsNames.fromXml(
+          _s.extractXmlChild(elem, 'StagingDistributionDnsNames')!),
+      trafficConfig: _s
+          .extractXmlChild(elem, 'TrafficConfig')
+          ?.let((e) => TrafficConfig.fromXml(e)),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final enabled = this.enabled;
+    final stagingDistributionDnsNames = this.stagingDistributionDnsNames;
+    final trafficConfig = this.trafficConfig;
+    final $children = <_s.XmlNode>[
+      stagingDistributionDnsNames.toXml('StagingDistributionDnsNames'),
+      _s.encodeXmlBoolValue('Enabled', enabled),
+      if (trafficConfig != null) trafficConfig.toXml('TrafficConfig'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Contains a list of continuous deployment policies.
+class ContinuousDeploymentPolicyList {
+  /// The maximum number of continuous deployment policies that were specified in
+  /// your request.
+  final int maxItems;
+
+  /// The total number of continuous deployment policies in your Amazon Web
+  /// Services account, regardless of the <code>MaxItems</code> value.
+  final int quantity;
+
+  /// A list of continuous deployment policy items.
+  final List<ContinuousDeploymentPolicySummary>? items;
+
+  /// Indicates the next page of continuous deployment policies. To get the next
+  /// page of the list, use this value in the <code>Marker</code> field of your
+  /// request.
+  final String? nextMarker;
+
+  ContinuousDeploymentPolicyList({
+    required this.maxItems,
+    required this.quantity,
+    this.items,
+    this.nextMarker,
+  });
+  factory ContinuousDeploymentPolicyList.fromXml(_s.XmlElement elem) {
+    return ContinuousDeploymentPolicyList(
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
+          .findElements('ContinuousDeploymentPolicySummary')
+          .map((c) => ContinuousDeploymentPolicySummary.fromXml(c))
+          .toList()),
+      nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
+    );
+  }
+}
+
+/// A summary of the information about your continuous deployment policies.
+class ContinuousDeploymentPolicySummary {
+  /// The continuous deployment policy.
+  final ContinuousDeploymentPolicy continuousDeploymentPolicy;
+
+  ContinuousDeploymentPolicySummary({
+    required this.continuousDeploymentPolicy,
+  });
+  factory ContinuousDeploymentPolicySummary.fromXml(_s.XmlElement elem) {
+    return ContinuousDeploymentPolicySummary(
+      continuousDeploymentPolicy: ContinuousDeploymentPolicy.fromXml(
+          _s.extractXmlChild(elem, 'ContinuousDeploymentPolicy')!),
+    );
+  }
+}
+
+enum ContinuousDeploymentPolicyType {
+  singleWeight,
+  singleHeader,
+}
+
+extension ContinuousDeploymentPolicyTypeValueExtension
+    on ContinuousDeploymentPolicyType {
+  String toValue() {
+    switch (this) {
+      case ContinuousDeploymentPolicyType.singleWeight:
+        return 'SingleWeight';
+      case ContinuousDeploymentPolicyType.singleHeader:
+        return 'SingleHeader';
+    }
+  }
+}
+
+extension ContinuousDeploymentPolicyTypeFromString on String {
+  ContinuousDeploymentPolicyType toContinuousDeploymentPolicyType() {
+    switch (this) {
+      case 'SingleWeight':
+        return ContinuousDeploymentPolicyType.singleWeight;
+      case 'SingleHeader':
+        return ContinuousDeploymentPolicyType.singleHeader;
+    }
+    throw Exception(
+        '$this is not known in enum ContinuousDeploymentPolicyType');
+  }
+}
+
+/// This configuration determines which HTTP requests are sent to the staging
+/// distribution. If the HTTP request contains a header and value that matches
+/// what you specify here, the request is sent to the staging distribution.
+/// Otherwise the request is sent to the primary distribution.
+class ContinuousDeploymentSingleHeaderConfig {
+  /// The request header name that you want CloudFront to send to your staging
+  /// distribution. The header must contain the prefix <code>aws-cf-cd-</code>.
+  final String header;
+
+  /// The request header value.
+  final String value;
+
+  ContinuousDeploymentSingleHeaderConfig({
+    required this.header,
+    required this.value,
+  });
+  factory ContinuousDeploymentSingleHeaderConfig.fromXml(_s.XmlElement elem) {
+    return ContinuousDeploymentSingleHeaderConfig(
+      header: _s.extractXmlStringValue(elem, 'Header')!,
+      value: _s.extractXmlStringValue(elem, 'Value')!,
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final header = this.header;
+    final value = this.value;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Header', header),
+      _s.encodeXmlStringValue('Value', value),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Contains the percentage of traffic to send to a staging distribution.
+class ContinuousDeploymentSingleWeightConfig {
+  /// The percentage of traffic to send to a staging distribution, expressed as a
+  /// decimal number between 0 and .15.
+  final double weight;
+  final SessionStickinessConfig? sessionStickinessConfig;
+
+  ContinuousDeploymentSingleWeightConfig({
+    required this.weight,
+    this.sessionStickinessConfig,
+  });
+  factory ContinuousDeploymentSingleWeightConfig.fromXml(_s.XmlElement elem) {
+    return ContinuousDeploymentSingleWeightConfig(
+      weight: _s.extractXmlDoubleValue(elem, 'Weight')!,
+      sessionStickinessConfig: _s
+          .extractXmlChild(elem, 'SessionStickinessConfig')
+          ?.let((e) => SessionStickinessConfig.fromXml(e)),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final weight = this.weight;
+    final sessionStickinessConfig = this.sessionStickinessConfig;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlDoubleValue('Weight', weight),
+      if (sessionStickinessConfig != null)
+        sessionStickinessConfig.toXml('SessionStickinessConfig'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
 /// Contains a list of cookie names.
 class CookieNames {
   /// The number of cookie names in the <code>Items</code> list.
@@ -4927,7 +6818,7 @@ class CookiePreference {
   /// For the current limit on the number of cookie names that you can whitelist
   /// for each cache behavior, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/xrefaws_service_limits.html#limits_cloudfront">
-  /// CloudFront Limits</a> in the <i>AWS General Reference</i>.
+  /// CloudFront Limits</a> in the <i>Amazon Web Services General Reference</i>.
   final CookieNames? whitelistedNames;
 
   CookiePreference({
@@ -4961,6 +6852,67 @@ class CookiePreference {
   }
 }
 
+class CopyDistributionRequest {
+  /// A value that uniquely identifies a request to create a resource. This helps
+  /// to prevent CloudFront from creating a duplicate resource if you accidentally
+  /// resubmit an identical request.
+  final String callerReference;
+
+  /// The identifier of the primary distribution whose configuration you are
+  /// copying. To get a distribution ID, use <code>ListDistributions</code>.
+  final String primaryDistributionId;
+
+  /// The version identifier of the primary distribution whose configuration you
+  /// are copying. This is the <code>ETag</code> value returned in the response to
+  /// <code>GetDistribution</code> and <code>GetDistributionConfig</code>.
+  final String? ifMatch;
+
+  /// The type of distribution that your primary distribution will be copied to.
+  /// The only valid value is <code>True</code>, indicating that you are copying
+  /// to a staging distribution.
+  final bool? staging;
+
+  CopyDistributionRequest({
+    required this.callerReference,
+    required this.primaryDistributionId,
+    this.ifMatch,
+    this.staging,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final callerReference = this.callerReference;
+    final primaryDistributionId = this.primaryDistributionId;
+    final ifMatch = this.ifMatch;
+    final staging = this.staging;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('CallerReference', callerReference),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class CopyDistributionResult {
+  final Distribution? distribution;
+
+  /// The version identifier for the current version of the staging distribution.
+  final String? eTag;
+
+  /// The URL of the staging distribution.
+  final String? location;
+
+  CopyDistributionResult({
+    this.distribution,
+    this.eTag,
+    this.location,
+  });
+}
+
 class CreateCachePolicyResult {
   /// A cache policy.
   final CachePolicy? cachePolicy;
@@ -4991,6 +6943,24 @@ class CreateCloudFrontOriginAccessIdentityResult {
 
   CreateCloudFrontOriginAccessIdentityResult({
     this.cloudFrontOriginAccessIdentity,
+    this.eTag,
+    this.location,
+  });
+}
+
+class CreateContinuousDeploymentPolicyResult {
+  /// A continuous deployment policy.
+  final ContinuousDeploymentPolicy? continuousDeploymentPolicy;
+
+  /// The version identifier for the current version of the continuous deployment
+  /// policy.
+  final String? eTag;
+
+  /// The location of the continuous deployment policy.
+  final String? location;
+
+  CreateContinuousDeploymentPolicyResult({
+    this.continuousDeploymentPolicy,
     this.eTag,
     this.location,
   });
@@ -5068,6 +7038,64 @@ class CreateFieldLevelEncryptionProfileResult {
   });
 }
 
+class CreateFunctionRequest {
+  /// The function code. For more information about writing a CloudFront function,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/writing-function-code.html">Writing
+  /// function code for CloudFront Functions</a> in the <i>Amazon CloudFront
+  /// Developer Guide</i>.
+  final Uint8List functionCode;
+
+  /// Configuration information about the function, including an optional comment
+  /// and the function's runtime.
+  final FunctionConfig functionConfig;
+
+  /// A name to identify the function.
+  final String name;
+
+  CreateFunctionRequest({
+    required this.functionCode,
+    required this.functionConfig,
+    required this.name,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final functionCode = this.functionCode;
+    final functionConfig = this.functionConfig;
+    final name = this.name;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Name', name),
+      functionConfig.toXml('FunctionConfig'),
+      _s.encodeXmlUint8ListValue('FunctionCode', functionCode),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class CreateFunctionResult {
+  /// The version identifier for the current version of the CloudFront function.
+  final String? eTag;
+
+  /// Contains configuration information and metadata about a CloudFront function.
+  final FunctionSummary? functionSummary;
+
+  /// The URL of the CloudFront function. Use the URL to manage the function with
+  /// the CloudFront API.
+  final String? location;
+
+  CreateFunctionResult({
+    this.eTag,
+    this.functionSummary,
+    this.location,
+  });
+}
+
 /// The returned result of the corresponding request.
 class CreateInvalidationResult {
   /// The invalidation's information.
@@ -5108,6 +7136,23 @@ class CreateMonitoringSubscriptionResult {
 
   CreateMonitoringSubscriptionResult({
     this.monitoringSubscription,
+  });
+}
+
+class CreateOriginAccessControlResult {
+  /// The version identifier for the current version of the origin access control.
+  final String? eTag;
+
+  /// The URL of the origin access control.
+  final String? location;
+
+  /// Contains an origin access control.
+  final OriginAccessControl? originAccessControl;
+
+  CreateOriginAccessControlResult({
+    this.eTag,
+    this.location,
+    this.originAccessControl,
   });
 }
 
@@ -5211,6 +7256,24 @@ class CreateRealtimeLogConfigResult {
           ?.let((e) => RealtimeLogConfig.fromXml(e)),
     );
   }
+}
+
+class CreateResponseHeadersPolicyResult {
+  /// The version identifier for the current version of the response headers
+  /// policy.
+  final String? eTag;
+
+  /// The URL of the response headers policy.
+  final String? location;
+
+  /// Contains a response headers policy.
+  final ResponseHeadersPolicy? responseHeadersPolicy;
+
+  CreateResponseHeadersPolicyResult({
+    this.eTag,
+    this.location,
+    this.responseHeadersPolicy,
+  });
 }
 
 /// The returned result of the corresponding request.
@@ -5515,7 +7578,7 @@ class CustomOriginConfig {
 
   /// Specifies how long, in seconds, CloudFront persists its connection to the
   /// origin. The minimum timeout is 1 second, the maximum is 60 seconds, and the
-  /// default (if you don’t specify otherwise) is 5 seconds.
+  /// default (if you don't specify otherwise) is 5 seconds.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginKeepaliveTimeout">Origin
@@ -5525,7 +7588,7 @@ class CustomOriginConfig {
   /// Specifies how long, in seconds, CloudFront waits for a response from the
   /// origin. This is also known as the <i>origin response timeout</i>. The
   /// minimum timeout is 1 second, the maximum is 60 seconds, and the default (if
-  /// you don’t specify otherwise) is 30 seconds.
+  /// you don't specify otherwise) is 30 seconds.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginResponseTimeout">Origin
@@ -5595,8 +7658,8 @@ class CustomOriginConfig {
   }
 }
 
-/// A complex type that describes the default cache behavior if you don’t
-/// specify a <code>CacheBehavior</code> element or if request URLs don’t match
+/// A complex type that describes the default cache behavior if you don't
+/// specify a <code>CacheBehavior</code> element or if request URLs don't match
 /// any of the values of <code>PathPattern</code> in <code>CacheBehavior</code>
 /// elements. You must create exactly one default cache behavior.
 class DefaultCacheBehavior {
@@ -5631,7 +7694,7 @@ class DefaultCacheBehavior {
   /// The only way to guarantee that viewers retrieve an object that was fetched
   /// from the origin using HTTPS is never to use any other protocol to fetch the
   /// object. If you have recently changed from HTTP to HTTPS, we recommend that
-  /// you clear your objects’ cache because cached objects are protocol agnostic.
+  /// you clear your objects' cache because cached objects are protocol agnostic.
   /// That means that an edge location will return an object from the cache
   /// regardless of whether the current request protocol matches the protocol used
   /// previously. For more information, see <a
@@ -5648,6 +7711,10 @@ class DefaultCacheBehavior {
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html">Using
   /// the managed cache policies</a> in the <i>Amazon CloudFront Developer
   /// Guide</i>.
+  ///
+  /// A <code>DefaultCacheBehavior</code> must include either a
+  /// <code>CachePolicyId</code> or <code>ForwardedValues</code>. We recommend
+  /// that you use a <code>CachePolicyId</code>.
   final String? cachePolicyId;
 
   /// Whether you want CloudFront to automatically compress certain files for this
@@ -5703,12 +7770,21 @@ class DefaultCacheBehavior {
   /// the managed origin request policies</a> in the <i>Amazon CloudFront
   /// Developer Guide</i>.
   ///
+  /// A <code>DefaultCacheBehavior</code> must include either a
+  /// <code>CachePolicyId</code> or <code>ForwardedValues</code>. We recommend
+  /// that you use a <code>CachePolicyId</code>.
+  ///
   /// A complex type that specifies how CloudFront handles query strings, cookies,
   /// and HTTP headers.
   final ForwardedValues? forwardedValues;
 
-  /// A complex type that contains zero or more Lambda function associations for a
-  /// cache behavior.
+  /// A list of CloudFront functions that are associated with this cache behavior.
+  /// CloudFront functions must be published to the <code>LIVE</code> stage to
+  /// associate them with a cache behavior.
+  final FunctionAssociations? functionAssociations;
+
+  /// A complex type that contains zero or more Lambda@Edge function associations
+  /// for a cache behavior.
   final LambdaFunctionAssociations? lambdaFunctionAssociations;
 
   /// This field is deprecated. We recommend that you use the <code>MaxTTL</code>
@@ -5766,6 +7842,9 @@ class DefaultCacheBehavior {
   /// logs</a> in the <i>Amazon CloudFront Developer Guide</i>.
   final String? realtimeLogConfigArn;
 
+  /// The identifier for a response headers policy.
+  final String? responseHeadersPolicyId;
+
   /// Indicates whether you want to distribute media files in the Microsoft Smooth
   /// Streaming format using the origin that is associated with this cache
   /// behavior. If so, specify <code>true</code>; if not, specify
@@ -5792,15 +7871,15 @@ class DefaultCacheBehavior {
   /// We recommend using <code>TrustedKeyGroups</code> instead of
   /// <code>TrustedSigners</code>.
   /// </important>
-  /// A list of AWS account IDs whose public keys CloudFront can use to validate
-  /// signed URLs or signed cookies.
+  /// A list of Amazon Web Services account IDs whose public keys CloudFront can
+  /// use to validate signed URLs or signed cookies.
   ///
   /// When a cache behavior contains trusted signers, CloudFront requires signed
   /// URLs or signed cookies for all requests that match the cache behavior. The
   /// URLs or cookies must be signed with the private key of a CloudFront key pair
-  /// in a trusted signer’s AWS account. The signed URL or cookie contains
-  /// information about which public key CloudFront should use to verify the
-  /// signature. For more information, see <a
+  /// in a trusted signer's Amazon Web Services account. The signed URL or cookie
+  /// contains information about which public key CloudFront should use to verify
+  /// the signature. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html">Serving
   /// private content</a> in the <i>Amazon CloudFront Developer Guide</i>.
   final TrustedSigners? trustedSigners;
@@ -5814,11 +7893,13 @@ class DefaultCacheBehavior {
     this.defaultTTL,
     this.fieldLevelEncryptionId,
     this.forwardedValues,
+    this.functionAssociations,
     this.lambdaFunctionAssociations,
     this.maxTTL,
     this.minTTL,
     this.originRequestPolicyId,
     this.realtimeLogConfigArn,
+    this.responseHeadersPolicyId,
     this.smoothStreaming,
     this.trustedKeyGroups,
     this.trustedSigners,
@@ -5840,6 +7921,9 @@ class DefaultCacheBehavior {
       forwardedValues: _s
           .extractXmlChild(elem, 'ForwardedValues')
           ?.let((e) => ForwardedValues.fromXml(e)),
+      functionAssociations: _s
+          .extractXmlChild(elem, 'FunctionAssociations')
+          ?.let((e) => FunctionAssociations.fromXml(e)),
       lambdaFunctionAssociations: _s
           .extractXmlChild(elem, 'LambdaFunctionAssociations')
           ?.let((e) => LambdaFunctionAssociations.fromXml(e)),
@@ -5849,6 +7933,8 @@ class DefaultCacheBehavior {
           _s.extractXmlStringValue(elem, 'OriginRequestPolicyId'),
       realtimeLogConfigArn:
           _s.extractXmlStringValue(elem, 'RealtimeLogConfigArn'),
+      responseHeadersPolicyId:
+          _s.extractXmlStringValue(elem, 'ResponseHeadersPolicyId'),
       smoothStreaming: _s.extractXmlBoolValue(elem, 'SmoothStreaming'),
       trustedKeyGroups: _s
           .extractXmlChild(elem, 'TrustedKeyGroups')
@@ -5868,11 +7954,13 @@ class DefaultCacheBehavior {
     final defaultTTL = this.defaultTTL;
     final fieldLevelEncryptionId = this.fieldLevelEncryptionId;
     final forwardedValues = this.forwardedValues;
+    final functionAssociations = this.functionAssociations;
     final lambdaFunctionAssociations = this.lambdaFunctionAssociations;
     final maxTTL = this.maxTTL;
     final minTTL = this.minTTL;
     final originRequestPolicyId = this.originRequestPolicyId;
     final realtimeLogConfigArn = this.realtimeLogConfigArn;
+    final responseHeadersPolicyId = this.responseHeadersPolicyId;
     final smoothStreaming = this.smoothStreaming;
     final trustedKeyGroups = this.trustedKeyGroups;
     final trustedSigners = this.trustedSigners;
@@ -5888,6 +7976,8 @@ class DefaultCacheBehavior {
       if (compress != null) _s.encodeXmlBoolValue('Compress', compress),
       if (lambdaFunctionAssociations != null)
         lambdaFunctionAssociations.toXml('LambdaFunctionAssociations'),
+      if (functionAssociations != null)
+        functionAssociations.toXml('FunctionAssociations'),
       if (fieldLevelEncryptionId != null)
         _s.encodeXmlStringValue(
             'FieldLevelEncryptionId', fieldLevelEncryptionId),
@@ -5897,6 +7987,9 @@ class DefaultCacheBehavior {
         _s.encodeXmlStringValue('CachePolicyId', cachePolicyId),
       if (originRequestPolicyId != null)
         _s.encodeXmlStringValue('OriginRequestPolicyId', originRequestPolicyId),
+      if (responseHeadersPolicyId != null)
+        _s.encodeXmlStringValue(
+            'ResponseHeadersPolicyId', responseHeadersPolicyId),
       if (forwardedValues != null) forwardedValues.toXml('ForwardedValues'),
       if (minTTL != null) _s.encodeXmlIntValue('MinTTL', minTTL),
       if (defaultTTL != null) _s.encodeXmlIntValue('DefaultTTL', defaultTTL),
@@ -5951,66 +8044,70 @@ class DeleteRealtimeLogConfigRequest {
   }
 }
 
+class DescribeFunctionResult {
+  /// The version identifier for the current version of the CloudFront function.
+  final String? eTag;
+
+  /// Contains configuration information and metadata about a CloudFront function.
+  final FunctionSummary? functionSummary;
+
+  DescribeFunctionResult({
+    this.eTag,
+    this.functionSummary,
+  });
+}
+
 /// A distribution tells CloudFront where you want content to be delivered from,
 /// and the details about how to track and manage content delivery.
 class Distribution {
-  /// The ARN (Amazon Resource Name) for the distribution. For example:
-  /// <code>arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5</code>,
-  /// where <code>123456789012</code> is your AWS account ID.
+  /// The distribution's Amazon Resource Name (ARN).
   final String arn;
 
-  /// The current configuration information for the distribution. Send a
-  /// <code>GET</code> request to the <code>/<i>CloudFront API
-  /// version</i>/distribution ID/config</code> resource.
+  /// The distribution's configuration.
   final DistributionConfig distributionConfig;
 
-  /// The domain name corresponding to the distribution, for example,
+  /// The distribution's CloudFront domain name. For example:
   /// <code>d111111abcdef8.cloudfront.net</code>.
   final String domainName;
 
-  /// The identifier for the distribution. For example:
-  /// <code>EDFDVBD632BHDS5</code>.
+  /// The distribution's identifier. For example: <code>E1U5RQF7T870K0</code>.
   final String id;
 
   /// The number of invalidation batches currently in progress.
   final int inProgressInvalidationBatches;
 
-  /// The date and time the distribution was last modified.
+  /// The date and time when the distribution was last modified.
   final DateTime lastModifiedTime;
 
-  /// This response element indicates the current status of the distribution. When
-  /// the status is <code>Deployed</code>, the distribution's information is fully
-  /// propagated to all CloudFront edge locations.
+  /// The distribution's status. When the status is <code>Deployed</code>, the
+  /// distribution's information is fully propagated to all CloudFront edge
+  /// locations.
   final String status;
 
-  /// CloudFront automatically adds this field to the response if you’ve
-  /// configured a cache behavior in this distribution to serve private content
-  /// using key groups. This field contains a list of key groups and the public
-  /// keys in each key group that CloudFront can use to verify the signatures of
-  /// signed URLs or signed cookies.
+  /// This field contains a list of key groups and the public keys in each key
+  /// group that CloudFront can use to verify the signatures of signed URLs or
+  /// signed cookies.
   final ActiveTrustedKeyGroups? activeTrustedKeyGroups;
 
   /// <important>
   /// We recommend using <code>TrustedKeyGroups</code> instead of
   /// <code>TrustedSigners</code>.
   /// </important>
-  /// CloudFront automatically adds this field to the response if you’ve
-  /// configured a cache behavior in this distribution to serve private content
-  /// using trusted signers. This field contains a list of AWS account IDs and the
-  /// active CloudFront key pairs in each account that CloudFront can use to
-  /// verify the signatures of signed URLs or signed cookies.
+  /// This field contains a list of Amazon Web Services account IDs and the active
+  /// CloudFront key pairs in each account that CloudFront can use to verify the
+  /// signatures of signed URLs or signed cookies.
   final ActiveTrustedSigners? activeTrustedSigners;
 
-  /// AWS services in China customers must file for an Internet Content Provider
-  /// (ICP) recordal if they want to serve content publicly on an alternate domain
-  /// name, also known as a CNAME, that they've added to CloudFront.
-  /// AliasICPRecordal provides the ICP recordal status for CNAMEs associated with
-  /// distributions.
+  /// Amazon Web Services services in China customers must file for an Internet
+  /// Content Provider (ICP) recordal if they want to serve content publicly on an
+  /// alternate domain name, also known as a CNAME, that they've added to
+  /// CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs
+  /// associated with distributions.
   ///
   /// For more information about ICP recordals, see <a
   /// href="https://docs.amazonaws.cn/en_us/aws/latest/userguide/accounts-and-credentials.html">
-  /// Signup, Accounts, and Credentials</a> in <i>Getting Started with AWS
-  /// services in China</i>.
+  /// Signup, Accounts, and Credentials</a> in <i>Getting Started with Amazon Web
+  /// Services services in China</i>.
   final List<AliasICPRecordal>? aliasICPRecordals;
 
   Distribution({
@@ -6065,16 +8162,8 @@ class DistributionConfig {
   /// <code>DistributionAlreadyExists</code> error.
   final String callerReference;
 
-  /// Any comments you want to include about the distribution.
-  ///
-  /// If you don't want to specify a comment, include an empty
-  /// <code>Comment</code> element.
-  ///
-  /// To delete an existing comment, update the distribution configuration and
-  /// include an empty <code>Comment</code> element.
-  ///
-  /// To add or change a comment, update the distribution configuration and
-  /// specify the new comment.
+  /// A comment to describe the distribution. The comment cannot be longer than
+  /// 128 characters.
   final String comment;
 
   /// A complex type that describes the default cache behavior if you don't
@@ -6098,6 +8187,10 @@ class DistributionConfig {
   /// elements.
   final CacheBehaviors? cacheBehaviors;
 
+  /// The identifier of a continuous deployment policy. For more information, see
+  /// <code>CreateContinuousDeploymentPolicy</code>.
+  final String? continuousDeploymentPolicyId;
+
   /// A complex type that controls the following:
   ///
   /// <ul>
@@ -6116,10 +8209,10 @@ class DistributionConfig {
 
   /// The object that you want CloudFront to request from your origin (for
   /// example, <code>index.html</code>) when a viewer requests the root URL for
-  /// your distribution (<code>http://www.example.com</code>) instead of an object
-  /// in your distribution
-  /// (<code>http://www.example.com/product-description.html</code>). Specifying a
-  /// default root object avoids exposing the contents of your distribution.
+  /// your distribution (<code>https://www.example.com</code>) instead of an
+  /// object in your distribution
+  /// (<code>https://www.example.com/product-description.html</code>). Specifying
+  /// a default root object avoids exposing the contents of your distribution.
   ///
   /// Specify only the object name, for example, <code>index.html</code>. Don't
   /// add a <code>/</code> before the object name.
@@ -6139,17 +8232,23 @@ class DistributionConfig {
   /// a Default Root Object</a> in the <i>Amazon CloudFront Developer Guide</i>.
   final String? defaultRootObject;
 
-  /// (Optional) Specify the maximum HTTP version that you want viewers to use to
-  /// communicate with CloudFront. The default value for new web distributions is
-  /// http2. Viewers that don't support HTTP/2 automatically use an earlier HTTP
-  /// version.
+  /// (Optional) Specify the maximum HTTP version(s) that you want viewers to use
+  /// to communicate with CloudFront. The default value for new web distributions
+  /// is <code>http2</code>. Viewers that don't support HTTP/2 automatically use
+  /// an earlier HTTP version.
   ///
-  /// For viewers and CloudFront to use HTTP/2, viewers must support TLS 1.2 or
-  /// later, and must support Server Name Identification (SNI).
+  /// For viewers and CloudFront to use HTTP/2, viewers must support TLSv1.2 or
+  /// later, and must support Server Name Indication (SNI).
   ///
-  /// In general, configuring CloudFront to communicate with viewers using HTTP/2
-  /// reduces latency. You can improve performance by optimizing for HTTP/2. For
-  /// more information, do an Internet search for "http/2 optimization."
+  /// For viewers and CloudFront to use HTTP/3, viewers must support TLSv1.3 and
+  /// Server Name Indication (SNI). CloudFront supports HTTP/3 connection
+  /// migration to allow the viewer to switch networks without losing connection.
+  /// For more information about connection migration, see <a
+  /// href="https://www.rfc-editor.org/rfc/rfc9000.html#name-connection-migration">Connection
+  /// Migration</a> at RFC 9000. For more information about supported TLSv1.3
+  /// ciphers, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html">Supported
+  /// protocols and ciphers between viewers and CloudFront</a>.
   final HttpVersion? httpVersion;
 
   /// If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address
@@ -6171,9 +8270,10 @@ class DistributionConfig {
   /// a Signed URL Using a Custom Policy</a> in the <i>Amazon CloudFront Developer
   /// Guide</i>.
   ///
-  /// If you're using an Amazon Route 53 alias resource record set to route
-  /// traffic to your CloudFront distribution, you need to create a second alias
-  /// resource record set when both of the following are true:
+  /// If you're using an Route 53 Amazon Web Services Integration alias resource
+  /// record set to route traffic to your CloudFront distribution, you need to
+  /// create a second alias resource record set when both of the following are
+  /// true:
   ///
   /// <ul>
   /// <li>
@@ -6186,12 +8286,13 @@ class DistributionConfig {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-cloudfront-distribution.html">Routing
   /// Traffic to an Amazon CloudFront Web Distribution by Using Your Domain
-  /// Name</a> in the <i>Amazon Route 53 Developer Guide</i>.
+  /// Name</a> in the <i>Route 53 Amazon Web Services Integration Developer
+  /// Guide</i>.
   ///
-  /// If you created a CNAME resource record set, either with Amazon Route 53 or
-  /// with another DNS service, you don't need to make any changes. A CNAME record
-  /// will route traffic to your distribution regardless of the IP address format
-  /// of the viewer request.
+  /// If you created a CNAME resource record set, either with Route 53 Amazon Web
+  /// Services Integration or with another DNS service, you don't need to make any
+  /// changes. A CNAME record will route traffic to your distribution regardless
+  /// of the IP address format of the viewer request.
   final bool? isIPV6Enabled;
 
   /// A complex type that controls whether access logs are written for the
@@ -6230,27 +8331,32 @@ class DistributionConfig {
   /// distribution of your content.
   final Restrictions? restrictions;
 
-  /// A complex type that determines the distribution’s SSL/TLS configuration for
+  /// A Boolean that indicates whether this is a staging distribution. When this
+  /// value is <code>true</code>, this is a staging distribution. When this value
+  /// is <code>false</code>, this is not a staging distribution.
+  final bool? staging;
+
+  /// A complex type that determines the distribution's SSL/TLS configuration for
   /// communicating with viewers.
   final ViewerCertificate? viewerCertificate;
 
-  /// A unique identifier that specifies the AWS WAF web ACL, if any, to associate
+  /// A unique identifier that specifies the WAF web ACL, if any, to associate
   /// with this distribution. To specify a web ACL created using the latest
-  /// version of AWS WAF, use the ACL ARN, for example
+  /// version of WAF, use the ACL ARN, for example
   /// <code>arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/473e64fd-f30b-4765-81a0-62ad96dd167a</code>.
-  /// To specify a web ACL created using AWS WAF Classic, use the ACL ID, for
-  /// example <code>473e64fd-f30b-4765-81a0-62ad96dd167a</code>.
+  /// To specify a web ACL created using WAF Classic, use the ACL ID, for example
+  /// <code>473e64fd-f30b-4765-81a0-62ad96dd167a</code>.
   ///
-  /// AWS WAF is a web application firewall that lets you monitor the HTTP and
-  /// HTTPS requests that are forwarded to CloudFront, and lets you control access
-  /// to your content. Based on conditions that you specify, such as the IP
-  /// addresses that requests originate from or the values of query strings,
-  /// CloudFront responds to requests either with the requested content or with an
-  /// HTTP 403 status code (Forbidden). You can also configure CloudFront to
-  /// return a custom error page when a request is blocked. For more information
-  /// about AWS WAF, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/what-is-aws-waf.html">AWS
-  /// WAF Developer Guide</a>.
+  /// WAF is a web application firewall that lets you monitor the HTTP and HTTPS
+  /// requests that are forwarded to CloudFront, and lets you control access to
+  /// your content. Based on conditions that you specify, such as the IP addresses
+  /// that requests originate from or the values of query strings, CloudFront
+  /// responds to requests either with the requested content or with an HTTP 403
+  /// status code (Forbidden). You can also configure CloudFront to return a
+  /// custom error page when a request is blocked. For more information about WAF,
+  /// see the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/what-is-aws-waf.html">WAF
+  /// Developer Guide</a>.
   final String? webACLId;
 
   DistributionConfig({
@@ -6261,6 +8367,7 @@ class DistributionConfig {
     required this.origins,
     this.aliases,
     this.cacheBehaviors,
+    this.continuousDeploymentPolicyId,
     this.customErrorResponses,
     this.defaultRootObject,
     this.httpVersion,
@@ -6269,6 +8376,7 @@ class DistributionConfig {
     this.originGroups,
     this.priceClass,
     this.restrictions,
+    this.staging,
     this.viewerCertificate,
     this.webACLId,
   });
@@ -6285,6 +8393,8 @@ class DistributionConfig {
       cacheBehaviors: _s
           .extractXmlChild(elem, 'CacheBehaviors')
           ?.let((e) => CacheBehaviors.fromXml(e)),
+      continuousDeploymentPolicyId:
+          _s.extractXmlStringValue(elem, 'ContinuousDeploymentPolicyId'),
       customErrorResponses: _s
           .extractXmlChild(elem, 'CustomErrorResponses')
           ?.let((e) => CustomErrorResponses.fromXml(e)),
@@ -6302,6 +8412,7 @@ class DistributionConfig {
       restrictions: _s
           .extractXmlChild(elem, 'Restrictions')
           ?.let((e) => Restrictions.fromXml(e)),
+      staging: _s.extractXmlBoolValue(elem, 'Staging'),
       viewerCertificate: _s
           .extractXmlChild(elem, 'ViewerCertificate')
           ?.let((e) => ViewerCertificate.fromXml(e)),
@@ -6317,6 +8428,7 @@ class DistributionConfig {
     final origins = this.origins;
     final aliases = this.aliases;
     final cacheBehaviors = this.cacheBehaviors;
+    final continuousDeploymentPolicyId = this.continuousDeploymentPolicyId;
     final customErrorResponses = this.customErrorResponses;
     final defaultRootObject = this.defaultRootObject;
     final httpVersion = this.httpVersion;
@@ -6325,6 +8437,7 @@ class DistributionConfig {
     final originGroups = this.originGroups;
     final priceClass = this.priceClass;
     final restrictions = this.restrictions;
+    final staging = this.staging;
     final viewerCertificate = this.viewerCertificate;
     final webACLId = this.webACLId;
     final $children = <_s.XmlNode>[
@@ -6351,6 +8464,10 @@ class DistributionConfig {
         _s.encodeXmlStringValue('HttpVersion', httpVersion.toValue()),
       if (isIPV6Enabled != null)
         _s.encodeXmlBoolValue('IsIPV6Enabled', isIPV6Enabled),
+      if (continuousDeploymentPolicyId != null)
+        _s.encodeXmlStringValue(
+            'ContinuousDeploymentPolicyId', continuousDeploymentPolicyId),
+      if (staging != null) _s.encodeXmlBoolValue('Staging', staging),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6453,11 +8570,13 @@ class DistributionList {
   /// The value you provided for the <code>MaxItems</code> request parameter.
   final int maxItems;
 
-  /// The number of distributions that were created by the current AWS account.
+  /// The number of distributions that were created by the current Amazon Web
+  /// Services account.
   final int quantity;
 
   /// A complex type that contains one <code>DistributionSummary</code> element
-  /// for each distribution that was created by the current AWS account.
+  /// for each distribution that was created by the current Amazon Web Services
+  /// account.
   final List<DistributionSummary>? items;
 
   /// If <code>IsTruncated</code> is <code>true</code>, this element is present
@@ -6492,7 +8611,7 @@ class DistributionList {
 class DistributionSummary {
   /// The ARN (Amazon Resource Name) for the distribution. For example:
   /// <code>arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5</code>,
-  /// where <code>123456789012</code> is your AWS account ID.
+  /// where <code>123456789012</code> is your Amazon Web Services account ID.
   final String arn;
 
   /// A complex type that contains information about CNAMEs (alternate domain
@@ -6552,28 +8671,31 @@ class DistributionSummary {
   /// distribution of your content.
   final Restrictions restrictions;
 
+  /// Whether the primary distribution has a staging distribution enabled.
+  final bool staging;
+
   /// The current status of the distribution. When the status is
   /// <code>Deployed</code>, the distribution's information is propagated to all
   /// CloudFront edge locations.
   final String status;
 
-  /// A complex type that determines the distribution’s SSL/TLS configuration for
+  /// A complex type that determines the distribution's SSL/TLS configuration for
   /// communicating with viewers.
   final ViewerCertificate viewerCertificate;
 
   /// The Web ACL Id (if any) associated with the distribution.
   final String webACLId;
 
-  /// AWS services in China customers must file for an Internet Content Provider
-  /// (ICP) recordal if they want to serve content publicly on an alternate domain
-  /// name, also known as a CNAME, that they've added to CloudFront.
-  /// AliasICPRecordal provides the ICP recordal status for CNAMEs associated with
-  /// distributions.
+  /// Amazon Web Services services in China customers must file for an Internet
+  /// Content Provider (ICP) recordal if they want to serve content publicly on an
+  /// alternate domain name, also known as a CNAME, that they've added to
+  /// CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs
+  /// associated with distributions.
   ///
   /// For more information about ICP recordals, see <a
   /// href="https://docs.amazonaws.cn/en_us/aws/latest/userguide/accounts-and-credentials.html">
-  /// Signup, Accounts, and Credentials</a> in <i>Getting Started with AWS
-  /// services in China</i>.
+  /// Signup, Accounts, and Credentials</a> in <i>Getting Started with Amazon Web
+  /// Services services in China</i>.
   final List<AliasICPRecordal>? aliasICPRecordals;
 
   /// A complex type that contains information about origin groups for this
@@ -6596,6 +8718,7 @@ class DistributionSummary {
     required this.origins,
     required this.priceClass,
     required this.restrictions,
+    required this.staging,
     required this.status,
     required this.viewerCertificate,
     required this.webACLId,
@@ -6624,6 +8747,7 @@ class DistributionSummary {
       priceClass: _s.extractXmlStringValue(elem, 'PriceClass')!.toPriceClass(),
       restrictions:
           Restrictions.fromXml(_s.extractXmlChild(elem, 'Restrictions')!),
+      staging: _s.extractXmlBoolValue(elem, 'Staging')!,
       status: _s.extractXmlStringValue(elem, 'Status')!,
       viewerCertificate: ViewerCertificate.fromXml(
           _s.extractXmlChild(elem, 'ViewerCertificate')!),
@@ -6855,7 +8979,8 @@ class FieldLevelEncryptionConfig {
   /// A unique number that ensures the request can't be replayed.
   final String callerReference;
 
-  /// An optional comment about the configuration.
+  /// An optional comment about the configuration. The comment cannot be longer
+  /// than 128 characters.
   final String? comment;
 
   /// A complex data type that specifies when to forward content if a content type
@@ -6989,7 +9114,8 @@ class FieldLevelEncryptionProfileConfig {
   /// Profile name for the field-level encryption profile.
   final String name;
 
-  /// An optional comment for the field-level encryption profile.
+  /// An optional comment for the field-level encryption profile. The comment
+  /// cannot be longer than 128 characters.
   final String? comment;
 
   FieldLevelEncryptionProfileConfig({
@@ -7083,7 +9209,8 @@ class FieldLevelEncryptionProfileSummary {
   /// Name for the field-level encryption profile summary.
   final String name;
 
-  /// An optional comment for the field-level encryption profile summary.
+  /// An optional comment for the field-level encryption profile summary. The
+  /// comment cannot be longer than 128 characters.
   final String? comment;
 
   FieldLevelEncryptionProfileSummary({
@@ -7113,7 +9240,8 @@ class FieldLevelEncryptionSummary {
   /// The last time that the summary of field-level encryption items was modified.
   final DateTime lastModifiedTime;
 
-  /// An optional comment about the field-level encryption item.
+  /// An optional comment about the field-level encryption item. The comment
+  /// cannot be longer than 128 characters.
   final String? comment;
 
   /// A summary of a content type-profile mapping.
@@ -7370,6 +9498,317 @@ class ForwardedValues {
   }
 }
 
+enum FrameOptionsList {
+  deny,
+  sameorigin,
+}
+
+extension FrameOptionsListValueExtension on FrameOptionsList {
+  String toValue() {
+    switch (this) {
+      case FrameOptionsList.deny:
+        return 'DENY';
+      case FrameOptionsList.sameorigin:
+        return 'SAMEORIGIN';
+    }
+  }
+}
+
+extension FrameOptionsListFromString on String {
+  FrameOptionsList toFrameOptionsList() {
+    switch (this) {
+      case 'DENY':
+        return FrameOptionsList.deny;
+      case 'SAMEORIGIN':
+        return FrameOptionsList.sameorigin;
+    }
+    throw Exception('$this is not known in enum FrameOptionsList');
+  }
+}
+
+/// A CloudFront function that is associated with a cache behavior in a
+/// CloudFront distribution.
+class FunctionAssociation {
+  /// The event type of the function, either <code>viewer-request</code> or
+  /// <code>viewer-response</code>. You cannot use origin-facing event types
+  /// (<code>origin-request</code> and <code>origin-response</code>) with a
+  /// CloudFront function.
+  final EventType eventType;
+
+  /// The Amazon Resource Name (ARN) of the function.
+  final String functionARN;
+
+  FunctionAssociation({
+    required this.eventType,
+    required this.functionARN,
+  });
+  factory FunctionAssociation.fromXml(_s.XmlElement elem) {
+    return FunctionAssociation(
+      eventType: _s.extractXmlStringValue(elem, 'EventType')!.toEventType(),
+      functionARN: _s.extractXmlStringValue(elem, 'FunctionARN')!,
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final eventType = this.eventType;
+    final functionARN = this.functionARN;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('FunctionARN', functionARN),
+      _s.encodeXmlStringValue('EventType', eventType.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A list of CloudFront functions that are associated with a cache behavior in
+/// a CloudFront distribution. CloudFront functions must be published to the
+/// <code>LIVE</code> stage to associate them with a cache behavior.
+class FunctionAssociations {
+  /// The number of CloudFront functions in the list.
+  final int quantity;
+
+  /// The CloudFront functions that are associated with a cache behavior in a
+  /// CloudFront distribution. CloudFront functions must be published to the
+  /// <code>LIVE</code> stage to associate them with a cache behavior.
+  final List<FunctionAssociation>? items;
+
+  FunctionAssociations({
+    required this.quantity,
+    this.items,
+  });
+  factory FunctionAssociations.fromXml(_s.XmlElement elem) {
+    return FunctionAssociations(
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
+          .findElements('FunctionAssociation')
+          .map((c) => FunctionAssociation.fromXml(c))
+          .toList()),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlIntValue('Quantity', quantity),
+      if (items != null)
+        _s.XmlElement(_s.XmlName('Items'), [],
+            items.map((e) => e.toXml('FunctionAssociation'))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Contains configuration information about a CloudFront function.
+class FunctionConfig {
+  /// A comment to describe the function.
+  final String comment;
+
+  /// The function's runtime environment. The only valid value is
+  /// <code>cloudfront-js-1.0</code>.
+  final FunctionRuntime runtime;
+
+  FunctionConfig({
+    required this.comment,
+    required this.runtime,
+  });
+  factory FunctionConfig.fromXml(_s.XmlElement elem) {
+    return FunctionConfig(
+      comment: _s.extractXmlStringValue(elem, 'Comment')!,
+      runtime: _s.extractXmlStringValue(elem, 'Runtime')!.toFunctionRuntime(),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final comment = this.comment;
+    final runtime = this.runtime;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Comment', comment),
+      _s.encodeXmlStringValue('Runtime', runtime.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A list of CloudFront functions.
+class FunctionList {
+  /// The maximum number of functions requested.
+  final int maxItems;
+
+  /// The number of functions returned in the response.
+  final int quantity;
+
+  /// Contains the functions in the list.
+  final List<FunctionSummary>? items;
+
+  /// If there are more items in the list than are in this response, this element
+  /// is present. It contains the value that you should use in the
+  /// <code>Marker</code> field of a subsequent request to continue listing
+  /// functions where you left off.
+  final String? nextMarker;
+
+  FunctionList({
+    required this.maxItems,
+    required this.quantity,
+    this.items,
+    this.nextMarker,
+  });
+  factory FunctionList.fromXml(_s.XmlElement elem) {
+    return FunctionList(
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
+          .findElements('FunctionSummary')
+          .map((c) => FunctionSummary.fromXml(c))
+          .toList()),
+      nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
+    );
+  }
+}
+
+/// Contains metadata about a CloudFront function.
+class FunctionMetadata {
+  /// The Amazon Resource Name (ARN) of the function. The ARN uniquely identifies
+  /// the function.
+  final String functionARN;
+
+  /// The date and time when the function was most recently updated.
+  final DateTime lastModifiedTime;
+
+  /// The date and time when the function was created.
+  final DateTime? createdTime;
+
+  /// The stage that the function is in, either <code>DEVELOPMENT</code> or
+  /// <code>LIVE</code>.
+  ///
+  /// When a function is in the <code>DEVELOPMENT</code> stage, you can test the
+  /// function with <code>TestFunction</code>, and update it with
+  /// <code>UpdateFunction</code>.
+  ///
+  /// When a function is in the <code>LIVE</code> stage, you can attach the
+  /// function to a distribution's cache behavior, using the function's ARN.
+  final FunctionStage? stage;
+
+  FunctionMetadata({
+    required this.functionARN,
+    required this.lastModifiedTime,
+    this.createdTime,
+    this.stage,
+  });
+  factory FunctionMetadata.fromXml(_s.XmlElement elem) {
+    return FunctionMetadata(
+      functionARN: _s.extractXmlStringValue(elem, 'FunctionARN')!,
+      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime')!,
+      createdTime: _s.extractXmlDateTimeValue(elem, 'CreatedTime'),
+      stage: _s.extractXmlStringValue(elem, 'Stage')?.toFunctionStage(),
+    );
+  }
+}
+
+enum FunctionRuntime {
+  cloudfrontJs_1_0,
+}
+
+extension FunctionRuntimeValueExtension on FunctionRuntime {
+  String toValue() {
+    switch (this) {
+      case FunctionRuntime.cloudfrontJs_1_0:
+        return 'cloudfront-js-1.0';
+    }
+  }
+}
+
+extension FunctionRuntimeFromString on String {
+  FunctionRuntime toFunctionRuntime() {
+    switch (this) {
+      case 'cloudfront-js-1.0':
+        return FunctionRuntime.cloudfrontJs_1_0;
+    }
+    throw Exception('$this is not known in enum FunctionRuntime');
+  }
+}
+
+enum FunctionStage {
+  development,
+  live,
+}
+
+extension FunctionStageValueExtension on FunctionStage {
+  String toValue() {
+    switch (this) {
+      case FunctionStage.development:
+        return 'DEVELOPMENT';
+      case FunctionStage.live:
+        return 'LIVE';
+    }
+  }
+}
+
+extension FunctionStageFromString on String {
+  FunctionStage toFunctionStage() {
+    switch (this) {
+      case 'DEVELOPMENT':
+        return FunctionStage.development;
+      case 'LIVE':
+        return FunctionStage.live;
+    }
+    throw Exception('$this is not known in enum FunctionStage');
+  }
+}
+
+/// Contains configuration information and metadata about a CloudFront function.
+class FunctionSummary {
+  /// Contains configuration information about a CloudFront function.
+  final FunctionConfig functionConfig;
+
+  /// Contains metadata about a CloudFront function.
+  final FunctionMetadata functionMetadata;
+
+  /// The name of the CloudFront function.
+  final String name;
+
+  /// The status of the CloudFront function.
+  final String? status;
+
+  FunctionSummary({
+    required this.functionConfig,
+    required this.functionMetadata,
+    required this.name,
+    this.status,
+  });
+  factory FunctionSummary.fromXml(_s.XmlElement elem) {
+    return FunctionSummary(
+      functionConfig:
+          FunctionConfig.fromXml(_s.extractXmlChild(elem, 'FunctionConfig')!),
+      functionMetadata: FunctionMetadata.fromXml(
+          _s.extractXmlChild(elem, 'FunctionMetadata')!),
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      status: _s.extractXmlStringValue(elem, 'Status'),
+    );
+  }
+}
+
 /// A complex type that controls the countries in which your content is
 /// distributed. CloudFront determines the location of your users using
 /// <code>MaxMind</code> GeoIP databases.
@@ -7545,6 +9984,33 @@ class GetCloudFrontOriginAccessIdentityResult {
   });
 }
 
+class GetContinuousDeploymentPolicyConfigResult {
+  final ContinuousDeploymentPolicyConfig? continuousDeploymentPolicyConfig;
+
+  /// The version identifier for the current version of the continuous deployment
+  /// policy.
+  final String? eTag;
+
+  GetContinuousDeploymentPolicyConfigResult({
+    this.continuousDeploymentPolicyConfig,
+    this.eTag,
+  });
+}
+
+class GetContinuousDeploymentPolicyResult {
+  /// A continuous deployment policy.
+  final ContinuousDeploymentPolicy? continuousDeploymentPolicy;
+
+  /// The version identifier for the current version of the continuous deployment
+  /// policy.
+  final String? eTag;
+
+  GetContinuousDeploymentPolicyResult({
+    this.continuousDeploymentPolicy,
+    this.eTag,
+  });
+}
+
 /// The returned result of the corresponding request.
 class GetDistributionConfigResult {
   /// The distribution's configuration information.
@@ -7631,6 +10097,23 @@ class GetFieldLevelEncryptionResult {
   });
 }
 
+class GetFunctionResult {
+  /// The content type (media type) of the response.
+  final String? contentType;
+
+  /// The version identifier for the current version of the CloudFront function.
+  final String? eTag;
+
+  /// The function code of a CloudFront function.
+  final Uint8List? functionCode;
+
+  GetFunctionResult({
+    this.contentType,
+    this.eTag,
+    this.functionCode,
+  });
+}
+
 /// The returned result of the corresponding request.
 class GetInvalidationResult {
   /// The invalidation's information. For more information, see <a
@@ -7677,6 +10160,32 @@ class GetMonitoringSubscriptionResult {
 
   GetMonitoringSubscriptionResult({
     this.monitoringSubscription,
+  });
+}
+
+class GetOriginAccessControlConfigResult {
+  /// The version identifier for the current version of the origin access control.
+  final String? eTag;
+
+  /// Contains an origin access control configuration.
+  final OriginAccessControlConfig? originAccessControlConfig;
+
+  GetOriginAccessControlConfigResult({
+    this.eTag,
+    this.originAccessControlConfig,
+  });
+}
+
+class GetOriginAccessControlResult {
+  /// The version identifier for the current version of the origin access control.
+  final String? eTag;
+
+  /// Contains an origin access control, including its unique identifier.
+  final OriginAccessControl? originAccessControl;
+
+  GetOriginAccessControlResult({
+    this.eTag,
+    this.originAccessControl,
   });
 }
 
@@ -7777,6 +10286,34 @@ class GetRealtimeLogConfigResult {
   }
 }
 
+class GetResponseHeadersPolicyConfigResult {
+  /// The version identifier for the current version of the response headers
+  /// policy.
+  final String? eTag;
+
+  /// Contains a response headers policy.
+  final ResponseHeadersPolicyConfig? responseHeadersPolicyConfig;
+
+  GetResponseHeadersPolicyConfigResult({
+    this.eTag,
+    this.responseHeadersPolicyConfig,
+  });
+}
+
+class GetResponseHeadersPolicyResult {
+  /// The version identifier for the current version of the response headers
+  /// policy.
+  final String? eTag;
+
+  /// Contains a response headers policy.
+  final ResponseHeadersPolicy? responseHeadersPolicy;
+
+  GetResponseHeadersPolicyResult({
+    this.eTag,
+    this.responseHeadersPolicy,
+  });
+}
+
 /// The returned result of the corresponding request.
 class GetStreamingDistributionConfigResult {
   /// The current version of the configuration. For example:
@@ -7851,6 +10388,8 @@ class Headers {
 enum HttpVersion {
   http1_1,
   http2,
+  http3,
+  http2and3,
 }
 
 extension HttpVersionValueExtension on HttpVersion {
@@ -7860,6 +10399,10 @@ extension HttpVersionValueExtension on HttpVersion {
         return 'http1.1';
       case HttpVersion.http2:
         return 'http2';
+      case HttpVersion.http3:
+        return 'http3';
+      case HttpVersion.http2and3:
+        return 'http2and3';
     }
   }
 }
@@ -7871,6 +10414,10 @@ extension HttpVersionFromString on String {
         return HttpVersion.http1_1;
       case 'http2':
         return HttpVersion.http2;
+      case 'http3':
+        return HttpVersion.http3;
+      case 'http2and3':
+        return HttpVersion.http2and3;
     }
     throw Exception('$this is not known in enum HttpVersion');
   }
@@ -8018,12 +10565,13 @@ class InvalidationList {
   /// The value that you provided for the <code>MaxItems</code> request parameter.
   final int maxItems;
 
-  /// The number of invalidation batches that were created by the current AWS
-  /// account.
+  /// The number of invalidation batches that were created by the current Amazon
+  /// Web Services account.
   final int quantity;
 
   /// A complex type that contains one <code>InvalidationSummary</code> element
-  /// for each invalidation batch created by the current AWS account.
+  /// for each invalidation batch created by the current Amazon Web Services
+  /// account.
   final List<InvalidationSummary>? items;
 
   /// If <code>IsTruncated</code> is <code>true</code>, this element is present
@@ -8175,7 +10723,8 @@ class KeyGroupConfig {
   /// A name to identify the key group.
   final String name;
 
-  /// A comment to describe the key group.
+  /// A comment to describe the key group. The comment cannot be longer than 128
+  /// characters.
   final String? comment;
 
   KeyGroupConfig({
@@ -8289,9 +10838,9 @@ class KeyPairIds {
 /// Contains information about the Amazon Kinesis data stream where you are
 /// sending real-time log data.
 class KinesisStreamConfig {
-  /// The Amazon Resource Name (ARN) of an AWS Identity and Access Management
-  /// (IAM) role that CloudFront can use to send real-time log data to your
-  /// Kinesis data stream.
+  /// The Amazon Resource Name (ARN) of an Identity and Access Management (IAM)
+  /// role that CloudFront can use to send real-time log data to your Kinesis data
+  /// stream.
   ///
   /// For more information the IAM role, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/real-time-logs.html#understand-real-time-log-config-iam-role">Real-time
@@ -8332,10 +10881,10 @@ class KinesisStreamConfig {
   }
 }
 
-/// A complex type that contains a Lambda function association.
+/// A complex type that contains a Lambda@Edge function association.
 class LambdaFunctionAssociation {
-  /// Specifies the event type that triggers a Lambda function invocation. You can
-  /// specify the following values:
+  /// Specifies the event type that triggers a Lambda@Edge function invocation.
+  /// You can specify the following values:
   ///
   /// <ul>
   /// <li>
@@ -8365,11 +10914,11 @@ class LambdaFunctionAssociation {
   /// </ul>
   final EventType eventType;
 
-  /// The ARN of the Lambda function. You must specify the ARN of a function
-  /// version; you can't specify a Lambda alias or $LATEST.
+  /// The ARN of the Lambda@Edge function. You must specify the ARN of a function
+  /// version; you can't specify an alias or $LATEST.
   final String lambdaFunctionARN;
 
-  /// A flag that allows a Lambda function to have read access to the body
+  /// A flag that allows a Lambda@Edge function to have read access to the body
   /// content. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-include-body-access.html">Accessing
   /// the Request Body by Choosing the Include Body Option</a> in the Amazon
@@ -8410,21 +10959,22 @@ class LambdaFunctionAssociation {
   }
 }
 
-/// A complex type that specifies a list of Lambda functions associations for a
-/// cache behavior.
+/// A complex type that specifies a list of Lambda@Edge functions associations
+/// for a cache behavior.
 ///
-/// If you want to invoke one or more Lambda functions triggered by requests
-/// that match the <code>PathPattern</code> of the cache behavior, specify the
-/// applicable values for <code>Quantity</code> and <code>Items</code>. Note
-/// that there can be up to 4 <code>LambdaFunctionAssociation</code> items in
-/// this list (one for each possible value of <code>EventType</code>) and each
-/// <code>EventType</code> can be associated with the Lambda function only once.
+/// If you want to invoke one or more Lambda@Edge functions triggered by
+/// requests that match the <code>PathPattern</code> of the cache behavior,
+/// specify the applicable values for <code>Quantity</code> and
+/// <code>Items</code>. Note that there can be up to 4
+/// <code>LambdaFunctionAssociation</code> items in this list (one for each
+/// possible value of <code>EventType</code>) and each <code>EventType</code>
+/// can be associated with only one function.
 ///
-/// If you don't want to invoke any Lambda functions for the requests that match
-/// <code>PathPattern</code>, specify <code>0</code> for <code>Quantity</code>
-/// and omit <code>Items</code>.
+/// If you don't want to invoke any Lambda@Edge functions for the requests that
+/// match <code>PathPattern</code>, specify <code>0</code> for
+/// <code>Quantity</code> and omit <code>Items</code>.
 class LambdaFunctionAssociations {
-  /// The number of Lambda function associations for this cache behavior.
+  /// The number of Lambda@Edge function associations for this cache behavior.
   final int quantity;
 
   /// <b>Optional</b>: A complex type that contains
@@ -8485,6 +11035,24 @@ class ListCloudFrontOriginAccessIdentitiesResult {
   });
 }
 
+class ListConflictingAliasesResult {
+  /// A list of conflicting aliases.
+  final ConflictingAliasesList? conflictingAliasesList;
+
+  ListConflictingAliasesResult({
+    this.conflictingAliasesList,
+  });
+}
+
+class ListContinuousDeploymentPoliciesResult {
+  /// A list of continuous deployment policies.
+  final ContinuousDeploymentPolicyList? continuousDeploymentPolicyList;
+
+  ListContinuousDeploymentPoliciesResult({
+    this.continuousDeploymentPolicyList,
+  });
+}
+
 class ListDistributionsByCachePolicyIdResult {
   /// A list of distribution IDs.
   final DistributionIdList? distributionIdList;
@@ -8514,8 +11082,8 @@ class ListDistributionsByOriginRequestPolicyIdResult {
 class ListDistributionsByRealtimeLogConfigRequest {
   /// Use this field when paginating results to indicate where to begin in your
   /// list of distributions. The response includes distributions in the list that
-  /// occur after the marker. To get the next page of the list, set this field’s
-  /// value to the value of <code>NextMarker</code> from the current page’s
+  /// occur after the marker. To get the next page of the list, set this field's
+  /// value to the value of <code>NextMarker</code> from the current page's
   /// response.
   final String? marker;
 
@@ -8568,8 +11136,16 @@ class ListDistributionsByRealtimeLogConfigResult {
   });
 }
 
+class ListDistributionsByResponseHeadersPolicyIdResult {
+  final DistributionIdList? distributionIdList;
+
+  ListDistributionsByResponseHeadersPolicyIdResult({
+    this.distributionIdList,
+  });
+}
+
 /// The response to a request to list the distributions that are associated with
-/// a specified AWS WAF web ACL.
+/// a specified WAF web ACL.
 class ListDistributionsByWebACLIdResult {
   /// The <code>DistributionList</code> type.
   final DistributionList? distributionList;
@@ -8609,6 +11185,15 @@ class ListFieldLevelEncryptionProfilesResult {
   });
 }
 
+class ListFunctionsResult {
+  /// A list of CloudFront functions.
+  final FunctionList? functionList;
+
+  ListFunctionsResult({
+    this.functionList,
+  });
+}
+
 /// The returned result of the corresponding request.
 class ListInvalidationsResult {
   /// Information about invalidation batches.
@@ -8625,6 +11210,15 @@ class ListKeyGroupsResult {
 
   ListKeyGroupsResult({
     this.keyGroupList,
+  });
+}
+
+class ListOriginAccessControlsResult {
+  /// A list of origin access controls.
+  final OriginAccessControlList? originAccessControlList;
+
+  ListOriginAccessControlsResult({
+    this.originAccessControlList,
   });
 }
 
@@ -8653,6 +11247,15 @@ class ListRealtimeLogConfigsResult {
 
   ListRealtimeLogConfigsResult({
     this.realtimeLogConfigs,
+  });
+}
+
+class ListResponseHeadersPoliciesResult {
+  /// A list of response headers policies.
+  final ResponseHeadersPolicyList? responseHeadersPolicyList;
+
+  ListResponseHeadersPoliciesResult({
+    this.responseHeadersPolicyList,
   });
 }
 
@@ -8806,6 +11409,7 @@ enum MinimumProtocolVersion {
   tLSv1_1_2016,
   tLSv1_2_2018,
   tLSv1_2_2019,
+  tLSv1_2_2021,
 }
 
 extension MinimumProtocolVersionValueExtension on MinimumProtocolVersion {
@@ -8823,6 +11427,8 @@ extension MinimumProtocolVersionValueExtension on MinimumProtocolVersion {
         return 'TLSv1.2_2018';
       case MinimumProtocolVersion.tLSv1_2_2019:
         return 'TLSv1.2_2019';
+      case MinimumProtocolVersion.tLSv1_2_2021:
+        return 'TLSv1.2_2021';
     }
   }
 }
@@ -8842,6 +11448,8 @@ extension MinimumProtocolVersionFromString on String {
         return MinimumProtocolVersion.tLSv1_2_2018;
       case 'TLSv1.2_2019':
         return MinimumProtocolVersion.tLSv1_2_2019;
+      case 'TLSv1.2_2021':
+        return MinimumProtocolVersion.tLSv1_2_2021;
     }
     throw Exception('$this is not known in enum MinimumProtocolVersion');
   }
@@ -8938,10 +11546,10 @@ class Origin {
   final String id;
 
   /// The number of times that CloudFront attempts to connect to the origin. The
-  /// minimum number is 1, the maximum is 3, and the default (if you don’t specify
+  /// minimum number is 1, the maximum is 3, and the default (if you don't specify
   /// otherwise) is 3.
   ///
-  /// For a custom origin (including an Amazon S3 bucket that’s configured with
+  /// For a custom origin (including an Amazon S3 bucket that's configured with
   /// static website hosting), this value also specifies the number of times that
   /// CloudFront attempts to get a response from the origin, in the case of an <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginResponseTimeout">Origin
@@ -8954,7 +11562,7 @@ class Origin {
 
   /// The number of seconds that CloudFront waits when trying to establish a
   /// connection to the origin. The minimum timeout is 1 second, the maximum is 10
-  /// seconds, and the default (if you don’t specify otherwise) is 10 seconds.
+  /// seconds, and the default (if you don't specify otherwise) is 10 seconds.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#origin-connection-timeout">Origin
@@ -8975,6 +11583,14 @@ class Origin {
   /// hosting, use this type. If the Amazon S3 bucket is not configured with
   /// static website hosting, use the <code>S3OriginConfig</code> type instead.
   final CustomOriginConfig? customOriginConfig;
+
+  /// The unique identifier of an origin access control for this origin.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html">Restricting
+  /// access to an Amazon S3 origin</a> in the <i>Amazon CloudFront Developer
+  /// Guide</i>.
+  final String? originAccessControlId;
 
   /// An optional path that CloudFront appends to the origin domain name when
   /// CloudFront requests content from the origin.
@@ -9005,6 +11621,7 @@ class Origin {
     this.connectionTimeout,
     this.customHeaders,
     this.customOriginConfig,
+    this.originAccessControlId,
     this.originPath,
     this.originShield,
     this.s3OriginConfig,
@@ -9021,6 +11638,8 @@ class Origin {
       customOriginConfig: _s
           .extractXmlChild(elem, 'CustomOriginConfig')
           ?.let((e) => CustomOriginConfig.fromXml(e)),
+      originAccessControlId:
+          _s.extractXmlStringValue(elem, 'OriginAccessControlId'),
       originPath: _s.extractXmlStringValue(elem, 'OriginPath'),
       originShield: _s
           .extractXmlChild(elem, 'OriginShield')
@@ -9038,6 +11657,7 @@ class Origin {
     final connectionTimeout = this.connectionTimeout;
     final customHeaders = this.customHeaders;
     final customOriginConfig = this.customOriginConfig;
+    final originAccessControlId = this.originAccessControlId;
     final originPath = this.originPath;
     final originShield = this.originShield;
     final s3OriginConfig = this.s3OriginConfig;
@@ -9054,6 +11674,8 @@ class Origin {
       if (connectionTimeout != null)
         _s.encodeXmlIntValue('ConnectionTimeout', connectionTimeout),
       if (originShield != null) originShield.toXml('OriginShield'),
+      if (originAccessControlId != null)
+        _s.encodeXmlStringValue('OriginAccessControlId', originAccessControlId),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9062,6 +11684,329 @@ class Origin {
       _s.XmlName(elemName),
       $attributes,
       $children,
+    );
+  }
+}
+
+/// A CloudFront origin access control, including its unique identifier.
+class OriginAccessControl {
+  /// The unique identifier of the origin access control.
+  final String id;
+
+  /// The origin access control.
+  final OriginAccessControlConfig? originAccessControlConfig;
+
+  OriginAccessControl({
+    required this.id,
+    this.originAccessControlConfig,
+  });
+  factory OriginAccessControl.fromXml(_s.XmlElement elem) {
+    return OriginAccessControl(
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      originAccessControlConfig: _s
+          .extractXmlChild(elem, 'OriginAccessControlConfig')
+          ?.let((e) => OriginAccessControlConfig.fromXml(e)),
+    );
+  }
+}
+
+/// A CloudFront origin access control configuration.
+class OriginAccessControlConfig {
+  /// A name to identify the origin access control.
+  final String name;
+
+  /// The type of origin that this origin access control is for.
+  final OriginAccessControlOriginTypes originAccessControlOriginType;
+
+  /// Specifies which requests CloudFront signs (adds authentication information
+  /// to). Specify <code>always</code> for the most common use case. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html#oac-advanced-settings">origin
+  /// access control advanced settings</a> in the <i>Amazon CloudFront Developer
+  /// Guide</i>.
+  ///
+  /// This field can have one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>always</code> – CloudFront signs all origin requests, overwriting the
+  /// <code>Authorization</code> header from the viewer request if one exists.
+  /// </li>
+  /// <li>
+  /// <code>never</code> – CloudFront doesn't sign any origin requests. This value
+  /// turns off origin access control for all origins in all distributions that
+  /// use this origin access control.
+  /// </li>
+  /// <li>
+  /// <code>no-override</code> – If the viewer request doesn't contain the
+  /// <code>Authorization</code> header, then CloudFront signs the origin request.
+  /// If the viewer request contains the <code>Authorization</code> header, then
+  /// CloudFront doesn't sign the origin request and instead passes along the
+  /// <code>Authorization</code> header from the viewer request. <b>WARNING: To
+  /// pass along the <code>Authorization</code> header from the viewer request,
+  /// you <i>must</i> add the <code>Authorization</code> header to a <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html">cache
+  /// policy</a> for all cache behaviors that use origins associated with this
+  /// origin access control.</b>
+  /// </li>
+  /// </ul>
+  final OriginAccessControlSigningBehaviors signingBehavior;
+
+  /// The signing protocol of the origin access control, which determines how
+  /// CloudFront signs (authenticates) requests. The only valid value is
+  /// <code>sigv4</code>.
+  final OriginAccessControlSigningProtocols signingProtocol;
+
+  /// A description of the origin access control.
+  final String? description;
+
+  OriginAccessControlConfig({
+    required this.name,
+    required this.originAccessControlOriginType,
+    required this.signingBehavior,
+    required this.signingProtocol,
+    this.description,
+  });
+  factory OriginAccessControlConfig.fromXml(_s.XmlElement elem) {
+    return OriginAccessControlConfig(
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      originAccessControlOriginType: _s
+          .extractXmlStringValue(elem, 'OriginAccessControlOriginType')!
+          .toOriginAccessControlOriginTypes(),
+      signingBehavior: _s
+          .extractXmlStringValue(elem, 'SigningBehavior')!
+          .toOriginAccessControlSigningBehaviors(),
+      signingProtocol: _s
+          .extractXmlStringValue(elem, 'SigningProtocol')!
+          .toOriginAccessControlSigningProtocols(),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final name = this.name;
+    final originAccessControlOriginType = this.originAccessControlOriginType;
+    final signingBehavior = this.signingBehavior;
+    final signingProtocol = this.signingProtocol;
+    final description = this.description;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Name', name),
+      if (description != null)
+        _s.encodeXmlStringValue('Description', description),
+      _s.encodeXmlStringValue('SigningProtocol', signingProtocol.toValue()),
+      _s.encodeXmlStringValue('SigningBehavior', signingBehavior.toValue()),
+      _s.encodeXmlStringValue('OriginAccessControlOriginType',
+          originAccessControlOriginType.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A list of CloudFront origin access controls.
+class OriginAccessControlList {
+  /// If there are more items in the list than are in this response, this value is
+  /// <code>true</code>.
+  final bool isTruncated;
+
+  /// The value of the <code>Marker</code> field that was provided in the request.
+  final String marker;
+
+  /// The maximum number of origin access controls requested.
+  final int maxItems;
+
+  /// The number of origin access controls returned in the response.
+  final int quantity;
+
+  /// Contains the origin access controls in the list.
+  final List<OriginAccessControlSummary>? items;
+
+  /// If there are more items in the list than are in this response, this element
+  /// is present. It contains the value to use in the <code>Marker</code> field of
+  /// another request to continue listing origin access controls.
+  final String? nextMarker;
+
+  OriginAccessControlList({
+    required this.isTruncated,
+    required this.marker,
+    required this.maxItems,
+    required this.quantity,
+    this.items,
+    this.nextMarker,
+  });
+  factory OriginAccessControlList.fromXml(_s.XmlElement elem) {
+    return OriginAccessControlList(
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      marker: _s.extractXmlStringValue(elem, 'Marker')!,
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
+          .findElements('OriginAccessControlSummary')
+          .map((c) => OriginAccessControlSummary.fromXml(c))
+          .toList()),
+      nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
+    );
+  }
+}
+
+enum OriginAccessControlOriginTypes {
+  s3,
+  mediastore,
+}
+
+extension OriginAccessControlOriginTypesValueExtension
+    on OriginAccessControlOriginTypes {
+  String toValue() {
+    switch (this) {
+      case OriginAccessControlOriginTypes.s3:
+        return 's3';
+      case OriginAccessControlOriginTypes.mediastore:
+        return 'mediastore';
+    }
+  }
+}
+
+extension OriginAccessControlOriginTypesFromString on String {
+  OriginAccessControlOriginTypes toOriginAccessControlOriginTypes() {
+    switch (this) {
+      case 's3':
+        return OriginAccessControlOriginTypes.s3;
+      case 'mediastore':
+        return OriginAccessControlOriginTypes.mediastore;
+    }
+    throw Exception(
+        '$this is not known in enum OriginAccessControlOriginTypes');
+  }
+}
+
+enum OriginAccessControlSigningBehaviors {
+  never,
+  always,
+  noOverride,
+}
+
+extension OriginAccessControlSigningBehaviorsValueExtension
+    on OriginAccessControlSigningBehaviors {
+  String toValue() {
+    switch (this) {
+      case OriginAccessControlSigningBehaviors.never:
+        return 'never';
+      case OriginAccessControlSigningBehaviors.always:
+        return 'always';
+      case OriginAccessControlSigningBehaviors.noOverride:
+        return 'no-override';
+    }
+  }
+}
+
+extension OriginAccessControlSigningBehaviorsFromString on String {
+  OriginAccessControlSigningBehaviors toOriginAccessControlSigningBehaviors() {
+    switch (this) {
+      case 'never':
+        return OriginAccessControlSigningBehaviors.never;
+      case 'always':
+        return OriginAccessControlSigningBehaviors.always;
+      case 'no-override':
+        return OriginAccessControlSigningBehaviors.noOverride;
+    }
+    throw Exception(
+        '$this is not known in enum OriginAccessControlSigningBehaviors');
+  }
+}
+
+enum OriginAccessControlSigningProtocols {
+  sigv4,
+}
+
+extension OriginAccessControlSigningProtocolsValueExtension
+    on OriginAccessControlSigningProtocols {
+  String toValue() {
+    switch (this) {
+      case OriginAccessControlSigningProtocols.sigv4:
+        return 'sigv4';
+    }
+  }
+}
+
+extension OriginAccessControlSigningProtocolsFromString on String {
+  OriginAccessControlSigningProtocols toOriginAccessControlSigningProtocols() {
+    switch (this) {
+      case 'sigv4':
+        return OriginAccessControlSigningProtocols.sigv4;
+    }
+    throw Exception(
+        '$this is not known in enum OriginAccessControlSigningProtocols');
+  }
+}
+
+/// A CloudFront origin access control.
+class OriginAccessControlSummary {
+  /// A description of the origin access control.
+  final String description;
+
+  /// The unique identifier of the origin access control.
+  final String id;
+
+  /// A unique name that identifies the origin access control.
+  final String name;
+
+  /// The type of origin that this origin access control is for.
+  final OriginAccessControlOriginTypes originAccessControlOriginType;
+
+  /// A value that specifies which requests CloudFront signs (adds authentication
+  /// information to). This field can have one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>never</code> – CloudFront doesn't sign any origin requests.
+  /// </li>
+  /// <li>
+  /// <code>always</code> – CloudFront signs all origin requests, overwriting the
+  /// <code>Authorization</code> header from the viewer request if necessary.
+  /// </li>
+  /// <li>
+  /// <code>no-override</code> – If the viewer request doesn't contain the
+  /// <code>Authorization</code> header, CloudFront signs the origin request. If
+  /// the viewer request contains the <code>Authorization</code> header,
+  /// CloudFront doesn't sign the origin request, but instead passes along the
+  /// <code>Authorization</code> header that it received in the viewer request.
+  /// </li>
+  /// </ul>
+  final OriginAccessControlSigningBehaviors signingBehavior;
+
+  /// The signing protocol of the origin access control. The signing protocol
+  /// determines how CloudFront signs (authenticates) requests. The only valid
+  /// value is <code>sigv4</code>.
+  final OriginAccessControlSigningProtocols signingProtocol;
+
+  OriginAccessControlSummary({
+    required this.description,
+    required this.id,
+    required this.name,
+    required this.originAccessControlOriginType,
+    required this.signingBehavior,
+    required this.signingProtocol,
+  });
+  factory OriginAccessControlSummary.fromXml(_s.XmlElement elem) {
+    return OriginAccessControlSummary(
+      description: _s.extractXmlStringValue(elem, 'Description')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      originAccessControlOriginType: _s
+          .extractXmlStringValue(elem, 'OriginAccessControlOriginType')!
+          .toOriginAccessControlOriginTypes(),
+      signingBehavior: _s
+          .extractXmlStringValue(elem, 'SigningBehavior')!
+          .toOriginAccessControlSigningBehaviors(),
+      signingProtocol: _s
+          .extractXmlStringValue(elem, 'SigningProtocol')!
+          .toOriginAccessControlSigningProtocols(),
     );
   }
 }
@@ -9344,7 +12289,7 @@ extension OriginProtocolPolicyFromString on String {
 
 /// An origin request policy.
 ///
-/// When it’s attached to a cache behavior, the origin request policy determines
+/// When it's attached to a cache behavior, the origin request policy determines
 /// the values that CloudFront includes in requests that it sends to the origin.
 /// Each request that CloudFront sends to the origin includes the following:
 ///
@@ -9365,7 +12310,7 @@ extension OriginProtocolPolicyFromString on String {
 /// by CloudFront.
 /// </li>
 /// </ul>
-/// CloudFront sends a request when it can’t find an object in its cache that
+/// CloudFront sends a request when it can't find an object in its cache that
 /// matches the request. If you want to send values to the origin and also
 /// include them in the cache key, use <code>CachePolicy</code>.
 class OriginRequestPolicy {
@@ -9416,7 +12361,7 @@ class OriginRequestPolicy {
 /// by CloudFront.
 /// </li>
 /// </ul>
-/// CloudFront sends a request when it can’t find an object in its cache that
+/// CloudFront sends a request when it can't find an object in its cache that
 /// matches the request. If you want to send values to the origin and also
 /// include them in the cache key, use <code>CachePolicy</code>.
 class OriginRequestPolicyConfig {
@@ -9433,7 +12378,8 @@ class OriginRequestPolicyConfig {
   /// The URL query strings from viewer requests to include in origin requests.
   final OriginRequestPolicyQueryStringsConfig queryStringsConfig;
 
-  /// A comment to describe the origin request policy.
+  /// A comment to describe the origin request policy. The comment cannot be
+  /// longer than 128 characters.
   final String? comment;
 
   OriginRequestPolicyConfig({
@@ -9484,6 +12430,7 @@ enum OriginRequestPolicyCookieBehavior {
   none,
   whitelist,
   all,
+  allExcept,
 }
 
 extension OriginRequestPolicyCookieBehaviorValueExtension
@@ -9496,6 +12443,8 @@ extension OriginRequestPolicyCookieBehaviorValueExtension
         return 'whitelist';
       case OriginRequestPolicyCookieBehavior.all:
         return 'all';
+      case OriginRequestPolicyCookieBehavior.allExcept:
+        return 'allExcept';
     }
   }
 }
@@ -9509,6 +12458,8 @@ extension OriginRequestPolicyCookieBehaviorFromString on String {
         return OriginRequestPolicyCookieBehavior.whitelist;
       case 'all':
         return OriginRequestPolicyCookieBehavior.all;
+      case 'allExcept':
+        return OriginRequestPolicyCookieBehavior.allExcept;
     }
     throw Exception(
         '$this is not known in enum OriginRequestPolicyCookieBehavior');
@@ -9523,19 +12474,24 @@ class OriginRequestPolicyCookiesConfig {
   ///
   /// <ul>
   /// <li>
-  /// <code>none</code> – Cookies in viewer requests are not included in requests
+  /// <code>none</code> – No cookies in viewer requests are included in requests
   /// that CloudFront sends to the origin. Even when this field is set to
   /// <code>none</code>, any cookies that are listed in a <code>CachePolicy</code>
   /// <i>are</i> included in origin requests.
   /// </li>
   /// <li>
-  /// <code>whitelist</code> – The cookies in viewer requests that are listed in
-  /// the <code>CookieNames</code> type are included in requests that CloudFront
-  /// sends to the origin.
+  /// <code>whitelist</code> – Only the cookies in viewer requests that are listed
+  /// in the <code>CookieNames</code> type are included in requests that
+  /// CloudFront sends to the origin.
   /// </li>
   /// <li>
   /// <code>all</code> – All cookies in viewer requests are included in requests
   /// that CloudFront sends to the origin.
+  /// </li>
+  /// <li>
+  /// <code>allExcept</code> – All cookies in viewer requests are included in
+  /// requests that CloudFront sends to the origin, <i> <b>except</b> </i> for
+  /// those listed in the <code>CookieNames</code> type, which are not included.
   /// </li>
   /// </ul>
   final OriginRequestPolicyCookieBehavior cookieBehavior;
@@ -9579,6 +12535,7 @@ enum OriginRequestPolicyHeaderBehavior {
   whitelist,
   allViewer,
   allViewerAndWhitelistCloudFront,
+  allExcept,
 }
 
 extension OriginRequestPolicyHeaderBehaviorValueExtension
@@ -9593,6 +12550,8 @@ extension OriginRequestPolicyHeaderBehaviorValueExtension
         return 'allViewer';
       case OriginRequestPolicyHeaderBehavior.allViewerAndWhitelistCloudFront:
         return 'allViewerAndWhitelistCloudFront';
+      case OriginRequestPolicyHeaderBehavior.allExcept:
+        return 'allExcept';
     }
   }
 }
@@ -9609,6 +12568,8 @@ extension OriginRequestPolicyHeaderBehaviorFromString on String {
       case 'allViewerAndWhitelistCloudFront':
         return OriginRequestPolicyHeaderBehavior
             .allViewerAndWhitelistCloudFront;
+      case 'allExcept':
+        return OriginRequestPolicyHeaderBehavior.allExcept;
     }
     throw Exception(
         '$this is not known in enum OriginRequestPolicyHeaderBehavior');
@@ -9623,13 +12584,13 @@ class OriginRequestPolicyHeadersConfig {
   ///
   /// <ul>
   /// <li>
-  /// <code>none</code> – HTTP headers are not included in requests that
-  /// CloudFront sends to the origin. Even when this field is set to
+  /// <code>none</code> – No HTTP headers in viewer requests are included in
+  /// requests that CloudFront sends to the origin. Even when this field is set to
   /// <code>none</code>, any headers that are listed in a <code>CachePolicy</code>
   /// <i>are</i> included in origin requests.
   /// </li>
   /// <li>
-  /// <code>whitelist</code> – The HTTP headers that are listed in the
+  /// <code>whitelist</code> – Only the HTTP headers that are listed in the
   /// <code>Headers</code> type are included in requests that CloudFront sends to
   /// the origin.
   /// </li>
@@ -9642,6 +12603,11 @@ class OriginRequestPolicyHeadersConfig {
   /// requests and the additional CloudFront headers that are listed in the
   /// <code>Headers</code> type are included in requests that CloudFront sends to
   /// the origin. The additional headers are added by CloudFront.
+  /// </li>
+  /// <li>
+  /// <code>allExcept</code> – All HTTP headers in viewer requests are included in
+  /// requests that CloudFront sends to the origin, <i> <b>except</b> </i> for
+  /// those listed in the <code>Headers</code> type, which are not included.
   /// </li>
   /// </ul>
   final OriginRequestPolicyHeaderBehavior headerBehavior;
@@ -9719,6 +12685,7 @@ enum OriginRequestPolicyQueryStringBehavior {
   none,
   whitelist,
   all,
+  allExcept,
 }
 
 extension OriginRequestPolicyQueryStringBehaviorValueExtension
@@ -9731,6 +12698,8 @@ extension OriginRequestPolicyQueryStringBehaviorValueExtension
         return 'whitelist';
       case OriginRequestPolicyQueryStringBehavior.all:
         return 'all';
+      case OriginRequestPolicyQueryStringBehavior.allExcept:
+        return 'allExcept';
     }
   }
 }
@@ -9745,6 +12714,8 @@ extension OriginRequestPolicyQueryStringBehaviorFromString on String {
         return OriginRequestPolicyQueryStringBehavior.whitelist;
       case 'all':
         return OriginRequestPolicyQueryStringBehavior.all;
+      case 'allExcept':
+        return OriginRequestPolicyQueryStringBehavior.allExcept;
     }
     throw Exception(
         '$this is not known in enum OriginRequestPolicyQueryStringBehavior');
@@ -9760,13 +12731,13 @@ class OriginRequestPolicyQueryStringsConfig {
   ///
   /// <ul>
   /// <li>
-  /// <code>none</code> – Query strings in viewer requests are not included in
+  /// <code>none</code> – No query strings in viewer requests are included in
   /// requests that CloudFront sends to the origin. Even when this field is set to
   /// <code>none</code>, any query strings that are listed in a
   /// <code>CachePolicy</code> <i>are</i> included in origin requests.
   /// </li>
   /// <li>
-  /// <code>whitelist</code> – The query strings in viewer requests that are
+  /// <code>whitelist</code> – Only the query strings in viewer requests that are
   /// listed in the <code>QueryStringNames</code> type are included in requests
   /// that CloudFront sends to the origin.
   /// </li>
@@ -9774,11 +12745,23 @@ class OriginRequestPolicyQueryStringsConfig {
   /// <code>all</code> – All query strings in viewer requests are included in
   /// requests that CloudFront sends to the origin.
   /// </li>
+  /// <li>
+  /// <code>allExcept</code> – All query strings in viewer requests are included
+  /// in requests that CloudFront sends to the origin, <i> <b>except</b> </i> for
+  /// those listed in the <code>QueryStringNames</code> type, which are not
+  /// included.
+  /// </li>
   /// </ul>
   final OriginRequestPolicyQueryStringBehavior queryStringBehavior;
 
-  /// Contains a list of the query strings in viewer requests that are included in
-  /// requests that CloudFront sends to the origin.
+  /// Contains the specific query strings in viewer requests that either <i>
+  /// <b>are</b> </i> or <i> <b>are not</b> </i> included in requests that
+  /// CloudFront sends to the origin. The behavior depends on whether the
+  /// <code>QueryStringBehavior</code> field in the
+  /// <code>OriginRequestPolicyQueryStringsConfig</code> type is set to
+  /// <code>whitelist</code> (the listed query strings <i> <b>are</b> </i>
+  /// included) or <code>allExcept</code> (the listed query strings <i> <b>are
+  /// not</b> </i> included, but all other query strings are).
   final QueryStringNames? queryStrings;
 
   OriginRequestPolicyQueryStringsConfig({
@@ -9821,7 +12804,8 @@ class OriginRequestPolicySummary {
   final OriginRequestPolicy originRequestPolicy;
 
   /// The type of origin request policy, either <code>managed</code> (created by
-  /// AWS) or <code>custom</code> (created in this AWS account).
+  /// Amazon Web Services) or <code>custom</code> (created in this Amazon Web
+  /// Services account).
   final OriginRequestPolicyType type;
 
   OriginRequestPolicySummary({
@@ -9874,24 +12858,25 @@ extension OriginRequestPolicyTypeFromString on String {
 class OriginShield {
   /// A flag that specifies whether Origin Shield is enabled.
   ///
-  /// When it’s enabled, CloudFront routes all requests through Origin Shield,
-  /// which can help protect your origin. When it’s disabled, CloudFront might
+  /// When it's enabled, CloudFront routes all requests through Origin Shield,
+  /// which can help protect your origin. When it's disabled, CloudFront might
   /// send requests directly to your origin from multiple edge locations or
   /// regional edge caches.
   final bool enabled;
 
-  /// The AWS Region for Origin Shield.
+  /// The Amazon Web Services Region for Origin Shield.
   ///
-  /// Specify the AWS Region that has the lowest latency to your origin. To
-  /// specify a region, use the region code, not the region name. For example,
-  /// specify the US East (Ohio) region as <code>us-east-2</code>.
+  /// Specify the Amazon Web Services Region that has the lowest latency to your
+  /// origin. To specify a region, use the region code, not the region name. For
+  /// example, specify the US East (Ohio) region as <code>us-east-2</code>.
   ///
-  /// When you enable CloudFront Origin Shield, you must specify the AWS Region
-  /// for Origin Shield. For the list of AWS Regions that you can specify, and for
-  /// help choosing the best Region for your origin, see <a
+  /// When you enable CloudFront Origin Shield, you must specify the Amazon Web
+  /// Services Region for Origin Shield. For the list of Amazon Web Services
+  /// Regions that you can specify, and for help choosing the best Region for your
+  /// origin, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/origin-shield.html#choose-origin-shield-region">Choosing
-  /// the AWS Region for Origin Shield</a> in the <i>Amazon CloudFront Developer
-  /// Guide</i>.
+  /// the Amazon Web Services Region for Origin Shield</a> in the <i>Amazon
+  /// CloudFront Developer Guide</i>.
   final String? originShieldRegion;
 
   OriginShield({
@@ -10019,15 +13004,15 @@ class Origins {
 /// return to the viewer.
 ///
 /// The headers, cookies, and query strings that are included in the cache key
-/// are automatically included in requests that CloudFront sends to the origin.
-/// CloudFront sends a request when it can’t find an object in its cache that
-/// matches the request’s cache key. If you want to send values to the origin
+/// are also included in requests that CloudFront sends to the origin.
+/// CloudFront sends a request when it can't find an object in its cache that
+/// matches the request's cache key. If you want to send values to the origin
 /// but <i>not</i> include them in the cache key, use
 /// <code>OriginRequestPolicy</code>.
 class ParametersInCacheKeyAndForwardedToOrigin {
   /// An object that determines whether any cookies in viewer requests (and if so,
-  /// which cookies) are included in the cache key and automatically included in
-  /// requests that CloudFront sends to the origin.
+  /// which cookies) are included in the cache key and in requests that CloudFront
+  /// sends to the origin.
   final CachePolicyCookiesConfig cookiesConfig;
 
   /// A flag that can affect whether the <code>Accept-Encoding</code> HTTP header
@@ -10041,7 +13026,7 @@ class ParametersInCacheKeyAndForwardedToOrigin {
   ///
   /// <ul>
   /// <li>
-  /// Normalizes the value of the viewer’s <code>Accept-Encoding</code> header
+  /// Normalizes the value of the viewer's <code>Accept-Encoding</code> header
   /// </li>
   /// <li>
   /// Includes the normalized header in the cache key
@@ -10064,20 +13049,20 @@ class ParametersInCacheKeyAndForwardedToOrigin {
   ///
   /// If both of these fields are <code>false</code>, then CloudFront treats the
   /// <code>Accept-Encoding</code> header the same as any other HTTP header in the
-  /// viewer request. By default, it’s not included in the cache key and it’s not
+  /// viewer request. By default, it's not included in the cache key and it's not
   /// included in origin requests. In this case, you can manually add
   /// <code>Accept-Encoding</code> to the headers whitelist like any other HTTP
   /// header.
   final bool enableAcceptEncodingGzip;
 
   /// An object that determines whether any HTTP headers (and if so, which
-  /// headers) are included in the cache key and automatically included in
-  /// requests that CloudFront sends to the origin.
+  /// headers) are included in the cache key and in requests that CloudFront sends
+  /// to the origin.
   final CachePolicyHeadersConfig headersConfig;
 
   /// An object that determines whether any URL query strings in viewer requests
-  /// (and if so, which query strings) are included in the cache key and
-  /// automatically included in requests that CloudFront sends to the origin.
+  /// (and if so, which query strings) are included in the cache key and in
+  /// requests that CloudFront sends to the origin.
   final CachePolicyQueryStringsConfig queryStringsConfig;
 
   /// A flag that can affect whether the <code>Accept-Encoding</code> HTTP header
@@ -10091,7 +13076,7 @@ class ParametersInCacheKeyAndForwardedToOrigin {
   ///
   /// <ul>
   /// <li>
-  /// Normalizes the value of the viewer’s <code>Accept-Encoding</code> header
+  /// Normalizes the value of the viewer's <code>Accept-Encoding</code> header
   /// </li>
   /// <li>
   /// Includes the normalized header in the cache key
@@ -10114,7 +13099,7 @@ class ParametersInCacheKeyAndForwardedToOrigin {
   ///
   /// If both of these fields are <code>false</code>, then CloudFront treats the
   /// <code>Accept-Encoding</code> header the same as any other HTTP header in the
-  /// viewer request. By default, it’s not included in the cache key and it’s not
+  /// viewer request. By default, it's not included in the cache key and it's not
   /// included in origin requests. In this case, you can manually add
   /// <code>Accept-Encoding</code> to the headers whitelist like any other HTTP
   /// header.
@@ -10289,7 +13274,7 @@ class PublicKey {
 /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/field-level-encryption.html">field-level
 /// encryption</a>.
 class PublicKeyConfig {
-  /// A string included in the request to help make sure that the request can’t be
+  /// A string included in the request to help make sure that the request can't be
   /// replayed.
   final String callerReference;
 
@@ -10303,7 +13288,8 @@ class PublicKeyConfig {
   /// A name to help identify the public key.
   final String name;
 
-  /// A comment to describe the public key.
+  /// A comment to describe the public key. The comment cannot be longer than 128
+  /// characters.
   final String? comment;
 
   PublicKeyConfig({
@@ -10396,7 +13382,8 @@ class PublicKeySummary {
   /// A name to help identify the public key.
   final String name;
 
-  /// A comment to describe the public key.
+  /// A comment to describe the public key. The comment cannot be longer than 128
+  /// characters.
   final String? comment;
 
   PublicKeySummary({
@@ -10415,6 +13402,15 @@ class PublicKeySummary {
       comment: _s.extractXmlStringValue(elem, 'Comment'),
     );
   }
+}
+
+class PublishFunctionResult {
+  /// Contains configuration information and metadata about a CloudFront function.
+  final FunctionSummary? functionSummary;
+
+  PublishFunctionResult({
+    this.functionSummary,
+  });
 }
 
 /// Query argument-profile mapping for field-level encryption.
@@ -10801,6 +13797,1425 @@ extension RealtimeMetricsSubscriptionStatusFromString on String {
   }
 }
 
+enum ReferrerPolicyList {
+  noReferrer,
+  noReferrerWhenDowngrade,
+  origin,
+  originWhenCrossOrigin,
+  sameOrigin,
+  strictOrigin,
+  strictOriginWhenCrossOrigin,
+  unsafeUrl,
+}
+
+extension ReferrerPolicyListValueExtension on ReferrerPolicyList {
+  String toValue() {
+    switch (this) {
+      case ReferrerPolicyList.noReferrer:
+        return 'no-referrer';
+      case ReferrerPolicyList.noReferrerWhenDowngrade:
+        return 'no-referrer-when-downgrade';
+      case ReferrerPolicyList.origin:
+        return 'origin';
+      case ReferrerPolicyList.originWhenCrossOrigin:
+        return 'origin-when-cross-origin';
+      case ReferrerPolicyList.sameOrigin:
+        return 'same-origin';
+      case ReferrerPolicyList.strictOrigin:
+        return 'strict-origin';
+      case ReferrerPolicyList.strictOriginWhenCrossOrigin:
+        return 'strict-origin-when-cross-origin';
+      case ReferrerPolicyList.unsafeUrl:
+        return 'unsafe-url';
+    }
+  }
+}
+
+extension ReferrerPolicyListFromString on String {
+  ReferrerPolicyList toReferrerPolicyList() {
+    switch (this) {
+      case 'no-referrer':
+        return ReferrerPolicyList.noReferrer;
+      case 'no-referrer-when-downgrade':
+        return ReferrerPolicyList.noReferrerWhenDowngrade;
+      case 'origin':
+        return ReferrerPolicyList.origin;
+      case 'origin-when-cross-origin':
+        return ReferrerPolicyList.originWhenCrossOrigin;
+      case 'same-origin':
+        return ReferrerPolicyList.sameOrigin;
+      case 'strict-origin':
+        return ReferrerPolicyList.strictOrigin;
+      case 'strict-origin-when-cross-origin':
+        return ReferrerPolicyList.strictOriginWhenCrossOrigin;
+      case 'unsafe-url':
+        return ReferrerPolicyList.unsafeUrl;
+    }
+    throw Exception('$this is not known in enum ReferrerPolicyList');
+  }
+}
+
+/// A response headers policy.
+///
+/// A response headers policy contains information about a set of HTTP response
+/// headers.
+///
+/// After you create a response headers policy, you can use its ID to attach it
+/// to one or more cache behaviors in a CloudFront distribution. When it's
+/// attached to a cache behavior, the response headers policy affects the HTTP
+/// headers that CloudFront includes in HTTP responses to requests that match
+/// the cache behavior. CloudFront adds or removes response headers according to
+/// the configuration of the response headers policy.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/modifying-response-headers.html">Adding
+/// or removing HTTP headers in CloudFront responses</a> in the <i>Amazon
+/// CloudFront Developer Guide</i>.
+class ResponseHeadersPolicy {
+  /// The identifier for the response headers policy.
+  final String id;
+
+  /// The date and time when the response headers policy was last modified.
+  final DateTime lastModifiedTime;
+
+  /// A response headers policy configuration.
+  final ResponseHeadersPolicyConfig responseHeadersPolicyConfig;
+
+  ResponseHeadersPolicy({
+    required this.id,
+    required this.lastModifiedTime,
+    required this.responseHeadersPolicyConfig,
+  });
+  factory ResponseHeadersPolicy.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicy(
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime')!,
+      responseHeadersPolicyConfig: ResponseHeadersPolicyConfig.fromXml(
+          _s.extractXmlChild(elem, 'ResponseHeadersPolicyConfig')!),
+    );
+  }
+}
+
+/// A list of HTTP header names that CloudFront includes as values for the
+/// <code>Access-Control-Allow-Headers</code> HTTP response header.
+///
+/// For more information about the <code>Access-Control-Allow-Headers</code>
+/// HTTP response header, see <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers">Access-Control-Allow-Headers</a>
+/// in the MDN Web Docs.
+class ResponseHeadersPolicyAccessControlAllowHeaders {
+  /// The list of HTTP header names. You can specify <code>*</code> to allow all
+  /// headers.
+  final List<String> items;
+
+  /// The number of HTTP header names in the list.
+  final int quantity;
+
+  ResponseHeadersPolicyAccessControlAllowHeaders({
+    required this.items,
+    required this.quantity,
+  });
+  factory ResponseHeadersPolicyAccessControlAllowHeaders.fromXml(
+      _s.XmlElement elem) {
+    return ResponseHeadersPolicyAccessControlAllowHeaders(
+      items: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'Items')!, 'Header'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final items = this.items;
+    final quantity = this.quantity;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlIntValue('Quantity', quantity),
+      _s.XmlElement(_s.XmlName('Items'), [],
+          items.map((e) => _s.encodeXmlStringValue('Header', e))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A list of HTTP methods that CloudFront includes as values for the
+/// <code>Access-Control-Allow-Methods</code> HTTP response header.
+///
+/// For more information about the <code>Access-Control-Allow-Methods</code>
+/// HTTP response header, see <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Methods">Access-Control-Allow-Methods</a>
+/// in the MDN Web Docs.
+class ResponseHeadersPolicyAccessControlAllowMethods {
+  /// The list of HTTP methods. Valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>GET</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE</code>
+  /// </li>
+  /// <li>
+  /// <code>HEAD</code>
+  /// </li>
+  /// <li>
+  /// <code>OPTIONS</code>
+  /// </li>
+  /// <li>
+  /// <code>PATCH</code>
+  /// </li>
+  /// <li>
+  /// <code>POST</code>
+  /// </li>
+  /// <li>
+  /// <code>PUT</code>
+  /// </li>
+  /// <li>
+  /// <code>ALL</code>
+  /// </li>
+  /// </ul>
+  /// <code>ALL</code> is a special value that includes all of the listed HTTP
+  /// methods.
+  final List<ResponseHeadersPolicyAccessControlAllowMethodsValues> items;
+
+  /// The number of HTTP methods in the list.
+  final int quantity;
+
+  ResponseHeadersPolicyAccessControlAllowMethods({
+    required this.items,
+    required this.quantity,
+  });
+  factory ResponseHeadersPolicyAccessControlAllowMethods.fromXml(
+      _s.XmlElement elem) {
+    return ResponseHeadersPolicyAccessControlAllowMethods(
+      items: _s
+          .extractXmlStringListValues(
+              _s.extractXmlChild(elem, 'Items')!, 'Method')
+          .map(
+              (s) => s.toResponseHeadersPolicyAccessControlAllowMethodsValues())
+          .toList(),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final items = this.items;
+    final quantity = this.quantity;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlIntValue('Quantity', quantity),
+      _s.XmlElement(_s.XmlName('Items'), [],
+          items.map((e) => _s.encodeXmlStringValue('Method', e.toValue()))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+enum ResponseHeadersPolicyAccessControlAllowMethodsValues {
+  get,
+  post,
+  options,
+  put,
+  delete,
+  patch,
+  head,
+  all,
+}
+
+extension ResponseHeadersPolicyAccessControlAllowMethodsValuesValueExtension
+    on ResponseHeadersPolicyAccessControlAllowMethodsValues {
+  String toValue() {
+    switch (this) {
+      case ResponseHeadersPolicyAccessControlAllowMethodsValues.get:
+        return 'GET';
+      case ResponseHeadersPolicyAccessControlAllowMethodsValues.post:
+        return 'POST';
+      case ResponseHeadersPolicyAccessControlAllowMethodsValues.options:
+        return 'OPTIONS';
+      case ResponseHeadersPolicyAccessControlAllowMethodsValues.put:
+        return 'PUT';
+      case ResponseHeadersPolicyAccessControlAllowMethodsValues.delete:
+        return 'DELETE';
+      case ResponseHeadersPolicyAccessControlAllowMethodsValues.patch:
+        return 'PATCH';
+      case ResponseHeadersPolicyAccessControlAllowMethodsValues.head:
+        return 'HEAD';
+      case ResponseHeadersPolicyAccessControlAllowMethodsValues.all:
+        return 'ALL';
+    }
+  }
+}
+
+extension ResponseHeadersPolicyAccessControlAllowMethodsValuesFromString
+    on String {
+  ResponseHeadersPolicyAccessControlAllowMethodsValues
+      toResponseHeadersPolicyAccessControlAllowMethodsValues() {
+    switch (this) {
+      case 'GET':
+        return ResponseHeadersPolicyAccessControlAllowMethodsValues.get;
+      case 'POST':
+        return ResponseHeadersPolicyAccessControlAllowMethodsValues.post;
+      case 'OPTIONS':
+        return ResponseHeadersPolicyAccessControlAllowMethodsValues.options;
+      case 'PUT':
+        return ResponseHeadersPolicyAccessControlAllowMethodsValues.put;
+      case 'DELETE':
+        return ResponseHeadersPolicyAccessControlAllowMethodsValues.delete;
+      case 'PATCH':
+        return ResponseHeadersPolicyAccessControlAllowMethodsValues.patch;
+      case 'HEAD':
+        return ResponseHeadersPolicyAccessControlAllowMethodsValues.head;
+      case 'ALL':
+        return ResponseHeadersPolicyAccessControlAllowMethodsValues.all;
+    }
+    throw Exception(
+        '$this is not known in enum ResponseHeadersPolicyAccessControlAllowMethodsValues');
+  }
+}
+
+/// A list of origins (domain names) that CloudFront can use as the value for
+/// the <code>Access-Control-Allow-Origin</code> HTTP response header.
+///
+/// For more information about the <code>Access-Control-Allow-Origin</code> HTTP
+/// response header, see <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin">Access-Control-Allow-Origin</a>
+/// in the MDN Web Docs.
+class ResponseHeadersPolicyAccessControlAllowOrigins {
+  /// The list of origins (domain names). You can specify <code>*</code> to allow
+  /// all origins.
+  final List<String> items;
+
+  /// The number of origins in the list.
+  final int quantity;
+
+  ResponseHeadersPolicyAccessControlAllowOrigins({
+    required this.items,
+    required this.quantity,
+  });
+  factory ResponseHeadersPolicyAccessControlAllowOrigins.fromXml(
+      _s.XmlElement elem) {
+    return ResponseHeadersPolicyAccessControlAllowOrigins(
+      items: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'Items')!, 'Origin'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final items = this.items;
+    final quantity = this.quantity;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlIntValue('Quantity', quantity),
+      _s.XmlElement(_s.XmlName('Items'), [],
+          items.map((e) => _s.encodeXmlStringValue('Origin', e))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A list of HTTP headers that CloudFront includes as values for the
+/// <code>Access-Control-Expose-Headers</code> HTTP response header.
+///
+/// For more information about the <code>Access-Control-Expose-Headers</code>
+/// HTTP response header, see <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Expose-Headers">Access-Control-Expose-Headers</a>
+/// in the MDN Web Docs.
+class ResponseHeadersPolicyAccessControlExposeHeaders {
+  /// The number of HTTP headers in the list.
+  final int quantity;
+
+  /// The list of HTTP headers. You can specify <code>*</code> to expose all
+  /// headers.
+  final List<String>? items;
+
+  ResponseHeadersPolicyAccessControlExposeHeaders({
+    required this.quantity,
+    this.items,
+  });
+  factory ResponseHeadersPolicyAccessControlExposeHeaders.fromXml(
+      _s.XmlElement elem) {
+    return ResponseHeadersPolicyAccessControlExposeHeaders(
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+      items: _s
+          .extractXmlChild(elem, 'Items')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Header')),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlIntValue('Quantity', quantity),
+      if (items != null)
+        _s.XmlElement(_s.XmlName('Items'), [],
+            items.map((e) => _s.encodeXmlStringValue('Header', e))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A response headers policy configuration.
+///
+/// A response headers policy configuration contains metadata about the response
+/// headers policy, and configurations for sets of HTTP response headers.
+class ResponseHeadersPolicyConfig {
+  /// A name to identify the response headers policy.
+  ///
+  /// The name must be unique for response headers policies in this Amazon Web
+  /// Services account.
+  final String name;
+
+  /// A comment to describe the response headers policy.
+  ///
+  /// The comment cannot be longer than 128 characters.
+  final String? comment;
+
+  /// A configuration for a set of HTTP response headers that are used for
+  /// cross-origin resource sharing (CORS).
+  final ResponseHeadersPolicyCorsConfig? corsConfig;
+
+  /// A configuration for a set of custom HTTP response headers.
+  final ResponseHeadersPolicyCustomHeadersConfig? customHeadersConfig;
+
+  /// A configuration for a set of HTTP headers to remove from the HTTP response.
+  final ResponseHeadersPolicyRemoveHeadersConfig? removeHeadersConfig;
+
+  /// A configuration for a set of security-related HTTP response headers.
+  final ResponseHeadersPolicySecurityHeadersConfig? securityHeadersConfig;
+
+  /// A configuration for enabling the <code>Server-Timing</code> header in HTTP
+  /// responses sent from CloudFront.
+  final ResponseHeadersPolicyServerTimingHeadersConfig?
+      serverTimingHeadersConfig;
+
+  ResponseHeadersPolicyConfig({
+    required this.name,
+    this.comment,
+    this.corsConfig,
+    this.customHeadersConfig,
+    this.removeHeadersConfig,
+    this.securityHeadersConfig,
+    this.serverTimingHeadersConfig,
+  });
+  factory ResponseHeadersPolicyConfig.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicyConfig(
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      comment: _s.extractXmlStringValue(elem, 'Comment'),
+      corsConfig: _s
+          .extractXmlChild(elem, 'CorsConfig')
+          ?.let((e) => ResponseHeadersPolicyCorsConfig.fromXml(e)),
+      customHeadersConfig: _s
+          .extractXmlChild(elem, 'CustomHeadersConfig')
+          ?.let((e) => ResponseHeadersPolicyCustomHeadersConfig.fromXml(e)),
+      removeHeadersConfig: _s
+          .extractXmlChild(elem, 'RemoveHeadersConfig')
+          ?.let((e) => ResponseHeadersPolicyRemoveHeadersConfig.fromXml(e)),
+      securityHeadersConfig: _s
+          .extractXmlChild(elem, 'SecurityHeadersConfig')
+          ?.let((e) => ResponseHeadersPolicySecurityHeadersConfig.fromXml(e)),
+      serverTimingHeadersConfig: _s
+          .extractXmlChild(elem, 'ServerTimingHeadersConfig')
+          ?.let(
+              (e) => ResponseHeadersPolicyServerTimingHeadersConfig.fromXml(e)),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final name = this.name;
+    final comment = this.comment;
+    final corsConfig = this.corsConfig;
+    final customHeadersConfig = this.customHeadersConfig;
+    final removeHeadersConfig = this.removeHeadersConfig;
+    final securityHeadersConfig = this.securityHeadersConfig;
+    final serverTimingHeadersConfig = this.serverTimingHeadersConfig;
+    final $children = <_s.XmlNode>[
+      if (comment != null) _s.encodeXmlStringValue('Comment', comment),
+      _s.encodeXmlStringValue('Name', name),
+      if (corsConfig != null) corsConfig.toXml('CorsConfig'),
+      if (securityHeadersConfig != null)
+        securityHeadersConfig.toXml('SecurityHeadersConfig'),
+      if (serverTimingHeadersConfig != null)
+        serverTimingHeadersConfig.toXml('ServerTimingHeadersConfig'),
+      if (customHeadersConfig != null)
+        customHeadersConfig.toXml('CustomHeadersConfig'),
+      if (removeHeadersConfig != null)
+        removeHeadersConfig.toXml('RemoveHeadersConfig'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The policy directives and their values that CloudFront includes as values
+/// for the <code>Content-Security-Policy</code> HTTP response header.
+///
+/// For more information about the <code>Content-Security-Policy</code> HTTP
+/// response header, see <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy">Content-Security-Policy</a>
+/// in the MDN Web Docs.
+class ResponseHeadersPolicyContentSecurityPolicy {
+  /// The policy directives and their values that CloudFront includes as values
+  /// for the <code>Content-Security-Policy</code> HTTP response header.
+  final String contentSecurityPolicy;
+
+  /// A Boolean that determines whether CloudFront overrides the
+  /// <code>Content-Security-Policy</code> HTTP response header received from the
+  /// origin with the one specified in this response headers policy.
+  final bool override;
+
+  ResponseHeadersPolicyContentSecurityPolicy({
+    required this.contentSecurityPolicy,
+    required this.override,
+  });
+  factory ResponseHeadersPolicyContentSecurityPolicy.fromXml(
+      _s.XmlElement elem) {
+    return ResponseHeadersPolicyContentSecurityPolicy(
+      contentSecurityPolicy:
+          _s.extractXmlStringValue(elem, 'ContentSecurityPolicy')!,
+      override: _s.extractXmlBoolValue(elem, 'Override')!,
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final contentSecurityPolicy = this.contentSecurityPolicy;
+    final override = this.override;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlBoolValue('Override', override),
+      _s.encodeXmlStringValue('ContentSecurityPolicy', contentSecurityPolicy),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Determines whether CloudFront includes the
+/// <code>X-Content-Type-Options</code> HTTP response header with its value set
+/// to <code>nosniff</code>.
+///
+/// For more information about the <code>X-Content-Type-Options</code> HTTP
+/// response header, see <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options">X-Content-Type-Options</a>
+/// in the MDN Web Docs.
+class ResponseHeadersPolicyContentTypeOptions {
+  /// A Boolean that determines whether CloudFront overrides the
+  /// <code>X-Content-Type-Options</code> HTTP response header received from the
+  /// origin with the one specified in this response headers policy.
+  final bool override;
+
+  ResponseHeadersPolicyContentTypeOptions({
+    required this.override,
+  });
+  factory ResponseHeadersPolicyContentTypeOptions.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicyContentTypeOptions(
+      override: _s.extractXmlBoolValue(elem, 'Override')!,
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final override = this.override;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlBoolValue('Override', override),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A configuration for a set of HTTP response headers that are used for
+/// cross-origin resource sharing (CORS). CloudFront adds these headers to HTTP
+/// responses that it sends for CORS requests that match a cache behavior
+/// associated with this response headers policy.
+///
+/// For more information about CORS, see <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">Cross-Origin
+/// Resource Sharing (CORS)</a> in the MDN Web Docs.
+class ResponseHeadersPolicyCorsConfig {
+  /// A Boolean that CloudFront uses as the value for the
+  /// <code>Access-Control-Allow-Credentials</code> HTTP response header.
+  ///
+  /// For more information about the <code>Access-Control-Allow-Credentials</code>
+  /// HTTP response header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials">Access-Control-Allow-Credentials</a>
+  /// in the MDN Web Docs.
+  final bool accessControlAllowCredentials;
+
+  /// A list of HTTP header names that CloudFront includes as values for the
+  /// <code>Access-Control-Allow-Headers</code> HTTP response header.
+  ///
+  /// For more information about the <code>Access-Control-Allow-Headers</code>
+  /// HTTP response header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers">Access-Control-Allow-Headers</a>
+  /// in the MDN Web Docs.
+  final ResponseHeadersPolicyAccessControlAllowHeaders
+      accessControlAllowHeaders;
+
+  /// A list of HTTP methods that CloudFront includes as values for the
+  /// <code>Access-Control-Allow-Methods</code> HTTP response header.
+  ///
+  /// For more information about the <code>Access-Control-Allow-Methods</code>
+  /// HTTP response header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Methods">Access-Control-Allow-Methods</a>
+  /// in the MDN Web Docs.
+  final ResponseHeadersPolicyAccessControlAllowMethods
+      accessControlAllowMethods;
+
+  /// A list of origins (domain names) that CloudFront can use as the value for
+  /// the <code>Access-Control-Allow-Origin</code> HTTP response header.
+  ///
+  /// For more information about the <code>Access-Control-Allow-Origin</code> HTTP
+  /// response header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin">Access-Control-Allow-Origin</a>
+  /// in the MDN Web Docs.
+  final ResponseHeadersPolicyAccessControlAllowOrigins
+      accessControlAllowOrigins;
+
+  /// A Boolean that determines whether CloudFront overrides HTTP response headers
+  /// received from the origin with the ones specified in this response headers
+  /// policy.
+  final bool originOverride;
+
+  /// A list of HTTP headers that CloudFront includes as values for the
+  /// <code>Access-Control-Expose-Headers</code> HTTP response header.
+  ///
+  /// For more information about the <code>Access-Control-Expose-Headers</code>
+  /// HTTP response header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Expose-Headers">Access-Control-Expose-Headers</a>
+  /// in the MDN Web Docs.
+  final ResponseHeadersPolicyAccessControlExposeHeaders?
+      accessControlExposeHeaders;
+
+  /// A number that CloudFront uses as the value for the
+  /// <code>Access-Control-Max-Age</code> HTTP response header.
+  ///
+  /// For more information about the <code>Access-Control-Max-Age</code> HTTP
+  /// response header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age">Access-Control-Max-Age</a>
+  /// in the MDN Web Docs.
+  final int? accessControlMaxAgeSec;
+
+  ResponseHeadersPolicyCorsConfig({
+    required this.accessControlAllowCredentials,
+    required this.accessControlAllowHeaders,
+    required this.accessControlAllowMethods,
+    required this.accessControlAllowOrigins,
+    required this.originOverride,
+    this.accessControlExposeHeaders,
+    this.accessControlMaxAgeSec,
+  });
+  factory ResponseHeadersPolicyCorsConfig.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicyCorsConfig(
+      accessControlAllowCredentials:
+          _s.extractXmlBoolValue(elem, 'AccessControlAllowCredentials')!,
+      accessControlAllowHeaders:
+          ResponseHeadersPolicyAccessControlAllowHeaders.fromXml(
+              _s.extractXmlChild(elem, 'AccessControlAllowHeaders')!),
+      accessControlAllowMethods:
+          ResponseHeadersPolicyAccessControlAllowMethods.fromXml(
+              _s.extractXmlChild(elem, 'AccessControlAllowMethods')!),
+      accessControlAllowOrigins:
+          ResponseHeadersPolicyAccessControlAllowOrigins.fromXml(
+              _s.extractXmlChild(elem, 'AccessControlAllowOrigins')!),
+      originOverride: _s.extractXmlBoolValue(elem, 'OriginOverride')!,
+      accessControlExposeHeaders: _s
+          .extractXmlChild(elem, 'AccessControlExposeHeaders')
+          ?.let((e) =>
+              ResponseHeadersPolicyAccessControlExposeHeaders.fromXml(e)),
+      accessControlMaxAgeSec:
+          _s.extractXmlIntValue(elem, 'AccessControlMaxAgeSec'),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accessControlAllowCredentials = this.accessControlAllowCredentials;
+    final accessControlAllowHeaders = this.accessControlAllowHeaders;
+    final accessControlAllowMethods = this.accessControlAllowMethods;
+    final accessControlAllowOrigins = this.accessControlAllowOrigins;
+    final originOverride = this.originOverride;
+    final accessControlExposeHeaders = this.accessControlExposeHeaders;
+    final accessControlMaxAgeSec = this.accessControlMaxAgeSec;
+    final $children = <_s.XmlNode>[
+      accessControlAllowOrigins.toXml('AccessControlAllowOrigins'),
+      accessControlAllowHeaders.toXml('AccessControlAllowHeaders'),
+      accessControlAllowMethods.toXml('AccessControlAllowMethods'),
+      _s.encodeXmlBoolValue(
+          'AccessControlAllowCredentials', accessControlAllowCredentials),
+      if (accessControlExposeHeaders != null)
+        accessControlExposeHeaders.toXml('AccessControlExposeHeaders'),
+      if (accessControlMaxAgeSec != null)
+        _s.encodeXmlIntValue('AccessControlMaxAgeSec', accessControlMaxAgeSec),
+      _s.encodeXmlBoolValue('OriginOverride', originOverride),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// An HTTP response header name and its value. CloudFront includes this header
+/// in HTTP responses that it sends for requests that match a cache behavior
+/// that's associated with this response headers policy.
+class ResponseHeadersPolicyCustomHeader {
+  /// The HTTP response header name.
+  final String header;
+
+  /// A Boolean that determines whether CloudFront overrides a response header
+  /// with the same name received from the origin with the header specified here.
+  final bool override;
+
+  /// The value for the HTTP response header.
+  final String value;
+
+  ResponseHeadersPolicyCustomHeader({
+    required this.header,
+    required this.override,
+    required this.value,
+  });
+  factory ResponseHeadersPolicyCustomHeader.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicyCustomHeader(
+      header: _s.extractXmlStringValue(elem, 'Header')!,
+      override: _s.extractXmlBoolValue(elem, 'Override')!,
+      value: _s.extractXmlStringValue(elem, 'Value')!,
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final header = this.header;
+    final override = this.override;
+    final value = this.value;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Header', header),
+      _s.encodeXmlStringValue('Value', value),
+      _s.encodeXmlBoolValue('Override', override),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A list of HTTP response header names and their values. CloudFront includes
+/// these headers in HTTP responses that it sends for requests that match a
+/// cache behavior that's associated with this response headers policy.
+class ResponseHeadersPolicyCustomHeadersConfig {
+  /// The number of HTTP response headers in the list.
+  final int quantity;
+
+  /// The list of HTTP response headers and their values.
+  final List<ResponseHeadersPolicyCustomHeader>? items;
+
+  ResponseHeadersPolicyCustomHeadersConfig({
+    required this.quantity,
+    this.items,
+  });
+  factory ResponseHeadersPolicyCustomHeadersConfig.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicyCustomHeadersConfig(
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
+          .findElements('ResponseHeadersPolicyCustomHeader')
+          .map((c) => ResponseHeadersPolicyCustomHeader.fromXml(c))
+          .toList()),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlIntValue('Quantity', quantity),
+      if (items != null)
+        _s.XmlElement(_s.XmlName('Items'), [],
+            items.map((e) => e.toXml('ResponseHeadersPolicyCustomHeader'))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Determines whether CloudFront includes the <code>X-Frame-Options</code> HTTP
+/// response header and the header's value.
+///
+/// For more information about the <code>X-Frame-Options</code> HTTP response
+/// header, see <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options">X-Frame-Options</a>
+/// in the MDN Web Docs.
+class ResponseHeadersPolicyFrameOptions {
+  /// The value of the <code>X-Frame-Options</code> HTTP response header. Valid
+  /// values are <code>DENY</code> and <code>SAMEORIGIN</code>.
+  ///
+  /// For more information about these values, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options">X-Frame-Options</a>
+  /// in the MDN Web Docs.
+  final FrameOptionsList frameOption;
+
+  /// A Boolean that determines whether CloudFront overrides the
+  /// <code>X-Frame-Options</code> HTTP response header received from the origin
+  /// with the one specified in this response headers policy.
+  final bool override;
+
+  ResponseHeadersPolicyFrameOptions({
+    required this.frameOption,
+    required this.override,
+  });
+  factory ResponseHeadersPolicyFrameOptions.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicyFrameOptions(
+      frameOption:
+          _s.extractXmlStringValue(elem, 'FrameOption')!.toFrameOptionsList(),
+      override: _s.extractXmlBoolValue(elem, 'Override')!,
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final frameOption = this.frameOption;
+    final override = this.override;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlBoolValue('Override', override),
+      _s.encodeXmlStringValue('FrameOption', frameOption.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A list of response headers policies.
+class ResponseHeadersPolicyList {
+  /// The maximum number of response headers policies requested.
+  final int maxItems;
+
+  /// The number of response headers policies returned.
+  final int quantity;
+
+  /// The response headers policies in the list.
+  final List<ResponseHeadersPolicySummary>? items;
+
+  /// If there are more items in the list than are in this response, this element
+  /// is present. It contains the value that you should use in the
+  /// <code>Marker</code> field of a subsequent request to continue listing
+  /// response headers policies where you left off.
+  final String? nextMarker;
+
+  ResponseHeadersPolicyList({
+    required this.maxItems,
+    required this.quantity,
+    this.items,
+    this.nextMarker,
+  });
+  factory ResponseHeadersPolicyList.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicyList(
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
+          .findElements('ResponseHeadersPolicySummary')
+          .map((c) => ResponseHeadersPolicySummary.fromXml(c))
+          .toList()),
+      nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
+    );
+  }
+}
+
+/// Determines whether CloudFront includes the <code>Referrer-Policy</code> HTTP
+/// response header and the header's value.
+///
+/// For more information about the <code>Referrer-Policy</code> HTTP response
+/// header, see <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy">Referrer-Policy</a>
+/// in the MDN Web Docs.
+class ResponseHeadersPolicyReferrerPolicy {
+  /// A Boolean that determines whether CloudFront overrides the
+  /// <code>Referrer-Policy</code> HTTP response header received from the origin
+  /// with the one specified in this response headers policy.
+  final bool override;
+
+  /// The value of the <code>Referrer-Policy</code> HTTP response header. Valid
+  /// values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>no-referrer</code>
+  /// </li>
+  /// <li>
+  /// <code>no-referrer-when-downgrade</code>
+  /// </li>
+  /// <li>
+  /// <code>origin</code>
+  /// </li>
+  /// <li>
+  /// <code>origin-when-cross-origin</code>
+  /// </li>
+  /// <li>
+  /// <code>same-origin</code>
+  /// </li>
+  /// <li>
+  /// <code>strict-origin</code>
+  /// </li>
+  /// <li>
+  /// <code>strict-origin-when-cross-origin</code>
+  /// </li>
+  /// <li>
+  /// <code>unsafe-url</code>
+  /// </li>
+  /// </ul>
+  /// For more information about these values, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy">Referrer-Policy</a>
+  /// in the MDN Web Docs.
+  final ReferrerPolicyList referrerPolicy;
+
+  ResponseHeadersPolicyReferrerPolicy({
+    required this.override,
+    required this.referrerPolicy,
+  });
+  factory ResponseHeadersPolicyReferrerPolicy.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicyReferrerPolicy(
+      override: _s.extractXmlBoolValue(elem, 'Override')!,
+      referrerPolicy: _s
+          .extractXmlStringValue(elem, 'ReferrerPolicy')!
+          .toReferrerPolicyList(),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final override = this.override;
+    final referrerPolicy = this.referrerPolicy;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlBoolValue('Override', override),
+      _s.encodeXmlStringValue('ReferrerPolicy', referrerPolicy.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The name of an HTTP header that CloudFront removes from HTTP responses to
+/// requests that match the cache behavior that this response headers policy is
+/// attached to.
+class ResponseHeadersPolicyRemoveHeader {
+  /// The HTTP header name.
+  final String header;
+
+  ResponseHeadersPolicyRemoveHeader({
+    required this.header,
+  });
+  factory ResponseHeadersPolicyRemoveHeader.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicyRemoveHeader(
+      header: _s.extractXmlStringValue(elem, 'Header')!,
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final header = this.header;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Header', header),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A list of HTTP header names that CloudFront removes from HTTP responses to
+/// requests that match the cache behavior that this response headers policy is
+/// attached to.
+class ResponseHeadersPolicyRemoveHeadersConfig {
+  /// The number of HTTP header names in the list.
+  final int quantity;
+
+  /// The list of HTTP header names.
+  final List<ResponseHeadersPolicyRemoveHeader>? items;
+
+  ResponseHeadersPolicyRemoveHeadersConfig({
+    required this.quantity,
+    this.items,
+  });
+  factory ResponseHeadersPolicyRemoveHeadersConfig.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicyRemoveHeadersConfig(
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
+          .findElements('ResponseHeadersPolicyRemoveHeader')
+          .map((c) => ResponseHeadersPolicyRemoveHeader.fromXml(c))
+          .toList()),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlIntValue('Quantity', quantity),
+      if (items != null)
+        _s.XmlElement(_s.XmlName('Items'), [],
+            items.map((e) => e.toXml('ResponseHeadersPolicyRemoveHeader'))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A configuration for a set of security-related HTTP response headers.
+/// CloudFront adds these headers to HTTP responses that it sends for requests
+/// that match a cache behavior associated with this response headers policy.
+class ResponseHeadersPolicySecurityHeadersConfig {
+  /// The policy directives and their values that CloudFront includes as values
+  /// for the <code>Content-Security-Policy</code> HTTP response header.
+  ///
+  /// For more information about the <code>Content-Security-Policy</code> HTTP
+  /// response header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy">Content-Security-Policy</a>
+  /// in the MDN Web Docs.
+  final ResponseHeadersPolicyContentSecurityPolicy? contentSecurityPolicy;
+
+  /// Determines whether CloudFront includes the
+  /// <code>X-Content-Type-Options</code> HTTP response header with its value set
+  /// to <code>nosniff</code>.
+  ///
+  /// For more information about the <code>X-Content-Type-Options</code> HTTP
+  /// response header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options">X-Content-Type-Options</a>
+  /// in the MDN Web Docs.
+  final ResponseHeadersPolicyContentTypeOptions? contentTypeOptions;
+
+  /// Determines whether CloudFront includes the <code>X-Frame-Options</code> HTTP
+  /// response header and the header's value.
+  ///
+  /// For more information about the <code>X-Frame-Options</code> HTTP response
+  /// header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options">X-Frame-Options</a>
+  /// in the MDN Web Docs.
+  final ResponseHeadersPolicyFrameOptions? frameOptions;
+
+  /// Determines whether CloudFront includes the <code>Referrer-Policy</code> HTTP
+  /// response header and the header's value.
+  ///
+  /// For more information about the <code>Referrer-Policy</code> HTTP response
+  /// header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy">Referrer-Policy</a>
+  /// in the MDN Web Docs.
+  final ResponseHeadersPolicyReferrerPolicy? referrerPolicy;
+
+  /// Determines whether CloudFront includes the
+  /// <code>Strict-Transport-Security</code> HTTP response header and the header's
+  /// value.
+  ///
+  /// For more information about the <code>Strict-Transport-Security</code> HTTP
+  /// response header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security">Strict-Transport-Security</a>
+  /// in the MDN Web Docs.
+  final ResponseHeadersPolicyStrictTransportSecurity? strictTransportSecurity;
+
+  /// Determines whether CloudFront includes the <code>X-XSS-Protection</code>
+  /// HTTP response header and the header's value.
+  ///
+  /// For more information about the <code>X-XSS-Protection</code> HTTP response
+  /// header, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection">X-XSS-Protection</a>
+  /// in the MDN Web Docs.
+  final ResponseHeadersPolicyXSSProtection? xSSProtection;
+
+  ResponseHeadersPolicySecurityHeadersConfig({
+    this.contentSecurityPolicy,
+    this.contentTypeOptions,
+    this.frameOptions,
+    this.referrerPolicy,
+    this.strictTransportSecurity,
+    this.xSSProtection,
+  });
+  factory ResponseHeadersPolicySecurityHeadersConfig.fromXml(
+      _s.XmlElement elem) {
+    return ResponseHeadersPolicySecurityHeadersConfig(
+      contentSecurityPolicy: _s
+          .extractXmlChild(elem, 'ContentSecurityPolicy')
+          ?.let((e) => ResponseHeadersPolicyContentSecurityPolicy.fromXml(e)),
+      contentTypeOptions: _s
+          .extractXmlChild(elem, 'ContentTypeOptions')
+          ?.let((e) => ResponseHeadersPolicyContentTypeOptions.fromXml(e)),
+      frameOptions: _s
+          .extractXmlChild(elem, 'FrameOptions')
+          ?.let((e) => ResponseHeadersPolicyFrameOptions.fromXml(e)),
+      referrerPolicy: _s
+          .extractXmlChild(elem, 'ReferrerPolicy')
+          ?.let((e) => ResponseHeadersPolicyReferrerPolicy.fromXml(e)),
+      strictTransportSecurity: _s
+          .extractXmlChild(elem, 'StrictTransportSecurity')
+          ?.let((e) => ResponseHeadersPolicyStrictTransportSecurity.fromXml(e)),
+      xSSProtection: _s
+          .extractXmlChild(elem, 'XSSProtection')
+          ?.let((e) => ResponseHeadersPolicyXSSProtection.fromXml(e)),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final contentSecurityPolicy = this.contentSecurityPolicy;
+    final contentTypeOptions = this.contentTypeOptions;
+    final frameOptions = this.frameOptions;
+    final referrerPolicy = this.referrerPolicy;
+    final strictTransportSecurity = this.strictTransportSecurity;
+    final xSSProtection = this.xSSProtection;
+    final $children = <_s.XmlNode>[
+      if (xSSProtection != null) xSSProtection.toXml('XSSProtection'),
+      if (frameOptions != null) frameOptions.toXml('FrameOptions'),
+      if (referrerPolicy != null) referrerPolicy.toXml('ReferrerPolicy'),
+      if (contentSecurityPolicy != null)
+        contentSecurityPolicy.toXml('ContentSecurityPolicy'),
+      if (contentTypeOptions != null)
+        contentTypeOptions.toXml('ContentTypeOptions'),
+      if (strictTransportSecurity != null)
+        strictTransportSecurity.toXml('StrictTransportSecurity'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A configuration for enabling the <code>Server-Timing</code> header in HTTP
+/// responses sent from CloudFront. CloudFront adds this header to HTTP
+/// responses that it sends in response to requests that match a cache behavior
+/// that's associated with this response headers policy.
+///
+/// You can use the <code>Server-Timing</code> header to view metrics that can
+/// help you gain insights about the behavior and performance of CloudFront. For
+/// example, you can see which cache layer served a cache hit, or the first byte
+/// latency from the origin when there was a cache miss. You can use the metrics
+/// in the <code>Server-Timing</code> header to troubleshoot issues or test the
+/// efficiency of your CloudFront configuration. For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/understanding-response-headers-policies.html#server-timing-header">Server-Timing
+/// header</a> in the <i>Amazon CloudFront Developer Guide</i>.
+class ResponseHeadersPolicyServerTimingHeadersConfig {
+  /// A Boolean that determines whether CloudFront adds the
+  /// <code>Server-Timing</code> header to HTTP responses that it sends in
+  /// response to requests that match a cache behavior that's associated with this
+  /// response headers policy.
+  final bool enabled;
+
+  /// A number 0–100 (inclusive) that specifies the percentage of responses that
+  /// you want CloudFront to add the <code>Server-Timing</code> header to. When
+  /// you set the sampling rate to 100, CloudFront adds the
+  /// <code>Server-Timing</code> header to the HTTP response for every request
+  /// that matches the cache behavior that this response headers policy is
+  /// attached to. When you set it to 50, CloudFront adds the header to 50% of the
+  /// responses for requests that match the cache behavior. You can set the
+  /// sampling rate to any number 0–100 with up to four decimal places.
+  final double? samplingRate;
+
+  ResponseHeadersPolicyServerTimingHeadersConfig({
+    required this.enabled,
+    this.samplingRate,
+  });
+  factory ResponseHeadersPolicyServerTimingHeadersConfig.fromXml(
+      _s.XmlElement elem) {
+    return ResponseHeadersPolicyServerTimingHeadersConfig(
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
+      samplingRate: _s.extractXmlDoubleValue(elem, 'SamplingRate'),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final enabled = this.enabled;
+    final samplingRate = this.samplingRate;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlBoolValue('Enabled', enabled),
+      if (samplingRate != null)
+        _s.encodeXmlDoubleValue('SamplingRate', samplingRate),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Determines whether CloudFront includes the
+/// <code>Strict-Transport-Security</code> HTTP response header and the header's
+/// value.
+///
+/// For more information about the <code>Strict-Transport-Security</code> HTTP
+/// response header, see <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security">Strict-Transport-Security</a>
+/// in the MDN Web Docs.
+class ResponseHeadersPolicyStrictTransportSecurity {
+  /// A number that CloudFront uses as the value for the <code>max-age</code>
+  /// directive in the <code>Strict-Transport-Security</code> HTTP response
+  /// header.
+  final int accessControlMaxAgeSec;
+
+  /// A Boolean that determines whether CloudFront overrides the
+  /// <code>Strict-Transport-Security</code> HTTP response header received from
+  /// the origin with the one specified in this response headers policy.
+  final bool override;
+
+  /// A Boolean that determines whether CloudFront includes the
+  /// <code>includeSubDomains</code> directive in the
+  /// <code>Strict-Transport-Security</code> HTTP response header.
+  final bool? includeSubdomains;
+
+  /// A Boolean that determines whether CloudFront includes the
+  /// <code>preload</code> directive in the <code>Strict-Transport-Security</code>
+  /// HTTP response header.
+  final bool? preload;
+
+  ResponseHeadersPolicyStrictTransportSecurity({
+    required this.accessControlMaxAgeSec,
+    required this.override,
+    this.includeSubdomains,
+    this.preload,
+  });
+  factory ResponseHeadersPolicyStrictTransportSecurity.fromXml(
+      _s.XmlElement elem) {
+    return ResponseHeadersPolicyStrictTransportSecurity(
+      accessControlMaxAgeSec:
+          _s.extractXmlIntValue(elem, 'AccessControlMaxAgeSec')!,
+      override: _s.extractXmlBoolValue(elem, 'Override')!,
+      includeSubdomains: _s.extractXmlBoolValue(elem, 'IncludeSubdomains'),
+      preload: _s.extractXmlBoolValue(elem, 'Preload'),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accessControlMaxAgeSec = this.accessControlMaxAgeSec;
+    final override = this.override;
+    final includeSubdomains = this.includeSubdomains;
+    final preload = this.preload;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlBoolValue('Override', override),
+      if (includeSubdomains != null)
+        _s.encodeXmlBoolValue('IncludeSubdomains', includeSubdomains),
+      if (preload != null) _s.encodeXmlBoolValue('Preload', preload),
+      _s.encodeXmlIntValue('AccessControlMaxAgeSec', accessControlMaxAgeSec),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Contains a response headers policy.
+class ResponseHeadersPolicySummary {
+  /// The response headers policy.
+  final ResponseHeadersPolicy responseHeadersPolicy;
+
+  /// The type of response headers policy, either <code>managed</code> (created by
+  /// Amazon Web Services) or <code>custom</code> (created in this Amazon Web
+  /// Services account).
+  final ResponseHeadersPolicyType type;
+
+  ResponseHeadersPolicySummary({
+    required this.responseHeadersPolicy,
+    required this.type,
+  });
+  factory ResponseHeadersPolicySummary.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicySummary(
+      responseHeadersPolicy: ResponseHeadersPolicy.fromXml(
+          _s.extractXmlChild(elem, 'ResponseHeadersPolicy')!),
+      type:
+          _s.extractXmlStringValue(elem, 'Type')!.toResponseHeadersPolicyType(),
+    );
+  }
+}
+
+enum ResponseHeadersPolicyType {
+  managed,
+  custom,
+}
+
+extension ResponseHeadersPolicyTypeValueExtension on ResponseHeadersPolicyType {
+  String toValue() {
+    switch (this) {
+      case ResponseHeadersPolicyType.managed:
+        return 'managed';
+      case ResponseHeadersPolicyType.custom:
+        return 'custom';
+    }
+  }
+}
+
+extension ResponseHeadersPolicyTypeFromString on String {
+  ResponseHeadersPolicyType toResponseHeadersPolicyType() {
+    switch (this) {
+      case 'managed':
+        return ResponseHeadersPolicyType.managed;
+      case 'custom':
+        return ResponseHeadersPolicyType.custom;
+    }
+    throw Exception('$this is not known in enum ResponseHeadersPolicyType');
+  }
+}
+
+/// Determines whether CloudFront includes the <code>X-XSS-Protection</code>
+/// HTTP response header and the header's value.
+///
+/// For more information about the <code>X-XSS-Protection</code> HTTP response
+/// header, see <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection">X-XSS-Protection</a>
+/// in the MDN Web Docs.
+class ResponseHeadersPolicyXSSProtection {
+  /// A Boolean that determines whether CloudFront overrides the
+  /// <code>X-XSS-Protection</code> HTTP response header received from the origin
+  /// with the one specified in this response headers policy.
+  final bool override;
+
+  /// A Boolean that determines the value of the <code>X-XSS-Protection</code>
+  /// HTTP response header. When this setting is <code>true</code>, the value of
+  /// the <code>X-XSS-Protection</code> header is <code>1</code>. When this
+  /// setting is <code>false</code>, the value of the
+  /// <code>X-XSS-Protection</code> header is <code>0</code>.
+  ///
+  /// For more information about these settings, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection">X-XSS-Protection</a>
+  /// in the MDN Web Docs.
+  final bool protection;
+
+  /// A Boolean that determines whether CloudFront includes the
+  /// <code>mode=block</code> directive in the <code>X-XSS-Protection</code>
+  /// header.
+  ///
+  /// For more information about this directive, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection">X-XSS-Protection</a>
+  /// in the MDN Web Docs.
+  final bool? modeBlock;
+
+  /// A reporting URI, which CloudFront uses as the value of the
+  /// <code>report</code> directive in the <code>X-XSS-Protection</code> header.
+  ///
+  /// You cannot specify a <code>ReportUri</code> when <code>ModeBlock</code> is
+  /// <code>true</code>.
+  ///
+  /// For more information about using a reporting URL, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection">X-XSS-Protection</a>
+  /// in the MDN Web Docs.
+  final String? reportUri;
+
+  ResponseHeadersPolicyXSSProtection({
+    required this.override,
+    required this.protection,
+    this.modeBlock,
+    this.reportUri,
+  });
+  factory ResponseHeadersPolicyXSSProtection.fromXml(_s.XmlElement elem) {
+    return ResponseHeadersPolicyXSSProtection(
+      override: _s.extractXmlBoolValue(elem, 'Override')!,
+      protection: _s.extractXmlBoolValue(elem, 'Protection')!,
+      modeBlock: _s.extractXmlBoolValue(elem, 'ModeBlock'),
+      reportUri: _s.extractXmlStringValue(elem, 'ReportUri'),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final override = this.override;
+    final protection = this.protection;
+    final modeBlock = this.modeBlock;
+    final reportUri = this.reportUri;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlBoolValue('Override', override),
+      _s.encodeXmlBoolValue('Protection', protection),
+      if (modeBlock != null) _s.encodeXmlBoolValue('ModeBlock', modeBlock),
+      if (reportUri != null) _s.encodeXmlStringValue('ReportUri', reportUri),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
 /// A complex type that identifies ways in which you want to restrict
 /// distribution of your content.
 class Restrictions {
@@ -10983,15 +15398,63 @@ extension SSLSupportMethodFromString on String {
   }
 }
 
-/// A list of AWS accounts and the active CloudFront key pairs in each account
-/// that CloudFront can use to verify the signatures of signed URLs and signed
-/// cookies.
+/// Session stickiness provides the ability to define multiple requests from a
+/// single viewer as a single session. This prevents the potentially
+/// inconsistent experience of sending some of a given user's requests to your
+/// staging distribution, while others are sent to your primary distribution.
+/// Define the session duration using TTL values.
+class SessionStickinessConfig {
+  /// The amount of time after which you want sessions to cease if no requests are
+  /// received. Allowed values are 300–3600 seconds (5–60 minutes).
+  ///
+  /// The value must be less than or equal to <code>MaximumTTL</code>.
+  final int idleTTL;
+
+  /// The maximum amount of time to consider requests from the viewer as being
+  /// part of the same session. Allowed values are 300–3600 seconds (5–60
+  /// minutes).
+  ///
+  /// The value must be less than or equal to <code>IdleTTL</code>.
+  final int maximumTTL;
+
+  SessionStickinessConfig({
+    required this.idleTTL,
+    required this.maximumTTL,
+  });
+  factory SessionStickinessConfig.fromXml(_s.XmlElement elem) {
+    return SessionStickinessConfig(
+      idleTTL: _s.extractXmlIntValue(elem, 'IdleTTL')!,
+      maximumTTL: _s.extractXmlIntValue(elem, 'MaximumTTL')!,
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final idleTTL = this.idleTTL;
+    final maximumTTL = this.maximumTTL;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlIntValue('IdleTTL', idleTTL),
+      _s.encodeXmlIntValue('MaximumTTL', maximumTTL),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A list of Amazon Web Services accounts and the active CloudFront key pairs
+/// in each account that CloudFront can use to verify the signatures of signed
+/// URLs and signed cookies.
 class Signer {
-  /// An AWS account number that contains active CloudFront key pairs that
-  /// CloudFront can use to verify the signatures of signed URLs and signed
-  /// cookies. If the AWS account that owns the key pairs is the same account that
-  /// owns the CloudFront distribution, the value of this field is
-  /// <code>self</code>.
+  /// An Amazon Web Services account number that contains active CloudFront key
+  /// pairs that CloudFront can use to verify the signatures of signed URLs and
+  /// signed cookies. If the Amazon Web Services account that owns the key pairs
+  /// is the same account that owns the CloudFront distribution, the value of this
+  /// field is <code>self</code>.
   final String? awsAccountNumber;
 
   /// A list of CloudFront key pair identifiers.
@@ -11049,6 +15512,47 @@ extension SslProtocolFromString on String {
   }
 }
 
+/// The CloudFront domain name of the staging distribution.
+class StagingDistributionDnsNames {
+  /// The number of CloudFront domain names in your staging distribution.
+  final int quantity;
+
+  /// The CloudFront domain name of the staging distribution.
+  final List<String>? items;
+
+  StagingDistributionDnsNames({
+    required this.quantity,
+    this.items,
+  });
+  factory StagingDistributionDnsNames.fromXml(_s.XmlElement elem) {
+    return StagingDistributionDnsNames(
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+      items: _s
+          .extractXmlChild(elem, 'Items')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'DnsName')),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlIntValue('Quantity', quantity),
+      if (items != null)
+        _s.XmlElement(_s.XmlName('Items'), [],
+            items.map((e) => _s.encodeXmlStringValue('DnsName', e))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
 /// A complex data type for the status codes that you specify that, when
 /// returned by a primary origin, trigger CloudFront to failover to a second
 /// origin.
@@ -11096,19 +15600,20 @@ class StatusCodes {
 class StreamingDistribution {
   /// The ARN (Amazon Resource Name) for the distribution. For example:
   /// <code>arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5</code>,
-  /// where <code>123456789012</code> is your AWS account ID.
+  /// where <code>123456789012</code> is your Amazon Web Services account ID.
   final String arn;
 
-  /// A complex type that lists the AWS accounts, if any, that you included in the
-  /// <code>TrustedSigners</code> complex type for this distribution. These are
-  /// the accounts that you want to allow to create signed URLs for private
-  /// content.
+  /// A complex type that lists the Amazon Web Services accounts, if any, that you
+  /// included in the <code>TrustedSigners</code> complex type for this
+  /// distribution. These are the accounts that you want to allow to create signed
+  /// URLs for private content.
   ///
-  /// The <code>Signer</code> complex type lists the AWS account number of the
-  /// trusted signer or <code>self</code> if the signer is the AWS account that
-  /// created the distribution. The <code>Signer</code> element also includes the
-  /// IDs of any active CloudFront key pairs that are associated with the trusted
-  /// signer's AWS account. If no <code>KeyPairId</code> element appears for a
+  /// The <code>Signer</code> complex type lists the Amazon Web Services account
+  /// number of the trusted signer or <code>self</code> if the signer is the
+  /// Amazon Web Services account that created the distribution. The
+  /// <code>Signer</code> element also includes the IDs of any active CloudFront
+  /// key pairs that are associated with the trusted signer's Amazon Web Services
+  /// account. If no <code>KeyPairId</code> element appears for a
   /// <code>Signer</code>, that signer can't create signed URLs.
   ///
   /// For more information, see <a
@@ -11185,10 +15690,11 @@ class StreamingDistributionConfig {
   /// which you want CloudFront to get your media files for distribution.
   final S3Origin s3Origin;
 
-  /// A complex type that specifies any AWS accounts that you want to permit to
-  /// create signed URLs for private content. If you want the distribution to use
-  /// signed URLs, include this element; if you want the distribution to use
-  /// public URLs, remove this element. For more information, see <a
+  /// A complex type that specifies any Amazon Web Services accounts that you want
+  /// to permit to create signed URLs for private content. If you want the
+  /// distribution to use signed URLs, include this element; if you want the
+  /// distribution to use public URLs, remove this element. For more information,
+  /// see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html">Serving
   /// Private Content through CloudFront</a> in the <i>Amazon CloudFront Developer
   /// Guide</i>.
@@ -11309,12 +15815,13 @@ class StreamingDistributionList {
   /// The value you provided for the <code>MaxItems</code> request parameter.
   final int maxItems;
 
-  /// The number of streaming distributions that were created by the current AWS
-  /// account.
+  /// The number of streaming distributions that were created by the current
+  /// Amazon Web Services account.
   final int quantity;
 
   /// A complex type that contains one <code>StreamingDistributionSummary</code>
-  /// element for each distribution that was created by the current AWS account.
+  /// element for each distribution that was created by the current Amazon Web
+  /// Services account.
   final List<StreamingDistributionSummary>? items;
 
   /// If <code>IsTruncated</code> is <code>true</code>, this element is present
@@ -11349,7 +15856,7 @@ class StreamingDistributionList {
 class StreamingDistributionSummary {
   /// The ARN (Amazon Resource Name) for the streaming distribution. For example:
   /// <code>arn:aws:cloudfront::123456789012:streaming-distribution/EDFDVBD632BHDS5</code>,
-  /// where <code>123456789012</code> is your AWS account ID.
+  /// where <code>123456789012</code> is your Amazon Web Services account ID.
   final String arn;
 
   /// A complex type that contains information about CNAMEs (alternate domain
@@ -11386,19 +15893,20 @@ class StreamingDistributionSummary {
   /// throughout the Amazon CloudFront system.
   final String status;
 
-  /// A complex type that specifies the AWS accounts, if any, that you want to
-  /// allow to create signed URLs for private content. If you want to require
-  /// signed URLs in requests for objects in the target origin that match the
-  /// <code>PathPattern</code> for this cache behavior, specify <code>true</code>
-  /// for <code>Enabled</code>, and specify the applicable values for
-  /// <code>Quantity</code> and <code>Items</code>.If you don't want to require
-  /// signed URLs in requests for objects that match <code>PathPattern</code>,
-  /// specify <code>false</code> for <code>Enabled</code> and <code>0</code> for
-  /// <code>Quantity</code>. Omit <code>Items</code>. To add, change, or remove
-  /// one or more trusted signers, change <code>Enabled</code> to
-  /// <code>true</code> (if it's currently <code>false</code>), change
-  /// <code>Quantity</code> as applicable, and specify all of the trusted signers
-  /// that you want to include in the updated distribution.
+  /// A complex type that specifies the Amazon Web Services accounts, if any, that
+  /// you want to allow to create signed URLs for private content. If you want to
+  /// require signed URLs in requests for objects in the target origin that match
+  /// the <code>PathPattern</code> for this cache behavior, specify
+  /// <code>true</code> for <code>Enabled</code>, and specify the applicable
+  /// values for <code>Quantity</code> and <code>Items</code>.If you don't want to
+  /// require signed URLs in requests for objects that match
+  /// <code>PathPattern</code>, specify <code>false</code> for
+  /// <code>Enabled</code> and <code>0</code> for <code>Quantity</code>. Omit
+  /// <code>Items</code>. To add, change, or remove one or more trusted signers,
+  /// change <code>Enabled</code> to <code>true</code> (if it's currently
+  /// <code>false</code>), change <code>Quantity</code> as applicable, and specify
+  /// all of the trusted signers that you want to include in the updated
+  /// distribution.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html">Serving
@@ -11599,6 +16107,161 @@ class Tags {
   }
 }
 
+class TestFunctionRequest {
+  /// The event object to test the function with. For more information about the
+  /// structure of the event object, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/managing-functions.html#test-function">Testing
+  /// functions</a> in the <i>Amazon CloudFront Developer Guide</i>.
+  final Uint8List eventObject;
+
+  /// The current version (<code>ETag</code> value) of the function that you are
+  /// testing, which you can get using <code>DescribeFunction</code>.
+  final String ifMatch;
+
+  /// The name of the function that you are testing.
+  final String name;
+
+  /// The stage of the function that you are testing, either
+  /// <code>DEVELOPMENT</code> or <code>LIVE</code>.
+  final FunctionStage? stage;
+
+  TestFunctionRequest({
+    required this.eventObject,
+    required this.ifMatch,
+    required this.name,
+    this.stage,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final eventObject = this.eventObject;
+    final ifMatch = this.ifMatch;
+    final name = this.name;
+    final stage = this.stage;
+    final $children = <_s.XmlNode>[
+      if (stage != null) _s.encodeXmlStringValue('Stage', stage.toValue()),
+      _s.encodeXmlUint8ListValue('EventObject', eventObject),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class TestFunctionResult {
+  /// An object that represents the result of running the function with the
+  /// provided event object.
+  final TestResult? testResult;
+
+  TestFunctionResult({
+    this.testResult,
+  });
+}
+
+/// Contains the result of testing a CloudFront function with
+/// <code>TestFunction</code>.
+class TestResult {
+  /// The amount of time that the function took to run as a percentage of the
+  /// maximum allowed time. For example, a compute utilization of 35 means that
+  /// the function completed in 35% of the maximum allowed time.
+  final String? computeUtilization;
+
+  /// If the result of testing the function was an error, this field contains the
+  /// error message.
+  final String? functionErrorMessage;
+
+  /// Contains the log lines that the function wrote (if any) when running the
+  /// test.
+  final List<String>? functionExecutionLogs;
+
+  /// The event object returned by the function. For more information about the
+  /// structure of the event object, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/functions-event-structure.html">Event
+  /// object structure</a> in the <i>Amazon CloudFront Developer Guide</i>.
+  final String? functionOutput;
+
+  /// Contains configuration information and metadata about the CloudFront
+  /// function that was tested.
+  final FunctionSummary? functionSummary;
+
+  TestResult({
+    this.computeUtilization,
+    this.functionErrorMessage,
+    this.functionExecutionLogs,
+    this.functionOutput,
+    this.functionSummary,
+  });
+  factory TestResult.fromXml(_s.XmlElement elem) {
+    return TestResult(
+      computeUtilization: _s.extractXmlStringValue(elem, 'ComputeUtilization'),
+      functionErrorMessage:
+          _s.extractXmlStringValue(elem, 'FunctionErrorMessage'),
+      functionExecutionLogs: _s
+          .extractXmlChild(elem, 'FunctionExecutionLogs')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      functionOutput: _s.extractXmlStringValue(elem, 'FunctionOutput'),
+      functionSummary: _s
+          .extractXmlChild(elem, 'FunctionSummary')
+          ?.let((e) => FunctionSummary.fromXml(e)),
+    );
+  }
+}
+
+/// The traffic configuration of your continuous deployment.
+class TrafficConfig {
+  /// The type of traffic configuration.
+  final ContinuousDeploymentPolicyType type;
+
+  /// Determines which HTTP requests are sent to the staging distribution.
+  final ContinuousDeploymentSingleHeaderConfig? singleHeaderConfig;
+
+  /// Contains the percentage of traffic to send to the staging distribution.
+  final ContinuousDeploymentSingleWeightConfig? singleWeightConfig;
+
+  TrafficConfig({
+    required this.type,
+    this.singleHeaderConfig,
+    this.singleWeightConfig,
+  });
+  factory TrafficConfig.fromXml(_s.XmlElement elem) {
+    return TrafficConfig(
+      type: _s
+          .extractXmlStringValue(elem, 'Type')!
+          .toContinuousDeploymentPolicyType(),
+      singleHeaderConfig: _s
+          .extractXmlChild(elem, 'SingleHeaderConfig')
+          ?.let((e) => ContinuousDeploymentSingleHeaderConfig.fromXml(e)),
+      singleWeightConfig: _s
+          .extractXmlChild(elem, 'SingleWeightConfig')
+          ?.let((e) => ContinuousDeploymentSingleWeightConfig.fromXml(e)),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final type = this.type;
+    final singleHeaderConfig = this.singleHeaderConfig;
+    final singleWeightConfig = this.singleWeightConfig;
+    final $children = <_s.XmlNode>[
+      if (singleWeightConfig != null)
+        singleWeightConfig.toXml('SingleWeightConfig'),
+      if (singleHeaderConfig != null)
+        singleHeaderConfig.toXml('SingleHeaderConfig'),
+      _s.encodeXmlStringValue('Type', type.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
 /// A list of key groups whose public keys CloudFront can use to verify the
 /// signatures of signed URLs and signed cookies.
 class TrustedKeyGroups {
@@ -11650,18 +16313,18 @@ class TrustedKeyGroups {
   }
 }
 
-/// A list of AWS accounts whose public keys CloudFront can use to verify the
-/// signatures of signed URLs and signed cookies.
+/// A list of Amazon Web Services accounts whose public keys CloudFront can use
+/// to verify the signatures of signed URLs and signed cookies.
 class TrustedSigners {
-  /// This field is <code>true</code> if any of the AWS accounts have public keys
-  /// that CloudFront can use to verify the signatures of signed URLs and signed
-  /// cookies. If not, this field is <code>false</code>.
+  /// This field is <code>true</code> if any of the Amazon Web Services accounts
+  /// have public keys that CloudFront can use to verify the signatures of signed
+  /// URLs and signed cookies. If not, this field is <code>false</code>.
   final bool enabled;
 
-  /// The number of AWS accounts in the list.
+  /// The number of Amazon Web Services accounts in the list.
   final int quantity;
 
-  /// A list of AWS account identifiers.
+  /// A list of Amazon Web Services account identifiers.
   final List<String>? items;
 
   TrustedSigners({
@@ -11728,6 +16391,20 @@ class UpdateCloudFrontOriginAccessIdentityResult {
   });
 }
 
+class UpdateContinuousDeploymentPolicyResult {
+  /// A continuous deployment policy.
+  final ContinuousDeploymentPolicy? continuousDeploymentPolicy;
+
+  /// The version identifier for the current version of the continuous deployment
+  /// policy.
+  final String? eTag;
+
+  UpdateContinuousDeploymentPolicyResult({
+    this.continuousDeploymentPolicy,
+    this.eTag,
+  });
+}
+
 /// The returned result of the corresponding request.
 class UpdateDistributionResult {
   /// The distribution's information.
@@ -11738,6 +16415,18 @@ class UpdateDistributionResult {
   final String? eTag;
 
   UpdateDistributionResult({
+    this.distribution,
+    this.eTag,
+  });
+}
+
+class UpdateDistributionWithStagingConfigResult {
+  final Distribution? distribution;
+
+  /// The current version of the primary distribution (after it's updated).
+  final String? eTag;
+
+  UpdateDistributionWithStagingConfigResult({
     this.distribution,
     this.eTag,
   });
@@ -11770,6 +16459,63 @@ class UpdateFieldLevelEncryptionProfileResult {
   });
 }
 
+class UpdateFunctionRequest {
+  /// The function code. For more information about writing a CloudFront function,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/writing-function-code.html">Writing
+  /// function code for CloudFront Functions</a> in the <i>Amazon CloudFront
+  /// Developer Guide</i>.
+  final Uint8List functionCode;
+
+  /// Configuration information about the function.
+  final FunctionConfig functionConfig;
+
+  /// The current version (<code>ETag</code> value) of the function that you are
+  /// updating, which you can get using <code>DescribeFunction</code>.
+  final String ifMatch;
+
+  /// The name of the function that you are updating.
+  final String name;
+
+  UpdateFunctionRequest({
+    required this.functionCode,
+    required this.functionConfig,
+    required this.ifMatch,
+    required this.name,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final functionCode = this.functionCode;
+    final functionConfig = this.functionConfig;
+    final ifMatch = this.ifMatch;
+    final name = this.name;
+    final $children = <_s.XmlNode>[
+      functionConfig.toXml('FunctionConfig'),
+      _s.encodeXmlUint8ListValue('FunctionCode', functionCode),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class UpdateFunctionResult {
+  /// The version identifier for the current version of the CloudFront function.
+  final String? eTag;
+
+  /// Contains configuration information and metadata about a CloudFront function.
+  final FunctionSummary? functionSummary;
+
+  UpdateFunctionResult({
+    this.eTag,
+    this.functionSummary,
+  });
+}
+
 class UpdateKeyGroupResult {
   /// The identifier for this version of the key group.
   final String? eTag;
@@ -11780,6 +16526,19 @@ class UpdateKeyGroupResult {
   UpdateKeyGroupResult({
     this.eTag,
     this.keyGroup,
+  });
+}
+
+class UpdateOriginAccessControlResult {
+  /// The new version of the origin access control after it has been updated.
+  final String? eTag;
+
+  /// The origin access control after it has been updated.
+  final OriginAccessControl? originAccessControl;
+
+  UpdateOriginAccessControlResult({
+    this.eTag,
+    this.originAccessControl,
   });
 }
 
@@ -11886,6 +16645,19 @@ class UpdateRealtimeLogConfigResult {
   }
 }
 
+class UpdateResponseHeadersPolicyResult {
+  /// The current version of the response headers policy.
+  final String? eTag;
+
+  /// A response headers policy.
+  final ResponseHeadersPolicy? responseHeadersPolicy;
+
+  UpdateResponseHeadersPolicyResult({
+    this.eTag,
+    this.responseHeadersPolicy,
+  });
+}
+
 /// The returned result of the corresponding request.
 class UpdateStreamingDistributionResult {
   /// The current version of the configuration. For example:
@@ -11901,10 +16673,10 @@ class UpdateStreamingDistributionResult {
   });
 }
 
-/// A complex type that determines the distribution’s SSL/TLS configuration for
+/// A complex type that determines the distribution's SSL/TLS configuration for
 /// communicating with viewers.
 ///
-/// If the distribution doesn’t use <code>Aliases</code> (also known as
+/// If the distribution doesn't use <code>Aliases</code> (also known as
 /// alternate domain names or CNAMEs)—that is, if the distribution uses the
 /// CloudFront domain name such as
 /// <code>d111111abcdef8.cloudfront.net</code>—set
@@ -11920,7 +16692,7 @@ class UpdateStreamingDistributionResult {
 /// that support <a
 /// href="https://en.wikipedia.org/wiki/Server_Name_Indication">server name
 /// indication (SNI)</a> (recommended), or all viewers including those that
-/// don’t support SNI.
+/// don't support SNI.
 ///
 /// <ul>
 /// <li>
@@ -11929,7 +16701,7 @@ class UpdateStreamingDistributionResult {
 /// Most browsers and clients support SNI.
 /// </li>
 /// <li>
-/// To accept HTTPS connections from all viewers, including those that don’t
+/// To accept HTTPS connections from all viewers, including those that don't
 /// support SNI, set <code>SSLSupportMethod</code> to <code>vip</code>. This is
 /// not recommended, and results in additional monthly charges from CloudFront.
 /// </li>
@@ -11943,11 +16715,11 @@ class UpdateStreamingDistributionResult {
 /// </li>
 /// <li>
 /// The location of the SSL/TLS certificate, <a
-/// href="https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html">AWS
-/// Certificate Manager (ACM)</a> (recommended) or <a
-/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">AWS
-/// Identity and Access Management (AWS IAM)</a>. You specify the location by
-/// setting a value in one of the following fields (not both):
+/// href="https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html">Certificate
+/// Manager (ACM)</a> (recommended) or <a
+/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Identity
+/// and Access Management (IAM)</a>. You specify the location by setting a value
+/// in one of the following fields (not both):
 ///
 /// <ul>
 /// <li>
@@ -11974,10 +16746,10 @@ class UpdateStreamingDistributionResult {
 class ViewerCertificate {
   /// If the distribution uses <code>Aliases</code> (alternate domain names or
   /// CNAMEs) and the SSL/TLS certificate is stored in <a
-  /// href="https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html">AWS
-  /// Certificate Manager (ACM)</a>, provide the Amazon Resource Name (ARN) of the
-  /// ACM certificate. CloudFront only supports ACM certificates in the US East
-  /// (N. Virginia) Region (<code>us-east-1</code>).
+  /// href="https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html">Certificate
+  /// Manager (ACM)</a>, provide the Amazon Resource Name (ARN) of the ACM
+  /// certificate. CloudFront only supports ACM certificates in the US East (N.
+  /// Virginia) Region (<code>us-east-1</code>).
   ///
   /// If you specify an ACM certificate ARN, you must also specify values for
   /// <code>MinimumProtocolVersion</code> and <code>SSLSupportMethod</code>.
@@ -12037,9 +16809,8 @@ class ViewerCertificate {
 
   /// If the distribution uses <code>Aliases</code> (alternate domain names or
   /// CNAMEs) and the SSL/TLS certificate is stored in <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">AWS
-  /// Identity and Access Management (AWS IAM)</a>, provide the ID of the IAM
-  /// certificate.
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Identity
+  /// and Access Management (IAM)</a>, provide the ID of the IAM certificate.
   ///
   /// If you specify an IAM certificate ID, you must also specify values for
   /// <code>MinimumProtocolVersion</code> and <code>SSLSupportMethod</code>.
@@ -12068,7 +16839,7 @@ class ViewerCertificate {
   /// <note>
   /// On the CloudFront console, this setting is called <b>Security Policy</b>.
   /// </note>
-  /// When you’re using SNI only (you set <code>SSLSupportMethod</code> to
+  /// When you're using SNI only (you set <code>SSLSupportMethod</code> to
   /// <code>sni-only</code>), you must specify <code>TLSv1</code> or higher.
   ///
   /// If the distribution uses the CloudFront domain name such as
@@ -12092,7 +16863,7 @@ class ViewerCertificate {
   /// </li>
   /// <li>
   /// <code>vip</code> – The distribution accepts HTTPS connections from all
-  /// viewers including those that don’t support SNI. This is not recommended, and
+  /// viewers including those that don't support SNI. This is not recommended, and
   /// results in additional monthly charges from CloudFront.
   /// </li>
   /// <li>
@@ -12100,11 +16871,12 @@ class ViewerCertificate {
   /// has been enabled for this feature by the CloudFront team. If you have a use
   /// case that requires static IP addresses for a distribution, contact
   /// CloudFront through the <a
-  /// href="https://console.aws.amazon.com/support/home">AWS Support Center</a>.
+  /// href="https://console.aws.amazon.com/support/home">Amazon Web Services
+  /// Support Center</a>.
   /// </li>
   /// </ul>
   /// If the distribution uses the CloudFront domain name such as
-  /// <code>d111111abcdef8.cloudfront.net</code>, don’t set a value for this
+  /// <code>d111111abcdef8.cloudfront.net</code>, don't set a value for this
   /// field.
   final SSLSupportMethod? sSLSupportMethod;
 
@@ -12257,6 +17029,22 @@ class CloudFrontOriginAccessIdentityInUse extends _s.GenericAwsException {
             message: message);
 }
 
+class ContinuousDeploymentPolicyAlreadyExists extends _s.GenericAwsException {
+  ContinuousDeploymentPolicyAlreadyExists({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ContinuousDeploymentPolicyAlreadyExists',
+            message: message);
+}
+
+class ContinuousDeploymentPolicyInUse extends _s.GenericAwsException {
+  ContinuousDeploymentPolicyInUse({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ContinuousDeploymentPolicyInUse',
+            message: message);
+}
+
 class DistributionAlreadyExists extends _s.GenericAwsException {
   DistributionAlreadyExists({String? type, String? message})
       : super(type: type, code: 'DistributionAlreadyExists', message: message);
@@ -12307,6 +17095,21 @@ class FieldLevelEncryptionProfileSizeExceeded extends _s.GenericAwsException {
             message: message);
 }
 
+class FunctionAlreadyExists extends _s.GenericAwsException {
+  FunctionAlreadyExists({String? type, String? message})
+      : super(type: type, code: 'FunctionAlreadyExists', message: message);
+}
+
+class FunctionInUse extends _s.GenericAwsException {
+  FunctionInUse({String? type, String? message})
+      : super(type: type, code: 'FunctionInUse', message: message);
+}
+
+class FunctionSizeLimitExceeded extends _s.GenericAwsException {
+  FunctionSizeLimitExceeded({String? type, String? message})
+      : super(type: type, code: 'FunctionSizeLimitExceeded', message: message);
+}
+
 class IllegalDelete extends _s.GenericAwsException {
   IllegalDelete({String? type, String? message})
       : super(type: type, code: 'IllegalDelete', message: message);
@@ -12320,6 +17123,14 @@ class IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior
             type: type,
             code:
                 'IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior',
+            message: message);
+}
+
+class IllegalOriginAccessConfiguration extends _s.GenericAwsException {
+  IllegalOriginAccessConfiguration({String? type, String? message})
+      : super(
+            type: type,
+            code: 'IllegalOriginAccessConfiguration',
             message: message);
 }
 
@@ -12343,6 +17154,14 @@ class InvalidDefaultRootObject extends _s.GenericAwsException {
       : super(type: type, code: 'InvalidDefaultRootObject', message: message);
 }
 
+class InvalidDomainNameForOriginAccessControl extends _s.GenericAwsException {
+  InvalidDomainNameForOriginAccessControl({String? type, String? message})
+      : super(
+            type: type,
+            code: 'InvalidDomainNameForOriginAccessControl',
+            message: message);
+}
+
 class InvalidErrorCode extends _s.GenericAwsException {
   InvalidErrorCode({String? type, String? message})
       : super(type: type, code: 'InvalidErrorCode', message: message);
@@ -12351,6 +17170,11 @@ class InvalidErrorCode extends _s.GenericAwsException {
 class InvalidForwardCookies extends _s.GenericAwsException {
   InvalidForwardCookies({String? type, String? message})
       : super(type: type, code: 'InvalidForwardCookies', message: message);
+}
+
+class InvalidFunctionAssociation extends _s.GenericAwsException {
+  InvalidFunctionAssociation({String? type, String? message})
+      : super(type: type, code: 'InvalidFunctionAssociation', message: message);
 }
 
 class InvalidGeoRestrictionParameter extends _s.GenericAwsException {
@@ -12395,6 +17219,11 @@ class InvalidMinimumProtocolVersion extends _s.GenericAwsException {
 class InvalidOrigin extends _s.GenericAwsException {
   InvalidOrigin({String? type, String? message})
       : super(type: type, code: 'InvalidOrigin', message: message);
+}
+
+class InvalidOriginAccessControl extends _s.GenericAwsException {
+  InvalidOriginAccessControl({String? type, String? message})
+      : super(type: type, code: 'InvalidOriginAccessControl', message: message);
 }
 
 class InvalidOriginAccessIdentity extends _s.GenericAwsException {
@@ -12472,6 +17301,14 @@ class MissingBody extends _s.GenericAwsException {
       : super(type: type, code: 'MissingBody', message: message);
 }
 
+class MonitoringSubscriptionAlreadyExists extends _s.GenericAwsException {
+  MonitoringSubscriptionAlreadyExists({String? type, String? message})
+      : super(
+            type: type,
+            code: 'MonitoringSubscriptionAlreadyExists',
+            message: message);
+}
+
 class NoSuchCachePolicy extends _s.GenericAwsException {
   NoSuchCachePolicy({String? type, String? message})
       : super(type: type, code: 'NoSuchCachePolicy', message: message);
@@ -12482,6 +17319,14 @@ class NoSuchCloudFrontOriginAccessIdentity extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'NoSuchCloudFrontOriginAccessIdentity',
+            message: message);
+}
+
+class NoSuchContinuousDeploymentPolicy extends _s.GenericAwsException {
+  NoSuchContinuousDeploymentPolicy({String? type, String? message})
+      : super(
+            type: type,
+            code: 'NoSuchContinuousDeploymentPolicy',
             message: message);
 }
 
@@ -12506,14 +17351,30 @@ class NoSuchFieldLevelEncryptionProfile extends _s.GenericAwsException {
             message: message);
 }
 
+class NoSuchFunctionExists extends _s.GenericAwsException {
+  NoSuchFunctionExists({String? type, String? message})
+      : super(type: type, code: 'NoSuchFunctionExists', message: message);
+}
+
 class NoSuchInvalidation extends _s.GenericAwsException {
   NoSuchInvalidation({String? type, String? message})
       : super(type: type, code: 'NoSuchInvalidation', message: message);
 }
 
+class NoSuchMonitoringSubscription extends _s.GenericAwsException {
+  NoSuchMonitoringSubscription({String? type, String? message})
+      : super(
+            type: type, code: 'NoSuchMonitoringSubscription', message: message);
+}
+
 class NoSuchOrigin extends _s.GenericAwsException {
   NoSuchOrigin({String? type, String? message})
       : super(type: type, code: 'NoSuchOrigin', message: message);
+}
+
+class NoSuchOriginAccessControl extends _s.GenericAwsException {
+  NoSuchOriginAccessControl({String? type, String? message})
+      : super(type: type, code: 'NoSuchOriginAccessControl', message: message);
 }
 
 class NoSuchOriginRequestPolicy extends _s.GenericAwsException {
@@ -12536,10 +17397,29 @@ class NoSuchResource extends _s.GenericAwsException {
       : super(type: type, code: 'NoSuchResource', message: message);
 }
 
+class NoSuchResponseHeadersPolicy extends _s.GenericAwsException {
+  NoSuchResponseHeadersPolicy({String? type, String? message})
+      : super(
+            type: type, code: 'NoSuchResponseHeadersPolicy', message: message);
+}
+
 class NoSuchStreamingDistribution extends _s.GenericAwsException {
   NoSuchStreamingDistribution({String? type, String? message})
       : super(
             type: type, code: 'NoSuchStreamingDistribution', message: message);
+}
+
+class OriginAccessControlAlreadyExists extends _s.GenericAwsException {
+  OriginAccessControlAlreadyExists({String? type, String? message})
+      : super(
+            type: type,
+            code: 'OriginAccessControlAlreadyExists',
+            message: message);
+}
+
+class OriginAccessControlInUse extends _s.GenericAwsException {
+  OriginAccessControlInUse({String? type, String? message})
+      : super(type: type, code: 'OriginAccessControlInUse', message: message);
 }
 
 class OriginRequestPolicyAlreadyExists extends _s.GenericAwsException {
@@ -12588,9 +17468,35 @@ class RealtimeLogConfigInUse extends _s.GenericAwsException {
       : super(type: type, code: 'RealtimeLogConfigInUse', message: message);
 }
 
+class RealtimeLogConfigOwnerMismatch extends _s.GenericAwsException {
+  RealtimeLogConfigOwnerMismatch({String? type, String? message})
+      : super(
+            type: type,
+            code: 'RealtimeLogConfigOwnerMismatch',
+            message: message);
+}
+
 class ResourceInUse extends _s.GenericAwsException {
   ResourceInUse({String? type, String? message})
       : super(type: type, code: 'ResourceInUse', message: message);
+}
+
+class ResponseHeadersPolicyAlreadyExists extends _s.GenericAwsException {
+  ResponseHeadersPolicyAlreadyExists({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ResponseHeadersPolicyAlreadyExists',
+            message: message);
+}
+
+class ResponseHeadersPolicyInUse extends _s.GenericAwsException {
+  ResponseHeadersPolicyInUse({String? type, String? message})
+      : super(type: type, code: 'ResponseHeadersPolicyInUse', message: message);
+}
+
+class StagingDistributionInUse extends _s.GenericAwsException {
+  StagingDistributionInUse({String? type, String? message})
+      : super(type: type, code: 'StagingDistributionInUse', message: message);
 }
 
 class StreamingDistributionAlreadyExists extends _s.GenericAwsException {
@@ -12606,6 +17512,19 @@ class StreamingDistributionNotDisabled extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'StreamingDistributionNotDisabled',
+            message: message);
+}
+
+class TestFunctionFailed extends _s.GenericAwsException {
+  TestFunctionFailed({String? type, String? message})
+      : super(type: type, code: 'TestFunctionFailed', message: message);
+}
+
+class TooLongCSPInResponseHeadersPolicy extends _s.GenericAwsException {
+  TooLongCSPInResponseHeadersPolicy({String? type, String? message})
+      : super(
+            type: type,
+            code: 'TooLongCSPInResponseHeadersPolicy',
             message: message);
 }
 
@@ -12632,6 +17551,14 @@ class TooManyCloudFrontOriginAccessIdentities extends _s.GenericAwsException {
             message: message);
 }
 
+class TooManyContinuousDeploymentPolicies extends _s.GenericAwsException {
+  TooManyContinuousDeploymentPolicies({String? type, String? message})
+      : super(
+            type: type,
+            code: 'TooManyContinuousDeploymentPolicies',
+            message: message);
+}
+
 class TooManyCookieNamesInWhiteList extends _s.GenericAwsException {
   TooManyCookieNamesInWhiteList({String? type, String? message})
       : super(
@@ -12651,6 +17578,15 @@ class TooManyCookiesInOriginRequestPolicy extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'TooManyCookiesInOriginRequestPolicy',
+            message: message);
+}
+
+class TooManyCustomHeadersInResponseHeadersPolicy
+    extends _s.GenericAwsException {
+  TooManyCustomHeadersInResponseHeadersPolicy({String? type, String? message})
+      : super(
+            type: type,
+            code: 'TooManyCustomHeadersInResponseHeadersPolicy',
             message: message);
 }
 
@@ -12691,6 +17627,16 @@ class TooManyDistributionsAssociatedToKeyGroup extends _s.GenericAwsException {
             message: message);
 }
 
+class TooManyDistributionsAssociatedToOriginAccessControl
+    extends _s.GenericAwsException {
+  TooManyDistributionsAssociatedToOriginAccessControl(
+      {String? type, String? message})
+      : super(
+            type: type,
+            code: 'TooManyDistributionsAssociatedToOriginAccessControl',
+            message: message);
+}
+
 class TooManyDistributionsAssociatedToOriginRequestPolicy
     extends _s.GenericAwsException {
   TooManyDistributionsAssociatedToOriginRequestPolicy(
@@ -12698,6 +17644,25 @@ class TooManyDistributionsAssociatedToOriginRequestPolicy
       : super(
             type: type,
             code: 'TooManyDistributionsAssociatedToOriginRequestPolicy',
+            message: message);
+}
+
+class TooManyDistributionsAssociatedToResponseHeadersPolicy
+    extends _s.GenericAwsException {
+  TooManyDistributionsAssociatedToResponseHeadersPolicy(
+      {String? type, String? message})
+      : super(
+            type: type,
+            code: 'TooManyDistributionsAssociatedToResponseHeadersPolicy',
+            message: message);
+}
+
+class TooManyDistributionsWithFunctionAssociations
+    extends _s.GenericAwsException {
+  TooManyDistributionsWithFunctionAssociations({String? type, String? message})
+      : super(
+            type: type,
+            code: 'TooManyDistributionsWithFunctionAssociations',
             message: message);
 }
 
@@ -12770,6 +17735,17 @@ class TooManyFieldLevelEncryptionQueryArgProfiles
             message: message);
 }
 
+class TooManyFunctionAssociations extends _s.GenericAwsException {
+  TooManyFunctionAssociations({String? type, String? message})
+      : super(
+            type: type, code: 'TooManyFunctionAssociations', message: message);
+}
+
+class TooManyFunctions extends _s.GenericAwsException {
+  TooManyFunctions({String? type, String? message})
+      : super(type: type, code: 'TooManyFunctions', message: message);
+}
+
 class TooManyHeadersInCachePolicy extends _s.GenericAwsException {
   TooManyHeadersInCachePolicy({String? type, String? message})
       : super(
@@ -12819,6 +17795,12 @@ class TooManyLambdaFunctionAssociations extends _s.GenericAwsException {
             type: type,
             code: 'TooManyLambdaFunctionAssociations',
             message: message);
+}
+
+class TooManyOriginAccessControls extends _s.GenericAwsException {
+  TooManyOriginAccessControls({String? type, String? message})
+      : super(
+            type: type, code: 'TooManyOriginAccessControls', message: message);
 }
 
 class TooManyOriginCustomHeaders extends _s.GenericAwsException {
@@ -12883,6 +17865,23 @@ class TooManyRealtimeLogConfigs extends _s.GenericAwsException {
       : super(type: type, code: 'TooManyRealtimeLogConfigs', message: message);
 }
 
+class TooManyRemoveHeadersInResponseHeadersPolicy
+    extends _s.GenericAwsException {
+  TooManyRemoveHeadersInResponseHeadersPolicy({String? type, String? message})
+      : super(
+            type: type,
+            code: 'TooManyRemoveHeadersInResponseHeadersPolicy',
+            message: message);
+}
+
+class TooManyResponseHeadersPolicies extends _s.GenericAwsException {
+  TooManyResponseHeadersPolicies({String? type, String? message})
+      : super(
+            type: type,
+            code: 'TooManyResponseHeadersPolicies',
+            message: message);
+}
+
 class TooManyStreamingDistributionCNAMEs extends _s.GenericAwsException {
   TooManyStreamingDistributionCNAMEs({String? type, String? message})
       : super(
@@ -12915,6 +17914,11 @@ class TrustedSignerDoesNotExist extends _s.GenericAwsException {
       : super(type: type, code: 'TrustedSignerDoesNotExist', message: message);
 }
 
+class UnsupportedOperation extends _s.GenericAwsException {
+  UnsupportedOperation({String? type, String? message})
+      : super(type: type, code: 'UnsupportedOperation', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'AccessDenied': (type, message) => AccessDenied(type: type, message: message),
   'BatchTooLarge': (type, message) =>
@@ -12931,6 +17935,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       CloudFrontOriginAccessIdentityAlreadyExists(type: type, message: message),
   'CloudFrontOriginAccessIdentityInUse': (type, message) =>
       CloudFrontOriginAccessIdentityInUse(type: type, message: message),
+  'ContinuousDeploymentPolicyAlreadyExists': (type, message) =>
+      ContinuousDeploymentPolicyAlreadyExists(type: type, message: message),
+  'ContinuousDeploymentPolicyInUse': (type, message) =>
+      ContinuousDeploymentPolicyInUse(type: type, message: message),
   'DistributionAlreadyExists': (type, message) =>
       DistributionAlreadyExists(type: type, message: message),
   'DistributionNotDisabled': (type, message) =>
@@ -12945,12 +17953,20 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       FieldLevelEncryptionProfileInUse(type: type, message: message),
   'FieldLevelEncryptionProfileSizeExceeded': (type, message) =>
       FieldLevelEncryptionProfileSizeExceeded(type: type, message: message),
+  'FunctionAlreadyExists': (type, message) =>
+      FunctionAlreadyExists(type: type, message: message),
+  'FunctionInUse': (type, message) =>
+      FunctionInUse(type: type, message: message),
+  'FunctionSizeLimitExceeded': (type, message) =>
+      FunctionSizeLimitExceeded(type: type, message: message),
   'IllegalDelete': (type, message) =>
       IllegalDelete(type: type, message: message),
   'IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior':
       (type, message) =>
           IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(
               type: type, message: message),
+  'IllegalOriginAccessConfiguration': (type, message) =>
+      IllegalOriginAccessConfiguration(type: type, message: message),
   'IllegalUpdate': (type, message) =>
       IllegalUpdate(type: type, message: message),
   'InconsistentQuantities': (type, message) =>
@@ -12959,10 +17975,14 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidArgument(type: type, message: message),
   'InvalidDefaultRootObject': (type, message) =>
       InvalidDefaultRootObject(type: type, message: message),
+  'InvalidDomainNameForOriginAccessControl': (type, message) =>
+      InvalidDomainNameForOriginAccessControl(type: type, message: message),
   'InvalidErrorCode': (type, message) =>
       InvalidErrorCode(type: type, message: message),
   'InvalidForwardCookies': (type, message) =>
       InvalidForwardCookies(type: type, message: message),
+  'InvalidFunctionAssociation': (type, message) =>
+      InvalidFunctionAssociation(type: type, message: message),
   'InvalidGeoRestrictionParameter': (type, message) =>
       InvalidGeoRestrictionParameter(type: type, message: message),
   'InvalidHeadersForS3Origin': (type, message) =>
@@ -12977,6 +17997,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidMinimumProtocolVersion(type: type, message: message),
   'InvalidOrigin': (type, message) =>
       InvalidOrigin(type: type, message: message),
+  'InvalidOriginAccessControl': (type, message) =>
+      InvalidOriginAccessControl(type: type, message: message),
   'InvalidOriginAccessIdentity': (type, message) =>
       InvalidOriginAccessIdentity(type: type, message: message),
   'InvalidOriginKeepaliveTimeout': (type, message) =>
@@ -13004,19 +18026,29 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
   'KeyGroupAlreadyExists': (type, message) =>
       KeyGroupAlreadyExists(type: type, message: message),
   'MissingBody': (type, message) => MissingBody(type: type, message: message),
+  'MonitoringSubscriptionAlreadyExists': (type, message) =>
+      MonitoringSubscriptionAlreadyExists(type: type, message: message),
   'NoSuchCachePolicy': (type, message) =>
       NoSuchCachePolicy(type: type, message: message),
   'NoSuchCloudFrontOriginAccessIdentity': (type, message) =>
       NoSuchCloudFrontOriginAccessIdentity(type: type, message: message),
+  'NoSuchContinuousDeploymentPolicy': (type, message) =>
+      NoSuchContinuousDeploymentPolicy(type: type, message: message),
   'NoSuchDistribution': (type, message) =>
       NoSuchDistribution(type: type, message: message),
   'NoSuchFieldLevelEncryptionConfig': (type, message) =>
       NoSuchFieldLevelEncryptionConfig(type: type, message: message),
   'NoSuchFieldLevelEncryptionProfile': (type, message) =>
       NoSuchFieldLevelEncryptionProfile(type: type, message: message),
+  'NoSuchFunctionExists': (type, message) =>
+      NoSuchFunctionExists(type: type, message: message),
   'NoSuchInvalidation': (type, message) =>
       NoSuchInvalidation(type: type, message: message),
+  'NoSuchMonitoringSubscription': (type, message) =>
+      NoSuchMonitoringSubscription(type: type, message: message),
   'NoSuchOrigin': (type, message) => NoSuchOrigin(type: type, message: message),
+  'NoSuchOriginAccessControl': (type, message) =>
+      NoSuchOriginAccessControl(type: type, message: message),
   'NoSuchOriginRequestPolicy': (type, message) =>
       NoSuchOriginRequestPolicy(type: type, message: message),
   'NoSuchPublicKey': (type, message) =>
@@ -13025,8 +18057,14 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       NoSuchRealtimeLogConfig(type: type, message: message),
   'NoSuchResource': (type, message) =>
       NoSuchResource(type: type, message: message),
+  'NoSuchResponseHeadersPolicy': (type, message) =>
+      NoSuchResponseHeadersPolicy(type: type, message: message),
   'NoSuchStreamingDistribution': (type, message) =>
       NoSuchStreamingDistribution(type: type, message: message),
+  'OriginAccessControlAlreadyExists': (type, message) =>
+      OriginAccessControlAlreadyExists(type: type, message: message),
+  'OriginAccessControlInUse': (type, message) =>
+      OriginAccessControlInUse(type: type, message: message),
   'OriginRequestPolicyAlreadyExists': (type, message) =>
       OriginRequestPolicyAlreadyExists(type: type, message: message),
   'OriginRequestPolicyInUse': (type, message) =>
@@ -13043,12 +18081,24 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       RealtimeLogConfigAlreadyExists(type: type, message: message),
   'RealtimeLogConfigInUse': (type, message) =>
       RealtimeLogConfigInUse(type: type, message: message),
+  'RealtimeLogConfigOwnerMismatch': (type, message) =>
+      RealtimeLogConfigOwnerMismatch(type: type, message: message),
   'ResourceInUse': (type, message) =>
       ResourceInUse(type: type, message: message),
+  'ResponseHeadersPolicyAlreadyExists': (type, message) =>
+      ResponseHeadersPolicyAlreadyExists(type: type, message: message),
+  'ResponseHeadersPolicyInUse': (type, message) =>
+      ResponseHeadersPolicyInUse(type: type, message: message),
+  'StagingDistributionInUse': (type, message) =>
+      StagingDistributionInUse(type: type, message: message),
   'StreamingDistributionAlreadyExists': (type, message) =>
       StreamingDistributionAlreadyExists(type: type, message: message),
   'StreamingDistributionNotDisabled': (type, message) =>
       StreamingDistributionNotDisabled(type: type, message: message),
+  'TestFunctionFailed': (type, message) =>
+      TestFunctionFailed(type: type, message: message),
+  'TooLongCSPInResponseHeadersPolicy': (type, message) =>
+      TooLongCSPInResponseHeadersPolicy(type: type, message: message),
   'TooManyCacheBehaviors': (type, message) =>
       TooManyCacheBehaviors(type: type, message: message),
   'TooManyCachePolicies': (type, message) =>
@@ -13057,12 +18107,16 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       TooManyCertificates(type: type, message: message),
   'TooManyCloudFrontOriginAccessIdentities': (type, message) =>
       TooManyCloudFrontOriginAccessIdentities(type: type, message: message),
+  'TooManyContinuousDeploymentPolicies': (type, message) =>
+      TooManyContinuousDeploymentPolicies(type: type, message: message),
   'TooManyCookieNamesInWhiteList': (type, message) =>
       TooManyCookieNamesInWhiteList(type: type, message: message),
   'TooManyCookiesInCachePolicy': (type, message) =>
       TooManyCookiesInCachePolicy(type: type, message: message),
   'TooManyCookiesInOriginRequestPolicy': (type, message) =>
       TooManyCookiesInOriginRequestPolicy(type: type, message: message),
+  'TooManyCustomHeadersInResponseHeadersPolicy': (type, message) =>
+      TooManyCustomHeadersInResponseHeadersPolicy(type: type, message: message),
   'TooManyDistributionCNAMEs': (type, message) =>
       TooManyDistributionCNAMEs(type: type, message: message),
   'TooManyDistributions': (type, message) =>
@@ -13075,8 +18129,17 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
               type: type, message: message),
   'TooManyDistributionsAssociatedToKeyGroup': (type, message) =>
       TooManyDistributionsAssociatedToKeyGroup(type: type, message: message),
+  'TooManyDistributionsAssociatedToOriginAccessControl': (type, message) =>
+      TooManyDistributionsAssociatedToOriginAccessControl(
+          type: type, message: message),
   'TooManyDistributionsAssociatedToOriginRequestPolicy': (type, message) =>
       TooManyDistributionsAssociatedToOriginRequestPolicy(
+          type: type, message: message),
+  'TooManyDistributionsAssociatedToResponseHeadersPolicy': (type, message) =>
+      TooManyDistributionsAssociatedToResponseHeadersPolicy(
+          type: type, message: message),
+  'TooManyDistributionsWithFunctionAssociations': (type, message) =>
+      TooManyDistributionsWithFunctionAssociations(
           type: type, message: message),
   'TooManyDistributionsWithLambdaAssociations': (type, message) =>
       TooManyDistributionsWithLambdaAssociations(type: type, message: message),
@@ -13096,6 +18159,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       TooManyFieldLevelEncryptionProfiles(type: type, message: message),
   'TooManyFieldLevelEncryptionQueryArgProfiles': (type, message) =>
       TooManyFieldLevelEncryptionQueryArgProfiles(type: type, message: message),
+  'TooManyFunctionAssociations': (type, message) =>
+      TooManyFunctionAssociations(type: type, message: message),
+  'TooManyFunctions': (type, message) =>
+      TooManyFunctions(type: type, message: message),
   'TooManyHeadersInCachePolicy': (type, message) =>
       TooManyHeadersInCachePolicy(type: type, message: message),
   'TooManyHeadersInForwardedValues': (type, message) =>
@@ -13110,6 +18177,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       TooManyKeyGroupsAssociatedToDistribution(type: type, message: message),
   'TooManyLambdaFunctionAssociations': (type, message) =>
       TooManyLambdaFunctionAssociations(type: type, message: message),
+  'TooManyOriginAccessControls': (type, message) =>
+      TooManyOriginAccessControls(type: type, message: message),
   'TooManyOriginCustomHeaders': (type, message) =>
       TooManyOriginCustomHeaders(type: type, message: message),
   'TooManyOriginGroupsPerDistribution': (type, message) =>
@@ -13130,6 +18199,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       TooManyQueryStringsInOriginRequestPolicy(type: type, message: message),
   'TooManyRealtimeLogConfigs': (type, message) =>
       TooManyRealtimeLogConfigs(type: type, message: message),
+  'TooManyRemoveHeadersInResponseHeadersPolicy': (type, message) =>
+      TooManyRemoveHeadersInResponseHeadersPolicy(type: type, message: message),
+  'TooManyResponseHeadersPolicies': (type, message) =>
+      TooManyResponseHeadersPolicies(type: type, message: message),
   'TooManyStreamingDistributionCNAMEs': (type, message) =>
       TooManyStreamingDistributionCNAMEs(type: type, message: message),
   'TooManyStreamingDistributions': (type, message) =>
@@ -13140,4 +18213,6 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       TrustedKeyGroupDoesNotExist(type: type, message: message),
   'TrustedSignerDoesNotExist': (type, message) =>
       TrustedSignerDoesNotExist(type: type, message: message),
+  'UnsupportedOperation': (type, message) =>
+      UnsupportedOperation(type: type, message: message),
 };

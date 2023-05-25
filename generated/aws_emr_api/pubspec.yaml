@@ -1,5 +1,5 @@
 name: aws_emr_api
-description: AWS API client for Amazon Elastic MapReduce (generated from SDK API specification).
+description: AWS API client for Amazon EMR (generated from SDK API specification).
 version: 2.0.0
 homepage: https://github.com/agilord/aws_client/tree/master/generated/aws_emr_api
 

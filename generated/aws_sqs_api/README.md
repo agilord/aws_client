@@ -3,21 +3,20 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-Welcome to the <i>Amazon Simple Queue Service API Reference</i>.
+Welcome to the <i>Amazon SQS API Reference</i>.
 
-Amazon Simple Queue Service (Amazon SQS) is a reliable, highly-scalable
-hosted queue for storing messages as they travel between applications or
-microservices. Amazon SQS moves data between distributed application
-components and helps you decouple these components.
+Amazon SQS is a reliable, highly-scalable hosted queue for storing messages
+as they travel between applications or microservices. Amazon SQS moves data
+between distributed application components and helps you decouple these
+components.
 
 For information on the permissions you need to use this API, see <a
 href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-authentication-and-access-control.html">Identity
-and access management</a> in the <i>Amazon Simple Queue Service Developer
-Guide.</i>
+and access management</a> in the <i>Amazon SQS Developer Guide.</i>
 
-You can use <a href="https://aws.amazon.com/tools/#sdk">AWS SDKs</a> to
-access Amazon SQS using your favorite programming language. The SDKs perform
-tasks such as the following automatically:
+You can use <a href="https://aws.amazon.com/tools/#sdk">Amazon Web Services
+SDKs</a> to access Amazon SQS using your favorite programming language. The
+SDKs perform tasks such as the following automatically:
 
 <ul>
 <li>
@@ -30,14 +29,14 @@ Retry requests
 Handle error responses
 </li>
 </ul>
-<b>Additional Information</b>
+<b>Additional information</b>
 
 <ul>
 <li>
 <a href="https://aws.amazon.com/sqs/">Amazon SQS Product Page</a>
 </li>
 <li>
-<i>Amazon Simple Queue Service Developer Guide</i>
+<i>Amazon SQS Developer Guide</i>
 
 <ul>
 <li>
@@ -59,7 +58,7 @@ SQS Dead-Letter Queues</a>
 <li>
 <a
 href="https://docs.aws.amazon.com/cli/latest/reference/sqs/index.html">Amazon
-SQS in the <i>AWS CLI Command Reference</i> </a>
+SQS in the <i>Command Line Interface</i> </a>
 </li>
 <li>
 <i>Amazon Web Services General Reference</i>

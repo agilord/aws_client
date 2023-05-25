@@ -78,6 +78,7 @@ class BodyStructure {
   BodyStructure({
     this.foo,
   });
+
   factory BodyStructure.fromJson(Map<String, dynamic> json) {
     return BodyStructure(
       foo: json['Foo'] as String?,

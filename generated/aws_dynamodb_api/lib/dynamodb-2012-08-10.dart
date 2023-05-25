@@ -51,8 +51,21 @@ class DynamoDB {
     _protocol.close();
   }
 
-  /// This operation allows you to perform batch reads and writes on data stored
-  /// in DynamoDB, using PartiQL.
+  /// This operation allows you to perform batch reads or writes on data stored
+  /// in DynamoDB, using PartiQL. Each read statement in a
+  /// <code>BatchExecuteStatement</code> must specify an equality condition on
+  /// all key attributes. This enforces that each <code>SELECT</code> statement
+  /// in a batch returns at most a single item.
+  /// <note>
+  /// The entire batch must consist of either read statements or write
+  /// statements, you cannot mix both in one batch.
+  /// </note> <important>
+  /// A HTTP 200 response does not mean that all statements in the
+  /// BatchExecuteStatement succeeded. Error details for individual statements
+  /// can be found under the <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchStatementResponse.html#DDB-Type-BatchStatementResponse-Error">Error</a>
+  /// field of the <code>BatchStatementResponse</code> for each statement.
+  /// </important>
   ///
   /// May throw [RequestLimitExceeded].
   /// May throw [InternalServerError].
@@ -61,6 +74,7 @@ class DynamoDB {
   /// The list of PartiQL statements representing the batch to run.
   Future<BatchExecuteStatementOutput> batchExecuteStatement({
     required List<BatchStatementRequest> statements,
+    ReturnConsumedCapacity? returnConsumedCapacity,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -74,6 +88,8 @@ class DynamoDB {
       headers: headers,
       payload: {
         'Statements': statements,
+        if (returnConsumedCapacity != null)
+          'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
       },
     );
 
@@ -128,8 +144,8 @@ class DynamoDB {
   /// instead, you can set <code>ConsistentRead</code> to <code>true</code> for
   /// any or all tables.
   ///
-  /// In order to minimize response latency, <code>BatchGetItem</code> retrieves
-  /// items in parallel.
+  /// In order to minimize response latency, <code>BatchGetItem</code> may
+  /// retrieve items in parallel.
   ///
   /// When designing your application, keep in mind that DynamoDB does not
   /// return items in any particular order. To help parse the response by item,
@@ -268,11 +284,19 @@ class DynamoDB {
 
   /// The <code>BatchWriteItem</code> operation puts or deletes multiple items
   /// in one or more tables. A single call to <code>BatchWriteItem</code> can
-  /// write up to 16 MB of data, which can comprise as many as 25 put or delete
-  /// requests. Individual items to be written can be as large as 400 KB.
+  /// transmit up to 16MB of data over the network, consisting of up to 25 item
+  /// put or delete operations. While individual items can be up to 400 KB once
+  /// stored, it's important to note that an item's representation might be
+  /// greater than 400KB while being sent in DynamoDB's JSON format for the API
+  /// call. For more details on this distinction, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html">Naming
+  /// Rules and Data Types</a>.
   /// <note>
-  /// <code>BatchWriteItem</code> cannot update items. To update items, use the
-  /// <code>UpdateItem</code> action.
+  /// <code>BatchWriteItem</code> cannot update items. If you perform a
+  /// <code>BatchWriteItem</code> operation on an existing item, that item's
+  /// values will be overwritten by the operation and it will appear like it was
+  /// updated. To update items, we recommend you use the <code>UpdateItem</code>
+  /// action.
   /// </note>
   /// The individual <code>PutItem</code> and <code>DeleteItem</code> operations
   /// specified in <code>BatchWriteItem</code> are atomic; however
@@ -518,11 +542,20 @@ class DynamoDB {
   /// Creates a global table from an existing table. A global table creates a
   /// replication relationship between two or more DynamoDB tables with the same
   /// table name in the provided Regions.
-  /// <note>
+  /// <important>
   /// This operation only applies to <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html">Version
-  /// 2017.11.29</a> of global tables.
-  /// </note>
+  /// 2017.11.29 (Legacy)</a> of global tables. We recommend using <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html">Version
+  /// 2019.11.21 (Current)</a> when creating new global tables, as it provides
+  /// greater flexibility, higher efficiency and consumes less write capacity
+  /// than 2017.11.29 (Legacy). To determine which version you are using, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html">Determining
+  /// the version</a>. To update existing global tables from version 2017.11.29
+  /// (Legacy) to version 2019.11.21 (Current), see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html">
+  /// Updating global tables</a>.
+  /// </important>
   /// If you want to add a new replica table to a global table, each of the
   /// following conditions must be true:
   ///
@@ -610,9 +643,9 @@ class DynamoDB {
   }
 
   /// The <code>CreateTable</code> operation adds a new table to your account.
-  /// In an AWS account, table names must be unique within each Region. That is,
-  /// you can have two tables with same name if you create the tables in
-  /// different Regions.
+  /// In an Amazon Web Services account, table names must be unique within each
+  /// Region. That is, you can have two tables with same name if you create the
+  /// tables in different Regions.
   ///
   /// <code>CreateTable</code> is an asynchronous operation. Upon receiving a
   /// <code>CreateTable</code> request, DynamoDB immediately returns a response
@@ -708,6 +741,10 @@ class DynamoDB {
   /// Mode</a>.
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [deletionProtectionEnabled] :
+  /// Indicates whether deletion protection is to be enabled (true) or disabled
+  /// (false) on the table.
   ///
   /// Parameter [globalSecondaryIndexes] :
   /// One or more global secondary indexes (the maximum is 20) to be created on
@@ -867,6 +904,10 @@ class DynamoDB {
   /// </ul> </li>
   /// </ul>
   ///
+  /// Parameter [tableClass] :
+  /// The table class of the new table. Valid values are <code>STANDARD</code>
+  /// and <code>STANDARD_INFREQUENT_ACCESS</code>.
+  ///
   /// Parameter [tags] :
   /// A list of key-value pairs to label the table. For more information, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html">Tagging
@@ -876,11 +917,13 @@ class DynamoDB {
     required List<KeySchemaElement> keySchema,
     required String tableName,
     BillingMode? billingMode,
+    bool? deletionProtectionEnabled,
     List<GlobalSecondaryIndex>? globalSecondaryIndexes,
     List<LocalSecondaryIndex>? localSecondaryIndexes,
     ProvisionedThroughput? provisionedThroughput,
     SSESpecification? sSESpecification,
     StreamSpecification? streamSpecification,
+    TableClass? tableClass,
     List<Tag>? tags,
   }) async {
     final headers = <String, String>{
@@ -898,6 +941,8 @@ class DynamoDB {
         'KeySchema': keySchema,
         'TableName': tableName,
         if (billingMode != null) 'BillingMode': billingMode.toValue(),
+        if (deletionProtectionEnabled != null)
+          'DeletionProtectionEnabled': deletionProtectionEnabled,
         if (globalSecondaryIndexes != null)
           'GlobalSecondaryIndexes': globalSecondaryIndexes,
         if (localSecondaryIndexes != null)
@@ -907,6 +952,7 @@ class DynamoDB {
         if (sSESpecification != null) 'SSESpecification': sSESpecification,
         if (streamSpecification != null)
           'StreamSpecification': streamSpecification,
+        if (tableClass != null) 'TableClass': tableClass.toValue(),
         if (tags != null) 'Tags': tags,
       },
     );
@@ -975,10 +1021,10 @@ class DynamoDB {
   /// A map of attribute names to <code>AttributeValue</code> objects,
   /// representing the primary key of the item to delete.
   ///
-  /// For the primary key, you must provide all of the attributes. For example,
-  /// with a simple primary key, you only need to provide a value for the
-  /// partition key. For a composite primary key, you must provide values for
-  /// both the partition key and the sort key.
+  /// For the primary key, you must provide all of the key attributes. For
+  /// example, with a simple primary key, you only need to provide a value for
+  /// the partition key. For a composite primary key, you must provide values
+  /// for both the partition key and the sort key.
   ///
   /// Parameter [tableName] :
   /// The name of the table from which to delete the item.
@@ -1117,7 +1163,11 @@ class DynamoDB {
   /// <li>
   /// <code>ALL_OLD</code> - The content of the old item is returned.
   /// </li>
-  /// </ul> <note>
+  /// </ul>
+  /// There is no additional cost associated with requesting a return value
+  /// aside from the small network and processing overhead of receiving a larger
+  /// response. No read capacity units are consumed.
+  /// <note>
   /// The <code>ReturnValues</code> parameter is used by several DynamoDB
   /// operations; however, <code>DeleteItem</code> does not recognize any values
   /// other than <code>NONE</code> or <code>ALL_OLD</code>.
@@ -1176,7 +1226,11 @@ class DynamoDB {
   /// table does not exist, DynamoDB returns a
   /// <code>ResourceNotFoundException</code>. If table is already in the
   /// <code>DELETING</code> state, no error is returned.
-  /// <note>
+  /// <important>
+  /// This operation only applies to <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html">Version
+  /// 2019.11.21 (Current)</a> of global tables.
+  /// </important> <note>
   /// DynamoDB might continue to accept data read and write operations, such as
   /// <code>GetItem</code> and <code>PutItem</code>, on a table in the
   /// <code>DELETING</code> state until the table deletion is complete.
@@ -1293,8 +1347,8 @@ class DynamoDB {
     return DescribeContinuousBackupsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Returns information about contributor insights, for a given table or
-  /// global secondary index.
+  /// Returns information about contributor insights for a given table or global
+  /// secondary index.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerError].
@@ -1327,7 +1381,11 @@ class DynamoDB {
     return DescribeContributorInsightsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Returns the regional endpoint information.
+  /// Returns the regional endpoint information. This action must be included in
+  /// your VPC endpoint policies, or access to the DescribeEndpoints API will be
+  /// denied. For more information on policy permissions, please see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/inter-network-traffic-privacy.html#inter-network-traffic-DescribeEndpoints">Internetwork
+  /// traffic privacy</a>.
   Future<DescribeEndpointsResponse> describeEndpoints() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1374,15 +1432,20 @@ class DynamoDB {
   }
 
   /// Returns information about the specified global table.
-  /// <note>
+  /// <important>
   /// This operation only applies to <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html">Version
-  /// 2017.11.29</a> of global tables. If you are using global tables <a
+  /// 2017.11.29 (Legacy)</a> of global tables. We recommend using <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html">Version
-  /// 2019.11.21</a> you can use <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_DescribeTable.html">DescribeTable</a>
-  /// instead.
-  /// </note>
+  /// 2019.11.21 (Current)</a> when creating new global tables, as it provides
+  /// greater flexibility, higher efficiency and consumes less write capacity
+  /// than 2017.11.29 (Legacy). To determine which version you are using, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html">Determining
+  /// the version</a>. To update existing global tables from version 2017.11.29
+  /// (Legacy) to version 2019.11.21 (Current), see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html">
+  /// Updating global tables</a>.
+  /// </important>
   ///
   /// May throw [InternalServerError].
   /// May throw [GlobalTableNotFoundException].
@@ -1411,11 +1474,20 @@ class DynamoDB {
   }
 
   /// Describes Region-specific settings for a global table.
-  /// <note>
+  /// <important>
   /// This operation only applies to <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html">Version
-  /// 2017.11.29</a> of global tables.
-  /// </note>
+  /// 2017.11.29 (Legacy)</a> of global tables. We recommend using <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html">Version
+  /// 2019.11.21 (Current)</a> when creating new global tables, as it provides
+  /// greater flexibility, higher efficiency and consumes less write capacity
+  /// than 2017.11.29 (Legacy). To determine which version you are using, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html">Determining
+  /// the version</a>. To update existing global tables from version 2017.11.29
+  /// (Legacy) to version 2019.11.21 (Current), see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html">
+  /// Updating global tables</a>.
+  /// </important>
   ///
   /// May throw [GlobalTableNotFoundException].
   /// May throw [InternalServerError].
@@ -1441,6 +1513,34 @@ class DynamoDB {
     );
 
     return DescribeGlobalTableSettingsOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Represents the properties of the import.
+  ///
+  /// May throw [ImportNotFoundException].
+  ///
+  /// Parameter [importArn] :
+  /// The Amazon Resource Name (ARN) associated with the table you're importing
+  /// to.
+  Future<DescribeImportOutput> describeImport({
+    required String importArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'DynamoDB_20120810.DescribeImport'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ImportArn': importArn,
+      },
+    );
+
+    return DescribeImportOutput.fromJson(jsonResponse.body);
   }
 
   /// Returns information about the status of Kinesis streaming.
@@ -1473,28 +1573,29 @@ class DynamoDB {
         jsonResponse.body);
   }
 
-  /// Returns the current provisioned-capacity quotas for your AWS account in a
-  /// Region, both for the Region as a whole and for any one DynamoDB table that
-  /// you create there.
+  /// Returns the current provisioned-capacity quotas for your Amazon Web
+  /// Services account in a Region, both for the Region as a whole and for any
+  /// one DynamoDB table that you create there.
   ///
-  /// When you establish an AWS account, the account has initial quotas on the
-  /// maximum read capacity units and write capacity units that you can
-  /// provision across all of your DynamoDB tables in a given Region. Also,
-  /// there are per-table quotas that apply when you create a table there. For
-  /// more information, see <a
+  /// When you establish an Amazon Web Services account, the account has initial
+  /// quotas on the maximum read capacity units and write capacity units that
+  /// you can provision across all of your DynamoDB tables in a given Region.
+  /// Also, there are per-table quotas that apply when you create a table there.
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
   /// Account, and Table Quotas</a> page in the <i>Amazon DynamoDB Developer
   /// Guide</i>.
   ///
   /// Although you can increase these quotas by filing a case at <a
-  /// href="https://console.aws.amazon.com/support/home#/">AWS Support
-  /// Center</a>, obtaining the increase is not instantaneous. The
+  /// href="https://console.aws.amazon.com/support/home#/">Amazon Web Services
+  /// Support Center</a>, obtaining the increase is not instantaneous. The
   /// <code>DescribeLimits</code> action lets you write code to compare the
   /// capacity you are currently using to those quotas imposed by your account
   /// so that you have enough time to apply for an increase before you hit a
   /// quota.
   ///
-  /// For example, you could use one of the AWS SDKs to do the following:
+  /// For example, you could use one of the Amazon Web Services SDKs to do the
+  /// following:
   /// <ol>
   /// <li>
   /// Call <code>DescribeLimits</code> for a particular Region to obtain your
@@ -1568,7 +1669,11 @@ class DynamoDB {
   /// Returns information about the table, including the current status of the
   /// table, when it was created, the primary key schema, and any indexes on the
   /// table.
-  /// <note>
+  /// <important>
+  /// This operation only applies to <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html">Version
+  /// 2019.11.21 (Current)</a> of global tables.
+  /// </important> <note>
   /// If you issue a <code>DescribeTable</code> request immediately after a
   /// <code>CreateTable</code> request, DynamoDB might return a
   /// <code>ResourceNotFoundException</code>. This is because
@@ -1605,11 +1710,11 @@ class DynamoDB {
 
   /// Describes auto scaling settings across replicas of the global table at
   /// once.
-  /// <note>
+  /// <important>
   /// This operation only applies to <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html">Version
-  /// 2019.11.21</a> of global tables.
-  /// </note>
+  /// 2019.11.21 (Current)</a> of global tables.
+  /// </important>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerError].
@@ -1744,6 +1849,21 @@ class DynamoDB {
   /// This operation allows you to perform reads and singleton writes on data
   /// stored in DynamoDB, using PartiQL.
   ///
+  /// For PartiQL reads (<code>SELECT</code> statement), if the total number of
+  /// processed items exceeds the maximum dataset size limit of 1 MB, the read
+  /// stops and results are returned to the user as a
+  /// <code>LastEvaluatedKey</code> value to continue the read in a subsequent
+  /// operation. If the filter criteria in <code>WHERE</code> clause does not
+  /// match any data, the read will return an empty result set.
+  ///
+  /// A single <code>SELECT</code> statement response can return up to the
+  /// maximum number of items (if using the Limit parameter) or a maximum of 1
+  /// MB of data (and then apply any filtering to the results using
+  /// <code>WHERE</code> clause). If <code>LastEvaluatedKey</code> is present in
+  /// the response, you need to paginate the result set. If
+  /// <code>NextToken</code> is present, you need to paginate the result set and
+  /// include <code>NextToken</code>.
+  ///
   /// May throw [ConditionalCheckFailedException].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
@@ -1761,6 +1881,18 @@ class DynamoDB {
   /// strongly consistent read is used; otherwise, an eventually consistent read
   /// is used.
   ///
+  /// Parameter [limit] :
+  /// The maximum number of items to evaluate (not necessarily the number of
+  /// matching items). If DynamoDB processes the number of items up to the limit
+  /// while processing the results, it stops the operation and returns the
+  /// matching values up to that point, along with a key in
+  /// <code>LastEvaluatedKey</code> to apply in a subsequent operation so you
+  /// can pick up where you left off. Also, if the processed dataset size
+  /// exceeds 1 MB before DynamoDB reaches this limit, it stops the operation
+  /// and returns the matching values up to the limit, and a key in
+  /// <code>LastEvaluatedKey</code> to apply in a subsequent operation to
+  /// continue the operation.
+  ///
   /// Parameter [nextToken] :
   /// Set this value to get remaining results, if <code>NextToken</code> was
   /// returned in the statement response.
@@ -1770,9 +1902,17 @@ class DynamoDB {
   Future<ExecuteStatementOutput> executeStatement({
     required String statement,
     bool? consistentRead,
+    int? limit,
     String? nextToken,
     List<AttributeValue>? parameters,
+    ReturnConsumedCapacity? returnConsumedCapacity,
   }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.ExecuteStatement'
@@ -1786,8 +1926,11 @@ class DynamoDB {
       payload: {
         'Statement': statement,
         if (consistentRead != null) 'ConsistentRead': consistentRead,
+        if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
         if (parameters != null) 'Parameters': parameters,
+        if (returnConsumedCapacity != null)
+          'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
       },
     );
 
@@ -1796,6 +1939,14 @@ class DynamoDB {
 
   /// This operation allows you to perform transactional reads or writes on data
   /// stored in DynamoDB, using PartiQL.
+  /// <note>
+  /// The entire transaction must consist of either read statements or write
+  /// statements, you cannot mix both in one transaction. The EXISTS function is
+  /// an exception and can be used to check the condition of specific attributes
+  /// of the item in a similar manner to <code>ConditionCheck</code> in the <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/transaction-apis.html#transaction-apis-txwriteitems">TransactWriteItems</a>
+  /// API.
+  /// </note>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [TransactionCanceledException].
@@ -1811,9 +1962,18 @@ class DynamoDB {
   /// Parameter [clientRequestToken] :
   /// Set this value to get remaining results, if <code>NextToken</code> was
   /// returned in the statement response.
+  ///
+  /// Parameter [returnConsumedCapacity] :
+  /// Determines the level of detail about either provisioned or on-demand
+  /// throughput consumption that is returned in the response. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TransactGetItems.html">TransactGetItems</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TransactWriteItems.html">TransactWriteItems</a>.
   Future<ExecuteTransactionOutput> executeTransaction({
     required List<ParameterizedStatement> transactStatements,
     String? clientRequestToken,
+    ReturnConsumedCapacity? returnConsumedCapacity,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1829,6 +1989,8 @@ class DynamoDB {
         'TransactStatements': transactStatements,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
+        if (returnConsumedCapacity != null)
+          'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
       },
     );
 
@@ -1864,7 +2026,7 @@ class DynamoDB {
   ///
   /// If you submit a request with the same client token but a change in other
   /// parameters within the 8-hour idempotency window, DynamoDB returns an
-  /// <code>IdempotentParameterMismatch</code> exception.
+  /// <code>ImportConflictException</code>.
   ///
   /// Parameter [exportFormat] :
   /// The format for the exported data. Valid values for
@@ -1872,12 +2034,13 @@ class DynamoDB {
   /// <code>ION</code>.
   ///
   /// Parameter [exportTime] :
-  /// Time in the past from which to export table data. The table export will be
-  /// a snapshot of the table's state at this point in time.
+  /// Time in the past from which to export table data, counted in seconds from
+  /// the start of the Unix epoch. The table export will be a snapshot of the
+  /// table's state at this point in time.
   ///
   /// Parameter [s3BucketOwner] :
-  /// The ID of the AWS account that owns the bucket the export will be stored
-  /// in.
+  /// The ID of the Amazon Web Services account that owns the bucket the export
+  /// will be stored in.
   ///
   /// Parameter [s3Prefix] :
   /// The Amazon S3 bucket prefix to use as the file name and path of the
@@ -1892,13 +2055,13 @@ class DynamoDB {
   /// <code>AES256</code> - server-side encryption with Amazon S3 managed keys
   /// </li>
   /// <li>
-  /// <code>KMS</code> - server-side encryption with AWS KMS managed keys
+  /// <code>KMS</code> - server-side encryption with KMS managed keys
   /// </li>
   /// </ul>
   ///
   /// Parameter [s3SseKmsKeyId] :
-  /// The ID of the AWS KMS managed key used to encrypt the S3 bucket where
-  /// export data will be stored (if applicable).
+  /// The ID of the KMS managed key used to encrypt the S3 bucket where export
+  /// data will be stored (if applicable).
   Future<ExportTableToPointInTimeOutput> exportTableToPointInTime({
     required String s3Bucket,
     required String tableArn,
@@ -2076,10 +2239,80 @@ class DynamoDB {
     return GetItemOutput.fromJson(jsonResponse.body);
   }
 
-  /// List backups associated with an AWS account. To list backups for a given
-  /// table, specify <code>TableName</code>. <code>ListBackups</code> returns a
-  /// paginated list of results with at most 1 MB worth of items in a page. You
-  /// can also specify a maximum number of entries to be returned in a page.
+  /// Imports table data from an S3 bucket.
+  ///
+  /// May throw [ResourceInUseException].
+  /// May throw [LimitExceededException].
+  /// May throw [ImportConflictException].
+  ///
+  /// Parameter [inputFormat] :
+  /// The format of the source data. Valid values for <code>ImportFormat</code>
+  /// are <code>CSV</code>, <code>DYNAMODB_JSON</code> or <code>ION</code>.
+  ///
+  /// Parameter [s3BucketSource] :
+  /// The S3 bucket that provides the source for the import.
+  ///
+  /// Parameter [tableCreationParameters] :
+  /// Parameters for the table to import the data into.
+  ///
+  /// Parameter [clientToken] :
+  /// Providing a <code>ClientToken</code> makes the call to
+  /// <code>ImportTableInput</code> idempotent, meaning that multiple identical
+  /// calls have the same effect as one single call.
+  ///
+  /// A client token is valid for 8 hours after the first request that uses it
+  /// is completed. After 8 hours, any request with the same client token is
+  /// treated as a new request. Do not resubmit the same request with the same
+  /// client token for more than 8 hours, or the result might not be idempotent.
+  ///
+  /// If you submit a request with the same client token but a change in other
+  /// parameters within the 8-hour idempotency window, DynamoDB returns an
+  /// <code>IdempotentParameterMismatch</code> exception.
+  ///
+  /// Parameter [inputCompressionType] :
+  /// Type of compression to be used on the input coming from the imported
+  /// table.
+  ///
+  /// Parameter [inputFormatOptions] :
+  /// Additional properties that specify how the input is formatted,
+  Future<ImportTableOutput> importTable({
+    required InputFormat inputFormat,
+    required S3BucketSource s3BucketSource,
+    required TableCreationParameters tableCreationParameters,
+    String? clientToken,
+    InputCompressionType? inputCompressionType,
+    InputFormatOptions? inputFormatOptions,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'DynamoDB_20120810.ImportTable'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InputFormat': inputFormat.toValue(),
+        'S3BucketSource': s3BucketSource,
+        'TableCreationParameters': tableCreationParameters,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (inputCompressionType != null)
+          'InputCompressionType': inputCompressionType.toValue(),
+        if (inputFormatOptions != null)
+          'InputFormatOptions': inputFormatOptions,
+      },
+    );
+
+    return ImportTableOutput.fromJson(jsonResponse.body);
+  }
+
+  /// List backups associated with an Amazon Web Services account. To list
+  /// backups for a given table, specify <code>TableName</code>.
+  /// <code>ListBackups</code> returns a paginated list of results with at most
+  /// 1 MB worth of items in a page. You can also specify a maximum number of
+  /// entries to be returned in a page.
   ///
   /// In the request, start time is inclusive, but end time is exclusive. Note
   /// that these boundaries are for the time at which the original backup was
@@ -2097,7 +2330,8 @@ class DynamoDB {
   ///
   /// <ul>
   /// <li>
-  /// <code>USER</code> - On-demand backup created by you.
+  /// <code>USER</code> - On-demand backup created by you. (The default setting
+  /// if no other backup types are specified.)
   /// </li>
   /// <li>
   /// <code>SYSTEM</code> - On-demand backup automatically created by DynamoDB.
@@ -2259,11 +2493,20 @@ class DynamoDB {
   }
 
   /// Lists all global tables that have a replica in the specified Region.
-  /// <note>
+  /// <important>
   /// This operation only applies to <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html">Version
-  /// 2017.11.29</a> of global tables.
-  /// </note>
+  /// 2017.11.29 (Legacy)</a> of global tables. We recommend using <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html">Version
+  /// 2019.11.21 (Current)</a> when creating new global tables, as it provides
+  /// greater flexibility, higher efficiency and consumes less write capacity
+  /// than 2017.11.29 (Legacy). To determine which version you are using, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html">Determining
+  /// the version</a>. To update existing global tables from version 2017.11.29
+  /// (Legacy) to version 2019.11.21 (Current), see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html">
+  /// Updating global tables</a>.
+  /// </important>
   ///
   /// May throw [InternalServerError].
   ///
@@ -2312,6 +2555,53 @@ class DynamoDB {
     );
 
     return ListGlobalTablesOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Lists completed imports within the past 90 days.
+  ///
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [nextToken] :
+  /// An optional string that, if supplied, must be copied from the output of a
+  /// previous call to <code>ListImports</code>. When provided in this manner,
+  /// the API fetches the next page of results.
+  ///
+  /// Parameter [pageSize] :
+  /// The number of <code>ImportSummary </code>objects returned in a single
+  /// page.
+  ///
+  /// Parameter [tableArn] :
+  /// The Amazon Resource Name (ARN) associated with the table that was imported
+  /// to.
+  Future<ListImportsOutput> listImports({
+    String? nextToken,
+    int? pageSize,
+    String? tableArn,
+  }) async {
+    _s.validateNumRange(
+      'pageSize',
+      pageSize,
+      1,
+      25,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'DynamoDB_20120810.ListImports'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (nextToken != null) 'NextToken': nextToken,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (tableArn != null) 'TableArn': tableArn,
+      },
+    );
+
+    return ListImportsOutput.fromJson(jsonResponse.body);
   }
 
   /// Returns an array of table names associated with the current account and
@@ -2406,62 +2696,9 @@ class DynamoDB {
   /// specified primary key doesn't exist), or replace an existing item if it
   /// has certain attribute values. You can return the item's attribute values
   /// in the same operation, using the <code>ReturnValues</code> parameter.
-  /// <important>
-  /// This topic provides general information about the <code>PutItem</code>
-  /// API.
   ///
-  /// For information on how to call the <code>PutItem</code> API using the AWS
-  /// SDK in specific languages, see the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <a
-  /// href="http://docs.aws.amazon.com/goto/aws-cli/dynamodb-2012-08-10/PutItem">
-  /// PutItem in the AWS Command Line Interface</a>
-  /// </li>
-  /// <li>
-  /// <a
-  /// href="http://docs.aws.amazon.com/goto/DotNetSDKV3/dynamodb-2012-08-10/PutItem">
-  /// PutItem in the AWS SDK for .NET</a>
-  /// </li>
-  /// <li>
-  /// <a
-  /// href="http://docs.aws.amazon.com/goto/SdkForCpp/dynamodb-2012-08-10/PutItem">
-  /// PutItem in the AWS SDK for C++</a>
-  /// </li>
-  /// <li>
-  /// <a
-  /// href="http://docs.aws.amazon.com/goto/SdkForGoV1/dynamodb-2012-08-10/PutItem">
-  /// PutItem in the AWS SDK for Go</a>
-  /// </li>
-  /// <li>
-  /// <a
-  /// href="http://docs.aws.amazon.com/goto/SdkForJava/dynamodb-2012-08-10/PutItem">
-  /// PutItem in the AWS SDK for Java</a>
-  /// </li>
-  /// <li>
-  /// <a
-  /// href="http://docs.aws.amazon.com/goto/AWSJavaScriptSDK/dynamodb-2012-08-10/PutItem">
-  /// PutItem in the AWS SDK for JavaScript</a>
-  /// </li>
-  /// <li>
-  /// <a
-  /// href="http://docs.aws.amazon.com/goto/SdkForPHPV3/dynamodb-2012-08-10/PutItem">
-  /// PutItem in the AWS SDK for PHP V3</a>
-  /// </li>
-  /// <li>
-  /// <a
-  /// href="http://docs.aws.amazon.com/goto/boto3/dynamodb-2012-08-10/PutItem">
-  /// PutItem in the AWS SDK for Python</a>
-  /// </li>
-  /// <li>
-  /// <a
-  /// href="http://docs.aws.amazon.com/goto/SdkForRubyV2/dynamodb-2012-08-10/PutItem">
-  /// PutItem in the AWS SDK for Ruby V2</a>
-  /// </li>
-  /// </ul> </important>
   /// When you add an item, the primary key attributes are the only required
-  /// attributes. Attribute values cannot be null.
+  /// attributes.
   ///
   /// Empty String and Binary attribute values are allowed. Attribute values of
   /// type String and Binary must have a length greater than zero if the
@@ -2653,7 +2890,13 @@ class DynamoDB {
   /// <code>ALL_OLD</code> - If <code>PutItem</code> overwrote an attribute
   /// name-value pair, then the content of the old item is returned.
   /// </li>
-  /// </ul> <note>
+  /// </ul>
+  /// The values returned are strongly consistent.
+  ///
+  /// There is no additional cost associated with requesting a return value
+  /// aside from the small network and processing overhead of receiving a larger
+  /// response. No read capacity units are consumed.
+  /// <note>
   /// The <code>ReturnValues</code> parameter is used by several DynamoDB
   /// operations; however, <code>PutItem</code> does not recognize any values
   /// other than <code>NONE</code> or <code>ALL_OLD</code>.
@@ -2703,9 +2946,10 @@ class DynamoDB {
     return PutItemOutput.fromJson(jsonResponse.body);
   }
 
-  /// The <code>Query</code> operation finds items based on primary key values.
-  /// You can query any table or secondary index that has a composite primary
-  /// key (a partition key and a sort key).
+  /// You must provide the name of the partition key attribute and a single
+  /// value for that attribute. <code>Query</code> returns all items with that
+  /// partition key value. Optionally, you can provide a sort key attribute and
+  /// use a comparison operator to refine the search results.
   ///
   /// Use the <code>KeyConditionExpression</code> parameter to provide a
   /// specific value for the partition key. The <code>Query</code> operation
@@ -2889,7 +3133,7 @@ class DynamoDB {
   /// capacity units.
   /// </note>
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#FilteringResults">Filter
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#Query.FilterExpression">Filter
   /// Expressions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   ///
   /// Parameter [indexName] :
@@ -3077,13 +3321,15 @@ class DynamoDB {
   /// </li>
   /// <li>
   /// <code>COUNT</code> - Returns the number of matching items, rather than the
-  /// matching items themselves.
+  /// matching items themselves. Note that this uses the same quantity of read
+  /// capacity units as getting the items, and is subject to the same item size
+  /// calculations.
   /// </li>
   /// <li>
   /// <code>SPECIFIC_ATTRIBUTES</code> - Returns only the attributes listed in
-  /// <code>AttributesToGet</code>. This return value is equivalent to
-  /// specifying <code>AttributesToGet</code> without specifying any value for
-  /// <code>Select</code>.
+  /// <code>ProjectionExpression</code>. This return value is equivalent to
+  /// specifying <code>ProjectionExpression</code> without specifying any value
+  /// for <code>Select</code>.
   ///
   /// If you query or scan a local secondary index and request only attributes
   /// that are projected into that index, the operation will read only the index
@@ -3097,14 +3343,14 @@ class DynamoDB {
   /// queries cannot fetch attributes from the parent table.
   /// </li>
   /// </ul>
-  /// If neither <code>Select</code> nor <code>AttributesToGet</code> are
+  /// If neither <code>Select</code> nor <code>ProjectionExpression</code> are
   /// specified, DynamoDB defaults to <code>ALL_ATTRIBUTES</code> when accessing
   /// a table, and <code>ALL_PROJECTED_ATTRIBUTES</code> when accessing an
   /// index. You cannot use both <code>Select</code> and
-  /// <code>AttributesToGet</code> together in a single request, unless the
+  /// <code>ProjectionExpression</code> together in a single request, unless the
   /// value for <code>Select</code> is <code>SPECIFIC_ATTRIBUTES</code>. (This
-  /// usage is equivalent to specifying <code>AttributesToGet</code> without any
-  /// value for <code>Select</code>.)
+  /// usage is equivalent to specifying <code>ProjectionExpression</code>
+  /// without any value for <code>Select</code>.)
   /// <note>
   /// If you use the <code>ProjectionExpression</code> parameter, then the value
   /// for <code>Select</code> can only be <code>SPECIFIC_ATTRIBUTES</code>. Any
@@ -3176,7 +3422,7 @@ class DynamoDB {
   }
 
   /// Creates a new table from an existing backup. Any number of users can
-  /// execute up to 4 concurrent restores (any type of restore) in a given
+  /// execute up to 50 concurrent restores (any type of restore) in a given
   /// account.
   ///
   /// You can call <code>RestoreTableFromBackup</code> at a maximum rate of 10
@@ -3601,7 +3847,7 @@ class DynamoDB {
   /// capacity units.
   /// </note>
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#FilteringResults">Filter
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#Query.FilterExpression">Filter
   /// Expressions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   ///
   /// Parameter [indexName] :
@@ -3686,13 +3932,15 @@ class DynamoDB {
   /// </li>
   /// <li>
   /// <code>COUNT</code> - Returns the number of matching items, rather than the
-  /// matching items themselves.
+  /// matching items themselves. Note that this uses the same quantity of read
+  /// capacity units as getting the items, and is subject to the same item size
+  /// calculations.
   /// </li>
   /// <li>
   /// <code>SPECIFIC_ATTRIBUTES</code> - Returns only the attributes listed in
-  /// <code>AttributesToGet</code>. This return value is equivalent to
-  /// specifying <code>AttributesToGet</code> without specifying any value for
-  /// <code>Select</code>.
+  /// <code>ProjectionExpression</code>. This return value is equivalent to
+  /// specifying <code>ProjectionExpression</code> without specifying any value
+  /// for <code>Select</code>.
   ///
   /// If you query or scan a local secondary index and request only attributes
   /// that are projected into that index, the operation reads only the index and
@@ -3706,14 +3954,14 @@ class DynamoDB {
   /// queries cannot fetch attributes from the parent table.
   /// </li>
   /// </ul>
-  /// If neither <code>Select</code> nor <code>AttributesToGet</code> are
+  /// If neither <code>Select</code> nor <code>ProjectionExpression</code> are
   /// specified, DynamoDB defaults to <code>ALL_ATTRIBUTES</code> when accessing
   /// a table, and <code>ALL_PROJECTED_ATTRIBUTES</code> when accessing an
   /// index. You cannot use both <code>Select</code> and
-  /// <code>AttributesToGet</code> together in a single request, unless the
+  /// <code>ProjectionExpression</code> together in a single request, unless the
   /// value for <code>Select</code> is <code>SPECIFIC_ATTRIBUTES</code>. (This
-  /// usage is equivalent to specifying <code>AttributesToGet</code> without any
-  /// value for <code>Select</code>.)
+  /// usage is equivalent to specifying <code>ProjectionExpression</code>
+  /// without any value for <code>Select</code>.)
   /// <note>
   /// If you use the <code>ProjectionExpression</code> parameter, then the value
   /// for <code>Select</code> can only be <code>SPECIFIC_ATTRIBUTES</code>. Any
@@ -3853,12 +4101,12 @@ class DynamoDB {
   /// <code>TransactGetItems</code> is a synchronous operation that atomically
   /// retrieves multiple items from one or more tables (but not from indexes) in
   /// a single account and Region. A <code>TransactGetItems</code> call can
-  /// contain up to 25 <code>TransactGetItem</code> objects, each of which
+  /// contain up to 100 <code>TransactGetItem</code> objects, each of which
   /// contains a <code>Get</code> structure that specifies an item to retrieve
   /// from a table in the account and Region. A call to
   /// <code>TransactGetItems</code> cannot retrieve items from tables in more
-  /// than one AWS account or Region. The aggregate size of the items in the
-  /// transaction cannot exceed 4 MB.
+  /// than one Amazon Web Services account or Region. The aggregate size of the
+  /// items in the transaction cannot exceed 4 MB.
   ///
   /// DynamoDB rejects the entire <code>TransactGetItems</code> request if any
   /// of the following is true:
@@ -3875,7 +4123,7 @@ class DynamoDB {
   /// There is a user error, such as an invalid data format.
   /// </li>
   /// <li>
-  /// The aggregate size of the items in the transaction cannot exceed 4 MB.
+  /// The aggregate size of the items in the transaction exceeded 4 MB.
   /// </li>
   /// </ul>
   ///
@@ -3886,8 +4134,8 @@ class DynamoDB {
   /// May throw [InternalServerError].
   ///
   /// Parameter [transactItems] :
-  /// An ordered array of up to 25 <code>TransactGetItem</code> objects, each of
-  /// which contains a <code>Get</code> structure.
+  /// An ordered array of up to 100 <code>TransactGetItem</code> objects, each
+  /// of which contains a <code>Get</code> structure.
   ///
   /// Parameter [returnConsumedCapacity] :
   /// A value of <code>TOTAL</code> causes consumed capacity information to be
@@ -3918,44 +4166,45 @@ class DynamoDB {
   }
 
   /// <code>TransactWriteItems</code> is a synchronous write operation that
-  /// groups up to 25 action requests. These actions can target items in
-  /// different tables, but not in different AWS accounts or Regions, and no two
-  /// actions can target the same item. For example, you cannot both
-  /// <code>ConditionCheck</code> and <code>Update</code> the same item. The
-  /// aggregate size of the items in the transaction cannot exceed 4 MB.
+  /// groups up to 100 action requests. These actions can target items in
+  /// different tables, but not in different Amazon Web Services accounts or
+  /// Regions, and no two actions can target the same item. For example, you
+  /// cannot both <code>ConditionCheck</code> and <code>Update</code> the same
+  /// item. The aggregate size of the items in the transaction cannot exceed 4
+  /// MB.
   ///
   /// The actions are completed atomically so that either all of them succeed,
   /// or all of them fail. They are defined by the following objects:
   ///
   /// <ul>
   /// <li>
-  /// <code>Put</code>  &#x97;   Initiates a <code>PutItem</code> operation to
-  /// write a new item. This structure specifies the primary key of the item to
-  /// be written, the name of the table to write it in, an optional condition
+  /// <code>Put</code>  —   Initiates a <code>PutItem</code> operation to write
+  /// a new item. This structure specifies the primary key of the item to be
+  /// written, the name of the table to write it in, an optional condition
   /// expression that must be satisfied for the write to succeed, a list of the
   /// item's attributes, and a field indicating whether to retrieve the item's
   /// attributes if the condition is not met.
   /// </li>
   /// <li>
-  /// <code>Update</code>  &#x97;   Initiates an <code>UpdateItem</code>
-  /// operation to update an existing item. This structure specifies the primary
-  /// key of the item to be updated, the name of the table where it resides, an
-  /// optional condition expression that must be satisfied for the update to
-  /// succeed, an expression that defines one or more attributes to be updated,
+  /// <code>Update</code>  —   Initiates an <code>UpdateItem</code> operation to
+  /// update an existing item. This structure specifies the primary key of the
+  /// item to be updated, the name of the table where it resides, an optional
+  /// condition expression that must be satisfied for the update to succeed, an
+  /// expression that defines one or more attributes to be updated, and a field
+  /// indicating whether to retrieve the item's attributes if the condition is
+  /// not met.
+  /// </li>
+  /// <li>
+  /// <code>Delete</code>  —   Initiates a <code>DeleteItem</code> operation to
+  /// delete an existing item. This structure specifies the primary key of the
+  /// item to be deleted, the name of the table where it resides, an optional
+  /// condition expression that must be satisfied for the deletion to succeed,
   /// and a field indicating whether to retrieve the item's attributes if the
   /// condition is not met.
   /// </li>
   /// <li>
-  /// <code>Delete</code>  &#x97;   Initiates a <code>DeleteItem</code>
-  /// operation to delete an existing item. This structure specifies the primary
-  /// key of the item to be deleted, the name of the table where it resides, an
-  /// optional condition expression that must be satisfied for the deletion to
-  /// succeed, and a field indicating whether to retrieve the item's attributes
-  /// if the condition is not met.
-  /// </li>
-  /// <li>
-  /// <code>ConditionCheck</code>  &#x97;   Applies a condition to an item that
-  /// is not being modified by the transaction. This structure specifies the
+  /// <code>ConditionCheck</code>  —   Applies a condition to an item that is
+  /// not being modified by the transaction. This structure specifies the
   /// primary key of the item to be checked, the name of the table where it
   /// resides, a condition expression that must be satisfied for the transaction
   /// to succeed, and a field indicating whether to retrieve the item's
@@ -3998,11 +4247,12 @@ class DynamoDB {
   /// May throw [InternalServerError].
   ///
   /// Parameter [transactItems] :
-  /// An ordered array of up to 25 <code>TransactWriteItem</code> objects, each
+  /// An ordered array of up to 100 <code>TransactWriteItem</code> objects, each
   /// of which contains a <code>ConditionCheck</code>, <code>Put</code>,
   /// <code>Update</code>, or <code>Delete</code> object. These can operate on
-  /// items in different tables, but the tables must reside in the same AWS
-  /// account and Region, and no two of them can operate on the same item.
+  /// items in different tables, but the tables must reside in the same Amazon
+  /// Web Services account and Region, and no two of them can operate on the
+  /// same item.
   ///
   /// Parameter [clientRequestToken] :
   /// Providing a <code>ClientRequestToken</code> makes the call to
@@ -4012,7 +4262,7 @@ class DynamoDB {
   /// Although multiple identical calls using the same client request token
   /// produce the same result on the server (no side effects), the responses to
   /// the calls might not be the same. If the
-  /// <code>ReturnConsumedCapacity&gt;</code> parameter is set, then the initial
+  /// <code>ReturnConsumedCapacity</code> parameter is set, then the initial
   /// <code>TransactWriteItems</code> call returns the amount of write capacity
   /// units consumed in making the changes. Subsequent
   /// <code>TransactWriteItems</code> calls with the same client token return
@@ -4154,6 +4404,13 @@ class DynamoDB {
   }
 
   /// Updates the status for contributor insights for a specific table or index.
+  /// CloudWatch Contributor Insights for DynamoDB graphs display the partition
+  /// key and (if applicable) sort key of frequently accessed items and
+  /// frequently throttled items in plaintext. If you require the use of Amazon
+  /// Web Services Key Management Service (KMS) to encrypt this table’s
+  /// partition key and sort key data with an Amazon Web Services managed key or
+  /// customer managed key, you should not enable CloudWatch Contributor
+  /// Insights for DynamoDB for this table.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerError].
@@ -4196,7 +4453,28 @@ class DynamoDB {
   /// added must be empty, have the same name as the global table, have the same
   /// key schema, have DynamoDB Streams enabled, and have the same provisioned
   /// and maximum write capacity units.
-  /// <note>
+  /// <important>
+  /// This operation only applies to <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html">Version
+  /// 2017.11.29 (Legacy)</a> of global tables. We recommend using <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html">Version
+  /// 2019.11.21 (Current)</a> when creating new global tables, as it provides
+  /// greater flexibility, higher efficiency and consumes less write capacity
+  /// than 2017.11.29 (Legacy). To determine which version you are using, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html">Determining
+  /// the version</a>. To update existing global tables from version 2017.11.29
+  /// (Legacy) to version 2019.11.21 (Current), see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html">
+  /// Updating global tables</a>.
+  /// </important> <note>
+  /// This operation only applies to <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html">Version
+  /// 2017.11.29</a> of global tables. If you are using global tables <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html">Version
+  /// 2019.11.21</a> you can use <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_DescribeTable.html">DescribeTable</a>
+  /// instead.
+  ///
   /// Although you can use <code>UpdateGlobalTable</code> to add replicas and
   /// remove replicas in a single request, for simplicity we recommend that you
   /// issue separate requests for adding or removing replicas.
@@ -4253,6 +4531,20 @@ class DynamoDB {
   }
 
   /// Updates settings for a global table.
+  /// <important>
+  /// This operation only applies to <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html">Version
+  /// 2017.11.29 (Legacy)</a> of global tables. We recommend using <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html">Version
+  /// 2019.11.21 (Current)</a> when creating new global tables, as it provides
+  /// greater flexibility, higher efficiency and consumes less write capacity
+  /// than 2017.11.29 (Legacy). To determine which version you are using, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html">Determining
+  /// the version</a>. To update existing global tables from version 2017.11.29
+  /// (Legacy) to version 2019.11.21 (Current), see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html">
+  /// Updating global tables</a>.
+  /// </important>
   ///
   /// May throw [GlobalTableNotFoundException].
   /// May throw [ReplicaNotFoundException].
@@ -4508,8 +4800,8 @@ class DynamoDB {
   ///
   /// Parameter [returnValues] :
   /// Use <code>ReturnValues</code> if you want to get the item attributes as
-  /// they appear before or after they are updated. For <code>UpdateItem</code>,
-  /// the valid values are:
+  /// they appear before or after they are successfully updated. For
+  /// <code>UpdateItem</code>, the valid values are:
   ///
   /// <ul>
   /// <li>
@@ -4692,15 +4984,16 @@ class DynamoDB {
 
   /// Modifies the provisioned throughput settings, global secondary indexes, or
   /// DynamoDB Streams settings for a given table.
-  ///
+  /// <important>
+  /// This operation only applies to <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html">Version
+  /// 2019.11.21 (Current)</a> of global tables.
+  /// </important>
   /// You can only perform one of the following operations at once:
   ///
   /// <ul>
   /// <li>
   /// Modify the provisioned throughput settings of the table.
-  /// </li>
-  /// <li>
-  /// Enable or disable DynamoDB Streams on the table.
   /// </li>
   /// <li>
   /// Remove a global secondary index from the table.
@@ -4757,6 +5050,10 @@ class DynamoDB {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [deletionProtectionEnabled] :
+  /// Indicates whether deletion protection is to be enabled (true) or disabled
+  /// (false) on the table.
+  ///
   /// Parameter [globalSecondaryIndexUpdates] :
   /// An array of one or more global secondary indexes for the table. For each
   /// index in the array, you can request one action:
@@ -4790,7 +5087,7 @@ class DynamoDB {
   /// <note>
   /// This property only applies to <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html">Version
-  /// 2019.11.21</a> of global tables.
+  /// 2019.11.21 (Current)</a> of global tables.
   /// </note>
   ///
   /// Parameter [sSESpecification] :
@@ -4803,15 +5100,21 @@ class DynamoDB {
   /// stream on a table that already has a stream, or if you try to disable a
   /// stream on a table that doesn't have a stream.
   /// </note>
+  ///
+  /// Parameter [tableClass] :
+  /// The table class of the table to be updated. Valid values are
+  /// <code>STANDARD</code> and <code>STANDARD_INFREQUENT_ACCESS</code>.
   Future<UpdateTableOutput> updateTable({
     required String tableName,
     List<AttributeDefinition>? attributeDefinitions,
     BillingMode? billingMode,
+    bool? deletionProtectionEnabled,
     List<GlobalSecondaryIndexUpdate>? globalSecondaryIndexUpdates,
     ProvisionedThroughput? provisionedThroughput,
     List<ReplicationGroupUpdate>? replicaUpdates,
     SSESpecification? sSESpecification,
     StreamSpecification? streamSpecification,
+    TableClass? tableClass,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -4828,6 +5131,8 @@ class DynamoDB {
         if (attributeDefinitions != null)
           'AttributeDefinitions': attributeDefinitions,
         if (billingMode != null) 'BillingMode': billingMode.toValue(),
+        if (deletionProtectionEnabled != null)
+          'DeletionProtectionEnabled': deletionProtectionEnabled,
         if (globalSecondaryIndexUpdates != null)
           'GlobalSecondaryIndexUpdates': globalSecondaryIndexUpdates,
         if (provisionedThroughput != null)
@@ -4836,6 +5141,7 @@ class DynamoDB {
         if (sSESpecification != null) 'SSESpecification': sSESpecification,
         if (streamSpecification != null)
           'StreamSpecification': streamSpecification,
+        if (tableClass != null) 'TableClass': tableClass.toValue(),
       },
     );
 
@@ -4843,11 +5149,11 @@ class DynamoDB {
   }
 
   /// Updates auto scaling settings on your global tables at once.
-  /// <note>
+  /// <important>
   /// This operation only applies to <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html">Version
-  /// 2019.11.21</a> of global tables.
-  /// </note>
+  /// 2019.11.21 (Current)</a> of global tables.
+  /// </important>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
@@ -4977,8 +5283,8 @@ class ArchivalSummary {
   /// <ul>
   /// <li>
   /// <code>INACCESSIBLE_ENCRYPTION_CREDENTIALS</code> - The table was archived
-  /// due to the table's AWS KMS key being inaccessible for more than seven days.
-  /// An On-Demand backup was created at the archival time.
+  /// due to the table's KMS key being inaccessible for more than seven days. An
+  /// On-Demand backup was created at the archival time.
   /// </li>
   /// </ul>
   final String? archivalReason;
@@ -4988,6 +5294,7 @@ class ArchivalSummary {
     this.archivalDateTime,
     this.archivalReason,
   });
+
   factory ArchivalSummary.fromJson(Map<String, dynamic> json) {
     return ArchivalSummary(
       archivalBackupArn: json['ArchivalBackupArn'] as String?,
@@ -5055,6 +5362,7 @@ class AttributeDefinition {
     required this.attributeName,
     required this.attributeType,
   });
+
   factory AttributeDefinition.fromJson(Map<String, dynamic> json) {
     return AttributeDefinition(
       attributeName: json['AttributeName'] as String,
@@ -5098,7 +5406,7 @@ class AttributeValue {
 
   /// An attribute of type List. For example:
   ///
-  /// <code>"L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N", "3.14159"}]</code>
+  /// <code>"L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N": "3.14159"}]</code>
   final List<AttributeValue>? l;
 
   /// An attribute of type Map. For example:
@@ -5151,6 +5459,7 @@ class AttributeValue {
     this.s,
     this.ss,
   });
+
   factory AttributeValue.fromJson(Map<String, dynamic> json) {
     return AttributeValue(
       b: _s.decodeNullableUint8List(json['B'] as String?),
@@ -5297,9 +5606,9 @@ class AttributeValueUpdate {
   /// <code>DELETE</code> - Nothing happens; there is no attribute to delete.
   /// </li>
   /// <li>
-  /// <code>ADD</code> - DynamoDB creates an item with the supplied primary key
-  /// and number (or set of numbers) for the attribute value. The only data types
-  /// allowed are number and number set; no other data types can be specified.
+  /// <code>ADD</code> - DynamoDB creates a new item with the supplied primary key
+  /// and number (or set) for the attribute value. The only data types allowed are
+  /// number, number set, string set or binary set.
   /// </li>
   /// </ul>
   final AttributeAction? action;
@@ -5341,6 +5650,7 @@ class AutoScalingPolicyDescription {
     this.policyName,
     this.targetTrackingScalingPolicyConfiguration,
   });
+
   factory AutoScalingPolicyDescription.fromJson(Map<String, dynamic> json) {
     return AutoScalingPolicyDescription(
       policyName: json['PolicyName'] as String?,
@@ -5406,6 +5716,7 @@ class AutoScalingSettingsDescription {
     this.minimumUnits,
     this.scalingPolicies,
   });
+
   factory AutoScalingSettingsDescription.fromJson(Map<String, dynamic> json) {
     return AutoScalingSettingsDescription(
       autoScalingDisabled: json['AutoScalingDisabled'] as bool?,
@@ -5503,6 +5814,7 @@ class AutoScalingTargetTrackingScalingPolicyConfigurationDescription {
     this.scaleInCooldown,
     this.scaleOutCooldown,
   });
+
   factory AutoScalingTargetTrackingScalingPolicyConfigurationDescription.fromJson(
       Map<String, dynamic> json) {
     return AutoScalingTargetTrackingScalingPolicyConfigurationDescription(
@@ -5582,6 +5894,7 @@ class BackupDescription {
     this.sourceTableDetails,
     this.sourceTableFeatureDetails,
   });
+
   factory BackupDescription.fromJson(Map<String, dynamic> json) {
     return BackupDescription(
       backupDetails: json['BackupDetails'] != null
@@ -5630,7 +5943,7 @@ class BackupDetails {
   /// deletion.
   /// </li>
   /// <li>
-  /// <code>AWS_BACKUP</code> - On-demand backup created by you from AWS Backup
+  /// <code>AWS_BACKUP</code> - On-demand backup created by you from Backup
   /// service.
   /// </li>
   /// </ul>
@@ -5641,7 +5954,8 @@ class BackupDetails {
   /// days after its creation.
   final DateTime? backupExpiryDateTime;
 
-  /// Size of the backup in bytes.
+  /// Size of the backup in bytes. DynamoDB updates this value approximately every
+  /// six hours. Recent changes might not be reflected in this value.
   final int? backupSizeBytes;
 
   BackupDetails({
@@ -5653,6 +5967,7 @@ class BackupDetails {
     this.backupExpiryDateTime,
     this.backupSizeBytes,
   });
+
   factory BackupDetails.fromJson(Map<String, dynamic> json) {
     return BackupDetails(
       backupArn: json['BackupArn'] as String,
@@ -5737,7 +6052,7 @@ class BackupSummary {
   /// deletion.
   /// </li>
   /// <li>
-  /// <code>AWS_BACKUP</code> - On-demand backup created by you from AWS Backup
+  /// <code>AWS_BACKUP</code> - On-demand backup created by you from Backup
   /// service.
   /// </li>
   /// </ul>
@@ -5764,6 +6079,7 @@ class BackupSummary {
     this.tableId,
     this.tableName,
   });
+
   factory BackupSummary.fromJson(Map<String, dynamic> json) {
     return BackupSummary(
       backupArn: json['BackupArn'] as String?,
@@ -5852,14 +6168,24 @@ extension BackupTypeFilterFromString on String {
 }
 
 class BatchExecuteStatementOutput {
+  /// The capacity units consumed by the entire operation. The values of the list
+  /// are ordered according to the ordering of the statements.
+  final List<ConsumedCapacity>? consumedCapacity;
+
   /// The response to each PartiQL statement in the batch.
   final List<BatchStatementResponse>? responses;
 
   BatchExecuteStatementOutput({
+    this.consumedCapacity,
     this.responses,
   });
+
   factory BatchExecuteStatementOutput.fromJson(Map<String, dynamic> json) {
     return BatchExecuteStatementOutput(
+      consumedCapacity: (json['ConsumedCapacity'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConsumedCapacity.fromJson(e as Map<String, dynamic>))
+          .toList(),
       responses: (json['Responses'] as List?)
           ?.whereNotNull()
           .map(
@@ -5924,6 +6250,7 @@ class BatchGetItemOutput {
     this.responses,
     this.unprocessedKeys,
   });
+
   factory BatchGetItemOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetItemOutput(
       consumedCapacity: (json['ConsumedCapacity'] as List?)
@@ -5951,13 +6278,14 @@ class BatchStatementError {
   /// The error code associated with the failed PartiQL batch statement.
   final BatchStatementErrorCodeEnum? code;
 
-  /// The error message associated with the PartiQL batch resposne.
+  /// The error message associated with the PartiQL batch response.
   final String? message;
 
   BatchStatementError({
     this.code,
     this.message,
   });
+
   factory BatchStatementError.fromJson(Map<String, dynamic> json) {
     return BatchStatementError(
       code: (json['Code'] as String?)?.toBatchStatementErrorCodeEnum(),
@@ -6084,6 +6412,7 @@ class BatchStatementResponse {
     this.item,
     this.tableName,
   });
+
   factory BatchStatementResponse.fromJson(Map<String, dynamic> json) {
     return BatchStatementResponse(
       error: json['Error'] != null
@@ -6141,7 +6470,7 @@ class BatchWriteItemOutput {
   /// A map of tables and requests against those tables that were not processed.
   /// The <code>UnprocessedItems</code> value is in the same form as
   /// <code>RequestItems</code>, so you can provide this value directly to a
-  /// subsequent <code>BatchGetItem</code> operation. For more information, see
+  /// subsequent <code>BatchWriteItem</code> operation. For more information, see
   /// <code>RequestItems</code> in the Request Parameters section.
   ///
   /// Each <code>UnprocessedItems</code> entry consists of a table name and, for
@@ -6190,6 +6519,7 @@ class BatchWriteItemOutput {
     this.itemCollectionMetrics,
     this.unprocessedItems,
   });
+
   factory BatchWriteItemOutput.fromJson(Map<String, dynamic> json) {
     return BatchWriteItemOutput(
       consumedCapacity: (json['ConsumedCapacity'] as List?)
@@ -6244,7 +6574,15 @@ extension BillingModeFromString on String {
   }
 }
 
-/// Contains the details for the read/write capacity mode.
+/// Contains the details for the read/write capacity mode. This page talks about
+/// <code>PROVISIONED</code> and <code>PAY_PER_REQUEST</code> billing modes. For
+/// more information about these modes, see <a
+/// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html">Read/write
+/// capacity mode</a>.
+/// <note>
+/// You may need to switch to on-demand mode at least once in order to return a
+/// <code>BillingModeSummary</code> response.
+/// </note>
 class BillingModeSummary {
   /// Controls how you are charged for read and write throughput and how you
   /// manage capacity. This setting can be changed later.
@@ -6271,6 +6609,7 @@ class BillingModeSummary {
     this.billingMode,
     this.lastUpdateToPayPerRequestDateTime,
   });
+
   factory BillingModeSummary.fromJson(Map<String, dynamic> json) {
     return BillingModeSummary(
       billingMode: (json['BillingMode'] as String?)?.toBillingMode(),
@@ -6297,6 +6636,7 @@ class Capacity {
     this.readCapacityUnits,
     this.writeCapacityUnits,
   });
+
   factory Capacity.fromJson(Map<String, dynamic> json) {
     return Capacity(
       capacityUnits: json['CapacityUnits'] as double?,
@@ -6617,7 +6957,9 @@ class Condition {
 /// condition of specific attributes of the item.
 class ConditionCheck {
   /// A condition that must be satisfied in order for a conditional update to
-  /// succeed.
+  /// succeed. For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ConditionExpressions.html">Condition
+  /// expressions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   final String conditionExpression;
 
   /// The primary key of the item to be checked. Each element consists of an
@@ -6627,10 +6969,16 @@ class ConditionCheck {
   /// Name of the table for the check item request.
   final String tableName;
 
-  /// One or more substitution tokens for attribute names in an expression.
+  /// One or more substitution tokens for attribute names in an expression. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ExpressionAttributeNames.html">Expression
+  /// attribute names</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   final Map<String, String>? expressionAttributeNames;
 
-  /// One or more values that can be substituted in an expression.
+  /// One or more values that can be substituted in an expression. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ConditionExpressions.html">Condition
+  /// expressions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   final Map<String, AttributeValue>? expressionAttributeValues;
 
   /// Use <code>ReturnValuesOnConditionCheckFailure</code> to get the item
@@ -6738,6 +7086,7 @@ class ConsumedCapacity {
     this.tableName,
     this.writeCapacityUnits,
   });
+
   factory ConsumedCapacity.fromJson(Map<String, dynamic> json) {
     return ConsumedCapacity(
       capacityUnits: json['CapacityUnits'] as double?,
@@ -6773,6 +7122,7 @@ class ContinuousBackupsDescription {
     required this.continuousBackupsStatus,
     this.pointInTimeRecoveryDescription,
   });
+
   factory ContinuousBackupsDescription.fromJson(Map<String, dynamic> json) {
     return ContinuousBackupsDescription(
       continuousBackupsStatus: (json['ContinuousBackupsStatus'] as String)
@@ -6902,6 +7252,7 @@ class ContributorInsightsSummary {
     this.indexName,
     this.tableName,
   });
+
   factory ContributorInsightsSummary.fromJson(Map<String, dynamic> json) {
     return ContributorInsightsSummary(
       contributorInsightsStatus: (json['ContributorInsightsStatus'] as String?)
@@ -6919,6 +7270,7 @@ class CreateBackupOutput {
   CreateBackupOutput({
     this.backupDetails,
   });
+
   factory CreateBackupOutput.fromJson(Map<String, dynamic> json) {
     return CreateBackupOutput(
       backupDetails: json['BackupDetails'] != null
@@ -6978,6 +7330,7 @@ class CreateGlobalTableOutput {
   CreateGlobalTableOutput({
     this.globalTableDescription,
   });
+
   factory CreateGlobalTableOutput.fromJson(Map<String, dynamic> json) {
     return CreateGlobalTableOutput(
       globalTableDescription: json['GlobalTableDescription'] != null
@@ -7012,28 +7365,33 @@ class CreateReplicationGroupMemberAction {
   /// Replica-specific global secondary index settings.
   final List<ReplicaGlobalSecondaryIndex>? globalSecondaryIndexes;
 
-  /// The AWS KMS customer master key (CMK) that should be used for AWS KMS
-  /// encryption in the new replica. To specify a CMK, use its key ID, Amazon
-  /// Resource Name (ARN), alias name, or alias ARN. Note that you should only
-  /// provide this parameter if the key is different from the default DynamoDB KMS
-  /// master key alias/aws/dynamodb.
+  /// The KMS key that should be used for KMS encryption in the new replica. To
+  /// specify a key, use its key ID, Amazon Resource Name (ARN), alias name, or
+  /// alias ARN. Note that you should only provide this parameter if the key is
+  /// different from the default DynamoDB KMS key <code>alias/aws/dynamodb</code>.
   final String? kMSMasterKeyId;
 
   /// Replica-specific provisioned throughput. If not specified, uses the source
   /// table's provisioned throughput settings.
   final ProvisionedThroughputOverride? provisionedThroughputOverride;
 
+  /// Replica-specific table class. If not specified, uses the source table's
+  /// table class.
+  final TableClass? tableClassOverride;
+
   CreateReplicationGroupMemberAction({
     required this.regionName,
     this.globalSecondaryIndexes,
     this.kMSMasterKeyId,
     this.provisionedThroughputOverride,
+    this.tableClassOverride,
   });
   Map<String, dynamic> toJson() {
     final regionName = this.regionName;
     final globalSecondaryIndexes = this.globalSecondaryIndexes;
     final kMSMasterKeyId = this.kMSMasterKeyId;
     final provisionedThroughputOverride = this.provisionedThroughputOverride;
+    final tableClassOverride = this.tableClassOverride;
     return {
       'RegionName': regionName,
       if (globalSecondaryIndexes != null)
@@ -7041,6 +7399,8 @@ class CreateReplicationGroupMemberAction {
       if (kMSMasterKeyId != null) 'KMSMasterKeyId': kMSMasterKeyId,
       if (provisionedThroughputOverride != null)
         'ProvisionedThroughputOverride': provisionedThroughputOverride,
+      if (tableClassOverride != null)
+        'TableClassOverride': tableClassOverride.toValue(),
     };
   }
 }
@@ -7053,6 +7413,7 @@ class CreateTableOutput {
   CreateTableOutput({
     this.tableDescription,
   });
+
   factory CreateTableOutput.fromJson(Map<String, dynamic> json) {
     return CreateTableOutput(
       tableDescription: json['TableDescription'] != null
@@ -7060,6 +7421,42 @@ class CreateTableOutput {
               json['TableDescription'] as Map<String, dynamic>)
           : null,
     );
+  }
+}
+
+/// Processing options for the CSV file being imported.
+class CsvOptions {
+  /// The delimiter used for separating items in the CSV file being imported.
+  final String? delimiter;
+
+  /// List of the headers used to specify a common header for all source CSV files
+  /// being imported. If this field is specified then the first line of each CSV
+  /// file is treated as data instead of the header. If this field is not
+  /// specified the the first line of each CSV file is treated as the header.
+  final List<String>? headerList;
+
+  CsvOptions({
+    this.delimiter,
+    this.headerList,
+  });
+
+  factory CsvOptions.fromJson(Map<String, dynamic> json) {
+    return CsvOptions(
+      delimiter: json['Delimiter'] as String?,
+      headerList: (json['HeaderList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final delimiter = this.delimiter;
+    final headerList = this.headerList;
+    return {
+      if (delimiter != null) 'Delimiter': delimiter,
+      if (headerList != null) 'HeaderList': headerList,
+    };
   }
 }
 
@@ -7128,6 +7525,7 @@ class DeleteBackupOutput {
   DeleteBackupOutput({
     this.backupDescription,
   });
+
   factory DeleteBackupOutput.fromJson(Map<String, dynamic> json) {
     return DeleteBackupOutput(
       backupDescription: json['BackupDescription'] != null
@@ -7170,7 +7568,7 @@ class DeleteItemOutput {
   /// <code>ReturnConsumedCapacity</code> parameter was specified. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughputIntro.html">Provisioned
-  /// Mode</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  /// Throughput</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   final ConsumedCapacity? consumedCapacity;
 
   /// Information about item collections, if any, that were affected by the
@@ -7205,6 +7603,7 @@ class DeleteItemOutput {
     this.consumedCapacity,
     this.itemCollectionMetrics,
   });
+
   factory DeleteItemOutput.fromJson(Map<String, dynamic> json) {
     return DeleteItemOutput(
       attributes: (json['Attributes'] as Map<String, dynamic>?)?.map((k, e) =>
@@ -7264,6 +7663,7 @@ class DeleteRequest {
   DeleteRequest({
     required this.key,
   });
+
   factory DeleteRequest.fromJson(Map<String, dynamic> json) {
     return DeleteRequest(
       key: (json['Key'] as Map<String, dynamic>).map((k, e) =>
@@ -7287,6 +7687,7 @@ class DeleteTableOutput {
   DeleteTableOutput({
     this.tableDescription,
   });
+
   factory DeleteTableOutput.fromJson(Map<String, dynamic> json) {
     return DeleteTableOutput(
       tableDescription: json['TableDescription'] != null
@@ -7304,6 +7705,7 @@ class DescribeBackupOutput {
   DescribeBackupOutput({
     this.backupDescription,
   });
+
   factory DescribeBackupOutput.fromJson(Map<String, dynamic> json) {
     return DescribeBackupOutput(
       backupDescription: json['BackupDescription'] != null
@@ -7322,6 +7724,7 @@ class DescribeContinuousBackupsOutput {
   DescribeContinuousBackupsOutput({
     this.continuousBackupsDescription,
   });
+
   factory DescribeContinuousBackupsOutput.fromJson(Map<String, dynamic> json) {
     return DescribeContinuousBackupsOutput(
       continuousBackupsDescription: json['ContinuousBackupsDescription'] != null
@@ -7333,13 +7736,13 @@ class DescribeContinuousBackupsOutput {
 }
 
 class DescribeContributorInsightsOutput {
-  /// List of names of the associated Alpine rules.
+  /// List of names of the associated contributor insights rules.
   final List<String>? contributorInsightsRuleList;
 
-  /// Current Status contributor insights.
+  /// Current status of contributor insights.
   final ContributorInsightsStatus? contributorInsightsStatus;
 
-  /// Returns information about the last failure that encountered.
+  /// Returns information about the last failure that was encountered.
   ///
   /// The most common exceptions for a FAILED status are:
   ///
@@ -7381,6 +7784,7 @@ class DescribeContributorInsightsOutput {
     this.lastUpdateDateTime,
     this.tableName,
   });
+
   factory DescribeContributorInsightsOutput.fromJson(
       Map<String, dynamic> json) {
     return DescribeContributorInsightsOutput(
@@ -7409,6 +7813,7 @@ class DescribeEndpointsResponse {
   DescribeEndpointsResponse({
     required this.endpoints,
   });
+
   factory DescribeEndpointsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeEndpointsResponse(
       endpoints: (json['Endpoints'] as List)
@@ -7426,6 +7831,7 @@ class DescribeExportOutput {
   DescribeExportOutput({
     this.exportDescription,
   });
+
   factory DescribeExportOutput.fromJson(Map<String, dynamic> json) {
     return DescribeExportOutput(
       exportDescription: json['ExportDescription'] != null
@@ -7443,6 +7849,7 @@ class DescribeGlobalTableOutput {
   DescribeGlobalTableOutput({
     this.globalTableDescription,
   });
+
   factory DescribeGlobalTableOutput.fromJson(Map<String, dynamic> json) {
     return DescribeGlobalTableOutput(
       globalTableDescription: json['GlobalTableDescription'] != null
@@ -7464,6 +7871,7 @@ class DescribeGlobalTableSettingsOutput {
     this.globalTableName,
     this.replicaSettings,
   });
+
   factory DescribeGlobalTableSettingsOutput.fromJson(
       Map<String, dynamic> json) {
     return DescribeGlobalTableSettingsOutput(
@@ -7473,6 +7881,24 @@ class DescribeGlobalTableSettingsOutput {
           .map((e) =>
               ReplicaSettingsDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
+    );
+  }
+}
+
+class DescribeImportOutput {
+  /// Represents the properties of the table created for the import, and
+  /// parameters of the import. The import parameters include import status, how
+  /// many items were processed, and how many errors were encountered.
+  final ImportTableDescription importTableDescription;
+
+  DescribeImportOutput({
+    required this.importTableDescription,
+  });
+
+  factory DescribeImportOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeImportOutput(
+      importTableDescription: ImportTableDescription.fromJson(
+          json['ImportTableDescription'] as Map<String, dynamic>),
     );
   }
 }
@@ -7488,6 +7914,7 @@ class DescribeKinesisStreamingDestinationOutput {
     this.kinesisDataStreamDestinations,
     this.tableName,
   });
+
   factory DescribeKinesisStreamingDestinationOutput.fromJson(
       Map<String, dynamic> json) {
     return DescribeKinesisStreamingDestinationOutput(
@@ -7528,6 +7955,7 @@ class DescribeLimitsOutput {
     this.tableMaxReadCapacityUnits,
     this.tableMaxWriteCapacityUnits,
   });
+
   factory DescribeLimitsOutput.fromJson(Map<String, dynamic> json) {
     return DescribeLimitsOutput(
       accountMaxReadCapacityUnits: json['AccountMaxReadCapacityUnits'] as int?,
@@ -7547,6 +7975,7 @@ class DescribeTableOutput {
   DescribeTableOutput({
     this.table,
   });
+
   factory DescribeTableOutput.fromJson(Map<String, dynamic> json) {
     return DescribeTableOutput(
       table: json['Table'] != null
@@ -7563,6 +7992,7 @@ class DescribeTableReplicaAutoScalingOutput {
   DescribeTableReplicaAutoScalingOutput({
     this.tableAutoScalingDescription,
   });
+
   factory DescribeTableReplicaAutoScalingOutput.fromJson(
       Map<String, dynamic> json) {
     return DescribeTableReplicaAutoScalingOutput(
@@ -7581,6 +8011,7 @@ class DescribeTimeToLiveOutput {
   DescribeTimeToLiveOutput({
     this.timeToLiveDescription,
   });
+
   factory DescribeTimeToLiveOutput.fromJson(Map<String, dynamic> json) {
     return DescribeTimeToLiveOutput(
       timeToLiveDescription: json['TimeToLiveDescription'] != null
@@ -7646,6 +8077,7 @@ class Endpoint {
     required this.address,
     required this.cachePeriodInMinutes,
   });
+
   factory Endpoint.fromJson(Map<String, dynamic> json) {
     return Endpoint(
       address: json['Address'] as String,
@@ -7655,10 +8087,22 @@ class Endpoint {
 }
 
 class ExecuteStatementOutput {
+  final ConsumedCapacity? consumedCapacity;
+
   /// If a read operation was used, this property will contain the result of the
-  /// reade operation; a map of attribute names and their values. For the write
+  /// read operation; a map of attribute names and their values. For the write
   /// operations this value will be empty.
   final List<Map<String, AttributeValue>>? items;
+
+  /// The primary key of the item where the operation stopped, inclusive of the
+  /// previous result set. Use this value to start a new operation, excluding this
+  /// value in the new request. If <code>LastEvaluatedKey</code> is empty, then
+  /// the "last page" of results has been processed and there is no more data to
+  /// be retrieved. If <code>LastEvaluatedKey</code> is not empty, it does not
+  /// necessarily mean that there is more data in the result set. The only way to
+  /// know when you have reached the end of the result set is when
+  /// <code>LastEvaluatedKey</code> is empty.
+  final Map<String, AttributeValue>? lastEvaluatedKey;
 
   /// If the response of a read request exceeds the response payload limit
   /// DynamoDB will set this value in the response. If set, you can use that this
@@ -7666,30 +8110,50 @@ class ExecuteStatementOutput {
   final String? nextToken;
 
   ExecuteStatementOutput({
+    this.consumedCapacity,
     this.items,
+    this.lastEvaluatedKey,
     this.nextToken,
   });
+
   factory ExecuteStatementOutput.fromJson(Map<String, dynamic> json) {
     return ExecuteStatementOutput(
+      consumedCapacity: json['ConsumedCapacity'] != null
+          ? ConsumedCapacity.fromJson(
+              json['ConsumedCapacity'] as Map<String, dynamic>)
+          : null,
       items: (json['Items'] as List?)
           ?.whereNotNull()
           .map((e) => (e as Map<String, dynamic>).map((k, e) =>
               MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))))
           .toList(),
+      lastEvaluatedKey: (json['LastEvaluatedKey'] as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
       nextToken: json['NextToken'] as String?,
     );
   }
 }
 
 class ExecuteTransactionOutput {
+  /// The capacity units consumed by the entire operation. The values of the list
+  /// are ordered according to the ordering of the statements.
+  final List<ConsumedCapacity>? consumedCapacity;
+
   /// The response to a PartiQL transaction.
   final List<ItemResponse>? responses;
 
   ExecuteTransactionOutput({
+    this.consumedCapacity,
     this.responses,
   });
+
   factory ExecuteTransactionOutput.fromJson(Map<String, dynamic> json) {
     return ExecuteTransactionOutput(
+      consumedCapacity: (json['ConsumedCapacity'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConsumedCapacity.fromJson(e as Map<String, dynamic>))
+          .toList(),
       responses: (json['Responses'] as List?)
           ?.whereNotNull()
           .map((e) => ItemResponse.fromJson(e as Map<String, dynamic>))
@@ -8026,7 +8490,8 @@ class ExportDescription {
   /// The name of the Amazon S3 bucket containing the export.
   final String? s3Bucket;
 
-  /// The ID of the AWS account that owns the bucket containing the export.
+  /// The ID of the Amazon Web Services account that owns the bucket containing
+  /// the export.
   final String? s3BucketOwner;
 
   /// The Amazon S3 bucket prefix used as the file name and path of the exported
@@ -8041,12 +8506,12 @@ class ExportDescription {
   /// <code>AES256</code> - server-side encryption with Amazon S3 managed keys
   /// </li>
   /// <li>
-  /// <code>KMS</code> - server-side encryption with AWS KMS managed keys
+  /// <code>KMS</code> - server-side encryption with KMS managed keys
   /// </li>
   /// </ul>
   final S3SseAlgorithm? s3SseAlgorithm;
 
-  /// The ID of the AWS KMS managed key used to encrypt the S3 bucket where export
+  /// The ID of the KMS managed key used to encrypt the S3 bucket where export
   /// data is stored (if applicable).
   final String? s3SseKmsKeyId;
 
@@ -8080,6 +8545,7 @@ class ExportDescription {
     this.tableArn,
     this.tableId,
   });
+
   factory ExportDescription.fromJson(Map<String, dynamic> json) {
     return ExportDescription(
       billedSizeBytes: json['BilledSizeBytes'] as int?,
@@ -8179,6 +8645,7 @@ class ExportSummary {
     this.exportArn,
     this.exportStatus,
   });
+
   factory ExportSummary.fromJson(Map<String, dynamic> json) {
     return ExportSummary(
       exportArn: json['ExportArn'] as String?,
@@ -8194,6 +8661,7 @@ class ExportTableToPointInTimeOutput {
   ExportTableToPointInTimeOutput({
     this.exportDescription,
   });
+
   factory ExportTableToPointInTimeOutput.fromJson(Map<String, dynamic> json) {
     return ExportTableToPointInTimeOutput(
       exportDescription: json['ExportDescription'] != null
@@ -8216,6 +8684,7 @@ class FailureException {
     this.exceptionDescription,
     this.exceptionName,
   });
+
   factory FailureException.fromJson(Map<String, dynamic> json) {
     return FailureException(
       exceptionDescription: json['ExceptionDescription'] as String?,
@@ -8275,8 +8744,8 @@ class GetItemOutput {
   /// <code>ConsumedCapacity</code> is only returned if the
   /// <code>ReturnConsumedCapacity</code> parameter was specified. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughputIntro.html">Read/Write
-  /// Capacity Mode</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html#ItemSizeCalculations.Reads">Provisioned
+  /// Throughput</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   final ConsumedCapacity? consumedCapacity;
 
   /// A map of attribute names to <code>AttributeValue</code> objects, as
@@ -8287,6 +8756,7 @@ class GetItemOutput {
     this.consumedCapacity,
     this.item,
   });
+
   factory GetItemOutput.fromJson(Map<String, dynamic> json) {
     return GetItemOutput(
       consumedCapacity: json['ConsumedCapacity'] != null
@@ -8347,6 +8817,23 @@ class GlobalSecondaryIndex {
     required this.projection,
     this.provisionedThroughput,
   });
+
+  factory GlobalSecondaryIndex.fromJson(Map<String, dynamic> json) {
+    return GlobalSecondaryIndex(
+      indexName: json['IndexName'] as String,
+      keySchema: (json['KeySchema'] as List)
+          .whereNotNull()
+          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      projection:
+          Projection.fromJson(json['Projection'] as Map<String, dynamic>),
+      provisionedThroughput: json['ProvisionedThroughput'] != null
+          ? ProvisionedThroughput.fromJson(
+              json['ProvisionedThroughput'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     final indexName = this.indexName;
     final keySchema = this.keySchema;
@@ -8488,6 +8975,7 @@ class GlobalSecondaryIndexDescription {
     this.projection,
     this.provisionedThroughput,
   });
+
   factory GlobalSecondaryIndexDescription.fromJson(Map<String, dynamic> json) {
     return GlobalSecondaryIndexDescription(
       backfilling: json['Backfilling'] as bool?,
@@ -8555,6 +9043,7 @@ class GlobalSecondaryIndexInfo {
     this.projection,
     this.provisionedThroughput,
   });
+
   factory GlobalSecondaryIndexInfo.fromJson(Map<String, dynamic> json) {
     return GlobalSecondaryIndexInfo(
       indexName: json['IndexName'] as String?,
@@ -8646,6 +9135,7 @@ class GlobalTable {
     this.globalTableName,
     this.replicationGroup,
   });
+
   factory GlobalTable.fromJson(Map<String, dynamic> json) {
     return GlobalTable(
       globalTableName: json['GlobalTableName'] as String?,
@@ -8696,6 +9186,7 @@ class GlobalTableDescription {
     this.globalTableStatus,
     this.replicationGroup,
   });
+
   factory GlobalTableDescription.fromJson(Map<String, dynamic> json) {
     return GlobalTableDescription(
       creationDateTime: timeStampFromJson(json['CreationDateTime']),
@@ -8786,6 +9277,252 @@ extension GlobalTableStatusFromString on String {
   }
 }
 
+enum ImportStatus {
+  inProgress,
+  completed,
+  cancelling,
+  cancelled,
+  failed,
+}
+
+extension ImportStatusValueExtension on ImportStatus {
+  String toValue() {
+    switch (this) {
+      case ImportStatus.inProgress:
+        return 'IN_PROGRESS';
+      case ImportStatus.completed:
+        return 'COMPLETED';
+      case ImportStatus.cancelling:
+        return 'CANCELLING';
+      case ImportStatus.cancelled:
+        return 'CANCELLED';
+      case ImportStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension ImportStatusFromString on String {
+  ImportStatus toImportStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return ImportStatus.inProgress;
+      case 'COMPLETED':
+        return ImportStatus.completed;
+      case 'CANCELLING':
+        return ImportStatus.cancelling;
+      case 'CANCELLED':
+        return ImportStatus.cancelled;
+      case 'FAILED':
+        return ImportStatus.failed;
+    }
+    throw Exception('$this is not known in enum ImportStatus');
+  }
+}
+
+/// Summary information about the source file for the import.
+class ImportSummary {
+  /// The Amazon Resource Number (ARN) of the Cloudwatch Log Group associated with
+  /// this import task.
+  final String? cloudWatchLogGroupArn;
+
+  /// The time at which this import task ended. (Does this include the successful
+  /// complete creation of the table it was imported to?)
+  final DateTime? endTime;
+
+  /// The Amazon Resource Number (ARN) corresponding to the import request.
+  final String? importArn;
+
+  /// The status of the import operation.
+  final ImportStatus? importStatus;
+
+  /// The format of the source data. Valid values are <code>CSV</code>,
+  /// <code>DYNAMODB_JSON</code> or <code>ION</code>.
+  final InputFormat? inputFormat;
+
+  /// The path and S3 bucket of the source file that is being imported. This
+  /// includes the S3Bucket (required), S3KeyPrefix (optional) and S3BucketOwner
+  /// (optional if the bucket is owned by the requester).
+  final S3BucketSource? s3BucketSource;
+
+  /// The time at which this import task began.
+  final DateTime? startTime;
+
+  /// The Amazon Resource Number (ARN) of the table being imported into.
+  final String? tableArn;
+
+  ImportSummary({
+    this.cloudWatchLogGroupArn,
+    this.endTime,
+    this.importArn,
+    this.importStatus,
+    this.inputFormat,
+    this.s3BucketSource,
+    this.startTime,
+    this.tableArn,
+  });
+
+  factory ImportSummary.fromJson(Map<String, dynamic> json) {
+    return ImportSummary(
+      cloudWatchLogGroupArn: json['CloudWatchLogGroupArn'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      importArn: json['ImportArn'] as String?,
+      importStatus: (json['ImportStatus'] as String?)?.toImportStatus(),
+      inputFormat: (json['InputFormat'] as String?)?.toInputFormat(),
+      s3BucketSource: json['S3BucketSource'] != null
+          ? S3BucketSource.fromJson(
+              json['S3BucketSource'] as Map<String, dynamic>)
+          : null,
+      startTime: timeStampFromJson(json['StartTime']),
+      tableArn: json['TableArn'] as String?,
+    );
+  }
+}
+
+/// Represents the properties of the table being imported into.
+class ImportTableDescription {
+  /// The client token that was provided for the import task. Reusing the client
+  /// token on retry makes a call to <code>ImportTable</code> idempotent.
+  final String? clientToken;
+
+  /// The Amazon Resource Number (ARN) of the Cloudwatch Log Group associated with
+  /// the target table.
+  final String? cloudWatchLogGroupArn;
+
+  /// The time at which the creation of the table associated with this import task
+  /// completed.
+  final DateTime? endTime;
+
+  /// The number of errors occurred on importing the source file into the target
+  /// table.
+  final int? errorCount;
+
+  /// The error code corresponding to the failure that the import job ran into
+  /// during execution.
+  final String? failureCode;
+
+  /// The error message corresponding to the failure that the import job ran into
+  /// during execution.
+  final String? failureMessage;
+
+  /// The Amazon Resource Number (ARN) corresponding to the import request.
+  final String? importArn;
+
+  /// The status of the import.
+  final ImportStatus? importStatus;
+
+  /// The number of items successfully imported into the new table.
+  final int? importedItemCount;
+
+  /// The compression options for the data that has been imported into the target
+  /// table. The values are NONE, GZIP, or ZSTD.
+  final InputCompressionType? inputCompressionType;
+
+  /// The format of the source data going into the target table.
+  final InputFormat? inputFormat;
+
+  /// The format options for the data that was imported into the target table.
+  /// There is one value, CsvOption.
+  final InputFormatOptions? inputFormatOptions;
+
+  /// The total number of items processed from the source file.
+  final int? processedItemCount;
+
+  /// The total size of data processed from the source file, in Bytes.
+  final int? processedSizeBytes;
+
+  /// Values for the S3 bucket the source file is imported from. Includes bucket
+  /// name (required), key prefix (optional) and bucket account owner ID
+  /// (optional).
+  final S3BucketSource? s3BucketSource;
+
+  /// The time when this import task started.
+  final DateTime? startTime;
+
+  /// The Amazon Resource Number (ARN) of the table being imported into.
+  final String? tableArn;
+
+  /// The parameters for the new table that is being imported into.
+  final TableCreationParameters? tableCreationParameters;
+
+  /// The table id corresponding to the table created by import table process.
+  final String? tableId;
+
+  ImportTableDescription({
+    this.clientToken,
+    this.cloudWatchLogGroupArn,
+    this.endTime,
+    this.errorCount,
+    this.failureCode,
+    this.failureMessage,
+    this.importArn,
+    this.importStatus,
+    this.importedItemCount,
+    this.inputCompressionType,
+    this.inputFormat,
+    this.inputFormatOptions,
+    this.processedItemCount,
+    this.processedSizeBytes,
+    this.s3BucketSource,
+    this.startTime,
+    this.tableArn,
+    this.tableCreationParameters,
+    this.tableId,
+  });
+
+  factory ImportTableDescription.fromJson(Map<String, dynamic> json) {
+    return ImportTableDescription(
+      clientToken: json['ClientToken'] as String?,
+      cloudWatchLogGroupArn: json['CloudWatchLogGroupArn'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      errorCount: json['ErrorCount'] as int?,
+      failureCode: json['FailureCode'] as String?,
+      failureMessage: json['FailureMessage'] as String?,
+      importArn: json['ImportArn'] as String?,
+      importStatus: (json['ImportStatus'] as String?)?.toImportStatus(),
+      importedItemCount: json['ImportedItemCount'] as int?,
+      inputCompressionType:
+          (json['InputCompressionType'] as String?)?.toInputCompressionType(),
+      inputFormat: (json['InputFormat'] as String?)?.toInputFormat(),
+      inputFormatOptions: json['InputFormatOptions'] != null
+          ? InputFormatOptions.fromJson(
+              json['InputFormatOptions'] as Map<String, dynamic>)
+          : null,
+      processedItemCount: json['ProcessedItemCount'] as int?,
+      processedSizeBytes: json['ProcessedSizeBytes'] as int?,
+      s3BucketSource: json['S3BucketSource'] != null
+          ? S3BucketSource.fromJson(
+              json['S3BucketSource'] as Map<String, dynamic>)
+          : null,
+      startTime: timeStampFromJson(json['StartTime']),
+      tableArn: json['TableArn'] as String?,
+      tableCreationParameters: json['TableCreationParameters'] != null
+          ? TableCreationParameters.fromJson(
+              json['TableCreationParameters'] as Map<String, dynamic>)
+          : null,
+      tableId: json['TableId'] as String?,
+    );
+  }
+}
+
+class ImportTableOutput {
+  /// Represents the properties of the table created for the import, and
+  /// parameters of the import. The import parameters include import status, how
+  /// many items were processed, and how many errors were encountered.
+  final ImportTableDescription importTableDescription;
+
+  ImportTableOutput({
+    required this.importTableDescription,
+  });
+
+  factory ImportTableOutput.fromJson(Map<String, dynamic> json) {
+    return ImportTableOutput(
+      importTableDescription: ImportTableDescription.fromJson(
+          json['ImportTableDescription'] as Map<String, dynamic>),
+    );
+  }
+}
+
 enum IndexStatus {
   creating,
   updating,
@@ -8824,6 +9561,99 @@ extension IndexStatusFromString on String {
   }
 }
 
+enum InputCompressionType {
+  gzip,
+  zstd,
+  none,
+}
+
+extension InputCompressionTypeValueExtension on InputCompressionType {
+  String toValue() {
+    switch (this) {
+      case InputCompressionType.gzip:
+        return 'GZIP';
+      case InputCompressionType.zstd:
+        return 'ZSTD';
+      case InputCompressionType.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension InputCompressionTypeFromString on String {
+  InputCompressionType toInputCompressionType() {
+    switch (this) {
+      case 'GZIP':
+        return InputCompressionType.gzip;
+      case 'ZSTD':
+        return InputCompressionType.zstd;
+      case 'NONE':
+        return InputCompressionType.none;
+    }
+    throw Exception('$this is not known in enum InputCompressionType');
+  }
+}
+
+enum InputFormat {
+  dynamodbJson,
+  ion,
+  csv,
+}
+
+extension InputFormatValueExtension on InputFormat {
+  String toValue() {
+    switch (this) {
+      case InputFormat.dynamodbJson:
+        return 'DYNAMODB_JSON';
+      case InputFormat.ion:
+        return 'ION';
+      case InputFormat.csv:
+        return 'CSV';
+    }
+  }
+}
+
+extension InputFormatFromString on String {
+  InputFormat toInputFormat() {
+    switch (this) {
+      case 'DYNAMODB_JSON':
+        return InputFormat.dynamodbJson;
+      case 'ION':
+        return InputFormat.ion;
+      case 'CSV':
+        return InputFormat.csv;
+    }
+    throw Exception('$this is not known in enum InputFormat');
+  }
+}
+
+/// The format options for the data that was imported into the target table.
+/// There is one value, CsvOption.
+class InputFormatOptions {
+  /// The options for imported source files in CSV format. The values are
+  /// Delimiter and HeaderList.
+  final CsvOptions? csv;
+
+  InputFormatOptions({
+    this.csv,
+  });
+
+  factory InputFormatOptions.fromJson(Map<String, dynamic> json) {
+    return InputFormatOptions(
+      csv: json['Csv'] != null
+          ? CsvOptions.fromJson(json['Csv'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final csv = this.csv;
+    return {
+      if (csv != null) 'Csv': csv,
+    };
+  }
+}
+
 /// Information about item collections, if any, that were affected by the
 /// operation. <code>ItemCollectionMetrics</code> is only returned if the
 /// request asked for it. If the table does not have any local secondary
@@ -8848,6 +9678,7 @@ class ItemCollectionMetrics {
     this.itemCollectionKey,
     this.sizeEstimateRangeGB,
   });
+
   factory ItemCollectionMetrics.fromJson(Map<String, dynamic> json) {
     return ItemCollectionMetrics(
       itemCollectionKey: (json['ItemCollectionKey'] as Map<String, dynamic>?)
@@ -8869,6 +9700,7 @@ class ItemResponse {
   ItemResponse({
     this.item,
   });
+
   factory ItemResponse.fromJson(Map<String, dynamic> json) {
     return ItemResponse(
       item: (json['Item'] as Map<String, dynamic>?)?.map((k, e) =>
@@ -8920,6 +9752,7 @@ class KeySchemaElement {
     required this.attributeName,
     required this.keyType,
   });
+
   factory KeySchemaElement.fromJson(Map<String, dynamic> json) {
     return KeySchemaElement(
       attributeName: json['AttributeName'] as String,
@@ -9062,6 +9895,7 @@ class KeysAndAttributes {
     this.expressionAttributeNames,
     this.projectionExpression,
   });
+
   factory KeysAndAttributes.fromJson(Map<String, dynamic> json) {
     return KeysAndAttributes(
       keys: (json['Keys'] as List)
@@ -9115,6 +9949,7 @@ class KinesisDataStreamDestination {
     this.destinationStatusDescription,
     this.streamArn,
   });
+
   factory KinesisDataStreamDestination.fromJson(Map<String, dynamic> json) {
     return KinesisDataStreamDestination(
       destinationStatus:
@@ -9141,6 +9976,7 @@ class KinesisStreamingDestinationOutput {
     this.streamArn,
     this.tableName,
   });
+
   factory KinesisStreamingDestinationOutput.fromJson(
       Map<String, dynamic> json) {
     return KinesisStreamingDestinationOutput(
@@ -9175,6 +10011,7 @@ class ListBackupsOutput {
     this.backupSummaries,
     this.lastEvaluatedBackupArn,
   });
+
   factory ListBackupsOutput.fromJson(Map<String, dynamic> json) {
     return ListBackupsOutput(
       backupSummaries: (json['BackupSummaries'] as List?)
@@ -9197,6 +10034,7 @@ class ListContributorInsightsOutput {
     this.contributorInsightsSummaries,
     this.nextToken,
   });
+
   factory ListContributorInsightsOutput.fromJson(Map<String, dynamic> json) {
     return ListContributorInsightsOutput(
       contributorInsightsSummaries: (json['ContributorInsightsSummaries']
@@ -9223,6 +10061,7 @@ class ListExportsOutput {
     this.exportSummaries,
     this.nextToken,
   });
+
   factory ListExportsOutput.fromJson(Map<String, dynamic> json) {
     return ListExportsOutput(
       exportSummaries: (json['ExportSummaries'] as List?)
@@ -9245,6 +10084,7 @@ class ListGlobalTablesOutput {
     this.globalTables,
     this.lastEvaluatedGlobalTableName,
   });
+
   factory ListGlobalTablesOutput.fromJson(Map<String, dynamic> json) {
     return ListGlobalTablesOutput(
       globalTables: (json['GlobalTables'] as List?)
@@ -9253,6 +10093,31 @@ class ListGlobalTablesOutput {
           .toList(),
       lastEvaluatedGlobalTableName:
           json['LastEvaluatedGlobalTableName'] as String?,
+    );
+  }
+}
+
+class ListImportsOutput {
+  /// A list of <code>ImportSummary</code> objects.
+  final List<ImportSummary>? importSummaryList;
+
+  /// If this value is returned, there are additional results to be displayed. To
+  /// retrieve them, call <code>ListImports</code> again, with
+  /// <code>NextToken</code> set to this value.
+  final String? nextToken;
+
+  ListImportsOutput({
+    this.importSummaryList,
+    this.nextToken,
+  });
+
+  factory ListImportsOutput.fromJson(Map<String, dynamic> json) {
+    return ListImportsOutput(
+      importSummaryList: (json['ImportSummaryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ImportSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
     );
   }
 }
@@ -9280,6 +10145,7 @@ class ListTablesOutput {
     this.lastEvaluatedTableName,
     this.tableNames,
   });
+
   factory ListTablesOutput.fromJson(Map<String, dynamic> json) {
     return ListTablesOutput(
       lastEvaluatedTableName: json['LastEvaluatedTableName'] as String?,
@@ -9304,6 +10170,7 @@ class ListTagsOfResourceOutput {
     this.nextToken,
     this.tags,
   });
+
   factory ListTagsOfResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsOfResourceOutput(
       nextToken: json['NextToken'] as String?,
@@ -9420,6 +10287,7 @@ class LocalSecondaryIndexDescription {
     this.keySchema,
     this.projection,
   });
+
   factory LocalSecondaryIndexDescription.fromJson(Map<String, dynamic> json) {
     return LocalSecondaryIndexDescription(
       indexArn: json['IndexArn'] as String?,
@@ -9476,6 +10344,7 @@ class LocalSecondaryIndexInfo {
     this.keySchema,
     this.projection,
   });
+
   factory LocalSecondaryIndexInfo.fromJson(Map<String, dynamic> json) {
     return LocalSecondaryIndexInfo(
       indexName: json['IndexName'] as String?,
@@ -9526,9 +10395,6 @@ class PointInTimeRecoveryDescription {
   ///
   /// <ul>
   /// <li>
-  /// <code>ENABLING</code> - Point in time recovery is being enabled.
-  /// </li>
-  /// <li>
   /// <code>ENABLED</code> - Point in time recovery is enabled.
   /// </li>
   /// <li>
@@ -9542,6 +10408,7 @@ class PointInTimeRecoveryDescription {
     this.latestRestorableDateTime,
     this.pointInTimeRecoveryStatus,
   });
+
   factory PointInTimeRecoveryDescription.fromJson(Map<String, dynamic> json) {
     return PointInTimeRecoveryDescription(
       earliestRestorableDateTime:
@@ -9608,7 +10475,7 @@ class Projection {
   ///
   /// For local secondary indexes, the total count of
   /// <code>NonKeyAttributes</code> summed across all of the local secondary
-  /// indexes, must not exceed 20. If you project the same attribute into two
+  /// indexes, must not exceed 100. If you project the same attribute into two
   /// different indexes, this counts as two distinct attributes when determining
   /// the total.
   final List<String>? nonKeyAttributes;
@@ -9635,6 +10502,7 @@ class Projection {
     this.nonKeyAttributes,
     this.projectionType,
   });
+
   factory Projection.fromJson(Map<String, dynamic> json) {
     return Projection(
       nonKeyAttributes: (json['NonKeyAttributes'] as List?)
@@ -9721,6 +10589,7 @@ class ProvisionedThroughput {
     required this.readCapacityUnits,
     required this.writeCapacityUnits,
   });
+
   factory ProvisionedThroughput.fromJson(Map<String, dynamic> json) {
     return ProvisionedThroughput(
       readCapacityUnits: json['ReadCapacityUnits'] as int,
@@ -9775,6 +10644,7 @@ class ProvisionedThroughputDescription {
     this.readCapacityUnits,
     this.writeCapacityUnits,
   });
+
   factory ProvisionedThroughputDescription.fromJson(Map<String, dynamic> json) {
     return ProvisionedThroughputDescription(
       lastDecreaseDateTime: timeStampFromJson(json['LastDecreaseDateTime']),
@@ -9796,6 +10666,7 @@ class ProvisionedThroughputOverride {
   ProvisionedThroughputOverride({
     this.readCapacityUnits,
   });
+
   factory ProvisionedThroughputOverride.fromJson(Map<String, dynamic> json) {
     return ProvisionedThroughputOverride(
       readCapacityUnits: json['ReadCapacityUnits'] as int?,
@@ -9886,8 +10757,8 @@ class PutItemOutput {
   /// <code>ConsumedCapacity</code> is only returned if the
   /// <code>ReturnConsumedCapacity</code> parameter was specified. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughputIntro.html">Read/Write
-  /// Capacity Mode</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughputIntro.html">Provisioned
+  /// Throughput</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   final ConsumedCapacity? consumedCapacity;
 
   /// Information about item collections, if any, that were affected by the
@@ -9922,6 +10793,7 @@ class PutItemOutput {
     this.consumedCapacity,
     this.itemCollectionMetrics,
   });
+
   factory PutItemOutput.fromJson(Map<String, dynamic> json) {
     return PutItemOutput(
       attributes: (json['Attributes'] as Map<String, dynamic>?)?.map((k, e) =>
@@ -9951,6 +10823,7 @@ class PutRequest {
   PutRequest({
     required this.item,
   });
+
   factory PutRequest.fromJson(Map<String, dynamic> json) {
     return PutRequest(
       item: (json['Item'] as Map<String, dynamic>).map((k, e) =>
@@ -10024,6 +10897,7 @@ class QueryOutput {
     this.lastEvaluatedKey,
     this.scannedCount,
   });
+
   factory QueryOutput.fromJson(Map<String, dynamic> json) {
     return QueryOutput(
       consumedCapacity: json['ConsumedCapacity'] != null
@@ -10052,6 +10926,7 @@ class Replica {
   Replica({
     this.regionName,
   });
+
   factory Replica.fromJson(Map<String, dynamic> json) {
     return Replica(
       regionName: json['RegionName'] as String?,
@@ -10104,6 +10979,7 @@ class ReplicaAutoScalingDescription {
     this.replicaProvisionedWriteCapacityAutoScalingSettings,
     this.replicaStatus,
   });
+
   factory ReplicaAutoScalingDescription.fromJson(Map<String, dynamic> json) {
     return ReplicaAutoScalingDescription(
       globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
@@ -10170,8 +11046,7 @@ class ReplicaDescription {
   /// Replica-specific global secondary index settings.
   final List<ReplicaGlobalSecondaryIndexDescription>? globalSecondaryIndexes;
 
-  /// The AWS KMS customer master key (CMK) of the replica that will be used for
-  /// AWS KMS encryption.
+  /// The KMS key of the replica that will be used for KMS encryption.
   final String? kMSMasterKeyId;
 
   /// Replica-specific provisioned throughput. If not described, uses the source
@@ -10202,19 +11077,20 @@ class ReplicaDescription {
   /// <code>ACTIVE</code> - The replica is ready for use.
   /// </li>
   /// <li>
-  /// <code>REGION_DISABLED</code> - The replica is inaccessible because the AWS
-  /// Region has been disabled.
+  /// <code>REGION_DISABLED</code> - The replica is inaccessible because the
+  /// Amazon Web Services Region has been disabled.
   /// <note>
-  /// If the AWS Region remains inaccessible for more than 20 hours, DynamoDB will
-  /// remove this replica from the replication group. The replica will not be
-  /// deleted and replication will stop from and to this region.
+  /// If the Amazon Web Services Region remains inaccessible for more than 20
+  /// hours, DynamoDB will remove this replica from the replication group. The
+  /// replica will not be deleted and replication will stop from and to this
+  /// region.
   /// </note> </li>
   /// <li>
-  /// <code>INACCESSIBLE_ENCRYPTION_CREDENTIALS </code> - The AWS KMS key used to
+  /// <code>INACCESSIBLE_ENCRYPTION_CREDENTIALS </code> - The KMS key used to
   /// encrypt the table is inaccessible.
   /// <note>
-  /// If the AWS KMS key remains inaccessible for more than 20 hours, DynamoDB
-  /// will remove this replica from the replication group. The replica will not be
+  /// If the KMS key remains inaccessible for more than 20 hours, DynamoDB will
+  /// remove this replica from the replication group. The replica will not be
   /// deleted and replication will stop from and to this region.
   /// </note> </li>
   /// </ul>
@@ -10226,6 +11102,7 @@ class ReplicaDescription {
   /// Specifies the progress of a Create, Update, or Delete action on the replica
   /// as a percentage.
   final String? replicaStatusPercentProgress;
+  final TableClassSummary? replicaTableClassSummary;
 
   ReplicaDescription({
     this.globalSecondaryIndexes,
@@ -10236,7 +11113,9 @@ class ReplicaDescription {
     this.replicaStatus,
     this.replicaStatusDescription,
     this.replicaStatusPercentProgress,
+    this.replicaTableClassSummary,
   });
+
   factory ReplicaDescription.fromJson(Map<String, dynamic> json) {
     return ReplicaDescription(
       globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
@@ -10257,6 +11136,10 @@ class ReplicaDescription {
       replicaStatusDescription: json['ReplicaStatusDescription'] as String?,
       replicaStatusPercentProgress:
           json['ReplicaStatusPercentProgress'] as String?,
+      replicaTableClassSummary: json['ReplicaTableClassSummary'] != null
+          ? TableClassSummary.fromJson(
+              json['ReplicaTableClassSummary'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -10298,7 +11181,8 @@ class ReplicaGlobalSecondaryIndexAutoScalingDescription {
   /// <code>CREATING</code> - The index is being created.
   /// </li>
   /// <li>
-  /// <code>UPDATING</code> - The index is being updated.
+  /// <code>UPDATING</code> - The table/index configuration is being updated. The
+  /// table/index remains available for data operations when <code>UPDATING</code>
   /// </li>
   /// <li>
   /// <code>DELETING</code> - The index is being deleted.
@@ -10319,6 +11203,7 @@ class ReplicaGlobalSecondaryIndexAutoScalingDescription {
     this.provisionedReadCapacityAutoScalingSettings,
     this.provisionedWriteCapacityAutoScalingSettings,
   });
+
   factory ReplicaGlobalSecondaryIndexAutoScalingDescription.fromJson(
       Map<String, dynamic> json) {
     return ReplicaGlobalSecondaryIndexAutoScalingDescription(
@@ -10376,6 +11261,7 @@ class ReplicaGlobalSecondaryIndexDescription {
     this.indexName,
     this.provisionedThroughputOverride,
   });
+
   factory ReplicaGlobalSecondaryIndexDescription.fromJson(
       Map<String, dynamic> json) {
     return ReplicaGlobalSecondaryIndexDescription(
@@ -10439,6 +11325,7 @@ class ReplicaGlobalSecondaryIndexSettingsDescription {
     this.provisionedWriteCapacityAutoScalingSettings,
     this.provisionedWriteCapacityUnits,
   });
+
   factory ReplicaGlobalSecondaryIndexSettingsDescription.fromJson(
       Map<String, dynamic> json) {
     return ReplicaGlobalSecondaryIndexSettingsDescription(
@@ -10553,6 +11440,7 @@ class ReplicaSettingsDescription {
   /// </li>
   /// </ul>
   final ReplicaStatus? replicaStatus;
+  final TableClassSummary? replicaTableClassSummary;
 
   ReplicaSettingsDescription({
     required this.regionName,
@@ -10563,7 +11451,9 @@ class ReplicaSettingsDescription {
     this.replicaProvisionedWriteCapacityAutoScalingSettings,
     this.replicaProvisionedWriteCapacityUnits,
     this.replicaStatus,
+    this.replicaTableClassSummary,
   });
+
   factory ReplicaSettingsDescription.fromJson(Map<String, dynamic> json) {
     return ReplicaSettingsDescription(
       regionName: json['RegionName'] as String,
@@ -10595,6 +11485,10 @@ class ReplicaSettingsDescription {
       replicaProvisionedWriteCapacityUnits:
           json['ReplicaProvisionedWriteCapacityUnits'] as int?,
       replicaStatus: (json['ReplicaStatus'] as String?)?.toReplicaStatus(),
+      replicaTableClassSummary: json['ReplicaTableClassSummary'] != null
+          ? TableClassSummary.fromJson(
+              json['ReplicaTableClassSummary'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -10623,11 +11517,16 @@ class ReplicaSettingsUpdate {
   /// Guide</i>.
   final int? replicaProvisionedReadCapacityUnits;
 
+  /// Replica-specific table class. If not specified, uses the source table's
+  /// table class.
+  final TableClass? replicaTableClass;
+
   ReplicaSettingsUpdate({
     required this.regionName,
     this.replicaGlobalSecondaryIndexSettingsUpdate,
     this.replicaProvisionedReadCapacityAutoScalingSettingsUpdate,
     this.replicaProvisionedReadCapacityUnits,
+    this.replicaTableClass,
   });
   Map<String, dynamic> toJson() {
     final regionName = this.regionName;
@@ -10637,6 +11536,7 @@ class ReplicaSettingsUpdate {
         this.replicaProvisionedReadCapacityAutoScalingSettingsUpdate;
     final replicaProvisionedReadCapacityUnits =
         this.replicaProvisionedReadCapacityUnits;
+    final replicaTableClass = this.replicaTableClass;
     return {
       'RegionName': regionName,
       if (replicaGlobalSecondaryIndexSettingsUpdate != null)
@@ -10648,6 +11548,8 @@ class ReplicaSettingsUpdate {
       if (replicaProvisionedReadCapacityUnits != null)
         'ReplicaProvisionedReadCapacityUnits':
             replicaProvisionedReadCapacityUnits,
+      if (replicaTableClass != null)
+        'ReplicaTableClass': replicaTableClass.toValue(),
     };
   }
 }
@@ -10756,7 +11658,11 @@ class ReplicaUpdate {
 /// <code>DeleteTableReplica</code> action in the destination Region, deleting
 /// the replica and all if its items in the destination Region.
 /// </li>
-/// </ul>
+/// </ul> <note>
+/// When you manually remove a table or global table replica, you do not
+/// automatically remove any associated scalable targets, scaling policies, or
+/// CloudWatch alarms.
+/// </note>
 class ReplicationGroupUpdate {
   /// The parameters required for creating a replica for the table.
   final CreateReplicationGroupMemberAction? create;
@@ -10805,6 +11711,7 @@ class RestoreSummary {
     this.sourceBackupArn,
     this.sourceTableArn,
   });
+
   factory RestoreSummary.fromJson(Map<String, dynamic> json) {
     return RestoreSummary(
       restoreDateTime:
@@ -10823,6 +11730,7 @@ class RestoreTableFromBackupOutput {
   RestoreTableFromBackupOutput({
     this.tableDescription,
   });
+
   factory RestoreTableFromBackupOutput.fromJson(Map<String, dynamic> json) {
     return RestoreTableFromBackupOutput(
       tableDescription: json['TableDescription'] != null
@@ -10840,6 +11748,7 @@ class RestoreTableToPointInTimeOutput {
   RestoreTableToPointInTimeOutput({
     this.tableDescription,
   });
+
   factory RestoreTableToPointInTimeOutput.fromJson(Map<String, dynamic> json) {
     return RestoreTableToPointInTimeOutput(
       tableDescription: json['TableDescription'] != null
@@ -10850,8 +11759,8 @@ class RestoreTableToPointInTimeOutput {
   }
 }
 
-/// Determines the level of detail about provisioned throughput consumption that
-/// is returned in the response:
+/// Determines the level of detail about either provisioned or on-demand
+/// throughput consumption that is returned in the response:
 ///
 /// <ul>
 /// <li>
@@ -11009,6 +11918,44 @@ extension ReturnValuesOnConditionCheckFailureFromString on String {
   }
 }
 
+/// The S3 bucket that is being imported from.
+class S3BucketSource {
+  /// The S3 bucket that is being imported from.
+  final String s3Bucket;
+
+  /// The account number of the S3 bucket that is being imported from. If the
+  /// bucket is owned by the requester this is optional.
+  final String? s3BucketOwner;
+
+  /// The key prefix shared by all S3 Objects that are being imported.
+  final String? s3KeyPrefix;
+
+  S3BucketSource({
+    required this.s3Bucket,
+    this.s3BucketOwner,
+    this.s3KeyPrefix,
+  });
+
+  factory S3BucketSource.fromJson(Map<String, dynamic> json) {
+    return S3BucketSource(
+      s3Bucket: json['S3Bucket'] as String,
+      s3BucketOwner: json['S3BucketOwner'] as String?,
+      s3KeyPrefix: json['S3KeyPrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Bucket = this.s3Bucket;
+    final s3BucketOwner = this.s3BucketOwner;
+    final s3KeyPrefix = this.s3KeyPrefix;
+    return {
+      'S3Bucket': s3Bucket,
+      if (s3BucketOwner != null) 'S3BucketOwner': s3BucketOwner,
+      if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
+    };
+  }
+}
+
 enum S3SseAlgorithm {
   aes256,
   kms,
@@ -11040,22 +11987,21 @@ extension S3SseAlgorithmFromString on String {
 /// The description of the server-side encryption status on the specified table.
 class SSEDescription {
   /// Indicates the time, in UNIX epoch date format, when DynamoDB detected that
-  /// the table's AWS KMS key was inaccessible. This attribute will automatically
-  /// be cleared when DynamoDB detects that the table's AWS KMS key is accessible
-  /// again. DynamoDB will initiate the table archival process when table's AWS
-  /// KMS key remains inaccessible for more than seven days from this date.
+  /// the table's KMS key was inaccessible. This attribute will automatically be
+  /// cleared when DynamoDB detects that the table's KMS key is accessible again.
+  /// DynamoDB will initiate the table archival process when table's KMS key
+  /// remains inaccessible for more than seven days from this date.
   final DateTime? inaccessibleEncryptionDateTime;
 
-  /// The AWS KMS customer master key (CMK) ARN used for the AWS KMS encryption.
+  /// The KMS key ARN used for the KMS encryption.
   final String? kMSMasterKeyArn;
 
   /// Server-side encryption type. The only supported value is:
   ///
   /// <ul>
   /// <li>
-  /// <code>KMS</code> - Server-side encryption that uses AWS Key Management
-  /// Service. The key is stored in your account and is managed by AWS KMS (AWS
-  /// KMS charges apply).
+  /// <code>KMS</code> - Server-side encryption that uses Key Management Service.
+  /// The key is stored in your account and is managed by KMS (KMS charges apply).
   /// </li>
   /// </ul>
   final SSEType? sSEType;
@@ -11079,6 +12025,7 @@ class SSEDescription {
     this.sSEType,
     this.status,
   });
+
   factory SSEDescription.fromJson(Map<String, dynamic> json) {
     return SSEDescription(
       inaccessibleEncryptionDateTime:
@@ -11092,27 +12039,25 @@ class SSEDescription {
 
 /// Represents the settings used to enable server-side encryption.
 class SSESpecification {
-  /// Indicates whether server-side encryption is done using an AWS managed CMK or
-  /// an AWS owned CMK. If enabled (true), server-side encryption type is set to
-  /// <code>KMS</code> and an AWS managed CMK is used (AWS KMS charges apply). If
-  /// disabled (false) or not specified, server-side encryption is set to AWS
-  /// owned CMK.
+  /// Indicates whether server-side encryption is done using an Amazon Web
+  /// Services managed key or an Amazon Web Services owned key. If enabled (true),
+  /// server-side encryption type is set to <code>KMS</code> and an Amazon Web
+  /// Services managed key is used (KMS charges apply). If disabled (false) or not
+  /// specified, server-side encryption is set to Amazon Web Services owned key.
   final bool? enabled;
 
-  /// The AWS KMS customer master key (CMK) that should be used for the AWS KMS
-  /// encryption. To specify a CMK, use its key ID, Amazon Resource Name (ARN),
-  /// alias name, or alias ARN. Note that you should only provide this parameter
-  /// if the key is different from the default DynamoDB customer master key
-  /// alias/aws/dynamodb.
+  /// The KMS key that should be used for the KMS encryption. To specify a key,
+  /// use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. Note
+  /// that you should only provide this parameter if the key is different from the
+  /// default DynamoDB key <code>alias/aws/dynamodb</code>.
   final String? kMSMasterKeyId;
 
   /// Server-side encryption type. The only supported value is:
   ///
   /// <ul>
   /// <li>
-  /// <code>KMS</code> - Server-side encryption that uses AWS Key Management
-  /// Service. The key is stored in your account and is managed by AWS KMS (AWS
-  /// KMS charges apply).
+  /// <code>KMS</code> - Server-side encryption that uses Key Management Service.
+  /// The key is stored in your account and is managed by KMS (KMS charges apply).
   /// </li>
   /// </ul>
   final SSEType? sSEType;
@@ -11122,6 +12067,15 @@ class SSESpecification {
     this.kMSMasterKeyId,
     this.sSEType,
   });
+
+  factory SSESpecification.fromJson(Map<String, dynamic> json) {
+    return SSESpecification(
+      enabled: json['Enabled'] as bool?,
+      kMSMasterKeyId: json['KMSMasterKeyId'] as String?,
+      sSEType: (json['SSEType'] as String?)?.toSSEType(),
+    );
+  }
+
   Map<String, dynamic> toJson() {
     final enabled = this.enabled;
     final kMSMasterKeyId = this.kMSMasterKeyId;
@@ -11246,7 +12200,7 @@ class ScanOutput {
   /// <code>ConsumedCapacity</code> is only returned if the
   /// <code>ReturnConsumedCapacity</code> parameter was specified. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughputIntro.html">Provisioned
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html#ItemSizeCalculations.Reads">Provisioned
   /// Throughput</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   final ConsumedCapacity? consumedCapacity;
 
@@ -11296,6 +12250,7 @@ class ScanOutput {
     this.lastEvaluatedKey,
     this.scannedCount,
   });
+
   factory ScanOutput.fromJson(Map<String, dynamic> json) {
     return ScanOutput(
       consumedCapacity: json['ConsumedCapacity'] != null
@@ -11408,6 +12363,7 @@ class SourceTableDetails {
     this.tableArn,
     this.tableSizeBytes,
   });
+
   factory SourceTableDetails.fromJson(Map<String, dynamic> json) {
     return SourceTableDetails(
       keySchema: (json['KeySchema'] as List)
@@ -11458,6 +12414,7 @@ class SourceTableFeatureDetails {
     this.streamDescription,
     this.timeToLiveDescription,
   });
+
   factory SourceTableFeatureDetails.fromJson(Map<String, dynamic> json) {
     return SourceTableFeatureDetails(
       globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
@@ -11520,6 +12477,7 @@ class StreamSpecification {
     required this.streamEnabled,
     this.streamViewType,
   });
+
   factory StreamSpecification.fromJson(Map<String, dynamic> json) {
     return StreamSpecification(
       streamEnabled: json['StreamEnabled'] as bool,
@@ -11606,6 +12564,7 @@ class TableAutoScalingDescription {
     this.tableName,
     this.tableStatus,
   });
+
   factory TableAutoScalingDescription.fromJson(Map<String, dynamic> json) {
     return TableAutoScalingDescription(
       replicas: (json['Replicas'] as List?)
@@ -11616,6 +12575,137 @@ class TableAutoScalingDescription {
       tableName: json['TableName'] as String?,
       tableStatus: (json['TableStatus'] as String?)?.toTableStatus(),
     );
+  }
+}
+
+enum TableClass {
+  standard,
+  standardInfrequentAccess,
+}
+
+extension TableClassValueExtension on TableClass {
+  String toValue() {
+    switch (this) {
+      case TableClass.standard:
+        return 'STANDARD';
+      case TableClass.standardInfrequentAccess:
+        return 'STANDARD_INFREQUENT_ACCESS';
+    }
+  }
+}
+
+extension TableClassFromString on String {
+  TableClass toTableClass() {
+    switch (this) {
+      case 'STANDARD':
+        return TableClass.standard;
+      case 'STANDARD_INFREQUENT_ACCESS':
+        return TableClass.standardInfrequentAccess;
+    }
+    throw Exception('$this is not known in enum TableClass');
+  }
+}
+
+/// Contains details of the table class.
+class TableClassSummary {
+  /// The date and time at which the table class was last updated.
+  final DateTime? lastUpdateDateTime;
+
+  /// The table class of the specified table. Valid values are
+  /// <code>STANDARD</code> and <code>STANDARD_INFREQUENT_ACCESS</code>.
+  final TableClass? tableClass;
+
+  TableClassSummary({
+    this.lastUpdateDateTime,
+    this.tableClass,
+  });
+
+  factory TableClassSummary.fromJson(Map<String, dynamic> json) {
+    return TableClassSummary(
+      lastUpdateDateTime: timeStampFromJson(json['LastUpdateDateTime']),
+      tableClass: (json['TableClass'] as String?)?.toTableClass(),
+    );
+  }
+}
+
+/// The parameters for the table created as part of the import operation.
+class TableCreationParameters {
+  /// The attributes of the table created as part of the import operation.
+  final List<AttributeDefinition> attributeDefinitions;
+
+  /// The primary key and option sort key of the table created as part of the
+  /// import operation.
+  final List<KeySchemaElement> keySchema;
+
+  /// The name of the table created as part of the import operation.
+  final String tableName;
+
+  /// The billing mode for provisioning the table created as part of the import
+  /// operation.
+  final BillingMode? billingMode;
+
+  /// The Global Secondary Indexes (GSI) of the table to be created as part of the
+  /// import operation.
+  final List<GlobalSecondaryIndex>? globalSecondaryIndexes;
+  final ProvisionedThroughput? provisionedThroughput;
+  final SSESpecification? sSESpecification;
+
+  TableCreationParameters({
+    required this.attributeDefinitions,
+    required this.keySchema,
+    required this.tableName,
+    this.billingMode,
+    this.globalSecondaryIndexes,
+    this.provisionedThroughput,
+    this.sSESpecification,
+  });
+
+  factory TableCreationParameters.fromJson(Map<String, dynamic> json) {
+    return TableCreationParameters(
+      attributeDefinitions: (json['AttributeDefinitions'] as List)
+          .whereNotNull()
+          .map((e) => AttributeDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      keySchema: (json['KeySchema'] as List)
+          .whereNotNull()
+          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tableName: json['TableName'] as String,
+      billingMode: (json['BillingMode'] as String?)?.toBillingMode(),
+      globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
+          ?.whereNotNull()
+          .map((e) => GlobalSecondaryIndex.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      provisionedThroughput: json['ProvisionedThroughput'] != null
+          ? ProvisionedThroughput.fromJson(
+              json['ProvisionedThroughput'] as Map<String, dynamic>)
+          : null,
+      sSESpecification: json['SSESpecification'] != null
+          ? SSESpecification.fromJson(
+              json['SSESpecification'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeDefinitions = this.attributeDefinitions;
+    final keySchema = this.keySchema;
+    final tableName = this.tableName;
+    final billingMode = this.billingMode;
+    final globalSecondaryIndexes = this.globalSecondaryIndexes;
+    final provisionedThroughput = this.provisionedThroughput;
+    final sSESpecification = this.sSESpecification;
+    return {
+      'AttributeDefinitions': attributeDefinitions,
+      'KeySchema': keySchema,
+      'TableName': tableName,
+      if (billingMode != null) 'BillingMode': billingMode.toValue(),
+      if (globalSecondaryIndexes != null)
+        'GlobalSecondaryIndexes': globalSecondaryIndexes,
+      if (provisionedThroughput != null)
+        'ProvisionedThroughput': provisionedThroughput,
+      if (sSESpecification != null) 'SSESpecification': sSESpecification,
+    };
   }
 }
 
@@ -11645,6 +12735,10 @@ class TableDescription {
   /// The date and time when the table was created, in <a
   /// href="http://www.epochconverter.com/">UNIX epoch time</a> format.
   final DateTime? creationDateTime;
+
+  /// Indicates whether deletion protection is enabled (true) or disabled (false)
+  /// on the table.
+  final bool? deletionProtectionEnabled;
 
   /// The global secondary indexes, if any, on the table. Each index is scoped to
   /// a given partition key value. Each element is composed of:
@@ -11728,9 +12822,9 @@ class TableDescription {
   /// <code>NonKeyAttributes</code> - A list of one or more non-key attribute
   /// names that are projected into the secondary index. The total count of
   /// attributes provided in <code>NonKeyAttributes</code>, summed across all of
-  /// the secondary indexes, must not exceed 20. If you project the same attribute
-  /// into two different indexes, this counts as two distinct attributes when
-  /// determining the total.
+  /// the secondary indexes, must not exceed 100. If you project the same
+  /// attribute into two different indexes, this counts as two distinct attributes
+  /// when determining the total.
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -11745,7 +12839,8 @@ class TableDescription {
 
   /// Represents the version of <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html">global
-  /// tables</a> in use, if the table is replicated across AWS Regions.
+  /// tables</a> in use, if the table is replicated across Amazon Web Services
+  /// Regions.
   final String? globalTableVersion;
 
   /// The number of items in the specified table. DynamoDB updates this value
@@ -11800,7 +12895,7 @@ class TableDescription {
   ///
   /// <ul>
   /// <li>
-  /// AWS customer ID
+  /// Amazon Web Services customer ID
   /// </li>
   /// <li>
   /// Table name
@@ -11855,9 +12950,9 @@ class TableDescription {
   /// <code>NonKeyAttributes</code> - A list of one or more non-key attribute
   /// names that are projected into the secondary index. The total count of
   /// attributes provided in <code>NonKeyAttributes</code>, summed across all of
-  /// the secondary indexes, must not exceed 20. If you project the same attribute
-  /// into two different indexes, this counts as two distinct attributes when
-  /// determining the total.
+  /// the secondary indexes, must not exceed 100. If you project the same
+  /// attribute into two different indexes, this counts as two distinct attributes
+  /// when determining the total.
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -11894,6 +12989,9 @@ class TableDescription {
   /// The Amazon Resource Name (ARN) that uniquely identifies the table.
   final String? tableArn;
 
+  /// Contains details of the table class.
+  final TableClassSummary? tableClassSummary;
+
   /// Unique identifier for the table for which the backup was created.
   final String? tableId;
 
@@ -11912,7 +13010,9 @@ class TableDescription {
   /// <code>CREATING</code> - The table is being created.
   /// </li>
   /// <li>
-  /// <code>UPDATING</code> - The table is being updated.
+  /// <code>UPDATING</code> - The table/index configuration is being updated. The
+  /// table/index remains available for data operations when
+  /// <code>UPDATING</code>.
   /// </li>
   /// <li>
   /// <code>DELETING</code> - The table is being deleted.
@@ -11921,10 +13021,10 @@ class TableDescription {
   /// <code>ACTIVE</code> - The table is ready for use.
   /// </li>
   /// <li>
-  /// <code>INACCESSIBLE_ENCRYPTION_CREDENTIALS</code> - The AWS KMS key used to
+  /// <code>INACCESSIBLE_ENCRYPTION_CREDENTIALS</code> - The KMS key used to
   /// encrypt the table in inaccessible. Table operations may fail due to failure
-  /// to use the AWS KMS key. DynamoDB will initiate the table archival process
-  /// when a table's AWS KMS key remains inaccessible for more than seven days.
+  /// to use the KMS key. DynamoDB will initiate the table archival process when a
+  /// table's KMS key remains inaccessible for more than seven days.
   /// </li>
   /// <li>
   /// <code>ARCHIVING</code> - The table is being archived. Operations are not
@@ -11942,6 +13042,7 @@ class TableDescription {
     this.attributeDefinitions,
     this.billingModeSummary,
     this.creationDateTime,
+    this.deletionProtectionEnabled,
     this.globalSecondaryIndexes,
     this.globalTableVersion,
     this.itemCount,
@@ -11955,11 +13056,13 @@ class TableDescription {
     this.sSEDescription,
     this.streamSpecification,
     this.tableArn,
+    this.tableClassSummary,
     this.tableId,
     this.tableName,
     this.tableSizeBytes,
     this.tableStatus,
   });
+
   factory TableDescription.fromJson(Map<String, dynamic> json) {
     return TableDescription(
       archivalSummary: json['ArchivalSummary'] != null
@@ -11975,6 +13078,7 @@ class TableDescription {
               json['BillingModeSummary'] as Map<String, dynamic>)
           : null,
       creationDateTime: timeStampFromJson(json['CreationDateTime']),
+      deletionProtectionEnabled: json['DeletionProtectionEnabled'] as bool?,
       globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
           ?.whereNotNull()
           .map((e) => GlobalSecondaryIndexDescription.fromJson(
@@ -12014,6 +13118,10 @@ class TableDescription {
               json['StreamSpecification'] as Map<String, dynamic>)
           : null,
       tableArn: json['TableArn'] as String?,
+      tableClassSummary: json['TableClassSummary'] != null
+          ? TableClassSummary.fromJson(
+              json['TableClassSummary'] as Map<String, dynamic>)
+          : null,
       tableId: json['TableId'] as String?,
       tableName: json['TableName'] as String?,
       tableSizeBytes: json['TableSizeBytes'] as int?,
@@ -12078,11 +13186,11 @@ extension TableStatusFromString on String {
 /// Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a
 /// single DynamoDB table.
 ///
-/// AWS-assigned tag names and values are automatically assigned the
-/// <code>aws:</code> prefix, which the user cannot assign. AWS-assigned tag
-/// names do not count towards the tag limit of 50. User-assigned tag names have
-/// the prefix <code>user:</code> in the Cost Allocation Report. You cannot
-/// backdate the application of a tag.
+/// Amazon Web Services-assigned tag names and values are automatically assigned
+/// the <code>aws:</code> prefix, which the user cannot assign. Amazon Web
+/// Services-assigned tag names do not count towards the tag limit of 50.
+/// User-assigned tag names have the prefix <code>user:</code> in the Cost
+/// Allocation Report. You cannot backdate the application of a tag.
 ///
 /// For an overview on tagging DynamoDB resources, see <a
 /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html">Tagging
@@ -12100,6 +13208,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -12129,6 +13238,7 @@ class TimeToLiveDescription {
     this.attributeName,
     this.timeToLiveStatus,
   });
+
   factory TimeToLiveDescription.fromJson(Map<String, dynamic> json) {
     return TimeToLiveDescription(
       attributeName: json['AttributeName'] as String?,
@@ -12153,6 +13263,7 @@ class TimeToLiveSpecification {
     required this.attributeName,
     required this.enabled,
   });
+
   factory TimeToLiveSpecification.fromJson(Map<String, dynamic> json) {
     return TimeToLiveSpecification(
       attributeName: json['AttributeName'] as String,
@@ -12235,7 +13346,7 @@ class TransactGetItemsOutput {
   /// call in that table.
   final List<ConsumedCapacity>? consumedCapacity;
 
-  /// An ordered array of up to 25 <code>ItemResponse</code> objects, each of
+  /// An ordered array of up to 100 <code>ItemResponse</code> objects, each of
   /// which corresponds to the <code>TransactGetItem</code> object in the same
   /// position in the <i>TransactItems</i> array. Each <code>ItemResponse</code>
   /// object contains a Map of the name-value pairs that are the projected
@@ -12251,6 +13362,7 @@ class TransactGetItemsOutput {
     this.consumedCapacity,
     this.responses,
   });
+
   factory TransactGetItemsOutput.fromJson(Map<String, dynamic> json) {
     return TransactGetItemsOutput(
       consumedCapacity: (json['ConsumedCapacity'] as List?)
@@ -12316,6 +13428,7 @@ class TransactWriteItemsOutput {
     this.consumedCapacity,
     this.itemCollectionMetrics,
   });
+
   factory TransactWriteItemsOutput.fromJson(Map<String, dynamic> json) {
     return TransactWriteItemsOutput(
       consumedCapacity: (json['ConsumedCapacity'] as List?)
@@ -12408,6 +13521,7 @@ class UpdateContinuousBackupsOutput {
   UpdateContinuousBackupsOutput({
     this.continuousBackupsDescription,
   });
+
   factory UpdateContinuousBackupsOutput.fromJson(Map<String, dynamic> json) {
     return UpdateContinuousBackupsOutput(
       continuousBackupsDescription: json['ContinuousBackupsDescription'] != null
@@ -12433,6 +13547,7 @@ class UpdateContributorInsightsOutput {
     this.indexName,
     this.tableName,
   });
+
   factory UpdateContributorInsightsOutput.fromJson(Map<String, dynamic> json) {
     return UpdateContributorInsightsOutput(
       contributorInsightsStatus: (json['ContributorInsightsStatus'] as String?)
@@ -12478,6 +13593,7 @@ class UpdateGlobalTableOutput {
   UpdateGlobalTableOutput({
     this.globalTableDescription,
   });
+
   factory UpdateGlobalTableOutput.fromJson(Map<String, dynamic> json) {
     return UpdateGlobalTableOutput(
       globalTableDescription: json['GlobalTableDescription'] != null
@@ -12499,6 +13615,7 @@ class UpdateGlobalTableSettingsOutput {
     this.globalTableName,
     this.replicaSettings,
   });
+
   factory UpdateGlobalTableSettingsOutput.fromJson(Map<String, dynamic> json) {
     return UpdateGlobalTableSettingsOutput(
       globalTableName: json['GlobalTableName'] as String?,
@@ -12517,9 +13634,9 @@ class UpdateItemOutput {
   /// <code>UpdateItem</code> operation, as determined by the
   /// <code>ReturnValues</code> parameter.
   ///
-  /// The <code>Attributes</code> map is only present if <code>ReturnValues</code>
-  /// was specified as something other than <code>NONE</code> in the request. Each
-  /// element represents one attribute.
+  /// The <code>Attributes</code> map is only present if the update was successful
+  /// and <code>ReturnValues</code> was specified as something other than
+  /// <code>NONE</code> in the request. Each element represents one attribute.
   final Map<String, AttributeValue>? attributes;
 
   /// The capacity units consumed by the <code>UpdateItem</code> operation. The
@@ -12528,7 +13645,7 @@ class UpdateItemOutput {
   /// <code>ConsumedCapacity</code> is only returned if the
   /// <code>ReturnConsumedCapacity</code> parameter was specified. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughputIntro.html">Provisioned
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html#ItemSizeCalculations.Reads">Provisioned
   /// Throughput</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   final ConsumedCapacity? consumedCapacity;
 
@@ -12564,6 +13681,7 @@ class UpdateItemOutput {
     this.consumedCapacity,
     this.itemCollectionMetrics,
   });
+
   factory UpdateItemOutput.fromJson(Map<String, dynamic> json) {
     return UpdateItemOutput(
       attributes: (json['Attributes'] as Map<String, dynamic>?)?.map((k, e) =>
@@ -12588,28 +13706,33 @@ class UpdateReplicationGroupMemberAction {
   /// Replica-specific global secondary index settings.
   final List<ReplicaGlobalSecondaryIndex>? globalSecondaryIndexes;
 
-  /// The AWS KMS customer master key (CMK) of the replica that should be used for
-  /// AWS KMS encryption. To specify a CMK, use its key ID, Amazon Resource Name
-  /// (ARN), alias name, or alias ARN. Note that you should only provide this
-  /// parameter if the key is different from the default DynamoDB KMS master key
-  /// alias/aws/dynamodb.
+  /// The KMS key of the replica that should be used for KMS encryption. To
+  /// specify a key, use its key ID, Amazon Resource Name (ARN), alias name, or
+  /// alias ARN. Note that you should only provide this parameter if the key is
+  /// different from the default DynamoDB KMS key <code>alias/aws/dynamodb</code>.
   final String? kMSMasterKeyId;
 
   /// Replica-specific provisioned throughput. If not specified, uses the source
   /// table's provisioned throughput settings.
   final ProvisionedThroughputOverride? provisionedThroughputOverride;
 
+  /// Replica-specific table class. If not specified, uses the source table's
+  /// table class.
+  final TableClass? tableClassOverride;
+
   UpdateReplicationGroupMemberAction({
     required this.regionName,
     this.globalSecondaryIndexes,
     this.kMSMasterKeyId,
     this.provisionedThroughputOverride,
+    this.tableClassOverride,
   });
   Map<String, dynamic> toJson() {
     final regionName = this.regionName;
     final globalSecondaryIndexes = this.globalSecondaryIndexes;
     final kMSMasterKeyId = this.kMSMasterKeyId;
     final provisionedThroughputOverride = this.provisionedThroughputOverride;
+    final tableClassOverride = this.tableClassOverride;
     return {
       'RegionName': regionName,
       if (globalSecondaryIndexes != null)
@@ -12617,6 +13740,8 @@ class UpdateReplicationGroupMemberAction {
       if (kMSMasterKeyId != null) 'KMSMasterKeyId': kMSMasterKeyId,
       if (provisionedThroughputOverride != null)
         'ProvisionedThroughputOverride': provisionedThroughputOverride,
+      if (tableClassOverride != null)
+        'TableClassOverride': tableClassOverride.toValue(),
     };
   }
 }
@@ -12629,6 +13754,7 @@ class UpdateTableOutput {
   UpdateTableOutput({
     this.tableDescription,
   });
+
   factory UpdateTableOutput.fromJson(Map<String, dynamic> json) {
     return UpdateTableOutput(
       tableDescription: json['TableDescription'] != null
@@ -12647,6 +13773,7 @@ class UpdateTableReplicaAutoScalingOutput {
   UpdateTableReplicaAutoScalingOutput({
     this.tableAutoScalingDescription,
   });
+
   factory UpdateTableReplicaAutoScalingOutput.fromJson(
       Map<String, dynamic> json) {
     return UpdateTableReplicaAutoScalingOutput(
@@ -12665,6 +13792,7 @@ class UpdateTimeToLiveOutput {
   UpdateTimeToLiveOutput({
     this.timeToLiveSpecification,
   });
+
   factory UpdateTimeToLiveOutput.fromJson(Map<String, dynamic> json) {
     return UpdateTimeToLiveOutput(
       timeToLiveSpecification: json['TimeToLiveSpecification'] != null
@@ -12691,6 +13819,7 @@ class WriteRequest {
     this.deleteRequest,
     this.putRequest,
   });
+
   factory WriteRequest.fromJson(Map<String, dynamic> json) {
     return WriteRequest(
       deleteRequest: json['DeleteRequest'] != null
@@ -12774,6 +13903,16 @@ class IdempotentParameterMismatchException extends _s.GenericAwsException {
             type: type,
             code: 'IdempotentParameterMismatchException',
             message: message);
+}
+
+class ImportConflictException extends _s.GenericAwsException {
+  ImportConflictException({String? type, String? message})
+      : super(type: type, code: 'ImportConflictException', message: message);
+}
+
+class ImportNotFoundException extends _s.GenericAwsException {
+  ImportNotFoundException({String? type, String? message})
+      : super(type: type, code: 'ImportNotFoundException', message: message);
 }
 
 class IndexNotFoundException extends _s.GenericAwsException {
@@ -12911,6 +14050,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       GlobalTableNotFoundException(type: type, message: message),
   'IdempotentParameterMismatchException': (type, message) =>
       IdempotentParameterMismatchException(type: type, message: message),
+  'ImportConflictException': (type, message) =>
+      ImportConflictException(type: type, message: message),
+  'ImportNotFoundException': (type, message) =>
+      ImportNotFoundException(type: type, message: message),
   'IndexNotFoundException': (type, message) =>
       IndexNotFoundException(type: type, message: message),
   'InternalServerError': (type, message) =>

@@ -60,7 +60,7 @@ class KinesisVideo {
   ///
   /// Parameter [channelName] :
   /// A name for the signaling channel that you are creating. It must be unique
-  /// for each AWS account and AWS Region.
+  /// for each Amazon Web Services account and Amazon Web Services Region.
   ///
   /// Parameter [channelType] :
   /// A type of the signaling channel that you are creating. Currently,
@@ -144,8 +144,8 @@ class KinesisVideo {
   /// </note>
   ///
   /// Parameter [kmsKeyId] :
-  /// The ID of the AWS Key Management Service (AWS KMS) key that you want
-  /// Kinesis Video Streams to use to encrypt stream data.
+  /// The ID of the Key Management Service (KMS) key that you want Kinesis Video
+  /// Streams to use to encrypt stream data.
   ///
   /// If no key ID is specified, the default, Kinesis Video-managed key
   /// (<code>aws/kinesisvideo</code>) is used.
@@ -287,6 +287,194 @@ class KinesisVideo {
       requestUri: '/deleteStream',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Describes a stream’s edge configuration that was set using the
+  /// <code>StartEdgeConfigurationUpdate</code> API. Use this API to get the
+  /// status of the configuration if the configuration is in sync with the Edge
+  /// Agent.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [StreamEdgeConfigurationNotFoundException].
+  ///
+  /// Parameter [streamARN] :
+  /// The Amazon Resource Name (ARN) of the stream. Specify either the
+  /// <code>StreamName</code>or the <code>StreamARN</code>.
+  ///
+  /// Parameter [streamName] :
+  /// The name of the stream whose edge configuration you want to update.
+  /// Specify either the <code>StreamName</code> or the <code>StreamARN</code>.
+  Future<DescribeEdgeConfigurationOutput> describeEdgeConfiguration({
+    String? streamARN,
+    String? streamName,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/describeEdgeConfiguration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeEdgeConfigurationOutput.fromJson(response);
+  }
+
+  /// Gets the <code>ImageGenerationConfiguration</code> for a given Kinesis
+  /// video stream.
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [streamARN] :
+  /// The Amazon Resource Name (ARN) of the Kinesis video stream from which to
+  /// retrieve the image generation configuration. You must specify either the
+  /// <code>StreamName</code> or the <code>StreamARN</code>.
+  ///
+  /// Parameter [streamName] :
+  /// The name of the stream from which to retrieve the image generation
+  /// configuration. You must specify either the <code>StreamName</code> or the
+  /// <code>StreamARN</code>.
+  Future<DescribeImageGenerationConfigurationOutput>
+      describeImageGenerationConfiguration({
+    String? streamARN,
+    String? streamName,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/describeImageGenerationConfiguration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeImageGenerationConfigurationOutput.fromJson(response);
+  }
+
+  /// Returns the most current information about the stream. Either streamName
+  /// or streamARN should be provided in the input.
+  ///
+  /// Returns the most current information about the stream. The
+  /// <code>streamName</code> or <code>streamARN</code> should be provided in
+  /// the input.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ClientLimitExceededException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to provide in your next request, to get another batch of
+  /// results.
+  ///
+  /// Parameter [streamARN] :
+  /// The Amazon Resource Name (ARN) of the stream.
+  ///
+  /// Parameter [streamName] :
+  /// The name of the stream.
+  Future<DescribeMappedResourceConfigurationOutput>
+      describeMappedResourceConfiguration({
+    int? maxResults,
+    String? nextToken,
+    String? streamARN,
+    String? streamName,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1,
+    );
+    final $payload = <String, dynamic>{
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/describeMappedResourceConfiguration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeMappedResourceConfigurationOutput.fromJson(response);
+  }
+
+  /// Returns the most current information about the channel. Specify the
+  /// <code>ChannelName</code> or <code>ChannelARN</code> in the input.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ClientLimitExceededException].
+  ///
+  /// Parameter [channelARN] :
+  /// The Amazon Resource Name (ARN) of the channel.
+  ///
+  /// Parameter [channelName] :
+  /// The name of the channel.
+  Future<DescribeMediaStorageConfigurationOutput>
+      describeMediaStorageConfiguration({
+    String? channelARN,
+    String? channelName,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (channelARN != null) 'ChannelARN': channelARN,
+      if (channelName != null) 'ChannelName': channelName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/describeMediaStorageConfiguration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeMediaStorageConfigurationOutput.fromJson(response);
+  }
+
+  /// Gets the <code>NotificationConfiguration</code> for a given Kinesis video
+  /// stream.
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [streamARN] :
+  /// The Amazon Resource Name (ARN) of the Kinesis video stream from where you
+  /// want to retrieve the notification configuration. You must specify either
+  /// the <code>StreamName</code> or the StreamARN.
+  ///
+  /// Parameter [streamName] :
+  /// The name of the stream from which to retrieve the notification
+  /// configuration. You must specify either the <code>StreamName</code> or the
+  /// <code>StreamARN</code>.
+  Future<DescribeNotificationConfigurationOutput>
+      describeNotificationConfiguration({
+    String? streamARN,
+    String? streamName,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/describeNotificationConfiguration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeNotificationConfigurationOutput.fromJson(response);
   }
 
   /// Returns the most current information about the signaling channel. You must
@@ -615,14 +803,68 @@ class KinesisVideo {
     return ListTagsForStreamOutput.fromJson(response);
   }
 
+  /// An asynchronous API that updates a stream’s existing edge configuration.
+  /// The Kinesis Video Stream will sync the stream’s edge configuration with
+  /// the Edge Agent IoT Greengrass component that runs on an IoT Hub Device,
+  /// setup at your premise. The time to sync can vary and depends on the
+  /// connectivity of the Hub Device. The <code>SyncStatus</code> will be
+  /// updated as the edge configuration is acknowledged, and synced with the
+  /// Edge Agent.
+  ///
+  /// If this API is invoked for the first time, a new edge configuration will
+  /// be created for the stream, and the sync status will be set to
+  /// <code>SYNCING</code>. You will have to wait for the sync status to reach a
+  /// terminal state such as: <code>IN_SYNC</code>, or <code>SYNC_FAILED</code>,
+  /// before using this API again. If you invoke this API during the syncing
+  /// process, a <code>ResourceInUseException</code> will be thrown. The
+  /// connectivity of the stream’s edge configuration and the Edge Agent will be
+  /// retried for 15 minutes. After 15 minutes, the status will transition into
+  /// the <code>SYNC_FAILED</code> state.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [NoDataRetentionException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [edgeConfig] :
+  /// The edge configuration details required to invoke the update process.
+  ///
+  /// Parameter [streamARN] :
+  /// The Amazon Resource Name (ARN) of the stream. Specify either the
+  /// <code>StreamName</code> or the <code>StreamARN</code>.
+  ///
+  /// Parameter [streamName] :
+  /// The name of the stream whose edge configuration you want to update.
+  /// Specify either the <code>StreamName</code> or the <code>StreamARN</code>.
+  Future<StartEdgeConfigurationUpdateOutput> startEdgeConfigurationUpdate({
+    required EdgeConfig edgeConfig,
+    String? streamARN,
+    String? streamName,
+  }) async {
+    final $payload = <String, dynamic>{
+      'EdgeConfig': edgeConfig,
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/startEdgeConfigurationUpdate',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartEdgeConfigurationUpdateOutput.fromJson(response);
+  }
+
   /// Adds one or more tags to a signaling channel. A <i>tag</i> is a key-value
-  /// pair (the value is optional) that you can define and assign to AWS
-  /// resources. If you specify a tag that already exists, the tag value is
-  /// replaced with the value that you specify in the request. For more
+  /// pair (the value is optional) that you can define and assign to Amazon Web
+  /// Services resources. If you specify a tag that already exists, the tag
+  /// value is replaced with the value that you specify in the request. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
-  /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User
-  /// Guide</i>.
+  /// Cost Allocation Tags</a> in the <i>Billing and Cost Management and Cost
+  /// Management User Guide</i>.
   ///
   /// May throw [InvalidArgumentException].
   /// May throw [ClientLimitExceededException].
@@ -654,12 +896,13 @@ class KinesisVideo {
   }
 
   /// Adds one or more tags to a stream. A <i>tag</i> is a key-value pair (the
-  /// value is optional) that you can define and assign to AWS resources. If you
-  /// specify a tag that already exists, the tag value is replaced with the
-  /// value that you specify in the request. For more information, see <a
+  /// value is optional) that you can define and assign to Amazon Web Services
+  /// resources. If you specify a tag that already exists, the tag value is
+  /// replaced with the value that you specify in the request. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
-  /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User
-  /// Guide</i>.
+  /// Cost Allocation Tags</a> in the <i>Billing and Cost Management and Cost
+  /// Management User Guide</i>.
   ///
   /// You must provide either the <code>StreamName</code> or the
   /// <code>StreamARN</code>.
@@ -667,7 +910,7 @@ class KinesisVideo {
   /// This operation requires permission for the
   /// <code>KinesisVideo:TagStream</code> action.
   ///
-  /// Kinesis video streams support up to 50 tags.
+  /// A Kinesis video stream can support up to 50 tags.
   ///
   /// May throw [ClientLimitExceededException].
   /// May throw [InvalidArgumentException].
@@ -858,6 +1101,133 @@ class KinesisVideo {
     );
   }
 
+  /// Updates the <code>StreamInfo</code> and
+  /// <code>ImageProcessingConfiguration</code> fields.
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceInUseException].
+  /// May throw [NoDataRetentionException].
+  ///
+  /// Parameter [imageGenerationConfiguration] :
+  /// The structure that contains the information required for the KVS images
+  /// delivery. If the structure is null, the configuration will be deleted from
+  /// the stream.
+  ///
+  /// Parameter [streamARN] :
+  /// The Amazon Resource Name (ARN) of the Kinesis video stream from where you
+  /// want to update the image generation configuration. You must specify either
+  /// the <code>StreamName</code> or the <code>StreamARN</code>.
+  ///
+  /// Parameter [streamName] :
+  /// The name of the stream from which to update the image generation
+  /// configuration. You must specify either the <code>StreamName</code> or the
+  /// <code>StreamARN</code>.
+  Future<void> updateImageGenerationConfiguration({
+    ImageGenerationConfiguration? imageGenerationConfiguration,
+    String? streamARN,
+    String? streamName,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (imageGenerationConfiguration != null)
+        'ImageGenerationConfiguration': imageGenerationConfiguration,
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/updateImageGenerationConfiguration',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Associates a <code>SignalingChannel</code> to a stream to store the media.
+  /// There are two signaling modes that can specified :
+  ///
+  /// <ul>
+  /// <li>
+  /// If the <code>StorageStatus</code> is disabled, no data will be stored, and
+  /// the <code>StreamARN</code> parameter will not be needed.
+  /// </li>
+  /// <li>
+  /// If the <code>StorageStatus</code> is enabled, the data will be stored in
+  /// the <code>StreamARN</code> provided.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [ResourceInUseException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [NoDataRetentionException].
+  ///
+  /// Parameter [channelARN] :
+  /// The Amazon Resource Name (ARN) of the channel.
+  ///
+  /// Parameter [mediaStorageConfiguration] :
+  /// A structure that encapsulates, or contains, the media storage
+  /// configuration properties.
+  Future<void> updateMediaStorageConfiguration({
+    required String channelARN,
+    required MediaStorageConfiguration mediaStorageConfiguration,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ChannelARN': channelARN,
+      'MediaStorageConfiguration': mediaStorageConfiguration,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/updateMediaStorageConfiguration',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Updates the notification information for a stream.
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceInUseException].
+  /// May throw [NoDataRetentionException].
+  ///
+  /// Parameter [notificationConfiguration] :
+  /// The structure containing the information required for notifications. If
+  /// the structure is null, the configuration will be deleted from the stream.
+  ///
+  /// Parameter [streamARN] :
+  /// The Amazon Resource Name (ARN) of the Kinesis video stream from where you
+  /// want to update the notification configuration. You must specify either the
+  /// <code>StreamName</code> or the <code>StreamARN</code>.
+  ///
+  /// Parameter [streamName] :
+  /// The name of the stream from which to update the notification
+  /// configuration. You must specify either the <code>StreamName</code> or the
+  /// <code>StreamARN</code>.
+  Future<void> updateNotificationConfiguration({
+    NotificationConfiguration? notificationConfiguration,
+    String? streamARN,
+    String? streamName,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (notificationConfiguration != null)
+        'NotificationConfiguration': notificationConfiguration,
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/updateNotificationConfiguration',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Updates the existing signaling channel. This is an asynchronous operation
   /// and takes time to complete.
   ///
@@ -986,6 +1356,7 @@ enum APIName {
   getHlsStreamingSessionUrl,
   getDashStreamingSessionUrl,
   getClip,
+  getImages,
 }
 
 extension APINameValueExtension on APIName {
@@ -1005,6 +1376,8 @@ extension APINameValueExtension on APIName {
         return 'GET_DASH_STREAMING_SESSION_URL';
       case APIName.getClip:
         return 'GET_CLIP';
+      case APIName.getImages:
+        return 'GET_IMAGES';
     }
   }
 }
@@ -1026,6 +1399,8 @@ extension APINameFromString on String {
         return APIName.getDashStreamingSessionUrl;
       case 'GET_CLIP':
         return APIName.getClip;
+      case 'GET_IMAGES':
+        return APIName.getImages;
     }
     throw Exception('$this is not known in enum APIName');
   }
@@ -1064,6 +1439,7 @@ class ChannelInfo {
     this.singleMasterConfiguration,
     this.version,
   });
+
   factory ChannelInfo.fromJson(Map<String, dynamic> json) {
     return ChannelInfo(
       channelARN: json['ChannelARN'] as String?,
@@ -1111,6 +1487,7 @@ class ChannelNameCondition {
 enum ChannelProtocol {
   wss,
   https,
+  webrtc,
 }
 
 extension ChannelProtocolValueExtension on ChannelProtocol {
@@ -1120,6 +1497,8 @@ extension ChannelProtocolValueExtension on ChannelProtocol {
         return 'WSS';
       case ChannelProtocol.https:
         return 'HTTPS';
+      case ChannelProtocol.webrtc:
+        return 'WEBRTC';
     }
   }
 }
@@ -1131,6 +1510,8 @@ extension ChannelProtocolFromString on String {
         return ChannelProtocol.wss;
       case 'HTTPS':
         return ChannelProtocol.https;
+      case 'WEBRTC':
+        return ChannelProtocol.webrtc;
     }
     throw Exception('$this is not known in enum ChannelProtocol');
   }
@@ -1166,6 +1547,7 @@ extension ChannelRoleFromString on String {
 
 enum ChannelType {
   singleMaster,
+  fullMesh,
 }
 
 extension ChannelTypeValueExtension on ChannelType {
@@ -1173,6 +1555,8 @@ extension ChannelTypeValueExtension on ChannelType {
     switch (this) {
       case ChannelType.singleMaster:
         return 'SINGLE_MASTER';
+      case ChannelType.fullMesh:
+        return 'FULL_MESH';
     }
   }
 }
@@ -1182,6 +1566,8 @@ extension ChannelTypeFromString on String {
     switch (this) {
       case 'SINGLE_MASTER':
         return ChannelType.singleMaster;
+      case 'FULL_MESH':
+        return ChannelType.fullMesh;
     }
     throw Exception('$this is not known in enum ChannelType');
   }
@@ -1210,6 +1596,34 @@ extension ComparisonOperatorFromString on String {
   }
 }
 
+enum ConfigurationStatus {
+  enabled,
+  disabled,
+}
+
+extension ConfigurationStatusValueExtension on ConfigurationStatus {
+  String toValue() {
+    switch (this) {
+      case ConfigurationStatus.enabled:
+        return 'ENABLED';
+      case ConfigurationStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension ConfigurationStatusFromString on String {
+  ConfigurationStatus toConfigurationStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return ConfigurationStatus.enabled;
+      case 'DISABLED':
+        return ConfigurationStatus.disabled;
+    }
+    throw Exception('$this is not known in enum ConfigurationStatus');
+  }
+}
+
 class CreateSignalingChannelOutput {
   /// The Amazon Resource Name (ARN) of the created channel.
   final String? channelARN;
@@ -1217,6 +1631,7 @@ class CreateSignalingChannelOutput {
   CreateSignalingChannelOutput({
     this.channelARN,
   });
+
   factory CreateSignalingChannelOutput.fromJson(Map<String, dynamic> json) {
     return CreateSignalingChannelOutput(
       channelARN: json['ChannelARN'] as String?,
@@ -1231,6 +1646,7 @@ class CreateStreamOutput {
   CreateStreamOutput({
     this.streamARN,
   });
+
   factory CreateStreamOutput.fromJson(Map<String, dynamic> json) {
     return CreateStreamOutput(
       streamARN: json['StreamARN'] as String?,
@@ -1240,6 +1656,7 @@ class CreateStreamOutput {
 
 class DeleteSignalingChannelOutput {
   DeleteSignalingChannelOutput();
+
   factory DeleteSignalingChannelOutput.fromJson(Map<String, dynamic> _) {
     return DeleteSignalingChannelOutput();
   }
@@ -1247,8 +1664,202 @@ class DeleteSignalingChannelOutput {
 
 class DeleteStreamOutput {
   DeleteStreamOutput();
+
   factory DeleteStreamOutput.fromJson(Map<String, dynamic> _) {
     return DeleteStreamOutput();
+  }
+}
+
+/// The configuration details required to delete the connection of the stream
+/// from the Edge Agent.
+class DeletionConfig {
+  /// The <code>boolean</code> value used to indicate whether or not you want to
+  /// mark the media for deletion, once it has been uploaded to the Kinesis Video
+  /// Stream cloud. The media files can be deleted if any of the deletion
+  /// configuration values are set to <code>true</code>, such as when the limit
+  /// for the <code>EdgeRetentionInHours</code>, or the
+  /// <code>MaxLocalMediaSizeInMB</code>, has been reached.
+  ///
+  /// Since the default value is set to <code>true</code>, configure the uploader
+  /// schedule such that the media files are not being deleted before they are
+  /// initially uploaded to AWS cloud.
+  final bool? deleteAfterUpload;
+
+  /// The number of hours that you want to retain the data in the stream on the
+  /// Edge Agent. The default value of the retention time is 720 hours, which
+  /// translates to 30 days.
+  final int? edgeRetentionInHours;
+
+  /// The value of the local size required in order to delete the edge
+  /// configuration.
+  final LocalSizeConfig? localSizeConfig;
+
+  DeletionConfig({
+    this.deleteAfterUpload,
+    this.edgeRetentionInHours,
+    this.localSizeConfig,
+  });
+
+  factory DeletionConfig.fromJson(Map<String, dynamic> json) {
+    return DeletionConfig(
+      deleteAfterUpload: json['DeleteAfterUpload'] as bool?,
+      edgeRetentionInHours: json['EdgeRetentionInHours'] as int?,
+      localSizeConfig: json['LocalSizeConfig'] != null
+          ? LocalSizeConfig.fromJson(
+              json['LocalSizeConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deleteAfterUpload = this.deleteAfterUpload;
+    final edgeRetentionInHours = this.edgeRetentionInHours;
+    final localSizeConfig = this.localSizeConfig;
+    return {
+      if (deleteAfterUpload != null) 'DeleteAfterUpload': deleteAfterUpload,
+      if (edgeRetentionInHours != null)
+        'EdgeRetentionInHours': edgeRetentionInHours,
+      if (localSizeConfig != null) 'LocalSizeConfig': localSizeConfig,
+    };
+  }
+}
+
+class DescribeEdgeConfigurationOutput {
+  /// The timestamp at which a stream’s edge configuration was first created.
+  final DateTime? creationTime;
+
+  /// A description of the stream's edge configuration that will be used to sync
+  /// with the Edge Agent IoT Greengrass component. The Edge Agent component will
+  /// run on an IoT Hub Device setup at your premise.
+  final EdgeConfig? edgeConfig;
+
+  /// A description of the generated failure status.
+  final String? failedStatusDetails;
+
+  /// The timestamp at which a stream’s edge configuration was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The Amazon Resource Name (ARN) of the stream.
+  final String? streamARN;
+
+  /// The name of the stream from which the edge configuration was updated.
+  final String? streamName;
+
+  /// The latest status of the edge configuration update.
+  final SyncStatus? syncStatus;
+
+  DescribeEdgeConfigurationOutput({
+    this.creationTime,
+    this.edgeConfig,
+    this.failedStatusDetails,
+    this.lastUpdatedTime,
+    this.streamARN,
+    this.streamName,
+    this.syncStatus,
+  });
+
+  factory DescribeEdgeConfigurationOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeEdgeConfigurationOutput(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      edgeConfig: json['EdgeConfig'] != null
+          ? EdgeConfig.fromJson(json['EdgeConfig'] as Map<String, dynamic>)
+          : null,
+      failedStatusDetails: json['FailedStatusDetails'] as String?,
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      streamARN: json['StreamARN'] as String?,
+      streamName: json['StreamName'] as String?,
+      syncStatus: (json['SyncStatus'] as String?)?.toSyncStatus(),
+    );
+  }
+}
+
+class DescribeImageGenerationConfigurationOutput {
+  /// The structure that contains the information required for the Kinesis video
+  /// stream (KVS) images delivery. If this structure is null, the configuration
+  /// will be deleted from the stream.
+  final ImageGenerationConfiguration? imageGenerationConfiguration;
+
+  DescribeImageGenerationConfigurationOutput({
+    this.imageGenerationConfiguration,
+  });
+
+  factory DescribeImageGenerationConfigurationOutput.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeImageGenerationConfigurationOutput(
+      imageGenerationConfiguration: json['ImageGenerationConfiguration'] != null
+          ? ImageGenerationConfiguration.fromJson(
+              json['ImageGenerationConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class DescribeMappedResourceConfigurationOutput {
+  /// A structure that encapsulates, or contains, the media storage configuration
+  /// properties.
+  final List<MappedResourceConfigurationListItem>?
+      mappedResourceConfigurationList;
+
+  /// The token that was used in the <code>NextToken</code>request to fetch the
+  /// next set of results.
+  final String? nextToken;
+
+  DescribeMappedResourceConfigurationOutput({
+    this.mappedResourceConfigurationList,
+    this.nextToken,
+  });
+
+  factory DescribeMappedResourceConfigurationOutput.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeMappedResourceConfigurationOutput(
+      mappedResourceConfigurationList:
+          (json['MappedResourceConfigurationList'] as List?)
+              ?.whereNotNull()
+              .map((e) => MappedResourceConfigurationListItem.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
+class DescribeMediaStorageConfigurationOutput {
+  /// A structure that encapsulates, or contains, the media storage configuration
+  /// properties.
+  final MediaStorageConfiguration? mediaStorageConfiguration;
+
+  DescribeMediaStorageConfigurationOutput({
+    this.mediaStorageConfiguration,
+  });
+
+  factory DescribeMediaStorageConfigurationOutput.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeMediaStorageConfigurationOutput(
+      mediaStorageConfiguration: json['MediaStorageConfiguration'] != null
+          ? MediaStorageConfiguration.fromJson(
+              json['MediaStorageConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class DescribeNotificationConfigurationOutput {
+  /// The structure that contains the information required for notifications. If
+  /// the structure is null, the configuration will be deleted from the stream.
+  final NotificationConfiguration? notificationConfiguration;
+
+  DescribeNotificationConfigurationOutput({
+    this.notificationConfiguration,
+  });
+
+  factory DescribeNotificationConfigurationOutput.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeNotificationConfigurationOutput(
+      notificationConfiguration: json['NotificationConfiguration'] != null
+          ? NotificationConfiguration.fromJson(
+              json['NotificationConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
   }
 }
 
@@ -1260,6 +1871,7 @@ class DescribeSignalingChannelOutput {
   DescribeSignalingChannelOutput({
     this.channelInfo,
   });
+
   factory DescribeSignalingChannelOutput.fromJson(Map<String, dynamic> json) {
     return DescribeSignalingChannelOutput(
       channelInfo: json['ChannelInfo'] != null
@@ -1276,12 +1888,123 @@ class DescribeStreamOutput {
   DescribeStreamOutput({
     this.streamInfo,
   });
+
   factory DescribeStreamOutput.fromJson(Map<String, dynamic> json) {
     return DescribeStreamOutput(
       streamInfo: json['StreamInfo'] != null
           ? StreamInfo.fromJson(json['StreamInfo'] as Map<String, dynamic>)
           : null,
     );
+  }
+}
+
+/// A description of the stream's edge configuration that will be used to sync
+/// with the Edge Agent IoT Greengrass component. The Edge Agent component will
+/// run on an IoT Hub Device setup at your premise.
+class EdgeConfig {
+  /// The "<b>Internet of Things (IoT) Thing</b>" Arn of the stream.
+  final String hubDeviceArn;
+
+  /// The recorder configuration consists of the local
+  /// <code>MediaSourceConfig</code> details, that are used as credentials to
+  /// access the local media files streamed on the camera.
+  final RecorderConfig recorderConfig;
+
+  /// The deletion configuration is made up of the retention time
+  /// (<code>EdgeRetentionInHours</code>) and local size configuration
+  /// (<code>LocalSizeConfig</code>) details that are used to make the deletion.
+  final DeletionConfig? deletionConfig;
+
+  /// The uploader configuration contains the <code>ScheduleExpression</code>
+  /// details that are used to schedule upload jobs for the recorded media files
+  /// from the Edge Agent to a Kinesis Video Stream.
+  final UploaderConfig? uploaderConfig;
+
+  EdgeConfig({
+    required this.hubDeviceArn,
+    required this.recorderConfig,
+    this.deletionConfig,
+    this.uploaderConfig,
+  });
+
+  factory EdgeConfig.fromJson(Map<String, dynamic> json) {
+    return EdgeConfig(
+      hubDeviceArn: json['HubDeviceArn'] as String,
+      recorderConfig: RecorderConfig.fromJson(
+          json['RecorderConfig'] as Map<String, dynamic>),
+      deletionConfig: json['DeletionConfig'] != null
+          ? DeletionConfig.fromJson(
+              json['DeletionConfig'] as Map<String, dynamic>)
+          : null,
+      uploaderConfig: json['UploaderConfig'] != null
+          ? UploaderConfig.fromJson(
+              json['UploaderConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hubDeviceArn = this.hubDeviceArn;
+    final recorderConfig = this.recorderConfig;
+    final deletionConfig = this.deletionConfig;
+    final uploaderConfig = this.uploaderConfig;
+    return {
+      'HubDeviceArn': hubDeviceArn,
+      'RecorderConfig': recorderConfig,
+      if (deletionConfig != null) 'DeletionConfig': deletionConfig,
+      if (uploaderConfig != null) 'UploaderConfig': uploaderConfig,
+    };
+  }
+}
+
+enum Format {
+  jpeg,
+  png,
+}
+
+extension FormatValueExtension on Format {
+  String toValue() {
+    switch (this) {
+      case Format.jpeg:
+        return 'JPEG';
+      case Format.png:
+        return 'PNG';
+    }
+  }
+}
+
+extension FormatFromString on String {
+  Format toFormat() {
+    switch (this) {
+      case 'JPEG':
+        return Format.jpeg;
+      case 'PNG':
+        return Format.png;
+    }
+    throw Exception('$this is not known in enum Format');
+  }
+}
+
+enum FormatConfigKey {
+  jPEGQuality,
+}
+
+extension FormatConfigKeyValueExtension on FormatConfigKey {
+  String toValue() {
+    switch (this) {
+      case FormatConfigKey.jPEGQuality:
+        return 'JPEGQuality';
+    }
+  }
+}
+
+extension FormatConfigKeyFromString on String {
+  FormatConfigKey toFormatConfigKey() {
+    switch (this) {
+      case 'JPEGQuality':
+        return FormatConfigKey.jPEGQuality;
+    }
+    throw Exception('$this is not known in enum FormatConfigKey');
   }
 }
 
@@ -1293,6 +2016,7 @@ class GetDataEndpointOutput {
   GetDataEndpointOutput({
     this.dataEndpoint,
   });
+
   factory GetDataEndpointOutput.fromJson(Map<String, dynamic> json) {
     return GetDataEndpointOutput(
       dataEndpoint: json['DataEndpoint'] as String?,
@@ -1307,6 +2031,7 @@ class GetSignalingChannelEndpointOutput {
   GetSignalingChannelEndpointOutput({
     this.resourceEndpointList,
   });
+
   factory GetSignalingChannelEndpointOutput.fromJson(
       Map<String, dynamic> json) {
     return GetSignalingChannelEndpointOutput(
@@ -1316,6 +2041,172 @@ class GetSignalingChannelEndpointOutput {
               ResourceEndpointListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+  }
+}
+
+/// The structure that contains the information required for the KVS images
+/// delivery. If null, the configuration will be deleted from the stream.
+class ImageGenerationConfiguration {
+  /// The structure that contains the information required to deliver images to a
+  /// customer.
+  final ImageGenerationDestinationConfig destinationConfig;
+
+  /// The accepted image format.
+  final Format format;
+
+  /// The origin of the Server or Producer timestamps to use to generate the
+  /// images.
+  final ImageSelectorType imageSelectorType;
+
+  /// The time interval in milliseconds (ms) at which the images need to be
+  /// generated from the stream. The minimum value that can be provided is 33 ms,
+  /// because a camera that generates content at 30 FPS would create a frame every
+  /// 33.3 ms. If the timestamp range is less than the sampling interval, the
+  /// Image from the <code>StartTimestamp</code> will be returned if available.
+  final int samplingInterval;
+
+  /// Indicates whether the <code>ContinuousImageGenerationConfigurations</code>
+  /// API is enabled or disabled.
+  final ConfigurationStatus status;
+
+  /// The list of a key-value pair structure that contains extra parameters that
+  /// can be applied when the image is generated. The <code>FormatConfig</code>
+  /// key is the <code>JPEGQuality</code>, which indicates the JPEG quality key to
+  /// be used to generate the image. The <code>FormatConfig</code> value accepts
+  /// ints from 1 to 100. If the value is 1, the image will be generated with less
+  /// quality and the best compression. If the value is 100, the image will be
+  /// generated with the best quality and less compression. If no value is
+  /// provided, the default value of the <code>JPEGQuality</code> key will be set
+  /// to 80.
+  final Map<FormatConfigKey, String>? formatConfig;
+
+  /// The height of the output image that is used in conjunction with the
+  /// <code>WidthPixels</code> parameter. When both <code>HeightPixels</code> and
+  /// <code>WidthPixels</code> parameters are provided, the image will be
+  /// stretched to fit the specified aspect ratio. If only the
+  /// <code>HeightPixels</code> parameter is provided, its original aspect ratio
+  /// will be used to calculate the <code>WidthPixels</code> ratio. If neither
+  /// parameter is provided, the original image size will be returned.
+  final int? heightPixels;
+
+  /// The width of the output image that is used in conjunction with the
+  /// <code>HeightPixels</code> parameter. When both <code>WidthPixels</code> and
+  /// <code>HeightPixels</code> parameters are provided, the image will be
+  /// stretched to fit the specified aspect ratio. If only the
+  /// <code>WidthPixels</code> parameter is provided, its original aspect ratio
+  /// will be used to calculate the <code>HeightPixels</code> ratio. If neither
+  /// parameter is provided, the original image size will be returned.
+  final int? widthPixels;
+
+  ImageGenerationConfiguration({
+    required this.destinationConfig,
+    required this.format,
+    required this.imageSelectorType,
+    required this.samplingInterval,
+    required this.status,
+    this.formatConfig,
+    this.heightPixels,
+    this.widthPixels,
+  });
+
+  factory ImageGenerationConfiguration.fromJson(Map<String, dynamic> json) {
+    return ImageGenerationConfiguration(
+      destinationConfig: ImageGenerationDestinationConfig.fromJson(
+          json['DestinationConfig'] as Map<String, dynamic>),
+      format: (json['Format'] as String).toFormat(),
+      imageSelectorType:
+          (json['ImageSelectorType'] as String).toImageSelectorType(),
+      samplingInterval: json['SamplingInterval'] as int,
+      status: (json['Status'] as String).toConfigurationStatus(),
+      formatConfig: (json['FormatConfig'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toFormatConfigKey(), e as String)),
+      heightPixels: json['HeightPixels'] as int?,
+      widthPixels: json['WidthPixels'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationConfig = this.destinationConfig;
+    final format = this.format;
+    final imageSelectorType = this.imageSelectorType;
+    final samplingInterval = this.samplingInterval;
+    final status = this.status;
+    final formatConfig = this.formatConfig;
+    final heightPixels = this.heightPixels;
+    final widthPixels = this.widthPixels;
+    return {
+      'DestinationConfig': destinationConfig,
+      'Format': format.toValue(),
+      'ImageSelectorType': imageSelectorType.toValue(),
+      'SamplingInterval': samplingInterval,
+      'Status': status.toValue(),
+      if (formatConfig != null)
+        'FormatConfig': formatConfig.map((k, e) => MapEntry(k.toValue(), e)),
+      if (heightPixels != null) 'HeightPixels': heightPixels,
+      if (widthPixels != null) 'WidthPixels': widthPixels,
+    };
+  }
+}
+
+/// The structure that contains the information required to deliver images to a
+/// customer.
+class ImageGenerationDestinationConfig {
+  /// The AWS Region of the S3 bucket where images will be delivered. This
+  /// <code>DestinationRegion</code> must match the Region where the stream is
+  /// located.
+  final String destinationRegion;
+
+  /// The Uniform Resource Identifier (URI) that identifies where the images will
+  /// be delivered.
+  final String uri;
+
+  ImageGenerationDestinationConfig({
+    required this.destinationRegion,
+    required this.uri,
+  });
+
+  factory ImageGenerationDestinationConfig.fromJson(Map<String, dynamic> json) {
+    return ImageGenerationDestinationConfig(
+      destinationRegion: json['DestinationRegion'] as String,
+      uri: json['Uri'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationRegion = this.destinationRegion;
+    final uri = this.uri;
+    return {
+      'DestinationRegion': destinationRegion,
+      'Uri': uri,
+    };
+  }
+}
+
+enum ImageSelectorType {
+  serverTimestamp,
+  producerTimestamp,
+}
+
+extension ImageSelectorTypeValueExtension on ImageSelectorType {
+  String toValue() {
+    switch (this) {
+      case ImageSelectorType.serverTimestamp:
+        return 'SERVER_TIMESTAMP';
+      case ImageSelectorType.producerTimestamp:
+        return 'PRODUCER_TIMESTAMP';
+    }
+  }
+}
+
+extension ImageSelectorTypeFromString on String {
+  ImageSelectorType toImageSelectorType() {
+    switch (this) {
+      case 'SERVER_TIMESTAMP':
+        return ImageSelectorType.serverTimestamp;
+      case 'PRODUCER_TIMESTAMP':
+        return ImageSelectorType.producerTimestamp;
+    }
+    throw Exception('$this is not known in enum ImageSelectorType');
   }
 }
 
@@ -1331,6 +2222,7 @@ class ListSignalingChannelsOutput {
     this.channelInfoList,
     this.nextToken,
   });
+
   factory ListSignalingChannelsOutput.fromJson(Map<String, dynamic> json) {
     return ListSignalingChannelsOutput(
       channelInfoList: (json['ChannelInfoList'] as List?)
@@ -1354,6 +2246,7 @@ class ListStreamsOutput {
     this.nextToken,
     this.streamInfoList,
   });
+
   factory ListStreamsOutput.fromJson(Map<String, dynamic> json) {
     return ListStreamsOutput(
       nextToken: json['NextToken'] as String?,
@@ -1379,6 +2272,7 @@ class ListTagsForResourceOutput {
     this.nextToken,
     this.tags,
   });
+
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceOutput(
       nextToken: json['NextToken'] as String?,
@@ -1401,12 +2295,303 @@ class ListTagsForStreamOutput {
     this.nextToken,
     this.tags,
   });
+
   factory ListTagsForStreamOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForStreamOutput(
       nextToken: json['NextToken'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
+  }
+}
+
+/// The configuration details that include the maximum size of the media
+/// (<code>MaxLocalMediaSizeInMB</code>) that you want to store for a stream on
+/// the Edge Agent, as well as the strategy that should be used
+/// (<code>StrategyOnFullSize</code>) when a stream's maximum size has been
+/// reached.
+class LocalSizeConfig {
+  /// The overall maximum size of the media that you want to store for a stream on
+  /// the Edge Agent.
+  final int? maxLocalMediaSizeInMB;
+
+  /// The strategy to perform when a stream’s <code>MaxLocalMediaSizeInMB</code>
+  /// limit is reached.
+  final StrategyOnFullSize? strategyOnFullSize;
+
+  LocalSizeConfig({
+    this.maxLocalMediaSizeInMB,
+    this.strategyOnFullSize,
+  });
+
+  factory LocalSizeConfig.fromJson(Map<String, dynamic> json) {
+    return LocalSizeConfig(
+      maxLocalMediaSizeInMB: json['MaxLocalMediaSizeInMB'] as int?,
+      strategyOnFullSize:
+          (json['StrategyOnFullSize'] as String?)?.toStrategyOnFullSize(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxLocalMediaSizeInMB = this.maxLocalMediaSizeInMB;
+    final strategyOnFullSize = this.strategyOnFullSize;
+    return {
+      if (maxLocalMediaSizeInMB != null)
+        'MaxLocalMediaSizeInMB': maxLocalMediaSizeInMB,
+      if (strategyOnFullSize != null)
+        'StrategyOnFullSize': strategyOnFullSize.toValue(),
+    };
+  }
+}
+
+/// A structure that encapsulates, or contains, the media storage configuration
+/// properties.
+class MappedResourceConfigurationListItem {
+  /// The Amazon Resource Name (ARN) of the Kinesis Video Stream resource,
+  /// associated with the stream.
+  final String? arn;
+
+  /// The type of the associated resource for the kinesis video stream.
+  final String? type;
+
+  MappedResourceConfigurationListItem({
+    this.arn,
+    this.type,
+  });
+
+  factory MappedResourceConfigurationListItem.fromJson(
+      Map<String, dynamic> json) {
+    return MappedResourceConfigurationListItem(
+      arn: json['ARN'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+}
+
+/// The configuration details that consist of the credentials required
+/// (<code>MediaUriSecretArn</code> and <code>MediaUriType</code>) to access the
+/// media files that are streamed to the camera.
+class MediaSourceConfig {
+  /// The AWS Secrets Manager ARN for the username and password of the camera, or
+  /// a local media file location.
+  final String mediaUriSecretArn;
+
+  /// The Uniform Resource Identifier (URI) type. The <code>FILE_URI</code> value
+  /// can be used to stream local media files.
+  /// <note>
+  /// Preview only supports the <code>RTSP_URI</code> media source URI format .
+  /// </note>
+  final MediaUriType mediaUriType;
+
+  MediaSourceConfig({
+    required this.mediaUriSecretArn,
+    required this.mediaUriType,
+  });
+
+  factory MediaSourceConfig.fromJson(Map<String, dynamic> json) {
+    return MediaSourceConfig(
+      mediaUriSecretArn: json['MediaUriSecretArn'] as String,
+      mediaUriType: (json['MediaUriType'] as String).toMediaUriType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mediaUriSecretArn = this.mediaUriSecretArn;
+    final mediaUriType = this.mediaUriType;
+    return {
+      'MediaUriSecretArn': mediaUriSecretArn,
+      'MediaUriType': mediaUriType.toValue(),
+    };
+  }
+}
+
+/// A structure that encapsulates, or contains, the media storage configuration
+/// properties.
+class MediaStorageConfiguration {
+  /// The status of the media storage configuration.
+  final MediaStorageConfigurationStatus status;
+
+  /// The Amazon Resource Name (ARN) of the stream
+  final String? streamARN;
+
+  MediaStorageConfiguration({
+    required this.status,
+    this.streamARN,
+  });
+
+  factory MediaStorageConfiguration.fromJson(Map<String, dynamic> json) {
+    return MediaStorageConfiguration(
+      status: (json['Status'] as String).toMediaStorageConfigurationStatus(),
+      streamARN: json['StreamARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final streamARN = this.streamARN;
+    return {
+      'Status': status.toValue(),
+      if (streamARN != null) 'StreamARN': streamARN,
+    };
+  }
+}
+
+enum MediaStorageConfigurationStatus {
+  enabled,
+  disabled,
+}
+
+extension MediaStorageConfigurationStatusValueExtension
+    on MediaStorageConfigurationStatus {
+  String toValue() {
+    switch (this) {
+      case MediaStorageConfigurationStatus.enabled:
+        return 'ENABLED';
+      case MediaStorageConfigurationStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension MediaStorageConfigurationStatusFromString on String {
+  MediaStorageConfigurationStatus toMediaStorageConfigurationStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return MediaStorageConfigurationStatus.enabled;
+      case 'DISABLED':
+        return MediaStorageConfigurationStatus.disabled;
+    }
+    throw Exception(
+        '$this is not known in enum MediaStorageConfigurationStatus');
+  }
+}
+
+enum MediaUriType {
+  rtspUri,
+  fileUri,
+}
+
+extension MediaUriTypeValueExtension on MediaUriType {
+  String toValue() {
+    switch (this) {
+      case MediaUriType.rtspUri:
+        return 'RTSP_URI';
+      case MediaUriType.fileUri:
+        return 'FILE_URI';
+    }
+  }
+}
+
+extension MediaUriTypeFromString on String {
+  MediaUriType toMediaUriType() {
+    switch (this) {
+      case 'RTSP_URI':
+        return MediaUriType.rtspUri;
+      case 'FILE_URI':
+        return MediaUriType.fileUri;
+    }
+    throw Exception('$this is not known in enum MediaUriType');
+  }
+}
+
+/// The structure that contains the notification information for the KVS images
+/// delivery. If this parameter is null, the configuration will be deleted from
+/// the stream.
+class NotificationConfiguration {
+  /// The destination information required to deliver a notification to a
+  /// customer.
+  final NotificationDestinationConfig destinationConfig;
+
+  /// Indicates if a notification configuration is enabled or disabled.
+  final ConfigurationStatus status;
+
+  NotificationConfiguration({
+    required this.destinationConfig,
+    required this.status,
+  });
+
+  factory NotificationConfiguration.fromJson(Map<String, dynamic> json) {
+    return NotificationConfiguration(
+      destinationConfig: NotificationDestinationConfig.fromJson(
+          json['DestinationConfig'] as Map<String, dynamic>),
+      status: (json['Status'] as String).toConfigurationStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationConfig = this.destinationConfig;
+    final status = this.status;
+    return {
+      'DestinationConfig': destinationConfig,
+      'Status': status.toValue(),
+    };
+  }
+}
+
+/// The structure that contains the information required to deliver a
+/// notification to a customer.
+class NotificationDestinationConfig {
+  /// The Uniform Resource Identifier (URI) that identifies where the images will
+  /// be delivered.
+  final String uri;
+
+  NotificationDestinationConfig({
+    required this.uri,
+  });
+
+  factory NotificationDestinationConfig.fromJson(Map<String, dynamic> json) {
+    return NotificationDestinationConfig(
+      uri: json['Uri'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final uri = this.uri;
+    return {
+      'Uri': uri,
+    };
+  }
+}
+
+/// The recorder configuration consists of the local
+/// <code>MediaSourceConfig</code> details that are used as credentials to
+/// accesss the local media files streamed on the camera.
+class RecorderConfig {
+  /// The configuration details that consist of the credentials required
+  /// (<code>MediaUriSecretArn</code> and <code>MediaUriType</code>) to access the
+  /// media files streamed to the camera.
+  final MediaSourceConfig mediaSourceConfig;
+
+  /// The configuration that consists of the <code>ScheduleExpression</code> and
+  /// the <code>DurationInMinutes</code> details that specify the scheduling to
+  /// record from a camera, or local media file, onto the Edge Agent. If the
+  /// <code>ScheduleExpression</code> attribute is not provided, then the Edge
+  /// Agent will always be set to recording mode.
+  final ScheduleConfig? scheduleConfig;
+
+  RecorderConfig({
+    required this.mediaSourceConfig,
+    this.scheduleConfig,
+  });
+
+  factory RecorderConfig.fromJson(Map<String, dynamic> json) {
+    return RecorderConfig(
+      mediaSourceConfig: MediaSourceConfig.fromJson(
+          json['MediaSourceConfig'] as Map<String, dynamic>),
+      scheduleConfig: json['ScheduleConfig'] != null
+          ? ScheduleConfig.fromJson(
+              json['ScheduleConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mediaSourceConfig = this.mediaSourceConfig;
+    final scheduleConfig = this.scheduleConfig;
+    return {
+      'MediaSourceConfig': mediaSourceConfig,
+      if (scheduleConfig != null) 'ScheduleConfig': scheduleConfig,
+    };
   }
 }
 
@@ -1425,11 +2610,59 @@ class ResourceEndpointListItem {
     this.protocol,
     this.resourceEndpoint,
   });
+
   factory ResourceEndpointListItem.fromJson(Map<String, dynamic> json) {
     return ResourceEndpointListItem(
       protocol: (json['Protocol'] as String?)?.toChannelProtocol(),
       resourceEndpoint: json['ResourceEndpoint'] as String?,
     );
+  }
+}
+
+/// This API enables you to specify the duration that the camera, or local media
+/// file, should record onto the Edge Agent. The <code>ScheduleConfig</code>
+/// consists of the <code>ScheduleExpression</code> and the
+/// <code>DurationInMinutes</code> attributes.
+///
+/// If the <code>ScheduleExpression</code> is not provided, then the Edge Agent
+/// will always be set to recording mode.
+class ScheduleConfig {
+  /// The total duration to record the media. If the
+  /// <code>ScheduleExpression</code> attribute is provided, then the
+  /// <code>DurationInSeconds</code> attribute should also be specified.
+  final int durationInSeconds;
+
+  /// The Quartz cron expression that takes care of scheduling jobs to record from
+  /// the camera, or local media file, onto the Edge Agent. If the
+  /// <code>ScheduleExpression</code> is not provided for the
+  /// <code>RecorderConfig</code>, then the Edge Agent will always be set to
+  /// recording mode.
+  ///
+  /// For more information about Quartz, refer to the <a
+  /// href="http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html">
+  /// <i>Cron Trigger Tutorial</i> </a> page to understand the valid expressions
+  /// and its use.
+  final String scheduleExpression;
+
+  ScheduleConfig({
+    required this.durationInSeconds,
+    required this.scheduleExpression,
+  });
+
+  factory ScheduleConfig.fromJson(Map<String, dynamic> json) {
+    return ScheduleConfig(
+      durationInSeconds: json['DurationInSeconds'] as int,
+      scheduleExpression: json['ScheduleExpression'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationInSeconds = this.durationInSeconds;
+    final scheduleExpression = this.scheduleExpression;
+    return {
+      'DurationInSeconds': durationInSeconds,
+      'ScheduleExpression': scheduleExpression,
+    };
   }
 }
 
@@ -1469,13 +2702,14 @@ class SingleMasterChannelEndpointConfiguration {
 /// A structure that contains the configuration for the
 /// <code>SINGLE_MASTER</code> channel type.
 class SingleMasterConfiguration {
-  /// The period of time a signaling channel retains underlivered messages before
+  /// The period of time a signaling channel retains undelivered messages before
   /// they are discarded.
   final int? messageTtlSeconds;
 
   SingleMasterConfiguration({
     this.messageTtlSeconds,
   });
+
   factory SingleMasterConfiguration.fromJson(Map<String, dynamic> json) {
     return SingleMasterConfiguration(
       messageTtlSeconds: json['MessageTtlSeconds'] as int?,
@@ -1487,6 +2721,59 @@ class SingleMasterConfiguration {
     return {
       if (messageTtlSeconds != null) 'MessageTtlSeconds': messageTtlSeconds,
     };
+  }
+}
+
+class StartEdgeConfigurationUpdateOutput {
+  /// The timestamp at which a stream’s edge configuration was first created.
+  final DateTime? creationTime;
+
+  /// A description of the stream's edge configuration that will be used to sync
+  /// with the Edge Agent IoT Greengrass component. The Edge Agent component will
+  /// run on an IoT Hub Device setup at your premise.
+  final EdgeConfig? edgeConfig;
+
+  /// A description of the generated failure status.
+  final String? failedStatusDetails;
+
+  /// The timestamp at which a stream’s edge configuration was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The Amazon Resource Name (ARN) of the stream.
+  final String? streamARN;
+
+  /// The name of the stream from which the edge configuration was updated.
+  final String? streamName;
+
+  /// The current sync status of the stream's edge configuration. When you invoke
+  /// this API, the sync status will be set to the <code>SYNCING</code> state. Use
+  /// the <code>DescribeEdgeConfiguration</code> API to get the latest status of
+  /// the edge configuration.
+  final SyncStatus? syncStatus;
+
+  StartEdgeConfigurationUpdateOutput({
+    this.creationTime,
+    this.edgeConfig,
+    this.failedStatusDetails,
+    this.lastUpdatedTime,
+    this.streamARN,
+    this.streamName,
+    this.syncStatus,
+  });
+
+  factory StartEdgeConfigurationUpdateOutput.fromJson(
+      Map<String, dynamic> json) {
+    return StartEdgeConfigurationUpdateOutput(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      edgeConfig: json['EdgeConfig'] != null
+          ? EdgeConfig.fromJson(json['EdgeConfig'] as Map<String, dynamic>)
+          : null,
+      failedStatusDetails: json['FailedStatusDetails'] as String?,
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      streamARN: json['StreamARN'] as String?,
+      streamName: json['StreamName'] as String?,
+      syncStatus: (json['SyncStatus'] as String?)?.toSyncStatus(),
+    );
   }
 }
 
@@ -1528,6 +2815,34 @@ extension StatusFromString on String {
   }
 }
 
+enum StrategyOnFullSize {
+  deleteOldestMedia,
+  denyNewMedia,
+}
+
+extension StrategyOnFullSizeValueExtension on StrategyOnFullSize {
+  String toValue() {
+    switch (this) {
+      case StrategyOnFullSize.deleteOldestMedia:
+        return 'DELETE_OLDEST_MEDIA';
+      case StrategyOnFullSize.denyNewMedia:
+        return 'DENY_NEW_MEDIA';
+    }
+  }
+}
+
+extension StrategyOnFullSizeFromString on String {
+  StrategyOnFullSize toStrategyOnFullSize() {
+    switch (this) {
+      case 'DELETE_OLDEST_MEDIA':
+        return StrategyOnFullSize.deleteOldestMedia;
+      case 'DENY_NEW_MEDIA':
+        return StrategyOnFullSize.denyNewMedia;
+    }
+    throw Exception('$this is not known in enum StrategyOnFullSize');
+  }
+}
+
 /// An object describing a Kinesis video stream.
 class StreamInfo {
   /// A time stamp that indicates when the stream was created.
@@ -1539,8 +2854,8 @@ class StreamInfo {
   /// The name of the device that is associated with the stream.
   final String? deviceName;
 
-  /// The ID of the AWS Key Management Service (AWS KMS) key that Kinesis Video
-  /// Streams uses to encrypt data on the stream.
+  /// The ID of the Key Management Service (KMS) key that Kinesis Video Streams
+  /// uses to encrypt data on the stream.
   final String? kmsKeyId;
 
   /// The <code>MediaType</code> of the stream.
@@ -1569,6 +2884,7 @@ class StreamInfo {
     this.streamName,
     this.version,
   });
+
   factory StreamInfo.fromJson(Map<String, dynamic> json) {
     return StreamInfo(
       creationTime: timeStampFromJson(json['CreationTime']),
@@ -1613,6 +2929,54 @@ class StreamNameCondition {
   }
 }
 
+enum SyncStatus {
+  syncing,
+  acknowledged,
+  inSync,
+  syncFailed,
+  deleting,
+  deleteFailed,
+}
+
+extension SyncStatusValueExtension on SyncStatus {
+  String toValue() {
+    switch (this) {
+      case SyncStatus.syncing:
+        return 'SYNCING';
+      case SyncStatus.acknowledged:
+        return 'ACKNOWLEDGED';
+      case SyncStatus.inSync:
+        return 'IN_SYNC';
+      case SyncStatus.syncFailed:
+        return 'SYNC_FAILED';
+      case SyncStatus.deleting:
+        return 'DELETING';
+      case SyncStatus.deleteFailed:
+        return 'DELETE_FAILED';
+    }
+  }
+}
+
+extension SyncStatusFromString on String {
+  SyncStatus toSyncStatus() {
+    switch (this) {
+      case 'SYNCING':
+        return SyncStatus.syncing;
+      case 'ACKNOWLEDGED':
+        return SyncStatus.acknowledged;
+      case 'IN_SYNC':
+        return SyncStatus.inSync;
+      case 'SYNC_FAILED':
+        return SyncStatus.syncFailed;
+      case 'DELETING':
+        return SyncStatus.deleting;
+      case 'DELETE_FAILED':
+        return SyncStatus.deleteFailed;
+    }
+    throw Exception('$this is not known in enum SyncStatus');
+  }
+}
+
 /// A key and value pair that is associated with the specified signaling
 /// channel.
 class Tag {
@@ -1639,6 +3003,7 @@ class Tag {
 
 class TagResourceOutput {
   TagResourceOutput();
+
   factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
     return TagResourceOutput();
   }
@@ -1646,6 +3011,7 @@ class TagResourceOutput {
 
 class TagStreamOutput {
   TagStreamOutput();
+
   factory TagStreamOutput.fromJson(Map<String, dynamic> _) {
     return TagStreamOutput();
   }
@@ -1653,6 +3019,7 @@ class TagStreamOutput {
 
 class UntagResourceOutput {
   UntagResourceOutput();
+
   factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
     return UntagResourceOutput();
   }
@@ -1660,6 +3027,7 @@ class UntagResourceOutput {
 
 class UntagStreamOutput {
   UntagStreamOutput();
+
   factory UntagStreamOutput.fromJson(Map<String, dynamic> _) {
     return UntagStreamOutput();
   }
@@ -1696,13 +3064,42 @@ extension UpdateDataRetentionOperationFromString on String {
 
 class UpdateDataRetentionOutput {
   UpdateDataRetentionOutput();
+
   factory UpdateDataRetentionOutput.fromJson(Map<String, dynamic> _) {
     return UpdateDataRetentionOutput();
   }
 }
 
+class UpdateImageGenerationConfigurationOutput {
+  UpdateImageGenerationConfigurationOutput();
+
+  factory UpdateImageGenerationConfigurationOutput.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateImageGenerationConfigurationOutput();
+  }
+}
+
+class UpdateMediaStorageConfigurationOutput {
+  UpdateMediaStorageConfigurationOutput();
+
+  factory UpdateMediaStorageConfigurationOutput.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateMediaStorageConfigurationOutput();
+  }
+}
+
+class UpdateNotificationConfigurationOutput {
+  UpdateNotificationConfigurationOutput();
+
+  factory UpdateNotificationConfigurationOutput.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateNotificationConfigurationOutput();
+  }
+}
+
 class UpdateSignalingChannelOutput {
   UpdateSignalingChannelOutput();
+
   factory UpdateSignalingChannelOutput.fromJson(Map<String, dynamic> _) {
     return UpdateSignalingChannelOutput();
   }
@@ -1710,8 +3107,41 @@ class UpdateSignalingChannelOutput {
 
 class UpdateStreamOutput {
   UpdateStreamOutput();
+
   factory UpdateStreamOutput.fromJson(Map<String, dynamic> _) {
     return UpdateStreamOutput();
+  }
+}
+
+/// The configuration that consists of the <code>ScheduleExpression</code> and
+/// the <code>DurationInMinutesdetails</code>, that specify the scheduling to
+/// record from a camera, or local media file, onto the Edge Agent. If the
+/// <code>ScheduleExpression</code> is not provided, then the Edge Agent will
+/// always be in upload mode.
+class UploaderConfig {
+  /// The configuration that consists of the <code>ScheduleExpression</code> and
+  /// the <code>DurationInMinutes</code>details that specify the scheduling to
+  /// record from a camera, or local media file, onto the Edge Agent. If the
+  /// <code>ScheduleExpression</code> is not provided, then the Edge Agent will
+  /// always be in recording mode.
+  final ScheduleConfig scheduleConfig;
+
+  UploaderConfig({
+    required this.scheduleConfig,
+  });
+
+  factory UploaderConfig.fromJson(Map<String, dynamic> json) {
+    return UploaderConfig(
+      scheduleConfig: ScheduleConfig.fromJson(
+          json['ScheduleConfig'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduleConfig = this.scheduleConfig;
+    return {
+      'ScheduleConfig': scheduleConfig,
+    };
   }
 }
 
@@ -1768,6 +3198,11 @@ class InvalidResourceFormatException extends _s.GenericAwsException {
             message: message);
 }
 
+class NoDataRetentionException extends _s.GenericAwsException {
+  NoDataRetentionException({String? type, String? message})
+      : super(type: type, code: 'NoDataRetentionException', message: message);
+}
+
 class NotAuthorizedException extends _s.GenericAwsException {
   NotAuthorizedException({String? type, String? message})
       : super(type: type, code: 'NotAuthorizedException', message: message);
@@ -1781,6 +3216,14 @@ class ResourceInUseException extends _s.GenericAwsException {
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
+}
+
+class StreamEdgeConfigurationNotFoundException extends _s.GenericAwsException {
+  StreamEdgeConfigurationNotFoundException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'StreamEdgeConfigurationNotFoundException',
+            message: message);
 }
 
 class TagsPerResourceExceededLimitException extends _s.GenericAwsException {
@@ -1813,12 +3256,16 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidDeviceException(type: type, message: message),
   'InvalidResourceFormatException': (type, message) =>
       InvalidResourceFormatException(type: type, message: message),
+  'NoDataRetentionException': (type, message) =>
+      NoDataRetentionException(type: type, message: message),
   'NotAuthorizedException': (type, message) =>
       NotAuthorizedException(type: type, message: message),
   'ResourceInUseException': (type, message) =>
       ResourceInUseException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
+  'StreamEdgeConfigurationNotFoundException': (type, message) =>
+      StreamEdgeConfigurationNotFoundException(type: type, message: message),
   'TagsPerResourceExceededLimitException': (type, message) =>
       TagsPerResourceExceededLimitException(type: type, message: message),
   'VersionMismatchException': (type, message) =>

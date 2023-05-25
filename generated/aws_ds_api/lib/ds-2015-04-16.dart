@@ -18,22 +18,23 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// AWS Directory Service is a web service that makes it easy for you to setup
-/// and run directories in the AWS cloud, or connect your AWS resources with an
-/// existing on-premises Microsoft Active Directory. This guide provides
-/// detailed information about AWS Directory Service operations, data types,
-/// parameters, and errors. For information about AWS Directory Services
-/// features, see <a href="https://aws.amazon.com/directoryservice/">AWS
-/// Directory Service</a> and the <a
-/// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/what_is.html">AWS
-/// Directory Service Administration Guide</a>.
+/// Directory Service is a web service that makes it easy for you to setup and
+/// run directories in the Amazon Web Services cloud, or connect your Amazon Web
+/// Services resources with an existing self-managed Microsoft Active Directory.
+/// This guide provides detailed information about Directory Service operations,
+/// data types, parameters, and errors. For information about Directory Services
+/// features, see <a href="https://aws.amazon.com/directoryservice/">Directory
+/// Service</a> and the <a
+/// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/what_is.html">Directory
+/// Service Administration Guide</a>.
 /// <note>
-/// AWS provides SDKs that consist of libraries and sample code for various
-/// programming languages and platforms (Java, Ruby, .Net, iOS, Android, etc.).
-/// The SDKs provide a convenient way to create programmatic access to AWS
-/// Directory Service and other AWS services. For more information about the AWS
-/// SDKs, including how to download and install them, see <a
-/// href="http://aws.amazon.com/tools/">Tools for Amazon Web Services</a>.
+/// Amazon Web Services provides SDKs that consist of libraries and sample code
+/// for various programming languages and platforms (Java, Ruby, .Net, iOS,
+/// Android, etc.). The SDKs provide a convenient way to create programmatic
+/// access to Directory Service and other Amazon Web Services services. For more
+/// information about the Amazon Web Services SDKs, including how to download
+/// and install them, see <a href="http://aws.amazon.com/tools/">Tools for
+/// Amazon Web Services</a>.
 /// </note>
 class DirectoryService {
   final _s.JsonProtocol _protocol;
@@ -96,20 +97,19 @@ class DirectoryService {
     return AcceptSharedDirectoryResult.fromJson(jsonResponse.body);
   }
 
-  /// If the DNS server for your on-premises domain uses a publicly addressable
+  /// If the DNS server for your self-managed domain uses a publicly addressable
   /// IP address, you must add a CIDR address block to correctly route traffic
   /// to and from your Microsoft AD on Amazon Web Services. <i>AddIpRoutes</i>
   /// adds this address block. You can also use <i>AddIpRoutes</i> to facilitate
-  /// routing traffic that uses public IP ranges from your Microsoft AD on AWS
-  /// to a peer VPC.
+  /// routing traffic that uses public IP ranges from your Microsoft AD on
+  /// Amazon Web Services to a peer VPC.
   ///
   /// Before you call <i>AddIpRoutes</i>, ensure that all of the required
   /// permissions have been explicitly granted through a policy. For details
   /// about what permissions are required to run the <i>AddIpRoutes</i>
   /// operation, see <a
-  /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">AWS
-  /// Directory Service API Permissions: Actions, Resources, and Conditions
-  /// Reference</a>.
+  /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">Directory
+  /// Service API Permissions: Actions, Resources, and Conditions Reference</a>.
   ///
   /// May throw [EntityDoesNotExistException].
   /// May throw [EntityAlreadyExistsException].
@@ -124,13 +124,14 @@ class DirectoryService {
   ///
   /// Parameter [ipRoutes] :
   /// IP address blocks, using CIDR format, of the traffic to route. This is
-  /// often the IP address block of the DNS server used for your on-premises
+  /// often the IP address block of the DNS server used for your self-managed
   /// domain.
   ///
   /// Parameter [updateSecurityGroupForDirectoryControllers] :
   /// If set to true, updates the inbound and outbound rules of the security
-  /// group that has the description: "AWS created security group for
-  /// <i>directory ID</i> directory controllers." Following are the new rules:
+  /// group that has the description: "Amazon Web Services created security
+  /// group for <i>directory ID</i> directory controllers." Following are the
+  /// new rules:
   ///
   /// Inbound:
   ///
@@ -337,15 +338,14 @@ class DirectoryService {
     );
   }
 
-  /// Creates an AD Connector to connect to an on-premises directory.
+  /// Creates an AD Connector to connect to a self-managed directory.
   ///
   /// Before you call <code>ConnectDirectory</code>, ensure that all of the
   /// required permissions have been explicitly granted through a policy. For
   /// details about what permissions are required to run the
   /// <code>ConnectDirectory</code> operation, see <a
-  /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">AWS
-  /// Directory Service API Permissions: Actions, Resources, and Conditions
-  /// Reference</a>.
+  /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">Directory
+  /// Service API Permissions: Actions, Resources, and Conditions Reference</a>.
   ///
   /// May throw [DirectoryLimitExceededException].
   /// May throw [InvalidParameterException].
@@ -357,11 +357,11 @@ class DirectoryService {
   /// information for the operation.
   ///
   /// Parameter [name] :
-  /// The fully qualified name of the on-premises directory, such as
+  /// The fully qualified name of your self-managed directory, such as
   /// <code>corp.example.com</code>.
   ///
   /// Parameter [password] :
-  /// The password for the on-premises user account.
+  /// The password for your self-managed user account.
   ///
   /// Parameter [size] :
   /// The size of the directory.
@@ -370,7 +370,8 @@ class DirectoryService {
   /// A description for the directory.
   ///
   /// Parameter [shortName] :
-  /// The NetBIOS name of the on-premises directory, such as <code>CORP</code>.
+  /// The NetBIOS name of your self-managed directory, such as
+  /// <code>CORP</code>.
   ///
   /// Parameter [tags] :
   /// The tags to be assigned to AD Connector.
@@ -424,9 +425,9 @@ class DirectoryService {
   /// Parameter [alias] :
   /// The requested alias.
   ///
-  /// The alias must be unique amongst all aliases in AWS. This operation throws
-  /// an <code>EntityAlreadyExistsException</code> error if the alias already
-  /// exists.
+  /// The alias must be unique amongst all aliases in Amazon Web Services. This
+  /// operation throws an <code>EntityAlreadyExistsException</code> error if the
+  /// alias already exists.
   ///
   /// Parameter [directoryId] :
   /// The identifier of the directory for which to create the alias.
@@ -513,8 +514,8 @@ class DirectoryService {
     return CreateComputerResult.fromJson(jsonResponse.body);
   }
 
-  /// Creates a conditional forwarder associated with your AWS directory.
-  /// Conditional forwarders are required in order to set up a trust
+  /// Creates a conditional forwarder associated with your Amazon Web Services
+  /// directory. Conditional forwarders are required in order to set up a trust
   /// relationship with another domain. The conditional forwarder points to the
   /// trusted domain.
   ///
@@ -527,8 +528,8 @@ class DirectoryService {
   /// May throw [ServiceException].
   ///
   /// Parameter [directoryId] :
-  /// The directory ID of the AWS directory for which you are creating the
-  /// conditional forwarder.
+  /// The directory ID of the Amazon Web Services directory for which you are
+  /// creating the conditional forwarder.
   ///
   /// Parameter [dnsIpAddrs] :
   /// The IP addresses of the remote DNS server associated with
@@ -562,15 +563,14 @@ class DirectoryService {
 
   /// Creates a Simple AD directory. For more information, see <a
   /// href="https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_simple_ad.html">Simple
-  /// Active Directory</a> in the <i>AWS Directory Service Admin Guide</i>.
+  /// Active Directory</a> in the <i>Directory Service Admin Guide</i>.
   ///
   /// Before you call <code>CreateDirectory</code>, ensure that all of the
   /// required permissions have been explicitly granted through a policy. For
   /// details about what permissions are required to run the
   /// <code>CreateDirectory</code> operation, see <a
-  /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">AWS
-  /// Directory Service API Permissions: Actions, Resources, and Conditions
-  /// Reference</a>.
+  /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">Directory
+  /// Service API Permissions: Actions, Resources, and Conditions Reference</a>.
   ///
   /// May throw [DirectoryLimitExceededException].
   /// May throw [InvalidParameterException].
@@ -671,7 +671,7 @@ class DirectoryService {
 
   /// Creates a subscription to forward real-time Directory Service domain
   /// controller security logs to the specified Amazon CloudWatch log group in
-  /// your AWS account.
+  /// your Amazon Web Services account.
   ///
   /// May throw [EntityAlreadyExistsException].
   /// May throw [EntityDoesNotExistException].
@@ -708,18 +708,17 @@ class DirectoryService {
     );
   }
 
-  /// Creates a Microsoft AD directory in the AWS Cloud. For more information,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_microsoft_ad.html">AWS
-  /// Managed Microsoft AD</a> in the <i>AWS Directory Service Admin Guide</i>.
+  /// Creates a Microsoft AD directory in the Amazon Web Services Cloud. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_microsoft_ad.html">Managed
+  /// Microsoft AD</a> in the <i>Directory Service Admin Guide</i>.
   ///
   /// Before you call <i>CreateMicrosoftAD</i>, ensure that all of the required
   /// permissions have been explicitly granted through a policy. For details
   /// about what permissions are required to run the <i>CreateMicrosoftAD</i>
   /// operation, see <a
-  /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">AWS
-  /// Directory Service API Permissions: Actions, Resources, and Conditions
-  /// Reference</a>.
+  /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">Directory
+  /// Service API Permissions: Actions, Resources, and Conditions Reference</a>.
   ///
   /// May throw [DirectoryLimitExceededException].
   /// May throw [InvalidParameterException].
@@ -728,9 +727,9 @@ class DirectoryService {
   /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [name] :
-  /// The fully qualified domain name for the AWS Managed Microsoft AD
-  /// directory, such as <code>corp.example.com</code>. This name will resolve
-  /// inside your VPC only. It does not need to be publicly resolvable.
+  /// The fully qualified domain name for the Managed Microsoft AD directory,
+  /// such as <code>corp.example.com</code>. This name will resolve inside your
+  /// VPC only. It does not need to be publicly resolvable.
   ///
   /// Parameter [password] :
   /// The password for the default administrative user named <code>Admin</code>.
@@ -743,13 +742,13 @@ class DirectoryService {
   /// <a>CreateMicrosoftAD</a> operation.
   ///
   /// Parameter [description] :
-  /// A description for the directory. This label will appear on the AWS console
-  /// <code>Directory Details</code> page after the directory is created.
+  /// A description for the directory. This label will appear on the Amazon Web
+  /// Services console <code>Directory Details</code> page after the directory
+  /// is created.
   ///
   /// Parameter [edition] :
-  /// AWS Managed Microsoft AD is available in two editions:
-  /// <code>Standard</code> and <code>Enterprise</code>. <code>Enterprise</code>
-  /// is the default.
+  /// Managed Microsoft AD is available in two editions: <code>Standard</code>
+  /// and <code>Enterprise</code>. <code>Enterprise</code> is the default.
   ///
   /// Parameter [shortName] :
   /// The NetBIOS name for your domain, such as <code>CORP</code>. If you don't
@@ -758,7 +757,7 @@ class DirectoryService {
   /// <code>corp.example.com</code>.
   ///
   /// Parameter [tags] :
-  /// The tags to be assigned to the AWS Managed Microsoft AD directory.
+  /// The tags to be assigned to the Managed Microsoft AD directory.
   Future<CreateMicrosoftADResult> createMicrosoftAD({
     required String name,
     required String password,
@@ -792,8 +791,8 @@ class DirectoryService {
     return CreateMicrosoftADResult.fromJson(jsonResponse.body);
   }
 
-  /// Creates a snapshot of a Simple AD or Microsoft AD directory in the AWS
-  /// cloud.
+  /// Creates a snapshot of a Simple AD or Microsoft AD directory in the Amazon
+  /// Web Services cloud.
   /// <note>
   /// You cannot take snapshots of AD Connector directories.
   /// </note>
@@ -832,16 +831,16 @@ class DirectoryService {
     return CreateSnapshotResult.fromJson(jsonResponse.body);
   }
 
-  /// AWS Directory Service for Microsoft Active Directory allows you to
-  /// configure trust relationships. For example, you can establish a trust
-  /// between your AWS Managed Microsoft AD directory, and your existing
-  /// on-premises Microsoft Active Directory. This would allow you to provide
-  /// users and groups access to resources in either domain, with a single set
-  /// of credentials.
+  /// Directory Service for Microsoft Active Directory allows you to configure
+  /// trust relationships. For example, you can establish a trust between your
+  /// Managed Microsoft AD directory, and your existing self-managed Microsoft
+  /// Active Directory. This would allow you to provide users and groups access
+  /// to resources in either domain, with a single set of credentials.
   ///
-  /// This action initiates the creation of the AWS side of a trust relationship
-  /// between an AWS Managed Microsoft AD directory and an external domain. You
-  /// can create either a forest trust or an external trust.
+  /// This action initiates the creation of the Amazon Web Services side of a
+  /// trust relationship between an Managed Microsoft AD directory and an
+  /// external domain. You can create either a forest trust or an external
+  /// trust.
   ///
   /// May throw [EntityAlreadyExistsException].
   /// May throw [EntityDoesNotExistException].
@@ -851,7 +850,7 @@ class DirectoryService {
   /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [directoryId] :
-  /// The Directory ID of the AWS Managed Microsoft AD directory for which to
+  /// The Directory ID of the Managed Microsoft AD directory for which to
   /// establish the trust relationship.
   ///
   /// Parameter [remoteDomainName] :
@@ -908,8 +907,8 @@ class DirectoryService {
     return CreateTrustResult.fromJson(jsonResponse.body);
   }
 
-  /// Deletes a conditional forwarder that has been set up for your AWS
-  /// directory.
+  /// Deletes a conditional forwarder that has been set up for your Amazon Web
+  /// Services directory.
   ///
   /// May throw [EntityDoesNotExistException].
   /// May throw [DirectoryUnavailableException].
@@ -945,15 +944,14 @@ class DirectoryService {
     );
   }
 
-  /// Deletes an AWS Directory Service directory.
+  /// Deletes an Directory Service directory.
   ///
   /// Before you call <code>DeleteDirectory</code>, ensure that all of the
   /// required permissions have been explicitly granted through a policy. For
   /// details about what permissions are required to run the
   /// <code>DeleteDirectory</code> operation, see <a
-  /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">AWS
-  /// Directory Service API Permissions: Actions, Resources, and Conditions
-  /// Reference</a>.
+  /// href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">Directory
+  /// Service API Permissions: Actions, Resources, and Conditions Reference</a>.
   ///
   /// May throw [EntityDoesNotExistException].
   /// May throw [ClientException].
@@ -1040,8 +1038,8 @@ class DirectoryService {
     return DeleteSnapshotResult.fromJson(jsonResponse.body);
   }
 
-  /// Deletes an existing trust relationship between your AWS Managed Microsoft
-  /// AD directory and an external domain.
+  /// Deletes an existing trust relationship between your Managed Microsoft AD
+  /// directory and an external domain.
   ///
   /// May throw [EntityDoesNotExistException].
   /// May throw [InvalidParameterException].
@@ -1117,7 +1115,8 @@ class DirectoryService {
     );
   }
 
-  /// Removes the specified directory as a publisher to the specified SNS topic.
+  /// Removes the specified directory as a publisher to the specified Amazon SNS
+  /// topic.
   ///
   /// May throw [EntityDoesNotExistException].
   /// May throw [InvalidParameterException].
@@ -1126,10 +1125,10 @@ class DirectoryService {
   ///
   /// Parameter [directoryId] :
   /// The Directory ID to remove as a publisher. This directory will no longer
-  /// send messages to the specified SNS topic.
+  /// send messages to the specified Amazon SNS topic.
   ///
   /// Parameter [topicName] :
-  /// The name of the SNS topic from which to remove the directory as a
+  /// The name of the Amazon SNS topic from which to remove the directory as a
   /// publisher.
   Future<void> deregisterEventTopic({
     required String directoryId,
@@ -1188,6 +1187,71 @@ class DirectoryService {
     );
 
     return DescribeCertificateResult.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves information about the type of client authentication for the
+  /// specified directory, if the type is specified. If no type is specified,
+  /// information about all client authentication types that are supported for
+  /// the specified directory is retrieved. Currently, only
+  /// <code>SmartCard</code> is supported.
+  ///
+  /// May throw [DirectoryDoesNotExistException].
+  /// May throw [UnsupportedOperationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ClientException].
+  /// May throw [ServiceException].
+  ///
+  /// Parameter [directoryId] :
+  /// The identifier of the directory for which to retrieve information.
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of items to return. If this value is zero, the maximum
+  /// number of items is specified by the limitations of the operation.
+  ///
+  /// Parameter [nextToken] :
+  /// The <i>DescribeClientAuthenticationSettingsResult.NextToken</i> value from
+  /// a previous call to <a>DescribeClientAuthenticationSettings</a>. Pass null
+  /// if this is the first call.
+  ///
+  /// Parameter [type] :
+  /// The type of client authentication for which to retrieve information. If no
+  /// type is specified, a list of all client authentication types that are
+  /// supported for the specified directory is retrieved.
+  Future<DescribeClientAuthenticationSettingsResult>
+      describeClientAuthenticationSettings({
+    required String directoryId,
+    int? limit,
+    String? nextToken,
+    ClientAuthenticationType? type,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      50,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'DirectoryService_20150416.DescribeClientAuthenticationSettings'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DirectoryId': directoryId,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (type != null) 'Type': type.toValue(),
+      },
+    );
+
+    return DescribeClientAuthenticationSettingsResult.fromJson(
+        jsonResponse.body);
   }
 
   /// Obtains information about the conditional forwarders for this account.
@@ -1358,8 +1422,8 @@ class DirectoryService {
     return DescribeDomainControllersResult.fromJson(jsonResponse.body);
   }
 
-  /// Obtains information about which SNS topics receive status messages from
-  /// the specified directory.
+  /// Obtains information about which Amazon SNS topics receive status messages
+  /// from the specified directory.
   ///
   /// If no input parameters are provided, such as DirectoryId or TopicName,
   /// this request describes all of the associations in the account.
@@ -1370,12 +1434,13 @@ class DirectoryService {
   /// May throw [ServiceException].
   ///
   /// Parameter [directoryId] :
-  /// The Directory ID for which to get the list of associated SNS topics. If
-  /// this member is null, associations for all Directory IDs are returned.
+  /// The Directory ID for which to get the list of associated Amazon SNS
+  /// topics. If this member is null, associations for all Directory IDs are
+  /// returned.
   ///
   /// Parameter [topicNames] :
-  /// A list of SNS topic names for which to obtain the information. If this
-  /// member is null, all associations for the specified Directory ID are
+  /// A list of Amazon SNS topic names for which to obtain the information. If
+  /// this member is null, all associations for the specified Directory ID are
   /// returned.
   ///
   /// An empty list results in an <code>InvalidParameterException</code> being
@@ -1500,6 +1565,50 @@ class DirectoryService {
     );
 
     return DescribeRegionsResult.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves information about the configurable settings for the specified
+  /// directory.
+  ///
+  /// May throw [DirectoryDoesNotExistException].
+  /// May throw [UnsupportedOperationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [ClientException].
+  /// May throw [ServiceException].
+  ///
+  /// Parameter [directoryId] :
+  /// The identifier of the directory for which to retrieve information.
+  ///
+  /// Parameter [nextToken] :
+  /// The <code>DescribeSettingsResult.NextToken</code> value from a previous
+  /// call to <a>DescribeSettings</a>. Pass null if this is the first call.
+  ///
+  /// Parameter [status] :
+  /// The status of the directory settings for which to retrieve information.
+  Future<DescribeSettingsResult> describeSettings({
+    required String directoryId,
+    String? nextToken,
+    DirectoryConfigurationStatus? status,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'DirectoryService_20150416.DescribeSettings'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DirectoryId': directoryId,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (status != null) 'Status': status.toValue(),
+      },
+    );
+
+    return DescribeSettingsResult.fromJson(jsonResponse.body);
   }
 
   /// Returns the shared directories in your account.
@@ -1637,8 +1746,8 @@ class DirectoryService {
   /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [directoryId] :
-  /// The Directory ID of the AWS directory that is a part of the requested
-  /// trust relationship.
+  /// The Directory ID of the Amazon Web Services directory that is a part of
+  /// the requested trust relationship.
   ///
   /// Parameter [limit] :
   /// The maximum number of objects to return.
@@ -1685,6 +1794,55 @@ class DirectoryService {
     );
 
     return DescribeTrustsResult.fromJson(jsonResponse.body);
+  }
+
+  /// Describes the updates of a directory for a particular update type.
+  ///
+  /// May throw [DirectoryDoesNotExistException].
+  /// May throw [InvalidParameterException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ClientException].
+  /// May throw [ServiceException].
+  /// May throw [InvalidNextTokenException].
+  ///
+  /// Parameter [directoryId] :
+  /// The unique identifier of the directory.
+  ///
+  /// Parameter [updateType] :
+  /// The type of updates you want to describe for the directory.
+  ///
+  /// Parameter [nextToken] :
+  /// The <code>DescribeUpdateDirectoryResult</code>. NextToken value from a
+  /// previous call to <a>DescribeUpdateDirectory</a>. Pass null if this is the
+  /// first call.
+  ///
+  /// Parameter [regionName] :
+  /// The name of the Region.
+  Future<DescribeUpdateDirectoryResult> describeUpdateDirectory({
+    required String directoryId,
+    required UpdateType updateType,
+    String? nextToken,
+    String? regionName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'DirectoryService_20150416.DescribeUpdateDirectory'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DirectoryId': directoryId,
+        'UpdateType': updateType.toValue(),
+        if (nextToken != null) 'NextToken': nextToken,
+        if (regionName != null) 'RegionName': regionName,
+      },
+    );
+
+    return DescribeUpdateDirectoryResult.fromJson(jsonResponse.body);
   }
 
   /// Disables alternative client authentication methods for the specified
@@ -1857,7 +2015,7 @@ class DirectoryService {
   /// The type of client authentication to enable. Currently only the value
   /// <code>SmartCard</code> is supported. Smart card authentication in AD
   /// Connector requires that you enable Kerberos Constrained Delegation for the
-  /// Service User to the LDAP service in the on-premises AD.
+  /// Service User to the LDAP service in your self-managed AD.
   Future<void> enableClientAuthentication({
     required String directoryId,
     required ClientAuthenticationType type,
@@ -1956,8 +2114,9 @@ class DirectoryService {
   }
 
   /// Enables single sign-on for a directory. Single sign-on allows users in
-  /// your directory to access certain AWS services from a computer joined to
-  /// the directory without having to enter their credentials separately.
+  /// your directory to access certain Amazon Web Services services from a
+  /// computer joined to the directory without having to enter their credentials
+  /// separately.
   ///
   /// May throw [EntityDoesNotExistException].
   /// May throw [InsufficientPermissionsException].
@@ -2159,7 +2318,7 @@ class DirectoryService {
     return ListIpRoutesResult.fromJson(jsonResponse.body);
   }
 
-  /// Lists the active log subscriptions for the AWS account.
+  /// Lists the active log subscriptions for the Amazon Web Services account.
   ///
   /// May throw [EntityDoesNotExistException].
   /// May throw [InvalidNextTokenException].
@@ -2169,9 +2328,9 @@ class DirectoryService {
   /// Parameter [directoryId] :
   /// If a <i>DirectoryID</i> is provided, lists only the log subscription
   /// associated with that directory. If no <i>DirectoryId</i> is provided,
-  /// lists all log subscriptions associated with your AWS account. If there are
-  /// no log subscriptions for the AWS account or the directory, an empty list
-  /// will be returned.
+  /// lists all log subscriptions associated with your Amazon Web Services
+  /// account. If there are no log subscriptions for the Amazon Web Services
+  /// account or the directory, an empty list will be returned.
   ///
   /// Parameter [limit] :
   /// The maximum number of items returned.
@@ -2359,12 +2518,12 @@ class DirectoryService {
     return RegisterCertificateResult.fromJson(jsonResponse.body);
   }
 
-  /// Associates a directory with an SNS topic. This establishes the directory
-  /// as a publisher to the specified SNS topic. You can then receive email or
-  /// text (SMS) messages when the status of your directory changes. You get
-  /// notified if your directory goes from an Active status to an Impaired or
-  /// Inoperable status. You also receive a notification when the directory
-  /// returns to an Active status.
+  /// Associates a directory with an Amazon SNS topic. This establishes the
+  /// directory as a publisher to the specified Amazon SNS topic. You can then
+  /// receive email or text (SMS) messages when the status of your directory
+  /// changes. You get notified if your directory goes from an Active status to
+  /// an Impaired or Inoperable status. You also receive a notification when the
+  /// directory returns to an Active status.
   ///
   /// May throw [EntityDoesNotExistException].
   /// May throw [InvalidParameterException].
@@ -2372,11 +2531,13 @@ class DirectoryService {
   /// May throw [ServiceException].
   ///
   /// Parameter [directoryId] :
-  /// The Directory ID that will publish status messages to the SNS topic.
+  /// The Directory ID that will publish status messages to the Amazon SNS
+  /// topic.
   ///
   /// Parameter [topicName] :
-  /// The SNS topic name to which the directory will publish status messages.
-  /// This SNS topic must be in the same region as the specified Directory ID.
+  /// The Amazon SNS topic name to which the directory will publish status
+  /// messages. This Amazon SNS topic must be in the same region as the
+  /// specified Directory ID.
   Future<void> registerEventTopic({
     required String directoryId,
     required String topicName,
@@ -2532,8 +2693,8 @@ class DirectoryService {
     );
   }
 
-  /// Resets the password for any user in your AWS Managed Microsoft AD or
-  /// Simple AD directory.
+  /// Resets the password for any user in your Managed Microsoft AD or Simple AD
+  /// directory.
   ///
   /// You can reset the password for any user in your directory with the
   /// following exceptions:
@@ -2545,13 +2706,13 @@ class DirectoryService {
   /// except for the administrator user.
   /// </li>
   /// <li>
-  /// For AWS Managed Microsoft AD, you can only reset the password for a user
-  /// that is in an OU based off of the NetBIOS name that you typed when you
-  /// created your directory. For example, you cannot reset the password for a
-  /// user in the <b>AWS Reserved</b> OU. For more information about the OU
-  /// structure for an AWS Managed Microsoft AD directory, see <a
+  /// For Managed Microsoft AD, you can only reset the password for a user that
+  /// is in an OU based off of the NetBIOS name that you typed when you created
+  /// your directory. For example, you cannot reset the password for a user in
+  /// the <b>Amazon Web Services Reserved</b> OU. For more information about the
+  /// OU structure for an Managed Microsoft AD directory, see <a
   /// href="https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ms_ad_getting_started_what_gets_created.html">What
-  /// Gets Created</a> in the <i>AWS Directory Service Administration Guide</i>.
+  /// Gets Created</a> in the <i>Directory Service Administration Guide</i>.
   /// </li>
   /// </ul>
   ///
@@ -2564,8 +2725,8 @@ class DirectoryService {
   /// May throw [ServiceException].
   ///
   /// Parameter [directoryId] :
-  /// Identifier of the AWS Managed Microsoft AD or Simple AD directory in which
-  /// the user resides.
+  /// Identifier of the Managed Microsoft AD or Simple AD directory in which the
+  /// user resides.
   ///
   /// Parameter [newPassword] :
   /// The new password that will be reset.
@@ -2632,22 +2793,24 @@ class DirectoryService {
     );
   }
 
-  /// Shares a specified directory (<code>DirectoryId</code>) in your AWS
-  /// account (directory owner) with another AWS account (directory consumer).
-  /// With this operation you can use your directory from any AWS account and
-  /// from any Amazon VPC within an AWS Region.
+  /// Shares a specified directory (<code>DirectoryId</code>) in your Amazon Web
+  /// Services account (directory owner) with another Amazon Web Services
+  /// account (directory consumer). With this operation you can use your
+  /// directory from any Amazon Web Services account and from any Amazon VPC
+  /// within an Amazon Web Services Region.
   ///
-  /// When you share your AWS Managed Microsoft AD directory, AWS Directory
-  /// Service creates a shared directory in the directory consumer account. This
-  /// shared directory contains the metadata to provide access to the directory
-  /// within the directory owner account. The shared directory is visible in all
-  /// VPCs in the directory consumer account.
+  /// When you share your Managed Microsoft AD directory, Directory Service
+  /// creates a shared directory in the directory consumer account. This shared
+  /// directory contains the metadata to provide access to the directory within
+  /// the directory owner account. The shared directory is visible in all VPCs
+  /// in the directory consumer account.
   ///
   /// The <code>ShareMethod</code> parameter determines whether the specified
-  /// directory can be shared between AWS accounts inside the same AWS
-  /// organization (<code>ORGANIZATIONS</code>). It also determines whether you
-  /// can share the directory with any other AWS account either inside or
-  /// outside of the organization (<code>HANDSHAKE</code>).
+  /// directory can be shared between Amazon Web Services accounts inside the
+  /// same Amazon Web Services organization (<code>ORGANIZATIONS</code>). It
+  /// also determines whether you can share the directory with any other Amazon
+  /// Web Services account either inside or outside of the organization
+  /// (<code>HANDSHAKE</code>).
   ///
   /// The <code>ShareNotes</code> parameter is only used when
   /// <code>HANDSHAKE</code> is called, which sends a directory sharing request
@@ -2665,14 +2828,14 @@ class DirectoryService {
   /// May throw [ServiceException].
   ///
   /// Parameter [directoryId] :
-  /// Identifier of the AWS Managed Microsoft AD directory that you want to
-  /// share with other AWS accounts.
+  /// Identifier of the Managed Microsoft AD directory that you want to share
+  /// with other Amazon Web Services accounts.
   ///
   /// Parameter [shareMethod] :
   /// The method used when sharing a directory to determine whether the
-  /// directory should be shared within your AWS organization
-  /// (<code>ORGANIZATIONS</code>) or with any AWS account by sending a
-  /// directory sharing request (<code>HANDSHAKE</code>).
+  /// directory should be shared within your Amazon Web Services organization
+  /// (<code>ORGANIZATIONS</code>) or with any Amazon Web Services account by
+  /// sending a directory sharing request (<code>HANDSHAKE</code>).
   ///
   /// Parameter [shareTarget] :
   /// Identifier for the directory consumer account with whom the directory is
@@ -2773,8 +2936,8 @@ class DirectoryService {
   /// May throw [ServiceException].
   ///
   /// Parameter [directoryId] :
-  /// The identifier of the AWS Managed Microsoft AD directory that you want to
-  /// stop sharing.
+  /// The identifier of the Managed Microsoft AD directory that you want to stop
+  /// sharing.
   ///
   /// Parameter [unshareTarget] :
   /// Identifier for the directory consumer account with whom the directory has
@@ -2802,8 +2965,8 @@ class DirectoryService {
     return UnshareDirectoryResult.fromJson(jsonResponse.body);
   }
 
-  /// Updates a conditional forwarder that has been set up for your AWS
-  /// directory.
+  /// Updates a conditional forwarder that has been set up for your Amazon Web
+  /// Services directory.
   ///
   /// May throw [EntityDoesNotExistException].
   /// May throw [DirectoryUnavailableException].
@@ -2813,8 +2976,8 @@ class DirectoryService {
   /// May throw [ServiceException].
   ///
   /// Parameter [directoryId] :
-  /// The directory ID of the AWS directory for which to update the conditional
-  /// forwarder.
+  /// The directory ID of the Amazon Web Services directory for which to update
+  /// the conditional forwarder.
   ///
   /// Parameter [dnsIpAddrs] :
   /// The updated IP addresses of the remote DNS server associated with the
@@ -2842,6 +3005,58 @@ class DirectoryService {
         'DirectoryId': directoryId,
         'DnsIpAddrs': dnsIpAddrs,
         'RemoteDomainName': remoteDomainName,
+      },
+    );
+  }
+
+  /// Updates the directory for a particular update type.
+  ///
+  /// May throw [UnsupportedOperationException].
+  /// May throw [DirectoryInDesiredStateException].
+  /// May throw [DirectoryUnavailableException].
+  /// May throw [SnapshotLimitExceededException].
+  /// May throw [InvalidParameterException].
+  /// May throw [DirectoryDoesNotExistException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ClientException].
+  /// May throw [ServiceException].
+  ///
+  /// Parameter [directoryId] :
+  /// The identifier of the directory on which you want to perform the update.
+  ///
+  /// Parameter [updateType] :
+  /// The type of update that needs to be performed on the directory. For
+  /// example, OS.
+  ///
+  /// Parameter [createSnapshotBeforeUpdate] :
+  /// The boolean that specifies if a snapshot for the directory needs to be
+  /// taken before updating the directory.
+  ///
+  /// Parameter [oSUpdateSettings] :
+  /// The settings for the OS update that needs to be performed on the
+  /// directory.
+  Future<void> updateDirectorySetup({
+    required String directoryId,
+    required UpdateType updateType,
+    bool? createSnapshotBeforeUpdate,
+    OSUpdateSettings? oSUpdateSettings,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'DirectoryService_20150416.UpdateDirectorySetup'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DirectoryId': directoryId,
+        'UpdateType': updateType.toValue(),
+        if (createSnapshotBeforeUpdate != null)
+          'CreateSnapshotBeforeUpdate': createSnapshotBeforeUpdate,
+        if (oSUpdateSettings != null) 'OSUpdateSettings': oSUpdateSettings,
       },
     );
   }
@@ -2932,8 +3147,47 @@ class DirectoryService {
     );
   }
 
-  /// Updates the trust that has been set up between your AWS Managed Microsoft
-  /// AD directory and an on-premises Active Directory.
+  /// Updates the configurable settings for the specified directory.
+  ///
+  /// May throw [DirectoryDoesNotExistException].
+  /// May throw [UnsupportedOperationException].
+  /// May throw [DirectoryUnavailableException].
+  /// May throw [IncompatibleSettingsException].
+  /// May throw [UnsupportedSettingsException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ClientException].
+  /// May throw [ServiceException].
+  ///
+  /// Parameter [directoryId] :
+  /// The identifier of the directory for which to update settings.
+  ///
+  /// Parameter [settings] :
+  /// The list of <a>Setting</a> objects.
+  Future<UpdateSettingsResult> updateSettings({
+    required String directoryId,
+    required List<Setting> settings,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'DirectoryService_20150416.UpdateSettings'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DirectoryId': directoryId,
+        'Settings': settings,
+      },
+    );
+
+    return UpdateSettingsResult.fromJson(jsonResponse.body);
+  }
+
+  /// Updates the trust that has been set up between your Managed Microsoft AD
+  /// directory and an self-managed Active Directory.
   ///
   /// May throw [EntityDoesNotExistException].
   /// May throw [InvalidParameterException].
@@ -2968,11 +3222,11 @@ class DirectoryService {
     return UpdateTrustResult.fromJson(jsonResponse.body);
   }
 
-  /// AWS Directory Service for Microsoft Active Directory allows you to
-  /// configure and verify trust relationships.
+  /// Directory Service for Microsoft Active Directory allows you to configure
+  /// and verify trust relationships.
   ///
-  /// This action verifies a trust relationship between your AWS Managed
-  /// Microsoft AD directory and an external domain.
+  /// This action verifies a trust relationship between your Managed Microsoft
+  /// AD directory and an external domain.
   ///
   /// May throw [EntityDoesNotExistException].
   /// May throw [InvalidParameterException].
@@ -3011,6 +3265,7 @@ class AcceptSharedDirectoryResult {
   AcceptSharedDirectoryResult({
     this.sharedDirectory,
   });
+
   factory AcceptSharedDirectoryResult.fromJson(Map<String, dynamic> json) {
     return AcceptSharedDirectoryResult(
       sharedDirectory: json['SharedDirectory'] != null
@@ -3023,6 +3278,7 @@ class AcceptSharedDirectoryResult {
 
 class AddIpRoutesResult {
   AddIpRoutesResult();
+
   factory AddIpRoutesResult.fromJson(Map<String, dynamic> _) {
     return AddIpRoutesResult();
   }
@@ -3030,6 +3286,7 @@ class AddIpRoutesResult {
 
 class AddRegionResult {
   AddRegionResult();
+
   factory AddRegionResult.fromJson(Map<String, dynamic> _) {
     return AddRegionResult();
   }
@@ -3037,6 +3294,7 @@ class AddRegionResult {
 
 class AddTagsToResourceResult {
   AddTagsToResourceResult();
+
   factory AddTagsToResourceResult.fromJson(Map<String, dynamic> _) {
     return AddTagsToResourceResult();
   }
@@ -3054,6 +3312,7 @@ class Attribute {
     this.name,
     this.value,
   });
+
   factory Attribute.fromJson(Map<String, dynamic> json) {
     return Attribute(
       name: json['Name'] as String?,
@@ -3073,6 +3332,7 @@ class Attribute {
 
 class CancelSchemaExtensionResult {
   CancelSchemaExtensionResult();
+
   factory CancelSchemaExtensionResult.fromJson(Map<String, dynamic> _) {
     return CancelSchemaExtensionResult();
   }
@@ -3117,6 +3377,7 @@ class Certificate {
     this.stateReason,
     this.type,
   });
+
   factory Certificate.fromJson(Map<String, dynamic> json) {
     return Certificate(
       certificateId: json['CertificateId'] as String?,
@@ -3160,6 +3421,7 @@ class CertificateInfo {
     this.state,
     this.type,
   });
+
   factory CertificateInfo.fromJson(Map<String, dynamic> json) {
     return CertificateInfo(
       certificateId: json['CertificateId'] as String?,
@@ -3247,8 +3509,68 @@ extension CertificateTypeFromString on String {
   }
 }
 
+/// Contains information about a client authentication method for a directory.
+class ClientAuthenticationSettingInfo {
+  /// The date and time when the status of the client authentication type was last
+  /// updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// Whether the client authentication type is enabled or disabled for the
+  /// specified directory.
+  final ClientAuthenticationStatus? status;
+
+  /// The type of client authentication for the specified directory. If no type is
+  /// specified, a list of all client authentication types that are supported for
+  /// the directory is retrieved.
+  final ClientAuthenticationType? type;
+
+  ClientAuthenticationSettingInfo({
+    this.lastUpdatedDateTime,
+    this.status,
+    this.type,
+  });
+
+  factory ClientAuthenticationSettingInfo.fromJson(Map<String, dynamic> json) {
+    return ClientAuthenticationSettingInfo(
+      lastUpdatedDateTime: timeStampFromJson(json['LastUpdatedDateTime']),
+      status: (json['Status'] as String?)?.toClientAuthenticationStatus(),
+      type: (json['Type'] as String?)?.toClientAuthenticationType(),
+    );
+  }
+}
+
+enum ClientAuthenticationStatus {
+  enabled,
+  disabled,
+}
+
+extension ClientAuthenticationStatusValueExtension
+    on ClientAuthenticationStatus {
+  String toValue() {
+    switch (this) {
+      case ClientAuthenticationStatus.enabled:
+        return 'Enabled';
+      case ClientAuthenticationStatus.disabled:
+        return 'Disabled';
+    }
+  }
+}
+
+extension ClientAuthenticationStatusFromString on String {
+  ClientAuthenticationStatus toClientAuthenticationStatus() {
+    switch (this) {
+      case 'Enabled':
+        return ClientAuthenticationStatus.enabled;
+      case 'Disabled':
+        return ClientAuthenticationStatus.disabled;
+    }
+    throw Exception('$this is not known in enum ClientAuthenticationStatus');
+  }
+}
+
 enum ClientAuthenticationType {
   smartCard,
+  smartCardOrPassword,
 }
 
 extension ClientAuthenticationTypeValueExtension on ClientAuthenticationType {
@@ -3256,6 +3578,8 @@ extension ClientAuthenticationTypeValueExtension on ClientAuthenticationType {
     switch (this) {
       case ClientAuthenticationType.smartCard:
         return 'SmartCard';
+      case ClientAuthenticationType.smartCardOrPassword:
+        return 'SmartCardOrPassword';
     }
   }
 }
@@ -3265,6 +3589,8 @@ extension ClientAuthenticationTypeFromString on String {
     switch (this) {
       case 'SmartCard':
         return ClientAuthenticationType.smartCard;
+      case 'SmartCardOrPassword':
+        return ClientAuthenticationType.smartCardOrPassword;
     }
     throw Exception('$this is not known in enum ClientAuthenticationType');
   }
@@ -3282,6 +3608,7 @@ class ClientCertAuthSettings {
   ClientCertAuthSettings({
     this.oCSPUrl,
   });
+
   factory ClientCertAuthSettings.fromJson(Map<String, dynamic> json) {
     return ClientCertAuthSettings(
       oCSPUrl: json['OCSPUrl'] as String?,
@@ -3313,6 +3640,7 @@ class Computer {
     this.computerId,
     this.computerName,
   });
+
   factory Computer.fromJson(Map<String, dynamic> json) {
     return Computer(
       computerAttributes: (json['ComputerAttributes'] as List?)
@@ -3340,7 +3668,7 @@ class ConditionalForwarder {
 
   /// The replication scope of the conditional forwarder. The only allowed value
   /// is <code>Domain</code>, which will replicate the conditional forwarder to
-  /// all of the domain controllers for your AWS directory.
+  /// all of the domain controllers for your Amazon Web Services directory.
   final ReplicationScope? replicationScope;
 
   ConditionalForwarder({
@@ -3348,6 +3676,7 @@ class ConditionalForwarder {
     this.remoteDomainName,
     this.replicationScope,
   });
+
   factory ConditionalForwarder.fromJson(Map<String, dynamic> json) {
     return ConditionalForwarder(
       dnsIpAddrs: (json['DnsIpAddrs'] as List?)
@@ -3369,6 +3698,7 @@ class ConnectDirectoryResult {
   ConnectDirectoryResult({
     this.directoryId,
   });
+
   factory ConnectDirectoryResult.fromJson(Map<String, dynamic> json) {
     return ConnectDirectoryResult(
       directoryId: json['DirectoryId'] as String?,
@@ -3388,6 +3718,7 @@ class CreateAliasResult {
     this.alias,
     this.directoryId,
   });
+
   factory CreateAliasResult.fromJson(Map<String, dynamic> json) {
     return CreateAliasResult(
       alias: json['Alias'] as String?,
@@ -3404,6 +3735,7 @@ class CreateComputerResult {
   CreateComputerResult({
     this.computer,
   });
+
   factory CreateComputerResult.fromJson(Map<String, dynamic> json) {
     return CreateComputerResult(
       computer: json['Computer'] != null
@@ -3416,6 +3748,7 @@ class CreateComputerResult {
 /// The result of a CreateConditinalForwarder request.
 class CreateConditionalForwarderResult {
   CreateConditionalForwarderResult();
+
   factory CreateConditionalForwarderResult.fromJson(Map<String, dynamic> _) {
     return CreateConditionalForwarderResult();
   }
@@ -3429,6 +3762,7 @@ class CreateDirectoryResult {
   CreateDirectoryResult({
     this.directoryId,
   });
+
   factory CreateDirectoryResult.fromJson(Map<String, dynamic> json) {
     return CreateDirectoryResult(
       directoryId: json['DirectoryId'] as String?,
@@ -3438,6 +3772,7 @@ class CreateDirectoryResult {
 
 class CreateLogSubscriptionResult {
   CreateLogSubscriptionResult();
+
   factory CreateLogSubscriptionResult.fromJson(Map<String, dynamic> _) {
     return CreateLogSubscriptionResult();
   }
@@ -3451,6 +3786,7 @@ class CreateMicrosoftADResult {
   CreateMicrosoftADResult({
     this.directoryId,
   });
+
   factory CreateMicrosoftADResult.fromJson(Map<String, dynamic> json) {
     return CreateMicrosoftADResult(
       directoryId: json['DirectoryId'] as String?,
@@ -3466,6 +3802,7 @@ class CreateSnapshotResult {
   CreateSnapshotResult({
     this.snapshotId,
   });
+
   factory CreateSnapshotResult.fromJson(Map<String, dynamic> json) {
     return CreateSnapshotResult(
       snapshotId: json['SnapshotId'] as String?,
@@ -3481,6 +3818,7 @@ class CreateTrustResult {
   CreateTrustResult({
     this.trustId,
   });
+
   factory CreateTrustResult.fromJson(Map<String, dynamic> json) {
     return CreateTrustResult(
       trustId: json['TrustId'] as String?,
@@ -3491,6 +3829,7 @@ class CreateTrustResult {
 /// The result of a DeleteConditionalForwarder request.
 class DeleteConditionalForwarderResult {
   DeleteConditionalForwarderResult();
+
   factory DeleteConditionalForwarderResult.fromJson(Map<String, dynamic> _) {
     return DeleteConditionalForwarderResult();
   }
@@ -3504,6 +3843,7 @@ class DeleteDirectoryResult {
   DeleteDirectoryResult({
     this.directoryId,
   });
+
   factory DeleteDirectoryResult.fromJson(Map<String, dynamic> json) {
     return DeleteDirectoryResult(
       directoryId: json['DirectoryId'] as String?,
@@ -3513,6 +3853,7 @@ class DeleteDirectoryResult {
 
 class DeleteLogSubscriptionResult {
   DeleteLogSubscriptionResult();
+
   factory DeleteLogSubscriptionResult.fromJson(Map<String, dynamic> _) {
     return DeleteLogSubscriptionResult();
   }
@@ -3526,6 +3867,7 @@ class DeleteSnapshotResult {
   DeleteSnapshotResult({
     this.snapshotId,
   });
+
   factory DeleteSnapshotResult.fromJson(Map<String, dynamic> json) {
     return DeleteSnapshotResult(
       snapshotId: json['SnapshotId'] as String?,
@@ -3541,6 +3883,7 @@ class DeleteTrustResult {
   DeleteTrustResult({
     this.trustId,
   });
+
   factory DeleteTrustResult.fromJson(Map<String, dynamic> json) {
     return DeleteTrustResult(
       trustId: json['TrustId'] as String?,
@@ -3550,6 +3893,7 @@ class DeleteTrustResult {
 
 class DeregisterCertificateResult {
   DeregisterCertificateResult();
+
   factory DeregisterCertificateResult.fromJson(Map<String, dynamic> _) {
     return DeregisterCertificateResult();
   }
@@ -3558,6 +3902,7 @@ class DeregisterCertificateResult {
 /// The result of a DeregisterEventTopic request.
 class DeregisterEventTopicResult {
   DeregisterEventTopicResult();
+
   factory DeregisterEventTopicResult.fromJson(Map<String, dynamic> _) {
     return DeregisterEventTopicResult();
   }
@@ -3572,11 +3917,43 @@ class DescribeCertificateResult {
   DescribeCertificateResult({
     this.certificate,
   });
+
   factory DescribeCertificateResult.fromJson(Map<String, dynamic> json) {
     return DescribeCertificateResult(
       certificate: json['Certificate'] != null
           ? Certificate.fromJson(json['Certificate'] as Map<String, dynamic>)
           : null,
+    );
+  }
+}
+
+class DescribeClientAuthenticationSettingsResult {
+  /// Information about the type of client authentication for the specified
+  /// directory. The following information is retrieved: The date and time when
+  /// the status of the client authentication type was last updated, whether the
+  /// client authentication type is enabled or disabled, and the type of client
+  /// authentication.
+  final List<ClientAuthenticationSettingInfo>? clientAuthenticationSettingsInfo;
+
+  /// The next token used to retrieve the client authentication settings if the
+  /// number of setting types exceeds page limit and there is another page.
+  final String? nextToken;
+
+  DescribeClientAuthenticationSettingsResult({
+    this.clientAuthenticationSettingsInfo,
+    this.nextToken,
+  });
+
+  factory DescribeClientAuthenticationSettingsResult.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeClientAuthenticationSettingsResult(
+      clientAuthenticationSettingsInfo:
+          (json['ClientAuthenticationSettingsInfo'] as List?)
+              ?.whereNotNull()
+              .map((e) => ClientAuthenticationSettingInfo.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
     );
   }
 }
@@ -3589,6 +3966,7 @@ class DescribeConditionalForwardersResult {
   DescribeConditionalForwardersResult({
     this.conditionalForwarders,
   });
+
   factory DescribeConditionalForwardersResult.fromJson(
       Map<String, dynamic> json) {
     return DescribeConditionalForwardersResult(
@@ -3619,6 +3997,7 @@ class DescribeDirectoriesResult {
     this.directoryDescriptions,
     this.nextToken,
   });
+
   factory DescribeDirectoriesResult.fromJson(Map<String, dynamic> json) {
     return DescribeDirectoriesResult(
       directoryDescriptions: (json['DirectoryDescriptions'] as List?)
@@ -3643,6 +4022,7 @@ class DescribeDomainControllersResult {
     this.domainControllers,
     this.nextToken,
   });
+
   factory DescribeDomainControllersResult.fromJson(Map<String, dynamic> json) {
     return DescribeDomainControllersResult(
       domainControllers: (json['DomainControllers'] as List?)
@@ -3656,13 +4036,14 @@ class DescribeDomainControllersResult {
 
 /// The result of a DescribeEventTopic request.
 class DescribeEventTopicsResult {
-  /// A list of SNS topic names that receive status messages from the specified
-  /// Directory ID.
+  /// A list of Amazon SNS topic names that receive status messages from the
+  /// specified Directory ID.
   final List<EventTopic>? eventTopics;
 
   DescribeEventTopicsResult({
     this.eventTopics,
   });
+
   factory DescribeEventTopicsResult.fromJson(Map<String, dynamic> json) {
     return DescribeEventTopicsResult(
       eventTopics: (json['EventTopics'] as List?)
@@ -3687,6 +4068,7 @@ class DescribeLDAPSSettingsResult {
     this.lDAPSSettingsInfo,
     this.nextToken,
   });
+
   factory DescribeLDAPSSettingsResult.fromJson(Map<String, dynamic> json) {
     return DescribeLDAPSSettingsResult(
       lDAPSSettingsInfo: (json['LDAPSSettingsInfo'] as List?)
@@ -3712,12 +4094,48 @@ class DescribeRegionsResult {
     this.nextToken,
     this.regionsDescription,
   });
+
   factory DescribeRegionsResult.fromJson(Map<String, dynamic> json) {
     return DescribeRegionsResult(
       nextToken: json['NextToken'] as String?,
       regionsDescription: (json['RegionsDescription'] as List?)
           ?.whereNotNull()
           .map((e) => RegionDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+class DescribeSettingsResult {
+  /// The identifier of the directory.
+  final String? directoryId;
+
+  /// If not null, token that indicates that more results are available. Pass this
+  /// value for the <code>NextToken</code> parameter in a subsequent call to
+  /// <code>DescribeSettings</code> to retrieve the next set of items.
+  final String? nextToken;
+
+  /// The list of <a>SettingEntry</a> objects that were retrieved.
+  ///
+  /// It is possible that this list contains less than the number of items
+  /// specified in the <code>Limit</code> member of the request. This occurs if
+  /// there are less than the requested number of items left to retrieve, or if
+  /// the limitations of the operation have been exceeded.
+  final List<SettingEntry>? settingEntries;
+
+  DescribeSettingsResult({
+    this.directoryId,
+    this.nextToken,
+    this.settingEntries,
+  });
+
+  factory DescribeSettingsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeSettingsResult(
+      directoryId: json['DirectoryId'] as String?,
+      nextToken: json['NextToken'] as String?,
+      settingEntries: (json['SettingEntries'] as List?)
+          ?.whereNotNull()
+          .map((e) => SettingEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
@@ -3736,6 +4154,7 @@ class DescribeSharedDirectoriesResult {
     this.nextToken,
     this.sharedDirectories,
   });
+
   factory DescribeSharedDirectoriesResult.fromJson(Map<String, dynamic> json) {
     return DescribeSharedDirectoriesResult(
       nextToken: json['NextToken'] as String?,
@@ -3765,6 +4184,7 @@ class DescribeSnapshotsResult {
     this.nextToken,
     this.snapshots,
   });
+
   factory DescribeSnapshotsResult.fromJson(Map<String, dynamic> json) {
     return DescribeSnapshotsResult(
       nextToken: json['NextToken'] as String?,
@@ -3795,6 +4215,7 @@ class DescribeTrustsResult {
     this.nextToken,
     this.trusts,
   });
+
   factory DescribeTrustsResult.fromJson(Map<String, dynamic> json) {
     return DescribeTrustsResult(
       nextToken: json['NextToken'] as String?,
@@ -3806,14 +4227,82 @@ class DescribeTrustsResult {
   }
 }
 
+class DescribeUpdateDirectoryResult {
+  /// If not null, more results are available. Pass this value for the
+  /// <code>NextToken</code> parameter.
+  final String? nextToken;
+
+  /// The list of update activities on a directory for the requested update type.
+  final List<UpdateInfoEntry>? updateActivities;
+
+  DescribeUpdateDirectoryResult({
+    this.nextToken,
+    this.updateActivities,
+  });
+
+  factory DescribeUpdateDirectoryResult.fromJson(Map<String, dynamic> json) {
+    return DescribeUpdateDirectoryResult(
+      nextToken: json['NextToken'] as String?,
+      updateActivities: (json['UpdateActivities'] as List?)
+          ?.whereNotNull()
+          .map((e) => UpdateInfoEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+enum DirectoryConfigurationStatus {
+  requested,
+  updating,
+  updated,
+  failed,
+  $default,
+}
+
+extension DirectoryConfigurationStatusValueExtension
+    on DirectoryConfigurationStatus {
+  String toValue() {
+    switch (this) {
+      case DirectoryConfigurationStatus.requested:
+        return 'Requested';
+      case DirectoryConfigurationStatus.updating:
+        return 'Updating';
+      case DirectoryConfigurationStatus.updated:
+        return 'Updated';
+      case DirectoryConfigurationStatus.failed:
+        return 'Failed';
+      case DirectoryConfigurationStatus.$default:
+        return 'Default';
+    }
+  }
+}
+
+extension DirectoryConfigurationStatusFromString on String {
+  DirectoryConfigurationStatus toDirectoryConfigurationStatus() {
+    switch (this) {
+      case 'Requested':
+        return DirectoryConfigurationStatus.requested;
+      case 'Updating':
+        return DirectoryConfigurationStatus.updating;
+      case 'Updated':
+        return DirectoryConfigurationStatus.updated;
+      case 'Failed':
+        return DirectoryConfigurationStatus.failed;
+      case 'Default':
+        return DirectoryConfigurationStatus.$default;
+    }
+    throw Exception('$this is not known in enum DirectoryConfigurationStatus');
+  }
+}
+
 /// Contains information for the <a>ConnectDirectory</a> operation when an AD
 /// Connector directory is being created.
 class DirectoryConnectSettings {
   /// A list of one or more IP addresses of DNS servers or domain controllers in
-  /// the on-premises directory.
+  /// your self-managed directory.
   final List<String> customerDnsIps;
 
-  /// The user name of an account in the on-premises directory that is used to
+  /// The user name of an account in your self-managed directory that is used to
   /// connect to the directory. This account must have the following permissions:
   ///
   /// <ul>
@@ -3864,7 +4353,7 @@ class DirectoryConnectSettingsDescription {
   /// The IP addresses of the AD Connector servers.
   final List<String>? connectIps;
 
-  /// The user name of the service account in the on-premises directory.
+  /// The user name of the service account in your self-managed directory.
   final String? customerUserName;
 
   /// The security group identifier for the AD Connector directory.
@@ -3884,6 +4373,7 @@ class DirectoryConnectSettingsDescription {
     this.subnetIds,
     this.vpcId,
   });
+
   factory DirectoryConnectSettingsDescription.fromJson(
       Map<String, dynamic> json) {
     return DirectoryConnectSettingsDescription(
@@ -3906,7 +4396,7 @@ class DirectoryConnectSettingsDescription {
   }
 }
 
-/// Contains information about an AWS Directory Service directory.
+/// Contains information about an Directory Service directory.
 class DirectoryDescription {
   /// The access URL for the directory, such as
   /// <code>http://&lt;alias&gt;.awsapps.com</code>. If no alias has been created
@@ -3936,7 +4426,7 @@ class DirectoryDescription {
   /// The IP addresses of the DNS servers for the directory. For a Simple AD or
   /// Microsoft AD directory, these are the IP addresses of the Simple AD or
   /// Microsoft AD directory servers. For an AD Connector directory, these are the
-  /// IP addresses of the DNS servers or domain controllers in the on-premises
+  /// IP addresses of the DNS servers or domain controllers in your self-managed
   /// directory to which the AD Connector is connected.
   final List<String>? dnsIpAddrs;
 
@@ -3949,8 +4439,10 @@ class DirectoryDescription {
   /// The fully qualified name of the directory.
   final String? name;
 
-  /// Describes the AWS Managed Microsoft AD directory in the directory owner
-  /// account.
+  /// The operating system (OS) version of the directory.
+  final OSVersion? osVersion;
+
+  /// Describes the Managed Microsoft AD directory in the directory owner account.
   final OwnerDirectoryDescription? ownerDirectoryDescription;
 
   /// A <a>RadiusSettings</a> object that contains information about the RADIUS
@@ -3964,9 +4456,9 @@ class DirectoryDescription {
   final RegionsInfo? regionsInfo;
 
   /// The method used when sharing a directory to determine whether the directory
-  /// should be shared within your AWS organization (<code>ORGANIZATIONS</code>)
-  /// or with any AWS account by sending a shared directory request
-  /// (<code>HANDSHAKE</code>).
+  /// should be shared within your Amazon Web Services organization
+  /// (<code>ORGANIZATIONS</code>) or with any Amazon Web Services account by
+  /// sending a shared directory request (<code>HANDSHAKE</code>).
   final ShareMethod? shareMethod;
 
   /// A directory share request that is sent by the directory owner to the
@@ -3975,7 +4467,7 @@ class DirectoryDescription {
   /// share invitation.
   final String? shareNotes;
 
-  /// Current directory status of the shared AWS Managed Microsoft AD directory.
+  /// Current directory status of the shared Managed Microsoft AD directory.
   final ShareStatus? shareStatus;
 
   /// The short name of the directory.
@@ -4002,7 +4494,7 @@ class DirectoryDescription {
 
   /// A <a>DirectoryVpcSettingsDescription</a> object that contains additional
   /// information about a directory. This member is only present if the directory
-  /// is a Simple AD or Managed AD directory.
+  /// is a Simple AD or Managed Microsoft AD directory.
   final DirectoryVpcSettingsDescription? vpcSettings;
 
   DirectoryDescription({
@@ -4016,6 +4508,7 @@ class DirectoryDescription {
     this.edition,
     this.launchTime,
     this.name,
+    this.osVersion,
     this.ownerDirectoryDescription,
     this.radiusSettings,
     this.radiusStatus,
@@ -4032,6 +4525,7 @@ class DirectoryDescription {
     this.type,
     this.vpcSettings,
   });
+
   factory DirectoryDescription.fromJson(Map<String, dynamic> json) {
     return DirectoryDescription(
       accessUrl: json['AccessUrl'] as String?,
@@ -4051,6 +4545,7 @@ class DirectoryDescription {
       edition: (json['Edition'] as String?)?.toDirectoryEdition(),
       launchTime: timeStampFromJson(json['LaunchTime']),
       name: json['Name'] as String?,
+      osVersion: (json['OsVersion'] as String?)?.toOSVersion(),
       ownerDirectoryDescription: json['OwnerDirectoryDescription'] != null
           ? OwnerDirectoryDescription.fromJson(
               json['OwnerDirectoryDescription'] as Map<String, dynamic>)
@@ -4121,14 +4616,14 @@ class DirectoryLimits {
   /// Indicates if the cloud directory limit has been reached.
   final bool? cloudOnlyDirectoriesLimitReached;
 
-  /// The current number of AWS Managed Microsoft AD directories in the region.
+  /// The current number of Managed Microsoft AD directories in the region.
   final int? cloudOnlyMicrosoftADCurrentCount;
 
-  /// The maximum number of AWS Managed Microsoft AD directories allowed in the
+  /// The maximum number of Managed Microsoft AD directories allowed in the
   /// region.
   final int? cloudOnlyMicrosoftADLimit;
 
-  /// Indicates if the AWS Managed Microsoft AD directory limit has been reached.
+  /// Indicates if the Managed Microsoft AD directory limit has been reached.
   final bool? cloudOnlyMicrosoftADLimitReached;
 
   /// The current number of connected directories in the Region.
@@ -4151,6 +4646,7 @@ class DirectoryLimits {
     this.connectedDirectoriesLimit,
     this.connectedDirectoriesLimitReached,
   });
+
   factory DirectoryLimits.fromJson(Map<String, dynamic> json) {
     return DirectoryLimits(
       cloudOnlyDirectoriesCurrentCount:
@@ -4315,7 +4811,7 @@ extension DirectoryTypeFromString on String {
 /// <a>CreateMicrosoftAD</a> operation.
 class DirectoryVpcSettings {
   /// The identifiers of the subnets for the directory servers. The two subnets
-  /// must be in different Availability Zones. AWS Directory Service creates a
+  /// must be in different Availability Zones. Directory Service creates a
   /// directory server and a DNS server in each of these subnets.
   final List<String> subnetIds;
 
@@ -4326,6 +4822,7 @@ class DirectoryVpcSettings {
     required this.subnetIds,
     required this.vpcId,
   });
+
   factory DirectoryVpcSettings.fromJson(Map<String, dynamic> json) {
     return DirectoryVpcSettings(
       subnetIds: (json['SubnetIds'] as List)
@@ -4366,6 +4863,7 @@ class DirectoryVpcSettingsDescription {
     this.subnetIds,
     this.vpcId,
   });
+
   factory DirectoryVpcSettingsDescription.fromJson(Map<String, dynamic> json) {
     return DirectoryVpcSettingsDescription(
       availabilityZones: (json['AvailabilityZones'] as List?)
@@ -4384,6 +4882,7 @@ class DirectoryVpcSettingsDescription {
 
 class DisableClientAuthenticationResult {
   DisableClientAuthenticationResult();
+
   factory DisableClientAuthenticationResult.fromJson(Map<String, dynamic> _) {
     return DisableClientAuthenticationResult();
   }
@@ -4391,6 +4890,7 @@ class DisableClientAuthenticationResult {
 
 class DisableLDAPSResult {
   DisableLDAPSResult();
+
   factory DisableLDAPSResult.fromJson(Map<String, dynamic> _) {
     return DisableLDAPSResult();
   }
@@ -4399,6 +4899,7 @@ class DisableLDAPSResult {
 /// Contains the results of the <a>DisableRadius</a> operation.
 class DisableRadiusResult {
   DisableRadiusResult();
+
   factory DisableRadiusResult.fromJson(Map<String, dynamic> _) {
     return DisableRadiusResult();
   }
@@ -4407,6 +4908,7 @@ class DisableRadiusResult {
 /// Contains the results of the <a>DisableSso</a> operation.
 class DisableSsoResult {
   DisableSsoResult();
+
   factory DisableSsoResult.fromJson(Map<String, dynamic> _) {
     return DisableSsoResult();
   }
@@ -4456,6 +4958,7 @@ class DomainController {
     this.subnetId,
     this.vpcId,
   });
+
   factory DomainController.fromJson(Map<String, dynamic> json) {
     return DomainController(
       availabilityZone: json['AvailabilityZone'] as String?,
@@ -4528,6 +5031,7 @@ extension DomainControllerStatusFromString on String {
 
 class EnableClientAuthenticationResult {
   EnableClientAuthenticationResult();
+
   factory EnableClientAuthenticationResult.fromJson(Map<String, dynamic> _) {
     return EnableClientAuthenticationResult();
   }
@@ -4535,6 +5039,7 @@ class EnableClientAuthenticationResult {
 
 class EnableLDAPSResult {
   EnableLDAPSResult();
+
   factory EnableLDAPSResult.fromJson(Map<String, dynamic> _) {
     return EnableLDAPSResult();
   }
@@ -4543,6 +5048,7 @@ class EnableLDAPSResult {
 /// Contains the results of the <a>EnableRadius</a> operation.
 class EnableRadiusResult {
   EnableRadiusResult();
+
   factory EnableRadiusResult.fromJson(Map<String, dynamic> _) {
     return EnableRadiusResult();
   }
@@ -4551,28 +5057,30 @@ class EnableRadiusResult {
 /// Contains the results of the <a>EnableSso</a> operation.
 class EnableSsoResult {
   EnableSsoResult();
+
   factory EnableSsoResult.fromJson(Map<String, dynamic> _) {
     return EnableSsoResult();
   }
 }
 
-/// Information about SNS topic and AWS Directory Service directory
+/// Information about Amazon SNS topic and Directory Service directory
 /// associations.
 class EventTopic {
-  /// The date and time of when you associated your directory with the SNS topic.
+  /// The date and time of when you associated your directory with the Amazon SNS
+  /// topic.
   final DateTime? createdDateTime;
 
-  /// The Directory ID of an AWS Directory Service directory that will publish
-  /// status messages to an SNS topic.
+  /// The Directory ID of an Directory Service directory that will publish status
+  /// messages to an Amazon SNS topic.
   final String? directoryId;
 
   /// The topic registration status.
   final TopicStatus? status;
 
-  /// The SNS topic ARN (Amazon Resource Name).
+  /// The Amazon SNS topic ARN (Amazon Resource Name).
   final String? topicArn;
 
-  /// The name of an AWS SNS topic the receives status messages from the
+  /// The name of an Amazon SNS topic the receives status messages from the
   /// directory.
   final String? topicName;
 
@@ -4583,6 +5091,7 @@ class EventTopic {
     this.topicArn,
     this.topicName,
   });
+
   factory EventTopic.fromJson(Map<String, dynamic> json) {
     return EventTopic(
       createdDateTime: timeStampFromJson(json['CreatedDateTime']),
@@ -4597,12 +5106,13 @@ class EventTopic {
 /// Contains the results of the <a>GetDirectoryLimits</a> operation.
 class GetDirectoryLimitsResult {
   /// A <a>DirectoryLimits</a> object that contains the directory limits for the
-  /// current rRegion.
+  /// current Region.
   final DirectoryLimits? directoryLimits;
 
   GetDirectoryLimitsResult({
     this.directoryLimits,
   });
+
   factory GetDirectoryLimitsResult.fromJson(Map<String, dynamic> json) {
     return GetDirectoryLimitsResult(
       directoryLimits: json['DirectoryLimits'] != null
@@ -4622,6 +5132,7 @@ class GetSnapshotLimitsResult {
   GetSnapshotLimitsResult({
     this.snapshotLimits,
   });
+
   factory GetSnapshotLimitsResult.fromJson(Map<String, dynamic> json) {
     return GetSnapshotLimitsResult(
       snapshotLimits: json['SnapshotLimits'] != null
@@ -4633,10 +5144,10 @@ class GetSnapshotLimitsResult {
 }
 
 /// IP address block. This is often the address block of the DNS server used for
-/// your on-premises domain.
+/// your self-managed domain.
 class IpRoute {
   /// IP address block using CIDR format, for example 10.0.0.0/24. This is often
-  /// the address block of the DNS server used for your on-premises domain. For a
+  /// the address block of the DNS server used for your self-managed domain. For a
   /// single IP address use a CIDR address block with /32. For example
   /// 10.0.0.0/32.
   final String? cidrIp;
@@ -4686,6 +5197,7 @@ class IpRouteInfo {
     this.ipRouteStatusMsg,
     this.ipRouteStatusReason,
   });
+
   factory IpRouteInfo.fromJson(Map<String, dynamic> json) {
     return IpRouteInfo(
       addedDateTime: timeStampFromJson(json['AddedDateTime']),
@@ -4763,6 +5275,7 @@ class LDAPSSettingInfo {
     this.lDAPSStatusReason,
     this.lastUpdatedDateTime,
   });
+
   factory LDAPSSettingInfo.fromJson(Map<String, dynamic> json) {
     return LDAPSSettingInfo(
       lDAPSStatus: (json['LDAPSStatus'] as String?)?.toLDAPSStatus(),
@@ -4846,6 +5359,7 @@ class ListCertificatesResult {
     this.certificatesInfo,
     this.nextToken,
   });
+
   factory ListCertificatesResult.fromJson(Map<String, dynamic> json) {
     return ListCertificatesResult(
       certificatesInfo: (json['CertificatesInfo'] as List?)
@@ -4870,6 +5384,7 @@ class ListIpRoutesResult {
     this.ipRoutesInfo,
     this.nextToken,
   });
+
   factory ListIpRoutesResult.fromJson(Map<String, dynamic> json) {
     return ListIpRoutesResult(
       ipRoutesInfo: (json['IpRoutesInfo'] as List?)
@@ -4882,7 +5397,8 @@ class ListIpRoutesResult {
 }
 
 class ListLogSubscriptionsResult {
-  /// A list of active <a>LogSubscription</a> objects for calling the AWS account.
+  /// A list of active <a>LogSubscription</a> objects for calling the Amazon Web
+  /// Services account.
   final List<LogSubscription>? logSubscriptions;
 
   /// The token for the next set of items to return.
@@ -4892,6 +5408,7 @@ class ListLogSubscriptionsResult {
     this.logSubscriptions,
     this.nextToken,
   });
+
   factory ListLogSubscriptionsResult.fromJson(Map<String, dynamic> json) {
     return ListLogSubscriptionsResult(
       logSubscriptions: (json['LogSubscriptions'] as List?)
@@ -4916,6 +5433,7 @@ class ListSchemaExtensionsResult {
     this.nextToken,
     this.schemaExtensionsInfo,
   });
+
   factory ListSchemaExtensionsResult.fromJson(Map<String, dynamic> json) {
     return ListSchemaExtensionsResult(
       nextToken: json['NextToken'] as String?,
@@ -4938,6 +5456,7 @@ class ListTagsForResourceResult {
     this.nextToken,
     this.tags,
   });
+
   factory ListTagsForResourceResult.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResult(
       nextToken: json['NextToken'] as String?,
@@ -4967,6 +5486,7 @@ class LogSubscription {
     this.logGroupName,
     this.subscriptionCreatedDateTime,
   });
+
   factory LogSubscription.fromJson(Map<String, dynamic> json) {
     return LogSubscription(
       directoryId: json['DirectoryId'] as String?,
@@ -4977,13 +5497,64 @@ class LogSubscription {
   }
 }
 
+/// OS version that the directory needs to be updated to.
+class OSUpdateSettings {
+  /// OS version that the directory needs to be updated to.
+  final OSVersion? oSVersion;
+
+  OSUpdateSettings({
+    this.oSVersion,
+  });
+
+  factory OSUpdateSettings.fromJson(Map<String, dynamic> json) {
+    return OSUpdateSettings(
+      oSVersion: (json['OSVersion'] as String?)?.toOSVersion(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final oSVersion = this.oSVersion;
+    return {
+      if (oSVersion != null) 'OSVersion': oSVersion.toValue(),
+    };
+  }
+}
+
+enum OSVersion {
+  server_2012,
+  server_2019,
+}
+
+extension OSVersionValueExtension on OSVersion {
+  String toValue() {
+    switch (this) {
+      case OSVersion.server_2012:
+        return 'SERVER_2012';
+      case OSVersion.server_2019:
+        return 'SERVER_2019';
+    }
+  }
+}
+
+extension OSVersionFromString on String {
+  OSVersion toOSVersion() {
+    switch (this) {
+      case 'SERVER_2012':
+        return OSVersion.server_2012;
+      case 'SERVER_2019':
+        return OSVersion.server_2019;
+    }
+    throw Exception('$this is not known in enum OSVersion');
+  }
+}
+
 /// Describes the directory owner account details that have been shared to the
 /// directory consumer account.
 class OwnerDirectoryDescription {
   /// Identifier of the directory owner account.
   final String? accountId;
 
-  /// Identifier of the AWS Managed Microsoft AD directory in the directory owner
+  /// Identifier of the Managed Microsoft AD directory in the directory owner
   /// account.
   final String? directoryId;
 
@@ -5008,6 +5579,7 @@ class OwnerDirectoryDescription {
     this.radiusStatus,
     this.vpcSettings,
   });
+
   factory OwnerDirectoryDescription.fromJson(Map<String, dynamic> json) {
     return OwnerDirectoryDescription(
       accountId: json['AccountId'] as String?,
@@ -5078,7 +5650,7 @@ class RadiusSettings {
   final String? displayLabel;
 
   /// The port that your RADIUS server is using for communications. Your
-  /// on-premises network must allow inbound traffic over this port from the AWS
+  /// self-managed network must allow inbound traffic over this port from the
   /// Directory Service servers.
   final int? radiusPort;
 
@@ -5110,6 +5682,7 @@ class RadiusSettings {
     this.sharedSecret,
     this.useSameUsername,
   });
+
   factory RadiusSettings.fromJson(Map<String, dynamic> json) {
     return RadiusSettings(
       authenticationProtocol: (json['AuthenticationProtocol'] as String?)
@@ -5222,6 +5795,7 @@ class RegionDescription {
     this.statusLastUpdatedDateTime,
     this.vpcSettings,
   });
+
   factory RegionDescription.fromJson(Map<String, dynamic> json) {
     return RegionDescription(
       desiredNumberOfDomainControllers:
@@ -5277,14 +5851,14 @@ class RegionsInfo {
   /// primary Region.
   final List<String>? additionalRegions;
 
-  /// The Region where the AWS Managed Microsoft AD directory was originally
-  /// created.
+  /// The Region where the Managed Microsoft AD directory was originally created.
   final String? primaryRegion;
 
   RegionsInfo({
     this.additionalRegions,
     this.primaryRegion,
   });
+
   factory RegionsInfo.fromJson(Map<String, dynamic> json) {
     return RegionsInfo(
       additionalRegions: (json['AdditionalRegions'] as List?)
@@ -5303,6 +5877,7 @@ class RegisterCertificateResult {
   RegisterCertificateResult({
     this.certificateId,
   });
+
   factory RegisterCertificateResult.fromJson(Map<String, dynamic> json) {
     return RegisterCertificateResult(
       certificateId: json['CertificateId'] as String?,
@@ -5313,6 +5888,7 @@ class RegisterCertificateResult {
 /// The result of a RegisterEventTopic request.
 class RegisterEventTopicResult {
   RegisterEventTopicResult();
+
   factory RegisterEventTopicResult.fromJson(Map<String, dynamic> _) {
     return RegisterEventTopicResult();
   }
@@ -5325,6 +5901,7 @@ class RejectSharedDirectoryResult {
   RejectSharedDirectoryResult({
     this.sharedDirectoryId,
   });
+
   factory RejectSharedDirectoryResult.fromJson(Map<String, dynamic> json) {
     return RejectSharedDirectoryResult(
       sharedDirectoryId: json['SharedDirectoryId'] as String?,
@@ -5334,6 +5911,7 @@ class RejectSharedDirectoryResult {
 
 class RemoveIpRoutesResult {
   RemoveIpRoutesResult();
+
   factory RemoveIpRoutesResult.fromJson(Map<String, dynamic> _) {
     return RemoveIpRoutesResult();
   }
@@ -5341,6 +5919,7 @@ class RemoveIpRoutesResult {
 
 class RemoveRegionResult {
   RemoveRegionResult();
+
   factory RemoveRegionResult.fromJson(Map<String, dynamic> _) {
     return RemoveRegionResult();
   }
@@ -5348,6 +5927,7 @@ class RemoveRegionResult {
 
 class RemoveTagsFromResourceResult {
   RemoveTagsFromResourceResult();
+
   factory RemoveTagsFromResourceResult.fromJson(Map<String, dynamic> _) {
     return RemoveTagsFromResourceResult();
   }
@@ -5378,6 +5958,7 @@ extension ReplicationScopeFromString on String {
 
 class ResetUserPasswordResult {
   ResetUserPasswordResult();
+
   factory ResetUserPasswordResult.fromJson(Map<String, dynamic> _) {
     return ResetUserPasswordResult();
   }
@@ -5386,6 +5967,7 @@ class ResetUserPasswordResult {
 /// Contains the results of the <a>RestoreFromSnapshot</a> operation.
 class RestoreFromSnapshotResult {
   RestoreFromSnapshotResult();
+
   factory RestoreFromSnapshotResult.fromJson(Map<String, dynamic> _) {
     return RestoreFromSnapshotResult();
   }
@@ -5424,6 +6006,7 @@ class SchemaExtensionInfo {
     this.schemaExtensionStatusReason,
     this.startDateTime,
   });
+
   factory SchemaExtensionInfo.fromJson(Map<String, dynamic> json) {
     return SchemaExtensionInfo(
       description: json['Description'] as String?,
@@ -5530,6 +6113,115 @@ extension SelectiveAuthFromString on String {
   }
 }
 
+/// Contains information about the configurable settings for a directory.
+class Setting {
+  /// The name of the directory setting. For example:
+  ///
+  /// <code>TLS_1_0</code>
+  final String name;
+
+  /// The value of the directory setting for which to retrieve information. For
+  /// example, for <code>TLS_1_0</code>, the valid values are: <code>Enable</code>
+  /// and <code>Disable</code>.
+  final String value;
+
+  Setting({
+    required this.name,
+    required this.value,
+  });
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
+}
+
+/// Contains information about the specified configurable setting for a
+/// directory.
+class SettingEntry {
+  /// The valid range of values for the directory setting. These values depend on
+  /// the <code>DataType</code> of your directory.
+  final String? allowedValues;
+
+  /// The value of the directory setting that is applied to the directory.
+  final String? appliedValue;
+
+  /// The data type of a directory setting. This is used to define the
+  /// <code>AllowedValues</code> of a setting. For example a data type can be
+  /// <code>Boolean</code>, <code>DurationInSeconds</code>, or <code>Enum</code>.
+  final String? dataType;
+
+  /// The date and time when the request to update a directory setting was last
+  /// submitted.
+  final DateTime? lastRequestedDateTime;
+
+  /// The date and time when the directory setting was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The name of the directory setting. For example:
+  ///
+  /// <code>TLS_1_0</code>
+  final String? name;
+
+  /// Details about the status of the request to update the directory setting. If
+  /// the directory setting is deployed in more than one region, status is
+  /// returned for the request in each region where the setting is deployed.
+  final Map<String, DirectoryConfigurationStatus>? requestDetailedStatus;
+
+  /// The overall status of the request to update the directory setting request.
+  /// If the directory setting is deployed in more than one region, and the
+  /// request fails in any region, the overall status is <code>Failed</code>.
+  final DirectoryConfigurationStatus? requestStatus;
+
+  /// The last status message for the directory status request.
+  final String? requestStatusMessage;
+
+  /// The value that was last requested for the directory setting.
+  final String? requestedValue;
+
+  /// The type, or category, of a directory setting. Similar settings have the
+  /// same type. For example, <code>Protocol</code>, <code>Cipher</code>, or
+  /// <code>Certificate-Based Authentication</code>.
+  final String? type;
+
+  SettingEntry({
+    this.allowedValues,
+    this.appliedValue,
+    this.dataType,
+    this.lastRequestedDateTime,
+    this.lastUpdatedDateTime,
+    this.name,
+    this.requestDetailedStatus,
+    this.requestStatus,
+    this.requestStatusMessage,
+    this.requestedValue,
+    this.type,
+  });
+
+  factory SettingEntry.fromJson(Map<String, dynamic> json) {
+    return SettingEntry(
+      allowedValues: json['AllowedValues'] as String?,
+      appliedValue: json['AppliedValue'] as String?,
+      dataType: json['DataType'] as String?,
+      lastRequestedDateTime: timeStampFromJson(json['LastRequestedDateTime']),
+      lastUpdatedDateTime: timeStampFromJson(json['LastUpdatedDateTime']),
+      name: json['Name'] as String?,
+      requestDetailedStatus:
+          (json['RequestDetailedStatus'] as Map<String, dynamic>?)?.map(
+              (k, e) =>
+                  MapEntry(k, (e as String).toDirectoryConfigurationStatus())),
+      requestStatus:
+          (json['RequestStatus'] as String?)?.toDirectoryConfigurationStatus(),
+      requestStatusMessage: json['RequestStatusMessage'] as String?,
+      requestedValue: json['RequestedValue'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+}
+
 class ShareDirectoryResult {
   /// Identifier of the directory that is stored in the directory consumer account
   /// that is shared from the specified directory (<code>DirectoryId</code>).
@@ -5538,6 +6230,7 @@ class ShareDirectoryResult {
   ShareDirectoryResult({
     this.sharedDirectoryId,
   });
+
   factory ShareDirectoryResult.fromJson(Map<String, dynamic> json) {
     return ShareDirectoryResult(
       sharedDirectoryId: json['SharedDirectoryId'] as String?,
@@ -5675,9 +6368,9 @@ class SharedDirectory {
   final String? ownerDirectoryId;
 
   /// The method used when sharing a directory to determine whether the directory
-  /// should be shared within your AWS organization (<code>ORGANIZATIONS</code>)
-  /// or with any AWS account by sending a shared directory request
-  /// (<code>HANDSHAKE</code>).
+  /// should be shared within your Amazon Web Services organization
+  /// (<code>ORGANIZATIONS</code>) or with any Amazon Web Services account by
+  /// sending a shared directory request (<code>HANDSHAKE</code>).
   final ShareMethod? shareMethod;
 
   /// A directory share request that is sent by the directory owner to the
@@ -5686,7 +6379,7 @@ class SharedDirectory {
   /// share invitation.
   final String? shareNotes;
 
-  /// Current directory status of the shared AWS Managed Microsoft AD directory.
+  /// Current directory status of the shared Managed Microsoft AD directory.
   final ShareStatus? shareStatus;
 
   /// Identifier of the directory consumer account that has access to the shared
@@ -5708,6 +6401,7 @@ class SharedDirectory {
     this.sharedAccountId,
     this.sharedDirectoryId,
   });
+
   factory SharedDirectory.fromJson(Map<String, dynamic> json) {
     return SharedDirectory(
       createdDateTime: timeStampFromJson(json['CreatedDateTime']),
@@ -5751,6 +6445,7 @@ class Snapshot {
     this.status,
     this.type,
   });
+
   factory Snapshot.fromJson(Map<String, dynamic> json) {
     return Snapshot(
       directoryId: json['DirectoryId'] as String?,
@@ -5779,6 +6474,7 @@ class SnapshotLimits {
     this.manualSnapshotsLimit,
     this.manualSnapshotsLimitReached,
   });
+
   factory SnapshotLimits.fromJson(Map<String, dynamic> json) {
     return SnapshotLimits(
       manualSnapshotsCurrentCount: json['ManualSnapshotsCurrentCount'] as int?,
@@ -5856,6 +6552,7 @@ class StartSchemaExtensionResult {
   StartSchemaExtensionResult({
     this.schemaExtensionId,
   });
+
   factory StartSchemaExtensionResult.fromJson(Map<String, dynamic> json) {
     return StartSchemaExtensionResult(
       schemaExtensionId: json['SchemaExtensionId'] as String?,
@@ -5881,6 +6578,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -5959,13 +6657,14 @@ extension TopicStatusFromString on String {
   }
 }
 
-/// Describes a trust relationship between an AWS Managed Microsoft AD directory
-/// and an external domain.
+/// Describes a trust relationship between an Managed Microsoft AD directory and
+/// an external domain.
 class Trust {
   /// The date and time that the trust relationship was created.
   final DateTime? createdDateTime;
 
-  /// The Directory ID of the AWS directory involved in the trust relationship.
+  /// The Directory ID of the Amazon Web Services directory involved in the trust
+  /// relationship.
   final String? directoryId;
 
   /// The date and time that the trust relationship was last updated.
@@ -6009,6 +6708,7 @@ class Trust {
     this.trustStateReason,
     this.trustType,
   });
+
   factory Trust.fromJson(Map<String, dynamic> json) {
     return Trust(
       createdDateTime: timeStampFromJson(json['CreatedDateTime']),
@@ -6169,6 +6869,7 @@ class UnshareDirectoryResult {
   UnshareDirectoryResult({
     this.sharedDirectoryId,
   });
+
   factory UnshareDirectoryResult.fromJson(Map<String, dynamic> json) {
     return UnshareDirectoryResult(
       sharedDirectoryId: json['SharedDirectoryId'] as String?,
@@ -6202,13 +6903,80 @@ class UnshareTarget {
 /// The result of an UpdateConditionalForwarder request.
 class UpdateConditionalForwarderResult {
   UpdateConditionalForwarderResult();
+
   factory UpdateConditionalForwarderResult.fromJson(Map<String, dynamic> _) {
     return UpdateConditionalForwarderResult();
   }
 }
 
+class UpdateDirectorySetupResult {
+  UpdateDirectorySetupResult();
+
+  factory UpdateDirectorySetupResult.fromJson(Map<String, dynamic> _) {
+    return UpdateDirectorySetupResult();
+  }
+}
+
+/// An entry of update information related to a requested update type.
+class UpdateInfoEntry {
+  /// This specifies if the update was initiated by the customer or by the service
+  /// team.
+  final String? initiatedBy;
+
+  /// The last updated date and time of a particular directory setting.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The new value of the target setting.
+  final UpdateValue? newValue;
+
+  /// The old value of the target setting.
+  final UpdateValue? previousValue;
+
+  /// The name of the Region.
+  final String? region;
+
+  /// The start time of the <code>UpdateDirectorySetup</code> for the particular
+  /// type.
+  final DateTime? startTime;
+
+  /// The status of the update performed on the directory.
+  final UpdateStatus? status;
+
+  /// The reason for the current status of the update type activity.
+  final String? statusReason;
+
+  UpdateInfoEntry({
+    this.initiatedBy,
+    this.lastUpdatedDateTime,
+    this.newValue,
+    this.previousValue,
+    this.region,
+    this.startTime,
+    this.status,
+    this.statusReason,
+  });
+
+  factory UpdateInfoEntry.fromJson(Map<String, dynamic> json) {
+    return UpdateInfoEntry(
+      initiatedBy: json['InitiatedBy'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['LastUpdatedDateTime']),
+      newValue: json['NewValue'] != null
+          ? UpdateValue.fromJson(json['NewValue'] as Map<String, dynamic>)
+          : null,
+      previousValue: json['PreviousValue'] != null
+          ? UpdateValue.fromJson(json['PreviousValue'] as Map<String, dynamic>)
+          : null,
+      region: json['Region'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      status: (json['Status'] as String?)?.toUpdateStatus(),
+      statusReason: json['StatusReason'] as String?,
+    );
+  }
+}
+
 class UpdateNumberOfDomainControllersResult {
   UpdateNumberOfDomainControllersResult();
+
   factory UpdateNumberOfDomainControllersResult.fromJson(
       Map<String, dynamic> _) {
     return UpdateNumberOfDomainControllersResult();
@@ -6218,8 +6986,57 @@ class UpdateNumberOfDomainControllersResult {
 /// Contains the results of the <a>UpdateRadius</a> operation.
 class UpdateRadiusResult {
   UpdateRadiusResult();
+
   factory UpdateRadiusResult.fromJson(Map<String, dynamic> _) {
     return UpdateRadiusResult();
+  }
+}
+
+class UpdateSettingsResult {
+  /// The identifier of the directory.
+  final String? directoryId;
+
+  UpdateSettingsResult({
+    this.directoryId,
+  });
+
+  factory UpdateSettingsResult.fromJson(Map<String, dynamic> json) {
+    return UpdateSettingsResult(
+      directoryId: json['DirectoryId'] as String?,
+    );
+  }
+}
+
+enum UpdateStatus {
+  updated,
+  updating,
+  updateFailed,
+}
+
+extension UpdateStatusValueExtension on UpdateStatus {
+  String toValue() {
+    switch (this) {
+      case UpdateStatus.updated:
+        return 'Updated';
+      case UpdateStatus.updating:
+        return 'Updating';
+      case UpdateStatus.updateFailed:
+        return 'UpdateFailed';
+    }
+  }
+}
+
+extension UpdateStatusFromString on String {
+  UpdateStatus toUpdateStatus() {
+    switch (this) {
+      case 'Updated':
+        return UpdateStatus.updated;
+      case 'Updating':
+        return UpdateStatus.updating;
+      case 'UpdateFailed':
+        return UpdateStatus.updateFailed;
+    }
+    throw Exception('$this is not known in enum UpdateStatus');
   }
 }
 
@@ -6233,10 +7050,53 @@ class UpdateTrustResult {
     this.requestId,
     this.trustId,
   });
+
   factory UpdateTrustResult.fromJson(Map<String, dynamic> json) {
     return UpdateTrustResult(
       requestId: json['RequestId'] as String?,
       trustId: json['TrustId'] as String?,
+    );
+  }
+}
+
+enum UpdateType {
+  os,
+}
+
+extension UpdateTypeValueExtension on UpdateType {
+  String toValue() {
+    switch (this) {
+      case UpdateType.os:
+        return 'OS';
+    }
+  }
+}
+
+extension UpdateTypeFromString on String {
+  UpdateType toUpdateType() {
+    switch (this) {
+      case 'OS':
+        return UpdateType.os;
+    }
+    throw Exception('$this is not known in enum UpdateType');
+  }
+}
+
+/// The value for a given type of <code>UpdateSettings</code>.
+class UpdateValue {
+  /// The OS update related settings.
+  final OSUpdateSettings? oSUpdateSettings;
+
+  UpdateValue({
+    this.oSUpdateSettings,
+  });
+
+  factory UpdateValue.fromJson(Map<String, dynamic> json) {
+    return UpdateValue(
+      oSUpdateSettings: json['OSUpdateSettings'] != null
+          ? OSUpdateSettings.fromJson(
+              json['OSUpdateSettings'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -6249,6 +7109,7 @@ class VerifyTrustResult {
   VerifyTrustResult({
     this.trustId,
   });
+
   factory VerifyTrustResult.fromJson(Map<String, dynamic> json) {
     return VerifyTrustResult(
       trustId: json['TrustId'] as String?,
@@ -6327,6 +7188,14 @@ class DirectoryDoesNotExistException extends _s.GenericAwsException {
             message: message);
 }
 
+class DirectoryInDesiredStateException extends _s.GenericAwsException {
+  DirectoryInDesiredStateException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'DirectoryInDesiredStateException',
+            message: message);
+}
+
 class DirectoryLimitExceededException extends _s.GenericAwsException {
   DirectoryLimitExceededException({String? type, String? message})
       : super(
@@ -6367,6 +7236,14 @@ class EntityDoesNotExistException extends _s.GenericAwsException {
   EntityDoesNotExistException({String? type, String? message})
       : super(
             type: type, code: 'EntityDoesNotExistException', message: message);
+}
+
+class IncompatibleSettingsException extends _s.GenericAwsException {
+  IncompatibleSettingsException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'IncompatibleSettingsException',
+            message: message);
 }
 
 class InsufficientPermissionsException extends _s.GenericAwsException {
@@ -6476,6 +7353,12 @@ class UnsupportedOperationException extends _s.GenericAwsException {
             message: message);
 }
 
+class UnsupportedSettingsException extends _s.GenericAwsException {
+  UnsupportedSettingsException({String? type, String? message})
+      : super(
+            type: type, code: 'UnsupportedSettingsException', message: message);
+}
+
 class UserDoesNotExistException extends _s.GenericAwsException {
   UserDoesNotExistException({String? type, String? message})
       : super(type: type, code: 'UserDoesNotExistException', message: message);
@@ -6502,6 +7385,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       DirectoryAlreadySharedException(type: type, message: message),
   'DirectoryDoesNotExistException': (type, message) =>
       DirectoryDoesNotExistException(type: type, message: message),
+  'DirectoryInDesiredStateException': (type, message) =>
+      DirectoryInDesiredStateException(type: type, message: message),
   'DirectoryLimitExceededException': (type, message) =>
       DirectoryLimitExceededException(type: type, message: message),
   'DirectoryNotSharedException': (type, message) =>
@@ -6514,6 +7399,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       EntityAlreadyExistsException(type: type, message: message),
   'EntityDoesNotExistException': (type, message) =>
       EntityDoesNotExistException(type: type, message: message),
+  'IncompatibleSettingsException': (type, message) =>
+      IncompatibleSettingsException(type: type, message: message),
   'InsufficientPermissionsException': (type, message) =>
       InsufficientPermissionsException(type: type, message: message),
   'InvalidCertificateException': (type, message) =>
@@ -6548,6 +7435,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       TagLimitExceededException(type: type, message: message),
   'UnsupportedOperationException': (type, message) =>
       UnsupportedOperationException(type: type, message: message),
+  'UnsupportedSettingsException': (type, message) =>
+      UnsupportedSettingsException(type: type, message: message),
   'UserDoesNotExistException': (type, message) =>
       UserDoesNotExistException(type: type, message: message),
 };

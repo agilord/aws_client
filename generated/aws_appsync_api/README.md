@@ -3,8 +3,8 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-AWS AppSync provides API actions for creating and interacting with data
-sources using GraphQL from your application.
+AppSync provides API actions for creating and interacting with data sources
+using GraphQL from your application.
 
 ## Links
 

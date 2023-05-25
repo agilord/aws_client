@@ -61,13 +61,24 @@ class ApplicationInsights {
   /// May throw [TagsAlreadyExistException].
   /// May throw [AccessDeniedException].
   ///
-  /// Parameter [resourceGroupName] :
-  /// The name of the resource group.
+  /// Parameter [autoConfigEnabled] :
+  /// Indicates whether Application Insights automatically configures
+  /// unmonitored resources in the resource group.
+  ///
+  /// Parameter [autoCreate] :
+  /// Configures all of the resources in the resource group by applying the
+  /// recommended configurations.
   ///
   /// Parameter [cWEMonitorEnabled] :
   /// Indicates whether Application Insights can listen to CloudWatch events for
   /// the application resources, such as <code>instance terminated</code>,
   /// <code>failed deployment</code>, and others.
+  ///
+  /// Parameter [groupingType] :
+  /// Application Insights can create applications based on a resource group or
+  /// on an account. To create an account-based application using all of the
+  /// resources in the account, set this parameter to
+  /// <code>ACCOUNT_BASED</code>.
   ///
   /// Parameter [opsCenterEnabled] :
   /// When set to <code>true</code>, creates opsItems for any problems detected
@@ -78,15 +89,21 @@ class ApplicationInsights {
   /// created opsItem. Allows you to receive notifications for updates to the
   /// opsItem.
   ///
+  /// Parameter [resourceGroupName] :
+  /// The name of the resource group.
+  ///
   /// Parameter [tags] :
   /// List of tags to add to the application. tag key (<code>Key</code>) and an
   /// associated tag value (<code>Value</code>). The maximum length of a tag key
   /// is 128 characters. The maximum length of a tag value is 256 characters.
   Future<CreateApplicationResponse> createApplication({
-    required String resourceGroupName,
+    bool? autoConfigEnabled,
+    bool? autoCreate,
     bool? cWEMonitorEnabled,
+    GroupingType? groupingType,
     bool? opsCenterEnabled,
     String? opsItemSNSTopicArn,
+    String? resourceGroupName,
     List<Tag>? tags,
   }) async {
     final headers = <String, String>{
@@ -100,11 +117,14 @@ class ApplicationInsights {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ResourceGroupName': resourceGroupName,
+        if (autoConfigEnabled != null) 'AutoConfigEnabled': autoConfigEnabled,
+        if (autoCreate != null) 'AutoCreate': autoCreate,
         if (cWEMonitorEnabled != null) 'CWEMonitorEnabled': cWEMonitorEnabled,
+        if (groupingType != null) 'GroupingType': groupingType.toValue(),
         if (opsCenterEnabled != null) 'OpsCenterEnabled': opsCenterEnabled,
         if (opsItemSNSTopicArn != null)
           'OpsItemSNSTopicArn': opsItemSNSTopicArn,
+        if (resourceGroupName != null) 'ResourceGroupName': resourceGroupName,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -426,10 +446,7 @@ class ApplicationInsights {
   /// The name of the resource group.
   ///
   /// Parameter [tier] :
-  /// The tier of the application component. Supported tiers include
-  /// <code>DOT_NET_CORE</code>, <code>DOT_NET_WORKER</code>,
-  /// <code>DOT_NET_WEB</code>, <code>SQL_SERVER</code>, and
-  /// <code>DEFAULT</code>.
+  /// The tier of the application component.
   Future<DescribeComponentConfigurationRecommendationResponse>
       describeComponentConfigurationRecommendation({
     required String componentName,
@@ -866,6 +883,9 @@ class ApplicationInsights {
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   ///
+  /// Parameter [componentName] :
+  /// The name of the component.
+  ///
   /// Parameter [endTime] :
   /// The time when the problem ended, in epoch seconds. If not specified,
   /// problems within the past seven days are returned.
@@ -886,6 +906,7 @@ class ApplicationInsights {
   /// specify a time frame for the request, problems within the past seven days
   /// are returned.
   Future<ListProblemsResponse> listProblems({
+    String? componentName,
     DateTime? endTime,
     int? maxResults,
     String? nextToken,
@@ -909,6 +930,7 @@ class ApplicationInsights {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (componentName != null) 'ComponentName': componentName,
         if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -1045,6 +1067,9 @@ class ApplicationInsights {
   /// Parameter [resourceGroupName] :
   /// The name of the resource group.
   ///
+  /// Parameter [autoConfigEnabled] :
+  /// Turns auto-configuration on or off.
+  ///
   /// Parameter [cWEMonitorEnabled] :
   /// Indicates whether Application Insights can listen to CloudWatch events for
   /// the application resources, such as <code>instance terminated</code>,
@@ -1064,6 +1089,7 @@ class ApplicationInsights {
   /// problems.
   Future<UpdateApplicationResponse> updateApplication({
     required String resourceGroupName,
+    bool? autoConfigEnabled,
     bool? cWEMonitorEnabled,
     bool? opsCenterEnabled,
     String? opsItemSNSTopicArn,
@@ -1081,6 +1107,7 @@ class ApplicationInsights {
       headers: headers,
       payload: {
         'ResourceGroupName': resourceGroupName,
+        if (autoConfigEnabled != null) 'AutoConfigEnabled': autoConfigEnabled,
         if (cWEMonitorEnabled != null) 'CWEMonitorEnabled': cWEMonitorEnabled,
         if (opsCenterEnabled != null) 'OpsCenterEnabled': opsCenterEnabled,
         if (opsItemSNSTopicArn != null)
@@ -1151,6 +1178,10 @@ class ApplicationInsights {
   /// Parameter [resourceGroupName] :
   /// The name of the resource group.
   ///
+  /// Parameter [autoConfigEnabled] :
+  /// Automatically configures the component by applying the recommended
+  /// configurations.
+  ///
   /// Parameter [componentConfiguration] :
   /// The configuration settings of the component. The value is the escaped JSON
   /// of the configuration. For more information about the JSON format, see <a
@@ -1166,13 +1197,11 @@ class ApplicationInsights {
   /// Indicates whether the application component is monitored.
   ///
   /// Parameter [tier] :
-  /// The tier of the application component. Supported tiers include
-  /// <code>DOT_NET_WORKER</code>, <code>DOT_NET_WEB</code>,
-  /// <code>DOT_NET_CORE</code>, <code>SQL_SERVER</code>, and
-  /// <code>DEFAULT</code>.
+  /// The tier of the application component.
   Future<void> updateComponentConfiguration({
     required String componentName,
     required String resourceGroupName,
+    bool? autoConfigEnabled,
     String? componentConfiguration,
     bool? monitor,
     Tier? tier,
@@ -1190,6 +1219,7 @@ class ApplicationInsights {
       payload: {
         'ComponentName': componentName,
         'ResourceGroupName': resourceGroupName,
+        if (autoConfigEnabled != null) 'AutoConfigEnabled': autoConfigEnabled,
         if (componentConfiguration != null)
           'ComponentConfiguration': componentConfiguration,
         if (monitor != null) 'Monitor': monitor,
@@ -1296,6 +1326,7 @@ class ApplicationComponent {
     this.resourceType,
     this.tier,
   });
+
   factory ApplicationComponent.fromJson(Map<String, dynamic> json) {
     return ApplicationComponent(
       componentName: json['ComponentName'] as String?,
@@ -1315,10 +1346,16 @@ class ApplicationComponent {
 
 /// Describes the status of the application.
 class ApplicationInfo {
+  /// Indicates whether auto-configuration is turned on for this application.
+  final bool? autoConfigEnabled;
+
   /// Indicates whether Application Insights can listen to CloudWatch events for
   /// the application resources, such as <code>instance terminated</code>,
   /// <code>failed deployment</code>, and others.
   final bool? cWEMonitorEnabled;
+
+  /// The method used by Application Insights to onboard your resources.
+  final DiscoveryType? discoveryType;
 
   /// The lifecycle of the application.
   final String? lifeCycle;
@@ -1348,16 +1385,21 @@ class ApplicationInfo {
   final String? resourceGroupName;
 
   ApplicationInfo({
+    this.autoConfigEnabled,
     this.cWEMonitorEnabled,
+    this.discoveryType,
     this.lifeCycle,
     this.opsCenterEnabled,
     this.opsItemSNSTopicArn,
     this.remarks,
     this.resourceGroupName,
   });
+
   factory ApplicationInfo.fromJson(Map<String, dynamic> json) {
     return ApplicationInfo(
+      autoConfigEnabled: json['AutoConfigEnabled'] as bool?,
       cWEMonitorEnabled: json['CWEMonitorEnabled'] as bool?,
+      discoveryType: (json['DiscoveryType'] as String?)?.toDiscoveryType(),
       lifeCycle: json['LifeCycle'] as String?,
       opsCenterEnabled: json['OpsCenterEnabled'] as bool?,
       opsItemSNSTopicArn: json['OpsItemSNSTopicArn'] as String?,
@@ -1435,6 +1477,7 @@ class ConfigurationEvent {
     this.eventTime,
     this.monitoredResourceARN,
   });
+
   factory ConfigurationEvent.fromJson(Map<String, dynamic> json) {
     return ConfigurationEvent(
       eventDetail: json['EventDetail'] as String?,
@@ -1529,6 +1572,7 @@ class CreateApplicationResponse {
   CreateApplicationResponse({
     this.applicationInfo,
   });
+
   factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) {
     return CreateApplicationResponse(
       applicationInfo: json['ApplicationInfo'] != null
@@ -1541,6 +1585,7 @@ class CreateApplicationResponse {
 
 class CreateComponentResponse {
   CreateComponentResponse();
+
   factory CreateComponentResponse.fromJson(Map<String, dynamic> _) {
     return CreateComponentResponse();
   }
@@ -1557,6 +1602,7 @@ class CreateLogPatternResponse {
     this.logPattern,
     this.resourceGroupName,
   });
+
   factory CreateLogPatternResponse.fromJson(Map<String, dynamic> json) {
     return CreateLogPatternResponse(
       logPattern: json['LogPattern'] != null
@@ -1569,6 +1615,7 @@ class CreateLogPatternResponse {
 
 class DeleteApplicationResponse {
   DeleteApplicationResponse();
+
   factory DeleteApplicationResponse.fromJson(Map<String, dynamic> _) {
     return DeleteApplicationResponse();
   }
@@ -1576,6 +1623,7 @@ class DeleteApplicationResponse {
 
 class DeleteComponentResponse {
   DeleteComponentResponse();
+
   factory DeleteComponentResponse.fromJson(Map<String, dynamic> _) {
     return DeleteComponentResponse();
   }
@@ -1583,6 +1631,7 @@ class DeleteComponentResponse {
 
 class DeleteLogPatternResponse {
   DeleteLogPatternResponse();
+
   factory DeleteLogPatternResponse.fromJson(Map<String, dynamic> _) {
     return DeleteLogPatternResponse();
   }
@@ -1595,6 +1644,7 @@ class DescribeApplicationResponse {
   DescribeApplicationResponse({
     this.applicationInfo,
   });
+
   factory DescribeApplicationResponse.fromJson(Map<String, dynamic> json) {
     return DescribeApplicationResponse(
       applicationInfo: json['ApplicationInfo'] != null
@@ -1613,6 +1663,7 @@ class DescribeComponentConfigurationRecommendationResponse {
   DescribeComponentConfigurationRecommendationResponse({
     this.componentConfiguration,
   });
+
   factory DescribeComponentConfigurationRecommendationResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeComponentConfigurationRecommendationResponse(
@@ -1639,6 +1690,7 @@ class DescribeComponentConfigurationResponse {
     this.monitor,
     this.tier,
   });
+
   factory DescribeComponentConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeComponentConfigurationResponse(
@@ -1659,6 +1711,7 @@ class DescribeComponentResponse {
     this.applicationComponent,
     this.resourceList,
   });
+
   factory DescribeComponentResponse.fromJson(Map<String, dynamic> json) {
     return DescribeComponentResponse(
       applicationComponent: json['ApplicationComponent'] != null
@@ -1684,6 +1737,7 @@ class DescribeLogPatternResponse {
     this.logPattern,
     this.resourceGroupName,
   });
+
   factory DescribeLogPatternResponse.fromJson(Map<String, dynamic> json) {
     return DescribeLogPatternResponse(
       logPattern: json['LogPattern'] != null
@@ -1701,6 +1755,7 @@ class DescribeObservationResponse {
   DescribeObservationResponse({
     this.observation,
   });
+
   factory DescribeObservationResponse.fromJson(Map<String, dynamic> json) {
     return DescribeObservationResponse(
       observation: json['Observation'] != null
@@ -1717,6 +1772,7 @@ class DescribeProblemObservationsResponse {
   DescribeProblemObservationsResponse({
     this.relatedObservations,
   });
+
   factory DescribeProblemObservationsResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeProblemObservationsResponse(
@@ -1735,12 +1791,41 @@ class DescribeProblemResponse {
   DescribeProblemResponse({
     this.problem,
   });
+
   factory DescribeProblemResponse.fromJson(Map<String, dynamic> json) {
     return DescribeProblemResponse(
       problem: json['Problem'] != null
           ? Problem.fromJson(json['Problem'] as Map<String, dynamic>)
           : null,
     );
+  }
+}
+
+enum DiscoveryType {
+  resourceGroupBased,
+  accountBased,
+}
+
+extension DiscoveryTypeValueExtension on DiscoveryType {
+  String toValue() {
+    switch (this) {
+      case DiscoveryType.resourceGroupBased:
+        return 'RESOURCE_GROUP_BASED';
+      case DiscoveryType.accountBased:
+        return 'ACCOUNT_BASED';
+    }
+  }
+}
+
+extension DiscoveryTypeFromString on String {
+  DiscoveryType toDiscoveryType() {
+    switch (this) {
+      case 'RESOURCE_GROUP_BASED':
+        return DiscoveryType.resourceGroupBased;
+      case 'ACCOUNT_BASED':
+        return DiscoveryType.accountBased;
+    }
+    throw Exception('$this is not known in enum DiscoveryType');
   }
 }
 
@@ -1800,6 +1885,29 @@ extension FeedbackValueFromString on String {
   }
 }
 
+enum GroupingType {
+  accountBased,
+}
+
+extension GroupingTypeValueExtension on GroupingType {
+  String toValue() {
+    switch (this) {
+      case GroupingType.accountBased:
+        return 'ACCOUNT_BASED';
+    }
+  }
+}
+
+extension GroupingTypeFromString on String {
+  GroupingType toGroupingType() {
+    switch (this) {
+      case 'ACCOUNT_BASED':
+        return GroupingType.accountBased;
+    }
+    throw Exception('$this is not known in enum GroupingType');
+  }
+}
+
 class ListApplicationsResponse {
   /// The list of applications.
   final List<ApplicationInfo>? applicationInfoList;
@@ -1812,6 +1920,7 @@ class ListApplicationsResponse {
     this.applicationInfoList,
     this.nextToken,
   });
+
   factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) {
     return ListApplicationsResponse(
       applicationInfoList: (json['ApplicationInfoList'] as List?)
@@ -1834,6 +1943,7 @@ class ListComponentsResponse {
     this.applicationComponentList,
     this.nextToken,
   });
+
   factory ListComponentsResponse.fromJson(Map<String, dynamic> json) {
     return ListComponentsResponse(
       applicationComponentList: (json['ApplicationComponentList'] as List?)
@@ -1861,6 +1971,7 @@ class ListConfigurationHistoryResponse {
     this.eventList,
     this.nextToken,
   });
+
   factory ListConfigurationHistoryResponse.fromJson(Map<String, dynamic> json) {
     return ListConfigurationHistoryResponse(
       eventList: (json['EventList'] as List?)
@@ -1888,6 +1999,7 @@ class ListLogPatternSetsResponse {
     this.nextToken,
     this.resourceGroupName,
   });
+
   factory ListLogPatternSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListLogPatternSetsResponse(
       logPatternSets: (json['LogPatternSets'] as List?)
@@ -1916,6 +2028,7 @@ class ListLogPatternsResponse {
     this.nextToken,
     this.resourceGroupName,
   });
+
   factory ListLogPatternsResponse.fromJson(Map<String, dynamic> json) {
     return ListLogPatternsResponse(
       logPatterns: (json['LogPatterns'] as List?)
@@ -1936,10 +2049,15 @@ class ListProblemsResponse {
   /// The list of problems.
   final List<Problem>? problemList;
 
+  /// The name of the resource group.
+  final String? resourceGroupName;
+
   ListProblemsResponse({
     this.nextToken,
     this.problemList,
+    this.resourceGroupName,
   });
+
   factory ListProblemsResponse.fromJson(Map<String, dynamic> json) {
     return ListProblemsResponse(
       nextToken: json['NextToken'] as String?,
@@ -1947,6 +2065,7 @@ class ListProblemsResponse {
           ?.whereNotNull()
           .map((e) => Problem.fromJson(e as Map<String, dynamic>))
           .toList(),
+      resourceGroupName: json['ResourceGroupName'] as String?,
     );
   }
 }
@@ -1960,6 +2079,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
@@ -2041,6 +2161,7 @@ class LogPattern {
     this.patternSetName,
     this.rank,
   });
+
   factory LogPattern.fromJson(Map<String, dynamic> json) {
     return LogPattern(
       pattern: json['Pattern'] as String?,
@@ -2246,6 +2367,7 @@ class Observation {
     this.xRayRequestCount,
     this.xRayThrottlePercent,
   });
+
   factory Observation.fromJson(Map<String, dynamic> json) {
     return Observation(
       cloudWatchEventDetailType: json['CloudWatchEventDetailType'] as String?,
@@ -2343,6 +2465,13 @@ class Problem {
   /// A detailed analysis of the problem using machine learning.
   final String? insights;
 
+  /// The last time that the problem reoccurred after its last resolution.
+  final DateTime? lastRecurrenceTime;
+
+  /// The number of times that the same problem reoccurred after the first time it
+  /// was resolved.
+  final int? recurringCount;
+
   /// The name of the resource group affected by the problem.
   final String? resourceGroupName;
 
@@ -2364,12 +2493,15 @@ class Problem {
     this.feedback,
     this.id,
     this.insights,
+    this.lastRecurrenceTime,
+    this.recurringCount,
     this.resourceGroupName,
     this.severityLevel,
     this.startTime,
     this.status,
     this.title,
   });
+
   factory Problem.fromJson(Map<String, dynamic> json) {
     return Problem(
       affectedResource: json['AffectedResource'] as String?,
@@ -2378,6 +2510,8 @@ class Problem {
           MapEntry(k.toFeedbackKey(), (e as String).toFeedbackValue())),
       id: json['Id'] as String?,
       insights: json['Insights'] as String?,
+      lastRecurrenceTime: timeStampFromJson(json['LastRecurrenceTime']),
+      recurringCount: json['RecurringCount'] as int?,
       resourceGroupName: json['ResourceGroupName'] as String?,
       severityLevel: (json['SeverityLevel'] as String?)?.toSeverityLevel(),
       startTime: timeStampFromJson(json['StartTime']),
@@ -2395,6 +2529,7 @@ class RelatedObservations {
   RelatedObservations({
     this.observationList,
   });
+
   factory RelatedObservations.fromJson(Map<String, dynamic> json) {
     return RelatedObservations(
       observationList: (json['ObservationList'] as List?)
@@ -2406,6 +2541,7 @@ class RelatedObservations {
 }
 
 enum SeverityLevel {
+  informative,
   low,
   medium,
   high,
@@ -2414,6 +2550,8 @@ enum SeverityLevel {
 extension SeverityLevelValueExtension on SeverityLevel {
   String toValue() {
     switch (this) {
+      case SeverityLevel.informative:
+        return 'Informative';
       case SeverityLevel.low:
         return 'Low';
       case SeverityLevel.medium:
@@ -2427,6 +2565,8 @@ extension SeverityLevelValueExtension on SeverityLevel {
 extension SeverityLevelFromString on String {
   SeverityLevel toSeverityLevel() {
     switch (this) {
+      case 'Informative':
+        return SeverityLevel.informative;
       case 'Low':
         return SeverityLevel.low;
       case 'Medium':
@@ -2442,6 +2582,7 @@ enum Status {
   ignore,
   resolved,
   pending,
+  recurring,
 }
 
 extension StatusValueExtension on Status {
@@ -2453,6 +2594,8 @@ extension StatusValueExtension on Status {
         return 'RESOLVED';
       case Status.pending:
         return 'PENDING';
+      case Status.recurring:
+        return 'RECURRING';
     }
   }
 }
@@ -2466,6 +2609,8 @@ extension StatusFromString on String {
         return Status.resolved;
       case 'PENDING':
         return Status.pending;
+      case 'RECURRING':
+        return Status.recurring;
     }
     throw Exception('$this is not known in enum Status');
   }
@@ -2514,6 +2659,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -2533,6 +2679,7 @@ class Tag {
 
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
@@ -2551,6 +2698,12 @@ enum Tier {
   postgresql,
   javaJmx,
   oracle,
+  sapHanaMultiNode,
+  sapHanaSingleNode,
+  sapHanaHighAvailability,
+  sqlServerFailoverClusterInstance,
+  sharepoint,
+  activeDirectory,
 }
 
 extension TierValueExtension on Tier {
@@ -2580,6 +2733,18 @@ extension TierValueExtension on Tier {
         return 'JAVA_JMX';
       case Tier.oracle:
         return 'ORACLE';
+      case Tier.sapHanaMultiNode:
+        return 'SAP_HANA_MULTI_NODE';
+      case Tier.sapHanaSingleNode:
+        return 'SAP_HANA_SINGLE_NODE';
+      case Tier.sapHanaHighAvailability:
+        return 'SAP_HANA_HIGH_AVAILABILITY';
+      case Tier.sqlServerFailoverClusterInstance:
+        return 'SQL_SERVER_FAILOVER_CLUSTER_INSTANCE';
+      case Tier.sharepoint:
+        return 'SHAREPOINT';
+      case Tier.activeDirectory:
+        return 'ACTIVE_DIRECTORY';
     }
   }
 }
@@ -2611,6 +2776,18 @@ extension TierFromString on String {
         return Tier.javaJmx;
       case 'ORACLE':
         return Tier.oracle;
+      case 'SAP_HANA_MULTI_NODE':
+        return Tier.sapHanaMultiNode;
+      case 'SAP_HANA_SINGLE_NODE':
+        return Tier.sapHanaSingleNode;
+      case 'SAP_HANA_HIGH_AVAILABILITY':
+        return Tier.sapHanaHighAvailability;
+      case 'SQL_SERVER_FAILOVER_CLUSTER_INSTANCE':
+        return Tier.sqlServerFailoverClusterInstance;
+      case 'SHAREPOINT':
+        return Tier.sharepoint;
+      case 'ACTIVE_DIRECTORY':
+        return Tier.activeDirectory;
     }
     throw Exception('$this is not known in enum Tier');
   }
@@ -2618,6 +2795,7 @@ extension TierFromString on String {
 
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
   }
@@ -2630,6 +2808,7 @@ class UpdateApplicationResponse {
   UpdateApplicationResponse({
     this.applicationInfo,
   });
+
   factory UpdateApplicationResponse.fromJson(Map<String, dynamic> json) {
     return UpdateApplicationResponse(
       applicationInfo: json['ApplicationInfo'] != null
@@ -2642,6 +2821,7 @@ class UpdateApplicationResponse {
 
 class UpdateComponentConfigurationResponse {
   UpdateComponentConfigurationResponse();
+
   factory UpdateComponentConfigurationResponse.fromJson(
       Map<String, dynamic> _) {
     return UpdateComponentConfigurationResponse();
@@ -2650,6 +2830,7 @@ class UpdateComponentConfigurationResponse {
 
 class UpdateComponentResponse {
   UpdateComponentResponse();
+
   factory UpdateComponentResponse.fromJson(Map<String, dynamic> _) {
     return UpdateComponentResponse();
   }
@@ -2666,6 +2847,7 @@ class UpdateLogPatternResponse {
     this.logPattern,
     this.resourceGroupName,
   });
+
   factory UpdateLogPatternResponse.fromJson(Map<String, dynamic> json) {
     return UpdateLogPatternResponse(
       logPattern: json['LogPattern'] != null

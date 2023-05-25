@@ -134,6 +134,38 @@ class ElasticsearchService {
     return AssociatePackageResponse.fromJson(response);
   }
 
+  /// Provides access to an Amazon OpenSearch Service domain through the use of
+  /// an interface VPC endpoint.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [DisabledOperationException].
+  /// May throw [LimitExceededException].
+  /// May throw [ValidationException].
+  /// May throw [InternalException].
+  /// May throw [BaseException].
+  ///
+  /// Parameter [account] :
+  /// The account ID to grant access to.
+  ///
+  /// Parameter [domainName] :
+  /// The name of the OpenSearch Service domain to provide access to.
+  Future<AuthorizeVpcEndpointAccessResponse> authorizeVpcEndpointAccess({
+    required String account,
+    required String domainName,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Account': account,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/2015-01-01/es/domain/${Uri.encodeComponent(domainName)}/authorizeVpcEndpointAccess',
+      exceptionFnMap: _exceptionFns,
+    );
+    return AuthorizeVpcEndpointAccessResponse.fromJson(response);
+  }
+
   /// Cancels a scheduled service software update for an Amazon ES domain. You
   /// can only perform this operation before the
   /// <code>AutomatedUpdateDate</code> and when the <code>UpdateStatus</code> is
@@ -195,6 +227,9 @@ class ElasticsearchService {
   /// Parameter [advancedSecurityOptions] :
   /// Specifies advanced security options.
   ///
+  /// Parameter [autoTuneOptions] :
+  /// Specifies Auto-Tune options.
+  ///
   /// Parameter [cognitoOptions] :
   /// Options to specify the Cognito user and identity pools for Kibana
   /// authentication. For more information, see <a
@@ -234,6 +269,9 @@ class ElasticsearchService {
   /// Option to set time, in UTC format, of the daily automated snapshot.
   /// Default value is 0 hours.
   ///
+  /// Parameter [tagList] :
+  /// A list of <code>Tag</code> added during domain creation.
+  ///
   /// Parameter [vPCOptions] :
   /// Options to specify the subnets and security groups for VPC endpoint. For
   /// more information, see <a
@@ -245,6 +283,7 @@ class ElasticsearchService {
     String? accessPolicies,
     Map<String, String>? advancedOptions,
     AdvancedSecurityOptionsInput? advancedSecurityOptions,
+    AutoTuneOptionsInput? autoTuneOptions,
     CognitoOptions? cognitoOptions,
     DomainEndpointOptions? domainEndpointOptions,
     EBSOptions? eBSOptions,
@@ -254,6 +293,7 @@ class ElasticsearchService {
     Map<LogType, LogPublishingOption>? logPublishingOptions,
     NodeToNodeEncryptionOptions? nodeToNodeEncryptionOptions,
     SnapshotOptions? snapshotOptions,
+    List<Tag>? tagList,
     VPCOptions? vPCOptions,
   }) async {
     final $payload = <String, dynamic>{
@@ -262,6 +302,7 @@ class ElasticsearchService {
       if (advancedOptions != null) 'AdvancedOptions': advancedOptions,
       if (advancedSecurityOptions != null)
         'AdvancedSecurityOptions': advancedSecurityOptions,
+      if (autoTuneOptions != null) 'AutoTuneOptions': autoTuneOptions,
       if (cognitoOptions != null) 'CognitoOptions': cognitoOptions,
       if (domainEndpointOptions != null)
         'DomainEndpointOptions': domainEndpointOptions,
@@ -278,6 +319,7 @@ class ElasticsearchService {
       if (nodeToNodeEncryptionOptions != null)
         'NodeToNodeEncryptionOptions': nodeToNodeEncryptionOptions,
       if (snapshotOptions != null) 'SnapshotOptions': snapshotOptions,
+      if (tagList != null) 'TagList': tagList,
       if (vPCOptions != null) 'VPCOptions': vPCOptions,
     };
     final response = await _protocol.send(
@@ -370,6 +412,42 @@ class ElasticsearchService {
       exceptionFnMap: _exceptionFns,
     );
     return CreatePackageResponse.fromJson(response);
+  }
+
+  /// Creates an Amazon OpenSearch Service-managed VPC endpoint.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalException].
+  /// May throw [DisabledOperationException].
+  /// May throw [BaseException].
+  ///
+  /// Parameter [domainArn] :
+  /// The Amazon Resource Name (ARN) of the domain to grant access to.
+  ///
+  /// Parameter [vpcOptions] :
+  /// Options to specify the subnets and security groups for the endpoint.
+  ///
+  /// Parameter [clientToken] :
+  /// Unique, case-sensitive identifier to ensure idempotency of the request.
+  Future<CreateVpcEndpointResponse> createVpcEndpoint({
+    required String domainArn,
+    required VPCOptions vpcOptions,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'DomainArn': domainArn,
+      'VpcOptions': vpcOptions,
+      if (clientToken != null) 'ClientToken': clientToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/2015-01-01/es/vpcEndpoints',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateVpcEndpointResponse.fromJson(response);
   }
 
   /// Permanently deletes the specified Elasticsearch domain and all of its
@@ -481,6 +559,100 @@ class ElasticsearchService {
       exceptionFnMap: _exceptionFns,
     );
     return DeletePackageResponse.fromJson(response);
+  }
+
+  /// Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [DisabledOperationException].
+  /// May throw [InternalException].
+  /// May throw [BaseException].
+  ///
+  /// Parameter [vpcEndpointId] :
+  /// The unique identifier of the endpoint to be deleted.
+  Future<DeleteVpcEndpointResponse> deleteVpcEndpoint({
+    required String vpcEndpointId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/2015-01-01/es/vpcEndpoints/${Uri.encodeComponent(vpcEndpointId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteVpcEndpointResponse.fromJson(response);
+  }
+
+  /// Provides scheduled Auto-Tune action details for the Elasticsearch domain,
+  /// such as Auto-Tune action type, description, severity, and scheduled date.
+  ///
+  /// May throw [BaseException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [domainName] :
+  /// Specifies the domain name for which you want Auto-Tune action details.
+  ///
+  /// Parameter [maxResults] :
+  /// Set this value to limit the number of results returned. If not specified,
+  /// defaults to 100.
+  ///
+  /// Parameter [nextToken] :
+  /// NextToken is sent in case the earlier API call results contain the
+  /// NextToken. It is used for pagination.
+  Future<DescribeDomainAutoTunesResponse> describeDomainAutoTunes({
+    required String domainName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2015-01-01/es/domain/${Uri.encodeComponent(domainName)}/autoTunes',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeDomainAutoTunesResponse.fromJson(response);
+  }
+
+  /// Returns information about the current blue/green deployment happening on a
+  /// domain, including a change ID, status, and progress stages.
+  ///
+  /// May throw [BaseException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [domainName] :
+  /// The domain you want to get the progress information about.
+  ///
+  /// Parameter [changeId] :
+  /// The specific change ID for which you want to get progress information.
+  /// This is an optional parameter. If omitted, the service returns information
+  /// about the most recent configuration change.
+  Future<DescribeDomainChangeProgressResponse> describeDomainChangeProgress({
+    required String domainName,
+    String? changeId,
+  }) async {
+    final $query = <String, List<String>>{
+      if (changeId != null) 'changeid': [changeId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2015-01-01/es/domain/${Uri.encodeComponent(domainName)}/progress',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeDomainChangeProgressResponse.fromJson(response);
   }
 
   /// Returns domain configuration information about the specified Elasticsearch
@@ -840,6 +1012,30 @@ class ElasticsearchService {
     return DescribeReservedElasticsearchInstancesResponse.fromJson(response);
   }
 
+  /// Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalException].
+  /// May throw [DisabledOperationException].
+  /// May throw [BaseException].
+  ///
+  /// Parameter [vpcEndpointIds] :
+  /// The unique identifiers of the endpoints to get information about.
+  Future<DescribeVpcEndpointsResponse> describeVpcEndpoints({
+    required List<String> vpcEndpointIds,
+  }) async {
+    final $payload = <String, dynamic>{
+      'VpcEndpointIds': vpcEndpointIds,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/2015-01-01/es/vpcEndpoints/describe',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeVpcEndpointsResponse.fromJson(response);
+  }
+
   /// Dissociates a package from the Amazon ES domain.
   ///
   /// May throw [BaseException].
@@ -999,11 +1195,21 @@ class ElasticsearchService {
   ///
   /// May throw [BaseException].
   /// May throw [ValidationException].
-  Future<ListDomainNamesResponse> listDomainNames() async {
+  ///
+  /// Parameter [engineType] :
+  /// Optional parameter to filter the output by domain engine type. Acceptable
+  /// values are 'Elasticsearch' and 'OpenSearch'.
+  Future<ListDomainNamesResponse> listDomainNames({
+    EngineType? engineType,
+  }) async {
+    final $query = <String, List<String>>{
+      if (engineType != null) 'engineType': [engineType.toValue()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri: '/2015-01-01/domain',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListDomainNamesResponse.fromJson(response);
@@ -1208,6 +1414,95 @@ class ElasticsearchService {
     return ListTagsResponse.fromJson(response);
   }
 
+  /// Retrieves information about each principal that is allowed to access a
+  /// given Amazon OpenSearch Service domain through the use of an interface VPC
+  /// endpoint.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [DisabledOperationException].
+  /// May throw [InternalException].
+  /// May throw [BaseException].
+  ///
+  /// Parameter [domainName] :
+  /// The name of the OpenSearch Service domain to retrieve access information
+  /// for.
+  ///
+  /// Parameter [nextToken] :
+  /// Provides an identifier to allow retrieval of paginated results.
+  Future<ListVpcEndpointAccessResponse> listVpcEndpointAccess({
+    required String domainName,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2015-01-01/es/domain/${Uri.encodeComponent(domainName)}/listVpcEndpointAccess',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListVpcEndpointAccessResponse.fromJson(response);
+  }
+
+  /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the
+  /// current account and Region.
+  ///
+  /// May throw [InternalException].
+  /// May throw [DisabledOperationException].
+  /// May throw [BaseException].
+  ///
+  /// Parameter [nextToken] :
+  /// Identifier to allow retrieval of paginated results.
+  Future<ListVpcEndpointsResponse> listVpcEndpoints({
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/2015-01-01/es/vpcEndpoints',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListVpcEndpointsResponse.fromJson(response);
+  }
+
+  /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated
+  /// with a particular domain.
+  ///
+  /// May throw [InternalException].
+  /// May throw [DisabledOperationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [BaseException].
+  ///
+  /// Parameter [domainName] :
+  /// Name of the ElasticSearch domain whose VPC endpoints are to be listed.
+  ///
+  /// Parameter [nextToken] :
+  /// Provides an identifier to allow retrieval of paginated results.
+  Future<ListVpcEndpointsForDomainResponse> listVpcEndpointsForDomain({
+    required String domainName,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2015-01-01/es/domain/${Uri.encodeComponent(domainName)}/vpcEndpoints',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListVpcEndpointsForDomainResponse.fromJson(response);
+  }
+
   /// Allows you to purchase reserved Elasticsearch instances.
   ///
   /// May throw [ResourceNotFoundException].
@@ -1304,6 +1599,36 @@ class ElasticsearchService {
     );
   }
 
+  /// Revokes access to an Amazon OpenSearch Service domain that was provided
+  /// through an interface VPC endpoint.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [DisabledOperationException].
+  /// May throw [InternalException].
+  /// May throw [BaseException].
+  ///
+  /// Parameter [account] :
+  /// The account ID to revoke access from.
+  ///
+  /// Parameter [domainName] :
+  /// The name of the OpenSearch Service domain.
+  Future<void> revokeVpcEndpointAccess({
+    required String account,
+    required String domainName,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Account': account,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/2015-01-01/es/domain/${Uri.encodeComponent(domainName)}/revokeVpcEndpointAccess',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Schedules a service software update for an Amazon ES domain.
   ///
   /// May throw [BaseException].
@@ -1357,6 +1682,9 @@ class ElasticsearchService {
   /// Parameter [advancedSecurityOptions] :
   /// Specifies advanced security options.
   ///
+  /// Parameter [autoTuneOptions] :
+  /// Specifies Auto-Tune options.
+  ///
   /// Parameter [cognitoOptions] :
   /// Options to specify the Cognito user and identity pools for Kibana
   /// authentication. For more information, see <a
@@ -1367,15 +1695,28 @@ class ElasticsearchService {
   /// Options to specify configuration that will be applied to the domain
   /// endpoint.
   ///
+  /// Parameter [dryRun] :
+  /// This flag, when set to True, specifies whether the
+  /// <code>UpdateElasticsearchDomain</code> request should return the results
+  /// of validation checks without actually applying the change. This flag, when
+  /// set to True, specifies the deployment mechanism through which the update
+  /// shall be applied on the domain. This will not actually perform the Update.
+  ///
   /// Parameter [eBSOptions] :
   /// Specify the type and size of the EBS volume that you want to use.
   ///
   /// Parameter [elasticsearchClusterConfig] :
   /// The type and number of instances to instantiate for the domain cluster.
   ///
+  /// Parameter [encryptionAtRestOptions] :
+  /// Specifies the Encryption At Rest Options.
+  ///
   /// Parameter [logPublishingOptions] :
   /// Map of <code>LogType</code> and <code>LogPublishingOption</code>, each
   /// containing options to publish a given type of Elasticsearch log.
+  ///
+  /// Parameter [nodeToNodeEncryptionOptions] :
+  /// Specifies the NodeToNodeEncryptionOptions.
   ///
   /// Parameter [snapshotOptions] :
   /// Option to set the time, in UTC format, for the daily automated snapshot.
@@ -1393,11 +1734,15 @@ class ElasticsearchService {
     String? accessPolicies,
     Map<String, String>? advancedOptions,
     AdvancedSecurityOptionsInput? advancedSecurityOptions,
+    AutoTuneOptions? autoTuneOptions,
     CognitoOptions? cognitoOptions,
     DomainEndpointOptions? domainEndpointOptions,
+    bool? dryRun,
     EBSOptions? eBSOptions,
     ElasticsearchClusterConfig? elasticsearchClusterConfig,
+    EncryptionAtRestOptions? encryptionAtRestOptions,
     Map<LogType, LogPublishingOption>? logPublishingOptions,
+    NodeToNodeEncryptionOptions? nodeToNodeEncryptionOptions,
     SnapshotOptions? snapshotOptions,
     VPCOptions? vPCOptions,
   }) async {
@@ -1406,15 +1751,21 @@ class ElasticsearchService {
       if (advancedOptions != null) 'AdvancedOptions': advancedOptions,
       if (advancedSecurityOptions != null)
         'AdvancedSecurityOptions': advancedSecurityOptions,
+      if (autoTuneOptions != null) 'AutoTuneOptions': autoTuneOptions,
       if (cognitoOptions != null) 'CognitoOptions': cognitoOptions,
       if (domainEndpointOptions != null)
         'DomainEndpointOptions': domainEndpointOptions,
+      if (dryRun != null) 'DryRun': dryRun,
       if (eBSOptions != null) 'EBSOptions': eBSOptions,
       if (elasticsearchClusterConfig != null)
         'ElasticsearchClusterConfig': elasticsearchClusterConfig,
+      if (encryptionAtRestOptions != null)
+        'EncryptionAtRestOptions': encryptionAtRestOptions,
       if (logPublishingOptions != null)
         'LogPublishingOptions':
             logPublishingOptions.map((k, e) => MapEntry(k.toValue(), e)),
+      if (nodeToNodeEncryptionOptions != null)
+        'NodeToNodeEncryptionOptions': nodeToNodeEncryptionOptions,
       if (snapshotOptions != null) 'SnapshotOptions': snapshotOptions,
       if (vPCOptions != null) 'VPCOptions': vPCOptions,
     };
@@ -1467,6 +1818,37 @@ class ElasticsearchService {
     return UpdatePackageResponse.fromJson(response);
   }
 
+  /// Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [DisabledOperationException].
+  /// May throw [InternalException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [BaseException].
+  ///
+  /// Parameter [vpcEndpointId] :
+  /// Unique identifier of the VPC endpoint to be updated.
+  ///
+  /// Parameter [vpcOptions] :
+  /// The security groups and/or subnets to add, remove, or modify.
+  Future<UpdateVpcEndpointResponse> updateVpcEndpoint({
+    required String vpcEndpointId,
+    required VPCOptions vpcOptions,
+  }) async {
+    final $payload = <String, dynamic>{
+      'VpcEndpointId': vpcEndpointId,
+      'VpcOptions': vpcOptions,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/2015-01-01/es/vpcEndpoints/update',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateVpcEndpointResponse.fromJson(response);
+  }
+
   /// Allows you to either upgrade your domain or perform an Upgrade eligibility
   /// check to a compatible Elasticsearch version.
   ///
@@ -1514,6 +1896,7 @@ class AcceptInboundCrossClusterSearchConnectionResponse {
   AcceptInboundCrossClusterSearchConnectionResponse({
     this.crossClusterSearchConnection,
   });
+
   factory AcceptInboundCrossClusterSearchConnectionResponse.fromJson(
       Map<String, dynamic> json) {
     return AcceptInboundCrossClusterSearchConnectionResponse(
@@ -1542,6 +1925,7 @@ class AccessPoliciesStatus {
     required this.options,
     required this.status,
   });
+
   factory AccessPoliciesStatus.fromJson(Map<String, dynamic> json) {
     return AccessPoliciesStatus(
       options: json['Options'] as String,
@@ -1574,6 +1958,7 @@ class AdditionalLimit {
     this.limitName,
     this.limitValues,
   });
+
   factory AdditionalLimit.fromJson(Map<String, dynamic> json) {
     return AdditionalLimit(
       limitName: json['LimitName'] as String?,
@@ -1614,6 +1999,7 @@ class AdvancedOptionsStatus {
     required this.options,
     required this.status,
   });
+
   factory AdvancedOptionsStatus.fromJson(Map<String, dynamic> json) {
     return AdvancedOptionsStatus(
       options: (json['Options'] as Map<String, dynamic>)
@@ -1626,6 +2012,13 @@ class AdvancedOptionsStatus {
 /// Specifies the advanced security configuration: whether advanced security is
 /// enabled, whether the internal database option is enabled.
 class AdvancedSecurityOptions {
+  /// Specifies the Anonymous Auth Disable Date when Anonymous Auth is enabled.
+  final DateTime? anonymousAuthDisableDate;
+
+  /// True if Anonymous auth is enabled. Anonymous auth can be enabled only when
+  /// AdvancedSecurity is enabled on existing domains.
+  final bool? anonymousAuthEnabled;
+
   /// True if advanced security is enabled.
   final bool? enabled;
 
@@ -1636,12 +2029,18 @@ class AdvancedSecurityOptions {
   final SAMLOptionsOutput? sAMLOptions;
 
   AdvancedSecurityOptions({
+    this.anonymousAuthDisableDate,
+    this.anonymousAuthEnabled,
     this.enabled,
     this.internalUserDatabaseEnabled,
     this.sAMLOptions,
   });
+
   factory AdvancedSecurityOptions.fromJson(Map<String, dynamic> json) {
     return AdvancedSecurityOptions(
+      anonymousAuthDisableDate:
+          timeStampFromJson(json['AnonymousAuthDisableDate']),
+      anonymousAuthEnabled: json['AnonymousAuthEnabled'] as bool?,
       enabled: json['Enabled'] as bool?,
       internalUserDatabaseEnabled: json['InternalUserDatabaseEnabled'] as bool?,
       sAMLOptions: json['SAMLOptions'] != null
@@ -1657,6 +2056,10 @@ class AdvancedSecurityOptions {
 /// and password (if internal database is enabled), and master user ARN (if IAM
 /// is enabled).
 class AdvancedSecurityOptionsInput {
+  /// True if Anonymous auth is enabled. Anonymous auth can be enabled only when
+  /// AdvancedSecurity is enabled on existing domains.
+  final bool? anonymousAuthEnabled;
+
   /// True if advanced security is enabled.
   final bool? enabled;
 
@@ -1670,17 +2073,21 @@ class AdvancedSecurityOptionsInput {
   final SAMLOptionsInput? sAMLOptions;
 
   AdvancedSecurityOptionsInput({
+    this.anonymousAuthEnabled,
     this.enabled,
     this.internalUserDatabaseEnabled,
     this.masterUserOptions,
     this.sAMLOptions,
   });
   Map<String, dynamic> toJson() {
+    final anonymousAuthEnabled = this.anonymousAuthEnabled;
     final enabled = this.enabled;
     final internalUserDatabaseEnabled = this.internalUserDatabaseEnabled;
     final masterUserOptions = this.masterUserOptions;
     final sAMLOptions = this.sAMLOptions;
     return {
+      if (anonymousAuthEnabled != null)
+        'AnonymousAuthEnabled': anonymousAuthEnabled,
       if (enabled != null) 'Enabled': enabled,
       if (internalUserDatabaseEnabled != null)
         'InternalUserDatabaseEnabled': internalUserDatabaseEnabled,
@@ -1704,6 +2111,7 @@ class AdvancedSecurityOptionsStatus {
     required this.options,
     required this.status,
   });
+
   factory AdvancedSecurityOptionsStatus.fromJson(Map<String, dynamic> json) {
     return AdvancedSecurityOptionsStatus(
       options: AdvancedSecurityOptions.fromJson(
@@ -1722,6 +2130,7 @@ class AssociatePackageResponse {
   AssociatePackageResponse({
     this.domainPackageDetails,
   });
+
   factory AssociatePackageResponse.fromJson(Map<String, dynamic> json) {
     return AssociatePackageResponse(
       domainPackageDetails: json['DomainPackageDetails'] != null
@@ -1729,6 +2138,431 @@ class AssociatePackageResponse {
               json['DomainPackageDetails'] as Map<String, dynamic>)
           : null,
     );
+  }
+}
+
+/// Container for response parameters to the
+/// <code><a>AuthorizeVpcEndpointAccess</a></code> operation. Contains the
+/// account ID and the type of the account being authorized to access the VPC
+/// endpoint.
+class AuthorizeVpcEndpointAccessResponse {
+  /// Information about the account or service that was provided access to the
+  /// domain.
+  final AuthorizedPrincipal authorizedPrincipal;
+
+  AuthorizeVpcEndpointAccessResponse({
+    required this.authorizedPrincipal,
+  });
+
+  factory AuthorizeVpcEndpointAccessResponse.fromJson(
+      Map<String, dynamic> json) {
+    return AuthorizeVpcEndpointAccessResponse(
+      authorizedPrincipal: AuthorizedPrincipal.fromJson(
+          json['AuthorizedPrincipal'] as Map<String, dynamic>),
+    );
+  }
+}
+
+/// Information about an account or service that has access to an Amazon
+/// OpenSearch Service domain through the use of an interface VPC endpoint.
+class AuthorizedPrincipal {
+  /// The IAM principal that is allowed access to the domain.
+  final String? principal;
+
+  /// The type of principal.
+  final PrincipalType? principalType;
+
+  AuthorizedPrincipal({
+    this.principal,
+    this.principalType,
+  });
+
+  factory AuthorizedPrincipal.fromJson(Map<String, dynamic> json) {
+    return AuthorizedPrincipal(
+      principal: json['Principal'] as String?,
+      principalType: (json['PrincipalType'] as String?)?.toPrincipalType(),
+    );
+  }
+}
+
+/// Specifies Auto-Tune type and Auto-Tune action details.
+class AutoTune {
+  /// Specifies details of the Auto-Tune action. See the <a
+  /// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
+  /// target="_blank">Developer Guide</a> for more information.
+  final AutoTuneDetails? autoTuneDetails;
+
+  /// Specifies Auto-Tune type. Valid value is SCHEDULED_ACTION.
+  final AutoTuneType? autoTuneType;
+
+  AutoTune({
+    this.autoTuneDetails,
+    this.autoTuneType,
+  });
+
+  factory AutoTune.fromJson(Map<String, dynamic> json) {
+    return AutoTune(
+      autoTuneDetails: json['AutoTuneDetails'] != null
+          ? AutoTuneDetails.fromJson(
+              json['AutoTuneDetails'] as Map<String, dynamic>)
+          : null,
+      autoTuneType: (json['AutoTuneType'] as String?)?.toAutoTuneType(),
+    );
+  }
+}
+
+/// Specifies the Auto-Tune desired state. Valid values are ENABLED, DISABLED.
+enum AutoTuneDesiredState {
+  enabled,
+  disabled,
+}
+
+extension AutoTuneDesiredStateValueExtension on AutoTuneDesiredState {
+  String toValue() {
+    switch (this) {
+      case AutoTuneDesiredState.enabled:
+        return 'ENABLED';
+      case AutoTuneDesiredState.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension AutoTuneDesiredStateFromString on String {
+  AutoTuneDesiredState toAutoTuneDesiredState() {
+    switch (this) {
+      case 'ENABLED':
+        return AutoTuneDesiredState.enabled;
+      case 'DISABLED':
+        return AutoTuneDesiredState.disabled;
+    }
+    throw Exception('$this is not known in enum AutoTuneDesiredState');
+  }
+}
+
+/// Specifies details of the Auto-Tune action. See the <a
+/// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
+/// target="_blank">Developer Guide</a> for more information.
+class AutoTuneDetails {
+  final ScheduledAutoTuneDetails? scheduledAutoTuneDetails;
+
+  AutoTuneDetails({
+    this.scheduledAutoTuneDetails,
+  });
+
+  factory AutoTuneDetails.fromJson(Map<String, dynamic> json) {
+    return AutoTuneDetails(
+      scheduledAutoTuneDetails: json['ScheduledAutoTuneDetails'] != null
+          ? ScheduledAutoTuneDetails.fromJson(
+              json['ScheduledAutoTuneDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// Specifies Auto-Tune maitenance schedule. See the <a
+/// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
+/// target="_blank">Developer Guide</a> for more information.
+class AutoTuneMaintenanceSchedule {
+  /// Specifies cron expression for a recurring maintenance schedule. See the <a
+  /// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
+  /// target="_blank">Developer Guide</a> for more information.
+  final String? cronExpressionForRecurrence;
+
+  /// Specifies maintenance schedule duration: duration value and duration unit.
+  /// See the <a
+  /// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
+  /// target="_blank">Developer Guide</a> for more information.
+  final Duration? duration;
+
+  /// Specifies timestamp at which Auto-Tune maintenance schedule start.
+  final DateTime? startAt;
+
+  AutoTuneMaintenanceSchedule({
+    this.cronExpressionForRecurrence,
+    this.duration,
+    this.startAt,
+  });
+
+  factory AutoTuneMaintenanceSchedule.fromJson(Map<String, dynamic> json) {
+    return AutoTuneMaintenanceSchedule(
+      cronExpressionForRecurrence:
+          json['CronExpressionForRecurrence'] as String?,
+      duration: json['Duration'] != null
+          ? Duration.fromJson(json['Duration'] as Map<String, dynamic>)
+          : null,
+      startAt: timeStampFromJson(json['StartAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cronExpressionForRecurrence = this.cronExpressionForRecurrence;
+    final duration = this.duration;
+    final startAt = this.startAt;
+    return {
+      if (cronExpressionForRecurrence != null)
+        'CronExpressionForRecurrence': cronExpressionForRecurrence,
+      if (duration != null) 'Duration': duration,
+      if (startAt != null) 'StartAt': unixTimestampToJson(startAt),
+    };
+  }
+}
+
+/// Specifies the Auto-Tune options: the Auto-Tune desired state for the domain,
+/// rollback state when disabling Auto-Tune options and list of maintenance
+/// schedules.
+class AutoTuneOptions {
+  /// Specifies the Auto-Tune desired state. Valid values are ENABLED, DISABLED.
+  final AutoTuneDesiredState? desiredState;
+
+  /// Specifies list of maitenance schedules. See the <a
+  /// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
+  /// target="_blank">Developer Guide</a> for more information.
+  final List<AutoTuneMaintenanceSchedule>? maintenanceSchedules;
+
+  /// Specifies the rollback state while disabling Auto-Tune for the domain. Valid
+  /// values are NO_ROLLBACK, DEFAULT_ROLLBACK.
+  final RollbackOnDisable? rollbackOnDisable;
+
+  AutoTuneOptions({
+    this.desiredState,
+    this.maintenanceSchedules,
+    this.rollbackOnDisable,
+  });
+
+  factory AutoTuneOptions.fromJson(Map<String, dynamic> json) {
+    return AutoTuneOptions(
+      desiredState: (json['DesiredState'] as String?)?.toAutoTuneDesiredState(),
+      maintenanceSchedules: (json['MaintenanceSchedules'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AutoTuneMaintenanceSchedule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      rollbackOnDisable:
+          (json['RollbackOnDisable'] as String?)?.toRollbackOnDisable(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final desiredState = this.desiredState;
+    final maintenanceSchedules = this.maintenanceSchedules;
+    final rollbackOnDisable = this.rollbackOnDisable;
+    return {
+      if (desiredState != null) 'DesiredState': desiredState.toValue(),
+      if (maintenanceSchedules != null)
+        'MaintenanceSchedules': maintenanceSchedules,
+      if (rollbackOnDisable != null)
+        'RollbackOnDisable': rollbackOnDisable.toValue(),
+    };
+  }
+}
+
+/// Specifies the Auto-Tune options: the Auto-Tune desired state for the domain
+/// and list of maintenance schedules.
+class AutoTuneOptionsInput {
+  /// Specifies the Auto-Tune desired state. Valid values are ENABLED, DISABLED.
+  final AutoTuneDesiredState? desiredState;
+
+  /// Specifies list of maitenance schedules. See the <a
+  /// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
+  /// target="_blank">Developer Guide</a> for more information.
+  final List<AutoTuneMaintenanceSchedule>? maintenanceSchedules;
+
+  AutoTuneOptionsInput({
+    this.desiredState,
+    this.maintenanceSchedules,
+  });
+  Map<String, dynamic> toJson() {
+    final desiredState = this.desiredState;
+    final maintenanceSchedules = this.maintenanceSchedules;
+    return {
+      if (desiredState != null) 'DesiredState': desiredState.toValue(),
+      if (maintenanceSchedules != null)
+        'MaintenanceSchedules': maintenanceSchedules,
+    };
+  }
+}
+
+/// Specifies the Auto-Tune options: the Auto-Tune desired state for the domain
+/// and list of maintenance schedules.
+class AutoTuneOptionsOutput {
+  /// Specifies the error message while enabling or disabling the Auto-Tune.
+  final String? errorMessage;
+
+  /// Specifies the <code>AutoTuneState</code> for the Elasticsearch domain.
+  final AutoTuneState? state;
+
+  AutoTuneOptionsOutput({
+    this.errorMessage,
+    this.state,
+  });
+
+  factory AutoTuneOptionsOutput.fromJson(Map<String, dynamic> json) {
+    return AutoTuneOptionsOutput(
+      errorMessage: json['ErrorMessage'] as String?,
+      state: (json['State'] as String?)?.toAutoTuneState(),
+    );
+  }
+}
+
+/// Specifies the status of Auto-Tune options for the specified Elasticsearch
+/// domain.
+class AutoTuneOptionsStatus {
+  /// Specifies Auto-Tune options for the specified Elasticsearch domain.
+  final AutoTuneOptions? options;
+
+  /// Specifies Status of the Auto-Tune options for the specified Elasticsearch
+  /// domain.
+  final AutoTuneStatus? status;
+
+  AutoTuneOptionsStatus({
+    this.options,
+    this.status,
+  });
+
+  factory AutoTuneOptionsStatus.fromJson(Map<String, dynamic> json) {
+    return AutoTuneOptionsStatus(
+      options: json['Options'] != null
+          ? AutoTuneOptions.fromJson(json['Options'] as Map<String, dynamic>)
+          : null,
+      status: json['Status'] != null
+          ? AutoTuneStatus.fromJson(json['Status'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// Specifies the Auto-Tune state for the Elasticsearch domain. For valid states
+/// see the <a
+/// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
+/// target="_blank">Developer Guide</a>.
+enum AutoTuneState {
+  enabled,
+  disabled,
+  enableInProgress,
+  disableInProgress,
+  disabledAndRollbackScheduled,
+  disabledAndRollbackInProgress,
+  disabledAndRollbackComplete,
+  disabledAndRollbackError,
+  error,
+}
+
+extension AutoTuneStateValueExtension on AutoTuneState {
+  String toValue() {
+    switch (this) {
+      case AutoTuneState.enabled:
+        return 'ENABLED';
+      case AutoTuneState.disabled:
+        return 'DISABLED';
+      case AutoTuneState.enableInProgress:
+        return 'ENABLE_IN_PROGRESS';
+      case AutoTuneState.disableInProgress:
+        return 'DISABLE_IN_PROGRESS';
+      case AutoTuneState.disabledAndRollbackScheduled:
+        return 'DISABLED_AND_ROLLBACK_SCHEDULED';
+      case AutoTuneState.disabledAndRollbackInProgress:
+        return 'DISABLED_AND_ROLLBACK_IN_PROGRESS';
+      case AutoTuneState.disabledAndRollbackComplete:
+        return 'DISABLED_AND_ROLLBACK_COMPLETE';
+      case AutoTuneState.disabledAndRollbackError:
+        return 'DISABLED_AND_ROLLBACK_ERROR';
+      case AutoTuneState.error:
+        return 'ERROR';
+    }
+  }
+}
+
+extension AutoTuneStateFromString on String {
+  AutoTuneState toAutoTuneState() {
+    switch (this) {
+      case 'ENABLED':
+        return AutoTuneState.enabled;
+      case 'DISABLED':
+        return AutoTuneState.disabled;
+      case 'ENABLE_IN_PROGRESS':
+        return AutoTuneState.enableInProgress;
+      case 'DISABLE_IN_PROGRESS':
+        return AutoTuneState.disableInProgress;
+      case 'DISABLED_AND_ROLLBACK_SCHEDULED':
+        return AutoTuneState.disabledAndRollbackScheduled;
+      case 'DISABLED_AND_ROLLBACK_IN_PROGRESS':
+        return AutoTuneState.disabledAndRollbackInProgress;
+      case 'DISABLED_AND_ROLLBACK_COMPLETE':
+        return AutoTuneState.disabledAndRollbackComplete;
+      case 'DISABLED_AND_ROLLBACK_ERROR':
+        return AutoTuneState.disabledAndRollbackError;
+      case 'ERROR':
+        return AutoTuneState.error;
+    }
+    throw Exception('$this is not known in enum AutoTuneState');
+  }
+}
+
+/// Provides the current status of the Auto-Tune options.
+class AutoTuneStatus {
+  /// Timestamp which tells Auto-Tune options creation date .
+  final DateTime creationDate;
+
+  /// Specifies the <code>AutoTuneState</code> for the Elasticsearch domain.
+  final AutoTuneState state;
+
+  /// Timestamp which tells Auto-Tune options last updated time.
+  final DateTime updateDate;
+
+  /// Specifies the error message while enabling or disabling the Auto-Tune
+  /// options.
+  final String? errorMessage;
+
+  /// Indicates whether the Elasticsearch domain is being deleted.
+  final bool? pendingDeletion;
+
+  /// Specifies the Auto-Tune options latest version.
+  final int? updateVersion;
+
+  AutoTuneStatus({
+    required this.creationDate,
+    required this.state,
+    required this.updateDate,
+    this.errorMessage,
+    this.pendingDeletion,
+    this.updateVersion,
+  });
+
+  factory AutoTuneStatus.fromJson(Map<String, dynamic> json) {
+    return AutoTuneStatus(
+      creationDate:
+          nonNullableTimeStampFromJson(json['CreationDate'] as Object),
+      state: (json['State'] as String).toAutoTuneState(),
+      updateDate: nonNullableTimeStampFromJson(json['UpdateDate'] as Object),
+      errorMessage: json['ErrorMessage'] as String?,
+      pendingDeletion: json['PendingDeletion'] as bool?,
+      updateVersion: json['UpdateVersion'] as int?,
+    );
+  }
+}
+
+/// Specifies Auto-Tune type. Valid value is SCHEDULED_ACTION.
+enum AutoTuneType {
+  scheduledAction,
+}
+
+extension AutoTuneTypeValueExtension on AutoTuneType {
+  String toValue() {
+    switch (this) {
+      case AutoTuneType.scheduledAction:
+        return 'SCHEDULED_ACTION';
+    }
+  }
+}
+
+extension AutoTuneTypeFromString on String {
+  AutoTuneType toAutoTuneType() {
+    switch (this) {
+      case 'SCHEDULED_ACTION':
+        return AutoTuneType.scheduledAction;
+    }
+    throw Exception('$this is not known in enum AutoTuneType');
   }
 }
 
@@ -1741,6 +2575,7 @@ class CancelElasticsearchServiceSoftwareUpdateResponse {
   CancelElasticsearchServiceSoftwareUpdateResponse({
     this.serviceSoftwareOptions,
   });
+
   factory CancelElasticsearchServiceSoftwareUpdateResponse.fromJson(
       Map<String, dynamic> json) {
     return CancelElasticsearchServiceSoftwareUpdateResponse(
@@ -1748,6 +2583,121 @@ class CancelElasticsearchServiceSoftwareUpdateResponse {
           ? ServiceSoftwareOptions.fromJson(
               json['ServiceSoftwareOptions'] as Map<String, dynamic>)
           : null,
+    );
+  }
+}
+
+/// Specifies change details of the domain configuration change.
+class ChangeProgressDetails {
+  /// The unique change identifier associated with a specific domain configuration
+  /// change.
+  final String? changeId;
+
+  /// Contains an optional message associated with the domain configuration
+  /// change.
+  final String? message;
+
+  ChangeProgressDetails({
+    this.changeId,
+    this.message,
+  });
+
+  factory ChangeProgressDetails.fromJson(Map<String, dynamic> json) {
+    return ChangeProgressDetails(
+      changeId: json['ChangeId'] as String?,
+      message: json['Message'] as String?,
+    );
+  }
+}
+
+/// A progress stage details of a specific domain configuration change.
+class ChangeProgressStage {
+  /// The description of the progress stage.
+  final String? description;
+
+  /// The last updated timestamp of the progress stage.
+  final DateTime? lastUpdated;
+
+  /// The name of the specific progress stage.
+  final String? name;
+
+  /// The overall status of a specific progress stage.
+  final String? status;
+
+  ChangeProgressStage({
+    this.description,
+    this.lastUpdated,
+    this.name,
+    this.status,
+  });
+
+  factory ChangeProgressStage.fromJson(Map<String, dynamic> json) {
+    return ChangeProgressStage(
+      description: json['Description'] as String?,
+      lastUpdated: timeStampFromJson(json['LastUpdated']),
+      name: json['Name'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+}
+
+/// The progress details of a specific domain configuration change.
+class ChangeProgressStatusDetails {
+  /// The unique change identifier associated with a specific domain configuration
+  /// change.
+  final String? changeId;
+
+  /// The specific stages that the domain is going through to perform the
+  /// configuration change.
+  final List<ChangeProgressStage>? changeProgressStages;
+
+  /// The list of properties involved in the domain configuration change that are
+  /// completed.
+  final List<String>? completedProperties;
+
+  /// The list of properties involved in the domain configuration change that are
+  /// still in pending.
+  final List<String>? pendingProperties;
+
+  /// The time at which the configuration change is made on the domain.
+  final DateTime? startTime;
+
+  /// The overall status of the domain configuration change. This field can take
+  /// the following values: <code>PENDING</code>, <code>PROCESSING</code>,
+  /// <code>COMPLETED</code> and <code>FAILED</code>
+  final OverallChangeStatus? status;
+
+  /// The total number of stages required for the configuration change.
+  final int? totalNumberOfStages;
+
+  ChangeProgressStatusDetails({
+    this.changeId,
+    this.changeProgressStages,
+    this.completedProperties,
+    this.pendingProperties,
+    this.startTime,
+    this.status,
+    this.totalNumberOfStages,
+  });
+
+  factory ChangeProgressStatusDetails.fromJson(Map<String, dynamic> json) {
+    return ChangeProgressStatusDetails(
+      changeId: json['ChangeId'] as String?,
+      changeProgressStages: (json['ChangeProgressStages'] as List?)
+          ?.whereNotNull()
+          .map((e) => ChangeProgressStage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      completedProperties: (json['CompletedProperties'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      pendingProperties: (json['PendingProperties'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      startTime: timeStampFromJson(json['StartTime']),
+      status: (json['Status'] as String?)?.toOverallChangeStatus(),
+      totalNumberOfStages: json['TotalNumberOfStages'] as int?,
     );
   }
 }
@@ -1776,6 +2726,7 @@ class CognitoOptions {
     this.roleArn,
     this.userPoolId,
   });
+
   factory CognitoOptions.fromJson(Map<String, dynamic> json) {
     return CognitoOptions(
       enabled: json['Enabled'] as bool?,
@@ -1812,11 +2763,35 @@ class CognitoOptionsStatus {
     required this.options,
     required this.status,
   });
+
   factory CognitoOptionsStatus.fromJson(Map<String, dynamic> json) {
     return CognitoOptionsStatus(
       options: CognitoOptions.fromJson(json['Options'] as Map<String, dynamic>),
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
+  }
+}
+
+/// Specifies the configuration for cold storage options such as enabled
+class ColdStorageOptions {
+  /// Enable cold storage option. Accepted values true or false
+  final bool enabled;
+
+  ColdStorageOptions({
+    required this.enabled,
+  });
+
+  factory ColdStorageOptions.fromJson(Map<String, dynamic> json) {
+    return ColdStorageOptions(
+      enabled: json['Enabled'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      'Enabled': enabled,
+    };
   }
 }
 
@@ -1832,6 +2807,7 @@ class CompatibleVersionsMap {
     this.sourceVersion,
     this.targetVersions,
   });
+
   factory CompatibleVersionsMap.fromJson(Map<String, dynamic> json) {
     return CompatibleVersionsMap(
       sourceVersion: json['SourceVersion'] as String?,
@@ -1852,6 +2828,7 @@ class CreateElasticsearchDomainResponse {
   CreateElasticsearchDomainResponse({
     this.domainStatus,
   });
+
   factory CreateElasticsearchDomainResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateElasticsearchDomainResponse(
@@ -1894,6 +2871,7 @@ class CreateOutboundCrossClusterSearchConnectionResponse {
     this.destinationDomainInfo,
     this.sourceDomainInfo,
   });
+
   factory CreateOutboundCrossClusterSearchConnectionResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateOutboundCrossClusterSearchConnectionResponse(
@@ -1925,12 +2903,32 @@ class CreatePackageResponse {
   CreatePackageResponse({
     this.packageDetails,
   });
+
   factory CreatePackageResponse.fromJson(Map<String, dynamic> json) {
     return CreatePackageResponse(
       packageDetails: json['PackageDetails'] != null
           ? PackageDetails.fromJson(
               json['PackageDetails'] as Map<String, dynamic>)
           : null,
+    );
+  }
+}
+
+/// Container for response parameters to the
+/// <code><a>CreateVpcEndpoint</a></code> operation. Contains the configuration
+/// and status of the VPC Endpoint being created.
+class CreateVpcEndpointResponse {
+  /// Information about the newly created VPC endpoint.
+  final VpcEndpoint vpcEndpoint;
+
+  CreateVpcEndpointResponse({
+    required this.vpcEndpoint,
+  });
+
+  factory CreateVpcEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return CreateVpcEndpointResponse(
+      vpcEndpoint:
+          VpcEndpoint.fromJson(json['VpcEndpoint'] as Map<String, dynamic>),
     );
   }
 }
@@ -1945,6 +2943,7 @@ class DeleteElasticsearchDomainResponse {
   DeleteElasticsearchDomainResponse({
     this.domainStatus,
   });
+
   factory DeleteElasticsearchDomainResponse.fromJson(
       Map<String, dynamic> json) {
     return DeleteElasticsearchDomainResponse(
@@ -1967,6 +2966,7 @@ class DeleteInboundCrossClusterSearchConnectionResponse {
   DeleteInboundCrossClusterSearchConnectionResponse({
     this.crossClusterSearchConnection,
   });
+
   factory DeleteInboundCrossClusterSearchConnectionResponse.fromJson(
       Map<String, dynamic> json) {
     return DeleteInboundCrossClusterSearchConnectionResponse(
@@ -1989,6 +2989,7 @@ class DeleteOutboundCrossClusterSearchConnectionResponse {
   DeleteOutboundCrossClusterSearchConnectionResponse({
     this.crossClusterSearchConnection,
   });
+
   factory DeleteOutboundCrossClusterSearchConnectionResponse.fromJson(
       Map<String, dynamic> json) {
     return DeleteOutboundCrossClusterSearchConnectionResponse(
@@ -2009,12 +3010,33 @@ class DeletePackageResponse {
   DeletePackageResponse({
     this.packageDetails,
   });
+
   factory DeletePackageResponse.fromJson(Map<String, dynamic> json) {
     return DeletePackageResponse(
       packageDetails: json['PackageDetails'] != null
           ? PackageDetails.fromJson(
               json['PackageDetails'] as Map<String, dynamic>)
           : null,
+    );
+  }
+}
+
+/// Container for response parameters to the
+/// <code><a>DeleteVpcEndpoint</a></code> operation. Contains the summarized
+/// detail of the VPC Endpoint being deleted.
+class DeleteVpcEndpointResponse {
+  /// Information about the deleted endpoint, including its current status
+  /// (<code>DELETING</code> or <code>DELETE_FAILED</code>).
+  final VpcEndpointSummary vpcEndpointSummary;
+
+  DeleteVpcEndpointResponse({
+    required this.vpcEndpointSummary,
+  });
+
+  factory DeleteVpcEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteVpcEndpointResponse(
+      vpcEndpointSummary: VpcEndpointSummary.fromJson(
+          json['VpcEndpointSummary'] as Map<String, dynamic>),
     );
   }
 }
@@ -2062,6 +3084,57 @@ extension DeploymentStatusFromString on String {
   }
 }
 
+/// The result of <code>DescribeDomainAutoTunes</code> request. See the <a
+/// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
+/// target="_blank">Developer Guide</a> for more information.
+class DescribeDomainAutoTunesResponse {
+  /// Specifies the list of setting adjustments that Auto-Tune has made to the
+  /// domain. See the <a
+  /// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
+  /// target="_blank">Developer Guide</a> for more information.
+  final List<AutoTune>? autoTunes;
+
+  /// Specifies an identifier to allow retrieval of paginated results.
+  final String? nextToken;
+
+  DescribeDomainAutoTunesResponse({
+    this.autoTunes,
+    this.nextToken,
+  });
+
+  factory DescribeDomainAutoTunesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDomainAutoTunesResponse(
+      autoTunes: (json['AutoTunes'] as List?)
+          ?.whereNotNull()
+          .map((e) => AutoTune.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
+/// The result of a <code>DescribeDomainChangeProgress</code> request. Contains
+/// the progress information of the requested domain change.
+class DescribeDomainChangeProgressResponse {
+  /// Progress information for the configuration change that is requested in the
+  /// <code>DescribeDomainChangeProgress</code> request.
+  final ChangeProgressStatusDetails? changeProgressStatus;
+
+  DescribeDomainChangeProgressResponse({
+    this.changeProgressStatus,
+  });
+
+  factory DescribeDomainChangeProgressResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeDomainChangeProgressResponse(
+      changeProgressStatus: json['ChangeProgressStatus'] != null
+          ? ChangeProgressStatusDetails.fromJson(
+              json['ChangeProgressStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 /// The result of a <code>DescribeElasticsearchDomainConfig</code> request.
 /// Contains the configuration information of the requested domain.
 class DescribeElasticsearchDomainConfigResponse {
@@ -2072,6 +3145,7 @@ class DescribeElasticsearchDomainConfigResponse {
   DescribeElasticsearchDomainConfigResponse({
     required this.domainConfig,
   });
+
   factory DescribeElasticsearchDomainConfigResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeElasticsearchDomainConfigResponse(
@@ -2090,6 +3164,7 @@ class DescribeElasticsearchDomainResponse {
   DescribeElasticsearchDomainResponse({
     required this.domainStatus,
   });
+
   factory DescribeElasticsearchDomainResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeElasticsearchDomainResponse(
@@ -2109,6 +3184,7 @@ class DescribeElasticsearchDomainsResponse {
   DescribeElasticsearchDomainsResponse({
     required this.domainStatusList,
   });
+
   factory DescribeElasticsearchDomainsResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeElasticsearchDomainsResponse(
@@ -2129,6 +3205,7 @@ class DescribeElasticsearchInstanceTypeLimitsResponse {
   DescribeElasticsearchInstanceTypeLimitsResponse({
     this.limitsByRole,
   });
+
   factory DescribeElasticsearchInstanceTypeLimitsResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeElasticsearchInstanceTypeLimitsResponse(
@@ -2156,6 +3233,7 @@ class DescribeInboundCrossClusterSearchConnectionsResponse {
     this.crossClusterSearchConnections,
     this.nextToken,
   });
+
   factory DescribeInboundCrossClusterSearchConnectionsResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeInboundCrossClusterSearchConnectionsResponse(
@@ -2188,6 +3266,7 @@ class DescribeOutboundCrossClusterSearchConnectionsResponse {
     this.crossClusterSearchConnections,
     this.nextToken,
   });
+
   factory DescribeOutboundCrossClusterSearchConnectionsResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeOutboundCrossClusterSearchConnectionsResponse(
@@ -2207,7 +3286,7 @@ class DescribePackagesFilter {
   /// Any field from <code>PackageDetails</code>.
   final DescribePackagesFilterName? name;
 
-  /// A list of values for the specified field.
+  /// A non-empty list of values for the specified field.
   final List<String>? value;
 
   DescribePackagesFilter({
@@ -2270,6 +3349,7 @@ class DescribePackagesResponse {
     this.nextToken,
     this.packageDetailsList,
   });
+
   factory DescribePackagesResponse.fromJson(Map<String, dynamic> json) {
     return DescribePackagesResponse(
       nextToken: json['NextToken'] as String?,
@@ -2295,6 +3375,7 @@ class DescribeReservedElasticsearchInstanceOfferingsResponse {
     this.nextToken,
     this.reservedElasticsearchInstanceOfferings,
   });
+
   factory DescribeReservedElasticsearchInstanceOfferingsResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeReservedElasticsearchInstanceOfferingsResponse(
@@ -2322,6 +3403,7 @@ class DescribeReservedElasticsearchInstancesResponse {
     this.nextToken,
     this.reservedElasticsearchInstances,
   });
+
   factory DescribeReservedElasticsearchInstancesResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeReservedElasticsearchInstancesResponse(
@@ -2336,6 +3418,37 @@ class DescribeReservedElasticsearchInstancesResponse {
   }
 }
 
+/// Container for response parameters to the
+/// <code><a>DescribeVpcEndpoints</a></code> operation. Returns a list
+/// containing configuration details and status of the VPC Endpoints as well as
+/// a list containing error responses of the endpoints that could not be
+/// described
+class DescribeVpcEndpointsResponse {
+  /// Any errors associated with the request.
+  final List<VpcEndpointError> vpcEndpointErrors;
+
+  /// Information about each requested VPC endpoint.
+  final List<VpcEndpoint> vpcEndpoints;
+
+  DescribeVpcEndpointsResponse({
+    required this.vpcEndpointErrors,
+    required this.vpcEndpoints,
+  });
+
+  factory DescribeVpcEndpointsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeVpcEndpointsResponse(
+      vpcEndpointErrors: (json['VpcEndpointErrors'] as List)
+          .whereNotNull()
+          .map((e) => VpcEndpointError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vpcEndpoints: (json['VpcEndpoints'] as List)
+          .whereNotNull()
+          .map((e) => VpcEndpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 /// Container for response returned by <code> <a>DissociatePackage</a> </code>
 /// operation.
 class DissociatePackageResponse {
@@ -2345,6 +3458,7 @@ class DissociatePackageResponse {
   DissociatePackageResponse({
     this.domainPackageDetails,
   });
+
   factory DissociatePackageResponse.fromJson(Map<String, dynamic> json) {
     return DissociatePackageResponse(
       domainPackageDetails: json['DomainPackageDetails'] != null
@@ -2388,6 +3502,7 @@ class DomainEndpointOptions {
     this.enforceHTTPS,
     this.tLSSecurityPolicy,
   });
+
   factory DomainEndpointOptions.fromJson(Map<String, dynamic> json) {
     return DomainEndpointOptions(
       customEndpoint: json['CustomEndpoint'] as String?,
@@ -2432,6 +3547,7 @@ class DomainEndpointOptionsStatus {
     required this.options,
     required this.status,
   });
+
   factory DomainEndpointOptionsStatus.fromJson(Map<String, dynamic> json) {
     return DomainEndpointOptionsStatus(
       options: DomainEndpointOptions.fromJson(
@@ -2445,12 +3561,18 @@ class DomainInfo {
   /// Specifies the <code>DomainName</code>.
   final String? domainName;
 
+  /// Specifies the <code>EngineType</code> of the domain.
+  final EngineType? engineType;
+
   DomainInfo({
     this.domainName,
+    this.engineType,
   });
+
   factory DomainInfo.fromJson(Map<String, dynamic> json) {
     return DomainInfo(
       domainName: json['DomainName'] as String?,
+      engineType: (json['EngineType'] as String?)?.toEngineType(),
     );
   }
 }
@@ -2465,6 +3587,7 @@ class DomainInformation {
     this.ownerId,
     this.region,
   });
+
   factory DomainInformation.fromJson(Map<String, dynamic> json) {
     return DomainInformation(
       domainName: json['DomainName'] as String,
@@ -2525,6 +3648,7 @@ class DomainPackageDetails {
     this.packageVersion,
     this.referencePath,
   });
+
   factory DomainPackageDetails.fromJson(Map<String, dynamic> json) {
     return DomainPackageDetails(
       domainName: json['DomainName'] as String?,
@@ -2586,6 +3710,71 @@ extension DomainPackageStatusFromString on String {
   }
 }
 
+class DryRunResults {
+  /// Specifies the deployment mechanism through which the update shall be applied
+  /// on the domain. Possible responses are <code>Blue/Green</code> (The update
+  /// will require a blue/green deployment.) <code>DynamicUpdate</code> (The
+  /// update can be applied in-place without a Blue/Green deployment required.)
+  /// <code>Undetermined</code> (The domain is undergoing an update which needs to
+  /// complete before the deployment type can be predicted.) <code>None</code>
+  /// (The configuration change matches the current configuration and will not
+  /// result in any update.)
+  final String? deploymentType;
+
+  /// Contains an optional message associated with the DryRunResults.
+  final String? message;
+
+  DryRunResults({
+    this.deploymentType,
+    this.message,
+  });
+
+  factory DryRunResults.fromJson(Map<String, dynamic> json) {
+    return DryRunResults(
+      deploymentType: json['DeploymentType'] as String?,
+      message: json['Message'] as String?,
+    );
+  }
+}
+
+/// Specifies maintenance schedule duration: duration value and duration unit.
+/// See the <a
+/// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
+/// target="_blank">Developer Guide</a> for more information.
+class Duration {
+  /// Specifies the unit of a maintenance schedule duration. Valid value is HOURS.
+  /// See the <a
+  /// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
+  /// target="_blank">Developer Guide</a> for more information.
+  final TimeUnit? unit;
+
+  /// Integer to specify the value of a maintenance schedule duration. See the <a
+  /// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
+  /// target="_blank">Developer Guide</a> for more information.
+  final int? value;
+
+  Duration({
+    this.unit,
+    this.value,
+  });
+
+  factory Duration.fromJson(Map<String, dynamic> json) {
+    return Duration(
+      unit: (json['Unit'] as String?)?.toTimeUnit(),
+      value: json['Value'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unit = this.unit;
+    final value = this.value;
+    return {
+      if (unit != null) 'Unit': unit.toValue(),
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
 /// Options to enable, disable, and specify the properties of EBS storage
 /// volumes. For more information, see <a
 /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomain-configure-ebs"
@@ -2594,8 +3783,11 @@ class EBSOptions {
   /// Specifies whether EBS-based storage is enabled.
   final bool? eBSEnabled;
 
-  /// Specifies the IOPD for a Provisioned IOPS EBS volume (SSD).
+  /// Specifies the IOPS for Provisioned IOPS And GP3 EBS volume (SSD).
   final int? iops;
+
+  /// Specifies the Throughput for GP3 EBS volume (SSD).
+  final int? throughput;
 
   /// Integer to specify the size of an EBS volume.
   final int? volumeSize;
@@ -2606,13 +3798,16 @@ class EBSOptions {
   EBSOptions({
     this.eBSEnabled,
     this.iops,
+    this.throughput,
     this.volumeSize,
     this.volumeType,
   });
+
   factory EBSOptions.fromJson(Map<String, dynamic> json) {
     return EBSOptions(
       eBSEnabled: json['EBSEnabled'] as bool?,
       iops: json['Iops'] as int?,
+      throughput: json['Throughput'] as int?,
       volumeSize: json['VolumeSize'] as int?,
       volumeType: (json['VolumeType'] as String?)?.toVolumeType(),
     );
@@ -2621,11 +3816,13 @@ class EBSOptions {
   Map<String, dynamic> toJson() {
     final eBSEnabled = this.eBSEnabled;
     final iops = this.iops;
+    final throughput = this.throughput;
     final volumeSize = this.volumeSize;
     final volumeType = this.volumeType;
     return {
       if (eBSEnabled != null) 'EBSEnabled': eBSEnabled,
       if (iops != null) 'Iops': iops,
+      if (throughput != null) 'Throughput': throughput,
       if (volumeSize != null) 'VolumeSize': volumeSize,
       if (volumeType != null) 'VolumeType': volumeType.toValue(),
     };
@@ -2645,6 +3842,7 @@ class EBSOptionsStatus {
     required this.options,
     required this.status,
   });
+
   factory EBSOptionsStatus.fromJson(Map<String, dynamic> json) {
     return EBSOptionsStatus(
       options: EBSOptions.fromJson(json['Options'] as Map<String, dynamic>),
@@ -2993,6 +4191,10 @@ extension ESWarmPartitionInstanceTypeFromString on String {
 /// Specifies the configuration for the domain cluster, such as the type and
 /// number of instances.
 class ElasticsearchClusterConfig {
+  /// Specifies the <code>ColdStorageOptions</code> config for Elasticsearch
+  /// Domain
+  final ColdStorageOptions? coldStorageOptions;
+
   /// Total number of dedicated master nodes, active and on standby, for the
   /// cluster.
   final int? dedicatedMasterCount;
@@ -3032,6 +4234,7 @@ class ElasticsearchClusterConfig {
   final bool? zoneAwarenessEnabled;
 
   ElasticsearchClusterConfig({
+    this.coldStorageOptions,
     this.dedicatedMasterCount,
     this.dedicatedMasterEnabled,
     this.dedicatedMasterType,
@@ -3043,8 +4246,13 @@ class ElasticsearchClusterConfig {
     this.zoneAwarenessConfig,
     this.zoneAwarenessEnabled,
   });
+
   factory ElasticsearchClusterConfig.fromJson(Map<String, dynamic> json) {
     return ElasticsearchClusterConfig(
+      coldStorageOptions: json['ColdStorageOptions'] != null
+          ? ColdStorageOptions.fromJson(
+              json['ColdStorageOptions'] as Map<String, dynamic>)
+          : null,
       dedicatedMasterCount: json['DedicatedMasterCount'] as int?,
       dedicatedMasterEnabled: json['DedicatedMasterEnabled'] as bool?,
       dedicatedMasterType:
@@ -3064,6 +4272,7 @@ class ElasticsearchClusterConfig {
   }
 
   Map<String, dynamic> toJson() {
+    final coldStorageOptions = this.coldStorageOptions;
     final dedicatedMasterCount = this.dedicatedMasterCount;
     final dedicatedMasterEnabled = this.dedicatedMasterEnabled;
     final dedicatedMasterType = this.dedicatedMasterType;
@@ -3075,6 +4284,7 @@ class ElasticsearchClusterConfig {
     final zoneAwarenessConfig = this.zoneAwarenessConfig;
     final zoneAwarenessEnabled = this.zoneAwarenessEnabled;
     return {
+      if (coldStorageOptions != null) 'ColdStorageOptions': coldStorageOptions,
       if (dedicatedMasterCount != null)
         'DedicatedMasterCount': dedicatedMasterCount,
       if (dedicatedMasterEnabled != null)
@@ -3107,6 +4317,7 @@ class ElasticsearchClusterConfigStatus {
     required this.options,
     required this.status,
   });
+
   factory ElasticsearchClusterConfigStatus.fromJson(Map<String, dynamic> json) {
     return ElasticsearchClusterConfigStatus(
       options: ElasticsearchClusterConfig.fromJson(
@@ -3128,6 +4339,12 @@ class ElasticsearchDomainConfig {
 
   /// Specifies <code>AdvancedSecurityOptions</code> for the domain.
   final AdvancedSecurityOptionsStatus? advancedSecurityOptions;
+
+  /// Specifies <code>AutoTuneOptions</code> for the domain.
+  final AutoTuneOptionsStatus? autoTuneOptions;
+
+  /// Specifies change details of the domain configuration change.
+  final ChangeProgressDetails? changeProgressDetails;
 
   /// The <code>CognitoOptions</code> for the specified domain. For more
   /// information, see <a
@@ -3173,6 +4390,8 @@ class ElasticsearchDomainConfig {
     this.accessPolicies,
     this.advancedOptions,
     this.advancedSecurityOptions,
+    this.autoTuneOptions,
+    this.changeProgressDetails,
     this.cognitoOptions,
     this.domainEndpointOptions,
     this.eBSOptions,
@@ -3184,6 +4403,7 @@ class ElasticsearchDomainConfig {
     this.snapshotOptions,
     this.vPCOptions,
   });
+
   factory ElasticsearchDomainConfig.fromJson(Map<String, dynamic> json) {
     return ElasticsearchDomainConfig(
       accessPolicies: json['AccessPolicies'] != null
@@ -3197,6 +4417,14 @@ class ElasticsearchDomainConfig {
       advancedSecurityOptions: json['AdvancedSecurityOptions'] != null
           ? AdvancedSecurityOptionsStatus.fromJson(
               json['AdvancedSecurityOptions'] as Map<String, dynamic>)
+          : null,
+      autoTuneOptions: json['AutoTuneOptions'] != null
+          ? AutoTuneOptionsStatus.fromJson(
+              json['AutoTuneOptions'] as Map<String, dynamic>)
+          : null,
+      changeProgressDetails: json['ChangeProgressDetails'] != null
+          ? ChangeProgressDetails.fromJson(
+              json['ChangeProgressDetails'] as Map<String, dynamic>)
           : null,
       cognitoOptions: json['CognitoOptions'] != null
           ? CognitoOptionsStatus.fromJson(
@@ -3270,6 +4498,12 @@ class ElasticsearchDomainStatus {
 
   /// The current status of the Elasticsearch domain's advanced security options.
   final AdvancedSecurityOptions? advancedSecurityOptions;
+
+  /// The current status of the Elasticsearch domain's Auto-Tune options.
+  final AutoTuneOptionsOutput? autoTuneOptions;
+
+  /// Specifies change details of the domain configuration change.
+  final ChangeProgressDetails? changeProgressDetails;
 
   /// The <code>CognitoOptions</code> for the specified domain. For more
   /// information, see <a
@@ -3345,6 +4579,8 @@ class ElasticsearchDomainStatus {
     this.accessPolicies,
     this.advancedOptions,
     this.advancedSecurityOptions,
+    this.autoTuneOptions,
+    this.changeProgressDetails,
     this.cognitoOptions,
     this.created,
     this.deleted,
@@ -3362,6 +4598,7 @@ class ElasticsearchDomainStatus {
     this.upgradeProcessing,
     this.vPCOptions,
   });
+
   factory ElasticsearchDomainStatus.fromJson(Map<String, dynamic> json) {
     return ElasticsearchDomainStatus(
       arn: json['ARN'] as String,
@@ -3375,6 +4612,14 @@ class ElasticsearchDomainStatus {
       advancedSecurityOptions: json['AdvancedSecurityOptions'] != null
           ? AdvancedSecurityOptions.fromJson(
               json['AdvancedSecurityOptions'] as Map<String, dynamic>)
+          : null,
+      autoTuneOptions: json['AutoTuneOptions'] != null
+          ? AutoTuneOptionsOutput.fromJson(
+              json['AutoTuneOptions'] as Map<String, dynamic>)
+          : null,
+      changeProgressDetails: json['ChangeProgressDetails'] != null
+          ? ChangeProgressDetails.fromJson(
+              json['ChangeProgressDetails'] as Map<String, dynamic>)
           : null,
       cognitoOptions: json['CognitoOptions'] != null
           ? CognitoOptions.fromJson(
@@ -3436,6 +4681,7 @@ class ElasticsearchVersionStatus {
     required this.options,
     required this.status,
   });
+
   factory ElasticsearchVersionStatus.fromJson(Map<String, dynamic> json) {
     return ElasticsearchVersionStatus(
       options: json['Options'] as String,
@@ -3456,6 +4702,7 @@ class EncryptionAtRestOptions {
     this.enabled,
     this.kmsKeyId,
   });
+
   factory EncryptionAtRestOptions.fromJson(Map<String, dynamic> json) {
     return EncryptionAtRestOptions(
       enabled: json['Enabled'] as bool?,
@@ -3488,12 +4735,41 @@ class EncryptionAtRestOptionsStatus {
     required this.options,
     required this.status,
   });
+
   factory EncryptionAtRestOptionsStatus.fromJson(Map<String, dynamic> json) {
     return EncryptionAtRestOptionsStatus(
       options: EncryptionAtRestOptions.fromJson(
           json['Options'] as Map<String, dynamic>),
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
+  }
+}
+
+enum EngineType {
+  openSearch,
+  elasticsearch,
+}
+
+extension EngineTypeValueExtension on EngineType {
+  String toValue() {
+    switch (this) {
+      case EngineType.openSearch:
+        return 'OpenSearch';
+      case EngineType.elasticsearch:
+        return 'Elasticsearch';
+    }
+  }
+}
+
+extension EngineTypeFromString on String {
+  EngineType toEngineType() {
+    switch (this) {
+      case 'OpenSearch':
+        return EngineType.openSearch;
+      case 'Elasticsearch':
+        return EngineType.elasticsearch;
+    }
+    throw Exception('$this is not known in enum EngineType');
   }
 }
 
@@ -3505,6 +4781,7 @@ class ErrorDetails {
     this.errorMessage,
     this.errorType,
   });
+
   factory ErrorDetails.fromJson(Map<String, dynamic> json) {
     return ErrorDetails(
       errorMessage: json['ErrorMessage'] as String?,
@@ -3548,6 +4825,7 @@ class GetCompatibleElasticsearchVersionsResponse {
   GetCompatibleElasticsearchVersionsResponse({
     this.compatibleElasticsearchVersions,
   });
+
   factory GetCompatibleElasticsearchVersionsResponse.fromJson(
       Map<String, dynamic> json) {
     return GetCompatibleElasticsearchVersionsResponse(
@@ -3574,6 +4852,7 @@ class GetPackageVersionHistoryResponse {
     this.packageID,
     this.packageVersionHistoryList,
   });
+
   factory GetPackageVersionHistoryResponse.fromJson(Map<String, dynamic> json) {
     return GetPackageVersionHistoryResponse(
       nextToken: json['NextToken'] as String?,
@@ -3602,6 +4881,7 @@ class GetUpgradeHistoryResponse {
     this.nextToken,
     this.upgradeHistories,
   });
+
   factory GetUpgradeHistoryResponse.fromJson(Map<String, dynamic> json) {
     return GetUpgradeHistoryResponse(
       nextToken: json['NextToken'] as String?,
@@ -3644,6 +4924,7 @@ class GetUpgradeStatusResponse {
     this.upgradeName,
     this.upgradeStep,
   });
+
   factory GetUpgradeStatusResponse.fromJson(Map<String, dynamic> json) {
     return GetUpgradeStatusResponse(
       stepStatus: (json['StepStatus'] as String?)?.toUpgradeStatus(),
@@ -3676,6 +4957,7 @@ class InboundCrossClusterSearchConnection {
     this.destinationDomainInfo,
     this.sourceDomainInfo,
   });
+
   factory InboundCrossClusterSearchConnection.fromJson(
       Map<String, dynamic> json) {
     return InboundCrossClusterSearchConnection(
@@ -3721,6 +5003,7 @@ class InboundCrossClusterSearchConnectionStatus {
     this.message,
     this.statusCode,
   });
+
   factory InboundCrossClusterSearchConnectionStatus.fromJson(
       Map<String, dynamic> json) {
     return InboundCrossClusterSearchConnectionStatus(
@@ -3792,6 +5075,7 @@ class InstanceCountLimits {
     this.maximumInstanceCount,
     this.minimumInstanceCount,
   });
+
   factory InstanceCountLimits.fromJson(Map<String, dynamic> json) {
     return InstanceCountLimits(
       maximumInstanceCount: json['MaximumInstanceCount'] as int?,
@@ -3808,6 +5092,7 @@ class InstanceLimits {
   InstanceLimits({
     this.instanceCountLimits,
   });
+
   factory InstanceLimits.fromJson(Map<String, dynamic> json) {
     return InstanceLimits(
       instanceCountLimits: json['InstanceCountLimits'] != null
@@ -3836,6 +5121,7 @@ class Limits {
     this.instanceLimits,
     this.storageTypes,
   });
+
   factory Limits.fromJson(Map<String, dynamic> json) {
     return Limits(
       additionalLimits: (json['AdditionalLimits'] as List?)
@@ -3855,14 +5141,15 @@ class Limits {
 }
 
 /// The result of a <code>ListDomainNames</code> operation. Contains the names
-/// of all Elasticsearch domains owned by this account.
+/// of all domains owned by this account and their respective engine types.
 class ListDomainNamesResponse {
-  /// List of Elasticsearch domain names.
+  /// List of domain names and respective engine types.
   final List<DomainInfo>? domainNames;
 
   ListDomainNamesResponse({
     this.domainNames,
   });
+
   factory ListDomainNamesResponse.fromJson(Map<String, dynamic> json) {
     return ListDomainNamesResponse(
       domainNames: (json['DomainNames'] as List?)
@@ -3884,6 +5171,7 @@ class ListDomainsForPackageResponse {
     this.domainPackageDetailsList,
     this.nextToken,
   });
+
   factory ListDomainsForPackageResponse.fromJson(Map<String, dynamic> json) {
     return ListDomainsForPackageResponse(
       domainPackageDetailsList: (json['DomainPackageDetailsList'] as List?)
@@ -3911,6 +5199,7 @@ class ListElasticsearchInstanceTypesResponse {
     this.elasticsearchInstanceTypes,
     this.nextToken,
   });
+
   factory ListElasticsearchInstanceTypesResponse.fromJson(
       Map<String, dynamic> json) {
     return ListElasticsearchInstanceTypesResponse(
@@ -3933,6 +5222,7 @@ class ListElasticsearchVersionsResponse {
     this.elasticsearchVersions,
     this.nextToken,
   });
+
   factory ListElasticsearchVersionsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListElasticsearchVersionsResponse(
@@ -3959,6 +5249,7 @@ class ListPackagesForDomainResponse {
     this.domainPackageDetailsList,
     this.nextToken,
   });
+
   factory ListPackagesForDomainResponse.fromJson(Map<String, dynamic> json) {
     return ListPackagesForDomainResponse(
       domainPackageDetailsList: (json['DomainPackageDetailsList'] as List?)
@@ -3979,11 +5270,93 @@ class ListTagsResponse {
   ListTagsResponse({
     this.tagList,
   });
+
   factory ListTagsResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsResponse(
       tagList: (json['TagList'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// Container for response parameters to the
+/// <code><a>ListVpcEndpointAccess</a></code> operation. Returns a list of
+/// accounts id and account type authorized to manage VPC endpoints.
+class ListVpcEndpointAccessResponse {
+  /// List of <code>AuthorizedPrincipal</code> describing the details of the
+  /// permissions to manage VPC endpoints against the specified domain.
+  final List<AuthorizedPrincipal> authorizedPrincipalList;
+
+  /// Provides an identifier to allow retrieval of paginated results.
+  final String nextToken;
+
+  ListVpcEndpointAccessResponse({
+    required this.authorizedPrincipalList,
+    required this.nextToken,
+  });
+
+  factory ListVpcEndpointAccessResponse.fromJson(Map<String, dynamic> json) {
+    return ListVpcEndpointAccessResponse(
+      authorizedPrincipalList: (json['AuthorizedPrincipalList'] as List)
+          .whereNotNull()
+          .map((e) => AuthorizedPrincipal.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String,
+    );
+  }
+}
+
+/// Container for response parameters to the
+/// <code><a>ListVpcEndpointsForDomain</a></code> operation. Returns a list
+/// containing summarized details of the VPC endpoints.
+class ListVpcEndpointsForDomainResponse {
+  /// Information about each endpoint associated with the domain.
+  final String nextToken;
+
+  /// Provides list of <code>VpcEndpointSummary</code> summarizing details of the
+  /// VPC endpoints.
+  final List<VpcEndpointSummary> vpcEndpointSummaryList;
+
+  ListVpcEndpointsForDomainResponse({
+    required this.nextToken,
+    required this.vpcEndpointSummaryList,
+  });
+
+  factory ListVpcEndpointsForDomainResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListVpcEndpointsForDomainResponse(
+      nextToken: json['NextToken'] as String,
+      vpcEndpointSummaryList: (json['VpcEndpointSummaryList'] as List)
+          .whereNotNull()
+          .map((e) => VpcEndpointSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// Container for response parameters to the
+/// <code><a>ListVpcEndpoints</a></code> operation. Returns a list containing
+/// summarized details of the VPC endpoints.
+class ListVpcEndpointsResponse {
+  /// Provides an identifier to allow retrieval of paginated results.
+  final String nextToken;
+
+  /// Information about each endpoint.
+  final List<VpcEndpointSummary> vpcEndpointSummaryList;
+
+  ListVpcEndpointsResponse({
+    required this.nextToken,
+    required this.vpcEndpointSummaryList,
+  });
+
+  factory ListVpcEndpointsResponse.fromJson(Map<String, dynamic> json) {
+    return ListVpcEndpointsResponse(
+      nextToken: json['NextToken'] as String,
+      vpcEndpointSummaryList: (json['VpcEndpointSummaryList'] as List)
+          .whereNotNull()
+          .map((e) => VpcEndpointSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
@@ -4007,6 +5380,7 @@ class LogPublishingOption {
     this.cloudWatchLogsLogGroupArn,
     this.enabled,
   });
+
   factory LogPublishingOption.fromJson(Map<String, dynamic> json) {
     return LogPublishingOption(
       cloudWatchLogsLogGroupArn: json['CloudWatchLogsLogGroupArn'] as String?,
@@ -4039,6 +5413,7 @@ class LogPublishingOptionsStatus {
     this.options,
     this.status,
   });
+
   factory LogPublishingOptionsStatus.fromJson(Map<String, dynamic> json) {
     return LogPublishingOptionsStatus(
       options: (json['Options'] as Map<String, dynamic>?)?.map((k, e) =>
@@ -4139,6 +5514,7 @@ class NodeToNodeEncryptionOptions {
   NodeToNodeEncryptionOptions({
     this.enabled,
   });
+
   factory NodeToNodeEncryptionOptions.fromJson(Map<String, dynamic> json) {
     return NodeToNodeEncryptionOptions(
       enabled: json['Enabled'] as bool?,
@@ -4168,6 +5544,7 @@ class NodeToNodeEncryptionOptionsStatus {
     required this.options,
     required this.status,
   });
+
   factory NodeToNodeEncryptionOptionsStatus.fromJson(
       Map<String, dynamic> json) {
     return NodeToNodeEncryptionOptionsStatus(
@@ -4242,6 +5619,7 @@ class OptionStatus {
     this.pendingDeletion,
     this.updateVersion,
   });
+
   factory OptionStatus.fromJson(Map<String, dynamic> json) {
     return OptionStatus(
       creationDate:
@@ -4283,6 +5661,7 @@ class OutboundCrossClusterSearchConnection {
     this.destinationDomainInfo,
     this.sourceDomainInfo,
   });
+
   factory OutboundCrossClusterSearchConnection.fromJson(
       Map<String, dynamic> json) {
     return OutboundCrossClusterSearchConnection(
@@ -4331,6 +5710,7 @@ class OutboundCrossClusterSearchConnectionStatus {
     this.message,
     this.statusCode,
   });
+
   factory OutboundCrossClusterSearchConnectionStatus.fromJson(
       Map<String, dynamic> json) {
     return OutboundCrossClusterSearchConnectionStatus(
@@ -4402,6 +5782,45 @@ extension OutboundCrossClusterSearchConnectionStatusCodeFromString on String {
   }
 }
 
+/// The overall status value of the domain configuration change.
+enum OverallChangeStatus {
+  pending,
+  processing,
+  completed,
+  failed,
+}
+
+extension OverallChangeStatusValueExtension on OverallChangeStatus {
+  String toValue() {
+    switch (this) {
+      case OverallChangeStatus.pending:
+        return 'PENDING';
+      case OverallChangeStatus.processing:
+        return 'PROCESSING';
+      case OverallChangeStatus.completed:
+        return 'COMPLETED';
+      case OverallChangeStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension OverallChangeStatusFromString on String {
+  OverallChangeStatus toOverallChangeStatus() {
+    switch (this) {
+      case 'PENDING':
+        return OverallChangeStatus.pending;
+      case 'PROCESSING':
+        return OverallChangeStatus.processing;
+      case 'COMPLETED':
+        return OverallChangeStatus.completed;
+      case 'FAILED':
+        return OverallChangeStatus.failed;
+    }
+    throw Exception('$this is not known in enum OverallChangeStatus');
+  }
+}
+
 /// Basic information about a package.
 class PackageDetails {
   final String? availablePackageVersion;
@@ -4440,6 +5859,7 @@ class PackageDetails {
     this.packageStatus,
     this.packageType,
   });
+
   factory PackageDetails.fromJson(Map<String, dynamic> json) {
     return PackageDetails(
       availablePackageVersion: json['AvailablePackageVersion'] as String?,
@@ -4577,12 +5997,46 @@ class PackageVersionHistory {
     this.createdAt,
     this.packageVersion,
   });
+
   factory PackageVersionHistory.fromJson(Map<String, dynamic> json) {
     return PackageVersionHistory(
       commitMessage: json['CommitMessage'] as String?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       packageVersion: json['PackageVersion'] as String?,
     );
+  }
+}
+
+/// Specifies the type of AWS account permitted to manage VPC endpoints.:
+/// <ul>
+/// <li>AWS_ACCOUNT: Indicates that the account is owned by an AWS user.</li>
+/// <li>AWS_SERVICE: Indicates the the account is owned by an AWS service.</li>
+/// </ul>
+enum PrincipalType {
+  awsAccount,
+  awsService,
+}
+
+extension PrincipalTypeValueExtension on PrincipalType {
+  String toValue() {
+    switch (this) {
+      case PrincipalType.awsAccount:
+        return 'AWS_ACCOUNT';
+      case PrincipalType.awsService:
+        return 'AWS_SERVICE';
+    }
+  }
+}
+
+extension PrincipalTypeFromString on String {
+  PrincipalType toPrincipalType() {
+    switch (this) {
+      case 'AWS_ACCOUNT':
+        return PrincipalType.awsAccount;
+      case 'AWS_SERVICE':
+        return PrincipalType.awsService;
+    }
+    throw Exception('$this is not known in enum PrincipalType');
   }
 }
 
@@ -4599,6 +6053,7 @@ class PurchaseReservedElasticsearchInstanceOfferingResponse {
     this.reservationName,
     this.reservedElasticsearchInstanceId,
   });
+
   factory PurchaseReservedElasticsearchInstanceOfferingResponse.fromJson(
       Map<String, dynamic> json) {
     return PurchaseReservedElasticsearchInstanceOfferingResponse(
@@ -4623,6 +6078,7 @@ class RecurringCharge {
     this.recurringChargeAmount,
     this.recurringChargeFrequency,
   });
+
   factory RecurringCharge.fromJson(Map<String, dynamic> json) {
     return RecurringCharge(
       recurringChargeAmount: json['RecurringChargeAmount'] as double?,
@@ -4642,6 +6098,7 @@ class RejectInboundCrossClusterSearchConnectionResponse {
   RejectInboundCrossClusterSearchConnectionResponse({
     this.crossClusterSearchConnection,
   });
+
   factory RejectInboundCrossClusterSearchConnectionResponse.fromJson(
       Map<String, dynamic> json) {
     return RejectInboundCrossClusterSearchConnectionResponse(
@@ -4713,6 +6170,7 @@ class ReservedElasticsearchInstance {
     this.state,
     this.usagePrice,
   });
+
   factory ReservedElasticsearchInstance.fromJson(Map<String, dynamic> json) {
     return ReservedElasticsearchInstance(
       currencyCode: json['CurrencyCode'] as String?,
@@ -4779,6 +6237,7 @@ class ReservedElasticsearchInstanceOffering {
     this.reservedElasticsearchInstanceOfferingId,
     this.usagePrice,
   });
+
   factory ReservedElasticsearchInstanceOffering.fromJson(
       Map<String, dynamic> json) {
     return ReservedElasticsearchInstanceOffering(
@@ -4836,6 +6295,47 @@ extension ReservedElasticsearchInstancePaymentOptionFromString on String {
   }
 }
 
+/// Container for response parameters to the
+/// <code><a>RevokeVpcEndpointAccess</a></code> operation. The response body for
+/// this operation is empty.
+class RevokeVpcEndpointAccessResponse {
+  RevokeVpcEndpointAccessResponse();
+
+  factory RevokeVpcEndpointAccessResponse.fromJson(Map<String, dynamic> _) {
+    return RevokeVpcEndpointAccessResponse();
+  }
+}
+
+/// Specifies the rollback state while disabling Auto-Tune for the domain. Valid
+/// values are NO_ROLLBACK, DEFAULT_ROLLBACK.
+enum RollbackOnDisable {
+  noRollback,
+  defaultRollback,
+}
+
+extension RollbackOnDisableValueExtension on RollbackOnDisable {
+  String toValue() {
+    switch (this) {
+      case RollbackOnDisable.noRollback:
+        return 'NO_ROLLBACK';
+      case RollbackOnDisable.defaultRollback:
+        return 'DEFAULT_ROLLBACK';
+    }
+  }
+}
+
+extension RollbackOnDisableFromString on String {
+  RollbackOnDisable toRollbackOnDisable() {
+    switch (this) {
+      case 'NO_ROLLBACK':
+        return RollbackOnDisable.noRollback;
+      case 'DEFAULT_ROLLBACK':
+        return RollbackOnDisable.defaultRollback;
+    }
+    throw Exception('$this is not known in enum RollbackOnDisable');
+  }
+}
+
 /// Specifies the SAML Identity Provider's information.
 class SAMLIdp {
   /// The unique Entity ID of the application in SAML Identity Provider.
@@ -4848,6 +6348,7 @@ class SAMLIdp {
     required this.entityId,
     required this.metadataContent,
   });
+
   factory SAMLIdp.fromJson(Map<String, dynamic> json) {
     return SAMLIdp(
       entityId: json['EntityId'] as String,
@@ -4944,6 +6445,7 @@ class SAMLOptionsOutput {
     this.sessionTimeoutMinutes,
     this.subjectKey,
   });
+
   factory SAMLOptionsOutput.fromJson(Map<String, dynamic> json) {
     return SAMLOptionsOutput(
       enabled: json['Enabled'] as bool?,
@@ -4954,6 +6456,108 @@ class SAMLOptionsOutput {
       sessionTimeoutMinutes: json['SessionTimeoutMinutes'] as int?,
       subjectKey: json['SubjectKey'] as String?,
     );
+  }
+}
+
+/// Specifies Auto-Tune action type. Valid values are JVM_HEAP_SIZE_TUNING and
+/// JVM_YOUNG_GEN_TUNING.
+enum ScheduledAutoTuneActionType {
+  jvmHeapSizeTuning,
+  jvmYoungGenTuning,
+}
+
+extension ScheduledAutoTuneActionTypeValueExtension
+    on ScheduledAutoTuneActionType {
+  String toValue() {
+    switch (this) {
+      case ScheduledAutoTuneActionType.jvmHeapSizeTuning:
+        return 'JVM_HEAP_SIZE_TUNING';
+      case ScheduledAutoTuneActionType.jvmYoungGenTuning:
+        return 'JVM_YOUNG_GEN_TUNING';
+    }
+  }
+}
+
+extension ScheduledAutoTuneActionTypeFromString on String {
+  ScheduledAutoTuneActionType toScheduledAutoTuneActionType() {
+    switch (this) {
+      case 'JVM_HEAP_SIZE_TUNING':
+        return ScheduledAutoTuneActionType.jvmHeapSizeTuning;
+      case 'JVM_YOUNG_GEN_TUNING':
+        return ScheduledAutoTuneActionType.jvmYoungGenTuning;
+    }
+    throw Exception('$this is not known in enum ScheduledAutoTuneActionType');
+  }
+}
+
+/// Specifies details of the scheduled Auto-Tune action. See the <a
+/// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
+/// target="_blank">Developer Guide</a> for more information.
+class ScheduledAutoTuneDetails {
+  /// Specifies Auto-Tune action description.
+  final String? action;
+
+  /// Specifies Auto-Tune action type. Valid values are JVM_HEAP_SIZE_TUNING and
+  /// JVM_YOUNG_GEN_TUNING.
+  final ScheduledAutoTuneActionType? actionType;
+
+  /// Specifies timestamp for the Auto-Tune action scheduled for the domain.
+  final DateTime? date;
+
+  /// Specifies Auto-Tune action severity. Valid values are LOW, MEDIUM and HIGH.
+  final ScheduledAutoTuneSeverityType? severity;
+
+  ScheduledAutoTuneDetails({
+    this.action,
+    this.actionType,
+    this.date,
+    this.severity,
+  });
+
+  factory ScheduledAutoTuneDetails.fromJson(Map<String, dynamic> json) {
+    return ScheduledAutoTuneDetails(
+      action: json['Action'] as String?,
+      actionType:
+          (json['ActionType'] as String?)?.toScheduledAutoTuneActionType(),
+      date: timeStampFromJson(json['Date']),
+      severity:
+          (json['Severity'] as String?)?.toScheduledAutoTuneSeverityType(),
+    );
+  }
+}
+
+/// Specifies Auto-Tune action severity. Valid values are LOW, MEDIUM and HIGH.
+enum ScheduledAutoTuneSeverityType {
+  low,
+  medium,
+  high,
+}
+
+extension ScheduledAutoTuneSeverityTypeValueExtension
+    on ScheduledAutoTuneSeverityType {
+  String toValue() {
+    switch (this) {
+      case ScheduledAutoTuneSeverityType.low:
+        return 'LOW';
+      case ScheduledAutoTuneSeverityType.medium:
+        return 'MEDIUM';
+      case ScheduledAutoTuneSeverityType.high:
+        return 'HIGH';
+    }
+  }
+}
+
+extension ScheduledAutoTuneSeverityTypeFromString on String {
+  ScheduledAutoTuneSeverityType toScheduledAutoTuneSeverityType() {
+    switch (this) {
+      case 'LOW':
+        return ScheduledAutoTuneSeverityType.low;
+      case 'MEDIUM':
+        return ScheduledAutoTuneSeverityType.medium;
+      case 'HIGH':
+        return ScheduledAutoTuneSeverityType.high;
+    }
+    throw Exception('$this is not known in enum ScheduledAutoTuneSeverityType');
   }
 }
 
@@ -5004,6 +6608,7 @@ class ServiceSoftwareOptions {
     this.updateAvailable,
     this.updateStatus,
   });
+
   factory ServiceSoftwareOptions.fromJson(Map<String, dynamic> json) {
     return ServiceSoftwareOptions(
       automatedUpdateDate: timeStampFromJson(json['AutomatedUpdateDate']),
@@ -5030,6 +6635,7 @@ class SnapshotOptions {
   SnapshotOptions({
     this.automatedSnapshotStartHour,
   });
+
   factory SnapshotOptions.fromJson(Map<String, dynamic> json) {
     return SnapshotOptions(
       automatedSnapshotStartHour: json['AutomatedSnapshotStartHour'] as int?,
@@ -5057,6 +6663,7 @@ class SnapshotOptionsStatus {
     required this.options,
     required this.status,
   });
+
   factory SnapshotOptionsStatus.fromJson(Map<String, dynamic> json) {
     return SnapshotOptionsStatus(
       options:
@@ -5075,6 +6682,7 @@ class StartElasticsearchServiceSoftwareUpdateResponse {
   StartElasticsearchServiceSoftwareUpdateResponse({
     this.serviceSoftwareOptions,
   });
+
   factory StartElasticsearchServiceSoftwareUpdateResponse.fromJson(
       Map<String, dynamic> json) {
     return StartElasticsearchServiceSoftwareUpdateResponse(
@@ -5100,6 +6708,7 @@ class StorageType {
     this.storageTypeLimits,
     this.storageTypeName,
   });
+
   factory StorageType.fromJson(Map<String, dynamic> json) {
     return StorageType(
       storageSubTypeName: json['StorageSubTypeName'] as String?,
@@ -5124,7 +6733,11 @@ class StorageTypeLimit {
   /// <li>MaximumIops</li> Maximum amount of Iops that is applicable for given
   /// storage type.It can be empty if it is not applicable.
   /// <li>MinimumIops</li> Minimum amount of Iops that is applicable for given
-  /// storage type.It can be empty if it is not applicable. </ol>
+  /// storage type.It can be empty if it is not applicable.
+  /// <li>MaximumThroughput</li> Maximum amount of Throughput that is applicable
+  /// for given storage type.It can be empty if it is not applicable.
+  /// <li>MinimumThroughput</li> Minimum amount of Throughput that is applicable
+  /// for given storage type.It can be empty if it is not applicable. </ol>
   final String? limitName;
 
   /// Values for the <code> <a>StorageTypeLimit$LimitName</a> </code> .
@@ -5134,6 +6747,7 @@ class StorageTypeLimit {
     this.limitName,
     this.limitValues,
   });
+
   factory StorageTypeLimit.fromJson(Map<String, dynamic> json) {
     return StorageTypeLimit(
       limitName: json['LimitName'] as String?,
@@ -5189,6 +6803,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -5206,20 +6821,56 @@ class Tag {
   }
 }
 
+/// Specifies the unit of a maintenance schedule duration. Valid value is HOUR.
+/// See the <a
+/// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
+/// target="_blank">Developer Guide</a> for more information.
+enum TimeUnit {
+  hours,
+}
+
+extension TimeUnitValueExtension on TimeUnit {
+  String toValue() {
+    switch (this) {
+      case TimeUnit.hours:
+        return 'HOURS';
+    }
+  }
+}
+
+extension TimeUnitFromString on String {
+  TimeUnit toTimeUnit() {
+    switch (this) {
+      case 'HOURS':
+        return TimeUnit.hours;
+    }
+    throw Exception('$this is not known in enum TimeUnit');
+  }
+}
+
 /// The result of an <code>UpdateElasticsearchDomain</code> request. Contains
 /// the status of the Elasticsearch domain being updated.
 class UpdateElasticsearchDomainConfigResponse {
   /// The status of the updated Elasticsearch domain.
   final ElasticsearchDomainConfig domainConfig;
 
+  /// Contains result of DryRun.
+  final DryRunResults? dryRunResults;
+
   UpdateElasticsearchDomainConfigResponse({
     required this.domainConfig,
+    this.dryRunResults,
   });
+
   factory UpdateElasticsearchDomainConfigResponse.fromJson(
       Map<String, dynamic> json) {
     return UpdateElasticsearchDomainConfigResponse(
       domainConfig: ElasticsearchDomainConfig.fromJson(
           json['DomainConfig'] as Map<String, dynamic>),
+      dryRunResults: json['DryRunResults'] != null
+          ? DryRunResults.fromJson(
+              json['DryRunResults'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -5233,6 +6884,7 @@ class UpdatePackageResponse {
   UpdatePackageResponse({
     this.packageDetails,
   });
+
   factory UpdatePackageResponse.fromJson(Map<String, dynamic> json) {
     return UpdatePackageResponse(
       packageDetails: json['PackageDetails'] != null
@@ -5243,9 +6895,27 @@ class UpdatePackageResponse {
   }
 }
 
+/// Contains the configuration and status of the VPC endpoint being updated.
+class UpdateVpcEndpointResponse {
+  /// The endpoint to be updated.
+  final VpcEndpoint vpcEndpoint;
+
+  UpdateVpcEndpointResponse({
+    required this.vpcEndpoint,
+  });
+
+  factory UpdateVpcEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateVpcEndpointResponse(
+      vpcEndpoint:
+          VpcEndpoint.fromJson(json['VpcEndpoint'] as Map<String, dynamic>),
+    );
+  }
+}
+
 /// Container for response returned by <code> <a>UpgradeElasticsearchDomain</a>
 /// </code> operation.
 class UpgradeElasticsearchDomainResponse {
+  final ChangeProgressDetails? changeProgressDetails;
   final String? domainName;
 
   /// This flag, when set to True, indicates that an Upgrade Eligibility Check
@@ -5256,13 +6926,19 @@ class UpgradeElasticsearchDomainResponse {
   final String? targetVersion;
 
   UpgradeElasticsearchDomainResponse({
+    this.changeProgressDetails,
     this.domainName,
     this.performCheckOnly,
     this.targetVersion,
   });
+
   factory UpgradeElasticsearchDomainResponse.fromJson(
       Map<String, dynamic> json) {
     return UpgradeElasticsearchDomainResponse(
+      changeProgressDetails: json['ChangeProgressDetails'] != null
+          ? ChangeProgressDetails.fromJson(
+              json['ChangeProgressDetails'] as Map<String, dynamic>)
+          : null,
       domainName: json['DomainName'] as String?,
       performCheckOnly: json['PerformCheckOnly'] as bool?,
       targetVersion: json['TargetVersion'] as String?,
@@ -5300,6 +6976,7 @@ class UpgradeHistory {
     this.upgradeName,
     this.upgradeStatus,
   });
+
   factory UpgradeHistory.fromJson(Map<String, dynamic> json) {
     return UpgradeHistory(
       startTimestamp: timeStampFromJson(json['StartTimestamp']),
@@ -5420,6 +7097,7 @@ class UpgradeStepItem {
     this.upgradeStep,
     this.upgradeStepStatus,
   });
+
   factory UpgradeStepItem.fromJson(Map<String, dynamic> json) {
     return UpgradeStepItem(
       issues: (json['Issues'] as List?)
@@ -5459,6 +7137,7 @@ class VPCDerivedInfo {
     this.subnetIds,
     this.vPCId,
   });
+
   factory VPCDerivedInfo.fromJson(Map<String, dynamic> json) {
     return VPCDerivedInfo(
       availabilityZones: (json['AvailabilityZones'] as List?)
@@ -5491,6 +7170,7 @@ class VPCDerivedInfoStatus {
     required this.options,
     required this.status,
   });
+
   factory VPCDerivedInfoStatus.fromJson(Map<String, dynamic> json) {
     return VPCDerivedInfoStatus(
       options: VPCDerivedInfo.fromJson(json['Options'] as Map<String, dynamic>),
@@ -5524,13 +7204,14 @@ class VPCOptions {
   }
 }
 
-/// The type of EBS volume, standard, gp2, or io1. See <a
+/// The type of EBS volume, standard, gp2, gp3 or io1. See <a
 /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomain-configure-ebs"
 /// target="_blank">Configuring EBS-based Storage</a>for more information.
 enum VolumeType {
   standard,
   gp2,
   io1,
+  gp3,
 }
 
 extension VolumeTypeValueExtension on VolumeType {
@@ -5542,6 +7223,8 @@ extension VolumeTypeValueExtension on VolumeType {
         return 'gp2';
       case VolumeType.io1:
         return 'io1';
+      case VolumeType.gp3:
+        return 'gp3';
     }
   }
 }
@@ -5555,8 +7238,215 @@ extension VolumeTypeFromString on String {
         return VolumeType.gp2;
       case 'io1':
         return VolumeType.io1;
+      case 'gp3':
+        return VolumeType.gp3;
     }
     throw Exception('$this is not known in enum VolumeType');
+  }
+}
+
+/// The connection endpoint for connecting to an Amazon OpenSearch Service
+/// domain through a proxy.
+class VpcEndpoint {
+  /// The Amazon Resource Name (ARN) of the domain associated with the endpoint.
+  final String? domainArn;
+
+  /// The connection endpoint ID for connecting to the domain.
+  final String? endpoint;
+
+  /// The current status of the endpoint.
+  final VpcEndpointStatus? status;
+
+  /// The unique identifier of the endpoint.
+  final String? vpcEndpointId;
+
+  /// The creator of the endpoint.
+  final String? vpcEndpointOwner;
+
+  /// Options to specify the subnets and security groups for an Amazon OpenSearch
+  /// Service VPC endpoint.
+  final VPCDerivedInfo? vpcOptions;
+
+  VpcEndpoint({
+    this.domainArn,
+    this.endpoint,
+    this.status,
+    this.vpcEndpointId,
+    this.vpcEndpointOwner,
+    this.vpcOptions,
+  });
+
+  factory VpcEndpoint.fromJson(Map<String, dynamic> json) {
+    return VpcEndpoint(
+      domainArn: json['DomainArn'] as String?,
+      endpoint: json['Endpoint'] as String?,
+      status: (json['Status'] as String?)?.toVpcEndpointStatus(),
+      vpcEndpointId: json['VpcEndpointId'] as String?,
+      vpcEndpointOwner: json['VpcEndpointOwner'] as String?,
+      vpcOptions: json['VpcOptions'] != null
+          ? VPCDerivedInfo.fromJson(json['VpcOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// Error information when attempting to describe an Amazon OpenSearch
+/// Service-managed VPC endpoint.
+class VpcEndpointError {
+  /// The code associated with the error.
+  final VpcEndpointErrorCode? errorCode;
+
+  /// A message describing the error.
+  final String? errorMessage;
+
+  /// The unique identifier of the endpoint.
+  final String? vpcEndpointId;
+
+  VpcEndpointError({
+    this.errorCode,
+    this.errorMessage,
+    this.vpcEndpointId,
+  });
+
+  factory VpcEndpointError.fromJson(Map<String, dynamic> json) {
+    return VpcEndpointError(
+      errorCode: (json['ErrorCode'] as String?)?.toVpcEndpointErrorCode(),
+      errorMessage: json['ErrorMessage'] as String?,
+      vpcEndpointId: json['VpcEndpointId'] as String?,
+    );
+  }
+}
+
+/// Specifies the error code of the failure encountered while describing the VPC
+/// endpoint:
+/// <ul>
+/// <li>ENDPOINT_NOT_FOUND: Indicates that the requested VPC endpoint does not
+/// exist.</li>
+/// <li>SERVER_ERROR: Indicates the describe endpoint operation failed due to an
+/// internal server error.</li>
+/// </ul>
+enum VpcEndpointErrorCode {
+  endpointNotFound,
+  serverError,
+}
+
+extension VpcEndpointErrorCodeValueExtension on VpcEndpointErrorCode {
+  String toValue() {
+    switch (this) {
+      case VpcEndpointErrorCode.endpointNotFound:
+        return 'ENDPOINT_NOT_FOUND';
+      case VpcEndpointErrorCode.serverError:
+        return 'SERVER_ERROR';
+    }
+  }
+}
+
+extension VpcEndpointErrorCodeFromString on String {
+  VpcEndpointErrorCode toVpcEndpointErrorCode() {
+    switch (this) {
+      case 'ENDPOINT_NOT_FOUND':
+        return VpcEndpointErrorCode.endpointNotFound;
+      case 'SERVER_ERROR':
+        return VpcEndpointErrorCode.serverError;
+    }
+    throw Exception('$this is not known in enum VpcEndpointErrorCode');
+  }
+}
+
+/// Specifies the current status of the VPC endpoint:
+/// <ul>
+/// <li>CREATING: Indicates that the VPC endpoint is currently being
+/// created.</li>
+/// <li>CREATE_FAILED: Indicates that the VPC endpoint creation failed.</li>
+/// <li>ACTIVE: Indicates that the VPC endpoint is currently active.</li>
+/// <li>UPDATING: Indicates that the VPC endpoint is currently being
+/// updated.</li>
+/// <li>UPDATE_FAILED: Indicates that the VPC endpoint update failed.</li>
+/// <li>DELETING: Indicates that the VPC endpoint is currently being
+/// deleted.</li>
+/// <li>DELETE_FAILED: Indicates that the VPC endpoint deletion failed.</li>
+/// </ul>
+enum VpcEndpointStatus {
+  creating,
+  createFailed,
+  active,
+  updating,
+  updateFailed,
+  deleting,
+  deleteFailed,
+}
+
+extension VpcEndpointStatusValueExtension on VpcEndpointStatus {
+  String toValue() {
+    switch (this) {
+      case VpcEndpointStatus.creating:
+        return 'CREATING';
+      case VpcEndpointStatus.createFailed:
+        return 'CREATE_FAILED';
+      case VpcEndpointStatus.active:
+        return 'ACTIVE';
+      case VpcEndpointStatus.updating:
+        return 'UPDATING';
+      case VpcEndpointStatus.updateFailed:
+        return 'UPDATE_FAILED';
+      case VpcEndpointStatus.deleting:
+        return 'DELETING';
+      case VpcEndpointStatus.deleteFailed:
+        return 'DELETE_FAILED';
+    }
+  }
+}
+
+extension VpcEndpointStatusFromString on String {
+  VpcEndpointStatus toVpcEndpointStatus() {
+    switch (this) {
+      case 'CREATING':
+        return VpcEndpointStatus.creating;
+      case 'CREATE_FAILED':
+        return VpcEndpointStatus.createFailed;
+      case 'ACTIVE':
+        return VpcEndpointStatus.active;
+      case 'UPDATING':
+        return VpcEndpointStatus.updating;
+      case 'UPDATE_FAILED':
+        return VpcEndpointStatus.updateFailed;
+      case 'DELETING':
+        return VpcEndpointStatus.deleting;
+      case 'DELETE_FAILED':
+        return VpcEndpointStatus.deleteFailed;
+    }
+    throw Exception('$this is not known in enum VpcEndpointStatus');
+  }
+}
+
+/// Summary information for an Amazon OpenSearch Service-managed VPC endpoint.
+class VpcEndpointSummary {
+  /// The Amazon Resource Name (ARN) of the domain associated with the endpoint.
+  final String? domainArn;
+
+  /// The current status of the endpoint.
+  final VpcEndpointStatus? status;
+
+  /// The unique identifier of the endpoint.
+  final String? vpcEndpointId;
+
+  /// The creator of the endpoint.
+  final String? vpcEndpointOwner;
+
+  VpcEndpointSummary({
+    this.domainArn,
+    this.status,
+    this.vpcEndpointId,
+    this.vpcEndpointOwner,
+  });
+
+  factory VpcEndpointSummary.fromJson(Map<String, dynamic> json) {
+    return VpcEndpointSummary(
+      domainArn: json['DomainArn'] as String?,
+      status: (json['Status'] as String?)?.toVpcEndpointStatus(),
+      vpcEndpointId: json['VpcEndpointId'] as String?,
+      vpcEndpointOwner: json['VpcEndpointOwner'] as String?,
+    );
   }
 }
 
@@ -5571,6 +7461,7 @@ class ZoneAwarenessConfig {
   ZoneAwarenessConfig({
     this.availabilityZoneCount,
   });
+
   factory ZoneAwarenessConfig.fromJson(Map<String, dynamic> json) {
     return ZoneAwarenessConfig(
       availabilityZoneCount: json['AvailabilityZoneCount'] as int?,

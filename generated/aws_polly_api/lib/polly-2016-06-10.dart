@@ -53,10 +53,10 @@ class Polly {
     _protocol.close();
   }
 
-  /// Deletes the specified pronunciation lexicon stored in an AWS Region. A
-  /// lexicon which has been deleted is not available for speech synthesis, nor
-  /// is it possible to retrieve it using either the <code>GetLexicon</code> or
-  /// <code>ListLexicon</code> APIs.
+  /// Deletes the specified pronunciation lexicon stored in an Amazon Web
+  /// Services Region. A lexicon which has been deleted is not available for
+  /// speech synthesis, nor is it possible to retrieve it using either the
+  /// <code>GetLexicon</code> or <code>ListLexicon</code> APIs.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/polly/latest/dg/managing-lexicons.html">Managing
@@ -150,7 +150,7 @@ class Polly {
   }
 
   /// Returns the content of the specified pronunciation lexicon stored in an
-  /// AWS Region. For more information, see <a
+  /// Amazon Web Services Region. For more information, see <a
   /// href="https://docs.aws.amazon.com/polly/latest/dg/managing-lexicons.html">Managing
   /// Lexicons</a>.
   ///
@@ -194,8 +194,8 @@ class Polly {
     return GetSpeechSynthesisTaskOutput.fromJson(response);
   }
 
-  /// Returns a list of pronunciation lexicons stored in an AWS Region. For more
-  /// information, see <a
+  /// Returns a list of pronunciation lexicons stored in an Amazon Web Services
+  /// Region. For more information, see <a
   /// href="https://docs.aws.amazon.com/polly/latest/dg/managing-lexicons.html">Managing
   /// Lexicons</a>.
   ///
@@ -264,11 +264,11 @@ class Polly {
     return ListSpeechSynthesisTasksOutput.fromJson(response);
   }
 
-  /// Stores a pronunciation lexicon in an AWS Region. If a lexicon with the
-  /// same name already exists in the region, it is overwritten by the new
-  /// lexicon. Lexicon operations have eventual consistency, therefore, it might
-  /// take some time before the lexicon is available to the SynthesizeSpeech
-  /// operation.
+  /// Stores a pronunciation lexicon in an Amazon Web Services Region. If a
+  /// lexicon with the same name already exists in the region, it is overwritten
+  /// by the new lexicon. Lexicon operations have eventual consistency,
+  /// therefore, it might take some time before the lexicon is available to the
+  /// SynthesizeSpeech operation.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/polly/latest/dg/managing-lexicons.html">Managing
@@ -308,10 +308,12 @@ class Polly {
   /// <code>SpeechSynthesisTask</code>. This operation requires all the standard
   /// information needed for speech synthesis, plus the name of an Amazon S3
   /// bucket for the service to store the output of the synthesis task and two
-  /// optional parameters (OutputS3KeyPrefix and SnsTopicArn). Once the
-  /// synthesis task is created, this operation will return a
-  /// SpeechSynthesisTask object, which will include an identifier of this task
-  /// as well as the current status.
+  /// optional parameters (<code>OutputS3KeyPrefix</code> and
+  /// <code>SnsTopicArn</code>). Once the synthesis task is created, this
+  /// operation will return a <code>SpeechSynthesisTask</code> object, which
+  /// will include an identifier of this task as well as the current status. The
+  /// <code>SpeechSynthesisTask</code> object is available for 72 hours after
+  /// starting the asynchronous synthesis task.
   ///
   /// May throw [TextLengthExceededException].
   /// May throw [InvalidS3BucketException].
@@ -352,7 +354,7 @@ class Polly {
   /// either Indian English (en-IN) or Hindi (hi-IN).
   ///
   /// If a bilingual voice is used and no language code is specified, Amazon
-  /// Polly will use the default language of the bilingual voice. The default
+  /// Polly uses the default language of the bilingual voice. The default
   /// language for any voice is the one returned by the <a
   /// href="https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html">DescribeVoices</a>
   /// operation for the <code>LanguageCode</code> parameter. For example, if no
@@ -493,7 +495,7 @@ class Polly {
   /// either Indian English (en-IN) or Hindi (hi-IN).
   ///
   /// If a bilingual voice is used and no language code is specified, Amazon
-  /// Polly will use the default language of the bilingual voice. The default
+  /// Polly uses the default language of the bilingual voice. The default
   /// language for any voice is the one returned by the <a
   /// href="https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html">DescribeVoices</a>
   /// operation for the <code>LanguageCode</code> parameter. For example, if no
@@ -565,6 +567,7 @@ class Polly {
 
 class DeleteLexiconOutput {
   DeleteLexiconOutput();
+
   factory DeleteLexiconOutput.fromJson(Map<String, dynamic> _) {
     return DeleteLexiconOutput();
   }
@@ -583,6 +586,7 @@ class DescribeVoicesOutput {
     this.nextToken,
     this.voices,
   });
+
   factory DescribeVoicesOutput.fromJson(Map<String, dynamic> json) {
     return DescribeVoicesOutput(
       nextToken: json['NextToken'] as String?,
@@ -663,6 +667,7 @@ class GetLexiconOutput {
     this.lexicon,
     this.lexiconAttributes,
   });
+
   factory GetLexiconOutput.fromJson(Map<String, dynamic> json) {
     return GetLexiconOutput(
       lexicon: json['Lexicon'] != null
@@ -684,6 +689,7 @@ class GetSpeechSynthesisTaskOutput {
   GetSpeechSynthesisTaskOutput({
     this.synthesisTask,
   });
+
   factory GetSpeechSynthesisTaskOutput.fromJson(Map<String, dynamic> json) {
     return GetSpeechSynthesisTaskOutput(
       synthesisTask: json['SynthesisTask'] != null
@@ -724,6 +730,13 @@ enum LanguageCode {
   ruRu,
   svSe,
   trTr,
+  enNz,
+  enZa,
+  caEs,
+  deAt,
+  yueCn,
+  arAe,
+  fiFi,
 }
 
 extension LanguageCodeValueExtension on LanguageCode {
@@ -787,6 +800,20 @@ extension LanguageCodeValueExtension on LanguageCode {
         return 'sv-SE';
       case LanguageCode.trTr:
         return 'tr-TR';
+      case LanguageCode.enNz:
+        return 'en-NZ';
+      case LanguageCode.enZa:
+        return 'en-ZA';
+      case LanguageCode.caEs:
+        return 'ca-ES';
+      case LanguageCode.deAt:
+        return 'de-AT';
+      case LanguageCode.yueCn:
+        return 'yue-CN';
+      case LanguageCode.arAe:
+        return 'ar-AE';
+      case LanguageCode.fiFi:
+        return 'fi-FI';
     }
   }
 }
@@ -852,6 +879,20 @@ extension LanguageCodeFromString on String {
         return LanguageCode.svSe;
       case 'tr-TR':
         return LanguageCode.trTr;
+      case 'en-NZ':
+        return LanguageCode.enNz;
+      case 'en-ZA':
+        return LanguageCode.enZa;
+      case 'ca-ES':
+        return LanguageCode.caEs;
+      case 'de-AT':
+        return LanguageCode.deAt;
+      case 'yue-CN':
+        return LanguageCode.yueCn;
+      case 'ar-AE':
+        return LanguageCode.arAe;
+      case 'fi-FI':
+        return LanguageCode.fiFi;
     }
     throw Exception('$this is not known in enum LanguageCode');
   }
@@ -873,6 +914,7 @@ class Lexicon {
     this.content,
     this.name,
   });
+
   factory Lexicon.fromJson(Map<String, dynamic> json) {
     return Lexicon(
       content: json['Content'] as String?,
@@ -915,6 +957,7 @@ class LexiconAttributes {
     this.lexiconArn,
     this.size,
   });
+
   factory LexiconAttributes.fromJson(Map<String, dynamic> json) {
     return LexiconAttributes(
       alphabet: json['Alphabet'] as String?,
@@ -939,6 +982,7 @@ class LexiconDescription {
     this.attributes,
     this.name,
   });
+
   factory LexiconDescription.fromJson(Map<String, dynamic> json) {
     return LexiconDescription(
       attributes: json['Attributes'] != null
@@ -963,6 +1007,7 @@ class ListLexiconsOutput {
     this.lexicons,
     this.nextToken,
   });
+
   factory ListLexiconsOutput.fromJson(Map<String, dynamic> json) {
     return ListLexiconsOutput(
       lexicons: (json['Lexicons'] as List?)
@@ -988,6 +1033,7 @@ class ListSpeechSynthesisTasksOutput {
     this.nextToken,
     this.synthesisTasks,
   });
+
   factory ListSpeechSynthesisTasksOutput.fromJson(Map<String, dynamic> json) {
     return ListSpeechSynthesisTasksOutput(
       nextToken: json['NextToken'] as String?,
@@ -1039,6 +1085,7 @@ extension OutputFormatFromString on String {
 
 class PutLexiconOutput {
   PutLexiconOutput();
+
   factory PutLexiconOutput.fromJson(Map<String, dynamic> _) {
     return PutLexiconOutput();
   }
@@ -1090,6 +1137,7 @@ class StartSpeechSynthesisTaskOutput {
   StartSpeechSynthesisTaskOutput({
     this.synthesisTask,
   });
+
   factory StartSpeechSynthesisTaskOutput.fromJson(Map<String, dynamic> json) {
     return StartSpeechSynthesisTaskOutput(
       synthesisTask: json['SynthesisTask'] != null
@@ -1116,8 +1164,8 @@ class SynthesisTask {
   /// English (en-IN) or Hindi (hi-IN).
   ///
   /// If a bilingual voice is used and no language code is specified, Amazon Polly
-  /// will use the default language of the bilingual voice. The default language
-  /// for any voice is the one returned by the <a
+  /// uses the default language of the bilingual voice. The default language for
+  /// any voice is the one returned by the <a
   /// href="https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html">DescribeVoices</a>
   /// operation for the <code>LanguageCode</code> parameter. For example, if no
   /// language code is specified, Aditi will use Indian English rather than Hindi.
@@ -1188,6 +1236,7 @@ class SynthesisTask {
     this.textType,
     this.voiceId,
   });
+
   factory SynthesisTask.fromJson(Map<String, dynamic> json) {
     return SynthesisTask(
       creationTime: timeStampFromJson(json['CreationTime']),
@@ -1238,7 +1287,7 @@ class SynthesizeSpeechOutput {
   /// </li>
   /// <li>
   /// If you request <code>json</code> as the <code>OutputFormat</code>, the
-  /// <code>ContentType</code> returned is audio/json.
+  /// <code>ContentType</code> returned is application/x-json-stream.
   /// </li>
   /// </ul>
   ///
@@ -1361,6 +1410,7 @@ class Voice {
     this.name,
     this.supportedEngines,
   });
+
   factory Voice.fromJson(Map<String, dynamic> json) {
     return Voice(
       additionalLanguageCodes: (json['AdditionalLanguageCodes'] as List?)
@@ -1398,6 +1448,7 @@ enum VoiceId {
   enrique,
   ewa,
   filiz,
+  gabrielle,
   geraint,
   giorgio,
   gwyneth,
@@ -1443,6 +1494,31 @@ enum VoiceId {
   vitoria,
   zeina,
   zhiyu,
+  aria,
+  ayanda,
+  arlet,
+  hannah,
+  arthur,
+  daniel,
+  liam,
+  pedro,
+  kajal,
+  hiujin,
+  laura,
+  elin,
+  ida,
+  suvi,
+  ola,
+  hala,
+  andres,
+  sergio,
+  remi,
+  adriano,
+  thiago,
+  ruth,
+  stephen,
+  kazuha,
+  tomoko,
 }
 
 extension VoiceIdValueExtension on VoiceId {
@@ -1482,6 +1558,8 @@ extension VoiceIdValueExtension on VoiceId {
         return 'Ewa';
       case VoiceId.filiz:
         return 'Filiz';
+      case VoiceId.gabrielle:
+        return 'Gabrielle';
       case VoiceId.geraint:
         return 'Geraint';
       case VoiceId.giorgio:
@@ -1572,6 +1650,56 @@ extension VoiceIdValueExtension on VoiceId {
         return 'Zeina';
       case VoiceId.zhiyu:
         return 'Zhiyu';
+      case VoiceId.aria:
+        return 'Aria';
+      case VoiceId.ayanda:
+        return 'Ayanda';
+      case VoiceId.arlet:
+        return 'Arlet';
+      case VoiceId.hannah:
+        return 'Hannah';
+      case VoiceId.arthur:
+        return 'Arthur';
+      case VoiceId.daniel:
+        return 'Daniel';
+      case VoiceId.liam:
+        return 'Liam';
+      case VoiceId.pedro:
+        return 'Pedro';
+      case VoiceId.kajal:
+        return 'Kajal';
+      case VoiceId.hiujin:
+        return 'Hiujin';
+      case VoiceId.laura:
+        return 'Laura';
+      case VoiceId.elin:
+        return 'Elin';
+      case VoiceId.ida:
+        return 'Ida';
+      case VoiceId.suvi:
+        return 'Suvi';
+      case VoiceId.ola:
+        return 'Ola';
+      case VoiceId.hala:
+        return 'Hala';
+      case VoiceId.andres:
+        return 'Andres';
+      case VoiceId.sergio:
+        return 'Sergio';
+      case VoiceId.remi:
+        return 'Remi';
+      case VoiceId.adriano:
+        return 'Adriano';
+      case VoiceId.thiago:
+        return 'Thiago';
+      case VoiceId.ruth:
+        return 'Ruth';
+      case VoiceId.stephen:
+        return 'Stephen';
+      case VoiceId.kazuha:
+        return 'Kazuha';
+      case VoiceId.tomoko:
+        return 'Tomoko';
     }
   }
 }
@@ -1613,6 +1741,8 @@ extension VoiceIdFromString on String {
         return VoiceId.ewa;
       case 'Filiz':
         return VoiceId.filiz;
+      case 'Gabrielle':
+        return VoiceId.gabrielle;
       case 'Geraint':
         return VoiceId.geraint;
       case 'Giorgio':
@@ -1703,6 +1833,56 @@ extension VoiceIdFromString on String {
         return VoiceId.zeina;
       case 'Zhiyu':
         return VoiceId.zhiyu;
+      case 'Aria':
+        return VoiceId.aria;
+      case 'Ayanda':
+        return VoiceId.ayanda;
+      case 'Arlet':
+        return VoiceId.arlet;
+      case 'Hannah':
+        return VoiceId.hannah;
+      case 'Arthur':
+        return VoiceId.arthur;
+      case 'Daniel':
+        return VoiceId.daniel;
+      case 'Liam':
+        return VoiceId.liam;
+      case 'Pedro':
+        return VoiceId.pedro;
+      case 'Kajal':
+        return VoiceId.kajal;
+      case 'Hiujin':
+        return VoiceId.hiujin;
+      case 'Laura':
+        return VoiceId.laura;
+      case 'Elin':
+        return VoiceId.elin;
+      case 'Ida':
+        return VoiceId.ida;
+      case 'Suvi':
+        return VoiceId.suvi;
+      case 'Ola':
+        return VoiceId.ola;
+      case 'Hala':
+        return VoiceId.hala;
+      case 'Andres':
+        return VoiceId.andres;
+      case 'Sergio':
+        return VoiceId.sergio;
+      case 'Remi':
+        return VoiceId.remi;
+      case 'Adriano':
+        return VoiceId.adriano;
+      case 'Thiago':
+        return VoiceId.thiago;
+      case 'Ruth':
+        return VoiceId.ruth;
+      case 'Stephen':
+        return VoiceId.stephen;
+      case 'Kazuha':
+        return VoiceId.kazuha;
+      case 'Tomoko':
+        return VoiceId.tomoko;
     }
     throw Exception('$this is not known in enum VoiceId');
   }

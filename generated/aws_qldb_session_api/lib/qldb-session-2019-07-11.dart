@@ -97,6 +97,7 @@ class QLDBSession {
   /// May throw [OccConflictException].
   /// May throw [RateExceededException].
   /// May throw [LimitExceededException].
+  /// May throw [CapacityExceededException].
   ///
   /// Parameter [abortTransaction] :
   /// Command to abort the current transaction.
@@ -179,6 +180,7 @@ class AbortTransactionResult {
   AbortTransactionResult({
     this.timingInformation,
   });
+
   factory AbortTransactionResult.fromJson(Map<String, dynamic> json) {
     return AbortTransactionResult(
       timingInformation: json['TimingInformation'] != null
@@ -239,6 +241,7 @@ class CommitTransactionResult {
     this.timingInformation,
     this.transactionId,
   });
+
   factory CommitTransactionResult.fromJson(Map<String, dynamic> json) {
     return CommitTransactionResult(
       commitDigest: _s.decodeNullableUint8List(json['CommitDigest'] as String?),
@@ -270,6 +273,7 @@ class EndSessionResult {
   EndSessionResult({
     this.timingInformation,
   });
+
   factory EndSessionResult.fromJson(Map<String, dynamic> json) {
     return EndSessionResult(
       timingInformation: json['TimingInformation'] != null
@@ -324,6 +328,7 @@ class ExecuteStatementResult {
     this.firstPage,
     this.timingInformation,
   });
+
   factory ExecuteStatementResult.fromJson(Map<String, dynamic> json) {
     return ExecuteStatementResult(
       consumedIOs: json['ConsumedIOs'] != null
@@ -378,6 +383,7 @@ class FetchPageResult {
     this.page,
     this.timingInformation,
   });
+
   factory FetchPageResult.fromJson(Map<String, dynamic> json) {
     return FetchPageResult(
       consumedIOs: json['ConsumedIOs'] != null
@@ -396,16 +402,17 @@ class FetchPageResult {
 
 /// Contains I/O usage metrics for a command that was invoked.
 class IOUsage {
-  /// The number of read I/O requests that the command performed.
+  /// The number of read I/O requests that the command made.
   final int? readIOs;
 
-  /// The number of write I/O requests that the command performed.
+  /// The number of write I/O requests that the command made.
   final int? writeIOs;
 
   IOUsage({
     this.readIOs,
     this.writeIOs,
   });
+
   factory IOUsage.fromJson(Map<String, dynamic> json) {
     return IOUsage(
       readIOs: json['ReadIOs'] as int?,
@@ -426,6 +433,7 @@ class Page {
     this.nextPageToken,
     this.values,
   });
+
   factory Page.fromJson(Map<String, dynamic> json) {
     return Page(
       nextPageToken: json['NextPageToken'] as String?,
@@ -470,6 +478,7 @@ class SendCommandResult {
     this.startSession,
     this.startTransaction,
   });
+
   factory SendCommandResult.fromJson(Map<String, dynamic> json) {
     return SendCommandResult(
       abortTransaction: json['AbortTransaction'] != null
@@ -533,6 +542,7 @@ class StartSessionResult {
     this.sessionToken,
     this.timingInformation,
   });
+
   factory StartSessionResult.fromJson(Map<String, dynamic> json) {
     return StartSessionResult(
       sessionToken: json['SessionToken'] as String?,
@@ -564,6 +574,7 @@ class StartTransactionResult {
     this.timingInformation,
     this.transactionId,
   });
+
   factory StartTransactionResult.fromJson(Map<String, dynamic> json) {
     return StartTransactionResult(
       timingInformation: json['TimingInformation'] != null
@@ -579,13 +590,14 @@ class StartTransactionResult {
 /// captures timing information between the times when it receives the request
 /// and when it sends the corresponding response.
 class TimingInformation {
-  /// The amount of time that was taken for the command to finish processing,
-  /// measured in milliseconds.
+  /// The amount of time that QLDB spent on processing the command, measured in
+  /// milliseconds.
   final int? processingTimeMilliseconds;
 
   TimingInformation({
     this.processingTimeMilliseconds,
   });
+
   factory TimingInformation.fromJson(Map<String, dynamic> json) {
     return TimingInformation(
       processingTimeMilliseconds: json['ProcessingTimeMilliseconds'] as int?,
@@ -607,6 +619,7 @@ class ValueHolder {
     this.ionBinary,
     this.ionText,
   });
+
   factory ValueHolder.fromJson(Map<String, dynamic> json) {
     return ValueHolder(
       ionBinary: _s.decodeNullableUint8List(json['IonBinary'] as String?),
@@ -627,6 +640,11 @@ class ValueHolder {
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
+}
+
+class CapacityExceededException extends _s.GenericAwsException {
+  CapacityExceededException({String? type, String? message})
+      : super(type: type, code: 'CapacityExceededException', message: message);
 }
 
 class InvalidSessionException extends _s.GenericAwsException {
@@ -652,6 +670,8 @@ class RateExceededException extends _s.GenericAwsException {
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'BadRequestException': (type, message) =>
       BadRequestException(type: type, message: message),
+  'CapacityExceededException': (type, message) =>
+      CapacityExceededException(type: type, message: message),
   'InvalidSessionException': (type, message) =>
       InvalidSessionException(type: type, message: message),
   'LimitExceededException': (type, message) =>

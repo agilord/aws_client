@@ -3,7 +3,7 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-The control plane for Amazon QLDB
+The resource management API for Amazon QLDB
 
 ## Links
 

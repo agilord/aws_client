@@ -72,6 +72,7 @@ class OutputShape {
     this.blobMember,
     this.structMember,
   });
+
   factory OutputShape.fromJson(Map<String, dynamic> json) {
     return OutputShape(
       blobMember: _s.decodeNullableUint8List(json['BlobMember'] as String?),
@@ -88,6 +89,7 @@ class BlobContainer {
   BlobContainer({
     this.foo,
   });
+
   factory BlobContainer.fromJson(Map<String, dynamic> json) {
     return BlobContainer(
       foo: _s.decodeNullableUint8List(json['foo'] as String?),

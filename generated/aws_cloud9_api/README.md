@@ -3,8 +3,8 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-AWS Cloud9 is a collection of tools that you can use to code, build, run,
-test, debug, and release software in the cloud.
+Cloud9 is a collection of tools that you can use to code, build, run, test,
+debug, and release software in the cloud.
 
 ## Links
 

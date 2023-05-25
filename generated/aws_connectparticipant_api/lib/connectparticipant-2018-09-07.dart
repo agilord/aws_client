@@ -18,14 +18,18 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// Amazon Connect is a cloud-based contact center solution that makes it easy
-/// to set up and manage a customer contact center and provide reliable customer
-/// engagement at any scale.
+/// Amazon Connect is an easy-to-use omnichannel cloud contact center service
+/// that enables companies of any size to deliver superior customer service at a
+/// lower cost. Amazon Connect communications capabilities make it easy for
+/// companies to deliver personalized interactions across communication
+/// channels, including chat.
 ///
-/// Amazon Connect enables customer contacts through voice or chat.
-///
-/// The APIs described here are used by chat participants, such as agents and
-/// customers.
+/// Use the Amazon Connect Participant Service to manage participants (for
+/// example, agents, customers, and managers listening in), and to send messages
+/// and events within a chat contact. The APIs in the service enable the
+/// following: sending chat messages, attachment sharing, managing a
+/// participant's connection state and message events, and retrieving chat
+/// transcripts.
 class ConnectParticipant {
   final _s.RestJsonProtocol _protocol;
   ConnectParticipant({
@@ -57,6 +61,13 @@ class ConnectParticipant {
 
   /// Allows you to confirm that the attachment has been uploaded using the
   /// pre-signed URL provided in StartAttachmentUpload API.
+  /// <note>
+  /// <code>ConnectionToken</code> is used for invoking this API instead of
+  /// <code>ParticipantToken</code>.
+  /// </note>
+  /// The Amazon Connect Participant Service APIs do not use <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+  /// Version 4 authentication</a>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -73,7 +84,10 @@ class ConnectParticipant {
   ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier that you provide to ensure the
-  /// idempotency of the request.
+  /// idempotency of the request. If not provided, the Amazon Web Services SDK
+  /// populates this field. For more information about idempotency, see <a
+  /// href="https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/">Making
+  /// retries safe with idempotent APIs</a>.
   Future<void> completeAttachmentUpload({
     required List<String> attachmentIds,
     required String connectionToken,
@@ -95,9 +109,11 @@ class ConnectParticipant {
     );
   }
 
-  /// Creates the participant's connection. Note that ParticipantToken is used
-  /// for invoking this API instead of ConnectionToken.
-  ///
+  /// Creates the participant's connection.
+  /// <note>
+  /// <code>ParticipantToken</code> is used for invoking this API instead of
+  /// <code>ConnectionToken</code>.
+  /// </note>
   /// The participant token is valid for the lifetime of the participant – until
   /// they are part of a contact.
   ///
@@ -113,6 +129,21 @@ class ConnectParticipant {
   /// Upon websocket URL expiry, as specified in the response ConnectionExpiry
   /// parameter, clients need to call this API again to obtain a new websocket
   /// URL and perform the same steps as before.
+  ///
+  /// <b>Message streaming support</b>: This API can also be used together with
+  /// the <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_StartContactStreaming.html">StartContactStreaming</a>
+  /// API to create a participant connection for chat contacts that are not
+  /// using a websocket. For more information about message streaming, <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/chat-message-streaming.html">Enable
+  /// real-time chat message streaming</a> in the <i>Amazon Connect
+  /// Administrator Guide</i>.
+  ///
+  /// <b>Feature specifications</b>: For information about feature
+  /// specifications, such as the allowed number of open websocket connections
+  /// per participant, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits">Feature
+  /// specifications</a> in the <i>Amazon Connect Administrator Guide</i>.
   /// <note>
   /// The Amazon Connect Participant Service APIs do not use <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
@@ -127,21 +158,29 @@ class ConnectParticipant {
   /// Parameter [participantToken] :
   /// This is a header parameter.
   ///
-  /// The Participant Token as obtained from <a
+  /// The ParticipantToken as obtained from <a
   /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_StartChatContact.html">StartChatContact</a>
   /// API response.
   ///
+  /// Parameter [connectParticipant] :
+  /// Amazon Connect Participant is used to mark the participant as connected
+  /// for customer participant in message streaming, as well as for agent or
+  /// manager participant in non-streaming chats.
+  ///
   /// Parameter [type] :
-  /// Type of connection information required.
+  /// Type of connection information required. This can be omitted if
+  /// <code>ConnectParticipant</code> is <code>true</code>.
   Future<CreateParticipantConnectionResponse> createParticipantConnection({
     required String participantToken,
-    required List<ConnectionType> type,
+    bool? connectParticipant,
+    List<ConnectionType>? type,
   }) async {
     final headers = <String, String>{
       'X-Amz-Bearer': participantToken.toString(),
     };
     final $payload = <String, dynamic>{
-      'Type': type.map((e) => e.toValue()).toList(),
+      if (connectParticipant != null) 'ConnectParticipant': connectParticipant,
+      if (type != null) 'Type': type.map((e) => e.toValue()).toList(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -153,9 +192,11 @@ class ConnectParticipant {
     return CreateParticipantConnectionResponse.fromJson(response);
   }
 
-  /// Disconnects a participant. Note that ConnectionToken is used for invoking
-  /// this API instead of ParticipantToken.
-  ///
+  /// Disconnects a participant.
+  /// <note>
+  /// <code>ConnectionToken</code> is used for invoking this API instead of
+  /// <code>ParticipantToken</code>.
+  /// </note>
   /// The Amazon Connect Participant Service APIs do not use <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
   /// Version 4 authentication</a>.
@@ -170,7 +211,10 @@ class ConnectParticipant {
   ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier that you provide to ensure the
-  /// idempotency of the request.
+  /// idempotency of the request. If not provided, the Amazon Web Services SDK
+  /// populates this field. For more information about idempotency, see <a
+  /// href="https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/">Making
+  /// retries safe with idempotent APIs</a>.
   Future<void> disconnectParticipant({
     required String connectionToken,
     String? clientToken,
@@ -192,6 +236,13 @@ class ConnectParticipant {
 
   /// Provides a pre-signed URL for download of a completed attachment. This is
   /// an asynchronous API for use with active contacts.
+  /// <note>
+  /// <code>ConnectionToken</code> is used for invoking this API instead of
+  /// <code>ParticipantToken</code>.
+  /// </note>
+  /// The Amazon Connect Participant Service APIs do not use <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+  /// Version 4 authentication</a>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -224,9 +275,14 @@ class ConnectParticipant {
   }
 
   /// Retrieves a transcript of the session, including details about any
-  /// attachments. Note that ConnectionToken is used for invoking this API
-  /// instead of ParticipantToken.
-  ///
+  /// attachments. For information about accessing past chat contact transcripts
+  /// for a persistent chat, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html">Enable
+  /// persistent chat</a>.
+  /// <note>
+  /// <code>ConnectionToken</code> is used for invoking this API instead of
+  /// <code>ParticipantToken</code>.
+  /// </note>
   /// The Amazon Connect Participant Service APIs do not use <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
   /// Version 4 authentication</a>.
@@ -295,9 +351,11 @@ class ConnectParticipant {
     return GetTranscriptResponse.fromJson(response);
   }
 
-  /// Sends an event. Note that ConnectionToken is used for invoking this API
-  /// instead of ParticipantToken.
-  ///
+  /// Sends an event.
+  /// <note>
+  /// <code>ConnectionToken</code> is used for invoking this API instead of
+  /// <code>ParticipantToken</code>.
+  /// </note>
   /// The Amazon Connect Participant Service APIs do not use <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
   /// Version 4 authentication</a>.
@@ -320,15 +378,27 @@ class ConnectParticipant {
   /// <li>
   /// application/vnd.amazonaws.connect.event.connection.acknowledged
   /// </li>
+  /// <li>
+  /// application/vnd.amazonaws.connect.event.message.delivered
+  /// </li>
+  /// <li>
+  /// application/vnd.amazonaws.connect.event.message.read
+  /// </li>
   /// </ul>
   ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier that you provide to ensure the
-  /// idempotency of the request.
+  /// idempotency of the request. If not provided, the Amazon Web Services SDK
+  /// populates this field. For more information about idempotency, see <a
+  /// href="https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/">Making
+  /// retries safe with idempotent APIs</a>.
   ///
   /// Parameter [content] :
-  /// The content of the event to be sent (for example, message text). This is
-  /// not yet supported.
+  /// The content of the event to be sent (for example, message text). For
+  /// content related to message receipts, this is supported in the form of a
+  /// JSON string.
+  ///
+  /// Sample Content: "{\"messageId\":\"11111111-aaaa-bbbb-cccc-EXAMPLE01234\"}"
   Future<SendEventResponse> sendEvent({
     required String connectionToken,
     required String contentType,
@@ -353,13 +423,14 @@ class ConnectParticipant {
     return SendEventResponse.fromJson(response);
   }
 
-  /// Sends a message. Note that ConnectionToken is used for invoking this API
-  /// instead of ParticipantToken.
+  /// Sends a message.
   /// <note>
+  /// <code>ConnectionToken</code> is used for invoking this API instead of
+  /// <code>ParticipantToken</code>.
+  /// </note>
   /// The Amazon Connect Participant Service APIs do not use <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
   /// Version 4 authentication</a>.
-  /// </note>
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -372,12 +443,33 @@ class ConnectParticipant {
   /// Parameter [content] :
   /// The content of the message.
   ///
+  /// <ul>
+  /// <li>
+  /// For <code>text/plain</code> and <code>text/markdown</code>, the Length
+  /// Constraints are Minimum of 1, Maximum of 1024.
+  /// </li>
+  /// <li>
+  /// For <code>application/json</code>, the Length Constraints are Minimum of
+  /// 1, Maximum of 12000.
+  /// </li>
+  /// <li>
+  /// For
+  /// <code>application/vnd.amazonaws.connect.message.interactive.response</code>,
+  /// the Length Constraints are Minimum of 1, Maximum of 12288.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [contentType] :
-  /// The type of the content. Supported types are text/plain.
+  /// The type of the content. Supported types are <code>text/plain</code>,
+  /// <code>text/markdown</code>, <code>application/json</code>, and
+  /// <code>application/vnd.amazonaws.connect.message.interactive.response</code>.
   ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier that you provide to ensure the
-  /// idempotency of the request.
+  /// idempotency of the request. If not provided, the Amazon Web Services SDK
+  /// populates this field. For more information about idempotency, see <a
+  /// href="https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/">Making
+  /// retries safe with idempotent APIs</a>.
   Future<SendMessageResponse> sendMessage({
     required String connectionToken,
     required String content,
@@ -404,6 +496,13 @@ class ConnectParticipant {
 
   /// Provides a pre-signed Amazon S3 URL in response for uploading the file
   /// directly to S3.
+  /// <note>
+  /// <code>ConnectionToken</code> is used for invoking this API instead of
+  /// <code>ParticipantToken</code>.
+  /// </note>
+  /// The Amazon Connect Participant Service APIs do not use <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+  /// Version 4 authentication</a>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -423,11 +522,15 @@ class ConnectParticipant {
   /// Parameter [contentType] :
   /// Describes the MIME file type of the attachment. For a list of supported
   /// file types, see <a
-  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits">Feature
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html">Feature
   /// specifications</a> in the <i>Amazon Connect Administrator Guide</i>.
   ///
   /// Parameter [clientToken] :
-  /// A unique case sensitive identifier to support idempotency of request.
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. If not provided, the Amazon Web Services SDK
+  /// populates this field. For more information about idempotency, see <a
+  /// href="https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/">Making
+  /// retries safe with idempotent APIs</a>.
   Future<StartAttachmentUploadResponse> startAttachmentUpload({
     required String attachmentName,
     required int attachmentSizeInBytes,
@@ -506,7 +609,7 @@ class AttachmentItem {
 
   /// Describes the MIME file type of the attachment. For a list of supported file
   /// types, see <a
-  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits">Feature
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html">Feature
   /// specifications</a> in the <i>Amazon Connect Administrator Guide</i>.
   final String? contentType;
 
@@ -519,6 +622,7 @@ class AttachmentItem {
     this.contentType,
     this.status,
   });
+
   factory AttachmentItem.fromJson(Map<String, dynamic> json) {
     return AttachmentItem(
       attachmentId: json['AttachmentId'] as String?,
@@ -540,6 +644,8 @@ enum ChatItemType {
   event,
   attachment,
   connectionAck,
+  messageDelivered,
+  messageRead,
 }
 
 extension ChatItemTypeValueExtension on ChatItemType {
@@ -565,6 +671,10 @@ extension ChatItemTypeValueExtension on ChatItemType {
         return 'ATTACHMENT';
       case ChatItemType.connectionAck:
         return 'CONNECTION_ACK';
+      case ChatItemType.messageDelivered:
+        return 'MESSAGE_DELIVERED';
+      case ChatItemType.messageRead:
+        return 'MESSAGE_READ';
     }
   }
 }
@@ -592,6 +702,10 @@ extension ChatItemTypeFromString on String {
         return ChatItemType.attachment;
       case 'CONNECTION_ACK':
         return ChatItemType.connectionAck;
+      case 'MESSAGE_DELIVERED':
+        return ChatItemType.messageDelivered;
+      case 'MESSAGE_READ':
+        return ChatItemType.messageRead;
     }
     throw Exception('$this is not known in enum ChatItemType');
   }
@@ -599,6 +713,7 @@ extension ChatItemTypeFromString on String {
 
 class CompleteAttachmentUploadResponse {
   CompleteAttachmentUploadResponse();
+
   factory CompleteAttachmentUploadResponse.fromJson(Map<String, dynamic> _) {
     return CompleteAttachmentUploadResponse();
   }
@@ -619,6 +734,7 @@ class ConnectionCredentials {
     this.connectionToken,
     this.expiry,
   });
+
   factory ConnectionCredentials.fromJson(Map<String, dynamic> json) {
     return ConnectionCredentials(
       connectionToken: json['ConnectionToken'] as String?,
@@ -667,6 +783,7 @@ class CreateParticipantConnectionResponse {
     this.connectionCredentials,
     this.websocket,
   });
+
   factory CreateParticipantConnectionResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateParticipantConnectionResponse(
@@ -683,14 +800,16 @@ class CreateParticipantConnectionResponse {
 
 class DisconnectParticipantResponse {
   DisconnectParticipantResponse();
+
   factory DisconnectParticipantResponse.fromJson(Map<String, dynamic> _) {
     return DisconnectParticipantResponse();
   }
 }
 
 class GetAttachmentResponse {
-  /// The pre-signed URL using which file would be downloaded from Amazon S3 by
-  /// the API caller.
+  /// This is the pre-signed URL that can be used for uploading the file to Amazon
+  /// S3 when used in response to <a
+  /// href="https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_StartAttachmentUpload.html">StartAttachmentUpload</a>.
   final String? url;
 
   /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601
@@ -701,6 +820,7 @@ class GetAttachmentResponse {
     this.url,
     this.urlExpiry,
   });
+
   factory GetAttachmentResponse.fromJson(Map<String, dynamic> json) {
     return GetAttachmentResponse(
       url: json['Url'] as String?,
@@ -725,6 +845,7 @@ class GetTranscriptResponse {
     this.nextToken,
     this.transcript,
   });
+
   factory GetTranscriptResponse.fromJson(Map<String, dynamic> json) {
     return GetTranscriptResponse(
       initialContactId: json['InitialContactId'] as String?,
@@ -748,6 +869,10 @@ class Item {
   /// Provides information about the attachments.
   final List<AttachmentItem>? attachments;
 
+  /// The contactId on which the transcript item was originally sent. This field
+  /// is populated only when the transcript item is from the current chat session.
+  final String? contactId;
+
   /// The content of the message or event.
   final String? content;
 
@@ -760,11 +885,22 @@ class Item {
   /// The ID of the item.
   final String? id;
 
+  /// The metadata related to the message. Currently this supports only
+  /// information related to message receipts.
+  final MessageMetadata? messageMetadata;
+
   /// The ID of the sender in the session.
   final String? participantId;
 
   /// The role of the sender. For example, is it a customer, agent, or system.
   final ParticipantRole? participantRole;
+
+  /// The contactId on which the transcript item was originally sent. This field
+  /// is only populated for persistent chats when the transcript item is from the
+  /// past chat session. For more information, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html">Enable
+  /// persistent chat</a>.
+  final String? relatedContactId;
 
   /// Type of the item: message or event.
   final ChatItemType? type;
@@ -772,14 +908,18 @@ class Item {
   Item({
     this.absoluteTime,
     this.attachments,
+    this.contactId,
     this.content,
     this.contentType,
     this.displayName,
     this.id,
+    this.messageMetadata,
     this.participantId,
     this.participantRole,
+    this.relatedContactId,
     this.type,
   });
+
   factory Item.fromJson(Map<String, dynamic> json) {
     return Item(
       absoluteTime: json['AbsoluteTime'] as String?,
@@ -787,14 +927,44 @@ class Item {
           ?.whereNotNull()
           .map((e) => AttachmentItem.fromJson(e as Map<String, dynamic>))
           .toList(),
+      contactId: json['ContactId'] as String?,
       content: json['Content'] as String?,
       contentType: json['ContentType'] as String?,
       displayName: json['DisplayName'] as String?,
       id: json['Id'] as String?,
+      messageMetadata: json['MessageMetadata'] != null
+          ? MessageMetadata.fromJson(
+              json['MessageMetadata'] as Map<String, dynamic>)
+          : null,
       participantId: json['ParticipantId'] as String?,
       participantRole:
           (json['ParticipantRole'] as String?)?.toParticipantRole(),
+      relatedContactId: json['RelatedContactId'] as String?,
       type: (json['Type'] as String?)?.toChatItemType(),
+    );
+  }
+}
+
+/// Contains metadata related to a message.
+class MessageMetadata {
+  /// The identifier of the message that contains the metadata information.
+  final String? messageId;
+
+  /// The list of receipt information for a message for different recipients.
+  final List<Receipt>? receipts;
+
+  MessageMetadata({
+    this.messageId,
+    this.receipts,
+  });
+
+  factory MessageMetadata.fromJson(Map<String, dynamic> json) {
+    return MessageMetadata(
+      messageId: json['MessageId'] as String?,
+      receipts: (json['Receipts'] as List?)
+          ?.whereNotNull()
+          .map((e) => Receipt.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }
@@ -829,6 +999,32 @@ extension ParticipantRoleFromString on String {
         return ParticipantRole.system;
     }
     throw Exception('$this is not known in enum ParticipantRole');
+  }
+}
+
+/// The receipt for the message delivered to the recipient.
+class Receipt {
+  /// The time when the message was delivered to the recipient.
+  final String? deliveredTimestamp;
+
+  /// The time when the message was read by the recipient.
+  final String? readTimestamp;
+
+  /// The identifier of the recipient of the message.
+  final String? recipientParticipantId;
+
+  Receipt({
+    this.deliveredTimestamp,
+    this.readTimestamp,
+    this.recipientParticipantId,
+  });
+
+  factory Receipt.fromJson(Map<String, dynamic> json) {
+    return Receipt(
+      deliveredTimestamp: json['DeliveredTimestamp'] as String?,
+      readTimestamp: json['ReadTimestamp'] as String?,
+      recipientParticipantId: json['RecipientParticipantId'] as String?,
+    );
   }
 }
 
@@ -874,6 +1070,7 @@ class SendEventResponse {
     this.absoluteTime,
     this.id,
   });
+
   factory SendEventResponse.fromJson(Map<String, dynamic> json) {
     return SendEventResponse(
       absoluteTime: json['AbsoluteTime'] as String?,
@@ -896,6 +1093,7 @@ class SendMessageResponse {
     this.absoluteTime,
     this.id,
   });
+
   factory SendMessageResponse.fromJson(Map<String, dynamic> json) {
     return SendMessageResponse(
       absoluteTime: json['AbsoluteTime'] as String?,
@@ -943,6 +1141,7 @@ class StartAttachmentUploadResponse {
     this.attachmentId,
     this.uploadMetadata,
   });
+
   factory StartAttachmentUploadResponse.fromJson(Map<String, dynamic> json) {
     return StartAttachmentUploadResponse(
       attachmentId: json['AttachmentId'] as String?,
@@ -991,8 +1190,9 @@ class UploadMetadata {
   /// The headers to be provided while uploading the file to the URL.
   final Map<String, String>? headersToInclude;
 
-  /// The pre-signed URL using which file would be downloaded from Amazon S3 by
-  /// the API caller.
+  /// This is the pre-signed URL that can be used for uploading the file to Amazon
+  /// S3 when used in response to <a
+  /// href="https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_StartAttachmentUpload.html">StartAttachmentUpload</a>.
   final String? url;
 
   /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601
@@ -1004,6 +1204,7 @@ class UploadMetadata {
     this.url,
     this.urlExpiry,
   });
+
   factory UploadMetadata.fromJson(Map<String, dynamic> json) {
     return UploadMetadata(
       headersToInclude: (json['HeadersToInclude'] as Map<String, dynamic>?)
@@ -1029,6 +1230,7 @@ class Websocket {
     this.connectionExpiry,
     this.url,
   });
+
   factory Websocket.fromJson(Map<String, dynamic> json) {
     return Websocket(
       connectionExpiry: json['ConnectionExpiry'] as String?,

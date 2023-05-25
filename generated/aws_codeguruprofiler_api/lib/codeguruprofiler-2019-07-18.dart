@@ -20,24 +20,27 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 /// This section provides documentation for the Amazon CodeGuru Profiler API
 /// operations.
-/// <pre><code> &lt;p&gt;Amazon CodeGuru Profiler collects runtime performance
-/// data from your live applications, and provides recommendations that can help
-/// you fine-tune your application performance. Using machine learning
-/// algorithms, CodeGuru Profiler can help you find your most expensive lines of
-/// code and suggest ways you can improve efficiency and remove CPU bottlenecks.
-/// &lt;/p&gt; &lt;p&gt;Amazon CodeGuru Profiler provides different
-/// visualizations of profiling data to help you identify what code is running
-/// on the CPU, see how much time is consumed, and suggest ways to reduce CPU
-/// utilization. &lt;/p&gt; &lt;note&gt; &lt;p&gt;Amazon CodeGuru Profiler
-/// currently supports applications written in all Java virtual machine (JVM)
-/// languages. While CodeGuru Profiler supports both visualizations and
-/// recommendations for applications written in Java, it can also generate
-/// visualizations and a subset of recommendations for applications written in
-/// other JVM languages.&lt;/p&gt; &lt;/note&gt; &lt;p&gt; For more information,
-/// see &lt;a
-/// href=&quot;https://docs.aws.amazon.com/codeguru/latest/profiler-ug/what-is-codeguru-profiler.html&quot;&gt;What
-/// is Amazon CodeGuru Profiler&lt;/a&gt; in the &lt;i&gt;Amazon CodeGuru
-/// Profiler User Guide&lt;/i&gt;. &lt;/p&gt; </code></pre>
+///
+/// Amazon CodeGuru Profiler collects runtime performance data from your live
+/// applications, and provides recommendations that can help you fine-tune your
+/// application performance. Using machine learning algorithms, CodeGuru
+/// Profiler can help you find your most expensive lines of code and suggest
+/// ways you can improve efficiency and remove CPU bottlenecks.
+///
+/// Amazon CodeGuru Profiler provides different visualizations of profiling data
+/// to help you identify what code is running on the CPU, see how much time is
+/// consumed, and suggest ways to reduce CPU utilization.
+/// <note>
+/// Amazon CodeGuru Profiler currently supports applications written in all Java
+/// virtual machine (JVM) languages and Python. While CodeGuru Profiler supports
+/// both visualizations and recommendations for applications written in Java, it
+/// can also generate visualizations and a subset of recommendations for
+/// applications written in other JVM languages and Python.
+/// </note>
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/codeguru/latest/profiler-ug/what-is-codeguru-profiler.html">What
+/// is Amazon CodeGuru Profiler</a> in the <i>Amazon CodeGuru Profiler User
+/// Guide</i>.
 class CodeGuruProfiler {
   final _s.RestJsonProtocol _protocol;
   CodeGuruProfiler({
@@ -183,7 +186,7 @@ class CodeGuruProfiler {
 
   /// Used by profiler agents to report their current state and to receive
   /// remote configuration updates. For example, <code>ConfigureAgent</code> can
-  /// be used to tell and agent whether to profile or not and for how long to
+  /// be used to tell an agent whether to profile or not and for how long to
   /// return profiling data.
   ///
   /// May throw [InternalServerException].
@@ -326,6 +329,7 @@ class CodeGuruProfiler {
   /// Deletes a profiling group.
   ///
   /// May throw [InternalServerException].
+  /// May throw [ConflictException].
   /// May throw [ValidationException].
   /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
@@ -1324,6 +1328,7 @@ class AddNotificationChannelsResponse {
   AddNotificationChannelsResponse({
     this.notificationConfiguration,
   });
+
   factory AddNotificationChannelsResponse.fromJson(Map<String, dynamic> json) {
     return AddNotificationChannelsResponse(
       notificationConfiguration: json['notificationConfiguration'] != null
@@ -1387,6 +1392,7 @@ class AgentConfiguration {
     required this.shouldProfile,
     this.agentParameters,
   });
+
   factory AgentConfiguration.fromJson(Map<String, dynamic> json) {
     return AgentConfiguration(
       periodInSeconds: json['periodInSeconds'] as int,
@@ -1410,6 +1416,7 @@ class AgentOrchestrationConfig {
   AgentOrchestrationConfig({
     required this.profilingEnabled,
   });
+
   factory AgentOrchestrationConfig.fromJson(Map<String, dynamic> json) {
     return AgentOrchestrationConfig(
       profilingEnabled: json['profilingEnabled'] as bool,
@@ -1425,26 +1432,26 @@ class AgentOrchestrationConfig {
 }
 
 enum AgentParameterField {
-  maxStackDepth,
-  memoryUsageLimitPercent,
-  minimumTimeForReportingInMilliseconds,
-  reportingIntervalInMilliseconds,
   samplingIntervalInMilliseconds,
+  reportingIntervalInMilliseconds,
+  minimumTimeForReportingInMilliseconds,
+  memoryUsageLimitPercent,
+  maxStackDepth,
 }
 
 extension AgentParameterFieldValueExtension on AgentParameterField {
   String toValue() {
     switch (this) {
-      case AgentParameterField.maxStackDepth:
-        return 'MaxStackDepth';
-      case AgentParameterField.memoryUsageLimitPercent:
-        return 'MemoryUsageLimitPercent';
-      case AgentParameterField.minimumTimeForReportingInMilliseconds:
-        return 'MinimumTimeForReportingInMilliseconds';
-      case AgentParameterField.reportingIntervalInMilliseconds:
-        return 'ReportingIntervalInMilliseconds';
       case AgentParameterField.samplingIntervalInMilliseconds:
         return 'SamplingIntervalInMilliseconds';
+      case AgentParameterField.reportingIntervalInMilliseconds:
+        return 'ReportingIntervalInMilliseconds';
+      case AgentParameterField.minimumTimeForReportingInMilliseconds:
+        return 'MinimumTimeForReportingInMilliseconds';
+      case AgentParameterField.memoryUsageLimitPercent:
+        return 'MemoryUsageLimitPercent';
+      case AgentParameterField.maxStackDepth:
+        return 'MaxStackDepth';
     }
   }
 }
@@ -1452,16 +1459,16 @@ extension AgentParameterFieldValueExtension on AgentParameterField {
 extension AgentParameterFieldFromString on String {
   AgentParameterField toAgentParameterField() {
     switch (this) {
-      case 'MaxStackDepth':
-        return AgentParameterField.maxStackDepth;
-      case 'MemoryUsageLimitPercent':
-        return AgentParameterField.memoryUsageLimitPercent;
-      case 'MinimumTimeForReportingInMilliseconds':
-        return AgentParameterField.minimumTimeForReportingInMilliseconds;
-      case 'ReportingIntervalInMilliseconds':
-        return AgentParameterField.reportingIntervalInMilliseconds;
       case 'SamplingIntervalInMilliseconds':
         return AgentParameterField.samplingIntervalInMilliseconds;
+      case 'ReportingIntervalInMilliseconds':
+        return AgentParameterField.reportingIntervalInMilliseconds;
+      case 'MinimumTimeForReportingInMilliseconds':
+        return AgentParameterField.minimumTimeForReportingInMilliseconds;
+      case 'MemoryUsageLimitPercent':
+        return AgentParameterField.memoryUsageLimitPercent;
+      case 'MaxStackDepth':
+        return AgentParameterField.maxStackDepth;
     }
     throw Exception('$this is not known in enum AgentParameterField');
   }
@@ -1505,6 +1512,7 @@ class AggregatedProfileTime {
     this.period,
     this.start,
   });
+
   factory AggregatedProfileTime.fromJson(Map<String, dynamic> json) {
     return AggregatedProfileTime(
       period: (json['period'] as String?)?.toAggregationPeriod(),
@@ -1514,20 +1522,20 @@ class AggregatedProfileTime {
 }
 
 enum AggregationPeriod {
-  p1d,
-  pt1h,
   pt5m,
+  pt1h,
+  p1d,
 }
 
 extension AggregationPeriodValueExtension on AggregationPeriod {
   String toValue() {
     switch (this) {
-      case AggregationPeriod.p1d:
-        return 'P1D';
-      case AggregationPeriod.pt1h:
-        return 'PT1H';
       case AggregationPeriod.pt5m:
         return 'PT5M';
+      case AggregationPeriod.pt1h:
+        return 'PT1H';
+      case AggregationPeriod.p1d:
+        return 'P1D';
     }
   }
 }
@@ -1535,12 +1543,12 @@ extension AggregationPeriodValueExtension on AggregationPeriod {
 extension AggregationPeriodFromString on String {
   AggregationPeriod toAggregationPeriod() {
     switch (this) {
-      case 'P1D':
-        return AggregationPeriod.p1d;
-      case 'PT1H':
-        return AggregationPeriod.pt1h;
       case 'PT5M':
         return AggregationPeriod.pt5m;
+      case 'PT1H':
+        return AggregationPeriod.pt1h;
+      case 'P1D':
+        return AggregationPeriod.p1d;
     }
     throw Exception('$this is not known in enum AggregationPeriod');
   }
@@ -1566,6 +1574,7 @@ class Anomaly {
     required this.metric,
     required this.reason,
   });
+
   factory Anomaly.fromJson(Map<String, dynamic> json) {
     return Anomaly(
       instances: (json['instances'] as List)
@@ -1605,6 +1614,7 @@ class AnomalyInstance {
     this.endTime,
     this.userFeedback,
   });
+
   factory AnomalyInstance.fromJson(Map<String, dynamic> json) {
     return AnomalyInstance(
       id: json['id'] as String,
@@ -1671,6 +1681,7 @@ class BatchGetFrameMetricDataResponse {
     required this.startTime,
     required this.unprocessedEndTimes,
   });
+
   factory BatchGetFrameMetricDataResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetFrameMetricDataResponse(
       endTime: nonNullableTimeStampFromJson(json['endTime'] as Object),
@@ -1719,6 +1730,7 @@ class Channel {
     required this.uri,
     this.id,
   });
+
   factory Channel.fromJson(Map<String, dynamic> json) {
     return Channel(
       eventPublishers: (json['eventPublishers'] as List)
@@ -1743,17 +1755,17 @@ class Channel {
 }
 
 enum ComputePlatform {
-  awsLambda,
   $default,
+  awsLambda,
 }
 
 extension ComputePlatformValueExtension on ComputePlatform {
   String toValue() {
     switch (this) {
-      case ComputePlatform.awsLambda:
-        return 'AWSLambda';
       case ComputePlatform.$default:
         return 'Default';
+      case ComputePlatform.awsLambda:
+        return 'AWSLambda';
     }
   }
 }
@@ -1761,10 +1773,10 @@ extension ComputePlatformValueExtension on ComputePlatform {
 extension ComputePlatformFromString on String {
   ComputePlatform toComputePlatform() {
     switch (this) {
-      case 'AWSLambda':
-        return ComputePlatform.awsLambda;
       case 'Default':
         return ComputePlatform.$default;
+      case 'AWSLambda':
+        return ComputePlatform.awsLambda;
     }
     throw Exception('$this is not known in enum ComputePlatform');
   }
@@ -1799,6 +1811,7 @@ class CreateProfilingGroupResponse {
 /// The structure representing the deleteProfilingGroupResponse.
 class DeleteProfilingGroupResponse {
   DeleteProfilingGroupResponse();
+
   factory DeleteProfilingGroupResponse.fromJson(Map<String, dynamic> _) {
     return DeleteProfilingGroupResponse();
   }
@@ -1841,17 +1854,17 @@ extension EventPublisherFromString on String {
 }
 
 enum FeedbackType {
-  negative,
   positive,
+  negative,
 }
 
 extension FeedbackTypeValueExtension on FeedbackType {
   String toValue() {
     switch (this) {
-      case FeedbackType.negative:
-        return 'Negative';
       case FeedbackType.positive:
         return 'Positive';
+      case FeedbackType.negative:
+        return 'Negative';
     }
   }
 }
@@ -1859,10 +1872,10 @@ extension FeedbackTypeValueExtension on FeedbackType {
 extension FeedbackTypeFromString on String {
   FeedbackType toFeedbackType() {
     switch (this) {
-      case 'Negative':
-        return FeedbackType.negative;
       case 'Positive':
         return FeedbackType.positive;
+      case 'Negative':
+        return FeedbackType.negative;
     }
     throw Exception('$this is not known in enum FeedbackType');
   }
@@ -1899,6 +1912,7 @@ class FindingsReportSummary {
     this.profilingGroupName,
     this.totalNumberOfFindings,
   });
+
   factory FindingsReportSummary.fromJson(Map<String, dynamic> json) {
     return FindingsReportSummary(
       id: json['id'] as String?,
@@ -1932,6 +1946,7 @@ class FrameMetric {
     required this.threadStates,
     required this.type,
   });
+
   factory FrameMetric.fromJson(Map<String, dynamic> json) {
     return FrameMetric(
       frameName: json['frameName'] as String,
@@ -1966,6 +1981,7 @@ class FrameMetricDatum {
     required this.frameMetric,
     required this.values,
   });
+
   factory FrameMetricDatum.fromJson(Map<String, dynamic> json) {
     return FrameMetricDatum(
       frameMetric:
@@ -1998,6 +2014,7 @@ class GetFindingsReportAccountSummaryResponse {
     required this.reportSummaries,
     this.nextToken,
   });
+
   factory GetFindingsReportAccountSummaryResponse.fromJson(
       Map<String, dynamic> json) {
     return GetFindingsReportAccountSummaryResponse(
@@ -2018,6 +2035,7 @@ class GetNotificationConfigurationResponse {
   GetNotificationConfigurationResponse({
     required this.notificationConfiguration,
   });
+
   factory GetNotificationConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return GetNotificationConfigurationResponse(
@@ -2040,6 +2058,7 @@ class GetPolicyResponse {
     required this.policy,
     required this.revisionId,
   });
+
   factory GetPolicyResponse.fromJson(Map<String, dynamic> json) {
     return GetPolicyResponse(
       policy: json['policy'] as String,
@@ -2096,6 +2115,7 @@ class GetRecommendationsResponse {
     required this.profilingGroupName,
     required this.recommendations,
   });
+
   factory GetRecommendationsResponse.fromJson(Map<String, dynamic> json) {
     return GetRecommendationsResponse(
       anomalies: (json['anomalies'] as List)
@@ -2131,6 +2151,7 @@ class ListFindingsReportsResponse {
     required this.findingsReportSummaries,
     this.nextToken,
   });
+
   factory ListFindingsReportsResponse.fromJson(Map<String, dynamic> json) {
     return ListFindingsReportsResponse(
       findingsReportSummaries: (json['findingsReportSummaries'] as List)
@@ -2159,6 +2180,7 @@ class ListProfileTimesResponse {
     required this.profileTimes,
     this.nextToken,
   });
+
   factory ListProfileTimesResponse.fromJson(Map<String, dynamic> json) {
     return ListProfileTimesResponse(
       profileTimes: (json['profileTimes'] as List)
@@ -2200,6 +2222,7 @@ class ListProfilingGroupsResponse {
     this.nextToken,
     this.profilingGroups,
   });
+
   factory ListProfilingGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListProfilingGroupsResponse(
       profilingGroupNames: (json['profilingGroupNames'] as List)
@@ -2224,6 +2247,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -2249,6 +2273,7 @@ class Match {
     this.targetFramesIndex,
     this.thresholdBreachValue,
   });
+
   factory Match.fromJson(Map<String, dynamic> json) {
     return Match(
       frameAddress: json['frameAddress'] as String?,
@@ -2259,38 +2284,38 @@ class Match {
 }
 
 enum MetadataField {
+  computePlatform,
   agentId,
   awsRequestId,
-  computePlatform,
   executionEnvironment,
   lambdaFunctionArn,
   lambdaMemoryLimitInMB,
-  lambdaPreviousExecutionTimeInMilliseconds,
   lambdaRemainingTimeInMilliseconds,
   lambdaTimeGapBetweenInvokesInMilliseconds,
+  lambdaPreviousExecutionTimeInMilliseconds,
 }
 
 extension MetadataFieldValueExtension on MetadataField {
   String toValue() {
     switch (this) {
+      case MetadataField.computePlatform:
+        return 'ComputePlatform';
       case MetadataField.agentId:
         return 'AgentId';
       case MetadataField.awsRequestId:
         return 'AwsRequestId';
-      case MetadataField.computePlatform:
-        return 'ComputePlatform';
       case MetadataField.executionEnvironment:
         return 'ExecutionEnvironment';
       case MetadataField.lambdaFunctionArn:
         return 'LambdaFunctionArn';
       case MetadataField.lambdaMemoryLimitInMB:
         return 'LambdaMemoryLimitInMB';
-      case MetadataField.lambdaPreviousExecutionTimeInMilliseconds:
-        return 'LambdaPreviousExecutionTimeInMilliseconds';
       case MetadataField.lambdaRemainingTimeInMilliseconds:
         return 'LambdaRemainingTimeInMilliseconds';
       case MetadataField.lambdaTimeGapBetweenInvokesInMilliseconds:
         return 'LambdaTimeGapBetweenInvokesInMilliseconds';
+      case MetadataField.lambdaPreviousExecutionTimeInMilliseconds:
+        return 'LambdaPreviousExecutionTimeInMilliseconds';
     }
   }
 }
@@ -2298,24 +2323,24 @@ extension MetadataFieldValueExtension on MetadataField {
 extension MetadataFieldFromString on String {
   MetadataField toMetadataField() {
     switch (this) {
+      case 'ComputePlatform':
+        return MetadataField.computePlatform;
       case 'AgentId':
         return MetadataField.agentId;
       case 'AwsRequestId':
         return MetadataField.awsRequestId;
-      case 'ComputePlatform':
-        return MetadataField.computePlatform;
       case 'ExecutionEnvironment':
         return MetadataField.executionEnvironment;
       case 'LambdaFunctionArn':
         return MetadataField.lambdaFunctionArn;
       case 'LambdaMemoryLimitInMB':
         return MetadataField.lambdaMemoryLimitInMB;
-      case 'LambdaPreviousExecutionTimeInMilliseconds':
-        return MetadataField.lambdaPreviousExecutionTimeInMilliseconds;
       case 'LambdaRemainingTimeInMilliseconds':
         return MetadataField.lambdaRemainingTimeInMilliseconds;
       case 'LambdaTimeGapBetweenInvokesInMilliseconds':
         return MetadataField.lambdaTimeGapBetweenInvokesInMilliseconds;
+      case 'LambdaPreviousExecutionTimeInMilliseconds':
+        return MetadataField.lambdaPreviousExecutionTimeInMilliseconds;
     }
     throw Exception('$this is not known in enum MetadataField');
   }
@@ -2344,6 +2369,7 @@ class Metric {
     required this.threadStates,
     required this.type,
   });
+
   factory Metric.fromJson(Map<String, dynamic> json) {
     return Metric(
       frameName: json['frameName'] as String,
@@ -2390,6 +2416,7 @@ class NotificationConfiguration {
   NotificationConfiguration({
     this.channels,
   });
+
   factory NotificationConfiguration.fromJson(Map<String, dynamic> json) {
     return NotificationConfiguration(
       channels: (json['channels'] as List?)
@@ -2401,17 +2428,17 @@ class NotificationConfiguration {
 }
 
 enum OrderBy {
-  timestampAscending,
   timestampDescending,
+  timestampAscending,
 }
 
 extension OrderByValueExtension on OrderBy {
   String toValue() {
     switch (this) {
-      case OrderBy.timestampAscending:
-        return 'TimestampAscending';
       case OrderBy.timestampDescending:
         return 'TimestampDescending';
+      case OrderBy.timestampAscending:
+        return 'TimestampAscending';
     }
   }
 }
@@ -2419,10 +2446,10 @@ extension OrderByValueExtension on OrderBy {
 extension OrderByFromString on String {
   OrderBy toOrderBy() {
     switch (this) {
-      case 'TimestampAscending':
-        return OrderBy.timestampAscending;
       case 'TimestampDescending':
         return OrderBy.timestampDescending;
+      case 'TimestampAscending':
+        return OrderBy.timestampAscending;
     }
     throw Exception('$this is not known in enum OrderBy');
   }
@@ -2465,6 +2492,7 @@ class Pattern {
     this.targetFrames,
     this.thresholdPercent,
   });
+
   factory Pattern.fromJson(Map<String, dynamic> json) {
     return Pattern(
       countersToAggregate: (json['countersToAggregate'] as List?)
@@ -2488,6 +2516,7 @@ class Pattern {
 /// The structure representing the postAgentProfileResponse.
 class PostAgentProfileResponse {
   PostAgentProfileResponse();
+
   factory PostAgentProfileResponse.fromJson(Map<String, dynamic> _) {
     return PostAgentProfileResponse();
   }
@@ -2503,6 +2532,7 @@ class ProfileTime {
   ProfileTime({
     this.start,
   });
+
   factory ProfileTime.fromJson(Map<String, dynamic> json) {
     return ProfileTime(
       start: timeStampFromJson(json['start']),
@@ -2563,6 +2593,7 @@ class ProfilingGroupDescription {
     this.tags,
     this.updatedAt,
   });
+
   factory ProfilingGroupDescription.fromJson(Map<String, dynamic> json) {
     return ProfilingGroupDescription(
       agentOrchestrationConfig: json['agentOrchestrationConfig'] != null
@@ -2610,6 +2641,7 @@ class ProfilingStatus {
     this.latestAgentProfileReportedAt,
     this.latestAggregatedProfile,
   });
+
   factory ProfilingStatus.fromJson(Map<String, dynamic> json) {
     return ProfilingStatus(
       latestAgentOrchestratedAt:
@@ -2639,6 +2671,7 @@ class PutPermissionResponse {
     required this.policy,
     required this.revisionId,
   });
+
   factory PutPermissionResponse.fromJson(Map<String, dynamic> json) {
     return PutPermissionResponse(
       policy: json['policy'] as String,
@@ -2680,6 +2713,7 @@ class Recommendation {
     required this.startTime,
     required this.topMatches,
   });
+
   factory Recommendation.fromJson(Map<String, dynamic> json) {
     return Recommendation(
       allMatchesCount: json['allMatchesCount'] as int,
@@ -2703,6 +2737,7 @@ class RemoveNotificationChannelResponse {
   RemoveNotificationChannelResponse({
     this.notificationConfiguration,
   });
+
   factory RemoveNotificationChannelResponse.fromJson(
       Map<String, dynamic> json) {
     return RemoveNotificationChannelResponse(
@@ -2730,6 +2765,7 @@ class RemovePermissionResponse {
     required this.policy,
     required this.revisionId,
   });
+
   factory RemovePermissionResponse.fromJson(Map<String, dynamic> json) {
     return RemovePermissionResponse(
       policy: json['policy'] as String,
@@ -2741,6 +2777,7 @@ class RemovePermissionResponse {
 /// The structure representing the SubmitFeedbackResponse.
 class SubmitFeedbackResponse {
   SubmitFeedbackResponse();
+
   factory SubmitFeedbackResponse.fromJson(Map<String, dynamic> _) {
     return SubmitFeedbackResponse();
   }
@@ -2748,6 +2785,7 @@ class SubmitFeedbackResponse {
 
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
@@ -2765,6 +2803,7 @@ class TimestampStructure {
   TimestampStructure({
     required this.value,
   });
+
   factory TimestampStructure.fromJson(Map<String, dynamic> json) {
     return TimestampStructure(
       value: nonNullableTimeStampFromJson(json['value'] as Object),
@@ -2774,6 +2813,7 @@ class TimestampStructure {
 
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
   }
@@ -2803,6 +2843,7 @@ class UserFeedback {
   UserFeedback({
     required this.type,
   });
+
   factory UserFeedback.fromJson(Map<String, dynamic> json) {
     return UserFeedback(
       type: (json['type'] as String).toFeedbackType(),
