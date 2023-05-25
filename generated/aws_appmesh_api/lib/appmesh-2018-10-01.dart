@@ -1044,6 +1044,7 @@ class WeightedTarget {
     this.virtualNode,
     this.weight,
   });
+
   factory WeightedTarget.fromJson(Map<String, dynamic> json) {
     return WeightedTarget(
       virtualNode: json['virtualNode'] as String?,
@@ -1078,6 +1079,7 @@ class DnsServiceDiscovery {
   DnsServiceDiscovery({
     this.serviceName,
   });
+
   factory DnsServiceDiscovery.fromJson(Map<String, dynamic> json) {
     return DnsServiceDiscovery(
       serviceName: json['serviceName'] as String?,
@@ -1108,6 +1110,7 @@ class VirtualNodeRef {
     this.meshName,
     this.virtualNodeName,
   });
+
   factory VirtualNodeRef.fromJson(Map<String, dynamic> json) {
     return VirtualNodeRef(
       arn: json['arn'] as String?,
@@ -1134,6 +1137,7 @@ class ServiceDiscovery {
   ServiceDiscovery({
     this.dns,
   });
+
   factory ServiceDiscovery.fromJson(Map<String, dynamic> json) {
     return ServiceDiscovery(
       dns: json['dns'] != null
@@ -1158,6 +1162,7 @@ class MeshStatus {
   MeshStatus({
     this.status,
   });
+
   factory MeshStatus.fromJson(Map<String, dynamic> json) {
     return MeshStatus(
       status: (json['status'] as String?)?.toMeshStatusCode(),
@@ -1189,6 +1194,7 @@ class VirtualNodeData {
     this.spec,
     this.status,
   });
+
   factory VirtualNodeData.fromJson(Map<String, dynamic> json) {
     return VirtualNodeData(
       meshName: json['meshName'] as String,
@@ -1223,6 +1229,7 @@ class VirtualNodeSpec {
     this.listeners,
     this.serviceDiscovery,
   });
+
   factory VirtualNodeSpec.fromJson(Map<String, dynamic> json) {
     return VirtualNodeSpec(
       backends: (json['backends'] as List?)
@@ -1264,6 +1271,7 @@ class MeshRef {
     this.arn,
     this.meshName,
   });
+
   factory MeshRef.fromJson(Map<String, dynamic> json) {
     return MeshRef(
       arn: json['arn'] as String?,
@@ -1303,6 +1311,7 @@ class HttpRouteAction {
   HttpRouteAction({
     this.weightedTargets,
   });
+
   factory HttpRouteAction.fromJson(Map<String, dynamic> json) {
     return HttpRouteAction(
       weightedTargets: (json['weightedTargets'] as List?)
@@ -1337,6 +1346,7 @@ class RouteStatus {
   RouteStatus({
     this.status,
   });
+
   factory RouteStatus.fromJson(Map<String, dynamic> json) {
     return RouteStatus(
       status: (json['status'] as String?)?.toRouteStatusCode(),
@@ -1352,6 +1362,7 @@ class VirtualRouterStatus {
   VirtualRouterStatus({
     this.status,
   });
+
   factory VirtualRouterStatus.fromJson(Map<String, dynamic> json) {
     return VirtualRouterStatus(
       status: (json['status'] as String?)?.toVirtualRouterStatusCode(),
@@ -1375,6 +1386,7 @@ class ListMeshesOutput {
     required this.meshes,
     this.nextToken,
   });
+
   factory ListMeshesOutput.fromJson(Map<String, dynamic> json) {
     return ListMeshesOutput(
       meshes: (json['meshes'] as List)
@@ -1432,6 +1444,7 @@ class RouteData {
     this.spec,
     this.status,
   });
+
   factory RouteData.fromJson(Map<String, dynamic> json) {
     return RouteData(
       meshName: json['meshName'] as String,
@@ -1462,6 +1475,7 @@ class HttpRoute {
     this.action,
     this.match,
   });
+
   factory HttpRoute.fromJson(Map<String, dynamic> json) {
     return HttpRoute(
       action: json['action'] != null
@@ -1500,6 +1514,7 @@ class ListRoutesOutput {
     required this.routes,
     this.nextToken,
   });
+
   factory ListRoutesOutput.fromJson(Map<String, dynamic> json) {
     return ListRoutesOutput(
       routes: (json['routes'] as List)
@@ -1519,6 +1534,7 @@ class RouteSpec {
   RouteSpec({
     this.httpRoute,
   });
+
   factory RouteSpec.fromJson(Map<String, dynamic> json) {
     return RouteSpec(
       httpRoute: json['httpRoute'] != null
@@ -1551,6 +1567,7 @@ class VirtualRouterRef {
     this.meshName,
     this.virtualRouterName,
   });
+
   factory VirtualRouterRef.fromJson(Map<String, dynamic> json) {
     return VirtualRouterRef(
       arn: json['arn'] as String?,
@@ -1609,6 +1626,7 @@ class ListVirtualNodesOutput {
     required this.virtualNodes,
     this.nextToken,
   });
+
   factory ListVirtualNodesOutput.fromJson(Map<String, dynamic> json) {
     return ListVirtualNodesOutput(
       virtualNodes: (json['virtualNodes'] as List)
@@ -1646,6 +1664,7 @@ class ListVirtualRoutersOutput {
     required this.virtualRouters,
     this.nextToken,
   });
+
   factory ListVirtualRoutersOutput.fromJson(Map<String, dynamic> json) {
     return ListVirtualRoutersOutput(
       virtualRouters: (json['virtualRouters'] as List)
@@ -1749,6 +1768,7 @@ class ResourceMetadata {
     this.uid,
     this.version,
   });
+
   factory ResourceMetadata.fromJson(Map<String, dynamic> json) {
     return ResourceMetadata(
       arn: json['arn'] as String?,
@@ -1772,6 +1792,7 @@ class PortMapping {
     this.port,
     this.protocol,
   });
+
   factory PortMapping.fromJson(Map<String, dynamic> json) {
     return PortMapping(
       port: json['port'] as int?,
@@ -1830,6 +1851,7 @@ class VirtualRouterSpec {
   VirtualRouterSpec({
     this.serviceNames,
   });
+
   factory VirtualRouterSpec.fromJson(Map<String, dynamic> json) {
     return VirtualRouterSpec(
       serviceNames: (json['serviceNames'] as List?)
@@ -1880,6 +1902,7 @@ class VirtualRouterData {
     this.spec,
     this.status,
   });
+
   factory VirtualRouterData.fromJson(Map<String, dynamic> json) {
     return VirtualRouterData(
       meshName: json['meshName'] as String,
@@ -1909,6 +1932,7 @@ class Listener {
     this.healthCheck,
     this.portMapping,
   });
+
   factory Listener.fromJson(Map<String, dynamic> json) {
     return Listener(
       healthCheck: json['healthCheck'] != null
@@ -1975,6 +1999,7 @@ class HealthCheckPolicy {
     this.path,
     this.port,
   });
+
   factory HealthCheckPolicy.fromJson(Map<String, dynamic> json) {
     return HealthCheckPolicy(
       healthyThreshold: json['healthyThreshold'] as int,
@@ -2023,6 +2048,7 @@ class MeshData {
     required this.metadata,
     this.status,
   });
+
   factory MeshData.fromJson(Map<String, dynamic> json) {
     return MeshData(
       meshName: json['meshName'] as String,
@@ -2054,6 +2080,7 @@ class HttpRouteMatch {
   HttpRouteMatch({
     this.prefix,
   });
+
   factory HttpRouteMatch.fromJson(Map<String, dynamic> json) {
     return HttpRouteMatch(
       prefix: json['prefix'] as String?,
@@ -2085,6 +2112,7 @@ class VirtualNodeStatus {
   VirtualNodeStatus({
     this.status,
   });
+
   factory VirtualNodeStatus.fromJson(Map<String, dynamic> json) {
     return VirtualNodeStatus(
       status: (json['status'] as String?)?.toVirtualNodeStatusCode(),
@@ -2112,6 +2140,7 @@ class RouteRef {
     this.routeName,
     this.virtualRouterName,
   });
+
   factory RouteRef.fromJson(Map<String, dynamic> json) {
     return RouteRef(
       arn: json['arn'] as String?,

@@ -18,82 +18,12 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// <note>
-/// This is the latest version of the <b>AWS WAF</b> API, released in November,
+/// This is the latest version of the <b>WAF</b> API, released in November,
 /// 2019. The names of the entities that you use to access this API, like
 /// endpoints and namespaces, all have the versioning information added, like
 /// "V2" or "v2", to distinguish from the prior version. We recommend migrating
 /// your resources to this version, because it has a number of significant
 /// improvements.
-///
-/// If you used AWS WAF prior to this release, you can't use this AWS WAFV2 API
-/// to access any AWS WAF resources that you created before. You can access your
-/// old rules, web ACLs, and other AWS WAF resources only through the AWS WAF
-/// Classic APIs. The AWS WAF Classic APIs have retained the prior names,
-/// endpoints, and namespaces.
-///
-/// For information, including how to migrate your AWS WAF resources to this
-/// version, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// AWS WAF is a web application firewall that lets you monitor the HTTP and
-/// HTTPS requests that are forwarded to Amazon CloudFront, an Amazon API
-/// Gateway REST API, an Application Load Balancer, or an AWS AppSync GraphQL
-/// API. AWS WAF also lets you control access to your content. Based on
-/// conditions that you specify, such as the IP addresses that requests
-/// originate from or the values of query strings, the API Gateway REST API,
-/// CloudFront distribution, the Application Load Balancer, or the AWS AppSync
-/// GraphQL API responds to requests either with the requested content or with
-/// an HTTP 403 status code (Forbidden). You also can configure CloudFront to
-/// return a custom error page when a request is blocked.
-///
-/// This API guide is for developers who need detailed information about AWS WAF
-/// API actions, data types, and errors. For detailed information about AWS WAF
-/// features and an overview of how to use AWS WAF, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF
-/// Developer Guide</a>.
-///
-/// You can make calls using the endpoints listed in <a
-/// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#waf_region">AWS
-/// Service Endpoints for AWS WAF</a>.
-///
-/// <ul>
-/// <li>
-/// For regional applications, you can use any of the endpoints in the list. A
-/// regional application can be an Application Load Balancer (ALB), an API
-/// Gateway REST API, or an AppSync GraphQL API.
-/// </li>
-/// <li>
-/// For AWS CloudFront applications, you must use the API endpoint listed for US
-/// East (N. Virginia): us-east-1.
-/// </li>
-/// </ul>
-/// Alternatively, you can use one of the AWS SDKs to access an API that's
-/// tailored to the programming language or platform that you're using. For more
-/// information, see <a href="http://aws.amazon.com/tools/#SDKs">AWS SDKs</a>.
-///
-/// We currently provide two versions of the AWS WAF API: this API and the prior
-/// versions, the classic AWS WAF APIs. This new API provides the same
-/// functionality as the older versions, with the following major improvements:
-///
-/// <ul>
-/// <li>
-/// You use one API for both global and regional applications. Where you need to
-/// distinguish the scope, you specify a <code>Scope</code> parameter and set it
-/// to <code>CLOUDFRONT</code> or <code>REGIONAL</code>.
-/// </li>
-/// <li>
-/// You can define a Web ACL or rule group with a single call, and update it
-/// with a single call. You define all rule specifications in JSON format, and
-/// pass them to your rule group or Web ACL calls.
-/// </li>
-/// <li>
-/// The limits AWS WAF places on the use of rules more closely reflects the cost
-/// of running each type of rule. Rule groups include capacity settings, so you
-/// know the maximum cost of a rule group when you use it.
-/// </li>
-/// </ul>
 class WAFV2 {
   final _s.JsonProtocol _protocol;
   WAFV2({
@@ -122,22 +52,32 @@ class WAFV2 {
     _protocol.close();
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
-  /// Associates a Web ACL with a regional application resource, to protect the
+  /// Associates a web ACL with a regional application resource, to protect the
   /// resource. A regional application can be an Application Load Balancer
-  /// (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon
+  /// Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
-  /// For AWS CloudFront, don't use this call. Instead, use your CloudFront
-  /// distribution configuration. To associate a Web ACL, in the CloudFront call
+  /// For Amazon CloudFront, don't use this call. Instead, use your CloudFront
+  /// distribution configuration. To associate a web ACL, in the CloudFront call
   /// <code>UpdateDistribution</code>, set the web ACL ID to the Amazon Resource
-  /// Name (ARN) of the Web ACL. For information, see <a
-  /// href="https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html">UpdateDistribution</a>.
+  /// Name (ARN) of the web ACL. For information, see <a
+  /// href="https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html">UpdateDistribution</a>
+  /// in the <i>Amazon CloudFront Developer Guide</i>.
+  ///
+  /// When you make changes to web ACLs or web ACL components, like rules and
+  /// rule groups, WAF propagates the changes everywhere that the web ACL and
+  /// its components are stored and used. Your changes are applied within
+  /// seconds, but there might be a brief period of inconsistency when the
+  /// changes have arrived in some places and not in others. So, for example, if
+  /// you change a rule action setting, the action might be the old action in
+  /// one area and the new action in another area. Or if you add an IP address
+  /// to an IP set used in a blocking rule, the new address might briefly be
+  /// blocked in one area while still allowed in another. This temporary
+  /// inconsistency can occur when you first associate a web ACL with an Amazon
+  /// Web Services resource and when you change a web ACL that is already
+  /// associated with a resource. Generally, any inconsistencies of this type
+  /// last only a few seconds.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -154,23 +94,38 @@ class WAFV2 {
   /// <ul>
   /// <li>
   /// For an Application Load Balancer:
-  /// <code>arn:aws:elasticloadbalancing:<i>region</i>:<i>account-id</i>:loadbalancer/app/<i>load-balancer-name</i>/<i>load-balancer-id</i>
+  /// <code>arn:<i>partition</i>:elasticloadbalancing:<i>region</i>:<i>account-id</i>:loadbalancer/app/<i>load-balancer-name</i>/<i>load-balancer-id</i>
   /// </code>
   /// </li>
   /// <li>
-  /// For an API Gateway REST API:
-  /// <code>arn:aws:apigateway:<i>region</i>::/restapis/<i>api-id</i>/stages/<i>stage-name</i>
+  /// For an Amazon API Gateway REST API:
+  /// <code>arn:<i>partition</i>:apigateway:<i>region</i>::/restapis/<i>api-id</i>/stages/<i>stage-name</i>
   /// </code>
   /// </li>
   /// <li>
   /// For an AppSync GraphQL API:
-  /// <code>arn:aws:appsync:<i>region</i>:<i>account-id</i>:apis/<i>GraphQLApiId</i>
+  /// <code>arn:<i>partition</i>:appsync:<i>region</i>:<i>account-id</i>:apis/<i>GraphQLApiId</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// For an Amazon Cognito user pool:
+  /// <code>arn:<i>partition</i>:cognito-idp:<i>region</i>:<i>account-id</i>:userpool/<i>user-pool-id</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// For an App Runner service:
+  /// <code>arn:<i>partition</i>:apprunner:<i>region</i>:<i>account-id</i>:service/<i>apprunner-service-name</i>/<i>apprunner-service-id</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// For an Amazon Web Services Verified Access instance:
+  /// <code>arn:<i>partition</i>:ec2:<i>region</i>:<i>account-id</i>:verified-access-instance/<i>instance-id</i>
   /// </code>
   /// </li>
   /// </ul>
   ///
   /// Parameter [webACLArn] :
-  /// The Amazon Resource Name (ARN) of the Web ACL that you want to associate
+  /// The Amazon Resource Name (ARN) of the web ACL that you want to associate
   /// with the resource.
   Future<void> associateWebACL({
     required String resourceArn,
@@ -193,24 +148,19 @@ class WAFV2 {
     );
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Returns the web ACL capacity unit (WCU) requirements for a specified scope
   /// and set of rules. You can use this to check the capacity requirements for
   /// the rules you want to use in a <a>RuleGroup</a> or <a>WebACL</a>.
   ///
-  /// AWS WAF uses WCUs to calculate and control the operating resources that
-  /// are used to run your rules, rule groups, and web ACLs. AWS WAF calculates
-  /// capacity differently for each rule type, to reflect the relative cost of
-  /// each rule. Simple rules that cost little to run use fewer WCUs than more
-  /// complex rules that use more processing power. Rule group capacity is fixed
-  /// at creation, which helps users plan their web ACL WCU usage when they use
-  /// a rule group. The WCU limit for web ACLs is 1,500.
+  /// WAF uses WCUs to calculate and control the operating resources that are
+  /// used to run your rules, rule groups, and web ACLs. WAF calculates capacity
+  /// differently for each rule type, to reflect the relative cost of each rule.
+  /// Simple rules that cost little to run use fewer WCUs than more complex
+  /// rules that use more processing power. Rule group capacity is fixed at
+  /// creation, which helps users plan their web ACL WCU usage when they use a
+  /// rule group. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html">WAF
+  /// web ACL capacity units (WCU)</a> in the <i>WAF Developer Guide</i>.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -219,15 +169,19 @@ class WAFV2 {
   /// May throw [WAFInvalidResourceException].
   /// May throw [WAFUnavailableEntityException].
   /// May throw [WAFSubscriptionNotFoundException].
+  /// May throw [WAFExpiredManagedRuleGroupVersionException].
+  /// May throw [WAFInvalidOperationException].
   ///
   /// Parameter [rules] :
   /// An array of <a>Rule</a> that you're configuring to use in a rule group or
   /// web ACL.
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -264,18 +218,78 @@ class WAFV2 {
     return CheckCapacityResponse.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
+  /// Creates an API key that contains a set of token domains.
+  ///
+  /// API keys are required for the integration of the CAPTCHA API in your
+  /// JavaScript client applications. The API lets you customize the placement
+  /// and characteristics of the CAPTCHA puzzle for your end users. For more
+  /// information about the CAPTCHA JavaScript integration, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html">WAF
+  /// client application integration</a> in the <i>WAF Developer Guide</i>.
+  ///
+  /// You can use a single key for up to 5 domains. After you generate a key,
+  /// you can copy it for use in your JavaScript integration.
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFLimitsExceededException].
+  ///
+  /// Parameter [scope] :
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [tokenDomains] :
+  /// The client application domains that you want to use this API key for.
+  ///
+  /// Example JSON: <code>"TokenDomains": ["abc.com", "store.abc.com"]</code>
+  ///
+  /// Public suffixes aren't allowed. For example, you can't use
+  /// <code>usa.gov</code> or <code>co.uk</code> as token domains.
+  Future<CreateAPIKeyResponse> createAPIKey({
+    required Scope scope,
+    required List<String> tokenDomains,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20190729.CreateAPIKey'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Scope': scope.toValue(),
+        'TokenDomains': tokenDomains,
+      },
+    );
+
+    return CreateAPIKeyResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates an <a>IPSet</a>, which you use to identify web requests that
   /// originate from specific IP addresses or ranges of IP addresses. For
   /// example, if you're receiving a lot of requests from a ranges of IP
-  /// addresses, you can configure AWS WAF to block them using an IPSet that
-  /// lists those IP addresses.
+  /// addresses, you can configure WAF to block them using an IPSet that lists
+  /// those IP addresses.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -287,30 +301,31 @@ class WAFV2 {
   /// May throw [WAFInvalidOperationException].
   ///
   /// Parameter [addresses] :
-  /// Contains an array of strings that specify one or more IP addresses or
-  /// blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation.
-  /// AWS WAF supports all address ranges for IP versions IPv4 and IPv6.
+  /// Contains an array of strings that specifies zero or more IP addresses or
+  /// blocks of IP addresses. All addresses must be specified using Classless
+  /// Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR
+  /// ranges except for <code>/0</code>.
   ///
-  /// Examples:
+  /// Example address strings:
   ///
   /// <ul>
   /// <li>
-  /// To configure AWS WAF to allow, block, or count requests that originated
-  /// from the IP address 192.0.2.44, specify <code>192.0.2.44/32</code>.
+  /// To configure WAF to allow, block, or count requests that originated from
+  /// the IP address 192.0.2.44, specify <code>192.0.2.44/32</code>.
   /// </li>
   /// <li>
-  /// To configure AWS WAF to allow, block, or count requests that originated
-  /// from IP addresses from 192.0.2.0 to 192.0.2.255, specify
+  /// To configure WAF to allow, block, or count requests that originated from
+  /// IP addresses from 192.0.2.0 to 192.0.2.255, specify
   /// <code>192.0.2.0/24</code>.
   /// </li>
   /// <li>
-  /// To configure AWS WAF to allow, block, or count requests that originated
-  /// from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify
+  /// To configure WAF to allow, block, or count requests that originated from
+  /// the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify
   /// <code>1111:0000:0000:0000:0000:0000:0000:0111/128</code>.
   /// </li>
   /// <li>
-  /// To configure AWS WAF to allow, block, or count requests that originated
-  /// from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to
+  /// To configure WAF to allow, block, or count requests that originated from
+  /// IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to
   /// 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify
   /// <code>1111:0000:0000:0000:0000:0000:0000:0000/64</code>.
   /// </li>
@@ -319,17 +334,38 @@ class WAFV2 {
   /// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
   /// Inter-Domain Routing</a>.
   ///
+  /// Example JSON <code>Addresses</code> specifications:
+  ///
+  /// <ul>
+  /// <li>
+  /// Empty array: <code>"Addresses": []</code>
+  /// </li>
+  /// <li>
+  /// Array with one address: <code>"Addresses": ["192.0.2.44/32"]</code>
+  /// </li>
+  /// <li>
+  /// Array with three addresses: <code>"Addresses": ["192.0.2.44/32",
+  /// "192.0.2.0/24", "192.0.0.0/16"]</code>
+  /// </li>
+  /// <li>
+  /// INVALID specification: <code>"Addresses": [""]</code> INVALID
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [iPAddressVersion] :
-  /// Specify IPV4 or IPV6.
+  /// The version of the IP addresses, either <code>IPV4</code> or
+  /// <code>IPV6</code>.
   ///
   /// Parameter [name] :
   /// The name of the IP set. You cannot change the name of an
   /// <code>IPSet</code> after you create it.
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -345,8 +381,7 @@ class WAFV2 {
   /// </ul>
   ///
   /// Parameter [description] :
-  /// A description of the IP set that helps with identification. You cannot
-  /// change the description of an IP set after you create it.
+  /// A description of the IP set that helps with identification.
   ///
   /// Parameter [tags] :
   /// An array of key:value pairs to associate with the resource.
@@ -381,15 +416,8 @@ class WAFV2 {
     return CreateIPSetResponse.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Creates a <a>RegexPatternSet</a>, which you reference in a
-  /// <a>RegexPatternSetReferenceStatement</a>, to have AWS WAF inspect a web
+  /// <a>RegexPatternSetReferenceStatement</a>, to have WAF inspect a web
   /// request component for the specified patterns.
   ///
   /// May throw [WAFInternalErrorException].
@@ -408,9 +436,11 @@ class WAFV2 {
   /// Array of regular expression strings.
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -426,8 +456,7 @@ class WAFV2 {
   /// </ul>
   ///
   /// Parameter [description] :
-  /// A description of the set that helps with identification. You cannot change
-  /// the description of a set after you create it.
+  /// A description of the set that helps with identification.
   ///
   /// Parameter [tags] :
   /// An array of key:value pairs to associate with the resource.
@@ -460,13 +489,6 @@ class WAFV2 {
     return CreateRegexPatternSetResponse.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Creates a <a>RuleGroup</a> per the specifications provided.
   ///
   /// A rule group defines a collection of rules to inspect and control web
@@ -492,25 +514,29 @@ class WAFV2 {
   ///
   /// When you create your own rule group, you define this, and you cannot
   /// change it after creation. When you add or modify the rules in a rule
-  /// group, AWS WAF enforces this limit. You can check the capacity for a set
-  /// of rules using <a>CheckCapacity</a>.
+  /// group, WAF enforces this limit. You can check the capacity for a set of
+  /// rules using <a>CheckCapacity</a>.
   ///
-  /// AWS WAF uses WCUs to calculate and control the operating resources that
-  /// are used to run your rules, rule groups, and web ACLs. AWS WAF calculates
-  /// capacity differently for each rule type, to reflect the relative cost of
-  /// each rule. Simple rules that cost little to run use fewer WCUs than more
-  /// complex rules that use more processing power. Rule group capacity is fixed
-  /// at creation, which helps users plan their web ACL WCU usage when they use
-  /// a rule group. The WCU limit for web ACLs is 1,500.
+  /// WAF uses WCUs to calculate and control the operating resources that are
+  /// used to run your rules, rule groups, and web ACLs. WAF calculates capacity
+  /// differently for each rule type, to reflect the relative cost of each rule.
+  /// Simple rules that cost little to run use fewer WCUs than more complex
+  /// rules that use more processing power. Rule group capacity is fixed at
+  /// creation, which helps users plan their web ACL WCU usage when they use a
+  /// rule group. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html">WAF
+  /// web ACL capacity units (WCU)</a> in the <i>WAF Developer Guide</i>.
   ///
   /// Parameter [name] :
   /// The name of the rule group. You cannot change the name of a rule group
   /// after you create it.
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -529,15 +555,29 @@ class WAFV2 {
   /// Defines and enables Amazon CloudWatch metrics and web request sample
   /// collection.
   ///
+  /// Parameter [customResponseBodies] :
+  /// A map of custom response keys and content bodies. When you create a rule
+  /// with a block action, you can send a custom response to the web request.
+  /// You define these for the rule group, and then use them in the rules that
+  /// you define in the rule group.
+  ///
+  /// For information about customizing web requests and responses, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html">Customizing
+  /// web requests and responses in WAF</a> in the <i>WAF Developer Guide</i>.
+  ///
+  /// For information about the limits on count and size for custom request and
+  /// response settings, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">WAF
+  /// quotas</a> in the <i>WAF Developer Guide</i>.
+  ///
   /// Parameter [description] :
-  /// A description of the rule group that helps with identification. You cannot
-  /// change the description of a rule group after you create it.
+  /// A description of the rule group that helps with identification.
   ///
   /// Parameter [rules] :
   /// The <a>Rule</a> statements used to identify the web requests that you want
   /// to allow, block, or count. Each rule includes one top-level statement that
-  /// AWS WAF uses to identify matching web requests, and parameters that govern
-  /// how AWS WAF handles them.
+  /// WAF uses to identify matching web requests, and parameters that govern how
+  /// WAF handles them.
   ///
   /// Parameter [tags] :
   /// An array of key:value pairs to associate with the resource.
@@ -546,6 +586,7 @@ class WAFV2 {
     required String name,
     required Scope scope,
     required VisibilityConfig visibilityConfig,
+    Map<String, CustomResponseBody>? customResponseBodies,
     String? description,
     List<Rule>? rules,
     List<Tag>? tags,
@@ -572,6 +613,8 @@ class WAFV2 {
         'Name': name,
         'Scope': scope.toValue(),
         'VisibilityConfig': visibilityConfig,
+        if (customResponseBodies != null)
+          'CustomResponseBodies': customResponseBodies,
         if (description != null) 'Description': description,
         if (rules != null) 'Rules': rules,
         if (tags != null) 'Tags': tags,
@@ -581,24 +624,19 @@ class WAFV2 {
     return CreateRuleGroupResponse.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Creates a <a>WebACL</a> per the specifications provided.
   ///
-  /// A Web ACL defines a collection of rules to use to inspect and control web
+  /// A web ACL defines a collection of rules to use to inspect and control web
   /// requests. Each rule has an action defined (allow, block, or count) for
-  /// requests that match the statement of the rule. In the Web ACL, you assign
+  /// requests that match the statement of the rule. In the web ACL, you assign
   /// a default action to take (allow, block) for any request that does not
-  /// match any of the rules. The rules in a Web ACL can be a combination of the
+  /// match any of the rules. The rules in a web ACL can be a combination of the
   /// types <a>Rule</a>, <a>RuleGroup</a>, and managed rule group. You can
-  /// associate a Web ACL with one or more AWS resources to protect. The
-  /// resources can be Amazon CloudFront, an Amazon API Gateway REST API, an
-  /// Application Load Balancer, or an AWS AppSync GraphQL API.
+  /// associate a web ACL with one or more Amazon Web Services resources to
+  /// protect. The resources can be an Amazon CloudFront distribution, an Amazon
+  /// API Gateway REST API, an Application Load Balancer, an AppSync GraphQL
+  /// API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web
+  /// Services Verified Access instance.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -612,19 +650,23 @@ class WAFV2 {
   /// May throw [WAFTagOperationInternalErrorException].
   /// May throw [WAFSubscriptionNotFoundException].
   /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFConfigurationWarningException].
+  /// May throw [WAFExpiredManagedRuleGroupVersionException].
   ///
   /// Parameter [defaultAction] :
   /// The action to perform if none of the <code>Rules</code> contained in the
   /// <code>WebACL</code> match.
   ///
   /// Parameter [name] :
-  /// The name of the Web ACL. You cannot change the name of a Web ACL after you
+  /// The name of the web ACL. You cannot change the name of a web ACL after you
   /// create it.
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -643,26 +685,84 @@ class WAFV2 {
   /// Defines and enables Amazon CloudWatch metrics and web request sample
   /// collection.
   ///
+  /// Parameter [associationConfig] :
+  /// Specifies custom configurations for the associations between the web ACL
+  /// and protected resources.
+  ///
+  /// Use this to customize the maximum size of the request body that your
+  /// protected CloudFront distributions forward to WAF for inspection. The
+  /// default is 16 KB (16,384 kilobytes).
+  /// <note>
+  /// You are charged additional fees when your protected resources forward body
+  /// sizes that are larger than the default. For more information, see <a
+  /// href="http://aws.amazon.com/waf/pricing/">WAF Pricing</a>.
+  /// </note>
+  ///
+  /// Parameter [captchaConfig] :
+  /// Specifies how WAF should handle <code>CAPTCHA</code> evaluations for rules
+  /// that don't have their own <code>CaptchaConfig</code> settings. If you
+  /// don't specify this, WAF uses its default settings for
+  /// <code>CaptchaConfig</code>.
+  ///
+  /// Parameter [challengeConfig] :
+  /// Specifies how WAF should handle challenge evaluations for rules that don't
+  /// have their own <code>ChallengeConfig</code> settings. If you don't specify
+  /// this, WAF uses its default settings for <code>ChallengeConfig</code>.
+  ///
+  /// Parameter [customResponseBodies] :
+  /// A map of custom response keys and content bodies. When you create a rule
+  /// with a block action, you can send a custom response to the web request.
+  /// You define these for the web ACL, and then use them in the rules and
+  /// default actions that you define in the web ACL.
+  ///
+  /// For information about customizing web requests and responses, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html">Customizing
+  /// web requests and responses in WAF</a> in the <i>WAF Developer Guide</i>.
+  ///
+  /// For information about the limits on count and size for custom request and
+  /// response settings, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">WAF
+  /// quotas</a> in the <i>WAF Developer Guide</i>.
+  ///
   /// Parameter [description] :
-  /// A description of the Web ACL that helps with identification. You cannot
-  /// change the description of a Web ACL after you create it.
+  /// A description of the web ACL that helps with identification.
   ///
   /// Parameter [rules] :
   /// The <a>Rule</a> statements used to identify the web requests that you want
   /// to allow, block, or count. Each rule includes one top-level statement that
-  /// AWS WAF uses to identify matching web requests, and parameters that govern
-  /// how AWS WAF handles them.
+  /// WAF uses to identify matching web requests, and parameters that govern how
+  /// WAF handles them.
   ///
   /// Parameter [tags] :
   /// An array of key:value pairs to associate with the resource.
+  ///
+  /// Parameter [tokenDomains] :
+  /// Specifies the domains that WAF should accept in a web request token. This
+  /// enables the use of tokens across multiple protected websites. When WAF
+  /// provides a token, it uses the domain of the Amazon Web Services resource
+  /// that the web ACL is protecting. If you don't specify a list of token
+  /// domains, WAF accepts tokens only for the domain of the protected resource.
+  /// With a token domain list, WAF accepts the resource's host domain plus all
+  /// domains in the token domain list, including their prefixed subdomains.
+  ///
+  /// Example JSON: <code>"TokenDomains": { "mywebsite.com",
+  /// "myotherwebsite.com" }</code>
+  ///
+  /// Public suffixes aren't allowed. For example, you can't use
+  /// <code>usa.gov</code> or <code>co.uk</code> as token domains.
   Future<CreateWebACLResponse> createWebACL({
     required DefaultAction defaultAction,
     required String name,
     required Scope scope,
     required VisibilityConfig visibilityConfig,
+    AssociationConfig? associationConfig,
+    CaptchaConfig? captchaConfig,
+    ChallengeConfig? challengeConfig,
+    Map<String, CustomResponseBody>? customResponseBodies,
     String? description,
     List<Rule>? rules,
     List<Tag>? tags,
+    List<String>? tokenDomains,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -679,16 +779,22 @@ class WAFV2 {
         'Name': name,
         'Scope': scope.toValue(),
         'VisibilityConfig': visibilityConfig,
+        if (associationConfig != null) 'AssociationConfig': associationConfig,
+        if (captchaConfig != null) 'CaptchaConfig': captchaConfig,
+        if (challengeConfig != null) 'ChallengeConfig': challengeConfig,
+        if (customResponseBodies != null)
+          'CustomResponseBodies': customResponseBodies,
         if (description != null) 'Description': description,
         if (rules != null) 'Rules': rules,
         if (tags != null) 'Tags': tags,
+        if (tokenDomains != null) 'TokenDomains': tokenDomains,
       },
     );
 
     return CreateWebACLResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deletes all rule groups that are managed by AWS Firewall Manager for the
+  /// Deletes all rule groups that are managed by Firewall Manager for the
   /// specified web ACL.
   ///
   /// You can only use this if <code>ManagedByFirewallManager</code> is false in
@@ -704,14 +810,15 @@ class WAFV2 {
   /// The Amazon Resource Name (ARN) of the web ACL.
   ///
   /// Parameter [webACLLockToken] :
-  /// A token used for optimistic locking. AWS WAF returns a token to your get
-  /// and list requests, to mark the state of the entity at the time of the
-  /// request. To make changes to the entity associated with the token, you
-  /// provide the token to operations like update and delete. AWS WAF uses the
-  /// token to ensure that no changes have been made to the entity since you
-  /// last retrieved it. If a change has been made, the update fails with a
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity
+  /// associated with the token, you provide the token to operations like
+  /// <code>update</code> and <code>delete</code>. WAF uses the token to ensure
+  /// that no changes have been made to the entity since you last retrieved it.
+  /// If a change has been made, the update fails with a
   /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// <code>get</code>, and use the new token returned by that operation.
   Future<DeleteFirewallManagerRuleGroupsResponse>
       deleteFirewallManagerRuleGroups({
     required String webACLArn,
@@ -736,13 +843,6 @@ class WAFV2 {
     return DeleteFirewallManagerRuleGroupsResponse.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Deletes the specified <a>IPSet</a>.
   ///
   /// May throw [WAFInternalErrorException].
@@ -760,23 +860,26 @@ class WAFV2 {
   /// delete.
   ///
   /// Parameter [lockToken] :
-  /// A token used for optimistic locking. AWS WAF returns a token to your get
-  /// and list requests, to mark the state of the entity at the time of the
-  /// request. To make changes to the entity associated with the token, you
-  /// provide the token to operations like update and delete. AWS WAF uses the
-  /// token to ensure that no changes have been made to the entity since you
-  /// last retrieved it. If a change has been made, the update fails with a
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity
+  /// associated with the token, you provide the token to operations like
+  /// <code>update</code> and <code>delete</code>. WAF uses the token to ensure
+  /// that no changes have been made to the entity since you last retrieved it.
+  /// If a change has been made, the update fails with a
   /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// <code>get</code>, and use the new token returned by that operation.
   ///
   /// Parameter [name] :
   /// The name of the IP set. You cannot change the name of an
   /// <code>IPSet</code> after you create it.
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -815,13 +918,6 @@ class WAFV2 {
     );
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Deletes the <a>LoggingConfiguration</a> from the specified web ACL.
   ///
   /// May throw [WAFInternalErrorException].
@@ -884,13 +980,6 @@ class WAFV2 {
     );
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Deletes the specified <a>RegexPatternSet</a>.
   ///
   /// May throw [WAFInternalErrorException].
@@ -908,22 +997,25 @@ class WAFV2 {
   /// delete.
   ///
   /// Parameter [lockToken] :
-  /// A token used for optimistic locking. AWS WAF returns a token to your get
-  /// and list requests, to mark the state of the entity at the time of the
-  /// request. To make changes to the entity associated with the token, you
-  /// provide the token to operations like update and delete. AWS WAF uses the
-  /// token to ensure that no changes have been made to the entity since you
-  /// last retrieved it. If a change has been made, the update fails with a
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity
+  /// associated with the token, you provide the token to operations like
+  /// <code>update</code> and <code>delete</code>. WAF uses the token to ensure
+  /// that no changes have been made to the entity since you last retrieved it.
+  /// If a change has been made, the update fails with a
   /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// <code>get</code>, and use the new token returned by that operation.
   ///
   /// Parameter [name] :
   /// The name of the set. You cannot change the name after you create the set.
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -962,13 +1054,6 @@ class WAFV2 {
     );
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Deletes the specified <a>RuleGroup</a>.
   ///
   /// May throw [WAFInternalErrorException].
@@ -986,23 +1071,26 @@ class WAFV2 {
   /// update and delete.
   ///
   /// Parameter [lockToken] :
-  /// A token used for optimistic locking. AWS WAF returns a token to your get
-  /// and list requests, to mark the state of the entity at the time of the
-  /// request. To make changes to the entity associated with the token, you
-  /// provide the token to operations like update and delete. AWS WAF uses the
-  /// token to ensure that no changes have been made to the entity since you
-  /// last retrieved it. If a change has been made, the update fails with a
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity
+  /// associated with the token, you provide the token to operations like
+  /// <code>update</code> and <code>delete</code>. WAF uses the token to ensure
+  /// that no changes have been made to the entity since you last retrieved it.
+  /// If a change has been made, the update fails with a
   /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// <code>get</code>, and use the new token returned by that operation.
   ///
   /// Parameter [name] :
   /// The name of the rule group. You cannot change the name of a rule group
   /// after you create it.
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -1041,17 +1129,44 @@ class WAFV2 {
     );
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Deletes the specified <a>WebACL</a>.
   ///
   /// You can only use this if <code>ManagedByFirewallManager</code> is false in
   /// the specified <a>WebACL</a>.
+  /// <note>
+  /// Before deleting any web ACL, first disassociate it from all resources.
+  ///
+  /// <ul>
+  /// <li>
+  /// To retrieve a list of the resources that are associated with a web ACL,
+  /// use the following calls:
+  ///
+  /// <ul>
+  /// <li>
+  /// For regional resources, call <a>ListResourcesForWebACL</a>.
+  /// </li>
+  /// <li>
+  /// For Amazon CloudFront distributions, use the CloudFront call
+  /// <code>ListDistributionsByWebACLId</code>. For information, see <a
+  /// href="https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_ListDistributionsByWebACLId.html">ListDistributionsByWebACLId</a>
+  /// in the <i>Amazon CloudFront API Reference</i>.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// To disassociate a resource from a web ACL, use the following calls:
+  ///
+  /// <ul>
+  /// <li>
+  /// For regional resources, call <a>DisassociateWebACL</a>.
+  /// </li>
+  /// <li>
+  /// For Amazon CloudFront distributions, provide an empty web ACL ID in the
+  /// CloudFront call <code>UpdateDistribution</code>. For information, see <a
+  /// href="https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html">UpdateDistribution</a>
+  /// in the <i>Amazon CloudFront API Reference</i>.
+  /// </li>
+  /// </ul> </li>
+  /// </ul> </note>
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -1063,28 +1178,31 @@ class WAFV2 {
   /// May throw [WAFInvalidOperationException].
   ///
   /// Parameter [id] :
-  /// The unique identifier for the Web ACL. This ID is returned in the
+  /// The unique identifier for the web ACL. This ID is returned in the
   /// responses to create and list commands. You provide it to operations like
   /// update and delete.
   ///
   /// Parameter [lockToken] :
-  /// A token used for optimistic locking. AWS WAF returns a token to your get
-  /// and list requests, to mark the state of the entity at the time of the
-  /// request. To make changes to the entity associated with the token, you
-  /// provide the token to operations like update and delete. AWS WAF uses the
-  /// token to ensure that no changes have been made to the entity since you
-  /// last retrieved it. If a change has been made, the update fails with a
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity
+  /// associated with the token, you provide the token to operations like
+  /// <code>update</code> and <code>delete</code>. WAF uses the token to ensure
+  /// that no changes have been made to the entity since you last retrieved it.
+  /// If a change has been made, the update fails with a
   /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// <code>get</code>, and use the new token returned by that operation.
   ///
   /// Parameter [name] :
-  /// The name of the Web ACL. You cannot change the name of a Web ACL after you
+  /// The name of the web ACL. You cannot change the name of a web ACL after you
   /// create it.
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -1123,13 +1241,6 @@ class WAFV2 {
     );
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Provides high-level information for a managed rule group, including
   /// descriptions of the rules.
   ///
@@ -1138,15 +1249,18 @@ class WAFV2 {
   /// May throw [WAFInvalidResourceException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFExpiredManagedRuleGroupVersionException].
   ///
   /// Parameter [name] :
   /// The name of the managed rule group. You use this, along with the vendor
   /// name, to identify the rule group.
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -1164,10 +1278,16 @@ class WAFV2 {
   /// Parameter [vendorName] :
   /// The name of the managed rule group vendor. You use this, along with the
   /// rule group name, to identify the rule group.
+  ///
+  /// Parameter [versionName] :
+  /// The version of the rule group. You can only use a version that is not
+  /// scheduled for expiration. If you don't provide this, WAF uses the vendor's
+  /// default version.
   Future<DescribeManagedRuleGroupResponse> describeManagedRuleGroup({
     required String name,
     required Scope scope,
     required String vendorName,
+    String? versionName,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1183,28 +1303,26 @@ class WAFV2 {
         'Name': name,
         'Scope': scope.toValue(),
         'VendorName': vendorName,
+        if (versionName != null) 'VersionName': versionName,
       },
     );
 
     return DescribeManagedRuleGroupResponse.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
-  /// Disassociates a Web ACL from a regional application resource. A regional
-  /// application can be an Application Load Balancer (ALB), an API Gateway REST
-  /// API, or an AppSync GraphQL API.
+  /// Disassociates the specified regional application resource from any
+  /// existing web ACL association. A resource can have at most one web ACL
+  /// association. A regional application can be an Application Load Balancer
+  /// (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon
+  /// Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
-  /// For AWS CloudFront, don't use this call. Instead, use your CloudFront
-  /// distribution configuration. To disassociate a Web ACL, provide an empty
+  /// For Amazon CloudFront, don't use this call. Instead, use your CloudFront
+  /// distribution configuration. To disassociate a web ACL, provide an empty
   /// web ACL ID in the CloudFront call <code>UpdateDistribution</code>. For
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html">UpdateDistribution</a>.
+  /// href="https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html">UpdateDistribution</a>
+  /// in the <i>Amazon CloudFront API Reference</i>.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -1220,17 +1338,32 @@ class WAFV2 {
   /// <ul>
   /// <li>
   /// For an Application Load Balancer:
-  /// <code>arn:aws:elasticloadbalancing:<i>region</i>:<i>account-id</i>:loadbalancer/app/<i>load-balancer-name</i>/<i>load-balancer-id</i>
+  /// <code>arn:<i>partition</i>:elasticloadbalancing:<i>region</i>:<i>account-id</i>:loadbalancer/app/<i>load-balancer-name</i>/<i>load-balancer-id</i>
   /// </code>
   /// </li>
   /// <li>
-  /// For an API Gateway REST API:
-  /// <code>arn:aws:apigateway:<i>region</i>::/restapis/<i>api-id</i>/stages/<i>stage-name</i>
+  /// For an Amazon API Gateway REST API:
+  /// <code>arn:<i>partition</i>:apigateway:<i>region</i>::/restapis/<i>api-id</i>/stages/<i>stage-name</i>
   /// </code>
   /// </li>
   /// <li>
   /// For an AppSync GraphQL API:
-  /// <code>arn:aws:appsync:<i>region</i>:<i>account-id</i>:apis/<i>GraphQLApiId</i>
+  /// <code>arn:<i>partition</i>:appsync:<i>region</i>:<i>account-id</i>:apis/<i>GraphQLApiId</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// For an Amazon Cognito user pool:
+  /// <code>arn:<i>partition</i>:cognito-idp:<i>region</i>:<i>account-id</i>:userpool/<i>user-pool-id</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// For an App Runner service:
+  /// <code>arn:<i>partition</i>:apprunner:<i>region</i>:<i>account-id</i>:service/<i>apprunner-service-name</i>/<i>apprunner-service-id</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// For an Amazon Web Services Verified Access instance:
+  /// <code>arn:<i>partition</i>:ec2:<i>region</i>:<i>account-id</i>:verified-access-instance/<i>instance-id</i>
   /// </code>
   /// </li>
   /// </ul>
@@ -1253,13 +1386,109 @@ class WAFV2 {
     );
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
+  /// Generates a presigned download URL for the specified release of the mobile
+  /// SDK.
+  ///
+  /// The mobile SDK is not generally available. Customers who have access to
+  /// the mobile SDK can use it to establish and manage WAF tokens for use in
+  /// HTTP(S) requests from a mobile device to WAF. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html">WAF
+  /// client application integration</a> in the <i>WAF Developer Guide</i>.
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFNonexistentItemException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFInvalidOperationException].
+  ///
+  /// Parameter [platform] :
+  /// The device platform.
+  ///
+  /// Parameter [releaseVersion] :
+  /// The release version. For the latest available version, specify
+  /// <code>LATEST</code>.
+  Future<GenerateMobileSdkReleaseUrlResponse> generateMobileSdkReleaseUrl({
+    required Platform platform,
+    required String releaseVersion,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20190729.GenerateMobileSdkReleaseUrl'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Platform': platform.toValue(),
+        'ReleaseVersion': releaseVersion,
+      },
+    );
+
+    return GenerateMobileSdkReleaseUrlResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns your API key in decrypted form. Use this to check the token
+  /// domains that you have defined for the key.
+  ///
+  /// API keys are required for the integration of the CAPTCHA API in your
+  /// JavaScript client applications. The API lets you customize the placement
+  /// and characteristics of the CAPTCHA puzzle for your end users. For more
+  /// information about the CAPTCHA JavaScript integration, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html">WAF
+  /// client application integration</a> in the <i>WAF Developer Guide</i>.
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFInvalidResourceException].
+  ///
+  /// Parameter [aPIKey] :
+  /// The encrypted API key.
+  ///
+  /// Parameter [scope] :
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  Future<GetDecryptedAPIKeyResponse> getDecryptedAPIKey({
+    required String aPIKey,
+    required Scope scope,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20190729.GetDecryptedAPIKey'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'APIKey': aPIKey,
+        'Scope': scope.toValue(),
+      },
+    );
+
+    return GetDecryptedAPIKeyResponse.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves the specified <a>IPSet</a>.
   ///
   /// May throw [WAFInternalErrorException].
@@ -1277,9 +1506,11 @@ class WAFV2 {
   /// <code>IPSet</code> after you create it.
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -1318,13 +1549,6 @@ class WAFV2 {
     return GetIPSetResponse.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Returns the <a>LoggingConfiguration</a> for the specified web ACL.
   ///
   /// May throw [WAFInternalErrorException].
@@ -1354,6 +1578,122 @@ class WAFV2 {
     );
 
     return GetLoggingConfigurationResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves the specified managed rule set.
+  /// <note>
+  /// This is intended for use only by vendors of managed rule sets. Vendors are
+  /// Amazon Web Services and Amazon Web Services Marketplace sellers.
+  ///
+  /// Vendors, you can use the managed rule set APIs to provide controlled
+  /// rollout of your versioned managed rule group offerings for your customers.
+  /// The APIs are <code>ListManagedRuleSets</code>,
+  /// <code>GetManagedRuleSet</code>, <code>PutManagedRuleSetVersions</code>,
+  /// and <code>UpdateManagedRuleSetVersionExpiryDate</code>.
+  /// </note>
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFNonexistentItemException].
+  /// May throw [WAFInvalidOperationException].
+  ///
+  /// Parameter [id] :
+  /// A unique identifier for the managed rule set. The ID is returned in the
+  /// responses to commands like <code>list</code>. You provide it to operations
+  /// like <code>get</code> and <code>update</code>.
+  ///
+  /// Parameter [name] :
+  /// The name of the managed rule set. You use this, along with the rule set
+  /// ID, to identify the rule set.
+  ///
+  /// This name is assigned to the corresponding managed rule group, which your
+  /// customers can access and use.
+  ///
+  /// Parameter [scope] :
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  Future<GetManagedRuleSetResponse> getManagedRuleSet({
+    required String id,
+    required String name,
+    required Scope scope,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20190729.GetManagedRuleSet'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Id': id,
+        'Name': name,
+        'Scope': scope.toValue(),
+      },
+    );
+
+    return GetManagedRuleSetResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves information for the specified mobile SDK release, including
+  /// release notes and tags.
+  ///
+  /// The mobile SDK is not generally available. Customers who have access to
+  /// the mobile SDK can use it to establish and manage WAF tokens for use in
+  /// HTTP(S) requests from a mobile device to WAF. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html">WAF
+  /// client application integration</a> in the <i>WAF Developer Guide</i>.
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFNonexistentItemException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFInvalidOperationException].
+  ///
+  /// Parameter [platform] :
+  /// The device platform.
+  ///
+  /// Parameter [releaseVersion] :
+  /// The release version. For the latest available version, specify
+  /// <code>LATEST</code>.
+  Future<GetMobileSdkReleaseResponse> getMobileSdkRelease({
+    required Platform platform,
+    required String releaseVersion,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20190729.GetMobileSdkRelease'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Platform': platform.toValue(),
+        'ReleaseVersion': releaseVersion,
+      },
+    );
+
+    return GetMobileSdkReleaseResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns the IAM policy that is attached to the specified rule group.
@@ -1388,30 +1728,45 @@ class WAFV2 {
     return GetPermissionPolicyResponse.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
-  /// Retrieves the keys that are currently blocked by a rate-based rule. The
-  /// maximum number of managed keys that can be blocked for a single rate-based
-  /// rule is 10,000. If more than 10,000 addresses exceed the rate limit, those
-  /// with the highest rates are blocked.
+  /// Retrieves the IP addresses that are currently blocked by a rate-based rule
+  /// instance. This is only available for rate-based rules that aggregate
+  /// solely on the IP address or on the forwarded IP address.
+  ///
+  /// The maximum number of addresses that can be blocked for a single
+  /// rate-based rule instance is 10,000. If more than 10,000 addresses exceed
+  /// the rate limit, those with the highest rates are blocked.
+  ///
+  /// For a rate-based rule that you've defined inside a rule group, provide the
+  /// name of the rule group reference statement in your request, in addition to
+  /// the rate-based rule name and the web ACL name.
+  ///
+  /// WAF monitors web requests and manages keys independently for each unique
+  /// combination of web ACL, optional rule group, and rate-based rule. For
+  /// example, if you define a rate-based rule inside a rule group, and then use
+  /// the rule group in a web ACL, WAF monitors web requests and manages keys
+  /// for that web ACL, rule group reference statement, and rate-based rule
+  /// instance. If you use the same rule group in a second web ACL, WAF monitors
+  /// web requests and manages keys for this second usage completely independent
+  /// of your first.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFUnsupportedAggregateKeyTypeException].
   ///
   /// Parameter [ruleName] :
-  /// The name of the rate-based rule to get the keys for.
+  /// The name of the rate-based rule to get the keys for. If you have the rule
+  /// defined inside a rule group that you're using in your web ACL, also
+  /// provide the name of the rule group reference statement in the request
+  /// parameter <code>RuleGroupRuleName</code>.
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -1427,19 +1782,25 @@ class WAFV2 {
   /// </ul>
   ///
   /// Parameter [webACLId] :
-  /// The unique identifier for the Web ACL. This ID is returned in the
+  /// The unique identifier for the web ACL. This ID is returned in the
   /// responses to create and list commands. You provide it to operations like
   /// update and delete.
   ///
   /// Parameter [webACLName] :
-  /// The name of the Web ACL. You cannot change the name of a Web ACL after you
+  /// The name of the web ACL. You cannot change the name of a web ACL after you
   /// create it.
+  ///
+  /// Parameter [ruleGroupRuleName] :
+  /// The name of the rule group reference statement in your web ACL. This is
+  /// required only when you have the rate-based rule nested inside a rule
+  /// group.
   Future<GetRateBasedStatementManagedKeysResponse>
       getRateBasedStatementManagedKeys({
     required String ruleName,
     required Scope scope,
     required String webACLId,
     required String webACLName,
+    String? ruleGroupRuleName,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1456,19 +1817,13 @@ class WAFV2 {
         'Scope': scope.toValue(),
         'WebACLId': webACLId,
         'WebACLName': webACLName,
+        if (ruleGroupRuleName != null) 'RuleGroupRuleName': ruleGroupRuleName,
       },
     );
 
     return GetRateBasedStatementManagedKeysResponse.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Retrieves the specified <a>RegexPatternSet</a>.
   ///
   /// May throw [WAFInternalErrorException].
@@ -1485,9 +1840,11 @@ class WAFV2 {
   /// The name of the set. You cannot change the name after you create the set.
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -1526,19 +1883,15 @@ class WAFV2 {
     return GetRegexPatternSetResponse.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Retrieves the specified <a>RuleGroup</a>.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFInvalidOperationException].
+  ///
+  /// Parameter [arn] :
+  /// The Amazon Resource Name (ARN) of the entity.
   ///
   /// Parameter [id] :
   /// A unique identifier for the rule group. This ID is returned in the
@@ -1550,9 +1903,11 @@ class WAFV2 {
   /// after you create it.
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -1567,9 +1922,10 @@ class WAFV2 {
   /// </li>
   /// </ul>
   Future<GetRuleGroupResponse> getRuleGroup({
-    required String id,
-    required String name,
-    required Scope scope,
+    String? arn,
+    String? id,
+    String? name,
+    Scope? scope,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1582,54 +1938,50 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Id': id,
-        'Name': name,
-        'Scope': scope.toValue(),
+        if (arn != null) 'ARN': arn,
+        if (id != null) 'Id': id,
+        if (name != null) 'Name': name,
+        if (scope != null) 'Scope': scope.toValue(),
       },
     );
 
     return GetRuleGroupResponse.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Gets detailed information about a specified number of requests--a
-  /// sample--that AWS WAF randomly selects from among the first 5,000 requests
-  /// that your AWS resource received during a time range that you choose. You
-  /// can specify a sample size of up to 500 requests, and you can specify any
-  /// time range in the previous three hours.
+  /// sample--that WAF randomly selects from among the first 5,000 requests that
+  /// your Amazon Web Services resource received during a time range that you
+  /// choose. You can specify a sample size of up to 500 requests, and you can
+  /// specify any time range in the previous three hours.
   ///
   /// <code>GetSampledRequests</code> returns a time range, which is usually the
   /// time range that you specified. However, if your resource (such as a
   /// CloudFront distribution) received 5,000 requests before the specified time
   /// range elapsed, <code>GetSampledRequests</code> returns an updated time
-  /// range. This new time range indicates the actual period during which AWS
-  /// WAF selected the requests in the sample.
+  /// range. This new time range indicates the actual period during which WAF
+  /// selected the requests in the sample.
   ///
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
   ///
   /// Parameter [maxItems] :
-  /// The number of requests that you want AWS WAF to return from among the
-  /// first 5,000 requests that your AWS resource received during the time
-  /// range. If your resource received fewer requests than the value of
+  /// The number of requests that you want WAF to return from among the first
+  /// 5,000 requests that your Amazon Web Services resource received during the
+  /// time range. If your resource received fewer requests than the value of
   /// <code>MaxItems</code>, <code>GetSampledRequests</code> returns information
   /// about all of them.
   ///
   /// Parameter [ruleMetricName] :
   /// The metric name assigned to the <code>Rule</code> or
-  /// <code>RuleGroup</code> for which you want a sample of requests.
+  /// <code>RuleGroup</code> dimension for which you want a sample of requests.
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -1650,7 +2002,8 @@ class WAFV2 {
   /// You must specify the times in Coordinated Universal Time (UTC) format. UTC
   /// format includes the special designator, <code>Z</code>. For example,
   /// <code>"2016-09-27T14:50Z"</code>. You can specify any time range in the
-  /// previous three hours.
+  /// previous three hours. If you specify a start time that's earlier than
+  /// three hours ago, WAF sets it to three hours ago.
   ///
   /// Parameter [webAclArn] :
   /// The Amazon resource name (ARN) of the <code>WebACL</code> for which you
@@ -1691,13 +2044,6 @@ class WAFV2 {
     return GetSampledRequestsResponse.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Retrieves the specified <a>WebACL</a>.
   ///
   /// May throw [WAFInternalErrorException].
@@ -1706,18 +2052,20 @@ class WAFV2 {
   /// May throw [WAFInvalidOperationException].
   ///
   /// Parameter [id] :
-  /// The unique identifier for the Web ACL. This ID is returned in the
+  /// The unique identifier for the web ACL. This ID is returned in the
   /// responses to create and list commands. You provide it to operations like
   /// update and delete.
   ///
   /// Parameter [name] :
-  /// The name of the Web ACL. You cannot change the name of a Web ACL after you
+  /// The name of the web ACL. You cannot change the name of a web ACL after you
   /// create it.
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -1756,13 +2104,6 @@ class WAFV2 {
     return GetWebACLResponse.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Retrieves the <a>WebACL</a> for the specified resource.
   ///
   /// May throw [WAFInternalErrorException].
@@ -1772,7 +2113,43 @@ class WAFV2 {
   /// May throw [WAFInvalidOperationException].
   ///
   /// Parameter [resourceArn] :
-  /// The ARN (Amazon Resource Name) of the resource.
+  /// The Amazon Resource Name (ARN) of the resource whose web ACL you want to
+  /// retrieve.
+  ///
+  /// The ARN must be in one of the following formats:
+  ///
+  /// <ul>
+  /// <li>
+  /// For an Application Load Balancer:
+  /// <code>arn:<i>partition</i>:elasticloadbalancing:<i>region</i>:<i>account-id</i>:loadbalancer/app/<i>load-balancer-name</i>/<i>load-balancer-id</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// For an Amazon API Gateway REST API:
+  /// <code>arn:<i>partition</i>:apigateway:<i>region</i>::/restapis/<i>api-id</i>/stages/<i>stage-name</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// For an AppSync GraphQL API:
+  /// <code>arn:<i>partition</i>:appsync:<i>region</i>:<i>account-id</i>:apis/<i>GraphQLApiId</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// For an Amazon Cognito user pool:
+  /// <code>arn:<i>partition</i>:cognito-idp:<i>region</i>:<i>account-id</i>:userpool/<i>user-pool-id</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// For an App Runner service:
+  /// <code>arn:<i>partition</i>:apprunner:<i>region</i>:<i>account-id</i>:service/<i>apprunner-service-name</i>/<i>apprunner-service-id</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// For an Amazon Web Services Verified Access instance:
+  /// <code>arn:<i>partition</i>:ec2:<i>region</i>:<i>account-id</i>:verified-access-instance/<i>instance-id</i>
+  /// </code>
+  /// </li>
+  /// </ul>
   Future<GetWebACLForResourceResponse> getWebACLForResource({
     required String resourceArn,
   }) async {
@@ -1794,25 +2171,27 @@ class WAFV2 {
     return GetWebACLForResourceResponse.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
-  /// Retrieves an array of managed rule groups that are available for you to
-  /// use. This list includes all AWS Managed Rules rule groups and the AWS
-  /// Marketplace managed rule groups that you're subscribed to.
+  /// Retrieves a list of the API keys that you've defined for the specified
+  /// scope.
+  ///
+  /// API keys are required for the integration of the CAPTCHA API in your
+  /// JavaScript client applications. The API lets you customize the placement
+  /// and characteristics of the CAPTCHA puzzle for your end users. For more
+  /// information about the CAPTCHA JavaScript integration, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html">WAF
+  /// client application integration</a> in the <i>WAF Developer Guide</i>.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
   /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFInvalidResourceException].
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -1828,15 +2207,172 @@ class WAFV2 {
   /// </ul>
   ///
   /// Parameter [limit] :
-  /// The maximum number of objects that you want AWS WAF to return for this
-  /// request. If more objects are available, in the response, AWS WAF provides
-  /// a <code>NextMarker</code> value that you can use in a subsequent call to
-  /// get the next batch of objects.
+  /// The maximum number of objects that you want WAF to return for this
+  /// request. If more objects are available, in the response, WAF provides a
+  /// <code>NextMarker</code> value that you can use in a subsequent call to get
+  /// the next batch of objects.
   ///
   /// Parameter [nextMarker] :
   /// When you request a list of objects with a <code>Limit</code> setting, if
   /// the number of objects that are still available for retrieval exceeds the
-  /// limit, AWS WAF returns a <code>NextMarker</code> value in the response. To
+  /// limit, WAF returns a <code>NextMarker</code> value in the response. To
+  /// retrieve the next batch of objects, provide the marker from the prior call
+  /// in your next request.
+  Future<ListAPIKeysResponse> listAPIKeys({
+    required Scope scope,
+    int? limit,
+    String? nextMarker,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20190729.ListAPIKeys'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Scope': scope.toValue(),
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
+      },
+    );
+
+    return ListAPIKeysResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a list of the available versions for the specified managed rule
+  /// group.
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFNonexistentItemException].
+  /// May throw [WAFInvalidOperationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the managed rule group. You use this, along with the vendor
+  /// name, to identify the rule group.
+  ///
+  /// Parameter [scope] :
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [vendorName] :
+  /// The name of the managed rule group vendor. You use this, along with the
+  /// rule group name, to identify the rule group.
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of objects that you want WAF to return for this
+  /// request. If more objects are available, in the response, WAF provides a
+  /// <code>NextMarker</code> value that you can use in a subsequent call to get
+  /// the next batch of objects.
+  ///
+  /// Parameter [nextMarker] :
+  /// When you request a list of objects with a <code>Limit</code> setting, if
+  /// the number of objects that are still available for retrieval exceeds the
+  /// limit, WAF returns a <code>NextMarker</code> value in the response. To
+  /// retrieve the next batch of objects, provide the marker from the prior call
+  /// in your next request.
+  Future<ListAvailableManagedRuleGroupVersionsResponse>
+      listAvailableManagedRuleGroupVersions({
+    required String name,
+    required Scope scope,
+    required String vendorName,
+    int? limit,
+    String? nextMarker,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20190729.ListAvailableManagedRuleGroupVersions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+        'Scope': scope.toValue(),
+        'VendorName': vendorName,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
+      },
+    );
+
+    return ListAvailableManagedRuleGroupVersionsResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Retrieves an array of managed rule groups that are available for you to
+  /// use. This list includes all Amazon Web Services Managed Rules rule groups
+  /// and all of the Amazon Web Services Marketplace managed rule groups that
+  /// you're subscribed to.
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFInvalidOperationException].
+  ///
+  /// Parameter [scope] :
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of objects that you want WAF to return for this
+  /// request. If more objects are available, in the response, WAF provides a
+  /// <code>NextMarker</code> value that you can use in a subsequent call to get
+  /// the next batch of objects.
+  ///
+  /// Parameter [nextMarker] :
+  /// When you request a list of objects with a <code>Limit</code> setting, if
+  /// the number of objects that are still available for retrieval exceeds the
+  /// limit, WAF returns a <code>NextMarker</code> value in the response. To
   /// retrieve the next batch of objects, provide the marker from the prior call
   /// in your next request.
   Future<ListAvailableManagedRuleGroupsResponse>
@@ -1871,13 +2407,6 @@ class WAFV2 {
     return ListAvailableManagedRuleGroupsResponse.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Retrieves an array of <a>IPSetSummary</a> objects for the IP sets that you
   /// manage.
   ///
@@ -1886,9 +2415,11 @@ class WAFV2 {
   /// May throw [WAFInvalidOperationException].
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -1904,15 +2435,15 @@ class WAFV2 {
   /// </ul>
   ///
   /// Parameter [limit] :
-  /// The maximum number of objects that you want AWS WAF to return for this
-  /// request. If more objects are available, in the response, AWS WAF provides
-  /// a <code>NextMarker</code> value that you can use in a subsequent call to
-  /// get the next batch of objects.
+  /// The maximum number of objects that you want WAF to return for this
+  /// request. If more objects are available, in the response, WAF provides a
+  /// <code>NextMarker</code> value that you can use in a subsequent call to get
+  /// the next batch of objects.
   ///
   /// Parameter [nextMarker] :
   /// When you request a list of objects with a <code>Limit</code> setting, if
   /// the number of objects that are still available for retrieval exceeds the
-  /// limit, AWS WAF returns a <code>NextMarker</code> value in the response. To
+  /// limit, WAF returns a <code>NextMarker</code> value in the response. To
   /// retrieve the next batch of objects, provide the marker from the prior call
   /// in your next request.
   Future<ListIPSetsResponse> listIPSets({
@@ -1946,36 +2477,18 @@ class WAFV2 {
     return ListIPSetsResponse.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Retrieves an array of your <a>LoggingConfiguration</a> objects.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
   /// May throw [WAFInvalidOperationException].
   ///
-  /// Parameter [limit] :
-  /// The maximum number of objects that you want AWS WAF to return for this
-  /// request. If more objects are available, in the response, AWS WAF provides
-  /// a <code>NextMarker</code> value that you can use in a subsequent call to
-  /// get the next batch of objects.
-  ///
-  /// Parameter [nextMarker] :
-  /// When you request a list of objects with a <code>Limit</code> setting, if
-  /// the number of objects that are still available for retrieval exceeds the
-  /// limit, AWS WAF returns a <code>NextMarker</code> value in the response. To
-  /// retrieve the next batch of objects, provide the marker from the prior call
-  /// in your next request.
-  ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -1989,10 +2502,23 @@ class WAFV2 {
   /// API and SDKs - For all calls, use the Region endpoint us-east-1.
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of objects that you want WAF to return for this
+  /// request. If more objects are available, in the response, WAF provides a
+  /// <code>NextMarker</code> value that you can use in a subsequent call to get
+  /// the next batch of objects.
+  ///
+  /// Parameter [nextMarker] :
+  /// When you request a list of objects with a <code>Limit</code> setting, if
+  /// the number of objects that are still available for retrieval exceeds the
+  /// limit, WAF returns a <code>NextMarker</code> value in the response. To
+  /// retrieve the next batch of objects, provide the marker from the prior call
+  /// in your next request.
   Future<ListLoggingConfigurationsResponse> listLoggingConfigurations({
+    required Scope scope,
     int? limit,
     String? nextMarker,
-    Scope? scope,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -2011,33 +2537,37 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
+        'Scope': scope.toValue(),
         if (limit != null) 'Limit': limit,
         if (nextMarker != null) 'NextMarker': nextMarker,
-        if (scope != null) 'Scope': scope.toValue(),
       },
     );
 
     return ListLoggingConfigurationsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves the managed rule sets that you own.
   /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
+  /// This is intended for use only by vendors of managed rule sets. Vendors are
+  /// Amazon Web Services and Amazon Web Services Marketplace sellers.
+  ///
+  /// Vendors, you can use the managed rule set APIs to provide controlled
+  /// rollout of your versioned managed rule group offerings for your customers.
+  /// The APIs are <code>ListManagedRuleSets</code>,
+  /// <code>GetManagedRuleSet</code>, <code>PutManagedRuleSetVersions</code>,
+  /// and <code>UpdateManagedRuleSetVersionExpiryDate</code>.
   /// </note>
-  /// Retrieves an array of <a>RegexPatternSetSummary</a> objects for the regex
-  /// pattern sets that you manage.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
   /// May throw [WAFInvalidOperationException].
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -2053,15 +2583,144 @@ class WAFV2 {
   /// </ul>
   ///
   /// Parameter [limit] :
-  /// The maximum number of objects that you want AWS WAF to return for this
-  /// request. If more objects are available, in the response, AWS WAF provides
-  /// a <code>NextMarker</code> value that you can use in a subsequent call to
-  /// get the next batch of objects.
+  /// The maximum number of objects that you want WAF to return for this
+  /// request. If more objects are available, in the response, WAF provides a
+  /// <code>NextMarker</code> value that you can use in a subsequent call to get
+  /// the next batch of objects.
   ///
   /// Parameter [nextMarker] :
   /// When you request a list of objects with a <code>Limit</code> setting, if
   /// the number of objects that are still available for retrieval exceeds the
-  /// limit, AWS WAF returns a <code>NextMarker</code> value in the response. To
+  /// limit, WAF returns a <code>NextMarker</code> value in the response. To
+  /// retrieve the next batch of objects, provide the marker from the prior call
+  /// in your next request.
+  Future<ListManagedRuleSetsResponse> listManagedRuleSets({
+    required Scope scope,
+    int? limit,
+    String? nextMarker,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20190729.ListManagedRuleSets'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Scope': scope.toValue(),
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
+      },
+    );
+
+    return ListManagedRuleSetsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a list of the available releases for the mobile SDK and the
+  /// specified device platform.
+  ///
+  /// The mobile SDK is not generally available. Customers who have access to
+  /// the mobile SDK can use it to establish and manage WAF tokens for use in
+  /// HTTP(S) requests from a mobile device to WAF. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html">WAF
+  /// client application integration</a> in the <i>WAF Developer Guide</i>.
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFInvalidOperationException].
+  ///
+  /// Parameter [platform] :
+  /// The device platform to retrieve the list for.
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of objects that you want WAF to return for this
+  /// request. If more objects are available, in the response, WAF provides a
+  /// <code>NextMarker</code> value that you can use in a subsequent call to get
+  /// the next batch of objects.
+  ///
+  /// Parameter [nextMarker] :
+  /// When you request a list of objects with a <code>Limit</code> setting, if
+  /// the number of objects that are still available for retrieval exceeds the
+  /// limit, WAF returns a <code>NextMarker</code> value in the response. To
+  /// retrieve the next batch of objects, provide the marker from the prior call
+  /// in your next request.
+  Future<ListMobileSdkReleasesResponse> listMobileSdkReleases({
+    required Platform platform,
+    int? limit,
+    String? nextMarker,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20190729.ListMobileSdkReleases'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Platform': platform.toValue(),
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
+      },
+    );
+
+    return ListMobileSdkReleasesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves an array of <a>RegexPatternSetSummary</a> objects for the regex
+  /// pattern sets that you manage.
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFInvalidOperationException].
+  ///
+  /// Parameter [scope] :
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of objects that you want WAF to return for this
+  /// request. If more objects are available, in the response, WAF provides a
+  /// <code>NextMarker</code> value that you can use in a subsequent call to get
+  /// the next batch of objects.
+  ///
+  /// Parameter [nextMarker] :
+  /// When you request a list of objects with a <code>Limit</code> setting, if
+  /// the number of objects that are still available for retrieval exceeds the
+  /// limit, WAF returns a <code>NextMarker</code> value in the response. To
   /// retrieve the next batch of objects, provide the marker from the prior call
   /// in your next request.
   Future<ListRegexPatternSetsResponse> listRegexPatternSets({
@@ -2095,16 +2754,9 @@ class WAFV2 {
     return ListRegexPatternSetsResponse.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Retrieves an array of the Amazon Resource Names (ARNs) for the regional
   /// resources that are associated with the specified web ACL. If you want the
-  /// list of AWS CloudFront resources, use the AWS CloudFront call
+  /// list of Amazon CloudFront resources, use the CloudFront call
   /// <code>ListDistributionsByWebACLId</code>.
   ///
   /// May throw [WAFInternalErrorException].
@@ -2113,12 +2765,18 @@ class WAFV2 {
   /// May throw [WAFInvalidOperationException].
   ///
   /// Parameter [webACLArn] :
-  /// The Amazon Resource Name (ARN) of the Web ACL.
+  /// The Amazon Resource Name (ARN) of the web ACL.
   ///
   /// Parameter [resourceType] :
   /// Used for web ACLs that are scoped for regional applications. A regional
-  /// application can be an Application Load Balancer (ALB), an API Gateway REST
-  /// API, or an AppSync GraphQL API.
+  /// application can be an Application Load Balancer (ALB), an Amazon API
+  /// Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an
+  /// App Runner service, or an Amazon Web Services Verified Access instance.
+  /// <note>
+  /// If you don't provide a resource type, the call uses the resource type
+  /// <code>APPLICATION_LOAD_BALANCER</code>.
+  /// </note>
+  /// Default: <code>APPLICATION_LOAD_BALANCER</code>
   Future<ListResourcesForWebACLResponse> listResourcesForWebACL({
     required String webACLArn,
     ResourceType? resourceType,
@@ -2142,13 +2800,6 @@ class WAFV2 {
     return ListResourcesForWebACLResponse.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Retrieves an array of <a>RuleGroupSummary</a> objects for the rule groups
   /// that you manage.
   ///
@@ -2157,9 +2808,11 @@ class WAFV2 {
   /// May throw [WAFInvalidOperationException].
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -2175,15 +2828,15 @@ class WAFV2 {
   /// </ul>
   ///
   /// Parameter [limit] :
-  /// The maximum number of objects that you want AWS WAF to return for this
-  /// request. If more objects are available, in the response, AWS WAF provides
-  /// a <code>NextMarker</code> value that you can use in a subsequent call to
-  /// get the next batch of objects.
+  /// The maximum number of objects that you want WAF to return for this
+  /// request. If more objects are available, in the response, WAF provides a
+  /// <code>NextMarker</code> value that you can use in a subsequent call to get
+  /// the next batch of objects.
   ///
   /// Parameter [nextMarker] :
   /// When you request a list of objects with a <code>Limit</code> setting, if
   /// the number of objects that are still available for retrieval exceeds the
-  /// limit, AWS WAF returns a <code>NextMarker</code> value in the response. To
+  /// limit, WAF returns a <code>NextMarker</code> value in the response. To
   /// retrieve the next batch of objects, provide the marker from the prior call
   /// in your next request.
   Future<ListRuleGroupsResponse> listRuleGroups({
@@ -2217,23 +2870,16 @@ class WAFV2 {
     return ListRuleGroupsResponse.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Retrieves the <a>TagInfoForResource</a> for the specified resource. Tags
   /// are key:value pairs that you can use to categorize and manage your
   /// resources, for purposes like billing. For example, you might set the tag
   /// key to "customer" and the value to the customer name or ID. You can
-  /// specify one or more tags to add to each AWS resource, up to 50 tags for a
-  /// resource.
+  /// specify one or more tags to add to each Amazon Web Services resource, up
+  /// to 50 tags for a resource.
   ///
-  /// You can tag the AWS resources that you manage through AWS WAF: web ACLs,
-  /// rule groups, IP sets, and regex pattern sets. You can't manage or view
-  /// tags through the AWS WAF console.
+  /// You can tag the Amazon Web Services resources that you manage through WAF:
+  /// web ACLs, rule groups, IP sets, and regex pattern sets. You can't manage
+  /// or view tags through the WAF console.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -2246,15 +2892,15 @@ class WAFV2 {
   /// The Amazon Resource Name (ARN) of the resource.
   ///
   /// Parameter [limit] :
-  /// The maximum number of objects that you want AWS WAF to return for this
-  /// request. If more objects are available, in the response, AWS WAF provides
-  /// a <code>NextMarker</code> value that you can use in a subsequent call to
-  /// get the next batch of objects.
+  /// The maximum number of objects that you want WAF to return for this
+  /// request. If more objects are available, in the response, WAF provides a
+  /// <code>NextMarker</code> value that you can use in a subsequent call to get
+  /// the next batch of objects.
   ///
   /// Parameter [nextMarker] :
   /// When you request a list of objects with a <code>Limit</code> setting, if
   /// the number of objects that are still available for retrieval exceeds the
-  /// limit, AWS WAF returns a <code>NextMarker</code> value in the response. To
+  /// limit, WAF returns a <code>NextMarker</code> value in the response. To
   /// retrieve the next batch of objects, provide the marker from the prior call
   /// in your next request.
   Future<ListTagsForResourceResponse> listTagsForResource({
@@ -2288,13 +2934,6 @@ class WAFV2 {
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Retrieves an array of <a>WebACLSummary</a> objects for the web ACLs that
   /// you manage.
   ///
@@ -2303,9 +2942,11 @@ class WAFV2 {
   /// May throw [WAFInvalidOperationException].
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -2321,15 +2962,15 @@ class WAFV2 {
   /// </ul>
   ///
   /// Parameter [limit] :
-  /// The maximum number of objects that you want AWS WAF to return for this
-  /// request. If more objects are available, in the response, AWS WAF provides
-  /// a <code>NextMarker</code> value that you can use in a subsequent call to
-  /// get the next batch of objects.
+  /// The maximum number of objects that you want WAF to return for this
+  /// request. If more objects are available, in the response, WAF provides a
+  /// <code>NextMarker</code> value that you can use in a subsequent call to get
+  /// the next batch of objects.
   ///
   /// Parameter [nextMarker] :
   /// When you request a list of objects with a <code>Limit</code> setting, if
   /// the number of objects that are still available for retrieval exceeds the
-  /// limit, AWS WAF returns a <code>NextMarker</code> value in the response. To
+  /// limit, WAF returns a <code>NextMarker</code> value in the response. To
   /// retrieve the next batch of objects, provide the marker from the prior call
   /// in your next request.
   Future<ListWebACLsResponse> listWebACLs({
@@ -2363,43 +3004,57 @@ class WAFV2 {
     return ListWebACLsResponse.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Enables the specified <a>LoggingConfiguration</a>, to start logging from a
   /// web ACL, according to the configuration provided.
+  /// <note>
+  /// This operation completely replaces any mutable specifications that you
+  /// already have for a logging configuration with the ones that you provide to
+  /// this call.
   ///
-  /// You can access information about all traffic that AWS WAF inspects using
-  /// the following steps:
+  /// To modify an existing logging configuration, do the following:
   /// <ol>
   /// <li>
-  /// Create an Amazon Kinesis Data Firehose.
-  ///
-  /// Create the data firehose with a PUT source and in the Region that you are
-  /// operating. If you are capturing logs for Amazon CloudFront, always create
-  /// the firehose in US East (N. Virginia).
-  ///
-  /// Give the data firehose a name that starts with the prefix
-  /// <code>aws-waf-logs-</code>. For example,
-  /// <code>aws-waf-logs-us-east-2-analytics</code>.
-  /// <note>
-  /// Do not create the data firehose using a <code>Kinesis stream</code> as
-  /// your source.
-  /// </note> </li>
+  /// Retrieve it by calling <a>GetLoggingConfiguration</a>
+  /// </li>
   /// <li>
-  /// Associate that firehose to your web ACL using a
+  /// Update its settings as needed
+  /// </li>
+  /// <li>
+  /// Provide the complete logging configuration specification to this call
+  /// </li> </ol> </note> <note>
+  /// You can define one logging destination per web ACL.
+  /// </note>
+  /// You can access information about the traffic that WAF inspects using the
+  /// following steps:
+  /// <ol>
+  /// <li>
+  /// Create your logging destination. You can use an Amazon CloudWatch Logs log
+  /// group, an Amazon Simple Storage Service (Amazon S3) bucket, or an Amazon
+  /// Kinesis Data Firehose.
+  ///
+  /// The name that you give the destination must start with
+  /// <code>aws-waf-logs-</code>. Depending on the type of destination, you
+  /// might need to configure additional settings or permissions.
+  ///
+  /// For configuration requirements and pricing information for each
+  /// destination type, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/logging.html">Logging
+  /// web ACL traffic</a> in the <i>WAF Developer Guide</i>.
+  /// </li>
+  /// <li>
+  /// Associate your logging destination to your web ACL using a
   /// <code>PutLoggingConfiguration</code> request.
   /// </li> </ol>
   /// When you successfully enable logging using a
-  /// <code>PutLoggingConfiguration</code> request, AWS WAF will create a
-  /// service linked role with the necessary permissions to write logs to the
-  /// Amazon Kinesis Data Firehose. For more information, see <a
+  /// <code>PutLoggingConfiguration</code> request, WAF creates an additional
+  /// role or policy that is required to write logs to the logging destination.
+  /// For an Amazon CloudWatch Logs log group, WAF creates a resource policy on
+  /// the log group. For an Amazon S3 bucket, WAF creates a bucket policy. For
+  /// an Amazon Kinesis Data Firehose, WAF creates a service-linked role.
+  ///
+  /// For additional information about web ACL logging, see <a
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/logging.html">Logging
-  /// Web ACL Traffic Information</a> in the <i>AWS WAF Developer Guide</i>.
+  /// web ACL traffic information</a> in the <i>WAF Developer Guide</i>.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFNonexistentItemException].
@@ -2408,6 +3063,7 @@ class WAFV2 {
   /// May throw [WAFInvalidParameterException].
   /// May throw [WAFInvalidOperationException].
   /// May throw [WAFLimitsExceededException].
+  /// May throw [WAFLogDestinationPermissionIssueException].
   ///
   /// Parameter [loggingConfiguration] :
   /// <p/>
@@ -2432,6 +3088,119 @@ class WAFV2 {
     return PutLoggingConfigurationResponse.fromJson(jsonResponse.body);
   }
 
+  /// Defines the versions of your managed rule set that you are offering to the
+  /// customers. Customers see your offerings as managed rule groups with
+  /// versioning.
+  /// <note>
+  /// This is intended for use only by vendors of managed rule sets. Vendors are
+  /// Amazon Web Services and Amazon Web Services Marketplace sellers.
+  ///
+  /// Vendors, you can use the managed rule set APIs to provide controlled
+  /// rollout of your versioned managed rule group offerings for your customers.
+  /// The APIs are <code>ListManagedRuleSets</code>,
+  /// <code>GetManagedRuleSet</code>, <code>PutManagedRuleSetVersions</code>,
+  /// and <code>UpdateManagedRuleSetVersionExpiryDate</code>.
+  /// </note>
+  /// Customers retrieve their managed rule group list by calling
+  /// <a>ListAvailableManagedRuleGroups</a>. The name that you provide here for
+  /// your managed rule set is the name the customer sees for the corresponding
+  /// managed rule group. Customers can retrieve the available versions for a
+  /// managed rule group by calling
+  /// <a>ListAvailableManagedRuleGroupVersions</a>. You provide a rule group
+  /// specification for each version. For each managed rule set, you must
+  /// specify a version that you recommend using.
+  ///
+  /// To initiate the expiration of a managed rule group version, use
+  /// <a>UpdateManagedRuleSetVersionExpiryDate</a>.
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFNonexistentItemException].
+  /// May throw [WAFOptimisticLockException].
+  /// May throw [WAFInvalidOperationException].
+  ///
+  /// Parameter [id] :
+  /// A unique identifier for the managed rule set. The ID is returned in the
+  /// responses to commands like <code>list</code>. You provide it to operations
+  /// like <code>get</code> and <code>update</code>.
+  ///
+  /// Parameter [lockToken] :
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity
+  /// associated with the token, you provide the token to operations like
+  /// <code>update</code> and <code>delete</code>. WAF uses the token to ensure
+  /// that no changes have been made to the entity since you last retrieved it.
+  /// If a change has been made, the update fails with a
+  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
+  /// <code>get</code>, and use the new token returned by that operation.
+  ///
+  /// Parameter [name] :
+  /// The name of the managed rule set. You use this, along with the rule set
+  /// ID, to identify the rule set.
+  ///
+  /// This name is assigned to the corresponding managed rule group, which your
+  /// customers can access and use.
+  ///
+  /// Parameter [scope] :
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [recommendedVersion] :
+  /// The version of the named managed rule group that you'd like your customers
+  /// to choose, from among your version offerings.
+  ///
+  /// Parameter [versionsToPublish] :
+  /// The versions of the named managed rule group that you want to offer to
+  /// your customers.
+  Future<PutManagedRuleSetVersionsResponse> putManagedRuleSetVersions({
+    required String id,
+    required String lockToken,
+    required String name,
+    required Scope scope,
+    String? recommendedVersion,
+    Map<String, VersionToPublish>? versionsToPublish,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20190729.PutManagedRuleSetVersions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Id': id,
+        'LockToken': lockToken,
+        'Name': name,
+        'Scope': scope.toValue(),
+        if (recommendedVersion != null)
+          'RecommendedVersion': recommendedVersion,
+        if (versionsToPublish != null) 'VersionsToPublish': versionsToPublish,
+      },
+    );
+
+    return PutManagedRuleSetVersionsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Attaches an IAM policy to the specified resource. Use this to share a rule
   /// group across accounts.
   ///
@@ -2446,7 +3215,7 @@ class WAFV2 {
   /// </li>
   /// <li>
   /// The ARN in the request must be a valid WAF <a>RuleGroup</a> ARN and the
-  /// rule group must exist in the same region.
+  /// rule group must exist in the same Region.
   /// </li>
   /// <li>
   /// The user making the request must be the owner of the rule group.
@@ -2465,8 +3234,7 @@ class WAFV2 {
   ///
   /// <ul>
   /// <li>
-  /// The policy must be composed using IAM Policy version 2012-10-17 or version
-  /// 2015-01-01.
+  /// The policy must be composed using IAM Policy version 2012-10-17.
   /// </li>
   /// <li>
   /// The policy must include specifications for <code>Effect</code>,
@@ -2478,8 +3246,9 @@ class WAFV2 {
   /// <li>
   /// <code>Action</code> must specify <code>wafv2:CreateWebACL</code>,
   /// <code>wafv2:UpdateWebACL</code>, and
-  /// <code>wafv2:PutFirewallManagerRuleGroups</code>. AWS WAF rejects any extra
-  /// actions or wildcard actions in the policy.
+  /// <code>wafv2:PutFirewallManagerRuleGroups</code> and may optionally specify
+  /// <code>wafv2:GetRuleGroup</code>. WAF rejects any extra actions or wildcard
+  /// actions in the policy.
   /// </li>
   /// <li>
   /// The policy must not include a <code>Resource</code> parameter.
@@ -2513,22 +3282,16 @@ class WAFV2 {
     );
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
-  /// Associates tags with the specified AWS resource. Tags are key:value pairs
-  /// that you can use to categorize and manage your resources, for purposes
-  /// like billing. For example, you might set the tag key to "customer" and the
-  /// value to the customer name or ID. You can specify one or more tags to add
-  /// to each AWS resource, up to 50 tags for a resource.
+  /// Associates tags with the specified Amazon Web Services resource. Tags are
+  /// key:value pairs that you can use to categorize and manage your resources,
+  /// for purposes like billing. For example, you might set the tag key to
+  /// "customer" and the value to the customer name or ID. You can specify one
+  /// or more tags to add to each Amazon Web Services resource, up to 50 tags
+  /// for a resource.
   ///
-  /// You can tag the AWS resources that you manage through AWS WAF: web ACLs,
-  /// rule groups, IP sets, and regex pattern sets. You can't manage or view
-  /// tags through the AWS WAF console.
+  /// You can tag the Amazon Web Services resources that you manage through WAF:
+  /// web ACLs, rule groups, IP sets, and regex pattern sets. You can't manage
+  /// or view tags through the WAF console.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -2564,18 +3327,11 @@ class WAFV2 {
     );
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
-  /// Disassociates tags from an AWS resource. Tags are key:value pairs that you
-  /// can associate with AWS resources. For example, the tag key might be
-  /// "customer" and the tag value might be "companyA." You can specify one or
-  /// more tags to add to each container. You can add up to 50 tags to each AWS
-  /// resource.
+  /// Disassociates tags from an Amazon Web Services resource. Tags are
+  /// key:value pairs that you can associate with Amazon Web Services resources.
+  /// For example, the tag key might be "customer" and the tag value might be
+  /// "companyA." You can specify one or more tags to add to each container. You
+  /// can add up to 50 tags to each Amazon Web Services resource.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -2610,14 +3366,35 @@ class WAFV2 {
     );
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Updates the specified <a>IPSet</a>.
+  /// <note>
+  /// This operation completely replaces the mutable specifications that you
+  /// already have for the IP set with the ones that you provide to this call.
+  ///
+  /// To modify an IP set, do the following:
+  /// <ol>
+  /// <li>
+  /// Retrieve it by calling <a>GetIPSet</a>
+  /// </li>
+  /// <li>
+  /// Update its settings as needed
+  /// </li>
+  /// <li>
+  /// Provide the complete IP set specification to this call
+  /// </li> </ol> </note>
+  /// When you make changes to web ACLs or web ACL components, like rules and
+  /// rule groups, WAF propagates the changes everywhere that the web ACL and
+  /// its components are stored and used. Your changes are applied within
+  /// seconds, but there might be a brief period of inconsistency when the
+  /// changes have arrived in some places and not in others. So, for example, if
+  /// you change a rule action setting, the action might be the old action in
+  /// one area and the new action in another area. Or if you add an IP address
+  /// to an IP set used in a blocking rule, the new address might briefly be
+  /// blocked in one area while still allowed in another. This temporary
+  /// inconsistency can occur when you first associate a web ACL with an Amazon
+  /// Web Services resource and when you change a web ACL that is already
+  /// associated with a resource. Generally, any inconsistencies of this type
+  /// last only a few seconds.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -2628,30 +3405,31 @@ class WAFV2 {
   /// May throw [WAFInvalidOperationException].
   ///
   /// Parameter [addresses] :
-  /// Contains an array of strings that specify one or more IP addresses or
-  /// blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation.
-  /// AWS WAF supports all address ranges for IP versions IPv4 and IPv6.
+  /// Contains an array of strings that specifies zero or more IP addresses or
+  /// blocks of IP addresses. All addresses must be specified using Classless
+  /// Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR
+  /// ranges except for <code>/0</code>.
   ///
-  /// Examples:
+  /// Example address strings:
   ///
   /// <ul>
   /// <li>
-  /// To configure AWS WAF to allow, block, or count requests that originated
-  /// from the IP address 192.0.2.44, specify <code>192.0.2.44/32</code>.
+  /// To configure WAF to allow, block, or count requests that originated from
+  /// the IP address 192.0.2.44, specify <code>192.0.2.44/32</code>.
   /// </li>
   /// <li>
-  /// To configure AWS WAF to allow, block, or count requests that originated
-  /// from IP addresses from 192.0.2.0 to 192.0.2.255, specify
+  /// To configure WAF to allow, block, or count requests that originated from
+  /// IP addresses from 192.0.2.0 to 192.0.2.255, specify
   /// <code>192.0.2.0/24</code>.
   /// </li>
   /// <li>
-  /// To configure AWS WAF to allow, block, or count requests that originated
-  /// from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify
+  /// To configure WAF to allow, block, or count requests that originated from
+  /// the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify
   /// <code>1111:0000:0000:0000:0000:0000:0000:0111/128</code>.
   /// </li>
   /// <li>
-  /// To configure AWS WAF to allow, block, or count requests that originated
-  /// from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to
+  /// To configure WAF to allow, block, or count requests that originated from
+  /// IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to
   /// 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify
   /// <code>1111:0000:0000:0000:0000:0000:0000:0000/64</code>.
   /// </li>
@@ -2660,29 +3438,50 @@ class WAFV2 {
   /// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
   /// Inter-Domain Routing</a>.
   ///
+  /// Example JSON <code>Addresses</code> specifications:
+  ///
+  /// <ul>
+  /// <li>
+  /// Empty array: <code>"Addresses": []</code>
+  /// </li>
+  /// <li>
+  /// Array with one address: <code>"Addresses": ["192.0.2.44/32"]</code>
+  /// </li>
+  /// <li>
+  /// Array with three addresses: <code>"Addresses": ["192.0.2.44/32",
+  /// "192.0.2.0/24", "192.0.0.0/16"]</code>
+  /// </li>
+  /// <li>
+  /// INVALID specification: <code>"Addresses": [""]</code> INVALID
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [id] :
   /// A unique identifier for the set. This ID is returned in the responses to
   /// create and list commands. You provide it to operations like update and
   /// delete.
   ///
   /// Parameter [lockToken] :
-  /// A token used for optimistic locking. AWS WAF returns a token to your get
-  /// and list requests, to mark the state of the entity at the time of the
-  /// request. To make changes to the entity associated with the token, you
-  /// provide the token to operations like update and delete. AWS WAF uses the
-  /// token to ensure that no changes have been made to the entity since you
-  /// last retrieved it. If a change has been made, the update fails with a
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity
+  /// associated with the token, you provide the token to operations like
+  /// <code>update</code> and <code>delete</code>. WAF uses the token to ensure
+  /// that no changes have been made to the entity since you last retrieved it.
+  /// If a change has been made, the update fails with a
   /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// <code>get</code>, and use the new token returned by that operation.
   ///
   /// Parameter [name] :
   /// The name of the IP set. You cannot change the name of an
   /// <code>IPSet</code> after you create it.
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -2698,8 +3497,7 @@ class WAFV2 {
   /// </ul>
   ///
   /// Parameter [description] :
-  /// A description of the IP set that helps with identification. You cannot
-  /// change the description of an IP set after you create it.
+  /// A description of the IP set that helps with identification.
   Future<UpdateIPSetResponse> updateIPSet({
     required List<String> addresses,
     required String id,
@@ -2731,14 +3529,142 @@ class WAFV2 {
     return UpdateIPSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// Updates the expiration information for your managed rule set. Use this to
+  /// initiate the expiration of a managed rule group version. After you
+  /// initiate expiration for a version, WAF excludes it from the response to
+  /// <a>ListAvailableManagedRuleGroupVersions</a> for the managed rule group.
   /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
+  /// This is intended for use only by vendors of managed rule sets. Vendors are
+  /// Amazon Web Services and Amazon Web Services Marketplace sellers.
+  ///
+  /// Vendors, you can use the managed rule set APIs to provide controlled
+  /// rollout of your versioned managed rule group offerings for your customers.
+  /// The APIs are <code>ListManagedRuleSets</code>,
+  /// <code>GetManagedRuleSet</code>, <code>PutManagedRuleSetVersions</code>,
+  /// and <code>UpdateManagedRuleSetVersionExpiryDate</code>.
   /// </note>
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFNonexistentItemException].
+  /// May throw [WAFOptimisticLockException].
+  /// May throw [WAFInvalidOperationException].
+  ///
+  /// Parameter [expiryTimestamp] :
+  /// The time that you want the version to expire.
+  ///
+  /// Times are in Coordinated Universal Time (UTC) format. UTC format includes
+  /// the special designator, Z. For example, "2016-09-27T14:50Z".
+  ///
+  /// Parameter [id] :
+  /// A unique identifier for the managed rule set. The ID is returned in the
+  /// responses to commands like <code>list</code>. You provide it to operations
+  /// like <code>get</code> and <code>update</code>.
+  ///
+  /// Parameter [lockToken] :
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity
+  /// associated with the token, you provide the token to operations like
+  /// <code>update</code> and <code>delete</code>. WAF uses the token to ensure
+  /// that no changes have been made to the entity since you last retrieved it.
+  /// If a change has been made, the update fails with a
+  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
+  /// <code>get</code>, and use the new token returned by that operation.
+  ///
+  /// Parameter [name] :
+  /// The name of the managed rule set. You use this, along with the rule set
+  /// ID, to identify the rule set.
+  ///
+  /// This name is assigned to the corresponding managed rule group, which your
+  /// customers can access and use.
+  ///
+  /// Parameter [scope] :
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [versionToExpire] :
+  /// The version that you want to remove from your list of offerings for the
+  /// named managed rule group.
+  Future<UpdateManagedRuleSetVersionExpiryDateResponse>
+      updateManagedRuleSetVersionExpiryDate({
+    required DateTime expiryTimestamp,
+    required String id,
+    required String lockToken,
+    required String name,
+    required Scope scope,
+    required String versionToExpire,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20190729.UpdateManagedRuleSetVersionExpiryDate'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ExpiryTimestamp': unixTimestampToJson(expiryTimestamp),
+        'Id': id,
+        'LockToken': lockToken,
+        'Name': name,
+        'Scope': scope.toValue(),
+        'VersionToExpire': versionToExpire,
+      },
+    );
+
+    return UpdateManagedRuleSetVersionExpiryDateResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Updates the specified <a>RegexPatternSet</a>.
+  /// <note>
+  /// This operation completely replaces the mutable specifications that you
+  /// already have for the regex pattern set with the ones that you provide to
+  /// this call.
+  ///
+  /// To modify a regex pattern set, do the following:
+  /// <ol>
+  /// <li>
+  /// Retrieve it by calling <a>GetRegexPatternSet</a>
+  /// </li>
+  /// <li>
+  /// Update its settings as needed
+  /// </li>
+  /// <li>
+  /// Provide the complete regex pattern set specification to this call
+  /// </li> </ol> </note>
+  /// When you make changes to web ACLs or web ACL components, like rules and
+  /// rule groups, WAF propagates the changes everywhere that the web ACL and
+  /// its components are stored and used. Your changes are applied within
+  /// seconds, but there might be a brief period of inconsistency when the
+  /// changes have arrived in some places and not in others. So, for example, if
+  /// you change a rule action setting, the action might be the old action in
+  /// one area and the new action in another area. Or if you add an IP address
+  /// to an IP set used in a blocking rule, the new address might briefly be
+  /// blocked in one area while still allowed in another. This temporary
+  /// inconsistency can occur when you first associate a web ACL with an Amazon
+  /// Web Services resource and when you change a web ACL that is already
+  /// associated with a resource. Generally, any inconsistencies of this type
+  /// last only a few seconds.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -2754,14 +3680,15 @@ class WAFV2 {
   /// delete.
   ///
   /// Parameter [lockToken] :
-  /// A token used for optimistic locking. AWS WAF returns a token to your get
-  /// and list requests, to mark the state of the entity at the time of the
-  /// request. To make changes to the entity associated with the token, you
-  /// provide the token to operations like update and delete. AWS WAF uses the
-  /// token to ensure that no changes have been made to the entity since you
-  /// last retrieved it. If a change has been made, the update fails with a
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity
+  /// associated with the token, you provide the token to operations like
+  /// <code>update</code> and <code>delete</code>. WAF uses the token to ensure
+  /// that no changes have been made to the entity since you last retrieved it.
+  /// If a change has been made, the update fails with a
   /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// <code>get</code>, and use the new token returned by that operation.
   ///
   /// Parameter [name] :
   /// The name of the set. You cannot change the name after you create the set.
@@ -2770,9 +3697,11 @@ class WAFV2 {
   /// <p/>
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -2788,8 +3717,7 @@ class WAFV2 {
   /// </ul>
   ///
   /// Parameter [description] :
-  /// A description of the set that helps with identification. You cannot change
-  /// the description of a set after you create it.
+  /// A description of the set that helps with identification.
   Future<UpdateRegexPatternSetResponse> updateRegexPatternSet({
     required String id,
     required String lockToken,
@@ -2821,14 +3749,36 @@ class WAFV2 {
     return UpdateRegexPatternSetResponse.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
   /// Updates the specified <a>RuleGroup</a>.
+  /// <note>
+  /// This operation completely replaces the mutable specifications that you
+  /// already have for the rule group with the ones that you provide to this
+  /// call.
+  ///
+  /// To modify a rule group, do the following:
+  /// <ol>
+  /// <li>
+  /// Retrieve it by calling <a>GetRuleGroup</a>
+  /// </li>
+  /// <li>
+  /// Update its settings as needed
+  /// </li>
+  /// <li>
+  /// Provide the complete rule group specification to this call
+  /// </li> </ol> </note>
+  /// When you make changes to web ACLs or web ACL components, like rules and
+  /// rule groups, WAF propagates the changes everywhere that the web ACL and
+  /// its components are stored and used. Your changes are applied within
+  /// seconds, but there might be a brief period of inconsistency when the
+  /// changes have arrived in some places and not in others. So, for example, if
+  /// you change a rule action setting, the action might be the old action in
+  /// one area and the new action in another area. Or if you add an IP address
+  /// to an IP set used in a blocking rule, the new address might briefly be
+  /// blocked in one area while still allowed in another. This temporary
+  /// inconsistency can occur when you first associate a web ACL with an Amazon
+  /// Web Services resource and when you change a web ACL that is already
+  /// associated with a resource. Generally, any inconsistencies of this type
+  /// last only a few seconds.
   ///
   /// A rule group defines a collection of rules to inspect and control web
   /// requests that you can use in a <a>WebACL</a>. When you create a rule
@@ -2845,6 +3795,7 @@ class WAFV2 {
   /// May throw [WAFUnavailableEntityException].
   /// May throw [WAFSubscriptionNotFoundException].
   /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFConfigurationWarningException].
   ///
   /// Parameter [id] :
   /// A unique identifier for the rule group. This ID is returned in the
@@ -2852,23 +3803,26 @@ class WAFV2 {
   /// update and delete.
   ///
   /// Parameter [lockToken] :
-  /// A token used for optimistic locking. AWS WAF returns a token to your get
-  /// and list requests, to mark the state of the entity at the time of the
-  /// request. To make changes to the entity associated with the token, you
-  /// provide the token to operations like update and delete. AWS WAF uses the
-  /// token to ensure that no changes have been made to the entity since you
-  /// last retrieved it. If a change has been made, the update fails with a
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity
+  /// associated with the token, you provide the token to operations like
+  /// <code>update</code> and <code>delete</code>. WAF uses the token to ensure
+  /// that no changes have been made to the entity since you last retrieved it.
+  /// If a change has been made, the update fails with a
   /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// <code>get</code>, and use the new token returned by that operation.
   ///
   /// Parameter [name] :
   /// The name of the rule group. You cannot change the name of a rule group
   /// after you create it.
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -2887,21 +3841,36 @@ class WAFV2 {
   /// Defines and enables Amazon CloudWatch metrics and web request sample
   /// collection.
   ///
+  /// Parameter [customResponseBodies] :
+  /// A map of custom response keys and content bodies. When you create a rule
+  /// with a block action, you can send a custom response to the web request.
+  /// You define these for the rule group, and then use them in the rules that
+  /// you define in the rule group.
+  ///
+  /// For information about customizing web requests and responses, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html">Customizing
+  /// web requests and responses in WAF</a> in the <i>WAF Developer Guide</i>.
+  ///
+  /// For information about the limits on count and size for custom request and
+  /// response settings, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">WAF
+  /// quotas</a> in the <i>WAF Developer Guide</i>.
+  ///
   /// Parameter [description] :
-  /// A description of the rule group that helps with identification. You cannot
-  /// change the description of a rule group after you create it.
+  /// A description of the rule group that helps with identification.
   ///
   /// Parameter [rules] :
   /// The <a>Rule</a> statements used to identify the web requests that you want
   /// to allow, block, or count. Each rule includes one top-level statement that
-  /// AWS WAF uses to identify matching web requests, and parameters that govern
-  /// how AWS WAF handles them.
+  /// WAF uses to identify matching web requests, and parameters that govern how
+  /// WAF handles them.
   Future<UpdateRuleGroupResponse> updateRuleGroup({
     required String id,
     required String lockToken,
     required String name,
     required Scope scope,
     required VisibilityConfig visibilityConfig,
+    Map<String, CustomResponseBody>? customResponseBodies,
     String? description,
     List<Rule>? rules,
   }) async {
@@ -2921,6 +3890,8 @@ class WAFV2 {
         'Name': name,
         'Scope': scope.toValue(),
         'VisibilityConfig': visibilityConfig,
+        if (customResponseBodies != null)
+          'CustomResponseBodies': customResponseBodies,
         if (description != null) 'Description': description,
         if (rules != null) 'Rules': rules,
       },
@@ -2929,24 +3900,49 @@ class WAFV2 {
     return UpdateRuleGroupResponse.fromJson(jsonResponse.body);
   }
 
+  /// Updates the specified <a>WebACL</a>. While updating a web ACL, WAF
+  /// provides continuous coverage to the resources that you have associated
+  /// with the web ACL.
   /// <note>
-  /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-  /// November, 2019. For information, including how to migrate your AWS WAF
-  /// resources from the prior release, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-  /// WAF Developer Guide</a>.
-  /// </note>
-  /// Updates the specified <a>WebACL</a>.
+  /// This operation completely replaces the mutable specifications that you
+  /// already have for the web ACL with the ones that you provide to this call.
   ///
-  /// A Web ACL defines a collection of rules to use to inspect and control web
+  /// To modify a web ACL, do the following:
+  /// <ol>
+  /// <li>
+  /// Retrieve it by calling <a>GetWebACL</a>
+  /// </li>
+  /// <li>
+  /// Update its settings as needed
+  /// </li>
+  /// <li>
+  /// Provide the complete web ACL specification to this call
+  /// </li> </ol> </note>
+  /// When you make changes to web ACLs or web ACL components, like rules and
+  /// rule groups, WAF propagates the changes everywhere that the web ACL and
+  /// its components are stored and used. Your changes are applied within
+  /// seconds, but there might be a brief period of inconsistency when the
+  /// changes have arrived in some places and not in others. So, for example, if
+  /// you change a rule action setting, the action might be the old action in
+  /// one area and the new action in another area. Or if you add an IP address
+  /// to an IP set used in a blocking rule, the new address might briefly be
+  /// blocked in one area while still allowed in another. This temporary
+  /// inconsistency can occur when you first associate a web ACL with an Amazon
+  /// Web Services resource and when you change a web ACL that is already
+  /// associated with a resource. Generally, any inconsistencies of this type
+  /// last only a few seconds.
+  ///
+  /// A web ACL defines a collection of rules to use to inspect and control web
   /// requests. Each rule has an action defined (allow, block, or count) for
-  /// requests that match the statement of the rule. In the Web ACL, you assign
+  /// requests that match the statement of the rule. In the web ACL, you assign
   /// a default action to take (allow, block) for any request that does not
-  /// match any of the rules. The rules in a Web ACL can be a combination of the
+  /// match any of the rules. The rules in a web ACL can be a combination of the
   /// types <a>Rule</a>, <a>RuleGroup</a>, and managed rule group. You can
-  /// associate a Web ACL with one or more AWS resources to protect. The
-  /// resources can be Amazon CloudFront, an Amazon API Gateway REST API, an
-  /// Application Load Balancer, or an AWS AppSync GraphQL API.
+  /// associate a web ACL with one or more Amazon Web Services resources to
+  /// protect. The resources can be an Amazon CloudFront distribution, an Amazon
+  /// API Gateway REST API, an Application Load Balancer, an AppSync GraphQL
+  /// API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web
+  /// Services Verified Access instance.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -2958,34 +3954,39 @@ class WAFV2 {
   /// May throw [WAFUnavailableEntityException].
   /// May throw [WAFSubscriptionNotFoundException].
   /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFExpiredManagedRuleGroupVersionException].
+  /// May throw [WAFConfigurationWarningException].
   ///
   /// Parameter [defaultAction] :
   /// The action to perform if none of the <code>Rules</code> contained in the
   /// <code>WebACL</code> match.
   ///
   /// Parameter [id] :
-  /// The unique identifier for the Web ACL. This ID is returned in the
+  /// The unique identifier for the web ACL. This ID is returned in the
   /// responses to create and list commands. You provide it to operations like
   /// update and delete.
   ///
   /// Parameter [lockToken] :
-  /// A token used for optimistic locking. AWS WAF returns a token to your get
-  /// and list requests, to mark the state of the entity at the time of the
-  /// request. To make changes to the entity associated with the token, you
-  /// provide the token to operations like update and delete. AWS WAF uses the
-  /// token to ensure that no changes have been made to the entity since you
-  /// last retrieved it. If a change has been made, the update fails with a
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity
+  /// associated with the token, you provide the token to operations like
+  /// <code>update</code> and <code>delete</code>. WAF uses the token to ensure
+  /// that no changes have been made to the entity since you last retrieved it.
+  /// If a change has been made, the update fails with a
   /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// <code>get</code>, and use the new token returned by that operation.
   ///
   /// Parameter [name] :
-  /// The name of the Web ACL. You cannot change the name of a Web ACL after you
+  /// The name of the web ACL. You cannot change the name of a web ACL after you
   /// create it.
   ///
   /// Parameter [scope] :
-  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// Specifies whether this is for an Amazon CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
+  /// Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an
+  /// Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+  /// Verified Access instance.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -3004,15 +4005,68 @@ class WAFV2 {
   /// Defines and enables Amazon CloudWatch metrics and web request sample
   /// collection.
   ///
+  /// Parameter [associationConfig] :
+  /// Specifies custom configurations for the associations between the web ACL
+  /// and protected resources.
+  ///
+  /// Use this to customize the maximum size of the request body that your
+  /// protected CloudFront distributions forward to WAF for inspection. The
+  /// default is 16 KB (16,384 kilobytes).
+  /// <note>
+  /// You are charged additional fees when your protected resources forward body
+  /// sizes that are larger than the default. For more information, see <a
+  /// href="http://aws.amazon.com/waf/pricing/">WAF Pricing</a>.
+  /// </note>
+  ///
+  /// Parameter [captchaConfig] :
+  /// Specifies how WAF should handle <code>CAPTCHA</code> evaluations for rules
+  /// that don't have their own <code>CaptchaConfig</code> settings. If you
+  /// don't specify this, WAF uses its default settings for
+  /// <code>CaptchaConfig</code>.
+  ///
+  /// Parameter [challengeConfig] :
+  /// Specifies how WAF should handle challenge evaluations for rules that don't
+  /// have their own <code>ChallengeConfig</code> settings. If you don't specify
+  /// this, WAF uses its default settings for <code>ChallengeConfig</code>.
+  ///
+  /// Parameter [customResponseBodies] :
+  /// A map of custom response keys and content bodies. When you create a rule
+  /// with a block action, you can send a custom response to the web request.
+  /// You define these for the web ACL, and then use them in the rules and
+  /// default actions that you define in the web ACL.
+  ///
+  /// For information about customizing web requests and responses, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html">Customizing
+  /// web requests and responses in WAF</a> in the <i>WAF Developer Guide</i>.
+  ///
+  /// For information about the limits on count and size for custom request and
+  /// response settings, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">WAF
+  /// quotas</a> in the <i>WAF Developer Guide</i>.
+  ///
   /// Parameter [description] :
-  /// A description of the Web ACL that helps with identification. You cannot
-  /// change the description of a Web ACL after you create it.
+  /// A description of the web ACL that helps with identification.
   ///
   /// Parameter [rules] :
   /// The <a>Rule</a> statements used to identify the web requests that you want
   /// to allow, block, or count. Each rule includes one top-level statement that
-  /// AWS WAF uses to identify matching web requests, and parameters that govern
-  /// how AWS WAF handles them.
+  /// WAF uses to identify matching web requests, and parameters that govern how
+  /// WAF handles them.
+  ///
+  /// Parameter [tokenDomains] :
+  /// Specifies the domains that WAF should accept in a web request token. This
+  /// enables the use of tokens across multiple protected websites. When WAF
+  /// provides a token, it uses the domain of the Amazon Web Services resource
+  /// that the web ACL is protecting. If you don't specify a list of token
+  /// domains, WAF accepts tokens only for the domain of the protected resource.
+  /// With a token domain list, WAF accepts the resource's host domain plus all
+  /// domains in the token domain list, including their prefixed subdomains.
+  ///
+  /// Example JSON: <code>"TokenDomains": { "mywebsite.com",
+  /// "myotherwebsite.com" }</code>
+  ///
+  /// Public suffixes aren't allowed. For example, you can't use
+  /// <code>usa.gov</code> or <code>co.uk</code> as token domains.
   Future<UpdateWebACLResponse> updateWebACL({
     required DefaultAction defaultAction,
     required String id,
@@ -3020,8 +4074,13 @@ class WAFV2 {
     required String name,
     required Scope scope,
     required VisibilityConfig visibilityConfig,
+    AssociationConfig? associationConfig,
+    CaptchaConfig? captchaConfig,
+    ChallengeConfig? challengeConfig,
+    Map<String, CustomResponseBody>? customResponseBodies,
     String? description,
     List<Rule>? rules,
+    List<String>? tokenDomains,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3040,8 +4099,14 @@ class WAFV2 {
         'Name': name,
         'Scope': scope.toValue(),
         'VisibilityConfig': visibilityConfig,
+        if (associationConfig != null) 'AssociationConfig': associationConfig,
+        if (captchaConfig != null) 'CaptchaConfig': captchaConfig,
+        if (challengeConfig != null) 'ChallengeConfig': challengeConfig,
+        if (customResponseBodies != null)
+          'CustomResponseBodies': customResponseBodies,
         if (description != null) 'Description': description,
         if (rules != null) 'Rules': rules,
+        if (tokenDomains != null) 'TokenDomains': tokenDomains,
       },
     );
 
@@ -3049,19 +4114,246 @@ class WAFV2 {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// All query arguments of a web request.
+/// Information for a single API key.
 ///
-/// This is used only to indicate the web request component for AWS WAF to
-/// inspect, in the <a>FieldToMatch</a> specification.
+/// API keys are required for the integration of the CAPTCHA API in your
+/// JavaScript client applications. The API lets you customize the placement and
+/// characteristics of the CAPTCHA puzzle for your end users. For more
+/// information about the CAPTCHA JavaScript integration, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html">WAF
+/// client application integration</a> in the <i>WAF Developer Guide</i>.
+class APIKeySummary {
+  /// The generated, encrypted API key. You can copy this for use in your
+  /// JavaScript CAPTCHA integration.
+  final String? aPIKey;
+
+  /// The date and time that the key was created.
+  final DateTime? creationTimestamp;
+
+  /// The token domains that are defined in this API key.
+  final List<String>? tokenDomains;
+
+  /// Internal value used by WAF to manage the key.
+  final int? version;
+
+  APIKeySummary({
+    this.aPIKey,
+    this.creationTimestamp,
+    this.tokenDomains,
+    this.version,
+  });
+
+  factory APIKeySummary.fromJson(Map<String, dynamic> json) {
+    return APIKeySummary(
+      aPIKey: json['APIKey'] as String?,
+      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+      tokenDomains: (json['TokenDomains'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      version: json['Version'] as int?,
+    );
+  }
+}
+
+/// Details for your use of the account takeover prevention managed rule group,
+/// <code>AWSManagedRulesATPRuleSet</code>. This configuration is used in
+/// <code>ManagedRuleGroupConfig</code>.
+class AWSManagedRulesATPRuleSet {
+  /// The path of the login endpoint for your application. For example, for the
+  /// URL <code>https://example.com/web/login</code>, you would provide the path
+  /// <code>/web/login</code>.
+  ///
+  /// The rule group inspects only HTTP <code>POST</code> requests to your
+  /// specified login endpoint.
+  final String loginPath;
+
+  /// The criteria for inspecting login requests, used by the ATP rule group to
+  /// validate credentials usage.
+  final RequestInspection? requestInspection;
+
+  /// The criteria for inspecting responses to login requests, used by the ATP
+  /// rule group to track login failure rates.
+  ///
+  /// The ATP rule group evaluates the responses that your protected resources
+  /// send back to client login attempts, keeping count of successful and failed
+  /// attempts from each IP address and client session. Using this information,
+  /// the rule group labels and mitigates requests from client sessions and IP
+  /// addresses that submit too many failed login attempts in a short amount of
+  /// time.
+  /// <note>
+  /// Response inspection is available only in web ACLs that protect Amazon
+  /// CloudFront distributions.
+  /// </note>
+  final ResponseInspection? responseInspection;
+
+  AWSManagedRulesATPRuleSet({
+    required this.loginPath,
+    this.requestInspection,
+    this.responseInspection,
+  });
+
+  factory AWSManagedRulesATPRuleSet.fromJson(Map<String, dynamic> json) {
+    return AWSManagedRulesATPRuleSet(
+      loginPath: json['LoginPath'] as String,
+      requestInspection: json['RequestInspection'] != null
+          ? RequestInspection.fromJson(
+              json['RequestInspection'] as Map<String, dynamic>)
+          : null,
+      responseInspection: json['ResponseInspection'] != null
+          ? ResponseInspection.fromJson(
+              json['ResponseInspection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loginPath = this.loginPath;
+    final requestInspection = this.requestInspection;
+    final responseInspection = this.responseInspection;
+    return {
+      'LoginPath': loginPath,
+      if (requestInspection != null) 'RequestInspection': requestInspection,
+      if (responseInspection != null) 'ResponseInspection': responseInspection,
+    };
+  }
+}
+
+/// Details for your use of the Bot Control managed rule group,
+/// <code>AWSManagedRulesBotControlRuleSet</code>. This configuration is used in
+/// <code>ManagedRuleGroupConfig</code>.
+class AWSManagedRulesBotControlRuleSet {
+  /// The inspection level to use for the Bot Control rule group. The common level
+  /// is the least expensive. The targeted level includes all common level rules
+  /// and adds rules with more advanced inspection criteria. For details, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html">WAF
+  /// Bot Control rule group</a> in the <i>WAF Developer Guide</i>.
+  final InspectionLevel inspectionLevel;
+
+  AWSManagedRulesBotControlRuleSet({
+    required this.inspectionLevel,
+  });
+
+  factory AWSManagedRulesBotControlRuleSet.fromJson(Map<String, dynamic> json) {
+    return AWSManagedRulesBotControlRuleSet(
+      inspectionLevel: (json['InspectionLevel'] as String).toInspectionLevel(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inspectionLevel = this.inspectionLevel;
+    return {
+      'InspectionLevel': inspectionLevel.toValue(),
+    };
+  }
+}
+
+/// A single action condition for a <a>Condition</a> in a logging filter.
+class ActionCondition {
+  /// The action setting that a log record must contain in order to meet the
+  /// condition. This is the action that WAF applied to the web request.
+  ///
+  /// For rule groups, this is either the configured rule action setting, or if
+  /// you've applied a rule action override to the rule, it's the override action.
+  /// The value <code>EXCLUDED_AS_COUNT</code> matches on excluded rules and also
+  /// on rules that have a rule action override of Count.
+  final ActionValue action;
+
+  ActionCondition({
+    required this.action,
+  });
+
+  factory ActionCondition.fromJson(Map<String, dynamic> json) {
+    return ActionCondition(
+      action: (json['Action'] as String).toActionValue(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    return {
+      'Action': action.toValue(),
+    };
+  }
+}
+
+enum ActionValue {
+  allow,
+  block,
+  count,
+  captcha,
+  challenge,
+  excludedAsCount,
+}
+
+extension ActionValueValueExtension on ActionValue {
+  String toValue() {
+    switch (this) {
+      case ActionValue.allow:
+        return 'ALLOW';
+      case ActionValue.block:
+        return 'BLOCK';
+      case ActionValue.count:
+        return 'COUNT';
+      case ActionValue.captcha:
+        return 'CAPTCHA';
+      case ActionValue.challenge:
+        return 'CHALLENGE';
+      case ActionValue.excludedAsCount:
+        return 'EXCLUDED_AS_COUNT';
+    }
+  }
+}
+
+extension ActionValueFromString on String {
+  ActionValue toActionValue() {
+    switch (this) {
+      case 'ALLOW':
+        return ActionValue.allow;
+      case 'BLOCK':
+        return ActionValue.block;
+      case 'COUNT':
+        return ActionValue.count;
+      case 'CAPTCHA':
+        return ActionValue.captcha;
+      case 'CHALLENGE':
+        return ActionValue.challenge;
+      case 'EXCLUDED_AS_COUNT':
+        return ActionValue.excludedAsCount;
+    }
+    throw Exception('$this is not known in enum ActionValue');
+  }
+}
+
+/// Inspect all of the elements that WAF has parsed and extracted from the web
+/// request component that you've identified in your <a>FieldToMatch</a>
+/// specifications.
+///
+/// This is used only in the <a>FieldToMatch</a> specification for some web
+/// request component types.
+///
+/// JSON specification: <code>"All": {}</code>
+class All {
+  All();
+
+  factory All.fromJson(Map<String, dynamic> _) {
+    return All();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Inspect all query arguments of the web request.
+///
+/// This is used only in the <a>FieldToMatch</a> specification for some web
+/// request component types.
+///
+/// JSON specification: <code>"AllQueryArguments": {}</code>
 class AllQueryArguments {
   AllQueryArguments();
+
   factory AllQueryArguments.fromJson(Map<String, dynamic> _) {
     return AllQueryArguments();
   }
@@ -3071,35 +4363,41 @@ class AllQueryArguments {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// Specifies that AWS WAF should allow requests.
+/// Specifies that WAF should allow the request and optionally defines
+/// additional custom handling for the request.
 ///
-/// This is used only in the context of other settings, for example to specify
-/// values for <a>RuleAction</a> and web ACL <a>DefaultAction</a>.
+/// This is used in the context of other settings, for example to specify values
+/// for <a>RuleAction</a> and web ACL <a>DefaultAction</a>.
 class AllowAction {
-  AllowAction();
-  factory AllowAction.fromJson(Map<String, dynamic> _) {
-    return AllowAction();
+  /// Defines custom handling for the web request.
+  ///
+  /// For information about customizing web requests and responses, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html">Customizing
+  /// web requests and responses in WAF</a> in the <i>WAF Developer Guide</i>.
+  final CustomRequestHandling? customRequestHandling;
+
+  AllowAction({
+    this.customRequestHandling,
+  });
+
+  factory AllowAction.fromJson(Map<String, dynamic> json) {
+    return AllowAction(
+      customRequestHandling: json['CustomRequestHandling'] != null
+          ? CustomRequestHandling.fromJson(
+              json['CustomRequestHandling'] as Map<String, dynamic>)
+          : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final customRequestHandling = this.customRequestHandling;
+    return {
+      if (customRequestHandling != null)
+        'CustomRequestHandling': customRequestHandling,
+    };
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
 /// A logical rule statement used to combine other rule statements with AND
 /// logic. You provide more than one <a>Statement</a> within the
 /// <code>AndStatement</code>.
@@ -3111,6 +4409,7 @@ class AndStatement {
   AndStatement({
     required this.statements,
   });
+
   factory AndStatement.fromJson(Map<String, dynamic> json) {
     return AndStatement(
       statements: (json['Statements'] as List)
@@ -3130,74 +4429,220 @@ class AndStatement {
 
 class AssociateWebACLResponse {
   AssociateWebACLResponse();
+
   factory AssociateWebACLResponse.fromJson(Map<String, dynamic> _) {
     return AssociateWebACLResponse();
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// Specifies that AWS WAF should block requests.
+enum AssociatedResourceType {
+  cloudfront,
+}
+
+extension AssociatedResourceTypeValueExtension on AssociatedResourceType {
+  String toValue() {
+    switch (this) {
+      case AssociatedResourceType.cloudfront:
+        return 'CLOUDFRONT';
+    }
+  }
+}
+
+extension AssociatedResourceTypeFromString on String {
+  AssociatedResourceType toAssociatedResourceType() {
+    switch (this) {
+      case 'CLOUDFRONT':
+        return AssociatedResourceType.cloudfront;
+    }
+    throw Exception('$this is not known in enum AssociatedResourceType');
+  }
+}
+
+/// Specifies custom configurations for the associations between the web ACL and
+/// protected resources.
 ///
-/// This is used only in the context of other settings, for example to specify
-/// values for <a>RuleAction</a> and web ACL <a>DefaultAction</a>.
+/// Use this to customize the maximum size of the request body that your
+/// protected CloudFront distributions forward to WAF for inspection. The
+/// default is 16 KB (16,384 kilobytes).
+/// <note>
+/// You are charged additional fees when your protected resources forward body
+/// sizes that are larger than the default. For more information, see <a
+/// href="http://aws.amazon.com/waf/pricing/">WAF Pricing</a>.
+/// </note>
+class AssociationConfig {
+  /// Customizes the maximum size of the request body that your protected
+  /// CloudFront distributions forward to WAF for inspection. The default size is
+  /// 16 KB (16,384 kilobytes).
+  /// <note>
+  /// You are charged additional fees when your protected resources forward body
+  /// sizes that are larger than the default. For more information, see <a
+  /// href="http://aws.amazon.com/waf/pricing/">WAF Pricing</a>.
+  /// </note>
+  final Map<AssociatedResourceType, RequestBodyAssociatedResourceTypeConfig>?
+      requestBody;
+
+  AssociationConfig({
+    this.requestBody,
+  });
+
+  factory AssociationConfig.fromJson(Map<String, dynamic> json) {
+    return AssociationConfig(
+      requestBody: (json['RequestBody'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k.toAssociatedResourceType(),
+              RequestBodyAssociatedResourceTypeConfig.fromJson(
+                  e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestBody = this.requestBody;
+    return {
+      if (requestBody != null)
+        'RequestBody': requestBody.map((k, e) => MapEntry(k.toValue(), e)),
+    };
+  }
+}
+
+/// Specifies that WAF should block the request and optionally defines
+/// additional custom handling for the response to the web request.
+///
+/// This is used in the context of other settings, for example to specify values
+/// for <a>RuleAction</a> and web ACL <a>DefaultAction</a>.
 class BlockAction {
-  BlockAction();
-  factory BlockAction.fromJson(Map<String, dynamic> _) {
-    return BlockAction();
+  /// Defines a custom response for the web request.
+  ///
+  /// For information about customizing web requests and responses, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html">Customizing
+  /// web requests and responses in WAF</a> in the <i>WAF Developer Guide</i>.
+  final CustomResponse? customResponse;
+
+  BlockAction({
+    this.customResponse,
+  });
+
+  factory BlockAction.fromJson(Map<String, dynamic> json) {
+    return BlockAction(
+      customResponse: json['CustomResponse'] != null
+          ? CustomResponse.fromJson(
+              json['CustomResponse'] as Map<String, dynamic>)
+          : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final customResponse = this.customResponse;
+    return {
+      if (customResponse != null) 'CustomResponse': customResponse,
+    };
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// The body of a web request. This immediately follows the request headers.
+/// Inspect the body of the web request. The body immediately follows the
+/// request headers.
 ///
-/// This is used only to indicate the web request component for AWS WAF to
-/// inspect, in the <a>FieldToMatch</a> specification.
+/// This is used to indicate the web request component to inspect, in the
+/// <a>FieldToMatch</a> specification.
 class Body {
-  Body();
-  factory Body.fromJson(Map<String, dynamic> _) {
-    return Body();
+  /// What WAF should do if the body is larger than WAF can inspect. WAF does not
+  /// support inspecting the entire contents of the web request body if the body
+  /// exceeds the limit for the resource type. If the body is larger than the
+  /// limit, the underlying host service only forwards the contents that are below
+  /// the limit to WAF for inspection.
+  ///
+  /// The default limit is 8 KB (8,192 kilobytes) for regional resources and 16 KB
+  /// (16,384 kilobytes) for CloudFront distributions. For CloudFront
+  /// distributions, you can increase the limit in the web ACL
+  /// <code>AssociationConfig</code>, for additional processing fees.
+  ///
+  /// The options for oversize handling are the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CONTINUE</code> - Inspect the body normally, according to the rule
+  /// inspection criteria.
+  /// </li>
+  /// <li>
+  /// <code>MATCH</code> - Treat the web request as matching the rule statement.
+  /// WAF applies the rule action to the request.
+  /// </li>
+  /// <li>
+  /// <code>NO_MATCH</code> - Treat the web request as not matching the rule
+  /// statement.
+  /// </li>
+  /// </ul>
+  /// You can combine the <code>MATCH</code> or <code>NO_MATCH</code> settings for
+  /// oversize handling with your rule and web ACL action settings, so that you
+  /// block any request whose body is over the limit.
+  ///
+  /// Default: <code>CONTINUE</code>
+  final OversizeHandling? oversizeHandling;
+
+  Body({
+    this.oversizeHandling,
+  });
+
+  factory Body.fromJson(Map<String, dynamic> json) {
+    return Body(
+      oversizeHandling:
+          (json['OversizeHandling'] as String?)?.toOversizeHandling(),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final oversizeHandling = this.oversizeHandling;
+    return {
+      if (oversizeHandling != null)
+        'OversizeHandling': oversizeHandling.toValue(),
+    };
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// A rule statement that defines a string match search for AWS WAF to apply to
-/// web requests. The byte match statement provides the bytes to search for, the
-/// location in requests that you want AWS WAF to search, and other settings.
-/// The bytes to search for are typically a string that corresponds with ASCII
-/// characters. In the AWS WAF console and the developer guide, this is refered
-/// to as a string match statement.
+enum BodyParsingFallbackBehavior {
+  match,
+  noMatch,
+  evaluateAsString,
+}
+
+extension BodyParsingFallbackBehaviorValueExtension
+    on BodyParsingFallbackBehavior {
+  String toValue() {
+    switch (this) {
+      case BodyParsingFallbackBehavior.match:
+        return 'MATCH';
+      case BodyParsingFallbackBehavior.noMatch:
+        return 'NO_MATCH';
+      case BodyParsingFallbackBehavior.evaluateAsString:
+        return 'EVALUATE_AS_STRING';
+    }
+  }
+}
+
+extension BodyParsingFallbackBehaviorFromString on String {
+  BodyParsingFallbackBehavior toBodyParsingFallbackBehavior() {
+    switch (this) {
+      case 'MATCH':
+        return BodyParsingFallbackBehavior.match;
+      case 'NO_MATCH':
+        return BodyParsingFallbackBehavior.noMatch;
+      case 'EVALUATE_AS_STRING':
+        return BodyParsingFallbackBehavior.evaluateAsString;
+    }
+    throw Exception('$this is not known in enum BodyParsingFallbackBehavior');
+  }
+}
+
+/// A rule statement that defines a string match search for WAF to apply to web
+/// requests. The byte match statement provides the bytes to search for, the
+/// location in requests that you want WAF to search, and other settings. The
+/// bytes to search for are typically a string that corresponds with ASCII
+/// characters. In the WAF console and the developer guide, this is called a
+/// string match statement.
 class ByteMatchStatement {
-  /// The part of a web request that you want AWS WAF to inspect. For more
-  /// information, see <a>FieldToMatch</a>.
+  /// The part of the web request that you want WAF to inspect.
   final FieldToMatch fieldToMatch;
 
-  /// The area within the portion of a web request that you want AWS WAF to search
+  /// The area within the portion of the web request that you want WAF to search
   /// for <code>SearchString</code>. Valid values include the following:
   ///
   /// <b>CONTAINS</b>
@@ -3243,30 +4688,30 @@ class ByteMatchStatement {
   /// specified part of the web request.
   final PositionalConstraint positionalConstraint;
 
-  /// A string value that you want AWS WAF to search for. AWS WAF searches only in
-  /// the part of web requests that you designate for inspection in
-  /// <a>FieldToMatch</a>. The maximum length of the value is 50 bytes.
+  /// A string value that you want WAF to search for. WAF searches only in the
+  /// part of web requests that you designate for inspection in
+  /// <a>FieldToMatch</a>. The maximum length of the value is 200 bytes.
   ///
   /// Valid values depend on the component that you specify for inspection in
   /// <code>FieldToMatch</code>:
   ///
   /// <ul>
   /// <li>
-  /// <code>Method</code>: The HTTP method that you want AWS WAF to search for.
-  /// This indicates the type of operation specified in the request.
+  /// <code>Method</code>: The HTTP method that you want WAF to search for. This
+  /// indicates the type of operation specified in the request.
   /// </li>
   /// <li>
-  /// <code>UriPath</code>: The value that you want AWS WAF to search for in the
-  /// URI path, for example, <code>/images/daily-ad.jpg</code>.
+  /// <code>UriPath</code>: The value that you want WAF to search for in the URI
+  /// path, for example, <code>/images/daily-ad.jpg</code>.
   /// </li>
   /// </ul>
   /// If <code>SearchString</code> includes alphabetic characters A-Z and a-z,
   /// note that the value is case sensitive.
   ///
-  /// <b>If you're using the AWS WAF API</b>
+  /// <b>If you're using the WAF API</b>
   ///
   /// Specify a base64-encoded version of the value. The maximum length of the
-  /// value before you base64-encode it is 50 bytes.
+  /// value before you base64-encode it is 200 bytes.
   ///
   /// For example, suppose the value of <code>Type</code> is <code>HEADER</code>
   /// and the value of <code>Data</code> is <code>User-Agent</code>. If you want
@@ -3275,18 +4720,21 @@ class ByteMatchStatement {
   /// base64-encoding and include the resulting value, <code>QmFkQm90</code>, in
   /// the value of <code>SearchString</code>.
   ///
-  /// <b>If you're using the AWS CLI or one of the AWS SDKs</b>
+  /// <b>If you're using the CLI or one of the Amazon Web Services SDKs</b>
   ///
-  /// The value that you want AWS WAF to search for. The SDK automatically base64
+  /// The value that you want WAF to search for. The SDK automatically base64
   /// encodes the value.
   final Uint8List searchString;
 
   /// Text transformations eliminate some of the unusual formatting that attackers
-  /// use in web requests in an effort to bypass detection. If you specify one or
-  /// more transformations in a rule statement, AWS WAF performs all
-  /// transformations on the content of the request component identified by
-  /// <code>FieldToMatch</code>, starting from the lowest priority setting, before
-  /// inspecting the content for a match.
+  /// use in web requests in an effort to bypass detection. Text transformations
+  /// are used in rule match statements, to transform the
+  /// <code>FieldToMatch</code> request component before inspecting it, and
+  /// they're used in rate-based rule statements, to transform request components
+  /// before using them as custom aggregation keys. If you specify one or more
+  /// transformations to apply, WAF performs all transformations on the specified
+  /// content, starting from the lowest priority setting, and then uses the
+  /// component contents.
   final List<TextTransformation> textTransformations;
 
   ByteMatchStatement({
@@ -3295,6 +4743,7 @@ class ByteMatchStatement {
     required this.searchString,
     required this.textTransformations,
   });
+
   factory ByteMatchStatement.fromJson(Map<String, dynamic> json) {
     return ByteMatchStatement(
       fieldToMatch:
@@ -3323,6 +4772,277 @@ class ByteMatchStatement {
   }
 }
 
+/// Specifies that WAF should run a <code>CAPTCHA</code> check against the
+/// request:
+///
+/// <ul>
+/// <li>
+/// If the request includes a valid, unexpired <code>CAPTCHA</code> token, WAF
+/// applies any custom request handling and labels that you've configured and
+/// then allows the web request inspection to proceed to the next rule, similar
+/// to a <code>CountAction</code>.
+/// </li>
+/// <li>
+/// If the request doesn't include a valid, unexpired token, WAF discontinues
+/// the web ACL evaluation of the request and blocks it from going to its
+/// intended destination.
+///
+/// WAF generates a response that it sends back to the client, which includes
+/// the following:
+///
+/// <ul>
+/// <li>
+/// The header <code>x-amzn-waf-action</code> with a value of
+/// <code>captcha</code>.
+/// </li>
+/// <li>
+/// The HTTP status code <code>405 Method Not Allowed</code>.
+/// </li>
+/// <li>
+/// If the request contains an <code>Accept</code> header with a value of
+/// <code>text/html</code>, the response includes a <code>CAPTCHA</code>
+/// JavaScript page interstitial.
+/// </li>
+/// </ul> </li>
+/// </ul>
+/// You can configure the expiration time in the <code>CaptchaConfig</code>
+/// <code>ImmunityTimeProperty</code> setting at the rule and web ACL level. The
+/// rule setting overrides the web ACL setting.
+///
+/// This action option is available for rules. It isn't available for web ACL
+/// default actions.
+class CaptchaAction {
+  /// Defines custom handling for the web request, used when the
+  /// <code>CAPTCHA</code> inspection determines that the request's token is valid
+  /// and unexpired.
+  ///
+  /// For information about customizing web requests and responses, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html">Customizing
+  /// web requests and responses in WAF</a> in the <i>WAF Developer Guide</i>.
+  final CustomRequestHandling? customRequestHandling;
+
+  CaptchaAction({
+    this.customRequestHandling,
+  });
+
+  factory CaptchaAction.fromJson(Map<String, dynamic> json) {
+    return CaptchaAction(
+      customRequestHandling: json['CustomRequestHandling'] != null
+          ? CustomRequestHandling.fromJson(
+              json['CustomRequestHandling'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customRequestHandling = this.customRequestHandling;
+    return {
+      if (customRequestHandling != null)
+        'CustomRequestHandling': customRequestHandling,
+    };
+  }
+}
+
+/// Specifies how WAF should handle <code>CAPTCHA</code> evaluations. This is
+/// available at the web ACL level and in each rule.
+class CaptchaConfig {
+  /// Determines how long a <code>CAPTCHA</code> timestamp in the token remains
+  /// valid after the client successfully solves a <code>CAPTCHA</code> puzzle.
+  final ImmunityTimeProperty? immunityTimeProperty;
+
+  CaptchaConfig({
+    this.immunityTimeProperty,
+  });
+
+  factory CaptchaConfig.fromJson(Map<String, dynamic> json) {
+    return CaptchaConfig(
+      immunityTimeProperty: json['ImmunityTimeProperty'] != null
+          ? ImmunityTimeProperty.fromJson(
+              json['ImmunityTimeProperty'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final immunityTimeProperty = this.immunityTimeProperty;
+    return {
+      if (immunityTimeProperty != null)
+        'ImmunityTimeProperty': immunityTimeProperty,
+    };
+  }
+}
+
+/// The result from the inspection of the web request for a valid
+/// <code>CAPTCHA</code> token.
+class CaptchaResponse {
+  /// The reason for failure, populated when the evaluation of the token fails.
+  final FailureReason? failureReason;
+
+  /// The HTTP response code indicating the status of the <code>CAPTCHA</code>
+  /// token in the web request. If the token is missing, invalid, or expired, this
+  /// code is <code>405 Method Not Allowed</code>.
+  final int? responseCode;
+
+  /// The time that the <code>CAPTCHA</code> was last solved for the supplied
+  /// token.
+  final int? solveTimestamp;
+
+  CaptchaResponse({
+    this.failureReason,
+    this.responseCode,
+    this.solveTimestamp,
+  });
+
+  factory CaptchaResponse.fromJson(Map<String, dynamic> json) {
+    return CaptchaResponse(
+      failureReason: (json['FailureReason'] as String?)?.toFailureReason(),
+      responseCode: json['ResponseCode'] as int?,
+      solveTimestamp: json['SolveTimestamp'] as int?,
+    );
+  }
+}
+
+/// Specifies that WAF should run a <code>Challenge</code> check against the
+/// request to verify that the request is coming from a legitimate client
+/// session:
+///
+/// <ul>
+/// <li>
+/// If the request includes a valid, unexpired challenge token, WAF applies any
+/// custom request handling and labels that you've configured and then allows
+/// the web request inspection to proceed to the next rule, similar to a
+/// <code>CountAction</code>.
+/// </li>
+/// <li>
+/// If the request doesn't include a valid, unexpired challenge token, WAF
+/// discontinues the web ACL evaluation of the request and blocks it from going
+/// to its intended destination.
+///
+/// WAF then generates a challenge response that it sends back to the client,
+/// which includes the following:
+///
+/// <ul>
+/// <li>
+/// The header <code>x-amzn-waf-action</code> with a value of
+/// <code>challenge</code>.
+/// </li>
+/// <li>
+/// The HTTP status code <code>202 Request Accepted</code>.
+/// </li>
+/// <li>
+/// If the request contains an <code>Accept</code> header with a value of
+/// <code>text/html</code>, the response includes a JavaScript page interstitial
+/// with a challenge script.
+/// </li>
+/// </ul>
+/// Challenges run silent browser interrogations in the background, and don't
+/// generally affect the end user experience.
+///
+/// A challenge enforces token acquisition using an interstitial JavaScript
+/// challenge that inspects the client session for legitimate behavior. The
+/// challenge blocks bots or at least increases the cost of operating
+/// sophisticated bots.
+///
+/// After the client session successfully responds to the challenge, it receives
+/// a new token from WAF, which the challenge script uses to resubmit the
+/// original request.
+/// </li>
+/// </ul>
+/// You can configure the expiration time in the <code>ChallengeConfig</code>
+/// <code>ImmunityTimeProperty</code> setting at the rule and web ACL level. The
+/// rule setting overrides the web ACL setting.
+///
+/// This action option is available for rules. It isn't available for web ACL
+/// default actions.
+class ChallengeAction {
+  /// Defines custom handling for the web request, used when the challenge
+  /// inspection determines that the request's token is valid and unexpired.
+  ///
+  /// For information about customizing web requests and responses, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html">Customizing
+  /// web requests and responses in WAF</a> in the <i>WAF Developer Guide</i>.
+  final CustomRequestHandling? customRequestHandling;
+
+  ChallengeAction({
+    this.customRequestHandling,
+  });
+
+  factory ChallengeAction.fromJson(Map<String, dynamic> json) {
+    return ChallengeAction(
+      customRequestHandling: json['CustomRequestHandling'] != null
+          ? CustomRequestHandling.fromJson(
+              json['CustomRequestHandling'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customRequestHandling = this.customRequestHandling;
+    return {
+      if (customRequestHandling != null)
+        'CustomRequestHandling': customRequestHandling,
+    };
+  }
+}
+
+/// Specifies how WAF should handle <code>Challenge</code> evaluations. This is
+/// available at the web ACL level and in each rule.
+class ChallengeConfig {
+  /// Determines how long a challenge timestamp in the token remains valid after
+  /// the client successfully responds to a challenge.
+  final ImmunityTimeProperty? immunityTimeProperty;
+
+  ChallengeConfig({
+    this.immunityTimeProperty,
+  });
+
+  factory ChallengeConfig.fromJson(Map<String, dynamic> json) {
+    return ChallengeConfig(
+      immunityTimeProperty: json['ImmunityTimeProperty'] != null
+          ? ImmunityTimeProperty.fromJson(
+              json['ImmunityTimeProperty'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final immunityTimeProperty = this.immunityTimeProperty;
+    return {
+      if (immunityTimeProperty != null)
+        'ImmunityTimeProperty': immunityTimeProperty,
+    };
+  }
+}
+
+/// The result from the inspection of the web request for a valid challenge
+/// token.
+class ChallengeResponse {
+  /// The reason for failure, populated when the evaluation of the token fails.
+  final FailureReason? failureReason;
+
+  /// The HTTP response code indicating the status of the challenge token in the
+  /// web request. If the token is missing, invalid, or expired, this code is
+  /// <code>202 Request Accepted</code>.
+  final int? responseCode;
+
+  /// The time that the challenge was last solved for the supplied token.
+  final int? solveTimestamp;
+
+  ChallengeResponse({
+    this.failureReason,
+    this.responseCode,
+    this.solveTimestamp,
+  });
+
+  factory ChallengeResponse.fromJson(Map<String, dynamic> json) {
+    return ChallengeResponse(
+      failureReason: (json['FailureReason'] as String?)?.toFailureReason(),
+      responseCode: json['ResponseCode'] as int?,
+      solveTimestamp: json['SolveTimestamp'] as int?,
+    );
+  }
+}
+
 class CheckCapacityResponse {
   /// The capacity required by the rules and scope.
   final int? capacity;
@@ -3330,6 +5050,7 @@ class CheckCapacityResponse {
   CheckCapacityResponse({
     this.capacity,
   });
+
   factory CheckCapacityResponse.fromJson(Map<String, dynamic> json) {
     return CheckCapacityResponse(
       capacity: json['Capacity'] as int?,
@@ -3385,25 +5106,209 @@ extension ComparisonOperatorFromString on String {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// Specifies that AWS WAF should count requests.
-///
-/// This is used only in the context of other settings, for example to specify
-/// values for <a>RuleAction</a> and web ACL <a>DefaultAction</a>.
-class CountAction {
-  CountAction();
-  factory CountAction.fromJson(Map<String, dynamic> _) {
-    return CountAction();
+/// A single match condition for a <a>Filter</a>.
+class Condition {
+  /// A single action condition. This is the action setting that a log record must
+  /// contain in order to meet the condition.
+  final ActionCondition? actionCondition;
+
+  /// A single label name condition. This is the fully qualified label name that a
+  /// log record must contain in order to meet the condition. Fully qualified
+  /// labels have a prefix, optional namespaces, and label name. The prefix
+  /// identifies the rule group or web ACL context of the rule that added the
+  /// label.
+  final LabelNameCondition? labelNameCondition;
+
+  Condition({
+    this.actionCondition,
+    this.labelNameCondition,
+  });
+
+  factory Condition.fromJson(Map<String, dynamic> json) {
+    return Condition(
+      actionCondition: json['ActionCondition'] != null
+          ? ActionCondition.fromJson(
+              json['ActionCondition'] as Map<String, dynamic>)
+          : null,
+      labelNameCondition: json['LabelNameCondition'] != null
+          ? LabelNameCondition.fromJson(
+              json['LabelNameCondition'] as Map<String, dynamic>)
+          : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final actionCondition = this.actionCondition;
+    final labelNameCondition = this.labelNameCondition;
+    return {
+      if (actionCondition != null) 'ActionCondition': actionCondition,
+      if (labelNameCondition != null) 'LabelNameCondition': labelNameCondition,
+    };
+  }
+}
+
+/// The filter to use to identify the subset of cookies to inspect in a web
+/// request.
+///
+/// You must specify exactly one setting: either <code>All</code>,
+/// <code>IncludedCookies</code>, or <code>ExcludedCookies</code>.
+///
+/// Example JSON: <code>"MatchPattern": { "IncludedCookies": {"KeyToInclude1",
+/// "KeyToInclude2", "KeyToInclude3"} }</code>
+class CookieMatchPattern {
+  /// Inspect all cookies.
+  final All? all;
+
+  /// Inspect only the cookies whose keys don't match any of the strings specified
+  /// here.
+  final List<String>? excludedCookies;
+
+  /// Inspect only the cookies that have a key that matches one of the strings
+  /// specified here.
+  final List<String>? includedCookies;
+
+  CookieMatchPattern({
+    this.all,
+    this.excludedCookies,
+    this.includedCookies,
+  });
+
+  factory CookieMatchPattern.fromJson(Map<String, dynamic> json) {
+    return CookieMatchPattern(
+      all: json['All'] != null
+          ? All.fromJson(json['All'] as Map<String, dynamic>)
+          : null,
+      excludedCookies: (json['ExcludedCookies'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      includedCookies: (json['IncludedCookies'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final all = this.all;
+    final excludedCookies = this.excludedCookies;
+    final includedCookies = this.includedCookies;
+    return {
+      if (all != null) 'All': all,
+      if (excludedCookies != null) 'ExcludedCookies': excludedCookies,
+      if (includedCookies != null) 'IncludedCookies': includedCookies,
+    };
+  }
+}
+
+/// Inspect the cookies in the web request. You can specify the parts of the
+/// cookies to inspect and you can narrow the set of cookies to inspect by
+/// including or excluding specific keys.
+///
+/// This is used to indicate the web request component to inspect, in the
+/// <a>FieldToMatch</a> specification.
+///
+/// Example JSON: <code>"Cookies": { "MatchPattern": { "All": {} },
+/// "MatchScope": "KEY", "OversizeHandling": "MATCH" }</code>
+class Cookies {
+  /// The filter to use to identify the subset of cookies to inspect in a web
+  /// request.
+  ///
+  /// You must specify exactly one setting: either <code>All</code>,
+  /// <code>IncludedCookies</code>, or <code>ExcludedCookies</code>.
+  ///
+  /// Example JSON: <code>"MatchPattern": { "IncludedCookies": {"KeyToInclude1",
+  /// "KeyToInclude2", "KeyToInclude3"} }</code>
+  final CookieMatchPattern matchPattern;
+
+  /// The parts of the cookies to inspect with the rule inspection criteria. If
+  /// you specify <code>All</code>, WAF inspects both keys and values.
+  final MapMatchScope matchScope;
+
+  /// What WAF should do if the cookies of the request are larger than WAF can
+  /// inspect. WAF does not support inspecting the entire contents of request
+  /// cookies when they exceed 8 KB (8192 bytes) or 200 total cookies. The
+  /// underlying host service forwards a maximum of 200 cookies and at most 8 KB
+  /// of cookie contents to WAF.
+  ///
+  /// The options for oversize handling are the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CONTINUE</code> - Inspect the cookies normally, according to the rule
+  /// inspection criteria.
+  /// </li>
+  /// <li>
+  /// <code>MATCH</code> - Treat the web request as matching the rule statement.
+  /// WAF applies the rule action to the request.
+  /// </li>
+  /// <li>
+  /// <code>NO_MATCH</code> - Treat the web request as not matching the rule
+  /// statement.
+  /// </li>
+  /// </ul>
+  final OversizeHandling oversizeHandling;
+
+  Cookies({
+    required this.matchPattern,
+    required this.matchScope,
+    required this.oversizeHandling,
+  });
+
+  factory Cookies.fromJson(Map<String, dynamic> json) {
+    return Cookies(
+      matchPattern: CookieMatchPattern.fromJson(
+          json['MatchPattern'] as Map<String, dynamic>),
+      matchScope: (json['MatchScope'] as String).toMapMatchScope(),
+      oversizeHandling:
+          (json['OversizeHandling'] as String).toOversizeHandling(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final matchPattern = this.matchPattern;
+    final matchScope = this.matchScope;
+    final oversizeHandling = this.oversizeHandling;
+    return {
+      'MatchPattern': matchPattern,
+      'MatchScope': matchScope.toValue(),
+      'OversizeHandling': oversizeHandling.toValue(),
+    };
+  }
+}
+
+/// Specifies that WAF should count the request. Optionally defines additional
+/// custom handling for the request.
+///
+/// This is used in the context of other settings, for example to specify values
+/// for <a>RuleAction</a> and web ACL <a>DefaultAction</a>.
+class CountAction {
+  /// Defines custom handling for the web request.
+  ///
+  /// For information about customizing web requests and responses, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html">Customizing
+  /// web requests and responses in WAF</a> in the <i>WAF Developer Guide</i>.
+  final CustomRequestHandling? customRequestHandling;
+
+  CountAction({
+    this.customRequestHandling,
+  });
+
+  factory CountAction.fromJson(Map<String, dynamic> json) {
+    return CountAction(
+      customRequestHandling: json['CustomRequestHandling'] != null
+          ? CustomRequestHandling.fromJson(
+              json['CustomRequestHandling'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customRequestHandling = this.customRequestHandling;
+    return {
+      if (customRequestHandling != null)
+        'CustomRequestHandling': customRequestHandling,
+    };
   }
 }
 
@@ -3657,6 +5562,7 @@ enum CountryCode {
   ye,
   zm,
   zw,
+  xk,
 }
 
 extension CountryCodeValueExtension on CountryCode {
@@ -4160,6 +6066,8 @@ extension CountryCodeValueExtension on CountryCode {
         return 'ZM';
       case CountryCode.zw:
         return 'ZW';
+      case CountryCode.xk:
+        return 'XK';
     }
   }
 }
@@ -4665,8 +6573,26 @@ extension CountryCodeFromString on String {
         return CountryCode.zm;
       case 'ZW':
         return CountryCode.zw;
+      case 'XK':
+        return CountryCode.xk;
     }
     throw Exception('$this is not known in enum CountryCode');
+  }
+}
+
+class CreateAPIKeyResponse {
+  /// The generated, encrypted API key. You can copy this for use in your
+  /// JavaScript CAPTCHA integration.
+  final String? aPIKey;
+
+  CreateAPIKeyResponse({
+    this.aPIKey,
+  });
+
+  factory CreateAPIKeyResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAPIKeyResponse(
+      aPIKey: json['APIKey'] as String?,
+    );
   }
 }
 
@@ -4680,6 +6606,7 @@ class CreateIPSetResponse {
   CreateIPSetResponse({
     this.summary,
   });
+
   factory CreateIPSetResponse.fromJson(Map<String, dynamic> json) {
     return CreateIPSetResponse(
       summary: json['Summary'] != null
@@ -4700,6 +6627,7 @@ class CreateRegexPatternSetResponse {
   CreateRegexPatternSetResponse({
     this.summary,
   });
+
   factory CreateRegexPatternSetResponse.fromJson(Map<String, dynamic> json) {
     return CreateRegexPatternSetResponse(
       summary: json['Summary'] != null
@@ -4721,6 +6649,7 @@ class CreateRuleGroupResponse {
   CreateRuleGroupResponse({
     this.summary,
   });
+
   factory CreateRuleGroupResponse.fromJson(Map<String, dynamic> json) {
     return CreateRuleGroupResponse(
       summary: json['Summary'] != null
@@ -4740,6 +6669,7 @@ class CreateWebACLResponse {
   CreateWebACLResponse({
     this.summary,
   });
+
   factory CreateWebACLResponse.fromJson(Map<String, dynamic> json) {
     return CreateWebACLResponse(
       summary: json['Summary'] != null
@@ -4749,27 +6679,201 @@ class CreateWebACLResponse {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// In a <a>WebACL</a>, this is the action that you want AWS WAF to perform when
-/// a web request doesn't match any of the rules in the <code>WebACL</code>. The
-/// default action must be a terminating action, so count is not allowed.
+/// A custom header for custom request and response handling. This is used in
+/// <a>CustomResponse</a> and <a>CustomRequestHandling</a>.
+class CustomHTTPHeader {
+  /// The name of the custom header.
+  ///
+  /// For custom request header insertion, when WAF inserts the header into the
+  /// request, it prefixes this name <code>x-amzn-waf-</code>, to avoid confusion
+  /// with the headers that are already in the request. For example, for the
+  /// header name <code>sample</code>, WAF inserts the header
+  /// <code>x-amzn-waf-sample</code>.
+  final String name;
+
+  /// The value of the custom header.
+  final String value;
+
+  CustomHTTPHeader({
+    required this.name,
+    required this.value,
+  });
+
+  factory CustomHTTPHeader.fromJson(Map<String, dynamic> json) {
+    return CustomHTTPHeader(
+      name: json['Name'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
+}
+
+/// Custom request handling behavior that inserts custom headers into a web
+/// request. You can add custom request handling for WAF to use when the rule
+/// action doesn't block the request. For example, <code>CaptchaAction</code>
+/// for requests with valid t okens, and <code>AllowAction</code>.
+///
+/// For information about customizing web requests and responses, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html">Customizing
+/// web requests and responses in WAF</a> in the <i>WAF Developer Guide</i>.
+class CustomRequestHandling {
+  /// The HTTP headers to insert into the request. Duplicate header names are not
+  /// allowed.
+  ///
+  /// For information about the limits on count and size for custom request and
+  /// response settings, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">WAF
+  /// quotas</a> in the <i>WAF Developer Guide</i>.
+  final List<CustomHTTPHeader> insertHeaders;
+
+  CustomRequestHandling({
+    required this.insertHeaders,
+  });
+
+  factory CustomRequestHandling.fromJson(Map<String, dynamic> json) {
+    return CustomRequestHandling(
+      insertHeaders: (json['InsertHeaders'] as List)
+          .whereNotNull()
+          .map((e) => CustomHTTPHeader.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final insertHeaders = this.insertHeaders;
+    return {
+      'InsertHeaders': insertHeaders,
+    };
+  }
+}
+
+/// A custom response to send to the client. You can define a custom response
+/// for rule actions and default web ACL actions that are set to
+/// <a>BlockAction</a>.
+///
+/// For information about customizing web requests and responses, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html">Customizing
+/// web requests and responses in WAF</a> in the <i>WAF Developer Guide</i>.
+class CustomResponse {
+  /// The HTTP status code to return to the client.
+  ///
+  /// For a list of status codes that you can use in your custom responses, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/customizing-the-response-status-codes.html">Supported
+  /// status codes for custom response</a> in the <i>WAF Developer Guide</i>.
+  final int responseCode;
+
+  /// References the response body that you want WAF to return to the web request
+  /// client. You can define a custom response for a rule action or a default web
+  /// ACL action that is set to block. To do this, you first define the response
+  /// body key and value in the <code>CustomResponseBodies</code> setting for the
+  /// <a>WebACL</a> or <a>RuleGroup</a> where you want to use it. Then, in the
+  /// rule action or web ACL default action <code>BlockAction</code> setting, you
+  /// reference the response body using this key.
+  final String? customResponseBodyKey;
+
+  /// The HTTP headers to use in the response. Duplicate header names are not
+  /// allowed.
+  ///
+  /// For information about the limits on count and size for custom request and
+  /// response settings, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">WAF
+  /// quotas</a> in the <i>WAF Developer Guide</i>.
+  final List<CustomHTTPHeader>? responseHeaders;
+
+  CustomResponse({
+    required this.responseCode,
+    this.customResponseBodyKey,
+    this.responseHeaders,
+  });
+
+  factory CustomResponse.fromJson(Map<String, dynamic> json) {
+    return CustomResponse(
+      responseCode: json['ResponseCode'] as int,
+      customResponseBodyKey: json['CustomResponseBodyKey'] as String?,
+      responseHeaders: (json['ResponseHeaders'] as List?)
+          ?.whereNotNull()
+          .map((e) => CustomHTTPHeader.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final responseCode = this.responseCode;
+    final customResponseBodyKey = this.customResponseBodyKey;
+    final responseHeaders = this.responseHeaders;
+    return {
+      'ResponseCode': responseCode,
+      if (customResponseBodyKey != null)
+        'CustomResponseBodyKey': customResponseBodyKey,
+      if (responseHeaders != null) 'ResponseHeaders': responseHeaders,
+    };
+  }
+}
+
+/// The response body to use in a custom response to a web request. This is
+/// referenced by key from <a>CustomResponse</a>
+/// <code>CustomResponseBodyKey</code>.
+class CustomResponseBody {
+  /// The payload of the custom response.
+  ///
+  /// You can use JSON escape strings in JSON content. To do this, you must
+  /// specify JSON content in the <code>ContentType</code> setting.
+  ///
+  /// For information about the limits on count and size for custom request and
+  /// response settings, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">WAF
+  /// quotas</a> in the <i>WAF Developer Guide</i>.
+  final String content;
+
+  /// The type of content in the payload that you are defining in the
+  /// <code>Content</code> string.
+  final ResponseContentType contentType;
+
+  CustomResponseBody({
+    required this.content,
+    required this.contentType,
+  });
+
+  factory CustomResponseBody.fromJson(Map<String, dynamic> json) {
+    return CustomResponseBody(
+      content: json['Content'] as String,
+      contentType: (json['ContentType'] as String).toResponseContentType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final contentType = this.contentType;
+    return {
+      'Content': content,
+      'ContentType': contentType.toValue(),
+    };
+  }
+}
+
+/// In a <a>WebACL</a>, this is the action that you want WAF to perform when a
+/// web request doesn't match any of the rules in the <code>WebACL</code>. The
+/// default action must be a terminating action.
 class DefaultAction {
-  /// Specifies that AWS WAF should allow requests by default.
+  /// Specifies that WAF should allow requests by default.
   final AllowAction? allow;
 
-  /// Specifies that AWS WAF should block requests by default.
+  /// Specifies that WAF should block requests by default.
   final BlockAction? block;
 
   DefaultAction({
     this.allow,
     this.block,
   });
+
   factory DefaultAction.fromJson(Map<String, dynamic> json) {
     return DefaultAction(
       allow: json['Allow'] != null
@@ -4792,19 +6896,21 @@ class DefaultAction {
 }
 
 class DeleteFirewallManagerRuleGroupsResponse {
-  /// A token used for optimistic locking. AWS WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. AWS WAF uses the token to ensure
-  /// that no changes have been made to the entity since you last retrieved it. If
-  /// a change has been made, the update fails with a
-  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
   final String? nextWebACLLockToken;
 
   DeleteFirewallManagerRuleGroupsResponse({
     this.nextWebACLLockToken,
   });
+
   factory DeleteFirewallManagerRuleGroupsResponse.fromJson(
       Map<String, dynamic> json) {
     return DeleteFirewallManagerRuleGroupsResponse(
@@ -4815,6 +6921,7 @@ class DeleteFirewallManagerRuleGroupsResponse {
 
 class DeleteIPSetResponse {
   DeleteIPSetResponse();
+
   factory DeleteIPSetResponse.fromJson(Map<String, dynamic> _) {
     return DeleteIPSetResponse();
   }
@@ -4822,6 +6929,7 @@ class DeleteIPSetResponse {
 
 class DeleteLoggingConfigurationResponse {
   DeleteLoggingConfigurationResponse();
+
   factory DeleteLoggingConfigurationResponse.fromJson(Map<String, dynamic> _) {
     return DeleteLoggingConfigurationResponse();
   }
@@ -4829,6 +6937,7 @@ class DeleteLoggingConfigurationResponse {
 
 class DeletePermissionPolicyResponse {
   DeletePermissionPolicyResponse();
+
   factory DeletePermissionPolicyResponse.fromJson(Map<String, dynamic> _) {
     return DeletePermissionPolicyResponse();
   }
@@ -4836,6 +6945,7 @@ class DeletePermissionPolicyResponse {
 
 class DeleteRegexPatternSetResponse {
   DeleteRegexPatternSetResponse();
+
   factory DeleteRegexPatternSetResponse.fromJson(Map<String, dynamic> _) {
     return DeleteRegexPatternSetResponse();
   }
@@ -4843,6 +6953,7 @@ class DeleteRegexPatternSetResponse {
 
 class DeleteRuleGroupResponse {
   DeleteRuleGroupResponse();
+
   factory DeleteRuleGroupResponse.fromJson(Map<String, dynamic> _) {
     return DeleteRuleGroupResponse();
   }
@@ -4850,64 +6961,128 @@ class DeleteRuleGroupResponse {
 
 class DeleteWebACLResponse {
   DeleteWebACLResponse();
+
   factory DeleteWebACLResponse.fromJson(Map<String, dynamic> _) {
     return DeleteWebACLResponse();
   }
 }
 
 class DescribeManagedRuleGroupResponse {
-  /// The web ACL capacity units (WCUs) required for this rule group. AWS WAF uses
-  /// web ACL capacity units (WCU) to calculate and control the operating
-  /// resources that are used to run your rules, rule groups, and web ACLs. AWS
-  /// WAF calculates capacity differently for each rule type, to reflect each
-  /// rule's relative cost. Rule group capacity is fixed at creation, so users can
-  /// plan their web ACL WCU usage when they use a rule group. The WCU limit for
-  /// web ACLs is 1,500.
+  /// The labels that one or more rules in this rule group add to matching web
+  /// requests. These labels are defined in the <code>RuleLabels</code> for a
+  /// <a>Rule</a>.
+  final List<LabelSummary>? availableLabels;
+
+  /// The web ACL capacity units (WCUs) required for this rule group.
+  ///
+  /// WAF uses WCUs to calculate and control the operating resources that are used
+  /// to run your rules, rule groups, and web ACLs. WAF calculates capacity
+  /// differently for each rule type, to reflect the relative cost of each rule.
+  /// Simple rules that cost little to run use fewer WCUs than more complex rules
+  /// that use more processing power. Rule group capacity is fixed at creation,
+  /// which helps users plan their web ACL WCU usage when they use a rule group.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html">WAF
+  /// web ACL capacity units (WCU)</a> in the <i>WAF Developer Guide</i>.
   final int? capacity;
+
+  /// The labels that one or more rules in this rule group match against in label
+  /// match statements. These labels are defined in a
+  /// <code>LabelMatchStatement</code> specification, in the <a>Statement</a>
+  /// definition of a rule.
+  final List<LabelSummary>? consumedLabels;
+
+  /// The label namespace prefix for this rule group. All labels added by rules in
+  /// this rule group have this prefix.
+  ///
+  /// <ul>
+  /// <li>
+  /// The syntax for the label namespace prefix for a managed rule group is the
+  /// following:
+  ///
+  /// <code>awswaf:managed:&lt;vendor&gt;:&lt;rule group name&gt;</code>:
+  /// </li>
+  /// <li>
+  /// When a rule with a label matches a web request, WAF adds the fully qualified
+  /// label to the request. A fully qualified label is made up of the label
+  /// namespace from the rule group or web ACL where the rule is defined and the
+  /// label from the rule, separated by a colon:
+  ///
+  /// <code>&lt;label namespace&gt;:&lt;label from rule&gt;</code>
+  /// </li>
+  /// </ul>
+  final String? labelNamespace;
 
   /// <p/>
   final List<RuleSummary>? rules;
 
+  /// The Amazon resource name (ARN) of the Amazon Simple Notification Service SNS
+  /// topic that's used to record changes to the managed rule group. You can
+  /// subscribe to the SNS topic to receive notifications when the managed rule
+  /// group is modified, such as for new versions and for version expiration. For
+  /// more information, see the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/dg/welcome.html">Amazon Simple
+  /// Notification Service Developer Guide</a>.
+  final String? snsTopicArn;
+
+  /// The managed rule group's version.
+  final String? versionName;
+
   DescribeManagedRuleGroupResponse({
+    this.availableLabels,
     this.capacity,
+    this.consumedLabels,
+    this.labelNamespace,
     this.rules,
+    this.snsTopicArn,
+    this.versionName,
   });
+
   factory DescribeManagedRuleGroupResponse.fromJson(Map<String, dynamic> json) {
     return DescribeManagedRuleGroupResponse(
+      availableLabels: (json['AvailableLabels'] as List?)
+          ?.whereNotNull()
+          .map((e) => LabelSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
       capacity: json['Capacity'] as int?,
+      consumedLabels: (json['ConsumedLabels'] as List?)
+          ?.whereNotNull()
+          .map((e) => LabelSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      labelNamespace: json['LabelNamespace'] as String?,
       rules: (json['Rules'] as List?)
           ?.whereNotNull()
           .map((e) => RuleSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
+      snsTopicArn: json['SnsTopicArn'] as String?,
+      versionName: json['VersionName'] as String?,
     );
   }
 }
 
 class DisassociateWebACLResponse {
   DisassociateWebACLResponse();
+
   factory DisassociateWebACLResponse.fromJson(Map<String, dynamic> _) {
     return DisassociateWebACLResponse();
   }
 }
 
+/// Specifies a single rule in a rule group whose action you want to override to
+/// <code>Count</code>.
 /// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
+/// Instead of this option, use <code>RuleActionOverrides</code>. It accepts any
+/// valid action setting, including <code>Count</code>.
 /// </note>
-/// Specifies a single rule to exclude from the rule group. Excluding a rule
-/// overrides its action setting for the rule group in the web ACL, setting it
-/// to <code>COUNT</code>. This effectively excludes the rule from acting on web
-/// requests.
 class ExcludedRule {
-  /// The name of the rule to exclude.
+  /// The name of the rule whose action you want to override to
+  /// <code>Count</code>.
   final String name;
 
   ExcludedRule({
     required this.name,
   });
+
   factory ExcludedRule.fromJson(Map<String, dynamic> json) {
     return ExcludedRule(
       name: json['Name'] as String,
@@ -4919,6 +7094,44 @@ class ExcludedRule {
     return {
       'Name': name,
     };
+  }
+}
+
+enum FailureReason {
+  tokenMissing,
+  tokenExpired,
+  tokenInvalid,
+  tokenDomainMismatch,
+}
+
+extension FailureReasonValueExtension on FailureReason {
+  String toValue() {
+    switch (this) {
+      case FailureReason.tokenMissing:
+        return 'TOKEN_MISSING';
+      case FailureReason.tokenExpired:
+        return 'TOKEN_EXPIRED';
+      case FailureReason.tokenInvalid:
+        return 'TOKEN_INVALID';
+      case FailureReason.tokenDomainMismatch:
+        return 'TOKEN_DOMAIN_MISMATCH';
+    }
+  }
+}
+
+extension FailureReasonFromString on String {
+  FailureReason toFailureReason() {
+    switch (this) {
+      case 'TOKEN_MISSING':
+        return FailureReason.tokenMissing;
+      case 'TOKEN_EXPIRED':
+        return FailureReason.tokenExpired;
+      case 'TOKEN_INVALID':
+        return FailureReason.tokenInvalid;
+      case 'TOKEN_DOMAIN_MISMATCH':
+        return FailureReason.tokenDomainMismatch;
+    }
+    throw Exception('$this is not known in enum FailureReason');
   }
 }
 
@@ -4950,38 +7163,77 @@ extension FallbackBehaviorFromString on String {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// The part of a web request that you want AWS WAF to inspect. Include the
-/// single <code>FieldToMatch</code> type that you want to inspect, with
-/// additional specifications as needed, according to the type. You specify a
-/// single request component in <code>FieldToMatch</code> for each rule
-/// statement that requires it. To inspect more than one component of a web
-/// request, create a separate rule statement for each component.
+/// The part of the web request that you want WAF to inspect. Include the single
+/// <code>FieldToMatch</code> type that you want to inspect, with additional
+/// specifications as needed, according to the type. You specify a single
+/// request component in <code>FieldToMatch</code> for each rule statement that
+/// requires it. To inspect more than one component of the web request, create a
+/// separate rule statement for each component.
+///
+/// Example JSON for a <code>QueryString</code> field to match:
+///
+/// <code> "FieldToMatch": { "QueryString": {} }</code>
+///
+/// Example JSON for a <code>Method</code> field to match specification:
+///
+/// <code> "FieldToMatch": { "Method": { "Name": "DELETE" } }</code>
 class FieldToMatch {
   /// Inspect all query arguments.
   final AllQueryArguments? allQueryArguments;
 
-  /// Inspect the request body, which immediately follows the request headers.
-  /// This is the part of a request that contains any additional data that you
-  /// want to send to your web server as the HTTP request body, such as data from
-  /// a form.
+  /// Inspect the request body as plain text. The request body immediately follows
+  /// the request headers. This is the part of a request that contains any
+  /// additional data that you want to send to your web server as the HTTP request
+  /// body, such as data from a form.
   ///
-  /// Note that only the first 8 KB (8192 bytes) of the request body are forwarded
-  /// to AWS WAF for inspection by the underlying host service. If you don't need
-  /// to inspect more than 8 KB, you can guarantee that you don't allow additional
-  /// bytes in by combining a statement that inspects the body of the web request,
-  /// such as <a>ByteMatchStatement</a> or
-  /// <a>RegexPatternSetReferenceStatement</a>, with a
-  /// <a>SizeConstraintStatement</a> that enforces an 8 KB size limit on the body
-  /// of the request. AWS WAF doesn't support inspecting the entire contents of
-  /// web requests whose bodies exceed the 8 KB limit.
+  /// A limited amount of the request body is forwarded to WAF for inspection by
+  /// the underlying host service. For regional resources, the limit is 8 KB
+  /// (8,192 kilobytes) and for CloudFront distributions, the limit is 16 KB
+  /// (16,384 kilobytes). For CloudFront distributions, you can increase the limit
+  /// in the web ACL's <code>AssociationConfig</code>, for additional processing
+  /// fees.
+  ///
+  /// For information about how to handle oversized request bodies, see the
+  /// <code>Body</code> object configuration.
   final Body? body;
+
+  /// Inspect the request cookies. You must configure scope and pattern matching
+  /// filters in the <code>Cookies</code> object, to define the set of cookies and
+  /// the parts of the cookies that WAF inspects.
+  ///
+  /// Only the first 8 KB (8192 bytes) of a request's cookies and only the first
+  /// 200 cookies are forwarded to WAF for inspection by the underlying host
+  /// service. You must configure how to handle any oversize cookie content in the
+  /// <code>Cookies</code> object. WAF applies the pattern matching filters to the
+  /// cookies that it receives from the underlying host service.
+  final Cookies? cookies;
+
+  /// Inspect the request headers. You must configure scope and pattern matching
+  /// filters in the <code>Headers</code> object, to define the set of headers to
+  /// and the parts of the headers that WAF inspects.
+  ///
+  /// Only the first 8 KB (8192 bytes) of a request's headers and only the first
+  /// 200 headers are forwarded to WAF for inspection by the underlying host
+  /// service. You must configure how to handle any oversize header content in the
+  /// <code>Headers</code> object. WAF applies the pattern matching filters to the
+  /// headers that it receives from the underlying host service.
+  final Headers? headers;
+
+  /// Inspect the request body as JSON. The request body immediately follows the
+  /// request headers. This is the part of a request that contains any additional
+  /// data that you want to send to your web server as the HTTP request body, such
+  /// as data from a form.
+  ///
+  /// A limited amount of the request body is forwarded to WAF for inspection by
+  /// the underlying host service. For regional resources, the limit is 8 KB
+  /// (8,192 kilobytes) and for CloudFront distributions, the limit is 16 KB
+  /// (16,384 kilobytes). For CloudFront distributions, you can increase the limit
+  /// in the web ACL's <code>AssociationConfig</code>, for additional processing
+  /// fees.
+  ///
+  /// For information about how to handle oversized request bodies, see the
+  /// <code>JsonBody</code> object configuration.
+  final JsonBody? jsonBody;
 
   /// Inspect the HTTP method. The method indicates the type of operation that the
   /// request is asking the origin to perform.
@@ -4994,29 +7246,37 @@ class FieldToMatch {
   /// Inspect a single header. Provide the name of the header to inspect, for
   /// example, <code>User-Agent</code> or <code>Referer</code>. This setting isn't
   /// case sensitive.
+  ///
+  /// Example JSON: <code>"SingleHeader": { "Name": "haystack" }</code>
+  ///
+  /// Alternately, you can filter and inspect all headers with the
+  /// <code>Headers</code> <code>FieldToMatch</code> setting.
   final SingleHeader? singleHeader;
 
   /// Inspect a single query argument. Provide the name of the query argument to
   /// inspect, such as <i>UserName</i> or <i>SalesRegion</i>. The name can be up
   /// to 30 characters long and isn't case sensitive.
   ///
-  /// This is used only to indicate the web request component for AWS WAF to
-  /// inspect, in the <a>FieldToMatch</a> specification.
+  /// Example JSON: <code>"SingleQueryArgument": { "Name": "myArgument" }</code>
   final SingleQueryArgument? singleQueryArgument;
 
-  /// Inspect the request URI path. This is the part of a web request that
+  /// Inspect the request URI path. This is the part of the web request that
   /// identifies a resource, for example, <code>/images/daily-ad.jpg</code>.
   final UriPath? uriPath;
 
   FieldToMatch({
     this.allQueryArguments,
     this.body,
+    this.cookies,
+    this.headers,
+    this.jsonBody,
     this.method,
     this.queryString,
     this.singleHeader,
     this.singleQueryArgument,
     this.uriPath,
   });
+
   factory FieldToMatch.fromJson(Map<String, dynamic> json) {
     return FieldToMatch(
       allQueryArguments: json['AllQueryArguments'] != null
@@ -5025,6 +7285,15 @@ class FieldToMatch {
           : null,
       body: json['Body'] != null
           ? Body.fromJson(json['Body'] as Map<String, dynamic>)
+          : null,
+      cookies: json['Cookies'] != null
+          ? Cookies.fromJson(json['Cookies'] as Map<String, dynamic>)
+          : null,
+      headers: json['Headers'] != null
+          ? Headers.fromJson(json['Headers'] as Map<String, dynamic>)
+          : null,
+      jsonBody: json['JsonBody'] != null
+          ? JsonBody.fromJson(json['JsonBody'] as Map<String, dynamic>)
           : null,
       method: json['Method'] != null
           ? Method.fromJson(json['Method'] as Map<String, dynamic>)
@@ -5048,6 +7317,9 @@ class FieldToMatch {
   Map<String, dynamic> toJson() {
     final allQueryArguments = this.allQueryArguments;
     final body = this.body;
+    final cookies = this.cookies;
+    final headers = this.headers;
+    final jsonBody = this.jsonBody;
     final method = this.method;
     final queryString = this.queryString;
     final singleHeader = this.singleHeader;
@@ -5056,6 +7328,9 @@ class FieldToMatch {
     return {
       if (allQueryArguments != null) 'AllQueryArguments': allQueryArguments,
       if (body != null) 'Body': body,
+      if (cookies != null) 'Cookies': cookies,
+      if (headers != null) 'Headers': headers,
+      if (jsonBody != null) 'JsonBody': jsonBody,
       if (method != null) 'Method': method,
       if (queryString != null) 'QueryString': queryString,
       if (singleHeader != null) 'SingleHeader': singleHeader,
@@ -5066,23 +7341,138 @@ class FieldToMatch {
   }
 }
 
-/// A rule group that's defined for an AWS Firewall Manager WAF policy.
+/// A single logging filter, used in <a>LoggingFilter</a>.
+class Filter {
+  /// How to handle logs that satisfy the filter's conditions and requirement.
+  final FilterBehavior behavior;
+
+  /// Match conditions for the filter.
+  final List<Condition> conditions;
+
+  /// Logic to apply to the filtering conditions. You can specify that, in order
+  /// to satisfy the filter, a log must match all conditions or must match at
+  /// least one condition.
+  final FilterRequirement requirement;
+
+  Filter({
+    required this.behavior,
+    required this.conditions,
+    required this.requirement,
+  });
+
+  factory Filter.fromJson(Map<String, dynamic> json) {
+    return Filter(
+      behavior: (json['Behavior'] as String).toFilterBehavior(),
+      conditions: (json['Conditions'] as List)
+          .whereNotNull()
+          .map((e) => Condition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      requirement: (json['Requirement'] as String).toFilterRequirement(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final behavior = this.behavior;
+    final conditions = this.conditions;
+    final requirement = this.requirement;
+    return {
+      'Behavior': behavior.toValue(),
+      'Conditions': conditions,
+      'Requirement': requirement.toValue(),
+    };
+  }
+}
+
+enum FilterBehavior {
+  keep,
+  drop,
+}
+
+extension FilterBehaviorValueExtension on FilterBehavior {
+  String toValue() {
+    switch (this) {
+      case FilterBehavior.keep:
+        return 'KEEP';
+      case FilterBehavior.drop:
+        return 'DROP';
+    }
+  }
+}
+
+extension FilterBehaviorFromString on String {
+  FilterBehavior toFilterBehavior() {
+    switch (this) {
+      case 'KEEP':
+        return FilterBehavior.keep;
+      case 'DROP':
+        return FilterBehavior.drop;
+    }
+    throw Exception('$this is not known in enum FilterBehavior');
+  }
+}
+
+enum FilterRequirement {
+  meetsAll,
+  meetsAny,
+}
+
+extension FilterRequirementValueExtension on FilterRequirement {
+  String toValue() {
+    switch (this) {
+      case FilterRequirement.meetsAll:
+        return 'MEETS_ALL';
+      case FilterRequirement.meetsAny:
+        return 'MEETS_ANY';
+    }
+  }
+}
+
+extension FilterRequirementFromString on String {
+  FilterRequirement toFilterRequirement() {
+    switch (this) {
+      case 'MEETS_ALL':
+        return FilterRequirement.meetsAll;
+      case 'MEETS_ANY':
+        return FilterRequirement.meetsAny;
+    }
+    throw Exception('$this is not known in enum FilterRequirement');
+  }
+}
+
+/// A rule group that's defined for an Firewall Manager WAF policy.
 class FirewallManagerRuleGroup {
-  /// The processing guidance for an AWS Firewall Manager rule. This is like a
-  /// regular rule <a>Statement</a>, but it can only contain a rule group
-  /// reference.
+  /// The processing guidance for an Firewall Manager rule. This is like a regular
+  /// rule <a>Statement</a>, but it can only contain a rule group reference.
   final FirewallManagerStatement firewallManagerStatement;
 
   /// The name of the rule group. You cannot change the name of a rule group after
   /// you create it.
   final String name;
+
+  /// The action to use in the place of the action that results from the rule
+  /// group evaluation. Set the override action to none to leave the result of the
+  /// rule group alone. Set it to count to override the result to count only.
+  ///
+  /// You can only use this for rule statements that reference a rule group, like
+  /// <code>RuleGroupReferenceStatement</code> and
+  /// <code>ManagedRuleGroupStatement</code>.
+  /// <note>
+  /// This option is usually set to none. It does not affect how the rules in the
+  /// rule group are evaluated. If you want the rules in the rule group to only
+  /// count matches, do not use this and instead use the rule action override
+  /// option, with <code>Count</code> action, in your rule group reference
+  /// statement settings.
+  /// </note>
   final OverrideAction overrideAction;
 
   /// If you define more than one rule group in the first or last Firewall Manager
-  /// rule groups, AWS WAF evaluates each request against the rule groups in
-  /// order, starting from the lowest priority setting. The priorities don't need
-  /// to be consecutive, but they must all be different.
+  /// rule groups, WAF evaluates each request against the rule groups in order,
+  /// starting from the lowest priority setting. The priorities don't need to be
+  /// consecutive, but they must all be different.
   final int priority;
+
+  /// Defines and enables Amazon CloudWatch metrics and web request sample
+  /// collection.
   final VisibilityConfig visibilityConfig;
 
   FirewallManagerRuleGroup({
@@ -5092,6 +7482,7 @@ class FirewallManagerRuleGroup {
     required this.priority,
     required this.visibilityConfig,
   });
+
   factory FirewallManagerRuleGroup.fromJson(Map<String, dynamic> json) {
     return FirewallManagerRuleGroup(
       firewallManagerStatement: FirewallManagerStatement.fromJson(
@@ -5106,17 +7497,25 @@ class FirewallManagerRuleGroup {
   }
 }
 
-/// The processing guidance for an AWS Firewall Manager rule. This is like a
-/// regular rule <a>Statement</a>, but it can only contain a rule group
+/// The processing guidance for an Firewall Manager rule. This is like a regular
+/// rule <a>Statement</a>, but it can only contain a single rule group
 /// reference.
 class FirewallManagerStatement {
+  /// A statement used by Firewall Manager to run the rules that are defined in a
+  /// managed rule group. This is managed by Firewall Manager for an Firewall
+  /// Manager WAF policy.
   final ManagedRuleGroupStatement? managedRuleGroupStatement;
+
+  /// A statement used by Firewall Manager to run the rules that are defined in a
+  /// rule group. This is managed by Firewall Manager for an Firewall Manager WAF
+  /// policy.
   final RuleGroupReferenceStatement? ruleGroupReferenceStatement;
 
   FirewallManagerStatement({
     this.managedRuleGroupStatement,
     this.ruleGroupReferenceStatement,
   });
+
   factory FirewallManagerStatement.fromJson(Map<String, dynamic> json) {
     return FirewallManagerStatement(
       managedRuleGroupStatement: json['ManagedRuleGroupStatement'] != null
@@ -5136,31 +7535,31 @@ class FirewallManagerStatement {
 /// origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can
 /// specify any header name.
 /// <note>
-/// If the specified header isn't present in the request, AWS WAF doesn't apply
-/// the rule to the web request at all.
+/// If the specified header isn't present in the request, WAF doesn't apply the
+/// rule to the web request at all.
 /// </note>
 /// This configuration is used for <a>GeoMatchStatement</a> and
 /// <a>RateBasedStatement</a>. For <a>IPSetReferenceStatement</a>, use
 /// <a>IPSetForwardedIPConfig</a> instead.
 ///
-/// AWS WAF only evaluates the first IP address found in the specified HTTP
-/// header.
+/// WAF only evaluates the first IP address found in the specified HTTP header.
 class ForwardedIPConfig {
   /// The match status to assign to the web request if the request doesn't have a
   /// valid IP address in the specified position.
   /// <note>
-  /// If the specified header isn't present in the request, AWS WAF doesn't apply
-  /// the rule to the web request at all.
+  /// If the specified header isn't present in the request, WAF doesn't apply the
+  /// rule to the web request at all.
   /// </note>
   /// You can specify the following fallback behaviors:
   ///
   /// <ul>
   /// <li>
-  /// MATCH - Treat the web request as matching the rule statement. AWS WAF
-  /// applies the rule action to the request.
+  /// <code>MATCH</code> - Treat the web request as matching the rule statement.
+  /// WAF applies the rule action to the request.
   /// </li>
   /// <li>
-  /// NO_MATCH - Treat the web request as not matching the rule statement.
+  /// <code>NO_MATCH</code> - Treat the web request as not matching the rule
+  /// statement.
   /// </li>
   /// </ul>
   final FallbackBehavior fallbackBehavior;
@@ -5168,8 +7567,8 @@ class ForwardedIPConfig {
   /// The name of the HTTP header to use for the IP address. For example, to use
   /// the X-Forwarded-For (XFF) header, set this to <code>X-Forwarded-For</code>.
   /// <note>
-  /// If the specified header isn't present in the request, AWS WAF doesn't apply
-  /// the rule to the web request at all.
+  /// If the specified header isn't present in the request, WAF doesn't apply the
+  /// rule to the web request at all.
   /// </note>
   final String headerName;
 
@@ -5177,6 +7576,7 @@ class ForwardedIPConfig {
     required this.fallbackBehavior,
     required this.headerName,
   });
+
   factory ForwardedIPConfig.fromJson(Map<String, dynamic> json) {
     return ForwardedIPConfig(
       fallbackBehavior:
@@ -5228,18 +7628,72 @@ extension ForwardedIPPositionFromString on String {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// A rule statement used to identify web requests based on country of origin.
+class GenerateMobileSdkReleaseUrlResponse {
+  /// The presigned download URL for the specified SDK release.
+  final String? url;
+
+  GenerateMobileSdkReleaseUrlResponse({
+    this.url,
+  });
+
+  factory GenerateMobileSdkReleaseUrlResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GenerateMobileSdkReleaseUrlResponse(
+      url: json['Url'] as String?,
+    );
+  }
+}
+
+/// A rule statement that labels web requests by country and region and that
+/// matches against web requests based on country code. A geo match rule labels
+/// every request that it inspects regardless of whether it finds a match.
+///
+/// <ul>
+/// <li>
+/// To manage requests only by country, you can use this statement by itself and
+/// specify the countries that you want to match against in the
+/// <code>CountryCodes</code> array.
+/// </li>
+/// <li>
+/// Otherwise, configure your geo match rule with Count action so that it only
+/// labels requests. Then, add one or more label match rules to run after the
+/// geo match rule and configure them to match against the geographic labels and
+/// handle the requests as needed.
+/// </li>
+/// </ul>
+/// WAF labels requests using the alpha-2 country and region codes from the
+/// International Organization for Standardization (ISO) 3166 standard. WAF
+/// determines the codes using either the IP address in the web request origin
+/// or, if you specify it, the address in the geo match
+/// <code>ForwardedIPConfig</code>.
+///
+/// If you use the web request origin, the label formats are
+/// <code>awswaf:clientip:geo:region:&lt;ISO country code&gt;-&lt;ISO region
+/// code&gt;</code> and <code>awswaf:clientip:geo:country:&lt;ISO country
+/// code&gt;</code>.
+///
+/// If you use a forwarded IP address, the label formats are
+/// <code>awswaf:forwardedip:geo:region:&lt;ISO country code&gt;-&lt;ISO region
+/// code&gt;</code> and <code>awswaf:forwardedip:geo:country:&lt;ISO country
+/// code&gt;</code>.
+///
+/// For additional details, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-type-geo-match.html">Geographic
+/// match rule statement</a> in the <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">WAF
+/// Developer Guide</a>.
 class GeoMatchStatement {
-  /// An array of two-character country codes, for example, <code>[ "US", "CN"
-  /// ]</code>, from the alpha-2 country ISO codes of the ISO 3166 international
-  /// standard.
+  /// An array of two-character country codes that you want to match against, for
+  /// example, <code>[ "US", "CN" ]</code>, from the alpha-2 country ISO codes of
+  /// the ISO 3166 international standard.
+  ///
+  /// When you use a geo match statement just for the region and country labels
+  /// that it adds to requests, you still have to supply a country code for the
+  /// rule to evaluate. In this case, you configure the rule to only count
+  /// matching requests, but it will still generate logging and count metrics for
+  /// any matches. You can reduce the logging and metrics that the rule produces
+  /// by specifying a country that's unlikely to be a source of traffic to your
+  /// site.
   final List<CountryCode>? countryCodes;
 
   /// The configuration for inspecting IP addresses in an HTTP header that you
@@ -5247,8 +7701,8 @@ class GeoMatchStatement {
   /// origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can
   /// specify any header name.
   /// <note>
-  /// If the specified header isn't present in the request, AWS WAF doesn't apply
-  /// the rule to the web request at all.
+  /// If the specified header isn't present in the request, WAF doesn't apply the
+  /// rule to the web request at all.
   /// </note>
   final ForwardedIPConfig? forwardedIPConfig;
 
@@ -5256,6 +7710,7 @@ class GeoMatchStatement {
     this.countryCodes,
     this.forwardedIPConfig,
   });
+
   factory GeoMatchStatement.fromJson(Map<String, dynamic> json) {
     return GeoMatchStatement(
       countryCodes: (json['CountryCodes'] as List?)
@@ -5280,24 +7735,49 @@ class GeoMatchStatement {
   }
 }
 
+class GetDecryptedAPIKeyResponse {
+  /// The date and time that the key was created.
+  final DateTime? creationTimestamp;
+
+  /// The token domains that are defined in this API key.
+  final List<String>? tokenDomains;
+
+  GetDecryptedAPIKeyResponse({
+    this.creationTimestamp,
+    this.tokenDomains,
+  });
+
+  factory GetDecryptedAPIKeyResponse.fromJson(Map<String, dynamic> json) {
+    return GetDecryptedAPIKeyResponse(
+      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+      tokenDomains: (json['TokenDomains'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+}
+
 class GetIPSetResponse {
   /// <p/>
   final IPSet? iPSet;
 
-  /// A token used for optimistic locking. AWS WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. AWS WAF uses the token to ensure
-  /// that no changes have been made to the entity since you last retrieved it. If
-  /// a change has been made, the update fails with a
-  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
   final String? lockToken;
 
   GetIPSetResponse({
     this.iPSet,
     this.lockToken,
   });
+
   factory GetIPSetResponse.fromJson(Map<String, dynamic> json) {
     return GetIPSetResponse(
       iPSet: json['IPSet'] != null
@@ -5315,11 +7795,61 @@ class GetLoggingConfigurationResponse {
   GetLoggingConfigurationResponse({
     this.loggingConfiguration,
   });
+
   factory GetLoggingConfigurationResponse.fromJson(Map<String, dynamic> json) {
     return GetLoggingConfigurationResponse(
       loggingConfiguration: json['LoggingConfiguration'] != null
           ? LoggingConfiguration.fromJson(
               json['LoggingConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class GetManagedRuleSetResponse {
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
+  final String? lockToken;
+
+  /// The managed rule set that you requested.
+  final ManagedRuleSet? managedRuleSet;
+
+  GetManagedRuleSetResponse({
+    this.lockToken,
+    this.managedRuleSet,
+  });
+
+  factory GetManagedRuleSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetManagedRuleSetResponse(
+      lockToken: json['LockToken'] as String?,
+      managedRuleSet: json['ManagedRuleSet'] != null
+          ? ManagedRuleSet.fromJson(
+              json['ManagedRuleSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class GetMobileSdkReleaseResponse {
+  /// Information for a specified SDK release, including release notes and tags.
+  final MobileSdkRelease? mobileSdkRelease;
+
+  GetMobileSdkReleaseResponse({
+    this.mobileSdkRelease,
+  });
+
+  factory GetMobileSdkReleaseResponse.fromJson(Map<String, dynamic> json) {
+    return GetMobileSdkReleaseResponse(
+      mobileSdkRelease: json['MobileSdkRelease'] != null
+          ? MobileSdkRelease.fromJson(
+              json['MobileSdkRelease'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -5332,6 +7862,7 @@ class GetPermissionPolicyResponse {
   GetPermissionPolicyResponse({
     this.policy,
   });
+
   factory GetPermissionPolicyResponse.fromJson(Map<String, dynamic> json) {
     return GetPermissionPolicyResponse(
       policy: json['Policy'] as String?,
@@ -5350,6 +7881,7 @@ class GetRateBasedStatementManagedKeysResponse {
     this.managedKeysIPV4,
     this.managedKeysIPV6,
   });
+
   factory GetRateBasedStatementManagedKeysResponse.fromJson(
       Map<String, dynamic> json) {
     return GetRateBasedStatementManagedKeysResponse(
@@ -5366,14 +7898,15 @@ class GetRateBasedStatementManagedKeysResponse {
 }
 
 class GetRegexPatternSetResponse {
-  /// A token used for optimistic locking. AWS WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. AWS WAF uses the token to ensure
-  /// that no changes have been made to the entity since you last retrieved it. If
-  /// a change has been made, the update fails with a
-  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
   final String? lockToken;
 
   /// <p/>
@@ -5383,6 +7916,7 @@ class GetRegexPatternSetResponse {
     this.lockToken,
     this.regexPatternSet,
   });
+
   factory GetRegexPatternSetResponse.fromJson(Map<String, dynamic> json) {
     return GetRegexPatternSetResponse(
       lockToken: json['LockToken'] as String?,
@@ -5395,14 +7929,15 @@ class GetRegexPatternSetResponse {
 }
 
 class GetRuleGroupResponse {
-  /// A token used for optimistic locking. AWS WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. AWS WAF uses the token to ensure
-  /// that no changes have been made to the entity since you last retrieved it. If
-  /// a change has been made, the update fails with a
-  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
   final String? lockToken;
 
   /// <p/>
@@ -5412,6 +7947,7 @@ class GetRuleGroupResponse {
     this.lockToken,
     this.ruleGroup,
   });
+
   factory GetRuleGroupResponse.fromJson(Map<String, dynamic> json) {
     return GetRuleGroupResponse(
       lockToken: json['LockToken'] as String?,
@@ -5426,7 +7962,7 @@ class GetSampledRequestsResponse {
   /// The total number of requests from which <code>GetSampledRequests</code> got
   /// a sample of <code>MaxItems</code> requests. If <code>PopulationSize</code>
   /// is less than <code>MaxItems</code>, the sample includes every request that
-  /// your AWS resource received during the specified time range.
+  /// your Amazon Web Services resource received during the specified time range.
   final int? populationSize;
 
   /// A complex type that contains detailed information about each of the requests
@@ -5434,11 +7970,11 @@ class GetSampledRequestsResponse {
   final List<SampledHTTPRequest>? sampledRequests;
 
   /// Usually, <code>TimeWindow</code> is the time range that you specified in the
-  /// <code>GetSampledRequests</code> request. However, if your AWS resource
-  /// received more than 5,000 requests during the time range that you specified
-  /// in the request, <code>GetSampledRequests</code> returns the time range for
-  /// the first 5,000 requests. Times are in Coordinated Universal Time (UTC)
-  /// format.
+  /// <code>GetSampledRequests</code> request. However, if your Amazon Web
+  /// Services resource received more than 5,000 requests during the time range
+  /// that you specified in the request, <code>GetSampledRequests</code> returns
+  /// the time range for the first 5,000 requests. Times are in Coordinated
+  /// Universal Time (UTC) format.
   final TimeWindow? timeWindow;
 
   GetSampledRequestsResponse({
@@ -5446,6 +7982,7 @@ class GetSampledRequestsResponse {
     this.sampledRequests,
     this.timeWindow,
   });
+
   factory GetSampledRequestsResponse.fromJson(Map<String, dynamic> json) {
     return GetSampledRequestsResponse(
       populationSize: json['PopulationSize'] as int?,
@@ -5461,13 +7998,14 @@ class GetSampledRequestsResponse {
 }
 
 class GetWebACLForResourceResponse {
-  /// The Web ACL that is associated with the resource. If there is no associated
-  /// resource, AWS WAF returns a null Web ACL.
+  /// The web ACL that is associated with the resource. If there is no associated
+  /// resource, WAF returns a null web ACL.
   final WebACL? webACL;
 
   GetWebACLForResourceResponse({
     this.webACL,
   });
+
   factory GetWebACLForResourceResponse.fromJson(Map<String, dynamic> json) {
     return GetWebACLForResourceResponse(
       webACL: json['WebACL'] != null
@@ -5478,26 +8016,40 @@ class GetWebACLForResourceResponse {
 }
 
 class GetWebACLResponse {
-  /// A token used for optimistic locking. AWS WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. AWS WAF uses the token to ensure
-  /// that no changes have been made to the entity since you last retrieved it. If
-  /// a change has been made, the update fails with a
-  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// The URL to use in SDK integrations with Amazon Web Services managed rule
+  /// groups. For example, you can use the integration SDKs with the account
+  /// takeover prevention managed rule group
+  /// <code>AWSManagedRulesATPRuleSet</code>. This is only populated if you are
+  /// using a rule group in your web ACL that integrates with your applications in
+  /// this way. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html">WAF
+  /// client application integration</a> in the <i>WAF Developer Guide</i>.
+  final String? applicationIntegrationURL;
+
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
   final String? lockToken;
 
-  /// The Web ACL specification. You can modify the settings in this Web ACL and
-  /// use it to update this Web ACL or create a new one.
+  /// The web ACL specification. You can modify the settings in this web ACL and
+  /// use it to update this web ACL or create a new one.
   final WebACL? webACL;
 
   GetWebACLResponse({
+    this.applicationIntegrationURL,
     this.lockToken,
     this.webACL,
   });
+
   factory GetWebACLResponse.fromJson(Map<String, dynamic> json) {
     return GetWebACLResponse(
+      applicationIntegrationURL: json['ApplicationIntegrationURL'] as String?,
       lockToken: json['LockToken'] as String?,
       webACL: json['WebACL'] != null
           ? WebACL.fromJson(json['WebACL'] as Map<String, dynamic>)
@@ -5506,13 +8058,6 @@ class GetWebACLResponse {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
 /// Part of the response from <a>GetSampledRequests</a>. This is a complex type
 /// that appears as <code>Headers</code> in the response syntax.
 /// <code>HTTPHeader</code> contains the names and values of all of the headers
@@ -5528,6 +8073,7 @@ class HTTPHeader {
     this.name,
     this.value,
   });
+
   factory HTTPHeader.fromJson(Map<String, dynamic> json) {
     return HTTPHeader(
       name: json['Name'] as String?,
@@ -5536,13 +8082,6 @@ class HTTPHeader {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
 /// Part of the response from <a>GetSampledRequests</a>. This is a complex type
 /// that appears as <code>Request</code> in the response syntax.
 /// <code>HTTPRequest</code> contains information about one of the web requests.
@@ -5592,6 +8131,7 @@ class HTTPRequest {
     this.method,
     this.uri,
   });
+
   factory HTTPRequest.fromJson(Map<String, dynamic> json) {
     return HTTPRequest(
       clientIP: json['ClientIP'] as String?,
@@ -5604,6 +8144,139 @@ class HTTPRequest {
       method: json['Method'] as String?,
       uri: json['URI'] as String?,
     );
+  }
+}
+
+/// The filter to use to identify the subset of headers to inspect in a web
+/// request.
+///
+/// You must specify exactly one setting: either <code>All</code>,
+/// <code>IncludedHeaders</code>, or <code>ExcludedHeaders</code>.
+///
+/// Example JSON: <code>"MatchPattern": { "ExcludedHeaders": {"KeyToExclude1",
+/// "KeyToExclude2"} }</code>
+class HeaderMatchPattern {
+  /// Inspect all headers.
+  final All? all;
+
+  /// Inspect only the headers whose keys don't match any of the strings specified
+  /// here.
+  final List<String>? excludedHeaders;
+
+  /// Inspect only the headers that have a key that matches one of the strings
+  /// specified here.
+  final List<String>? includedHeaders;
+
+  HeaderMatchPattern({
+    this.all,
+    this.excludedHeaders,
+    this.includedHeaders,
+  });
+
+  factory HeaderMatchPattern.fromJson(Map<String, dynamic> json) {
+    return HeaderMatchPattern(
+      all: json['All'] != null
+          ? All.fromJson(json['All'] as Map<String, dynamic>)
+          : null,
+      excludedHeaders: (json['ExcludedHeaders'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      includedHeaders: (json['IncludedHeaders'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final all = this.all;
+    final excludedHeaders = this.excludedHeaders;
+    final includedHeaders = this.includedHeaders;
+    return {
+      if (all != null) 'All': all,
+      if (excludedHeaders != null) 'ExcludedHeaders': excludedHeaders,
+      if (includedHeaders != null) 'IncludedHeaders': includedHeaders,
+    };
+  }
+}
+
+/// Inspect all headers in the web request. You can specify the parts of the
+/// headers to inspect and you can narrow the set of headers to inspect by
+/// including or excluding specific keys.
+///
+/// This is used to indicate the web request component to inspect, in the
+/// <a>FieldToMatch</a> specification.
+///
+/// If you want to inspect just the value of a single header, use the
+/// <code>SingleHeader</code> <code>FieldToMatch</code> setting instead.
+///
+/// Example JSON: <code>"Headers": { "MatchPattern": { "All": {} },
+/// "MatchScope": "KEY", "OversizeHandling": "MATCH" }</code>
+class Headers {
+  /// The filter to use to identify the subset of headers to inspect in a web
+  /// request.
+  ///
+  /// You must specify exactly one setting: either <code>All</code>,
+  /// <code>IncludedHeaders</code>, or <code>ExcludedHeaders</code>.
+  ///
+  /// Example JSON: <code>"MatchPattern": { "ExcludedHeaders": {"KeyToExclude1",
+  /// "KeyToExclude2"} }</code>
+  final HeaderMatchPattern matchPattern;
+
+  /// The parts of the headers to match with the rule inspection criteria. If you
+  /// specify <code>All</code>, WAF inspects both keys and values.
+  final MapMatchScope matchScope;
+
+  /// What WAF should do if the headers of the request are larger than WAF can
+  /// inspect. WAF does not support inspecting the entire contents of request
+  /// headers when they exceed 8 KB (8192 bytes) or 200 total headers. The
+  /// underlying host service forwards a maximum of 200 headers and at most 8 KB
+  /// of header contents to WAF.
+  ///
+  /// The options for oversize handling are the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CONTINUE</code> - Inspect the headers normally, according to the rule
+  /// inspection criteria.
+  /// </li>
+  /// <li>
+  /// <code>MATCH</code> - Treat the web request as matching the rule statement.
+  /// WAF applies the rule action to the request.
+  /// </li>
+  /// <li>
+  /// <code>NO_MATCH</code> - Treat the web request as not matching the rule
+  /// statement.
+  /// </li>
+  /// </ul>
+  final OversizeHandling oversizeHandling;
+
+  Headers({
+    required this.matchPattern,
+    required this.matchScope,
+    required this.oversizeHandling,
+  });
+
+  factory Headers.fromJson(Map<String, dynamic> json) {
+    return Headers(
+      matchPattern: HeaderMatchPattern.fromJson(
+          json['MatchPattern'] as Map<String, dynamic>),
+      matchScope: (json['MatchScope'] as String).toMapMatchScope(),
+      oversizeHandling:
+          (json['OversizeHandling'] as String).toOversizeHandling(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final matchPattern = this.matchPattern;
+    final matchScope = this.matchScope;
+    final oversizeHandling = this.oversizeHandling;
+    return {
+      'MatchPattern': matchPattern,
+      'MatchScope': matchScope.toValue(),
+      'OversizeHandling': oversizeHandling.toValue(),
+    };
   }
 }
 
@@ -5635,50 +8308,44 @@ extension IPAddressVersionFromString on String {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// Contains one or more IP addresses or blocks of IP addresses specified in
-/// Classless Inter-Domain Routing (CIDR) notation. AWS WAF supports any CIDR
-/// range. For information about CIDR notation, see the Wikipedia entry <a
+/// Contains zero or more IP addresses or blocks of IP addresses specified in
+/// Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and
+/// IPv6 CIDR ranges except for /0. For information about CIDR notation, see the
+/// Wikipedia entry <a
 /// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
 /// Inter-Domain Routing</a>.
 ///
-/// AWS WAF assigns an ARN to each <code>IPSet</code> that you create. To use an
-/// IP set in a rule, you provide the ARN to the <a>Rule</a> statement
+/// WAF assigns an ARN to each <code>IPSet</code> that you create. To use an IP
+/// set in a rule, you provide the ARN to the <a>Rule</a> statement
 /// <a>IPSetReferenceStatement</a>.
 class IPSet {
   /// The Amazon Resource Name (ARN) of the entity.
   final String arn;
 
-  /// Contains an array of strings that specify one or more IP addresses or blocks
-  /// of IP addresses in Classless Inter-Domain Routing (CIDR) notation. AWS WAF
-  /// supports all address ranges for IP versions IPv4 and IPv6.
+  /// Contains an array of strings that specifies zero or more IP addresses or
+  /// blocks of IP addresses. All addresses must be specified using Classless
+  /// Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR
+  /// ranges except for <code>/0</code>.
   ///
-  /// Examples:
+  /// Example address strings:
   ///
   /// <ul>
   /// <li>
-  /// To configure AWS WAF to allow, block, or count requests that originated from
-  /// the IP address 192.0.2.44, specify <code>192.0.2.44/32</code>.
+  /// To configure WAF to allow, block, or count requests that originated from the
+  /// IP address 192.0.2.44, specify <code>192.0.2.44/32</code>.
   /// </li>
   /// <li>
-  /// To configure AWS WAF to allow, block, or count requests that originated from
-  /// IP addresses from 192.0.2.0 to 192.0.2.255, specify
-  /// <code>192.0.2.0/24</code>.
+  /// To configure WAF to allow, block, or count requests that originated from IP
+  /// addresses from 192.0.2.0 to 192.0.2.255, specify <code>192.0.2.0/24</code>.
   /// </li>
   /// <li>
-  /// To configure AWS WAF to allow, block, or count requests that originated from
-  /// the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify
+  /// To configure WAF to allow, block, or count requests that originated from the
+  /// IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify
   /// <code>1111:0000:0000:0000:0000:0000:0000:0111/128</code>.
   /// </li>
   /// <li>
-  /// To configure AWS WAF to allow, block, or count requests that originated from
-  /// IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to
+  /// To configure WAF to allow, block, or count requests that originated from IP
+  /// addresses 1111:0000:0000:0000:0000:0000:0000:0000 to
   /// 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify
   /// <code>1111:0000:0000:0000:0000:0000:0000:0000/64</code>.
   /// </li>
@@ -5686,9 +8353,28 @@ class IPSet {
   /// For more information about CIDR notation, see the Wikipedia entry <a
   /// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
   /// Inter-Domain Routing</a>.
+  ///
+  /// Example JSON <code>Addresses</code> specifications:
+  ///
+  /// <ul>
+  /// <li>
+  /// Empty array: <code>"Addresses": []</code>
+  /// </li>
+  /// <li>
+  /// Array with one address: <code>"Addresses": ["192.0.2.44/32"]</code>
+  /// </li>
+  /// <li>
+  /// Array with three addresses: <code>"Addresses": ["192.0.2.44/32",
+  /// "192.0.2.0/24", "192.0.0.0/16"]</code>
+  /// </li>
+  /// <li>
+  /// INVALID specification: <code>"Addresses": [""]</code> INVALID
+  /// </li>
+  /// </ul>
   final List<String> addresses;
 
-  /// Specify IPV4 or IPV6.
+  /// The version of the IP addresses, either <code>IPV4</code> or
+  /// <code>IPV6</code>.
   final IPAddressVersion iPAddressVersion;
 
   /// A unique identifier for the set. This ID is returned in the responses to
@@ -5700,8 +8386,7 @@ class IPSet {
   /// after you create it.
   final String name;
 
-  /// A description of the IP set that helps with identification. You cannot
-  /// change the description of an IP set after you create it.
+  /// A description of the IP set that helps with identification.
   final String? description;
 
   IPSet({
@@ -5712,6 +8397,7 @@ class IPSet {
     required this.name,
     this.description,
   });
+
   factory IPSet.fromJson(Map<String, dynamic> json) {
     return IPSet(
       arn: json['ARN'] as String,
@@ -5733,8 +8419,8 @@ class IPSet {
 /// origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can
 /// specify any header name.
 /// <note>
-/// If the specified header isn't present in the request, AWS WAF doesn't apply
-/// the rule to the web request at all.
+/// If the specified header isn't present in the request, WAF doesn't apply the
+/// rule to the web request at all.
 /// </note>
 /// This configuration is used only for <a>IPSetReferenceStatement</a>. For
 /// <a>GeoMatchStatement</a> and <a>RateBasedStatement</a>, use
@@ -5743,18 +8429,19 @@ class IPSetForwardedIPConfig {
   /// The match status to assign to the web request if the request doesn't have a
   /// valid IP address in the specified position.
   /// <note>
-  /// If the specified header isn't present in the request, AWS WAF doesn't apply
-  /// the rule to the web request at all.
+  /// If the specified header isn't present in the request, WAF doesn't apply the
+  /// rule to the web request at all.
   /// </note>
   /// You can specify the following fallback behaviors:
   ///
   /// <ul>
   /// <li>
-  /// MATCH - Treat the web request as matching the rule statement. AWS WAF
-  /// applies the rule action to the request.
+  /// <code>MATCH</code> - Treat the web request as matching the rule statement.
+  /// WAF applies the rule action to the request.
   /// </li>
   /// <li>
-  /// NO_MATCH - Treat the web request as not matching the rule statement.
+  /// <code>NO_MATCH</code> - Treat the web request as not matching the rule
+  /// statement.
   /// </li>
   /// </ul>
   final FallbackBehavior fallbackBehavior;
@@ -5762,8 +8449,8 @@ class IPSetForwardedIPConfig {
   /// The name of the HTTP header to use for the IP address. For example, to use
   /// the X-Forwarded-For (XFF) header, set this to <code>X-Forwarded-For</code>.
   /// <note>
-  /// If the specified header isn't present in the request, AWS WAF doesn't apply
-  /// the rule to the web request at all.
+  /// If the specified header isn't present in the request, WAF doesn't apply the
+  /// rule to the web request at all.
   /// </note>
   final String headerName;
 
@@ -5786,7 +8473,7 @@ class IPSetForwardedIPConfig {
   /// </li>
   /// <li>
   /// ANY - Inspect all IP addresses in the header for a match. If the header
-  /// contains more than 10 IP addresses, AWS WAF inspects the last 10.
+  /// contains more than 10 IP addresses, WAF inspects the last 10.
   /// </li>
   /// </ul>
   final ForwardedIPPosition position;
@@ -5796,6 +8483,7 @@ class IPSetForwardedIPConfig {
     required this.headerName,
     required this.position,
   });
+
   factory IPSetForwardedIPConfig.fromJson(Map<String, dynamic> json) {
     return IPSetForwardedIPConfig(
       fallbackBehavior:
@@ -5817,13 +8505,6 @@ class IPSetForwardedIPConfig {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
 /// A rule statement used to detect web requests coming from particular IP
 /// addresses or address ranges. To use this, create an <a>IPSet</a> that
 /// specifies the addresses you want to detect, then use the ARN of that set in
@@ -5831,7 +8512,7 @@ class IPSetForwardedIPConfig {
 ///
 /// Each IP set rule statement references an IP set. You create and maintain the
 /// set independent of your rules. This allows you to use the single set in
-/// multiple rules. When you update the referenced set, AWS WAF automatically
+/// multiple rules. When you update the referenced set, WAF automatically
 /// updates all rules that reference it.
 class IPSetReferenceStatement {
   /// The Amazon Resource Name (ARN) of the <a>IPSet</a> that this statement
@@ -5843,8 +8524,8 @@ class IPSetReferenceStatement {
   /// origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can
   /// specify any header name.
   /// <note>
-  /// If the specified header isn't present in the request, AWS WAF doesn't apply
-  /// the rule to the web request at all.
+  /// If the specified header isn't present in the request, WAF doesn't apply the
+  /// rule to the web request at all.
   /// </note>
   final IPSetForwardedIPConfig? iPSetForwardedIPConfig;
 
@@ -5852,6 +8533,7 @@ class IPSetReferenceStatement {
     required this.arn,
     this.iPSetForwardedIPConfig,
   });
+
   factory IPSetReferenceStatement.fromJson(Map<String, dynamic> json) {
     return IPSetReferenceStatement(
       arn: json['ARN'] as String,
@@ -5873,13 +8555,6 @@ class IPSetReferenceStatement {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
 /// High-level information about an <a>IPSet</a>, returned by operations like
 /// create and list. This provides information like the ID, that you can use to
 /// retrieve and manage an <code>IPSet</code>, and the ARN, that you provide to
@@ -5888,8 +8563,7 @@ class IPSetSummary {
   /// The Amazon Resource Name (ARN) of the entity.
   final String? arn;
 
-  /// A description of the IP set that helps with identification. You cannot
-  /// change the description of an IP set after you create it.
+  /// A description of the IP set that helps with identification.
   final String? description;
 
   /// A unique identifier for the set. This ID is returned in the responses to
@@ -5897,14 +8571,15 @@ class IPSetSummary {
   /// delete.
   final String? id;
 
-  /// A token used for optimistic locking. AWS WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. AWS WAF uses the token to ensure
-  /// that no changes have been made to the entity since you last retrieved it. If
-  /// a change has been made, the update fails with a
-  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
   final String? lockToken;
 
   /// The name of the IP set. You cannot change the name of an <code>IPSet</code>
@@ -5918,6 +8593,7 @@ class IPSetSummary {
     this.lockToken,
     this.name,
   });
+
   factory IPSetSummary.fromJson(Map<String, dynamic> json) {
     return IPSetSummary(
       arn: json['ARN'] as String?,
@@ -5929,21 +8605,535 @@ class IPSetSummary {
   }
 }
 
+/// Used for CAPTCHA and challenge token settings. Determines how long a
+/// <code>CAPTCHA</code> or challenge timestamp remains valid after WAF updates
+/// it for a successful <code>CAPTCHA</code> or challenge response.
+class ImmunityTimeProperty {
+  /// The amount of time, in seconds, that a <code>CAPTCHA</code> or challenge
+  /// timestamp is considered valid by WAF. The default setting is 300.
+  ///
+  /// For the Challenge action, the minimum setting is 300.
+  final int immunityTime;
+
+  ImmunityTimeProperty({
+    required this.immunityTime,
+  });
+
+  factory ImmunityTimeProperty.fromJson(Map<String, dynamic> json) {
+    return ImmunityTimeProperty(
+      immunityTime: json['ImmunityTime'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final immunityTime = this.immunityTime;
+    return {
+      'ImmunityTime': immunityTime,
+    };
+  }
+}
+
+enum InspectionLevel {
+  common,
+  targeted,
+}
+
+extension InspectionLevelValueExtension on InspectionLevel {
+  String toValue() {
+    switch (this) {
+      case InspectionLevel.common:
+        return 'COMMON';
+      case InspectionLevel.targeted:
+        return 'TARGETED';
+    }
+  }
+}
+
+extension InspectionLevelFromString on String {
+  InspectionLevel toInspectionLevel() {
+    switch (this) {
+      case 'COMMON':
+        return InspectionLevel.common;
+      case 'TARGETED':
+        return InspectionLevel.targeted;
+    }
+    throw Exception('$this is not known in enum InspectionLevel');
+  }
+}
+
+/// Inspect the body of the web request as JSON. The body immediately follows
+/// the request headers.
+///
+/// This is used to indicate the web request component to inspect, in the
+/// <a>FieldToMatch</a> specification.
+///
+/// Use the specifications in this object to indicate which parts of the JSON
+/// body to inspect using the rule's inspection criteria. WAF inspects only the
+/// parts of the JSON that result from the matches that you indicate.
+///
+/// Example JSON: <code>"JsonBody": { "MatchPattern": { "All": {} },
+/// "MatchScope": "ALL" }</code>
+class JsonBody {
+  /// The patterns to look for in the JSON body. WAF inspects the results of these
+  /// pattern matches against the rule inspection criteria.
+  final JsonMatchPattern matchPattern;
+
+  /// The parts of the JSON to match against using the <code>MatchPattern</code>.
+  /// If you specify <code>All</code>, WAF matches against keys and values.
+  final JsonMatchScope matchScope;
+
+  /// What WAF should do if it fails to completely parse the JSON body. The
+  /// options are the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>EVALUATE_AS_STRING</code> - Inspect the body as plain text. WAF
+  /// applies the text transformations and inspection criteria that you defined
+  /// for the JSON inspection to the body text string.
+  /// </li>
+  /// <li>
+  /// <code>MATCH</code> - Treat the web request as matching the rule statement.
+  /// WAF applies the rule action to the request.
+  /// </li>
+  /// <li>
+  /// <code>NO_MATCH</code> - Treat the web request as not matching the rule
+  /// statement.
+  /// </li>
+  /// </ul>
+  /// If you don't provide this setting, WAF parses and evaluates the content only
+  /// up to the first parsing failure that it encounters.
+  ///
+  /// WAF does its best to parse the entire JSON body, but might be forced to stop
+  /// for reasons such as invalid characters, duplicate keys, truncation, and any
+  /// content whose root node isn't an object or an array.
+  ///
+  /// WAF parses the JSON in the following examples as two valid key, value pairs:
+  ///
+  /// <ul>
+  /// <li>
+  /// Missing comma: <code>{"key1":"value1""key2":"value2"}</code>
+  /// </li>
+  /// <li>
+  /// Missing colon: <code>{"key1":"value1","key2""value2"}</code>
+  /// </li>
+  /// <li>
+  /// Extra colons: <code>{"key1"::"value1","key2""value2"}</code>
+  /// </li>
+  /// </ul>
+  final BodyParsingFallbackBehavior? invalidFallbackBehavior;
+
+  /// What WAF should do if the body is larger than WAF can inspect. WAF does not
+  /// support inspecting the entire contents of the web request body if the body
+  /// exceeds the limit for the resource type. If the body is larger than the
+  /// limit, the underlying host service only forwards the contents that are below
+  /// the limit to WAF for inspection.
+  ///
+  /// The default limit is 8 KB (8,192 kilobytes) for regional resources and 16 KB
+  /// (16,384 kilobytes) for CloudFront distributions. For CloudFront
+  /// distributions, you can increase the limit in the web ACL
+  /// <code>AssociationConfig</code>, for additional processing fees.
+  ///
+  /// The options for oversize handling are the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CONTINUE</code> - Inspect the body normally, according to the rule
+  /// inspection criteria.
+  /// </li>
+  /// <li>
+  /// <code>MATCH</code> - Treat the web request as matching the rule statement.
+  /// WAF applies the rule action to the request.
+  /// </li>
+  /// <li>
+  /// <code>NO_MATCH</code> - Treat the web request as not matching the rule
+  /// statement.
+  /// </li>
+  /// </ul>
+  /// You can combine the <code>MATCH</code> or <code>NO_MATCH</code> settings for
+  /// oversize handling with your rule and web ACL action settings, so that you
+  /// block any request whose body is over the limit.
+  ///
+  /// Default: <code>CONTINUE</code>
+  final OversizeHandling? oversizeHandling;
+
+  JsonBody({
+    required this.matchPattern,
+    required this.matchScope,
+    this.invalidFallbackBehavior,
+    this.oversizeHandling,
+  });
+
+  factory JsonBody.fromJson(Map<String, dynamic> json) {
+    return JsonBody(
+      matchPattern: JsonMatchPattern.fromJson(
+          json['MatchPattern'] as Map<String, dynamic>),
+      matchScope: (json['MatchScope'] as String).toJsonMatchScope(),
+      invalidFallbackBehavior: (json['InvalidFallbackBehavior'] as String?)
+          ?.toBodyParsingFallbackBehavior(),
+      oversizeHandling:
+          (json['OversizeHandling'] as String?)?.toOversizeHandling(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final matchPattern = this.matchPattern;
+    final matchScope = this.matchScope;
+    final invalidFallbackBehavior = this.invalidFallbackBehavior;
+    final oversizeHandling = this.oversizeHandling;
+    return {
+      'MatchPattern': matchPattern,
+      'MatchScope': matchScope.toValue(),
+      if (invalidFallbackBehavior != null)
+        'InvalidFallbackBehavior': invalidFallbackBehavior.toValue(),
+      if (oversizeHandling != null)
+        'OversizeHandling': oversizeHandling.toValue(),
+    };
+  }
+}
+
+/// The patterns to look for in the JSON body. WAF inspects the results of these
+/// pattern matches against the rule inspection criteria. This is used with the
+/// <a>FieldToMatch</a> option <code>JsonBody</code>.
+class JsonMatchPattern {
+  /// Match all of the elements. See also <code>MatchScope</code> in
+  /// <a>JsonBody</a>.
+  ///
+  /// You must specify either this setting or the <code>IncludedPaths</code>
+  /// setting, but not both.
+  final All? all;
+
+  /// Match only the specified include paths. See also <code>MatchScope</code> in
+  /// <a>JsonBody</a>.
+  ///
+  /// Provide the include paths using JSON Pointer syntax. For example,
+  /// <code>"IncludedPaths": ["/dogs/0/name", "/dogs/1/name"]</code>. For
+  /// information about this syntax, see the Internet Engineering Task Force
+  /// (IETF) documentation <a
+  /// href="https://tools.ietf.org/html/rfc6901">JavaScript Object Notation (JSON)
+  /// Pointer</a>.
+  ///
+  /// You must specify either this setting or the <code>All</code> setting, but
+  /// not both.
+  /// <note>
+  /// Don't use this option to include all paths. Instead, use the
+  /// <code>All</code> setting.
+  /// </note>
+  final List<String>? includedPaths;
+
+  JsonMatchPattern({
+    this.all,
+    this.includedPaths,
+  });
+
+  factory JsonMatchPattern.fromJson(Map<String, dynamic> json) {
+    return JsonMatchPattern(
+      all: json['All'] != null
+          ? All.fromJson(json['All'] as Map<String, dynamic>)
+          : null,
+      includedPaths: (json['IncludedPaths'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final all = this.all;
+    final includedPaths = this.includedPaths;
+    return {
+      if (all != null) 'All': all,
+      if (includedPaths != null) 'IncludedPaths': includedPaths,
+    };
+  }
+}
+
+enum JsonMatchScope {
+  all,
+  key,
+  value,
+}
+
+extension JsonMatchScopeValueExtension on JsonMatchScope {
+  String toValue() {
+    switch (this) {
+      case JsonMatchScope.all:
+        return 'ALL';
+      case JsonMatchScope.key:
+        return 'KEY';
+      case JsonMatchScope.value:
+        return 'VALUE';
+    }
+  }
+}
+
+extension JsonMatchScopeFromString on String {
+  JsonMatchScope toJsonMatchScope() {
+    switch (this) {
+      case 'ALL':
+        return JsonMatchScope.all;
+      case 'KEY':
+        return JsonMatchScope.key;
+      case 'VALUE':
+        return JsonMatchScope.value;
+    }
+    throw Exception('$this is not known in enum JsonMatchScope');
+  }
+}
+
+/// A single label container. This is used as an element of a label array in
+/// multiple contexts, for example, in <code>RuleLabels</code> inside a
+/// <a>Rule</a> and in <code>Labels</code> inside a <a>SampledHTTPRequest</a>.
+class Label {
+  /// The label string.
+  final String name;
+
+  Label({
+    required this.name,
+  });
+
+  factory Label.fromJson(Map<String, dynamic> json) {
+    return Label(
+      name: json['Name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'Name': name,
+    };
+  }
+}
+
+enum LabelMatchScope {
+  label,
+  namespace,
+}
+
+extension LabelMatchScopeValueExtension on LabelMatchScope {
+  String toValue() {
+    switch (this) {
+      case LabelMatchScope.label:
+        return 'LABEL';
+      case LabelMatchScope.namespace:
+        return 'NAMESPACE';
+    }
+  }
+}
+
+extension LabelMatchScopeFromString on String {
+  LabelMatchScope toLabelMatchScope() {
+    switch (this) {
+      case 'LABEL':
+        return LabelMatchScope.label;
+      case 'NAMESPACE':
+        return LabelMatchScope.namespace;
+    }
+    throw Exception('$this is not known in enum LabelMatchScope');
+  }
+}
+
+/// A rule statement to match against labels that have been added to the web
+/// request by rules that have already run in the web ACL.
+///
+/// The label match statement provides the label or namespace string to search
+/// for. The label string can represent a part or all of the fully qualified
+/// label name that had been added to the web request. Fully qualified labels
+/// have a prefix, optional namespaces, and label name. The prefix identifies
+/// the rule group or web ACL context of the rule that added the label. If you
+/// do not provide the fully qualified name in your label match string, WAF
+/// performs the search for labels that were added in the same context as the
+/// label match statement.
+class LabelMatchStatement {
+  /// The string to match against. The setting you provide for this depends on the
+  /// match statement's <code>Scope</code> setting:
+  ///
+  /// <ul>
+  /// <li>
+  /// If the <code>Scope</code> indicates <code>LABEL</code>, then this
+  /// specification must include the name and can include any number of preceding
+  /// namespace specifications and prefix up to providing the fully qualified
+  /// label name.
+  /// </li>
+  /// <li>
+  /// If the <code>Scope</code> indicates <code>NAMESPACE</code>, then this
+  /// specification can include any number of contiguous namespace strings, and
+  /// can include the entire label namespace prefix from the rule group or web ACL
+  /// where the label originates.
+  /// </li>
+  /// </ul>
+  /// Labels are case sensitive and components of a label must be separated by
+  /// colon, for example <code>NS1:NS2:name</code>.
+  final String key;
+
+  /// Specify whether you want to match using the label name or just the
+  /// namespace.
+  final LabelMatchScope scope;
+
+  LabelMatchStatement({
+    required this.key,
+    required this.scope,
+  });
+
+  factory LabelMatchStatement.fromJson(Map<String, dynamic> json) {
+    return LabelMatchStatement(
+      key: json['Key'] as String,
+      scope: (json['Scope'] as String).toLabelMatchScope(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final scope = this.scope;
+    return {
+      'Key': key,
+      'Scope': scope.toValue(),
+    };
+  }
+}
+
+/// A single label name condition for a <a>Condition</a> in a logging filter.
+class LabelNameCondition {
+  /// The label name that a log record must contain in order to meet the
+  /// condition. This must be a fully qualified label name. Fully qualified labels
+  /// have a prefix, optional namespaces, and label name. The prefix identifies
+  /// the rule group or web ACL context of the rule that added the label.
+  final String labelName;
+
+  LabelNameCondition({
+    required this.labelName,
+  });
+
+  factory LabelNameCondition.fromJson(Map<String, dynamic> json) {
+    return LabelNameCondition(
+      labelName: json['LabelName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final labelName = this.labelName;
+    return {
+      'LabelName': labelName,
+    };
+  }
+}
+
+/// List of labels used by one or more of the rules of a <a>RuleGroup</a>. This
+/// summary object is used for the following rule group lists:
+///
+/// <ul>
+/// <li>
+/// <code>AvailableLabels</code> - Labels that rules add to matching requests.
+/// These labels are defined in the <code>RuleLabels</code> for a <a>Rule</a>.
+/// </li>
+/// <li>
+/// <code>ConsumedLabels</code> - Labels that rules match against. These labels
+/// are defined in a <code>LabelMatchStatement</code> specification, in the
+/// <a>Statement</a> definition of a rule.
+/// </li>
+/// </ul>
+class LabelSummary {
+  /// An individual label specification.
+  final String? name;
+
+  LabelSummary({
+    this.name,
+  });
+
+  factory LabelSummary.fromJson(Map<String, dynamic> json) {
+    return LabelSummary(
+      name: json['Name'] as String?,
+    );
+  }
+}
+
+class ListAPIKeysResponse {
+  /// The array of key summaries. If you specified a <code>Limit</code> in your
+  /// request, this might not be the full list.
+  final List<APIKeySummary>? aPIKeySummaries;
+
+  /// The CAPTCHA application integration URL, for use in your JavaScript
+  /// implementation.
+  final String? applicationIntegrationURL;
+
+  /// When you request a list of objects with a <code>Limit</code> setting, if the
+  /// number of objects that are still available for retrieval exceeds the limit,
+  /// WAF returns a <code>NextMarker</code> value in the response. To retrieve the
+  /// next batch of objects, provide the marker from the prior call in your next
+  /// request.
+  final String? nextMarker;
+
+  ListAPIKeysResponse({
+    this.aPIKeySummaries,
+    this.applicationIntegrationURL,
+    this.nextMarker,
+  });
+
+  factory ListAPIKeysResponse.fromJson(Map<String, dynamic> json) {
+    return ListAPIKeysResponse(
+      aPIKeySummaries: (json['APIKeySummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => APIKeySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      applicationIntegrationURL: json['ApplicationIntegrationURL'] as String?,
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+}
+
+class ListAvailableManagedRuleGroupVersionsResponse {
+  /// The name of the version that's currently set as the default.
+  final String? currentDefaultVersion;
+
+  /// When you request a list of objects with a <code>Limit</code> setting, if the
+  /// number of objects that are still available for retrieval exceeds the limit,
+  /// WAF returns a <code>NextMarker</code> value in the response. To retrieve the
+  /// next batch of objects, provide the marker from the prior call in your next
+  /// request.
+  final String? nextMarker;
+
+  /// The versions that are currently available for the specified managed rule
+  /// group. If you specified a <code>Limit</code> in your request, this might not
+  /// be the full list.
+  final List<ManagedRuleGroupVersion>? versions;
+
+  ListAvailableManagedRuleGroupVersionsResponse({
+    this.currentDefaultVersion,
+    this.nextMarker,
+    this.versions,
+  });
+
+  factory ListAvailableManagedRuleGroupVersionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAvailableManagedRuleGroupVersionsResponse(
+      currentDefaultVersion: json['CurrentDefaultVersion'] as String?,
+      nextMarker: json['NextMarker'] as String?,
+      versions: (json['Versions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ManagedRuleGroupVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 class ListAvailableManagedRuleGroupsResponse {
-  /// <p/>
+  /// Array of managed rule groups that you can use. If you specified a
+  /// <code>Limit</code> in your request, this might not be the full list.
   final List<ManagedRuleGroupSummary>? managedRuleGroups;
 
   /// When you request a list of objects with a <code>Limit</code> setting, if the
   /// number of objects that are still available for retrieval exceeds the limit,
-  /// AWS WAF returns a <code>NextMarker</code> value in the response. To retrieve
-  /// the next batch of objects, provide the marker from the prior call in your
-  /// next request.
+  /// WAF returns a <code>NextMarker</code> value in the response. To retrieve the
+  /// next batch of objects, provide the marker from the prior call in your next
+  /// request.
   final String? nextMarker;
 
   ListAvailableManagedRuleGroupsResponse({
     this.managedRuleGroups,
     this.nextMarker,
   });
+
   factory ListAvailableManagedRuleGroupsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListAvailableManagedRuleGroupsResponse(
@@ -5958,21 +9148,22 @@ class ListAvailableManagedRuleGroupsResponse {
 }
 
 class ListIPSetsResponse {
-  /// Array of IPSets. This may not be the full list of IPSets that you have
-  /// defined. See the <code>Limit</code> specification for this request.
+  /// Array of IPSets. If you specified a <code>Limit</code> in your request, this
+  /// might not be the full list.
   final List<IPSetSummary>? iPSets;
 
   /// When you request a list of objects with a <code>Limit</code> setting, if the
   /// number of objects that are still available for retrieval exceeds the limit,
-  /// AWS WAF returns a <code>NextMarker</code> value in the response. To retrieve
-  /// the next batch of objects, provide the marker from the prior call in your
-  /// next request.
+  /// WAF returns a <code>NextMarker</code> value in the response. To retrieve the
+  /// next batch of objects, provide the marker from the prior call in your next
+  /// request.
   final String? nextMarker;
 
   ListIPSetsResponse({
     this.iPSets,
     this.nextMarker,
   });
+
   factory ListIPSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListIPSetsResponse(
       iPSets: (json['IPSets'] as List?)
@@ -5985,20 +9176,22 @@ class ListIPSetsResponse {
 }
 
 class ListLoggingConfigurationsResponse {
-  /// <p/>
+  /// Array of logging configurations. If you specified a <code>Limit</code> in
+  /// your request, this might not be the full list.
   final List<LoggingConfiguration>? loggingConfigurations;
 
   /// When you request a list of objects with a <code>Limit</code> setting, if the
   /// number of objects that are still available for retrieval exceeds the limit,
-  /// AWS WAF returns a <code>NextMarker</code> value in the response. To retrieve
-  /// the next batch of objects, provide the marker from the prior call in your
-  /// next request.
+  /// WAF returns a <code>NextMarker</code> value in the response. To retrieve the
+  /// next batch of objects, provide the marker from the prior call in your next
+  /// request.
   final String? nextMarker;
 
   ListLoggingConfigurationsResponse({
     this.loggingConfigurations,
     this.nextMarker,
   });
+
   factory ListLoggingConfigurationsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListLoggingConfigurationsResponse(
@@ -6011,21 +9204,79 @@ class ListLoggingConfigurationsResponse {
   }
 }
 
+class ListManagedRuleSetsResponse {
+  /// Your managed rule sets. If you specified a <code>Limit</code> in your
+  /// request, this might not be the full list.
+  final List<ManagedRuleSetSummary>? managedRuleSets;
+
+  /// When you request a list of objects with a <code>Limit</code> setting, if the
+  /// number of objects that are still available for retrieval exceeds the limit,
+  /// WAF returns a <code>NextMarker</code> value in the response. To retrieve the
+  /// next batch of objects, provide the marker from the prior call in your next
+  /// request.
+  final String? nextMarker;
+
+  ListManagedRuleSetsResponse({
+    this.managedRuleSets,
+    this.nextMarker,
+  });
+
+  factory ListManagedRuleSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListManagedRuleSetsResponse(
+      managedRuleSets: (json['ManagedRuleSets'] as List?)
+          ?.whereNotNull()
+          .map((e) => ManagedRuleSetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+}
+
+class ListMobileSdkReleasesResponse {
+  /// When you request a list of objects with a <code>Limit</code> setting, if the
+  /// number of objects that are still available for retrieval exceeds the limit,
+  /// WAF returns a <code>NextMarker</code> value in the response. To retrieve the
+  /// next batch of objects, provide the marker from the prior call in your next
+  /// request.
+  final String? nextMarker;
+
+  /// The high level information for the available SDK releases. If you specified
+  /// a <code>Limit</code> in your request, this might not be the full list.
+  final List<ReleaseSummary>? releaseSummaries;
+
+  ListMobileSdkReleasesResponse({
+    this.nextMarker,
+    this.releaseSummaries,
+  });
+
+  factory ListMobileSdkReleasesResponse.fromJson(Map<String, dynamic> json) {
+    return ListMobileSdkReleasesResponse(
+      nextMarker: json['NextMarker'] as String?,
+      releaseSummaries: (json['ReleaseSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReleaseSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 class ListRegexPatternSetsResponse {
   /// When you request a list of objects with a <code>Limit</code> setting, if the
   /// number of objects that are still available for retrieval exceeds the limit,
-  /// AWS WAF returns a <code>NextMarker</code> value in the response. To retrieve
-  /// the next batch of objects, provide the marker from the prior call in your
-  /// next request.
+  /// WAF returns a <code>NextMarker</code> value in the response. To retrieve the
+  /// next batch of objects, provide the marker from the prior call in your next
+  /// request.
   final String? nextMarker;
 
-  /// <p/>
+  /// Array of regex pattern sets. If you specified a <code>Limit</code> in your
+  /// request, this might not be the full list.
   final List<RegexPatternSetSummary>? regexPatternSets;
 
   ListRegexPatternSetsResponse({
     this.nextMarker,
     this.regexPatternSets,
   });
+
   factory ListRegexPatternSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListRegexPatternSetsResponse(
       nextMarker: json['NextMarker'] as String?,
@@ -6045,6 +9296,7 @@ class ListResourcesForWebACLResponse {
   ListResourcesForWebACLResponse({
     this.resourceArns,
   });
+
   factory ListResourcesForWebACLResponse.fromJson(Map<String, dynamic> json) {
     return ListResourcesForWebACLResponse(
       resourceArns: (json['ResourceArns'] as List?)
@@ -6058,18 +9310,20 @@ class ListResourcesForWebACLResponse {
 class ListRuleGroupsResponse {
   /// When you request a list of objects with a <code>Limit</code> setting, if the
   /// number of objects that are still available for retrieval exceeds the limit,
-  /// AWS WAF returns a <code>NextMarker</code> value in the response. To retrieve
-  /// the next batch of objects, provide the marker from the prior call in your
-  /// next request.
+  /// WAF returns a <code>NextMarker</code> value in the response. To retrieve the
+  /// next batch of objects, provide the marker from the prior call in your next
+  /// request.
   final String? nextMarker;
 
-  /// <p/>
+  /// Array of rule groups. If you specified a <code>Limit</code> in your request,
+  /// this might not be the full list.
   final List<RuleGroupSummary>? ruleGroups;
 
   ListRuleGroupsResponse({
     this.nextMarker,
     this.ruleGroups,
   });
+
   factory ListRuleGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListRuleGroupsResponse(
       nextMarker: json['NextMarker'] as String?,
@@ -6084,18 +9338,20 @@ class ListRuleGroupsResponse {
 class ListTagsForResourceResponse {
   /// When you request a list of objects with a <code>Limit</code> setting, if the
   /// number of objects that are still available for retrieval exceeds the limit,
-  /// AWS WAF returns a <code>NextMarker</code> value in the response. To retrieve
-  /// the next batch of objects, provide the marker from the prior call in your
-  /// next request.
+  /// WAF returns a <code>NextMarker</code> value in the response. To retrieve the
+  /// next batch of objects, provide the marker from the prior call in your next
+  /// request.
   final String? nextMarker;
 
-  /// The collection of tagging definitions for the resource.
+  /// The collection of tagging definitions for the resource. If you specified a
+  /// <code>Limit</code> in your request, this might not be the full list.
   final TagInfoForResource? tagInfoForResource;
 
   ListTagsForResourceResponse({
     this.nextMarker,
     this.tagInfoForResource,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       nextMarker: json['NextMarker'] as String?,
@@ -6110,18 +9366,20 @@ class ListTagsForResourceResponse {
 class ListWebACLsResponse {
   /// When you request a list of objects with a <code>Limit</code> setting, if the
   /// number of objects that are still available for retrieval exceeds the limit,
-  /// AWS WAF returns a <code>NextMarker</code> value in the response. To retrieve
-  /// the next batch of objects, provide the marker from the prior call in your
-  /// next request.
+  /// WAF returns a <code>NextMarker</code> value in the response. To retrieve the
+  /// next batch of objects, provide the marker from the prior call in your next
+  /// request.
   final String? nextMarker;
 
-  /// <p/>
+  /// Array of web ACLs. If you specified a <code>Limit</code> in your request,
+  /// this might not be the full list.
   final List<WebACLSummary>? webACLs;
 
   ListWebACLsResponse({
     this.nextMarker,
     this.webACLs,
   });
+
   factory ListWebACLsResponse.fromJson(Map<String, dynamic> json) {
     return ListWebACLsResponse(
       nextMarker: json['NextMarker'] as String?,
@@ -6133,46 +9391,84 @@ class ListWebACLsResponse {
   }
 }
 
+/// Defines an association between logging destinations and a web ACL resource,
+/// for logging from WAF. As part of the association, you can specify parts of
+/// the standard logging fields to keep out of the logs and you can specify
+/// filters so that you log only a subset of the logging records.
 /// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
+/// You can define one logging destination per web ACL.
 /// </note>
-/// Defines an association between Amazon Kinesis Data Firehose destinations and
-/// a web ACL resource, for logging from AWS WAF. As part of the association,
-/// you can specify parts of the standard logging fields to keep out of the
-/// logs.
+/// You can access information about the traffic that WAF inspects using the
+/// following steps:
+/// <ol>
+/// <li>
+/// Create your logging destination. You can use an Amazon CloudWatch Logs log
+/// group, an Amazon Simple Storage Service (Amazon S3) bucket, or an Amazon
+/// Kinesis Data Firehose.
+///
+/// The name that you give the destination must start with
+/// <code>aws-waf-logs-</code>. Depending on the type of destination, you might
+/// need to configure additional settings or permissions.
+///
+/// For configuration requirements and pricing information for each destination
+/// type, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/logging.html">Logging
+/// web ACL traffic</a> in the <i>WAF Developer Guide</i>.
+/// </li>
+/// <li>
+/// Associate your logging destination to your web ACL using a
+/// <code>PutLoggingConfiguration</code> request.
+/// </li> </ol>
+/// When you successfully enable logging using a
+/// <code>PutLoggingConfiguration</code> request, WAF creates an additional role
+/// or policy that is required to write logs to the logging destination. For an
+/// Amazon CloudWatch Logs log group, WAF creates a resource policy on the log
+/// group. For an Amazon S3 bucket, WAF creates a bucket policy. For an Amazon
+/// Kinesis Data Firehose, WAF creates a service-linked role.
+///
+/// For additional information about web ACL logging, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/logging.html">Logging
+/// web ACL traffic information</a> in the <i>WAF Developer Guide</i>.
 class LoggingConfiguration {
-  /// The Amazon Kinesis Data Firehose Amazon Resource Name (ARNs) that you want
-  /// to associate with the web ACL.
+  /// The logging destination configuration that you want to associate with the
+  /// web ACL.
+  /// <note>
+  /// You can associate one logging destination to a web ACL.
+  /// </note>
   final List<String> logDestinationConfigs;
 
   /// The Amazon Resource Name (ARN) of the web ACL that you want to associate
   /// with <code>LogDestinationConfigs</code>.
   final String resourceArn;
 
-  /// Indicates whether the logging configuration was created by AWS Firewall
-  /// Manager, as part of an AWS WAF policy configuration. If true, only Firewall
-  /// Manager can modify or delete the configuration.
+  /// Filtering that specifies which web requests are kept in the logs and which
+  /// are dropped. You can filter on the rule action and on the web request labels
+  /// that were applied by matching rules during web ACL evaluation.
+  final LoggingFilter? loggingFilter;
+
+  /// Indicates whether the logging configuration was created by Firewall Manager,
+  /// as part of an WAF policy configuration. If true, only Firewall Manager can
+  /// modify or delete the configuration.
   final bool? managedByFirewallManager;
 
   /// The parts of the request that you want to keep out of the logs. For example,
-  /// if you redact the <code>HEADER</code> field, the <code>HEADER</code> field
-  /// in the firehose will be <code>xxx</code>.
+  /// if you redact the <code>SingleHeader</code> field, the <code>HEADER</code>
+  /// field in the logs will be <code>REDACTED</code>.
   /// <note>
-  /// You must use one of the following values: <code>URI</code>,
-  /// <code>QUERY_STRING</code>, <code>HEADER</code>, or <code>METHOD</code>.
+  /// You can specify only the following fields for redaction:
+  /// <code>UriPath</code>, <code>QueryString</code>, <code>SingleHeader</code>,
+  /// <code>Method</code>, and <code>JsonBody</code>.
   /// </note>
   final List<FieldToMatch>? redactedFields;
 
   LoggingConfiguration({
     required this.logDestinationConfigs,
     required this.resourceArn,
+    this.loggingFilter,
     this.managedByFirewallManager,
     this.redactedFields,
   });
+
   factory LoggingConfiguration.fromJson(Map<String, dynamic> json) {
     return LoggingConfiguration(
       logDestinationConfigs: (json['LogDestinationConfigs'] as List)
@@ -6180,6 +9476,10 @@ class LoggingConfiguration {
           .map((e) => e as String)
           .toList(),
       resourceArn: json['ResourceArn'] as String,
+      loggingFilter: json['LoggingFilter'] != null
+          ? LoggingFilter.fromJson(
+              json['LoggingFilter'] as Map<String, dynamic>)
+          : null,
       managedByFirewallManager: json['ManagedByFirewallManager'] as bool?,
       redactedFields: (json['RedactedFields'] as List?)
           ?.whereNotNull()
@@ -6191,11 +9491,13 @@ class LoggingConfiguration {
   Map<String, dynamic> toJson() {
     final logDestinationConfigs = this.logDestinationConfigs;
     final resourceArn = this.resourceArn;
+    final loggingFilter = this.loggingFilter;
     final managedByFirewallManager = this.managedByFirewallManager;
     final redactedFields = this.redactedFields;
     return {
       'LogDestinationConfigs': logDestinationConfigs,
       'ResourceArn': resourceArn,
+      if (loggingFilter != null) 'LoggingFilter': loggingFilter,
       if (managedByFirewallManager != null)
         'ManagedByFirewallManager': managedByFirewallManager,
       if (redactedFields != null) 'RedactedFields': redactedFields,
@@ -6203,21 +9505,179 @@ class LoggingConfiguration {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
+/// Filtering that specifies which web requests are kept in the logs and which
+/// are dropped, defined for a web ACL's <a>LoggingConfiguration</a>.
+///
+/// You can filter on the rule action and on the web request labels that were
+/// applied by matching rules during web ACL evaluation.
+class LoggingFilter {
+  /// Default handling for logs that don't match any of the specified filtering
+  /// conditions.
+  final FilterBehavior defaultBehavior;
+
+  /// The filters that you want to apply to the logs.
+  final List<Filter> filters;
+
+  LoggingFilter({
+    required this.defaultBehavior,
+    required this.filters,
+  });
+
+  factory LoggingFilter.fromJson(Map<String, dynamic> json) {
+    return LoggingFilter(
+      defaultBehavior: (json['DefaultBehavior'] as String).toFilterBehavior(),
+      filters: (json['Filters'] as List)
+          .whereNotNull()
+          .map((e) => Filter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultBehavior = this.defaultBehavior;
+    final filters = this.filters;
+    return {
+      'DefaultBehavior': defaultBehavior.toValue(),
+      'Filters': filters,
+    };
+  }
+}
+
+/// Additional information that's used by a managed rule group. Many managed
+/// rule groups don't require this.
+///
+/// Use the <code>AWSManagedRulesATPRuleSet</code> configuration object for the
+/// account takeover prevention managed rule group, to provide information such
+/// as the sign-in page of your application and the type of content to accept or
+/// reject from the client.
+///
+/// Use the <code>AWSManagedRulesBotControlRuleSet</code> configuration object
+/// to configure the protection level that you want the Bot Control rule group
+/// to use.
+///
+/// For example specifications, see the examples section of <a>CreateWebACL</a>.
+class ManagedRuleGroupConfig {
+  /// Additional configuration for using the account takeover prevention (ATP)
+  /// managed rule group, <code>AWSManagedRulesATPRuleSet</code>. Use this to
+  /// provide login request information to the rule group. For web ACLs that
+  /// protect CloudFront distributions, use this to also provide the information
+  /// about how your distribution responds to login requests.
+  ///
+  /// This configuration replaces the individual configuration fields in
+  /// <code>ManagedRuleGroupConfig</code> and provides additional feature
+  /// configuration.
+  ///
+  /// For information about using the ATP managed rule group, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-atp.html">WAF
+  /// Fraud Control account takeover prevention (ATP) rule group</a> and <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-atp.html">WAF
+  /// Fraud Control account takeover prevention (ATP)</a> in the <i>WAF Developer
+  /// Guide</i>.
+  final AWSManagedRulesATPRuleSet? awsManagedRulesATPRuleSet;
+
+  /// Additional configuration for using the Bot Control managed rule group. Use
+  /// this to specify the inspection level that you want to use. For information
+  /// about using the Bot Control managed rule group, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html">WAF
+  /// Bot Control rule group</a> and <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-bot-control.html">WAF
+  /// Bot Control</a> in the <i>WAF Developer Guide</i>.
+  final AWSManagedRulesBotControlRuleSet? awsManagedRulesBotControlRuleSet;
+
+  /// <note>
+  /// Instead of this setting, provide your configuration under
+  /// <code>AWSManagedRulesATPRuleSet</code>.
+  /// </note>
+  final String? loginPath;
+
+  /// <note>
+  /// Instead of this setting, provide your configuration under
+  /// <code>AWSManagedRulesATPRuleSet</code> <code>RequestInspection</code>.
+  /// </note>
+  final PasswordField? passwordField;
+
+  /// <note>
+  /// Instead of this setting, provide your configuration under
+  /// <code>AWSManagedRulesATPRuleSet</code> <code>RequestInspection</code>.
+  /// </note>
+  final PayloadType? payloadType;
+
+  /// <note>
+  /// Instead of this setting, provide your configuration under
+  /// <code>AWSManagedRulesATPRuleSet</code> <code>RequestInspection</code>.
+  /// </note>
+  final UsernameField? usernameField;
+
+  ManagedRuleGroupConfig({
+    this.awsManagedRulesATPRuleSet,
+    this.awsManagedRulesBotControlRuleSet,
+    this.loginPath,
+    this.passwordField,
+    this.payloadType,
+    this.usernameField,
+  });
+
+  factory ManagedRuleGroupConfig.fromJson(Map<String, dynamic> json) {
+    return ManagedRuleGroupConfig(
+      awsManagedRulesATPRuleSet: json['AWSManagedRulesATPRuleSet'] != null
+          ? AWSManagedRulesATPRuleSet.fromJson(
+              json['AWSManagedRulesATPRuleSet'] as Map<String, dynamic>)
+          : null,
+      awsManagedRulesBotControlRuleSet:
+          json['AWSManagedRulesBotControlRuleSet'] != null
+              ? AWSManagedRulesBotControlRuleSet.fromJson(
+                  json['AWSManagedRulesBotControlRuleSet']
+                      as Map<String, dynamic>)
+              : null,
+      loginPath: json['LoginPath'] as String?,
+      passwordField: json['PasswordField'] != null
+          ? PasswordField.fromJson(
+              json['PasswordField'] as Map<String, dynamic>)
+          : null,
+      payloadType: (json['PayloadType'] as String?)?.toPayloadType(),
+      usernameField: json['UsernameField'] != null
+          ? UsernameField.fromJson(
+              json['UsernameField'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsManagedRulesATPRuleSet = this.awsManagedRulesATPRuleSet;
+    final awsManagedRulesBotControlRuleSet =
+        this.awsManagedRulesBotControlRuleSet;
+    final loginPath = this.loginPath;
+    final passwordField = this.passwordField;
+    final payloadType = this.payloadType;
+    final usernameField = this.usernameField;
+    return {
+      if (awsManagedRulesATPRuleSet != null)
+        'AWSManagedRulesATPRuleSet': awsManagedRulesATPRuleSet,
+      if (awsManagedRulesBotControlRuleSet != null)
+        'AWSManagedRulesBotControlRuleSet': awsManagedRulesBotControlRuleSet,
+      if (loginPath != null) 'LoginPath': loginPath,
+      if (passwordField != null) 'PasswordField': passwordField,
+      if (payloadType != null) 'PayloadType': payloadType.toValue(),
+      if (usernameField != null) 'UsernameField': usernameField,
+    };
+  }
+}
+
 /// A rule statement used to run the rules that are defined in a managed rule
 /// group. To use this, provide the vendor name and the name of the rule group
 /// in this statement. You can retrieve the required names by calling
 /// <a>ListAvailableManagedRuleGroups</a>.
 ///
-/// You can't nest a <code>ManagedRuleGroupStatement</code>, for example for use
-/// inside a <code>NotStatement</code> or <code>OrStatement</code>. It can only
-/// be referenced as a top-level statement within a rule.
+/// You cannot nest a <code>ManagedRuleGroupStatement</code>, for example for
+/// use inside a <code>NotStatement</code> or <code>OrStatement</code>. It can
+/// only be referenced as a top-level statement within a rule.
+/// <note>
+/// You are charged additional fees when you use the WAF Bot Control managed
+/// rule group <code>AWSManagedRulesBotControlRuleSet</code> or the WAF Fraud
+/// Control account takeover prevention (ATP) managed rule group
+/// <code>AWSManagedRulesATPRuleSet</code>. For more information, see <a
+/// href="http://aws.amazon.com/waf/pricing/">WAF Pricing</a>.
+/// </note>
 class ManagedRuleGroupStatement {
   /// The name of the managed rule group. You use this, along with the vendor
   /// name, to identify the rule group.
@@ -6227,16 +9687,61 @@ class ManagedRuleGroupStatement {
   /// group name, to identify the rule group.
   final String vendorName;
 
-  /// The rules whose actions are set to <code>COUNT</code> by the web ACL,
-  /// regardless of the action that is set on the rule. This effectively excludes
-  /// the rule from acting on web requests.
+  /// Rules in the referenced rule group whose actions are set to
+  /// <code>Count</code>.
+  /// <note>
+  /// Instead of this option, use <code>RuleActionOverrides</code>. It accepts any
+  /// valid action setting, including <code>Count</code>.
+  /// </note>
   final List<ExcludedRule>? excludedRules;
+
+  /// Additional information that's used by a managed rule group. Many managed
+  /// rule groups don't require this.
+  ///
+  /// Use the <code>AWSManagedRulesATPRuleSet</code> configuration object for the
+  /// account takeover prevention managed rule group, to provide information such
+  /// as the sign-in page of your application and the type of content to accept or
+  /// reject from the client.
+  ///
+  /// Use the <code>AWSManagedRulesBotControlRuleSet</code> configuration object
+  /// to configure the protection level that you want the Bot Control rule group
+  /// to use.
+  final List<ManagedRuleGroupConfig>? managedRuleGroupConfigs;
+
+  /// Action settings to use in the place of the rule actions that are configured
+  /// inside the rule group. You specify one override for each rule whose action
+  /// you want to change.
+  ///
+  /// You can use overrides for testing, for example you can override all of rule
+  /// actions to <code>Count</code> and then monitor the resulting count metrics
+  /// to understand how the rule group would handle your web traffic. You can also
+  /// permanently override some or all actions, to modify how the rule group
+  /// manages your web traffic.
+  final List<RuleActionOverride>? ruleActionOverrides;
+
+  /// An optional nested statement that narrows the scope of the web requests that
+  /// are evaluated by the managed rule group. Requests are only evaluated by the
+  /// rule group if they match the scope-down statement. You can use any nestable
+  /// <a>Statement</a> in the scope-down statement, and you can nest statements at
+  /// any level, the same as you can for a rule statement.
+  final Statement? scopeDownStatement;
+
+  /// The version of the managed rule group to use. If you specify this, the
+  /// version setting is fixed until you change it. If you don't specify this, WAF
+  /// uses the vendor's default version, and then keeps the version at the
+  /// vendor's default when the vendor updates the managed rule group settings.
+  final String? version;
 
   ManagedRuleGroupStatement({
     required this.name,
     required this.vendorName,
     this.excludedRules,
+    this.managedRuleGroupConfigs,
+    this.ruleActionOverrides,
+    this.scopeDownStatement,
+    this.version,
   });
+
   factory ManagedRuleGroupStatement.fromJson(Map<String, dynamic> json) {
     return ManagedRuleGroupStatement(
       name: json['Name'] as String,
@@ -6245,6 +9750,20 @@ class ManagedRuleGroupStatement {
           ?.whereNotNull()
           .map((e) => ExcludedRule.fromJson(e as Map<String, dynamic>))
           .toList(),
+      managedRuleGroupConfigs: (json['ManagedRuleGroupConfigs'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => ManagedRuleGroupConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ruleActionOverrides: (json['RuleActionOverrides'] as List?)
+          ?.whereNotNull()
+          .map((e) => RuleActionOverride.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      scopeDownStatement: json['ScopeDownStatement'] != null
+          ? Statement.fromJson(
+              json['ScopeDownStatement'] as Map<String, dynamic>)
+          : null,
+      version: json['Version'] as String?,
     );
   }
 
@@ -6252,31 +9771,34 @@ class ManagedRuleGroupStatement {
     final name = this.name;
     final vendorName = this.vendorName;
     final excludedRules = this.excludedRules;
+    final managedRuleGroupConfigs = this.managedRuleGroupConfigs;
+    final ruleActionOverrides = this.ruleActionOverrides;
+    final scopeDownStatement = this.scopeDownStatement;
+    final version = this.version;
     return {
       'Name': name,
       'VendorName': vendorName,
       if (excludedRules != null) 'ExcludedRules': excludedRules,
+      if (managedRuleGroupConfigs != null)
+        'ManagedRuleGroupConfigs': managedRuleGroupConfigs,
+      if (ruleActionOverrides != null)
+        'RuleActionOverrides': ruleActionOverrides,
+      if (scopeDownStatement != null) 'ScopeDownStatement': scopeDownStatement,
+      if (version != null) 'Version': version,
     };
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
 /// High-level information about a managed rule group, returned by
 /// <a>ListAvailableManagedRuleGroups</a>. This provides information like the
 /// name and vendor name, that you provide when you add a
 /// <a>ManagedRuleGroupStatement</a> to a web ACL. Managed rule groups include
-/// AWS Managed Rules rule groups, which are free of charge to AWS WAF
-/// customers, and AWS Marketplace managed rule groups, which you can subscribe
-/// to through AWS Marketplace.
+/// Amazon Web Services Managed Rules rule groups, which are free of charge to
+/// WAF customers, and Amazon Web Services Marketplace managed rule groups,
+/// which you can subscribe to through Amazon Web Services Marketplace.
 class ManagedRuleGroupSummary {
-  /// The description of the managed rule group, provided by AWS Managed Rules or
-  /// the AWS Marketplace seller who manages it.
+  /// The description of the managed rule group, provided by Amazon Web Services
+  /// Managed Rules or the Amazon Web Services Marketplace seller who manages it.
   final String? description;
 
   /// The name of the managed rule group. You use this, along with the vendor
@@ -6287,34 +9809,335 @@ class ManagedRuleGroupSummary {
   /// group name, to identify the rule group.
   final String? vendorName;
 
+  /// Indicates whether the managed rule group is versioned. If it is, you can
+  /// retrieve the versions list by calling
+  /// <a>ListAvailableManagedRuleGroupVersions</a>.
+  final bool? versioningSupported;
+
   ManagedRuleGroupSummary({
     this.description,
     this.name,
     this.vendorName,
+    this.versioningSupported,
   });
+
   factory ManagedRuleGroupSummary.fromJson(Map<String, dynamic> json) {
     return ManagedRuleGroupSummary(
       description: json['Description'] as String?,
       name: json['Name'] as String?,
       vendorName: json['VendorName'] as String?,
+      versioningSupported: json['VersioningSupported'] as bool?,
     );
   }
 }
 
+/// Describes a single version of a managed rule group.
+class ManagedRuleGroupVersion {
+  /// The date and time that the managed rule group owner updated the rule group
+  /// version information.
+  final DateTime? lastUpdateTimestamp;
+
+  /// The version name.
+  final String? name;
+
+  ManagedRuleGroupVersion({
+    this.lastUpdateTimestamp,
+    this.name,
+  });
+
+  factory ManagedRuleGroupVersion.fromJson(Map<String, dynamic> json) {
+    return ManagedRuleGroupVersion(
+      lastUpdateTimestamp: timeStampFromJson(json['LastUpdateTimestamp']),
+      name: json['Name'] as String?,
+    );
+  }
+}
+
+/// A set of rules that is managed by Amazon Web Services and Amazon Web
+/// Services Marketplace sellers to provide versioned managed rule groups for
+/// customers of WAF.
 /// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// The HTTP method of a web request. The method indicates the type of operation
-/// that the request is asking the origin to perform.
+/// This is intended for use only by vendors of managed rule sets. Vendors are
+/// Amazon Web Services and Amazon Web Services Marketplace sellers.
 ///
-/// This is used only to indicate the web request component for AWS WAF to
-/// inspect, in the <a>FieldToMatch</a> specification.
+/// Vendors, you can use the managed rule set APIs to provide controlled rollout
+/// of your versioned managed rule group offerings for your customers. The APIs
+/// are <code>ListManagedRuleSets</code>, <code>GetManagedRuleSet</code>,
+/// <code>PutManagedRuleSetVersions</code>, and
+/// <code>UpdateManagedRuleSetVersionExpiryDate</code>.
+/// </note>
+class ManagedRuleSet {
+  /// The Amazon Resource Name (ARN) of the entity.
+  final String arn;
+
+  /// A unique identifier for the managed rule set. The ID is returned in the
+  /// responses to commands like <code>list</code>. You provide it to operations
+  /// like <code>get</code> and <code>update</code>.
+  final String id;
+
+  /// The name of the managed rule set. You use this, along with the rule set ID,
+  /// to identify the rule set.
+  ///
+  /// This name is assigned to the corresponding managed rule group, which your
+  /// customers can access and use.
+  final String name;
+
+  /// A description of the set that helps with identification.
+  final String? description;
+
+  /// The label namespace prefix for the managed rule groups that are offered to
+  /// customers from this managed rule set. All labels that are added by rules in
+  /// the managed rule group have this prefix.
+  ///
+  /// <ul>
+  /// <li>
+  /// The syntax for the label namespace prefix for a managed rule group is the
+  /// following:
+  ///
+  /// <code>awswaf:managed:&lt;vendor&gt;:&lt;rule group name&gt;</code>:
+  /// </li>
+  /// <li>
+  /// When a rule with a label matches a web request, WAF adds the fully qualified
+  /// label to the request. A fully qualified label is made up of the label
+  /// namespace from the rule group or web ACL where the rule is defined and the
+  /// label from the rule, separated by a colon:
+  ///
+  /// <code>&lt;label namespace&gt;:&lt;label from rule&gt;</code>
+  /// </li>
+  /// </ul>
+  final String? labelNamespace;
+
+  /// The versions of this managed rule set that are available for use by
+  /// customers.
+  final Map<String, ManagedRuleSetVersion>? publishedVersions;
+
+  /// The version that you would like your customers to use.
+  final String? recommendedVersion;
+
+  ManagedRuleSet({
+    required this.arn,
+    required this.id,
+    required this.name,
+    this.description,
+    this.labelNamespace,
+    this.publishedVersions,
+    this.recommendedVersion,
+  });
+
+  factory ManagedRuleSet.fromJson(Map<String, dynamic> json) {
+    return ManagedRuleSet(
+      arn: json['ARN'] as String,
+      id: json['Id'] as String,
+      name: json['Name'] as String,
+      description: json['Description'] as String?,
+      labelNamespace: json['LabelNamespace'] as String?,
+      publishedVersions: (json['PublishedVersions'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, ManagedRuleSetVersion.fromJson(e as Map<String, dynamic>))),
+      recommendedVersion: json['RecommendedVersion'] as String?,
+    );
+  }
+}
+
+/// High-level information for a managed rule set.
+/// <note>
+/// This is intended for use only by vendors of managed rule sets. Vendors are
+/// Amazon Web Services and Amazon Web Services Marketplace sellers.
+///
+/// Vendors, you can use the managed rule set APIs to provide controlled rollout
+/// of your versioned managed rule group offerings for your customers. The APIs
+/// are <code>ListManagedRuleSets</code>, <code>GetManagedRuleSet</code>,
+/// <code>PutManagedRuleSetVersions</code>, and
+/// <code>UpdateManagedRuleSetVersionExpiryDate</code>.
+/// </note>
+class ManagedRuleSetSummary {
+  /// The Amazon Resource Name (ARN) of the entity.
+  final String? arn;
+
+  /// A description of the set that helps with identification.
+  final String? description;
+
+  /// A unique identifier for the managed rule set. The ID is returned in the
+  /// responses to commands like <code>list</code>. You provide it to operations
+  /// like <code>get</code> and <code>update</code>.
+  final String? id;
+
+  /// The label namespace prefix for the managed rule groups that are offered to
+  /// customers from this managed rule set. All labels that are added by rules in
+  /// the managed rule group have this prefix.
+  ///
+  /// <ul>
+  /// <li>
+  /// The syntax for the label namespace prefix for a managed rule group is the
+  /// following:
+  ///
+  /// <code>awswaf:managed:&lt;vendor&gt;:&lt;rule group name&gt;</code>:
+  /// </li>
+  /// <li>
+  /// When a rule with a label matches a web request, WAF adds the fully qualified
+  /// label to the request. A fully qualified label is made up of the label
+  /// namespace from the rule group or web ACL where the rule is defined and the
+  /// label from the rule, separated by a colon:
+  ///
+  /// <code>&lt;label namespace&gt;:&lt;label from rule&gt;</code>
+  /// </li>
+  /// </ul>
+  final String? labelNamespace;
+
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
+  final String? lockToken;
+
+  /// The name of the managed rule set. You use this, along with the rule set ID,
+  /// to identify the rule set.
+  ///
+  /// This name is assigned to the corresponding managed rule group, which your
+  /// customers can access and use.
+  final String? name;
+
+  ManagedRuleSetSummary({
+    this.arn,
+    this.description,
+    this.id,
+    this.labelNamespace,
+    this.lockToken,
+    this.name,
+  });
+
+  factory ManagedRuleSetSummary.fromJson(Map<String, dynamic> json) {
+    return ManagedRuleSetSummary(
+      arn: json['ARN'] as String?,
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      labelNamespace: json['LabelNamespace'] as String?,
+      lockToken: json['LockToken'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+}
+
+/// Information for a single version of a managed rule set.
+/// <note>
+/// This is intended for use only by vendors of managed rule sets. Vendors are
+/// Amazon Web Services and Amazon Web Services Marketplace sellers.
+///
+/// Vendors, you can use the managed rule set APIs to provide controlled rollout
+/// of your versioned managed rule group offerings for your customers. The APIs
+/// are <code>ListManagedRuleSets</code>, <code>GetManagedRuleSet</code>,
+/// <code>PutManagedRuleSetVersions</code>, and
+/// <code>UpdateManagedRuleSetVersionExpiryDate</code>.
+/// </note>
+class ManagedRuleSetVersion {
+  /// The Amazon Resource Name (ARN) of the vendor rule group that's used to
+  /// define the published version of your managed rule group.
+  final String? associatedRuleGroupArn;
+
+  /// The web ACL capacity units (WCUs) required for this rule group.
+  ///
+  /// WAF uses WCUs to calculate and control the operating resources that are used
+  /// to run your rules, rule groups, and web ACLs. WAF calculates capacity
+  /// differently for each rule type, to reflect the relative cost of each rule.
+  /// Simple rules that cost little to run use fewer WCUs than more complex rules
+  /// that use more processing power. Rule group capacity is fixed at creation,
+  /// which helps users plan their web ACL WCU usage when they use a rule group.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html">WAF
+  /// web ACL capacity units (WCU)</a> in the <i>WAF Developer Guide</i>.
+  final int? capacity;
+
+  /// The time that this version is set to expire.
+  ///
+  /// Times are in Coordinated Universal Time (UTC) format. UTC format includes
+  /// the special designator, Z. For example, "2016-09-27T14:50Z".
+  final DateTime? expiryTimestamp;
+
+  /// The amount of time you expect this version of your managed rule group to
+  /// last, in days.
+  final int? forecastedLifetime;
+
+  /// The last time that you updated this version.
+  ///
+  /// Times are in Coordinated Universal Time (UTC) format. UTC format includes
+  /// the special designator, Z. For example, "2016-09-27T14:50Z".
+  final DateTime? lastUpdateTimestamp;
+
+  /// The time that you first published this version.
+  ///
+  /// Times are in Coordinated Universal Time (UTC) format. UTC format includes
+  /// the special designator, Z. For example, "2016-09-27T14:50Z".
+  final DateTime? publishTimestamp;
+
+  ManagedRuleSetVersion({
+    this.associatedRuleGroupArn,
+    this.capacity,
+    this.expiryTimestamp,
+    this.forecastedLifetime,
+    this.lastUpdateTimestamp,
+    this.publishTimestamp,
+  });
+
+  factory ManagedRuleSetVersion.fromJson(Map<String, dynamic> json) {
+    return ManagedRuleSetVersion(
+      associatedRuleGroupArn: json['AssociatedRuleGroupArn'] as String?,
+      capacity: json['Capacity'] as int?,
+      expiryTimestamp: timeStampFromJson(json['ExpiryTimestamp']),
+      forecastedLifetime: json['ForecastedLifetime'] as int?,
+      lastUpdateTimestamp: timeStampFromJson(json['LastUpdateTimestamp']),
+      publishTimestamp: timeStampFromJson(json['PublishTimestamp']),
+    );
+  }
+}
+
+enum MapMatchScope {
+  all,
+  key,
+  value,
+}
+
+extension MapMatchScopeValueExtension on MapMatchScope {
+  String toValue() {
+    switch (this) {
+      case MapMatchScope.all:
+        return 'ALL';
+      case MapMatchScope.key:
+        return 'KEY';
+      case MapMatchScope.value:
+        return 'VALUE';
+    }
+  }
+}
+
+extension MapMatchScopeFromString on String {
+  MapMatchScope toMapMatchScope() {
+    switch (this) {
+      case 'ALL':
+        return MapMatchScope.all;
+      case 'KEY':
+        return MapMatchScope.key;
+      case 'VALUE':
+        return MapMatchScope.value;
+    }
+    throw Exception('$this is not known in enum MapMatchScope');
+  }
+}
+
+/// Inspect the HTTP method of the web request. The method indicates the type of
+/// operation that the request is asking the origin to perform.
+///
+/// This is used only in the <a>FieldToMatch</a> specification for some web
+/// request component types.
+///
+/// JSON specification: <code>"Method": {}</code>
 class Method {
   Method();
+
   factory Method.fromJson(Map<String, dynamic> _) {
     return Method();
   }
@@ -6324,21 +10147,58 @@ class Method {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// Specifies that AWS WAF should do nothing. This is generally used to try out
-/// a rule without performing any actions. You set the
-/// <code>OverrideAction</code> on the <a>Rule</a>.
+/// Information for a release of the mobile SDK, including release notes and
+/// tags.
 ///
-/// This is used only in the context of other settings, for example to specify
-/// values for <a>RuleAction</a> and web ACL <a>DefaultAction</a>.
+/// The mobile SDK is not generally available. Customers who have access to the
+/// mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S)
+/// requests from a mobile device to WAF. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html">WAF
+/// client application integration</a> in the <i>WAF Developer Guide</i>.
+class MobileSdkRelease {
+  /// Notes describing the release.
+  final String? releaseNotes;
+
+  /// The release version.
+  final String? releaseVersion;
+
+  /// Tags that are associated with the release.
+  final List<Tag>? tags;
+
+  /// The timestamp of the release.
+  final DateTime? timestamp;
+
+  MobileSdkRelease({
+    this.releaseNotes,
+    this.releaseVersion,
+    this.tags,
+    this.timestamp,
+  });
+
+  factory MobileSdkRelease.fromJson(Map<String, dynamic> json) {
+    return MobileSdkRelease(
+      releaseNotes: json['ReleaseNotes'] as String?,
+      releaseVersion: json['ReleaseVersion'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      timestamp: timeStampFromJson(json['Timestamp']),
+    );
+  }
+}
+
+/// Specifies that WAF should do nothing. This is used for the
+/// <code>OverrideAction</code> setting on a <a>Rule</a> when the rule uses a
+/// rule group reference statement.
+///
+/// This is used in the context of other settings, for example to specify values
+/// for <a>RuleAction</a> and web ACL <a>DefaultAction</a>.
+///
+/// JSON specification: <code>"None": {}</code>
 class NoneAction {
   NoneAction();
+
   factory NoneAction.fromJson(Map<String, dynamic> _) {
     return NoneAction();
   }
@@ -6348,13 +10208,6 @@ class NoneAction {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
 /// A logical rule statement used to negate the results of another rule
 /// statement. You provide one <a>Statement</a> within the
 /// <code>NotStatement</code>.
@@ -6365,6 +10218,7 @@ class NotStatement {
   NotStatement({
     required this.statement,
   });
+
   factory NotStatement.fromJson(Map<String, dynamic> json) {
     return NotStatement(
       statement: Statement.fromJson(json['Statement'] as Map<String, dynamic>),
@@ -6379,13 +10233,6 @@ class NotStatement {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
 /// A logical rule statement used to combine other rule statements with OR
 /// logic. You provide more than one <a>Statement</a> within the
 /// <code>OrStatement</code>.
@@ -6397,6 +10244,7 @@ class OrStatement {
   OrStatement({
     required this.statements,
   });
+
   factory OrStatement.fromJson(Map<String, dynamic> json) {
     return OrStatement(
       statements: (json['Statements'] as List)
@@ -6414,38 +10262,40 @@ class OrStatement {
   }
 }
 
-/// The override action to apply to the rules in a rule group. Used only for
-/// rule statements that reference a rule group, like
+/// The action to use in the place of the action that results from the rule
+/// group evaluation. Set the override action to none to leave the result of the
+/// rule group alone. Set it to count to override the result to count only.
+///
+/// You can only use this for rule statements that reference a rule group, like
 /// <code>RuleGroupReferenceStatement</code> and
 /// <code>ManagedRuleGroupStatement</code>.
-///
-/// Set the override action to none to leave the rule actions in effect. Set it
-/// to count to only count matches, regardless of the rule action settings.
-///
-/// In a <a>Rule</a>, you must specify either this <code>OverrideAction</code>
-/// setting or the rule <code>Action</code> setting, but not both:
-///
-/// <ul>
-/// <li>
-/// If the rule statement references a rule group, use this override action
-/// setting and not the action setting.
-/// </li>
-/// <li>
-/// If the rule statement does not reference a rule group, use the rule action
-/// setting and not this rule override action setting.
-/// </li>
-/// </ul>
+/// <note>
+/// This option is usually set to none. It does not affect how the rules in the
+/// rule group are evaluated. If you want the rules in the rule group to only
+/// count matches, do not use this and instead use the rule action override
+/// option, with <code>Count</code> action, in your rule group reference
+/// statement settings.
+/// </note>
 class OverrideAction {
-  /// Override the rule action setting to count.
+  /// Override the rule group evaluation result to count only.
+  /// <note>
+  /// This option is usually set to none. It does not affect how the rules in the
+  /// rule group are evaluated. If you want the rules in the rule group to only
+  /// count matches, do not use this and instead use the rule action override
+  /// option, with <code>Count</code> action, in your rule group reference
+  /// statement settings.
+  /// </note>
   final CountAction? count;
 
-  /// Don't override the rule action setting.
+  /// Don't override the rule group evaluation result. This is the most common
+  /// setting.
   final NoneAction? none;
 
   OverrideAction({
     this.count,
     this.none,
   });
+
   factory OverrideAction.fromJson(Map<String, dynamic> json) {
     return OverrideAction(
       count: json['Count'] != null
@@ -6464,6 +10314,120 @@ class OverrideAction {
       if (count != null) 'Count': count,
       if (none != null) 'None': none,
     };
+  }
+}
+
+enum OversizeHandling {
+  $continue,
+  match,
+  noMatch,
+}
+
+extension OversizeHandlingValueExtension on OversizeHandling {
+  String toValue() {
+    switch (this) {
+      case OversizeHandling.$continue:
+        return 'CONTINUE';
+      case OversizeHandling.match:
+        return 'MATCH';
+      case OversizeHandling.noMatch:
+        return 'NO_MATCH';
+    }
+  }
+}
+
+extension OversizeHandlingFromString on String {
+  OversizeHandling toOversizeHandling() {
+    switch (this) {
+      case 'CONTINUE':
+        return OversizeHandling.$continue;
+      case 'MATCH':
+        return OversizeHandling.match;
+      case 'NO_MATCH':
+        return OversizeHandling.noMatch;
+    }
+    throw Exception('$this is not known in enum OversizeHandling');
+  }
+}
+
+/// Details about your login page password field for request inspection, used in
+/// the <code>AWSManagedRulesATPRuleSet</code> <code>RequestInspection</code>
+/// configuration.
+class PasswordField {
+  /// The name of the password field. For example <code>/form/password</code>.
+  final String identifier;
+
+  PasswordField({
+    required this.identifier,
+  });
+
+  factory PasswordField.fromJson(Map<String, dynamic> json) {
+    return PasswordField(
+      identifier: json['Identifier'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identifier = this.identifier;
+    return {
+      'Identifier': identifier,
+    };
+  }
+}
+
+enum PayloadType {
+  json,
+  formEncoded,
+}
+
+extension PayloadTypeValueExtension on PayloadType {
+  String toValue() {
+    switch (this) {
+      case PayloadType.json:
+        return 'JSON';
+      case PayloadType.formEncoded:
+        return 'FORM_ENCODED';
+    }
+  }
+}
+
+extension PayloadTypeFromString on String {
+  PayloadType toPayloadType() {
+    switch (this) {
+      case 'JSON':
+        return PayloadType.json;
+      case 'FORM_ENCODED':
+        return PayloadType.formEncoded;
+    }
+    throw Exception('$this is not known in enum PayloadType');
+  }
+}
+
+enum Platform {
+  ios,
+  android,
+}
+
+extension PlatformValueExtension on Platform {
+  String toValue() {
+    switch (this) {
+      case Platform.ios:
+        return 'IOS';
+      case Platform.android:
+        return 'ANDROID';
+    }
+  }
+}
+
+extension PlatformFromString on String {
+  Platform toPlatform() {
+    switch (this) {
+      case 'IOS':
+        return Platform.ios;
+      case 'ANDROID':
+        return Platform.android;
+    }
+    throw Exception('$this is not known in enum Platform');
   }
 }
 
@@ -6517,6 +10481,7 @@ class PutLoggingConfigurationResponse {
   PutLoggingConfigurationResponse({
     this.loggingConfiguration,
   });
+
   factory PutLoggingConfigurationResponse.fromJson(Map<String, dynamic> json) {
     return PutLoggingConfigurationResponse(
       loggingConfiguration: json['LoggingConfiguration'] != null
@@ -6527,27 +10492,48 @@ class PutLoggingConfigurationResponse {
   }
 }
 
+class PutManagedRuleSetVersionsResponse {
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
+  final String? nextLockToken;
+
+  PutManagedRuleSetVersionsResponse({
+    this.nextLockToken,
+  });
+
+  factory PutManagedRuleSetVersionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return PutManagedRuleSetVersionsResponse(
+      nextLockToken: json['NextLockToken'] as String?,
+    );
+  }
+}
+
 class PutPermissionPolicyResponse {
   PutPermissionPolicyResponse();
+
   factory PutPermissionPolicyResponse.fromJson(Map<String, dynamic> _) {
     return PutPermissionPolicyResponse();
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// The query string of a web request. This is the part of a URL that appears
-/// after a <code>?</code> character, if any.
+/// Inspect the query string of the web request. This is the part of a URL that
+/// appears after a <code>?</code> character, if any.
 ///
-/// This is used only to indicate the web request component for AWS WAF to
-/// inspect, in the <a>FieldToMatch</a> specification.
+/// This is used only in the <a>FieldToMatch</a> specification for some web
+/// request component types.
+///
+/// JSON specification: <code>"QueryString": {}</code>
 class QueryString {
   QueryString();
+
   factory QueryString.fromJson(Map<String, dynamic> _) {
     return QueryString();
   }
@@ -6557,96 +10543,232 @@ class QueryString {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// A rate-based rule tracks the rate of requests for each originating IP
-/// address, and triggers the rule action when the rate exceeds a limit that you
-/// specify on the number of requests in any 5-minute time span. You can use
-/// this to put a temporary block on requests from an IP address that is sending
-/// excessive requests.
+/// A rate-based rule counts incoming requests and rate limits requests when
+/// they are coming at too fast a rate. The rule categorizes requests according
+/// to your aggregation criteria, collects them into aggregation instances, and
+/// counts and rate limits the requests for each instance.
 ///
-/// When the rule action triggers, AWS WAF blocks additional requests from the
-/// IP address until the request rate falls below the limit.
+/// You can specify individual aggregation keys, like IP address or HTTP method.
+/// You can also specify aggregation key combinations, like IP address and HTTP
+/// method, or HTTP method, query argument, and cookie.
 ///
-/// You can optionally nest another statement inside the rate-based statement,
-/// to narrow the scope of the rule so that it only counts requests that match
-/// the nested statement. For example, based on recent requests that you have
-/// seen from an attacker, you might create a rate-based rule with a nested AND
-/// rule statement that contains the following nested statements:
+/// Each unique set of values for the aggregation keys that you specify is a
+/// separate aggregation instance, with the value from each key contributing to
+/// the aggregation instance definition.
+///
+/// For example, assume the rule evaluates web requests with the following IP
+/// address and HTTP method values:
 ///
 /// <ul>
 /// <li>
-/// An IP match statement with an IP set that specified the address 192.0.2.44.
+/// IP address 10.1.1.1, HTTP method POST
 /// </li>
 /// <li>
-/// A string match statement that searches in the User-Agent header for the
-/// string BadBot.
+/// IP address 10.1.1.1, HTTP method GET
+/// </li>
+/// <li>
+/// IP address 127.0.0.0, HTTP method POST
+/// </li>
+/// <li>
+/// IP address 10.1.1.1, HTTP method GET
 /// </li>
 /// </ul>
-/// In this rate-based rule, you also define a rate limit. For this example, the
-/// rate limit is 1,000. Requests that meet both of the conditions in the
-/// statements are counted. If the count exceeds 1,000 requests per five
-/// minutes, the rule action triggers. Requests that do not meet both conditions
-/// are not counted towards the rate limit and are not affected by this rule.
+/// The rule would create different aggregation instances according to your
+/// aggregation criteria, for example:
 ///
-/// You cannot nest a <code>RateBasedStatement</code>, for example for use
-/// inside a <code>NotStatement</code> or <code>OrStatement</code>. It can only
-/// be referenced as a top-level statement within a rule.
+/// <ul>
+/// <li>
+/// If the aggregation criteria is just the IP address, then each individual
+/// address is an aggregation instance, and WAF counts requests separately for
+/// each. The aggregation instances and request counts for our example would be
+/// the following:
+///
+/// <ul>
+/// <li>
+/// IP address 10.1.1.1: count 3
+/// </li>
+/// <li>
+/// IP address 127.0.0.0: count 1
+/// </li>
+/// </ul> </li>
+/// <li>
+/// If the aggregation criteria is HTTP method, then each individual HTTP method
+/// is an aggregation instance. The aggregation instances and request counts for
+/// our example would be the following:
+///
+/// <ul>
+/// <li>
+/// HTTP method POST: count 2
+/// </li>
+/// <li>
+/// HTTP method GET: count 2
+/// </li>
+/// </ul> </li>
+/// <li>
+/// If the aggregation criteria is IP address and HTTP method, then each IP
+/// address and each HTTP method would contribute to the combined aggregation
+/// instance. The aggregation instances and request counts for our example would
+/// be the following:
+///
+/// <ul>
+/// <li>
+/// IP address 10.1.1.1, HTTP method POST: count 1
+/// </li>
+/// <li>
+/// IP address 10.1.1.1, HTTP method GET: count 2
+/// </li>
+/// <li>
+/// IP address 127.0.0.0, HTTP method POST: count 1
+/// </li>
+/// </ul> </li>
+/// </ul>
+/// For any n-tuple of aggregation keys, each unique combination of values for
+/// the keys defines a separate aggregation instance, which WAF counts and
+/// rate-limits individually.
+///
+/// You can optionally nest another statement inside the rate-based statement,
+/// to narrow the scope of the rule so that it only counts and rate limits
+/// requests that match the nested statement. You can use this nested scope-down
+/// statement in conjunction with your aggregation key specifications or you can
+/// just count and rate limit all requests that match the scope-down statement,
+/// without additional aggregation. When you choose to just manage all requests
+/// that match a scope-down statement, the aggregation instance is singular for
+/// the rule.
+///
+/// You cannot nest a <code>RateBasedStatement</code> inside another statement,
+/// for example inside a <code>NotStatement</code> or <code>OrStatement</code>.
+/// You can define a <code>RateBasedStatement</code> inside a web ACL and inside
+/// a rule group.
+///
+/// For additional information about the options, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-rate-based-rules.html">Rate
+/// limiting web requests using rate-based rules</a> in the <i>WAF Developer
+/// Guide</i>.
+///
+/// If you only aggregate on the individual IP address or forwarded IP address,
+/// you can retrieve the list of IP addresses that WAF is currently rate
+/// limiting for a rule through the API call
+/// <code>GetRateBasedStatementManagedKeys</code>. This option is not available
+/// for other aggregation configurations.
+///
+/// WAF tracks and manages web requests separately for each instance of a
+/// rate-based rule that you use. For example, if you provide the same
+/// rate-based rule settings in two web ACLs, each of the two rule statements
+/// represents a separate instance of the rate-based rule and gets its own
+/// tracking and management by WAF. If you define a rate-based rule inside a
+/// rule group, and then use that rule group in multiple places, each use
+/// creates a separate instance of the rate-based rule that gets its own
+/// tracking and management by WAF.
 class RateBasedStatement {
-  /// Setting that indicates how to aggregate the request counts. The options are
-  /// the following:
-  ///
+  /// Setting that indicates how to aggregate the request counts.
+  /// <note>
+  /// Web requests that are missing any of the components specified in the
+  /// aggregation keys are omitted from the rate-based rule evaluation and
+  /// handling.
+  /// </note>
   /// <ul>
   /// <li>
-  /// IP - Aggregate the request counts on the IP address from the web request
-  /// origin.
+  /// <code>CONSTANT</code> - Count and limit the requests that match the
+  /// rate-based rule's scope-down statement. With this option, the counted
+  /// requests aren't further aggregated. The scope-down statement is the only
+  /// specification used. When the count of all requests that satisfy the
+  /// scope-down statement goes over the limit, WAF applies the rule action to all
+  /// requests that satisfy the scope-down statement.
+  ///
+  /// With this option, you must configure the <code>ScopeDownStatement</code>
+  /// property.
   /// </li>
   /// <li>
-  /// FORWARDED_IP - Aggregate the request counts on the first IP address in an
-  /// HTTP header. If you use this, configure the <code>ForwardedIPConfig</code>,
-  /// to specify the header to use.
+  /// <code>CUSTOM_KEYS</code> - Aggregate the request counts using one or more
+  /// web request components as the aggregate keys.
+  ///
+  /// With this option, you must specify the aggregate keys in the
+  /// <code>CustomKeys</code> property.
+  ///
+  /// To aggregate on only the IP address or only the forwarded IP address, don't
+  /// use custom keys. Instead, set the aggregate key type to <code>IP</code> or
+  /// <code>FORWARDED_IP</code>.
+  /// </li>
+  /// <li>
+  /// <code>FORWARDED_IP</code> - Aggregate the request counts on the first IP
+  /// address in an HTTP header.
+  ///
+  /// With this option, you must specify the header to use in the
+  /// <code>ForwardedIPConfig</code> property.
+  ///
+  /// To aggregate on a combination of the forwarded IP address with other
+  /// aggregate keys, use <code>CUSTOM_KEYS</code>.
+  /// </li>
+  /// <li>
+  /// <code>IP</code> - Aggregate the request counts on the IP address from the
+  /// web request origin.
+  ///
+  /// To aggregate on a combination of the IP address with other aggregate keys,
+  /// use <code>CUSTOM_KEYS</code>.
   /// </li>
   /// </ul>
   final RateBasedStatementAggregateKeyType aggregateKeyType;
 
-  /// The limit on requests per 5-minute period for a single originating IP
-  /// address. If the statement includes a <code>ScopeDownStatement</code>, this
-  /// limit is applied only to the requests that match the statement.
+  /// The limit on requests per 5-minute period for a single aggregation instance
+  /// for the rate-based rule. If the rate-based statement includes a
+  /// <code>ScopeDownStatement</code>, this limit is applied only to the requests
+  /// that match the statement.
+  ///
+  /// Examples:
+  ///
+  /// <ul>
+  /// <li>
+  /// If you aggregate on just the IP address, this is the limit on requests from
+  /// any single IP address.
+  /// </li>
+  /// <li>
+  /// If you aggregate on the HTTP method and the query argument name "city", then
+  /// this is the limit on requests for any single method, city pair.
+  /// </li>
+  /// </ul>
   final int limit;
+
+  /// Specifies the aggregate keys to use in a rate-base rule.
+  final List<RateBasedStatementCustomKey>? customKeys;
 
   /// The configuration for inspecting IP addresses in an HTTP header that you
   /// specify, instead of using the IP address that's reported by the web request
   /// origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can
   /// specify any header name.
   /// <note>
-  /// If the specified header isn't present in the request, AWS WAF doesn't apply
-  /// the rule to the web request at all.
+  /// If the specified header isn't present in the request, WAF doesn't apply the
+  /// rule to the web request at all.
   /// </note>
-  /// This is required if <code>AggregateKeyType</code> is set to
-  /// <code>FORWARDED_IP</code>.
+  /// This is required if you specify a forwarded IP in the rule's aggregate key
+  /// settings.
   final ForwardedIPConfig? forwardedIPConfig;
 
-  /// An optional nested statement that narrows the scope of the rate-based
-  /// statement to matching web requests. This can be any nestable statement, and
-  /// you can nest statements at any level below this scope-down statement.
+  /// An optional nested statement that narrows the scope of the web requests that
+  /// are evaluated and managed by the rate-based statement. When you use a
+  /// scope-down statement, the rate-based rule only tracks and rate limits
+  /// requests that match the scope-down statement. You can use any nestable
+  /// <a>Statement</a> in the scope-down statement, and you can nest statements at
+  /// any level, the same as you can for a rule statement.
   final Statement? scopeDownStatement;
 
   RateBasedStatement({
     required this.aggregateKeyType,
     required this.limit,
+    this.customKeys,
     this.forwardedIPConfig,
     this.scopeDownStatement,
   });
+
   factory RateBasedStatement.fromJson(Map<String, dynamic> json) {
     return RateBasedStatement(
       aggregateKeyType: (json['AggregateKeyType'] as String)
           .toRateBasedStatementAggregateKeyType(),
       limit: json['Limit'] as int,
+      customKeys: (json['CustomKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              RateBasedStatementCustomKey.fromJson(e as Map<String, dynamic>))
+          .toList(),
       forwardedIPConfig: json['ForwardedIPConfig'] != null
           ? ForwardedIPConfig.fromJson(
               json['ForwardedIPConfig'] as Map<String, dynamic>)
@@ -6661,11 +10783,13 @@ class RateBasedStatement {
   Map<String, dynamic> toJson() {
     final aggregateKeyType = this.aggregateKeyType;
     final limit = this.limit;
+    final customKeys = this.customKeys;
     final forwardedIPConfig = this.forwardedIPConfig;
     final scopeDownStatement = this.scopeDownStatement;
     return {
       'AggregateKeyType': aggregateKeyType.toValue(),
       'Limit': limit,
+      if (customKeys != null) 'CustomKeys': customKeys,
       if (forwardedIPConfig != null) 'ForwardedIPConfig': forwardedIPConfig,
       if (scopeDownStatement != null) 'ScopeDownStatement': scopeDownStatement,
     };
@@ -6675,6 +10799,8 @@ class RateBasedStatement {
 enum RateBasedStatementAggregateKeyType {
   ip,
   forwardedIp,
+  customKeys,
+  constant,
 }
 
 extension RateBasedStatementAggregateKeyTypeValueExtension
@@ -6685,6 +10811,10 @@ extension RateBasedStatementAggregateKeyTypeValueExtension
         return 'IP';
       case RateBasedStatementAggregateKeyType.forwardedIp:
         return 'FORWARDED_IP';
+      case RateBasedStatementAggregateKeyType.customKeys:
+        return 'CUSTOM_KEYS';
+      case RateBasedStatementAggregateKeyType.constant:
+        return 'CONSTANT';
     }
   }
 }
@@ -6696,30 +10826,180 @@ extension RateBasedStatementAggregateKeyTypeFromString on String {
         return RateBasedStatementAggregateKeyType.ip;
       case 'FORWARDED_IP':
         return RateBasedStatementAggregateKeyType.forwardedIp;
+      case 'CUSTOM_KEYS':
+        return RateBasedStatementAggregateKeyType.customKeys;
+      case 'CONSTANT':
+        return RateBasedStatementAggregateKeyType.constant;
     }
     throw Exception(
         '$this is not known in enum RateBasedStatementAggregateKeyType');
   }
 }
 
+/// Specifies a single custom aggregate key for a rate-base rule.
 /// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
+/// Web requests that are missing any of the components specified in the
+/// aggregation keys are omitted from the rate-based rule evaluation and
+/// handling.
 /// </note>
-/// The set of IP addresses that are currently blocked for a rate-based
-/// statement.
+class RateBasedStatementCustomKey {
+  /// Use the value of a cookie in the request as an aggregate key. Each distinct
+  /// value in the cookie contributes to the aggregation instance. If you use a
+  /// single cookie as your custom key, then each value fully defines an
+  /// aggregation instance.
+  final RateLimitCookie? cookie;
+
+  /// Use the first IP address in an HTTP header as an aggregate key. Each
+  /// distinct forwarded IP address contributes to the aggregation instance.
+  ///
+  /// When you specify an IP or forwarded IP in the custom key settings, you must
+  /// also specify at least one other key to use. You can aggregate on only the
+  /// forwarded IP address by specifying <code>FORWARDED_IP</code> in your
+  /// rate-based statement's <code>AggregateKeyType</code>.
+  ///
+  /// With this option, you must specify the header to use in the rate-based
+  /// rule's <code>ForwardedIPConfig</code> property.
+  final RateLimitForwardedIP? forwardedIP;
+
+  /// Use the request's HTTP method as an aggregate key. Each distinct HTTP method
+  /// contributes to the aggregation instance. If you use just the HTTP method as
+  /// your custom key, then each method fully defines an aggregation instance.
+  final RateLimitHTTPMethod? hTTPMethod;
+
+  /// Use the value of a header in the request as an aggregate key. Each distinct
+  /// value in the header contributes to the aggregation instance. If you use a
+  /// single header as your custom key, then each value fully defines an
+  /// aggregation instance.
+  final RateLimitHeader? header;
+
+  /// Use the request's originating IP address as an aggregate key. Each distinct
+  /// IP address contributes to the aggregation instance.
+  ///
+  /// When you specify an IP or forwarded IP in the custom key settings, you must
+  /// also specify at least one other key to use. You can aggregate on only the IP
+  /// address by specifying <code>IP</code> in your rate-based statement's
+  /// <code>AggregateKeyType</code>.
+  final RateLimitIP? ip;
+
+  /// Use the specified label namespace as an aggregate key. Each distinct fully
+  /// qualified label name that has the specified label namespace contributes to
+  /// the aggregation instance. If you use just one label namespace as your custom
+  /// key, then each label name fully defines an aggregation instance.
+  ///
+  /// This uses only labels that have been added to the request by rules that are
+  /// evaluated before this rate-based rule in the web ACL.
+  ///
+  /// For information about label namespaces and names, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-label-requirements.html">Label
+  /// syntax and naming requirements</a> in the <i>WAF Developer Guide</i>.
+  final RateLimitLabelNamespace? labelNamespace;
+
+  /// Use the specified query argument as an aggregate key. Each distinct value
+  /// for the named query argument contributes to the aggregation instance. If you
+  /// use a single query argument as your custom key, then each value fully
+  /// defines an aggregation instance.
+  final RateLimitQueryArgument? queryArgument;
+
+  /// Use the request's query string as an aggregate key. Each distinct string
+  /// contributes to the aggregation instance. If you use just the query string as
+  /// your custom key, then each string fully defines an aggregation instance.
+  final RateLimitQueryString? queryString;
+
+  RateBasedStatementCustomKey({
+    this.cookie,
+    this.forwardedIP,
+    this.hTTPMethod,
+    this.header,
+    this.ip,
+    this.labelNamespace,
+    this.queryArgument,
+    this.queryString,
+  });
+
+  factory RateBasedStatementCustomKey.fromJson(Map<String, dynamic> json) {
+    return RateBasedStatementCustomKey(
+      cookie: json['Cookie'] != null
+          ? RateLimitCookie.fromJson(json['Cookie'] as Map<String, dynamic>)
+          : null,
+      forwardedIP: json['ForwardedIP'] != null
+          ? RateLimitForwardedIP.fromJson(
+              json['ForwardedIP'] as Map<String, dynamic>)
+          : null,
+      hTTPMethod: json['HTTPMethod'] != null
+          ? RateLimitHTTPMethod.fromJson(
+              json['HTTPMethod'] as Map<String, dynamic>)
+          : null,
+      header: json['Header'] != null
+          ? RateLimitHeader.fromJson(json['Header'] as Map<String, dynamic>)
+          : null,
+      ip: json['IP'] != null
+          ? RateLimitIP.fromJson(json['IP'] as Map<String, dynamic>)
+          : null,
+      labelNamespace: json['LabelNamespace'] != null
+          ? RateLimitLabelNamespace.fromJson(
+              json['LabelNamespace'] as Map<String, dynamic>)
+          : null,
+      queryArgument: json['QueryArgument'] != null
+          ? RateLimitQueryArgument.fromJson(
+              json['QueryArgument'] as Map<String, dynamic>)
+          : null,
+      queryString: json['QueryString'] != null
+          ? RateLimitQueryString.fromJson(
+              json['QueryString'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cookie = this.cookie;
+    final forwardedIP = this.forwardedIP;
+    final hTTPMethod = this.hTTPMethod;
+    final header = this.header;
+    final ip = this.ip;
+    final labelNamespace = this.labelNamespace;
+    final queryArgument = this.queryArgument;
+    final queryString = this.queryString;
+    return {
+      if (cookie != null) 'Cookie': cookie,
+      if (forwardedIP != null) 'ForwardedIP': forwardedIP,
+      if (hTTPMethod != null) 'HTTPMethod': hTTPMethod,
+      if (header != null) 'Header': header,
+      if (ip != null) 'IP': ip,
+      if (labelNamespace != null) 'LabelNamespace': labelNamespace,
+      if (queryArgument != null) 'QueryArgument': queryArgument,
+      if (queryString != null) 'QueryString': queryString,
+    };
+  }
+}
+
+/// The set of IP addresses that are currently blocked for a
+/// <a>RateBasedStatement</a>. This is only available for rate-based rules that
+/// aggregate on just the IP address, with the <code>AggregateKeyType</code> set
+/// to <code>IP</code> or <code>FORWARDED_IP</code>.
+///
+/// A rate-based rule applies its rule action to requests from IP addresses that
+/// are in the rule's managed keys list and that match the rule's scope-down
+/// statement. When a rule has no scope-down statement, it applies the action to
+/// all requests from the IP addresses that are in the list. The rule applies
+/// its rule action to rate limit the matching requests. The action is usually
+/// Block but it can be any valid rule action except for Allow.
+///
+/// The maximum number of IP addresses that can be rate limited by a single
+/// rate-based rule instance is 10,000. If more than 10,000 addresses exceed the
+/// rate limit, WAF limits those with the highest rates.
 class RateBasedStatementManagedKeysIPSet {
   /// The IP addresses that are currently blocked.
   final List<String>? addresses;
+
+  /// The version of the IP addresses, either <code>IPV4</code> or
+  /// <code>IPV6</code>.
   final IPAddressVersion? iPAddressVersion;
 
   RateBasedStatementManagedKeysIPSet({
     this.addresses,
     this.iPAddressVersion,
   });
+
   factory RateBasedStatementManagedKeysIPSet.fromJson(
       Map<String, dynamic> json) {
     return RateBasedStatementManagedKeysIPSet(
@@ -6733,13 +11013,282 @@ class RateBasedStatementManagedKeysIPSet {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
+/// Specifies a cookie as an aggregate key for a rate-based rule. Each distinct
+/// value in the cookie contributes to the aggregation instance. If you use a
+/// single cookie as your custom key, then each value fully defines an
+/// aggregation instance.
+class RateLimitCookie {
+  /// The name of the cookie to use.
+  final String name;
+
+  /// Text transformations eliminate some of the unusual formatting that attackers
+  /// use in web requests in an effort to bypass detection. Text transformations
+  /// are used in rule match statements, to transform the
+  /// <code>FieldToMatch</code> request component before inspecting it, and
+  /// they're used in rate-based rule statements, to transform request components
+  /// before using them as custom aggregation keys. If you specify one or more
+  /// transformations to apply, WAF performs all transformations on the specified
+  /// content, starting from the lowest priority setting, and then uses the
+  /// component contents.
+  final List<TextTransformation> textTransformations;
+
+  RateLimitCookie({
+    required this.name,
+    required this.textTransformations,
+  });
+
+  factory RateLimitCookie.fromJson(Map<String, dynamic> json) {
+    return RateLimitCookie(
+      name: json['Name'] as String,
+      textTransformations: (json['TextTransformations'] as List)
+          .whereNotNull()
+          .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final textTransformations = this.textTransformations;
+    return {
+      'Name': name,
+      'TextTransformations': textTransformations,
+    };
+  }
+}
+
+/// Specifies the first IP address in an HTTP header as an aggregate key for a
+/// rate-based rule. Each distinct forwarded IP address contributes to the
+/// aggregation instance.
+///
+/// This setting is used only in the <code>RateBasedStatementCustomKey</code>
+/// specification of a rate-based rule statement. When you specify an IP or
+/// forwarded IP in the custom key settings, you must also specify at least one
+/// other key to use. You can aggregate on only the forwarded IP address by
+/// specifying <code>FORWARDED_IP</code> in your rate-based statement's
+/// <code>AggregateKeyType</code>.
+///
+/// This data type supports using the forwarded IP address in the web request
+/// aggregation for a rate-based rule, in
+/// <code>RateBasedStatementCustomKey</code>. The JSON specification for using
+/// the forwarded IP address doesn't explicitly use this data type.
+///
+/// JSON specification: <code>"ForwardedIP": {}</code>
+///
+/// When you use this specification, you must also configure the forwarded IP
+/// address in the rate-based statement's <code>ForwardedIPConfig</code>.
+class RateLimitForwardedIP {
+  RateLimitForwardedIP();
+
+  factory RateLimitForwardedIP.fromJson(Map<String, dynamic> _) {
+    return RateLimitForwardedIP();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Specifies the request's HTTP method as an aggregate key for a rate-based
+/// rule. Each distinct HTTP method contributes to the aggregation instance. If
+/// you use just the HTTP method as your custom key, then each method fully
+/// defines an aggregation instance.
+///
+/// JSON specification: <code>"RateLimitHTTPMethod": {}</code>
+class RateLimitHTTPMethod {
+  RateLimitHTTPMethod();
+
+  factory RateLimitHTTPMethod.fromJson(Map<String, dynamic> _) {
+    return RateLimitHTTPMethod();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Specifies a header as an aggregate key for a rate-based rule. Each distinct
+/// value in the header contributes to the aggregation instance. If you use a
+/// single header as your custom key, then each value fully defines an
+/// aggregation instance.
+class RateLimitHeader {
+  /// The name of the header to use.
+  final String name;
+
+  /// Text transformations eliminate some of the unusual formatting that attackers
+  /// use in web requests in an effort to bypass detection. Text transformations
+  /// are used in rule match statements, to transform the
+  /// <code>FieldToMatch</code> request component before inspecting it, and
+  /// they're used in rate-based rule statements, to transform request components
+  /// before using them as custom aggregation keys. If you specify one or more
+  /// transformations to apply, WAF performs all transformations on the specified
+  /// content, starting from the lowest priority setting, and then uses the
+  /// component contents.
+  final List<TextTransformation> textTransformations;
+
+  RateLimitHeader({
+    required this.name,
+    required this.textTransformations,
+  });
+
+  factory RateLimitHeader.fromJson(Map<String, dynamic> json) {
+    return RateLimitHeader(
+      name: json['Name'] as String,
+      textTransformations: (json['TextTransformations'] as List)
+          .whereNotNull()
+          .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final textTransformations = this.textTransformations;
+    return {
+      'Name': name,
+      'TextTransformations': textTransformations,
+    };
+  }
+}
+
+/// Specifies the IP address in the web request as an aggregate key for a
+/// rate-based rule. Each distinct IP address contributes to the aggregation
+/// instance.
+///
+/// This setting is used only in the <code>RateBasedStatementCustomKey</code>
+/// specification of a rate-based rule statement. To use this in the custom key
+/// settings, you must specify at least one other key to use, along with the IP
+/// address. To aggregate on only the IP address, in your rate-based statement's
+/// <code>AggregateKeyType</code>, specify <code>IP</code>.
+///
+/// JSON specification: <code>"RateLimitIP": {}</code>
+class RateLimitIP {
+  RateLimitIP();
+
+  factory RateLimitIP.fromJson(Map<String, dynamic> _) {
+    return RateLimitIP();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Specifies a label namespace to use as an aggregate key for a rate-based
+/// rule. Each distinct fully qualified label name that has the specified label
+/// namespace contributes to the aggregation instance. If you use just one label
+/// namespace as your custom key, then each label name fully defines an
+/// aggregation instance.
+///
+/// This uses only labels that have been added to the request by rules that are
+/// evaluated before this rate-based rule in the web ACL.
+///
+/// For information about label namespaces and names, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-label-requirements.html">Label
+/// syntax and naming requirements</a> in the <i>WAF Developer Guide</i>.
+class RateLimitLabelNamespace {
+  /// The namespace to use for aggregation.
+  final String namespace;
+
+  RateLimitLabelNamespace({
+    required this.namespace,
+  });
+
+  factory RateLimitLabelNamespace.fromJson(Map<String, dynamic> json) {
+    return RateLimitLabelNamespace(
+      namespace: json['Namespace'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final namespace = this.namespace;
+    return {
+      'Namespace': namespace,
+    };
+  }
+}
+
+/// Specifies a query argument in the request as an aggregate key for a
+/// rate-based rule. Each distinct value for the named query argument
+/// contributes to the aggregation instance. If you use a single query argument
+/// as your custom key, then each value fully defines an aggregation instance.
+class RateLimitQueryArgument {
+  /// The name of the query argument to use.
+  final String name;
+
+  /// Text transformations eliminate some of the unusual formatting that attackers
+  /// use in web requests in an effort to bypass detection. Text transformations
+  /// are used in rule match statements, to transform the
+  /// <code>FieldToMatch</code> request component before inspecting it, and
+  /// they're used in rate-based rule statements, to transform request components
+  /// before using them as custom aggregation keys. If you specify one or more
+  /// transformations to apply, WAF performs all transformations on the specified
+  /// content, starting from the lowest priority setting, and then uses the
+  /// component contents.
+  final List<TextTransformation> textTransformations;
+
+  RateLimitQueryArgument({
+    required this.name,
+    required this.textTransformations,
+  });
+
+  factory RateLimitQueryArgument.fromJson(Map<String, dynamic> json) {
+    return RateLimitQueryArgument(
+      name: json['Name'] as String,
+      textTransformations: (json['TextTransformations'] as List)
+          .whereNotNull()
+          .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final textTransformations = this.textTransformations;
+    return {
+      'Name': name,
+      'TextTransformations': textTransformations,
+    };
+  }
+}
+
+/// Specifies the request's query string as an aggregate key for a rate-based
+/// rule. Each distinct string contributes to the aggregation instance. If you
+/// use just the query string as your custom key, then each string fully defines
+/// an aggregation instance.
+class RateLimitQueryString {
+  /// Text transformations eliminate some of the unusual formatting that attackers
+  /// use in web requests in an effort to bypass detection. Text transformations
+  /// are used in rule match statements, to transform the
+  /// <code>FieldToMatch</code> request component before inspecting it, and
+  /// they're used in rate-based rule statements, to transform request components
+  /// before using them as custom aggregation keys. If you specify one or more
+  /// transformations to apply, WAF performs all transformations on the specified
+  /// content, starting from the lowest priority setting, and then uses the
+  /// component contents.
+  final List<TextTransformation> textTransformations;
+
+  RateLimitQueryString({
+    required this.textTransformations,
+  });
+
+  factory RateLimitQueryString.fromJson(Map<String, dynamic> json) {
+    return RateLimitQueryString(
+      textTransformations: (json['TextTransformations'] as List)
+          .whereNotNull()
+          .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final textTransformations = this.textTransformations;
+    return {
+      'TextTransformations': textTransformations,
+    };
+  }
+}
+
 /// A single regular expression. This is used in a <a>RegexPatternSet</a>.
 class Regex {
   /// The string representing the regular expression.
@@ -6748,6 +11297,7 @@ class Regex {
   Regex({
     this.regexString,
   });
+
   factory Regex.fromJson(Map<String, dynamic> json) {
     return Regex(
       regexString: json['RegexString'] as String?,
@@ -6762,24 +11312,66 @@ class Regex {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
+/// A rule statement used to search web request components for a match against a
+/// single regular expression.
+class RegexMatchStatement {
+  /// The part of the web request that you want WAF to inspect.
+  final FieldToMatch fieldToMatch;
+
+  /// The string representing the regular expression.
+  final String regexString;
+
+  /// Text transformations eliminate some of the unusual formatting that attackers
+  /// use in web requests in an effort to bypass detection. Text transformations
+  /// are used in rule match statements, to transform the
+  /// <code>FieldToMatch</code> request component before inspecting it, and
+  /// they're used in rate-based rule statements, to transform request components
+  /// before using them as custom aggregation keys. If you specify one or more
+  /// transformations to apply, WAF performs all transformations on the specified
+  /// content, starting from the lowest priority setting, and then uses the
+  /// component contents.
+  final List<TextTransformation> textTransformations;
+
+  RegexMatchStatement({
+    required this.fieldToMatch,
+    required this.regexString,
+    required this.textTransformations,
+  });
+
+  factory RegexMatchStatement.fromJson(Map<String, dynamic> json) {
+    return RegexMatchStatement(
+      fieldToMatch:
+          FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
+      regexString: json['RegexString'] as String,
+      textTransformations: (json['TextTransformations'] as List)
+          .whereNotNull()
+          .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fieldToMatch = this.fieldToMatch;
+    final regexString = this.regexString;
+    final textTransformations = this.textTransformations;
+    return {
+      'FieldToMatch': fieldToMatch,
+      'RegexString': regexString,
+      'TextTransformations': textTransformations,
+    };
+  }
+}
+
 /// Contains one or more regular expressions.
 ///
-/// AWS WAF assigns an ARN to each <code>RegexPatternSet</code> that you create.
-/// To use a set in a rule, you provide the ARN to the <a>Rule</a> statement
+/// WAF assigns an ARN to each <code>RegexPatternSet</code> that you create. To
+/// use a set in a rule, you provide the ARN to the <a>Rule</a> statement
 /// <a>RegexPatternSetReferenceStatement</a>.
 class RegexPatternSet {
   /// The Amazon Resource Name (ARN) of the entity.
   final String? arn;
 
-  /// A description of the set that helps with identification. You cannot change
-  /// the description of a set after you create it.
+  /// A description of the set that helps with identification.
   final String? description;
 
   /// A unique identifier for the set. This ID is returned in the responses to
@@ -6800,6 +11392,7 @@ class RegexPatternSet {
     this.name,
     this.regularExpressionList,
   });
+
   factory RegexPatternSet.fromJson(Map<String, dynamic> json) {
     return RegexPatternSet(
       arn: json['ARN'] as String?,
@@ -6814,13 +11407,6 @@ class RegexPatternSet {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
 /// A rule statement used to search web request components for matches with
 /// regular expressions. To use this, create a <a>RegexPatternSet</a> that
 /// specifies the expressions that you want to detect, then use the ARN of that
@@ -6831,22 +11417,24 @@ class RegexPatternSet {
 /// Each regex pattern set rule statement references a regex pattern set. You
 /// create and maintain the set independent of your rules. This allows you to
 /// use the single set in multiple rules. When you update the referenced set,
-/// AWS WAF automatically updates all rules that reference it.
+/// WAF automatically updates all rules that reference it.
 class RegexPatternSetReferenceStatement {
   /// The Amazon Resource Name (ARN) of the <a>RegexPatternSet</a> that this
   /// statement references.
   final String arn;
 
-  /// The part of a web request that you want AWS WAF to inspect. For more
-  /// information, see <a>FieldToMatch</a>.
+  /// The part of the web request that you want WAF to inspect.
   final FieldToMatch fieldToMatch;
 
   /// Text transformations eliminate some of the unusual formatting that attackers
-  /// use in web requests in an effort to bypass detection. If you specify one or
-  /// more transformations in a rule statement, AWS WAF performs all
-  /// transformations on the content of the request component identified by
-  /// <code>FieldToMatch</code>, starting from the lowest priority setting, before
-  /// inspecting the content for a match.
+  /// use in web requests in an effort to bypass detection. Text transformations
+  /// are used in rule match statements, to transform the
+  /// <code>FieldToMatch</code> request component before inspecting it, and
+  /// they're used in rate-based rule statements, to transform request components
+  /// before using them as custom aggregation keys. If you specify one or more
+  /// transformations to apply, WAF performs all transformations on the specified
+  /// content, starting from the lowest priority setting, and then uses the
+  /// component contents.
   final List<TextTransformation> textTransformations;
 
   RegexPatternSetReferenceStatement({
@@ -6854,6 +11442,7 @@ class RegexPatternSetReferenceStatement {
     required this.fieldToMatch,
     required this.textTransformations,
   });
+
   factory RegexPatternSetReferenceStatement.fromJson(
       Map<String, dynamic> json) {
     return RegexPatternSetReferenceStatement(
@@ -6879,13 +11468,6 @@ class RegexPatternSetReferenceStatement {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
 /// High-level information about a <a>RegexPatternSet</a>, returned by
 /// operations like create and list. This provides information like the ID, that
 /// you can use to retrieve and manage a <code>RegexPatternSet</code>, and the
@@ -6895,8 +11477,7 @@ class RegexPatternSetSummary {
   /// The Amazon Resource Name (ARN) of the entity.
   final String? arn;
 
-  /// A description of the set that helps with identification. You cannot change
-  /// the description of a set after you create it.
+  /// A description of the set that helps with identification.
   final String? description;
 
   /// A unique identifier for the set. This ID is returned in the responses to
@@ -6904,14 +11485,15 @@ class RegexPatternSetSummary {
   /// delete.
   final String? id;
 
-  /// A token used for optimistic locking. AWS WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. AWS WAF uses the token to ensure
-  /// that no changes have been made to the entity since you last retrieved it. If
-  /// a change has been made, the update fails with a
-  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
   final String? lockToken;
 
   /// The name of the data type instance. You cannot change the name after you
@@ -6925,6 +11507,7 @@ class RegexPatternSetSummary {
     this.lockToken,
     this.name,
   });
+
   factory RegexPatternSetSummary.fromJson(Map<String, dynamic> json) {
     return RegexPatternSetSummary(
       arn: json['ARN'] as String?,
@@ -6936,10 +11519,168 @@ class RegexPatternSetSummary {
   }
 }
 
+/// High level information for an SDK release.
+class ReleaseSummary {
+  /// The release version.
+  final String? releaseVersion;
+
+  /// The timestamp of the release.
+  final DateTime? timestamp;
+
+  ReleaseSummary({
+    this.releaseVersion,
+    this.timestamp,
+  });
+
+  factory ReleaseSummary.fromJson(Map<String, dynamic> json) {
+    return ReleaseSummary(
+      releaseVersion: json['ReleaseVersion'] as String?,
+      timestamp: timeStampFromJson(json['Timestamp']),
+    );
+  }
+}
+
+/// Customizes the maximum size of the request body that your protected
+/// CloudFront distributions forward to WAF for inspection. The default size is
+/// 16 KB (16,384 kilobytes).
+/// <note>
+/// You are charged additional fees when your protected resources forward body
+/// sizes that are larger than the default. For more information, see <a
+/// href="http://aws.amazon.com/waf/pricing/">WAF Pricing</a>.
+/// </note>
+/// This is used in the <code>AssociationConfig</code> of the web ACL.
+class RequestBodyAssociatedResourceTypeConfig {
+  /// Specifies the maximum size of the web request body component that an
+  /// associated CloudFront distribution should send to WAF for inspection. This
+  /// applies to statements in the web ACL that inspect the body or JSON body.
+  ///
+  /// Default: <code>16 KB (16,384 kilobytes)</code>
+  final SizeInspectionLimit defaultSizeInspectionLimit;
+
+  RequestBodyAssociatedResourceTypeConfig({
+    required this.defaultSizeInspectionLimit,
+  });
+
+  factory RequestBodyAssociatedResourceTypeConfig.fromJson(
+      Map<String, dynamic> json) {
+    return RequestBodyAssociatedResourceTypeConfig(
+      defaultSizeInspectionLimit: (json['DefaultSizeInspectionLimit'] as String)
+          .toSizeInspectionLimit(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultSizeInspectionLimit = this.defaultSizeInspectionLimit;
+    return {
+      'DefaultSizeInspectionLimit': defaultSizeInspectionLimit.toValue(),
+    };
+  }
+}
+
+/// The criteria for inspecting login requests, used by the ATP rule group to
+/// validate credentials usage.
+///
+/// This is part of the <code>AWSManagedRulesATPRuleSet</code> configuration in
+/// <code>ManagedRuleGroupConfig</code>.
+///
+/// In these settings, you specify how your application accepts login attempts
+/// by providing the request payload type and the names of the fields within the
+/// request body where the username and password are provided.
+class RequestInspection {
+  /// Details about your login page password field.
+  ///
+  /// How you specify this depends on the payload type.
+  ///
+  /// <ul>
+  /// <li>
+  /// For JSON payloads, specify the field name in JSON pointer syntax. For
+  /// information about the JSON Pointer syntax, see the Internet Engineering Task
+  /// Force (IETF) documentation <a
+  /// href="https://tools.ietf.org/html/rfc6901">JavaScript Object Notation (JSON)
+  /// Pointer</a>.
+  ///
+  /// For example, for the JSON payload <code>{ "login": { "username":
+  /// "THE_USERNAME", "password": "THE_PASSWORD" } }</code>, the username field
+  /// specification is <code>/login/username</code> and the password field
+  /// specification is <code>/login/password</code>.
+  /// </li>
+  /// <li>
+  /// For form encoded payload types, use the HTML form names.
+  ///
+  /// For example, for an HTML form with input elements named
+  /// <code>username1</code> and <code>password1</code>, the username field
+  /// specification is <code>username1</code> and the password field specification
+  /// is <code>password1</code>.
+  /// </li>
+  /// </ul>
+  final PasswordField passwordField;
+
+  /// The payload type for your login endpoint, either JSON or form encoded.
+  final PayloadType payloadType;
+
+  /// Details about your login page username field.
+  ///
+  /// How you specify this depends on the payload type.
+  ///
+  /// <ul>
+  /// <li>
+  /// For JSON payloads, specify the field name in JSON pointer syntax. For
+  /// information about the JSON Pointer syntax, see the Internet Engineering Task
+  /// Force (IETF) documentation <a
+  /// href="https://tools.ietf.org/html/rfc6901">JavaScript Object Notation (JSON)
+  /// Pointer</a>.
+  ///
+  /// For example, for the JSON payload <code>{ "login": { "username":
+  /// "THE_USERNAME", "password": "THE_PASSWORD" } }</code>, the username field
+  /// specification is <code>/login/username</code> and the password field
+  /// specification is <code>/login/password</code>.
+  /// </li>
+  /// <li>
+  /// For form encoded payload types, use the HTML form names.
+  ///
+  /// For example, for an HTML form with input elements named
+  /// <code>username1</code> and <code>password1</code>, the username field
+  /// specification is <code>username1</code> and the password field specification
+  /// is <code>password1</code>.
+  /// </li>
+  /// </ul>
+  final UsernameField usernameField;
+
+  RequestInspection({
+    required this.passwordField,
+    required this.payloadType,
+    required this.usernameField,
+  });
+
+  factory RequestInspection.fromJson(Map<String, dynamic> json) {
+    return RequestInspection(
+      passwordField:
+          PasswordField.fromJson(json['PasswordField'] as Map<String, dynamic>),
+      payloadType: (json['PayloadType'] as String).toPayloadType(),
+      usernameField:
+          UsernameField.fromJson(json['UsernameField'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final passwordField = this.passwordField;
+    final payloadType = this.payloadType;
+    final usernameField = this.usernameField;
+    return {
+      'PasswordField': passwordField,
+      'PayloadType': payloadType.toValue(),
+      'UsernameField': usernameField,
+    };
+  }
+}
+
 enum ResourceType {
   applicationLoadBalancer,
   apiGateway,
   appsync,
+  cognitoUserPool,
+  appRunnerService,
+  verifiedAccessInstance,
 }
 
 extension ResourceTypeValueExtension on ResourceType {
@@ -6951,6 +11692,12 @@ extension ResourceTypeValueExtension on ResourceType {
         return 'API_GATEWAY';
       case ResourceType.appsync:
         return 'APPSYNC';
+      case ResourceType.cognitoUserPool:
+        return 'COGNITO_USER_POOL';
+      case ResourceType.appRunnerService:
+        return 'APP_RUNNER_SERVICE';
+      case ResourceType.verifiedAccessInstance:
+        return 'VERIFIED_ACCESS_INSTANCE';
     }
   }
 }
@@ -6964,35 +11711,375 @@ extension ResourceTypeFromString on String {
         return ResourceType.apiGateway;
       case 'APPSYNC':
         return ResourceType.appsync;
+      case 'COGNITO_USER_POOL':
+        return ResourceType.cognitoUserPool;
+      case 'APP_RUNNER_SERVICE':
+        return ResourceType.appRunnerService;
+      case 'VERIFIED_ACCESS_INSTANCE':
+        return ResourceType.verifiedAccessInstance;
     }
     throw Exception('$this is not known in enum ResourceType');
   }
 }
 
+enum ResponseContentType {
+  textPlain,
+  textHtml,
+  applicationJson,
+}
+
+extension ResponseContentTypeValueExtension on ResponseContentType {
+  String toValue() {
+    switch (this) {
+      case ResponseContentType.textPlain:
+        return 'TEXT_PLAIN';
+      case ResponseContentType.textHtml:
+        return 'TEXT_HTML';
+      case ResponseContentType.applicationJson:
+        return 'APPLICATION_JSON';
+    }
+  }
+}
+
+extension ResponseContentTypeFromString on String {
+  ResponseContentType toResponseContentType() {
+    switch (this) {
+      case 'TEXT_PLAIN':
+        return ResponseContentType.textPlain;
+      case 'TEXT_HTML':
+        return ResponseContentType.textHtml;
+      case 'APPLICATION_JSON':
+        return ResponseContentType.applicationJson;
+    }
+    throw Exception('$this is not known in enum ResponseContentType');
+  }
+}
+
+/// The criteria for inspecting responses to login requests, used by the ATP
+/// rule group to track login failure rates.
+///
+/// The ATP rule group evaluates the responses that your protected resources
+/// send back to client login attempts, keeping count of successful and failed
+/// attempts from each IP address and client session. Using this information,
+/// the rule group labels and mitigates requests from client sessions and IP
+/// addresses that submit too many failed login attempts in a short amount of
+/// time.
 /// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
+/// Response inspection is available only in web ACLs that protect Amazon
+/// CloudFront distributions.
 /// </note>
+/// This is part of the <code>AWSManagedRulesATPRuleSet</code> configuration in
+/// <code>ManagedRuleGroupConfig</code>.
+///
+/// Enable login response inspection by configuring exactly one component of the
+/// response to inspect. You can't configure more than one. If you don't
+/// configure any of the response inspection options, response inspection is
+/// disabled.
+class ResponseInspection {
+  /// Configures inspection of the response body. WAF can inspect the first 65,536
+  /// bytes (64 KB) of the response body.
+  final ResponseInspectionBodyContains? bodyContains;
+
+  /// Configures inspection of the response header.
+  final ResponseInspectionHeader? header;
+
+  /// Configures inspection of the response JSON. WAF can inspect the first 65,536
+  /// bytes (64 KB) of the response JSON.
+  final ResponseInspectionJson? json;
+
+  /// Configures inspection of the response status code.
+  final ResponseInspectionStatusCode? statusCode;
+
+  ResponseInspection({
+    this.bodyContains,
+    this.header,
+    this.json,
+    this.statusCode,
+  });
+
+  factory ResponseInspection.fromJson(Map<String, dynamic> json) {
+    return ResponseInspection(
+      bodyContains: json['BodyContains'] != null
+          ? ResponseInspectionBodyContains.fromJson(
+              json['BodyContains'] as Map<String, dynamic>)
+          : null,
+      header: json['Header'] != null
+          ? ResponseInspectionHeader.fromJson(
+              json['Header'] as Map<String, dynamic>)
+          : null,
+      json: json['Json'] != null
+          ? ResponseInspectionJson.fromJson(
+              json['Json'] as Map<String, dynamic>)
+          : null,
+      statusCode: json['StatusCode'] != null
+          ? ResponseInspectionStatusCode.fromJson(
+              json['StatusCode'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bodyContains = this.bodyContains;
+    final header = this.header;
+    final json = this.json;
+    final statusCode = this.statusCode;
+    return {
+      if (bodyContains != null) 'BodyContains': bodyContains,
+      if (header != null) 'Header': header,
+      if (json != null) 'Json': json,
+      if (statusCode != null) 'StatusCode': statusCode,
+    };
+  }
+}
+
+/// Configures inspection of the response body. WAF can inspect the first 65,536
+/// bytes (64 KB) of the response body. This is part of the
+/// <code>ResponseInspection</code> configuration for
+/// <code>AWSManagedRulesATPRuleSet</code>.
+/// <note>
+/// Response inspection is available only in web ACLs that protect Amazon
+/// CloudFront distributions.
+/// </note>
+class ResponseInspectionBodyContains {
+  /// Strings in the body of the response that indicate a failed login attempt. To
+  /// be counted as a failed login, the string can be anywhere in the body and
+  /// must be an exact match, including case. Each string must be unique among the
+  /// success and failure strings.
+  ///
+  /// JSON example: <code>"FailureStrings": [ "Login failed" ]</code>
+  final List<String> failureStrings;
+
+  /// Strings in the body of the response that indicate a successful login
+  /// attempt. To be counted as a successful login, the string can be anywhere in
+  /// the body and must be an exact match, including case. Each string must be
+  /// unique among the success and failure strings.
+  ///
+  /// JSON example: <code>"SuccessStrings": [ "Login successful", "Welcome to our
+  /// site!" ]</code>
+  final List<String> successStrings;
+
+  ResponseInspectionBodyContains({
+    required this.failureStrings,
+    required this.successStrings,
+  });
+
+  factory ResponseInspectionBodyContains.fromJson(Map<String, dynamic> json) {
+    return ResponseInspectionBodyContains(
+      failureStrings: (json['FailureStrings'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      successStrings: (json['SuccessStrings'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureStrings = this.failureStrings;
+    final successStrings = this.successStrings;
+    return {
+      'FailureStrings': failureStrings,
+      'SuccessStrings': successStrings,
+    };
+  }
+}
+
+/// Configures inspection of the response header. This is part of the
+/// <code>ResponseInspection</code> configuration for
+/// <code>AWSManagedRulesATPRuleSet</code>.
+/// <note>
+/// Response inspection is available only in web ACLs that protect Amazon
+/// CloudFront distributions.
+/// </note>
+class ResponseInspectionHeader {
+  /// Values in the response header with the specified name that indicate a failed
+  /// login attempt. To be counted as a failed login, the value must be an exact
+  /// match, including case. Each value must be unique among the success and
+  /// failure values.
+  ///
+  /// JSON example: <code>"FailureValues": [ "LoginFailed", "Failed login"
+  /// ]</code>
+  final List<String> failureValues;
+
+  /// The name of the header to match against. The name must be an exact match,
+  /// including case.
+  ///
+  /// JSON example: <code>"Name": [ "LoginResult" ]</code>
+  final String name;
+
+  /// Values in the response header with the specified name that indicate a
+  /// successful login attempt. To be counted as a successful login, the value
+  /// must be an exact match, including case. Each value must be unique among the
+  /// success and failure values.
+  ///
+  /// JSON example: <code>"SuccessValues": [ "LoginPassed", "Successful login"
+  /// ]</code>
+  final List<String> successValues;
+
+  ResponseInspectionHeader({
+    required this.failureValues,
+    required this.name,
+    required this.successValues,
+  });
+
+  factory ResponseInspectionHeader.fromJson(Map<String, dynamic> json) {
+    return ResponseInspectionHeader(
+      failureValues: (json['FailureValues'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      successValues: (json['SuccessValues'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureValues = this.failureValues;
+    final name = this.name;
+    final successValues = this.successValues;
+    return {
+      'FailureValues': failureValues,
+      'Name': name,
+      'SuccessValues': successValues,
+    };
+  }
+}
+
+/// Configures inspection of the response JSON. WAF can inspect the first 65,536
+/// bytes (64 KB) of the response JSON. This is part of the
+/// <code>ResponseInspection</code> configuration for
+/// <code>AWSManagedRulesATPRuleSet</code>.
+/// <note>
+/// Response inspection is available only in web ACLs that protect Amazon
+/// CloudFront distributions.
+/// </note>
+class ResponseInspectionJson {
+  /// Values for the specified identifier in the response JSON that indicate a
+  /// failed login attempt. To be counted as a failed login, the value must be an
+  /// exact match, including case. Each value must be unique among the success and
+  /// failure values.
+  ///
+  /// JSON example: <code>"FailureValues": [ "False", "Failed" ]</code>
+  final List<String> failureValues;
+
+  /// The identifier for the value to match against in the JSON. The identifier
+  /// must be an exact match, including case.
+  ///
+  /// JSON example: <code>"Identifier": [ "/login/success" ]</code>
+  final String identifier;
+
+  /// Values for the specified identifier in the response JSON that indicate a
+  /// successful login attempt. To be counted as a successful login, the value
+  /// must be an exact match, including case. Each value must be unique among the
+  /// success and failure values.
+  ///
+  /// JSON example: <code>"SuccessValues": [ "True", "Succeeded" ]</code>
+  final List<String> successValues;
+
+  ResponseInspectionJson({
+    required this.failureValues,
+    required this.identifier,
+    required this.successValues,
+  });
+
+  factory ResponseInspectionJson.fromJson(Map<String, dynamic> json) {
+    return ResponseInspectionJson(
+      failureValues: (json['FailureValues'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      identifier: json['Identifier'] as String,
+      successValues: (json['SuccessValues'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureValues = this.failureValues;
+    final identifier = this.identifier;
+    final successValues = this.successValues;
+    return {
+      'FailureValues': failureValues,
+      'Identifier': identifier,
+      'SuccessValues': successValues,
+    };
+  }
+}
+
+/// Configures inspection of the response status code. This is part of the
+/// <code>ResponseInspection</code> configuration for
+/// <code>AWSManagedRulesATPRuleSet</code>.
+/// <note>
+/// Response inspection is available only in web ACLs that protect Amazon
+/// CloudFront distributions.
+/// </note>
+class ResponseInspectionStatusCode {
+  /// Status codes in the response that indicate a failed login attempt. To be
+  /// counted as a failed login, the response status code must match one of these.
+  /// Each code must be unique among the success and failure status codes.
+  ///
+  /// JSON example: <code>"FailureCodes": [ 400, 404 ]</code>
+  final List<int> failureCodes;
+
+  /// Status codes in the response that indicate a successful login attempt. To be
+  /// counted as a successful login, the response status code must match one of
+  /// these. Each code must be unique among the success and failure status codes.
+  ///
+  /// JSON example: <code>"SuccessCodes": [ 200, 201 ]</code>
+  final List<int> successCodes;
+
+  ResponseInspectionStatusCode({
+    required this.failureCodes,
+    required this.successCodes,
+  });
+
+  factory ResponseInspectionStatusCode.fromJson(Map<String, dynamic> json) {
+    return ResponseInspectionStatusCode(
+      failureCodes: (json['FailureCodes'] as List)
+          .whereNotNull()
+          .map((e) => e as int)
+          .toList(),
+      successCodes: (json['SuccessCodes'] as List)
+          .whereNotNull()
+          .map((e) => e as int)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureCodes = this.failureCodes;
+    final successCodes = this.successCodes;
+    return {
+      'FailureCodes': failureCodes,
+      'SuccessCodes': successCodes,
+    };
+  }
+}
+
 /// A single rule, which you can use in a <a>WebACL</a> or <a>RuleGroup</a> to
 /// identify web requests that you want to allow, block, or count. Each rule
-/// includes one top-level <a>Statement</a> that AWS WAF uses to identify
-/// matching web requests, and parameters that govern how AWS WAF handles them.
+/// includes one top-level <a>Statement</a> that WAF uses to identify matching
+/// web requests, and parameters that govern how WAF handles them.
 class Rule {
   /// The name of the rule. You can't change the name of a <code>Rule</code> after
   /// you create it.
   final String name;
 
-  /// If you define more than one <code>Rule</code> in a <code>WebACL</code>, AWS
-  /// WAF evaluates each request against the <code>Rules</code> in order based on
-  /// the value of <code>Priority</code>. AWS WAF processes rules with lower
-  /// priority first. The priorities don't need to be consecutive, but they must
-  /// all be different.
+  /// If you define more than one <code>Rule</code> in a <code>WebACL</code>, WAF
+  /// evaluates each request against the <code>Rules</code> in order based on the
+  /// value of <code>Priority</code>. WAF processes rules with lower priority
+  /// first. The priorities don't need to be consecutive, but they must all be
+  /// different.
   final int priority;
 
-  /// The AWS WAF processing statement for the rule, for example
+  /// The WAF processing statement for the rule, for example
   /// <a>ByteMatchStatement</a> or <a>SizeConstraintStatement</a>.
   final Statement statement;
 
@@ -7000,8 +12087,8 @@ class Rule {
   /// collection.
   final VisibilityConfig visibilityConfig;
 
-  /// The action that AWS WAF should take on a web request when it matches the
-  /// rule statement. Settings at the web ACL level can override the rule action
+  /// The action that WAF should take on a web request when it matches the rule
+  /// statement. Settings at the web ACL level can override the rule action
   /// setting.
   ///
   /// This is used only for rules whose statements do not reference a rule group.
@@ -7024,28 +12111,63 @@ class Rule {
   /// </ul>
   final RuleAction? action;
 
-  /// The override action to apply to the rules in a rule group. Used only for
-  /// rule statements that reference a rule group, like
+  /// Specifies how WAF should handle <code>CAPTCHA</code> evaluations. If you
+  /// don't specify this, WAF uses the <code>CAPTCHA</code> configuration that's
+  /// defined for the web ACL.
+  final CaptchaConfig? captchaConfig;
+
+  /// Specifies how WAF should handle <code>Challenge</code> evaluations. If you
+  /// don't specify this, WAF uses the challenge configuration that's defined for
+  /// the web ACL.
+  final ChallengeConfig? challengeConfig;
+
+  /// The action to use in the place of the action that results from the rule
+  /// group evaluation. Set the override action to none to leave the result of the
+  /// rule group alone. Set it to count to override the result to count only.
+  ///
+  /// You can only use this for rule statements that reference a rule group, like
   /// <code>RuleGroupReferenceStatement</code> and
   /// <code>ManagedRuleGroupStatement</code>.
+  /// <note>
+  /// This option is usually set to none. It does not affect how the rules in the
+  /// rule group are evaluated. If you want the rules in the rule group to only
+  /// count matches, do not use this and instead use the rule action override
+  /// option, with <code>Count</code> action, in your rule group reference
+  /// statement settings.
+  /// </note>
+  final OverrideAction? overrideAction;
+
+  /// Labels to apply to web requests that match the rule match statement. WAF
+  /// applies fully qualified labels to matching web requests. A fully qualified
+  /// label is the concatenation of a label namespace and a rule label. The rule's
+  /// rule group or web ACL defines the label namespace.
   ///
-  /// Set the override action to none to leave the rule actions in effect. Set it
-  /// to count to only count matches, regardless of the rule action settings.
+  /// Rules that run after this rule in the web ACL can match against these labels
+  /// using a <code>LabelMatchStatement</code>.
   ///
-  /// In a <a>Rule</a>, you must specify either this <code>OverrideAction</code>
-  /// setting or the rule <code>Action</code> setting, but not both:
+  /// For each label, provide a case-sensitive string containing optional
+  /// namespaces and a label name, according to the following guidelines:
   ///
   /// <ul>
   /// <li>
-  /// If the rule statement references a rule group, use this override action
-  /// setting and not the action setting.
+  /// Separate each component of the label with a colon.
   /// </li>
   /// <li>
-  /// If the rule statement does not reference a rule group, use the rule action
-  /// setting and not this rule override action setting.
+  /// Each namespace or name can have up to 128 characters.
+  /// </li>
+  /// <li>
+  /// You can specify up to 5 namespaces in a label.
+  /// </li>
+  /// <li>
+  /// Don't use the following reserved words in your label specification:
+  /// <code>aws</code>, <code>waf</code>, <code>managed</code>,
+  /// <code>rulegroup</code>, <code>webacl</code>, <code>regexpatternset</code>,
+  /// or <code>ipset</code>.
   /// </li>
   /// </ul>
-  final OverrideAction? overrideAction;
+  /// For example, <code>myLabelName</code> or
+  /// <code>nameSpace1:nameSpace2:myLabelName</code>.
+  final List<Label>? ruleLabels;
 
   Rule({
     required this.name,
@@ -7053,8 +12175,12 @@ class Rule {
     required this.statement,
     required this.visibilityConfig,
     this.action,
+    this.captchaConfig,
+    this.challengeConfig,
     this.overrideAction,
+    this.ruleLabels,
   });
+
   factory Rule.fromJson(Map<String, dynamic> json) {
     return Rule(
       name: json['Name'] as String,
@@ -7065,10 +12191,22 @@ class Rule {
       action: json['Action'] != null
           ? RuleAction.fromJson(json['Action'] as Map<String, dynamic>)
           : null,
+      captchaConfig: json['CaptchaConfig'] != null
+          ? CaptchaConfig.fromJson(
+              json['CaptchaConfig'] as Map<String, dynamic>)
+          : null,
+      challengeConfig: json['ChallengeConfig'] != null
+          ? ChallengeConfig.fromJson(
+              json['ChallengeConfig'] as Map<String, dynamic>)
+          : null,
       overrideAction: json['OverrideAction'] != null
           ? OverrideAction.fromJson(
               json['OverrideAction'] as Map<String, dynamic>)
           : null,
+      ruleLabels: (json['RuleLabels'] as List?)
+          ?.whereNotNull()
+          .map((e) => Label.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -7078,43 +12216,52 @@ class Rule {
     final statement = this.statement;
     final visibilityConfig = this.visibilityConfig;
     final action = this.action;
+    final captchaConfig = this.captchaConfig;
+    final challengeConfig = this.challengeConfig;
     final overrideAction = this.overrideAction;
+    final ruleLabels = this.ruleLabels;
     return {
       'Name': name,
       'Priority': priority,
       'Statement': statement,
       'VisibilityConfig': visibilityConfig,
       if (action != null) 'Action': action,
+      if (captchaConfig != null) 'CaptchaConfig': captchaConfig,
+      if (challengeConfig != null) 'ChallengeConfig': challengeConfig,
       if (overrideAction != null) 'OverrideAction': overrideAction,
+      if (ruleLabels != null) 'RuleLabels': ruleLabels,
     };
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// The action that AWS WAF should take on a web request when it matches a
-/// rule's statement. Settings at the web ACL level can override the rule action
+/// The action that WAF should take on a web request when it matches a rule's
+/// statement. Settings at the web ACL level can override the rule action
 /// setting.
 class RuleAction {
-  /// Instructs AWS WAF to allow the web request.
+  /// Instructs WAF to allow the web request.
   final AllowAction? allow;
 
-  /// Instructs AWS WAF to block the web request.
+  /// Instructs WAF to block the web request.
   final BlockAction? block;
 
-  /// Instructs AWS WAF to count the web request and allow it.
+  /// Instructs WAF to run a <code>CAPTCHA</code> check against the web request.
+  final CaptchaAction? captcha;
+
+  /// Instructs WAF to run a <code>Challenge</code> check against the web request.
+  final ChallengeAction? challenge;
+
+  /// Instructs WAF to count the web request and then continue evaluating the
+  /// request using the remaining rules in the web ACL.
   final CountAction? count;
 
   RuleAction({
     this.allow,
     this.block,
+    this.captcha,
+    this.challenge,
     this.count,
   });
+
   factory RuleAction.fromJson(Map<String, dynamic> json) {
     return RuleAction(
       allow: json['Allow'] != null
@@ -7122,6 +12269,12 @@ class RuleAction {
           : null,
       block: json['Block'] != null
           ? BlockAction.fromJson(json['Block'] as Map<String, dynamic>)
+          : null,
+      captcha: json['Captcha'] != null
+          ? CaptchaAction.fromJson(json['Captcha'] as Map<String, dynamic>)
+          : null,
+      challenge: json['Challenge'] != null
+          ? ChallengeAction.fromJson(json['Challenge'] as Map<String, dynamic>)
           : null,
       count: json['Count'] != null
           ? CountAction.fromJson(json['Count'] as Map<String, dynamic>)
@@ -7132,22 +12285,59 @@ class RuleAction {
   Map<String, dynamic> toJson() {
     final allow = this.allow;
     final block = this.block;
+    final captcha = this.captcha;
+    final challenge = this.challenge;
     final count = this.count;
     return {
       if (allow != null) 'Allow': allow,
       if (block != null) 'Block': block,
+      if (captcha != null) 'Captcha': captcha,
+      if (challenge != null) 'Challenge': challenge,
       if (count != null) 'Count': count,
     };
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
+/// Action setting to use in the place of a rule action that is configured
+/// inside the rule group. You specify one override for each rule whose action
+/// you want to change.
+///
+/// You can use overrides for testing, for example you can override all of rule
+/// actions to <code>Count</code> and then monitor the resulting count metrics
+/// to understand how the rule group would handle your web traffic. You can also
+/// permanently override some or all actions, to modify how the rule group
+/// manages your web traffic.
+class RuleActionOverride {
+  /// The override action to use, in place of the configured action of the rule in
+  /// the rule group.
+  final RuleAction actionToUse;
+
+  /// The name of the rule to override.
+  final String name;
+
+  RuleActionOverride({
+    required this.actionToUse,
+    required this.name,
+  });
+
+  factory RuleActionOverride.fromJson(Map<String, dynamic> json) {
+    return RuleActionOverride(
+      actionToUse:
+          RuleAction.fromJson(json['ActionToUse'] as Map<String, dynamic>),
+      name: json['Name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionToUse = this.actionToUse;
+    final name = this.name;
+    return {
+      'ActionToUse': actionToUse,
+      'Name': name,
+    };
+  }
+}
+
 /// A rule group defines a collection of rules to inspect and control web
 /// requests that you can use in a <a>WebACL</a>. When you create a rule group,
 /// you define an immutable capacity limit. If you update a rule group, you must
@@ -7160,17 +12350,19 @@ class RuleGroup {
   /// The web ACL capacity units (WCUs) required for this rule group.
   ///
   /// When you create your own rule group, you define this, and you cannot change
-  /// it after creation. When you add or modify the rules in a rule group, AWS WAF
+  /// it after creation. When you add or modify the rules in a rule group, WAF
   /// enforces this limit. You can check the capacity for a set of rules using
   /// <a>CheckCapacity</a>.
   ///
-  /// AWS WAF uses WCUs to calculate and control the operating resources that are
-  /// used to run your rules, rule groups, and web ACLs. AWS WAF calculates
-  /// capacity differently for each rule type, to reflect the relative cost of
-  /// each rule. Simple rules that cost little to run use fewer WCUs than more
-  /// complex rules that use more processing power. Rule group capacity is fixed
-  /// at creation, which helps users plan their web ACL WCU usage when they use a
-  /// rule group. The WCU limit for web ACLs is 1,500.
+  /// WAF uses WCUs to calculate and control the operating resources that are used
+  /// to run your rules, rule groups, and web ACLs. WAF calculates capacity
+  /// differently for each rule type, to reflect the relative cost of each rule.
+  /// Simple rules that cost little to run use fewer WCUs than more complex rules
+  /// that use more processing power. Rule group capacity is fixed at creation,
+  /// which helps users plan their web ACL WCU usage when they use a rule group.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html">WAF
+  /// web ACL capacity units (WCU)</a> in the <i>WAF Developer Guide</i>.
   final int capacity;
 
   /// A unique identifier for the rule group. This ID is returned in the responses
@@ -7186,14 +12378,60 @@ class RuleGroup {
   /// collection.
   final VisibilityConfig visibilityConfig;
 
-  /// A description of the rule group that helps with identification. You cannot
-  /// change the description of a rule group after you create it.
+  /// The labels that one or more rules in this rule group add to matching web
+  /// requests. These labels are defined in the <code>RuleLabels</code> for a
+  /// <a>Rule</a>.
+  final List<LabelSummary>? availableLabels;
+
+  /// The labels that one or more rules in this rule group match against in label
+  /// match statements. These labels are defined in a
+  /// <code>LabelMatchStatement</code> specification, in the <a>Statement</a>
+  /// definition of a rule.
+  final List<LabelSummary>? consumedLabels;
+
+  /// A map of custom response keys and content bodies. When you create a rule
+  /// with a block action, you can send a custom response to the web request. You
+  /// define these for the rule group, and then use them in the rules that you
+  /// define in the rule group.
+  ///
+  /// For information about customizing web requests and responses, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html">Customizing
+  /// web requests and responses in WAF</a> in the <i>WAF Developer Guide</i>.
+  ///
+  /// For information about the limits on count and size for custom request and
+  /// response settings, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">WAF
+  /// quotas</a> in the <i>WAF Developer Guide</i>.
+  final Map<String, CustomResponseBody>? customResponseBodies;
+
+  /// A description of the rule group that helps with identification.
   final String? description;
+
+  /// The label namespace prefix for this rule group. All labels added by rules in
+  /// this rule group have this prefix.
+  ///
+  /// <ul>
+  /// <li>
+  /// The syntax for the label namespace prefix for your rule groups is the
+  /// following:
+  ///
+  /// <code>awswaf:&lt;account ID&gt;:rulegroup:&lt;rule group name&gt;:</code>
+  /// </li>
+  /// <li>
+  /// When a rule with a label matches a web request, WAF adds the fully qualified
+  /// label to the request. A fully qualified label is made up of the label
+  /// namespace from the rule group or web ACL where the rule is defined and the
+  /// label from the rule, separated by a colon:
+  ///
+  /// <code>&lt;label namespace&gt;:&lt;label from rule&gt;</code>
+  /// </li>
+  /// </ul>
+  final String? labelNamespace;
 
   /// The <a>Rule</a> statements used to identify the web requests that you want
   /// to allow, block, or count. Each rule includes one top-level statement that
-  /// AWS WAF uses to identify matching web requests, and parameters that govern
-  /// how AWS WAF handles them.
+  /// WAF uses to identify matching web requests, and parameters that govern how
+  /// WAF handles them.
   final List<Rule>? rules;
 
   RuleGroup({
@@ -7202,9 +12440,14 @@ class RuleGroup {
     required this.id,
     required this.name,
     required this.visibilityConfig,
+    this.availableLabels,
+    this.consumedLabels,
+    this.customResponseBodies,
     this.description,
+    this.labelNamespace,
     this.rules,
   });
+
   factory RuleGroup.fromJson(Map<String, dynamic> json) {
     return RuleGroup(
       arn: json['ARN'] as String,
@@ -7213,7 +12456,20 @@ class RuleGroup {
       name: json['Name'] as String,
       visibilityConfig: VisibilityConfig.fromJson(
           json['VisibilityConfig'] as Map<String, dynamic>),
+      availableLabels: (json['AvailableLabels'] as List?)
+          ?.whereNotNull()
+          .map((e) => LabelSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      consumedLabels: (json['ConsumedLabels'] as List?)
+          ?.whereNotNull()
+          .map((e) => LabelSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      customResponseBodies:
+          (json['CustomResponseBodies'] as Map<String, dynamic>?)?.map((k, e) =>
+              MapEntry(
+                  k, CustomResponseBody.fromJson(e as Map<String, dynamic>))),
       description: json['Description'] as String?,
+      labelNamespace: json['LabelNamespace'] as String?,
       rules: (json['Rules'] as List?)
           ?.whereNotNull()
           .map((e) => Rule.fromJson(e as Map<String, dynamic>))
@@ -7222,32 +12478,42 @@ class RuleGroup {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
 /// A rule statement used to run the rules that are defined in a
 /// <a>RuleGroup</a>. To use this, create a rule group with your rules, then
 /// provide the ARN of the rule group in this statement.
 ///
 /// You cannot nest a <code>RuleGroupReferenceStatement</code>, for example for
-/// use inside a <code>NotStatement</code> or <code>OrStatement</code>. It can
-/// only be referenced as a top-level statement within a rule.
+/// use inside a <code>NotStatement</code> or <code>OrStatement</code>. You can
+/// only use a rule group reference statement at the top level inside a web ACL.
 class RuleGroupReferenceStatement {
   /// The Amazon Resource Name (ARN) of the entity.
   final String arn;
 
-  /// The names of rules that are in the referenced rule group, but that you want
-  /// AWS WAF to exclude from processing for this rule statement.
+  /// Rules in the referenced rule group whose actions are set to
+  /// <code>Count</code>.
+  /// <note>
+  /// Instead of this option, use <code>RuleActionOverrides</code>. It accepts any
+  /// valid action setting, including <code>Count</code>.
+  /// </note>
   final List<ExcludedRule>? excludedRules;
+
+  /// Action settings to use in the place of the rule actions that are configured
+  /// inside the rule group. You specify one override for each rule whose action
+  /// you want to change.
+  ///
+  /// You can use overrides for testing, for example you can override all of rule
+  /// actions to <code>Count</code> and then monitor the resulting count metrics
+  /// to understand how the rule group would handle your web traffic. You can also
+  /// permanently override some or all actions, to modify how the rule group
+  /// manages your web traffic.
+  final List<RuleActionOverride>? ruleActionOverrides;
 
   RuleGroupReferenceStatement({
     required this.arn,
     this.excludedRules,
+    this.ruleActionOverrides,
   });
+
   factory RuleGroupReferenceStatement.fromJson(Map<String, dynamic> json) {
     return RuleGroupReferenceStatement(
       arn: json['ARN'] as String,
@@ -7255,26 +12521,26 @@ class RuleGroupReferenceStatement {
           ?.whereNotNull()
           .map((e) => ExcludedRule.fromJson(e as Map<String, dynamic>))
           .toList(),
+      ruleActionOverrides: (json['RuleActionOverrides'] as List?)
+          ?.whereNotNull()
+          .map((e) => RuleActionOverride.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final excludedRules = this.excludedRules;
+    final ruleActionOverrides = this.ruleActionOverrides;
     return {
       'ARN': arn,
       if (excludedRules != null) 'ExcludedRules': excludedRules,
+      if (ruleActionOverrides != null)
+        'RuleActionOverrides': ruleActionOverrides,
     };
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
 /// High-level information about a <a>RuleGroup</a>, returned by operations like
 /// create and list. This provides information like the ID, that you can use to
 /// retrieve and manage a <code>RuleGroup</code>, and the ARN, that you provide
@@ -7284,8 +12550,7 @@ class RuleGroupSummary {
   /// The Amazon Resource Name (ARN) of the entity.
   final String? arn;
 
-  /// A description of the rule group that helps with identification. You cannot
-  /// change the description of a rule group after you create it.
+  /// A description of the rule group that helps with identification.
   final String? description;
 
   /// A unique identifier for the rule group. This ID is returned in the responses
@@ -7293,14 +12558,15 @@ class RuleGroupSummary {
   /// delete.
   final String? id;
 
-  /// A token used for optimistic locking. AWS WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. AWS WAF uses the token to ensure
-  /// that no changes have been made to the entity since you last retrieved it. If
-  /// a change has been made, the update fails with a
-  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
   final String? lockToken;
 
   /// The name of the data type instance. You cannot change the name after you
@@ -7314,6 +12580,7 @@ class RuleGroupSummary {
     this.lockToken,
     this.name,
   });
+
   factory RuleGroupSummary.fromJson(Map<String, dynamic> json) {
     return RuleGroupSummary(
       arn: json['ARN'] as String?,
@@ -7325,19 +12592,15 @@ class RuleGroupSummary {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
 /// High-level information about a <a>Rule</a>, returned by operations like
 /// <a>DescribeManagedRuleGroup</a>. This provides information like the ID, that
 /// you can use to retrieve and manage a <code>RuleGroup</code>, and the ARN,
 /// that you provide to the <a>RuleGroupReferenceStatement</a> to use the rule
 /// group in a <a>Rule</a>.
 class RuleSummary {
+  /// The action that WAF should take on a web request when it matches a rule's
+  /// statement. Settings at the web ACL level can override the rule action
+  /// setting.
   final RuleAction? action;
 
   /// The name of the rule.
@@ -7347,6 +12610,7 @@ class RuleSummary {
     this.action,
     this.name,
   });
+
   factory RuleSummary.fromJson(Map<String, dynamic> json) {
     return RuleSummary(
       action: json['Action'] != null
@@ -7357,13 +12621,6 @@ class RuleSummary {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
 /// Represents a single sampled web request. The response from
 /// <a>GetSampledRequests</a> includes a <code>SampledHTTPRequests</code>
 /// complex type that appears as <code>SampledRequests</code> in the response
@@ -7379,9 +12636,37 @@ class SampledHTTPRequest {
   /// that has a weight of <code>1</code>.
   final int weight;
 
-  /// The action for the <code>Rule</code> that the request matched:
-  /// <code>ALLOW</code>, <code>BLOCK</code>, or <code>COUNT</code>.
+  /// The action that WAF applied to the request.
   final String? action;
+
+  /// The <code>CAPTCHA</code> response for the request.
+  final CaptchaResponse? captchaResponse;
+
+  /// The <code>Challenge</code> response for the request.
+  final ChallengeResponse? challengeResponse;
+
+  /// Labels applied to the web request by matching rules. WAF applies fully
+  /// qualified labels to matching web requests. A fully qualified label is the
+  /// concatenation of a label namespace and a rule label. The rule's rule group
+  /// or web ACL defines the label namespace.
+  ///
+  /// For example,
+  /// <code>awswaf:111122223333:myRuleGroup:testRules:testNS1:testNS2:labelNameA</code>
+  /// or <code>awswaf:managed:aws:managed-rule-set:header:encoding:utf8</code>.
+  final List<Label>? labels;
+
+  /// Used only for rule group rules that have a rule action override in place in
+  /// the web ACL. This is the action that the rule group rule is configured for,
+  /// and not the action that was applied to the request. The action that WAF
+  /// applied is the <code>Action</code> value.
+  final String? overriddenAction;
+
+  /// Custom request headers inserted by WAF into the request, according to the
+  /// custom request configuration for the matching rule action.
+  final List<HTTPHeader>? requestHeadersInserted;
+
+  /// The response code that was sent for the request.
+  final int? responseCodeSent;
 
   /// The name of the <code>Rule</code> that the request matched. For managed rule
   /// groups, the format for this name is <code>&lt;vendor name&gt;#&lt;managed
@@ -7390,22 +12675,47 @@ class SampledHTTPRequest {
   /// name&gt;</code>. If the rule is not in a rule group, this field is absent.
   final String? ruleNameWithinRuleGroup;
 
-  /// The time at which AWS WAF received the request from your AWS resource, in
-  /// Unix time format (in seconds).
+  /// The time at which WAF received the request from your Amazon Web Services
+  /// resource, in Unix time format (in seconds).
   final DateTime? timestamp;
 
   SampledHTTPRequest({
     required this.request,
     required this.weight,
     this.action,
+    this.captchaResponse,
+    this.challengeResponse,
+    this.labels,
+    this.overriddenAction,
+    this.requestHeadersInserted,
+    this.responseCodeSent,
     this.ruleNameWithinRuleGroup,
     this.timestamp,
   });
+
   factory SampledHTTPRequest.fromJson(Map<String, dynamic> json) {
     return SampledHTTPRequest(
       request: HTTPRequest.fromJson(json['Request'] as Map<String, dynamic>),
       weight: json['Weight'] as int,
       action: json['Action'] as String?,
+      captchaResponse: json['CaptchaResponse'] != null
+          ? CaptchaResponse.fromJson(
+              json['CaptchaResponse'] as Map<String, dynamic>)
+          : null,
+      challengeResponse: json['ChallengeResponse'] != null
+          ? ChallengeResponse.fromJson(
+              json['ChallengeResponse'] as Map<String, dynamic>)
+          : null,
+      labels: (json['Labels'] as List?)
+          ?.whereNotNull()
+          .map((e) => Label.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      overriddenAction: json['OverriddenAction'] as String?,
+      requestHeadersInserted: (json['RequestHeadersInserted'] as List?)
+          ?.whereNotNull()
+          .map((e) => HTTPHeader.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      responseCodeSent: json['ResponseCodeSent'] as int?,
       ruleNameWithinRuleGroup: json['RuleNameWithinRuleGroup'] as String?,
       timestamp: timeStampFromJson(json['Timestamp']),
     );
@@ -7440,19 +12750,45 @@ extension ScopeFromString on String {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// One of the headers in a web request, identified by name, for example,
-/// <code>User-Agent</code> or <code>Referer</code>. This setting isn't case
-/// sensitive.
+enum SensitivityLevel {
+  low,
+  high,
+}
+
+extension SensitivityLevelValueExtension on SensitivityLevel {
+  String toValue() {
+    switch (this) {
+      case SensitivityLevel.low:
+        return 'LOW';
+      case SensitivityLevel.high:
+        return 'HIGH';
+    }
+  }
+}
+
+extension SensitivityLevelFromString on String {
+  SensitivityLevel toSensitivityLevel() {
+    switch (this) {
+      case 'LOW':
+        return SensitivityLevel.low;
+      case 'HIGH':
+        return SensitivityLevel.high;
+    }
+    throw Exception('$this is not known in enum SensitivityLevel');
+  }
+}
+
+/// Inspect one of the headers in the web request, identified by name, for
+/// example, <code>User-Agent</code> or <code>Referer</code>. The name isn't
+/// case sensitive.
 ///
-/// This is used only to indicate the web request component for AWS WAF to
-/// inspect, in the <a>FieldToMatch</a> specification.
+/// You can filter and inspect all headers with the <code>FieldToMatch</code>
+/// setting <code>Headers</code>.
+///
+/// This is used to indicate the web request component to inspect, in the
+/// <a>FieldToMatch</a> specification.
+///
+/// Example JSON: <code>"SingleHeader": { "Name": "haystack" }</code>
 class SingleHeader {
   /// The name of the query header to inspect.
   final String name;
@@ -7460,6 +12796,7 @@ class SingleHeader {
   SingleHeader({
     required this.name,
   });
+
   factory SingleHeader.fromJson(Map<String, dynamic> json) {
     return SingleHeader(
       name: json['Name'] as String,
@@ -7474,16 +12811,14 @@ class SingleHeader {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// One query argument in a web request, identified by name, for example
-/// <i>UserName</i> or <i>SalesRegion</i>. The name can be up to 30 characters
-/// long and isn't case sensitive.
+/// Inspect one query argument in the web request, identified by name, for
+/// example <i>UserName</i> or <i>SalesRegion</i>. The name isn't case
+/// sensitive.
+///
+/// This is used to indicate the web request component to inspect, in the
+/// <a>FieldToMatch</a> specification.
+///
+/// Example JSON: <code>"SingleQueryArgument": { "Name": "myArgument" }</code>
 class SingleQueryArgument {
   /// The name of the query argument to inspect.
   final String name;
@@ -7491,6 +12826,7 @@ class SingleQueryArgument {
   SingleQueryArgument({
     required this.name,
   });
+
   factory SingleQueryArgument.fromJson(Map<String, dynamic> json) {
     return SingleQueryArgument(
       name: json['Name'] as String,
@@ -7505,22 +12841,19 @@ class SingleQueryArgument {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
 /// A rule statement that compares a number of bytes against the size of a
 /// request component, using a comparison operator, such as greater than (&gt;)
 /// or less than (&lt;). For example, you can use a size constraint statement to
 /// look for query strings that are longer than 100 bytes.
 ///
-/// If you configure AWS WAF to inspect the request body, AWS WAF inspects only
-/// the first 8192 bytes (8 KB). If the request body for your web requests never
-/// exceeds 8192 bytes, you can create a size constraint condition and block
-/// requests that have a request body greater than 8192 bytes.
+/// If you configure WAF to inspect the request body, WAF inspects only the
+/// number of bytes of the body up to the limit for the web ACL. By default, for
+/// regional web ACLs, this limit is 8 KB (8,192 kilobytes) and for CloudFront
+/// web ACLs, this limit is 16 KB (16,384 kilobytes). For CloudFront web ACLs,
+/// you can increase the limit in the web ACL <code>AssociationConfig</code>,
+/// for additional fees. If you know that the request body for your web requests
+/// should never exceed the inspection limit, you could use a size constraint
+/// statement to block requests that have a larger request body size.
 ///
 /// If you choose URI for the value of Part of the request to filter on, the
 /// slash (/) in the URI counts as one character. For example, the URI
@@ -7529,8 +12862,7 @@ class SizeConstraintStatement {
   /// The operator to use to compare the request part to the size setting.
   final ComparisonOperator comparisonOperator;
 
-  /// The part of a web request that you want AWS WAF to inspect. For more
-  /// information, see <a>FieldToMatch</a>.
+  /// The part of the web request that you want WAF to inspect.
   final FieldToMatch fieldToMatch;
 
   /// The size, in byte, to compare to the request part, after any
@@ -7538,11 +12870,14 @@ class SizeConstraintStatement {
   final int size;
 
   /// Text transformations eliminate some of the unusual formatting that attackers
-  /// use in web requests in an effort to bypass detection. If you specify one or
-  /// more transformations in a rule statement, AWS WAF performs all
-  /// transformations on the content of the request component identified by
-  /// <code>FieldToMatch</code>, starting from the lowest priority setting, before
-  /// inspecting the content for a match.
+  /// use in web requests in an effort to bypass detection. Text transformations
+  /// are used in rule match statements, to transform the
+  /// <code>FieldToMatch</code> request component before inspecting it, and
+  /// they're used in rate-based rule statements, to transform request components
+  /// before using them as custom aggregation keys. If you specify one or more
+  /// transformations to apply, WAF performs all transformations on the specified
+  /// content, starting from the lowest priority setting, and then uses the
+  /// component contents.
   final List<TextTransformation> textTransformations;
 
   SizeConstraintStatement({
@@ -7551,6 +12886,7 @@ class SizeConstraintStatement {
     required this.size,
     required this.textTransformations,
   });
+
   factory SizeConstraintStatement.fromJson(Map<String, dynamic> json) {
     return SizeConstraintStatement(
       comparisonOperator:
@@ -7579,38 +12915,85 @@ class SizeConstraintStatement {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// Attackers sometimes insert malicious SQL code into web requests in an effort
-/// to extract data from your database. To allow or block web requests that
-/// appear to contain malicious SQL code, create one or more SQL injection match
-/// conditions. An SQL injection match condition identifies the part of web
-/// requests, such as the URI or the query string, that you want AWS WAF to
-/// inspect. Later in the process, when you create a web ACL, you specify
-/// whether to allow or block requests that appear to contain malicious SQL
-/// code.
+enum SizeInspectionLimit {
+  kb_16,
+  kb_32,
+  kb_48,
+  kb_64,
+}
+
+extension SizeInspectionLimitValueExtension on SizeInspectionLimit {
+  String toValue() {
+    switch (this) {
+      case SizeInspectionLimit.kb_16:
+        return 'KB_16';
+      case SizeInspectionLimit.kb_32:
+        return 'KB_32';
+      case SizeInspectionLimit.kb_48:
+        return 'KB_48';
+      case SizeInspectionLimit.kb_64:
+        return 'KB_64';
+    }
+  }
+}
+
+extension SizeInspectionLimitFromString on String {
+  SizeInspectionLimit toSizeInspectionLimit() {
+    switch (this) {
+      case 'KB_16':
+        return SizeInspectionLimit.kb_16;
+      case 'KB_32':
+        return SizeInspectionLimit.kb_32;
+      case 'KB_48':
+        return SizeInspectionLimit.kb_48;
+      case 'KB_64':
+        return SizeInspectionLimit.kb_64;
+    }
+    throw Exception('$this is not known in enum SizeInspectionLimit');
+  }
+}
+
+/// A rule statement that inspects for malicious SQL code. Attackers insert
+/// malicious SQL code into web requests to do things like modify your database
+/// or extract data from it.
 class SqliMatchStatement {
-  /// The part of a web request that you want AWS WAF to inspect. For more
-  /// information, see <a>FieldToMatch</a>.
+  /// The part of the web request that you want WAF to inspect.
   final FieldToMatch fieldToMatch;
 
   /// Text transformations eliminate some of the unusual formatting that attackers
-  /// use in web requests in an effort to bypass detection. If you specify one or
-  /// more transformations in a rule statement, AWS WAF performs all
-  /// transformations on the content of the request component identified by
-  /// <code>FieldToMatch</code>, starting from the lowest priority setting, before
-  /// inspecting the content for a match.
+  /// use in web requests in an effort to bypass detection. Text transformations
+  /// are used in rule match statements, to transform the
+  /// <code>FieldToMatch</code> request component before inspecting it, and
+  /// they're used in rate-based rule statements, to transform request components
+  /// before using them as custom aggregation keys. If you specify one or more
+  /// transformations to apply, WAF performs all transformations on the specified
+  /// content, starting from the lowest priority setting, and then uses the
+  /// component contents.
   final List<TextTransformation> textTransformations;
+
+  /// The sensitivity that you want WAF to use to inspect for SQL injection
+  /// attacks.
+  ///
+  /// <code>HIGH</code> detects more attacks, but might generate more false
+  /// positives, especially if your web requests frequently contain unusual
+  /// strings. For information about identifying and mitigating false positives,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/web-acl-testing.html">Testing
+  /// and tuning</a> in the <i>WAF Developer Guide</i>.
+  ///
+  /// <code>LOW</code> is generally a better choice for resources that already
+  /// have other protections against SQL injection attacks or that have a low
+  /// tolerance for false positives.
+  ///
+  /// Default: <code>LOW</code>
+  final SensitivityLevel? sensitivityLevel;
 
   SqliMatchStatement({
     required this.fieldToMatch,
     required this.textTransformations,
+    this.sensitivityLevel,
   });
+
   factory SqliMatchStatement.fromJson(Map<String, dynamic> json) {
     return SqliMatchStatement(
       fieldToMatch:
@@ -7619,43 +13002,80 @@ class SqliMatchStatement {
           .whereNotNull()
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
+      sensitivityLevel:
+          (json['SensitivityLevel'] as String?)?.toSensitivityLevel(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final fieldToMatch = this.fieldToMatch;
     final textTransformations = this.textTransformations;
+    final sensitivityLevel = this.sensitivityLevel;
     return {
       'FieldToMatch': fieldToMatch,
       'TextTransformations': textTransformations,
+      if (sensitivityLevel != null)
+        'SensitivityLevel': sensitivityLevel.toValue(),
     };
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// The processing guidance for a <a>Rule</a>, used by AWS WAF to determine
-/// whether a web request matches the rule.
+/// The processing guidance for a <a>Rule</a>, used by WAF to determine whether
+/// a web request matches the rule.
+///
+/// For example specifications, see the examples section of <a>CreateWebACL</a>.
 class Statement {
   /// A logical rule statement used to combine other rule statements with AND
   /// logic. You provide more than one <a>Statement</a> within the
   /// <code>AndStatement</code>.
   final AndStatement? andStatement;
 
-  /// A rule statement that defines a string match search for AWS WAF to apply to
-  /// web requests. The byte match statement provides the bytes to search for, the
-  /// location in requests that you want AWS WAF to search, and other settings.
-  /// The bytes to search for are typically a string that corresponds with ASCII
-  /// characters. In the AWS WAF console and the developer guide, this is refered
-  /// to as a string match statement.
+  /// A rule statement that defines a string match search for WAF to apply to web
+  /// requests. The byte match statement provides the bytes to search for, the
+  /// location in requests that you want WAF to search, and other settings. The
+  /// bytes to search for are typically a string that corresponds with ASCII
+  /// characters. In the WAF console and the developer guide, this is called a
+  /// string match statement.
   final ByteMatchStatement? byteMatchStatement;
 
-  /// A rule statement used to identify web requests based on country of origin.
+  /// A rule statement that labels web requests by country and region and that
+  /// matches against web requests based on country code. A geo match rule labels
+  /// every request that it inspects regardless of whether it finds a match.
+  ///
+  /// <ul>
+  /// <li>
+  /// To manage requests only by country, you can use this statement by itself and
+  /// specify the countries that you want to match against in the
+  /// <code>CountryCodes</code> array.
+  /// </li>
+  /// <li>
+  /// Otherwise, configure your geo match rule with Count action so that it only
+  /// labels requests. Then, add one or more label match rules to run after the
+  /// geo match rule and configure them to match against the geographic labels and
+  /// handle the requests as needed.
+  /// </li>
+  /// </ul>
+  /// WAF labels requests using the alpha-2 country and region codes from the
+  /// International Organization for Standardization (ISO) 3166 standard. WAF
+  /// determines the codes using either the IP address in the web request origin
+  /// or, if you specify it, the address in the geo match
+  /// <code>ForwardedIPConfig</code>.
+  ///
+  /// If you use the web request origin, the label formats are
+  /// <code>awswaf:clientip:geo:region:&lt;ISO country code&gt;-&lt;ISO region
+  /// code&gt;</code> and <code>awswaf:clientip:geo:country:&lt;ISO country
+  /// code&gt;</code>.
+  ///
+  /// If you use a forwarded IP address, the label formats are
+  /// <code>awswaf:forwardedip:geo:region:&lt;ISO country code&gt;-&lt;ISO region
+  /// code&gt;</code> and <code>awswaf:forwardedip:geo:country:&lt;ISO country
+  /// code&gt;</code>.
+  ///
+  /// For additional details, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-type-geo-match.html">Geographic
+  /// match rule statement</a> in the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">WAF
+  /// Developer Guide</a>.
   final GeoMatchStatement? geoMatchStatement;
 
   /// A rule statement used to detect web requests coming from particular IP
@@ -7665,18 +13085,38 @@ class Statement {
   ///
   /// Each IP set rule statement references an IP set. You create and maintain the
   /// set independent of your rules. This allows you to use the single set in
-  /// multiple rules. When you update the referenced set, AWS WAF automatically
+  /// multiple rules. When you update the referenced set, WAF automatically
   /// updates all rules that reference it.
   final IPSetReferenceStatement? iPSetReferenceStatement;
+
+  /// A rule statement to match against labels that have been added to the web
+  /// request by rules that have already run in the web ACL.
+  ///
+  /// The label match statement provides the label or namespace string to search
+  /// for. The label string can represent a part or all of the fully qualified
+  /// label name that had been added to the web request. Fully qualified labels
+  /// have a prefix, optional namespaces, and label name. The prefix identifies
+  /// the rule group or web ACL context of the rule that added the label. If you
+  /// do not provide the fully qualified name in your label match string, WAF
+  /// performs the search for labels that were added in the same context as the
+  /// label match statement.
+  final LabelMatchStatement? labelMatchStatement;
 
   /// A rule statement used to run the rules that are defined in a managed rule
   /// group. To use this, provide the vendor name and the name of the rule group
   /// in this statement. You can retrieve the required names by calling
   /// <a>ListAvailableManagedRuleGroups</a>.
   ///
-  /// You can't nest a <code>ManagedRuleGroupStatement</code>, for example for use
-  /// inside a <code>NotStatement</code> or <code>OrStatement</code>. It can only
-  /// be referenced as a top-level statement within a rule.
+  /// You cannot nest a <code>ManagedRuleGroupStatement</code>, for example for
+  /// use inside a <code>NotStatement</code> or <code>OrStatement</code>. It can
+  /// only be referenced as a top-level statement within a rule.
+  /// <note>
+  /// You are charged additional fees when you use the WAF Bot Control managed
+  /// rule group <code>AWSManagedRulesBotControlRuleSet</code> or the WAF Fraud
+  /// Control account takeover prevention (ATP) managed rule group
+  /// <code>AWSManagedRulesATPRuleSet</code>. For more information, see <a
+  /// href="http://aws.amazon.com/waf/pricing/">WAF Pricing</a>.
+  /// </note>
   final ManagedRuleGroupStatement? managedRuleGroupStatement;
 
   /// A logical rule statement used to negate the results of another rule
@@ -7689,40 +13129,127 @@ class Statement {
   /// <code>OrStatement</code>.
   final OrStatement? orStatement;
 
-  /// A rate-based rule tracks the rate of requests for each originating IP
-  /// address, and triggers the rule action when the rate exceeds a limit that you
-  /// specify on the number of requests in any 5-minute time span. You can use
-  /// this to put a temporary block on requests from an IP address that is sending
-  /// excessive requests.
+  /// A rate-based rule counts incoming requests and rate limits requests when
+  /// they are coming at too fast a rate. The rule categorizes requests according
+  /// to your aggregation criteria, collects them into aggregation instances, and
+  /// counts and rate limits the requests for each instance.
   ///
-  /// When the rule action triggers, AWS WAF blocks additional requests from the
-  /// IP address until the request rate falls below the limit.
+  /// You can specify individual aggregation keys, like IP address or HTTP method.
+  /// You can also specify aggregation key combinations, like IP address and HTTP
+  /// method, or HTTP method, query argument, and cookie.
   ///
-  /// You can optionally nest another statement inside the rate-based statement,
-  /// to narrow the scope of the rule so that it only counts requests that match
-  /// the nested statement. For example, based on recent requests that you have
-  /// seen from an attacker, you might create a rate-based rule with a nested AND
-  /// rule statement that contains the following nested statements:
+  /// Each unique set of values for the aggregation keys that you specify is a
+  /// separate aggregation instance, with the value from each key contributing to
+  /// the aggregation instance definition.
+  ///
+  /// For example, assume the rule evaluates web requests with the following IP
+  /// address and HTTP method values:
   ///
   /// <ul>
   /// <li>
-  /// An IP match statement with an IP set that specified the address 192.0.2.44.
+  /// IP address 10.1.1.1, HTTP method POST
   /// </li>
   /// <li>
-  /// A string match statement that searches in the User-Agent header for the
-  /// string BadBot.
+  /// IP address 10.1.1.1, HTTP method GET
+  /// </li>
+  /// <li>
+  /// IP address 127.0.0.0, HTTP method POST
+  /// </li>
+  /// <li>
+  /// IP address 10.1.1.1, HTTP method GET
   /// </li>
   /// </ul>
-  /// In this rate-based rule, you also define a rate limit. For this example, the
-  /// rate limit is 1,000. Requests that meet both of the conditions in the
-  /// statements are counted. If the count exceeds 1,000 requests per five
-  /// minutes, the rule action triggers. Requests that do not meet both conditions
-  /// are not counted towards the rate limit and are not affected by this rule.
+  /// The rule would create different aggregation instances according to your
+  /// aggregation criteria, for example:
   ///
-  /// You cannot nest a <code>RateBasedStatement</code>, for example for use
-  /// inside a <code>NotStatement</code> or <code>OrStatement</code>. It can only
-  /// be referenced as a top-level statement within a rule.
+  /// <ul>
+  /// <li>
+  /// If the aggregation criteria is just the IP address, then each individual
+  /// address is an aggregation instance, and WAF counts requests separately for
+  /// each. The aggregation instances and request counts for our example would be
+  /// the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// IP address 10.1.1.1: count 3
+  /// </li>
+  /// <li>
+  /// IP address 127.0.0.0: count 1
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// If the aggregation criteria is HTTP method, then each individual HTTP method
+  /// is an aggregation instance. The aggregation instances and request counts for
+  /// our example would be the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// HTTP method POST: count 2
+  /// </li>
+  /// <li>
+  /// HTTP method GET: count 2
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// If the aggregation criteria is IP address and HTTP method, then each IP
+  /// address and each HTTP method would contribute to the combined aggregation
+  /// instance. The aggregation instances and request counts for our example would
+  /// be the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// IP address 10.1.1.1, HTTP method POST: count 1
+  /// </li>
+  /// <li>
+  /// IP address 10.1.1.1, HTTP method GET: count 2
+  /// </li>
+  /// <li>
+  /// IP address 127.0.0.0, HTTP method POST: count 1
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  /// For any n-tuple of aggregation keys, each unique combination of values for
+  /// the keys defines a separate aggregation instance, which WAF counts and
+  /// rate-limits individually.
+  ///
+  /// You can optionally nest another statement inside the rate-based statement,
+  /// to narrow the scope of the rule so that it only counts and rate limits
+  /// requests that match the nested statement. You can use this nested scope-down
+  /// statement in conjunction with your aggregation key specifications or you can
+  /// just count and rate limit all requests that match the scope-down statement,
+  /// without additional aggregation. When you choose to just manage all requests
+  /// that match a scope-down statement, the aggregation instance is singular for
+  /// the rule.
+  ///
+  /// You cannot nest a <code>RateBasedStatement</code> inside another statement,
+  /// for example inside a <code>NotStatement</code> or <code>OrStatement</code>.
+  /// You can define a <code>RateBasedStatement</code> inside a web ACL and inside
+  /// a rule group.
+  ///
+  /// For additional information about the options, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-rate-based-rules.html">Rate
+  /// limiting web requests using rate-based rules</a> in the <i>WAF Developer
+  /// Guide</i>.
+  ///
+  /// If you only aggregate on the individual IP address or forwarded IP address,
+  /// you can retrieve the list of IP addresses that WAF is currently rate
+  /// limiting for a rule through the API call
+  /// <code>GetRateBasedStatementManagedKeys</code>. This option is not available
+  /// for other aggregation configurations.
+  ///
+  /// WAF tracks and manages web requests separately for each instance of a
+  /// rate-based rule that you use. For example, if you provide the same
+  /// rate-based rule settings in two web ACLs, each of the two rule statements
+  /// represents a separate instance of the rate-based rule and gets its own
+  /// tracking and management by WAF. If you define a rate-based rule inside a
+  /// rule group, and then use that rule group in multiple places, each use
+  /// creates a separate instance of the rate-based rule that gets its own
+  /// tracking and management by WAF.
   final RateBasedStatement? rateBasedStatement;
+
+  /// A rule statement used to search web request components for a match against a
+  /// single regular expression.
+  final RegexMatchStatement? regexMatchStatement;
 
   /// A rule statement used to search web request components for matches with
   /// regular expressions. To use this, create a <a>RegexPatternSet</a> that
@@ -7734,7 +13261,7 @@ class Statement {
   /// Each regex pattern set rule statement references a regex pattern set. You
   /// create and maintain the set independent of your rules. This allows you to
   /// use the single set in multiple rules. When you update the referenced set,
-  /// AWS WAF automatically updates all rules that reference it.
+  /// WAF automatically updates all rules that reference it.
   final RegexPatternSetReferenceStatement? regexPatternSetReferenceStatement;
 
   /// A rule statement used to run the rules that are defined in a
@@ -7742,8 +13269,8 @@ class Statement {
   /// provide the ARN of the rule group in this statement.
   ///
   /// You cannot nest a <code>RuleGroupReferenceStatement</code>, for example for
-  /// use inside a <code>NotStatement</code> or <code>OrStatement</code>. It can
-  /// only be referenced as a top-level statement within a rule.
+  /// use inside a <code>NotStatement</code> or <code>OrStatement</code>. You can
+  /// only use a rule group reference statement at the top level inside a web ACL.
   final RuleGroupReferenceStatement? ruleGroupReferenceStatement;
 
   /// A rule statement that compares a number of bytes against the size of a
@@ -7751,33 +13278,29 @@ class Statement {
   /// or less than (&lt;). For example, you can use a size constraint statement to
   /// look for query strings that are longer than 100 bytes.
   ///
-  /// If you configure AWS WAF to inspect the request body, AWS WAF inspects only
-  /// the first 8192 bytes (8 KB). If the request body for your web requests never
-  /// exceeds 8192 bytes, you can create a size constraint condition and block
-  /// requests that have a request body greater than 8192 bytes.
+  /// If you configure WAF to inspect the request body, WAF inspects only the
+  /// number of bytes of the body up to the limit for the web ACL. By default, for
+  /// regional web ACLs, this limit is 8 KB (8,192 kilobytes) and for CloudFront
+  /// web ACLs, this limit is 16 KB (16,384 kilobytes). For CloudFront web ACLs,
+  /// you can increase the limit in the web ACL <code>AssociationConfig</code>,
+  /// for additional fees. If you know that the request body for your web requests
+  /// should never exceed the inspection limit, you could use a size constraint
+  /// statement to block requests that have a larger request body size.
   ///
   /// If you choose URI for the value of Part of the request to filter on, the
   /// slash (/) in the URI counts as one character. For example, the URI
   /// <code>/logo.jpg</code> is nine characters long.
   final SizeConstraintStatement? sizeConstraintStatement;
 
-  /// Attackers sometimes insert malicious SQL code into web requests in an effort
-  /// to extract data from your database. To allow or block web requests that
-  /// appear to contain malicious SQL code, create one or more SQL injection match
-  /// conditions. An SQL injection match condition identifies the part of web
-  /// requests, such as the URI or the query string, that you want AWS WAF to
-  /// inspect. Later in the process, when you create a web ACL, you specify
-  /// whether to allow or block requests that appear to contain malicious SQL
-  /// code.
+  /// A rule statement that inspects for malicious SQL code. Attackers insert
+  /// malicious SQL code into web requests to do things like modify your database
+  /// or extract data from it.
   final SqliMatchStatement? sqliMatchStatement;
 
-  /// A rule statement that defines a cross-site scripting (XSS) match search for
-  /// AWS WAF to apply to web requests. XSS attacks are those where the attacker
-  /// uses vulnerabilities in a benign website as a vehicle to inject malicious
-  /// client-site scripts into other legitimate web browsers. The XSS match
-  /// statement provides the location in requests that you want AWS WAF to search
-  /// and text transformations to use on the search area before AWS WAF searches
-  /// for character sequences that are likely to be malicious strings.
+  /// A rule statement that inspects for cross-site scripting (XSS) attacks. In
+  /// XSS attacks, the attacker uses vulnerabilities in a benign website as a
+  /// vehicle to inject malicious client-site scripts into other legitimate web
+  /// browsers.
   final XssMatchStatement? xssMatchStatement;
 
   Statement({
@@ -7785,16 +13308,19 @@ class Statement {
     this.byteMatchStatement,
     this.geoMatchStatement,
     this.iPSetReferenceStatement,
+    this.labelMatchStatement,
     this.managedRuleGroupStatement,
     this.notStatement,
     this.orStatement,
     this.rateBasedStatement,
+    this.regexMatchStatement,
     this.regexPatternSetReferenceStatement,
     this.ruleGroupReferenceStatement,
     this.sizeConstraintStatement,
     this.sqliMatchStatement,
     this.xssMatchStatement,
   });
+
   factory Statement.fromJson(Map<String, dynamic> json) {
     return Statement(
       andStatement: json['AndStatement'] != null
@@ -7812,6 +13338,10 @@ class Statement {
           ? IPSetReferenceStatement.fromJson(
               json['IPSetReferenceStatement'] as Map<String, dynamic>)
           : null,
+      labelMatchStatement: json['LabelMatchStatement'] != null
+          ? LabelMatchStatement.fromJson(
+              json['LabelMatchStatement'] as Map<String, dynamic>)
+          : null,
       managedRuleGroupStatement: json['ManagedRuleGroupStatement'] != null
           ? ManagedRuleGroupStatement.fromJson(
               json['ManagedRuleGroupStatement'] as Map<String, dynamic>)
@@ -7825,6 +13355,10 @@ class Statement {
       rateBasedStatement: json['RateBasedStatement'] != null
           ? RateBasedStatement.fromJson(
               json['RateBasedStatement'] as Map<String, dynamic>)
+          : null,
+      regexMatchStatement: json['RegexMatchStatement'] != null
+          ? RegexMatchStatement.fromJson(
+              json['RegexMatchStatement'] as Map<String, dynamic>)
           : null,
       regexPatternSetReferenceStatement:
           json['RegexPatternSetReferenceStatement'] != null
@@ -7856,10 +13390,12 @@ class Statement {
     final byteMatchStatement = this.byteMatchStatement;
     final geoMatchStatement = this.geoMatchStatement;
     final iPSetReferenceStatement = this.iPSetReferenceStatement;
+    final labelMatchStatement = this.labelMatchStatement;
     final managedRuleGroupStatement = this.managedRuleGroupStatement;
     final notStatement = this.notStatement;
     final orStatement = this.orStatement;
     final rateBasedStatement = this.rateBasedStatement;
+    final regexMatchStatement = this.regexMatchStatement;
     final regexPatternSetReferenceStatement =
         this.regexPatternSetReferenceStatement;
     final ruleGroupReferenceStatement = this.ruleGroupReferenceStatement;
@@ -7872,11 +13408,15 @@ class Statement {
       if (geoMatchStatement != null) 'GeoMatchStatement': geoMatchStatement,
       if (iPSetReferenceStatement != null)
         'IPSetReferenceStatement': iPSetReferenceStatement,
+      if (labelMatchStatement != null)
+        'LabelMatchStatement': labelMatchStatement,
       if (managedRuleGroupStatement != null)
         'ManagedRuleGroupStatement': managedRuleGroupStatement,
       if (notStatement != null) 'NotStatement': notStatement,
       if (orStatement != null) 'OrStatement': orStatement,
       if (rateBasedStatement != null) 'RateBasedStatement': rateBasedStatement,
+      if (regexMatchStatement != null)
+        'RegexMatchStatement': regexMatchStatement,
       if (regexPatternSetReferenceStatement != null)
         'RegexPatternSetReferenceStatement': regexPatternSetReferenceStatement,
       if (ruleGroupReferenceStatement != null)
@@ -7889,25 +13429,18 @@ class Statement {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// A tag associated with an AWS resource. Tags are key:value pairs that you can
-/// use to categorize and manage your resources, for purposes like billing or
-/// other management. Typically, the tag key represents a category, such as
-/// "environment", and the tag value represents a specific value within that
-/// category, such as "test," "development," or "production". Or you might set
-/// the tag key to "customer" and the value to the customer name or ID. You can
-/// specify one or more tags to add to each AWS resource, up to 50 tags for a
-/// resource.
+/// A tag associated with an Amazon Web Services resource. Tags are key:value
+/// pairs that you can use to categorize and manage your resources, for purposes
+/// like billing or other management. Typically, the tag key represents a
+/// category, such as "environment", and the tag value represents a specific
+/// value within that category, such as "test," "development," or "production".
+/// Or you might set the tag key to "customer" and the value to the customer
+/// name or ID. You can specify one or more tags to add to each Amazon Web
+/// Services resource, up to 50 tags for a resource.
 ///
-/// You can tag the AWS resources that you manage through AWS WAF: web ACLs,
-/// rule groups, IP sets, and regex pattern sets. You can't manage or view tags
-/// through the AWS WAF console.
+/// You can tag the Amazon Web Services resources that you manage through WAF:
+/// web ACLs, rule groups, IP sets, and regex pattern sets. You can't manage or
+/// view tags through the WAF console.
 class Tag {
   /// Part of the key:value pair that defines a tag. You can use a tag key to
   /// describe a category of information, such as "customer." Tag keys are
@@ -7923,6 +13456,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -7940,25 +13474,18 @@ class Tag {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// The collection of tagging definitions for an AWS resource. Tags are
-/// key:value pairs that you can use to categorize and manage your resources,
-/// for purposes like billing or other management. Typically, the tag key
-/// represents a category, such as "environment", and the tag value represents a
-/// specific value within that category, such as "test," "development," or
-/// "production". Or you might set the tag key to "customer" and the value to
-/// the customer name or ID. You can specify one or more tags to add to each AWS
-/// resource, up to 50 tags for a resource.
+/// The collection of tagging definitions for an Amazon Web Services resource.
+/// Tags are key:value pairs that you can use to categorize and manage your
+/// resources, for purposes like billing or other management. Typically, the tag
+/// key represents a category, such as "environment", and the tag value
+/// represents a specific value within that category, such as "test,"
+/// "development," or "production". Or you might set the tag key to "customer"
+/// and the value to the customer name or ID. You can specify one or more tags
+/// to add to each Amazon Web Services resource, up to 50 tags for a resource.
 ///
-/// You can tag the AWS resources that you manage through AWS WAF: web ACLs,
-/// rule groups, IP sets, and regex pattern sets. You can't manage or view tags
-/// through the AWS WAF console.
+/// You can tag the Amazon Web Services resources that you manage through WAF:
+/// web ACLs, rule groups, IP sets, and regex pattern sets. You can't manage or
+/// view tags through the WAF console.
 class TagInfoForResource {
   /// The Amazon Resource Name (ARN) of the resource.
   final String? resourceARN;
@@ -7970,6 +13497,7 @@ class TagInfoForResource {
     this.resourceARN,
     this.tagList,
   });
+
   factory TagInfoForResource.fromJson(Map<String, dynamic> json) {
     return TagInfoForResource(
       resourceARN: json['ResourceARN'] as String?,
@@ -7983,44 +13511,42 @@ class TagInfoForResource {
 
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
 /// Text transformations eliminate some of the unusual formatting that attackers
 /// use in web requests in an effort to bypass detection.
 class TextTransformation {
-  /// Sets the relative processing order for multiple transformations that are
-  /// defined for a rule statement. AWS WAF processes all transformations, from
-  /// lowest priority to highest, before inspecting the transformed content. The
-  /// priorities don't need to be consecutive, but they must all be different.
+  /// Sets the relative processing order for multiple transformations. WAF
+  /// processes all transformations, from lowest priority to highest, before
+  /// inspecting the transformed content. The priorities don't need to be
+  /// consecutive, but they must all be different.
   final int priority;
 
   /// You can specify the following transformation types:
   ///
-  /// <b>CMD_LINE</b>
+  /// <b>BASE64_DECODE</b> - Decode a <code>Base64</code>-encoded string.
   ///
-  /// When you're concerned that attackers are injecting an operating system
-  /// command line command and using unusual formatting to disguise some or all of
-  /// the command, use this option to perform the following transformations:
+  /// <b>BASE64_DECODE_EXT</b> - Decode a <code>Base64</code>-encoded string, but
+  /// use a forgiving implementation that ignores characters that aren't valid.
+  ///
+  /// <b>CMD_LINE</b> - Command-line transformations. These are helpful in
+  /// reducing effectiveness of attackers who inject an operating system
+  /// command-line command and use unusual formatting to disguise some or all of
+  /// the command.
   ///
   /// <ul>
   /// <li>
-  /// Delete the following characters: \ " ' ^
+  /// Delete the following characters: <code>\ " ' ^</code>
   /// </li>
   /// <li>
-  /// Delete spaces before the following characters: / (
+  /// Delete spaces before the following characters: <code>/ (</code>
   /// </li>
   /// <li>
-  /// Replace the following characters with a space: , ;
+  /// Replace the following characters with a space: <code>, ;</code>
   /// </li>
   /// <li>
   /// Replace multiple spaces with one space
@@ -8029,39 +13555,51 @@ class TextTransformation {
   /// Convert uppercase letters (A-Z) to lowercase (a-z)
   /// </li>
   /// </ul>
-  /// <b>COMPRESS_WHITE_SPACE</b>
-  ///
-  /// Use this option to replace the following characters with a space character
-  /// (decimal 32):
+  /// <b>COMPRESS_WHITE_SPACE</b> - Replace these characters with a space
+  /// character (decimal 32):
   ///
   /// <ul>
   /// <li>
-  /// \f, formfeed, decimal 12
+  /// <code>\f</code>, formfeed, decimal 12
   /// </li>
   /// <li>
-  /// \t, tab, decimal 9
+  /// <code>\t</code>, tab, decimal 9
   /// </li>
   /// <li>
-  /// \n, newline, decimal 10
+  /// <code>\n</code>, newline, decimal 10
   /// </li>
   /// <li>
-  /// \r, carriage return, decimal 13
+  /// <code>\r</code>, carriage return, decimal 13
   /// </li>
   /// <li>
-  /// \v, vertical tab, decimal 11
+  /// <code>\v</code>, vertical tab, decimal 11
   /// </li>
   /// <li>
-  /// non-breaking space, decimal 160
+  /// Non-breaking space, decimal 160
   /// </li>
   /// </ul>
   /// <code>COMPRESS_WHITE_SPACE</code> also replaces multiple spaces with one
   /// space.
   ///
-  /// <b>HTML_ENTITY_DECODE</b>
+  /// <b>CSS_DECODE</b> - Decode characters that were encoded using CSS 2.x escape
+  /// rules <code>syndata.html#characters</code>. This function uses up to two
+  /// bytes in the decoding process, so it can help to uncover ASCII characters
+  /// that were encoded using CSS encoding that wouldn’t typically be encoded.
+  /// It's also useful in countering evasion, which is a combination of a
+  /// backslash and non-hexadecimal characters. For example,
+  /// <code>ja\vascript</code> for javascript.
   ///
-  /// Use this option to replace HTML-encoded characters with unencoded
-  /// characters. <code>HTML_ENTITY_DECODE</code> performs the following
-  /// operations:
+  /// <b>ESCAPE_SEQ_DECODE</b> - Decode the following ANSI C escape sequences:
+  /// <code>\a</code>, <code>\b</code>, <code>\f</code>, <code>\n</code>,
+  /// <code>\r</code>, <code>\t</code>, <code>\v</code>, <code>\\</code>,
+  /// <code>\?</code>, <code>\'</code>, <code>\"</code>, <code>\xHH</code>
+  /// (hexadecimal), <code>\0OOO</code> (octal). Encodings that aren't valid
+  /// remain in the output.
+  ///
+  /// <b>HEX_DECODE</b> - Decode a string of hexadecimal characters into a binary.
+  ///
+  /// <b>HTML_ENTITY_DECODE</b> - Replace HTML-encoded characters with unencoded
+  /// characters. <code>HTML_ENTITY_DECODE</code> performs these operations:
   ///
   /// <ul>
   /// <li>
@@ -8086,23 +13624,59 @@ class TextTransformation {
   /// <code>(ampersand)#nnnn;</code>, with the corresponding characters
   /// </li>
   /// </ul>
-  /// <b>LOWERCASE</b>
+  /// <b>JS_DECODE</b> - Decode JavaScript escape sequences. If a <code>\</code>
+  /// <code>u</code> <code>HHHH</code> code is in the full-width ASCII code range
+  /// of <code>FF01-FF5E</code>, then the higher byte is used to detect and adjust
+  /// the lower byte. If not, only the lower byte is used and the higher byte is
+  /// zeroed, causing a possible loss of information.
   ///
-  /// Use this option to convert uppercase letters (A-Z) to lowercase (a-z).
+  /// <b>LOWERCASE</b> - Convert uppercase letters (A-Z) to lowercase (a-z).
   ///
-  /// <b>URL_DECODE</b>
+  /// <b>MD5</b> - Calculate an MD5 hash from the data in the input. The computed
+  /// hash is in a raw binary form.
   ///
-  /// Use this option to decode a URL-encoded value.
+  /// <b>NONE</b> - Specify <code>NONE</code> if you don't want any text
+  /// transformations.
   ///
-  /// <b>NONE</b>
+  /// <b>NORMALIZE_PATH</b> - Remove multiple slashes, directory self-references,
+  /// and directory back-references that are not at the beginning of the input
+  /// from an input string.
   ///
-  /// Specify <code>NONE</code> if you don't want any text transformations.
+  /// <b>NORMALIZE_PATH_WIN</b> - This is the same as <code>NORMALIZE_PATH</code>,
+  /// but first converts backslash characters to forward slashes.
+  ///
+  /// <b>REMOVE_NULLS</b> - Remove all <code>NULL</code> bytes from the input.
+  ///
+  /// <b>REPLACE_COMMENTS</b> - Replace each occurrence of a C-style comment
+  /// (<code>/* ... */</code>) with a single space. Multiple consecutive
+  /// occurrences are not compressed. Unterminated comments are also replaced with
+  /// a space (ASCII 0x20). However, a standalone termination of a comment
+  /// (<code>*/</code>) is not acted upon.
+  ///
+  /// <b>REPLACE_NULLS</b> - Replace NULL bytes in the input with space characters
+  /// (ASCII <code>0x20</code>).
+  ///
+  /// <b>SQL_HEX_DECODE</b> - Decode SQL hex data. Example (<code>0x414243</code>)
+  /// will be decoded to (<code>ABC</code>).
+  ///
+  /// <b>URL_DECODE</b> - Decode a URL-encoded value.
+  ///
+  /// <b>URL_DECODE_UNI</b> - Like <code>URL_DECODE</code>, but with support for
+  /// Microsoft-specific <code>%u</code> encoding. If the code is in the
+  /// full-width ASCII code range of <code>FF01-FF5E</code>, the higher byte is
+  /// used to detect and adjust the lower byte. Otherwise, only the lower byte is
+  /// used and the higher byte is zeroed.
+  ///
+  /// <b>UTF8_TO_UNICODE</b> - Convert all UTF-8 character sequences to Unicode.
+  /// This helps input normalization, and minimizing false-positives and
+  /// false-negatives for non-English languages.
   final TextTransformationType type;
 
   TextTransformation({
     required this.priority,
     required this.type,
   });
+
   factory TextTransformation.fromJson(Map<String, dynamic> json) {
     return TextTransformation(
       priority: json['Priority'] as int,
@@ -8127,6 +13701,21 @@ enum TextTransformationType {
   lowercase,
   cmdLine,
   urlDecode,
+  base64Decode,
+  hexDecode,
+  md5,
+  replaceComments,
+  escapeSeqDecode,
+  sqlHexDecode,
+  cssDecode,
+  jsDecode,
+  normalizePath,
+  normalizePathWin,
+  removeNulls,
+  replaceNulls,
+  base64DecodeExt,
+  urlDecodeUni,
+  utf8ToUnicode,
 }
 
 extension TextTransformationTypeValueExtension on TextTransformationType {
@@ -8144,6 +13733,36 @@ extension TextTransformationTypeValueExtension on TextTransformationType {
         return 'CMD_LINE';
       case TextTransformationType.urlDecode:
         return 'URL_DECODE';
+      case TextTransformationType.base64Decode:
+        return 'BASE64_DECODE';
+      case TextTransformationType.hexDecode:
+        return 'HEX_DECODE';
+      case TextTransformationType.md5:
+        return 'MD5';
+      case TextTransformationType.replaceComments:
+        return 'REPLACE_COMMENTS';
+      case TextTransformationType.escapeSeqDecode:
+        return 'ESCAPE_SEQ_DECODE';
+      case TextTransformationType.sqlHexDecode:
+        return 'SQL_HEX_DECODE';
+      case TextTransformationType.cssDecode:
+        return 'CSS_DECODE';
+      case TextTransformationType.jsDecode:
+        return 'JS_DECODE';
+      case TextTransformationType.normalizePath:
+        return 'NORMALIZE_PATH';
+      case TextTransformationType.normalizePathWin:
+        return 'NORMALIZE_PATH_WIN';
+      case TextTransformationType.removeNulls:
+        return 'REMOVE_NULLS';
+      case TextTransformationType.replaceNulls:
+        return 'REPLACE_NULLS';
+      case TextTransformationType.base64DecodeExt:
+        return 'BASE64_DECODE_EXT';
+      case TextTransformationType.urlDecodeUni:
+        return 'URL_DECODE_UNI';
+      case TextTransformationType.utf8ToUnicode:
+        return 'UTF8_TO_UNICODE';
     }
   }
 }
@@ -8163,21 +13782,44 @@ extension TextTransformationTypeFromString on String {
         return TextTransformationType.cmdLine;
       case 'URL_DECODE':
         return TextTransformationType.urlDecode;
+      case 'BASE64_DECODE':
+        return TextTransformationType.base64Decode;
+      case 'HEX_DECODE':
+        return TextTransformationType.hexDecode;
+      case 'MD5':
+        return TextTransformationType.md5;
+      case 'REPLACE_COMMENTS':
+        return TextTransformationType.replaceComments;
+      case 'ESCAPE_SEQ_DECODE':
+        return TextTransformationType.escapeSeqDecode;
+      case 'SQL_HEX_DECODE':
+        return TextTransformationType.sqlHexDecode;
+      case 'CSS_DECODE':
+        return TextTransformationType.cssDecode;
+      case 'JS_DECODE':
+        return TextTransformationType.jsDecode;
+      case 'NORMALIZE_PATH':
+        return TextTransformationType.normalizePath;
+      case 'NORMALIZE_PATH_WIN':
+        return TextTransformationType.normalizePathWin;
+      case 'REMOVE_NULLS':
+        return TextTransformationType.removeNulls;
+      case 'REPLACE_NULLS':
+        return TextTransformationType.replaceNulls;
+      case 'BASE64_DECODE_EXT':
+        return TextTransformationType.base64DecodeExt;
+      case 'URL_DECODE_UNI':
+        return TextTransformationType.urlDecodeUni;
+      case 'UTF8_TO_UNICODE':
+        return TextTransformationType.utf8ToUnicode;
     }
     throw Exception('$this is not known in enum TextTransformationType');
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
 /// In a <a>GetSampledRequests</a> request, the <code>StartTime</code> and
-/// <code>EndTime</code> objects specify the time range for which you want AWS
-/// WAF to return a sample of web requests.
+/// <code>EndTime</code> objects specify the time range for which you want WAF
+/// to return a sample of web requests.
 ///
 /// You must specify the times in Coordinated Universal Time (UTC) format. UTC
 /// format includes the special designator, <code>Z</code>. For example,
@@ -8185,34 +13827,35 @@ extension TextTransformationTypeFromString on String {
 /// previous three hours.
 ///
 /// In a <a>GetSampledRequests</a> response, the <code>StartTime</code> and
-/// <code>EndTime</code> objects specify the time range for which AWS WAF
-/// actually returned a sample of web requests. AWS WAF gets the specified
-/// number of requests from among the first 5,000 requests that your AWS
-/// resource receives during the specified time period. If your resource
-/// receives more than 5,000 requests during that period, AWS WAF stops sampling
-/// after the 5,000th request. In that case, <code>EndTime</code> is the time
-/// that AWS WAF received the 5,000th request.
+/// <code>EndTime</code> objects specify the time range for which WAF actually
+/// returned a sample of web requests. WAF gets the specified number of requests
+/// from among the first 5,000 requests that your Amazon Web Services resource
+/// receives during the specified time period. If your resource receives more
+/// than 5,000 requests during that period, WAF stops sampling after the 5,000th
+/// request. In that case, <code>EndTime</code> is the time that WAF received
+/// the 5,000th request.
 class TimeWindow {
   /// The end of the time range from which you want
   /// <code>GetSampledRequests</code> to return a sample of the requests that your
-  /// AWS resource received. You must specify the times in Coordinated Universal
-  /// Time (UTC) format. UTC format includes the special designator,
-  /// <code>Z</code>. For example, <code>"2016-09-27T14:50Z"</code>. You can
-  /// specify any time range in the previous three hours.
+  /// Amazon Web Services resource received. You must specify the times in
+  /// Coordinated Universal Time (UTC) format. UTC format includes the special
+  /// designator, <code>Z</code>. For example, <code>"2016-09-27T14:50Z"</code>.
+  /// You can specify any time range in the previous three hours.
   final DateTime endTime;
 
   /// The beginning of the time range from which you want
   /// <code>GetSampledRequests</code> to return a sample of the requests that your
-  /// AWS resource received. You must specify the times in Coordinated Universal
-  /// Time (UTC) format. UTC format includes the special designator,
-  /// <code>Z</code>. For example, <code>"2016-09-27T14:50Z"</code>. You can
-  /// specify any time range in the previous three hours.
+  /// Amazon Web Services resource received. You must specify the times in
+  /// Coordinated Universal Time (UTC) format. UTC format includes the special
+  /// designator, <code>Z</code>. For example, <code>"2016-09-27T14:50Z"</code>.
+  /// You can specify any time range in the previous three hours.
   final DateTime startTime;
 
   TimeWindow({
     required this.endTime,
     required this.startTime,
   });
+
   factory TimeWindow.fromJson(Map<String, dynamic> json) {
     return TimeWindow(
       endTime: nonNullableTimeStampFromJson(json['EndTime'] as Object),
@@ -8232,20 +13875,22 @@ class TimeWindow {
 
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
   }
 }
 
 class UpdateIPSetResponse {
-  /// A token used for optimistic locking. AWS WAF returns this token to your
-  /// update requests. You use <code>NextLockToken</code> in the same manner as
-  /// you use <code>LockToken</code>.
+  /// A token used for optimistic locking. WAF returns this token to your
+  /// <code>update</code> requests. You use <code>NextLockToken</code> in the same
+  /// manner as you use <code>LockToken</code>.
   final String? nextLockToken;
 
   UpdateIPSetResponse({
     this.nextLockToken,
   });
+
   factory UpdateIPSetResponse.fromJson(Map<String, dynamic> json) {
     return UpdateIPSetResponse(
       nextLockToken: json['NextLockToken'] as String?,
@@ -8253,15 +13898,53 @@ class UpdateIPSetResponse {
   }
 }
 
+class UpdateManagedRuleSetVersionExpiryDateResponse {
+  /// The version that is set to expire.
+  final String? expiringVersion;
+
+  /// The time that the version will expire.
+  ///
+  /// Times are in Coordinated Universal Time (UTC) format. UTC format includes
+  /// the special designator, Z. For example, "2016-09-27T14:50Z".
+  final DateTime? expiryTimestamp;
+
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
+  final String? nextLockToken;
+
+  UpdateManagedRuleSetVersionExpiryDateResponse({
+    this.expiringVersion,
+    this.expiryTimestamp,
+    this.nextLockToken,
+  });
+
+  factory UpdateManagedRuleSetVersionExpiryDateResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateManagedRuleSetVersionExpiryDateResponse(
+      expiringVersion: json['ExpiringVersion'] as String?,
+      expiryTimestamp: timeStampFromJson(json['ExpiryTimestamp']),
+      nextLockToken: json['NextLockToken'] as String?,
+    );
+  }
+}
+
 class UpdateRegexPatternSetResponse {
-  /// A token used for optimistic locking. AWS WAF returns this token to your
-  /// update requests. You use <code>NextLockToken</code> in the same manner as
-  /// you use <code>LockToken</code>.
+  /// A token used for optimistic locking. WAF returns this token to your
+  /// <code>update</code> requests. You use <code>NextLockToken</code> in the same
+  /// manner as you use <code>LockToken</code>.
   final String? nextLockToken;
 
   UpdateRegexPatternSetResponse({
     this.nextLockToken,
   });
+
   factory UpdateRegexPatternSetResponse.fromJson(Map<String, dynamic> json) {
     return UpdateRegexPatternSetResponse(
       nextLockToken: json['NextLockToken'] as String?,
@@ -8270,14 +13953,15 @@ class UpdateRegexPatternSetResponse {
 }
 
 class UpdateRuleGroupResponse {
-  /// A token used for optimistic locking. AWS WAF returns this token to your
-  /// update requests. You use <code>NextLockToken</code> in the same manner as
-  /// you use <code>LockToken</code>.
+  /// A token used for optimistic locking. WAF returns this token to your
+  /// <code>update</code> requests. You use <code>NextLockToken</code> in the same
+  /// manner as you use <code>LockToken</code>.
   final String? nextLockToken;
 
   UpdateRuleGroupResponse({
     this.nextLockToken,
   });
+
   factory UpdateRuleGroupResponse.fromJson(Map<String, dynamic> json) {
     return UpdateRuleGroupResponse(
       nextLockToken: json['NextLockToken'] as String?,
@@ -8286,14 +13970,15 @@ class UpdateRuleGroupResponse {
 }
 
 class UpdateWebACLResponse {
-  /// A token used for optimistic locking. AWS WAF returns this token to your
-  /// update requests. You use <code>NextLockToken</code> in the same manner as
-  /// you use <code>LockToken</code>.
+  /// A token used for optimistic locking. WAF returns this token to your
+  /// <code>update</code> requests. You use <code>NextLockToken</code> in the same
+  /// manner as you use <code>LockToken</code>.
   final String? nextLockToken;
 
   UpdateWebACLResponse({
     this.nextLockToken,
   });
+
   factory UpdateWebACLResponse.fromJson(Map<String, dynamic> json) {
     return UpdateWebACLResponse(
       nextLockToken: json['NextLockToken'] as String?,
@@ -8301,21 +13986,17 @@ class UpdateWebACLResponse {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// The path component of the URI of a web request. This is the part of a web
-/// request that identifies a resource, for example,
+/// Inspect the path component of the URI of the web request. This is the part
+/// of the web request that identifies a resource. For example,
 /// <code>/images/daily-ad.jpg</code>.
 ///
-/// This is used only to indicate the web request component for AWS WAF to
-/// inspect, in the <a>FieldToMatch</a> specification.
+/// This is used only in the <a>FieldToMatch</a> specification for some web
+/// request component types.
+///
+/// JSON specification: <code>"UriPath": {}</code>
 class UriPath {
   UriPath();
+
   factory UriPath.fromJson(Map<String, dynamic> _) {
     return UriPath();
   }
@@ -8325,31 +14006,86 @@ class UriPath {
   }
 }
 
+/// Details about your login page username field for request inspection, used in
+/// the <code>AWSManagedRulesATPRuleSet</code> <code>RequestInspection</code>
+/// configuration.
+class UsernameField {
+  /// The name of the username field. For example <code>/form/username</code>.
+  final String identifier;
+
+  UsernameField({
+    required this.identifier,
+  });
+
+  factory UsernameField.fromJson(Map<String, dynamic> json) {
+    return UsernameField(
+      identifier: json['Identifier'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identifier = this.identifier;
+    return {
+      'Identifier': identifier,
+    };
+  }
+}
+
+/// A version of the named managed rule group, that the rule group's vendor
+/// publishes for use by customers.
 /// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
+/// This is intended for use only by vendors of managed rule sets. Vendors are
+/// Amazon Web Services and Amazon Web Services Marketplace sellers.
+///
+/// Vendors, you can use the managed rule set APIs to provide controlled rollout
+/// of your versioned managed rule group offerings for your customers. The APIs
+/// are <code>ListManagedRuleSets</code>, <code>GetManagedRuleSet</code>,
+/// <code>PutManagedRuleSetVersions</code>, and
+/// <code>UpdateManagedRuleSetVersionExpiryDate</code>.
 /// </note>
+class VersionToPublish {
+  /// The Amazon Resource Name (ARN) of the vendor's rule group that's used in the
+  /// published managed rule group version.
+  final String? associatedRuleGroupArn;
+
+  /// The amount of time the vendor expects this version of the managed rule group
+  /// to last, in days.
+  final int? forecastedLifetime;
+
+  VersionToPublish({
+    this.associatedRuleGroupArn,
+    this.forecastedLifetime,
+  });
+  Map<String, dynamic> toJson() {
+    final associatedRuleGroupArn = this.associatedRuleGroupArn;
+    final forecastedLifetime = this.forecastedLifetime;
+    return {
+      if (associatedRuleGroupArn != null)
+        'AssociatedRuleGroupArn': associatedRuleGroupArn,
+      if (forecastedLifetime != null) 'ForecastedLifetime': forecastedLifetime,
+    };
+  }
+}
+
 /// Defines and enables Amazon CloudWatch metrics and web request sample
 /// collection.
 class VisibilityConfig {
-  /// A boolean indicating whether the associated resource sends metrics to
+  /// A boolean indicating whether the associated resource sends metrics to Amazon
   /// CloudWatch. For the list of available metrics, see <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/monitoring-cloudwatch.html#waf-metrics">AWS
-  /// WAF Metrics</a>.
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/monitoring-cloudwatch.html#waf-metrics">WAF
+  /// Metrics</a> in the <i>WAF Developer Guide</i>.
   final bool cloudWatchMetricsEnabled;
 
-  /// A name of the CloudWatch metric. The name can contain only the characters:
-  /// A-Z, a-z, 0-9, - (hyphen), and _ (underscore). The name can be from one to
-  /// 128 characters long. It can't contain whitespace or metric names reserved
-  /// for AWS WAF, for example "All" and "Default_Action."
+  /// A name of the Amazon CloudWatch metric dimension. The name can contain only
+  /// the characters: A-Z, a-z, 0-9, - (hyphen), and _ (underscore). The name can
+  /// be from one to 128 characters long. It can't contain whitespace or metric
+  /// names that are reserved for WAF, for example <code>All</code> and
+  /// <code>Default_Action</code>.
   final String metricName;
 
-  /// A boolean indicating whether AWS WAF should store a sampling of the web
-  /// requests that match the rules. You can view the sampled requests through the
-  /// AWS WAF console.
+  /// A boolean indicating whether WAF should store a sampling of the web requests
+  /// that match the rules. You can view the sampled requests through the WAF
+  /// console.
   final bool sampledRequestsEnabled;
 
   VisibilityConfig({
@@ -8357,6 +14093,7 @@ class VisibilityConfig {
     required this.metricName,
     required this.sampledRequestsEnabled,
   });
+
   factory VisibilityConfig.fromJson(Map<String, dynamic> json) {
     return VisibilityConfig(
       cloudWatchMetricsEnabled: json['CloudWatchMetricsEnabled'] as bool,
@@ -8377,24 +14114,19 @@ class VisibilityConfig {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// A Web ACL defines a collection of rules to use to inspect and control web
+/// A web ACL defines a collection of rules to use to inspect and control web
 /// requests. Each rule has an action defined (allow, block, or count) for
-/// requests that match the statement of the rule. In the Web ACL, you assign a
+/// requests that match the statement of the rule. In the web ACL, you assign a
 /// default action to take (allow, block) for any request that does not match
-/// any of the rules. The rules in a Web ACL can be a combination of the types
+/// any of the rules. The rules in a web ACL can be a combination of the types
 /// <a>Rule</a>, <a>RuleGroup</a>, and managed rule group. You can associate a
-/// Web ACL with one or more AWS resources to protect. The resources can be
-/// Amazon CloudFront, an Amazon API Gateway REST API, an Application Load
-/// Balancer, or an AWS AppSync GraphQL API.
+/// web ACL with one or more Amazon Web Services resources to protect. The
+/// resources can be an Amazon CloudFront distribution, an Amazon API Gateway
+/// REST API, an Application Load Balancer, an AppSync GraphQL API, an Amazon
+/// Cognito user pool, an App Runner service, or an Amazon Web Services Verified
+/// Access instance.
 class WebACL {
-  /// The Amazon Resource Name (ARN) of the Web ACL that you want to associate
+  /// The Amazon Resource Name (ARN) of the web ACL that you want to associate
   /// with the resource.
   final String arn;
 
@@ -8407,7 +14139,7 @@ class WebACL {
   /// get, update, and delete a <code>WebACL</code>.
   final String id;
 
-  /// The name of the Web ACL. You cannot change the name of a Web ACL after you
+  /// The name of the web ACL. You cannot change the name of a web ACL after you
   /// create it.
   final String name;
 
@@ -8415,30 +14147,89 @@ class WebACL {
   /// collection.
   final VisibilityConfig visibilityConfig;
 
+  /// Specifies custom configurations for the associations between the web ACL and
+  /// protected resources.
+  ///
+  /// Use this to customize the maximum size of the request body that your
+  /// protected CloudFront distributions forward to WAF for inspection. The
+  /// default is 16 KB (16,384 kilobytes).
+  /// <note>
+  /// You are charged additional fees when your protected resources forward body
+  /// sizes that are larger than the default. For more information, see <a
+  /// href="http://aws.amazon.com/waf/pricing/">WAF Pricing</a>.
+  /// </note>
+  final AssociationConfig? associationConfig;
+
   /// The web ACL capacity units (WCUs) currently being used by this web ACL.
   ///
-  /// AWS WAF uses WCUs to calculate and control the operating resources that are
-  /// used to run your rules, rule groups, and web ACLs. AWS WAF calculates
-  /// capacity differently for each rule type, to reflect the relative cost of
-  /// each rule. Simple rules that cost little to run use fewer WCUs than more
-  /// complex rules that use more processing power. Rule group capacity is fixed
-  /// at creation, which helps users plan their web ACL WCU usage when they use a
-  /// rule group. The WCU limit for web ACLs is 1,500.
+  /// WAF uses WCUs to calculate and control the operating resources that are used
+  /// to run your rules, rule groups, and web ACLs. WAF calculates capacity
+  /// differently for each rule type, to reflect the relative cost of each rule.
+  /// Simple rules that cost little to run use fewer WCUs than more complex rules
+  /// that use more processing power. Rule group capacity is fixed at creation,
+  /// which helps users plan their web ACL WCU usage when they use a rule group.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html">WAF
+  /// web ACL capacity units (WCU)</a> in the <i>WAF Developer Guide</i>.
   final int? capacity;
 
-  /// A description of the Web ACL that helps with identification. You cannot
-  /// change the description of a Web ACL after you create it.
+  /// Specifies how WAF should handle <code>CAPTCHA</code> evaluations for rules
+  /// that don't have their own <code>CaptchaConfig</code> settings. If you don't
+  /// specify this, WAF uses its default settings for <code>CaptchaConfig</code>.
+  final CaptchaConfig? captchaConfig;
+
+  /// Specifies how WAF should handle challenge evaluations for rules that don't
+  /// have their own <code>ChallengeConfig</code> settings. If you don't specify
+  /// this, WAF uses its default settings for <code>ChallengeConfig</code>.
+  final ChallengeConfig? challengeConfig;
+
+  /// A map of custom response keys and content bodies. When you create a rule
+  /// with a block action, you can send a custom response to the web request. You
+  /// define these for the web ACL, and then use them in the rules and default
+  /// actions that you define in the web ACL.
+  ///
+  /// For information about customizing web requests and responses, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html">Customizing
+  /// web requests and responses in WAF</a> in the <i>WAF Developer Guide</i>.
+  ///
+  /// For information about the limits on count and size for custom request and
+  /// response settings, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">WAF
+  /// quotas</a> in the <i>WAF Developer Guide</i>.
+  final Map<String, CustomResponseBody>? customResponseBodies;
+
+  /// A description of the web ACL that helps with identification.
   final String? description;
 
-  /// Indicates whether this web ACL is managed by AWS Firewall Manager. If true,
-  /// then only AWS Firewall Manager can delete the web ACL or any Firewall
-  /// Manager rule groups in the web ACL.
+  /// The label namespace prefix for this web ACL. All labels added by rules in
+  /// this web ACL have this prefix.
+  ///
+  /// <ul>
+  /// <li>
+  /// The syntax for the label namespace prefix for a web ACL is the following:
+  ///
+  /// <code>awswaf:&lt;account ID&gt;:webacl:&lt;web ACL name&gt;:</code>
+  /// </li>
+  /// <li>
+  /// When a rule with a label matches a web request, WAF adds the fully qualified
+  /// label to the request. A fully qualified label is made up of the label
+  /// namespace from the rule group or web ACL where the rule is defined and the
+  /// label from the rule, separated by a colon:
+  ///
+  /// <code>&lt;label namespace&gt;:&lt;label from rule&gt;</code>
+  /// </li>
+  /// </ul>
+  final String? labelNamespace;
+
+  /// Indicates whether this web ACL is managed by Firewall Manager. If true, then
+  /// only Firewall Manager can delete the web ACL or any Firewall Manager rule
+  /// groups in the web ACL.
   final bool? managedByFirewallManager;
 
-  /// The last set of rules for AWS WAF to process in the web ACL. This is defined
-  /// in an AWS Firewall Manager WAF policy and contains only rule group
-  /// references. You can't alter these. Any rules and rule groups that you define
-  /// for the web ACL are prioritized before these.
+  /// The last set of rules for WAF to process in the web ACL. This is defined in
+  /// an Firewall Manager WAF policy and contains only rule group references. You
+  /// can't alter these. Any rules and rule groups that you define for the web ACL
+  /// are prioritized before these.
   ///
   /// In the Firewall Manager WAF policy, the Firewall Manager administrator can
   /// define a set of rule groups to run first in the web ACL and a set of rule
@@ -8446,10 +14237,10 @@ class WebACL {
   /// groups, to determine their relative processing order.
   final List<FirewallManagerRuleGroup>? postProcessFirewallManagerRuleGroups;
 
-  /// The first set of rules for AWS WAF to process in the web ACL. This is
-  /// defined in an AWS Firewall Manager WAF policy and contains only rule group
-  /// references. You can't alter these. Any rules and rule groups that you define
-  /// for the web ACL are prioritized after these.
+  /// The first set of rules for WAF to process in the web ACL. This is defined in
+  /// an Firewall Manager WAF policy and contains only rule group references. You
+  /// can't alter these. Any rules and rule groups that you define for the web ACL
+  /// are prioritized after these.
   ///
   /// In the Firewall Manager WAF policy, the Firewall Manager administrator can
   /// define a set of rule groups to run first in the web ACL and a set of rule
@@ -8459,9 +14250,18 @@ class WebACL {
 
   /// The <a>Rule</a> statements used to identify the web requests that you want
   /// to allow, block, or count. Each rule includes one top-level statement that
-  /// AWS WAF uses to identify matching web requests, and parameters that govern
-  /// how AWS WAF handles them.
+  /// WAF uses to identify matching web requests, and parameters that govern how
+  /// WAF handles them.
   final List<Rule>? rules;
+
+  /// Specifies the domains that WAF should accept in a web request token. This
+  /// enables the use of tokens across multiple protected websites. When WAF
+  /// provides a token, it uses the domain of the Amazon Web Services resource
+  /// that the web ACL is protecting. If you don't specify a list of token
+  /// domains, WAF accepts tokens only for the domain of the protected resource.
+  /// With a token domain list, WAF accepts the resource's host domain plus all
+  /// domains in the token domain list, including their prefixed subdomains.
+  final List<String>? tokenDomains;
 
   WebACL({
     required this.arn,
@@ -8469,13 +14269,20 @@ class WebACL {
     required this.id,
     required this.name,
     required this.visibilityConfig,
+    this.associationConfig,
     this.capacity,
+    this.captchaConfig,
+    this.challengeConfig,
+    this.customResponseBodies,
     this.description,
+    this.labelNamespace,
     this.managedByFirewallManager,
     this.postProcessFirewallManagerRuleGroups,
     this.preProcessFirewallManagerRuleGroups,
     this.rules,
+    this.tokenDomains,
   });
+
   factory WebACL.fromJson(Map<String, dynamic> json) {
     return WebACL(
       arn: json['ARN'] as String,
@@ -8485,8 +14292,25 @@ class WebACL {
       name: json['Name'] as String,
       visibilityConfig: VisibilityConfig.fromJson(
           json['VisibilityConfig'] as Map<String, dynamic>),
+      associationConfig: json['AssociationConfig'] != null
+          ? AssociationConfig.fromJson(
+              json['AssociationConfig'] as Map<String, dynamic>)
+          : null,
       capacity: json['Capacity'] as int?,
+      captchaConfig: json['CaptchaConfig'] != null
+          ? CaptchaConfig.fromJson(
+              json['CaptchaConfig'] as Map<String, dynamic>)
+          : null,
+      challengeConfig: json['ChallengeConfig'] != null
+          ? ChallengeConfig.fromJson(
+              json['ChallengeConfig'] as Map<String, dynamic>)
+          : null,
+      customResponseBodies:
+          (json['CustomResponseBodies'] as Map<String, dynamic>?)?.map((k, e) =>
+              MapEntry(
+                  k, CustomResponseBody.fromJson(e as Map<String, dynamic>))),
       description: json['Description'] as String?,
+      labelNamespace: json['LabelNamespace'] as String?,
       managedByFirewallManager: json['ManagedByFirewallManager'] as bool?,
       postProcessFirewallManagerRuleGroups:
           (json['PostProcessFirewallManagerRuleGroups'] as List?)
@@ -8504,17 +14328,14 @@ class WebACL {
           ?.whereNotNull()
           .map((e) => Rule.fromJson(e as Map<String, dynamic>))
           .toList(),
+      tokenDomains: (json['TokenDomains'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
     );
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
 /// High-level information about a <a>WebACL</a>, returned by operations like
 /// create and list. This provides information like the ID, that you can use to
 /// retrieve and manage a <code>WebACL</code>, and the ARN, that you provide to
@@ -8523,26 +14344,26 @@ class WebACLSummary {
   /// The Amazon Resource Name (ARN) of the entity.
   final String? arn;
 
-  /// A description of the Web ACL that helps with identification. You cannot
-  /// change the description of a Web ACL after you create it.
+  /// A description of the web ACL that helps with identification.
   final String? description;
 
-  /// The unique identifier for the Web ACL. This ID is returned in the responses
+  /// The unique identifier for the web ACL. This ID is returned in the responses
   /// to create and list commands. You provide it to operations like update and
   /// delete.
   final String? id;
 
-  /// A token used for optimistic locking. AWS WAF returns a token to your get and
-  /// list requests, to mark the state of the entity at the time of the request.
-  /// To make changes to the entity associated with the token, you provide the
-  /// token to operations like update and delete. AWS WAF uses the token to ensure
-  /// that no changes have been made to the entity since you last retrieved it. If
-  /// a change has been made, the update fails with a
-  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
-  /// get, and use the new token returned by that operation.
+  /// A token used for optimistic locking. WAF returns a token to your
+  /// <code>get</code> and <code>list</code> requests, to mark the state of the
+  /// entity at the time of the request. To make changes to the entity associated
+  /// with the token, you provide the token to operations like <code>update</code>
+  /// and <code>delete</code>. WAF uses the token to ensure that no changes have
+  /// been made to the entity since you last retrieved it. If a change has been
+  /// made, the update fails with a <code>WAFOptimisticLockException</code>. If
+  /// this happens, perform another <code>get</code>, and use the new token
+  /// returned by that operation.
   final String? lockToken;
 
-  /// The name of the Web ACL. You cannot change the name of a Web ACL after you
+  /// The name of the web ACL. You cannot change the name of a web ACL after you
   /// create it.
   final String? name;
 
@@ -8553,6 +14374,7 @@ class WebACLSummary {
     this.lockToken,
     this.name,
   });
+
   factory WebACLSummary.fromJson(Map<String, dynamic> json) {
     return WebACLSummary(
       arn: json['ARN'] as String?,
@@ -8564,37 +14386,30 @@ class WebACLSummary {
   }
 }
 
-/// <note>
-/// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
-/// November, 2019. For information, including how to migrate your AWS WAF
-/// resources from the prior release, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>.
-/// </note>
-/// A rule statement that defines a cross-site scripting (XSS) match search for
-/// AWS WAF to apply to web requests. XSS attacks are those where the attacker
-/// uses vulnerabilities in a benign website as a vehicle to inject malicious
-/// client-site scripts into other legitimate web browsers. The XSS match
-/// statement provides the location in requests that you want AWS WAF to search
-/// and text transformations to use on the search area before AWS WAF searches
-/// for character sequences that are likely to be malicious strings.
+/// A rule statement that inspects for cross-site scripting (XSS) attacks. In
+/// XSS attacks, the attacker uses vulnerabilities in a benign website as a
+/// vehicle to inject malicious client-site scripts into other legitimate web
+/// browsers.
 class XssMatchStatement {
-  /// The part of a web request that you want AWS WAF to inspect. For more
-  /// information, see <a>FieldToMatch</a>.
+  /// The part of the web request that you want WAF to inspect.
   final FieldToMatch fieldToMatch;
 
   /// Text transformations eliminate some of the unusual formatting that attackers
-  /// use in web requests in an effort to bypass detection. If you specify one or
-  /// more transformations in a rule statement, AWS WAF performs all
-  /// transformations on the content of the request component identified by
-  /// <code>FieldToMatch</code>, starting from the lowest priority setting, before
-  /// inspecting the content for a match.
+  /// use in web requests in an effort to bypass detection. Text transformations
+  /// are used in rule match statements, to transform the
+  /// <code>FieldToMatch</code> request component before inspecting it, and
+  /// they're used in rate-based rule statements, to transform request components
+  /// before using them as custom aggregation keys. If you specify one or more
+  /// transformations to apply, WAF performs all transformations on the specified
+  /// content, starting from the lowest priority setting, and then uses the
+  /// component contents.
   final List<TextTransformation> textTransformations;
 
   XssMatchStatement({
     required this.fieldToMatch,
     required this.textTransformations,
   });
+
   factory XssMatchStatement.fromJson(Map<String, dynamic> json) {
     return XssMatchStatement(
       fieldToMatch:
@@ -8621,9 +14436,26 @@ class WAFAssociatedItemException extends _s.GenericAwsException {
       : super(type: type, code: 'WAFAssociatedItemException', message: message);
 }
 
+class WAFConfigurationWarningException extends _s.GenericAwsException {
+  WAFConfigurationWarningException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'WAFConfigurationWarningException',
+            message: message);
+}
+
 class WAFDuplicateItemException extends _s.GenericAwsException {
   WAFDuplicateItemException({String? type, String? message})
       : super(type: type, code: 'WAFDuplicateItemException', message: message);
+}
+
+class WAFExpiredManagedRuleGroupVersionException
+    extends _s.GenericAwsException {
+  WAFExpiredManagedRuleGroupVersionException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'WAFExpiredManagedRuleGroupVersionException',
+            message: message);
 }
 
 class WAFInternalErrorException extends _s.GenericAwsException {
@@ -8660,6 +14492,14 @@ class WAFInvalidResourceException extends _s.GenericAwsException {
 class WAFLimitsExceededException extends _s.GenericAwsException {
   WAFLimitsExceededException({String? type, String? message})
       : super(type: type, code: 'WAFLimitsExceededException', message: message);
+}
+
+class WAFLogDestinationPermissionIssueException extends _s.GenericAwsException {
+  WAFLogDestinationPermissionIssueException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'WAFLogDestinationPermissionIssueException',
+            message: message);
 }
 
 class WAFNonexistentItemException extends _s.GenericAwsException {
@@ -8710,11 +14550,23 @@ class WAFUnavailableEntityException extends _s.GenericAwsException {
             message: message);
 }
 
+class WAFUnsupportedAggregateKeyTypeException extends _s.GenericAwsException {
+  WAFUnsupportedAggregateKeyTypeException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'WAFUnsupportedAggregateKeyTypeException',
+            message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'WAFAssociatedItemException': (type, message) =>
       WAFAssociatedItemException(type: type, message: message),
+  'WAFConfigurationWarningException': (type, message) =>
+      WAFConfigurationWarningException(type: type, message: message),
   'WAFDuplicateItemException': (type, message) =>
       WAFDuplicateItemException(type: type, message: message),
+  'WAFExpiredManagedRuleGroupVersionException': (type, message) =>
+      WAFExpiredManagedRuleGroupVersionException(type: type, message: message),
   'WAFInternalErrorException': (type, message) =>
       WAFInternalErrorException(type: type, message: message),
   'WAFInvalidOperationException': (type, message) =>
@@ -8727,6 +14579,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       WAFInvalidResourceException(type: type, message: message),
   'WAFLimitsExceededException': (type, message) =>
       WAFLimitsExceededException(type: type, message: message),
+  'WAFLogDestinationPermissionIssueException': (type, message) =>
+      WAFLogDestinationPermissionIssueException(type: type, message: message),
   'WAFNonexistentItemException': (type, message) =>
       WAFNonexistentItemException(type: type, message: message),
   'WAFOptimisticLockException': (type, message) =>
@@ -8741,4 +14595,6 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       WAFTagOperationInternalErrorException(type: type, message: message),
   'WAFUnavailableEntityException': (type, message) =>
       WAFUnavailableEntityException(type: type, message: message),
+  'WAFUnsupportedAggregateKeyTypeException': (type, message) =>
+      WAFUnsupportedAggregateKeyTypeException(type: type, message: message),
 };

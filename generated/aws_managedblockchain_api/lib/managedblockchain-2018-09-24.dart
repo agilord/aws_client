@@ -29,8 +29,8 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// frameworks. Because of fundamental differences between the frameworks, some
 /// API actions or data types may only apply in the context of one framework and
 /// not the other. For example, actions related to Hyperledger Fabric network
-/// members such as <code>CreateMember</code> and <code>DeleteMember</code> do
-/// not apply to Ethereum.
+/// members such as <code>CreateMember</code> and <code>DeleteMember</code>
+/// don't apply to Ethereum.
 ///
 /// The description for each action indicates the framework or frameworks to
 /// which it applies. Data types and properties that apply only in the context
@@ -64,6 +64,64 @@ class ManagedBlockchain {
     _protocol.close();
   }
 
+  /// Creates a new accessor for use with Managed Blockchain Ethereum nodes. An
+  /// accessor contains information required for token based access to your
+  /// Ethereum nodes.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [TooManyTagsException].
+  ///
+  /// Parameter [accessorType] :
+  /// The type of accessor.
+  /// <note>
+  /// Currently, accessor type is restricted to <code>BILLING_TOKEN</code>.
+  /// </note>
+  ///
+  /// Parameter [clientRequestToken] :
+  /// This is a unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the operation. An idempotent operation completes no more
+  /// than once. This identifier is required only if you make a service request
+  /// directly using an HTTP client. It is generated automatically if you use an
+  /// Amazon Web Services SDK or the Amazon Web Services CLI.
+  ///
+  /// Parameter [tags] :
+  /// Tags to assign to the Accessor.
+  ///
+  /// Each tag consists of a key and an optional value. You can specify multiple
+  /// key-value pairs in a single request with an overall maximum of 50 tags
+  /// allowed per resource.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer
+  /// Guide</i>, or <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
+  Future<CreateAccessorOutput> createAccessor({
+    required AccessorType accessorType,
+    String? clientRequestToken,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'AccessorType': accessorType.toValue(),
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/accessors',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateAccessorOutput.fromJson(response);
+  }
+
   /// Creates a member within a Managed Blockchain network.
   ///
   /// Applies only to Hyperledger Fabric.
@@ -76,6 +134,7 @@ class ManagedBlockchain {
   /// May throw [ThrottlingException].
   /// May throw [ResourceLimitExceededException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [invitationId] :
   /// The unique identifier of the invitation that is sent to the member to join
@@ -92,7 +151,7 @@ class ManagedBlockchain {
   /// idempotency of the operation. An idempotent operation completes no more
   /// than one time. This identifier is required only if you make a service
   /// request directly using an HTTP client. It is generated automatically if
-  /// you use an AWS SDK or the AWS CLI.
+  /// you use an Amazon Web Services SDK or the CLI.
   Future<CreateMemberOutput> createMember({
     required String invitationId,
     required MemberConfiguration memberConfiguration,
@@ -123,6 +182,7 @@ class ManagedBlockchain {
   /// May throw [ThrottlingException].
   /// May throw [ResourceLimitExceededException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [framework] :
   /// The blockchain framework that the network uses.
@@ -141,11 +201,11 @@ class ManagedBlockchain {
   /// approved.
   ///
   /// Parameter [clientRequestToken] :
-  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// This is a unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the operation. An idempotent operation completes no more
-  /// than one time. This identifier is required only if you make a service
-  /// request directly using an HTTP client. It is generated automatically if
-  /// you use an AWS SDK or the AWS CLI.
+  /// than once. This identifier is required only if you make a service request
+  /// directly using an HTTP client. It is generated automatically if you use an
+  /// Amazon Web Services SDK or the Amazon Web Services CLI.
   ///
   /// Parameter [description] :
   /// An optional description for the network.
@@ -153,6 +213,21 @@ class ManagedBlockchain {
   /// Parameter [frameworkConfiguration] :
   /// Configuration properties of the blockchain framework relevant to the
   /// network configuration.
+  ///
+  /// Parameter [tags] :
+  /// Tags to assign to the network.
+  ///
+  /// Each tag consists of a key and an optional value. You can specify multiple
+  /// key-value pairs in a single request with an overall maximum of 50 tags
+  /// allowed per resource.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer
+  /// Guide</i>, or <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
   Future<CreateNetworkOutput> createNetwork({
     required Framework framework,
     required String frameworkVersion,
@@ -162,6 +237,7 @@ class ManagedBlockchain {
     String? clientRequestToken,
     String? description,
     NetworkFrameworkConfiguration? frameworkConfiguration,
+    Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'Framework': framework.toValue(),
@@ -173,6 +249,7 @@ class ManagedBlockchain {
       if (description != null) 'Description': description,
       if (frameworkConfiguration != null)
         'FrameworkConfiguration': frameworkConfiguration,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -195,6 +272,7 @@ class ManagedBlockchain {
   /// May throw [ThrottlingException].
   /// May throw [ResourceLimitExceededException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [networkId] :
   /// The unique identifier of the network for the node.
@@ -206,10 +284,10 @@ class ManagedBlockchain {
   /// <code>n-ethereum-mainnet</code>
   /// </li>
   /// <li>
-  /// <code>n-ethereum-rinkeby</code>
+  /// <code>n-ethereum-goerli</code>
   /// </li>
   /// <li>
-  /// <code>n-ethereum-ropsten</code>
+  /// <code>n-ethereum-rinkeby</code>
   /// </li>
   /// </ul>
   ///
@@ -221,22 +299,39 @@ class ManagedBlockchain {
   /// idempotency of the operation. An idempotent operation completes no more
   /// than one time. This identifier is required only if you make a service
   /// request directly using an HTTP client. It is generated automatically if
-  /// you use an AWS SDK or the AWS CLI.
+  /// you use an Amazon Web Services SDK or the CLI.
   ///
   /// Parameter [memberId] :
   /// The unique identifier of the member that owns this node.
   ///
   /// Applies only to Hyperledger Fabric.
+  ///
+  /// Parameter [tags] :
+  /// Tags to assign to the node.
+  ///
+  /// Each tag consists of a key and an optional value. You can specify multiple
+  /// key-value pairs in a single request with an overall maximum of 50 tags
+  /// allowed per resource.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer
+  /// Guide</i>, or <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
   Future<CreateNodeOutput> createNode({
     required String networkId,
     required NodeConfiguration nodeConfiguration,
     String? clientRequestToken,
     String? memberId,
+    Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'NodeConfiguration': nodeConfiguration,
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (memberId != null) 'MemberId': memberId,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -259,6 +354,7 @@ class ManagedBlockchain {
   /// May throw [ResourceNotReadyException].
   /// May throw [ThrottlingException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [actions] :
   /// The type of actions proposed, such as inviting a member or removing a
@@ -269,7 +365,8 @@ class ManagedBlockchain {
   /// Parameter [memberId] :
   /// The unique identifier of the member that is creating the proposal. This
   /// identifier is especially useful for identifying the member making the
-  /// proposal when multiple members exist in a single AWS account.
+  /// proposal when multiple members exist in a single Amazon Web Services
+  /// account.
   ///
   /// Parameter [networkId] :
   /// The unique identifier of the network for which the proposal is made.
@@ -279,23 +376,40 @@ class ManagedBlockchain {
   /// idempotency of the operation. An idempotent operation completes no more
   /// than one time. This identifier is required only if you make a service
   /// request directly using an HTTP client. It is generated automatically if
-  /// you use an AWS SDK or the AWS CLI.
+  /// you use an Amazon Web Services SDK or the CLI.
   ///
   /// Parameter [description] :
   /// A description for the proposal that is visible to voting members, for
   /// example, "Proposal to add Example Corp. as member."
+  ///
+  /// Parameter [tags] :
+  /// Tags to assign to the proposal.
+  ///
+  /// Each tag consists of a key and an optional value. You can specify multiple
+  /// key-value pairs in a single request with an overall maximum of 50 tags
+  /// allowed per resource.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer
+  /// Guide</i>, or <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
   Future<CreateProposalOutput> createProposal({
     required ProposalActions actions,
     required String memberId,
     required String networkId,
     String? clientRequestToken,
     String? description,
+    Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'Actions': actions,
       'MemberId': memberId,
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'Description': description,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -306,14 +420,44 @@ class ManagedBlockchain {
     return CreateProposalOutput.fromJson(response);
   }
 
+  /// Deletes an accessor that your Amazon Web Services account owns. An
+  /// accessor object is a container that has the information required for token
+  /// based access to your Ethereum nodes including, the
+  /// <code>BILLING_TOKEN</code>. After an accessor is deleted, the status of
+  /// the accessor changes from <code>AVAILABLE</code> to
+  /// <code>PENDING_DELETION</code>. An accessor in the
+  /// <code>PENDING_DELETION</code> state can’t be used for new WebSocket
+  /// requests or HTTP requests. However, WebSocket connections that were
+  /// initiated while the accessor was in the <code>AVAILABLE</code> state
+  /// remain open until they expire (up to 2 hours).
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceErrorException].
+  ///
+  /// Parameter [accessorId] :
+  /// The unique identifier of the accessor.
+  Future<void> deleteAccessor({
+    required String accessorId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/accessors/${Uri.encodeComponent(accessorId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Deletes a member. Deleting a member removes the member and all associated
   /// resources from the network. <code>DeleteMember</code> can only be called
   /// for a specified <code>MemberId</code> if the principal performing the
-  /// action is associated with the AWS account that owns the member. In all
-  /// other cases, the <code>DeleteMember</code> action is carried out as the
-  /// result of an approved proposal to remove a member. If
+  /// action is associated with the Amazon Web Services account that owns the
+  /// member. In all other cases, the <code>DeleteMember</code> action is
+  /// carried out as the result of an approved proposal to remove a member. If
   /// <code>MemberId</code> is the last member in a network specified by the
-  /// last AWS account, the network is deleted also.
+  /// last Amazon Web Services account, the network is deleted also.
   ///
   /// Applies only to Hyperledger Fabric.
   ///
@@ -342,8 +486,8 @@ class ManagedBlockchain {
     );
   }
 
-  /// Deletes a node that your AWS account owns. All data on the node is lost
-  /// and cannot be recovered.
+  /// Deletes a node that your Amazon Web Services account owns. All data on the
+  /// node is lost and cannot be recovered.
   ///
   /// Applies to Hyperledger Fabric and Ethereum.
   ///
@@ -364,10 +508,10 @@ class ManagedBlockchain {
   /// <code>n-ethereum-mainnet</code>
   /// </li>
   /// <li>
-  /// <code>n-ethereum-rinkeby</code>
+  /// <code>n-ethereum-goerli</code>
   /// </li>
   /// <li>
-  /// <code>n-ethereum-ropsten</code>
+  /// <code>n-ethereum-rinkeby</code>
   /// </li>
   /// </ul>
   ///
@@ -394,6 +538,30 @@ class ManagedBlockchain {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Returns detailed information about an accessor. An accessor object is a
+  /// container that has the information required for token based access to your
+  /// Ethereum nodes.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceErrorException].
+  ///
+  /// Parameter [accessorId] :
+  /// The unique identifier of the accessor.
+  Future<GetAccessorOutput> getAccessor({
+    required String accessorId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/accessors/${Uri.encodeComponent(accessorId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAccessorOutput.fromJson(response);
   }
 
   /// Returns detailed information about a member.
@@ -517,7 +685,46 @@ class ManagedBlockchain {
     return GetProposalOutput.fromJson(response);
   }
 
-  /// Returns a list of all invitations for the current AWS account.
+  /// Returns a list of the accessors and their properties. Accessor objects are
+  /// containers that have the information required for token based access to
+  /// your Ethereum nodes.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceErrorException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of accessors to list.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token that indicates the next set of results to retrieve.
+  Future<ListAccessorsOutput> listAccessors({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/accessors',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAccessorsOutput.fromJson(response);
+  }
+
+  /// Returns a list of all invitations for the current Amazon Web Services
+  /// account.
   ///
   /// Applies only to Hyperledger Fabric.
   ///
@@ -572,9 +779,9 @@ class ManagedBlockchain {
   ///
   /// Parameter [isOwned] :
   /// An optional Boolean value. If provided, the request is limited either to
-  /// members that the current AWS account owns (<code>true</code>) or that
-  /// other AWS accounts own (<code>false</code>). If omitted, all members are
-  /// listed.
+  /// members that the current Amazon Web Services account owns
+  /// (<code>true</code>) or that other Amazon Web Services accountsn own
+  /// (<code>false</code>). If omitted, all members are listed.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of members to return in the request.
@@ -619,8 +826,8 @@ class ManagedBlockchain {
     return ListMembersOutput.fromJson(response);
   }
 
-  /// Returns information about the networks in which the current AWS account
-  /// participates.
+  /// Returns information about the networks in which the current Amazon Web
+  /// Services account participates.
   ///
   /// Applies to Hyperledger Fabric and Ethereum.
   ///
@@ -823,9 +1030,43 @@ class ManagedBlockchain {
     return ListProposalsOutput.fromJson(response);
   }
 
+  /// Returns a list of tags for the specified resource. Each tag consists of a
+  /// key and optional value.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer
+  /// Guide</i>, or <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
+  ///
+  /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceNotReadyException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource. For more information about
+  /// ARNs and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    required String resourceArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTagsForResourceResponse.fromJson(response);
+  }
+
   /// Rejects an invitation to join a network. This action can be called by a
-  /// principal in an AWS account that has received an invitation to create a
-  /// member and join a network.
+  /// principal in an Amazon Web Services account that has received an
+  /// invitation to create a member and join a network.
   ///
   /// Applies only to Hyperledger Fabric.
   ///
@@ -845,6 +1086,97 @@ class ManagedBlockchain {
       payload: null,
       method: 'DELETE',
       requestUri: '/invitations/${Uri.encodeComponent(invitationId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Adds or overwrites the specified tags for the specified Amazon Managed
+  /// Blockchain resource. Each tag consists of a key and optional value.
+  ///
+  /// When you specify a tag key that already exists, the tag value is
+  /// overwritten with the new value. Use <code>UntagResource</code> to remove
+  /// tag keys.
+  ///
+  /// A resource can have up to 50 tags. If you try to create more than 50 tags
+  /// for a resource, your request fails and returns an error.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer
+  /// Guide</i>, or <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
+  ///
+  /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyTagsException].
+  /// May throw [ResourceNotReadyException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource. For more information about
+  /// ARNs and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  ///
+  /// Parameter [tags] :
+  /// The tags to assign to the specified resource. Tag values can be empty, for
+  /// example, <code>"MyTagKey" : ""</code>. You can specify multiple key-value
+  /// pairs in a single request, with an overall maximum of 50 tags added to
+  /// each resource.
+  Future<void> tagResource({
+    required String resourceArn,
+    required Map<String, String> tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Removes the specified tags from the Amazon Managed Blockchain resource.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer
+  /// Guide</i>, or <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
+  ///
+  /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceNotReadyException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource. For more information about
+  /// ARNs and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  ///
+  /// Parameter [tagKeys] :
+  /// The tag keys.
+  Future<void> untagResource({
+    required String resourceArn,
+    required List<String> tagKeys,
+  }) async {
+    final $query = <String, List<String>>{
+      'tagKeys': tagKeys,
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -931,7 +1263,8 @@ class ManagedBlockchain {
 
   /// Casts a vote for a specified <code>ProposalId</code> on behalf of a
   /// member. The member to vote as, specified by <code>VoterMemberId</code>,
-  /// must be in the same AWS account as the principal that calls the action.
+  /// must be in the same Amazon Web Services account as the principal that
+  /// calls the action.
   ///
   /// Applies only to Hyperledger Fabric.
   ///
@@ -973,6 +1306,170 @@ class ManagedBlockchain {
   }
 }
 
+/// The properties of the Accessor.
+class Accessor {
+  /// The Amazon Resource Name (ARN) of the accessor. For more information about
+  /// ARNs and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  final String? arn;
+
+  /// The billing token is a property of the accessor. Use this token to make
+  /// Ethereum API calls to your Ethereum node. The billing token is used to track
+  /// your accessor object for billing Ethereum API requests made to your Ethereum
+  /// nodes.
+  final String? billingToken;
+
+  /// The creation date and time of the accessor.
+  final DateTime? creationDate;
+
+  /// The unique identifier of the accessor.
+  final String? id;
+
+  /// The current status of the accessor.
+  final AccessorStatus? status;
+
+  /// The tags assigned to the Accessor.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer
+  /// Guide</i>, or <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
+  final Map<String, String>? tags;
+
+  /// The type of the accessor.
+  /// <note>
+  /// Currently, accessor type is restricted to <code>BILLING_TOKEN</code>.
+  /// </note>
+  final AccessorType? type;
+
+  Accessor({
+    this.arn,
+    this.billingToken,
+    this.creationDate,
+    this.id,
+    this.status,
+    this.tags,
+    this.type,
+  });
+
+  factory Accessor.fromJson(Map<String, dynamic> json) {
+    return Accessor(
+      arn: json['Arn'] as String?,
+      billingToken: json['BillingToken'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      id: json['Id'] as String?,
+      status: (json['Status'] as String?)?.toAccessorStatus(),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      type: (json['Type'] as String?)?.toAccessorType(),
+    );
+  }
+}
+
+enum AccessorStatus {
+  available,
+  pendingDeletion,
+  deleted,
+}
+
+extension AccessorStatusValueExtension on AccessorStatus {
+  String toValue() {
+    switch (this) {
+      case AccessorStatus.available:
+        return 'AVAILABLE';
+      case AccessorStatus.pendingDeletion:
+        return 'PENDING_DELETION';
+      case AccessorStatus.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension AccessorStatusFromString on String {
+  AccessorStatus toAccessorStatus() {
+    switch (this) {
+      case 'AVAILABLE':
+        return AccessorStatus.available;
+      case 'PENDING_DELETION':
+        return AccessorStatus.pendingDeletion;
+      case 'DELETED':
+        return AccessorStatus.deleted;
+    }
+    throw Exception('$this is not known in enum AccessorStatus');
+  }
+}
+
+/// A summary of accessor properties.
+class AccessorSummary {
+  /// The Amazon Resource Name (ARN) of the accessor. For more information about
+  /// ARNs and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  final String? arn;
+
+  /// The creation date and time of the accessor.
+  final DateTime? creationDate;
+
+  /// The unique identifier of the accessor.
+  final String? id;
+
+  /// The current status of the accessor.
+  final AccessorStatus? status;
+
+  /// The type of the accessor.
+  /// <note>
+  /// Currently accessor type is restricted to <code>BILLING_TOKEN</code>.
+  /// </note>
+  final AccessorType? type;
+
+  AccessorSummary({
+    this.arn,
+    this.creationDate,
+    this.id,
+    this.status,
+    this.type,
+  });
+
+  factory AccessorSummary.fromJson(Map<String, dynamic> json) {
+    return AccessorSummary(
+      arn: json['Arn'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      id: json['Id'] as String?,
+      status: (json['Status'] as String?)?.toAccessorStatus(),
+      type: (json['Type'] as String?)?.toAccessorType(),
+    );
+  }
+}
+
+enum AccessorType {
+  billingToken,
+}
+
+extension AccessorTypeValueExtension on AccessorType {
+  String toValue() {
+    switch (this) {
+      case AccessorType.billingToken:
+        return 'BILLING_TOKEN';
+    }
+  }
+}
+
+extension AccessorTypeFromString on String {
+  AccessorType toAccessorType() {
+    switch (this) {
+      case 'BILLING_TOKEN':
+        return AccessorType.billingToken;
+    }
+    throw Exception('$this is not known in enum AccessorType');
+  }
+}
+
 /// A policy type that defines the voting rules for the network. The rules
 /// decide if a proposal is approved. Approval may be based on criteria such as
 /// the percentage of <code>YES</code> votes and the duration of the proposal.
@@ -985,7 +1482,7 @@ class ApprovalThresholdPolicy {
   /// members cast neither the required number of <code>YES</code> votes to
   /// approve the proposal nor the number of <code>NO</code> votes required to
   /// reject it before the duration expires, the proposal is <code>EXPIRED</code>
-  /// and <code>ProposalActions</code> are not carried out.
+  /// and <code>ProposalActions</code> aren't carried out.
   final int? proposalDurationInHours;
 
   /// Determines whether the vote percentage must be greater than the
@@ -1008,6 +1505,7 @@ class ApprovalThresholdPolicy {
     this.thresholdComparator,
     this.thresholdPercentage,
   });
+
   factory ApprovalThresholdPolicy.fromJson(Map<String, dynamic> json) {
     return ApprovalThresholdPolicy(
       proposalDurationInHours: json['ProposalDurationInHours'] as int?,
@@ -1032,6 +1530,29 @@ class ApprovalThresholdPolicy {
   }
 }
 
+class CreateAccessorOutput {
+  /// The unique identifier of the accessor.
+  final String? accessorId;
+
+  /// The billing token is a property of the Accessor. Use this token to make
+  /// Ethereum API calls to your Ethereum node. The billing token is used to track
+  /// your accessor object for billing Ethereum API requests made to your Ethereum
+  /// nodes.
+  final String? billingToken;
+
+  CreateAccessorOutput({
+    this.accessorId,
+    this.billingToken,
+  });
+
+  factory CreateAccessorOutput.fromJson(Map<String, dynamic> json) {
+    return CreateAccessorOutput(
+      accessorId: json['AccessorId'] as String?,
+      billingToken: json['BillingToken'] as String?,
+    );
+  }
+}
+
 class CreateMemberOutput {
   /// The unique identifier of the member.
   final String? memberId;
@@ -1039,6 +1560,7 @@ class CreateMemberOutput {
   CreateMemberOutput({
     this.memberId,
   });
+
   factory CreateMemberOutput.fromJson(Map<String, dynamic> json) {
     return CreateMemberOutput(
       memberId: json['MemberId'] as String?,
@@ -1057,6 +1579,7 @@ class CreateNetworkOutput {
     this.memberId,
     this.networkId,
   });
+
   factory CreateNetworkOutput.fromJson(Map<String, dynamic> json) {
     return CreateNetworkOutput(
       memberId: json['MemberId'] as String?,
@@ -1072,6 +1595,7 @@ class CreateNodeOutput {
   CreateNodeOutput({
     this.nodeId,
   });
+
   factory CreateNodeOutput.fromJson(Map<String, dynamic> json) {
     return CreateNodeOutput(
       nodeId: json['NodeId'] as String?,
@@ -1086,6 +1610,7 @@ class CreateProposalOutput {
   CreateProposalOutput({
     this.proposalId,
   });
+
   factory CreateProposalOutput.fromJson(Map<String, dynamic> json) {
     return CreateProposalOutput(
       proposalId: json['ProposalId'] as String?,
@@ -1093,8 +1618,17 @@ class CreateProposalOutput {
   }
 }
 
+class DeleteAccessorOutput {
+  DeleteAccessorOutput();
+
+  factory DeleteAccessorOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteAccessorOutput();
+  }
+}
+
 class DeleteMemberOutput {
   DeleteMemberOutput();
+
   factory DeleteMemberOutput.fromJson(Map<String, dynamic> _) {
     return DeleteMemberOutput();
   }
@@ -1102,6 +1636,7 @@ class DeleteMemberOutput {
 
 class DeleteNodeOutput {
   DeleteNodeOutput();
+
   factory DeleteNodeOutput.fromJson(Map<String, dynamic> _) {
     return DeleteNodeOutput();
   }
@@ -1163,6 +1698,23 @@ extension FrameworkFromString on String {
   }
 }
 
+class GetAccessorOutput {
+  /// The properties of the accessor.
+  final Accessor? accessor;
+
+  GetAccessorOutput({
+    this.accessor,
+  });
+
+  factory GetAccessorOutput.fromJson(Map<String, dynamic> json) {
+    return GetAccessorOutput(
+      accessor: json['Accessor'] != null
+          ? Accessor.fromJson(json['Accessor'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 class GetMemberOutput {
   /// The properties of a member.
   final Member? member;
@@ -1170,6 +1722,7 @@ class GetMemberOutput {
   GetMemberOutput({
     this.member,
   });
+
   factory GetMemberOutput.fromJson(Map<String, dynamic> json) {
     return GetMemberOutput(
       member: json['Member'] != null
@@ -1186,6 +1739,7 @@ class GetNetworkOutput {
   GetNetworkOutput({
     this.network,
   });
+
   factory GetNetworkOutput.fromJson(Map<String, dynamic> json) {
     return GetNetworkOutput(
       network: json['Network'] != null
@@ -1202,6 +1756,7 @@ class GetNodeOutput {
   GetNodeOutput({
     this.node,
   });
+
   factory GetNodeOutput.fromJson(Map<String, dynamic> json) {
     return GetNodeOutput(
       node: json['Node'] != null
@@ -1218,6 +1773,7 @@ class GetProposalOutput {
   GetProposalOutput({
     this.proposal,
   });
+
   factory GetProposalOutput.fromJson(Map<String, dynamic> json) {
     return GetProposalOutput(
       proposal: json['Proposal'] != null
@@ -1227,10 +1783,18 @@ class GetProposalOutput {
   }
 }
 
-/// An invitation to an AWS account to create a member and join the network.
+/// An invitation to an Amazon Web Services account to create a member and join
+/// the network.
 ///
 /// Applies only to Hyperledger Fabric.
 class Invitation {
+  /// The Amazon Resource Name (ARN) of the invitation. For more information about
+  /// ARNs and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  final String? arn;
+
   /// The date and time that the invitation was created.
   final DateTime? creationDate;
 
@@ -1249,12 +1813,12 @@ class Invitation {
   ///
   /// <ul>
   /// <li>
-  /// <code>PENDING</code> - The invitee has not created a member to join the
-  /// network, and the invitation has not yet expired.
+  /// <code>PENDING</code> - The invitee hasn't created a member to join the
+  /// network, and the invitation hasn't yet expired.
   /// </li>
   /// <li>
   /// <code>ACCEPTING</code> - The invitee has begun creating a member, and
-  /// creation has not yet completed.
+  /// creation hasn't yet completed.
   /// </li>
   /// <li>
   /// <code>ACCEPTED</code> - The invitee created a member and joined the network
@@ -1271,14 +1835,17 @@ class Invitation {
   final InvitationStatus? status;
 
   Invitation({
+    this.arn,
     this.creationDate,
     this.expirationDate,
     this.invitationId,
     this.networkSummary,
     this.status,
   });
+
   factory Invitation.fromJson(Map<String, dynamic> json) {
     return Invitation(
+      arn: json['Arn'] as String?,
       creationDate: timeStampFromJson(json['CreationDate']),
       expirationDate: timeStampFromJson(json['ExpirationDate']),
       invitationId: json['InvitationId'] as String?,
@@ -1334,18 +1901,19 @@ extension InvitationStatusFromString on String {
   }
 }
 
-/// An action to invite a specific AWS account to create a member and join the
-/// network. The <code>InviteAction</code> is carried out when a
-/// <code>Proposal</code> is <code>APPROVED</code>.
+/// An action to invite a specific Amazon Web Services account to create a
+/// member and join the network. The <code>InviteAction</code> is carried out
+/// when a <code>Proposal</code> is <code>APPROVED</code>.
 ///
 /// Applies only to Hyperledger Fabric.
 class InviteAction {
-  /// The AWS account ID to invite.
+  /// The Amazon Web Services account ID to invite.
   final String principal;
 
   InviteAction({
     required this.principal,
   });
+
   factory InviteAction.fromJson(Map<String, dynamic> json) {
     return InviteAction(
       principal: json['Principal'] as String,
@@ -1360,6 +1928,30 @@ class InviteAction {
   }
 }
 
+class ListAccessorsOutput {
+  /// An array of AccessorSummary objects that contain configuration properties
+  /// for each accessor.
+  final List<AccessorSummary>? accessors;
+
+  /// The pagination token that indicates the next set of results to retrieve.
+  final String? nextToken;
+
+  ListAccessorsOutput({
+    this.accessors,
+    this.nextToken,
+  });
+
+  factory ListAccessorsOutput.fromJson(Map<String, dynamic> json) {
+    return ListAccessorsOutput(
+      accessors: (json['Accessors'] as List?)
+          ?.whereNotNull()
+          .map((e) => AccessorSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
 class ListInvitationsOutput {
   /// The invitations for the network.
   final List<Invitation>? invitations;
@@ -1371,6 +1963,7 @@ class ListInvitationsOutput {
     this.invitations,
     this.nextToken,
   });
+
   factory ListInvitationsOutput.fromJson(Map<String, dynamic> json) {
     return ListInvitationsOutput(
       invitations: (json['Invitations'] as List?)
@@ -1394,6 +1987,7 @@ class ListMembersOutput {
     this.members,
     this.nextToken,
   });
+
   factory ListMembersOutput.fromJson(Map<String, dynamic> json) {
     return ListMembersOutput(
       members: (json['Members'] as List?)
@@ -1417,6 +2011,7 @@ class ListNetworksOutput {
     this.networks,
     this.nextToken,
   });
+
   factory ListNetworksOutput.fromJson(Map<String, dynamic> json) {
     return ListNetworksOutput(
       networks: (json['Networks'] as List?)
@@ -1440,6 +2035,7 @@ class ListNodesOutput {
     this.nextToken,
     this.nodes,
   });
+
   factory ListNodesOutput.fromJson(Map<String, dynamic> json) {
     return ListNodesOutput(
       nextToken: json['NextToken'] as String?,
@@ -1462,6 +2058,7 @@ class ListProposalVotesOutput {
     this.nextToken,
     this.proposalVotes,
   });
+
   factory ListProposalVotesOutput.fromJson(Map<String, dynamic> json) {
     return ListProposalVotesOutput(
       nextToken: json['NextToken'] as String?,
@@ -1484,6 +2081,7 @@ class ListProposalsOutput {
     this.nextToken,
     this.proposals,
   });
+
   factory ListProposalsOutput.fromJson(Map<String, dynamic> json) {
     return ListProposalsOutput(
       nextToken: json['NextToken'] as String?,
@@ -1491,6 +2089,22 @@ class ListProposalsOutput {
           ?.whereNotNull()
           .map((e) => ProposalSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
+    );
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// The tags assigned to the resource.
+  final Map<String, String>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 }
@@ -1503,6 +2117,7 @@ class LogConfiguration {
   LogConfiguration({
     this.enabled,
   });
+
   factory LogConfiguration.fromJson(Map<String, dynamic> json) {
     return LogConfiguration(
       enabled: json['Enabled'] as bool?,
@@ -1525,6 +2140,7 @@ class LogConfigurations {
   LogConfigurations({
     this.cloudwatch,
   });
+
   factory LogConfigurations.fromJson(Map<String, dynamic> json) {
     return LogConfigurations(
       cloudwatch: json['Cloudwatch'] != null
@@ -1546,6 +2162,13 @@ class LogConfigurations {
 ///
 /// Applies only to Hyperledger Fabric.
 class Member {
+  /// The Amazon Resource Name (ARN) of the member. For more information about
+  /// ARNs and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  final String? arn;
+
   /// The date and time that the member was created.
   final DateTime? creationDate;
 
@@ -1558,6 +2181,18 @@ class Member {
 
   /// The unique identifier of the member.
   final String? id;
+
+  /// The Amazon Resource Name (ARN) of the customer managed key in Key Management
+  /// Service (KMS) that the member uses for encryption at rest. If the value of
+  /// this parameter is <code>"AWS Owned KMS Key"</code>, the member uses an
+  /// Amazon Web Services owned KMS key for encryption. This parameter is
+  /// inherited by the nodes that this member owns.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/managed-blockchain-encryption-at-rest.html">Encryption
+  /// at Rest</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric Developer
+  /// Guide</i>.
+  final String? kmsKeyArn;
 
   /// Configuration properties for logging events associated with a member.
   final MemberLogPublishingConfiguration? logPublishingConfiguration;
@@ -1572,44 +2207,75 @@ class Member {
   ///
   /// <ul>
   /// <li>
-  /// <code>CREATING</code> - The AWS account is in the process of creating a
-  /// member.
+  /// <code>CREATING</code> - The Amazon Web Services account is in the process of
+  /// creating a member.
   /// </li>
   /// <li>
   /// <code>AVAILABLE</code> - The member has been created and can participate in
   /// the network.
   /// </li>
   /// <li>
-  /// <code>CREATE_FAILED</code> - The AWS account attempted to create a member
-  /// and creation failed.
+  /// <code>CREATE_FAILED</code> - The Amazon Web Services account attempted to
+  /// create a member and creation failed.
+  /// </li>
+  /// <li>
+  /// <code>UPDATING</code> - The member is in the process of being updated.
   /// </li>
   /// <li>
   /// <code>DELETING</code> - The member and all associated resources are in the
-  /// process of being deleted. Either the AWS account that owns the member
-  /// deleted it, or the member is being deleted as the result of an
+  /// process of being deleted. Either the Amazon Web Services account that owns
+  /// the member deleted it, or the member is being deleted as the result of an
   /// <code>APPROVED</code> <code>PROPOSAL</code> to remove the member.
   /// </li>
   /// <li>
   /// <code>DELETED</code> - The member can no longer participate on the network
-  /// and all associated resources are deleted. Either the AWS account that owns
-  /// the member deleted it, or the member is being deleted as the result of an
-  /// <code>APPROVED</code> <code>PROPOSAL</code> to remove the member.
+  /// and all associated resources are deleted. Either the Amazon Web Services
+  /// account that owns the member deleted it, or the member is being deleted as
+  /// the result of an <code>APPROVED</code> <code>PROPOSAL</code> to remove the
+  /// member.
+  /// </li>
+  /// <li>
+  /// <code>INACCESSIBLE_ENCRYPTION_KEY</code> - The member is impaired and might
+  /// not function as expected because it cannot access the specified customer
+  /// managed key in KMS for encryption at rest. Either the KMS key was disabled
+  /// or deleted, or the grants on the key were revoked.
+  ///
+  /// The effect of disabling or deleting a key or of revoking a grant isn't
+  /// immediate. It might take some time for the member resource to discover that
+  /// the key is inaccessible. When a resource is in this state, we recommend
+  /// deleting and recreating the resource.
   /// </li>
   /// </ul>
   final MemberStatus? status;
 
+  /// Tags assigned to the member. Tags consist of a key and optional value.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer
+  /// Guide</i>, or <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
+  final Map<String, String>? tags;
+
   Member({
+    this.arn,
     this.creationDate,
     this.description,
     this.frameworkAttributes,
     this.id,
+    this.kmsKeyArn,
     this.logPublishingConfiguration,
     this.name,
     this.networkId,
     this.status,
+    this.tags,
   });
+
   factory Member.fromJson(Map<String, dynamic> json) {
     return Member(
+      arn: json['Arn'] as String?,
       creationDate: timeStampFromJson(json['CreationDate']),
       description: json['Description'] as String?,
       frameworkAttributes: json['FrameworkAttributes'] != null
@@ -1617,6 +2283,7 @@ class Member {
               json['FrameworkAttributes'] as Map<String, dynamic>)
           : null,
       id: json['Id'] as String?,
+      kmsKeyArn: json['KmsKeyArn'] as String?,
       logPublishingConfiguration: json['LogPublishingConfiguration'] != null
           ? MemberLogPublishingConfiguration.fromJson(
               json['LogPublishingConfiguration'] as Map<String, dynamic>)
@@ -1624,6 +2291,8 @@ class Member {
       name: json['Name'] as String?,
       networkId: json['NetworkId'] as String?,
       status: (json['Status'] as String?)?.toMemberStatus(),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 }
@@ -1641,27 +2310,79 @@ class MemberConfiguration {
   /// An optional description of the member.
   final String? description;
 
+  /// The Amazon Resource Name (ARN) of the customer managed key in Key Management
+  /// Service (KMS) to use for encryption at rest in the member. This parameter is
+  /// inherited by any nodes that this member creates. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/managed-blockchain-encryption-at-rest.html">Encryption
+  /// at Rest</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric Developer
+  /// Guide</i>.
+  ///
+  /// Use one of the following options to specify this parameter:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Undefined or empty string</b> - By default, use an KMS key that is owned
+  /// and managed by Amazon Web Services on your behalf.
+  /// </li>
+  /// <li>
+  /// <b>A valid symmetric customer managed KMS key</b> - Use the specified KMS
+  /// key in your account that you create, own, and manage.
+  ///
+  /// Amazon Managed Blockchain doesn't support asymmetric keys. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
+  /// symmetric and asymmetric keys</a> in the <i>Key Management Service Developer
+  /// Guide</i>.
+  ///
+  /// The following is an example of a KMS key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  final String? kmsKeyArn;
+
   /// Configuration properties for logging events associated with a member of a
   /// Managed Blockchain network.
   final MemberLogPublishingConfiguration? logPublishingConfiguration;
+
+  /// Tags assigned to the member. Tags consist of a key and optional value.
+  ///
+  /// When specifying tags during creation, you can specify multiple key-value
+  /// pairs in a single request, with an overall maximum of 50 tags added to each
+  /// resource.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer
+  /// Guide</i>, or <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
+  final Map<String, String>? tags;
 
   MemberConfiguration({
     required this.frameworkConfiguration,
     required this.name,
     this.description,
+    this.kmsKeyArn,
     this.logPublishingConfiguration,
+    this.tags,
   });
   Map<String, dynamic> toJson() {
     final frameworkConfiguration = this.frameworkConfiguration;
     final name = this.name;
     final description = this.description;
+    final kmsKeyArn = this.kmsKeyArn;
     final logPublishingConfiguration = this.logPublishingConfiguration;
+    final tags = this.tags;
     return {
       'FrameworkConfiguration': frameworkConfiguration,
       'Name': name,
       if (description != null) 'Description': description,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
       if (logPublishingConfiguration != null)
         'LogPublishingConfiguration': logPublishingConfiguration,
+      if (tags != null) 'Tags': tags,
     };
   }
 }
@@ -1679,6 +2400,7 @@ class MemberFabricAttributes {
     this.adminUsername,
     this.caEndpoint,
   });
+
   factory MemberFabricAttributes.fromJson(Map<String, dynamic> json) {
     return MemberFabricAttributes(
       adminUsername: json['AdminUsername'] as String?,
@@ -1688,11 +2410,11 @@ class MemberFabricAttributes {
 }
 
 /// Configuration properties for Hyperledger Fabric for a member in a Managed
-/// Blockchain network using the Hyperledger Fabric framework.
+/// Blockchain network that is using the Hyperledger Fabric framework.
 class MemberFabricConfiguration {
   /// The password for the member's initial administrative user. The
-  /// <code>AdminPassword</code> must be at least eight characters long and no
-  /// more than 32 characters. It must contain at least one uppercase letter, one
+  /// <code>AdminPassword</code> must be at least 8 characters long and no more
+  /// than 32 characters. It must contain at least one uppercase letter, one
   /// lowercase letter, and one digit. It cannot have a single quotation mark (‘),
   /// a double quotation marks (“), a forward slash(/), a backward slash(\), @, or
   /// a space.
@@ -1726,6 +2448,7 @@ class MemberFabricLogPublishingConfiguration {
   MemberFabricLogPublishingConfiguration({
     this.caLogs,
   });
+
   factory MemberFabricLogPublishingConfiguration.fromJson(
       Map<String, dynamic> json) {
     return MemberFabricLogPublishingConfiguration(
@@ -1753,6 +2476,7 @@ class MemberFrameworkAttributes {
   MemberFrameworkAttributes({
     this.fabric,
   });
+
   factory MemberFrameworkAttributes.fromJson(Map<String, dynamic> json) {
     return MemberFrameworkAttributes(
       fabric: json['Fabric'] != null
@@ -1791,6 +2515,7 @@ class MemberLogPublishingConfiguration {
   MemberLogPublishingConfiguration({
     this.fabric,
   });
+
   factory MemberLogPublishingConfiguration.fromJson(Map<String, dynamic> json) {
     return MemberLogPublishingConfiguration(
       fabric: json['Fabric'] != null
@@ -1815,6 +2540,7 @@ enum MemberStatus {
   updating,
   deleting,
   deleted,
+  inaccessibleEncryptionKey,
 }
 
 extension MemberStatusValueExtension on MemberStatus {
@@ -1832,6 +2558,8 @@ extension MemberStatusValueExtension on MemberStatus {
         return 'DELETING';
       case MemberStatus.deleted:
         return 'DELETED';
+      case MemberStatus.inaccessibleEncryptionKey:
+        return 'INACCESSIBLE_ENCRYPTION_KEY';
     }
   }
 }
@@ -1851,6 +2579,8 @@ extension MemberStatusFromString on String {
         return MemberStatus.deleting;
       case 'DELETED':
         return MemberStatus.deleted;
+      case 'INACCESSIBLE_ENCRYPTION_KEY':
+        return MemberStatus.inaccessibleEncryptionKey;
     }
     throw Exception('$this is not known in enum MemberStatus');
   }
@@ -1860,6 +2590,13 @@ extension MemberStatusFromString on String {
 ///
 /// Applies only to Hyperledger Fabric.
 class MemberSummary {
+  /// The Amazon Resource Name (ARN) of the member. For more information about
+  /// ARNs and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  final String? arn;
+
   /// The date and time that the member was created.
   final DateTime? creationDate;
 
@@ -1869,8 +2606,8 @@ class MemberSummary {
   /// The unique identifier of the member.
   final String? id;
 
-  /// An indicator of whether the member is owned by your AWS account or a
-  /// different AWS account.
+  /// An indicator of whether the member is owned by your Amazon Web Services
+  /// account or a different Amazon Web Services account.
   final bool? isOwned;
 
   /// The name of the member.
@@ -1880,33 +2617,49 @@ class MemberSummary {
   ///
   /// <ul>
   /// <li>
-  /// <code>CREATING</code> - The AWS account is in the process of creating a
-  /// member.
+  /// <code>CREATING</code> - The Amazon Web Services account is in the process of
+  /// creating a member.
   /// </li>
   /// <li>
   /// <code>AVAILABLE</code> - The member has been created and can participate in
   /// the network.
   /// </li>
   /// <li>
-  /// <code>CREATE_FAILED</code> - The AWS account attempted to create a member
-  /// and creation failed.
+  /// <code>CREATE_FAILED</code> - The Amazon Web Services account attempted to
+  /// create a member and creation failed.
+  /// </li>
+  /// <li>
+  /// <code>UPDATING</code> - The member is in the process of being updated.
   /// </li>
   /// <li>
   /// <code>DELETING</code> - The member and all associated resources are in the
-  /// process of being deleted. Either the AWS account that owns the member
-  /// deleted it, or the member is being deleted as the result of an
+  /// process of being deleted. Either the Amazon Web Services account that owns
+  /// the member deleted it, or the member is being deleted as the result of an
   /// <code>APPROVED</code> <code>PROPOSAL</code> to remove the member.
   /// </li>
   /// <li>
   /// <code>DELETED</code> - The member can no longer participate on the network
-  /// and all associated resources are deleted. Either the AWS account that owns
-  /// the member deleted it, or the member is being deleted as the result of an
-  /// <code>APPROVED</code> <code>PROPOSAL</code> to remove the member.
+  /// and all associated resources are deleted. Either the Amazon Web Services
+  /// account that owns the member deleted it, or the member is being deleted as
+  /// the result of an <code>APPROVED</code> <code>PROPOSAL</code> to remove the
+  /// member.
+  /// </li>
+  /// <li>
+  /// <code>INACCESSIBLE_ENCRYPTION_KEY</code> - The member is impaired and might
+  /// not function as expected because it cannot access the specified customer
+  /// managed key in Key Management Service (KMS) for encryption at rest. Either
+  /// the KMS key was disabled or deleted, or the grants on the key were revoked.
+  ///
+  /// The effect of disabling or deleting a key or of revoking a grant isn't
+  /// immediate. It might take some time for the member resource to discover that
+  /// the key is inaccessible. When a resource is in this state, we recommend
+  /// deleting and recreating the resource.
   /// </li>
   /// </ul>
   final MemberStatus? status;
 
   MemberSummary({
+    this.arn,
     this.creationDate,
     this.description,
     this.id,
@@ -1914,8 +2667,10 @@ class MemberSummary {
     this.name,
     this.status,
   });
+
   factory MemberSummary.fromJson(Map<String, dynamic> json) {
     return MemberSummary(
+      arn: json['Arn'] as String?,
       creationDate: timeStampFromJson(json['CreationDate']),
       description: json['Description'] as String?,
       id: json['Id'] as String?,
@@ -1928,6 +2683,13 @@ class MemberSummary {
 
 /// Network configuration properties.
 class Network {
+  /// The Amazon Resource Name (ARN) of the network. For more information about
+  /// ARNs and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  final String? arn;
+
   /// The date and time that the network was created.
   final DateTime? creationDate;
 
@@ -1952,7 +2714,18 @@ class Network {
   /// The current status of the network.
   final NetworkStatus? status;
 
-  /// The voting rules for the network to decide if a proposal is accepted.
+  /// Tags assigned to the network. Each tag consists of a key and optional value.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer
+  /// Guide</i>, or <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
+  final Map<String, String>? tags;
+
+  /// The voting rules that the network uses to decide if a proposal is accepted.
   final VotingPolicy? votingPolicy;
 
   /// The VPC endpoint service name of the VPC endpoint service of the network.
@@ -1961,6 +2734,7 @@ class Network {
   final String? vpcEndpointServiceName;
 
   Network({
+    this.arn,
     this.creationDate,
     this.description,
     this.framework,
@@ -1969,11 +2743,14 @@ class Network {
     this.id,
     this.name,
     this.status,
+    this.tags,
     this.votingPolicy,
     this.vpcEndpointServiceName,
   });
+
   factory Network.fromJson(Map<String, dynamic> json) {
     return Network(
+      arn: json['Arn'] as String?,
       creationDate: timeStampFromJson(json['CreationDate']),
       description: json['Description'] as String?,
       framework: (json['Framework'] as String?)?.toFramework(),
@@ -1985,6 +2762,8 @@ class Network {
       id: json['Id'] as String?,
       name: json['Name'] as String?,
       status: (json['Status'] as String?)?.toNetworkStatus(),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
       votingPolicy: json['VotingPolicy'] != null
           ? VotingPolicy.fromJson(json['VotingPolicy'] as Map<String, dynamic>)
           : null,
@@ -2003,10 +2782,10 @@ class NetworkEthereumAttributes {
   /// mainnet = <code>1</code>
   /// </li>
   /// <li>
-  /// rinkeby = <code>4</code>
+  /// goerli = <code>5</code>
   /// </li>
   /// <li>
-  /// ropsten = <code>3</code>
+  /// rinkeby = <code>4</code>
   /// </li>
   /// </ul>
   final String? chainId;
@@ -2014,6 +2793,7 @@ class NetworkEthereumAttributes {
   NetworkEthereumAttributes({
     this.chainId,
   });
+
   factory NetworkEthereumAttributes.fromJson(Map<String, dynamic> json) {
     return NetworkEthereumAttributes(
       chainId: json['ChainId'] as String?,
@@ -2036,6 +2816,7 @@ class NetworkFabricAttributes {
     this.edition,
     this.orderingServiceEndpoint,
   });
+
   factory NetworkFabricAttributes.fromJson(Map<String, dynamic> json) {
     return NetworkFabricAttributes(
       edition: (json['Edition'] as String?)?.toEdition(),
@@ -2078,6 +2859,7 @@ class NetworkFrameworkAttributes {
     this.ethereum,
     this.fabric,
   });
+
   factory NetworkFrameworkAttributes.fromJson(Map<String, dynamic> json) {
     return NetworkFrameworkAttributes(
       ethereum: json['Ethereum'] != null
@@ -2155,6 +2937,13 @@ extension NetworkStatusFromString on String {
 
 /// A summary of network configuration properties.
 class NetworkSummary {
+  /// The Amazon Resource Name (ARN) of the network. For more information about
+  /// ARNs and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  final String? arn;
+
   /// The date and time that the network was created.
   final DateTime? creationDate;
 
@@ -2177,6 +2966,7 @@ class NetworkSummary {
   final NetworkStatus? status;
 
   NetworkSummary({
+    this.arn,
     this.creationDate,
     this.description,
     this.framework,
@@ -2185,8 +2975,10 @@ class NetworkSummary {
     this.name,
     this.status,
   });
+
   factory NetworkSummary.fromJson(Map<String, dynamic> json) {
     return NetworkSummary(
+      arn: json['Arn'] as String?,
       creationDate: timeStampFromJson(json['CreationDate']),
       description: json['Description'] as String?,
       framework: (json['Framework'] as String?)?.toFramework(),
@@ -2200,7 +2992,14 @@ class NetworkSummary {
 
 /// Configuration properties of a node.
 class Node {
-  /// The Availability Zone in which the node exists.
+  /// The Amazon Resource Name (ARN) of the node. For more information about ARNs
+  /// and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  final String? arn;
+
+  /// The Availability Zone in which the node exists. Required for Ethereum nodes.
   final String? availabilityZone;
 
   /// The date and time that the node was created.
@@ -2214,6 +3013,20 @@ class Node {
 
   /// The instance type of the node.
   final String? instanceType;
+
+  /// The Amazon Resource Name (ARN) of the customer managed key in Key Management
+  /// Service (KMS) that the node uses for encryption at rest. If the value of
+  /// this parameter is <code>"AWS Owned KMS Key"</code>, the node uses an Amazon
+  /// Web Services owned KMS key for encryption. The node inherits this parameter
+  /// from the member that it belongs to.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/managed-blockchain-encryption-at-rest.html">Encryption
+  /// at Rest</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric Developer
+  /// Guide</i>.
+  ///
+  /// Applies only to Hyperledger Fabric.
+  final String? kmsKeyArn;
 
   /// Configuration properties for logging events associated with a peer node on a
   /// Hyperledger Fabric network on Managed Blockchain.
@@ -2234,22 +3047,83 @@ class Node {
   final StateDBType? stateDB;
 
   /// The status of the node.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATING</code> - The Amazon Web Services account is in the process of
+  /// creating a node.
+  /// </li>
+  /// <li>
+  /// <code>AVAILABLE</code> - The node has been created and can participate in
+  /// the network.
+  /// </li>
+  /// <li>
+  /// <code>UNHEALTHY</code> - The node is impaired and might not function as
+  /// expected. Amazon Managed Blockchain automatically finds nodes in this state
+  /// and tries to recover them. If a node is recoverable, it returns to
+  /// <code>AVAILABLE</code>. Otherwise, it moves to <code>FAILED</code> status.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_FAILED</code> - The Amazon Web Services account attempted to
+  /// create a node and creation failed.
+  /// </li>
+  /// <li>
+  /// <code>UPDATING</code> - The node is in the process of being updated.
+  /// </li>
+  /// <li>
+  /// <code>DELETING</code> - The node is in the process of being deleted.
+  /// </li>
+  /// <li>
+  /// <code>DELETED</code> - The node can no longer participate on the network.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - The node is no longer functional, cannot be recovered,
+  /// and must be deleted.
+  /// </li>
+  /// <li>
+  /// <code>INACCESSIBLE_ENCRYPTION_KEY</code> - The node is impaired and might
+  /// not function as expected because it cannot access the specified customer
+  /// managed key in KMS for encryption at rest. Either the KMS key was disabled
+  /// or deleted, or the grants on the key were revoked.
+  ///
+  /// The effect of disabling or deleting a key or of revoking a grant isn't
+  /// immediate. It might take some time for the node resource to discover that
+  /// the key is inaccessible. When a resource is in this state, we recommend
+  /// deleting and recreating the resource.
+  /// </li>
+  /// </ul>
   final NodeStatus? status;
 
+  /// Tags assigned to the node. Each tag consists of a key and optional value.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer
+  /// Guide</i>, or <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
+  final Map<String, String>? tags;
+
   Node({
+    this.arn,
     this.availabilityZone,
     this.creationDate,
     this.frameworkAttributes,
     this.id,
     this.instanceType,
+    this.kmsKeyArn,
     this.logPublishingConfiguration,
     this.memberId,
     this.networkId,
     this.stateDB,
     this.status,
+    this.tags,
   });
+
   factory Node.fromJson(Map<String, dynamic> json) {
     return Node(
+      arn: json['Arn'] as String?,
       availabilityZone: json['AvailabilityZone'] as String?,
       creationDate: timeStampFromJson(json['CreationDate']),
       frameworkAttributes: json['FrameworkAttributes'] != null
@@ -2258,6 +3132,7 @@ class Node {
           : null,
       id: json['Id'] as String?,
       instanceType: json['InstanceType'] as String?,
+      kmsKeyArn: json['KmsKeyArn'] as String?,
       logPublishingConfiguration: json['LogPublishingConfiguration'] != null
           ? NodeLogPublishingConfiguration.fromJson(
               json['LogPublishingConfiguration'] as Map<String, dynamic>)
@@ -2266,6 +3141,8 @@ class Node {
       networkId: json['NetworkId'] as String?,
       stateDB: (json['StateDB'] as String?)?.toStateDBType(),
       status: (json['Status'] as String?)?.toNodeStatus(),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 }
@@ -2275,7 +3152,7 @@ class NodeConfiguration {
   /// The Amazon Managed Blockchain instance type for the node.
   final String instanceType;
 
-  /// The Availability Zone in which the node exists.
+  /// The Availability Zone in which the node exists. Required for Ethereum nodes.
   final String? availabilityZone;
 
   /// Configuration properties for logging events associated with a peer node on a
@@ -2313,17 +3190,17 @@ class NodeConfiguration {
 
 /// Attributes of an Ethereum node.
 class NodeEthereumAttributes {
-  /// The endpoint on which the Ethereum node listens to run Ethereum JSON-RPC
-  /// methods over HTTP connections from a client. Use this endpoint in client
-  /// code for smart contracts when using an HTTP connection. Connections to this
-  /// endpoint are authenticated using <a
+  /// The endpoint on which the Ethereum node listens to run Ethereum API methods
+  /// over HTTP connections from a client. Use this endpoint in client code for
+  /// smart contracts when using an HTTP connection. Connections to this endpoint
+  /// are authenticated using <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
   /// Version 4</a>.
   final String? httpEndpoint;
 
   /// The endpoint on which the Ethereum node listens to run Ethereum JSON-RPC
-  /// methods over WebSockets connections from a client. Use this endpoint in
-  /// client code for smart contracts when using a WebSockets connection.
+  /// methods over WebSocket connections from a client. Use this endpoint in
+  /// client code for smart contracts when using a WebSocket connection.
   /// Connections to this endpoint are authenticated using <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
   /// Version 4</a>.
@@ -2333,6 +3210,7 @@ class NodeEthereumAttributes {
     this.httpEndpoint,
     this.webSocketEndpoint,
   });
+
   factory NodeEthereumAttributes.fromJson(Map<String, dynamic> json) {
     return NodeEthereumAttributes(
       httpEndpoint: json['HttpEndpoint'] as String?,
@@ -2356,6 +3234,7 @@ class NodeFabricAttributes {
     this.peerEndpoint,
     this.peerEventEndpoint,
   });
+
   factory NodeFabricAttributes.fromJson(Map<String, dynamic> json) {
     return NodeFabricAttributes(
       peerEndpoint: json['PeerEndpoint'] as String?,
@@ -2384,6 +3263,7 @@ class NodeFabricLogPublishingConfiguration {
     this.chaincodeLogs,
     this.peerLogs,
   });
+
   factory NodeFabricLogPublishingConfiguration.fromJson(
       Map<String, dynamic> json) {
     return NodeFabricLogPublishingConfiguration(
@@ -2422,6 +3302,7 @@ class NodeFrameworkAttributes {
     this.ethereum,
     this.fabric,
   });
+
   factory NodeFrameworkAttributes.fromJson(Map<String, dynamic> json) {
     return NodeFrameworkAttributes(
       ethereum: json['Ethereum'] != null
@@ -2447,6 +3328,7 @@ class NodeLogPublishingConfiguration {
   NodeLogPublishingConfiguration({
     this.fabric,
   });
+
   factory NodeLogPublishingConfiguration.fromJson(Map<String, dynamic> json) {
     return NodeLogPublishingConfiguration(
       fabric: json['Fabric'] != null
@@ -2473,6 +3355,7 @@ enum NodeStatus {
   deleting,
   deleted,
   failed,
+  inaccessibleEncryptionKey,
 }
 
 extension NodeStatusValueExtension on NodeStatus {
@@ -2494,6 +3377,8 @@ extension NodeStatusValueExtension on NodeStatus {
         return 'DELETED';
       case NodeStatus.failed:
         return 'FAILED';
+      case NodeStatus.inaccessibleEncryptionKey:
+        return 'INACCESSIBLE_ENCRYPTION_KEY';
     }
   }
 }
@@ -2517,6 +3402,8 @@ extension NodeStatusFromString on String {
         return NodeStatus.deleted;
       case 'FAILED':
         return NodeStatus.failed;
+      case 'INACCESSIBLE_ENCRYPTION_KEY':
+        return NodeStatus.inaccessibleEncryptionKey;
     }
     throw Exception('$this is not known in enum NodeStatus');
   }
@@ -2524,6 +3411,13 @@ extension NodeStatusFromString on String {
 
 /// A summary of configuration properties for a node.
 class NodeSummary {
+  /// The Amazon Resource Name (ARN) of the node. For more information about ARNs
+  /// and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  final String? arn;
+
   /// The Availability Zone in which the node exists.
   final String? availabilityZone;
 
@@ -2540,14 +3434,17 @@ class NodeSummary {
   final NodeStatus? status;
 
   NodeSummary({
+    this.arn,
     this.availabilityZone,
     this.creationDate,
     this.id,
     this.instanceType,
     this.status,
   });
+
   factory NodeSummary.fromJson(Map<String, dynamic> json) {
     return NodeSummary(
+      arn: json['Arn'] as String?,
       availabilityZone: json['AvailabilityZone'] as String?,
       creationDate: timeStampFromJson(json['CreationDate']),
       id: json['Id'] as String?,
@@ -2565,6 +3462,13 @@ class Proposal {
   /// <code>APPROVED</code>.
   final ProposalActions? actions;
 
+  /// The Amazon Resource Name (ARN) of the proposal. For more information about
+  /// ARNs and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  final String? arn;
+
   /// The date and time that the proposal was created.
   final DateTime? creationDate;
 
@@ -2574,9 +3478,9 @@ class Proposal {
   /// The date and time that the proposal expires. This is the
   /// <code>CreationDate</code> plus the <code>ProposalDurationInHours</code> that
   /// is specified in the <code>ProposalThresholdPolicy</code>. After this date
-  /// and time, if members have not cast enough votes to determine the outcome
+  /// and time, if members haven't cast enough votes to determine the outcome
   /// according to the voting policy, the proposal is <code>EXPIRED</code> and
-  /// <code>Actions</code> are not carried out.
+  /// <code>Actions</code> aren't carried out.
   final DateTime? expirationDate;
 
   /// The unique identifier of the network for which the proposal is made.
@@ -2616,27 +3520,40 @@ class Proposal {
   /// <code>REJECTED</code> - The proposal was rejected with insufficient
   /// <code>YES</code> votes among members according to the
   /// <code>VotingPolicy</code> specified for the <code>Network</code>. The
-  /// specified <code>ProposalActions</code> are not carried out.
+  /// specified <code>ProposalActions</code> aren't carried out.
   /// </li>
   /// <li>
-  /// <code>EXPIRED</code> - Members did not cast the number of votes required to
+  /// <code>EXPIRED</code> - Members didn't cast the number of votes required to
   /// determine the proposal outcome before the proposal expired. The specified
-  /// <code>ProposalActions</code> are not carried out.
+  /// <code>ProposalActions</code> aren't carried out.
   /// </li>
   /// <li>
   /// <code>ACTION_FAILED</code> - One or more of the specified
-  /// <code>ProposalActions</code> in a proposal that was approved could not be
+  /// <code>ProposalActions</code> in a proposal that was approved couldn't be
   /// completed because of an error. The <code>ACTION_FAILED</code> status occurs
   /// even if only one ProposalAction fails and other actions are successful.
   /// </li>
   /// </ul>
   final ProposalStatus? status;
 
+  /// Tags assigned to the proposal. Each tag consists of a key and optional
+  /// value.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer
+  /// Guide</i>, or <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
+  final Map<String, String>? tags;
+
   /// The current total of <code>YES</code> votes cast on the proposal by members.
   final int? yesVoteCount;
 
   Proposal({
     this.actions,
+    this.arn,
     this.creationDate,
     this.description,
     this.expirationDate,
@@ -2647,13 +3564,16 @@ class Proposal {
     this.proposedByMemberId,
     this.proposedByMemberName,
     this.status,
+    this.tags,
     this.yesVoteCount,
   });
+
   factory Proposal.fromJson(Map<String, dynamic> json) {
     return Proposal(
       actions: json['Actions'] != null
           ? ProposalActions.fromJson(json['Actions'] as Map<String, dynamic>)
           : null,
+      arn: json['Arn'] as String?,
       creationDate: timeStampFromJson(json['CreationDate']),
       description: json['Description'] as String?,
       expirationDate: timeStampFromJson(json['ExpirationDate']),
@@ -2664,6 +3584,8 @@ class Proposal {
       proposedByMemberId: json['ProposedByMemberId'] as String?,
       proposedByMemberName: json['ProposedByMemberName'] as String?,
       status: (json['Status'] as String?)?.toProposalStatus(),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
       yesVoteCount: json['YesVoteCount'] as int?,
     );
   }
@@ -2674,7 +3596,7 @@ class Proposal {
 /// Applies only to Hyperledger Fabric.
 class ProposalActions {
   /// The actions to perform for an <code>APPROVED</code> proposal to invite an
-  /// AWS account to create a member and join the network.
+  /// Amazon Web Services account to create a member and join the network.
   final List<InviteAction>? invitations;
 
   /// The actions to perform for an <code>APPROVED</code> proposal to remove a
@@ -2686,6 +3608,7 @@ class ProposalActions {
     this.invitations,
     this.removals,
   });
+
   factory ProposalActions.fromJson(Map<String, dynamic> json) {
     return ProposalActions(
       invitations: (json['Invitations'] as List?)
@@ -2756,6 +3679,13 @@ extension ProposalStatusFromString on String {
 ///
 /// Applies only to Hyperledger Fabric.
 class ProposalSummary {
+  /// The Amazon Resource Name (ARN) of the proposal. For more information about
+  /// ARNs and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  final String? arn;
+
   /// The date and time that the proposal was created.
   final DateTime? creationDate;
 
@@ -2765,9 +3695,9 @@ class ProposalSummary {
   /// The date and time that the proposal expires. This is the
   /// <code>CreationDate</code> plus the <code>ProposalDurationInHours</code> that
   /// is specified in the <code>ProposalThresholdPolicy</code>. After this date
-  /// and time, if members have not cast enough votes to determine the outcome
+  /// and time, if members haven't cast enough votes to determine the outcome
   /// according to the voting policy, the proposal is <code>EXPIRED</code> and
-  /// <code>Actions</code> are not carried out.
+  /// <code>Actions</code> aren't carried out.
   final DateTime? expirationDate;
 
   /// The unique identifier of the proposal.
@@ -2796,22 +3726,23 @@ class ProposalSummary {
   /// <code>REJECTED</code> - The proposal was rejected with insufficient
   /// <code>YES</code> votes among members according to the
   /// <code>VotingPolicy</code> specified for the <code>Network</code>. The
-  /// specified <code>ProposalActions</code> are not carried out.
+  /// specified <code>ProposalActions</code> aren't carried out.
   /// </li>
   /// <li>
-  /// <code>EXPIRED</code> - Members did not cast the number of votes required to
+  /// <code>EXPIRED</code> - Members didn't cast the number of votes required to
   /// determine the proposal outcome before the proposal expired. The specified
-  /// <code>ProposalActions</code> are not carried out.
+  /// <code>ProposalActions</code> aren't carried out.
   /// </li>
   /// <li>
   /// <code>ACTION_FAILED</code> - One or more of the specified
-  /// <code>ProposalActions</code> in a proposal that was approved could not be
+  /// <code>ProposalActions</code> in a proposal that was approved couldn't be
   /// completed because of an error.
   /// </li>
   /// </ul>
   final ProposalStatus? status;
 
   ProposalSummary({
+    this.arn,
     this.creationDate,
     this.description,
     this.expirationDate,
@@ -2820,8 +3751,10 @@ class ProposalSummary {
     this.proposedByMemberName,
     this.status,
   });
+
   factory ProposalSummary.fromJson(Map<String, dynamic> json) {
     return ProposalSummary(
+      arn: json['Arn'] as String?,
       creationDate: timeStampFromJson(json['CreationDate']),
       description: json['Description'] as String?,
       expirationDate: timeStampFromJson(json['ExpirationDate']),
@@ -2835,6 +3768,7 @@ class ProposalSummary {
 
 class RejectInvitationOutput {
   RejectInvitationOutput();
+
   factory RejectInvitationOutput.fromJson(Map<String, dynamic> _) {
     return RejectInvitationOutput();
   }
@@ -2852,6 +3786,7 @@ class RemoveAction {
   RemoveAction({
     required this.memberId,
   });
+
   factory RemoveAction.fromJson(Map<String, dynamic> json) {
     return RemoveAction(
       memberId: json['MemberId'] as String,
@@ -2894,6 +3829,14 @@ extension StateDBTypeFromString on String {
   }
 }
 
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+}
+
 enum ThresholdComparator {
   greaterThan,
   greaterThanOrEqualTo,
@@ -2922,8 +3865,17 @@ extension ThresholdComparatorFromString on String {
   }
 }
 
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+}
+
 class UpdateMemberOutput {
   UpdateMemberOutput();
+
   factory UpdateMemberOutput.fromJson(Map<String, dynamic> _) {
     return UpdateMemberOutput();
   }
@@ -2931,6 +3883,7 @@ class UpdateMemberOutput {
 
 class UpdateNodeOutput {
   UpdateNodeOutput();
+
   factory UpdateNodeOutput.fromJson(Map<String, dynamic> _) {
     return UpdateNodeOutput();
   }
@@ -2938,6 +3891,7 @@ class UpdateNodeOutput {
 
 class VoteOnProposalOutput {
   VoteOnProposalOutput();
+
   factory VoteOnProposalOutput.fromJson(Map<String, dynamic> _) {
     return VoteOnProposalOutput();
   }
@@ -2961,6 +3915,7 @@ class VoteSummary {
     this.memberName,
     this.vote,
   });
+
   factory VoteSummary.fromJson(Map<String, dynamic> json) {
     return VoteSummary(
       memberId: json['MemberId'] as String?,
@@ -3011,6 +3966,7 @@ class VotingPolicy {
   VotingPolicy({
     this.approvalThresholdPolicy,
   });
+
   factory VotingPolicy.fromJson(Map<String, dynamic> json) {
     return VotingPolicy(
       approvalThresholdPolicy: json['ApprovalThresholdPolicy'] != null
@@ -3083,6 +4039,11 @@ class ThrottlingException extends _s.GenericAwsException {
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+class TooManyTagsException extends _s.GenericAwsException {
+  TooManyTagsException({String? type, String? message})
+      : super(type: type, code: 'TooManyTagsException', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'AccessDeniedException': (type, message) =>
       AccessDeniedException(type: type, message: message),
@@ -3102,4 +4063,6 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceNotReadyException(type: type, message: message),
   'ThrottlingException': (type, message) =>
       ThrottlingException(type: type, message: message),
+  'TooManyTagsException': (type, message) =>
+      TooManyTagsException(type: type, message: message),
 };

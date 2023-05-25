@@ -8,52 +8,65 @@ following resources:
 
 <ul>
 <li>
-Amazon ECS services
-</li>
-<li>
-Amazon EC2 Spot Fleet requests
-</li>
-<li>
-Amazon EMR clusters
-</li>
-<li>
 Amazon AppStream 2.0 fleets
-</li>
-<li>
-Amazon DynamoDB tables and global secondary indexes throughput capacity
 </li>
 <li>
 Amazon Aurora Replicas
 </li>
 <li>
-Amazon SageMaker endpoint variants
-</li>
-<li>
-Custom resources provided by your own applications or services
-</li>
-<li>
 Amazon Comprehend document classification and entity recognizer endpoints
 </li>
 <li>
-AWS Lambda function provisioned concurrency
+Amazon DynamoDB tables and global secondary indexes throughput capacity
+</li>
+<li>
+Amazon ECS services
+</li>
+<li>
+Amazon ElastiCache for Redis clusters (replication groups)
+</li>
+<li>
+Amazon EMR clusters
 </li>
 <li>
 Amazon Keyspaces (for Apache Cassandra) tables
 </li>
 <li>
-Amazon Managed Streaming for Apache Kafka cluster storage
+Lambda function provisioned concurrency
+</li>
+<li>
+Amazon Managed Streaming for Apache Kafka broker storage
+</li>
+<li>
+Amazon Neptune clusters
+</li>
+<li>
+Amazon SageMaker Serverless endpoint provisioned concurrency
+</li>
+<li>
+Amazon SageMaker endpoint variants
+</li>
+<li>
+Spot Fleets (Amazon EC2)
+</li>
+<li>
+Custom resources provided by your own applications or services
 </li>
 </ul>
+To learn more about Application Auto Scaling, see the <a
+href="https://docs.aws.amazon.com/autoscaling/application/userguide/what-is-application-auto-scaling.html">Application
+Auto Scaling User Guide</a>.
+
 <b>API Summary</b>
 
 The Application Auto Scaling service API includes three key sets of actions:
 
 <ul>
 <li>
-Register and manage scalable targets - Register AWS or custom resources as
-scalable targets (a resource that Application Auto Scaling can scale), set
-minimum and maximum capacity limits, and retrieve information on existing
-scalable targets.
+Register and manage scalable targets - Register Amazon Web Services or
+custom resources as scalable targets (a resource that Application Auto
+Scaling can scale), set minimum and maximum capacity limits, and retrieve
+information on existing scalable targets.
 </li>
 <li>
 Configure and manage automatic scaling - Define scaling policies to
@@ -71,11 +84,6 @@ triggered by a scaling policy, scale-in activities that are triggered by a
 scaling policy, and scheduled scaling.
 </li>
 </ul>
-To learn more about Application Auto Scaling, including information about
-granting IAM users required permissions for Application Auto Scaling
-actions, see the <a
-href="https://docs.aws.amazon.com/autoscaling/application/userguide/what-is-application-auto-scaling.html">Application
-Auto Scaling User Guide</a>.
 
 ## Links
 

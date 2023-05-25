@@ -2,8 +2,7 @@
 
 **Generated Dart library from API specification**
 
-*About the service:*
-This guide describes the API operations for the resource groups tagging.
+
 
 ## Links
 

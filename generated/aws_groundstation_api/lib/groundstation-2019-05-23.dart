@@ -127,14 +127,46 @@ class GroundStation {
   /// Parameter [endpointDetails] :
   /// Endpoint details of each endpoint in the dataflow endpoint group.
   ///
+  /// Parameter [contactPostPassDurationSeconds] :
+  /// Amount of time, in seconds, after a contact ends that the Ground Station
+  /// Dataflow Endpoint Group will be in a <code>POSTPASS</code> state. A Ground
+  /// Station Dataflow Endpoint Group State Change event will be emitted when
+  /// the Dataflow Endpoint Group enters and exits the <code>POSTPASS</code>
+  /// state.
+  ///
+  /// Parameter [contactPrePassDurationSeconds] :
+  /// Amount of time, in seconds, before a contact starts that the Ground
+  /// Station Dataflow Endpoint Group will be in a <code>PREPASS</code> state. A
+  /// Ground Station Dataflow Endpoint Group State Change event will be emitted
+  /// when the Dataflow Endpoint Group enters and exits the <code>PREPASS</code>
+  /// state.
+  ///
   /// Parameter [tags] :
   /// Tags of a dataflow endpoint group.
   Future<DataflowEndpointGroupIdResponse> createDataflowEndpointGroup({
     required List<EndpointDetails> endpointDetails,
+    int? contactPostPassDurationSeconds,
+    int? contactPrePassDurationSeconds,
     Map<String, String>? tags,
   }) async {
+    _s.validateNumRange(
+      'contactPostPassDurationSeconds',
+      contactPostPassDurationSeconds,
+      120,
+      480,
+    );
+    _s.validateNumRange(
+      'contactPrePassDurationSeconds',
+      contactPrePassDurationSeconds,
+      120,
+      480,
+    );
     final $payload = <String, dynamic>{
       'endpointDetails': endpointDetails,
+      if (contactPostPassDurationSeconds != null)
+        'contactPostPassDurationSeconds': contactPostPassDurationSeconds,
+      if (contactPrePassDurationSeconds != null)
+        'contactPrePassDurationSeconds': contactPrePassDurationSeconds,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -144,6 +176,83 @@ class GroundStation {
       exceptionFnMap: _exceptionFns,
     );
     return DataflowEndpointGroupIdResponse.fromJson(response);
+  }
+
+  /// Creates an Ephemeris with the specified <code>EphemerisData</code>.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [DependencyException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [name] :
+  /// A name string associated with the ephemeris. Used as a human-readable
+  /// identifier for the ephemeris.
+  ///
+  /// Parameter [satelliteId] :
+  /// AWS Ground Station satellite ID for this ephemeris.
+  ///
+  /// Parameter [enabled] :
+  /// Whether to set the ephemeris status to <code>ENABLED</code> after
+  /// validation.
+  ///
+  /// Setting this to false will set the ephemeris status to
+  /// <code>DISABLED</code> after validation.
+  ///
+  /// Parameter [ephemeris] :
+  /// Ephemeris data.
+  ///
+  /// Parameter [expirationTime] :
+  /// An overall expiration time for the ephemeris in UTC, after which it will
+  /// become <code>EXPIRED</code>.
+  ///
+  /// Parameter [kmsKeyArn] :
+  /// The ARN of a KMS key used to encrypt the ephemeris in Ground Station.
+  ///
+  /// Parameter [priority] :
+  /// Customer-provided priority score to establish the order in which
+  /// overlapping ephemerides should be used.
+  ///
+  /// The default for customer-provided ephemeris priority is 1, and higher
+  /// numbers take precedence.
+  ///
+  /// Priority must be 1 or greater
+  ///
+  /// Parameter [tags] :
+  /// Tags assigned to an ephemeris.
+  Future<EphemerisIdResponse> createEphemeris({
+    required String name,
+    required String satelliteId,
+    bool? enabled,
+    EphemerisData? ephemeris,
+    DateTime? expirationTime,
+    String? kmsKeyArn,
+    int? priority,
+    Map<String, String>? tags,
+  }) async {
+    _s.validateNumRange(
+      'priority',
+      priority,
+      1,
+      99999,
+    );
+    final $payload = <String, dynamic>{
+      'name': name,
+      'satelliteId': satelliteId,
+      if (enabled != null) 'enabled': enabled,
+      if (ephemeris != null) 'ephemeris': ephemeris,
+      if (expirationTime != null)
+        'expirationTime': unixTimestampToJson(expirationTime),
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+      if (priority != null) 'priority': priority,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ephemeris',
+      exceptionFnMap: _exceptionFns,
+    );
+    return EphemerisIdResponse.fromJson(response);
   }
 
   /// Creates a mission profile.
@@ -178,6 +287,12 @@ class GroundStation {
   /// Amount of time prior to contact start you’d like to receive a CloudWatch
   /// event indicating an upcoming pass.
   ///
+  /// Parameter [streamsKmsKey] :
+  /// KMS key to use for encrypting streams.
+  ///
+  /// Parameter [streamsKmsRole] :
+  /// Role to use for encrypting streams with KMS key.
+  ///
   /// Parameter [tags] :
   /// Tags assigned to a mission profile.
   Future<MissionProfileIdResponse> createMissionProfile({
@@ -187,6 +302,8 @@ class GroundStation {
     required String trackingConfigArn,
     int? contactPostPassDurationSeconds,
     int? contactPrePassDurationSeconds,
+    KmsKey? streamsKmsKey,
+    String? streamsKmsRole,
     Map<String, String>? tags,
   }) async {
     _s.validateNumRange(
@@ -199,13 +316,13 @@ class GroundStation {
     _s.validateNumRange(
       'contactPostPassDurationSeconds',
       contactPostPassDurationSeconds,
-      1,
+      0,
       21600,
     );
     _s.validateNumRange(
       'contactPrePassDurationSeconds',
       contactPrePassDurationSeconds,
-      1,
+      0,
       21600,
     );
     final $payload = <String, dynamic>{
@@ -218,6 +335,8 @@ class GroundStation {
         'contactPostPassDurationSeconds': contactPostPassDurationSeconds,
       if (contactPrePassDurationSeconds != null)
         'contactPrePassDurationSeconds': contactPrePassDurationSeconds,
+      if (streamsKmsKey != null) 'streamsKmsKey': streamsKmsKey,
+      if (streamsKmsRole != null) 'streamsKmsRole': streamsKmsRole,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -275,6 +394,26 @@ class GroundStation {
     return DataflowEndpointGroupIdResponse.fromJson(response);
   }
 
+  /// Deletes an ephemeris
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [DependencyException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [ephemerisId] :
+  /// The AWS Ground Station ephemeris ID.
+  Future<EphemerisIdResponse> deleteEphemeris({
+    required String ephemerisId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/ephemeris/${Uri.encodeComponent(ephemerisId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return EphemerisIdResponse.fromJson(response);
+  }
+
   /// Deletes a mission profile.
   ///
   /// May throw [InvalidParameterException].
@@ -313,6 +452,49 @@ class GroundStation {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeContactResponse.fromJson(response);
+  }
+
+  /// Describes an existing ephemeris.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [DependencyException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [ephemerisId] :
+  /// The AWS Ground Station ephemeris ID.
+  Future<DescribeEphemerisResponse> describeEphemeris({
+    required String ephemerisId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/ephemeris/${Uri.encodeComponent(ephemerisId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeEphemerisResponse.fromJson(response);
+  }
+
+  /// <note>
+  /// For use by AWS Ground Station Agent and shouldn't be called directly.
+  /// </note>
+  /// Gets the latest configuration information for a registered agent.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [DependencyException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [agentId] :
+  /// UUID of agent to get configuration information for.
+  Future<GetAgentConfigurationResponse> getAgentConfiguration({
+    required String agentId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/agent/${Uri.encodeComponent(agentId)}/configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAgentConfigurationResponse.fromJson(response);
   }
 
   /// Returns <code>Config</code> information.
@@ -378,6 +560,20 @@ class GroundStation {
     required int month,
     required int year,
   }) async {
+    _s.validateNumRange(
+      'month',
+      month,
+      1,
+      12,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'year',
+      year,
+      2018,
+      3000,
+      isRequired: true,
+    );
     final $payload = <String, dynamic>{
       'month': month,
       'year': year,
@@ -447,6 +643,12 @@ class GroundStation {
     int? maxResults,
     String? nextToken,
   }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -472,10 +674,10 @@ class GroundStation {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [endTime] :
-  /// End time of a contact.
+  /// End time of a contact in UTC.
   ///
   /// Parameter [startTime] :
-  /// Start time of a contact.
+  /// Start time of a contact in UTC.
   ///
   /// Parameter [statusList] :
   /// Status of a contact reservation.
@@ -505,6 +707,12 @@ class GroundStation {
     String? nextToken,
     String? satelliteArn,
   }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
     final $payload = <String, dynamic>{
       'endTime': unixTimestampToJson(endTime),
       'startTime': unixTimestampToJson(startTime),
@@ -541,6 +749,12 @@ class GroundStation {
     int? maxResults,
     String? nextToken,
   }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -553,6 +767,68 @@ class GroundStation {
       exceptionFnMap: _exceptionFns,
     );
     return ListDataflowEndpointGroupsResponse.fromJson(response);
+  }
+
+  /// List existing ephemerides.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [DependencyException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [endTime] :
+  /// The end time to list in UTC. The operation will return an ephemeris if its
+  /// expiration time is within the time range defined by the
+  /// <code>startTime</code> and <code>endTime</code>.
+  ///
+  /// Parameter [satelliteId] :
+  /// The AWS Ground Station satellite ID to list ephemeris for.
+  ///
+  /// Parameter [startTime] :
+  /// The start time to list in UTC. The operation will return an ephemeris if
+  /// its expiration time is within the time range defined by the
+  /// <code>startTime</code> and <code>endTime</code>.
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of ephemerides to return.
+  ///
+  /// Parameter [nextToken] :
+  /// Pagination token.
+  ///
+  /// Parameter [statusList] :
+  /// The list of ephemeris status to return.
+  Future<ListEphemeridesResponse> listEphemerides({
+    required DateTime endTime,
+    required String satelliteId,
+    required DateTime startTime,
+    int? maxResults,
+    String? nextToken,
+    List<EphemerisStatus>? statusList,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final $payload = <String, dynamic>{
+      'endTime': unixTimestampToJson(endTime),
+      'satelliteId': satelliteId,
+      'startTime': unixTimestampToJson(startTime),
+      if (statusList != null)
+        'statusList': statusList.map((e) => e.toValue()).toList(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ephemerides',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListEphemeridesResponse.fromJson(response);
   }
 
   /// Returns a list of ground stations.
@@ -575,6 +851,12 @@ class GroundStation {
     String? nextToken,
     String? satelliteId,
   }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -607,6 +889,12 @@ class GroundStation {
     int? maxResults,
     String? nextToken,
   }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -637,6 +925,12 @@ class GroundStation {
     int? maxResults,
     String? nextToken,
   }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -671,6 +965,37 @@ class GroundStation {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
+  /// <note>
+  /// For use by AWS Ground Station Agent and shouldn't be called directly.
+  /// </note>
+  /// Registers a new agent with AWS Ground Station.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [DependencyException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [agentDetails] :
+  /// Detailed information about the agent being registered.
+  ///
+  /// Parameter [discoveryData] :
+  /// Data for associating an agent with the capabilities it is managing.
+  Future<RegisterAgentResponse> registerAgent({
+    required AgentDetails agentDetails,
+    required DiscoveryData discoveryData,
+  }) async {
+    final $payload = <String, dynamic>{
+      'agentDetails': agentDetails,
+      'discoveryData': discoveryData,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/agent',
+      exceptionFnMap: _exceptionFns,
+    );
+    return RegisterAgentResponse.fromJson(response);
+  }
+
   /// Reserves a contact using specified parameters.
   ///
   /// May throw [InvalidParameterException].
@@ -678,7 +1003,7 @@ class GroundStation {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [endTime] :
-  /// End time of a contact.
+  /// End time of a contact in UTC.
   ///
   /// Parameter [groundStation] :
   /// Name of a ground station.
@@ -690,7 +1015,7 @@ class GroundStation {
   /// ARN of a satellite
   ///
   /// Parameter [startTime] :
-  /// Start time of a contact.
+  /// Start time of a contact in UTC.
   ///
   /// Parameter [tags] :
   /// Tags assigned to a contact.
@@ -772,6 +1097,46 @@ class GroundStation {
     );
   }
 
+  /// <note>
+  /// For use by AWS Ground Station Agent and shouldn't be called directly.
+  /// </note>
+  /// Update the status of the agent.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [DependencyException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [agentId] :
+  /// UUID of agent to update.
+  ///
+  /// Parameter [aggregateStatus] :
+  /// Aggregate status for agent.
+  ///
+  /// Parameter [componentStatuses] :
+  /// List of component statuses for agent.
+  ///
+  /// Parameter [taskId] :
+  /// GUID of agent task.
+  Future<UpdateAgentStatusResponse> updateAgentStatus({
+    required String agentId,
+    required AggregateStatus aggregateStatus,
+    required List<ComponentStatusData> componentStatuses,
+    required String taskId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'aggregateStatus': aggregateStatus,
+      'componentStatuses': componentStatuses,
+      'taskId': taskId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/agent/${Uri.encodeComponent(agentId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateAgentStatusResponse.fromJson(response);
+  }
+
   /// Updates the <code>Config</code> used when scheduling contacts.
   ///
   /// Updating a <code>Config</code> will not update the execution parameters
@@ -812,6 +1177,57 @@ class GroundStation {
     return ConfigIdResponse.fromJson(response);
   }
 
+  /// Updates an existing ephemeris
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [DependencyException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [enabled] :
+  /// Whether the ephemeris is enabled or not. Changing this value will not
+  /// require the ephemeris to be re-validated.
+  ///
+  /// Parameter [ephemerisId] :
+  /// The AWS Ground Station ephemeris ID.
+  ///
+  /// Parameter [name] :
+  /// A name string associated with the ephemeris. Used as a human-readable
+  /// identifier for the ephemeris.
+  ///
+  /// Parameter [priority] :
+  /// Customer-provided priority score to establish the order in which
+  /// overlapping ephemerides should be used.
+  ///
+  /// The default for customer-provided ephemeris priority is 1, and higher
+  /// numbers take precedence.
+  ///
+  /// Priority must be 1 or greater
+  Future<EphemerisIdResponse> updateEphemeris({
+    required bool enabled,
+    required String ephemerisId,
+    String? name,
+    int? priority,
+  }) async {
+    _s.validateNumRange(
+      'priority',
+      priority,
+      0,
+      99999,
+    );
+    final $payload = <String, dynamic>{
+      'enabled': enabled,
+      if (name != null) 'name': name,
+      if (priority != null) 'priority': priority,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/ephemeris/${Uri.encodeComponent(ephemerisId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return EphemerisIdResponse.fromJson(response);
+  }
+
   /// Updates a mission profile.
   ///
   /// Updating a mission profile will not update the execution parameters for
@@ -844,6 +1260,12 @@ class GroundStation {
   /// Parameter [name] :
   /// Name of a mission profile.
   ///
+  /// Parameter [streamsKmsKey] :
+  /// KMS key to use for encrypting streams.
+  ///
+  /// Parameter [streamsKmsRole] :
+  /// Role to use for encrypting streams with KMS key.
+  ///
   /// Parameter [trackingConfigArn] :
   /// ARN of a tracking <code>Config</code>.
   Future<MissionProfileIdResponse> updateMissionProfile({
@@ -853,18 +1275,20 @@ class GroundStation {
     List<List<String>>? dataflowEdges,
     int? minimumViableContactDurationSeconds,
     String? name,
+    KmsKey? streamsKmsKey,
+    String? streamsKmsRole,
     String? trackingConfigArn,
   }) async {
     _s.validateNumRange(
       'contactPostPassDurationSeconds',
       contactPostPassDurationSeconds,
-      1,
+      0,
       21600,
     );
     _s.validateNumRange(
       'contactPrePassDurationSeconds',
       contactPrePassDurationSeconds,
-      1,
+      0,
       21600,
     );
     _s.validateNumRange(
@@ -883,6 +1307,8 @@ class GroundStation {
         'minimumViableContactDurationSeconds':
             minimumViableContactDurationSeconds,
       if (name != null) 'name': name,
+      if (streamsKmsKey != null) 'streamsKmsKey': streamsKmsKey,
+      if (streamsKmsRole != null) 'streamsKmsRole': streamsKmsRole,
       if (trackingConfigArn != null) 'trackingConfigArn': trackingConfigArn,
     };
     final response = await _protocol.send(
@@ -892,6 +1318,116 @@ class GroundStation {
       exceptionFnMap: _exceptionFns,
     );
     return MissionProfileIdResponse.fromJson(response);
+  }
+}
+
+/// Detailed information about the agent.
+class AgentDetails {
+  /// Current agent version.
+  final String agentVersion;
+
+  /// List of versions being used by agent components.
+  final List<ComponentVersion> componentVersions;
+
+  /// ID of EC2 instance agent is running on.
+  final String instanceId;
+
+  /// Type of EC2 instance agent is running on.
+  final String instanceType;
+
+  /// List of CPU cores reserved for the agent.
+  final List<int>? agentCpuCores;
+
+  /// <note>
+  /// This field should not be used. Use agentCpuCores instead.
+  /// </note>
+  /// List of CPU cores reserved for processes other than the agent running on the
+  /// EC2 instance.
+  final List<int>? reservedCpuCores;
+
+  AgentDetails({
+    required this.agentVersion,
+    required this.componentVersions,
+    required this.instanceId,
+    required this.instanceType,
+    this.agentCpuCores,
+    this.reservedCpuCores,
+  });
+  Map<String, dynamic> toJson() {
+    final agentVersion = this.agentVersion;
+    final componentVersions = this.componentVersions;
+    final instanceId = this.instanceId;
+    final instanceType = this.instanceType;
+    final agentCpuCores = this.agentCpuCores;
+    final reservedCpuCores = this.reservedCpuCores;
+    return {
+      'agentVersion': agentVersion,
+      'componentVersions': componentVersions,
+      'instanceId': instanceId,
+      'instanceType': instanceType,
+      if (agentCpuCores != null) 'agentCpuCores': agentCpuCores,
+      if (reservedCpuCores != null) 'reservedCpuCores': reservedCpuCores,
+    };
+  }
+}
+
+enum AgentStatus {
+  success,
+  failed,
+  active,
+  inactive,
+}
+
+extension AgentStatusValueExtension on AgentStatus {
+  String toValue() {
+    switch (this) {
+      case AgentStatus.success:
+        return 'SUCCESS';
+      case AgentStatus.failed:
+        return 'FAILED';
+      case AgentStatus.active:
+        return 'ACTIVE';
+      case AgentStatus.inactive:
+        return 'INACTIVE';
+    }
+  }
+}
+
+extension AgentStatusFromString on String {
+  AgentStatus toAgentStatus() {
+    switch (this) {
+      case 'SUCCESS':
+        return AgentStatus.success;
+      case 'FAILED':
+        return AgentStatus.failed;
+      case 'ACTIVE':
+        return AgentStatus.active;
+      case 'INACTIVE':
+        return AgentStatus.inactive;
+    }
+    throw Exception('$this is not known in enum AgentStatus');
+  }
+}
+
+/// Aggregate status of Agent components.
+class AggregateStatus {
+  /// Aggregate status.
+  final AgentStatus status;
+
+  /// Sparse map of failure signatures.
+  final Map<String, bool>? signatureMap;
+
+  AggregateStatus({
+    required this.status,
+    this.signatureMap,
+  });
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final signatureMap = this.signatureMap;
+    return {
+      'status': status.toValue(),
+      if (signatureMap != null) 'signatureMap': signatureMap,
+    };
   }
 }
 
@@ -931,6 +1467,7 @@ class AntennaDemodDecodeDetails {
   AntennaDemodDecodeDetails({
     this.outputNode,
   });
+
   factory AntennaDemodDecodeDetails.fromJson(Map<String, dynamic> json) {
     return AntennaDemodDecodeDetails(
       outputNode: json['outputNode'] as String?,
@@ -947,6 +1484,7 @@ class AntennaDownlinkConfig {
   AntennaDownlinkConfig({
     required this.spectrumConfig,
   });
+
   factory AntennaDownlinkConfig.fromJson(Map<String, dynamic> json) {
     return AntennaDownlinkConfig(
       spectrumConfig: SpectrumConfig.fromJson(
@@ -979,6 +1517,7 @@ class AntennaDownlinkDemodDecodeConfig {
     required this.demodulationConfig,
     required this.spectrumConfig,
   });
+
   factory AntennaDownlinkDemodDecodeConfig.fromJson(Map<String, dynamic> json) {
     return AntennaDownlinkDemodDecodeConfig(
       decodeConfig:
@@ -1018,6 +1557,7 @@ class AntennaUplinkConfig {
     required this.targetEirp,
     this.transmitDisabled,
   });
+
   factory AntennaUplinkConfig.fromJson(Map<String, dynamic> json) {
     return AntennaUplinkConfig(
       spectrumConfig: UplinkSpectrumConfig.fromJson(
@@ -1035,6 +1575,88 @@ class AntennaUplinkConfig {
       'spectrumConfig': spectrumConfig,
       'targetEirp': targetEirp,
       if (transmitDisabled != null) 'transmitDisabled': transmitDisabled,
+    };
+  }
+}
+
+enum AuditResults {
+  healthy,
+  unhealthy,
+}
+
+extension AuditResultsValueExtension on AuditResults {
+  String toValue() {
+    switch (this) {
+      case AuditResults.healthy:
+        return 'HEALTHY';
+      case AuditResults.unhealthy:
+        return 'UNHEALTHY';
+    }
+  }
+}
+
+extension AuditResultsFromString on String {
+  AuditResults toAuditResults() {
+    switch (this) {
+      case 'HEALTHY':
+        return AuditResults.healthy;
+      case 'UNHEALTHY':
+        return AuditResults.unhealthy;
+    }
+    throw Exception('$this is not known in enum AuditResults');
+  }
+}
+
+/// Information about AwsGroundStationAgentEndpoint.
+class AwsGroundStationAgentEndpoint {
+  /// The egress address of AgentEndpoint.
+  final ConnectionDetails egressAddress;
+
+  /// The ingress address of AgentEndpoint.
+  final RangedConnectionDetails ingressAddress;
+
+  /// Name string associated with AgentEndpoint. Used as a human-readable
+  /// identifier for AgentEndpoint.
+  final String name;
+
+  /// The status of AgentEndpoint.
+  final AgentStatus? agentStatus;
+
+  /// The results of the audit.
+  final AuditResults? auditResults;
+
+  AwsGroundStationAgentEndpoint({
+    required this.egressAddress,
+    required this.ingressAddress,
+    required this.name,
+    this.agentStatus,
+    this.auditResults,
+  });
+
+  factory AwsGroundStationAgentEndpoint.fromJson(Map<String, dynamic> json) {
+    return AwsGroundStationAgentEndpoint(
+      egressAddress: ConnectionDetails.fromJson(
+          json['egressAddress'] as Map<String, dynamic>),
+      ingressAddress: RangedConnectionDetails.fromJson(
+          json['ingressAddress'] as Map<String, dynamic>),
+      name: json['name'] as String,
+      agentStatus: (json['agentStatus'] as String?)?.toAgentStatus(),
+      auditResults: (json['auditResults'] as String?)?.toAuditResults(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final egressAddress = this.egressAddress;
+    final ingressAddress = this.ingressAddress;
+    final name = this.name;
+    final agentStatus = this.agentStatus;
+    final auditResults = this.auditResults;
+    return {
+      'egressAddress': egressAddress,
+      'ingressAddress': ingressAddress,
+      'name': name,
+      if (agentStatus != null) 'agentStatus': agentStatus.toValue(),
+      if (auditResults != null) 'auditResults': auditResults.toValue(),
     };
   }
 }
@@ -1072,6 +1694,161 @@ extension BandwidthUnitsFromString on String {
   }
 }
 
+enum CapabilityHealth {
+  unhealthy,
+  healthy,
+}
+
+extension CapabilityHealthValueExtension on CapabilityHealth {
+  String toValue() {
+    switch (this) {
+      case CapabilityHealth.unhealthy:
+        return 'UNHEALTHY';
+      case CapabilityHealth.healthy:
+        return 'HEALTHY';
+    }
+  }
+}
+
+extension CapabilityHealthFromString on String {
+  CapabilityHealth toCapabilityHealth() {
+    switch (this) {
+      case 'UNHEALTHY':
+        return CapabilityHealth.unhealthy;
+      case 'HEALTHY':
+        return CapabilityHealth.healthy;
+    }
+    throw Exception('$this is not known in enum CapabilityHealth');
+  }
+}
+
+enum CapabilityHealthReason {
+  noRegisteredAgent,
+  invalidIpOwnership,
+  notAuthorizedToCreateSlr,
+  unverifiedIpOwnership,
+  initializingDataplane,
+  dataplaneFailure,
+  healthy,
+}
+
+extension CapabilityHealthReasonValueExtension on CapabilityHealthReason {
+  String toValue() {
+    switch (this) {
+      case CapabilityHealthReason.noRegisteredAgent:
+        return 'NO_REGISTERED_AGENT';
+      case CapabilityHealthReason.invalidIpOwnership:
+        return 'INVALID_IP_OWNERSHIP';
+      case CapabilityHealthReason.notAuthorizedToCreateSlr:
+        return 'NOT_AUTHORIZED_TO_CREATE_SLR';
+      case CapabilityHealthReason.unverifiedIpOwnership:
+        return 'UNVERIFIED_IP_OWNERSHIP';
+      case CapabilityHealthReason.initializingDataplane:
+        return 'INITIALIZING_DATAPLANE';
+      case CapabilityHealthReason.dataplaneFailure:
+        return 'DATAPLANE_FAILURE';
+      case CapabilityHealthReason.healthy:
+        return 'HEALTHY';
+    }
+  }
+}
+
+extension CapabilityHealthReasonFromString on String {
+  CapabilityHealthReason toCapabilityHealthReason() {
+    switch (this) {
+      case 'NO_REGISTERED_AGENT':
+        return CapabilityHealthReason.noRegisteredAgent;
+      case 'INVALID_IP_OWNERSHIP':
+        return CapabilityHealthReason.invalidIpOwnership;
+      case 'NOT_AUTHORIZED_TO_CREATE_SLR':
+        return CapabilityHealthReason.notAuthorizedToCreateSlr;
+      case 'UNVERIFIED_IP_OWNERSHIP':
+        return CapabilityHealthReason.unverifiedIpOwnership;
+      case 'INITIALIZING_DATAPLANE':
+        return CapabilityHealthReason.initializingDataplane;
+      case 'DATAPLANE_FAILURE':
+        return CapabilityHealthReason.dataplaneFailure;
+      case 'HEALTHY':
+        return CapabilityHealthReason.healthy;
+    }
+    throw Exception('$this is not known in enum CapabilityHealthReason');
+  }
+}
+
+/// Data on the status of agent components.
+class ComponentStatusData {
+  /// Capability ARN of the component.
+  final String capabilityArn;
+
+  /// The Component type.
+  final String componentType;
+
+  /// Dataflow UUID associated with the component.
+  final String dataflowId;
+
+  /// Component status.
+  final AgentStatus status;
+
+  /// Bytes received by the component.
+  final int? bytesReceived;
+
+  /// Bytes sent by the component.
+  final int? bytesSent;
+
+  /// Packets dropped by component.
+  final int? packetsDropped;
+
+  ComponentStatusData({
+    required this.capabilityArn,
+    required this.componentType,
+    required this.dataflowId,
+    required this.status,
+    this.bytesReceived,
+    this.bytesSent,
+    this.packetsDropped,
+  });
+  Map<String, dynamic> toJson() {
+    final capabilityArn = this.capabilityArn;
+    final componentType = this.componentType;
+    final dataflowId = this.dataflowId;
+    final status = this.status;
+    final bytesReceived = this.bytesReceived;
+    final bytesSent = this.bytesSent;
+    final packetsDropped = this.packetsDropped;
+    return {
+      'capabilityArn': capabilityArn,
+      'componentType': componentType,
+      'dataflowId': dataflowId,
+      'status': status.toValue(),
+      if (bytesReceived != null) 'bytesReceived': bytesReceived,
+      if (bytesSent != null) 'bytesSent': bytesSent,
+      if (packetsDropped != null) 'packetsDropped': packetsDropped,
+    };
+  }
+}
+
+/// Version information for agent components.
+class ComponentVersion {
+  /// Component type.
+  final String componentType;
+
+  /// List of versions.
+  final List<String> versions;
+
+  ComponentVersion({
+    required this.componentType,
+    required this.versions,
+  });
+  Map<String, dynamic> toJson() {
+    final componentType = this.componentType;
+    final versions = this.versions;
+    return {
+      'componentType': componentType,
+      'versions': versions,
+    };
+  }
+}
+
 enum ConfigCapabilityType {
   antennaDownlink,
   antennaDownlinkDemodDecode,
@@ -1079,6 +1856,7 @@ enum ConfigCapabilityType {
   dataflowEndpoint,
   tracking,
   uplinkEcho,
+  s3Recording,
 }
 
 extension ConfigCapabilityTypeValueExtension on ConfigCapabilityType {
@@ -1096,6 +1874,8 @@ extension ConfigCapabilityTypeValueExtension on ConfigCapabilityType {
         return 'tracking';
       case ConfigCapabilityType.uplinkEcho:
         return 'uplink-echo';
+      case ConfigCapabilityType.s3Recording:
+        return 's3-recording';
     }
   }
 }
@@ -1115,6 +1895,8 @@ extension ConfigCapabilityTypeFromString on String {
         return ConfigCapabilityType.tracking;
       case 'uplink-echo':
         return ConfigCapabilityType.uplinkEcho;
+      case 's3-recording':
+        return ConfigCapabilityType.s3Recording;
     }
     throw Exception('$this is not known in enum ConfigCapabilityType');
   }
@@ -1126,10 +1908,15 @@ class ConfigDetails {
   final AntennaDemodDecodeDetails? antennaDemodDecodeDetails;
   final EndpointDetails? endpointDetails;
 
+  /// Details for an S3 recording <code>Config</code> in a contact.
+  final S3RecordingDetails? s3RecordingDetails;
+
   ConfigDetails({
     this.antennaDemodDecodeDetails,
     this.endpointDetails,
+    this.s3RecordingDetails,
   });
+
   factory ConfigDetails.fromJson(Map<String, dynamic> json) {
     return ConfigDetails(
       antennaDemodDecodeDetails: json['antennaDemodDecodeDetails'] != null
@@ -1139,6 +1926,10 @@ class ConfigDetails {
       endpointDetails: json['endpointDetails'] != null
           ? EndpointDetails.fromJson(
               json['endpointDetails'] as Map<String, dynamic>)
+          : null,
+      s3RecordingDetails: json['s3RecordingDetails'] != null
+          ? S3RecordingDetails.fromJson(
+              json['s3RecordingDetails'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -1160,6 +1951,7 @@ class ConfigIdResponse {
     this.configId,
     this.configType,
   });
+
   factory ConfigIdResponse.fromJson(Map<String, dynamic> json) {
     return ConfigIdResponse(
       configArn: json['configArn'] as String?,
@@ -1189,6 +1981,7 @@ class ConfigListItem {
     this.configType,
     this.name,
   });
+
   factory ConfigListItem.fromJson(Map<String, dynamic> json) {
     return ConfigListItem(
       configArn: json['configArn'] as String?,
@@ -1219,6 +2012,9 @@ class ConfigTypeData {
   /// Information about the dataflow endpoint <code>Config</code>.
   final DataflowEndpointConfig? dataflowEndpointConfig;
 
+  /// Information about an S3 recording <code>Config</code>.
+  final S3RecordingConfig? s3RecordingConfig;
+
   /// Object that determines whether tracking should be used during a contact
   /// executed with this <code>Config</code> in the mission profile.
   final TrackingConfig? trackingConfig;
@@ -1235,9 +2031,11 @@ class ConfigTypeData {
     this.antennaDownlinkDemodDecodeConfig,
     this.antennaUplinkConfig,
     this.dataflowEndpointConfig,
+    this.s3RecordingConfig,
     this.trackingConfig,
     this.uplinkEchoConfig,
   });
+
   factory ConfigTypeData.fromJson(Map<String, dynamic> json) {
     return ConfigTypeData(
       antennaDownlinkConfig: json['antennaDownlinkConfig'] != null
@@ -1258,6 +2056,10 @@ class ConfigTypeData {
           ? DataflowEndpointConfig.fromJson(
               json['dataflowEndpointConfig'] as Map<String, dynamic>)
           : null,
+      s3RecordingConfig: json['s3RecordingConfig'] != null
+          ? S3RecordingConfig.fromJson(
+              json['s3RecordingConfig'] as Map<String, dynamic>)
+          : null,
       trackingConfig: json['trackingConfig'] != null
           ? TrackingConfig.fromJson(
               json['trackingConfig'] as Map<String, dynamic>)
@@ -1275,6 +2077,7 @@ class ConfigTypeData {
         this.antennaDownlinkDemodDecodeConfig;
     final antennaUplinkConfig = this.antennaUplinkConfig;
     final dataflowEndpointConfig = this.dataflowEndpointConfig;
+    final s3RecordingConfig = this.s3RecordingConfig;
     final trackingConfig = this.trackingConfig;
     final uplinkEchoConfig = this.uplinkEchoConfig;
     return {
@@ -1286,8 +2089,40 @@ class ConfigTypeData {
         'antennaUplinkConfig': antennaUplinkConfig,
       if (dataflowEndpointConfig != null)
         'dataflowEndpointConfig': dataflowEndpointConfig,
+      if (s3RecordingConfig != null) 's3RecordingConfig': s3RecordingConfig,
       if (trackingConfig != null) 'trackingConfig': trackingConfig,
       if (uplinkEchoConfig != null) 'uplinkEchoConfig': uplinkEchoConfig,
+    };
+  }
+}
+
+/// Egress address of AgentEndpoint with an optional mtu.
+class ConnectionDetails {
+  /// A socket address.
+  final SocketAddress socketAddress;
+
+  /// Maximum transmission unit (MTU) size in bytes of a dataflow endpoint.
+  final int? mtu;
+
+  ConnectionDetails({
+    required this.socketAddress,
+    this.mtu,
+  });
+
+  factory ConnectionDetails.fromJson(Map<String, dynamic> json) {
+    return ConnectionDetails(
+      socketAddress:
+          SocketAddress.fromJson(json['socketAddress'] as Map<String, dynamic>),
+      mtu: json['mtu'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final socketAddress = this.socketAddress;
+    final mtu = this.mtu;
+    return {
+      'socketAddress': socketAddress,
+      if (mtu != null) 'mtu': mtu,
     };
   }
 }
@@ -1300,7 +2135,7 @@ class ContactData {
   /// Status of a contact.
   final ContactStatus? contactStatus;
 
-  /// End time of a contact.
+  /// End time of a contact in UTC.
   final DateTime? endTime;
 
   /// Error message of a contact.
@@ -1329,7 +2164,7 @@ class ContactData {
   /// ARN of a satellite.
   final String? satelliteArn;
 
-  /// Start time of a contact.
+  /// Start time of a contact in UTC.
   final DateTime? startTime;
 
   /// Tags assigned to a contact.
@@ -1350,6 +2185,7 @@ class ContactData {
     this.startTime,
     this.tags,
   });
+
   factory ContactData.fromJson(Map<String, dynamic> json) {
     return ContactData(
       contactId: json['contactId'] as String?,
@@ -1380,6 +2216,7 @@ class ContactIdResponse {
   ContactIdResponse({
     this.contactId,
   });
+
   factory ContactIdResponse.fromJson(Map<String, dynamic> json) {
     return ContactIdResponse(
       contactId: json['contactId'] as String?,
@@ -1516,6 +2353,7 @@ class DataflowDetail {
     this.errorMessage,
     this.source,
   });
+
   factory DataflowDetail.fromJson(Map<String, dynamic> json) {
     return DataflowDetail(
       destination: json['destination'] != null
@@ -1549,6 +2387,7 @@ class DataflowEndpoint {
     this.name,
     this.status,
   });
+
   factory DataflowEndpoint.fromJson(Map<String, dynamic> json) {
     return DataflowEndpoint(
       address: json['address'] != null
@@ -1586,6 +2425,7 @@ class DataflowEndpointConfig {
     required this.dataflowEndpointName,
     this.dataflowEndpointRegion,
   });
+
   factory DataflowEndpointConfig.fromJson(Map<String, dynamic> json) {
     return DataflowEndpointConfig(
       dataflowEndpointName: json['dataflowEndpointName'] as String,
@@ -1612,6 +2452,7 @@ class DataflowEndpointGroupIdResponse {
   DataflowEndpointGroupIdResponse({
     this.dataflowEndpointGroupId,
   });
+
   factory DataflowEndpointGroupIdResponse.fromJson(Map<String, dynamic> json) {
     return DataflowEndpointGroupIdResponse(
       dataflowEndpointGroupId: json['dataflowEndpointGroupId'] as String?,
@@ -1631,6 +2472,7 @@ class DataflowEndpointListItem {
     this.dataflowEndpointGroupArn,
     this.dataflowEndpointGroupId,
   });
+
   factory DataflowEndpointListItem.fromJson(Map<String, dynamic> json) {
     return DataflowEndpointListItem(
       dataflowEndpointGroupArn: json['dataflowEndpointGroupArn'] as String?,
@@ -1647,6 +2489,7 @@ class DecodeConfig {
   DecodeConfig({
     required this.unvalidatedJSON,
   });
+
   factory DecodeConfig.fromJson(Map<String, dynamic> json) {
     return DecodeConfig(
       unvalidatedJSON: json['unvalidatedJSON'] as String,
@@ -1669,6 +2512,7 @@ class DemodulationConfig {
   DemodulationConfig({
     required this.unvalidatedJSON,
   });
+
   factory DemodulationConfig.fromJson(Map<String, dynamic> json) {
     return DemodulationConfig(
       unvalidatedJSON: json['unvalidatedJSON'] as String,
@@ -1694,7 +2538,7 @@ class DescribeContactResponse {
   /// List describing source and destination details for each dataflow edge.
   final List<DataflowDetail>? dataflowList;
 
-  /// End time of a contact.
+  /// End time of a contact in UTC.
   final DateTime? endTime;
 
   /// Error message for a contact.
@@ -1723,7 +2567,7 @@ class DescribeContactResponse {
   /// ARN of a satellite.
   final String? satelliteArn;
 
-  /// Start time of a contact.
+  /// Start time of a contact in UTC.
   final DateTime? startTime;
 
   /// Tags assigned to a contact.
@@ -1745,6 +2589,7 @@ class DescribeContactResponse {
     this.startTime,
     this.tags,
   });
+
   factory DescribeContactResponse.fromJson(Map<String, dynamic> json) {
     return DescribeContactResponse(
       contactId: json['contactId'] as String?,
@@ -1765,6 +2610,79 @@ class DescribeContactResponse {
       region: json['region'] as String?,
       satelliteArn: json['satelliteArn'] as String?,
       startTime: timeStampFromJson(json['startTime']),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+}
+
+class DescribeEphemerisResponse {
+  /// The time the ephemeris was uploaded in UTC.
+  final DateTime? creationTime;
+
+  /// Whether or not the ephemeris is enabled.
+  final bool? enabled;
+
+  /// The AWS Ground Station ephemeris ID.
+  final String? ephemerisId;
+
+  /// Reason that an ephemeris failed validation. Only provided for ephemerides
+  /// with <code>INVALID</code> status.
+  final EphemerisInvalidReason? invalidReason;
+
+  /// A name string associated with the ephemeris. Used as a human-readable
+  /// identifier for the ephemeris.
+  final String? name;
+
+  /// Customer-provided priority score to establish the order in which overlapping
+  /// ephemerides should be used.
+  ///
+  /// The default for customer-provided ephemeris priority is 1, and higher
+  /// numbers take precedence.
+  ///
+  /// Priority must be 1 or greater
+  final int? priority;
+
+  /// The AWS Ground Station satellite ID associated with ephemeris.
+  final String? satelliteId;
+
+  /// The status of the ephemeris.
+  final EphemerisStatus? status;
+
+  /// Supplied ephemeris data.
+  final EphemerisTypeDescription? suppliedData;
+
+  /// Tags assigned to an ephemeris.
+  final Map<String, String>? tags;
+
+  DescribeEphemerisResponse({
+    this.creationTime,
+    this.enabled,
+    this.ephemerisId,
+    this.invalidReason,
+    this.name,
+    this.priority,
+    this.satelliteId,
+    this.status,
+    this.suppliedData,
+    this.tags,
+  });
+
+  factory DescribeEphemerisResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEphemerisResponse(
+      creationTime: timeStampFromJson(json['creationTime']),
+      enabled: json['enabled'] as bool?,
+      ephemerisId: json['ephemerisId'] as String?,
+      invalidReason:
+          (json['invalidReason'] as String?)?.toEphemerisInvalidReason(),
+      name: json['name'] as String?,
+      priority: json['priority'] as int?,
+      satelliteId: json['satelliteId'] as String?,
+      status: (json['status'] as String?)?.toEphemerisStatus(),
+      suppliedData: json['suppliedData'] != null
+          ? EphemerisTypeDescription.fromJson(
+              json['suppliedData'] as Map<String, dynamic>)
+          : null,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1792,6 +2710,7 @@ class Destination {
     this.configType,
     this.dataflowDestinationRegion,
   });
+
   factory Destination.fromJson(Map<String, dynamic> json) {
     return Destination(
       configDetails: json['configDetails'] != null
@@ -1802,6 +2721,34 @@ class Destination {
       configType: (json['configType'] as String?)?.toConfigCapabilityType(),
       dataflowDestinationRegion: json['dataflowDestinationRegion'] as String?,
     );
+  }
+}
+
+/// Data for agent discovery.
+class DiscoveryData {
+  /// List of capabilities to associate with agent.
+  final List<String> capabilityArns;
+
+  /// List of private IP addresses to associate with agent.
+  final List<String> privateIpAddresses;
+
+  /// List of public IP addresses to associate with agent.
+  final List<String> publicIpAddresses;
+
+  DiscoveryData({
+    required this.capabilityArns,
+    required this.privateIpAddresses,
+    required this.publicIpAddresses,
+  });
+  Map<String, dynamic> toJson() {
+    final capabilityArns = this.capabilityArns;
+    final privateIpAddresses = this.privateIpAddresses;
+    final publicIpAddresses = this.publicIpAddresses;
+    return {
+      'capabilityArns': capabilityArns,
+      'privateIpAddresses': privateIpAddresses,
+      'publicIpAddresses': publicIpAddresses,
+    };
   }
 }
 
@@ -1817,6 +2764,7 @@ class Eirp {
     required this.units,
     required this.value,
   });
+
   factory Eirp.fromJson(Map<String, dynamic> json) {
     return Eirp(
       units: (json['units'] as String).toEirpUnits(),
@@ -1869,6 +2817,7 @@ class Elevation {
     required this.unit,
     required this.value,
   });
+
   factory Elevation.fromJson(Map<String, dynamic> json) {
     return Elevation(
       unit: (json['unit'] as String).toAngleUnits(),
@@ -1879,21 +2828,47 @@ class Elevation {
 
 /// Information about the endpoint details.
 class EndpointDetails {
+  /// An agent endpoint.
+  final AwsGroundStationAgentEndpoint? awsGroundStationAgentEndpoint;
+
   /// A dataflow endpoint.
   final DataflowEndpoint? endpoint;
 
-  /// Endpoint security details.
+  /// Health reasons for a dataflow endpoint. This field is ignored when calling
+  /// <code>CreateDataflowEndpointGroup</code>.
+  final List<CapabilityHealthReason>? healthReasons;
+
+  /// A dataflow endpoint health status. This field is ignored when calling
+  /// <code>CreateDataflowEndpointGroup</code>.
+  final CapabilityHealth? healthStatus;
+
+  /// Endpoint security details including a list of subnets, a list of security
+  /// groups and a role to connect streams to instances.
   final SecurityDetails? securityDetails;
 
   EndpointDetails({
+    this.awsGroundStationAgentEndpoint,
     this.endpoint,
+    this.healthReasons,
+    this.healthStatus,
     this.securityDetails,
   });
+
   factory EndpointDetails.fromJson(Map<String, dynamic> json) {
     return EndpointDetails(
+      awsGroundStationAgentEndpoint:
+          json['awsGroundStationAgentEndpoint'] != null
+              ? AwsGroundStationAgentEndpoint.fromJson(
+                  json['awsGroundStationAgentEndpoint'] as Map<String, dynamic>)
+              : null,
       endpoint: json['endpoint'] != null
           ? DataflowEndpoint.fromJson(json['endpoint'] as Map<String, dynamic>)
           : null,
+      healthReasons: (json['healthReasons'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toCapabilityHealthReason())
+          .toList(),
+      healthStatus: (json['healthStatus'] as String?)?.toCapabilityHealth(),
       securityDetails: json['securityDetails'] != null
           ? SecurityDetails.fromJson(
               json['securityDetails'] as Map<String, dynamic>)
@@ -1902,10 +2877,18 @@ class EndpointDetails {
   }
 
   Map<String, dynamic> toJson() {
+    final awsGroundStationAgentEndpoint = this.awsGroundStationAgentEndpoint;
     final endpoint = this.endpoint;
+    final healthReasons = this.healthReasons;
+    final healthStatus = this.healthStatus;
     final securityDetails = this.securityDetails;
     return {
+      if (awsGroundStationAgentEndpoint != null)
+        'awsGroundStationAgentEndpoint': awsGroundStationAgentEndpoint,
       if (endpoint != null) 'endpoint': endpoint,
+      if (healthReasons != null)
+        'healthReasons': healthReasons.map((e) => e.toValue()).toList(),
+      if (healthStatus != null) 'healthStatus': healthStatus.toValue(),
       if (securityDetails != null) 'securityDetails': securityDetails,
     };
   }
@@ -1954,6 +2937,298 @@ extension EndpointStatusFromString on String {
   }
 }
 
+/// Ephemeris data.
+class EphemerisData {
+  final OEMEphemeris? oem;
+  final TLEEphemeris? tle;
+
+  EphemerisData({
+    this.oem,
+    this.tle,
+  });
+  Map<String, dynamic> toJson() {
+    final oem = this.oem;
+    final tle = this.tle;
+    return {
+      if (oem != null) 'oem': oem,
+      if (tle != null) 'tle': tle,
+    };
+  }
+}
+
+/// Description of ephemeris.
+class EphemerisDescription {
+  /// Supplied ephemeris data.
+  final String? ephemerisData;
+
+  /// Source S3 object used for the ephemeris.
+  final S3Object? sourceS3Object;
+
+  EphemerisDescription({
+    this.ephemerisData,
+    this.sourceS3Object,
+  });
+
+  factory EphemerisDescription.fromJson(Map<String, dynamic> json) {
+    return EphemerisDescription(
+      ephemerisData: json['ephemerisData'] as String?,
+      sourceS3Object: json['sourceS3Object'] != null
+          ? S3Object.fromJson(json['sourceS3Object'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class EphemerisIdResponse {
+  /// The AWS Ground Station ephemeris ID.
+  final String? ephemerisId;
+
+  EphemerisIdResponse({
+    this.ephemerisId,
+  });
+
+  factory EphemerisIdResponse.fromJson(Map<String, dynamic> json) {
+    return EphemerisIdResponse(
+      ephemerisId: json['ephemerisId'] as String?,
+    );
+  }
+}
+
+enum EphemerisInvalidReason {
+  metadataInvalid,
+  timeRangeInvalid,
+  trajectoryInvalid,
+  kmsKeyInvalid,
+  validationError,
+}
+
+extension EphemerisInvalidReasonValueExtension on EphemerisInvalidReason {
+  String toValue() {
+    switch (this) {
+      case EphemerisInvalidReason.metadataInvalid:
+        return 'METADATA_INVALID';
+      case EphemerisInvalidReason.timeRangeInvalid:
+        return 'TIME_RANGE_INVALID';
+      case EphemerisInvalidReason.trajectoryInvalid:
+        return 'TRAJECTORY_INVALID';
+      case EphemerisInvalidReason.kmsKeyInvalid:
+        return 'KMS_KEY_INVALID';
+      case EphemerisInvalidReason.validationError:
+        return 'VALIDATION_ERROR';
+    }
+  }
+}
+
+extension EphemerisInvalidReasonFromString on String {
+  EphemerisInvalidReason toEphemerisInvalidReason() {
+    switch (this) {
+      case 'METADATA_INVALID':
+        return EphemerisInvalidReason.metadataInvalid;
+      case 'TIME_RANGE_INVALID':
+        return EphemerisInvalidReason.timeRangeInvalid;
+      case 'TRAJECTORY_INVALID':
+        return EphemerisInvalidReason.trajectoryInvalid;
+      case 'KMS_KEY_INVALID':
+        return EphemerisInvalidReason.kmsKeyInvalid;
+      case 'VALIDATION_ERROR':
+        return EphemerisInvalidReason.validationError;
+    }
+    throw Exception('$this is not known in enum EphemerisInvalidReason');
+  }
+}
+
+/// Ephemeris item.
+class EphemerisItem {
+  /// The time the ephemeris was uploaded in UTC.
+  final DateTime? creationTime;
+
+  /// Whether or not the ephemeris is enabled.
+  final bool? enabled;
+
+  /// The AWS Ground Station ephemeris ID.
+  final String? ephemerisId;
+
+  /// A name string associated with the ephemeris. Used as a human-readable
+  /// identifier for the ephemeris.
+  final String? name;
+
+  /// Customer-provided priority score to establish the order in which overlapping
+  /// ephemerides should be used.
+  ///
+  /// The default for customer-provided ephemeris priority is 1, and higher
+  /// numbers take precedence.
+  ///
+  /// Priority must be 1 or greater
+  final int? priority;
+
+  /// Source S3 object used for the ephemeris.
+  final S3Object? sourceS3Object;
+
+  /// The status of the ephemeris.
+  final EphemerisStatus? status;
+
+  EphemerisItem({
+    this.creationTime,
+    this.enabled,
+    this.ephemerisId,
+    this.name,
+    this.priority,
+    this.sourceS3Object,
+    this.status,
+  });
+
+  factory EphemerisItem.fromJson(Map<String, dynamic> json) {
+    return EphemerisItem(
+      creationTime: timeStampFromJson(json['creationTime']),
+      enabled: json['enabled'] as bool?,
+      ephemerisId: json['ephemerisId'] as String?,
+      name: json['name'] as String?,
+      priority: json['priority'] as int?,
+      sourceS3Object: json['sourceS3Object'] != null
+          ? S3Object.fromJson(json['sourceS3Object'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)?.toEphemerisStatus(),
+    );
+  }
+}
+
+/// Metadata describing a particular ephemeris.
+class EphemerisMetaData {
+  /// The <code>EphemerisSource</code> that generated a given ephemeris.
+  final EphemerisSource source;
+
+  /// UUID of a customer-provided ephemeris.
+  ///
+  /// This field is not populated for default ephemerides from Space Track.
+  final String? ephemerisId;
+
+  /// The epoch of a default, ephemeris from Space Track in UTC.
+  ///
+  /// This field is not populated for customer-provided ephemerides.
+  final DateTime? epoch;
+
+  /// A name string associated with the ephemeris. Used as a human-readable
+  /// identifier for the ephemeris.
+  ///
+  /// A name is only returned for customer-provider ephemerides that have a name
+  /// associated.
+  final String? name;
+
+  EphemerisMetaData({
+    required this.source,
+    this.ephemerisId,
+    this.epoch,
+    this.name,
+  });
+
+  factory EphemerisMetaData.fromJson(Map<String, dynamic> json) {
+    return EphemerisMetaData(
+      source: (json['source'] as String).toEphemerisSource(),
+      ephemerisId: json['ephemerisId'] as String?,
+      epoch: timeStampFromJson(json['epoch']),
+      name: json['name'] as String?,
+    );
+  }
+}
+
+enum EphemerisSource {
+  customerProvided,
+  spaceTrack,
+}
+
+extension EphemerisSourceValueExtension on EphemerisSource {
+  String toValue() {
+    switch (this) {
+      case EphemerisSource.customerProvided:
+        return 'CUSTOMER_PROVIDED';
+      case EphemerisSource.spaceTrack:
+        return 'SPACE_TRACK';
+    }
+  }
+}
+
+extension EphemerisSourceFromString on String {
+  EphemerisSource toEphemerisSource() {
+    switch (this) {
+      case 'CUSTOMER_PROVIDED':
+        return EphemerisSource.customerProvided;
+      case 'SPACE_TRACK':
+        return EphemerisSource.spaceTrack;
+    }
+    throw Exception('$this is not known in enum EphemerisSource');
+  }
+}
+
+enum EphemerisStatus {
+  validating,
+  invalid,
+  error,
+  enabled,
+  disabled,
+  expired,
+}
+
+extension EphemerisStatusValueExtension on EphemerisStatus {
+  String toValue() {
+    switch (this) {
+      case EphemerisStatus.validating:
+        return 'VALIDATING';
+      case EphemerisStatus.invalid:
+        return 'INVALID';
+      case EphemerisStatus.error:
+        return 'ERROR';
+      case EphemerisStatus.enabled:
+        return 'ENABLED';
+      case EphemerisStatus.disabled:
+        return 'DISABLED';
+      case EphemerisStatus.expired:
+        return 'EXPIRED';
+    }
+  }
+}
+
+extension EphemerisStatusFromString on String {
+  EphemerisStatus toEphemerisStatus() {
+    switch (this) {
+      case 'VALIDATING':
+        return EphemerisStatus.validating;
+      case 'INVALID':
+        return EphemerisStatus.invalid;
+      case 'ERROR':
+        return EphemerisStatus.error;
+      case 'ENABLED':
+        return EphemerisStatus.enabled;
+      case 'DISABLED':
+        return EphemerisStatus.disabled;
+      case 'EXPIRED':
+        return EphemerisStatus.expired;
+    }
+    throw Exception('$this is not known in enum EphemerisStatus');
+  }
+}
+
+/// <p/>
+class EphemerisTypeDescription {
+  final EphemerisDescription? oem;
+  final EphemerisDescription? tle;
+
+  EphemerisTypeDescription({
+    this.oem,
+    this.tle,
+  });
+
+  factory EphemerisTypeDescription.fromJson(Map<String, dynamic> json) {
+    return EphemerisTypeDescription(
+      oem: json['oem'] != null
+          ? EphemerisDescription.fromJson(json['oem'] as Map<String, dynamic>)
+          : null,
+      tle: json['tle'] != null
+          ? EphemerisDescription.fromJson(json['tle'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 /// Object that describes the frequency.
 class Frequency {
   /// Frequency units.
@@ -1967,6 +3242,7 @@ class Frequency {
     required this.units,
     required this.value,
   });
+
   factory Frequency.fromJson(Map<String, dynamic> json) {
     return Frequency(
       units: (json['units'] as String).toFrequencyUnits(),
@@ -2012,6 +3288,7 @@ class FrequencyBandwidth {
     required this.units,
     required this.value,
   });
+
   factory FrequencyBandwidth.fromJson(Map<String, dynamic> json) {
     return FrequencyBandwidth(
       units: (json['units'] as String).toBandwidthUnits(),
@@ -2062,6 +3339,26 @@ extension FrequencyUnitsFromString on String {
   }
 }
 
+class GetAgentConfigurationResponse {
+  /// UUID of agent.
+  final String? agentId;
+
+  /// Tasking document for agent.
+  final String? taskingDocument;
+
+  GetAgentConfigurationResponse({
+    this.agentId,
+    this.taskingDocument,
+  });
+
+  factory GetAgentConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return GetAgentConfigurationResponse(
+      agentId: json['agentId'] as String?,
+      taskingDocument: json['taskingDocument'] as String?,
+    );
+  }
+}
+
 /// <p/>
 class GetConfigResponse {
   /// ARN of a <code>Config</code>
@@ -2090,6 +3387,7 @@ class GetConfigResponse {
     this.configType,
     this.tags,
   });
+
   factory GetConfigResponse.fromJson(Map<String, dynamic> json) {
     return GetConfigResponse(
       configArn: json['configArn'] as String,
@@ -2106,6 +3404,18 @@ class GetConfigResponse {
 
 /// <p/>
 class GetDataflowEndpointGroupResponse {
+  /// Amount of time, in seconds, after a contact ends that the Ground Station
+  /// Dataflow Endpoint Group will be in a <code>POSTPASS</code> state. A Ground
+  /// Station Dataflow Endpoint Group State Change event will be emitted when the
+  /// Dataflow Endpoint Group enters and exits the <code>POSTPASS</code> state.
+  final int? contactPostPassDurationSeconds;
+
+  /// Amount of time, in seconds, before a contact starts that the Ground Station
+  /// Dataflow Endpoint Group will be in a <code>PREPASS</code> state. A Ground
+  /// Station Dataflow Endpoint Group State Change event will be emitted when the
+  /// Dataflow Endpoint Group enters and exits the <code>PREPASS</code> state.
+  final int? contactPrePassDurationSeconds;
+
   /// ARN of a dataflow endpoint group.
   final String? dataflowEndpointGroupArn;
 
@@ -2119,13 +3429,20 @@ class GetDataflowEndpointGroupResponse {
   final Map<String, String>? tags;
 
   GetDataflowEndpointGroupResponse({
+    this.contactPostPassDurationSeconds,
+    this.contactPrePassDurationSeconds,
     this.dataflowEndpointGroupArn,
     this.dataflowEndpointGroupId,
     this.endpointsDetails,
     this.tags,
   });
+
   factory GetDataflowEndpointGroupResponse.fromJson(Map<String, dynamic> json) {
     return GetDataflowEndpointGroupResponse(
+      contactPostPassDurationSeconds:
+          json['contactPostPassDurationSeconds'] as int?,
+      contactPrePassDurationSeconds:
+          json['contactPrePassDurationSeconds'] as int?,
       dataflowEndpointGroupArn: json['dataflowEndpointGroupArn'] as String?,
       dataflowEndpointGroupId: json['dataflowEndpointGroupId'] as String?,
       endpointsDetails: (json['endpointsDetails'] as List?)
@@ -2167,6 +3484,7 @@ class GetMinuteUsageResponse {
     this.totalScheduledMinutes,
     this.upcomingMinutesScheduled,
   });
+
   factory GetMinuteUsageResponse.fromJson(Map<String, dynamic> json) {
     return GetMinuteUsageResponse(
       estimatedMinutesRemaining: json['estimatedMinutesRemaining'] as int?,
@@ -2210,6 +3528,12 @@ class GetMissionProfileResponse {
   /// Region of a mission profile.
   final String? region;
 
+  /// KMS key to use for encrypting streams.
+  final KmsKey? streamsKmsKey;
+
+  /// Role to use for encrypting streams with KMS key.
+  final String? streamsKmsRole;
+
   /// Tags assigned to a mission profile.
   final Map<String, String>? tags;
 
@@ -2225,9 +3549,12 @@ class GetMissionProfileResponse {
     this.missionProfileId,
     this.name,
     this.region,
+    this.streamsKmsKey,
+    this.streamsKmsRole,
     this.tags,
     this.trackingConfigArn,
   });
+
   factory GetMissionProfileResponse.fromJson(Map<String, dynamic> json) {
     return GetMissionProfileResponse(
       contactPostPassDurationSeconds:
@@ -2245,6 +3572,10 @@ class GetMissionProfileResponse {
       missionProfileId: json['missionProfileId'] as String?,
       name: json['name'] as String?,
       region: json['region'] as String?,
+      streamsKmsKey: json['streamsKmsKey'] != null
+          ? KmsKey.fromJson(json['streamsKmsKey'] as Map<String, dynamic>)
+          : null,
+      streamsKmsRole: json['streamsKmsRole'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       trackingConfigArn: json['trackingConfigArn'] as String?,
@@ -2254,6 +3585,9 @@ class GetMissionProfileResponse {
 
 /// <p/>
 class GetSatelliteResponse {
+  /// The current ephemeris being used to compute the trajectory of the satellite.
+  final EphemerisMetaData? currentEphemeris;
+
   /// A list of ground stations to which the satellite is on-boarded.
   final List<String>? groundStations;
 
@@ -2267,13 +3601,19 @@ class GetSatelliteResponse {
   final String? satelliteId;
 
   GetSatelliteResponse({
+    this.currentEphemeris,
     this.groundStations,
     this.noradSatelliteID,
     this.satelliteArn,
     this.satelliteId,
   });
+
   factory GetSatelliteResponse.fromJson(Map<String, dynamic> json) {
     return GetSatelliteResponse(
+      currentEphemeris: json['currentEphemeris'] != null
+          ? EphemerisMetaData.fromJson(
+              json['currentEphemeris'] as Map<String, dynamic>)
+          : null,
       groundStations: (json['groundStations'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -2301,12 +3641,73 @@ class GroundStationData {
     this.groundStationName,
     this.region,
   });
+
   factory GroundStationData.fromJson(Map<String, dynamic> json) {
     return GroundStationData(
       groundStationId: json['groundStationId'] as String?,
       groundStationName: json['groundStationName'] as String?,
       region: json['region'] as String?,
     );
+  }
+}
+
+/// An integer range that has a minimum and maximum value.
+class IntegerRange {
+  /// A maximum value.
+  final int maximum;
+
+  /// A minimum value.
+  final int minimum;
+
+  IntegerRange({
+    required this.maximum,
+    required this.minimum,
+  });
+
+  factory IntegerRange.fromJson(Map<String, dynamic> json) {
+    return IntegerRange(
+      maximum: json['maximum'] as int,
+      minimum: json['minimum'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maximum = this.maximum;
+    final minimum = this.minimum;
+    return {
+      'maximum': maximum,
+      'minimum': minimum,
+    };
+  }
+}
+
+/// AWS Key Management Service (KMS) Key.
+class KmsKey {
+  /// KMS Alias Arn.
+  final String? kmsAliasArn;
+
+  /// KMS Key Arn.
+  final String? kmsKeyArn;
+
+  KmsKey({
+    this.kmsAliasArn,
+    this.kmsKeyArn,
+  });
+
+  factory KmsKey.fromJson(Map<String, dynamic> json) {
+    return KmsKey(
+      kmsAliasArn: json['kmsAliasArn'] as String?,
+      kmsKeyArn: json['kmsKeyArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsAliasArn = this.kmsAliasArn;
+    final kmsKeyArn = this.kmsKeyArn;
+    return {
+      if (kmsAliasArn != null) 'kmsAliasArn': kmsAliasArn,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+    };
   }
 }
 
@@ -2323,6 +3724,7 @@ class ListConfigsResponse {
     this.configList,
     this.nextToken,
   });
+
   factory ListConfigsResponse.fromJson(Map<String, dynamic> json) {
     return ListConfigsResponse(
       configList: (json['configList'] as List?)
@@ -2347,6 +3749,7 @@ class ListContactsResponse {
     this.contactList,
     this.nextToken,
   });
+
   factory ListContactsResponse.fromJson(Map<String, dynamic> json) {
     return ListContactsResponse(
       contactList: (json['contactList'] as List?)
@@ -2372,6 +3775,7 @@ class ListDataflowEndpointGroupsResponse {
     this.dataflowEndpointGroupList,
     this.nextToken,
   });
+
   factory ListDataflowEndpointGroupsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListDataflowEndpointGroupsResponse(
@@ -2379,6 +3783,29 @@ class ListDataflowEndpointGroupsResponse {
           ?.whereNotNull()
           .map((e) =>
               DataflowEndpointListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+}
+
+class ListEphemeridesResponse {
+  /// List of ephemerides.
+  final List<EphemerisItem>? ephemerides;
+
+  /// Pagination token.
+  final String? nextToken;
+
+  ListEphemeridesResponse({
+    this.ephemerides,
+    this.nextToken,
+  });
+
+  factory ListEphemeridesResponse.fromJson(Map<String, dynamic> json) {
+    return ListEphemeridesResponse(
+      ephemerides: (json['ephemerides'] as List?)
+          ?.whereNotNull()
+          .map((e) => EphemerisItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
     );
@@ -2398,6 +3825,7 @@ class ListGroundStationsResponse {
     this.groundStationList,
     this.nextToken,
   });
+
   factory ListGroundStationsResponse.fromJson(Map<String, dynamic> json) {
     return ListGroundStationsResponse(
       groundStationList: (json['groundStationList'] as List?)
@@ -2422,6 +3850,7 @@ class ListMissionProfilesResponse {
     this.missionProfileList,
     this.nextToken,
   });
+
   factory ListMissionProfilesResponse.fromJson(Map<String, dynamic> json) {
     return ListMissionProfilesResponse(
       missionProfileList: (json['missionProfileList'] as List?)
@@ -2447,6 +3876,7 @@ class ListSatellitesResponse {
     this.nextToken,
     this.satellites,
   });
+
   factory ListSatellitesResponse.fromJson(Map<String, dynamic> json) {
     return ListSatellitesResponse(
       nextToken: json['nextToken'] as String?,
@@ -2466,6 +3896,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -2482,6 +3913,7 @@ class MissionProfileIdResponse {
   MissionProfileIdResponse({
     this.missionProfileId,
   });
+
   factory MissionProfileIdResponse.fromJson(Map<String, dynamic> json) {
     return MissionProfileIdResponse(
       missionProfileId: json['missionProfileId'] as String?,
@@ -2509,6 +3941,7 @@ class MissionProfileListItem {
     this.name,
     this.region,
   });
+
   factory MissionProfileListItem.fromJson(Map<String, dynamic> json) {
     return MissionProfileListItem(
       missionProfileArn: json['missionProfileArn'] as String?,
@@ -2516,6 +3949,29 @@ class MissionProfileListItem {
       name: json['name'] as String?,
       region: json['region'] as String?,
     );
+  }
+}
+
+/// Ephemeris data in Orbit Ephemeris Message (OEM) format.
+class OEMEphemeris {
+  /// The data for an OEM ephemeris, supplied directly in the request rather than
+  /// through an S3 object.
+  final String? oemData;
+
+  /// Identifies the S3 object to be used as the ephemeris.
+  final S3Object? s3Object;
+
+  OEMEphemeris({
+    this.oemData,
+    this.s3Object,
+  });
+  Map<String, dynamic> toJson() {
+    final oemData = this.oemData;
+    final s3Object = this.s3Object;
+    return {
+      if (oemData != null) 'oemData': oemData,
+      if (s3Object != null) 's3Object': s3Object,
+    };
   }
 }
 
@@ -2552,8 +4008,183 @@ extension PolarizationFromString on String {
   }
 }
 
+/// Ingress address of AgentEndpoint with a port range and an optional mtu.
+class RangedConnectionDetails {
+  /// A ranged socket address.
+  final RangedSocketAddress socketAddress;
+
+  /// Maximum transmission unit (MTU) size in bytes of a dataflow endpoint.
+  final int? mtu;
+
+  RangedConnectionDetails({
+    required this.socketAddress,
+    this.mtu,
+  });
+
+  factory RangedConnectionDetails.fromJson(Map<String, dynamic> json) {
+    return RangedConnectionDetails(
+      socketAddress: RangedSocketAddress.fromJson(
+          json['socketAddress'] as Map<String, dynamic>),
+      mtu: json['mtu'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final socketAddress = this.socketAddress;
+    final mtu = this.mtu;
+    return {
+      'socketAddress': socketAddress,
+      if (mtu != null) 'mtu': mtu,
+    };
+  }
+}
+
+/// A socket address with a port range.
+class RangedSocketAddress {
+  /// IPv4 socket address.
+  final String name;
+
+  /// Port range of a socket address.
+  final IntegerRange portRange;
+
+  RangedSocketAddress({
+    required this.name,
+    required this.portRange,
+  });
+
+  factory RangedSocketAddress.fromJson(Map<String, dynamic> json) {
+    return RangedSocketAddress(
+      name: json['name'] as String,
+      portRange:
+          IntegerRange.fromJson(json['portRange'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final portRange = this.portRange;
+    return {
+      'name': name,
+      'portRange': portRange,
+    };
+  }
+}
+
+class RegisterAgentResponse {
+  /// UUID of registered agent.
+  final String? agentId;
+
+  RegisterAgentResponse({
+    this.agentId,
+  });
+
+  factory RegisterAgentResponse.fromJson(Map<String, dynamic> json) {
+    return RegisterAgentResponse(
+      agentId: json['agentId'] as String?,
+    );
+  }
+}
+
+/// Object stored in S3 containing ephemeris data.
+class S3Object {
+  /// An Amazon S3 Bucket name.
+  final String? bucket;
+
+  /// An Amazon S3 key for the ephemeris.
+  final String? key;
+
+  /// For versioned S3 objects, the version to use for the ephemeris.
+  final String? version;
+
+  S3Object({
+    this.bucket,
+    this.key,
+    this.version,
+  });
+
+  factory S3Object.fromJson(Map<String, dynamic> json) {
+    return S3Object(
+      bucket: json['bucket'] as String?,
+      key: json['key'] as String?,
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final key = this.key;
+    final version = this.version;
+    return {
+      if (bucket != null) 'bucket': bucket,
+      if (key != null) 'key': key,
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+/// Information about an S3 recording <code>Config</code>.
+class S3RecordingConfig {
+  /// ARN of the bucket to record to.
+  final String bucketArn;
+
+  /// ARN of the role Ground Station assumes to write data to the bucket.
+  final String roleArn;
+
+  /// S3 Key prefix to prefice data files.
+  final String? prefix;
+
+  S3RecordingConfig({
+    required this.bucketArn,
+    required this.roleArn,
+    this.prefix,
+  });
+
+  factory S3RecordingConfig.fromJson(Map<String, dynamic> json) {
+    return S3RecordingConfig(
+      bucketArn: json['bucketArn'] as String,
+      roleArn: json['roleArn'] as String,
+      prefix: json['prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketArn = this.bucketArn;
+    final roleArn = this.roleArn;
+    final prefix = this.prefix;
+    return {
+      'bucketArn': bucketArn,
+      'roleArn': roleArn,
+      if (prefix != null) 'prefix': prefix,
+    };
+  }
+}
+
+/// Details about an S3 recording <code>Config</code> used in a contact.
+class S3RecordingDetails {
+  /// ARN of the bucket used.
+  final String? bucketArn;
+
+  /// Key template used for the S3 Recording Configuration
+  final String? keyTemplate;
+
+  S3RecordingDetails({
+    this.bucketArn,
+    this.keyTemplate,
+  });
+
+  factory S3RecordingDetails.fromJson(Map<String, dynamic> json) {
+    return S3RecordingDetails(
+      bucketArn: json['bucketArn'] as String?,
+      keyTemplate: json['keyTemplate'] as String?,
+    );
+  }
+}
+
 /// Item in a list of satellites.
 class SatelliteListItem {
+  /// The current ephemeris being used to compute the trajectory of the satellite.
+  final EphemerisMetaData? currentEphemeris;
+
   /// A list of ground stations to which the satellite is on-boarded.
   final List<String>? groundStations;
 
@@ -2567,13 +4198,19 @@ class SatelliteListItem {
   final String? satelliteId;
 
   SatelliteListItem({
+    this.currentEphemeris,
     this.groundStations,
     this.noradSatelliteID,
     this.satelliteArn,
     this.satelliteId,
   });
+
   factory SatelliteListItem.fromJson(Map<String, dynamic> json) {
     return SatelliteListItem(
+      currentEphemeris: json['currentEphemeris'] != null
+          ? EphemerisMetaData.fromJson(
+              json['currentEphemeris'] as Map<String, dynamic>)
+          : null,
       groundStations: (json['groundStations'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -2602,6 +4239,7 @@ class SecurityDetails {
     required this.securityGroupIds,
     required this.subnetIds,
   });
+
   factory SecurityDetails.fromJson(Map<String, dynamic> json) {
     return SecurityDetails(
       roleArn: json['roleArn'] as String,
@@ -2640,6 +4278,7 @@ class SocketAddress {
     required this.name,
     required this.port,
   });
+
   factory SocketAddress.fromJson(Map<String, dynamic> json) {
     return SocketAddress(
       name: json['name'] as String,
@@ -2659,8 +4298,8 @@ class SocketAddress {
 
 /// Dataflow details for the source side.
 class Source {
-  /// Additional details for a <code>Config</code>, if type is dataflow endpoint
-  /// or antenna demod decode.
+  /// Additional details for a <code>Config</code>, if type is
+  /// <code>dataflow-endpoint</code> or <code>antenna-downlink-demod-decode</code>
   final ConfigDetails? configDetails;
 
   /// UUID of a <code>Config</code>.
@@ -2678,6 +4317,7 @@ class Source {
     this.configType,
     this.dataflowSourceRegion,
   });
+
   factory Source.fromJson(Map<String, dynamic> json) {
     return Source(
       configDetails: json['configDetails'] != null
@@ -2727,6 +4367,7 @@ class SpectrumConfig {
     required this.centerFrequency,
     this.polarization,
   });
+
   factory SpectrumConfig.fromJson(Map<String, dynamic> json) {
     return SpectrumConfig(
       bandwidth: FrequencyBandwidth.fromJson(
@@ -2749,11 +4390,85 @@ class SpectrumConfig {
   }
 }
 
+/// Two-line element set (TLE) data.
+class TLEData {
+  /// First line of two-line element set (TLE) data.
+  final String tleLine1;
+
+  /// Second line of two-line element set (TLE) data.
+  final String tleLine2;
+
+  /// The valid time range for the TLE. Gaps or overlap are not permitted.
+  final TimeRange validTimeRange;
+
+  TLEData({
+    required this.tleLine1,
+    required this.tleLine2,
+    required this.validTimeRange,
+  });
+  Map<String, dynamic> toJson() {
+    final tleLine1 = this.tleLine1;
+    final tleLine2 = this.tleLine2;
+    final validTimeRange = this.validTimeRange;
+    return {
+      'tleLine1': tleLine1,
+      'tleLine2': tleLine2,
+      'validTimeRange': validTimeRange,
+    };
+  }
+}
+
+/// Two-line element set (TLE) ephemeris.
+class TLEEphemeris {
+  /// Identifies the S3 object to be used as the ephemeris.
+  final S3Object? s3Object;
+
+  /// The data for a TLE ephemeris, supplied directly in the request rather than
+  /// through an S3 object.
+  final List<TLEData>? tleData;
+
+  TLEEphemeris({
+    this.s3Object,
+    this.tleData,
+  });
+  Map<String, dynamic> toJson() {
+    final s3Object = this.s3Object;
+    final tleData = this.tleData;
+    return {
+      if (s3Object != null) 's3Object': s3Object,
+      if (tleData != null) 'tleData': tleData,
+    };
+  }
+}
+
 /// <p/>
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
+  }
+}
+
+/// A time range with a start and end time.
+class TimeRange {
+  /// Time in UTC at which the time range ends.
+  final DateTime endTime;
+
+  /// Time in UTC at which the time range starts.
+  final DateTime startTime;
+
+  TimeRange({
+    required this.endTime,
+    required this.startTime,
+  });
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      'endTime': unixTimestampToJson(endTime),
+      'startTime': unixTimestampToJson(startTime),
+    };
   }
 }
 
@@ -2766,6 +4481,7 @@ class TrackingConfig {
   TrackingConfig({
     required this.autotrack,
   });
+
   factory TrackingConfig.fromJson(Map<String, dynamic> json) {
     return TrackingConfig(
       autotrack: (json['autotrack'] as String).toCriticality(),
@@ -2783,8 +4499,24 @@ class TrackingConfig {
 /// <p/>
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
+  }
+}
+
+class UpdateAgentStatusResponse {
+  /// UUID of updated agent.
+  final String agentId;
+
+  UpdateAgentStatusResponse({
+    required this.agentId,
+  });
+
+  factory UpdateAgentStatusResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAgentStatusResponse(
+      agentId: json['agentId'] as String,
+    );
   }
 }
 
@@ -2804,6 +4536,7 @@ class UplinkEchoConfig {
     required this.antennaUplinkConfigArn,
     required this.enabled,
   });
+
   factory UplinkEchoConfig.fromJson(Map<String, dynamic> json) {
     return UplinkEchoConfig(
       antennaUplinkConfigArn: json['antennaUplinkConfigArn'] as String,
@@ -2836,6 +4569,7 @@ class UplinkSpectrumConfig {
     required this.centerFrequency,
     this.polarization,
   });
+
   factory UplinkSpectrumConfig.fromJson(Map<String, dynamic> json) {
     return UplinkSpectrumConfig(
       centerFrequency:

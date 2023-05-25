@@ -56,8 +56,8 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 ///
 /// <ul>
 /// <li>
-/// <a>DeleteTarget</a>, which removes a notification rule target (SNS topic)
-/// from a notification rule.
+/// <a>DeleteTarget</a>, which removes a notification rule target from a
+/// notification rule.
 /// </li>
 /// <li>
 /// <a>ListTargets</a>, which lists the targets associated with a notification
@@ -88,8 +88,9 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// account.
 /// </li>
 /// </ul>
-/// For information about how to use AWS CodeStar Notifications, see link in the
-/// CodeStarNotifications User Guide.
+/// For information about how to use AWS CodeStar Notifications, see the <a
+/// href="https://docs.aws.amazon.com/dtconsole/latest/userguide/what-is-dtconsole.html">Amazon
+/// Web Services Developer Tools Console User Guide</a>.
 class CodeStarNotifications {
   final _s.RestJsonProtocol _protocol;
   CodeStarNotifications({
@@ -120,8 +121,8 @@ class CodeStarNotifications {
   }
 
   /// Creates a notification rule for a resource. The rule specifies the events
-  /// you want notifications about and the targets (such as SNS topics) where
-  /// you want to receive them.
+  /// you want notifications about and the targets (such as Chatbot topics or
+  /// Chatbot clients configured for Slack) where you want to receive them.
   ///
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ValidationException].
@@ -132,28 +133,28 @@ class CodeStarNotifications {
   ///
   /// Parameter [detailType] :
   /// The level of detail to include in the notifications for this resource.
-  /// BASIC will include only the contents of the event as it would appear in
-  /// AWS CloudWatch. FULL will include any supplemental information provided by
-  /// AWS CodeStar Notifications and/or the service for the resource for which
-  /// the notification is created.
+  /// <code>BASIC</code> will include only the contents of the event as it would
+  /// appear in Amazon CloudWatch. <code>FULL</code> will include any
+  /// supplemental information provided by AWS CodeStar Notifications and/or the
+  /// service for the resource for which the notification is created.
   ///
   /// Parameter [eventTypeIds] :
   /// A list of event types associated with this notification rule. For a list
   /// of allowed events, see <a>EventTypeSummary</a>.
   ///
   /// Parameter [name] :
-  /// The name for the notification rule. Notifictaion rule names must be unique
-  /// in your AWS account.
+  /// The name for the notification rule. Notification rule names must be unique
+  /// in your Amazon Web Services account.
   ///
   /// Parameter [resource] :
   /// The Amazon Resource Name (ARN) of the resource to associate with the
-  /// notification rule. Supported resources include pipelines in AWS
-  /// CodePipeline, repositories in AWS CodeCommit, and build projects in AWS
-  /// CodeBuild.
+  /// notification rule. Supported resources include pipelines in CodePipeline,
+  /// repositories in CodeCommit, and build projects in CodeBuild.
   ///
   /// Parameter [targets] :
-  /// A list of Amazon Resource Names (ARNs) of SNS topics to associate with the
-  /// notification rule.
+  /// A list of Amazon Resource Names (ARNs) of Amazon Simple Notification
+  /// Service topics and Chatbot clients to associate with the notification
+  /// rule.
   ///
   /// Parameter [clientRequestToken] :
   /// A unique, client-generated idempotency token that, when provided in a
@@ -162,18 +163,18 @@ class CodeStarNotifications {
   /// the request returns information about the initial request that used that
   /// token.
   /// <note>
-  /// The AWS SDKs prepopulate client request tokens. If you are using an AWS
-  /// SDK, an idempotency token is created for you.
+  /// The Amazon Web Services SDKs prepopulate client request tokens. If you are
+  /// using an Amazon Web Services SDK, an idempotency token is created for you.
   /// </note>
   ///
   /// Parameter [status] :
-  /// The status of the notification rule. The default value is ENABLED. If the
-  /// status is set to DISABLED, notifications aren't sent for the notification
-  /// rule.
+  /// The status of the notification rule. The default value is
+  /// <code>ENABLED</code>. If the status is set to <code>DISABLED</code>,
+  /// notifications aren't sent for the notification rule.
   ///
   /// Parameter [tags] :
   /// A list of tags to apply to this notification rule. Key names cannot start
-  /// with "aws".
+  /// with "<code>aws</code>".
   Future<CreateNotificationRuleResult> createNotificationRule({
     required DetailType detailType,
     required List<String> eventTypeIds,
@@ -232,13 +233,14 @@ class CodeStarNotifications {
   /// May throw [ValidationException].
   ///
   /// Parameter [targetAddress] :
-  /// The Amazon Resource Name (ARN) of the SNS topic to delete.
+  /// The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client to
+  /// delete.
   ///
   /// Parameter [forceUnsubscribeAll] :
-  /// A Boolean value that can be used to delete all associations with this SNS
-  /// topic. The default value is FALSE. If set to TRUE, all associations
-  /// between that target and every notification rule in your AWS account are
-  /// deleted.
+  /// A Boolean value that can be used to delete all associations with this
+  /// Chatbot topic. The default value is FALSE. If set to TRUE, all
+  /// associations between that target and every notification rule in your
+  /// Amazon Web Services account are deleted.
   Future<void> deleteTarget({
     required String targetAddress,
     bool? forceUnsubscribeAll,
@@ -320,7 +322,8 @@ class CodeStarNotifications {
     return ListEventTypesResult.fromJson(response);
   }
 
-  /// Returns a list of the notification rules for an AWS account.
+  /// Returns a list of the notification rules for an Amazon Web Services
+  /// account.
   ///
   /// May throw [InvalidNextTokenException].
   /// May throw [ValidationException].
@@ -388,7 +391,8 @@ class CodeStarNotifications {
     return ListTagsForResourceResult.fromJson(response);
   }
 
-  /// Returns a list of the notification rule targets for an AWS account.
+  /// Returns a list of the notification rule targets for an Amazon Web Services
+  /// account.
   ///
   /// May throw [InvalidNextTokenException].
   /// May throw [ValidationException].
@@ -434,12 +438,13 @@ class CodeStarNotifications {
     return ListTargetsResult.fromJson(response);
   }
 
-  /// Creates an association between a notification rule and an SNS topic so
-  /// that the associated target can receive notifications when the events
-  /// described in the rule are triggered.
+  /// Creates an association between a notification rule and an Chatbot topic or
+  /// Chatbot client so that the associated target can receive notifications
+  /// when the events described in the rule are triggered.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ConfigurationException].
   ///
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the notification rule for which you want
@@ -470,6 +475,7 @@ class CodeStarNotifications {
   /// Associates a set of provided tags with a notification rule.
   ///
   /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
   /// May throw [ValidationException].
   /// May throw [ConcurrentModificationException].
   ///
@@ -478,7 +484,7 @@ class CodeStarNotifications {
   ///
   /// Parameter [tags] :
   /// The list of tags to associate with the resource. Tag key names cannot
-  /// start with "aws".
+  /// start with "<code>aws</code>".
   Future<TagResourceResult> tagResource({
     required String arn,
     required Map<String, String> tags,
@@ -496,8 +502,8 @@ class CodeStarNotifications {
     return TagResourceResult.fromJson(response);
   }
 
-  /// Removes an association between a notification rule and an Amazon SNS topic
-  /// so that subscribers to that topic stop receiving notifications when the
+  /// Removes an association between a notification rule and an Chatbot topic so
+  /// that subscribers to that topic stop receiving notifications when the
   /// events described in the rule are triggered.
   ///
   /// May throw [ValidationException].
@@ -506,7 +512,7 @@ class CodeStarNotifications {
   /// The Amazon Resource Name (ARN) of the notification rule.
   ///
   /// Parameter [targetAddress] :
-  /// The ARN of the SNS topic to unsubscribe from the notification rule.
+  /// The ARN of the Chatbot topic to unsubscribe from the notification rule.
   Future<UnsubscribeResult> unsubscribe({
     required String arn,
     required String targetAddress,
@@ -528,6 +534,7 @@ class CodeStarNotifications {
   /// notification rule.
   ///
   /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
   /// May throw [ValidationException].
   /// May throw [ConcurrentModificationException].
   ///
@@ -541,14 +548,14 @@ class CodeStarNotifications {
     required String arn,
     required List<String> tagKeys,
   }) async {
-    final $payload = <String, dynamic>{
-      'Arn': arn,
-      'TagKeys': tagKeys,
+    final $query = <String, List<String>>{
+      'tagKeys': tagKeys,
     };
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'POST',
-      requestUri: '/untagResource',
+      requestUri: '/untagResource/${Uri.encodeComponent(arn)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -563,6 +570,7 @@ class CodeStarNotifications {
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ConfigurationException].
   ///
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the notification rule.
@@ -570,12 +578,15 @@ class CodeStarNotifications {
   /// Parameter [detailType] :
   /// The level of detail to include in the notifications for this resource.
   /// BASIC will include only the contents of the event as it would appear in
-  /// AWS CloudWatch. FULL will include any supplemental information provided by
-  /// AWS CodeStar Notifications and/or the service for the resource for which
-  /// the notification is created.
+  /// Amazon CloudWatch. FULL will include any supplemental information provided
+  /// by AWS CodeStar Notifications and/or the service for the resource for
+  /// which the notification is created.
   ///
   /// Parameter [eventTypeIds] :
-  /// A list of event types associated with this notification rule.
+  /// A list of event types associated with this notification rule. For a
+  /// complete list of event types and IDs, see <a
+  /// href="https://docs.aws.amazon.com/codestar-notifications/latest/userguide/concepts.html#concepts-api">Notification
+  /// concepts</a> in the <i>Developer Tools Console User Guide</i>.
   ///
   /// Parameter [name] :
   /// The name of the notification rule.
@@ -619,6 +630,7 @@ class CreateNotificationRuleResult {
   CreateNotificationRuleResult({
     this.arn,
   });
+
   factory CreateNotificationRuleResult.fromJson(Map<String, dynamic> json) {
     return CreateNotificationRuleResult(
       arn: json['Arn'] as String?,
@@ -633,6 +645,7 @@ class DeleteNotificationRuleResult {
   DeleteNotificationRuleResult({
     this.arn,
   });
+
   factory DeleteNotificationRuleResult.fromJson(Map<String, dynamic> json) {
     return DeleteNotificationRuleResult(
       arn: json['Arn'] as String?,
@@ -642,6 +655,7 @@ class DeleteNotificationRuleResult {
 
 class DeleteTargetResult {
   DeleteTargetResult();
+
   factory DeleteTargetResult.fromJson(Map<String, dynamic> _) {
     return DeleteTargetResult();
   }
@@ -658,7 +672,7 @@ class DescribeNotificationRuleResult {
   final DateTime? createdTimestamp;
 
   /// The level of detail included in the notifications for this resource. BASIC
-  /// will include only the contents of the event as it would appear in AWS
+  /// will include only the contents of the event as it would appear in Amazon
   /// CloudWatch. FULL will include any supplemental information provided by AWS
   /// CodeStar Notifications and/or the service for the resource for which the
   /// notification is created.
@@ -685,7 +699,8 @@ class DescribeNotificationRuleResult {
   /// The tags associated with the notification rule.
   final Map<String, String>? tags;
 
-  /// A list of the SNS topics associated with the notification rule.
+  /// A list of the Chatbot topics and Chatbot clients associated with the
+  /// notification rule.
   final List<TargetSummary>? targets;
 
   DescribeNotificationRuleResult({
@@ -701,6 +716,7 @@ class DescribeNotificationRuleResult {
     this.tags,
     this.targets,
   });
+
   factory DescribeNotificationRuleResult.fromJson(Map<String, dynamic> json) {
     return DescribeNotificationRuleResult(
       arn: json['Arn'] as String,
@@ -755,7 +771,10 @@ extension DetailTypeFromString on String {
 
 /// Returns information about an event that has triggered a notification rule.
 class EventTypeSummary {
-  /// The system-generated ID of the event.
+  /// The system-generated ID of the event. For a complete list of event types and
+  /// IDs, see <a
+  /// href="https://docs.aws.amazon.com/codestar-notifications/latest/userguide/concepts.html#concepts-api">Notification
+  /// concepts</a> in the <i>Developer Tools Console User Guide</i>.
   final String? eventTypeId;
 
   /// The name of the event.
@@ -773,6 +792,7 @@ class EventTypeSummary {
     this.resourceType,
     this.serviceName,
   });
+
   factory EventTypeSummary.fromJson(Map<String, dynamic> json) {
     return EventTypeSummary(
       eventTypeId: json['EventTypeId'] as String?,
@@ -848,6 +868,7 @@ class ListEventTypesResult {
     this.eventTypes,
     this.nextToken,
   });
+
   factory ListEventTypesResult.fromJson(Map<String, dynamic> json) {
     return ListEventTypesResult(
       eventTypes: (json['EventTypes'] as List?)
@@ -868,7 +889,7 @@ class ListNotificationRulesFilter {
 
   /// The value of the attribute you want to use to filter the returned
   /// notification rules. For example, if you specify filtering by <i>RESOURCE</i>
-  /// in Name, you might specify the ARN of a pipeline in AWS CodePipeline for the
+  /// in Name, you might specify the ARN of a pipeline in CodePipeline for the
   /// value.
   final String value;
 
@@ -931,14 +952,15 @@ class ListNotificationRulesResult {
   /// of the results.
   final String? nextToken;
 
-  /// The list of notification rules for the AWS account, by Amazon Resource Name
-  /// (ARN) and ID.
+  /// The list of notification rules for the Amazon Web Services account, by
+  /// Amazon Resource Name (ARN) and ID.
   final List<NotificationRuleSummary>? notificationRules;
 
   ListNotificationRulesResult({
     this.nextToken,
     this.notificationRules,
   });
+
   factory ListNotificationRulesResult.fromJson(Map<String, dynamic> json) {
     return ListNotificationRulesResult(
       nextToken: json['NextToken'] as String?,
@@ -958,6 +980,7 @@ class ListTagsForResourceResult {
   ListTagsForResourceResult({
     this.tags,
   });
+
   factory ListTagsForResourceResult.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResult(
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -968,15 +991,16 @@ class ListTagsForResourceResult {
 
 /// Information about a filter to apply to the list of returned targets. You can
 /// filter by target type, address, or status. For example, to filter results to
-/// notification rules that have active Amazon SNS topics as targets, you could
-/// specify a ListTargetsFilter Name as TargetType and a Value of SNS, and a
-/// Name of TARGET_STATUS and a Value of ACTIVE.
+/// notification rules that have active Chatbot topics as targets, you could
+/// specify a ListTargetsFilter Name as <code>TargetType</code> and a Value of
+/// <code>SNS</code>, and a Name of <code>TARGET_STATUS</code> and a Value of
+/// <code>ACTIVE</code>.
 class ListTargetsFilter {
   /// The name of the attribute you want to use to filter the returned targets.
   final ListTargetsFilterName name;
 
   /// The value of the attribute you want to use to filter the returned targets.
-  /// For example, if you specify <i>SNS</i> for the Target type, you could
+  /// For example, if you specify <code>SNS</code> for the Target type, you could
   /// specify an Amazon Resource Name (ARN) for a topic as the value.
   final String value;
 
@@ -1039,6 +1063,7 @@ class ListTargetsResult {
     this.nextToken,
     this.targets,
   });
+
   factory ListTargetsResult.fromJson(Map<String, dynamic> json) {
     return ListTargetsResult(
       nextToken: json['NextToken'] as String?,
@@ -1090,6 +1115,7 @@ class NotificationRuleSummary {
     this.arn,
     this.id,
   });
+
   factory NotificationRuleSummary.fromJson(Map<String, dynamic> json) {
     return NotificationRuleSummary(
       arn: json['Arn'] as String?,
@@ -1106,6 +1132,7 @@ class SubscribeResult {
   SubscribeResult({
     this.arn,
   });
+
   factory SubscribeResult.fromJson(Map<String, dynamic> json) {
     return SubscribeResult(
       arn: json['Arn'] as String?,
@@ -1120,6 +1147,7 @@ class TagResourceResult {
   TagResourceResult({
     this.tags,
   });
+
   factory TagResourceResult.fromJson(Map<String, dynamic> json) {
     return TagResourceResult(
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -1128,12 +1156,22 @@ class TagResourceResult {
   }
 }
 
-/// Information about the SNS topics associated with a notification rule.
+/// Information about the Chatbot topics or Chatbot clients associated with a
+/// notification rule.
 class Target {
-  /// The Amazon Resource Name (ARN) of the SNS topic.
+  /// The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client.
   final String? targetAddress;
 
-  /// The target type. Can be an Amazon SNS topic.
+  /// The target type. Can be an Chatbot topic or Chatbot client.
+  ///
+  /// <ul>
+  /// <li>
+  /// Chatbot topics are specified as <code>SNS</code>.
+  /// </li>
+  /// <li>
+  /// Chatbot clients are specified as <code>AWSChatbotSlack</code>.
+  /// </li>
+  /// </ul>
   final String? targetType;
 
   Target({
@@ -1195,13 +1233,22 @@ extension TargetStatusFromString on String {
 
 /// Information about the targets specified for a notification rule.
 class TargetSummary {
-  /// The Amazon Resource Name (ARN) of the SNS topic.
+  /// The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client.
   final String? targetAddress;
 
   /// The status of the target.
   final TargetStatus? targetStatus;
 
-  /// The type of the target (for example, SNS).
+  /// The type of the target (for example, <code>SNS</code>).
+  ///
+  /// <ul>
+  /// <li>
+  /// Chatbot topics are specified as <code>SNS</code>.
+  /// </li>
+  /// <li>
+  /// Chatbot clients are specified as <code>AWSChatbotSlack</code>.
+  /// </li>
+  /// </ul>
   final String? targetType;
 
   TargetSummary({
@@ -1209,6 +1256,7 @@ class TargetSummary {
     this.targetStatus,
     this.targetType,
   });
+
   factory TargetSummary.fromJson(Map<String, dynamic> json) {
     return TargetSummary(
       targetAddress: json['TargetAddress'] as String?,
@@ -1226,6 +1274,7 @@ class UnsubscribeResult {
   UnsubscribeResult({
     required this.arn,
   });
+
   factory UnsubscribeResult.fromJson(Map<String, dynamic> json) {
     return UnsubscribeResult(
       arn: json['Arn'] as String,
@@ -1235,6 +1284,7 @@ class UnsubscribeResult {
 
 class UntagResourceResult {
   UntagResourceResult();
+
   factory UntagResourceResult.fromJson(Map<String, dynamic> _) {
     return UntagResourceResult();
   }
@@ -1242,6 +1292,7 @@ class UntagResourceResult {
 
 class UpdateNotificationRuleResult {
   UpdateNotificationRuleResult();
+
   factory UpdateNotificationRuleResult.fromJson(Map<String, dynamic> _) {
     return UpdateNotificationRuleResult();
   }

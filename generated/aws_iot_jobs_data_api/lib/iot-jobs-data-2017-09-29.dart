@@ -271,6 +271,7 @@ class DescribeJobExecutionResponse {
   DescribeJobExecutionResponse({
     this.execution,
   });
+
   factory DescribeJobExecutionResponse.fromJson(Map<String, dynamic> json) {
     return DescribeJobExecutionResponse(
       execution: json['execution'] != null
@@ -291,6 +292,7 @@ class GetPendingJobExecutionsResponse {
     this.inProgressJobs,
     this.queuedJobs,
   });
+
   factory GetPendingJobExecutionsResponse.fromJson(Map<String, dynamic> json) {
     return GetPendingJobExecutionsResponse(
       inProgressJobs: (json['inProgressJobs'] as List?)
@@ -362,6 +364,7 @@ class JobExecution {
     this.thingName,
     this.versionNumber,
   });
+
   factory JobExecution.fromJson(Map<String, dynamic> json) {
     return JobExecution(
       approximateSecondsBeforeTimedOut:
@@ -400,6 +403,7 @@ class JobExecutionState {
     this.statusDetails,
     this.versionNumber,
   });
+
   factory JobExecutionState.fromJson(Map<String, dynamic> json) {
     return JobExecutionState(
       status: (json['status'] as String?)?.toJobExecutionStatus(),
@@ -499,6 +503,7 @@ class JobExecutionSummary {
     this.startedAt,
     this.versionNumber,
   });
+
   factory JobExecutionSummary.fromJson(Map<String, dynamic> json) {
     return JobExecutionSummary(
       executionNumber: json['executionNumber'] as int?,
@@ -518,6 +523,7 @@ class StartNextPendingJobExecutionResponse {
   StartNextPendingJobExecutionResponse({
     this.execution,
   });
+
   factory StartNextPendingJobExecutionResponse.fromJson(
       Map<String, dynamic> json) {
     return StartNextPendingJobExecutionResponse(
@@ -539,6 +545,7 @@ class UpdateJobExecutionResponse {
     this.executionState,
     this.jobDocument,
   });
+
   factory UpdateJobExecutionResponse.fromJson(Map<String, dynamic> json) {
     return UpdateJobExecutionResponse(
       executionState: json['executionState'] != null

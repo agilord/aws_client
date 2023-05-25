@@ -64,6 +64,7 @@ class OutputShape {
   OutputShape({
     this.listMember,
   });
+
   factory OutputShape.fromJson(Map<String, dynamic> json) {
     return OutputShape(
       listMember: (json['ListMember'] as List?)
@@ -80,6 +81,7 @@ class SingleStruct {
   SingleStruct({
     this.foo,
   });
+
   factory SingleStruct.fromJson(Map<String, dynamic> json) {
     return SingleStruct(
       foo: json['Foo'] as String?,

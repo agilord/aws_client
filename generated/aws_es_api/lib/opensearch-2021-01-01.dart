@@ -18,8 +18,20 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// Use the Amazon OpenSearch configuration API to create, configure, and manage
-/// Amazon OpenSearch Service domains.
+/// Use the Amazon OpenSearch Service configuration API to create, configure,
+/// and manage OpenSearch Service domains.
+///
+/// For sample code that uses the configuration API, see the <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/opensearch-configuration-samples.html">
+/// <i>Amazon OpenSearch Service Developer Guide</i> </a>. The guide also
+/// contains <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/request-signing.html">sample
+/// code</a> for sending signed HTTP requests to the OpenSearch APIs. The
+/// endpoint for configuration service requests is Region specific:
+/// es.<i>region</i>.amazonaws.com. For example, es.us-east-1.amazonaws.com. For
+/// a current list of supported Regions and endpoints, see <a
+/// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#service-regions">Amazon
+/// Web Services service endpoints</a>.
 class OpenSearchService {
   final _s.RestJsonProtocol _protocol;
   OpenSearchService({
@@ -48,19 +60,21 @@ class OpenSearchService {
     _protocol.close();
   }
 
-  /// Allows the remote domain owner to accept an inbound cross-cluster
-  /// connection request.
+  /// Allows the destination Amazon OpenSearch Service domain owner to accept an
+  /// inbound cross-cluster search connection request. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html">Cross-cluster
+  /// search for Amazon OpenSearch Service</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [LimitExceededException].
   /// May throw [DisabledOperationException].
   ///
   /// Parameter [connectionId] :
-  /// The ID of the inbound connection you want to accept.
+  /// The ID of the inbound connection to accept.
   Future<AcceptInboundConnectionResponse> acceptInboundConnection({
     required String connectionId,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -71,11 +85,11 @@ class OpenSearchService {
     return AcceptInboundConnectionResponse.fromJson(response);
   }
 
-  /// Attaches tags to an existing domain. Tags are a set of case-sensitive key
-  /// value pairs. An domain can have up to 10 tags. See <a
-  /// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains.html#managedomains-awsresorcetagging"
-  /// target="_blank"> Tagging Amazon OpenSearch Service domains</a> for more
-  /// information.
+  /// Attaches tags to an existing Amazon OpenSearch Service domain. Tags are a
+  /// set of case-sensitive key-value pairs. A domain can have up to 10 tags.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-awsresourcetagging.html">Tagging
+  /// Amazon OpenSearch Service domains</a>.
   ///
   /// May throw [BaseException].
   /// May throw [LimitExceededException].
@@ -83,16 +97,15 @@ class OpenSearchService {
   /// May throw [InternalException].
   ///
   /// Parameter [arn] :
-  /// Specify the <code>ARN</code> of the domain you want to add tags to.
+  /// Amazon Resource Name (ARN) for the OpenSearch Service domain to which you
+  /// want to attach resource tags.
   ///
   /// Parameter [tagList] :
-  /// List of <code>Tag</code> to add to the domain.
+  /// List of resource tags.
   Future<void> addTags({
     required String arn,
     required List<Tag> tagList,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    ArgumentError.checkNotNull(tagList, 'tagList');
     final $payload = <String, dynamic>{
       'ARN': arn,
       'TagList': tagList,
@@ -105,7 +118,10 @@ class OpenSearchService {
     );
   }
 
-  /// Associates a package with an Amazon OpenSearch Service domain.
+  /// Associates a package with an Amazon OpenSearch Service domain. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html">Custom
+  /// packages for Amazon OpenSearch Service</a>.
   ///
   /// May throw [BaseException].
   /// May throw [InternalException].
@@ -115,7 +131,7 @@ class OpenSearchService {
   /// May throw [ConflictException].
   ///
   /// Parameter [domainName] :
-  /// The name of the domain to associate the package with.
+  /// Name of the domain to associate the package with.
   ///
   /// Parameter [packageID] :
   /// Internal ID of the package to associate with a domain. Use
@@ -124,8 +140,6 @@ class OpenSearchService {
     required String domainName,
     required String packageID,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    ArgumentError.checkNotNull(packageID, 'packageID');
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -136,10 +150,45 @@ class OpenSearchService {
     return AssociatePackageResponse.fromJson(response);
   }
 
+  /// Provides access to an Amazon OpenSearch Service domain through the use of
+  /// an interface VPC endpoint.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [DisabledOperationException].
+  /// May throw [LimitExceededException].
+  /// May throw [ValidationException].
+  /// May throw [InternalException].
+  /// May throw [BaseException].
+  ///
+  /// Parameter [account] :
+  /// The Amazon Web Services account ID to grant access to.
+  ///
+  /// Parameter [domainName] :
+  /// The name of the OpenSearch Service domain to provide access to.
+  Future<AuthorizeVpcEndpointAccessResponse> authorizeVpcEndpointAccess({
+    required String account,
+    required String domainName,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Account': account,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/2021-01-01/opensearch/domain/${Uri.encodeComponent(domainName)}/authorizeVpcEndpointAccess',
+      exceptionFnMap: _exceptionFns,
+    );
+    return AuthorizeVpcEndpointAccessResponse.fromJson(response);
+  }
+
   /// Cancels a scheduled service software update for an Amazon OpenSearch
   /// Service domain. You can only perform this operation before the
-  /// <code>AutomatedUpdateDate</code> and when the <code>UpdateStatus</code> is
-  /// in the <code>PENDING_UPDATE</code> state.
+  /// <code>AutomatedUpdateDate</code> and when the domain's
+  /// <code>UpdateStatus</code> is <code>PENDING_UPDATE</code>. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html">Service
+  /// software updates in Amazon OpenSearch Service</a>.
   ///
   /// May throw [BaseException].
   /// May throw [InternalException].
@@ -147,12 +196,11 @@ class OpenSearchService {
   /// May throw [ValidationException].
   ///
   /// Parameter [domainName] :
-  /// The name of the domain that you want to stop the latest service software
-  /// update on.
+  /// Name of the OpenSearch Service domain that you want to cancel the service
+  /// software update on.
   Future<CancelServiceSoftwareUpdateResponse> cancelServiceSoftwareUpdate({
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final $payload = <String, dynamic>{
       'DomainName': domainName,
     };
@@ -165,11 +213,9 @@ class OpenSearchService {
     return CancelServiceSoftwareUpdateResponse.fromJson(response);
   }
 
-  /// Creates a new Amazon OpenSearch Service domain. For more information, see
-  /// <a
-  /// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html"
-  /// target="_blank">Creating and managing Amazon OpenSearch Service domains
-  /// </a> in the <i>Amazon OpenSearch Service Developer Guide</i>.
+  /// Creates an Amazon OpenSearch Service domain. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html">Creating
+  /// and managing Amazon OpenSearch Service domains</a>.
   ///
   /// May throw [BaseException].
   /// May throw [DisabledOperationException].
@@ -180,77 +226,114 @@ class OpenSearchService {
   /// May throw [ValidationException].
   ///
   /// Parameter [domainName] :
-  /// The name of the Amazon OpenSearch Service domain you're creating. Domain
-  /// names are unique across the domains owned by an account within an AWS
-  /// region. Domain names must start with a lowercase letter and can contain
-  /// the following characters: a-z (lowercase), 0-9, and - (hyphen).
+  /// Name of the OpenSearch Service domain to create. Domain names are unique
+  /// across the domains owned by an account within an Amazon Web Services
+  /// Region.
   ///
   /// Parameter [accessPolicies] :
-  /// IAM access policy as a JSON-formatted string.
+  /// Identity and Access Management (IAM) policy document specifying the access
+  /// policies for the new domain.
   ///
   /// Parameter [advancedOptions] :
-  /// Option to allow references to indices in an HTTP request body. Must be
-  /// <code>false</code> when configuring access to individual sub-resources. By
-  /// default, the value is <code>true</code>. See <a
-  /// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-advanced-options"
-  /// target="_blank">Advanced cluster parameters </a> for more information.
+  /// Key-value pairs to specify advanced configuration options. The following
+  /// key-value pairs are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"rest.action.multi.allow_explicit_index": "true" | "false"</code> -
+  /// Note the use of a string rather than a boolean. Specifies whether explicit
+  /// references to indexes are allowed inside the body of HTTP requests. If you
+  /// want to configure access policies for domain sub-resources, such as
+  /// specific indexes and domain APIs, you must disable this property. Default
+  /// is true.
+  /// </li>
+  /// <li>
+  /// <code>"indices.fielddata.cache.size": "80" </code> - Note the use of a
+  /// string rather than a boolean. Specifies the percentage of heap space
+  /// allocated to field data. Default is unbounded.
+  /// </li>
+  /// <li>
+  /// <code>"indices.query.bool.max_clause_count": "1024"</code> - Note the use
+  /// of a string rather than a boolean. Specifies the maximum number of clauses
+  /// allowed in a Lucene boolean query. Default is 1,024. Queries with more
+  /// than the permitted number of clauses result in a
+  /// <code>TooManyClauses</code> error.
+  /// </li>
+  /// <li>
+  /// <code>"override_main_response_version": "true" | "false"</code> - Note the
+  /// use of a string rather than a boolean. Specifies whether the domain
+  /// reports its version as 7.10 to allow Elasticsearch OSS clients and plugins
+  /// to continue working with it. Default is false when creating a domain and
+  /// true when upgrading a domain.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-advanced-options">Advanced
+  /// cluster parameters</a>.
   ///
   /// Parameter [advancedSecurityOptions] :
-  /// Specifies advanced security options.
+  /// Options for fine-grained access control.
   ///
   /// Parameter [autoTuneOptions] :
-  /// Specifies Auto-Tune options.
+  /// Options for Auto-Tune.
   ///
   /// Parameter [clusterConfig] :
-  /// Configuration options for a domain. Specifies the instance type and number
-  /// of instances in the domain.
+  /// Container for the cluster configuration of a domain.
   ///
   /// Parameter [cognitoOptions] :
-  /// Options to specify the Cognito user and identity pools for OpenSearch
-  /// Dashboards authentication. For more information, see <a
-  /// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/cognito-auth.html"
-  /// target="_blank">Configuring Amazon Cognito authentication for OpenSearch
-  /// Dashboards</a>.
+  /// Key-value pairs to configure Amazon Cognito authentication. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cognito-auth.html">Configuring
+  /// Amazon Cognito authentication for OpenSearch Dashboards</a>.
   ///
   /// Parameter [domainEndpointOptions] :
-  /// Options to specify configurations that will be applied to the domain
-  /// endpoint.
+  /// Additional options for the domain endpoint, such as whether to require
+  /// HTTPS for all traffic.
   ///
   /// Parameter [eBSOptions] :
-  /// Options to enable, disable, and specify the type and size of EBS storage
-  /// volumes.
+  /// Container for the parameters required to enable EBS-based storage for an
+  /// OpenSearch Service domain.
   ///
   /// Parameter [encryptionAtRestOptions] :
-  /// Options for encryption of data at rest.
+  /// Key-value pairs to enable encryption at rest.
   ///
   /// Parameter [engineVersion] :
   /// String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the engine
-  /// version for the Amazon OpenSearch Service domain. For example,
-  /// "OpenSearch_1.0" or "Elasticsearch_7.9". For more information, see <a
-  /// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomains"
-  /// target="_blank">Creating and managing Amazon OpenSearch Service domains
-  /// </a>.
+  /// version for the OpenSearch Service domain. For example,
+  /// <code>OpenSearch_1.0</code> or <code>Elasticsearch_7.9</code>. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomains">Creating
+  /// and managing Amazon OpenSearch Service domains</a>.
   ///
   /// Parameter [logPublishingOptions] :
-  /// Map of <code>LogType</code> and <code>LogPublishingOption</code>, each
-  /// containing options to publish a given type of OpenSearch log.
+  /// Key-value pairs to configure log publishing.
   ///
   /// Parameter [nodeToNodeEncryptionOptions] :
-  /// Node-to-node encryption options.
+  /// Enables node-to-node encryption.
+  ///
+  /// Parameter [offPeakWindowOptions] :
+  /// Specifies a daily 10-hour time block during which OpenSearch Service can
+  /// perform configuration changes on the domain, including service software
+  /// updates and Auto-Tune enhancements that require a blue/green deployment.
+  /// If no options are specified, the default start time of 10:00 P.M. local
+  /// time (for the Region that the domain is created in) is used.
   ///
   /// Parameter [snapshotOptions] :
-  /// Option to set time, in UTC format, of the daily automated snapshot.
-  /// Default value is 0 hours.
+  /// DEPRECATED. Container for the parameters required to configure automated
+  /// snapshots of domain indexes.
+  ///
+  /// Parameter [softwareUpdateOptions] :
+  /// Software update options for the domain.
   ///
   /// Parameter [tagList] :
-  /// A list of <code>Tag</code> added during domain creation.
+  /// List of tags to add to the domain upon creation.
   ///
   /// Parameter [vPCOptions] :
-  /// Options to specify the subnets and security groups for a VPC endpoint. For
-  /// more information, see <a
-  /// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html"
-  /// target="_blank">Launching your Amazon OpenSearch Service domains using a
-  /// VPC </a>.
+  /// Container for the values required to configure VPC access domains. If you
+  /// don't specify these values, OpenSearch Service creates the domain with a
+  /// public endpoint. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html">Launching
+  /// your Amazon OpenSearch Service domains using a VPC</a>.
   Future<CreateDomainResponse> createDomain({
     required String domainName,
     String? accessPolicies,
@@ -265,11 +348,12 @@ class OpenSearchService {
     String? engineVersion,
     Map<LogType, LogPublishingOption>? logPublishingOptions,
     NodeToNodeEncryptionOptions? nodeToNodeEncryptionOptions,
+    OffPeakWindowOptions? offPeakWindowOptions,
     SnapshotOptions? snapshotOptions,
+    SoftwareUpdateOptions? softwareUpdateOptions,
     List<Tag>? tagList,
     VPCOptions? vPCOptions,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final $payload = <String, dynamic>{
       'DomainName': domainName,
       if (accessPolicies != null) 'AccessPolicies': accessPolicies,
@@ -290,7 +374,11 @@ class OpenSearchService {
             logPublishingOptions.map((k, e) => MapEntry(k.toValue(), e)),
       if (nodeToNodeEncryptionOptions != null)
         'NodeToNodeEncryptionOptions': nodeToNodeEncryptionOptions,
+      if (offPeakWindowOptions != null)
+        'OffPeakWindowOptions': offPeakWindowOptions,
       if (snapshotOptions != null) 'SnapshotOptions': snapshotOptions,
+      if (softwareUpdateOptions != null)
+        'SoftwareUpdateOptions': softwareUpdateOptions,
       if (tagList != null) 'TagList': tagList,
       if (vPCOptions != null) 'VPCOptions': vPCOptions,
     };
@@ -303,8 +391,11 @@ class OpenSearchService {
     return CreateDomainResponse.fromJson(response);
   }
 
-  /// Creates a new cross-cluster connection from a local OpenSearch domain to a
-  /// remote OpenSearch domain.
+  /// Creates a new cross-cluster search connection from a source Amazon
+  /// OpenSearch Service domain to a destination domain. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html">Cross-cluster
+  /// search for Amazon OpenSearch Service</a>.
   ///
   /// May throw [LimitExceededException].
   /// May throw [InternalException].
@@ -312,28 +403,27 @@ class OpenSearchService {
   /// May throw [DisabledOperationException].
   ///
   /// Parameter [connectionAlias] :
-  /// The connection alias used used by the customer for this cross-cluster
-  /// connection.
+  /// Name of the connection.
   ///
   /// Parameter [localDomainInfo] :
-  /// The <code> <a>AWSDomainInformation</a> </code> for the local OpenSearch
-  /// domain.
+  /// Name and Region of the source (local) domain.
   ///
   /// Parameter [remoteDomainInfo] :
-  /// The <code> <a>AWSDomainInformation</a> </code> for the remote OpenSearch
-  /// domain.
+  /// Name and Region of the destination (remote) domain.
+  ///
+  /// Parameter [connectionMode] :
+  /// The connection mode.
   Future<CreateOutboundConnectionResponse> createOutboundConnection({
     required String connectionAlias,
     required DomainInformationContainer localDomainInfo,
     required DomainInformationContainer remoteDomainInfo,
+    ConnectionMode? connectionMode,
   }) async {
-    ArgumentError.checkNotNull(connectionAlias, 'connectionAlias');
-    ArgumentError.checkNotNull(localDomainInfo, 'localDomainInfo');
-    ArgumentError.checkNotNull(remoteDomainInfo, 'remoteDomainInfo');
     final $payload = <String, dynamic>{
       'ConnectionAlias': connectionAlias,
       'LocalDomainInfo': localDomainInfo,
       'RemoteDomainInfo': remoteDomainInfo,
+      if (connectionMode != null) 'ConnectionMode': connectionMode.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -344,7 +434,10 @@ class OpenSearchService {
     return CreateOutboundConnectionResponse.fromJson(response);
   }
 
-  /// Create a package for use with Amazon OpenSearch Service domains.
+  /// Creates a package for use with Amazon OpenSearch Service domains. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html">Custom
+  /// packages for Amazon OpenSearch Service</a>.
   ///
   /// May throw [BaseException].
   /// May throw [InternalException].
@@ -355,13 +448,13 @@ class OpenSearchService {
   /// May throw [ValidationException].
   ///
   /// Parameter [packageName] :
-  /// Unique identifier for the package.
+  /// Unique name for the package.
   ///
   /// Parameter [packageSource] :
   /// The Amazon S3 location from which to import the package.
   ///
   /// Parameter [packageType] :
-  /// Type of package. Currently supports only TXT-DICTIONARY.
+  /// The type of package.
   ///
   /// Parameter [packageDescription] :
   /// Description of the package.
@@ -371,9 +464,6 @@ class OpenSearchService {
     required PackageType packageType,
     String? packageDescription,
   }) async {
-    ArgumentError.checkNotNull(packageName, 'packageName');
-    ArgumentError.checkNotNull(packageSource, 'packageSource');
-    ArgumentError.checkNotNull(packageType, 'packageType');
     final $payload = <String, dynamic>{
       'PackageName': packageName,
       'PackageSource': packageSource,
@@ -389,8 +479,44 @@ class OpenSearchService {
     return CreatePackageResponse.fromJson(response);
   }
 
-  /// Permanently deletes the specified domain and all of its data. Once a
-  /// domain is deleted, it cannot be recovered.
+  /// Creates an Amazon OpenSearch Service-managed VPC endpoint.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalException].
+  /// May throw [DisabledOperationException].
+  /// May throw [BaseException].
+  ///
+  /// Parameter [domainArn] :
+  /// The Amazon Resource Name (ARN) of the domain to create the endpoint for.
+  ///
+  /// Parameter [vpcOptions] :
+  /// Options to specify the subnets and security groups for the endpoint.
+  ///
+  /// Parameter [clientToken] :
+  /// Unique, case-sensitive identifier to ensure idempotency of the request.
+  Future<CreateVpcEndpointResponse> createVpcEndpoint({
+    required String domainArn,
+    required VPCOptions vpcOptions,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'DomainArn': domainArn,
+      'VpcOptions': vpcOptions,
+      if (clientToken != null) 'ClientToken': clientToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/2021-01-01/opensearch/vpcEndpoints',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateVpcEndpointResponse.fromJson(response);
+  }
+
+  /// Deletes an Amazon OpenSearch Service domain and all of its data. You can't
+  /// recover a domain after you delete it.
   ///
   /// May throw [BaseException].
   /// May throw [InternalException].
@@ -402,7 +528,6 @@ class OpenSearchService {
   Future<DeleteDomainResponse> deleteDomain({
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -413,8 +538,11 @@ class OpenSearchService {
     return DeleteDomainResponse.fromJson(response);
   }
 
-  /// Allows the remote domain owner to delete an existing inbound cross-cluster
-  /// connection.
+  /// Allows the destination Amazon OpenSearch Service domain owner to delete an
+  /// existing inbound cross-cluster search connection. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html">Cross-cluster
+  /// search for Amazon OpenSearch Service</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [DisabledOperationException].
@@ -424,7 +552,6 @@ class OpenSearchService {
   Future<DeleteInboundConnectionResponse> deleteInboundConnection({
     required String connectionId,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -435,8 +562,11 @@ class OpenSearchService {
     return DeleteInboundConnectionResponse.fromJson(response);
   }
 
-  /// Allows the local domain owner to delete an existing outbound cross-cluster
-  /// connection.
+  /// Allows the source Amazon OpenSearch Service domain owner to delete an
+  /// existing outbound cross-cluster search connection. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html">Cross-cluster
+  /// search for Amazon OpenSearch Service</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [DisabledOperationException].
@@ -446,7 +576,6 @@ class OpenSearchService {
   Future<DeleteOutboundConnectionResponse> deleteOutboundConnection({
     required String connectionId,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -457,7 +586,9 @@ class OpenSearchService {
     return DeleteOutboundConnectionResponse.fromJson(response);
   }
 
-  /// Deletes the package.
+  /// Deletes an Amazon OpenSearch Service package. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html">Custom
+  /// packages for Amazon OpenSearch Service</a>.
   ///
   /// May throw [BaseException].
   /// May throw [InternalException].
@@ -472,7 +603,6 @@ class OpenSearchService {
   Future<DeletePackageResponse> deletePackage({
     required String packageID,
   }) async {
-    ArgumentError.checkNotNull(packageID, 'packageID');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -482,8 +612,31 @@ class OpenSearchService {
     return DeletePackageResponse.fromJson(response);
   }
 
-  /// Returns domain configuration information about the specified domain,
-  /// including the domain ID, domain endpoint, and domain ARN.
+  /// Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [DisabledOperationException].
+  /// May throw [InternalException].
+  /// May throw [BaseException].
+  ///
+  /// Parameter [vpcEndpointId] :
+  /// The unique identifier of the endpoint.
+  Future<DeleteVpcEndpointResponse> deleteVpcEndpoint({
+    required String vpcEndpointId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/2021-01-01/opensearch/vpcEndpoints/${Uri.encodeComponent(vpcEndpointId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteVpcEndpointResponse.fromJson(response);
+  }
+
+  /// Describes the domain configuration for the specified Amazon OpenSearch
+  /// Service domain, including the domain ID, domain service endpoint, and
+  /// domain ARN.
   ///
   /// May throw [BaseException].
   /// May throw [InternalException].
@@ -491,11 +644,10 @@ class OpenSearchService {
   /// May throw [ValidationException].
   ///
   /// Parameter [domainName] :
-  /// The name of the domain for which you want information.
+  /// The name of the domain that you want information about.
   Future<DescribeDomainResponse> describeDomain({
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -506,8 +658,10 @@ class OpenSearchService {
     return DescribeDomainResponse.fromJson(response);
   }
 
-  /// Provides scheduled Auto-Tune action details for the domain, such as
-  /// Auto-Tune action type, description, severity, and scheduled date.
+  /// Returns the list of optimizations that Auto-Tune has made to an Amazon
+  /// OpenSearch Service domain. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html">Auto-Tune
+  /// for Amazon OpenSearch Service</a>.
   ///
   /// May throw [BaseException].
   /// May throw [InternalException].
@@ -515,21 +669,23 @@ class OpenSearchService {
   /// May throw [ValidationException].
   ///
   /// Parameter [domainName] :
-  /// The domain name for which you want Auto-Tune action details.
+  /// Name of the domain that you want Auto-Tune details about.
   ///
   /// Parameter [maxResults] :
-  /// Set this value to limit the number of results returned. If not specified,
-  /// defaults to 100.
+  /// An optional parameter that specifies the maximum number of results to
+  /// return. You can use <code>nextToken</code> to get the next page of
+  /// results.
   ///
   /// Parameter [nextToken] :
-  /// NextToken is sent in case the earlier API call results contain the
-  /// NextToken. Used for pagination.
+  /// If your initial <code>DescribeDomainAutoTunes</code> operation returns a
+  /// <code>nextToken</code>, you can include the returned
+  /// <code>nextToken</code> in subsequent <code>DescribeDomainAutoTunes</code>
+  /// operations, which returns results in the next page.
   Future<DescribeDomainAutoTunesResponse> describeDomainAutoTunes({
     required String domainName,
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -546,8 +702,10 @@ class OpenSearchService {
     return DescribeDomainAutoTunesResponse.fromJson(response);
   }
 
-  /// Returns information about the current blue/green deployment happening on a
-  /// domain, including a change ID, status, and progress stages.
+  /// Returns information about the current blue/green deployment happening on
+  /// an Amazon OpenSearch Service domain. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-configuration-changes.html">Making
+  /// configuration changes in Amazon OpenSearch Service</a>.
   ///
   /// May throw [BaseException].
   /// May throw [InternalException].
@@ -555,17 +713,16 @@ class OpenSearchService {
   /// May throw [ValidationException].
   ///
   /// Parameter [domainName] :
-  /// The domain you want to get the progress information about.
+  /// The name of the domain to get progress information for.
   ///
   /// Parameter [changeId] :
-  /// The specific change ID for which you want to get progress information.
-  /// This is an optional parameter. If omitted, the service returns information
-  /// about the most recent configuration change.
+  /// The specific change ID for which you want to get progress information. If
+  /// omitted, the request returns information about the most recent
+  /// configuration change.
   Future<DescribeDomainChangeProgressResponse> describeDomainChangeProgress({
     required String domainName,
     String? changeId,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final $query = <String, List<String>>{
       if (changeId != null) 'changeid': [changeId],
     };
@@ -580,9 +737,7 @@ class OpenSearchService {
     return DescribeDomainChangeProgressResponse.fromJson(response);
   }
 
-  /// Provides cluster configuration information about the specified domain,
-  /// such as the state, creation date, update version, and update date for
-  /// cluster options.
+  /// Returns the configuration of an Amazon OpenSearch Service domain.
   ///
   /// May throw [BaseException].
   /// May throw [InternalException].
@@ -590,11 +745,11 @@ class OpenSearchService {
   /// May throw [ValidationException].
   ///
   /// Parameter [domainName] :
-  /// The domain you want to get information about.
+  /// Name of the OpenSearch Service domain configuration that you want to
+  /// describe.
   Future<DescribeDomainConfigResponse> describeDomainConfig({
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -605,19 +760,70 @@ class OpenSearchService {
     return DescribeDomainConfigResponse.fromJson(response);
   }
 
-  /// Returns domain configuration information about the specified domains,
-  /// including the domain ID, domain endpoint, and domain ARN.
+  /// Returns information about domain and node health, the standby Availability
+  /// Zone, number of nodes per Availability Zone, and shard count per node.
+  ///
+  /// May throw [BaseException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [DisabledOperationException].
+  ///
+  /// Parameter [domainName] :
+  /// The name of the domain.
+  Future<DescribeDomainHealthResponse> describeDomainHealth({
+    required String domainName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2021-01-01/opensearch/domain/${Uri.encodeComponent(domainName)}/health',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeDomainHealthResponse.fromJson(response);
+  }
+
+  /// Returns information about domain and nodes, including data nodes, master
+  /// nodes, ultrawarm nodes, Availability Zone(s), standby nodes, node
+  /// configurations, and node states.
+  ///
+  /// May throw [BaseException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [DisabledOperationException].
+  /// May throw [DependencyFailureException].
+  ///
+  /// Parameter [domainName] :
+  /// The name of the domain.
+  Future<DescribeDomainNodesResponse> describeDomainNodes({
+    required String domainName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2021-01-01/opensearch/domain/${Uri.encodeComponent(domainName)}/nodes',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeDomainNodesResponse.fromJson(response);
+  }
+
+  /// Returns domain configuration information about the specified Amazon
+  /// OpenSearch Service domains.
   ///
   /// May throw [BaseException].
   /// May throw [InternalException].
   /// May throw [ValidationException].
   ///
   /// Parameter [domainNames] :
-  /// The domains for which you want information.
+  /// Array of OpenSearch Service domain names that you want information about.
+  /// If you don't specify any domains, OpenSearch Service returns information
+  /// about all domains owned by the account.
   Future<DescribeDomainsResponse> describeDomains({
     required List<String> domainNames,
   }) async {
-    ArgumentError.checkNotNull(domainNames, 'domainNames');
     final $payload = <String, dynamic>{
       'DomainNames': domainNames,
     };
@@ -630,30 +836,71 @@ class OpenSearchService {
     return DescribeDomainsResponse.fromJson(response);
   }
 
-  /// Lists all the inbound cross-cluster connections for a remote domain.
+  /// Describes the progress of a pre-update dry run analysis on an Amazon
+  /// OpenSearch Service domain. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-configuration-changes#dryrun">Determining
+  /// whether a change will cause a blue/green deployment</a>.
+  ///
+  /// May throw [BaseException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [DisabledOperationException].
+  ///
+  /// Parameter [domainName] :
+  /// The name of the domain.
+  ///
+  /// Parameter [dryRunId] :
+  /// The unique identifier of the dry run.
+  ///
+  /// Parameter [loadDryRunConfig] :
+  /// Whether to include the configuration of the dry run in the response. The
+  /// configuration specifies the updates that you're planning to make on the
+  /// domain.
+  Future<DescribeDryRunProgressResponse> describeDryRunProgress({
+    required String domainName,
+    String? dryRunId,
+    bool? loadDryRunConfig,
+  }) async {
+    final $query = <String, List<String>>{
+      if (dryRunId != null) 'dryRunId': [dryRunId],
+      if (loadDryRunConfig != null)
+        'loadDryRunConfig': [loadDryRunConfig.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2021-01-01/opensearch/domain/${Uri.encodeComponent(domainName)}/dryRun',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeDryRunProgressResponse.fromJson(response);
+  }
+
+  /// Lists all the inbound cross-cluster search connections for a destination
+  /// (remote) Amazon OpenSearch Service domain. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html">Cross-cluster
+  /// search for Amazon OpenSearch Service</a>.
   ///
   /// May throw [InvalidPaginationTokenException].
   /// May throw [DisabledOperationException].
   ///
   /// Parameter [filters] :
   /// A list of filters used to match properties for inbound cross-cluster
-  /// connections. Available <code> <a>Filter</a> </code> values are:
-  /// <ul>
-  /// <li>connection-id</li>
-  /// <li>local-domain-info.domain-name</li>
-  /// <li>local-domain-info.owner-id</li>
-  /// <li>local-domain-info.region</li>
-  /// <li>remote-domain-info.domain-name</li>
-  /// </ul>
+  /// connections.
   ///
   /// Parameter [maxResults] :
-  /// Set this value to limit the number of results returned. If not specified,
-  /// defaults to 100.
+  /// An optional parameter that specifies the maximum number of results to
+  /// return. You can use <code>nextToken</code> to get the next page of
+  /// results.
   ///
   /// Parameter [nextToken] :
-  /// If more results are available and NextToken is present, make the next
-  /// request to the same API with the received NextToken to paginate the
-  /// remaining results.
+  /// If your initial <code>DescribeInboundConnections</code> operation returns
+  /// a <code>nextToken</code>, you can include the returned
+  /// <code>nextToken</code> in subsequent
+  /// <code>DescribeInboundConnections</code> operations, which returns results
+  /// in the next page.
   Future<DescribeInboundConnectionsResponse> describeInboundConnections({
     List<Filter>? filters,
     int? maxResults,
@@ -679,9 +926,8 @@ class OpenSearchService {
     return DescribeInboundConnectionsResponse.fromJson(response);
   }
 
-  /// Describe the limits for a given instance type and OpenSearch or
-  /// Elasticsearch version. When modifying an existing domain, specify the
-  /// <code> <a>DomainName</a> </code> to see which limits you can modify.
+  /// Describes the instance count, storage, and master node limits for a given
+  /// OpenSearch or Elasticsearch version and instance type.
   ///
   /// May throw [BaseException].
   /// May throw [InternalException].
@@ -691,23 +937,20 @@ class OpenSearchService {
   /// May throw [ValidationException].
   ///
   /// Parameter [engineVersion] :
-  /// Version of OpenSearch for which <code> <a>Limits</a> </code> are needed.
+  /// Version of OpenSearch or Elasticsearch, in the format Elasticsearch_X.Y or
+  /// OpenSearch_X.Y. Defaults to the latest version of OpenSearch.
   ///
   /// Parameter [instanceType] :
-  /// The instance type for an OpenSearch cluster for which OpenSearch <code>
-  /// <a>Limits</a> </code> are needed.
+  /// The OpenSearch Service instance type for which you need limit information.
   ///
   /// Parameter [domainName] :
-  /// The name of the domain you want to modify. Only include this value if
-  /// you're querying OpenSearch <code> <a>Limits</a> </code> for an existing
-  /// domain.
+  /// The name of the domain. Only specify if you need the limits for an
+  /// existing domain.
   Future<DescribeInstanceTypeLimitsResponse> describeInstanceTypeLimits({
     required String engineVersion,
     required OpenSearchPartitionInstanceType instanceType,
     String? domainName,
   }) async {
-    ArgumentError.checkNotNull(engineVersion, 'engineVersion');
-    ArgumentError.checkNotNull(instanceType, 'instanceType');
     final $query = <String, List<String>>{
       if (domainName != null) 'domainName': [domainName],
     };
@@ -722,30 +965,28 @@ class OpenSearchService {
     return DescribeInstanceTypeLimitsResponse.fromJson(response);
   }
 
-  /// Lists all the outbound cross-cluster connections for a local domain.
+  /// Lists all the outbound cross-cluster connections for a local (source)
+  /// Amazon OpenSearch Service domain. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html">Cross-cluster
+  /// search for Amazon OpenSearch Service</a>.
   ///
   /// May throw [InvalidPaginationTokenException].
   /// May throw [DisabledOperationException].
   ///
   /// Parameter [filters] :
-  /// A list of filters used to match properties for outbound cross-cluster
-  /// connections. Available <code> <a>Filter</a> </code> names for this
-  /// operation are:
-  /// <ul>
-  /// <li>connection-id</li>
-  /// <li>remote-domain-info.domain-name</li>
-  /// <li>remote-domain-info.owner-id</li>
-  /// <li>remote-domain-info.region</li>
-  /// <li>local-domain-info.domain-name</li>
-  /// </ul>
+  /// List of filter names and values that you can use for requests.
   ///
   /// Parameter [maxResults] :
-  /// Set this value to limit the number of results returned. If not specified,
-  /// defaults to 100.
+  /// An optional parameter that specifies the maximum number of results to
+  /// return. You can use <code>nextToken</code> to get the next page of
+  /// results.
   ///
   /// Parameter [nextToken] :
-  /// NextToken is sent in case the earlier API call results contain the
-  /// NextToken parameter. Used for pagination.
+  /// If your initial <code>DescribeOutboundConnections</code> operation returns
+  /// a <code>nextToken</code>, you can include the returned
+  /// <code>nextToken</code> in subsequent
+  /// <code>DescribeOutboundConnections</code> operations, which returns results
+  /// in the next page.
   Future<DescribeOutboundConnectionsResponse> describeOutboundConnections({
     List<Filter>? filters,
     int? maxResults,
@@ -771,9 +1012,10 @@ class OpenSearchService {
     return DescribeOutboundConnectionsResponse.fromJson(response);
   }
 
-  /// Describes all packages available to Amazon OpenSearch Service domains.
-  /// Includes options for filtering, limiting the number of results, and
-  /// pagination.
+  /// Describes all packages available to OpenSearch Service. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html">Custom
+  /// packages for Amazon OpenSearch Service</a>.
   ///
   /// May throw [BaseException].
   /// May throw [InternalException].
@@ -786,11 +1028,15 @@ class OpenSearchService {
   /// <code>DescribePackagesFilterList</code> values.
   ///
   /// Parameter [maxResults] :
-  /// Limits results to a maximum number of packages.
+  /// An optional parameter that specifies the maximum number of results to
+  /// return. You can use <code>nextToken</code> to get the next page of
+  /// results.
   ///
   /// Parameter [nextToken] :
-  /// Used for pagination. Only necessary if a previous API call includes a
-  /// non-null NextToken value. If provided, returns results for the next page.
+  /// If your initial <code>DescribePackageFilters</code> operation returns a
+  /// <code>nextToken</code>, you can include the returned
+  /// <code>nextToken</code> in subsequent <code>DescribePackageFilters</code>
+  /// operations, which returns results in the next page.
   Future<DescribePackagesResponse> describePackages({
     List<DescribePackagesFilter>? filters,
     int? maxResults,
@@ -816,7 +1062,10 @@ class OpenSearchService {
     return DescribePackagesResponse.fromJson(response);
   }
 
-  /// Lists available reserved OpenSearch instance offerings.
+  /// Describes the available Amazon OpenSearch Service Reserved Instance
+  /// offerings for a given Region. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/ri.html">Reserved
+  /// Instances in Amazon OpenSearch Service</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -824,15 +1073,21 @@ class OpenSearchService {
   /// May throw [InternalException].
   ///
   /// Parameter [maxResults] :
-  /// Set this value to limit the number of results returned. If not specified,
-  /// defaults to 100.
+  /// An optional parameter that specifies the maximum number of results to
+  /// return. You can use <code>nextToken</code> to get the next page of
+  /// results.
   ///
   /// Parameter [nextToken] :
-  /// Provides an identifier to allow retrieval of paginated results.
+  /// If your initial <code>DescribeReservedInstanceOfferings</code> operation
+  /// returns a <code>nextToken</code>, you can include the returned
+  /// <code>nextToken</code> in subsequent
+  /// <code>DescribeReservedInstanceOfferings</code> operations, which returns
+  /// results in the next page.
   ///
   /// Parameter [reservedInstanceOfferingId] :
-  /// The offering identifier filter value. Use this parameter to show only the
-  /// available offering that matches the specified reservation identifier.
+  /// The Reserved Instance identifier filter value. Use this parameter to show
+  /// only the available instance types that match the specified reservation
+  /// identifier.
   Future<DescribeReservedInstanceOfferingsResponse>
       describeReservedInstanceOfferings({
     int? maxResults,
@@ -861,7 +1116,10 @@ class OpenSearchService {
     return DescribeReservedInstanceOfferingsResponse.fromJson(response);
   }
 
-  /// Returns information about reserved OpenSearch instances for this account.
+  /// Describes the Amazon OpenSearch Service instances that you have reserved
+  /// in a given Region. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/ri.html">Reserved
+  /// Instances in Amazon OpenSearch Service</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalException].
@@ -869,11 +1127,16 @@ class OpenSearchService {
   /// May throw [DisabledOperationException].
   ///
   /// Parameter [maxResults] :
-  /// Set this value to limit the number of results returned. If not specified,
-  /// defaults to 100.
+  /// An optional parameter that specifies the maximum number of results to
+  /// return. You can use <code>nextToken</code> to get the next page of
+  /// results.
   ///
   /// Parameter [nextToken] :
-  /// Provides an identifier to allow retrieval of paginated results.
+  /// If your initial <code>DescribeReservedInstances</code> operation returns a
+  /// <code>nextToken</code>, you can include the returned
+  /// <code>nextToken</code> in subsequent
+  /// <code>DescribeReservedInstances</code> operations, which returns results
+  /// in the next page.
   ///
   /// Parameter [reservedInstanceId] :
   /// The reserved instance identifier filter value. Use this parameter to show
@@ -905,7 +1168,36 @@ class OpenSearchService {
     return DescribeReservedInstancesResponse.fromJson(response);
   }
 
-  /// Dissociates a package from the Amazon OpenSearch Service domain.
+  /// Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalException].
+  /// May throw [DisabledOperationException].
+  /// May throw [BaseException].
+  ///
+  /// Parameter [vpcEndpointIds] :
+  /// The unique identifiers of the endpoints to get information about.
+  Future<DescribeVpcEndpointsResponse> describeVpcEndpoints({
+    required List<String> vpcEndpointIds,
+  }) async {
+    final $payload = <String, dynamic>{
+      'VpcEndpointIds': vpcEndpointIds,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/2021-01-01/opensearch/vpcEndpoints/describe',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeVpcEndpointsResponse.fromJson(response);
+  }
+
+  /// Removes a package from the specified Amazon OpenSearch Service domain. The
+  /// package can't be in use with any OpenSearch index for the dissociation to
+  /// succeed. The package is still available in OpenSearch Service for
+  /// association later. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html">Custom
+  /// packages for Amazon OpenSearch Service</a>.
   ///
   /// May throw [BaseException].
   /// May throw [InternalException].
@@ -915,17 +1207,15 @@ class OpenSearchService {
   /// May throw [ConflictException].
   ///
   /// Parameter [domainName] :
-  /// The name of the domain to associate the package with.
+  /// Name of the domain to dissociate the package from.
   ///
   /// Parameter [packageID] :
-  /// The internal ID of the package to associate with a domain. Use
-  /// <code>DescribePackages</code> to find this value.
+  /// Internal ID of the package to dissociate from the domain. Use
+  /// <code>ListPackagesForDomain</code> to find this value.
   Future<DissociatePackageResponse> dissociatePackage({
     required String domainName,
     required String packageID,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    ArgumentError.checkNotNull(packageID, 'packageID');
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -936,16 +1226,18 @@ class OpenSearchService {
     return DissociatePackageResponse.fromJson(response);
   }
 
-  /// Returns a list of upgrade-compatible versions of OpenSearch/Elasticsearch.
-  /// You can optionally pass a <code> <a>DomainName</a> </code> to get all
-  /// upgrade-compatible versions of OpenSearch/Elasticsearch for that specific
-  /// domain.
+  /// Returns a map of OpenSearch or Elasticsearch versions and the versions you
+  /// can upgrade them to.
   ///
   /// May throw [BaseException].
   /// May throw [ResourceNotFoundException].
   /// May throw [DisabledOperationException].
   /// May throw [ValidationException].
   /// May throw [InternalException].
+  ///
+  /// Parameter [domainName] :
+  /// The name of an existing domain. Provide this parameter to limit the
+  /// results to a single domain.
   Future<GetCompatibleVersionsResponse> getCompatibleVersions({
     String? domainName,
   }) async {
@@ -962,8 +1254,11 @@ class OpenSearchService {
     return GetCompatibleVersionsResponse.fromJson(response);
   }
 
-  /// Returns a list of package versions, along with their creation time and
-  /// commit message.
+  /// Returns a list of Amazon OpenSearch Service package versions, along with
+  /// their creation time, commit message, and plugin properties (if the package
+  /// is a zip plugin package). For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html">Custom
+  /// packages for Amazon OpenSearch Service</a>.
   ///
   /// May throw [BaseException].
   /// May throw [InternalException].
@@ -972,20 +1267,23 @@ class OpenSearchService {
   /// May throw [ValidationException].
   ///
   /// Parameter [packageID] :
-  /// Returns an audit history of package versions.
+  /// The unique identifier of the package.
   ///
   /// Parameter [maxResults] :
-  /// Limits results to a maximum number of package versions.
+  /// An optional parameter that specifies the maximum number of results to
+  /// return. You can use <code>nextToken</code> to get the next page of
+  /// results.
   ///
   /// Parameter [nextToken] :
-  /// Used for pagination. Only necessary if a previous API call includes a
-  /// non-null NextToken value. If provided, returns results for the next page.
+  /// If your initial <code>GetPackageVersionHistory</code> operation returns a
+  /// <code>nextToken</code>, you can include the returned
+  /// <code>nextToken</code> in subsequent <code>GetPackageVersionHistory</code>
+  /// operations, which returns results in the next page.
   Future<GetPackageVersionHistoryResponse> getPackageVersionHistory({
     required String packageID,
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(packageID, 'packageID');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1007,20 +1305,33 @@ class OpenSearchService {
     return GetPackageVersionHistoryResponse.fromJson(response);
   }
 
-  /// Retrieves the complete history of the last 10 upgrades performed on the
-  /// domain.
+  /// Retrieves the complete history of the last 10 upgrades performed on an
+  /// Amazon OpenSearch Service domain.
   ///
   /// May throw [BaseException].
   /// May throw [ResourceNotFoundException].
   /// May throw [DisabledOperationException].
   /// May throw [ValidationException].
   /// May throw [InternalException].
+  ///
+  /// Parameter [domainName] :
+  /// The name of an existing domain.
+  ///
+  /// Parameter [maxResults] :
+  /// An optional parameter that specifies the maximum number of results to
+  /// return. You can use <code>nextToken</code> to get the next page of
+  /// results.
+  ///
+  /// Parameter [nextToken] :
+  /// If your initial <code>GetUpgradeHistory</code> operation returns a
+  /// <code>nextToken</code>, you can include the returned
+  /// <code>nextToken</code> in subsequent <code>GetUpgradeHistory</code>
+  /// operations, which returns results in the next page.
   Future<GetUpgradeHistoryResponse> getUpgradeHistory({
     required String domainName,
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1042,18 +1353,20 @@ class OpenSearchService {
     return GetUpgradeHistoryResponse.fromJson(response);
   }
 
-  /// Retrieves the latest status of the last upgrade or upgrade eligibility
-  /// check performed on the domain.
+  /// Returns the most recent status of the last upgrade or upgrade eligibility
+  /// check performed on an Amazon OpenSearch Service domain.
   ///
   /// May throw [BaseException].
   /// May throw [ResourceNotFoundException].
   /// May throw [DisabledOperationException].
   /// May throw [ValidationException].
   /// May throw [InternalException].
+  ///
+  /// Parameter [domainName] :
+  /// The domain of the domain to get upgrade status information for.
   Future<GetUpgradeStatusResponse> getUpgradeStatus({
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1064,14 +1377,14 @@ class OpenSearchService {
     return GetUpgradeStatusResponse.fromJson(response);
   }
 
-  /// Returns the names of all domains owned by the current user's account.
+  /// Returns the names of all Amazon OpenSearch Service domains owned by the
+  /// current user in the active Region.
   ///
   /// May throw [BaseException].
   /// May throw [ValidationException].
   ///
   /// Parameter [engineType] :
-  /// Optional parameter to filter the output by domain engine type. Acceptable
-  /// values are 'Elasticsearch' and 'OpenSearch'.
+  /// Filters the output by domain engine type.
   Future<ListDomainNamesResponse> listDomainNames({
     EngineType? engineType,
   }) async {
@@ -1088,7 +1401,10 @@ class OpenSearchService {
     return ListDomainNamesResponse.fromJson(response);
   }
 
-  /// Lists all Amazon OpenSearch Service domains associated with the package.
+  /// Lists all Amazon OpenSearch Service domains associated with a given
+  /// package. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html">Custom
+  /// packages for Amazon OpenSearch Service</a>.
   ///
   /// May throw [BaseException].
   /// May throw [InternalException].
@@ -1097,20 +1413,23 @@ class OpenSearchService {
   /// May throw [ValidationException].
   ///
   /// Parameter [packageID] :
-  /// The package for which to list associated domains.
+  /// The unique identifier of the package for which to list associated domains.
   ///
   /// Parameter [maxResults] :
-  /// Limits the results to a maximum number of domains.
+  /// An optional parameter that specifies the maximum number of results to
+  /// return. You can use <code>nextToken</code> to get the next page of
+  /// results.
   ///
   /// Parameter [nextToken] :
-  /// Used for pagination. Only necessary if a previous API call includes a
-  /// non-null NextToken value. If provided, returns results for the next page.
+  /// If your initial <code>ListDomainsForPackage</code> operation returns a
+  /// <code>nextToken</code>, you can include the returned
+  /// <code>nextToken</code> in subsequent <code>ListDomainsForPackage</code>
+  /// operations, which returns results in the next page.
   Future<ListDomainsForPackageResponse> listDomainsForPackage({
     required String packageID,
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(packageID, 'packageID');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1132,18 +1451,47 @@ class OpenSearchService {
     return ListDomainsForPackageResponse.fromJson(response);
   }
 
+  /// Lists all instance types and available features for a given OpenSearch or
+  /// Elasticsearch version.
   ///
   /// May throw [BaseException].
   /// May throw [InternalException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
+  ///
+  /// Parameter [engineVersion] :
+  /// The version of OpenSearch or Elasticsearch, in the format
+  /// Elasticsearch_X.Y or OpenSearch_X.Y. Defaults to the latest version of
+  /// OpenSearch.
+  ///
+  /// Parameter [domainName] :
+  /// The name of the domain.
+  ///
+  /// Parameter [instanceType] :
+  /// An optional parameter that lists information for a given instance type.
+  ///
+  /// Parameter [maxResults] :
+  /// An optional parameter that specifies the maximum number of results to
+  /// return. You can use <code>nextToken</code> to get the next page of
+  /// results.
+  ///
+  /// Parameter [nextToken] :
+  /// If your initial <code>ListInstanceTypeDetails</code> operation returns a
+  /// <code>nextToken</code>, you can include the returned
+  /// <code>nextToken</code> in subsequent <code>ListInstanceTypeDetails</code>
+  /// operations, which returns results in the next page.
+  ///
+  /// Parameter [retrieveAZs] :
+  /// An optional parameter that specifies the Availability Zones for the
+  /// domain.
   Future<ListInstanceTypeDetailsResponse> listInstanceTypeDetails({
     required String engineVersion,
     String? domainName,
+    String? instanceType,
     int? maxResults,
     String? nextToken,
+    bool? retrieveAZs,
   }) async {
-    ArgumentError.checkNotNull(engineVersion, 'engineVersion');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1152,8 +1500,10 @@ class OpenSearchService {
     );
     final $query = <String, List<String>>{
       if (domainName != null) 'domainName': [domainName],
+      if (instanceType != null) 'instanceType': [instanceType],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
+      if (retrieveAZs != null) 'retrieveAZs': [retrieveAZs.toString()],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1166,7 +1516,10 @@ class OpenSearchService {
     return ListInstanceTypeDetailsResponse.fromJson(response);
   }
 
-  /// Lists all packages associated with the Amazon OpenSearch Service domain.
+  /// Lists all packages associated with an Amazon OpenSearch Service domain.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html">Custom
+  /// packages for Amazon OpenSearch Service</a>.
   ///
   /// May throw [BaseException].
   /// May throw [InternalException].
@@ -1178,17 +1531,20 @@ class OpenSearchService {
   /// The name of the domain for which you want to list associated packages.
   ///
   /// Parameter [maxResults] :
-  /// Limits results to a maximum number of packages.
+  /// An optional parameter that specifies the maximum number of results to
+  /// return. You can use <code>nextToken</code> to get the next page of
+  /// results.
   ///
   /// Parameter [nextToken] :
-  /// Used for pagination. Only necessary if a previous API call includes a
-  /// non-null NextToken value. If provided, returns results for the next page.
+  /// If your initial <code>ListPackagesForDomain</code> operation returns a
+  /// <code>nextToken</code>, you can include the returned
+  /// <code>nextToken</code> in subsequent <code>ListPackagesForDomain</code>
+  /// operations, which returns results in the next page.
   Future<ListPackagesForDomainResponse> listPackagesForDomain({
     required String domainName,
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1210,7 +1566,62 @@ class OpenSearchService {
     return ListPackagesForDomainResponse.fromJson(response);
   }
 
-  /// Returns all tags for the given domain.
+  /// Retrieves a list of configuration changes that are scheduled for a domain.
+  /// These changes can be <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html">service
+  /// software updates</a> or <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html#auto-tune-types">blue/green
+  /// Auto-Tune enhancements</a>.
+  ///
+  /// May throw [BaseException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidPaginationTokenException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [domainName] :
+  /// The name of the domain.
+  ///
+  /// Parameter [maxResults] :
+  /// An optional parameter that specifies the maximum number of results to
+  /// return. You can use <code>nextToken</code> to get the next page of
+  /// results.
+  ///
+  /// Parameter [nextToken] :
+  /// If your initial <code>ListScheduledActions</code> operation returns a
+  /// <code>nextToken</code>, you can include the returned
+  /// <code>nextToken</code> in subsequent <code>ListScheduledActions</code>
+  /// operations, which returns results in the next page.
+  Future<ListScheduledActionsResponse> listScheduledActions({
+    required String domainName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2021-01-01/opensearch/domain/${Uri.encodeComponent(domainName)}/scheduledActions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListScheduledActionsResponse.fromJson(response);
+  }
+
+  /// Returns all resource tags for an Amazon OpenSearch Service domain. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-awsresourcetagging.html">Tagging
+  /// Amazon OpenSearch Service domains</a>.
   ///
   /// May throw [BaseException].
   /// May throw [ResourceNotFoundException].
@@ -1218,12 +1629,10 @@ class OpenSearchService {
   /// May throw [InternalException].
   ///
   /// Parameter [arn] :
-  /// Specify the <code>ARN</code> of the domain that the tags you want to view
-  /// are attached to.
+  /// Amazon Resource Name (ARN) for the domain to view tags for.
   Future<ListTagsResponse> listTags({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
     final $query = <String, List<String>>{
       'arn': [arn],
     };
@@ -1237,7 +1646,8 @@ class OpenSearchService {
     return ListTagsResponse.fromJson(response);
   }
 
-  /// List all supported versions of OpenSearch and Elasticsearch.
+  /// Lists all versions of OpenSearch and Elasticsearch that Amazon OpenSearch
+  /// Service supports.
   ///
   /// May throw [BaseException].
   /// May throw [InternalException].
@@ -1245,8 +1655,15 @@ class OpenSearchService {
   /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
-  /// Set this value to limit the number of results returned. Value must be
-  /// greater than 10 or it won't be honored.
+  /// An optional parameter that specifies the maximum number of results to
+  /// return. You can use <code>nextToken</code> to get the next page of
+  /// results.
+  ///
+  /// Parameter [nextToken] :
+  /// If your initial <code>ListVersions</code> operation returns a
+  /// <code>nextToken</code>, you can include the returned
+  /// <code>nextToken</code> in subsequent <code>ListVersions</code> operations,
+  /// which returns results in the next page.
   Future<ListVersionsResponse> listVersions({
     int? maxResults,
     String? nextToken,
@@ -1271,7 +1688,105 @@ class OpenSearchService {
     return ListVersionsResponse.fromJson(response);
   }
 
-  /// Allows you to purchase reserved OpenSearch instances.
+  /// Retrieves information about each Amazon Web Services principal that is
+  /// allowed to access a given Amazon OpenSearch Service domain through the use
+  /// of an interface VPC endpoint.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [DisabledOperationException].
+  /// May throw [InternalException].
+  /// May throw [BaseException].
+  ///
+  /// Parameter [domainName] :
+  /// The name of the OpenSearch Service domain to retrieve access information
+  /// for.
+  ///
+  /// Parameter [nextToken] :
+  /// If your initial <code>ListVpcEndpointAccess</code> operation returns a
+  /// <code>nextToken</code>, you can include the returned
+  /// <code>nextToken</code> in subsequent <code>ListVpcEndpointAccess</code>
+  /// operations, which returns results in the next page.
+  Future<ListVpcEndpointAccessResponse> listVpcEndpointAccess({
+    required String domainName,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2021-01-01/opensearch/domain/${Uri.encodeComponent(domainName)}/listVpcEndpointAccess',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListVpcEndpointAccessResponse.fromJson(response);
+  }
+
+  /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the
+  /// current Amazon Web Services account and Region.
+  ///
+  /// May throw [InternalException].
+  /// May throw [DisabledOperationException].
+  /// May throw [BaseException].
+  ///
+  /// Parameter [nextToken] :
+  /// If your initial <code>ListVpcEndpoints</code> operation returns a
+  /// <code>nextToken</code>, you can include the returned
+  /// <code>nextToken</code> in subsequent <code>ListVpcEndpoints</code>
+  /// operations, which returns results in the next page.
+  Future<ListVpcEndpointsResponse> listVpcEndpoints({
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/2021-01-01/opensearch/vpcEndpoints',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListVpcEndpointsResponse.fromJson(response);
+  }
+
+  /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated
+  /// with a particular domain.
+  ///
+  /// May throw [InternalException].
+  /// May throw [DisabledOperationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [BaseException].
+  ///
+  /// Parameter [domainName] :
+  /// The name of the domain to list associated VPC endpoints for.
+  ///
+  /// Parameter [nextToken] :
+  /// If your initial <code>ListEndpointsForDomain</code> operation returns a
+  /// <code>nextToken</code>, you can include the returned
+  /// <code>nextToken</code> in subsequent <code>ListEndpointsForDomain</code>
+  /// operations, which returns results in the next page.
+  Future<ListVpcEndpointsForDomainResponse> listVpcEndpointsForDomain({
+    required String domainName,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2021-01-01/opensearch/domain/${Uri.encodeComponent(domainName)}/vpcEndpoints',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListVpcEndpointsForDomainResponse.fromJson(response);
+  }
+
+  /// Allows you to purchase Amazon OpenSearch Service Reserved Instances.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ResourceAlreadyExistsException].
@@ -1284,7 +1799,7 @@ class OpenSearchService {
   /// A customer-specified identifier to track this reservation.
   ///
   /// Parameter [reservedInstanceOfferingId] :
-  /// The ID of the reserved OpenSearch instance offering to purchase.
+  /// The ID of the Reserved Instance offering to purchase.
   ///
   /// Parameter [instanceCount] :
   /// The number of OpenSearch instances to reserve.
@@ -1294,9 +1809,6 @@ class OpenSearchService {
     required String reservedInstanceOfferingId,
     int? instanceCount,
   }) async {
-    ArgumentError.checkNotNull(reservationName, 'reservationName');
-    ArgumentError.checkNotNull(
-        reservedInstanceOfferingId, 'reservedInstanceOfferingId');
     _s.validateNumRange(
       'instanceCount',
       instanceCount,
@@ -1317,18 +1829,17 @@ class OpenSearchService {
     return PurchaseReservedInstanceOfferingResponse.fromJson(response);
   }
 
-  /// Allows the remote domain owner to reject an inbound cross-cluster
-  /// connection request.
+  /// Allows the remote Amazon OpenSearch Service domain owner to reject an
+  /// inbound cross-cluster connection request.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [DisabledOperationException].
   ///
   /// Parameter [connectionId] :
-  /// The ID of the inbound connection to reject.
+  /// The unique identifier of the inbound connection to reject.
   Future<RejectInboundConnectionResponse> rejectInboundConnection({
     required String connectionId,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -1339,24 +1850,25 @@ class OpenSearchService {
     return RejectInboundConnectionResponse.fromJson(response);
   }
 
-  /// Removes the specified set of tags from the given domain.
+  /// Removes the specified set of tags from an Amazon OpenSearch Service
+  /// domain. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains.html#managedomains-awsresorcetagging">
+  /// Tagging Amazon OpenSearch Service domains</a>.
   ///
   /// May throw [BaseException].
   /// May throw [ValidationException].
   /// May throw [InternalException].
   ///
   /// Parameter [arn] :
-  /// The <code>ARN</code> of the domain from which you want to delete the
-  /// specified tags.
+  /// The Amazon Resource Name (ARN) of the domain from which you want to delete
+  /// the specified tags.
   ///
   /// Parameter [tagKeys] :
-  /// The <code>TagKey</code> list you want to remove from the domain.
+  /// The list of tag keys to remove from the domain.
   Future<void> removeTags({
     required String arn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $payload = <String, dynamic>{
       'ARN': arn,
       'TagKeys': tagKeys,
@@ -1369,8 +1881,40 @@ class OpenSearchService {
     );
   }
 
+  /// Revokes access to an Amazon OpenSearch Service domain that was provided
+  /// through an interface VPC endpoint.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [DisabledOperationException].
+  /// May throw [InternalException].
+  /// May throw [BaseException].
+  ///
+  /// Parameter [account] :
+  /// The account ID to revoke access from.
+  ///
+  /// Parameter [domainName] :
+  /// The name of the OpenSearch Service domain.
+  Future<void> revokeVpcEndpointAccess({
+    required String account,
+    required String domainName,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Account': account,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/2021-01-01/opensearch/domain/${Uri.encodeComponent(domainName)}/revokeVpcEndpointAccess',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Schedules a service software update for an Amazon OpenSearch Service
-  /// domain.
+  /// domain. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html">Service
+  /// software updates in Amazon OpenSearch Service</a>.
   ///
   /// May throw [BaseException].
   /// May throw [InternalException].
@@ -1380,12 +1924,43 @@ class OpenSearchService {
   /// Parameter [domainName] :
   /// The name of the domain that you want to update to the latest service
   /// software.
+  ///
+  /// Parameter [desiredStartTime] :
+  /// The Epoch timestamp when you want the service software update to start.
+  /// You only need to specify this parameter if you set <code>ScheduleAt</code>
+  /// to <code>TIMESTAMP</code>.
+  ///
+  /// Parameter [scheduleAt] :
+  /// When to start the service software update.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>NOW</code> - Immediately schedules the update to happen in the
+  /// current hour if there's capacity available.
+  /// </li>
+  /// <li>
+  /// <code>TIMESTAMP</code> - Lets you specify a custom date and time to apply
+  /// the update. If you specify this value, you must also provide a value for
+  /// <code>DesiredStartTime</code>.
+  /// </li>
+  /// <li>
+  /// <code>OFF_PEAK_WINDOW</code> - Marks the update to be picked up during an
+  /// upcoming off-peak window. There's no guarantee that the update will happen
+  /// during the next immediate window. Depending on capacity, it might happen
+  /// in subsequent days.
+  /// </li>
+  /// </ul>
+  /// Default: <code>NOW</code> if you don't specify a value for
+  /// <code>DesiredStartTime</code>, and <code>TIMESTAMP</code> if you do.
   Future<StartServiceSoftwareUpdateResponse> startServiceSoftwareUpdate({
     required String domainName,
+    int? desiredStartTime,
+    ScheduleAt? scheduleAt,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final $payload = <String, dynamic>{
       'DomainName': domainName,
+      if (desiredStartTime != null) 'DesiredStartTime': desiredStartTime,
+      if (scheduleAt != null) 'ScheduleAt': scheduleAt.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1396,8 +1971,8 @@ class OpenSearchService {
     return StartServiceSoftwareUpdateResponse.fromJson(response);
   }
 
-  /// Modifies the cluster configuration of the specified domain, such as
-  /// setting the instance type and the number of instances.
+  /// Modifies the cluster configuration of the specified Amazon OpenSearch
+  /// Service domain.sl
   ///
   /// May throw [BaseException].
   /// May throw [InternalException].
@@ -1407,67 +1982,109 @@ class OpenSearchService {
   /// May throw [ValidationException].
   ///
   /// Parameter [domainName] :
-  /// The name of the domain you're updating.
+  /// The name of the domain that you're updating.
   ///
   /// Parameter [accessPolicies] :
-  /// IAM access policy as a JSON-formatted string.
+  /// Identity and Access Management (IAM) access policy as a JSON-formatted
+  /// string.
   ///
   /// Parameter [advancedOptions] :
-  /// Modifies the advanced option to allow references to indices in an HTTP
-  /// request body. Must be <code>false</code> when configuring access to
-  /// individual sub-resources. By default, the value is <code>true</code>. See
-  /// <a
-  /// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-advanced-options"
-  /// target="_blank">Advanced options </a> for more information.
+  /// Key-value pairs to specify advanced configuration options. The following
+  /// key-value pairs are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"rest.action.multi.allow_explicit_index": "true" | "false"</code> -
+  /// Note the use of a string rather than a boolean. Specifies whether explicit
+  /// references to indexes are allowed inside the body of HTTP requests. If you
+  /// want to configure access policies for domain sub-resources, such as
+  /// specific indexes and domain APIs, you must disable this property. Default
+  /// is true.
+  /// </li>
+  /// <li>
+  /// <code>"indices.fielddata.cache.size": "80" </code> - Note the use of a
+  /// string rather than a boolean. Specifies the percentage of heap space
+  /// allocated to field data. Default is unbounded.
+  /// </li>
+  /// <li>
+  /// <code>"indices.query.bool.max_clause_count": "1024"</code> - Note the use
+  /// of a string rather than a boolean. Specifies the maximum number of clauses
+  /// allowed in a Lucene boolean query. Default is 1,024. Queries with more
+  /// than the permitted number of clauses result in a
+  /// <code>TooManyClauses</code> error.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-advanced-options">Advanced
+  /// cluster parameters</a>.
   ///
   /// Parameter [advancedSecurityOptions] :
-  /// Specifies advanced security options.
+  /// Options for fine-grained access control.
   ///
   /// Parameter [autoTuneOptions] :
-  /// Specifies Auto-Tune options.
+  /// Options for Auto-Tune.
   ///
   /// Parameter [clusterConfig] :
-  /// The type and number of instances to instantiate for the domain cluster.
+  /// Changes that you want to make to the cluster configuration, such as the
+  /// instance type and number of EC2 instances.
   ///
   /// Parameter [cognitoOptions] :
-  /// Options to specify the Cognito user and identity pools for OpenSearch
-  /// Dashboards authentication. For more information, see <a
-  /// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/cognito-auth.html"
-  /// target="_blank">Configuring Amazon Cognito authentication for OpenSearch
-  /// Dashboards</a>.
+  /// Key-value pairs to configure Amazon Cognito authentication for OpenSearch
+  /// Dashboards.
   ///
   /// Parameter [domainEndpointOptions] :
-  /// Options to specify configuration that will be applied to the domain
-  /// endpoint.
+  /// Additional options for the domain endpoint, such as whether to require
+  /// HTTPS for all traffic.
   ///
   /// Parameter [dryRun] :
   /// This flag, when set to True, specifies whether the
-  /// <code>UpdateDomain</code> request should return the results of validation
-  /// checks (DryRunResults) without actually applying the change.
+  /// <code>UpdateDomain</code> request should return the results of a dry run
+  /// analysis without actually applying the change. A dry run determines what
+  /// type of deployment the update will cause.
+  ///
+  /// Parameter [dryRunMode] :
+  /// The type of dry run to perform.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Basic</code> only returns the type of deployment (blue/green or
+  /// dynamic) that the update will cause.
+  /// </li>
+  /// <li>
+  /// <code>Verbose</code> runs an additional check to validate the changes
+  /// you're making. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-configuration-changes#validation-check">Validating
+  /// a domain update</a>.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [eBSOptions] :
-  /// Specify the type and size of the EBS volume to use.
+  /// The type and size of the EBS volume to attach to instances in the domain.
   ///
   /// Parameter [encryptionAtRestOptions] :
-  /// Specifies encryption of data at rest options.
+  /// Encryption at rest options for the domain.
   ///
   /// Parameter [logPublishingOptions] :
-  /// Map of <code>LogType</code> and <code>LogPublishingOption</code>, each
-  /// containing options to publish a given type of OpenSearch log.
+  /// Options to publish OpenSearch logs to Amazon CloudWatch Logs.
   ///
   /// Parameter [nodeToNodeEncryptionOptions] :
-  /// Specifies node-to-node encryption options.
+  /// Node-to-node encryption options for the domain.
+  ///
+  /// Parameter [offPeakWindowOptions] :
+  /// Off-peak window options for the domain.
   ///
   /// Parameter [snapshotOptions] :
   /// Option to set the time, in UTC format, for the daily automated snapshot.
   /// Default value is <code>0</code> hours.
   ///
+  /// Parameter [softwareUpdateOptions] :
+  /// Service software update options for the domain.
+  ///
   /// Parameter [vPCOptions] :
-  /// Options to specify the subnets and security groups for the VPC endpoint.
-  /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html"
-  /// target="_blank">Launching your Amazon OpenSearch Service domains using a
-  /// VPC </a>.
+  /// Options to specify the subnets and security groups for a VPC endpoint. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html">Launching
+  /// your Amazon OpenSearch Service domains using a VPC</a>.
   Future<UpdateDomainConfigResponse> updateDomainConfig({
     required String domainName,
     String? accessPolicies,
@@ -1478,14 +2095,16 @@ class OpenSearchService {
     CognitoOptions? cognitoOptions,
     DomainEndpointOptions? domainEndpointOptions,
     bool? dryRun,
+    DryRunMode? dryRunMode,
     EBSOptions? eBSOptions,
     EncryptionAtRestOptions? encryptionAtRestOptions,
     Map<LogType, LogPublishingOption>? logPublishingOptions,
     NodeToNodeEncryptionOptions? nodeToNodeEncryptionOptions,
+    OffPeakWindowOptions? offPeakWindowOptions,
     SnapshotOptions? snapshotOptions,
+    SoftwareUpdateOptions? softwareUpdateOptions,
     VPCOptions? vPCOptions,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final $payload = <String, dynamic>{
       if (accessPolicies != null) 'AccessPolicies': accessPolicies,
       if (advancedOptions != null) 'AdvancedOptions': advancedOptions,
@@ -1497,6 +2116,7 @@ class OpenSearchService {
       if (domainEndpointOptions != null)
         'DomainEndpointOptions': domainEndpointOptions,
       if (dryRun != null) 'DryRun': dryRun,
+      if (dryRunMode != null) 'DryRunMode': dryRunMode.toValue(),
       if (eBSOptions != null) 'EBSOptions': eBSOptions,
       if (encryptionAtRestOptions != null)
         'EncryptionAtRestOptions': encryptionAtRestOptions,
@@ -1505,7 +2125,11 @@ class OpenSearchService {
             logPublishingOptions.map((k, e) => MapEntry(k.toValue(), e)),
       if (nodeToNodeEncryptionOptions != null)
         'NodeToNodeEncryptionOptions': nodeToNodeEncryptionOptions,
+      if (offPeakWindowOptions != null)
+        'OffPeakWindowOptions': offPeakWindowOptions,
       if (snapshotOptions != null) 'SnapshotOptions': snapshotOptions,
+      if (softwareUpdateOptions != null)
+        'SoftwareUpdateOptions': softwareUpdateOptions,
       if (vPCOptions != null) 'VPCOptions': vPCOptions,
     };
     final response = await _protocol.send(
@@ -1518,7 +2142,10 @@ class OpenSearchService {
     return UpdateDomainConfigResponse.fromJson(response);
   }
 
-  /// Updates a package for use with Amazon OpenSearch Service domains.
+  /// Updates a package for use with Amazon OpenSearch Service domains. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html">Custom
+  /// packages for Amazon OpenSearch Service</a>.
   ///
   /// May throw [BaseException].
   /// May throw [InternalException].
@@ -1530,8 +2157,11 @@ class OpenSearchService {
   /// Parameter [packageID] :
   /// The unique identifier for the package.
   ///
+  /// Parameter [packageSource] :
+  /// Amazon S3 bucket and key for the package.
+  ///
   /// Parameter [commitMessage] :
-  /// A commit message for the new version which is shown as part of
+  /// Commit message for the updated file, which is shown as part of
   /// <code>GetPackageVersionHistoryResponse</code>.
   ///
   /// Parameter [packageDescription] :
@@ -1542,8 +2172,6 @@ class OpenSearchService {
     String? commitMessage,
     String? packageDescription,
   }) async {
-    ArgumentError.checkNotNull(packageID, 'packageID');
-    ArgumentError.checkNotNull(packageSource, 'packageSource');
     final $payload = <String, dynamic>{
       'PackageID': packageID,
       'PackageSource': packageSource,
@@ -1559,8 +2187,119 @@ class OpenSearchService {
     return UpdatePackageResponse.fromJson(response);
   }
 
-  /// Allows you to either upgrade your domain or perform an upgrade eligibility
-  /// check to a compatible version of OpenSearch or Elasticsearch.
+  /// Reschedules a planned domain configuration change for a later time. This
+  /// change can be a scheduled <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html">service
+  /// software update</a> or a <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html#auto-tune-types">blue/green
+  /// Auto-Tune enhancement</a>.
+  ///
+  /// May throw [BaseException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [SlotNotAvailableException].
+  /// May throw [ConflictException].
+  /// May throw [LimitExceededException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [actionID] :
+  /// The unique identifier of the action to reschedule. To retrieve this ID,
+  /// send a <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_ListScheduledActions.html">ListScheduledActions</a>
+  /// request.
+  ///
+  /// Parameter [actionType] :
+  /// The type of action to reschedule. Can be one of
+  /// <code>SERVICE_SOFTWARE_UPDATE</code>, <code>JVM_HEAP_SIZE_TUNING</code>,
+  /// or <code>JVM_YOUNG_GEN_TUNING</code>. To retrieve this value, send a <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_ListScheduledActions.html">ListScheduledActions</a>
+  /// request.
+  ///
+  /// Parameter [domainName] :
+  /// The name of the domain to reschedule an action for.
+  ///
+  /// Parameter [scheduleAt] :
+  /// When to schedule the action.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>NOW</code> - Immediately schedules the update to happen in the
+  /// current hour if there's capacity available.
+  /// </li>
+  /// <li>
+  /// <code>TIMESTAMP</code> - Lets you specify a custom date and time to apply
+  /// the update. If you specify this value, you must also provide a value for
+  /// <code>DesiredStartTime</code>.
+  /// </li>
+  /// <li>
+  /// <code>OFF_PEAK_WINDOW</code> - Marks the action to be picked up during an
+  /// upcoming off-peak window. There's no guarantee that the change will be
+  /// implemented during the next immediate window. Depending on capacity, it
+  /// might happen in subsequent days.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [desiredStartTime] :
+  /// The time to implement the change, in Coordinated Universal Time (UTC).
+  /// Only specify this parameter if you set <code>ScheduleAt</code> to
+  /// <code>TIMESTAMP</code>.
+  Future<UpdateScheduledActionResponse> updateScheduledAction({
+    required String actionID,
+    required ActionType actionType,
+    required String domainName,
+    required ScheduleAt scheduleAt,
+    int? desiredStartTime,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ActionID': actionID,
+      'ActionType': actionType.toValue(),
+      'ScheduleAt': scheduleAt.toValue(),
+      if (desiredStartTime != null) 'DesiredStartTime': desiredStartTime,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/2021-01-01/opensearch/domain/${Uri.encodeComponent(domainName)}/scheduledAction/update',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateScheduledActionResponse.fromJson(response);
+  }
+
+  /// Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [DisabledOperationException].
+  /// May throw [InternalException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [BaseException].
+  ///
+  /// Parameter [vpcEndpointId] :
+  /// The unique identifier of the endpoint.
+  ///
+  /// Parameter [vpcOptions] :
+  /// The security groups and/or subnets to add, remove, or modify.
+  Future<UpdateVpcEndpointResponse> updateVpcEndpoint({
+    required String vpcEndpointId,
+    required VPCOptions vpcOptions,
+  }) async {
+    final $payload = <String, dynamic>{
+      'VpcEndpointId': vpcEndpointId,
+      'VpcOptions': vpcOptions,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/2021-01-01/opensearch/vpcEndpoints/update',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateVpcEndpointResponse.fromJson(response);
+  }
+
+  /// Allows you to either upgrade your Amazon OpenSearch Service domain or
+  /// perform an upgrade eligibility check to a compatible version of OpenSearch
+  /// or Elasticsearch.
   ///
   /// May throw [BaseException].
   /// May throw [ResourceNotFoundException].
@@ -1569,8 +2308,19 @@ class OpenSearchService {
   /// May throw [ValidationException].
   /// May throw [InternalException].
   ///
+  /// Parameter [domainName] :
+  /// Name of the OpenSearch Service domain that you want to upgrade.
+  ///
   /// Parameter [targetVersion] :
-  /// The version of OpenSearch you intend to upgrade the domain to.
+  /// OpenSearch or Elasticsearch version to which you want to upgrade, in the
+  /// format Opensearch_X.Y or Elasticsearch_X.Y.
+  ///
+  /// Parameter [advancedOptions] :
+  /// Only supports the <code>override_main_response_version</code> parameter
+  /// and not other advanced options. You can only include this option when
+  /// upgrading to an OpenSearch version. Specifies whether the domain reports
+  /// its version as 7.10 so that it continues to work with Elasticsearch OSS
+  /// clients and plugins.
   ///
   /// Parameter [performCheckOnly] :
   /// When true, indicates that an upgrade eligibility check needs to be
@@ -1581,8 +2331,6 @@ class OpenSearchService {
     Map<String, String>? advancedOptions,
     bool? performCheckOnly,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    ArgumentError.checkNotNull(targetVersion, 'targetVersion');
     final $payload = <String, dynamic>{
       'DomainName': domainName,
       'TargetVersion': targetVersion,
@@ -1599,9 +2347,15 @@ class OpenSearchService {
   }
 }
 
+/// Information about an Amazon OpenSearch Service domain.
 class AWSDomainInformation {
+  /// Name of the domain.
   final String domainName;
+
+  /// The Amazon Web Services account ID of the domain owner.
   final String? ownerId;
+
+  /// The Amazon Web Services Region in which the domain is located.
   final String? region;
 
   AWSDomainInformation({
@@ -1609,6 +2363,7 @@ class AWSDomainInformation {
     this.ownerId,
     this.region,
   });
+
   factory AWSDomainInformation.fromJson(Map<String, dynamic> json) {
     return AWSDomainInformation(
       domainName: json['DomainName'] as String,
@@ -1629,16 +2384,15 @@ class AWSDomainInformation {
   }
 }
 
-/// The result of an <code> <a>AcceptInboundConnection</a> </code> operation.
 /// Contains details about the accepted inbound connection.
 class AcceptInboundConnectionResponse {
-  /// The <code> <a>InboundConnection</a> </code> of the accepted inbound
-  /// connection.
+  /// Information about the accepted inbound connection.
   final InboundConnection? connection;
 
   AcceptInboundConnectionResponse({
     this.connection,
   });
+
   factory AcceptInboundConnectionResponse.fromJson(Map<String, dynamic> json) {
     return AcceptInboundConnectionResponse(
       connection: json['Connection'] != null
@@ -1647,73 +2401,171 @@ class AcceptInboundConnectionResponse {
           : null,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final connection = this.connection;
-    return {
-      if (connection != null) 'Connection': connection,
-    };
-  }
 }
 
-/// The configured access rules for the domain's document and search endpoints,
-/// and the current status of those rules.
+/// The configured access rules for the domain's search endpoint, and the
+/// current status of those rules.
 class AccessPoliciesStatus {
   /// The access policy configured for the domain. Access policies can be
-  /// resource-based, IP-based, or IAM-based. See <a
-  /// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-access-policies"
-  /// target="_blank"> Configuring access policies</a>for more information.
+  /// resource-based, IP-based, or IAM-based. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-access-policies">Configuring
+  /// access policies</a>.
   final String options;
 
-  /// The status of the access policy for the domain. See
-  /// <code>OptionStatus</code> for the status information that's included.
+  /// The status of the access policy for the domain.
   final OptionStatus status;
 
   AccessPoliciesStatus({
     required this.options,
     required this.status,
   });
+
   factory AccessPoliciesStatus.fromJson(Map<String, dynamic> json) {
     return AccessPoliciesStatus(
       options: json['Options'] as String,
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    final options = this.options;
-    final status = this.status;
-    return {
-      'Options': options,
-      'Status': status,
-    };
+enum ActionSeverity {
+  high,
+  medium,
+  low,
+}
+
+extension ActionSeverityValueExtension on ActionSeverity {
+  String toValue() {
+    switch (this) {
+      case ActionSeverity.high:
+        return 'HIGH';
+      case ActionSeverity.medium:
+        return 'MEDIUM';
+      case ActionSeverity.low:
+        return 'LOW';
+    }
   }
 }
 
-/// List of limits that are specific to a given InstanceType and for each of its
-/// <code> <a>InstanceRole</a> </code> .
+extension ActionSeverityFromString on String {
+  ActionSeverity toActionSeverity() {
+    switch (this) {
+      case 'HIGH':
+        return ActionSeverity.high;
+      case 'MEDIUM':
+        return ActionSeverity.medium;
+      case 'LOW':
+        return ActionSeverity.low;
+    }
+    throw Exception('$this is not known in enum ActionSeverity');
+  }
+}
+
+enum ActionStatus {
+  pendingUpdate,
+  inProgress,
+  failed,
+  completed,
+  notEligible,
+  eligible,
+}
+
+extension ActionStatusValueExtension on ActionStatus {
+  String toValue() {
+    switch (this) {
+      case ActionStatus.pendingUpdate:
+        return 'PENDING_UPDATE';
+      case ActionStatus.inProgress:
+        return 'IN_PROGRESS';
+      case ActionStatus.failed:
+        return 'FAILED';
+      case ActionStatus.completed:
+        return 'COMPLETED';
+      case ActionStatus.notEligible:
+        return 'NOT_ELIGIBLE';
+      case ActionStatus.eligible:
+        return 'ELIGIBLE';
+    }
+  }
+}
+
+extension ActionStatusFromString on String {
+  ActionStatus toActionStatus() {
+    switch (this) {
+      case 'PENDING_UPDATE':
+        return ActionStatus.pendingUpdate;
+      case 'IN_PROGRESS':
+        return ActionStatus.inProgress;
+      case 'FAILED':
+        return ActionStatus.failed;
+      case 'COMPLETED':
+        return ActionStatus.completed;
+      case 'NOT_ELIGIBLE':
+        return ActionStatus.notEligible;
+      case 'ELIGIBLE':
+        return ActionStatus.eligible;
+    }
+    throw Exception('$this is not known in enum ActionStatus');
+  }
+}
+
+enum ActionType {
+  serviceSoftwareUpdate,
+  jvmHeapSizeTuning,
+  jvmYoungGenTuning,
+}
+
+extension ActionTypeValueExtension on ActionType {
+  String toValue() {
+    switch (this) {
+      case ActionType.serviceSoftwareUpdate:
+        return 'SERVICE_SOFTWARE_UPDATE';
+      case ActionType.jvmHeapSizeTuning:
+        return 'JVM_HEAP_SIZE_TUNING';
+      case ActionType.jvmYoungGenTuning:
+        return 'JVM_YOUNG_GEN_TUNING';
+    }
+  }
+}
+
+extension ActionTypeFromString on String {
+  ActionType toActionType() {
+    switch (this) {
+      case 'SERVICE_SOFTWARE_UPDATE':
+        return ActionType.serviceSoftwareUpdate;
+      case 'JVM_HEAP_SIZE_TUNING':
+        return ActionType.jvmHeapSizeTuning;
+      case 'JVM_YOUNG_GEN_TUNING':
+        return ActionType.jvmYoungGenTuning;
+    }
+    throw Exception('$this is not known in enum ActionType');
+  }
+}
+
+/// List of limits that are specific to a given instance type.
 class AdditionalLimit {
-  /// Additional limit is specific to a given InstanceType and for each of its
-  /// <code> <a>InstanceRole</a> </code> etc. <br/> Attributes and their details:
-  /// <br/>
   /// <ul>
-  /// <li>MaximumNumberOfDataNodesSupported</li> This attribute is present on the
-  /// master node only to specify how much data nodes up to which given <code>
-  /// <a>ESPartitionInstanceType</a> </code> can support as master node.
-  /// <li>MaximumNumberOfDataNodesWithoutMasterNode</li> This attribute is present
-  /// on data node only to specify how much data nodes of given <code>
-  /// <a>ESPartitionInstanceType</a> </code> up to which you don't need any master
-  /// nodes to govern them.
+  /// <li>
+  /// <code>MaximumNumberOfDataNodesSupported</code> - This attribute only applies
+  /// to master nodes and specifies the maximum number of data nodes of a given
+  /// instance type a master node can support.
+  /// </li>
+  /// <li>
+  /// <code>MaximumNumberOfDataNodesWithoutMasterNode</code> - This attribute only
+  /// applies to data nodes and specifies the maximum number of data nodes of a
+  /// given instance type can exist without a master node governing them.
+  /// </li>
   /// </ul>
   final String? limitName;
 
-  /// Value for a given <code> <a>AdditionalLimit$LimitName</a> </code> .
+  /// The values of the additional instance type limits.
   final List<String>? limitValues;
 
   AdditionalLimit({
     this.limitName,
     this.limitValues,
   });
+
   factory AdditionalLimit.fromJson(Map<String, dynamic> json) {
     return AdditionalLimit(
       limitName: json['LimitName'] as String?,
@@ -1723,43 +2575,54 @@ class AdditionalLimit {
           .toList(),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final limitName = this.limitName;
-    final limitValues = this.limitValues;
-    return {
-      if (limitName != null) 'LimitName': limitName,
-      if (limitValues != null) 'LimitValues': limitValues,
-    };
-  }
 }
 
-/// Status of the advanced options for the specified domain. Currently, the
-/// following advanced options are available:
+/// Status of the advanced options for the specified domain. The following
+/// options are available:
 ///
 /// <ul>
-/// <li>Option to allow references to indices in an HTTP request body. Must be
-/// <code>false</code> when configuring access to individual sub-resources. By
-/// default, the value is <code>true</code>. See <a
-/// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-advanced-options"
-/// target="_blank">Advanced cluster parameters </a> for more information. </li>
-/// <li>Option to specify the percentage of heap space allocated to field data.
-/// By default, this setting is unbounded. </li>
+/// <li>
+/// <code>"rest.action.multi.allow_explicit_index": "true" | "false"</code> -
+/// Note the use of a string rather than a boolean. Specifies whether explicit
+/// references to indexes are allowed inside the body of HTTP requests. If you
+/// want to configure access policies for domain sub-resources, such as specific
+/// indexes and domain APIs, you must disable this property. Default is true.
+/// </li>
+/// <li>
+/// <code>"indices.fielddata.cache.size": "80" </code> - Note the use of a
+/// string rather than a boolean. Specifies the percentage of heap space
+/// allocated to field data. Default is unbounded.
+/// </li>
+/// <li>
+/// <code>"indices.query.bool.max_clause_count": "1024"</code> - Note the use of
+/// a string rather than a boolean. Specifies the maximum number of clauses
+/// allowed in a Lucene boolean query. Default is 1,024. Queries with more than
+/// the permitted number of clauses result in a <code>TooManyClauses</code>
+/// error.
+/// </li>
+/// <li>
+/// <code>"override_main_response_version": "true" | "false"</code> - Note the
+/// use of a string rather than a boolean. Specifies whether the domain reports
+/// its version as 7.10 to allow Elasticsearch OSS clients and plugins to
+/// continue working with it. Default is false when creating a domain and true
+/// when upgrading a domain.
+/// </li>
 /// </ul>
 /// For more information, see <a
-/// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-advanced-options">
-/// Advanced cluster parameters</a>.
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-advanced-options">Advanced
+/// cluster parameters</a>.
 class AdvancedOptionsStatus {
   /// The status of advanced options for the specified domain.
   final Map<String, String> options;
 
-  /// The <code>OptionStatus</code> for advanced options for the specified domain.
+  /// The status of advanced options for the specified domain.
   final OptionStatus status;
 
   AdvancedOptionsStatus({
     required this.options,
     required this.status,
   });
+
   factory AdvancedOptionsStatus.fromJson(Map<String, dynamic> json) {
     return AdvancedOptionsStatus(
       options: (json['Options'] as Map<String, dynamic>)
@@ -1767,34 +2630,30 @@ class AdvancedOptionsStatus {
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final options = this.options;
-    final status = this.status;
-    return {
-      'Options': options,
-      'Status': status,
-    };
-  }
 }
 
-/// The advanced security configuration: whether advanced security is enabled,
-/// whether the internal database option is enabled.
+/// Container for fine-grained access control settings.
 class AdvancedSecurityOptions {
-  /// Specifies the Anonymous Auth Disable Date when Anonymous Auth is enabled.
+  /// Date and time when the migration period will be disabled. Only necessary
+  /// when <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/fgac.html#fgac-enabling-existing">enabling
+  /// fine-grained access control on an existing domain</a>.
   final DateTime? anonymousAuthDisableDate;
 
-  /// True if Anonymous auth is enabled. Anonymous auth can be enabled only when
-  /// AdvancedSecurity is enabled on existing domains.
+  /// True if a 30-day migration period is enabled, during which administrators
+  /// can create role mappings. Only necessary when <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/fgac.html#fgac-enabling-existing">enabling
+  /// fine-grained access control on an existing domain</a>.
   final bool? anonymousAuthEnabled;
 
-  /// True if advanced security is enabled.
+  /// True if fine-grained access control is enabled.
   final bool? enabled;
 
   /// True if the internal user database is enabled.
   final bool? internalUserDatabaseEnabled;
 
-  /// Describes the SAML application configured for a domain.
+  /// Container for information about the SAML configuration for OpenSearch
+  /// Dashboards.
   final SAMLOptionsOutput? sAMLOptions;
 
   AdvancedSecurityOptions({
@@ -1804,6 +2663,7 @@ class AdvancedSecurityOptions {
     this.internalUserDatabaseEnabled,
     this.sAMLOptions,
   });
+
   factory AdvancedSecurityOptions.fromJson(Map<String, dynamic> json) {
     return AdvancedSecurityOptions(
       anonymousAuthDisableDate:
@@ -1817,46 +2677,30 @@ class AdvancedSecurityOptions {
           : null,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final anonymousAuthDisableDate = this.anonymousAuthDisableDate;
-    final anonymousAuthEnabled = this.anonymousAuthEnabled;
-    final enabled = this.enabled;
-    final internalUserDatabaseEnabled = this.internalUserDatabaseEnabled;
-    final sAMLOptions = this.sAMLOptions;
-    return {
-      if (anonymousAuthDisableDate != null)
-        'AnonymousAuthDisableDate':
-            unixTimestampToJson(anonymousAuthDisableDate),
-      if (anonymousAuthEnabled != null)
-        'AnonymousAuthEnabled': anonymousAuthEnabled,
-      if (enabled != null) 'Enabled': enabled,
-      if (internalUserDatabaseEnabled != null)
-        'InternalUserDatabaseEnabled': internalUserDatabaseEnabled,
-      if (sAMLOptions != null) 'SAMLOptions': sAMLOptions,
-    };
-  }
 }
 
-/// The advanced security configuration: whether advanced security is enabled,
-/// whether the internal database option is enabled, master username and
-/// password (if internal database is enabled), and master user ARN (if IAM is
-/// enabled).
+/// Options for enabling and configuring fine-grained access control. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/fgac.html">Fine-grained
+/// access control in Amazon OpenSearch Service</a>.
 class AdvancedSecurityOptionsInput {
-  /// True if Anonymous auth is enabled. Anonymous auth can be enabled only when
-  /// AdvancedSecurity is enabled on existing domains.
+  /// True to enable a 30-day migration period during which administrators can
+  /// create role mappings. Only necessary when <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/fgac.html#fgac-enabling-existing">enabling
+  /// fine-grained access control on an existing domain</a>.
   final bool? anonymousAuthEnabled;
 
-  /// True if advanced security is enabled.
+  /// True to enable fine-grained access control.
   final bool? enabled;
 
-  /// True if the internal user database is enabled.
+  /// True to enable the internal user database.
   final bool? internalUserDatabaseEnabled;
 
-  /// Credentials for the master user: username and password, ARN, or both.
+  /// Container for information about the master user.
   final MasterUserOptions? masterUserOptions;
 
-  /// The SAML application configuration for the domain.
+  /// Container for information about the SAML configuration for OpenSearch
+  /// Dashboards.
   final SAMLOptionsInput? sAMLOptions;
 
   AdvancedSecurityOptionsInput({
@@ -1866,7 +2710,6 @@ class AdvancedSecurityOptionsInput {
     this.masterUserOptions,
     this.sAMLOptions,
   });
-
   Map<String, dynamic> toJson() {
     final anonymousAuthEnabled = this.anonymousAuthEnabled;
     final enabled = this.enabled;
@@ -1885,18 +2728,19 @@ class AdvancedSecurityOptionsInput {
   }
 }
 
-/// The status of advanced security options for the specified domain.
+/// The status of fine-grained access control settings for a domain.
 class AdvancedSecurityOptionsStatus {
-  /// Advanced security options for the specified domain.
+  /// Container for fine-grained access control settings.
   final AdvancedSecurityOptions options;
 
-  /// Status of the advanced security options for the specified domain.
+  /// Status of the fine-grained access control settings for a domain.
   final OptionStatus status;
 
   AdvancedSecurityOptionsStatus({
     required this.options,
     required this.status,
   });
+
   factory AdvancedSecurityOptionsStatus.fromJson(Map<String, dynamic> json) {
     return AdvancedSecurityOptionsStatus(
       options: AdvancedSecurityOptions.fromJson(
@@ -1904,26 +2748,18 @@ class AdvancedSecurityOptionsStatus {
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final options = this.options;
-    final status = this.status;
-    return {
-      'Options': options,
-      'Status': status,
-    };
-  }
 }
 
-/// Container for the response returned by <code> <a>AssociatePackage</a>
-/// </code> operation.
+/// Container for the response returned by the <code>AssociatePackage</code>
+/// operation.
 class AssociatePackageResponse {
-  /// <code>DomainPackageDetails</code>
+  /// Information about a package that is associated with a domain.
   final DomainPackageDetails? domainPackageDetails;
 
   AssociatePackageResponse({
     this.domainPackageDetails,
   });
+
   factory AssociatePackageResponse.fromJson(Map<String, dynamic> json) {
     return AssociatePackageResponse(
       domainPackageDetails: json['DomainPackageDetails'] != null
@@ -1932,31 +2768,66 @@ class AssociatePackageResponse {
           : null,
     );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    final domainPackageDetails = this.domainPackageDetails;
-    return {
-      if (domainPackageDetails != null)
-        'DomainPackageDetails': domainPackageDetails,
-    };
+class AuthorizeVpcEndpointAccessResponse {
+  /// Information about the Amazon Web Services account or service that was
+  /// provided access to the domain.
+  final AuthorizedPrincipal authorizedPrincipal;
+
+  AuthorizeVpcEndpointAccessResponse({
+    required this.authorizedPrincipal,
+  });
+
+  factory AuthorizeVpcEndpointAccessResponse.fromJson(
+      Map<String, dynamic> json) {
+    return AuthorizeVpcEndpointAccessResponse(
+      authorizedPrincipal: AuthorizedPrincipal.fromJson(
+          json['AuthorizedPrincipal'] as Map<String, dynamic>),
+    );
   }
 }
 
-/// Specifies the Auto-Tune type and Auto-Tune action details.
+/// Information about an Amazon Web Services account or service that has access
+/// to an Amazon OpenSearch Service domain through the use of an interface VPC
+/// endpoint.
+class AuthorizedPrincipal {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html">IAM
+  /// principal</a> that is allowed access to the domain.
+  final String? principal;
+
+  /// The type of principal.
+  final PrincipalType? principalType;
+
+  AuthorizedPrincipal({
+    this.principal,
+    this.principalType,
+  });
+
+  factory AuthorizedPrincipal.fromJson(Map<String, dynamic> json) {
+    return AuthorizedPrincipal(
+      principal: json['Principal'] as String?,
+      principalType: (json['PrincipalType'] as String?)?.toPrincipalType(),
+    );
+  }
+}
+
+/// Information about an Auto-Tune action. For more information, see <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html">Auto-Tune
+/// for Amazon OpenSearch Service</a>.
 class AutoTune {
-  /// Specifies details about the Auto-Tune action. See <a
-  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html"
-  /// target="_blank"> Auto-Tune for Amazon OpenSearch Service </a> for more
-  /// information.
+  /// Details about an Auto-Tune action.
   final AutoTuneDetails? autoTuneDetails;
 
-  /// Specifies the Auto-Tune type. Valid value is SCHEDULED_ACTION.
+  /// The type of Auto-Tune action.
   final AutoTuneType? autoTuneType;
 
   AutoTune({
     this.autoTuneDetails,
     this.autoTuneType,
   });
+
   factory AutoTune.fromJson(Map<String, dynamic> json) {
     return AutoTune(
       autoTuneDetails: json['AutoTuneDetails'] != null
@@ -1965,15 +2836,6 @@ class AutoTune {
           : null,
       autoTuneType: (json['AutoTuneType'] as String?)?.toAutoTuneType(),
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    final autoTuneDetails = this.autoTuneDetails;
-    final autoTuneType = this.autoTuneType;
-    return {
-      if (autoTuneDetails != null) 'AutoTuneDetails': autoTuneDetails,
-      if (autoTuneType != null) 'AutoTuneType': autoTuneType.toValue(),
-    };
   }
 }
 
@@ -2006,16 +2868,18 @@ extension AutoTuneDesiredStateFromString on String {
   }
 }
 
-/// Specifies details about the Auto-Tune action. See <a
-/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html"
-/// target="_blank"> Auto-Tune for Amazon OpenSearch Service </a> for more
-/// information.
+/// Specifies details about a scheduled Auto-Tune action. For more information,
+/// see <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html">Auto-Tune
+/// for Amazon OpenSearch Service</a>.
 class AutoTuneDetails {
+  /// Container for details about a scheduled Auto-Tune action.
   final ScheduledAutoTuneDetails? scheduledAutoTuneDetails;
 
   AutoTuneDetails({
     this.scheduledAutoTuneDetails,
   });
+
   factory AutoTuneDetails.fromJson(Map<String, dynamic> json) {
     return AutoTuneDetails(
       scheduledAutoTuneDetails: json['ScheduledAutoTuneDetails'] != null
@@ -2024,35 +2888,29 @@ class AutoTuneDetails {
           : null,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final scheduledAutoTuneDetails = this.scheduledAutoTuneDetails;
-    return {
-      if (scheduledAutoTuneDetails != null)
-        'ScheduledAutoTuneDetails': scheduledAutoTuneDetails,
-    };
-  }
 }
 
-/// Specifies the Auto-Tune maintenance schedule. See <a
-/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html"
-/// target="_blank"> Auto-Tune for Amazon OpenSearch Service </a> for more
-/// information.
+/// <note>
+/// This object is deprecated. Use the domain's <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/off-peak.html">off-peak
+/// window</a> to schedule Auto-Tune optimizations. For migration instructions,
+/// see <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/off-peak.html#off-peak-migrate">Migrating
+/// from Auto-Tune maintenance windows</a>.
+/// </note>
+/// The Auto-Tune maintenance schedule. For more information, see <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html">Auto-Tune
+/// for Amazon OpenSearch Service</a>.
 class AutoTuneMaintenanceSchedule {
-  /// A cron expression for a recurring maintenance schedule. See <a
-  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html"
-  /// target="_blank"> Auto-Tune for Amazon OpenSearch Service </a> for more
-  /// information.
+  /// A cron expression for a recurring maintenance schedule during which
+  /// Auto-Tune can deploy changes.
   final String? cronExpressionForRecurrence;
 
-  /// Specifies maintenance schedule duration: duration value and duration unit.
-  /// See <a
-  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html"
-  /// target="_blank"> Auto-Tune for Amazon OpenSearch Service </a> for more
-  /// information.
+  /// The duration of the maintenance schedule. For example, <code>"Duration":
+  /// {"Value": 2, "Unit": "HOURS"}</code>.
   final Duration? duration;
 
-  /// The timestamp at which the Auto-Tune maintenance schedule starts.
+  /// The Epoch timestamp at which the Auto-Tune maintenance schedule starts.
   final DateTime? startAt;
 
   AutoTuneMaintenanceSchedule({
@@ -2060,6 +2918,7 @@ class AutoTuneMaintenanceSchedule {
     this.duration,
     this.startAt,
   });
+
   factory AutoTuneMaintenanceSchedule.fromJson(Map<String, dynamic> json) {
     return AutoTuneMaintenanceSchedule(
       cronExpressionForRecurrence:
@@ -2084,27 +2943,40 @@ class AutoTuneMaintenanceSchedule {
   }
 }
 
-/// The Auto-Tune options: the Auto-Tune desired state for the domain, rollback
-/// state when disabling Auto-Tune options and list of maintenance schedules.
+/// Auto-Tune settings when updating a domain. For more information, see <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html">Auto-Tune
+/// for Amazon OpenSearch Service</a>.
 class AutoTuneOptions {
-  /// The Auto-Tune desired state. Valid values are ENABLED and DISABLED.
+  /// Whether Auto-Tune is enabled or disabled.
   final AutoTuneDesiredState? desiredState;
 
-  /// A list of maintenance schedules. See <a
-  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html"
-  /// target="_blank"> Auto-Tune for Amazon OpenSearch Service </a> for more
-  /// information.
+  /// DEPRECATED. Use <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/off-peak.html">off-peak
+  /// window</a> instead.
+  ///
+  /// A list of maintenance schedules during which Auto-Tune can deploy changes.
   final List<AutoTuneMaintenanceSchedule>? maintenanceSchedules;
 
-  /// The rollback state while disabling Auto-Tune for the domain. Valid values
-  /// are NO_ROLLBACK and DEFAULT_ROLLBACK.
+  /// When disabling Auto-Tune, specify <code>NO_ROLLBACK</code> to retain all
+  /// prior Auto-Tune settings or <code>DEFAULT_ROLLBACK</code> to revert to the
+  /// OpenSearch Service defaults. If you specify <code>DEFAULT_ROLLBACK</code>,
+  /// you must include a <code>MaintenanceSchedule</code> in the request.
+  /// Otherwise, OpenSearch Service is unable to perform the rollback.
   final RollbackOnDisable? rollbackOnDisable;
+
+  /// Whether to use the domain's <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_OffPeakWindow.html">off-peak
+  /// window</a> to deploy configuration changes on the domain rather than a
+  /// maintenance schedule.
+  final bool? useOffPeakWindow;
 
   AutoTuneOptions({
     this.desiredState,
     this.maintenanceSchedules,
     this.rollbackOnDisable,
+    this.useOffPeakWindow,
   });
+
   factory AutoTuneOptions.fromJson(Map<String, dynamic> json) {
     return AutoTuneOptions(
       desiredState: (json['DesiredState'] as String?)?.toAutoTuneDesiredState(),
@@ -2115,6 +2987,7 @@ class AutoTuneOptions {
           .toList(),
       rollbackOnDisable:
           (json['RollbackOnDisable'] as String?)?.toRollbackOnDisable(),
+      useOffPeakWindow: json['UseOffPeakWindow'] as bool?,
     );
   }
 
@@ -2122,86 +2995,94 @@ class AutoTuneOptions {
     final desiredState = this.desiredState;
     final maintenanceSchedules = this.maintenanceSchedules;
     final rollbackOnDisable = this.rollbackOnDisable;
+    final useOffPeakWindow = this.useOffPeakWindow;
     return {
       if (desiredState != null) 'DesiredState': desiredState.toValue(),
       if (maintenanceSchedules != null)
         'MaintenanceSchedules': maintenanceSchedules,
       if (rollbackOnDisable != null)
         'RollbackOnDisable': rollbackOnDisable.toValue(),
+      if (useOffPeakWindow != null) 'UseOffPeakWindow': useOffPeakWindow,
     };
   }
 }
 
-/// The Auto-Tune options: the Auto-Tune desired state for the domain and list
-/// of maintenance schedules.
+/// Options for configuring Auto-Tune. For more information, see <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html">Auto-Tune
+/// for Amazon OpenSearch Service</a>
 class AutoTuneOptionsInput {
-  /// The Auto-Tune desired state. Valid values are ENABLED and DISABLED.
+  /// Whether Auto-Tune is enabled or disabled.
   final AutoTuneDesiredState? desiredState;
 
-  /// A list of maintenance schedules. See <a
-  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html"
-  /// target="_blank"> Auto-Tune for Amazon OpenSearch Service </a> for more
-  /// information.
+  /// A list of maintenance schedules during which Auto-Tune can deploy changes.
+  /// Maintenance windows are deprecated and have been replaced with <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/off-peak.html">off-peak
+  /// windows</a>.
   final List<AutoTuneMaintenanceSchedule>? maintenanceSchedules;
+
+  /// Whether to schedule Auto-Tune optimizations that require blue/green
+  /// deployments during the domain's configured daily off-peak window.
+  final bool? useOffPeakWindow;
 
   AutoTuneOptionsInput({
     this.desiredState,
     this.maintenanceSchedules,
+    this.useOffPeakWindow,
   });
-
   Map<String, dynamic> toJson() {
     final desiredState = this.desiredState;
     final maintenanceSchedules = this.maintenanceSchedules;
+    final useOffPeakWindow = this.useOffPeakWindow;
     return {
       if (desiredState != null) 'DesiredState': desiredState.toValue(),
       if (maintenanceSchedules != null)
         'MaintenanceSchedules': maintenanceSchedules,
+      if (useOffPeakWindow != null) 'UseOffPeakWindow': useOffPeakWindow,
     };
   }
 }
 
-/// The Auto-Tune options: the Auto-Tune desired state for the domain and list
-/// of maintenance schedules.
+/// The Auto-Tune settings for a domain, displayed when enabling or disabling
+/// Auto-Tune.
 class AutoTuneOptionsOutput {
-  /// The error message while enabling or disabling Auto-Tune.
+  /// Any errors that occurred while enabling or disabling Auto-Tune.
   final String? errorMessage;
 
-  /// The <code>AutoTuneState</code> for the domain.
+  /// The current state of Auto-Tune on the domain.
   final AutoTuneState? state;
+
+  /// Whether the domain's off-peak window will be used to deploy Auto-Tune
+  /// changes rather than a maintenance schedule.
+  final bool? useOffPeakWindow;
 
   AutoTuneOptionsOutput({
     this.errorMessage,
     this.state,
+    this.useOffPeakWindow,
   });
+
   factory AutoTuneOptionsOutput.fromJson(Map<String, dynamic> json) {
     return AutoTuneOptionsOutput(
       errorMessage: json['ErrorMessage'] as String?,
       state: (json['State'] as String?)?.toAutoTuneState(),
+      useOffPeakWindow: json['UseOffPeakWindow'] as bool?,
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorMessage = this.errorMessage;
-    final state = this.state;
-    return {
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (state != null) 'State': state.toValue(),
-    };
   }
 }
 
 /// The Auto-Tune status for the domain.
 class AutoTuneOptionsStatus {
-  /// Specifies Auto-Tune options for the domain.
+  /// Auto-Tune settings for updating a domain.
   final AutoTuneOptions? options;
 
-  /// The status of the Auto-Tune options for the domain.
+  /// The current status of Auto-Tune for a domain.
   final AutoTuneStatus? status;
 
   AutoTuneOptionsStatus({
     this.options,
     this.status,
   });
+
   factory AutoTuneOptionsStatus.fromJson(Map<String, dynamic> json) {
     return AutoTuneOptionsStatus(
       options: json['Options'] != null
@@ -2212,20 +3093,11 @@ class AutoTuneOptionsStatus {
           : null,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final options = this.options;
-    final status = this.status;
-    return {
-      if (options != null) 'Options': options,
-      if (status != null) 'Status': status,
-    };
-  }
 }
 
 /// The Auto-Tune state for the domain. For valid states see <a
-/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html"
-/// target="_blank"> Auto-Tune for Amazon OpenSearch Service</a>.
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html">Auto-Tune
+/// for Amazon OpenSearch Service</a>.
 enum AutoTuneState {
   enabled,
   disabled,
@@ -2289,18 +3161,20 @@ extension AutoTuneStateFromString on String {
   }
 }
 
-/// Provides the current Auto-Tune status for the domain.
+/// The current status of Auto-Tune for the domain. For more information, see <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html">Auto-Tune
+/// for Amazon OpenSearch Service</a>.
 class AutoTuneStatus {
-  /// The timestamp of the Auto-Tune options creation date.
+  /// Date and time when Auto-Tune was enabled for the domain.
   final DateTime creationDate;
 
-  /// The <code>AutoTuneState</code> for the domain.
+  /// The current state of Auto-Tune on the domain.
   final AutoTuneState state;
 
-  /// The timestamp of when the Auto-Tune options were last updated.
+  /// Date and time when the Auto-Tune options were last updated for the domain.
   final DateTime updateDate;
 
-  /// The error message while enabling or disabling Auto-Tune.
+  /// Any errors that occurred while enabling or disabling Auto-Tune.
   final String? errorMessage;
 
   /// Indicates whether the domain is being deleted.
@@ -2317,6 +3191,7 @@ class AutoTuneStatus {
     this.pendingDeletion,
     this.updateVersion,
   });
+
   factory AutoTuneStatus.fromJson(Map<String, dynamic> json) {
     return AutoTuneStatus(
       creationDate:
@@ -2327,23 +3202,6 @@ class AutoTuneStatus {
       pendingDeletion: json['PendingDeletion'] as bool?,
       updateVersion: json['UpdateVersion'] as int?,
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDate = this.creationDate;
-    final state = this.state;
-    final updateDate = this.updateDate;
-    final errorMessage = this.errorMessage;
-    final pendingDeletion = this.pendingDeletion;
-    final updateVersion = this.updateVersion;
-    return {
-      'CreationDate': unixTimestampToJson(creationDate),
-      'State': state.toValue(),
-      'UpdateDate': unixTimestampToJson(updateDate),
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (pendingDeletion != null) 'PendingDeletion': pendingDeletion,
-      if (updateVersion != null) 'UpdateVersion': updateVersion,
-    };
   }
 }
 
@@ -2371,15 +3229,73 @@ extension AutoTuneTypeFromString on String {
   }
 }
 
-/// The result of a <code>CancelServiceSoftwareUpdate</code> operation. Contains
-/// the status of the update.
+/// Information about an Availability Zone on a domain.
+class AvailabilityZoneInfo {
+  /// The name of the Availability Zone.
+  final String? availabilityZoneName;
+
+  /// The number of data nodes active in the Availability Zone.
+  final String? availableDataNodeCount;
+
+  /// The total number of data nodes configured in the Availability Zone.
+  final String? configuredDataNodeCount;
+
+  /// The total number of primary and replica shards in the Availability Zone.
+  final String? totalShards;
+
+  /// The total number of primary and replica shards that aren't allocated to any
+  /// of the nodes in the Availability Zone.
+  final String? totalUnAssignedShards;
+
+  /// The current state of the Availability Zone. Current options are
+  /// <code>Active</code> and <code>StandBy</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Active</code> - Data nodes in the Availability Zone are in use.
+  /// </li>
+  /// <li>
+  /// <code>StandBy</code> - Data nodes in the Availability Zone are in a standby
+  /// state.
+  /// </li>
+  /// <li>
+  /// <code>NotAvailable</code> - Unable to retrieve information.
+  /// </li>
+  /// </ul>
+  final ZoneStatus? zoneStatus;
+
+  AvailabilityZoneInfo({
+    this.availabilityZoneName,
+    this.availableDataNodeCount,
+    this.configuredDataNodeCount,
+    this.totalShards,
+    this.totalUnAssignedShards,
+    this.zoneStatus,
+  });
+
+  factory AvailabilityZoneInfo.fromJson(Map<String, dynamic> json) {
+    return AvailabilityZoneInfo(
+      availabilityZoneName: json['AvailabilityZoneName'] as String?,
+      availableDataNodeCount: json['AvailableDataNodeCount'] as String?,
+      configuredDataNodeCount: json['ConfiguredDataNodeCount'] as String?,
+      totalShards: json['TotalShards'] as String?,
+      totalUnAssignedShards: json['TotalUnAssignedShards'] as String?,
+      zoneStatus: (json['ZoneStatus'] as String?)?.toZoneStatus(),
+    );
+  }
+}
+
+/// Container for the response to a <code>CancelServiceSoftwareUpdate</code>
+/// operation. Contains the status of the update.
 class CancelServiceSoftwareUpdateResponse {
-  /// The current status of the OpenSearch service software update.
+  /// Container for the state of your domain relative to the latest service
+  /// software.
   final ServiceSoftwareOptions? serviceSoftwareOptions;
 
   CancelServiceSoftwareUpdateResponse({
     this.serviceSoftwareOptions,
   });
+
   factory CancelServiceSoftwareUpdateResponse.fromJson(
       Map<String, dynamic> json) {
     return CancelServiceSoftwareUpdateResponse(
@@ -2389,59 +3305,42 @@ class CancelServiceSoftwareUpdateResponse {
           : null,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final serviceSoftwareOptions = this.serviceSoftwareOptions;
-    return {
-      if (serviceSoftwareOptions != null)
-        'ServiceSoftwareOptions': serviceSoftwareOptions,
-    };
-  }
 }
 
-/// Specifies change details of the domain configuration change.
+/// Container for information about a configuration change happening on a
+/// domain.
 class ChangeProgressDetails {
-  /// The unique change identifier associated with a specific domain configuration
-  /// change.
+  /// The ID of the configuration change.
   final String? changeId;
 
-  /// Contains an optional message associated with the domain configuration
-  /// change.
+  /// A message corresponding to the status of the configuration change.
   final String? message;
 
   ChangeProgressDetails({
     this.changeId,
     this.message,
   });
+
   factory ChangeProgressDetails.fromJson(Map<String, dynamic> json) {
     return ChangeProgressDetails(
       changeId: json['ChangeId'] as String?,
       message: json['Message'] as String?,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final changeId = this.changeId;
-    final message = this.message;
-    return {
-      if (changeId != null) 'ChangeId': changeId,
-      if (message != null) 'Message': message,
-    };
-  }
 }
 
-/// A progress stage details of a specific domain configuration change.
+/// Progress details for each stage of a domain update.
 class ChangeProgressStage {
-  /// The description of the progress stage.
+  /// The description of the stage.
   final String? description;
 
-  /// The last updated timestamp of the progress stage.
+  /// The most recent updated timestamp of the stage.
   final DateTime? lastUpdated;
 
-  /// The name of the specific progress stage.
+  /// The name of the stage.
   final String? name;
 
-  /// The overall status of a specific progress stage.
+  /// The status of the stage.
   final String? status;
 
   ChangeProgressStage({
@@ -2450,6 +3349,7 @@ class ChangeProgressStage {
     this.name,
     this.status,
   });
+
   factory ChangeProgressStage.fromJson(Map<String, dynamic> json) {
     return ChangeProgressStage(
       description: json['Description'] as String?,
@@ -2457,19 +3357,6 @@ class ChangeProgressStage {
       name: json['Name'] as String?,
       status: json['Status'] as String?,
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final lastUpdated = this.lastUpdated;
-    final name = this.name;
-    final status = this.status;
-    return {
-      if (description != null) 'Description': description,
-      if (lastUpdated != null) 'LastUpdated': unixTimestampToJson(lastUpdated),
-      if (name != null) 'Name': name,
-      if (status != null) 'Status': status,
-    };
   }
 }
 
@@ -2483,20 +3370,18 @@ class ChangeProgressStatusDetails {
   /// configuration change.
   final List<ChangeProgressStage>? changeProgressStages;
 
-  /// The list of properties involved in the domain configuration change that are
+  /// The list of properties in the domain configuration change that have
   /// completed.
   final List<String>? completedProperties;
 
-  /// The list of properties involved in the domain configuration change that are
-  /// still in pending.
+  /// The list of properties in the domain configuration change that are still
+  /// pending.
   final List<String>? pendingProperties;
 
   /// The time at which the configuration change is made on the domain.
   final DateTime? startTime;
 
-  /// The overall status of the domain configuration change. This field can take
-  /// the following values: <code>PENDING</code>, <code>PROCESSING</code>,
-  /// <code>COMPLETED</code> and <code>FAILED</code>
+  /// The overall status of the domain configuration change.
   final OverallChangeStatus? status;
 
   /// The total number of stages required for the configuration change.
@@ -2511,6 +3396,7 @@ class ChangeProgressStatusDetails {
     this.status,
     this.totalNumberOfStages,
   });
+
   factory ChangeProgressStatusDetails.fromJson(Map<String, dynamic> json) {
     return ChangeProgressStatusDetails(
       changeId: json['ChangeId'] as String?,
@@ -2531,74 +3417,59 @@ class ChangeProgressStatusDetails {
       totalNumberOfStages: json['TotalNumberOfStages'] as int?,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final changeId = this.changeId;
-    final changeProgressStages = this.changeProgressStages;
-    final completedProperties = this.completedProperties;
-    final pendingProperties = this.pendingProperties;
-    final startTime = this.startTime;
-    final status = this.status;
-    final totalNumberOfStages = this.totalNumberOfStages;
-    return {
-      if (changeId != null) 'ChangeId': changeId,
-      if (changeProgressStages != null)
-        'ChangeProgressStages': changeProgressStages,
-      if (completedProperties != null)
-        'CompletedProperties': completedProperties,
-      if (pendingProperties != null) 'PendingProperties': pendingProperties,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (status != null) 'Status': status.toValue(),
-      if (totalNumberOfStages != null)
-        'TotalNumberOfStages': totalNumberOfStages,
-    };
-  }
 }
 
-/// The configuration for the domain cluster, such as the type and number of
-/// instances.
+/// Container for the cluster configuration of an OpenSearch Service domain. For
+/// more information, see <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html">Creating
+/// and managing Amazon OpenSearch Service domains</a>.
 class ClusterConfig {
-  /// Specifies the <code>ColdStorageOptions</code> config for a Domain
+  /// Container for cold storage configuration options.
   final ColdStorageOptions? coldStorageOptions;
 
-  /// Total number of dedicated master nodes, active and on standby, for the
-  /// cluster.
+  /// Number of dedicated master nodes in the cluster. This number must be greater
+  /// than 2 and not 4, otherwise you receive a validation exception.
   final int? dedicatedMasterCount;
 
-  /// A boolean value to indicate whether a dedicated master node is enabled. See
-  /// <a
-  /// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains.html#managedomains-dedicatedmasternodes"
-  /// target="_blank">Dedicated master nodes in Amazon OpenSearch Service </a> for
-  /// more information.
+  /// Indicates whether dedicated master nodes are enabled for the
+  /// cluster.<code>True</code> if the cluster will use a dedicated master
+  /// node.<code>False</code> if the cluster will not.
   final bool? dedicatedMasterEnabled;
 
-  /// The instance type for a dedicated master node.
+  /// OpenSearch Service instance type of the dedicated master nodes in the
+  /// cluster.
   final OpenSearchPartitionInstanceType? dedicatedMasterType;
 
-  /// The number of instances in the specified domain cluster.
+  /// Number of dedicated master nodes in the cluster. This number must be greater
+  /// than 1, otherwise you receive a validation exception.
   final int? instanceCount;
 
-  /// The instance type for an OpenSearch cluster. UltraWarm instance types are
-  /// not supported for data instances.
+  /// Instance type of data nodes in the cluster.
   final OpenSearchPartitionInstanceType? instanceType;
 
-  /// The number of UltraWarm nodes in the cluster.
+  /// A boolean that indicates whether a multi-AZ domain is turned on with a
+  /// standby AZ. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-multiaz.html">Configuring
+  /// a multi-AZ domain in Amazon OpenSearch Service</a>.
+  final bool? multiAZWithStandbyEnabled;
+
+  /// The number of warm nodes in the cluster.
   final int? warmCount;
 
-  /// True to enable UltraWarm storage.
+  /// Whether to enable warm storage for the cluster.
   final bool? warmEnabled;
 
-  /// The instance type for the OpenSearch cluster's warm nodes.
+  /// The instance type for the cluster's warm nodes.
   final OpenSearchWarmPartitionInstanceType? warmType;
 
-  /// The zone awareness configuration for a domain when zone awareness is
-  /// enabled.
+  /// Container for zone awareness configuration options. Only required if
+  /// <code>ZoneAwarenessEnabled</code> is <code>true</code>.
   final ZoneAwarenessConfig? zoneAwarenessConfig;
 
-  /// A boolean value to indicate whether zone awareness is enabled. See <a
-  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-multiaz.html"
-  /// target="_blank">Configuring a multi-AZ domain in Amazon OpenSearch Service
-  /// </a> for more information.
+  /// Indicates whether multiple Availability Zones are enabled. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-multiaz.html">Configuring
+  /// a multi-AZ domain in Amazon OpenSearch Service</a>.
   final bool? zoneAwarenessEnabled;
 
   ClusterConfig({
@@ -2608,12 +3479,14 @@ class ClusterConfig {
     this.dedicatedMasterType,
     this.instanceCount,
     this.instanceType,
+    this.multiAZWithStandbyEnabled,
     this.warmCount,
     this.warmEnabled,
     this.warmType,
     this.zoneAwarenessConfig,
     this.zoneAwarenessEnabled,
   });
+
   factory ClusterConfig.fromJson(Map<String, dynamic> json) {
     return ClusterConfig(
       coldStorageOptions: json['ColdStorageOptions'] != null
@@ -2627,6 +3500,7 @@ class ClusterConfig {
       instanceCount: json['InstanceCount'] as int?,
       instanceType: (json['InstanceType'] as String?)
           ?.toOpenSearchPartitionInstanceType(),
+      multiAZWithStandbyEnabled: json['MultiAZWithStandbyEnabled'] as bool?,
       warmCount: json['WarmCount'] as int?,
       warmEnabled: json['WarmEnabled'] as bool?,
       warmType: (json['WarmType'] as String?)
@@ -2646,6 +3520,7 @@ class ClusterConfig {
     final dedicatedMasterType = this.dedicatedMasterType;
     final instanceCount = this.instanceCount;
     final instanceType = this.instanceType;
+    final multiAZWithStandbyEnabled = this.multiAZWithStandbyEnabled;
     final warmCount = this.warmCount;
     final warmEnabled = this.warmEnabled;
     final warmType = this.warmType;
@@ -2661,6 +3536,8 @@ class ClusterConfig {
         'DedicatedMasterType': dedicatedMasterType.toValue(),
       if (instanceCount != null) 'InstanceCount': instanceCount,
       if (instanceType != null) 'InstanceType': instanceType.toValue(),
+      if (multiAZWithStandbyEnabled != null)
+        'MultiAZWithStandbyEnabled': multiAZWithStandbyEnabled,
       if (warmCount != null) 'WarmCount': warmCount,
       if (warmEnabled != null) 'WarmEnabled': warmEnabled,
       if (warmType != null) 'WarmType': warmType.toValue(),
@@ -2672,52 +3549,46 @@ class ClusterConfig {
   }
 }
 
-/// The configuration status for the specified domain.
+/// The cluster configuration status for a domain.
 class ClusterConfigStatus {
-  /// The cluster configuration for the specified domain.
+  /// Cluster configuration options for the specified domain.
   final ClusterConfig options;
 
-  /// The cluster configuration status for the specified domain.
+  /// The status of cluster configuration options for the specified domain.
   final OptionStatus status;
 
   ClusterConfigStatus({
     required this.options,
     required this.status,
   });
+
   factory ClusterConfigStatus.fromJson(Map<String, dynamic> json) {
     return ClusterConfigStatus(
       options: ClusterConfig.fromJson(json['Options'] as Map<String, dynamic>),
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final options = this.options;
-    final status = this.status;
-    return {
-      'Options': options,
-      'Status': status,
-    };
-  }
 }
 
-/// Options to specify the Cognito user and identity pools for OpenSearch
-/// Dashboards authentication. For more information, see <a
-/// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/cognito-auth.html"
-/// target="_blank">Configuring Amazon Cognito authentication for OpenSearch
-/// Dashboards</a>.
+/// Container for the parameters required to enable Cognito authentication for
+/// an OpenSearch Service domain. For more information, see <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cognito-auth.html">Configuring
+/// Amazon Cognito authentication for OpenSearch Dashboards</a>.
 class CognitoOptions {
-  /// The option to enable Cognito for OpenSearch Dashboards authentication.
+  /// Whether to enable or disable Amazon Cognito authentication for OpenSearch
+  /// Dashboards.
   final bool? enabled;
 
-  /// The Cognito identity pool ID for OpenSearch Dashboards authentication.
+  /// The Amazon Cognito identity pool ID that you want OpenSearch Service to use
+  /// for OpenSearch Dashboards authentication.
   final String? identityPoolId;
 
-  /// The role ARN that provides OpenSearch permissions for accessing Cognito
-  /// resources.
+  /// The <code>AmazonOpenSearchServiceCognitoAccess</code> role that allows
+  /// OpenSearch Service to configure your user pool and identity pool.
   final String? roleArn;
 
-  /// The Cognito user pool ID for OpenSearch Dashboards authentication.
+  /// The Amazon Cognito user pool ID that you want OpenSearch Service to use for
+  /// OpenSearch Dashboards authentication.
   final String? userPoolId;
 
   CognitoOptions({
@@ -2726,6 +3597,7 @@ class CognitoOptions {
     this.roleArn,
     this.userPoolId,
   });
+
   factory CognitoOptions.fromJson(Map<String, dynamic> json) {
     return CognitoOptions(
       enabled: json['Enabled'] as bool?,
@@ -2761,31 +3633,27 @@ class CognitoOptionsStatus {
     required this.options,
     required this.status,
   });
+
   factory CognitoOptionsStatus.fromJson(Map<String, dynamic> json) {
     return CognitoOptionsStatus(
       options: CognitoOptions.fromJson(json['Options'] as Map<String, dynamic>),
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final options = this.options;
-    final status = this.status;
-    return {
-      'Options': options,
-      'Status': status,
-    };
-  }
 }
 
-/// Specifies the configuration for cold storage options such as enabled
+/// Container for the parameters required to enable cold storage for an
+/// OpenSearch Service domain. For more information, see <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cold-storage.html">Cold
+/// storage for Amazon OpenSearch Service</a>.
 class ColdStorageOptions {
-  /// Enable cold storage option. Accepted values true or false
+  /// Whether to enable or disable cold storage on the domain.
   final bool enabled;
 
   ColdStorageOptions({
     required this.enabled,
   });
+
   factory ColdStorageOptions.fromJson(Map<String, dynamic> json) {
     return ColdStorageOptions(
       enabled: json['Enabled'] as bool,
@@ -2800,17 +3668,20 @@ class ColdStorageOptions {
   }
 }
 
-/// A map from an <code> <a>EngineVersion</a> </code> to a list of compatible
-/// <code> <a>EngineVersion</a> </code> s to which the domain can be upgraded.
+/// A map of OpenSearch or Elasticsearch versions and the versions you can
+/// upgrade them to.
 class CompatibleVersionsMap {
-  /// The current version of OpenSearch a domain is on.
+  /// The current version that the OpenSearch Service domain is running.
   final String? sourceVersion;
+
+  /// The possible versions that you can upgrade the domain to.
   final List<String>? targetVersions;
 
   CompatibleVersionsMap({
     this.sourceVersion,
     this.targetVersions,
   });
+
   factory CompatibleVersionsMap.fromJson(Map<String, dynamic> json) {
     return CompatibleVersionsMap(
       sourceVersion: json['SourceVersion'] as String?,
@@ -2820,19 +3691,65 @@ class CompatibleVersionsMap {
           .toList(),
     );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    final sourceVersion = this.sourceVersion;
-    final targetVersions = this.targetVersions;
-    return {
-      if (sourceVersion != null) 'SourceVersion': sourceVersion,
-      if (targetVersions != null) 'TargetVersions': targetVersions,
-    };
+/// The connection mode for the cross-cluster connection.
+///
+/// <ul>
+/// <li>
+/// <b>DIRECT</b> - Used for cross-cluster search or cross-cluster replication.
+/// </li>
+/// <li>
+/// <b>VPC_ENDPOINT</b> - Used for remote reindex between Amazon OpenSearch
+/// Service VPC domains.
+/// </li>
+/// </ul>
+enum ConnectionMode {
+  direct,
+  vpcEndpoint,
+}
+
+extension ConnectionModeValueExtension on ConnectionMode {
+  String toValue() {
+    switch (this) {
+      case ConnectionMode.direct:
+        return 'DIRECT';
+      case ConnectionMode.vpcEndpoint:
+        return 'VPC_ENDPOINT';
+    }
+  }
+}
+
+extension ConnectionModeFromString on String {
+  ConnectionMode toConnectionMode() {
+    switch (this) {
+      case 'DIRECT':
+        return ConnectionMode.direct;
+      case 'VPC_ENDPOINT':
+        return ConnectionMode.vpcEndpoint;
+    }
+    throw Exception('$this is not known in enum ConnectionMode');
+  }
+}
+
+/// The connection properties of an outbound connection.
+class ConnectionProperties {
+  /// The endpoint of the remote domain.
+  final String? endpoint;
+
+  ConnectionProperties({
+    this.endpoint,
+  });
+
+  factory ConnectionProperties.fromJson(Map<String, dynamic> json) {
+    return ConnectionProperties(
+      endpoint: json['Endpoint'] as String?,
+    );
   }
 }
 
 /// The result of a <code>CreateDomain</code> operation. Contains the status of
-/// the newly created Amazon OpenSearch Service domain.
+/// the newly created domain.
 class CreateDomainResponse {
   /// The status of the newly created domain.
   final DomainStatus? domainStatus;
@@ -2840,6 +3757,7 @@ class CreateDomainResponse {
   CreateDomainResponse({
     this.domainStatus,
   });
+
   factory CreateDomainResponse.fromJson(Map<String, dynamic> json) {
     return CreateDomainResponse(
       domainStatus: json['DomainStatus'] != null
@@ -2847,48 +3765,52 @@ class CreateDomainResponse {
           : null,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final domainStatus = this.domainStatus;
-    return {
-      if (domainStatus != null) 'DomainStatus': domainStatus,
-    };
-  }
 }
 
-/// The result of a <code> <a>CreateOutboundConnection</a> </code> request.
-/// Contains the details about the newly created cross-cluster connection.
+/// The result of a <code>CreateOutboundConnection</code> request. Contains
+/// details about the newly created cross-cluster connection.
 class CreateOutboundConnectionResponse {
-  /// The connection alias provided during the create connection request.
+  /// Name of the connection.
   final String? connectionAlias;
 
-  /// The unique ID for the created outbound connection, which is used for
+  /// The unique identifier for the created outbound connection, which is used for
   /// subsequent operations on the connection.
   final String? connectionId;
 
-  /// The <code> <a>OutboundConnectionStatus</a> </code> for the newly created
-  /// connection.
+  /// The connection mode.
+  final ConnectionMode? connectionMode;
+
+  /// The <code>ConnectionProperties</code> for the newly created connection.
+  final ConnectionProperties? connectionProperties;
+
+  /// The status of the connection.
   final OutboundConnectionStatus? connectionStatus;
 
-  /// The <code> <a>AWSDomainInformation</a> </code> for the local OpenSearch
-  /// domain.
+  /// Information about the source (local) domain.
   final DomainInformationContainer? localDomainInfo;
 
-  /// The <code> <a>AWSDomainInformation</a> </code> for the remote OpenSearch
-  /// domain.
+  /// Information about the destination (remote) domain.
   final DomainInformationContainer? remoteDomainInfo;
 
   CreateOutboundConnectionResponse({
     this.connectionAlias,
     this.connectionId,
+    this.connectionMode,
+    this.connectionProperties,
     this.connectionStatus,
     this.localDomainInfo,
     this.remoteDomainInfo,
   });
+
   factory CreateOutboundConnectionResponse.fromJson(Map<String, dynamic> json) {
     return CreateOutboundConnectionResponse(
       connectionAlias: json['ConnectionAlias'] as String?,
       connectionId: json['ConnectionId'] as String?,
+      connectionMode: (json['ConnectionMode'] as String?)?.toConnectionMode(),
+      connectionProperties: json['ConnectionProperties'] != null
+          ? ConnectionProperties.fromJson(
+              json['ConnectionProperties'] as Map<String, dynamic>)
+          : null,
       connectionStatus: json['ConnectionStatus'] != null
           ? OutboundConnectionStatus.fromJson(
               json['ConnectionStatus'] as Map<String, dynamic>)
@@ -2903,32 +3825,18 @@ class CreateOutboundConnectionResponse {
           : null,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final connectionAlias = this.connectionAlias;
-    final connectionId = this.connectionId;
-    final connectionStatus = this.connectionStatus;
-    final localDomainInfo = this.localDomainInfo;
-    final remoteDomainInfo = this.remoteDomainInfo;
-    return {
-      if (connectionAlias != null) 'ConnectionAlias': connectionAlias,
-      if (connectionId != null) 'ConnectionId': connectionId,
-      if (connectionStatus != null) 'ConnectionStatus': connectionStatus,
-      if (localDomainInfo != null) 'LocalDomainInfo': localDomainInfo,
-      if (remoteDomainInfo != null) 'RemoteDomainInfo': remoteDomainInfo,
-    };
-  }
 }
 
-/// Container for the response returned by the <code> <a>CreatePackage</a>
-/// </code> operation.
+/// Container for the response returned by the <code>CreatePackage</code>
+/// operation.
 class CreatePackageResponse {
-  /// Information about the package.
+  /// Basic information about an OpenSearch Service package.
   final PackageDetails? packageDetails;
 
   CreatePackageResponse({
     this.packageDetails,
   });
+
   factory CreatePackageResponse.fromJson(Map<String, dynamic> json) {
     return CreatePackageResponse(
       packageDetails: json['PackageDetails'] != null
@@ -2937,16 +3845,25 @@ class CreatePackageResponse {
           : null,
     );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    final packageDetails = this.packageDetails;
-    return {
-      if (packageDetails != null) 'PackageDetails': packageDetails,
-    };
+class CreateVpcEndpointResponse {
+  /// Information about the newly created VPC endpoint.
+  final VpcEndpoint vpcEndpoint;
+
+  CreateVpcEndpointResponse({
+    required this.vpcEndpoint,
+  });
+
+  factory CreateVpcEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return CreateVpcEndpointResponse(
+      vpcEndpoint:
+          VpcEndpoint.fromJson(json['VpcEndpoint'] as Map<String, dynamic>),
+    );
   }
 }
 
-/// The result of a <code>DeleteDomain</code> request. Contains the status of
+/// The results of a <code>DeleteDomain</code> request. Contains the status of
 /// the pending deletion, or a "domain not found" error if the domain and all of
 /// its resources have been deleted.
 class DeleteDomainResponse {
@@ -2956,6 +3873,7 @@ class DeleteDomainResponse {
   DeleteDomainResponse({
     this.domainStatus,
   });
+
   factory DeleteDomainResponse.fromJson(Map<String, dynamic> json) {
     return DeleteDomainResponse(
       domainStatus: json['DomainStatus'] != null
@@ -2963,25 +3881,18 @@ class DeleteDomainResponse {
           : null,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final domainStatus = this.domainStatus;
-    return {
-      if (domainStatus != null) 'DomainStatus': domainStatus,
-    };
-  }
 }
 
-/// The result of a <code> <a>DeleteInboundConnection</a> </code> operation.
-/// Contains details about the deleted inbound connection.
+/// The results of a <code>DeleteInboundConnection</code> operation. Contains
+/// details about the deleted inbound connection.
 class DeleteInboundConnectionResponse {
-  /// The <code> <a>InboundConnection</a> </code> of the deleted inbound
-  /// connection.
+  /// The deleted inbound connection.
   final InboundConnection? connection;
 
   DeleteInboundConnectionResponse({
     this.connection,
   });
+
   factory DeleteInboundConnectionResponse.fromJson(Map<String, dynamic> json) {
     return DeleteInboundConnectionResponse(
       connection: json['Connection'] != null
@@ -2990,25 +3901,17 @@ class DeleteInboundConnectionResponse {
           : null,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final connection = this.connection;
-    return {
-      if (connection != null) 'Connection': connection,
-    };
-  }
 }
 
-/// The result of a <code> <a>DeleteOutboundConnection</a> </code> operation.
-/// Contains details about the deleted outbound connection.
+/// Details about the deleted outbound connection.
 class DeleteOutboundConnectionResponse {
-  /// The <code> <a>OutboundConnection</a> </code> of the deleted outbound
-  /// connection.
+  /// The deleted inbound connection.
   final OutboundConnection? connection;
 
   DeleteOutboundConnectionResponse({
     this.connection,
   });
+
   factory DeleteOutboundConnectionResponse.fromJson(Map<String, dynamic> json) {
     return DeleteOutboundConnectionResponse(
       connection: json['Connection'] != null
@@ -3017,24 +3920,18 @@ class DeleteOutboundConnectionResponse {
           : null,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final connection = this.connection;
-    return {
-      if (connection != null) 'Connection': connection,
-    };
-  }
 }
 
-/// Container for the response parameters to the <code> <a>DeletePackage</a>
-/// </code> operation.
+/// Container for the response parameters to the <code>DeletePackage</code>
+/// operation.
 class DeletePackageResponse {
-  /// <code>PackageDetails</code>
+  /// Information about the deleted package.
   final PackageDetails? packageDetails;
 
   DeletePackageResponse({
     this.packageDetails,
   });
+
   factory DeletePackageResponse.fromJson(Map<String, dynamic> json) {
     return DeletePackageResponse(
       packageDetails: json['PackageDetails'] != null
@@ -3043,12 +3940,22 @@ class DeletePackageResponse {
           : null,
     );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    final packageDetails = this.packageDetails;
-    return {
-      if (packageDetails != null) 'PackageDetails': packageDetails,
-    };
+class DeleteVpcEndpointResponse {
+  /// Information about the deleted endpoint, including its current status
+  /// (<code>DELETING</code> or <code>DELETE_FAILED</code>).
+  final VpcEndpointSummary vpcEndpointSummary;
+
+  DeleteVpcEndpointResponse({
+    required this.vpcEndpointSummary,
+  });
+
+  factory DeleteVpcEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteVpcEndpointResponse(
+      vpcEndpointSummary: VpcEndpointSummary.fromJson(
+          json['VpcEndpointSummary'] as Map<String, dynamic>),
+    );
   }
 }
 
@@ -3095,25 +4002,22 @@ extension DeploymentStatusFromString on String {
   }
 }
 
-/// The result of a <code>DescribeDomainAutoTunes</code> request. See <a
-/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html"
-/// target="_blank"> Auto-Tune for Amazon OpenSearch Service </a> for more
-/// information.
+/// The result of a <code>DescribeDomainAutoTunes</code> request.
 class DescribeDomainAutoTunesResponse {
-  /// The list of setting adjustments that Auto-Tune has made to the domain. See
-  /// <a
-  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html"
-  /// target="_blank"> Auto-Tune for Amazon OpenSearch Service </a> for more
-  /// information.
+  /// The list of setting adjustments that Auto-Tune has made to the domain.
   final List<AutoTune>? autoTunes;
 
-  /// An identifier to allow retrieval of paginated results.
+  /// When <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page.
   final String? nextToken;
 
   DescribeDomainAutoTunesResponse({
     this.autoTunes,
     this.nextToken,
   });
+
   factory DescribeDomainAutoTunesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeDomainAutoTunesResponse(
       autoTunes: (json['AutoTunes'] as List?)
@@ -3123,27 +4027,19 @@ class DescribeDomainAutoTunesResponse {
       nextToken: json['NextToken'] as String?,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final autoTunes = this.autoTunes;
-    final nextToken = this.nextToken;
-    return {
-      if (autoTunes != null) 'AutoTunes': autoTunes,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
 }
 
 /// The result of a <code>DescribeDomainChangeProgress</code> request. Contains
-/// the progress information of the requested domain change.
+/// progress information for the requested domain change.
 class DescribeDomainChangeProgressResponse {
-  /// Progress information for the configuration change that is requested in the
-  /// <code>DescribeDomainChangeProgress</code> request.
+  /// Container for information about the stages of a configuration change
+  /// happening on a domain.
   final ChangeProgressStatusDetails? changeProgressStatus;
 
   DescribeDomainChangeProgressResponse({
     this.changeProgressStatus,
   });
+
   factory DescribeDomainChangeProgressResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeDomainChangeProgressResponse(
@@ -3153,75 +4049,204 @@ class DescribeDomainChangeProgressResponse {
           : null,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final changeProgressStatus = this.changeProgressStatus;
-    return {
-      if (changeProgressStatus != null)
-        'ChangeProgressStatus': changeProgressStatus,
-    };
-  }
 }
 
-/// The result of a <code>DescribeDomainConfig</code> request. Contains the
-/// configuration information of the requested domain.
+/// Contains the configuration information of the requested domain.
 class DescribeDomainConfigResponse {
-  /// The configuration information of the domain requested in the
-  /// <code>DescribeDomainConfig</code> request.
+  /// Container for the configuration of the OpenSearch Service domain.
   final DomainConfig domainConfig;
 
   DescribeDomainConfigResponse({
     required this.domainConfig,
   });
+
   factory DescribeDomainConfigResponse.fromJson(Map<String, dynamic> json) {
     return DescribeDomainConfigResponse(
       domainConfig:
           DomainConfig.fromJson(json['DomainConfig'] as Map<String, dynamic>),
     );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    final domainConfig = this.domainConfig;
-    return {
-      'DomainConfig': domainConfig,
-    };
+/// The result of a <code>DescribeDomainHealth</code> request. Contains health
+/// information for the requested domain.
+class DescribeDomainHealthResponse {
+  /// The number of active Availability Zones configured for the domain. If the
+  /// service is unable to fetch this information, it will return
+  /// <code>NotAvailable</code>.
+  final String? activeAvailabilityZoneCount;
+
+  /// The number of Availability Zones configured for the domain. If the service
+  /// is unable to fetch this information, it will return
+  /// <code>NotAvailable</code>.
+  final String? availabilityZoneCount;
+
+  /// The current health status of your cluster.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Red</code> - At least one primary shard is not allocated to any node.
+  /// </li>
+  /// <li>
+  /// <code>Yellow</code> - All primary shards are allocated to nodes, but some
+  /// replicas aren’t.
+  /// </li>
+  /// <li>
+  /// <code>Green</code> - All primary shards and their replicas are allocated to
+  /// nodes.
+  /// </li>
+  /// <li>
+  /// <code>NotAvailable</code> - Unable to retrieve cluster health.
+  /// </li>
+  /// </ul>
+  final DomainHealth? clusterHealth;
+
+  /// The number of data nodes configured for the domain. If the service is unable
+  /// to fetch this information, it will return <code>NotAvailable</code>.
+  final String? dataNodeCount;
+
+  /// A boolean that indicates if dedicated master nodes are activated for the
+  /// domain.
+  final bool? dedicatedMaster;
+
+  /// The current state of the domain.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Processing</code> - The domain has updates in progress.
+  /// </li>
+  /// <li>
+  /// <code>Active</code> - Requested changes have been processed and deployed to
+  /// the domain.
+  /// </li>
+  /// </ul>
+  final DomainState? domainState;
+
+  /// A list of <code>EnvironmentInfo</code> for the domain.
+  final List<EnvironmentInfo>? environmentInformation;
+
+  /// The number of nodes that can be elected as a master node. If dedicated
+  /// master nodes is turned on, this value is the number of dedicated master
+  /// nodes configured for the domain. If the service is unable to fetch this
+  /// information, it will return <code>NotAvailable</code>.
+  final String? masterEligibleNodeCount;
+
+  /// Indicates whether the domain has an elected master node.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Available</b> - The domain has an elected master node.
+  /// </li>
+  /// <li>
+  /// <b>UnAvailable</b> - The master node hasn't yet been elected, and a quorum
+  /// to elect a new master node hasn't been reached.
+  /// </li>
+  /// </ul>
+  final MasterNodeStatus? masterNode;
+
+  /// The number of standby Availability Zones configured for the domain. If the
+  /// service is unable to fetch this information, it will return
+  /// <code>NotAvailable</code>.
+  final String? standByAvailabilityZoneCount;
+
+  /// The total number of primary and replica shards for the domain.
+  final String? totalShards;
+
+  /// The total number of primary and replica shards not allocated to any of the
+  /// nodes for the cluster.
+  final String? totalUnAssignedShards;
+
+  /// The number of warm nodes configured for the domain.
+  final String? warmNodeCount;
+
+  DescribeDomainHealthResponse({
+    this.activeAvailabilityZoneCount,
+    this.availabilityZoneCount,
+    this.clusterHealth,
+    this.dataNodeCount,
+    this.dedicatedMaster,
+    this.domainState,
+    this.environmentInformation,
+    this.masterEligibleNodeCount,
+    this.masterNode,
+    this.standByAvailabilityZoneCount,
+    this.totalShards,
+    this.totalUnAssignedShards,
+    this.warmNodeCount,
+  });
+
+  factory DescribeDomainHealthResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDomainHealthResponse(
+      activeAvailabilityZoneCount:
+          json['ActiveAvailabilityZoneCount'] as String?,
+      availabilityZoneCount: json['AvailabilityZoneCount'] as String?,
+      clusterHealth: (json['ClusterHealth'] as String?)?.toDomainHealth(),
+      dataNodeCount: json['DataNodeCount'] as String?,
+      dedicatedMaster: json['DedicatedMaster'] as bool?,
+      domainState: (json['DomainState'] as String?)?.toDomainState(),
+      environmentInformation: (json['EnvironmentInformation'] as List?)
+          ?.whereNotNull()
+          .map((e) => EnvironmentInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      masterEligibleNodeCount: json['MasterEligibleNodeCount'] as String?,
+      masterNode: (json['MasterNode'] as String?)?.toMasterNodeStatus(),
+      standByAvailabilityZoneCount:
+          json['StandByAvailabilityZoneCount'] as String?,
+      totalShards: json['TotalShards'] as String?,
+      totalUnAssignedShards: json['TotalUnAssignedShards'] as String?,
+      warmNodeCount: json['WarmNodeCount'] as String?,
+    );
   }
 }
 
-/// The result of a <code>DescribeDomain</code> request. Contains the status of
-/// the domain specified in the request.
+/// The result of a <code>DescribeDomainNodes</code> request. Contains
+/// information about the nodes on the requested domain.
+class DescribeDomainNodesResponse {
+  /// Contains nodes information list <code>DomainNodesStatusList</code> with
+  /// details about the all nodes on the requested domain.
+  final List<DomainNodesStatus>? domainNodesStatusList;
+
+  DescribeDomainNodesResponse({
+    this.domainNodesStatusList,
+  });
+
+  factory DescribeDomainNodesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDomainNodesResponse(
+      domainNodesStatusList: (json['DomainNodesStatusList'] as List?)
+          ?.whereNotNull()
+          .map((e) => DomainNodesStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// Contains the status of the domain specified in the request.
 class DescribeDomainResponse {
-  /// The current status of the domain.
+  /// List that contains the status of each specified OpenSearch Service domain.
   final DomainStatus domainStatus;
 
   DescribeDomainResponse({
     required this.domainStatus,
   });
+
   factory DescribeDomainResponse.fromJson(Map<String, dynamic> json) {
     return DescribeDomainResponse(
       domainStatus:
           DomainStatus.fromJson(json['DomainStatus'] as Map<String, dynamic>),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final domainStatus = this.domainStatus;
-    return {
-      'DomainStatus': domainStatus,
-    };
-  }
 }
 
-/// The result of a <code>DescribeDomains</code> request. Contains the status of
-/// the specified domains or all domains owned by the account.
+/// Contains the status of the specified domains or all domains owned by the
+/// account.
 class DescribeDomainsResponse {
-  /// The status of the domains requested in the <code>DescribeDomains</code>
-  /// request.
+  /// The status of the requested domains.
   final List<DomainStatus> domainStatusList;
 
   DescribeDomainsResponse({
     required this.domainStatusList,
   });
+
   factory DescribeDomainsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeDomainsResponse(
       domainStatusList: (json['DomainStatusList'] as List)
@@ -3230,31 +4255,57 @@ class DescribeDomainsResponse {
           .toList(),
     );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    final domainStatusList = this.domainStatusList;
-    return {
-      'DomainStatusList': domainStatusList,
-    };
+class DescribeDryRunProgressResponse {
+  /// Details about the changes you're planning to make on the domain.
+  final DomainStatus? dryRunConfig;
+
+  /// The current status of the dry run, including any validation errors.
+  final DryRunProgressStatus? dryRunProgressStatus;
+
+  /// The results of the dry run.
+  final DryRunResults? dryRunResults;
+
+  DescribeDryRunProgressResponse({
+    this.dryRunConfig,
+    this.dryRunProgressStatus,
+    this.dryRunResults,
+  });
+
+  factory DescribeDryRunProgressResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDryRunProgressResponse(
+      dryRunConfig: json['DryRunConfig'] != null
+          ? DomainStatus.fromJson(json['DryRunConfig'] as Map<String, dynamic>)
+          : null,
+      dryRunProgressStatus: json['DryRunProgressStatus'] != null
+          ? DryRunProgressStatus.fromJson(
+              json['DryRunProgressStatus'] as Map<String, dynamic>)
+          : null,
+      dryRunResults: json['DryRunResults'] != null
+          ? DryRunResults.fromJson(
+              json['DryRunResults'] as Map<String, dynamic>)
+          : null,
+    );
   }
 }
 
-/// The result of a <code> <a>DescribeInboundConnections</a> </code> request.
 /// Contains a list of connections matching the filter criteria.
 class DescribeInboundConnectionsResponse {
-  /// A list of <code> <a>InboundConnection</a> </code> matching the specified
-  /// filter criteria.
+  /// List of inbound connections.
   final List<InboundConnection>? connections;
 
-  /// If more results are available and NextToken is present, make the next
-  /// request to the same API with the received NextToken to paginate the
-  /// remaining results.
+  /// When <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page.
   final String? nextToken;
 
   DescribeInboundConnectionsResponse({
     this.connections,
     this.nextToken,
   });
+
   factory DescribeInboundConnectionsResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeInboundConnectionsResponse(
@@ -3265,25 +4316,19 @@ class DescribeInboundConnectionsResponse {
       nextToken: json['NextToken'] as String?,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final connections = this.connections;
-    final nextToken = this.nextToken;
-    return {
-      if (connections != null) 'Connections': connections,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
 }
 
-/// Container for the parameters received from the <code>
-/// <a>DescribeInstanceTypeLimits</a> </code> operation.
+/// Container for the parameters received from the
+/// <code>DescribeInstanceTypeLimits</code> operation.
 class DescribeInstanceTypeLimitsResponse {
+  /// Map that contains all applicable instance type limits.<code>data</code>
+  /// refers to data nodes.<code>master</code> refers to dedicated master nodes.
   final Map<String, Limits>? limitsByRole;
 
   DescribeInstanceTypeLimitsResponse({
     this.limitsByRole,
   });
+
   factory DescribeInstanceTypeLimitsResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeInstanceTypeLimitsResponse(
@@ -3291,31 +4336,24 @@ class DescribeInstanceTypeLimitsResponse {
           (k, e) => MapEntry(k, Limits.fromJson(e as Map<String, dynamic>))),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final limitsByRole = this.limitsByRole;
-    return {
-      if (limitsByRole != null) 'LimitsByRole': limitsByRole,
-    };
-  }
 }
 
-/// The result of a <code> <a>DescribeOutboundConnections</a> </code> request.
-/// Contains the list of connections matching the filter criteria.
+/// Contains a list of connections matching the filter criteria.
 class DescribeOutboundConnectionsResponse {
-  /// A list of <code> <a>OutboundConnection</a> </code> matching the specified
-  /// filter criteria.
+  /// List of outbound connections that match the filter criteria.
   final List<OutboundConnection>? connections;
 
-  /// If more results are available and NextToken is present, make the next
-  /// request to the same API with the received NextToken to paginate the
-  /// remaining results.
+  /// When <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page.
   final String? nextToken;
 
   DescribeOutboundConnectionsResponse({
     this.connections,
     this.nextToken,
   });
+
   factory DescribeOutboundConnectionsResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeOutboundConnectionsResponse(
@@ -3326,15 +4364,6 @@ class DescribeOutboundConnectionsResponse {
       nextToken: json['NextToken'] as String?,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final connections = this.connections;
-    final nextToken = this.nextToken;
-    return {
-      if (connections != null) 'Connections': connections,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
 }
 
 /// A filter to apply to the <code>DescribePackage</code> response.
@@ -3342,14 +4371,13 @@ class DescribePackagesFilter {
   /// Any field from <code>PackageDetails</code>.
   final DescribePackagesFilterName? name;
 
-  /// A list of values for the specified field.
+  /// A non-empty list of values for the specified filter field.
   final List<String>? value;
 
   DescribePackagesFilter({
     this.name,
     this.value,
   });
-
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;
@@ -3394,18 +4422,23 @@ extension DescribePackagesFilterNameFromString on String {
   }
 }
 
-/// Container for the response returned by the <code> <a>DescribePackages</a>
-/// </code> operation.
+/// Container for the response returned by the <code>DescribePackages</code>
+/// operation.
 class DescribePackagesResponse {
+  /// When <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page.
   final String? nextToken;
 
-  /// List of <code>PackageDetails</code> objects.
+  /// Basic information about a package.
   final List<PackageDetails>? packageDetailsList;
 
   DescribePackagesResponse({
     this.nextToken,
     this.packageDetailsList,
   });
+
   factory DescribePackagesResponse.fromJson(Map<String, dynamic> json) {
     return DescribePackagesResponse(
       nextToken: json['NextToken'] as String?,
@@ -3415,29 +4448,25 @@ class DescribePackagesResponse {
           .toList(),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final packageDetailsList = this.packageDetailsList;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (packageDetailsList != null) 'PackageDetailsList': packageDetailsList,
-    };
-  }
 }
 
-/// Container for results from <code>DescribeReservedInstanceOfferings</code>
+/// Container for results of a <code>DescribeReservedInstanceOfferings</code>
+/// request.
 class DescribeReservedInstanceOfferingsResponse {
-  /// Provides an identifier to allow retrieval of paginated results.
+  /// When <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page.
   final String? nextToken;
 
-  /// List of reserved OpenSearch instance offerings
+  /// List of Reserved Instance offerings.
   final List<ReservedInstanceOffering>? reservedInstanceOfferings;
 
   DescribeReservedInstanceOfferingsResponse({
     this.nextToken,
     this.reservedInstanceOfferings,
   });
+
   factory DescribeReservedInstanceOfferingsResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeReservedInstanceOfferingsResponse(
@@ -3449,30 +4478,24 @@ class DescribeReservedInstanceOfferingsResponse {
           .toList(),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final reservedInstanceOfferings = this.reservedInstanceOfferings;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (reservedInstanceOfferings != null)
-        'ReservedInstanceOfferings': reservedInstanceOfferings,
-    };
-  }
 }
 
 /// Container for results from <code>DescribeReservedInstances</code>
 class DescribeReservedInstancesResponse {
-  /// Provides an identifier to allow retrieval of paginated results.
+  /// When <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page.
   final String? nextToken;
 
-  /// List of reserved OpenSearch instances.
+  /// List of Reserved Instances in the current Region.
   final List<ReservedInstance>? reservedInstances;
 
   DescribeReservedInstancesResponse({
     this.nextToken,
     this.reservedInstances,
   });
+
   factory DescribeReservedInstancesResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeReservedInstancesResponse(
@@ -3483,26 +4506,44 @@ class DescribeReservedInstancesResponse {
           .toList(),
     );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final reservedInstances = this.reservedInstances;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (reservedInstances != null) 'ReservedInstances': reservedInstances,
-    };
+class DescribeVpcEndpointsResponse {
+  /// Any errors associated with the request.
+  final List<VpcEndpointError> vpcEndpointErrors;
+
+  /// Information about each requested VPC endpoint.
+  final List<VpcEndpoint> vpcEndpoints;
+
+  DescribeVpcEndpointsResponse({
+    required this.vpcEndpointErrors,
+    required this.vpcEndpoints,
+  });
+
+  factory DescribeVpcEndpointsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeVpcEndpointsResponse(
+      vpcEndpointErrors: (json['VpcEndpointErrors'] as List)
+          .whereNotNull()
+          .map((e) => VpcEndpointError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vpcEndpoints: (json['VpcEndpoints'] as List)
+          .whereNotNull()
+          .map((e) => VpcEndpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
   }
 }
 
-/// Container for the response returned by <code> <a>DissociatePackage</a>
-/// </code> operation.
+/// Container for the response returned by an <code>DissociatePackage</code>
+/// operation.
 class DissociatePackageResponse {
-  /// <code>DomainPackageDetails</code>
+  /// Information about a package that has been dissociated from the domain.
   final DomainPackageDetails? domainPackageDetails;
 
   DissociatePackageResponse({
     this.domainPackageDetails,
   });
+
   factory DissociatePackageResponse.fromJson(Map<String, dynamic> json) {
     return DissociatePackageResponse(
       domainPackageDetails: json['DomainPackageDetails'] != null
@@ -3511,72 +4552,66 @@ class DissociatePackageResponse {
           : null,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final domainPackageDetails = this.domainPackageDetails;
-    return {
-      if (domainPackageDetails != null)
-        'DomainPackageDetails': domainPackageDetails,
-    };
-  }
 }
 
-/// The configuration of a domain.
+/// Container for the configuration of an OpenSearch Service domain.
 class DomainConfig {
-  /// IAM access policy as a JSON-formatted string.
+  /// Specifies the access policies for the domain.
   final AccessPoliciesStatus? accessPolicies;
 
-  /// The <code>AdvancedOptions</code> for the domain. See <a
-  /// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-advanced-options"
-  /// target="_blank">Advanced options </a> for more information.
+  /// Key-value pairs to specify advanced configuration options. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-advanced-options">Advanced
+  /// options</a>.
   final AdvancedOptionsStatus? advancedOptions;
 
-  /// Specifies <code>AdvancedSecurityOptions</code> for the domain.
+  /// Container for fine-grained access control settings for the domain.
   final AdvancedSecurityOptionsStatus? advancedSecurityOptions;
 
-  /// Specifies <code>AutoTuneOptions</code> for the domain.
+  /// Container for Auto-Tune settings for the domain.
   final AutoTuneOptionsStatus? autoTuneOptions;
 
-  /// Specifies change details of the domain configuration change.
+  /// Container for information about the progress of an existing configuration
+  /// change.
   final ChangeProgressDetails? changeProgressDetails;
 
-  /// The <code>ClusterConfig</code> for the domain.
+  /// Container for the cluster configuration of a the domain.
   final ClusterConfigStatus? clusterConfig;
 
-  /// The <code>CognitoOptions</code> for the specified domain. For more
-  /// information, see <a
-  /// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/cognito-auth.html"
-  /// target="_blank">Configuring Amazon Cognito authentication for OpenSearch
-  /// Dashboards</a>.
+  /// Container for Amazon Cognito options for the domain.
   final CognitoOptionsStatus? cognitoOptions;
 
-  /// The <code>DomainEndpointOptions</code> for the domain.
+  /// Additional options for the domain endpoint, such as whether to require HTTPS
+  /// for all traffic.
   final DomainEndpointOptionsStatus? domainEndpointOptions;
 
-  /// The <code>EBSOptions</code> for the domain.
+  /// Container for EBS options configured for the domain.
   final EBSOptionsStatus? eBSOptions;
 
-  /// The <code>EncryptionAtRestOptions</code> for the domain.
+  /// Key-value pairs to enable encryption at rest.
   final EncryptionAtRestOptionsStatus? encryptionAtRestOptions;
 
-  /// String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the engine
-  /// version for the OpenSearch or Elasticsearch domain.
+  /// The OpenSearch or Elasticsearch version that the domain is running.
   final VersionStatus? engineVersion;
 
-  /// Log publishing options for the given domain.
+  /// Key-value pairs to configure log publishing.
   final LogPublishingOptionsStatus? logPublishingOptions;
 
-  /// The <code>NodeToNodeEncryptionOptions</code> for the domain.
+  /// Whether node-to-node encryption is enabled or disabled.
   final NodeToNodeEncryptionOptionsStatus? nodeToNodeEncryptionOptions;
 
-  /// The <code>SnapshotOptions</code> for the domain.
+  /// Container for off-peak window options for the domain.
+  final OffPeakWindowOptionsStatus? offPeakWindowOptions;
+
+  /// DEPRECATED. Container for parameters required to configure automated
+  /// snapshots of domain indexes.
   final SnapshotOptionsStatus? snapshotOptions;
 
-  /// The <code>VPCOptions</code> for the specified domain. For more information,
-  /// see <a
-  /// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html"
-  /// target="_blank"> Launching your Amazon OpenSearch Service domains using a
-  /// VPC</a>.
+  /// Software update options for the domain.
+  final SoftwareUpdateOptionsStatus? softwareUpdateOptions;
+
+  /// The current VPC options for the domain and the status of any updates to
+  /// their configuration.
   final VPCDerivedInfoStatus? vPCOptions;
 
   DomainConfig({
@@ -3593,9 +4628,12 @@ class DomainConfig {
     this.engineVersion,
     this.logPublishingOptions,
     this.nodeToNodeEncryptionOptions,
+    this.offPeakWindowOptions,
     this.snapshotOptions,
+    this.softwareUpdateOptions,
     this.vPCOptions,
   });
+
   factory DomainConfig.fromJson(Map<String, dynamic> json) {
     return DomainConfig(
       accessPolicies: json['AccessPolicies'] != null
@@ -3650,9 +4688,17 @@ class DomainConfig {
           ? NodeToNodeEncryptionOptionsStatus.fromJson(
               json['NodeToNodeEncryptionOptions'] as Map<String, dynamic>)
           : null,
+      offPeakWindowOptions: json['OffPeakWindowOptions'] != null
+          ? OffPeakWindowOptionsStatus.fromJson(
+              json['OffPeakWindowOptions'] as Map<String, dynamic>)
+          : null,
       snapshotOptions: json['SnapshotOptions'] != null
           ? SnapshotOptionsStatus.fromJson(
               json['SnapshotOptions'] as Map<String, dynamic>)
+          : null,
+      softwareUpdateOptions: json['SoftwareUpdateOptions'] != null
+          ? SoftwareUpdateOptionsStatus.fromJson(
+              json['SoftwareUpdateOptions'] as Map<String, dynamic>)
           : null,
       vPCOptions: json['VPCOptions'] != null
           ? VPCDerivedInfoStatus.fromJson(
@@ -3660,70 +4706,37 @@ class DomainConfig {
           : null,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final accessPolicies = this.accessPolicies;
-    final advancedOptions = this.advancedOptions;
-    final advancedSecurityOptions = this.advancedSecurityOptions;
-    final autoTuneOptions = this.autoTuneOptions;
-    final changeProgressDetails = this.changeProgressDetails;
-    final clusterConfig = this.clusterConfig;
-    final cognitoOptions = this.cognitoOptions;
-    final domainEndpointOptions = this.domainEndpointOptions;
-    final eBSOptions = this.eBSOptions;
-    final encryptionAtRestOptions = this.encryptionAtRestOptions;
-    final engineVersion = this.engineVersion;
-    final logPublishingOptions = this.logPublishingOptions;
-    final nodeToNodeEncryptionOptions = this.nodeToNodeEncryptionOptions;
-    final snapshotOptions = this.snapshotOptions;
-    final vPCOptions = this.vPCOptions;
-    return {
-      if (accessPolicies != null) 'AccessPolicies': accessPolicies,
-      if (advancedOptions != null) 'AdvancedOptions': advancedOptions,
-      if (advancedSecurityOptions != null)
-        'AdvancedSecurityOptions': advancedSecurityOptions,
-      if (autoTuneOptions != null) 'AutoTuneOptions': autoTuneOptions,
-      if (changeProgressDetails != null)
-        'ChangeProgressDetails': changeProgressDetails,
-      if (clusterConfig != null) 'ClusterConfig': clusterConfig,
-      if (cognitoOptions != null) 'CognitoOptions': cognitoOptions,
-      if (domainEndpointOptions != null)
-        'DomainEndpointOptions': domainEndpointOptions,
-      if (eBSOptions != null) 'EBSOptions': eBSOptions,
-      if (encryptionAtRestOptions != null)
-        'EncryptionAtRestOptions': encryptionAtRestOptions,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (logPublishingOptions != null)
-        'LogPublishingOptions': logPublishingOptions,
-      if (nodeToNodeEncryptionOptions != null)
-        'NodeToNodeEncryptionOptions': nodeToNodeEncryptionOptions,
-      if (snapshotOptions != null) 'SnapshotOptions': snapshotOptions,
-      if (vPCOptions != null) 'VPCOptions': vPCOptions,
-    };
-  }
 }
 
-/// Options to configure the endpoint for the domain.
+/// Options to configure a custom endpoint for an OpenSearch Service domain.
 class DomainEndpointOptions {
-  /// The fully qualified domain for your custom endpoint.
+  /// The fully qualified URL for the custom endpoint.
   final String? customEndpoint;
 
-  /// The ACM certificate ARN for your custom endpoint.
+  /// The ARN for your security certificate, managed in Amazon Web Services
+  /// Certificate Manager (ACM).
   final String? customEndpointCertificateArn;
 
   /// Whether to enable a custom endpoint for the domain.
   final bool? customEndpointEnabled;
 
-  /// Whether only HTTPS endpoint should be enabled for the domain.
+  /// True to require that all traffic to the domain arrive over HTTPS.
   final bool? enforceHTTPS;
 
   /// Specify the TLS security policy to apply to the HTTPS endpoint of the
-  /// domain. <br/> Can be one of the following values:
+  /// domain.
+  ///
+  /// Can be one of the following values:
+  ///
   /// <ul>
-  /// <li> <b>Policy-Min-TLS-1-0-2019-07:</b> TLS security policy which supports
-  /// TLSv1.0 and higher. </li>
-  /// <li> <b>Policy-Min-TLS-1-2-2019-07:</b> TLS security policy which supports
-  /// only TLSv1.2 </li>
+  /// <li>
+  /// <b>Policy-Min-TLS-1-0-2019-07:</b> TLS security policy which supports TLS
+  /// version 1.0 and higher.
+  /// </li>
+  /// <li>
+  /// <b>Policy-Min-TLS-1-2-2019-07:</b> TLS security policy which supports only
+  /// TLS version 1.2
+  /// </li>
   /// </ul>
   final TLSSecurityPolicy? tLSSecurityPolicy;
 
@@ -3734,6 +4747,7 @@ class DomainEndpointOptions {
     this.enforceHTTPS,
     this.tLSSecurityPolicy,
   });
+
   factory DomainEndpointOptions.fromJson(Map<String, dynamic> json) {
     return DomainEndpointOptions(
       customEndpoint: json['CustomEndpoint'] as String?,
@@ -3765,19 +4779,19 @@ class DomainEndpointOptions {
   }
 }
 
-/// The configured endpoint options for the domain and their current status.
+/// The configured endpoint options for a domain and their current status.
 class DomainEndpointOptionsStatus {
-  /// Options to configure the endpoint for the domain.
+  /// Options to configure the endpoint for a domain.
   final DomainEndpointOptions options;
 
-  /// The status of the endpoint options for the domain. See
-  /// <code>OptionStatus</code> for the status information that's included.
+  /// The status of the endpoint options for a domain.
   final OptionStatus status;
 
   DomainEndpointOptionsStatus({
     required this.options,
     required this.status,
   });
+
   factory DomainEndpointOptionsStatus.fromJson(Map<String, dynamic> json) {
     return DomainEndpointOptionsStatus(
       options: DomainEndpointOptions.fromJson(
@@ -3785,51 +4799,78 @@ class DomainEndpointOptionsStatus {
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    final options = this.options;
-    final status = this.status;
-    return {
-      'Options': options,
-      'Status': status,
-    };
+enum DomainHealth {
+  red,
+  yellow,
+  green,
+  notAvailable,
+}
+
+extension DomainHealthValueExtension on DomainHealth {
+  String toValue() {
+    switch (this) {
+      case DomainHealth.red:
+        return 'Red';
+      case DomainHealth.yellow:
+        return 'Yellow';
+      case DomainHealth.green:
+        return 'Green';
+      case DomainHealth.notAvailable:
+        return 'NotAvailable';
+    }
   }
 }
 
+extension DomainHealthFromString on String {
+  DomainHealth toDomainHealth() {
+    switch (this) {
+      case 'Red':
+        return DomainHealth.red;
+      case 'Yellow':
+        return DomainHealth.yellow;
+      case 'Green':
+        return DomainHealth.green;
+      case 'NotAvailable':
+        return DomainHealth.notAvailable;
+    }
+    throw Exception('$this is not known in enum DomainHealth');
+  }
+}
+
+/// Information about an OpenSearch Service domain.
 class DomainInfo {
-  /// The <code>DomainName</code>.
+  /// Name of the domain.
   final String? domainName;
 
-  /// Specifies the <code>EngineType</code> of the domain.
+  /// The type of search engine that the domain is running.<code>OpenSearch</code>
+  /// for an OpenSearch engine, or <code>Elasticsearch</code> for a legacy
+  /// Elasticsearch OSS engine.
   final EngineType? engineType;
 
   DomainInfo({
     this.domainName,
     this.engineType,
   });
+
   factory DomainInfo.fromJson(Map<String, dynamic> json) {
     return DomainInfo(
       domainName: json['DomainName'] as String?,
       engineType: (json['EngineType'] as String?)?.toEngineType(),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final domainName = this.domainName;
-    final engineType = this.engineType;
-    return {
-      if (domainName != null) 'DomainName': domainName,
-      if (engineType != null) 'EngineType': engineType.toValue(),
-    };
-  }
 }
 
+/// Container for information about an OpenSearch Service domain.
 class DomainInformationContainer {
+  /// Information about an Amazon OpenSearch Service domain.
   final AWSDomainInformation? awsDomainInformation;
 
   DomainInformationContainer({
     this.awsDomainInformation,
   });
+
   factory DomainInformationContainer.fromJson(Map<String, dynamic> json) {
     return DomainInformationContainer(
       awsDomainInformation: json['AWSDomainInformation'] != null
@@ -3848,33 +4889,90 @@ class DomainInformationContainer {
   }
 }
 
-/// Information on a package associated with a domain.
+/// Container for information about nodes on the domain.
+class DomainNodesStatus {
+  /// The Availability Zone of the node.
+  final String? availabilityZone;
+
+  /// The instance type information of the node.
+  final OpenSearchPartitionInstanceType? instanceType;
+
+  /// The ID of the node.
+  final String? nodeId;
+
+  /// Indicates if the node is active or in standby.
+  final NodeStatus? nodeStatus;
+
+  /// Indicates whether the nodes is a data, master, or ultrawarm node.
+  final NodeType? nodeType;
+
+  /// The storage size of the node, in GiB.
+  final String? storageSize;
+
+  /// Indicates if the node has EBS or instance storage.
+  final String? storageType;
+
+  /// If the nodes has EBS storage, indicates if the volume type is GP2 or GP3.
+  /// Only applicable for data nodes.
+  final VolumeType? storageVolumeType;
+
+  DomainNodesStatus({
+    this.availabilityZone,
+    this.instanceType,
+    this.nodeId,
+    this.nodeStatus,
+    this.nodeType,
+    this.storageSize,
+    this.storageType,
+    this.storageVolumeType,
+  });
+
+  factory DomainNodesStatus.fromJson(Map<String, dynamic> json) {
+    return DomainNodesStatus(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      instanceType: (json['InstanceType'] as String?)
+          ?.toOpenSearchPartitionInstanceType(),
+      nodeId: json['NodeId'] as String?,
+      nodeStatus: (json['NodeStatus'] as String?)?.toNodeStatus(),
+      nodeType: (json['NodeType'] as String?)?.toNodeType(),
+      storageSize: json['StorageSize'] as String?,
+      storageType: json['StorageType'] as String?,
+      storageVolumeType: (json['StorageVolumeType'] as String?)?.toVolumeType(),
+    );
+  }
+}
+
+/// Information about a package that is associated with a domain. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html">Custom
+/// packages for Amazon OpenSearch Service</a>.
 class DomainPackageDetails {
-  /// The name of the domain you've associated a package with.
+  /// Name of the domain that the package is associated with.
   final String? domainName;
 
-  /// State of the association. Values are ASSOCIATING, ASSOCIATION_FAILED,
-  /// ACTIVE, DISSOCIATING, and DISSOCIATION_FAILED.
+  /// State of the association.
   final DomainPackageStatus? domainPackageStatus;
 
   /// Additional information if the package is in an error state. Null otherwise.
   final ErrorDetails? errorDetails;
 
-  /// The timestamp of the most recent update to the package association status.
+  /// Timestamp of the most recent update to the package association status.
   final DateTime? lastUpdated;
 
-  /// The internal ID of the package.
+  /// Internal ID of the package.
   final String? packageID;
 
   /// User-specified name of the package.
   final String? packageName;
 
-  /// Currently supports only TXT-DICTIONARY.
+  /// The type of package.
   final PackageType? packageType;
+
+  /// The current version of the package.
   final String? packageVersion;
 
-  /// The relative path on Amazon OpenSearch Service nodes, which can be used as
-  /// synonym_path when the package is a synonym file.
+  /// The relative path of the package on the OpenSearch Service cluster nodes.
+  /// This is <code>synonym_path</code> when the package is for synonym files.
   final String? referencePath;
 
   DomainPackageDetails({
@@ -3888,6 +4986,7 @@ class DomainPackageDetails {
     this.packageVersion,
     this.referencePath,
   });
+
   factory DomainPackageDetails.fromJson(Map<String, dynamic> json) {
     return DomainPackageDetails(
       domainName: json['DomainName'] as String?,
@@ -3903,30 +5002,6 @@ class DomainPackageDetails {
       packageVersion: json['PackageVersion'] as String?,
       referencePath: json['ReferencePath'] as String?,
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    final domainName = this.domainName;
-    final domainPackageStatus = this.domainPackageStatus;
-    final errorDetails = this.errorDetails;
-    final lastUpdated = this.lastUpdated;
-    final packageID = this.packageID;
-    final packageName = this.packageName;
-    final packageType = this.packageType;
-    final packageVersion = this.packageVersion;
-    final referencePath = this.referencePath;
-    return {
-      if (domainName != null) 'DomainName': domainName,
-      if (domainPackageStatus != null)
-        'DomainPackageStatus': domainPackageStatus.toValue(),
-      if (errorDetails != null) 'ErrorDetails': errorDetails,
-      if (lastUpdated != null) 'LastUpdated': unixTimestampToJson(lastUpdated),
-      if (packageID != null) 'PackageID': packageID,
-      if (packageName != null) 'PackageName': packageName,
-      if (packageType != null) 'PackageType': packageType.toValue(),
-      if (packageVersion != null) 'PackageVersion': packageVersion,
-      if (referencePath != null) 'ReferencePath': referencePath,
-    };
   }
 }
 
@@ -3973,102 +5048,139 @@ extension DomainPackageStatusFromString on String {
   }
 }
 
-/// The current status of a domain.
+enum DomainState {
+  active,
+  processing,
+  notAvailable,
+}
+
+extension DomainStateValueExtension on DomainState {
+  String toValue() {
+    switch (this) {
+      case DomainState.active:
+        return 'Active';
+      case DomainState.processing:
+        return 'Processing';
+      case DomainState.notAvailable:
+        return 'NotAvailable';
+    }
+  }
+}
+
+extension DomainStateFromString on String {
+  DomainState toDomainState() {
+    switch (this) {
+      case 'Active':
+        return DomainState.active;
+      case 'Processing':
+        return DomainState.processing;
+      case 'NotAvailable':
+        return DomainState.notAvailable;
+    }
+    throw Exception('$this is not known in enum DomainState');
+  }
+}
+
+/// The current status of an OpenSearch Service domain.
 class DomainStatus {
-  /// The Amazon Resource Name (ARN) of a domain. See <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html"
-  /// target="_blank">IAM identifiers </a> in the <i>AWS Identity and Access
-  /// Management User Guide</i> for more information.
+  /// The Amazon Resource Name (ARN) of the domain. For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
+  /// identifiers </a> in the <i>AWS Identity and Access Management User
+  /// Guide</i>.
   final String arn;
 
-  /// The type and number of instances in the domain.
+  /// Container for the cluster configuration of the domain.
   final ClusterConfig clusterConfig;
 
-  /// The unique identifier for the specified domain.
+  /// Unique identifier for the domain.
   final String domainId;
 
-  /// The name of a domain. Domain names are unique across the domains owned by an
-  /// account within an AWS region. Domain names start with a letter or number and
-  /// can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
+  /// Name of the domain. Domain names are unique across all domains owned by the
+  /// same account within an Amazon Web Services Region.
   final String domainName;
 
-  /// IAM access policy as a JSON-formatted string.
+  /// Identity and Access Management (IAM) policy document specifying the access
+  /// policies for the domain.
   final String? accessPolicies;
 
-  /// The status of the <code>AdvancedOptions</code>.
+  /// Key-value pairs that specify advanced configuration options.
   final Map<String, String>? advancedOptions;
 
-  /// The current status of the domain's advanced security options.
+  /// Settings for fine-grained access control.
   final AdvancedSecurityOptions? advancedSecurityOptions;
 
-  /// The current status of the domain's Auto-Tune options.
+  /// Auto-Tune settings for the domain.
   final AutoTuneOptionsOutput? autoTuneOptions;
 
-  /// Specifies change details of the domain configuration change.
+  /// Information about a configuration change happening on the domain.
   final ChangeProgressDetails? changeProgressDetails;
 
-  /// The <code>CognitoOptions</code> for the specified domain. For more
-  /// information, see <a
-  /// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/cognito-auth.html"
-  /// target="_blank">Configuring Amazon Cognito authentication for OpenSearch
-  /// Dashboards</a>.
+  /// Key-value pairs to configure Amazon Cognito authentication for OpenSearch
+  /// Dashboards.
   final CognitoOptions? cognitoOptions;
 
-  /// The domain creation status. <code>True</code> if the creation of a domain is
-  /// complete. <code> False </code> if domain creation is still in progress.
+  /// Creation status of an OpenSearch Service domain. True if domain creation is
+  /// complete. False if domain creation is still in progress.
   final bool? created;
 
-  /// The domain deletion status. <code>True</code> if a delete request has been
-  /// received for the domain but resource cleanup is still in progress.
-  /// <code>False</code> if the domain has not been deleted. Once domain deletion
-  /// is complete, the status of the domain is no longer returned.
+  /// Deletion status of an OpenSearch Service domain. True if domain deletion is
+  /// complete. False if domain deletion is still in progress. Once deletion is
+  /// complete, the status of the domain is no longer returned.
   final bool? deleted;
 
-  /// The current status of the domain's endpoint options.
+  /// Additional options for the domain endpoint, such as whether to require HTTPS
+  /// for all traffic.
   final DomainEndpointOptions? domainEndpointOptions;
 
-  /// The <code>EBSOptions</code> for the specified domain.
+  /// Container for EBS-based storage settings for the domain.
   final EBSOptions? eBSOptions;
 
-  /// The status of the <code>EncryptionAtRestOptions</code>.
+  /// Encryption at rest settings for the domain.
   final EncryptionAtRestOptions? encryptionAtRestOptions;
 
-  /// The domain endpoint that you use to submit index and search requests.
+  /// Domain-specific endpoint used to submit index, search, and data upload
+  /// requests to the domain.
   final String? endpoint;
 
-  /// Map containing the domain endpoints used to submit index and search
-  /// requests. Example <code>key, value</code>:
+  /// The key-value pair that exists if the OpenSearch Service domain uses VPC
+  /// endpoints.. Example <code>key, value</code>:
   /// <code>'vpc','vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.us-east-1.es.amazonaws.com'</code>.
   final Map<String, String>? endpoints;
+
+  /// Version of OpenSearch or Elasticsearch that the domain is running, in the
+  /// format <code>Elasticsearch_X.Y</code> or <code>OpenSearch_X.Y</code>.
   final String? engineVersion;
 
-  /// Log publishing options for the given domain.
+  /// Log publishing options for the domain.
   final Map<LogType, LogPublishingOption>? logPublishingOptions;
 
-  /// The status of the <code>NodeToNodeEncryptionOptions</code>.
+  /// Whether node-to-node encryption is enabled or disabled.
   final NodeToNodeEncryptionOptions? nodeToNodeEncryptionOptions;
 
-  /// The status of the domain configuration. <code>True</code> if Amazon
-  /// OpenSearch Service is processing configuration changes. <code>False</code>
-  /// if the configuration is active.
+  /// Options that specify a custom 10-hour window during which OpenSearch Service
+  /// can perform configuration changes on the domain.
+  final OffPeakWindowOptions? offPeakWindowOptions;
+
+  /// The status of the domain configuration. True if OpenSearch Service is
+  /// processing configuration changes. False if the configuration is active.
   final bool? processing;
 
   /// The current status of the domain's service software.
   final ServiceSoftwareOptions? serviceSoftwareOptions;
 
-  /// The status of the <code>SnapshotOptions</code>.
+  /// DEPRECATED. Container for parameters required to configure automated
+  /// snapshots of domain indexes.
   final SnapshotOptions? snapshotOptions;
 
-  /// The status of a domain version upgrade. <code>True</code> if Amazon
-  /// OpenSearch Service is undergoing a version upgrade. <code>False</code> if
-  /// the configuration is active.
+  /// Service software update options for the domain.
+  final SoftwareUpdateOptions? softwareUpdateOptions;
+
+  /// The status of a domain version upgrade to a new version of OpenSearch or
+  /// Elasticsearch. True if OpenSearch Service is in the process of a version
+  /// upgrade. False if the configuration is active.
   final bool? upgradeProcessing;
 
-  /// The <code>VPCOptions</code> for the specified domain. For more information,
-  /// see <a
-  /// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html"
-  /// target="_blank"> Launching your Amazon OpenSearch Service domains using a
-  /// VPC</a>.
+  /// The VPC configuration for the domain.
   final VPCDerivedInfo? vPCOptions;
 
   DomainStatus({
@@ -4092,12 +5204,15 @@ class DomainStatus {
     this.engineVersion,
     this.logPublishingOptions,
     this.nodeToNodeEncryptionOptions,
+    this.offPeakWindowOptions,
     this.processing,
     this.serviceSoftwareOptions,
     this.snapshotOptions,
+    this.softwareUpdateOptions,
     this.upgradeProcessing,
     this.vPCOptions,
   });
+
   factory DomainStatus.fromJson(Map<String, dynamic> json) {
     return DomainStatus(
       arn: json['ARN'] as String,
@@ -4149,6 +5264,10 @@ class DomainStatus {
           ? NodeToNodeEncryptionOptions.fromJson(
               json['NodeToNodeEncryptionOptions'] as Map<String, dynamic>)
           : null,
+      offPeakWindowOptions: json['OffPeakWindowOptions'] != null
+          ? OffPeakWindowOptions.fromJson(
+              json['OffPeakWindowOptions'] as Map<String, dynamic>)
+          : null,
       processing: json['Processing'] as bool?,
       serviceSoftwareOptions: json['ServiceSoftwareOptions'] != null
           ? ServiceSoftwareOptions.fromJson(
@@ -4158,131 +5277,138 @@ class DomainStatus {
           ? SnapshotOptions.fromJson(
               json['SnapshotOptions'] as Map<String, dynamic>)
           : null,
+      softwareUpdateOptions: json['SoftwareUpdateOptions'] != null
+          ? SoftwareUpdateOptions.fromJson(
+              json['SoftwareUpdateOptions'] as Map<String, dynamic>)
+          : null,
       upgradeProcessing: json['UpgradeProcessing'] as bool?,
       vPCOptions: json['VPCOptions'] != null
           ? VPCDerivedInfo.fromJson(json['VPCOptions'] as Map<String, dynamic>)
           : null,
     );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final clusterConfig = this.clusterConfig;
-    final domainId = this.domainId;
-    final domainName = this.domainName;
-    final accessPolicies = this.accessPolicies;
-    final advancedOptions = this.advancedOptions;
-    final advancedSecurityOptions = this.advancedSecurityOptions;
-    final autoTuneOptions = this.autoTuneOptions;
-    final changeProgressDetails = this.changeProgressDetails;
-    final cognitoOptions = this.cognitoOptions;
-    final created = this.created;
-    final deleted = this.deleted;
-    final domainEndpointOptions = this.domainEndpointOptions;
-    final eBSOptions = this.eBSOptions;
-    final encryptionAtRestOptions = this.encryptionAtRestOptions;
-    final endpoint = this.endpoint;
-    final endpoints = this.endpoints;
-    final engineVersion = this.engineVersion;
-    final logPublishingOptions = this.logPublishingOptions;
-    final nodeToNodeEncryptionOptions = this.nodeToNodeEncryptionOptions;
-    final processing = this.processing;
-    final serviceSoftwareOptions = this.serviceSoftwareOptions;
-    final snapshotOptions = this.snapshotOptions;
-    final upgradeProcessing = this.upgradeProcessing;
-    final vPCOptions = this.vPCOptions;
-    return {
-      'ARN': arn,
-      'ClusterConfig': clusterConfig,
-      'DomainId': domainId,
-      'DomainName': domainName,
-      if (accessPolicies != null) 'AccessPolicies': accessPolicies,
-      if (advancedOptions != null) 'AdvancedOptions': advancedOptions,
-      if (advancedSecurityOptions != null)
-        'AdvancedSecurityOptions': advancedSecurityOptions,
-      if (autoTuneOptions != null) 'AutoTuneOptions': autoTuneOptions,
-      if (changeProgressDetails != null)
-        'ChangeProgressDetails': changeProgressDetails,
-      if (cognitoOptions != null) 'CognitoOptions': cognitoOptions,
-      if (created != null) 'Created': created,
-      if (deleted != null) 'Deleted': deleted,
-      if (domainEndpointOptions != null)
-        'DomainEndpointOptions': domainEndpointOptions,
-      if (eBSOptions != null) 'EBSOptions': eBSOptions,
-      if (encryptionAtRestOptions != null)
-        'EncryptionAtRestOptions': encryptionAtRestOptions,
-      if (endpoint != null) 'Endpoint': endpoint,
-      if (endpoints != null) 'Endpoints': endpoints,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (logPublishingOptions != null)
-        'LogPublishingOptions':
-            logPublishingOptions.map((k, e) => MapEntry(k.toValue(), e)),
-      if (nodeToNodeEncryptionOptions != null)
-        'NodeToNodeEncryptionOptions': nodeToNodeEncryptionOptions,
-      if (processing != null) 'Processing': processing,
-      if (serviceSoftwareOptions != null)
-        'ServiceSoftwareOptions': serviceSoftwareOptions,
-      if (snapshotOptions != null) 'SnapshotOptions': snapshotOptions,
-      if (upgradeProcessing != null) 'UpgradeProcessing': upgradeProcessing,
-      if (vPCOptions != null) 'VPCOptions': vPCOptions,
-    };
+enum DryRunMode {
+  basic,
+  verbose,
+}
+
+extension DryRunModeValueExtension on DryRunMode {
+  String toValue() {
+    switch (this) {
+      case DryRunMode.basic:
+        return 'Basic';
+      case DryRunMode.verbose:
+        return 'Verbose';
+    }
   }
 }
 
+extension DryRunModeFromString on String {
+  DryRunMode toDryRunMode() {
+    switch (this) {
+      case 'Basic':
+        return DryRunMode.basic;
+      case 'Verbose':
+        return DryRunMode.verbose;
+    }
+    throw Exception('$this is not known in enum DryRunMode');
+  }
+}
+
+/// Information about the progress of a pre-upgrade dry run analysis.
+class DryRunProgressStatus {
+  /// The timestamp when the dry run was initiated.
+  final String creationDate;
+
+  /// The unique identifier of the dry run.
+  final String dryRunId;
+
+  /// The current status of the dry run.
+  final String dryRunStatus;
+
+  /// The timestamp when the dry run was last updated.
+  final String updateDate;
+
+  /// Any validation failures that occurred as a result of the dry run.
+  final List<ValidationFailure>? validationFailures;
+
+  DryRunProgressStatus({
+    required this.creationDate,
+    required this.dryRunId,
+    required this.dryRunStatus,
+    required this.updateDate,
+    this.validationFailures,
+  });
+
+  factory DryRunProgressStatus.fromJson(Map<String, dynamic> json) {
+    return DryRunProgressStatus(
+      creationDate: json['CreationDate'] as String,
+      dryRunId: json['DryRunId'] as String,
+      dryRunStatus: json['DryRunStatus'] as String,
+      updateDate: json['UpdateDate'] as String,
+      validationFailures: (json['ValidationFailures'] as List?)
+          ?.whereNotNull()
+          .map((e) => ValidationFailure.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// Results of a dry run performed in an update domain request.
 class DryRunResults {
-  /// Specifies the way in which Amazon OpenSearch Service applies the update.
-  /// Possible responses are <code>Blue/Green</code> (the update requires a
-  /// blue/green deployment), <code>DynamicUpdate</code> (no blue/green required),
-  /// <code>Undetermined</code> (the domain is undergoing an update and can't
-  /// predict the deployment type; try again after the update is complete), and
-  /// <code>None</code> (the request doesn't include any configuration changes).
+  /// Specifies the way in which OpenSearch Service will apply an update. Possible
+  /// values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Blue/Green</b> - The update requires a blue/green deployment.
+  /// </li>
+  /// <li>
+  /// <b>DynamicUpdate</b> - No blue/green deployment required
+  /// </li>
+  /// <li>
+  /// <b>Undetermined</b> - The domain is in the middle of an update and can't
+  /// predict the deployment type. Try again after the update is complete.
+  /// </li>
+  /// <li>
+  /// <b>None</b> - The request doesn't include any configuration changes.
+  /// </li>
+  /// </ul>
   final String? deploymentType;
 
-  /// Contains an optional message associated with the DryRunResults.
+  /// A message corresponding to the deployment type.
   final String? message;
 
   DryRunResults({
     this.deploymentType,
     this.message,
   });
+
   factory DryRunResults.fromJson(Map<String, dynamic> json) {
     return DryRunResults(
       deploymentType: json['DeploymentType'] as String?,
       message: json['Message'] as String?,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final deploymentType = this.deploymentType;
-    final message = this.message;
-    return {
-      if (deploymentType != null) 'DeploymentType': deploymentType,
-      if (message != null) 'Message': message,
-    };
-  }
 }
 
-/// The maintenance schedule duration: duration value and duration unit. See <a
-/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html"
-/// target="_blank"> Auto-Tune for Amazon OpenSearch Service </a> for more
-/// information.
+/// The duration of a maintenance schedule. For more information, see <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html">Auto-Tune
+/// for Amazon OpenSearch Service</a>.
 class Duration {
-  /// The unit of a maintenance schedule duration. Valid value is HOURS. See <a
-  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html"
-  /// target="_blank"> Auto-Tune for Amazon OpenSearch Service </a> for more
-  /// information.
+  /// The unit of measurement for the duration of a maintenance schedule.
   final TimeUnit? unit;
 
-  /// Integer to specify the value of a maintenance schedule duration. See <a
-  /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html"
-  /// target="_blank"> Auto-Tune for Amazon OpenSearch Service </a> for more
-  /// information.
+  /// Integer to specify the value of a maintenance schedule duration.
   final int? value;
 
   Duration({
     this.unit,
     this.value,
   });
+
   factory Duration.fromJson(Map<String, dynamic> json) {
     return Duration(
       unit: (json['Unit'] as String?)?.toTimeUnit(),
@@ -4300,22 +5426,26 @@ class Duration {
   }
 }
 
-/// Options to enable, disable, and specify the properties of EBS storage
-/// volumes.
+/// Container for the parameters required to enable EBS-based storage for an
+/// OpenSearch Service domain.
 class EBSOptions {
-  /// Whether EBS-based storage is enabled.
+  /// Indicates whether EBS volumes are attached to data nodes in an OpenSearch
+  /// Service domain.
   final bool? eBSEnabled;
 
-  /// The IOPS for Provisioned IOPS And GP3 EBS volume (SSD).
+  /// Specifies the baseline input/output (I/O) performance of EBS volumes
+  /// attached to data nodes. Applicable only for the <code>gp3</code> and
+  /// provisioned IOPS EBS volume types.
   final int? iops;
 
-  /// The Throughput for GP3 EBS volume (SSD).
+  /// Specifies the throughput (in MiB/s) of the EBS volumes attached to data
+  /// nodes. Applicable only for the <code>gp3</code> volume type.
   final int? throughput;
 
-  /// Integer to specify the size of an EBS volume.
+  /// Specifies the size (in GiB) of EBS volumes attached to data nodes.
   final int? volumeSize;
 
-  /// The volume type for EBS-based storage.
+  /// Specifies the type of EBS volumes attached to data nodes.
   final VolumeType? volumeType;
 
   EBSOptions({
@@ -4325,6 +5455,7 @@ class EBSOptions {
     this.volumeSize,
     this.volumeType,
   });
+
   factory EBSOptions.fromJson(Map<String, dynamic> json) {
     return EBSOptions(
       eBSEnabled: json['EBSEnabled'] as bool?,
@@ -4351,9 +5482,9 @@ class EBSOptions {
   }
 }
 
-/// Status of the EBS options for the specified domain.
+/// The status of the EBS options for the specified OpenSearch Service domain.
 class EBSOptionsStatus {
-  /// The EBS options for the specified domain.
+  /// The configured EBS options for the specified domain.
   final EBSOptions options;
 
   /// The status of the EBS options for the specified domain.
@@ -4363,35 +5494,31 @@ class EBSOptionsStatus {
     required this.options,
     required this.status,
   });
+
   factory EBSOptionsStatus.fromJson(Map<String, dynamic> json) {
     return EBSOptionsStatus(
       options: EBSOptions.fromJson(json['Options'] as Map<String, dynamic>),
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final options = this.options;
-    final status = this.status;
-    return {
-      'Options': options,
-      'Status': status,
-    };
-  }
 }
 
-/// Specifies encryption at rest options.
+/// Specifies whether the domain should encrypt data at rest, and if so, the Key
+/// Management Service (KMS) key to use. Can be used only to create a new
+/// domain, not update an existing one.
 class EncryptionAtRestOptions {
-  /// The option to enable encryption at rest.
+  /// True to enable encryption at rest.
   final bool? enabled;
 
-  /// The KMS key ID for encryption at rest options.
+  /// The KMS key ID. Takes the form
+  /// <code>1a2a3a4-1a2a-3a4a-5a6a-1a2a3a4a5a6a</code>.
   final String? kmsKeyId;
 
   EncryptionAtRestOptions({
     this.enabled,
     this.kmsKeyId,
   });
+
   factory EncryptionAtRestOptions.fromJson(Map<String, dynamic> json) {
     return EncryptionAtRestOptions(
       enabled: json['Enabled'] as bool?,
@@ -4409,33 +5536,26 @@ class EncryptionAtRestOptions {
   }
 }
 
-/// Status of the encryption At Rest options for the specified domain.
+/// Status of the encryption at rest options for the specified OpenSearch
+/// Service domain.
 class EncryptionAtRestOptionsStatus {
-  /// The Encryption At Rest options for the specified domain.
+  /// Encryption at rest options for the specified domain.
   final EncryptionAtRestOptions options;
 
-  /// The status of the Encryption At Rest options for the specified domain.
+  /// The status of the encryption at rest options for the specified domain.
   final OptionStatus status;
 
   EncryptionAtRestOptionsStatus({
     required this.options,
     required this.status,
   });
+
   factory EncryptionAtRestOptionsStatus.fromJson(Map<String, dynamic> json) {
     return EncryptionAtRestOptionsStatus(
       options: EncryptionAtRestOptions.fromJson(
           json['Options'] as Map<String, dynamic>),
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    final options = this.options;
-    final status = this.status;
-    return {
-      'Options': options,
-      'Status': status,
-    };
   }
 }
 
@@ -4467,47 +5587,62 @@ extension EngineTypeFromString on String {
   }
 }
 
+/// Information about the active domain environment.
+class EnvironmentInfo {
+  /// A list of <code>AvailabilityZoneInfo</code> for the domain.
+  final List<AvailabilityZoneInfo>? availabilityZoneInformation;
+
+  EnvironmentInfo({
+    this.availabilityZoneInformation,
+  });
+
+  factory EnvironmentInfo.fromJson(Map<String, dynamic> json) {
+    return EnvironmentInfo(
+      availabilityZoneInformation: (json['AvailabilityZoneInformation']
+              as List?)
+          ?.whereNotNull()
+          .map((e) => AvailabilityZoneInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// Additional information if the package is in an error state. Null otherwise.
 class ErrorDetails {
+  /// A message describing the error.
   final String? errorMessage;
+
+  /// The type of error that occurred.
   final String? errorType;
 
   ErrorDetails({
     this.errorMessage,
     this.errorType,
   });
+
   factory ErrorDetails.fromJson(Map<String, dynamic> json) {
     return ErrorDetails(
       errorMessage: json['ErrorMessage'] as String?,
       errorType: json['ErrorType'] as String?,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final errorMessage = this.errorMessage;
-    final errorType = this.errorType;
-    return {
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (errorType != null) 'ErrorType': errorType,
-    };
-  }
 }
 
 /// A filter used to limit results when describing inbound or outbound
-/// cross-cluster connections. Multiple values can be specified per filter. A
+/// cross-cluster connections. You can specify multiple values per filter. A
 /// cross-cluster connection must match at least one of the specified values for
 /// it to be returned from an operation.
 class Filter {
   /// The name of the filter.
   final String? name;
 
-  /// Contains one or more values for the filter.
+  /// One or more values for the filter.
   final List<String>? values;
 
   Filter({
     this.name,
     this.values,
   });
-
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -4518,16 +5653,17 @@ class Filter {
   }
 }
 
-/// Container for the response returned by the <code>
-/// <a>GetCompatibleVersions</a> </code> operation.
+/// Container for the response returned by the
+/// <code>GetCompatibleVersions</code> operation.
 class GetCompatibleVersionsResponse {
-  /// A map of compatible OpenSearch versions returned as part of the <code>
-  /// <a>GetCompatibleVersions</a> </code> operation.
+  /// A map of OpenSearch or Elasticsearch versions and the versions you can
+  /// upgrade them to.
   final List<CompatibleVersionsMap>? compatibleVersions;
 
   GetCompatibleVersionsResponse({
     this.compatibleVersions,
   });
+
   factory GetCompatibleVersionsResponse.fromJson(Map<String, dynamic> json) {
     return GetCompatibleVersionsResponse(
       compatibleVersions: (json['CompatibleVersions'] as List?)
@@ -4536,22 +5672,22 @@ class GetCompatibleVersionsResponse {
           .toList(),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final compatibleVersions = this.compatibleVersions;
-    return {
-      if (compatibleVersions != null) 'CompatibleVersions': compatibleVersions,
-    };
-  }
 }
 
-/// Container for response returned by <code> <a>GetPackageVersionHistory</a>
-/// </code> operation.
+/// Container for response returned by <code>GetPackageVersionHistory</code>
+/// operation.
 class GetPackageVersionHistoryResponse {
+  /// When <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page.
   final String? nextToken;
+
+  /// The unique identifier of the package.
   final String? packageID;
 
-  /// List of <code>PackageVersionHistory</code> objects.
+  /// A list of package versions, along with their creation time and commit
+  /// message.
   final List<PackageVersionHistory>? packageVersionHistoryList;
 
   GetPackageVersionHistoryResponse({
@@ -4559,6 +5695,7 @@ class GetPackageVersionHistoryResponse {
     this.packageID,
     this.packageVersionHistoryList,
   });
+
   factory GetPackageVersionHistoryResponse.fromJson(Map<String, dynamic> json) {
     return GetPackageVersionHistoryResponse(
       nextToken: json['NextToken'] as String?,
@@ -4569,36 +5706,26 @@ class GetPackageVersionHistoryResponse {
           .toList(),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final packageID = this.packageID;
-    final packageVersionHistoryList = this.packageVersionHistoryList;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (packageID != null) 'PackageID': packageID,
-      if (packageVersionHistoryList != null)
-        'PackageVersionHistoryList': packageVersionHistoryList,
-    };
-  }
 }
 
-/// Container for the response returned by the <code> <a>GetUpgradeHistory</a>
-/// </code> operation.
+/// Container for the response returned by the <code>GetUpgradeHistory</code>
+/// operation.
 class GetUpgradeHistoryResponse {
-  /// Pagination token that needs to be supplied to the next call to get the next
-  /// page of results.
+  /// When <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page.
   final String? nextToken;
 
-  /// A list of <code> <a>UpgradeHistory</a> </code> objects corresponding to each
-  /// upgrade or upgrade eligibility check performed on a domain returned as part
-  /// of the <code> <a>GetUpgradeHistoryResponse</a> </code> object.
+  /// A list of objects corresponding to each upgrade or upgrade eligibility check
+  /// performed on a domain.
   final List<UpgradeHistory>? upgradeHistories;
 
   GetUpgradeHistoryResponse({
     this.nextToken,
     this.upgradeHistories,
   });
+
   factory GetUpgradeHistoryResponse.fromJson(Map<String, dynamic> json) {
     return GetUpgradeHistoryResponse(
       nextToken: json['NextToken'] as String?,
@@ -4608,40 +5735,19 @@ class GetUpgradeHistoryResponse {
           .toList(),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final upgradeHistories = this.upgradeHistories;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (upgradeHistories != null) 'UpgradeHistories': upgradeHistories,
-    };
-  }
 }
 
-/// Container for the response returned by the <code> <a>GetUpgradeStatus</a>
-/// </code> operation.
+/// Container for the response returned by the <code>GetUpgradeStatus</code>
+/// operation.
 class GetUpgradeStatusResponse {
-  /// One of four statuses an upgrade have, returned as part of the <code>
-  /// <a>GetUpgradeStatusResponse</a> </code> object. The status can take one of
-  /// the following values:
-  /// <ul>
-  /// <li>In Progress</li>
-  /// <li>Succeeded</li>
-  /// <li>Succeeded with Issues</li>
-  /// <li>Failed</li>
-  /// </ul>
+  /// The status of the current step that an upgrade is on.
   final UpgradeStatus? stepStatus;
 
-  /// A string that briefly describes the update.
+  /// A string that describes the update.
   final String? upgradeName;
 
-  /// One of three steps an upgrade or upgrade eligibility check goes through:
-  /// <ul>
-  /// <li>PreUpgradeCheck</li>
-  /// <li>Snapshot</li>
-  /// <li>Upgrade</li>
-  /// </ul>
+  /// One of three steps that an upgrade or upgrade eligibility check goes
+  /// through.
   final UpgradeStep? upgradeStep;
 
   GetUpgradeStatusResponse({
@@ -4649,6 +5755,7 @@ class GetUpgradeStatusResponse {
     this.upgradeName,
     this.upgradeStep,
   });
+
   factory GetUpgradeStatusResponse.fromJson(Map<String, dynamic> json) {
     return GetUpgradeStatusResponse(
       stepStatus: (json['StepStatus'] as String?)?.toUpgradeStatus(),
@@ -4656,45 +5763,40 @@ class GetUpgradeStatusResponse {
       upgradeStep: (json['UpgradeStep'] as String?)?.toUpgradeStep(),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final stepStatus = this.stepStatus;
-    final upgradeName = this.upgradeName;
-    final upgradeStep = this.upgradeStep;
-    return {
-      if (stepStatus != null) 'StepStatus': stepStatus.toValue(),
-      if (upgradeName != null) 'UpgradeName': upgradeName,
-      if (upgradeStep != null) 'UpgradeStep': upgradeStep.toValue(),
-    };
-  }
 }
 
-/// Details of an inbound connection.
+/// Describes an inbound cross-cluster connection for Amazon OpenSearch Service.
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html">Cross-cluster
+/// search for Amazon OpenSearch Service</a>.
 class InboundConnection {
-  /// The connection ID for the inbound cross-cluster connection.
+  /// The unique identifier of the connection.
   final String? connectionId;
 
-  /// The <code> <a>InboundConnectionStatus</a> </code> for the outbound
-  /// connection.
+  /// The connection mode.
+  final ConnectionMode? connectionMode;
+
+  /// The current status of the connection.
   final InboundConnectionStatus? connectionStatus;
 
-  /// The <code> <a>AWSDomainInformation</a> </code> for the local OpenSearch
-  /// domain.
+  /// Information about the source (local) domain.
   final DomainInformationContainer? localDomainInfo;
 
-  /// The <code> <a>AWSDomainInformation</a> </code> for the remote OpenSearch
-  /// domain.
+  /// Information about the destination (remote) domain.
   final DomainInformationContainer? remoteDomainInfo;
 
   InboundConnection({
     this.connectionId,
+    this.connectionMode,
     this.connectionStatus,
     this.localDomainInfo,
     this.remoteDomainInfo,
   });
+
   factory InboundConnection.fromJson(Map<String, dynamic> json) {
     return InboundConnection(
       connectionId: json['ConnectionId'] as String?,
+      connectionMode: (json['ConnectionMode'] as String?)?.toConnectionMode(),
       connectionStatus: json['ConnectionStatus'] != null
           ? InboundConnectionStatus.fromJson(
               json['ConnectionStatus'] as Map<String, dynamic>)
@@ -4709,39 +5811,42 @@ class InboundConnection {
           : null,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final connectionId = this.connectionId;
-    final connectionStatus = this.connectionStatus;
-    final localDomainInfo = this.localDomainInfo;
-    final remoteDomainInfo = this.remoteDomainInfo;
-    return {
-      if (connectionId != null) 'ConnectionId': connectionId,
-      if (connectionStatus != null) 'ConnectionStatus': connectionStatus,
-      if (localDomainInfo != null) 'LocalDomainInfo': localDomainInfo,
-      if (remoteDomainInfo != null) 'RemoteDomainInfo': remoteDomainInfo,
-    };
-  }
 }
 
-/// The connection status of an inbound cross-cluster connection.
+/// The status of an inbound cross-cluster connection for OpenSearch Service.
 class InboundConnectionStatus {
-  /// Verbose information for the inbound connection status.
+  /// Information about the connection.
   final String? message;
 
-  /// The state code for the inbound connection. Can be one of the following:
+  /// The status code for the connection. Can be one of the following:
   ///
   /// <ul>
-  /// <li>PENDING_ACCEPTANCE: Inbound connection is not yet accepted by the remote
-  /// domain owner.</li>
-  /// <li>APPROVED: Inbound connection is pending acceptance by the remote domain
-  /// owner.</li>
-  /// <li>PROVISIONING: Inbound connection provisioning is in progress.</li>
-  /// <li>ACTIVE: Inbound connection is active and ready to use.</li>
-  /// <li>REJECTING: Inbound connection rejection is in process.</li>
-  /// <li>REJECTED: Inbound connection is rejected.</li>
-  /// <li>DELETING: Inbound connection deletion is in progress.</li>
-  /// <li>DELETED: Inbound connection is deleted and can no longer be used.</li>
+  /// <li>
+  /// <b>PENDING_ACCEPTANCE</b> - Inbound connection is not yet accepted by the
+  /// remote domain owner.
+  /// </li>
+  /// <li>
+  /// <b>APPROVED</b>: Inbound connection is pending acceptance by the remote
+  /// domain owner.
+  /// </li>
+  /// <li>
+  /// <b>PROVISIONING</b>: Inbound connection is being provisioned.
+  /// </li>
+  /// <li>
+  /// <b>ACTIVE</b>: Inbound connection is active and ready to use.
+  /// </li>
+  /// <li>
+  /// <b>REJECTING</b>: Inbound connection rejection is in process.
+  /// </li>
+  /// <li>
+  /// <b>REJECTED</b>: Inbound connection is rejected.
+  /// </li>
+  /// <li>
+  /// <b>DELETING</b>: Inbound connection deletion is in progress.
+  /// </li>
+  /// <li>
+  /// <b>DELETED</b>: Inbound connection is deleted and can no longer be used.
+  /// </li>
   /// </ul>
   final InboundConnectionStatusCode? statusCode;
 
@@ -4749,21 +5854,13 @@ class InboundConnectionStatus {
     this.message,
     this.statusCode,
   });
+
   factory InboundConnectionStatus.fromJson(Map<String, dynamic> json) {
     return InboundConnectionStatus(
       message: json['Message'] as String?,
       statusCode:
           (json['StatusCode'] as String?)?.toInboundConnectionStatusCode(),
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    final statusCode = this.statusCode;
-    return {
-      if (message != null) 'Message': message,
-      if (statusCode != null) 'StatusCode': statusCode.toValue(),
-    };
   }
 }
 
@@ -4826,43 +5923,38 @@ extension InboundConnectionStatusCodeFromString on String {
   }
 }
 
-/// InstanceCountLimits represents the limits on the number of instances that
-/// can be created in Amazon OpenSearch Service for a given InstanceType.
+/// Limits on the number of instances that can be created in OpenSearch Service
+/// for a given instance type.
 class InstanceCountLimits {
+  /// The minimum allowed number of instances.
   final int? maximumInstanceCount;
+
+  /// The maximum allowed number of instances.
   final int? minimumInstanceCount;
 
   InstanceCountLimits({
     this.maximumInstanceCount,
     this.minimumInstanceCount,
   });
+
   factory InstanceCountLimits.fromJson(Map<String, dynamic> json) {
     return InstanceCountLimits(
       maximumInstanceCount: json['MaximumInstanceCount'] as int?,
       minimumInstanceCount: json['MinimumInstanceCount'] as int?,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final maximumInstanceCount = this.maximumInstanceCount;
-    final minimumInstanceCount = this.minimumInstanceCount;
-    return {
-      if (maximumInstanceCount != null)
-        'MaximumInstanceCount': maximumInstanceCount,
-      if (minimumInstanceCount != null)
-        'MinimumInstanceCount': minimumInstanceCount,
-    };
-  }
 }
 
-/// InstanceLimits represents the list of instance-related attributes that are
-/// available for a given InstanceType.
+/// Instance-related attributes that are available for a given instance type.
 class InstanceLimits {
+  /// Limits on the number of instances that can be created for a given instance
+  /// type.
   final InstanceCountLimits? instanceCountLimits;
 
   InstanceLimits({
     this.instanceCountLimits,
   });
+
   factory InstanceLimits.fromJson(Map<String, dynamic> json) {
     return InstanceLimits(
       instanceCountLimits: json['InstanceCountLimits'] != null
@@ -4871,38 +5963,56 @@ class InstanceLimits {
           : null,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final instanceCountLimits = this.instanceCountLimits;
-    return {
-      if (instanceCountLimits != null)
-        'InstanceCountLimits': instanceCountLimits,
-    };
-  }
 }
 
+/// Lists all instance types and available features for a given OpenSearch or
+/// Elasticsearch version.
 class InstanceTypeDetails {
+  /// Whether fine-grained access control is supported for the instance type.
   final bool? advancedSecurityEnabled;
+
+  /// Whether logging is supported for the instance type.
   final bool? appLogsEnabled;
+
+  /// The supported Availability Zones for the instance type.
+  final List<String>? availabilityZones;
+
+  /// Whether Amazon Cognito access is supported for the instance type.
   final bool? cognitoEnabled;
+
+  /// Whether encryption at rest and node-to-node encryption are supported for the
+  /// instance type.
   final bool? encryptionEnabled;
+
+  /// Whether the instance acts as a data node, a dedicated master node, or an
+  /// UltraWarm node.
   final List<String>? instanceRole;
+
+  /// The instance type.
   final OpenSearchPartitionInstanceType? instanceType;
+
+  /// Whether UltraWarm is supported for the instance type.
   final bool? warmEnabled;
 
   InstanceTypeDetails({
     this.advancedSecurityEnabled,
     this.appLogsEnabled,
+    this.availabilityZones,
     this.cognitoEnabled,
     this.encryptionEnabled,
     this.instanceRole,
     this.instanceType,
     this.warmEnabled,
   });
+
   factory InstanceTypeDetails.fromJson(Map<String, dynamic> json) {
     return InstanceTypeDetails(
       advancedSecurityEnabled: json['AdvancedSecurityEnabled'] as bool?,
       appLogsEnabled: json['AppLogsEnabled'] as bool?,
+      availabilityZones: (json['AvailabilityZones'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       cognitoEnabled: json['CognitoEnabled'] as bool?,
       encryptionEnabled: json['EncryptionEnabled'] as bool?,
       instanceRole: (json['InstanceRole'] as List?)
@@ -4914,39 +6024,18 @@ class InstanceTypeDetails {
       warmEnabled: json['WarmEnabled'] as bool?,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final advancedSecurityEnabled = this.advancedSecurityEnabled;
-    final appLogsEnabled = this.appLogsEnabled;
-    final cognitoEnabled = this.cognitoEnabled;
-    final encryptionEnabled = this.encryptionEnabled;
-    final instanceRole = this.instanceRole;
-    final instanceType = this.instanceType;
-    final warmEnabled = this.warmEnabled;
-    return {
-      if (advancedSecurityEnabled != null)
-        'AdvancedSecurityEnabled': advancedSecurityEnabled,
-      if (appLogsEnabled != null) 'AppLogsEnabled': appLogsEnabled,
-      if (cognitoEnabled != null) 'CognitoEnabled': cognitoEnabled,
-      if (encryptionEnabled != null) 'EncryptionEnabled': encryptionEnabled,
-      if (instanceRole != null) 'InstanceRole': instanceRole,
-      if (instanceType != null) 'InstanceType': instanceType.toValue(),
-      if (warmEnabled != null) 'WarmEnabled': warmEnabled,
-    };
-  }
 }
 
-/// Limits for a given InstanceType and for each of its roles. <br/> Limits
-/// contains the following: <code> <a>StorageTypes</a> </code>, <code>
-/// <a>InstanceLimits</a> </code>, and <code> <a>AdditionalLimits</a> </code>
+/// Limits for a given instance type and for each of its roles.
 class Limits {
-  /// List of additional limits that are specific to a given InstanceType and for
-  /// each of its <code> <a>InstanceRole</a> </code> .
+  /// List of additional limits that are specific to a given instance type for
+  /// each of its instance roles.
   final List<AdditionalLimit>? additionalLimits;
+
+  /// The limits for a given instance type.
   final InstanceLimits? instanceLimits;
 
-  /// Storage-related types and attributes that are available for a given
-  /// InstanceType.
+  /// Storage-related attributes that are available for a given instance type.
   final List<StorageType>? storageTypes;
 
   Limits({
@@ -4954,6 +6043,7 @@ class Limits {
     this.instanceLimits,
     this.storageTypes,
   });
+
   factory Limits.fromJson(Map<String, dynamic> json) {
     return Limits(
       additionalLimits: (json['AdditionalLimits'] as List?)
@@ -4970,28 +6060,19 @@ class Limits {
           .toList(),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final additionalLimits = this.additionalLimits;
-    final instanceLimits = this.instanceLimits;
-    final storageTypes = this.storageTypes;
-    return {
-      if (additionalLimits != null) 'AdditionalLimits': additionalLimits,
-      if (instanceLimits != null) 'InstanceLimits': instanceLimits,
-      if (storageTypes != null) 'StorageTypes': storageTypes,
-    };
-  }
 }
 
-/// The result of a <code>ListDomainNames</code> operation. Contains the names
+/// The results of a <code>ListDomainNames</code> operation. Contains the names
 /// of all domains owned by this account and their respective engine types.
 class ListDomainNamesResponse {
-  /// List of domain names and respective engine types.
+  /// The names of all OpenSearch Service domains owned by the current user and
+  /// their respective engine types.
   final List<DomainInfo>? domainNames;
 
   ListDomainNamesResponse({
     this.domainNames,
   });
+
   factory ListDomainNamesResponse.fromJson(Map<String, dynamic> json) {
     return ListDomainNamesResponse(
       domainNames: (json['DomainNames'] as List?)
@@ -5000,26 +6081,25 @@ class ListDomainNamesResponse {
           .toList(),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final domainNames = this.domainNames;
-    return {
-      if (domainNames != null) 'DomainNames': domainNames,
-    };
-  }
 }
 
-/// Container for the response parameters to the <code>
-/// <a>ListDomainsForPackage</a> </code> operation.
+/// Container for the response parameters to the
+/// <code>ListDomainsForPackage</code> operation.
 class ListDomainsForPackageResponse {
-  /// List of <code>DomainPackageDetails</code> objects.
+  /// Information about all domains associated with a package.
   final List<DomainPackageDetails>? domainPackageDetailsList;
+
+  /// When <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page.
   final String? nextToken;
 
   ListDomainsForPackageResponse({
     this.domainPackageDetailsList,
     this.nextToken,
   });
+
   factory ListDomainsForPackageResponse.fromJson(Map<String, dynamic> json) {
     return ListDomainsForPackageResponse(
       domainPackageDetailsList: (json['DomainPackageDetailsList'] as List?)
@@ -5029,26 +6109,24 @@ class ListDomainsForPackageResponse {
       nextToken: json['NextToken'] as String?,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final domainPackageDetailsList = this.domainPackageDetailsList;
-    final nextToken = this.nextToken;
-    return {
-      if (domainPackageDetailsList != null)
-        'DomainPackageDetailsList': domainPackageDetailsList,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
 }
 
 class ListInstanceTypeDetailsResponse {
+  /// Lists all supported instance types and features for the given OpenSearch or
+  /// Elasticsearch version.
   final List<InstanceTypeDetails>? instanceTypeDetails;
+
+  /// When <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page.
   final String? nextToken;
 
   ListInstanceTypeDetailsResponse({
     this.instanceTypeDetails,
     this.nextToken,
   });
+
   factory ListInstanceTypeDetailsResponse.fromJson(Map<String, dynamic> json) {
     return ListInstanceTypeDetailsResponse(
       instanceTypeDetails: (json['InstanceTypeDetails'] as List?)
@@ -5058,31 +6136,25 @@ class ListInstanceTypeDetailsResponse {
       nextToken: json['NextToken'] as String?,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final instanceTypeDetails = this.instanceTypeDetails;
-    final nextToken = this.nextToken;
-    return {
-      if (instanceTypeDetails != null)
-        'InstanceTypeDetails': instanceTypeDetails,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
 }
 
-/// Container for the response parameters to the <code>
-/// <a>ListPackagesForDomain</a> </code> operation.
+/// Container for the response parameters to the
+/// <code>ListPackagesForDomain</code> operation.
 class ListPackagesForDomainResponse {
-  /// List of <code>DomainPackageDetails</code> objects.
+  /// List of all packages associated with a domain.
   final List<DomainPackageDetails>? domainPackageDetailsList;
 
-  /// Pagination token to supply to the next call to get the next page of results.
+  /// When <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page.
   final String? nextToken;
 
   ListPackagesForDomainResponse({
     this.domainPackageDetailsList,
     this.nextToken,
   });
+
   factory ListPackagesForDomainResponse.fromJson(Map<String, dynamic> json) {
     return ListPackagesForDomainResponse(
       domainPackageDetailsList: (json['DomainPackageDetailsList'] as List?)
@@ -5092,27 +6164,43 @@ class ListPackagesForDomainResponse {
       nextToken: json['NextToken'] as String?,
     );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    final domainPackageDetailsList = this.domainPackageDetailsList;
-    final nextToken = this.nextToken;
-    return {
-      if (domainPackageDetailsList != null)
-        'DomainPackageDetailsList': domainPackageDetailsList,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+class ListScheduledActionsResponse {
+  /// When <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page.
+  final String? nextToken;
+
+  /// A list of actions that are scheduled for the domain.
+  final List<ScheduledAction>? scheduledActions;
+
+  ListScheduledActionsResponse({
+    this.nextToken,
+    this.scheduledActions,
+  });
+
+  factory ListScheduledActionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListScheduledActionsResponse(
+      nextToken: json['NextToken'] as String?,
+      scheduledActions: (json['ScheduledActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ScheduledAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
   }
 }
 
-/// The result of a <code>ListTags</code> operation. Contains tags for all
-/// requested domains.
+/// The results of a <code>ListTags</code> operation.
 class ListTagsResponse {
-  /// List of <code>Tag</code> for the requested domain.
+  /// List of resource tags associated with the specified domain.
   final List<Tag>? tagList;
 
   ListTagsResponse({
     this.tagList,
   });
+
   factory ListTagsResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsResponse(
       tagList: (json['TagList'] as List?)
@@ -5121,25 +6209,26 @@ class ListTagsResponse {
           .toList(),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final tagList = this.tagList;
-    return {
-      if (tagList != null) 'TagList': tagList,
-    };
-  }
 }
 
-/// Container for the parameters for response received from the <code>
-/// <a>ListVersions</a> </code> operation.
+/// Container for the parameters for response received from the
+/// <code>ListVersions</code> operation.
 class ListVersionsResponse {
+  /// When <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page.
   final String? nextToken;
+
+  /// A list of all versions of OpenSearch and Elasticsearch that Amazon
+  /// OpenSearch Service supports.
   final List<String>? versions;
 
   ListVersionsResponse({
     this.nextToken,
     this.versions,
   });
+
   factory ListVersionsResponse.fromJson(Map<String, dynamic> json) {
     return ListVersionsResponse(
       nextToken: json['NextToken'] as String?,
@@ -5149,35 +6238,111 @@ class ListVersionsResponse {
           .toList(),
     );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final versions = this.versions;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (versions != null) 'Versions': versions,
-    };
+class ListVpcEndpointAccessResponse {
+  /// A list of <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html">IAM
+  /// principals</a> that can currently access the domain.
+  final List<AuthorizedPrincipal> authorizedPrincipalList;
+
+  /// When <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page.
+  final String nextToken;
+
+  ListVpcEndpointAccessResponse({
+    required this.authorizedPrincipalList,
+    required this.nextToken,
+  });
+
+  factory ListVpcEndpointAccessResponse.fromJson(Map<String, dynamic> json) {
+    return ListVpcEndpointAccessResponse(
+      authorizedPrincipalList: (json['AuthorizedPrincipalList'] as List)
+          .whereNotNull()
+          .map((e) => AuthorizedPrincipal.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String,
+    );
   }
 }
 
-/// Log Publishing option that is set for a given domain. <br/>Attributes and
-/// their details:
-/// <ul>
-/// <li>CloudWatchLogsLogGroupArn: ARN of the Cloudwatch log group to publish
-/// logs to.</li>
-/// <li>Enabled: Whether the log publishing for a given log type is enabled or
-/// not.</li>
-/// </ul>
+class ListVpcEndpointsForDomainResponse {
+  /// When <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page.
+  final String nextToken;
+
+  /// Information about each endpoint associated with the domain.
+  final List<VpcEndpointSummary> vpcEndpointSummaryList;
+
+  ListVpcEndpointsForDomainResponse({
+    required this.nextToken,
+    required this.vpcEndpointSummaryList,
+  });
+
+  factory ListVpcEndpointsForDomainResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListVpcEndpointsForDomainResponse(
+      nextToken: json['NextToken'] as String,
+      vpcEndpointSummaryList: (json['VpcEndpointSummaryList'] as List)
+          .whereNotNull()
+          .map((e) => VpcEndpointSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+class ListVpcEndpointsResponse {
+  /// When <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page.
+  final String nextToken;
+
+  /// Information about each endpoint.
+  final List<VpcEndpointSummary> vpcEndpointSummaryList;
+
+  ListVpcEndpointsResponse({
+    required this.nextToken,
+    required this.vpcEndpointSummaryList,
+  });
+
+  factory ListVpcEndpointsResponse.fromJson(Map<String, dynamic> json) {
+    return ListVpcEndpointsResponse(
+      nextToken: json['NextToken'] as String,
+      vpcEndpointSummaryList: (json['VpcEndpointSummaryList'] as List)
+          .whereNotNull()
+          .map((e) => VpcEndpointSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// Specifies whether the Amazon OpenSearch Service domain publishes the
+/// OpenSearch application and slow logs to Amazon CloudWatch. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createdomain-configure-slow-logs.html">Monitoring
+/// OpenSearch logs with Amazon CloudWatch Logs</a>.
+/// <note>
+/// After you enable log publishing, you still have to enable the collection of
+/// slow logs using the OpenSearch REST API.
+/// </note>
 class LogPublishingOption {
+  /// The Amazon Resource Name (ARN) of the CloudWatch Logs group to publish logs
+  /// to.
   final String? cloudWatchLogsLogGroupArn;
 
-  /// Whether the given log publishing option is enabled or not.
+  /// Whether the log should be published.
   final bool? enabled;
 
   LogPublishingOption({
     this.cloudWatchLogsLogGroupArn,
     this.enabled,
   });
+
   factory LogPublishingOption.fromJson(Map<String, dynamic> json) {
     return LogPublishingOption(
       cloudWatchLogsLogGroupArn: json['CloudWatchLogsLogGroupArn'] as String?,
@@ -5202,14 +6367,14 @@ class LogPublishingOptionsStatus {
   /// The log publishing options configured for the domain.
   final Map<LogType, LogPublishingOption>? options;
 
-  /// The status of the log publishing options for the domain. See
-  /// <code>OptionStatus</code> for the status information that's included.
+  /// The status of the log publishing options for the domain.
   final OptionStatus? status;
 
   LogPublishingOptionsStatus({
     this.options,
     this.status,
   });
+
   factory LogPublishingOptionsStatus.fromJson(Map<String, dynamic> json) {
     return LogPublishingOptionsStatus(
       options: (json['Options'] as Map<String, dynamic>?)?.map((k, e) =>
@@ -5220,29 +6385,28 @@ class LogPublishingOptionsStatus {
           : null,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final options = this.options;
-    final status = this.status;
-    return {
-      if (options != null)
-        'Options': options.map((k, e) => MapEntry(k.toValue(), e)),
-      if (status != null) 'Status': status,
-    };
-  }
 }
 
-/// Type of log file. Can be one of the following:
+/// The type of log file. Can be one of the following:
+///
 /// <ul>
-/// <li>INDEX_SLOW_LOGS: Index slow logs contain insert requests that took more
-/// time than configured index query log threshold to execute. </li>
-/// <li>SEARCH_SLOW_LOGS: Search slow logs contain search queries that took more
-/// time than configured search query log threshold to execute. </li>
-/// <li>ES_APPLICATION_LOGS: OpenSearch application logs contain information
+/// <li>
+/// <b>INDEX_SLOW_LOGS</b> - Index slow logs contain insert requests that took
+/// more time than the configured index query log threshold to execute.
+/// </li>
+/// <li>
+/// <b>SEARCH_SLOW_LOGS</b> - Search slow logs contain search queries that took
+/// more time than the configured search query log threshold to execute.
+/// </li>
+/// <li>
+/// <b>ES_APPLICATION_LOGS</b> - OpenSearch application logs contain information
 /// about errors and warnings raised during the operation of the service and can
-/// be useful for troubleshooting. </li>
-/// <li>AUDIT_LOGS: Audit logs contain records of user requests for access from
-/// the domain.</li>
+/// be useful for troubleshooting.
+/// </li>
+/// <li>
+/// <b>AUDIT_LOGS</b> - Audit logs contain records of user requests for access
+/// to the domain.
+/// </li>
 /// </ul>
 enum LogType {
   indexSlowLogs,
@@ -5282,17 +6446,46 @@ extension LogTypeFromString on String {
   }
 }
 
-/// Credentials for the master user: username and password, ARN, or both.
+enum MasterNodeStatus {
+  available,
+  unAvailable,
+}
+
+extension MasterNodeStatusValueExtension on MasterNodeStatus {
+  String toValue() {
+    switch (this) {
+      case MasterNodeStatus.available:
+        return 'Available';
+      case MasterNodeStatus.unAvailable:
+        return 'UnAvailable';
+    }
+  }
+}
+
+extension MasterNodeStatusFromString on String {
+  MasterNodeStatus toMasterNodeStatus() {
+    switch (this) {
+      case 'Available':
+        return MasterNodeStatus.available;
+      case 'UnAvailable':
+        return MasterNodeStatus.unAvailable;
+    }
+    throw Exception('$this is not known in enum MasterNodeStatus');
+  }
+}
+
+/// Credentials for the master user for a domain.
 class MasterUserOptions {
-  /// ARN for the master user (if IAM is enabled).
+  /// Amazon Resource Name (ARN) for the master user. Only specify if
+  /// <code>InternalUserDatabaseEnabled</code> is <code>false</code>.
   final String? masterUserARN;
 
-  /// The master user's username, which is stored in the Amazon OpenSearch Service
-  /// domain's internal database.
+  /// User name for the master user. Only specify if
+  /// <code>InternalUserDatabaseEnabled</code> is <code>true</code>.
   final String? masterUserName;
 
-  /// The master user's password, which is stored in the Amazon OpenSearch Service
-  /// domain's internal database.
+  /// Password for the master user. Only specify if
+  /// <code>InternalUserDatabaseEnabled</code> is <code>true</code>.
   final String? masterUserPassword;
 
   MasterUserOptions({
@@ -5300,7 +6493,6 @@ class MasterUserOptions {
     this.masterUserName,
     this.masterUserPassword,
   });
-
   Map<String, dynamic> toJson() {
     final masterUserARN = this.masterUserARN;
     final masterUserName = this.masterUserName;
@@ -5313,7 +6505,42 @@ class MasterUserOptions {
   }
 }
 
-/// The node-to-node encryption options.
+enum NodeStatus {
+  active,
+  standBy,
+  notAvailable,
+}
+
+extension NodeStatusValueExtension on NodeStatus {
+  String toValue() {
+    switch (this) {
+      case NodeStatus.active:
+        return 'Active';
+      case NodeStatus.standBy:
+        return 'StandBy';
+      case NodeStatus.notAvailable:
+        return 'NotAvailable';
+    }
+  }
+}
+
+extension NodeStatusFromString on String {
+  NodeStatus toNodeStatus() {
+    switch (this) {
+      case 'Active':
+        return NodeStatus.active;
+      case 'StandBy':
+        return NodeStatus.standBy;
+      case 'NotAvailable':
+        return NodeStatus.notAvailable;
+    }
+    throw Exception('$this is not known in enum NodeStatus');
+  }
+}
+
+/// Enables or disables node-to-node encryption. For more information, see <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/ntn.html">Node-to-node
+/// encryption for Amazon OpenSearch Service</a>.
 class NodeToNodeEncryptionOptions {
   /// True to enable node-to-node encryption.
   final bool? enabled;
@@ -5321,6 +6548,7 @@ class NodeToNodeEncryptionOptions {
   NodeToNodeEncryptionOptions({
     this.enabled,
   });
+
   factory NodeToNodeEncryptionOptions.fromJson(Map<String, dynamic> json) {
     return NodeToNodeEncryptionOptions(
       enabled: json['Enabled'] as bool?,
@@ -5347,6 +6575,7 @@ class NodeToNodeEncryptionOptionsStatus {
     required this.options,
     required this.status,
   });
+
   factory NodeToNodeEncryptionOptionsStatus.fromJson(
       Map<String, dynamic> json) {
     return NodeToNodeEncryptionOptionsStatus(
@@ -5355,14 +6584,147 @@ class NodeToNodeEncryptionOptionsStatus {
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
   }
+}
+
+enum NodeType {
+  data,
+  ultrawarm,
+  master,
+}
+
+extension NodeTypeValueExtension on NodeType {
+  String toValue() {
+    switch (this) {
+      case NodeType.data:
+        return 'Data';
+      case NodeType.ultrawarm:
+        return 'Ultrawarm';
+      case NodeType.master:
+        return 'Master';
+    }
+  }
+}
+
+extension NodeTypeFromString on String {
+  NodeType toNodeType() {
+    switch (this) {
+      case 'Data':
+        return NodeType.data;
+      case 'Ultrawarm':
+        return NodeType.ultrawarm;
+      case 'Master':
+        return NodeType.master;
+    }
+    throw Exception('$this is not known in enum NodeType');
+  }
+}
+
+/// A custom 10-hour, low-traffic window during which OpenSearch Service can
+/// perform mandatory configuration changes on the domain. These actions can
+/// include scheduled service software updates and blue/green Auto-Tune
+/// enhancements. OpenSearch Service will schedule these actions during the
+/// window that you specify.
+///
+/// If you don't specify a window start time, it defaults to 10:00 P.M. local
+/// time.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/off-peak.html">Defining
+/// off-peak maintenance windows for Amazon OpenSearch Service</a>.
+class OffPeakWindow {
+  /// A custom start time for the off-peak window, in Coordinated Universal Time
+  /// (UTC). The window length will always be 10 hours, so you can't specify an
+  /// end time. For example, if you specify 11:00 P.M. UTC as a start time, the
+  /// end time will automatically be set to 9:00 A.M.
+  final WindowStartTime? windowStartTime;
+
+  OffPeakWindow({
+    this.windowStartTime,
+  });
+
+  factory OffPeakWindow.fromJson(Map<String, dynamic> json) {
+    return OffPeakWindow(
+      windowStartTime: json['WindowStartTime'] != null
+          ? WindowStartTime.fromJson(
+              json['WindowStartTime'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
   Map<String, dynamic> toJson() {
-    final options = this.options;
-    final status = this.status;
+    final windowStartTime = this.windowStartTime;
     return {
-      'Options': options,
-      'Status': status,
+      if (windowStartTime != null) 'WindowStartTime': windowStartTime,
     };
+  }
+}
+
+/// Options for a domain's <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_OffPeakWindow.html">off-peak
+/// window</a>, during which OpenSearch Service can perform mandatory
+/// configuration changes on the domain.
+class OffPeakWindowOptions {
+  /// Whether to enable an off-peak window.
+  ///
+  /// This option is only available when modifying a domain created prior to
+  /// February 16, 2023, not when creating a new domain. All domains created after
+  /// this date have the off-peak window enabled by default. You can't disable the
+  /// off-peak window after it's enabled for a domain.
+  final bool? enabled;
+
+  /// Off-peak window settings for the domain.
+  final OffPeakWindow? offPeakWindow;
+
+  OffPeakWindowOptions({
+    this.enabled,
+    this.offPeakWindow,
+  });
+
+  factory OffPeakWindowOptions.fromJson(Map<String, dynamic> json) {
+    return OffPeakWindowOptions(
+      enabled: json['Enabled'] as bool?,
+      offPeakWindow: json['OffPeakWindow'] != null
+          ? OffPeakWindow.fromJson(
+              json['OffPeakWindow'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final offPeakWindow = this.offPeakWindow;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (offPeakWindow != null) 'OffPeakWindow': offPeakWindow,
+    };
+  }
+}
+
+/// The status of <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_OffPeakWindow.html">off-peak
+/// window</a> options for a domain.
+class OffPeakWindowOptionsStatus {
+  /// The domain's off-peak window configuration.
+  final OffPeakWindowOptions? options;
+
+  /// The current status of off-peak window options.
+  final OptionStatus? status;
+
+  OffPeakWindowOptionsStatus({
+    this.options,
+    this.status,
+  });
+
+  factory OffPeakWindowOptionsStatus.fromJson(Map<String, dynamic> json) {
+    return OffPeakWindowOptionsStatus(
+      options: json['Options'] != null
+          ? OffPeakWindowOptions.fromJson(
+              json['Options'] as Map<String, dynamic>)
+          : null,
+      status: json['Status'] != null
+          ? OptionStatus.fromJson(json['Status'] as Map<String, dynamic>)
+          : null,
+    );
   }
 }
 
@@ -5896,11 +7258,17 @@ extension OpenSearchWarmPartitionInstanceTypeFromString on String {
   }
 }
 
-/// The state of a requested change. One of the following:
+/// The state of a requested domain configuration change. Can be one of the
+/// following:
 ///
 /// <ul>
-/// <li>Processing: The request change is still in progress.</li>
-/// <li>Active: The request change is processed and deployed to the domain.</li>
+/// <li>
+/// <b>Processing</b> - The requested change is still in progress.
+/// </li>
+/// <li>
+/// <b>Active</b> - The requested change is processed and deployed to the
+/// domain.
+/// </li>
 /// </ul>
 enum OptionState {
   requiresIndexDocuments,
@@ -5935,18 +7303,18 @@ extension OptionStateFromString on String {
   }
 }
 
-/// Provides the current status of the entity.
+/// Provides the current status of an entity.
 class OptionStatus {
-  /// The timestamp of when the entity was created.
+  /// The timestamp when the entity was created.
   final DateTime creationDate;
 
-  /// Provides the <code>OptionState</code> for the domain.
+  /// The state of the entity.
   final OptionState state;
 
   /// The timestamp of the last time the entity was updated.
   final DateTime updateDate;
 
-  /// Indicates whether the domain is being deleted.
+  /// Indicates whether the entity is being deleted.
   final bool? pendingDeletion;
 
   /// The latest version of the entity.
@@ -5959,6 +7327,7 @@ class OptionStatus {
     this.pendingDeletion,
     this.updateVersion,
   });
+
   factory OptionStatus.fromJson(Map<String, dynamic> json) {
     return OptionStatus(
       creationDate:
@@ -5969,53 +7338,50 @@ class OptionStatus {
       updateVersion: json['UpdateVersion'] as int?,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final creationDate = this.creationDate;
-    final state = this.state;
-    final updateDate = this.updateDate;
-    final pendingDeletion = this.pendingDeletion;
-    final updateVersion = this.updateVersion;
-    return {
-      'CreationDate': unixTimestampToJson(creationDate),
-      'State': state.toValue(),
-      'UpdateDate': unixTimestampToJson(updateDate),
-      if (pendingDeletion != null) 'PendingDeletion': pendingDeletion,
-      if (updateVersion != null) 'UpdateVersion': updateVersion,
-    };
-  }
 }
 
-/// Specifies details about an outbound connection.
+/// Specifies details about an outbound cross-cluster connection.
 class OutboundConnection {
-  /// The connection alias for the outbound cross-cluster connection.
+  /// Name of the connection.
   final String? connectionAlias;
 
-  /// The connection ID for the outbound cross-cluster connection.
+  /// Unique identifier of the connection.
   final String? connectionId;
 
-  /// The <code> <a>OutboundConnectionStatus</a> </code> for the outbound
-  /// connection.
+  /// The connection mode.
+  final ConnectionMode? connectionMode;
+
+  /// Properties for the outbound connection.
+  final ConnectionProperties? connectionProperties;
+
+  /// Status of the connection.
   final OutboundConnectionStatus? connectionStatus;
 
-  /// The <code> <a>DomainInformation</a> </code> for the local OpenSearch domain.
+  /// Information about the source (local) domain.
   final DomainInformationContainer? localDomainInfo;
 
-  /// The <code> <a>DomainInformation</a> </code> for the remote OpenSearch
-  /// domain.
+  /// Information about the destination (remote) domain.
   final DomainInformationContainer? remoteDomainInfo;
 
   OutboundConnection({
     this.connectionAlias,
     this.connectionId,
+    this.connectionMode,
+    this.connectionProperties,
     this.connectionStatus,
     this.localDomainInfo,
     this.remoteDomainInfo,
   });
+
   factory OutboundConnection.fromJson(Map<String, dynamic> json) {
     return OutboundConnection(
       connectionAlias: json['ConnectionAlias'] as String?,
       connectionId: json['ConnectionId'] as String?,
+      connectionMode: (json['ConnectionMode'] as String?)?.toConnectionMode(),
+      connectionProperties: json['ConnectionProperties'] != null
+          ? ConnectionProperties.fromJson(
+              json['ConnectionProperties'] as Map<String, dynamic>)
+          : null,
       connectionStatus: json['ConnectionStatus'] != null
           ? OutboundConnectionStatus.fromJson(
               json['ConnectionStatus'] as Map<String, dynamic>)
@@ -6030,45 +7396,50 @@ class OutboundConnection {
           : null,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final connectionAlias = this.connectionAlias;
-    final connectionId = this.connectionId;
-    final connectionStatus = this.connectionStatus;
-    final localDomainInfo = this.localDomainInfo;
-    final remoteDomainInfo = this.remoteDomainInfo;
-    return {
-      if (connectionAlias != null) 'ConnectionAlias': connectionAlias,
-      if (connectionId != null) 'ConnectionId': connectionId,
-      if (connectionStatus != null) 'ConnectionStatus': connectionStatus,
-      if (localDomainInfo != null) 'LocalDomainInfo': localDomainInfo,
-      if (remoteDomainInfo != null) 'RemoteDomainInfo': remoteDomainInfo,
-    };
-  }
 }
 
-/// The connection status of an outbound cross-cluster connection.
+/// The status of an outbound cross-cluster connection.
 class OutboundConnectionStatus {
-  /// Verbose information for the outbound connection status.
+  /// Verbose information for the outbound connection.
   final String? message;
 
-  /// The state code for the outbound connection. Can be one of the following:
+  /// The status code for the outbound connection. Can be one of the following:
   ///
   /// <ul>
-  /// <li>VALIDATING: The outbound connection request is being validated.</li>
-  /// <li>VALIDATION_FAILED: Validation failed for the connection request.</li>
-  /// <li>PENDING_ACCEPTANCE: Outbound connection request is validated and is not
-  /// yet accepted by the remote domain owner. </li>
-  /// <li>APPROVED: Outbound connection has been approved by the remote domain
-  /// owner for getting provisioned.</li>
-  /// <li>PROVISIONING: Outbound connection request is in process.</li>
-  /// <li>ACTIVE: Outbound connection is active and ready to use.</li>
-  /// <li>REJECTING: Outbound connection rejection by remote domain owner is in
-  /// progress.</li>
-  /// <li>REJECTED: Outbound connection request is rejected by remote domain
-  /// owner.</li>
-  /// <li>DELETING: Outbound connection deletion is in progress.</li>
-  /// <li>DELETED: Outbound connection is deleted and can no longer be used.</li>
+  /// <li>
+  /// <b>VALIDATING</b> - The outbound connection request is being validated.
+  /// </li>
+  /// <li>
+  /// <b>VALIDATION_FAILED</b> - Validation failed for the connection request.
+  /// </li>
+  /// <li>
+  /// <b>PENDING_ACCEPTANCE</b>: Outbound connection request is validated and is
+  /// not yet accepted by the remote domain owner.
+  /// </li>
+  /// <li>
+  /// <b>APPROVED</b> - Outbound connection has been approved by the remote domain
+  /// owner for getting provisioned.
+  /// </li>
+  /// <li>
+  /// <b>PROVISIONING</b> - Outbound connection request is in process.
+  /// </li>
+  /// <li>
+  /// <b>ACTIVE</b> - Outbound connection is active and ready to use.
+  /// </li>
+  /// <li>
+  /// <b>REJECTING</b> - Outbound connection rejection by remote domain owner is
+  /// in progress.
+  /// </li>
+  /// <li>
+  /// <b>REJECTED</b> - Outbound connection request is rejected by remote domain
+  /// owner.
+  /// </li>
+  /// <li>
+  /// <b>DELETING</b> - Outbound connection deletion is in progress.
+  /// </li>
+  /// <li>
+  /// <b>DELETED</b> - Outbound connection is deleted and can no longer be used.
+  /// </li>
   /// </ul>
   final OutboundConnectionStatusCode? statusCode;
 
@@ -6076,21 +7447,13 @@ class OutboundConnectionStatus {
     this.message,
     this.statusCode,
   });
+
   factory OutboundConnectionStatus.fromJson(Map<String, dynamic> json) {
     return OutboundConnectionStatus(
       message: json['Message'] as String?,
       statusCode:
           (json['StatusCode'] as String?)?.toOutboundConnectionStatusCode(),
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    final statusCode = this.statusCode;
-    return {
-      if (message != null) 'Message': message,
-      if (statusCode != null) 'StatusCode': statusCode.toValue(),
-    };
   }
 }
 
@@ -6204,29 +7567,34 @@ extension OverallChangeStatusFromString on String {
 
 /// Basic information about a package.
 class PackageDetails {
+  /// The package version.
   final String? availablePackageVersion;
 
-  /// The timestamp of when the package was created.
+  /// The timestamp when the package was created.
   final DateTime? createdAt;
 
   /// Additional information if the package is in an error state. Null otherwise.
   final ErrorDetails? errorDetails;
+
+  /// Date and time when the package was last updated.
   final DateTime? lastUpdatedAt;
 
   /// User-specified description of the package.
   final String? packageDescription;
 
-  /// Internal ID of the package.
+  /// The unique identifier of the package.
   final String? packageID;
 
-  /// User-specified name of the package.
+  /// The user-specified name of the package.
   final String? packageName;
 
-  /// Current state of the package. Values are COPYING, COPY_FAILED, AVAILABLE,
-  /// DELETING, and DELETE_FAILED.
+  /// The current status of the package. The available options are
+  /// <code>AVAILABLE</code>, <code>COPYING</code>, <code>COPY_FAILED</code>,
+  /// <code>VALIDATNG</code>, <code>VALIDATION_FAILED</code>,
+  /// <code>DELETING</code>, and <code>DELETE_FAILED</code>.
   final PackageStatus? packageStatus;
 
-  /// Currently supports only TXT-DICTIONARY.
+  /// The type of package.
   final PackageType? packageType;
 
   PackageDetails({
@@ -6240,6 +7608,7 @@ class PackageDetails {
     this.packageStatus,
     this.packageType,
   });
+
   factory PackageDetails.fromJson(Map<String, dynamic> json) {
     return PackageDetails(
       availablePackageVersion: json['AvailablePackageVersion'] as String?,
@@ -6255,35 +7624,9 @@ class PackageDetails {
       packageType: (json['PackageType'] as String?)?.toPackageType(),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final availablePackageVersion = this.availablePackageVersion;
-    final createdAt = this.createdAt;
-    final errorDetails = this.errorDetails;
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final packageDescription = this.packageDescription;
-    final packageID = this.packageID;
-    final packageName = this.packageName;
-    final packageStatus = this.packageStatus;
-    final packageType = this.packageType;
-    return {
-      if (availablePackageVersion != null)
-        'AvailablePackageVersion': availablePackageVersion,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (errorDetails != null) 'ErrorDetails': errorDetails,
-      if (lastUpdatedAt != null)
-        'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (packageDescription != null) 'PackageDescription': packageDescription,
-      if (packageID != null) 'PackageID': packageID,
-      if (packageName != null) 'PackageName': packageName,
-      if (packageStatus != null) 'PackageStatus': packageStatus.toValue(),
-      if (packageType != null) 'PackageType': packageType.toValue(),
-    };
-  }
 }
 
-/// The Amazon S3 location for importing the package specified as
-/// <code>S3BucketName</code> and <code>S3Key</code>
+/// The Amazon S3 location to import the package from.
 class PackageSource {
   /// The name of the Amazon S3 bucket containing the package.
   final String? s3BucketName;
@@ -6295,7 +7638,6 @@ class PackageSource {
     this.s3BucketName,
     this.s3Key,
   });
-
   Map<String, dynamic> toJson() {
     final s3BucketName = this.s3BucketName;
     final s3Key = this.s3Key;
@@ -6387,12 +7729,12 @@ extension PackageTypeFromString on String {
   }
 }
 
-/// Details of a package version.
+/// Details about a package version.
 class PackageVersionHistory {
-  /// A message associated with the package version.
+  /// A message associated with the package version when it was uploaded.
   final String? commitMessage;
 
-  /// The timestamp of when the package was created.
+  /// The date and time when the package was created.
   final DateTime? createdAt;
 
   /// The package version.
@@ -6403,6 +7745,7 @@ class PackageVersionHistory {
     this.createdAt,
     this.packageVersion,
   });
+
   factory PackageVersionHistory.fromJson(Map<String, dynamic> json) {
     return PackageVersionHistory(
       commitMessage: json['CommitMessage'] as String?,
@@ -6410,16 +7753,33 @@ class PackageVersionHistory {
       packageVersion: json['PackageVersion'] as String?,
     );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    final commitMessage = this.commitMessage;
-    final createdAt = this.createdAt;
-    final packageVersion = this.packageVersion;
-    return {
-      if (commitMessage != null) 'CommitMessage': commitMessage,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (packageVersion != null) 'PackageVersion': packageVersion,
-    };
+enum PrincipalType {
+  awsAccount,
+  awsService,
+}
+
+extension PrincipalTypeValueExtension on PrincipalType {
+  String toValue() {
+    switch (this) {
+      case PrincipalType.awsAccount:
+        return 'AWS_ACCOUNT';
+      case PrincipalType.awsService:
+        return 'AWS_SERVICE';
+    }
+  }
+}
+
+extension PrincipalTypeFromString on String {
+  PrincipalType toPrincipalType() {
+    switch (this) {
+      case 'AWS_ACCOUNT':
+        return PrincipalType.awsAccount;
+      case 'AWS_SERVICE':
+        return PrincipalType.awsService;
+    }
+    throw Exception('$this is not known in enum PrincipalType');
   }
 }
 
@@ -6429,13 +7789,14 @@ class PurchaseReservedInstanceOfferingResponse {
   /// The customer-specified identifier used to track this reservation.
   final String? reservationName;
 
-  /// Details of the reserved OpenSearch instance which was purchased.
+  /// The ID of the Reserved Instance offering that was purchased.
   final String? reservedInstanceId;
 
   PurchaseReservedInstanceOfferingResponse({
     this.reservationName,
     this.reservedInstanceId,
   });
+
   factory PurchaseReservedInstanceOfferingResponse.fromJson(
       Map<String, dynamic> json) {
     return PurchaseReservedInstanceOfferingResponse(
@@ -6443,20 +7804,10 @@ class PurchaseReservedInstanceOfferingResponse {
       reservedInstanceId: json['ReservedInstanceId'] as String?,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final reservationName = this.reservationName;
-    final reservedInstanceId = this.reservedInstanceId;
-    return {
-      if (reservationName != null) 'ReservationName': reservationName,
-      if (reservedInstanceId != null) 'ReservedInstanceId': reservedInstanceId,
-    };
-  }
 }
 
-/// Contains the specific price and frequency of a recurring charges for a
-/// reserved OpenSearch instance, or for a reserved OpenSearch instance
-/// offering.
+/// Contains the specific price and frequency of a recurring charges for an
+/// OpenSearch Reserved Instance, or for a Reserved Instance offering.
 class RecurringCharge {
   /// The monetary amount of the recurring charge.
   final double? recurringChargeAmount;
@@ -6468,35 +7819,24 @@ class RecurringCharge {
     this.recurringChargeAmount,
     this.recurringChargeFrequency,
   });
+
   factory RecurringCharge.fromJson(Map<String, dynamic> json) {
     return RecurringCharge(
       recurringChargeAmount: json['RecurringChargeAmount'] as double?,
       recurringChargeFrequency: json['RecurringChargeFrequency'] as String?,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final recurringChargeAmount = this.recurringChargeAmount;
-    final recurringChargeFrequency = this.recurringChargeFrequency;
-    return {
-      if (recurringChargeAmount != null)
-        'RecurringChargeAmount': recurringChargeAmount,
-      if (recurringChargeFrequency != null)
-        'RecurringChargeFrequency': recurringChargeFrequency,
-    };
-  }
 }
 
-/// The result of a <code> <a>RejectInboundConnection</a> </code> operation.
-/// Contains details about the rejected inbound connection.
+/// Represents the output of a <code>RejectInboundConnection</code> operation.
 class RejectInboundConnectionResponse {
-  /// The <code> <a>InboundConnection</a> </code> of the rejected inbound
-  /// connection.
+  /// Contains details about the rejected inbound connection.
   final InboundConnection? connection;
 
   RejectInboundConnectionResponse({
     this.connection,
   });
+
   factory RejectInboundConnectionResponse.fromJson(Map<String, dynamic> json) {
     return RejectInboundConnectionResponse(
       connection: json['Connection'] != null
@@ -6505,40 +7845,34 @@ class RejectInboundConnectionResponse {
           : null,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final connection = this.connection;
-    return {
-      if (connection != null) 'Connection': connection,
-    };
-  }
 }
 
-/// Details of a reserved OpenSearch instance.
+/// Details of an OpenSearch Reserved Instance.
 class ReservedInstance {
+  /// The unique identifier of the billing subscription.
   final int? billingSubscriptionId;
 
-  /// The currency code for the reserved OpenSearch instance offering.
+  /// The currency code for the offering.
   final String? currencyCode;
 
   /// The duration, in seconds, for which the OpenSearch instance is reserved.
   final int? duration;
 
-  /// The upfront fixed charge you will paid to purchase the specific reserved
-  /// OpenSearch instance offering.
+  /// The upfront fixed charge you will paid to purchase the specific Reserved
+  /// Instance offering.
   final double? fixedPrice;
 
   /// The number of OpenSearch instances that have been reserved.
   final int? instanceCount;
 
-  /// The OpenSearch instance type offered by the reserved instance offering.
+  /// The OpenSearch instance type offered by theReserved Instance offering.
   final OpenSearchPartitionInstanceType? instanceType;
 
-  /// The payment option as defined in the reserved OpenSearch instance offering.
+  /// The payment option as defined in the Reserved Instance offering.
   final ReservedInstancePaymentOption? paymentOption;
 
-  /// The charge to your account regardless of whether you are creating any
-  /// domains using the instance offering.
+  /// The recurring charge to your account, regardless of whether you create any
+  /// domains using the Reserved Instance offering.
   final List<RecurringCharge>? recurringCharges;
 
   /// The customer-specified identifier to track this reservation.
@@ -6547,17 +7881,17 @@ class ReservedInstance {
   /// The unique identifier for the reservation.
   final String? reservedInstanceId;
 
-  /// The offering identifier.
+  /// The unique identifier of the Reserved Instance offering.
   final String? reservedInstanceOfferingId;
 
-  /// The time the reservation started.
+  /// The date and time when the reservation was purchased.
   final DateTime? startTime;
 
-  /// The state of the reserved OpenSearch instance.
+  /// The state of the Reserved Instance.
   final String? state;
 
-  /// The rate you are charged for each hour for the domain that is using this
-  /// reserved instance.
+  /// The hourly rate at which you're charged for the domain using this Reserved
+  /// Instance.
   final double? usagePrice;
 
   ReservedInstance({
@@ -6576,6 +7910,7 @@ class ReservedInstance {
     this.state,
     this.usagePrice,
   });
+
   factory ReservedInstance.fromJson(Map<String, dynamic> json) {
     return ReservedInstance(
       billingSubscriptionId: json['BillingSubscriptionId'] as int?,
@@ -6599,71 +7934,36 @@ class ReservedInstance {
       usagePrice: json['UsagePrice'] as double?,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final billingSubscriptionId = this.billingSubscriptionId;
-    final currencyCode = this.currencyCode;
-    final duration = this.duration;
-    final fixedPrice = this.fixedPrice;
-    final instanceCount = this.instanceCount;
-    final instanceType = this.instanceType;
-    final paymentOption = this.paymentOption;
-    final recurringCharges = this.recurringCharges;
-    final reservationName = this.reservationName;
-    final reservedInstanceId = this.reservedInstanceId;
-    final reservedInstanceOfferingId = this.reservedInstanceOfferingId;
-    final startTime = this.startTime;
-    final state = this.state;
-    final usagePrice = this.usagePrice;
-    return {
-      if (billingSubscriptionId != null)
-        'BillingSubscriptionId': billingSubscriptionId,
-      if (currencyCode != null) 'CurrencyCode': currencyCode,
-      if (duration != null) 'Duration': duration,
-      if (fixedPrice != null) 'FixedPrice': fixedPrice,
-      if (instanceCount != null) 'InstanceCount': instanceCount,
-      if (instanceType != null) 'InstanceType': instanceType.toValue(),
-      if (paymentOption != null) 'PaymentOption': paymentOption.toValue(),
-      if (recurringCharges != null) 'RecurringCharges': recurringCharges,
-      if (reservationName != null) 'ReservationName': reservationName,
-      if (reservedInstanceId != null) 'ReservedInstanceId': reservedInstanceId,
-      if (reservedInstanceOfferingId != null)
-        'ReservedInstanceOfferingId': reservedInstanceOfferingId,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (state != null) 'State': state,
-      if (usagePrice != null) 'UsagePrice': usagePrice,
-    };
-  }
 }
 
-/// Details of a reserved OpenSearch instance offering.
+/// Details of an OpenSearch Reserved Instance offering.
 class ReservedInstanceOffering {
-  /// The currency code for the reserved OpenSearch instance offering.
+  /// The currency code for the Reserved Instance offering.
   final String? currencyCode;
 
   /// The duration, in seconds, for which the offering will reserve the OpenSearch
   /// instance.
   final int? duration;
 
-  /// The upfront fixed charge you will pay to purchase the specific reserved
-  /// OpenSearch instance offering.
+  /// The upfront fixed charge you will pay to purchase the specific Reserved
+  /// Instance offering.
   final double? fixedPrice;
 
-  /// The OpenSearch instance type offered by the reserved instance offering.
+  /// The OpenSearch instance type offered by the Reserved Instance offering.
   final OpenSearchPartitionInstanceType? instanceType;
 
-  /// Payment option for the reserved OpenSearch instance offering
+  /// Payment option for the Reserved Instance offering
   final ReservedInstancePaymentOption? paymentOption;
 
-  /// The charge to your account regardless of whether you are creating any
-  /// domains using the instance offering.
+  /// The recurring charge to your account, regardless of whether you creates any
+  /// domains using the offering.
   final List<RecurringCharge>? recurringCharges;
 
-  /// The OpenSearch reserved instance offering identifier.
+  /// The unique identifier of the Reserved Instance offering.
   final String? reservedInstanceOfferingId;
 
-  /// The rate you are charged for each hour the domain that is using the offering
-  /// is running.
+  /// The hourly rate at which you're charged for the domain using this Reserved
+  /// Instance.
   final double? usagePrice;
 
   ReservedInstanceOffering({
@@ -6676,6 +7976,7 @@ class ReservedInstanceOffering {
     this.reservedInstanceOfferingId,
     this.usagePrice,
   });
+
   factory ReservedInstanceOffering.fromJson(Map<String, dynamic> json) {
     return ReservedInstanceOffering(
       currencyCode: json['CurrencyCode'] as String?,
@@ -6692,28 +7993,6 @@ class ReservedInstanceOffering {
       reservedInstanceOfferingId: json['ReservedInstanceOfferingId'] as String?,
       usagePrice: json['UsagePrice'] as double?,
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    final currencyCode = this.currencyCode;
-    final duration = this.duration;
-    final fixedPrice = this.fixedPrice;
-    final instanceType = this.instanceType;
-    final paymentOption = this.paymentOption;
-    final recurringCharges = this.recurringCharges;
-    final reservedInstanceOfferingId = this.reservedInstanceOfferingId;
-    final usagePrice = this.usagePrice;
-    return {
-      if (currencyCode != null) 'CurrencyCode': currencyCode,
-      if (duration != null) 'Duration': duration,
-      if (fixedPrice != null) 'FixedPrice': fixedPrice,
-      if (instanceType != null) 'InstanceType': instanceType.toValue(),
-      if (paymentOption != null) 'PaymentOption': paymentOption.toValue(),
-      if (recurringCharges != null) 'RecurringCharges': recurringCharges,
-      if (reservedInstanceOfferingId != null)
-        'ReservedInstanceOfferingId': reservedInstanceOfferingId,
-      if (usagePrice != null) 'UsagePrice': usagePrice,
-    };
   }
 }
 
@@ -6751,8 +8030,15 @@ extension ReservedInstancePaymentOptionFromString on String {
   }
 }
 
-/// The rollback state while disabling Auto-Tune for the domain. Valid values
-/// are NO_ROLLBACK and DEFAULT_ROLLBACK.
+class RevokeVpcEndpointAccessResponse {
+  RevokeVpcEndpointAccessResponse();
+
+  factory RevokeVpcEndpointAccessResponse.fromJson(Map<String, dynamic> _) {
+    return RevokeVpcEndpointAccessResponse();
+  }
+}
+
+/// The rollback state while disabling Auto-Tune for the domain.
 enum RollbackOnDisable {
   noRollback,
   defaultRollback,
@@ -6781,18 +8067,19 @@ extension RollbackOnDisableFromString on String {
   }
 }
 
-/// The SAML identity povider's information.
+/// The SAML identity povider information.
 class SAMLIdp {
-  /// The unique entity ID of the application in SAML identity provider.
+  /// The unique entity ID of the application in the SAML identity provider.
   final String entityId;
 
-  /// The metadata of the SAML application in XML format.
+  /// The metadata of the SAML application, in XML format.
   final String metadataContent;
 
   SAMLIdp({
     required this.entityId,
     required this.metadataContent,
   });
+
   factory SAMLIdp.fromJson(Map<String, dynamic> json) {
     return SAMLIdp(
       entityId: json['EntityId'] as String,
@@ -6810,9 +8097,10 @@ class SAMLIdp {
   }
 }
 
-/// The SAML application configuration for the domain.
+/// The SAML authentication configuration for an Amazon OpenSearch Service
+/// domain.
 class SAMLOptionsInput {
-  /// True if SAML is enabled.
+  /// True to enable SAML authentication for a domain.
   final bool? enabled;
 
   /// The SAML Identity Provider's information.
@@ -6821,18 +8109,20 @@ class SAMLOptionsInput {
   /// The backend role that the SAML master user is mapped to.
   final String? masterBackendRole;
 
-  /// The SAML master username, which is stored in the Amazon OpenSearch Service
-  /// domain's internal database.
+  /// The SAML master user name, which is stored in the domain's internal user
+  /// database.
   final String? masterUserName;
 
-  /// Element of the SAML assertion to use for backend roles. Default is roles.
+  /// Element of the SAML assertion to use for backend roles. Default is
+  /// <code>roles</code>.
   final String? rolesKey;
 
   /// The duration, in minutes, after which a user session becomes inactive.
   /// Acceptable values are between 1 and 1440, and the default value is 60.
   final int? sessionTimeoutMinutes;
 
-  /// Element of the SAML assertion to use for username. Default is NameID.
+  /// Element of the SAML assertion to use for the user name. Default is
+  /// <code>NameID</code>.
   final String? subjectKey;
 
   SAMLOptionsInput({
@@ -6844,7 +8134,6 @@ class SAMLOptionsInput {
     this.sessionTimeoutMinutes,
     this.subjectKey,
   });
-
   Map<String, dynamic> toJson() {
     final enabled = this.enabled;
     final idp = this.idp;
@@ -6890,6 +8179,7 @@ class SAMLOptionsOutput {
     this.sessionTimeoutMinutes,
     this.subjectKey,
   });
+
   factory SAMLOptionsOutput.fromJson(Map<String, dynamic> json) {
     return SAMLOptionsOutput(
       enabled: json['Enabled'] as bool?,
@@ -6901,26 +8191,104 @@ class SAMLOptionsOutput {
       subjectKey: json['SubjectKey'] as String?,
     );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    final idp = this.idp;
-    final rolesKey = this.rolesKey;
-    final sessionTimeoutMinutes = this.sessionTimeoutMinutes;
-    final subjectKey = this.subjectKey;
-    return {
-      if (enabled != null) 'Enabled': enabled,
-      if (idp != null) 'Idp': idp,
-      if (rolesKey != null) 'RolesKey': rolesKey,
-      if (sessionTimeoutMinutes != null)
-        'SessionTimeoutMinutes': sessionTimeoutMinutes,
-      if (subjectKey != null) 'SubjectKey': subjectKey,
-    };
+enum ScheduleAt {
+  now,
+  timestamp,
+  offPeakWindow,
+}
+
+extension ScheduleAtValueExtension on ScheduleAt {
+  String toValue() {
+    switch (this) {
+      case ScheduleAt.now:
+        return 'NOW';
+      case ScheduleAt.timestamp:
+        return 'TIMESTAMP';
+      case ScheduleAt.offPeakWindow:
+        return 'OFF_PEAK_WINDOW';
+    }
   }
 }
 
-/// The Auto-Tune action type. Valid values are JVM_HEAP_SIZE_TUNING, and
-/// JVM_YOUNG_GEN_TUNING.
+extension ScheduleAtFromString on String {
+  ScheduleAt toScheduleAt() {
+    switch (this) {
+      case 'NOW':
+        return ScheduleAt.now;
+      case 'TIMESTAMP':
+        return ScheduleAt.timestamp;
+      case 'OFF_PEAK_WINDOW':
+        return ScheduleAt.offPeakWindow;
+    }
+    throw Exception('$this is not known in enum ScheduleAt');
+  }
+}
+
+/// Information about a scheduled configuration change for an OpenSearch Service
+/// domain. This actions can be a <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html">service
+/// software update</a> or a <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html#auto-tune-types">blue/green
+/// Auto-Tune enhancement</a>.
+class ScheduledAction {
+  /// The unique identifier of the scheduled action.
+  final String id;
+
+  /// The time when the change is scheduled to happen.
+  final int scheduledTime;
+
+  /// The severity of the action.
+  final ActionSeverity severity;
+
+  /// The type of action that will be taken on the domain.
+  final ActionType type;
+
+  /// Whether or not the scheduled action is cancellable.
+  final bool? cancellable;
+
+  /// A description of the action to be taken.
+  final String? description;
+
+  /// Whether the action is required or optional.
+  final bool? mandatory;
+
+  /// Whether the action was scheduled manually (<code>CUSTOMER</code>, or by
+  /// OpenSearch Service automatically (<code>SYSTEM</code>).
+  final ScheduledBy? scheduledBy;
+
+  /// The current status of the scheduled action.
+  final ActionStatus? status;
+
+  ScheduledAction({
+    required this.id,
+    required this.scheduledTime,
+    required this.severity,
+    required this.type,
+    this.cancellable,
+    this.description,
+    this.mandatory,
+    this.scheduledBy,
+    this.status,
+  });
+
+  factory ScheduledAction.fromJson(Map<String, dynamic> json) {
+    return ScheduledAction(
+      id: json['Id'] as String,
+      scheduledTime: json['ScheduledTime'] as int,
+      severity: (json['Severity'] as String).toActionSeverity(),
+      type: (json['Type'] as String).toActionType(),
+      cancellable: json['Cancellable'] as bool?,
+      description: json['Description'] as String?,
+      mandatory: json['Mandatory'] as bool?,
+      scheduledBy: (json['ScheduledBy'] as String?)?.toScheduledBy(),
+      status: (json['Status'] as String?)?.toActionStatus(),
+    );
+  }
+}
+
+/// The Auto-Tune action type.
 enum ScheduledAutoTuneActionType {
   jvmHeapSizeTuning,
   jvmYoungGenTuning,
@@ -6950,22 +8318,22 @@ extension ScheduledAutoTuneActionTypeFromString on String {
   }
 }
 
-/// Specifies details about the scheduled Auto-Tune action. See <a
-/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html"
-/// target="_blank"> Auto-Tune for Amazon OpenSearch Service </a> for more
-/// information.
+/// Specifies details about a scheduled Auto-Tune action. For more information,
+/// see <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html">Auto-Tune
+/// for Amazon OpenSearch Service</a>.
 class ScheduledAutoTuneDetails {
-  /// The Auto-Tune action description.
+  /// A description of the Auto-Tune action.
   final String? action;
 
-  /// The Auto-Tune action type. Valid values are JVM_HEAP_SIZE_TUNING and
-  /// JVM_YOUNG_GEN_TUNING.
+  /// The type of Auto-Tune action.
   final ScheduledAutoTuneActionType? actionType;
 
-  /// The timestamp of the Auto-Tune action scheduled for the domain.
+  /// The date and time when the Auto-Tune action is scheduled for the domain.
   final DateTime? date;
 
-  /// The Auto-Tune action severity. Valid values are LOW, MEDIUM, and HIGH.
+  /// The severity of the Auto-Tune action. Valid values are <code>LOW</code>,
+  /// <code>MEDIUM</code>, and <code>HIGH</code>.
   final ScheduledAutoTuneSeverityType? severity;
 
   ScheduledAutoTuneDetails({
@@ -6974,6 +8342,7 @@ class ScheduledAutoTuneDetails {
     this.date,
     this.severity,
   });
+
   factory ScheduledAutoTuneDetails.fromJson(Map<String, dynamic> json) {
     return ScheduledAutoTuneDetails(
       action: json['Action'] as String?,
@@ -6984,22 +8353,9 @@ class ScheduledAutoTuneDetails {
           (json['Severity'] as String?)?.toScheduledAutoTuneSeverityType(),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final actionType = this.actionType;
-    final date = this.date;
-    final severity = this.severity;
-    return {
-      if (action != null) 'Action': action,
-      if (actionType != null) 'ActionType': actionType.toValue(),
-      if (date != null) 'Date': unixTimestampToJson(date),
-      if (severity != null) 'Severity': severity.toValue(),
-    };
-  }
 }
 
-/// The Auto-Tune action severity. Valid values are LOW, MEDIUM, and HIGH.
+/// The Auto-Tune action severity.
 enum ScheduledAutoTuneSeverityType {
   low,
   medium,
@@ -7034,39 +8390,66 @@ extension ScheduledAutoTuneSeverityTypeFromString on String {
   }
 }
 
-/// The current options of an domain service software options.
+enum ScheduledBy {
+  customer,
+  system,
+}
+
+extension ScheduledByValueExtension on ScheduledBy {
+  String toValue() {
+    switch (this) {
+      case ScheduledBy.customer:
+        return 'CUSTOMER';
+      case ScheduledBy.system:
+        return 'SYSTEM';
+    }
+  }
+}
+
+extension ScheduledByFromString on String {
+  ScheduledBy toScheduledBy() {
+    switch (this) {
+      case 'CUSTOMER':
+        return ScheduledBy.customer;
+      case 'SYSTEM':
+        return ScheduledBy.system;
+    }
+    throw Exception('$this is not known in enum ScheduledBy');
+  }
+}
+
+/// The current status of the service software for an Amazon OpenSearch Service
+/// domain. For more information, see <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html">Service
+/// software updates in Amazon OpenSearch Service</a>.
 class ServiceSoftwareOptions {
   /// The timestamp, in Epoch time, until which you can manually request a service
   /// software update. After this date, we automatically update your service
   /// software.
   final DateTime? automatedUpdateDate;
 
-  /// <code>True</code> if you're able to cancel your service software version
-  /// update. <code>False</code> if you can't cancel your service software update.
+  /// True if you're able to cancel your service software version update. False if
+  /// you can't cancel your service software update.
   final bool? cancellable;
 
   /// The current service software version present on the domain.
   final String? currentVersion;
 
-  /// The description of the <code>UpdateStatus</code>.
+  /// A description of the service software update status.
   final String? description;
 
-  /// The new service software version if one is available.
+  /// The new service software version, if one is available.
   final String? newVersion;
 
-  /// <code>True</code> if a service software is never automatically updated.
-  /// <code>False</code> if a service software is automatically updated after
-  /// <code>AutomatedUpdateDate</code>.
+  /// True if a service software is never automatically updated. False if a
+  /// service software is automatically updated after the automated update date.
   final bool? optionalDeployment;
 
-  /// <code>True</code> if you're able to update your service software version.
-  /// <code>False</code> if you can't update your service software version.
+  /// True if you're able to update your service software version. False if you
+  /// can't update your service software version.
   final bool? updateAvailable;
 
-  /// The status of your service software update. This field can take the
-  /// following values: <code> ELIGIBLE</code>, <code>PENDING_UPDATE</code>,
-  /// <code>IN_PROGRESS</code>, <code>COMPLETED</code>, and <code>
-  /// NOT_ELIGIBLE</code>.
+  /// The status of your service software update.
   final DeploymentStatus? updateStatus;
 
   ServiceSoftwareOptions({
@@ -7079,6 +8462,7 @@ class ServiceSoftwareOptions {
     this.updateAvailable,
     this.updateStatus,
   });
+
   factory ServiceSoftwareOptions.fromJson(Map<String, dynamic> json) {
     return ServiceSoftwareOptions(
       automatedUpdateDate: timeStampFromJson(json['AutomatedUpdateDate']),
@@ -7091,40 +8475,19 @@ class ServiceSoftwareOptions {
       updateStatus: (json['UpdateStatus'] as String?)?.toDeploymentStatus(),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final automatedUpdateDate = this.automatedUpdateDate;
-    final cancellable = this.cancellable;
-    final currentVersion = this.currentVersion;
-    final description = this.description;
-    final newVersion = this.newVersion;
-    final optionalDeployment = this.optionalDeployment;
-    final updateAvailable = this.updateAvailable;
-    final updateStatus = this.updateStatus;
-    return {
-      if (automatedUpdateDate != null)
-        'AutomatedUpdateDate': unixTimestampToJson(automatedUpdateDate),
-      if (cancellable != null) 'Cancellable': cancellable,
-      if (currentVersion != null) 'CurrentVersion': currentVersion,
-      if (description != null) 'Description': description,
-      if (newVersion != null) 'NewVersion': newVersion,
-      if (optionalDeployment != null) 'OptionalDeployment': optionalDeployment,
-      if (updateAvailable != null) 'UpdateAvailable': updateAvailable,
-      if (updateStatus != null) 'UpdateStatus': updateStatus.toValue(),
-    };
-  }
 }
 
-/// The time, in UTC format, when the service takes a daily automated snapshot
-/// of the specified domain. Default is <code>0</code> hours.
+/// The time, in UTC format, when OpenSearch Service takes a daily automated
+/// snapshot of the specified domain. Default is <code>0</code> hours.
 class SnapshotOptions {
-  /// The time, in UTC format, when the service takes a daily automated snapshot
-  /// of the specified domain. Default is <code>0</code> hours.
+  /// The time, in UTC format, when OpenSearch Service takes a daily automated
+  /// snapshot of the specified domain. Default is <code>0</code> hours.
   final int? automatedSnapshotStartHour;
 
   SnapshotOptions({
     this.automatedSnapshotStartHour,
   });
+
   factory SnapshotOptions.fromJson(Map<String, dynamic> json) {
     return SnapshotOptions(
       automatedSnapshotStartHour: json['AutomatedSnapshotStartHour'] as int?,
@@ -7140,7 +8503,8 @@ class SnapshotOptions {
   }
 }
 
-/// Status of a daily automated snapshot.
+/// Container for information about a daily automated snapshot for an OpenSearch
+/// Service domain.
 class SnapshotOptionsStatus {
   /// The daily snapshot options specified for the domain.
   final SnapshotOptions options;
@@ -7152,6 +8516,7 @@ class SnapshotOptionsStatus {
     required this.options,
     required this.status,
   });
+
   factory SnapshotOptionsStatus.fromJson(Map<String, dynamic> json) {
     return SnapshotOptionsStatus(
       options:
@@ -7159,26 +8524,69 @@ class SnapshotOptionsStatus {
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
   }
+}
+
+/// Options for configuring service software updates for a domain.
+class SoftwareUpdateOptions {
+  /// Whether automatic service software updates are enabled for the domain.
+  final bool? autoSoftwareUpdateEnabled;
+
+  SoftwareUpdateOptions({
+    this.autoSoftwareUpdateEnabled,
+  });
+
+  factory SoftwareUpdateOptions.fromJson(Map<String, dynamic> json) {
+    return SoftwareUpdateOptions(
+      autoSoftwareUpdateEnabled: json['AutoSoftwareUpdateEnabled'] as bool?,
+    );
+  }
 
   Map<String, dynamic> toJson() {
-    final options = this.options;
-    final status = this.status;
+    final autoSoftwareUpdateEnabled = this.autoSoftwareUpdateEnabled;
     return {
-      'Options': options,
-      'Status': status,
+      if (autoSoftwareUpdateEnabled != null)
+        'AutoSoftwareUpdateEnabled': autoSoftwareUpdateEnabled,
     };
   }
 }
 
-/// The result of a <code>StartServiceSoftwareUpdate</code> operation. Contains
-/// the status of the update.
+/// The status of the service software options for a domain.
+class SoftwareUpdateOptionsStatus {
+  /// The service software update options for a domain.
+  final SoftwareUpdateOptions? options;
+
+  /// The status of service software update options, including creation date and
+  /// last updated date.
+  final OptionStatus? status;
+
+  SoftwareUpdateOptionsStatus({
+    this.options,
+    this.status,
+  });
+
+  factory SoftwareUpdateOptionsStatus.fromJson(Map<String, dynamic> json) {
+    return SoftwareUpdateOptionsStatus(
+      options: json['Options'] != null
+          ? SoftwareUpdateOptions.fromJson(
+              json['Options'] as Map<String, dynamic>)
+          : null,
+      status: json['Status'] != null
+          ? OptionStatus.fromJson(json['Status'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// Represents the output of a <code>StartServiceSoftwareUpdate</code>
+/// operation. Contains the status of the update.
 class StartServiceSoftwareUpdateResponse {
-  /// The current status of the OpenSearch service software update.
+  /// The current status of the OpenSearch Service software update.
   final ServiceSoftwareOptions? serviceSoftwareOptions;
 
   StartServiceSoftwareUpdateResponse({
     this.serviceSoftwareOptions,
   });
+
   factory StartServiceSoftwareUpdateResponse.fromJson(
       Map<String, dynamic> json) {
     return StartServiceSoftwareUpdateResponse(
@@ -7188,23 +8596,18 @@ class StartServiceSoftwareUpdateResponse {
           : null,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final serviceSoftwareOptions = this.serviceSoftwareOptions;
-    return {
-      if (serviceSoftwareOptions != null)
-        'ServiceSoftwareOptions': serviceSoftwareOptions,
-    };
-  }
 }
 
-/// StorageTypes represents the list of storage-related types and their
-/// attributes that are available for a given InstanceType.
+/// A list of storage types for an Amazon OpenSearch Service domain that are
+/// available for a given intance type.
 class StorageType {
+  /// The storage sub-type, such as <code>gp3</code> or <code>io1</code>.
   final String? storageSubTypeName;
 
   /// Limits that are applicable for the given storage type.
   final List<StorageTypeLimit>? storageTypeLimits;
+
+  /// The name of the storage type.
   final String? storageTypeName;
 
   StorageType({
@@ -7212,6 +8615,7 @@ class StorageType {
     this.storageTypeLimits,
     this.storageTypeName,
   });
+
   factory StorageType.fromJson(Map<String, dynamic> json) {
     return StorageType(
       storageSubTypeName: json['StorageSubTypeName'] as String?,
@@ -7222,45 +8626,51 @@ class StorageType {
       storageTypeName: json['StorageTypeName'] as String?,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final storageSubTypeName = this.storageSubTypeName;
-    final storageTypeLimits = this.storageTypeLimits;
-    final storageTypeName = this.storageTypeName;
-    return {
-      if (storageSubTypeName != null) 'StorageSubTypeName': storageSubTypeName,
-      if (storageTypeLimits != null) 'StorageTypeLimits': storageTypeLimits,
-      if (storageTypeName != null) 'StorageTypeName': storageTypeName,
-    };
-  }
 }
 
-/// Limits that are applicable for the given storage type.
+/// Limits that are applicable for the given Amazon OpenSearch Service storage
+/// type.
 class StorageTypeLimit {
   /// Name of storage limits that are applicable for the given storage type. If
-  /// <code> <a>StorageType</a> </code> is "ebs", the following storage options
-  /// are applicable: <ol>
-  /// <li>MinimumVolumeSize</li> Minimum amount of volume size that is applicable
-  /// for the given storage type. Can be empty if not applicable.
-  /// <li>MaximumVolumeSize</li> Maximum amount of volume size that is applicable
-  /// for the given storage type. Can be empty if not applicable.
-  /// <li>MaximumIops</li> Maximum amount of Iops that is applicable for given the
-  /// storage type. Can be empty if not applicable.
-  /// <li>MinimumIops</li> Minimum amount of Iops that is applicable for given the
-  /// storage type. Can be empty if not applicable.
-  /// <li>MaximumThroughput</li> Maximum amount of Throughput that is applicable
-  /// for given the storage type. Can be empty if not applicable.
-  /// <li>MinimumThroughput</li> Minimum amount of Throughput that is applicable
-  /// for given the storage type. Can be empty if not applicable. </ol>
+  /// <code>StorageType</code> is <code>ebs</code>, the following options are
+  /// available:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>MinimumVolumeSize</b> - Minimum volume size that is available for the
+  /// given storage type. Can be empty if not applicable.
+  /// </li>
+  /// <li>
+  /// <b>MaximumVolumeSize</b> - Maximum volume size that is available for the
+  /// given storage type. Can be empty if not applicable.
+  /// </li>
+  /// <li>
+  /// <b>MaximumIops</b> - Maximum amount of IOPS that is available for the given
+  /// the storage type. Can be empty if not applicable.
+  /// </li>
+  /// <li>
+  /// <b>MinimumIops</b> - Minimum amount of IOPS that is available for the given
+  /// the storage type. Can be empty if not applicable.
+  /// </li>
+  /// <li>
+  /// <b>MaximumThroughput</b> - Maximum amount of throughput that is available
+  /// for the given the storage type. Can be empty if not applicable.
+  /// </li>
+  /// <li>
+  /// <b>MinimumThroughput</b> - Minimum amount of throughput that is available
+  /// for the given the storage type. Can be empty if not applicable.
+  /// </li>
+  /// </ul>
   final String? limitName;
 
-  /// Values for the <code> <a>StorageTypeLimit$LimitName</a> </code> .
+  /// The limit values.
   final List<String>? limitValues;
 
   StorageTypeLimit({
     this.limitName,
     this.limitValues,
   });
+
   factory StorageTypeLimit.fromJson(Map<String, dynamic> json) {
     return StorageTypeLimit(
       limitName: json['LimitName'] as String?,
@@ -7269,15 +8679,6 @@ class StorageTypeLimit {
           .map((e) => e as String)
           .toList(),
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    final limitName = this.limitName;
-    final limitValues = this.limitValues;
-    return {
-      if (limitName != null) 'LimitName': limitName,
-      if (limitValues != null) 'LimitValues': limitValues,
-    };
   }
 }
 
@@ -7309,22 +8710,23 @@ extension TLSSecurityPolicyFromString on String {
   }
 }
 
-/// A key value pair for a resource tag.
+/// A tag (key-value pair) for an Amazon OpenSearch Service resource.
 class Tag {
-  /// The <code>TagKey</code>, the name of the tag. Tag keys must be unique for
-  /// the domain to which they are attached.
+  /// The tag key. Tag keys must be unique for the domain to which they are
+  /// attached.
   final String key;
 
-  /// The <code>TagValue</code>, the value assigned to the corresponding tag key.
-  /// Tag values can be null and don't have to be unique in a tag set. For
-  /// example, you can have a key value pair in a tag set of <code>project :
-  /// Trinity</code> and <code>cost-center : Trinity</code>
+  /// The value assigned to the corresponding tag key. Tag values can be null and
+  /// don't have to be unique in a tag set. For example, you can have a key value
+  /// pair in a tag set of <code>project : Trinity</code> and <code>cost-center :
+  /// Trinity</code>
   final String value;
 
   Tag({
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -7342,10 +8744,8 @@ class Tag {
   }
 }
 
-/// The unit of a maintenance schedule duration. Valid value is HOUR. See <a
-/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html"
-/// target="_blank"> Auto-Tune for Amazon OpenSearch Service </a> for more
-/// information.
+/// The unit of a maintenance schedule duration. Valid value is
+/// <code>HOUR</code>.
 enum TimeUnit {
   hours,
 }
@@ -7369,49 +8769,50 @@ extension TimeUnitFromString on String {
   }
 }
 
-/// The result of an <code>UpdateDomain</code> request. Contains the status of
+/// The results of an <code>UpdateDomain</code> request. Contains the status of
 /// the domain being updated.
 class UpdateDomainConfigResponse {
   /// The status of the updated domain.
   final DomainConfig domainConfig;
 
-  /// Contains result of DryRun.
+  /// The status of the dry run being performed on the domain, if any.
+  final DryRunProgressStatus? dryRunProgressStatus;
+
+  /// Results of the dry run performed in the update domain request.
   final DryRunResults? dryRunResults;
 
   UpdateDomainConfigResponse({
     required this.domainConfig,
+    this.dryRunProgressStatus,
     this.dryRunResults,
   });
+
   factory UpdateDomainConfigResponse.fromJson(Map<String, dynamic> json) {
     return UpdateDomainConfigResponse(
       domainConfig:
           DomainConfig.fromJson(json['DomainConfig'] as Map<String, dynamic>),
+      dryRunProgressStatus: json['DryRunProgressStatus'] != null
+          ? DryRunProgressStatus.fromJson(
+              json['DryRunProgressStatus'] as Map<String, dynamic>)
+          : null,
       dryRunResults: json['DryRunResults'] != null
           ? DryRunResults.fromJson(
               json['DryRunResults'] as Map<String, dynamic>)
           : null,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final domainConfig = this.domainConfig;
-    final dryRunResults = this.dryRunResults;
-    return {
-      'DomainConfig': domainConfig,
-      if (dryRunResults != null) 'DryRunResults': dryRunResults,
-    };
-  }
 }
 
-/// Container for the response returned by the <code> <a>UpdatePackage</a>
-/// </code> operation.
+/// Container for the response returned by the <code>UpdatePackage</code>
+/// operation.
 class UpdatePackageResponse {
-  /// Information about the package.
+  /// Information about a package.
   final PackageDetails? packageDetails;
 
   UpdatePackageResponse({
     this.packageDetails,
   });
+
   factory UpdatePackageResponse.fromJson(Map<String, dynamic> json) {
     return UpdatePackageResponse(
       packageDetails: json['PackageDetails'] != null
@@ -7420,28 +8821,61 @@ class UpdatePackageResponse {
           : null,
     );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    final packageDetails = this.packageDetails;
-    return {
-      if (packageDetails != null) 'PackageDetails': packageDetails,
-    };
+class UpdateScheduledActionResponse {
+  /// Information about the rescheduled action.
+  final ScheduledAction? scheduledAction;
+
+  UpdateScheduledActionResponse({
+    this.scheduledAction,
+  });
+
+  factory UpdateScheduledActionResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateScheduledActionResponse(
+      scheduledAction: json['ScheduledAction'] != null
+          ? ScheduledAction.fromJson(
+              json['ScheduledAction'] as Map<String, dynamic>)
+          : null,
+    );
   }
 }
 
-/// Container for response returned by <code> <a>UpgradeDomain</a> </code>
-/// operation.
+class UpdateVpcEndpointResponse {
+  /// The endpoint to be updated.
+  final VpcEndpoint vpcEndpoint;
+
+  UpdateVpcEndpointResponse({
+    required this.vpcEndpoint,
+  });
+
+  factory UpdateVpcEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateVpcEndpointResponse(
+      vpcEndpoint:
+          VpcEndpoint.fromJson(json['VpcEndpoint'] as Map<String, dynamic>),
+    );
+  }
+}
+
+/// Container for the response returned by <code>UpgradeDomain</code> operation.
 class UpgradeDomainResponse {
+  /// The advanced options configuration for the domain.
   final Map<String, String>? advancedOptions;
+
+  /// Container for information about a configuration change happening on a
+  /// domain.
   final ChangeProgressDetails? changeProgressDetails;
+
+  /// The name of the domain that was upgraded.
   final String? domainName;
 
-  /// When true, indicates that an upgrade eligibility check needs to be
-  /// performed. Does not actually perform the upgrade.
+  /// When true, indicates that an upgrade eligibility check was performed.
   final bool? performCheckOnly;
 
-  /// The version of OpenSearch that you intend to upgrade the domain to.
+  /// OpenSearch or Elasticsearch version that the domain was upgraded to.
   final String? targetVersion;
+
+  /// The unique identifier of the domain upgrade.
   final String? upgradeId;
 
   UpgradeDomainResponse({
@@ -7452,6 +8886,7 @@ class UpgradeDomainResponse {
     this.targetVersion,
     this.upgradeId,
   });
+
   factory UpgradeDomainResponse.fromJson(Map<String, dynamic> json) {
     return UpgradeDomainResponse(
       advancedOptions: (json['AdvancedOptions'] as Map<String, dynamic>?)
@@ -7466,47 +8901,38 @@ class UpgradeDomainResponse {
       upgradeId: json['UpgradeId'] as String?,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final advancedOptions = this.advancedOptions;
-    final changeProgressDetails = this.changeProgressDetails;
-    final domainName = this.domainName;
-    final performCheckOnly = this.performCheckOnly;
-    final targetVersion = this.targetVersion;
-    final upgradeId = this.upgradeId;
-    return {
-      if (advancedOptions != null) 'AdvancedOptions': advancedOptions,
-      if (changeProgressDetails != null)
-        'ChangeProgressDetails': changeProgressDetails,
-      if (domainName != null) 'DomainName': domainName,
-      if (performCheckOnly != null) 'PerformCheckOnly': performCheckOnly,
-      if (targetVersion != null) 'TargetVersion': targetVersion,
-      if (upgradeId != null) 'UpgradeId': upgradeId,
-    };
-  }
 }
 
-/// History of the last 10 upgrades and upgrade eligibility checks.
+/// History of the last 10 upgrades and upgrade eligibility checks for an Amazon
+/// OpenSearch Service domain.
 class UpgradeHistory {
-  /// UTC timestamp at which the upgrade API call was made in
-  /// "yyyy-MM-ddTHH:mm:ssZ" format.
+  /// UTC timestamp at which the upgrade API call was made, in the format
+  /// <code>yyyy-MM-ddTHH:mm:ssZ</code>.
   final DateTime? startTimestamp;
 
-  /// A list of <code> <a>UpgradeStepItem</a> </code> s representing information
-  /// about each step performed as part of a specific upgrade or upgrade
+  /// A list of each step performed as part of a specific upgrade or upgrade
   /// eligibility check.
   final List<UpgradeStepItem>? stepsList;
 
-  /// A string that briefly describes the upgrade.
+  /// A string that describes the upgrade.
   final String? upgradeName;
 
   /// The current status of the upgrade. The status can take one of the following
   /// values:
+  ///
   /// <ul>
-  /// <li>In Progress</li>
-  /// <li>Succeeded</li>
-  /// <li>Succeeded with Issues</li>
-  /// <li>Failed</li>
+  /// <li>
+  /// In Progress
+  /// </li>
+  /// <li>
+  /// Succeeded
+  /// </li>
+  /// <li>
+  /// Succeeded with Issues
+  /// </li>
+  /// <li>
+  /// Failed
+  /// </li>
   /// </ul>
   final UpgradeStatus? upgradeStatus;
 
@@ -7516,6 +8942,7 @@ class UpgradeHistory {
     this.upgradeName,
     this.upgradeStatus,
   });
+
   factory UpgradeHistory.fromJson(Map<String, dynamic> json) {
     return UpgradeHistory(
       startTimestamp: timeStampFromJson(json['StartTimestamp']),
@@ -7526,20 +8953,6 @@ class UpgradeHistory {
       upgradeName: json['UpgradeName'] as String?,
       upgradeStatus: (json['UpgradeStatus'] as String?)?.toUpgradeStatus(),
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    final startTimestamp = this.startTimestamp;
-    final stepsList = this.stepsList;
-    final upgradeName = this.upgradeName;
-    final upgradeStatus = this.upgradeStatus;
-    return {
-      if (startTimestamp != null)
-        'StartTimestamp': unixTimestampToJson(startTimestamp),
-      if (stepsList != null) 'StepsList': stepsList,
-      if (upgradeName != null) 'UpgradeName': upgradeName,
-      if (upgradeStatus != null) 'UpgradeStatus': upgradeStatus.toValue(),
-    };
   }
 }
 
@@ -7614,7 +9027,7 @@ extension UpgradeStepFromString on String {
   }
 }
 
-/// Represents a single step of the upgrade or upgrade eligibility check
+/// Represents a single step of an upgrade or upgrade eligibility check
 /// workflow.
 class UpgradeStepItem {
   /// A list of strings containing detailed information about the errors
@@ -7625,21 +9038,38 @@ class UpgradeStepItem {
   /// particular step.
   final double? progressPercent;
 
-  /// One of three steps an upgrade or upgrade eligibility check goes through:
+  /// One of three steps that an upgrade or upgrade eligibility check goes
+  /// through:
+  ///
   /// <ul>
-  /// <li>PreUpgradeCheck</li>
-  /// <li>Snapshot</li>
-  /// <li>Upgrade</li>
+  /// <li>
+  /// PreUpgradeCheck
+  /// </li>
+  /// <li>
+  /// Snapshot
+  /// </li>
+  /// <li>
+  /// Upgrade
+  /// </li>
   /// </ul>
   final UpgradeStep? upgradeStep;
 
   /// The current status of the upgrade. The status can take one of the following
   /// values:
+  ///
   /// <ul>
-  /// <li>In Progress</li>
-  /// <li>Succeeded</li>
-  /// <li>Succeeded with Issues</li>
-  /// <li>Failed</li>
+  /// <li>
+  /// In Progress
+  /// </li>
+  /// <li>
+  /// Succeeded
+  /// </li>
+  /// <li>
+  /// Succeeded with Issues
+  /// </li>
+  /// <li>
+  /// Failed
+  /// </li>
   /// </ul>
   final UpgradeStatus? upgradeStepStatus;
 
@@ -7649,6 +9079,7 @@ class UpgradeStepItem {
     this.upgradeStep,
     this.upgradeStepStatus,
   });
+
   factory UpgradeStepItem.fromJson(Map<String, dynamic> json) {
     return UpgradeStepItem(
       issues: (json['Issues'] as List?)
@@ -7661,40 +9092,26 @@ class UpgradeStepItem {
           (json['UpgradeStepStatus'] as String?)?.toUpgradeStatus(),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final issues = this.issues;
-    final progressPercent = this.progressPercent;
-    final upgradeStep = this.upgradeStep;
-    final upgradeStepStatus = this.upgradeStepStatus;
-    return {
-      if (issues != null) 'Issues': issues,
-      if (progressPercent != null) 'ProgressPercent': progressPercent,
-      if (upgradeStep != null) 'UpgradeStep': upgradeStep.toValue(),
-      if (upgradeStepStatus != null)
-        'UpgradeStepStatus': upgradeStepStatus.toValue(),
-    };
-  }
 }
 
-/// Options to specify the subnets and security groups for the VPC endpoint. For
-/// more information, see <a
-/// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html"
-/// target="_blank"> Launching your Amazon OpenSearch Service domains using a
-/// VPC</a>.
+/// Information about the subnets and security groups for an Amazon OpenSearch
+/// Service domain provisioned within a virtual private cloud (VPC). For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html">Launching
+/// your Amazon OpenSearch Service domains using a VPC</a>. This information
+/// only exists if the domain was created with <code>VPCOptions</code>.
 class VPCDerivedInfo {
-  /// The Availability Zones for the domain. Exists only if the domain was created
-  /// with <code>VPCOptions</code>.
+  /// The list of Availability Zones associated with the VPC subnets.
   final List<String>? availabilityZones;
 
-  /// The security groups for the VPC endpoint.
+  /// The list of security group IDs associated with the VPC endpoints for the
+  /// domain.
   final List<String>? securityGroupIds;
 
-  /// The subnets for the VPC endpoint.
+  /// A list of subnet IDs associated with the VPC endpoints for the domain.
   final List<String>? subnetIds;
 
-  /// The VPC ID for the domain. Exists only if the domain was created with
-  /// <code>VPCOptions</code>.
+  /// The ID for your VPC. Amazon VPC generates this value when you create a VPC.
   final String? vPCId;
 
   VPCDerivedInfo({
@@ -7703,6 +9120,7 @@ class VPCDerivedInfo {
     this.subnetIds,
     this.vPCId,
   });
+
   factory VPCDerivedInfo.fromJson(Map<String, dynamic> json) {
     return VPCDerivedInfo(
       availabilityZones: (json['AvailabilityZones'] as List?)
@@ -7720,22 +9138,9 @@ class VPCDerivedInfo {
       vPCId: json['VPCId'] as String?,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final availabilityZones = this.availabilityZones;
-    final securityGroupIds = this.securityGroupIds;
-    final subnetIds = this.subnetIds;
-    final vPCId = this.vPCId;
-    return {
-      if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
-      if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
-      if (subnetIds != null) 'SubnetIds': subnetIds,
-      if (vPCId != null) 'VPCId': vPCId,
-    };
-  }
 }
 
-/// Status of the VPC options for the specified domain.
+/// Status of the VPC options for a specified domain.
 class VPCDerivedInfoStatus {
   /// The VPC options for the specified domain.
   final VPCDerivedInfo options;
@@ -7747,40 +9152,34 @@ class VPCDerivedInfoStatus {
     required this.options,
     required this.status,
   });
+
   factory VPCDerivedInfoStatus.fromJson(Map<String, dynamic> json) {
     return VPCDerivedInfoStatus(
       options: VPCDerivedInfo.fromJson(json['Options'] as Map<String, dynamic>),
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final options = this.options;
-    final status = this.status;
-    return {
-      'Options': options,
-      'Status': status,
-    };
-  }
 }
 
-/// Options to specify the subnets and security groups for the VPC endpoint. For
-/// more information, see <a
-/// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html"
-/// target="_blank"> Launching your Amazon OpenSearch Service domains using a
-/// VPC</a>.
+/// Options to specify the subnets and security groups for an Amazon OpenSearch
+/// Service VPC endpoint. For more information, see <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html">Launching
+/// your Amazon OpenSearch Service domains using a VPC</a>.
 class VPCOptions {
-  /// The security groups for the VPC endpoint.
+  /// The list of security group IDs associated with the VPC endpoints for the
+  /// domain. If you do not provide a security group ID, OpenSearch Service uses
+  /// the default security group for the VPC.
   final List<String>? securityGroupIds;
 
-  /// The subnets for the VPC endpoint.
+  /// A list of subnet IDs associated with the VPC endpoints for the domain. If
+  /// your domain uses multiple Availability Zones, you need to provide two subnet
+  /// IDs, one per zone. Otherwise, provide only one.
   final List<String>? subnetIds;
 
   VPCOptions({
     this.securityGroupIds,
     this.subnetIds,
   });
-
   Map<String, dynamic> toJson() {
     final securityGroupIds = this.securityGroupIds;
     final subnetIds = this.subnetIds;
@@ -7791,40 +9190,53 @@ class VPCOptions {
   }
 }
 
-/// The status of the OpenSearch version options for the specified OpenSearch
-/// domain.
+/// A validation failure that occurred as the result of a pre-update validation
+/// check (verbose dry run) on a domain.
+class ValidationFailure {
+  /// The error code of the failure.
+  final String? code;
+
+  /// A message corresponding to the failure.
+  final String? message;
+
+  ValidationFailure({
+    this.code,
+    this.message,
+  });
+
+  factory ValidationFailure.fromJson(Map<String, dynamic> json) {
+    return ValidationFailure(
+      code: json['Code'] as String?,
+      message: json['Message'] as String?,
+    );
+  }
+}
+
+/// The status of the the OpenSearch or Elasticsearch version options for the
+/// specified Amazon OpenSearch Service domain.
 class VersionStatus {
-  /// The OpenSearch version for the specified OpenSearch domain.
+  /// The OpenSearch or Elasticsearch version for the specified domain.
   final String options;
 
-  /// The status of the OpenSearch version options for the specified OpenSearch
-  /// domain.
+  /// The status of the version options for the specified domain.
   final OptionStatus status;
 
   VersionStatus({
     required this.options,
     required this.status,
   });
+
   factory VersionStatus.fromJson(Map<String, dynamic> json) {
     return VersionStatus(
       options: json['Options'] as String,
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final options = this.options;
-    final status = this.status;
-    return {
-      'Options': options,
-      'Status': status,
-    };
-  }
 }
 
-/// The type of EBS volume, standard, gp2, gp3 or io1. See <a
-/// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/opensearch-createupdatedomains.html#opensearch-createdomain-configure-ebs"
-/// target="_blank">Configuring EBS-based Storage</a> for more information.
+/// The type of EBS volume that a domain uses. For more information, see <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/opensearch-createupdatedomains.html#opensearch-createdomain-configure-ebs">Configuring
+/// EBS-based storage</a>.
 enum VolumeType {
   standard,
   gp2,
@@ -7863,17 +9275,235 @@ extension VolumeTypeFromString on String {
   }
 }
 
-/// The zone awareness configuration for the domain cluster, such as the number
-/// of availability zones.
+/// The connection endpoint for connecting to an Amazon OpenSearch Service
+/// domain through a proxy.
+class VpcEndpoint {
+  /// The Amazon Resource Name (ARN) of the domain associated with the endpoint.
+  final String? domainArn;
+
+  /// The connection endpoint ID for connecting to the domain.
+  final String? endpoint;
+
+  /// The current status of the endpoint.
+  final VpcEndpointStatus? status;
+
+  /// The unique identifier of the endpoint.
+  final String? vpcEndpointId;
+
+  /// The creator of the endpoint.
+  final String? vpcEndpointOwner;
+
+  /// Options to specify the subnets and security groups for an Amazon OpenSearch
+  /// Service VPC endpoint.
+  final VPCDerivedInfo? vpcOptions;
+
+  VpcEndpoint({
+    this.domainArn,
+    this.endpoint,
+    this.status,
+    this.vpcEndpointId,
+    this.vpcEndpointOwner,
+    this.vpcOptions,
+  });
+
+  factory VpcEndpoint.fromJson(Map<String, dynamic> json) {
+    return VpcEndpoint(
+      domainArn: json['DomainArn'] as String?,
+      endpoint: json['Endpoint'] as String?,
+      status: (json['Status'] as String?)?.toVpcEndpointStatus(),
+      vpcEndpointId: json['VpcEndpointId'] as String?,
+      vpcEndpointOwner: json['VpcEndpointOwner'] as String?,
+      vpcOptions: json['VpcOptions'] != null
+          ? VPCDerivedInfo.fromJson(json['VpcOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// Error information when attempting to describe an Amazon OpenSearch
+/// Service-managed VPC endpoint.
+class VpcEndpointError {
+  /// The code associated with the error.
+  final VpcEndpointErrorCode? errorCode;
+
+  /// A message describing the error.
+  final String? errorMessage;
+
+  /// The unique identifier of the endpoint.
+  final String? vpcEndpointId;
+
+  VpcEndpointError({
+    this.errorCode,
+    this.errorMessage,
+    this.vpcEndpointId,
+  });
+
+  factory VpcEndpointError.fromJson(Map<String, dynamic> json) {
+    return VpcEndpointError(
+      errorCode: (json['ErrorCode'] as String?)?.toVpcEndpointErrorCode(),
+      errorMessage: json['ErrorMessage'] as String?,
+      vpcEndpointId: json['VpcEndpointId'] as String?,
+    );
+  }
+}
+
+enum VpcEndpointErrorCode {
+  endpointNotFound,
+  serverError,
+}
+
+extension VpcEndpointErrorCodeValueExtension on VpcEndpointErrorCode {
+  String toValue() {
+    switch (this) {
+      case VpcEndpointErrorCode.endpointNotFound:
+        return 'ENDPOINT_NOT_FOUND';
+      case VpcEndpointErrorCode.serverError:
+        return 'SERVER_ERROR';
+    }
+  }
+}
+
+extension VpcEndpointErrorCodeFromString on String {
+  VpcEndpointErrorCode toVpcEndpointErrorCode() {
+    switch (this) {
+      case 'ENDPOINT_NOT_FOUND':
+        return VpcEndpointErrorCode.endpointNotFound;
+      case 'SERVER_ERROR':
+        return VpcEndpointErrorCode.serverError;
+    }
+    throw Exception('$this is not known in enum VpcEndpointErrorCode');
+  }
+}
+
+enum VpcEndpointStatus {
+  creating,
+  createFailed,
+  active,
+  updating,
+  updateFailed,
+  deleting,
+  deleteFailed,
+}
+
+extension VpcEndpointStatusValueExtension on VpcEndpointStatus {
+  String toValue() {
+    switch (this) {
+      case VpcEndpointStatus.creating:
+        return 'CREATING';
+      case VpcEndpointStatus.createFailed:
+        return 'CREATE_FAILED';
+      case VpcEndpointStatus.active:
+        return 'ACTIVE';
+      case VpcEndpointStatus.updating:
+        return 'UPDATING';
+      case VpcEndpointStatus.updateFailed:
+        return 'UPDATE_FAILED';
+      case VpcEndpointStatus.deleting:
+        return 'DELETING';
+      case VpcEndpointStatus.deleteFailed:
+        return 'DELETE_FAILED';
+    }
+  }
+}
+
+extension VpcEndpointStatusFromString on String {
+  VpcEndpointStatus toVpcEndpointStatus() {
+    switch (this) {
+      case 'CREATING':
+        return VpcEndpointStatus.creating;
+      case 'CREATE_FAILED':
+        return VpcEndpointStatus.createFailed;
+      case 'ACTIVE':
+        return VpcEndpointStatus.active;
+      case 'UPDATING':
+        return VpcEndpointStatus.updating;
+      case 'UPDATE_FAILED':
+        return VpcEndpointStatus.updateFailed;
+      case 'DELETING':
+        return VpcEndpointStatus.deleting;
+      case 'DELETE_FAILED':
+        return VpcEndpointStatus.deleteFailed;
+    }
+    throw Exception('$this is not known in enum VpcEndpointStatus');
+  }
+}
+
+/// Summary information for an Amazon OpenSearch Service-managed VPC endpoint.
+class VpcEndpointSummary {
+  /// The Amazon Resource Name (ARN) of the domain associated with the endpoint.
+  final String? domainArn;
+
+  /// The current status of the endpoint.
+  final VpcEndpointStatus? status;
+
+  /// The unique identifier of the endpoint.
+  final String? vpcEndpointId;
+
+  /// The creator of the endpoint.
+  final String? vpcEndpointOwner;
+
+  VpcEndpointSummary({
+    this.domainArn,
+    this.status,
+    this.vpcEndpointId,
+    this.vpcEndpointOwner,
+  });
+
+  factory VpcEndpointSummary.fromJson(Map<String, dynamic> json) {
+    return VpcEndpointSummary(
+      domainArn: json['DomainArn'] as String?,
+      status: (json['Status'] as String?)?.toVpcEndpointStatus(),
+      vpcEndpointId: json['VpcEndpointId'] as String?,
+      vpcEndpointOwner: json['VpcEndpointOwner'] as String?,
+    );
+  }
+}
+
+/// The desired start time for an <a
+/// href="https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_OffPeakWindow.html">off-peak
+/// maintenance window</a>.
+class WindowStartTime {
+  /// The start hour of the window in Coordinated Universal Time (UTC), using
+  /// 24-hour time. For example, <code>17</code> refers to 5:00 P.M. UTC.
+  final int hours;
+
+  /// The start minute of the window, in UTC.
+  final int minutes;
+
+  WindowStartTime({
+    required this.hours,
+    required this.minutes,
+  });
+
+  factory WindowStartTime.fromJson(Map<String, dynamic> json) {
+    return WindowStartTime(
+      hours: json['Hours'] as int,
+      minutes: json['Minutes'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hours = this.hours;
+    final minutes = this.minutes;
+    return {
+      'Hours': hours,
+      'Minutes': minutes,
+    };
+  }
+}
+
+/// The zone awareness configuration for an Amazon OpenSearch Service domain.
 class ZoneAwarenessConfig {
-  /// An integer value to indicate the number of availability zones for a domain
-  /// when zone awareness is enabled. This should be equal to number of subnets if
-  /// VPC endpoints is enabled.
+  /// If you enabled multiple Availability Zones, this value is the number of
+  /// zones that you want the domain to use. Valid values are <code>2</code> and
+  /// <code>3</code>. If your domain is provisioned within a VPC, this value be
+  /// equal to number of subnets.
   final int? availabilityZoneCount;
 
   ZoneAwarenessConfig({
     this.availabilityZoneCount,
   });
+
   factory ZoneAwarenessConfig.fromJson(Map<String, dynamic> json) {
     return ZoneAwarenessConfig(
       availabilityZoneCount: json['AvailabilityZoneCount'] as int?,
@@ -7886,6 +9516,39 @@ class ZoneAwarenessConfig {
       if (availabilityZoneCount != null)
         'AvailabilityZoneCount': availabilityZoneCount,
     };
+  }
+}
+
+enum ZoneStatus {
+  active,
+  standBy,
+  notAvailable,
+}
+
+extension ZoneStatusValueExtension on ZoneStatus {
+  String toValue() {
+    switch (this) {
+      case ZoneStatus.active:
+        return 'Active';
+      case ZoneStatus.standBy:
+        return 'StandBy';
+      case ZoneStatus.notAvailable:
+        return 'NotAvailable';
+    }
+  }
+}
+
+extension ZoneStatusFromString on String {
+  ZoneStatus toZoneStatus() {
+    switch (this) {
+      case 'Active':
+        return ZoneStatus.active;
+      case 'StandBy':
+        return ZoneStatus.standBy;
+      case 'NotAvailable':
+        return ZoneStatus.notAvailable;
+    }
+    throw Exception('$this is not known in enum ZoneStatus');
   }
 }
 
@@ -7902,6 +9565,11 @@ class BaseException extends _s.GenericAwsException {
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
+}
+
+class DependencyFailureException extends _s.GenericAwsException {
+  DependencyFailureException({String? type, String? message})
+      : super(type: type, code: 'DependencyFailureException', message: message);
 }
 
 class DisabledOperationException extends _s.GenericAwsException {
@@ -7945,6 +9613,11 @@ class ResourceNotFoundException extends _s.GenericAwsException {
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+class SlotNotAvailableException extends _s.GenericAwsException {
+  SlotNotAvailableException({String? type, String? message})
+      : super(type: type, code: 'SlotNotAvailableException', message: message);
+}
+
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
@@ -7957,6 +9630,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       BaseException(type: type, message: message),
   'ConflictException': (type, message) =>
       ConflictException(type: type, message: message),
+  'DependencyFailureException': (type, message) =>
+      DependencyFailureException(type: type, message: message),
   'DisabledOperationException': (type, message) =>
       DisabledOperationException(type: type, message: message),
   'InternalException': (type, message) =>
@@ -7971,6 +9646,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceAlreadyExistsException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
+  'SlotNotAvailableException': (type, message) =>
+      SlotNotAvailableException(type: type, message: message),
   'ValidationException': (type, message) =>
       ValidationException(type: type, message: message),
 };

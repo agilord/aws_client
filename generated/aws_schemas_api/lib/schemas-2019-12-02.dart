@@ -60,6 +60,10 @@ class Schemas {
   /// Parameter [sourceArn] :
   /// The ARN of the event bus.
   ///
+  /// Parameter [crossAccount] :
+  /// Support discovery of schemas in events sent to the bus from another
+  /// account. (default: true).
+  ///
   /// Parameter [description] :
   /// A description for the discoverer.
   ///
@@ -67,11 +71,13 @@ class Schemas {
   /// Tags associated with the resource.
   Future<CreateDiscovererResponse> createDiscoverer({
     required String sourceArn,
+    bool? crossAccount,
     String? description,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'SourceArn': sourceArn,
+      if (crossAccount != null) 'CrossAccount': crossAccount,
       if (description != null) 'Description': description,
       if (tags != null) 'tags': tags,
     };
@@ -984,13 +990,19 @@ class Schemas {
   /// Parameter [discovererId] :
   /// The ID of the discoverer.
   ///
+  /// Parameter [crossAccount] :
+  /// Support discovery of schemas in events sent to the bus from another
+  /// account. (default: true)
+  ///
   /// Parameter [description] :
   /// The description of the discoverer to update.
   Future<UpdateDiscovererResponse> updateDiscoverer({
     required String discovererId,
+    bool? crossAccount,
     String? description,
   }) async {
     final $payload = <String, dynamic>{
+      if (crossAccount != null) 'CrossAccount': crossAccount,
       if (description != null) 'Description': description,
     };
     final response = await _protocol.send(
@@ -1119,6 +1131,10 @@ extension CodeGenerationStatusFromString on String {
 }
 
 class CreateDiscovererResponse {
+  /// The Status if the discoverer will discover schemas from events sent from
+  /// another account.
+  final bool? crossAccount;
+
   /// The description of the discoverer.
   final String? description;
 
@@ -1138,6 +1154,7 @@ class CreateDiscovererResponse {
   final Map<String, String>? tags;
 
   CreateDiscovererResponse({
+    this.crossAccount,
     this.description,
     this.discovererArn,
     this.discovererId,
@@ -1145,8 +1162,10 @@ class CreateDiscovererResponse {
     this.state,
     this.tags,
   });
+
   factory CreateDiscovererResponse.fromJson(Map<String, dynamic> json) {
     return CreateDiscovererResponse(
+      crossAccount: json['CrossAccount'] as bool?,
       description: json['Description'] as String?,
       discovererArn: json['DiscovererArn'] as String?,
       discovererId: json['DiscovererId'] as String?,
@@ -1177,6 +1196,7 @@ class CreateRegistryResponse {
     this.registryName,
     this.tags,
   });
+
   factory CreateRegistryResponse.fromJson(Map<String, dynamic> json) {
     return CreateRegistryResponse(
       description: json['Description'] as String?,
@@ -1221,6 +1241,7 @@ class CreateSchemaResponse {
     this.type,
     this.versionCreatedDate,
   });
+
   factory CreateSchemaResponse.fromJson(Map<String, dynamic> json) {
     return CreateSchemaResponse(
       description: json['Description'] as String?,
@@ -1255,6 +1276,7 @@ class DescribeCodeBindingResponse {
     this.schemaVersion,
     this.status,
   });
+
   factory DescribeCodeBindingResponse.fromJson(Map<String, dynamic> json) {
     return DescribeCodeBindingResponse(
       creationDate: timeStampFromJson(json['CreationDate']),
@@ -1266,6 +1288,10 @@ class DescribeCodeBindingResponse {
 }
 
 class DescribeDiscovererResponse {
+  /// The Status if the discoverer will discover schemas from events sent from
+  /// another account.
+  final bool? crossAccount;
+
   /// The description of the discoverer.
   final String? description;
 
@@ -1285,6 +1311,7 @@ class DescribeDiscovererResponse {
   final Map<String, String>? tags;
 
   DescribeDiscovererResponse({
+    this.crossAccount,
     this.description,
     this.discovererArn,
     this.discovererId,
@@ -1292,8 +1319,10 @@ class DescribeDiscovererResponse {
     this.state,
     this.tags,
   });
+
   factory DescribeDiscovererResponse.fromJson(Map<String, dynamic> json) {
     return DescribeDiscovererResponse(
+      crossAccount: json['CrossAccount'] as bool?,
       description: json['Description'] as String?,
       discovererArn: json['DiscovererArn'] as String?,
       discovererId: json['DiscovererId'] as String?,
@@ -1324,6 +1353,7 @@ class DescribeRegistryResponse {
     this.registryName,
     this.tags,
   });
+
   factory DescribeRegistryResponse.fromJson(Map<String, dynamic> json) {
     return DescribeRegistryResponse(
       description: json['Description'] as String?,
@@ -1374,6 +1404,7 @@ class DescribeSchemaResponse {
     this.type,
     this.versionCreatedDate,
   });
+
   factory DescribeSchemaResponse.fromJson(Map<String, dynamic> json) {
     return DescribeSchemaResponse(
       content: json['Content'] as String?,
@@ -1419,6 +1450,10 @@ extension DiscovererStateFromString on String {
 }
 
 class DiscovererSummary {
+  /// The Status if the discoverer will discover schemas from events sent from
+  /// another account.
+  final bool? crossAccount;
+
   /// The ARN of the discoverer.
   final String? discovererArn;
 
@@ -1435,14 +1470,17 @@ class DiscovererSummary {
   final Map<String, String>? tags;
 
   DiscovererSummary({
+    this.crossAccount,
     this.discovererArn,
     this.discovererId,
     this.sourceArn,
     this.state,
     this.tags,
   });
+
   factory DiscovererSummary.fromJson(Map<String, dynamic> json) {
     return DiscovererSummary(
+      crossAccount: json['CrossAccount'] as bool?,
       discovererArn: json['DiscovererArn'] as String?,
       discovererId: json['DiscovererId'] as String?,
       sourceArn: json['SourceArn'] as String?,
@@ -1467,6 +1505,7 @@ class ExportSchemaResponse {
     this.schemaVersion,
     this.type,
   });
+
   factory ExportSchemaResponse.fromJson(Map<String, dynamic> json) {
     return ExportSchemaResponse(
       content: json['Content'] as String?,
@@ -1493,6 +1532,7 @@ class GetDiscoveredSchemaResponse {
   GetDiscoveredSchemaResponse({
     this.content,
   });
+
   factory GetDiscoveredSchemaResponse.fromJson(Map<String, dynamic> json) {
     return GetDiscoveredSchemaResponse(
       content: json['Content'] as String?,
@@ -1511,6 +1551,7 @@ class GetResourcePolicyResponse {
     this.policy,
     this.revisionId,
   });
+
   factory GetResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
     return GetResourcePolicyResponse(
       policy:
@@ -1533,6 +1574,7 @@ class ListDiscoverersResponse {
     this.discoverers,
     this.nextToken,
   });
+
   factory ListDiscoverersResponse.fromJson(Map<String, dynamic> json) {
     return ListDiscoverersResponse(
       discoverers: (json['Discoverers'] as List?)
@@ -1557,6 +1599,7 @@ class ListRegistriesResponse {
     this.nextToken,
     this.registries,
   });
+
   factory ListRegistriesResponse.fromJson(Map<String, dynamic> json) {
     return ListRegistriesResponse(
       nextToken: json['NextToken'] as String?,
@@ -1581,6 +1624,7 @@ class ListSchemaVersionsResponse {
     this.nextToken,
     this.schemaVersions,
   });
+
   factory ListSchemaVersionsResponse.fromJson(Map<String, dynamic> json) {
     return ListSchemaVersionsResponse(
       nextToken: json['NextToken'] as String?,
@@ -1605,6 +1649,7 @@ class ListSchemasResponse {
     this.nextToken,
     this.schemas,
   });
+
   factory ListSchemasResponse.fromJson(Map<String, dynamic> json) {
     return ListSchemasResponse(
       nextToken: json['NextToken'] as String?,
@@ -1622,6 +1667,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -1649,6 +1695,7 @@ class PutCodeBindingResponse {
     this.schemaVersion,
     this.status,
   });
+
   factory PutCodeBindingResponse.fromJson(Map<String, dynamic> json) {
     return PutCodeBindingResponse(
       creationDate: timeStampFromJson(json['CreationDate']),
@@ -1670,6 +1717,7 @@ class PutResourcePolicyResponse {
     this.policy,
     this.revisionId,
   });
+
   factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
     return PutResourcePolicyResponse(
       policy:
@@ -1694,6 +1742,7 @@ class RegistrySummary {
     this.registryName,
     this.tags,
   });
+
   factory RegistrySummary.fromJson(Map<String, dynamic> json) {
     return RegistrySummary(
       registryArn: json['RegistryArn'] as String?,
@@ -1728,6 +1777,7 @@ class SchemaSummary {
     this.tags,
     this.versionCount,
   });
+
   factory SchemaSummary.fromJson(Map<String, dynamic> json) {
     return SchemaSummary(
       lastModified: timeStampFromJson(json['LastModified']),
@@ -1759,6 +1809,7 @@ class SchemaVersionSummary {
     this.schemaVersion,
     this.type,
   });
+
   factory SchemaVersionSummary.fromJson(Map<String, dynamic> json) {
     return SchemaVersionSummary(
       schemaArn: json['SchemaArn'] as String?,
@@ -1788,6 +1839,7 @@ class SearchSchemaSummary {
     this.schemaName,
     this.schemaVersions,
   });
+
   factory SearchSchemaSummary.fromJson(Map<String, dynamic> json) {
     return SearchSchemaSummary(
       registryName: json['RegistryName'] as String?,
@@ -1817,6 +1869,7 @@ class SearchSchemaVersionSummary {
     this.schemaVersion,
     this.type,
   });
+
   factory SearchSchemaVersionSummary.fromJson(Map<String, dynamic> json) {
     return SearchSchemaVersionSummary(
       createdDate: timeStampFromJson(json['CreatedDate']),
@@ -1839,6 +1892,7 @@ class SearchSchemasResponse {
     this.nextToken,
     this.schemas,
   });
+
   factory SearchSchemasResponse.fromJson(Map<String, dynamic> json) {
     return SearchSchemasResponse(
       nextToken: json['NextToken'] as String?,
@@ -1861,6 +1915,7 @@ class StartDiscovererResponse {
     this.discovererId,
     this.state,
   });
+
   factory StartDiscovererResponse.fromJson(Map<String, dynamic> json) {
     return StartDiscovererResponse(
       discovererId: json['DiscovererId'] as String?,
@@ -1880,6 +1935,7 @@ class StopDiscovererResponse {
     this.discovererId,
     this.state,
   });
+
   factory StopDiscovererResponse.fromJson(Map<String, dynamic> json) {
     return StopDiscovererResponse(
       discovererId: json['DiscovererId'] as String?,
@@ -1917,6 +1973,10 @@ extension TypeFromString on String {
 }
 
 class UpdateDiscovererResponse {
+  /// The Status if the discoverer will discover schemas from events sent from
+  /// another account.
+  final bool? crossAccount;
+
   /// The description of the discoverer.
   final String? description;
 
@@ -1936,6 +1996,7 @@ class UpdateDiscovererResponse {
   final Map<String, String>? tags;
 
   UpdateDiscovererResponse({
+    this.crossAccount,
     this.description,
     this.discovererArn,
     this.discovererId,
@@ -1943,8 +2004,10 @@ class UpdateDiscovererResponse {
     this.state,
     this.tags,
   });
+
   factory UpdateDiscovererResponse.fromJson(Map<String, dynamic> json) {
     return UpdateDiscovererResponse(
+      crossAccount: json['CrossAccount'] as bool?,
       description: json['Description'] as String?,
       discovererArn: json['DiscovererArn'] as String?,
       discovererId: json['DiscovererId'] as String?,
@@ -1975,6 +2038,7 @@ class UpdateRegistryResponse {
     this.registryName,
     this.tags,
   });
+
   factory UpdateRegistryResponse.fromJson(Map<String, dynamic> json) {
     return UpdateRegistryResponse(
       description: json['Description'] as String?,
@@ -2019,6 +2083,7 @@ class UpdateSchemaResponse {
     this.type,
     this.versionCreatedDate,
   });
+
   factory UpdateSchemaResponse.fromJson(Map<String, dynamic> json) {
     return UpdateSchemaResponse(
       description: json['Description'] as String?,

@@ -3,9 +3,9 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-With Amazon Data Lifecycle Manager, you can manage the lifecycle of your AWS
-resources. You create lifecycle policies, which are used to automate
-operations on the specified resources.
+With Amazon Data Lifecycle Manager, you can manage the lifecycle of your
+Amazon Web Services resources. You create lifecycle policies, which are used
+to automate operations on the specified resources.
 
 ## Links
 

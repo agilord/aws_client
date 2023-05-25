@@ -3,10 +3,10 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-The AWS Budgets API enables you to use AWS Budgets to plan your service
-usage, service costs, and instance reservations. The API reference provides
-descriptions, syntax, and usage examples for each of the actions and data
-types for AWS Budgets.
+Use the Amazon Web Services Budgets API to plan your service usage, service
+costs, and instance reservations. This API reference provides descriptions,
+syntax, and usage examples for each of the actions and data types for the
+Amazon Web Services Budgets feature.
 
 Budgets provide you with a way to see the following information:
 
@@ -19,16 +19,16 @@ Your usage-to-date, including how much you've used of your Reserved
 Instances (RIs)
 </li>
 <li>
-Your current estimated charges from AWS, and how much your predicted usage
-will accrue in charges by the end of the month
+Your current estimated charges from Amazon Web Services, and how much your
+predicted usage will accrue in charges by the end of the month
 </li>
 <li>
 How much of your budget has been used
 </li>
 </ul>
-AWS updates your budget status several times a day. Budgets track your
-unblended costs, subscriptions, refunds, and RIs. You can create the
-following types of budgets:
+Amazon Web Services updates your budget status several times a day. Budgets
+track your unblended costs, subscriptions, refunds, and RIs. You can create
+the following types of budgets:
 
 <ul>
 <li>
@@ -51,16 +51,17 @@ by a reservation.
 </ul>
 Service Endpoint
 
-The AWS Budgets API provides the following endpoint:
+The Amazon Web Services Budgets API provides the following endpoint:
 
 <ul>
 <li>
 https://budgets.amazonaws.com
 </li>
 </ul>
-For information about costs that are associated with the AWS Budgets API,
-see <a href="https://aws.amazon.com/aws-cost-management/pricing/">AWS Cost
-Management Pricing</a>.
+For information about costs that are associated with the Amazon Web Services
+Budgets API, see <a
+href="https://aws.amazon.com/aws-cost-management/pricing/">Amazon Web
+Services Cost Management Pricing</a>.
 
 ## Links
 

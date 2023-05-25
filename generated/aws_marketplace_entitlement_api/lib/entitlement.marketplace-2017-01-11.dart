@@ -141,6 +141,7 @@ class Entitlement {
     this.productCode,
     this.value,
   });
+
   factory Entitlement.fromJson(Map<String, dynamic> json) {
     return Entitlement(
       customerIdentifier: json['CustomerIdentifier'] as String?,
@@ -179,6 +180,7 @@ class EntitlementValue {
     this.integerValue,
     this.stringValue,
   });
+
   factory EntitlementValue.fromJson(Map<String, dynamic> json) {
     return EntitlementValue(
       booleanValue: json['BooleanValue'] as bool?,
@@ -234,6 +236,7 @@ class GetEntitlementsResult {
     this.entitlements,
     this.nextToken,
   });
+
   factory GetEntitlementsResult.fromJson(Map<String, dynamic> json) {
     return GetEntitlementsResult(
       entitlements: (json['Entitlements'] as List?)
@@ -253,6 +256,7 @@ class InternalServiceErrorException implements _s.AwsException {
   InternalServiceErrorException({
     this.message,
   });
+
   factory InternalServiceErrorException.fromJson(Map<String, dynamic> json) {
     return InternalServiceErrorException(
       message: json['message'] as String?,
@@ -267,6 +271,7 @@ class InvalidParameterException implements _s.AwsException {
   InvalidParameterException({
     this.message,
   });
+
   factory InvalidParameterException.fromJson(Map<String, dynamic> json) {
     return InvalidParameterException(
       message: json['message'] as String?,
@@ -281,6 +286,7 @@ class ThrottlingException implements _s.AwsException {
   ThrottlingException({
     this.message,
   });
+
   factory ThrottlingException.fromJson(Map<String, dynamic> json) {
     return ThrottlingException(
       message: json['message'] as String?,

@@ -18,9 +18,31 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// AWS Server Migration Service (AWS SMS) makes it easier and faster for you to
-/// migrate your on-premises workloads to AWS. To learn more about AWS SMS, see
-/// the following resources:
+/// <important>
+/// <b>Product update</b>
+///
+/// We recommend <a
+/// href="http://aws.amazon.com/application-migration-service">Amazon Web
+/// Services Application Migration Service</a> (Amazon Web Services MGN) as the
+/// primary migration service for lift-and-shift migrations. If Amazon Web
+/// Services MGN is unavailable in a specific Amazon Web Services Region, you
+/// can use the Server Migration Service APIs through March 2023.
+/// </important>
+/// Server Migration Service (Server Migration Service) makes it easier and
+/// faster for you to migrate your on-premises workloads to Amazon Web Services.
+/// To learn more about Server Migration Service, see the following resources:
+///
+/// <ul>
+/// <li>
+/// <a href="http://aws.amazon.com/server-migration-service/">Server Migration
+/// Service product page</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/server-migration-service/latest/userguide/">Server
+/// Migration Service User Guide</a>
+/// </li>
+/// </ul>
 class SMS {
   final _s.JsonProtocol _protocol;
   SMS({
@@ -69,8 +91,8 @@ class SMS {
   /// The name of the new application.
   ///
   /// Parameter [roleName] :
-  /// The name of the service role in the customer's account to be used by AWS
-  /// SMS.
+  /// The name of the service role in the customer's account to be used by
+  /// Server Migration Service.
   ///
   /// Parameter [serverGroups] :
   /// The server groups to include in the application.
@@ -109,8 +131,8 @@ class SMS {
   }
 
   /// Creates a replication job. The replication job schedules periodic
-  /// replication runs to replicate your server to AWS. Each replication run
-  /// creates an Amazon Machine Image (AMI).
+  /// replication runs to replicate your server to Amazon Web Services. Each
+  /// replication run creates an Amazon Machine Image (AMI).
   ///
   /// May throw [InvalidParameterException].
   /// May throw [MissingRequiredParameterException].
@@ -167,7 +189,7 @@ class SMS {
   /// after the maximum number is reached and a new AMI is created.
   ///
   /// Parameter [roleName] :
-  /// The name of the IAM role to be used by the AWS SMS.
+  /// The name of the IAM role to be used by the Server Migration Service.
   ///
   /// Parameter [runOnce] :
   /// Indicates whether to run the replication job one time.
@@ -213,8 +235,8 @@ class SMS {
   }
 
   /// Deletes the specified application. Optionally deletes the launched stack
-  /// associated with the application and all AWS SMS replication jobs for
-  /// servers in the application.
+  /// associated with the application and all Server Migration Service
+  /// replication jobs for servers in the application.
   ///
   /// May throw [UnauthorizedOperationException].
   /// May throw [InvalidParameterException].
@@ -349,8 +371,9 @@ class SMS {
   /// Deletes the specified replication job.
   ///
   /// After you delete a replication job, there are no further replication runs.
-  /// AWS deletes the contents of the Amazon S3 bucket used to store AWS SMS
-  /// artifacts. The AMIs created by the replication runs are not deleted.
+  /// Amazon Web Services deletes the contents of the Amazon S3 bucket used to
+  /// store Server Migration Service artifacts. The AMIs created by the
+  /// replication runs are not deleted.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [MissingRequiredParameterException].
@@ -401,7 +424,7 @@ class SMS {
     );
   }
 
-  /// Disassociates the specified connector from AWS SMS.
+  /// Disassociates the specified connector from Server Migration Service.
   ///
   /// After you disassociate a connector, it is no longer available to support
   /// replication jobs.
@@ -471,7 +494,7 @@ class SMS {
     return GenerateChangeSetResponse.fromJson(jsonResponse.body);
   }
 
-  /// Generates an AWS CloudFormation template based on the current launch
+  /// Generates an CloudFormation template based on the current launch
   /// configuration and writes it to an Amazon S3 object in the customer’s
   /// Amazon S3 bucket.
   ///
@@ -482,10 +505,10 @@ class SMS {
   /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [appId] :
-  /// The ID of the application associated with the AWS CloudFormation template.
+  /// The ID of the application associated with the CloudFormation template.
   ///
   /// Parameter [templateFormat] :
-  /// The format for generating the AWS CloudFormation template.
+  /// The format for generating the CloudFormation template.
   Future<GenerateTemplateResponse> generateTemplate({
     String? appId,
     OutputFormat? templateFormat,
@@ -671,7 +694,7 @@ class SMS {
     return GetAppValidationOutputResponse.fromJson(jsonResponse.body);
   }
 
-  /// Describes the connectors registered with the AWS SMS.
+  /// Describes the connectors registered with the Server Migration Service.
   ///
   /// May throw [UnauthorizedOperationException].
   ///
@@ -833,7 +856,7 @@ class SMS {
     return GetServersResponse.fromJson(jsonResponse.body);
   }
 
-  /// Allows application import from AWS Migration Hub.
+  /// Allows application import from Migration Hub.
   ///
   /// May throw [UnauthorizedOperationException].
   /// May throw [InvalidParameterException].
@@ -843,10 +866,10 @@ class SMS {
   ///
   /// Parameter [roleName] :
   /// The name of the service role. If you omit this parameter, we create a
-  /// service-linked role for AWS Migration Hub in your account. Otherwise, the
-  /// role that you provide must have the <a
+  /// service-linked role for Migration Hub in your account. Otherwise, the role
+  /// that you provide must have the <a
   /// href="https://docs.aws.amazon.com/migrationhub/latest/ug/new-customer-setup.html#sms-managed">policy
-  /// and trust policy</a> described in the <i>AWS Migration Hub User Guide</i>.
+  /// and trust policy</a> described in the <i>Migration Hub User Guide</i>.
   Future<void> importAppCatalog({
     String? roleName,
   }) async {
@@ -892,7 +915,7 @@ class SMS {
     );
   }
 
-  /// Launches the specified application as a stack in AWS CloudFormation.
+  /// Launches the specified application as a stack in CloudFormation.
   ///
   /// May throw [UnauthorizedOperationException].
   /// May throw [InvalidParameterException].
@@ -964,8 +987,8 @@ class SMS {
     return ListAppsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Provides information to AWS SMS about whether application validation is
-  /// successful.
+  /// Provides information to Server Migration Service about whether application
+  /// validation is successful.
   ///
   /// May throw [UnauthorizedOperationException].
   /// May throw [InvalidParameterException].
@@ -1017,7 +1040,7 @@ class SMS {
   /// after replication is complete.
   ///
   /// Parameter [roleName] :
-  /// The name of service role in the customer's account that AWS CloudFormation
+  /// The name of service role in the customer's account that CloudFormation
   /// uses to launch the application.
   ///
   /// Parameter [serverGroupLaunchConfigurations] :
@@ -1321,7 +1344,8 @@ class SMS {
   /// The new name of the application.
   ///
   /// Parameter [roleName] :
-  /// The name of the service role in the customer's account used by AWS SMS.
+  /// The name of the service role in the customer's account used by Server
+  /// Migration Service.
   ///
   /// Parameter [serverGroups] :
   /// The server groups in the application to update.
@@ -1416,7 +1440,7 @@ class SMS {
   /// after the maximum number is reached and a new AMI is created.
   ///
   /// Parameter [roleName] :
-  /// The name of the IAM role to be used by AWS SMS.
+  /// The name of the IAM role to be used by Server Migration Service.
   Future<void> updateReplicationJob({
     required String replicationJobId,
     String? description,
@@ -1799,7 +1823,8 @@ class AppSummary {
   /// A message related to the replication status of the application.
   final String? replicationStatusMessage;
 
-  /// The name of the service role in the customer's account used by AWS SMS.
+  /// The name of the service role in the customer's account used by Server
+  /// Migration Service.
   final String? roleName;
 
   /// Status of the application.
@@ -1835,6 +1860,7 @@ class AppSummary {
     this.totalServerGroups,
     this.totalServers,
   });
+
   factory AppSummary.fromJson(Map<String, dynamic> json) {
     return AppSummary(
       appId: json['appId'] as String?,
@@ -1887,6 +1913,7 @@ class AppValidationConfiguration {
     this.ssmValidationParameters,
     this.validationId,
   });
+
   factory AppValidationConfiguration.fromJson(Map<String, dynamic> json) {
     return AppValidationConfiguration(
       appValidationStrategy:
@@ -1924,6 +1951,7 @@ class AppValidationOutput {
   AppValidationOutput({
     this.ssmOutput,
   });
+
   factory AppValidationOutput.fromJson(Map<String, dynamic> json) {
     return AppValidationOutput(
       ssmOutput: json['ssmOutput'] != null
@@ -2000,6 +2028,7 @@ class Connector {
     this.vmManagerName,
     this.vmManagerType,
   });
+
   factory Connector.fromJson(Map<String, dynamic> json) {
     return Connector(
       associatedOn: timeStampFromJson(json['associatedOn']),
@@ -2105,6 +2134,7 @@ class CreateAppResponse {
     this.serverGroups,
     this.tags,
   });
+
   factory CreateAppResponse.fromJson(Map<String, dynamic> json) {
     return CreateAppResponse(
       appSummary: json['appSummary'] != null
@@ -2129,6 +2159,7 @@ class CreateReplicationJobResponse {
   CreateReplicationJobResponse({
     this.replicationJobId,
   });
+
   factory CreateReplicationJobResponse.fromJson(Map<String, dynamic> json) {
     return CreateReplicationJobResponse(
       replicationJobId: json['replicationJobId'] as String?,
@@ -2138,6 +2169,7 @@ class CreateReplicationJobResponse {
 
 class DeleteAppLaunchConfigurationResponse {
   DeleteAppLaunchConfigurationResponse();
+
   factory DeleteAppLaunchConfigurationResponse.fromJson(
       Map<String, dynamic> _) {
     return DeleteAppLaunchConfigurationResponse();
@@ -2146,6 +2178,7 @@ class DeleteAppLaunchConfigurationResponse {
 
 class DeleteAppReplicationConfigurationResponse {
   DeleteAppReplicationConfigurationResponse();
+
   factory DeleteAppReplicationConfigurationResponse.fromJson(
       Map<String, dynamic> _) {
     return DeleteAppReplicationConfigurationResponse();
@@ -2154,6 +2187,7 @@ class DeleteAppReplicationConfigurationResponse {
 
 class DeleteAppResponse {
   DeleteAppResponse();
+
   factory DeleteAppResponse.fromJson(Map<String, dynamic> _) {
     return DeleteAppResponse();
   }
@@ -2161,6 +2195,7 @@ class DeleteAppResponse {
 
 class DeleteAppValidationConfigurationResponse {
   DeleteAppValidationConfigurationResponse();
+
   factory DeleteAppValidationConfigurationResponse.fromJson(
       Map<String, dynamic> _) {
     return DeleteAppValidationConfigurationResponse();
@@ -2169,6 +2204,7 @@ class DeleteAppValidationConfigurationResponse {
 
 class DeleteReplicationJobResponse {
   DeleteReplicationJobResponse();
+
   factory DeleteReplicationJobResponse.fromJson(Map<String, dynamic> _) {
     return DeleteReplicationJobResponse();
   }
@@ -2176,6 +2212,7 @@ class DeleteReplicationJobResponse {
 
 class DeleteServerCatalogResponse {
   DeleteServerCatalogResponse();
+
   factory DeleteServerCatalogResponse.fromJson(Map<String, dynamic> _) {
     return DeleteServerCatalogResponse();
   }
@@ -2183,6 +2220,7 @@ class DeleteServerCatalogResponse {
 
 class DisassociateConnectorResponse {
   DisassociateConnectorResponse();
+
   factory DisassociateConnectorResponse.fromJson(Map<String, dynamic> _) {
     return DisassociateConnectorResponse();
   }
@@ -2195,6 +2233,7 @@ class GenerateChangeSetResponse {
   GenerateChangeSetResponse({
     this.s3Location,
   });
+
   factory GenerateChangeSetResponse.fromJson(Map<String, dynamic> json) {
     return GenerateChangeSetResponse(
       s3Location: json['s3Location'] != null
@@ -2211,6 +2250,7 @@ class GenerateTemplateResponse {
   GenerateTemplateResponse({
     this.s3Location,
   });
+
   factory GenerateTemplateResponse.fromJson(Map<String, dynamic> json) {
     return GenerateTemplateResponse(
       s3Location: json['s3Location'] != null
@@ -2228,8 +2268,8 @@ class GetAppLaunchConfigurationResponse {
   /// after replication is complete.
   final bool? autoLaunch;
 
-  /// The name of the service role in the customer's account that AWS
-  /// CloudFormation uses to launch the application.
+  /// The name of the service role in the customer's account that CloudFormation
+  /// uses to launch the application.
   final String? roleName;
 
   /// The launch configurations for server groups in this application.
@@ -2241,6 +2281,7 @@ class GetAppLaunchConfigurationResponse {
     this.roleName,
     this.serverGroupLaunchConfigurations,
   });
+
   factory GetAppLaunchConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return GetAppLaunchConfigurationResponse(
@@ -2266,6 +2307,7 @@ class GetAppReplicationConfigurationResponse {
   GetAppReplicationConfigurationResponse({
     this.serverGroupReplicationConfigurations,
   });
+
   factory GetAppReplicationConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return GetAppReplicationConfigurationResponse(
@@ -2294,6 +2336,7 @@ class GetAppResponse {
     this.serverGroups,
     this.tags,
   });
+
   factory GetAppResponse.fromJson(Map<String, dynamic> json) {
     return GetAppResponse(
       appSummary: json['appSummary'] != null
@@ -2323,6 +2366,7 @@ class GetAppValidationConfigurationResponse {
     this.appValidationConfigurations,
     this.serverGroupValidationConfigurations,
   });
+
   factory GetAppValidationConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return GetAppValidationConfigurationResponse(
@@ -2349,6 +2393,7 @@ class GetAppValidationOutputResponse {
   GetAppValidationOutputResponse({
     this.validationOutputList,
   });
+
   factory GetAppValidationOutputResponse.fromJson(Map<String, dynamic> json) {
     return GetAppValidationOutputResponse(
       validationOutputList: (json['validationOutputList'] as List?)
@@ -2371,6 +2416,7 @@ class GetConnectorsResponse {
     this.connectorList,
     this.nextToken,
   });
+
   factory GetConnectorsResponse.fromJson(Map<String, dynamic> json) {
     return GetConnectorsResponse(
       connectorList: (json['connectorList'] as List?)
@@ -2394,6 +2440,7 @@ class GetReplicationJobsResponse {
     this.nextToken,
     this.replicationJobList,
   });
+
   factory GetReplicationJobsResponse.fromJson(Map<String, dynamic> json) {
     return GetReplicationJobsResponse(
       nextToken: json['nextToken'] as String?,
@@ -2421,6 +2468,7 @@ class GetReplicationRunsResponse {
     this.replicationJob,
     this.replicationRunList,
   });
+
   factory GetReplicationRunsResponse.fromJson(Map<String, dynamic> json) {
     return GetReplicationRunsResponse(
       nextToken: json['nextToken'] as String?,
@@ -2456,6 +2504,7 @@ class GetServersResponse {
     this.serverCatalogStatus,
     this.serverList,
   });
+
   factory GetServersResponse.fromJson(Map<String, dynamic> json) {
     return GetServersResponse(
       lastModifiedOn: timeStampFromJson(json['lastModifiedOn']),
@@ -2472,6 +2521,7 @@ class GetServersResponse {
 
 class ImportAppCatalogResponse {
   ImportAppCatalogResponse();
+
   factory ImportAppCatalogResponse.fromJson(Map<String, dynamic> _) {
     return ImportAppCatalogResponse();
   }
@@ -2479,6 +2529,7 @@ class ImportAppCatalogResponse {
 
 class ImportServerCatalogResponse {
   ImportServerCatalogResponse();
+
   factory ImportServerCatalogResponse.fromJson(Map<String, dynamic> _) {
     return ImportServerCatalogResponse();
   }
@@ -2486,6 +2537,7 @@ class ImportServerCatalogResponse {
 
 class LaunchAppResponse {
   LaunchAppResponse();
+
   factory LaunchAppResponse.fromJson(Map<String, dynamic> _) {
     return LaunchAppResponse();
   }
@@ -2507,6 +2559,7 @@ class LaunchDetails {
     this.stackId,
     this.stackName,
   });
+
   factory LaunchDetails.fromJson(Map<String, dynamic> json) {
     return LaunchDetails(
       latestLaunchTime: timeStampFromJson(json['latestLaunchTime']),
@@ -2556,6 +2609,7 @@ class ListAppsResponse {
     this.apps,
     this.nextToken,
   });
+
   factory ListAppsResponse.fromJson(Map<String, dynamic> json) {
     return ListAppsResponse(
       apps: (json['apps'] as List?)
@@ -2597,6 +2651,7 @@ class NotificationContext {
 
 class NotifyAppValidationOutputResponse {
   NotifyAppValidationOutputResponse();
+
   factory NotifyAppValidationOutputResponse.fromJson(Map<String, dynamic> _) {
     return NotifyAppValidationOutputResponse();
   }
@@ -2632,6 +2687,7 @@ extension OutputFormatFromString on String {
 
 class PutAppLaunchConfigurationResponse {
   PutAppLaunchConfigurationResponse();
+
   factory PutAppLaunchConfigurationResponse.fromJson(Map<String, dynamic> _) {
     return PutAppLaunchConfigurationResponse();
   }
@@ -2639,6 +2695,7 @@ class PutAppLaunchConfigurationResponse {
 
 class PutAppReplicationConfigurationResponse {
   PutAppReplicationConfigurationResponse();
+
   factory PutAppReplicationConfigurationResponse.fromJson(
       Map<String, dynamic> _) {
     return PutAppReplicationConfigurationResponse();
@@ -2647,6 +2704,7 @@ class PutAppReplicationConfigurationResponse {
 
 class PutAppValidationConfigurationResponse {
   PutAppValidationConfigurationResponse();
+
   factory PutAppValidationConfigurationResponse.fromJson(
       Map<String, dynamic> _) {
     return PutAppValidationConfigurationResponse();
@@ -2706,7 +2764,7 @@ class ReplicationJob {
   /// Information about the replication runs.
   final List<ReplicationRun>? replicationRunList;
 
-  /// The name of the IAM role to be used by AWS SMS.
+  /// The name of the IAM role to be used by Server Migration Service.
   final String? roleName;
 
   /// Indicates whether to run the replication job one time.
@@ -2750,6 +2808,7 @@ class ReplicationJob {
     this.statusMessage,
     this.vmServer,
   });
+
   factory ReplicationJob.fromJson(Map<String, dynamic> json) {
     return ReplicationJob(
       description: json['description'] as String?,
@@ -2904,6 +2963,7 @@ class ReplicationRun {
     this.statusMessage,
     this.type,
   });
+
   factory ReplicationRun.fromJson(Map<String, dynamic> json) {
     return ReplicationRun(
       amiId: json['amiId'] as String?,
@@ -2936,6 +2996,7 @@ class ReplicationRunStageDetails {
     this.stage,
     this.stageProgress,
   });
+
   factory ReplicationRunStageDetails.fromJson(Map<String, dynamic> json) {
     return ReplicationRunStageDetails(
       stage: json['stage'] as String?,
@@ -3037,6 +3098,7 @@ class S3Location {
     this.bucket,
     this.key,
   });
+
   factory S3Location.fromJson(Map<String, dynamic> json) {
     return S3Location(
       bucket: json['bucket'] as String?,
@@ -3061,6 +3123,7 @@ class SSMOutput {
   SSMOutput({
     this.s3Location,
   });
+
   factory SSMOutput.fromJson(Map<String, dynamic> json) {
     return SSMOutput(
       s3Location: json['s3Location'] != null
@@ -3072,7 +3135,7 @@ class SSMOutput {
 
 /// Contains validation parameters.
 class SSMValidationParameters {
-  /// The command to run the validation script
+  /// The command to run the validation script.
   final String? command;
 
   /// The timeout interval, in seconds.
@@ -3099,6 +3162,7 @@ class SSMValidationParameters {
     this.scriptType,
     this.source,
   });
+
   factory SSMValidationParameters.fromJson(Map<String, dynamic> json) {
     return SSMValidationParameters(
       command: json['command'] as String?,
@@ -3183,6 +3247,7 @@ class Server {
     this.serverType,
     this.vmServer,
   });
+
   factory Server.fromJson(Map<String, dynamic> json) {
     return Server(
       replicationJobId: json['replicationJobId'] as String?,
@@ -3271,6 +3336,7 @@ class ServerGroup {
     this.serverGroupId,
     this.serverList,
   });
+
   factory ServerGroup.fromJson(Map<String, dynamic> json) {
     return ServerGroup(
       name: json['name'] as String?,
@@ -3311,6 +3377,7 @@ class ServerGroupLaunchConfiguration {
     this.serverGroupId,
     this.serverLaunchConfigurations,
   });
+
   factory ServerGroupLaunchConfiguration.fromJson(Map<String, dynamic> json) {
     return ServerGroupLaunchConfiguration(
       launchOrder: json['launchOrder'] as int?,
@@ -3349,6 +3416,7 @@ class ServerGroupReplicationConfiguration {
     this.serverGroupId,
     this.serverReplicationConfigurations,
   });
+
   factory ServerGroupReplicationConfiguration.fromJson(
       Map<String, dynamic> json) {
     return ServerGroupReplicationConfiguration(
@@ -3386,6 +3454,7 @@ class ServerGroupValidationConfiguration {
     this.serverGroupId,
     this.serverValidationConfigurations,
   });
+
   factory ServerGroupValidationConfiguration.fromJson(
       Map<String, dynamic> json) {
     return ServerGroupValidationConfiguration(
@@ -3430,7 +3499,7 @@ class ServerLaunchConfiguration {
   /// The instance type to use when launching the server.
   final String? instanceType;
 
-  /// The logical ID of the server in the AWS CloudFormation template.
+  /// The logical ID of the server in the CloudFormation template.
   final String? logicalId;
 
   /// The ID of the security group that applies to the launched server.
@@ -3462,6 +3531,7 @@ class ServerLaunchConfiguration {
     this.userData,
     this.vpc,
   });
+
   factory ServerLaunchConfiguration.fromJson(Map<String, dynamic> json) {
     return ServerLaunchConfiguration(
       associatePublicIpAddress: json['associatePublicIpAddress'] as bool?,
@@ -3532,6 +3602,7 @@ class ServerReplicationConfiguration {
     this.server,
     this.serverReplicationParameters,
   });
+
   factory ServerReplicationConfiguration.fromJson(Map<String, dynamic> json) {
     return ServerReplicationConfiguration(
       server: json['server'] != null
@@ -3606,6 +3677,7 @@ class ServerReplicationParameters {
     this.runOnce,
     this.seedTime,
   });
+
   factory ServerReplicationParameters.fromJson(Map<String, dynamic> json) {
     return ServerReplicationParameters(
       encrypted: json['encrypted'] as bool?,
@@ -3684,6 +3756,7 @@ class ServerValidationConfiguration {
     this.userDataValidationParameters,
     this.validationId,
   });
+
   factory ServerValidationConfiguration.fromJson(Map<String, dynamic> json) {
     return ServerValidationConfiguration(
       name: json['name'] as String?,
@@ -3725,6 +3798,7 @@ class ServerValidationOutput {
   ServerValidationOutput({
     this.server,
   });
+
   factory ServerValidationOutput.fromJson(Map<String, dynamic> json) {
     return ServerValidationOutput(
       server: json['server'] != null
@@ -3764,6 +3838,7 @@ class Source {
   Source({
     this.s3Location,
   });
+
   factory Source.fromJson(Map<String, dynamic> json) {
     return Source(
       s3Location: json['s3Location'] != null
@@ -3782,6 +3857,7 @@ class Source {
 
 class StartAppReplicationResponse {
   StartAppReplicationResponse();
+
   factory StartAppReplicationResponse.fromJson(Map<String, dynamic> _) {
     return StartAppReplicationResponse();
   }
@@ -3789,6 +3865,7 @@ class StartAppReplicationResponse {
 
 class StartOnDemandAppReplicationResponse {
   StartOnDemandAppReplicationResponse();
+
   factory StartOnDemandAppReplicationResponse.fromJson(Map<String, dynamic> _) {
     return StartOnDemandAppReplicationResponse();
   }
@@ -3801,6 +3878,7 @@ class StartOnDemandReplicationRunResponse {
   StartOnDemandReplicationRunResponse({
     this.replicationRunId,
   });
+
   factory StartOnDemandReplicationRunResponse.fromJson(
       Map<String, dynamic> json) {
     return StartOnDemandReplicationRunResponse(
@@ -3811,6 +3889,7 @@ class StartOnDemandReplicationRunResponse {
 
 class StopAppReplicationResponse {
   StopAppReplicationResponse();
+
   factory StopAppReplicationResponse.fromJson(Map<String, dynamic> _) {
     return StopAppReplicationResponse();
   }
@@ -3828,6 +3907,7 @@ class Tag {
     this.key,
     this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['key'] as String?,
@@ -3847,6 +3927,7 @@ class Tag {
 
 class TerminateAppResponse {
   TerminateAppResponse();
+
   factory TerminateAppResponse.fromJson(Map<String, dynamic> _) {
     return TerminateAppResponse();
   }
@@ -3867,6 +3948,7 @@ class UpdateAppResponse {
     this.serverGroups,
     this.tags,
   });
+
   factory UpdateAppResponse.fromJson(Map<String, dynamic> json) {
     return UpdateAppResponse(
       appSummary: json['appSummary'] != null
@@ -3886,6 +3968,7 @@ class UpdateAppResponse {
 
 class UpdateReplicationJobResponse {
   UpdateReplicationJobResponse();
+
   factory UpdateReplicationJobResponse.fromJson(Map<String, dynamic> _) {
     return UpdateReplicationJobResponse();
   }
@@ -3900,6 +3983,7 @@ class UserData {
   UserData({
     this.s3Location,
   });
+
   factory UserData.fromJson(Map<String, dynamic> json) {
     return UserData(
       s3Location: json['s3Location'] != null
@@ -3928,6 +4012,7 @@ class UserDataValidationParameters {
     this.scriptType,
     this.source,
   });
+
   factory UserDataValidationParameters.fromJson(Map<String, dynamic> json) {
     return UserDataValidationParameters(
       scriptType: (json['scriptType'] as String?)?.toScriptType(),
@@ -3979,6 +4064,7 @@ class ValidationOutput {
     this.statusMessage,
     this.validationId,
   });
+
   factory ValidationOutput.fromJson(Map<String, dynamic> json) {
     return ValidationOutput(
       appValidationOutput: json['appValidationOutput'] != null
@@ -4098,6 +4184,7 @@ class VmServer {
     this.vmPath,
     this.vmServerAddress,
   });
+
   factory VmServer.fromJson(Map<String, dynamic> json) {
     return VmServer(
       vmManagerName: json['vmManagerName'] as String?,
@@ -4139,6 +4226,7 @@ class VmServerAddress {
     this.vmId,
     this.vmManagerId,
   });
+
   factory VmServerAddress.fromJson(Map<String, dynamic> json) {
     return VmServerAddress(
       vmId: json['vmId'] as String?,

@@ -4,7 +4,11 @@
 
 *About the service:*
 Amazon WorkSpaces enables you to provision virtual, cloud-based Microsoft
-Windows and Amazon Linux desktops for your users.
+Windows or Amazon Linux desktops for your users, known as <i>WorkSpaces</i>.
+WorkSpaces eliminates the need to procure and deploy hardware or install
+complex software. You can quickly add or remove users as your needs change.
+Users can access their virtual desktops from multiple devices or web
+browsers.
 
 ## Links
 

@@ -1016,8 +1016,13 @@ class MTurk {
     );
   }
 
-  /// The <code>GetAccountBalance</code> operation retrieves the amount of money
-  /// in your Amazon Mechanical Turk account.
+  /// The <code>GetAccountBalance</code> operation retrieves the Prepaid HITs
+  /// balance in your Amazon Mechanical Turk account if you are a Prepaid
+  /// Requester. Alternatively, this operation will retrieve the remaining
+  /// available AWS Billing usage if you have enabled AWS Billing. Note: If you
+  /// have enabled AWS Billing and still have a remaining Prepaid HITs balance,
+  /// this balance can be viewed on the My Account page in the Requester
+  /// console.
   ///
   /// May throw [ServiceFault].
   /// May throw [RequestError].
@@ -2257,6 +2262,7 @@ class MTurk {
 
 class AcceptQualificationRequestResponse {
   AcceptQualificationRequestResponse();
+
   factory AcceptQualificationRequestResponse.fromJson(Map<String, dynamic> _) {
     return AcceptQualificationRequestResponse();
   }
@@ -2264,6 +2270,7 @@ class AcceptQualificationRequestResponse {
 
 class ApproveAssignmentResponse {
   ApproveAssignmentResponse();
+
   factory ApproveAssignmentResponse.fromJson(Map<String, dynamic> _) {
     return ApproveAssignmentResponse();
   }
@@ -2342,6 +2349,7 @@ class Assignment {
     this.submitTime,
     this.workerId,
   });
+
   factory Assignment.fromJson(Map<String, dynamic> json) {
     return Assignment(
       acceptTime: timeStampFromJson(json['AcceptTime']),
@@ -2396,6 +2404,7 @@ extension AssignmentStatusFromString on String {
 
 class AssociateQualificationWithWorkerResponse {
   AssociateQualificationWithWorkerResponse();
+
   factory AssociateQualificationWithWorkerResponse.fromJson(
       Map<String, dynamic> _) {
     return AssociateQualificationWithWorkerResponse();
@@ -2424,6 +2433,7 @@ class BonusPayment {
     this.reason,
     this.workerId,
   });
+
   factory BonusPayment.fromJson(Map<String, dynamic> json) {
     return BonusPayment(
       assignmentId: json['AssignmentId'] as String?,
@@ -2505,6 +2515,7 @@ extension ComparatorFromString on String {
 
 class CreateAdditionalAssignmentsForHITResponse {
   CreateAdditionalAssignmentsForHITResponse();
+
   factory CreateAdditionalAssignmentsForHITResponse.fromJson(
       Map<String, dynamic> _) {
     return CreateAdditionalAssignmentsForHITResponse();
@@ -2520,6 +2531,7 @@ class CreateHITResponse {
   CreateHITResponse({
     this.hit,
   });
+
   factory CreateHITResponse.fromJson(Map<String, dynamic> json) {
     return CreateHITResponse(
       hit: json['HIT'] != null
@@ -2536,6 +2548,7 @@ class CreateHITTypeResponse {
   CreateHITTypeResponse({
     this.hITTypeId,
   });
+
   factory CreateHITTypeResponse.fromJson(Map<String, dynamic> json) {
     return CreateHITTypeResponse(
       hITTypeId: json['HITTypeId'] as String?,
@@ -2552,6 +2565,7 @@ class CreateHITWithHITTypeResponse {
   CreateHITWithHITTypeResponse({
     this.hit,
   });
+
   factory CreateHITWithHITTypeResponse.fromJson(Map<String, dynamic> json) {
     return CreateHITWithHITTypeResponse(
       hit: json['HIT'] != null
@@ -2569,6 +2583,7 @@ class CreateQualificationTypeResponse {
   CreateQualificationTypeResponse({
     this.qualificationType,
   });
+
   factory CreateQualificationTypeResponse.fromJson(Map<String, dynamic> json) {
     return CreateQualificationTypeResponse(
       qualificationType: json['QualificationType'] != null
@@ -2581,6 +2596,7 @@ class CreateQualificationTypeResponse {
 
 class CreateWorkerBlockResponse {
   CreateWorkerBlockResponse();
+
   factory CreateWorkerBlockResponse.fromJson(Map<String, dynamic> _) {
     return CreateWorkerBlockResponse();
   }
@@ -2588,6 +2604,7 @@ class CreateWorkerBlockResponse {
 
 class DeleteHITResponse {
   DeleteHITResponse();
+
   factory DeleteHITResponse.fromJson(Map<String, dynamic> _) {
     return DeleteHITResponse();
   }
@@ -2595,6 +2612,7 @@ class DeleteHITResponse {
 
 class DeleteQualificationTypeResponse {
   DeleteQualificationTypeResponse();
+
   factory DeleteQualificationTypeResponse.fromJson(Map<String, dynamic> _) {
     return DeleteQualificationTypeResponse();
   }
@@ -2602,6 +2620,7 @@ class DeleteQualificationTypeResponse {
 
 class DeleteWorkerBlockResponse {
   DeleteWorkerBlockResponse();
+
   factory DeleteWorkerBlockResponse.fromJson(Map<String, dynamic> _) {
     return DeleteWorkerBlockResponse();
   }
@@ -2609,6 +2628,7 @@ class DeleteWorkerBlockResponse {
 
 class DisassociateQualificationFromWorkerResponse {
   DisassociateQualificationFromWorkerResponse();
+
   factory DisassociateQualificationFromWorkerResponse.fromJson(
       Map<String, dynamic> _) {
     return DisassociateQualificationFromWorkerResponse();
@@ -2701,6 +2721,7 @@ class GetAccountBalanceResponse {
     this.availableBalance,
     this.onHoldBalance,
   });
+
   factory GetAccountBalanceResponse.fromJson(Map<String, dynamic> json) {
     return GetAccountBalanceResponse(
       availableBalance: json['AvailableBalance'] as String?,
@@ -2721,6 +2742,7 @@ class GetAssignmentResponse {
     this.assignment,
     this.hit,
   });
+
   factory GetAssignmentResponse.fromJson(Map<String, dynamic> json) {
     return GetAssignmentResponse(
       assignment: json['Assignment'] != null
@@ -2740,6 +2762,7 @@ class GetFileUploadURLResponse {
   GetFileUploadURLResponse({
     this.fileUploadURL,
   });
+
   factory GetFileUploadURLResponse.fromJson(Map<String, dynamic> json) {
     return GetFileUploadURLResponse(
       fileUploadURL: json['FileUploadURL'] as String?,
@@ -2754,6 +2777,7 @@ class GetHITResponse {
   GetHITResponse({
     this.hit,
   });
+
   factory GetHITResponse.fromJson(Map<String, dynamic> json) {
     return GetHITResponse(
       hit: json['HIT'] != null
@@ -2771,6 +2795,7 @@ class GetQualificationScoreResponse {
   GetQualificationScoreResponse({
     this.qualification,
   });
+
   factory GetQualificationScoreResponse.fromJson(Map<String, dynamic> json) {
     return GetQualificationScoreResponse(
       qualification: json['Qualification'] != null
@@ -2788,6 +2813,7 @@ class GetQualificationTypeResponse {
   GetQualificationTypeResponse({
     this.qualificationType,
   });
+
   factory GetQualificationTypeResponse.fromJson(Map<String, dynamic> json) {
     return GetQualificationTypeResponse(
       qualificationType: json['QualificationType'] != null
@@ -2906,6 +2932,7 @@ class HIT {
     this.reward,
     this.title,
   });
+
   factory HIT.fromJson(Map<String, dynamic> json) {
     return HIT(
       assignmentDurationInSeconds: json['AssignmentDurationInSeconds'] as int?,
@@ -3092,6 +3119,7 @@ class ListAssignmentsForHITResponse {
     this.nextToken,
     this.numResults,
   });
+
   factory ListAssignmentsForHITResponse.fromJson(Map<String, dynamic> json) {
     return ListAssignmentsForHITResponse(
       assignments: (json['Assignments'] as List?)
@@ -3119,6 +3147,7 @@ class ListBonusPaymentsResponse {
     this.nextToken,
     this.numResults,
   });
+
   factory ListBonusPaymentsResponse.fromJson(Map<String, dynamic> json) {
     return ListBonusPaymentsResponse(
       bonusPayments: (json['BonusPayments'] as List?)
@@ -3145,6 +3174,7 @@ class ListHITsForQualificationTypeResponse {
     this.nextToken,
     this.numResults,
   });
+
   factory ListHITsForQualificationTypeResponse.fromJson(
       Map<String, dynamic> json) {
     return ListHITsForQualificationTypeResponse(
@@ -3172,6 +3202,7 @@ class ListHITsResponse {
     this.nextToken,
     this.numResults,
   });
+
   factory ListHITsResponse.fromJson(Map<String, dynamic> json) {
     return ListHITsResponse(
       hITs: (json['HITs'] as List?)
@@ -3201,6 +3232,7 @@ class ListQualificationRequestsResponse {
     this.numResults,
     this.qualificationRequests,
   });
+
   factory ListQualificationRequestsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListQualificationRequestsResponse(
@@ -3229,6 +3261,7 @@ class ListQualificationTypesResponse {
     this.numResults,
     this.qualificationTypes,
   });
+
   factory ListQualificationTypesResponse.fromJson(Map<String, dynamic> json) {
     return ListQualificationTypesResponse(
       nextToken: json['NextToken'] as String?,
@@ -3268,6 +3301,7 @@ class ListReviewPolicyResultsForHITResponse {
     this.hITReviewReport,
     this.nextToken,
   });
+
   factory ListReviewPolicyResultsForHITResponse.fromJson(
       Map<String, dynamic> json) {
     return ListReviewPolicyResultsForHITResponse(
@@ -3307,6 +3341,7 @@ class ListReviewableHITsResponse {
     this.nextToken,
     this.numResults,
   });
+
   factory ListReviewableHITsResponse.fromJson(Map<String, dynamic> json) {
     return ListReviewableHITsResponse(
       hITs: (json['HITs'] as List?)
@@ -3335,6 +3370,7 @@ class ListWorkerBlocksResponse {
     this.numResults,
     this.workerBlocks,
   });
+
   factory ListWorkerBlocksResponse.fromJson(Map<String, dynamic> json) {
     return ListWorkerBlocksResponse(
       nextToken: json['NextToken'] as String?,
@@ -3362,6 +3398,7 @@ class ListWorkersWithQualificationTypeResponse {
     this.numResults,
     this.qualifications,
   });
+
   factory ListWorkersWithQualificationTypeResponse.fromJson(
       Map<String, dynamic> json) {
     return ListWorkersWithQualificationTypeResponse(
@@ -3389,6 +3426,7 @@ class Locale {
     required this.country,
     this.subdivision,
   });
+
   factory Locale.fromJson(Map<String, dynamic> json) {
     return Locale(
       country: json['Country'] as String,
@@ -3537,6 +3575,7 @@ class NotifyWorkersFailureStatus {
     this.notifyWorkersFailureMessage,
     this.workerId,
   });
+
   factory NotifyWorkersFailureStatus.fromJson(Map<String, dynamic> json) {
     return NotifyWorkersFailureStatus(
       notifyWorkersFailureCode: (json['NotifyWorkersFailureCode'] as String?)
@@ -3556,6 +3595,7 @@ class NotifyWorkersResponse {
   NotifyWorkersResponse({
     this.notifyWorkersFailureStatuses,
   });
+
   factory NotifyWorkersResponse.fromJson(Map<String, dynamic> json) {
     return NotifyWorkersResponse(
       notifyWorkersFailureStatuses: (json['NotifyWorkersFailureStatuses']
@@ -3585,6 +3625,7 @@ class ParameterMapEntry {
     this.key,
     this.values,
   });
+
   factory ParameterMapEntry.fromJson(Map<String, dynamic> json) {
     return ParameterMapEntry(
       key: json['Key'] as String?,
@@ -3621,6 +3662,7 @@ class PolicyParameter {
     this.mapEntries,
     this.values,
   });
+
   factory PolicyParameter.fromJson(Map<String, dynamic> json) {
     return PolicyParameter(
       key: json['Key'] as String?,
@@ -3678,6 +3720,7 @@ class Qualification {
     this.status,
     this.workerId,
   });
+
   factory Qualification.fromJson(Map<String, dynamic> json) {
     return Qualification(
       grantTime: timeStampFromJson(json['GrantTime']),
@@ -3732,6 +3775,7 @@ class QualificationRequest {
     this.test,
     this.workerId,
   });
+
   factory QualificationRequest.fromJson(Map<String, dynamic> json) {
     return QualificationRequest(
       answer: json['Answer'] as String?,
@@ -3821,6 +3865,7 @@ class QualificationRequirement {
     this.localeValues,
     this.requiredToPreview,
   });
+
   factory QualificationRequirement.fromJson(Map<String, dynamic> json) {
     return QualificationRequirement(
       comparator: (json['Comparator'] as String).toComparator(),
@@ -3968,6 +4013,7 @@ class QualificationType {
     this.test,
     this.testDurationInSeconds,
   });
+
   factory QualificationType.fromJson(Map<String, dynamic> json) {
     return QualificationType(
       answerKey: json['AnswerKey'] as String?,
@@ -4018,6 +4064,7 @@ extension QualificationTypeStatusFromString on String {
 
 class RejectAssignmentResponse {
   RejectAssignmentResponse();
+
   factory RejectAssignmentResponse.fromJson(Map<String, dynamic> _) {
     return RejectAssignmentResponse();
   }
@@ -4025,25 +4072,9 @@ class RejectAssignmentResponse {
 
 class RejectQualificationRequestResponse {
   RejectQualificationRequestResponse();
+
   factory RejectQualificationRequestResponse.fromJson(Map<String, dynamic> _) {
     return RejectQualificationRequestResponse();
-  }
-}
-
-/// Your request is invalid.
-class RequestError implements _s.AwsException {
-  final String? message;
-  final String? turkErrorCode;
-
-  RequestError({
-    this.message,
-    this.turkErrorCode,
-  });
-  factory RequestError.fromJson(Map<String, dynamic> json) {
-    return RequestError(
-      message: json['Message'] as String?,
-      turkErrorCode: json['TurkErrorCode'] as String?,
-    );
   }
 }
 
@@ -4088,6 +4119,7 @@ class ReviewActionDetail {
     this.targetId,
     this.targetType,
   });
+
   factory ReviewActionDetail.fromJson(Map<String, dynamic> json) {
     return ReviewActionDetail(
       actionId: json['ActionId'] as String?,
@@ -4154,6 +4186,7 @@ class ReviewPolicy {
     required this.policyName,
     this.parameters,
   });
+
   factory ReviewPolicy.fromJson(Map<String, dynamic> json) {
     return ReviewPolicy(
       policyName: json['PolicyName'] as String,
@@ -4216,6 +4249,7 @@ class ReviewReport {
     this.reviewActions,
     this.reviewResults,
   });
+
   factory ReviewReport.fromJson(Map<String, dynamic> json) {
     return ReviewReport(
       reviewActions: (json['ReviewActions'] as List?)
@@ -4267,6 +4301,7 @@ class ReviewResultDetail {
     this.subjectType,
     this.value,
   });
+
   factory ReviewResultDetail.fromJson(Map<String, dynamic> json) {
     return ReviewResultDetail(
       actionId: json['ActionId'] as String?,
@@ -4309,6 +4344,7 @@ extension ReviewableHITStatusFromString on String {
 
 class SendBonusResponse {
   SendBonusResponse();
+
   factory SendBonusResponse.fromJson(Map<String, dynamic> _) {
     return SendBonusResponse();
   }
@@ -4316,31 +4352,15 @@ class SendBonusResponse {
 
 class SendTestEventNotificationResponse {
   SendTestEventNotificationResponse();
+
   factory SendTestEventNotificationResponse.fromJson(Map<String, dynamic> _) {
     return SendTestEventNotificationResponse();
   }
 }
 
-/// Amazon Mechanical Turk is temporarily unable to process your request. Try
-/// your call again.
-class ServiceFault implements _s.AwsException {
-  final String? message;
-  final String? turkErrorCode;
-
-  ServiceFault({
-    this.message,
-    this.turkErrorCode,
-  });
-  factory ServiceFault.fromJson(Map<String, dynamic> json) {
-    return ServiceFault(
-      message: json['Message'] as String?,
-      turkErrorCode: json['TurkErrorCode'] as String?,
-    );
-  }
-}
-
 class UpdateExpirationForHITResponse {
   UpdateExpirationForHITResponse();
+
   factory UpdateExpirationForHITResponse.fromJson(Map<String, dynamic> _) {
     return UpdateExpirationForHITResponse();
   }
@@ -4348,6 +4368,7 @@ class UpdateExpirationForHITResponse {
 
 class UpdateHITReviewStatusResponse {
   UpdateHITReviewStatusResponse();
+
   factory UpdateHITReviewStatusResponse.fromJson(Map<String, dynamic> _) {
     return UpdateHITReviewStatusResponse();
   }
@@ -4355,6 +4376,7 @@ class UpdateHITReviewStatusResponse {
 
 class UpdateHITTypeOfHITResponse {
   UpdateHITTypeOfHITResponse();
+
   factory UpdateHITTypeOfHITResponse.fromJson(Map<String, dynamic> _) {
     return UpdateHITTypeOfHITResponse();
   }
@@ -4362,6 +4384,7 @@ class UpdateHITTypeOfHITResponse {
 
 class UpdateNotificationSettingsResponse {
   UpdateNotificationSettingsResponse();
+
   factory UpdateNotificationSettingsResponse.fromJson(Map<String, dynamic> _) {
     return UpdateNotificationSettingsResponse();
   }
@@ -4374,6 +4397,7 @@ class UpdateQualificationTypeResponse {
   UpdateQualificationTypeResponse({
     this.qualificationType,
   });
+
   factory UpdateQualificationTypeResponse.fromJson(Map<String, dynamic> json) {
     return UpdateQualificationTypeResponse(
       qualificationType: json['QualificationType'] != null
@@ -4397,6 +4421,7 @@ class WorkerBlock {
     this.reason,
     this.workerId,
   });
+
   factory WorkerBlock.fromJson(Map<String, dynamic> json) {
     return WorkerBlock(
       reason: json['Reason'] as String?,
@@ -4405,7 +4430,17 @@ class WorkerBlock {
   }
 }
 
+class RequestError extends _s.GenericAwsException {
+  RequestError({String? type, String? message})
+      : super(type: type, code: 'RequestError', message: message);
+}
+
+class ServiceFault extends _s.GenericAwsException {
+  ServiceFault({String? type, String? message})
+      : super(type: type, code: 'ServiceFault', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
-  'RequestError': (type, message) => RequestError(message: message),
-  'ServiceFault': (type, message) => ServiceFault(message: message),
+  'RequestError': (type, message) => RequestError(type: type, message: message),
+  'ServiceFault': (type, message) => ServiceFault(type: type, message: message),
 };

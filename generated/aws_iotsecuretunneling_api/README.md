@@ -3,8 +3,8 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-AWS IoT Secure Tunnling enables you to create remote connections to devices
-deployed in the field.
+IoT Secure Tunneling creates remote connections to devices deployed in the
+field.
 
 ## Links
 

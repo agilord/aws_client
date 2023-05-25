@@ -1214,6 +1214,93 @@ class LexModelBuildingService {
     return GetIntentsResponse.fromJson(response);
   }
 
+  /// Provides details about an ongoing or complete migration from an Amazon Lex
+  /// V1 bot to an Amazon Lex V2 bot. Use this operation to view the migration
+  /// alerts and warnings related to the migration.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  /// May throw [BadRequestException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [migrationId] :
+  /// The unique identifier of the migration to view. The
+  /// <code>migrationID</code> is returned by the operation.
+  Future<GetMigrationResponse> getMigration({
+    required String migrationId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/migrations/${Uri.encodeComponent(migrationId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMigrationResponse.fromJson(response);
+  }
+
+  /// Gets a list of migrations between Amazon Lex V1 and Amazon Lex V2.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of migrations to return in the response. The default is
+  /// 10.
+  ///
+  /// Parameter [migrationStatusEquals] :
+  /// Filters the list to contain only migrations in the specified state.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token that fetches the next page of migrations. If the
+  /// response to this operation is truncated, Amazon Lex returns a pagination
+  /// token in the response. To fetch the next page of migrations, specify the
+  /// pagination token in the request.
+  ///
+  /// Parameter [sortByAttribute] :
+  /// The field to sort the list of migrations by. You can sort by the Amazon
+  /// Lex V1 bot name or the date and time that the migration was started.
+  ///
+  /// Parameter [sortByOrder] :
+  /// The order so sort the list.
+  ///
+  /// Parameter [v1BotNameContains] :
+  /// Filters the list to contain only bots whose name contains the specified
+  /// string. The string is matched anywhere in bot name.
+  Future<GetMigrationsResponse> getMigrations({
+    int? maxResults,
+    MigrationStatus? migrationStatusEquals,
+    String? nextToken,
+    MigrationSortAttribute? sortByAttribute,
+    SortOrder? sortByOrder,
+    String? v1BotNameContains,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (migrationStatusEquals != null)
+        'migrationStatusEquals': [migrationStatusEquals.toValue()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (sortByAttribute != null)
+        'sortByAttribute': [sortByAttribute.toValue()],
+      if (sortByOrder != null) 'sortByOrder': [sortByOrder.toValue()],
+      if (v1BotNameContains != null) 'v1BotNameContains': [v1BotNameContains],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/migrations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMigrationsResponse.fromJson(response);
+  }
+
   /// Returns information about a specific version of a slot type. In addition
   /// to specifying the slot type name, you must specify the slot type version.
   ///
@@ -1385,8 +1472,9 @@ class LexModelBuildingService {
   /// maximum of 100 utterances for each version.
   ///
   /// If you set <code>childDirected</code> field to true when you created your
-  /// bot, or if you opted out of participating in improving Amazon Lex,
-  /// utterances are not available.
+  /// bot, if you are using slot obfuscation with one or more slots, or if you
+  /// opted out of participating in improving Amazon Lex, utterances are not
+  /// available.
   ///
   /// This operation requires permissions for the
   /// <code>lex:GetUtterancesView</code> action.
@@ -2340,6 +2428,83 @@ class LexModelBuildingService {
     return StartImportResponse.fromJson(response);
   }
 
+  /// Starts migrating a bot from Amazon Lex V1 to Amazon Lex V2. Migrate your
+  /// bot when you want to take advantage of the new features of Amazon Lex V2.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/lex/latest/dg/migrate.html">Migrating a
+  /// bot</a> in the <i>Amazon Lex developer guide</i>.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  /// May throw [BadRequestException].
+  /// May throw [AccessDeniedException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [migrationStrategy] :
+  /// The strategy used to conduct the migration.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_NEW</code> - Creates a new Amazon Lex V2 bot and migrates the
+  /// Amazon Lex V1 bot to the new bot.
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_EXISTING</code> - Overwrites the existing Amazon Lex V2 bot
+  /// metadata and the locale being migrated. It doesn't change any other
+  /// locales in the Amazon Lex V2 bot. If the locale doesn't exist, a new
+  /// locale is created in the Amazon Lex V2 bot.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [v1BotName] :
+  /// The name of the Amazon Lex V1 bot that you are migrating to Amazon Lex V2.
+  ///
+  /// Parameter [v1BotVersion] :
+  /// The version of the bot to migrate to Amazon Lex V2. You can migrate the
+  /// <code>$LATEST</code> version as well as any numbered version.
+  ///
+  /// Parameter [v2BotName] :
+  /// The name of the Amazon Lex V2 bot that you are migrating the Amazon Lex V1
+  /// bot to.
+  ///
+  /// <ul>
+  /// <li>
+  /// If the Amazon Lex V2 bot doesn't exist, you must use the
+  /// <code>CREATE_NEW</code> migration strategy.
+  /// </li>
+  /// <li>
+  /// If the Amazon Lex V2 bot exists, you must use the
+  /// <code>UPDATE_EXISTING</code> migration strategy to change the contents of
+  /// the Amazon Lex V2 bot.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [v2BotRole] :
+  /// The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
+  Future<StartMigrationResponse> startMigration({
+    required MigrationStrategy migrationStrategy,
+    required String v1BotName,
+    required String v1BotVersion,
+    required String v2BotName,
+    required String v2BotRole,
+  }) async {
+    final $payload = <String, dynamic>{
+      'migrationStrategy': migrationStrategy.toValue(),
+      'v1BotName': v1BotName,
+      'v1BotVersion': v1BotVersion,
+      'v2BotName': v2BotName,
+      'v2BotRole': v2BotRole,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/migrations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartMigrationResponse.fromJson(response);
+  }
+
   /// Adds the specified tags to the specified resource. If a tag key already
   /// exists, the existing value is replaced with the new value.
   ///
@@ -2439,6 +2604,7 @@ class BotAliasMetadata {
     this.lastUpdatedDate,
     this.name,
   });
+
   factory BotAliasMetadata.fromJson(Map<String, dynamic> json) {
     return BotAliasMetadata(
       botName: json['botName'] as String?,
@@ -2519,6 +2685,7 @@ class BotChannelAssociation {
     this.status,
     this.type,
   });
+
   factory BotChannelAssociation.fromJson(Map<String, dynamic> json) {
     return BotChannelAssociation(
       botAlias: json['botAlias'] as String?,
@@ -2565,6 +2732,7 @@ class BotMetadata {
     this.status,
     this.version,
   });
+
   factory BotMetadata.fromJson(Map<String, dynamic> json) {
     return BotMetadata(
       createdDate: timeStampFromJson(json['createdDate']),
@@ -2592,6 +2760,7 @@ class BuiltinIntentMetadata {
     this.signature,
     this.supportedLocales,
   });
+
   factory BuiltinIntentMetadata.fromJson(Map<String, dynamic> json) {
     return BuiltinIntentMetadata(
       signature: json['signature'] as String?,
@@ -2611,6 +2780,7 @@ class BuiltinIntentSlot {
   BuiltinIntentSlot({
     this.name,
   });
+
   factory BuiltinIntentSlot.fromJson(Map<String, dynamic> json) {
     return BuiltinIntentSlot(
       name: json['name'] as String?,
@@ -2633,6 +2803,7 @@ class BuiltinSlotTypeMetadata {
     this.signature,
     this.supportedLocales,
   });
+
   factory BuiltinSlotTypeMetadata.fromJson(Map<String, dynamic> json) {
     return BuiltinSlotTypeMetadata(
       signature: json['signature'] as String?,
@@ -2729,6 +2900,7 @@ class CodeHook {
     required this.messageVersion,
     required this.uri,
   });
+
   factory CodeHook.fromJson(Map<String, dynamic> json) {
     return CodeHook(
       messageVersion: json['messageVersion'] as String,
@@ -2820,6 +2992,7 @@ class ConversationLogsResponse {
     this.iamRoleArn,
     this.logSettings,
   });
+
   factory ConversationLogsResponse.fromJson(Map<String, dynamic> json) {
     return ConversationLogsResponse(
       iamRoleArn: json['iamRoleArn'] as String?,
@@ -2941,6 +3114,7 @@ class CreateBotVersionResponse {
     this.version,
     this.voiceId,
   });
+
   factory CreateBotVersionResponse.fromJson(Map<String, dynamic> json) {
     return CreateBotVersionResponse(
       abortStatement: json['abortStatement'] != null
@@ -3056,6 +3230,7 @@ class CreateIntentVersionResponse {
     this.slots,
     this.version,
   });
+
   factory CreateIntentVersionResponse.fromJson(Map<String, dynamic> json) {
     return CreateIntentVersionResponse(
       checksum: json['checksum'] as String?,
@@ -3157,6 +3332,7 @@ class CreateSlotTypeVersionResponse {
     this.valueSelectionStrategy,
     this.version,
   });
+
   factory CreateSlotTypeVersionResponse.fromJson(Map<String, dynamic> json) {
     return CreateSlotTypeVersionResponse(
       checksum: json['checksum'] as String?,
@@ -3237,6 +3413,7 @@ class EnumerationValue {
     required this.value,
     this.synonyms,
   });
+
   factory EnumerationValue.fromJson(Map<String, dynamic> json) {
     return EnumerationValue(
       value: json['value'] as String,
@@ -3334,6 +3511,7 @@ class FollowUpPrompt {
     required this.prompt,
     required this.rejectionStatement,
   });
+
   factory FollowUpPrompt.fromJson(Map<String, dynamic> json) {
     return FollowUpPrompt(
       prompt: Prompt.fromJson(json['prompt'] as Map<String, dynamic>),
@@ -3387,6 +3565,7 @@ class FulfillmentActivity {
     required this.type,
     this.codeHook,
   });
+
   factory FulfillmentActivity.fromJson(Map<String, dynamic> json) {
     return FulfillmentActivity(
       type: (json['type'] as String).toFulfillmentActivityType(),
@@ -3471,6 +3650,7 @@ class GetBotAliasResponse {
     this.lastUpdatedDate,
     this.name,
   });
+
   factory GetBotAliasResponse.fromJson(Map<String, dynamic> json) {
     return GetBotAliasResponse(
       botName: json['botName'] as String?,
@@ -3503,6 +3683,7 @@ class GetBotAliasesResponse {
     this.botAliases,
     this.nextToken,
   });
+
   factory GetBotAliasesResponse.fromJson(Map<String, dynamic> json) {
     return GetBotAliasesResponse(
       botAliases: (json['BotAliases'] as List?)
@@ -3570,6 +3751,7 @@ class GetBotChannelAssociationResponse {
     this.status,
     this.type,
   });
+
   factory GetBotChannelAssociationResponse.fromJson(Map<String, dynamic> json) {
     return GetBotChannelAssociationResponse(
       botAlias: json['botAlias'] as String?,
@@ -3601,6 +3783,7 @@ class GetBotChannelAssociationsResponse {
     this.botChannelAssociations,
     this.nextToken,
   });
+
   factory GetBotChannelAssociationsResponse.fromJson(
       Map<String, dynamic> json) {
     return GetBotChannelAssociationsResponse(
@@ -3747,6 +3930,7 @@ class GetBotResponse {
     this.version,
     this.voiceId,
   });
+
   factory GetBotResponse.fromJson(Map<String, dynamic> json) {
     return GetBotResponse(
       abortStatement: json['abortStatement'] != null
@@ -3794,6 +3978,7 @@ class GetBotVersionsResponse {
     this.bots,
     this.nextToken,
   });
+
   factory GetBotVersionsResponse.fromJson(Map<String, dynamic> json) {
     return GetBotVersionsResponse(
       bots: (json['bots'] as List?)
@@ -3817,6 +4002,7 @@ class GetBotsResponse {
     this.bots,
     this.nextToken,
   });
+
   factory GetBotsResponse.fromJson(Map<String, dynamic> json) {
     return GetBotsResponse(
       bots: (json['bots'] as List?)
@@ -3844,6 +4030,7 @@ class GetBuiltinIntentResponse {
     this.slots,
     this.supportedLocales,
   });
+
   factory GetBuiltinIntentResponse.fromJson(Map<String, dynamic> json) {
     return GetBuiltinIntentResponse(
       signature: json['signature'] as String?,
@@ -3874,6 +4061,7 @@ class GetBuiltinIntentsResponse {
     this.intents,
     this.nextToken,
   });
+
   factory GetBuiltinIntentsResponse.fromJson(Map<String, dynamic> json) {
     return GetBuiltinIntentsResponse(
       intents: (json['intents'] as List?)
@@ -3898,6 +4086,7 @@ class GetBuiltinSlotTypesResponse {
     this.nextToken,
     this.slotTypes,
   });
+
   factory GetBuiltinSlotTypesResponse.fromJson(Map<String, dynamic> json) {
     return GetBuiltinSlotTypesResponse(
       nextToken: json['nextToken'] as String?,
@@ -3957,6 +4146,7 @@ class GetExportResponse {
     this.url,
     this.version,
   });
+
   factory GetExportResponse.fromJson(Map<String, dynamic> json) {
     return GetExportResponse(
       exportStatus: (json['exportStatus'] as String?)?.toExportStatus(),
@@ -4003,6 +4193,7 @@ class GetImportResponse {
     this.name,
     this.resourceType,
   });
+
   factory GetImportResponse.fromJson(Map<String, dynamic> json) {
     return GetImportResponse(
       createdDate: timeStampFromJson(json['createdDate']),
@@ -4107,6 +4298,7 @@ class GetIntentResponse {
     this.slots,
     this.version,
   });
+
   factory GetIntentResponse.fromJson(Map<String, dynamic> json) {
     return GetIntentResponse(
       checksum: json['checksum'] as String?,
@@ -4177,6 +4369,7 @@ class GetIntentVersionsResponse {
     this.intents,
     this.nextToken,
   });
+
   factory GetIntentVersionsResponse.fromJson(Map<String, dynamic> json) {
     return GetIntentVersionsResponse(
       intents: (json['intents'] as List?)
@@ -4201,11 +4394,127 @@ class GetIntentsResponse {
     this.intents,
     this.nextToken,
   });
+
   factory GetIntentsResponse.fromJson(Map<String, dynamic> json) {
     return GetIntentsResponse(
       intents: (json['intents'] as List?)
           ?.whereNotNull()
           .map((e) => IntentMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+}
+
+class GetMigrationResponse {
+  /// A list of alerts and warnings that indicate issues with the migration for
+  /// the Amazon Lex V1 bot to Amazon Lex V2. You receive a warning when an Amazon
+  /// Lex V1 feature has a different implementation if Amazon Lex V2.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/lexv2/latest/dg/migrate.html">Migrating a
+  /// bot</a> in the <i>Amazon Lex V2 developer guide</i>.
+  final List<MigrationAlert>? alerts;
+
+  /// The unique identifier of the migration. This is the same as the identifier
+  /// used when calling the <code>GetMigration</code> operation.
+  final String? migrationId;
+
+  /// Indicates the status of the migration. When the status is
+  /// <code>COMPLETE</code> the migration is finished and the bot is available in
+  /// Amazon Lex V2. There may be alerts and warnings that need to be resolved to
+  /// complete the migration.
+  final MigrationStatus? migrationStatus;
+
+  /// The strategy used to conduct the migration.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_NEW</code> - Creates a new Amazon Lex V2 bot and migrates the
+  /// Amazon Lex V1 bot to the new bot.
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_EXISTING</code> - Overwrites the existing Amazon Lex V2 bot
+  /// metadata and the locale being migrated. It doesn't change any other locales
+  /// in the Amazon Lex V2 bot. If the locale doesn't exist, a new locale is
+  /// created in the Amazon Lex V2 bot.
+  /// </li>
+  /// </ul>
+  final MigrationStrategy? migrationStrategy;
+
+  /// The date and time that the migration started.
+  final DateTime? migrationTimestamp;
+
+  /// The locale of the Amazon Lex V1 bot migrated to Amazon Lex V2.
+  final Locale? v1BotLocale;
+
+  /// The name of the Amazon Lex V1 bot migrated to Amazon Lex V2.
+  final String? v1BotName;
+
+  /// The version of the Amazon Lex V1 bot migrated to Amazon Lex V2.
+  final String? v1BotVersion;
+
+  /// The unique identifier of the Amazon Lex V2 bot that the Amazon Lex V1 is
+  /// being migrated to.
+  final String? v2BotId;
+
+  /// The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
+  final String? v2BotRole;
+
+  GetMigrationResponse({
+    this.alerts,
+    this.migrationId,
+    this.migrationStatus,
+    this.migrationStrategy,
+    this.migrationTimestamp,
+    this.v1BotLocale,
+    this.v1BotName,
+    this.v1BotVersion,
+    this.v2BotId,
+    this.v2BotRole,
+  });
+
+  factory GetMigrationResponse.fromJson(Map<String, dynamic> json) {
+    return GetMigrationResponse(
+      alerts: (json['alerts'] as List?)
+          ?.whereNotNull()
+          .map((e) => MigrationAlert.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      migrationId: json['migrationId'] as String?,
+      migrationStatus:
+          (json['migrationStatus'] as String?)?.toMigrationStatus(),
+      migrationStrategy:
+          (json['migrationStrategy'] as String?)?.toMigrationStrategy(),
+      migrationTimestamp: timeStampFromJson(json['migrationTimestamp']),
+      v1BotLocale: (json['v1BotLocale'] as String?)?.toLocale(),
+      v1BotName: json['v1BotName'] as String?,
+      v1BotVersion: json['v1BotVersion'] as String?,
+      v2BotId: json['v2BotId'] as String?,
+      v2BotRole: json['v2BotRole'] as String?,
+    );
+  }
+}
+
+class GetMigrationsResponse {
+  /// An array of summaries for migrations from Amazon Lex V1 to Amazon Lex V2. To
+  /// see details of the migration, use the <code>migrationId</code> from the
+  /// summary in a call to the operation.
+  final List<MigrationSummary>? migrationSummaries;
+
+  /// If the response is truncated, it includes a pagination token that you can
+  /// specify in your next request to fetch the next page of migrations.
+  final String? nextToken;
+
+  GetMigrationsResponse({
+    this.migrationSummaries,
+    this.nextToken,
+  });
+
+  factory GetMigrationsResponse.fromJson(Map<String, dynamic> json) {
+    return GetMigrationsResponse(
+      migrationSummaries: (json['migrationSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => MigrationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
     );
@@ -4258,6 +4567,7 @@ class GetSlotTypeResponse {
     this.valueSelectionStrategy,
     this.version,
   });
+
   factory GetSlotTypeResponse.fromJson(Map<String, dynamic> json) {
     return GetSlotTypeResponse(
       checksum: json['checksum'] as String?,
@@ -4296,6 +4606,7 @@ class GetSlotTypeVersionsResponse {
     this.nextToken,
     this.slotTypes,
   });
+
   factory GetSlotTypeVersionsResponse.fromJson(Map<String, dynamic> json) {
     return GetSlotTypeVersionsResponse(
       nextToken: json['nextToken'] as String?,
@@ -4320,6 +4631,7 @@ class GetSlotTypesResponse {
     this.nextToken,
     this.slotTypes,
   });
+
   factory GetSlotTypesResponse.fromJson(Map<String, dynamic> json) {
     return GetSlotTypesResponse(
       nextToken: json['nextToken'] as String?,
@@ -4346,6 +4658,7 @@ class GetUtterancesViewResponse {
     this.botName,
     this.utterances,
   });
+
   factory GetUtterancesViewResponse.fromJson(Map<String, dynamic> json) {
     return GetUtterancesViewResponse(
       botName: json['botName'] as String?,
@@ -4399,6 +4712,7 @@ class InputContext {
   InputContext({
     required this.name,
   });
+
   factory InputContext.fromJson(Map<String, dynamic> json) {
     return InputContext(
       name: json['name'] as String,
@@ -4425,6 +4739,7 @@ class Intent {
     required this.intentName,
     required this.intentVersion,
   });
+
   factory Intent.fromJson(Map<String, dynamic> json) {
     return Intent(
       intentName: json['intentName'] as String,
@@ -4467,6 +4782,7 @@ class IntentMetadata {
     this.name,
     this.version,
   });
+
   factory IntentMetadata.fromJson(Map<String, dynamic> json) {
     return IntentMetadata(
       createdDate: timeStampFromJson(json['createdDate']),
@@ -4512,6 +4828,7 @@ class KendraConfiguration {
     required this.role,
     this.queryFilterString,
   });
+
   factory KendraConfiguration.fromJson(Map<String, dynamic> json) {
     return KendraConfiguration(
       kendraIndex: json['kendraIndex'] as String,
@@ -4539,6 +4856,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as List?)
@@ -4553,6 +4871,7 @@ enum Locale {
   deDe,
   enAu,
   enGb,
+  enIn,
   enUs,
   es_419,
   esEs,
@@ -4560,6 +4879,8 @@ enum Locale {
   frFr,
   frCa,
   itIt,
+  jaJp,
+  koKr,
 }
 
 extension LocaleValueExtension on Locale {
@@ -4571,6 +4892,8 @@ extension LocaleValueExtension on Locale {
         return 'en-AU';
       case Locale.enGb:
         return 'en-GB';
+      case Locale.enIn:
+        return 'en-IN';
       case Locale.enUs:
         return 'en-US';
       case Locale.es_419:
@@ -4585,6 +4908,10 @@ extension LocaleValueExtension on Locale {
         return 'fr-CA';
       case Locale.itIt:
         return 'it-IT';
+      case Locale.jaJp:
+        return 'ja-JP';
+      case Locale.koKr:
+        return 'ko-KR';
     }
   }
 }
@@ -4598,6 +4925,8 @@ extension LocaleFromString on String {
         return Locale.enAu;
       case 'en-GB':
         return Locale.enGb;
+      case 'en-IN':
+        return Locale.enIn;
       case 'en-US':
         return Locale.enUs;
       case 'es-419':
@@ -4612,6 +4941,10 @@ extension LocaleFromString on String {
         return Locale.frCa;
       case 'it-IT':
         return Locale.itIt;
+      case 'ja-JP':
+        return Locale.jaJp;
+      case 'ko-KR':
+        return Locale.koKr;
     }
     throw Exception('$this is not known in enum Locale');
   }
@@ -4685,6 +5018,7 @@ class LogSettingsResponse {
     this.resourceArn,
     this.resourcePrefix,
   });
+
   factory LogSettingsResponse.fromJson(Map<String, dynamic> json) {
     return LogSettingsResponse(
       destination: (json['destination'] as String?)?.toDestination(),
@@ -4770,6 +5104,7 @@ class Message {
     required this.contentType,
     this.groupNumber,
   });
+
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
       content: json['content'] as String,
@@ -4787,6 +5122,235 @@ class Message {
       'contentType': contentType.toValue(),
       if (groupNumber != null) 'groupNumber': groupNumber,
     };
+  }
+}
+
+/// Provides information about alerts and warnings that Amazon Lex sends during
+/// a migration. The alerts include information about how to resolve the issue.
+class MigrationAlert {
+  /// Additional details about the alert.
+  final List<String>? details;
+
+  /// A message that describes why the alert was issued.
+  final String? message;
+
+  /// A link to the Amazon Lex documentation that describes how to resolve the
+  /// alert.
+  final List<String>? referenceURLs;
+
+  /// The type of alert. There are two kinds of alerts:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ERROR</code> - There was an issue with the migration that can't be
+  /// resolved. The migration stops.
+  /// </li>
+  /// <li>
+  /// <code>WARN</code> - There was an issue with the migration that requires
+  /// manual changes to the new Amazon Lex V2 bot. The migration continues.
+  /// </li>
+  /// </ul>
+  final MigrationAlertType? type;
+
+  MigrationAlert({
+    this.details,
+    this.message,
+    this.referenceURLs,
+    this.type,
+  });
+
+  factory MigrationAlert.fromJson(Map<String, dynamic> json) {
+    return MigrationAlert(
+      details: (json['details'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      message: json['message'] as String?,
+      referenceURLs: (json['referenceURLs'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      type: (json['type'] as String?)?.toMigrationAlertType(),
+    );
+  }
+}
+
+enum MigrationAlertType {
+  error,
+  warn,
+}
+
+extension MigrationAlertTypeValueExtension on MigrationAlertType {
+  String toValue() {
+    switch (this) {
+      case MigrationAlertType.error:
+        return 'ERROR';
+      case MigrationAlertType.warn:
+        return 'WARN';
+    }
+  }
+}
+
+extension MigrationAlertTypeFromString on String {
+  MigrationAlertType toMigrationAlertType() {
+    switch (this) {
+      case 'ERROR':
+        return MigrationAlertType.error;
+      case 'WARN':
+        return MigrationAlertType.warn;
+    }
+    throw Exception('$this is not known in enum MigrationAlertType');
+  }
+}
+
+enum MigrationSortAttribute {
+  v1BotName,
+  migrationDateTime,
+}
+
+extension MigrationSortAttributeValueExtension on MigrationSortAttribute {
+  String toValue() {
+    switch (this) {
+      case MigrationSortAttribute.v1BotName:
+        return 'V1_BOT_NAME';
+      case MigrationSortAttribute.migrationDateTime:
+        return 'MIGRATION_DATE_TIME';
+    }
+  }
+}
+
+extension MigrationSortAttributeFromString on String {
+  MigrationSortAttribute toMigrationSortAttribute() {
+    switch (this) {
+      case 'V1_BOT_NAME':
+        return MigrationSortAttribute.v1BotName;
+      case 'MIGRATION_DATE_TIME':
+        return MigrationSortAttribute.migrationDateTime;
+    }
+    throw Exception('$this is not known in enum MigrationSortAttribute');
+  }
+}
+
+enum MigrationStatus {
+  inProgress,
+  completed,
+  failed,
+}
+
+extension MigrationStatusValueExtension on MigrationStatus {
+  String toValue() {
+    switch (this) {
+      case MigrationStatus.inProgress:
+        return 'IN_PROGRESS';
+      case MigrationStatus.completed:
+        return 'COMPLETED';
+      case MigrationStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension MigrationStatusFromString on String {
+  MigrationStatus toMigrationStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return MigrationStatus.inProgress;
+      case 'COMPLETED':
+        return MigrationStatus.completed;
+      case 'FAILED':
+        return MigrationStatus.failed;
+    }
+    throw Exception('$this is not known in enum MigrationStatus');
+  }
+}
+
+enum MigrationStrategy {
+  createNew,
+  updateExisting,
+}
+
+extension MigrationStrategyValueExtension on MigrationStrategy {
+  String toValue() {
+    switch (this) {
+      case MigrationStrategy.createNew:
+        return 'CREATE_NEW';
+      case MigrationStrategy.updateExisting:
+        return 'UPDATE_EXISTING';
+    }
+  }
+}
+
+extension MigrationStrategyFromString on String {
+  MigrationStrategy toMigrationStrategy() {
+    switch (this) {
+      case 'CREATE_NEW':
+        return MigrationStrategy.createNew;
+      case 'UPDATE_EXISTING':
+        return MigrationStrategy.updateExisting;
+    }
+    throw Exception('$this is not known in enum MigrationStrategy');
+  }
+}
+
+/// Provides information about migrating a bot from Amazon Lex V1 to Amazon Lex
+/// V2.
+class MigrationSummary {
+  /// The unique identifier that Amazon Lex assigned to the migration.
+  final String? migrationId;
+
+  /// The status of the operation. When the status is <code>COMPLETE</code> the
+  /// bot is available in Amazon Lex V2. There may be alerts and warnings that
+  /// need to be resolved to complete the migration.
+  final MigrationStatus? migrationStatus;
+
+  /// The strategy used to conduct the migration.
+  final MigrationStrategy? migrationStrategy;
+
+  /// The date and time that the migration started.
+  final DateTime? migrationTimestamp;
+
+  /// The locale of the Amazon Lex V1 bot that is the source of the migration.
+  final Locale? v1BotLocale;
+
+  /// The name of the Amazon Lex V1 bot that is the source of the migration.
+  final String? v1BotName;
+
+  /// The version of the Amazon Lex V1 bot that is the source of the migration.
+  final String? v1BotVersion;
+
+  /// The unique identifier of the Amazon Lex V2 that is the destination of the
+  /// migration.
+  final String? v2BotId;
+
+  /// The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
+  final String? v2BotRole;
+
+  MigrationSummary({
+    this.migrationId,
+    this.migrationStatus,
+    this.migrationStrategy,
+    this.migrationTimestamp,
+    this.v1BotLocale,
+    this.v1BotName,
+    this.v1BotVersion,
+    this.v2BotId,
+    this.v2BotRole,
+  });
+
+  factory MigrationSummary.fromJson(Map<String, dynamic> json) {
+    return MigrationSummary(
+      migrationId: json['migrationId'] as String?,
+      migrationStatus:
+          (json['migrationStatus'] as String?)?.toMigrationStatus(),
+      migrationStrategy:
+          (json['migrationStrategy'] as String?)?.toMigrationStrategy(),
+      migrationTimestamp: timeStampFromJson(json['migrationTimestamp']),
+      v1BotLocale: (json['v1BotLocale'] as String?)?.toLocale(),
+      v1BotName: json['v1BotName'] as String?,
+      v1BotVersion: json['v1BotVersion'] as String?,
+      v2BotId: json['v2BotId'] as String?,
+      v2BotRole: json['v2BotRole'] as String?,
+    );
   }
 }
 
@@ -4839,6 +5403,7 @@ class OutputContext {
     required this.timeToLiveInSeconds,
     required this.turnsToLive,
   });
+
   factory OutputContext.fromJson(Map<String, dynamic> json) {
     return OutputContext(
       name: json['name'] as String,
@@ -4912,6 +5477,7 @@ class Prompt {
     required this.messages,
     this.responseCard,
   });
+
   factory Prompt.fromJson(Map<String, dynamic> json) {
     return Prompt(
       maxAttempts: json['maxAttempts'] as int,
@@ -4976,6 +5542,7 @@ class PutBotAliasResponse {
     this.name,
     this.tags,
   });
+
   factory PutBotAliasResponse.fromJson(Map<String, dynamic> json) {
     return PutBotAliasResponse(
       botName: json['botName'] as String?,
@@ -5145,6 +5712,7 @@ class PutBotResponse {
     this.version,
     this.voiceId,
   });
+
   factory PutBotResponse.fromJson(Map<String, dynamic> json) {
     return PutBotResponse(
       abortStatement: json['abortStatement'] != null
@@ -5279,6 +5847,7 @@ class PutIntentResponse {
     this.slots,
     this.version,
   });
+
   factory PutIntentResponse.fromJson(Map<String, dynamic> json) {
     return PutIntentResponse(
       checksum: json['checksum'] as String?,
@@ -5388,6 +5957,7 @@ class PutSlotTypeResponse {
     this.valueSelectionStrategy,
     this.version,
   });
+
   factory PutSlotTypeResponse.fromJson(Map<String, dynamic> json) {
     return PutSlotTypeResponse(
       checksum: json['checksum'] as String?,
@@ -5511,6 +6081,7 @@ class Slot {
     this.slotTypeVersion,
     this.valueElicitationPrompt,
   });
+
   factory Slot.fromJson(Map<String, dynamic> json) {
     return Slot(
       name: json['name'] as String,
@@ -5617,6 +6188,7 @@ class SlotDefaultValue {
   SlotDefaultValue({
     required this.defaultValue,
   });
+
   factory SlotDefaultValue.fromJson(Map<String, dynamic> json) {
     return SlotDefaultValue(
       defaultValue: json['defaultValue'] as String,
@@ -5647,6 +6219,7 @@ class SlotDefaultValueSpec {
   SlotDefaultValueSpec({
     required this.defaultValueList,
   });
+
   factory SlotDefaultValueSpec.fromJson(Map<String, dynamic> json) {
     return SlotDefaultValueSpec(
       defaultValueList: (json['defaultValueList'] as List)
@@ -5672,6 +6245,7 @@ class SlotTypeConfiguration {
   SlotTypeConfiguration({
     this.regexConfiguration,
   });
+
   factory SlotTypeConfiguration.fromJson(Map<String, dynamic> json) {
     return SlotTypeConfiguration(
       regexConfiguration: json['regexConfiguration'] != null
@@ -5714,6 +6288,7 @@ class SlotTypeMetadata {
     this.name,
     this.version,
   });
+
   factory SlotTypeMetadata.fromJson(Map<String, dynamic> json) {
     return SlotTypeMetadata(
       createdDate: timeStampFromJson(json['createdDate']),
@@ -5761,6 +6336,7 @@ class SlotTypeRegexConfiguration {
   SlotTypeRegexConfiguration({
     required this.pattern,
   });
+
   factory SlotTypeRegexConfiguration.fromJson(Map<String, dynamic> json) {
     return SlotTypeRegexConfiguration(
       pattern: json['pattern'] as String,
@@ -5804,6 +6380,34 @@ extension SlotValueSelectionStrategyFromString on String {
   }
 }
 
+enum SortOrder {
+  ascending,
+  descending,
+}
+
+extension SortOrderValueExtension on SortOrder {
+  String toValue() {
+    switch (this) {
+      case SortOrder.ascending:
+        return 'ASCENDING';
+      case SortOrder.descending:
+        return 'DESCENDING';
+    }
+  }
+}
+
+extension SortOrderFromString on String {
+  SortOrder toSortOrder() {
+    switch (this) {
+      case 'ASCENDING':
+        return SortOrder.ascending;
+      case 'DESCENDING':
+        return SortOrder.descending;
+    }
+    throw Exception('$this is not known in enum SortOrder');
+  }
+}
+
 class StartImportResponse {
   /// A timestamp for the date and time that the import job was requested.
   final DateTime? createdDate;
@@ -5836,6 +6440,7 @@ class StartImportResponse {
     this.resourceType,
     this.tags,
   });
+
   factory StartImportResponse.fromJson(Map<String, dynamic> json) {
     return StartImportResponse(
       createdDate: timeStampFromJson(json['createdDate']),
@@ -5848,6 +6453,57 @@ class StartImportResponse {
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
+    );
+  }
+}
+
+class StartMigrationResponse {
+  /// The unique identifier that Amazon Lex assigned to the migration.
+  final String? migrationId;
+
+  /// The strategy used to conduct the migration.
+  final MigrationStrategy? migrationStrategy;
+
+  /// The date and time that the migration started.
+  final DateTime? migrationTimestamp;
+
+  /// The locale used for the Amazon Lex V1 bot.
+  final Locale? v1BotLocale;
+
+  /// The name of the Amazon Lex V1 bot that you are migrating to Amazon Lex V2.
+  final String? v1BotName;
+
+  /// The version of the bot to migrate to Amazon Lex V2.
+  final String? v1BotVersion;
+
+  /// The unique identifier for the Amazon Lex V2 bot.
+  final String? v2BotId;
+
+  /// The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
+  final String? v2BotRole;
+
+  StartMigrationResponse({
+    this.migrationId,
+    this.migrationStrategy,
+    this.migrationTimestamp,
+    this.v1BotLocale,
+    this.v1BotName,
+    this.v1BotVersion,
+    this.v2BotId,
+    this.v2BotRole,
+  });
+
+  factory StartMigrationResponse.fromJson(Map<String, dynamic> json) {
+    return StartMigrationResponse(
+      migrationId: json['migrationId'] as String?,
+      migrationStrategy:
+          (json['migrationStrategy'] as String?)?.toMigrationStrategy(),
+      migrationTimestamp: timeStampFromJson(json['migrationTimestamp']),
+      v1BotLocale: (json['v1BotLocale'] as String?)?.toLocale(),
+      v1BotName: json['v1BotName'] as String?,
+      v1BotVersion: json['v1BotVersion'] as String?,
+      v2BotId: json['v2BotId'] as String?,
+      v2BotRole: json['v2BotRole'] as String?,
     );
   }
 }
@@ -5869,6 +6525,7 @@ class Statement {
     required this.messages,
     this.responseCard,
   });
+
   factory Statement.fromJson(Map<String, dynamic> json) {
     return Statement(
       messages: (json['messages'] as List)
@@ -5975,6 +6632,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['key'] as String,
@@ -5994,6 +6652,7 @@ class Tag {
 
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
@@ -6001,6 +6660,7 @@ class TagResourceResponse {
 
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
   }
@@ -6031,6 +6691,7 @@ class UtteranceData {
     this.lastUtteredDate,
     this.utteranceString,
   });
+
   factory UtteranceData.fromJson(Map<String, dynamic> json) {
     return UtteranceData(
       count: json['count'] as int?,
@@ -6057,6 +6718,7 @@ class UtteranceList {
     this.botVersion,
     this.utterances,
   });
+
   factory UtteranceList.fromJson(Map<String, dynamic> json) {
     return UtteranceList(
       botVersion: json['botVersion'] as String?,
@@ -6066,6 +6728,11 @@ class UtteranceList {
           .toList(),
     );
   }
+}
+
+class AccessDeniedException extends _s.GenericAwsException {
+  AccessDeniedException({String? type, String? message})
+      : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class BadRequestException extends _s.GenericAwsException {
@@ -6105,6 +6772,8 @@ class ResourceInUseException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'AccessDeniedException': (type, message) =>
+      AccessDeniedException(type: type, message: message),
   'BadRequestException': (type, message) =>
       BadRequestException(type: type, message: message),
   'ConflictException': (type, message) =>

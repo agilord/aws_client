@@ -3,12 +3,15 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-This is the <i>AWS Lambda API Reference</i>. The AWS Lambda Developer Guide
-provides additional information. For the service overview, see <a
-href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">What is AWS
-Lambda</a>, and for information about how the service works, see <a
-href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-introduction.html">AWS
-Lambda: How it Works</a> in the <b>AWS Lambda Developer Guide</b>.
+Lambda is a compute service that lets you run code without provisioning or
+managing servers. Lambda runs your code on a high-availability compute
+infrastructure and performs all of the administration of the compute
+resources, including server and operating system maintenance, capacity
+provisioning and automatic scaling, code monitoring and logging. With
+Lambda, you can run code for virtually any type of application or backend
+service. For more information about the Lambda service, see <a
+href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">What is
+Lambda</a> in the <b>Lambda Developer Guide</b>.
 
 ## Links
 

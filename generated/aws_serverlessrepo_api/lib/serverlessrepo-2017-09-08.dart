@@ -886,6 +886,7 @@ class ApplicationDependencySummary {
     required this.applicationId,
     required this.semanticVersion,
   });
+
   factory ApplicationDependencySummary.fromJson(Map<String, dynamic> json) {
     return ApplicationDependencySummary(
       applicationId: json['applicationId'] as String,
@@ -918,6 +919,7 @@ class ApplicationPolicyStatement {
     this.principalOrgIDs,
     this.statementId,
   });
+
   factory ApplicationPolicyStatement.fromJson(Map<String, dynamic> json) {
     return ApplicationPolicyStatement(
       actions: (json['actions'] as List)
@@ -1002,6 +1004,7 @@ class ApplicationSummary {
     this.labels,
     this.spdxLicenseId,
   });
+
   factory ApplicationSummary.fromJson(Map<String, dynamic> json) {
     return ApplicationSummary(
       applicationId: json['applicationId'] as String,
@@ -1138,6 +1141,7 @@ class CreateApplicationResponse {
     this.verifiedAuthorUrl,
     this.version,
   });
+
   factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) {
     return CreateApplicationResponse(
       applicationId: json['applicationId'] as String?,
@@ -1264,6 +1268,7 @@ class CreateApplicationVersionResponse {
     this.sourceCodeUrl,
     this.templateUrl,
   });
+
   factory CreateApplicationVersionResponse.fromJson(Map<String, dynamic> json) {
     return CreateApplicationVersionResponse(
       applicationId: json['applicationId'] as String?,
@@ -1312,6 +1317,7 @@ class CreateCloudFormationChangeSetResponse {
     this.semanticVersion,
     this.stackId,
   });
+
   factory CreateCloudFormationChangeSetResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateCloudFormationChangeSetResponse(
@@ -1366,6 +1372,7 @@ class CreateCloudFormationTemplateResponse {
     this.templateId,
     this.templateUrl,
   });
+
   factory CreateCloudFormationTemplateResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateCloudFormationTemplateResponse(
@@ -1387,6 +1394,7 @@ class GetApplicationPolicyResponse {
   GetApplicationPolicyResponse({
     this.statements,
   });
+
   factory GetApplicationPolicyResponse.fromJson(Map<String, dynamic> json) {
     return GetApplicationPolicyResponse(
       statements: (json['statements'] as List?)
@@ -1478,6 +1486,7 @@ class GetApplicationResponse {
     this.verifiedAuthorUrl,
     this.version,
   });
+
   factory GetApplicationResponse.fromJson(Map<String, dynamic> json) {
     return GetApplicationResponse(
       applicationId: json['applicationId'] as String?,
@@ -1545,6 +1554,7 @@ class GetCloudFormationTemplateResponse {
     this.templateId,
     this.templateUrl,
   });
+
   factory GetCloudFormationTemplateResponse.fromJson(
       Map<String, dynamic> json) {
     return GetCloudFormationTemplateResponse(
@@ -1570,6 +1580,7 @@ class ListApplicationDependenciesResponse {
     this.dependencies,
     this.nextToken,
   });
+
   factory ListApplicationDependenciesResponse.fromJson(
       Map<String, dynamic> json) {
     return ListApplicationDependenciesResponse(
@@ -1594,6 +1605,7 @@ class ListApplicationVersionsResponse {
     this.nextToken,
     this.versions,
   });
+
   factory ListApplicationVersionsResponse.fromJson(Map<String, dynamic> json) {
     return ListApplicationVersionsResponse(
       nextToken: json['nextToken'] as String?,
@@ -1616,6 +1628,7 @@ class ListApplicationsResponse {
     this.applications,
     this.nextToken,
   });
+
   factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) {
     return ListApplicationsResponse(
       applications: (json['applications'] as List?)
@@ -1744,6 +1757,7 @@ class ParameterDefinition {
     this.noEcho,
     this.type,
   });
+
   factory ParameterDefinition.fromJson(Map<String, dynamic> json) {
     return ParameterDefinition(
       name: json['name'] as String,
@@ -1800,6 +1814,7 @@ class PutApplicationPolicyResponse {
   PutApplicationPolicyResponse({
     this.statements,
   });
+
   factory PutApplicationPolicyResponse.fromJson(Map<String, dynamic> json) {
     return PutApplicationPolicyResponse(
       statements: (json['statements'] as List?)
@@ -2017,6 +2032,7 @@ class UpdateApplicationResponse {
     this.verifiedAuthorUrl,
     this.version,
   });
+
   factory UpdateApplicationResponse.fromJson(Map<String, dynamic> json) {
     return UpdateApplicationResponse(
       applicationId: json['applicationId'] as String?,
@@ -2144,6 +2160,7 @@ class Version {
     this.sourceCodeArchiveUrl,
     this.sourceCodeUrl,
   });
+
   factory Version.fromJson(Map<String, dynamic> json) {
     return Version(
       applicationId: json['applicationId'] as String,
@@ -2190,6 +2207,7 @@ class VersionSummary {
     required this.semanticVersion,
     this.sourceCodeUrl,
   });
+
   factory VersionSummary.fromJson(Map<String, dynamic> json) {
     return VersionSummary(
       applicationId: json['applicationId'] as String,

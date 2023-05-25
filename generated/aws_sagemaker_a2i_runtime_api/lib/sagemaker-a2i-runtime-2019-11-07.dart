@@ -18,10 +18,6 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// <important>
-/// Amazon Augmented AI is in preview release and is subject to change. We do
-/// not recommend using this product in production environments.
-/// </important>
 /// Amazon Augmented AI (Amazon A2I) adds the benefit of human judgment to any
 /// machine learning application. When an AI application can't evaluate data
 /// with a high degree of confidence, human reviewers can take over. This human
@@ -94,6 +90,9 @@ class AugmentedAIRuntime {
 
   /// Deletes the specified human loop for a flow definition.
   ///
+  /// If the human loop was deleted, this operation will return a
+  /// <code>ResourceNotFoundException</code>.
+  ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -112,7 +111,9 @@ class AugmentedAIRuntime {
     );
   }
 
-  /// Returns information about the specified human loop.
+  /// Returns information about the specified human loop. If the human loop was
+  /// deleted, this operation will return a
+  /// <code>ResourceNotFoundException</code> error.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
@@ -296,6 +297,7 @@ extension ContentClassifierFromString on String {
 
 class DeleteHumanLoopResponse {
   DeleteHumanLoopResponse();
+
   factory DeleteHumanLoopResponse.fromJson(Map<String, dynamic> _) {
     return DeleteHumanLoopResponse();
   }
@@ -320,6 +322,9 @@ class DescribeHumanLoopResponse {
   final HumanLoopStatus humanLoopStatus;
 
   /// A failure code that identifies the type of failure.
+  ///
+  /// Possible values: <code>ValidationError</code>, <code>Expired</code>,
+  /// <code>InternalError</code>
   final String? failureCode;
 
   /// The reason why a human loop failed. The failure reason is returned when the
@@ -339,6 +344,7 @@ class DescribeHumanLoopResponse {
     this.failureReason,
     this.humanLoopOutput,
   });
+
   factory DescribeHumanLoopResponse.fromJson(Map<String, dynamic> json) {
     return DescribeHumanLoopResponse(
       creationTime:
@@ -404,6 +410,7 @@ class HumanLoopOutput {
   HumanLoopOutput({
     required this.outputS3Uri,
   });
+
   factory HumanLoopOutput.fromJson(Map<String, dynamic> json) {
     return HumanLoopOutput(
       outputS3Uri: json['OutputS3Uri'] as String,
@@ -480,6 +487,7 @@ class HumanLoopSummary {
     this.humanLoopName,
     this.humanLoopStatus,
   });
+
   factory HumanLoopSummary.fromJson(Map<String, dynamic> json) {
     return HumanLoopSummary(
       creationTime: timeStampFromJson(json['CreationTime']),
@@ -503,6 +511,7 @@ class ListHumanLoopsResponse {
     required this.humanLoopSummaries,
     this.nextToken,
   });
+
   factory ListHumanLoopsResponse.fromJson(Map<String, dynamic> json) {
     return ListHumanLoopsResponse(
       humanLoopSummaries: (json['HumanLoopSummaries'] as List)
@@ -549,6 +558,7 @@ class StartHumanLoopResponse {
   StartHumanLoopResponse({
     this.humanLoopArn,
   });
+
   factory StartHumanLoopResponse.fromJson(Map<String, dynamic> json) {
     return StartHumanLoopResponse(
       humanLoopArn: json['HumanLoopArn'] as String?,
@@ -558,6 +568,7 @@ class StartHumanLoopResponse {
 
 class StopHumanLoopResponse {
   StopHumanLoopResponse();
+
   factory StopHumanLoopResponse.fromJson(Map<String, dynamic> _) {
     return StopHumanLoopResponse();
   }

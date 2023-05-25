@@ -3,7 +3,8 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-AWS S3 Control provides access to Amazon S3 control plane operations.
+Amazon Web Services S3 Control provides access to Amazon S3 control plane
+actions.
 
 ## Links
 

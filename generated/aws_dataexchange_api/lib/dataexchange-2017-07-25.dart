@@ -23,22 +23,23 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// create, update, manage, and access file-based data set in the AWS Cloud.
 ///
 /// As a subscriber, you can view and access the data sets that you have an
-/// entitlement to through a subscription. You can use the APIS to download or
-/// copy your entitled data sets to Amazon S3 for use across a variety of AWS
-/// analytics and machine learning services.
+/// entitlement to through a subscription. You can use the APIs to download or
+/// copy your entitled data sets to Amazon Simple Storage Service (Amazon S3)
+/// for use across a variety of AWS analytics and machine learning services.
 ///
 /// As a provider, you can create and manage your data sets that you would like
 /// to publish to a product. Being able to package and provide your data sets
 /// into products requires a few steps to determine eligibility. For more
-/// information, visit the AWS Data Exchange User Guide.
+/// information, visit the <i>AWS Data Exchange User Guide</i>.
 ///
 /// A data set is a collection of data that can be changed or updated over time.
 /// Data sets can be updated using revisions, which represent a new version or
-/// incremental change to a data set.  A revision contains one or more assets.
-/// An asset in AWS Data Exchange is a piece of data that can be stored as an
-/// Amazon S3 object. The asset can be a structured data file, an image file, or
-/// some other data file. Jobs are asynchronous import or export operations used
-/// to create or copy assets.
+/// incremental change to a data set. A revision contains one or more assets. An
+/// asset in AWS Data Exchange is a piece of data that can be stored as an
+/// Amazon S3 object, Redshift datashare, API Gateway API, AWS Lake Formation
+/// data permission, or Amazon S3 data access. The asset can be a structured
+/// data file, an image file, or some other data file. Jobs are asynchronous
+/// import or export operations used to create or copy assets.
 class DataExchange {
   final _s.RestJsonProtocol _protocol;
   DataExchange({
@@ -73,9 +74,9 @@ class DataExchange {
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [jobId] :
   /// The unique identifier for a job.
@@ -92,15 +93,14 @@ class DataExchange {
 
   /// This operation creates a data set.
   ///
+  /// May throw [ServiceLimitExceededException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [ServiceLimitExceededException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [assetType] :
-  /// The type of file your data is stored in. Currently, the supported asset
-  /// type is S3_SNAPSHOT.
+  /// The type of asset that is added to a data set.
   ///
   /// Parameter [description] :
   /// A description for the data set. This value can be up to 16,348 characters
@@ -136,13 +136,44 @@ class DataExchange {
     return CreateDataSetResponse.fromJson(response);
   }
 
+  /// This operation creates an event action.
+  ///
+  /// May throw [ServiceLimitExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [action] :
+  /// What occurs after a certain event.
+  ///
+  /// Parameter [event] :
+  /// What occurs to start an action.
+  Future<CreateEventActionResponse> createEventAction({
+    required Action action,
+    required Event event,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Action': action,
+      'Event': event,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/event-actions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateEventActionResponse.fromJson(response);
+  }
+
   /// This operation creates a job.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [details] :
   /// The details for the CreateJob request.
@@ -170,9 +201,9 @@ class DataExchange {
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [dataSetId] :
   /// The unique identifier for a data set.
@@ -206,12 +237,12 @@ class DataExchange {
 
   /// This operation deletes an asset.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [assetId] :
   /// The unique identifier for an asset.
@@ -237,12 +268,12 @@ class DataExchange {
 
   /// This operation deletes a data set.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [dataSetId] :
   /// The unique identifier for a data set.
@@ -257,14 +288,34 @@ class DataExchange {
     );
   }
 
-  /// This operation deletes a revision.
+  /// This operation deletes the event action.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [eventActionId] :
+  /// The unique identifier for the event action.
+  Future<void> deleteEventAction({
+    required String eventActionId,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/v1/event-actions/${Uri.encodeComponent(eventActionId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// This operation deletes a revision.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [dataSetId] :
   /// The unique identifier for a data set.
@@ -333,6 +384,27 @@ class DataExchange {
       exceptionFnMap: _exceptionFns,
     );
     return GetDataSetResponse.fromJson(response);
+  }
+
+  /// This operation retrieves information about an event action.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [eventActionId] :
+  /// The unique identifier for the event action.
+  Future<GetEventActionResponse> getEventAction({
+    required String eventActionId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/event-actions/${Uri.encodeComponent(eventActionId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetEventActionResponse.fromJson(response);
   }
 
   /// This operation returns information about a job.
@@ -408,7 +480,7 @@ class DataExchange {
       'maxResults',
       maxResults,
       1,
-      25,
+      200,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -452,7 +524,7 @@ class DataExchange {
       'maxResults',
       maxResults,
       1,
-      25,
+      200,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -467,6 +539,48 @@ class DataExchange {
       exceptionFnMap: _exceptionFns,
     );
     return ListDataSetsResponse.fromJson(response);
+  }
+
+  /// This operation lists your event actions.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [eventSourceId] :
+  /// The unique identifier for the event source.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results returned by a single call.
+  ///
+  /// Parameter [nextToken] :
+  /// The token value retrieved from a previous call to access the next page of
+  /// results.
+  Future<ListEventActionsResponse> listEventActions({
+    String? eventSourceId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      200,
+    );
+    final $query = <String, List<String>>{
+      if (eventSourceId != null) 'eventSourceId': [eventSourceId],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/event-actions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListEventActionsResponse.fromJson(response);
   }
 
   /// This operation lists your jobs sorted by CreatedAt in descending order.
@@ -498,7 +612,7 @@ class DataExchange {
       'maxResults',
       maxResults,
       1,
-      25,
+      200,
     );
     final $query = <String, List<String>>{
       if (dataSetId != null) 'dataSetId': [dataSetId],
@@ -546,7 +660,7 @@ class DataExchange {
       'maxResults',
       maxResults,
       1,
-      25,
+      200,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -579,14 +693,127 @@ class DataExchange {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
-  /// This operation starts a job.
+  /// This operation revokes subscribers' access to a revision.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [dataSetId] :
+  /// The unique identifier for a data set.
+  ///
+  /// Parameter [revisionId] :
+  /// The unique identifier for a revision.
+  ///
+  /// Parameter [revocationComment] :
+  /// A required comment to inform subscribers of the reason their access to the
+  /// revision was revoked.
+  Future<RevokeRevisionResponse> revokeRevision({
+    required String dataSetId,
+    required String revisionId,
+    required String revocationComment,
+  }) async {
+    final $payload = <String, dynamic>{
+      'RevocationComment': revocationComment,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v1/data-sets/${Uri.encodeComponent(dataSetId)}/revisions/${Uri.encodeComponent(revisionId)}/revoke',
+      exceptionFnMap: _exceptionFns,
+    );
+    return RevokeRevisionResponse.fromJson(response);
+  }
+
+  /// This operation invokes an API Gateway API asset. The request is proxied to
+  /// the provider’s API Gateway API.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [assetId] :
+  /// Asset ID value for the API request.
+  ///
+  /// Parameter [dataSetId] :
+  /// Data set ID value for the API request.
+  ///
+  /// Parameter [revisionId] :
+  /// Revision ID value for the API request.
+  ///
+  /// Parameter [body] :
+  /// The request body.
+  ///
+  /// Parameter [method] :
+  /// HTTP method value for the API request. Alternatively, you can use the
+  /// appropriate verb in your request.
+  ///
+  /// Parameter [path] :
+  /// URI path value for the API request. Alternatively, you can set the URI
+  /// path directly by invoking /v1/{pathValue}.
+  ///
+  /// Parameter [queryStringParameters] :
+  /// Attach query string parameters to the end of the URI (for example,
+  /// /v1/examplePath?exampleParam=exampleValue).
+  ///
+  /// Parameter [requestHeaders] :
+  /// Any header value prefixed with x-amzn-dataexchange-header- will have that
+  /// stripped before sending the Asset API request. Use this when you want to
+  /// override a header that AWS Data Exchange uses. Alternatively, you can use
+  /// the header without a prefix to the HTTP request.
+  Future<SendApiAssetResponse> sendApiAsset({
+    required String assetId,
+    required String dataSetId,
+    required String revisionId,
+    String? body,
+    String? method,
+    String? path,
+    Map<String, String>? queryStringParameters,
+    Map<String, String>? requestHeaders,
+  }) async {
+    final headers = <String, String>{
+      'x-amzn-dataexchange-asset-id': assetId.toString(),
+      'x-amzn-dataexchange-data-set-id': dataSetId.toString(),
+      'x-amzn-dataexchange-revision-id': revisionId.toString(),
+      if (method != null) 'x-amzn-dataexchange-http-method': method.toString(),
+      if (path != null) 'x-amzn-dataexchange-path': path.toString(),
+      if (requestHeaders != null)
+        ...requestHeaders.map(
+            (key, value) => MapEntry('x-amzn-dataexchange-header-$key', value)),
+    };
+    final $query = <String, List<String>>{
+      if (queryStringParameters != null)
+        for (var e in queryStringParameters.entries) e.key: [e.value],
+    };
+    final response = await _protocol.sendRaw(
+      payload: body,
+      method: 'POST',
+      requestUri: '/v1',
+      queryParams: $query,
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $json = await _s.jsonFromResponse(response);
+    return SendApiAssetResponse(
+      body: jsonEncode($json),
+      responseHeaders: _s.extractHeaderMapValues(response.headers, ''),
+    );
+  }
+
+  /// This operation starts a job.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [jobId] :
   /// The unique identifier for a job.
@@ -648,12 +875,12 @@ class DataExchange {
 
   /// This operation updates an asset.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [assetId] :
   /// The unique identifier for an asset.
@@ -662,9 +889,14 @@ class DataExchange {
   /// The unique identifier for a data set.
   ///
   /// Parameter [name] :
-  /// The name of the asset. When importing from Amazon S3, the S3 object key is
-  /// used as the asset name. When exporting to Amazon S3, the asset name is
-  /// used as default target S3 object key.
+  /// The name of the asset. When importing from Amazon S3, the Amazon S3 object
+  /// key is used as the asset name. When exporting to Amazon S3, the asset name
+  /// is used as default target Amazon S3 object key. When importing from Amazon
+  /// API Gateway API, the API name is used as the asset name. When importing
+  /// from Amazon Redshift, the datashare name is used as the asset name. When
+  /// importing from AWS Lake Formation, the static values of "Database(s)
+  /// included in the LF-tag policy" or "Table(s) included in LF-tag policy" are
+  /// used as the name.
   ///
   /// Parameter [revisionId] :
   /// The unique identifier for a revision.
@@ -691,9 +923,9 @@ class DataExchange {
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [dataSetId] :
   /// The unique identifier for a data set.
@@ -721,14 +953,43 @@ class DataExchange {
     return UpdateDataSetResponse.fromJson(response);
   }
 
-  /// This operation updates a revision.
+  /// This operation updates the event action.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [eventActionId] :
+  /// The unique identifier for the event action.
+  ///
+  /// Parameter [action] :
+  /// What occurs after a certain event.
+  Future<UpdateEventActionResponse> updateEventAction({
+    required String eventActionId,
+    Action? action,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (action != null) 'Action': action,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/v1/event-actions/${Uri.encodeComponent(eventActionId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateEventActionResponse.fromJson(response);
+  }
+
+  /// This operation updates a revision.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [dataSetId] :
   /// The unique identifier for a data set.
@@ -764,12 +1025,96 @@ class DataExchange {
   }
 }
 
+/// What occurs after a certain event.
+class Action {
+  /// Details for the export revision to Amazon S3 action.
+  final AutoExportRevisionToS3RequestDetails? exportRevisionToS3;
+
+  Action({
+    this.exportRevisionToS3,
+  });
+
+  factory Action.fromJson(Map<String, dynamic> json) {
+    return Action(
+      exportRevisionToS3: json['ExportRevisionToS3'] != null
+          ? AutoExportRevisionToS3RequestDetails.fromJson(
+              json['ExportRevisionToS3'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exportRevisionToS3 = this.exportRevisionToS3;
+    return {
+      if (exportRevisionToS3 != null) 'ExportRevisionToS3': exportRevisionToS3,
+    };
+  }
+}
+
+/// The API Gateway API that is the asset.
+class ApiGatewayApiAsset {
+  /// The API description of the API asset.
+  final String? apiDescription;
+
+  /// The API endpoint of the API asset.
+  final String? apiEndpoint;
+
+  /// The unique identifier of the API asset.
+  final String? apiId;
+
+  /// The API key of the API asset.
+  final String? apiKey;
+
+  /// The API name of the API asset.
+  final String? apiName;
+
+  /// The download URL of the API specification of the API asset.
+  final String? apiSpecificationDownloadUrl;
+
+  /// The date and time that the upload URL expires, in ISO 8601 format.
+  final DateTime? apiSpecificationDownloadUrlExpiresAt;
+
+  /// The protocol type of the API asset.
+  final ProtocolType? protocolType;
+
+  /// The stage of the API asset.
+  final String? stage;
+
+  ApiGatewayApiAsset({
+    this.apiDescription,
+    this.apiEndpoint,
+    this.apiId,
+    this.apiKey,
+    this.apiName,
+    this.apiSpecificationDownloadUrl,
+    this.apiSpecificationDownloadUrlExpiresAt,
+    this.protocolType,
+    this.stage,
+  });
+
+  factory ApiGatewayApiAsset.fromJson(Map<String, dynamic> json) {
+    return ApiGatewayApiAsset(
+      apiDescription: json['ApiDescription'] as String?,
+      apiEndpoint: json['ApiEndpoint'] as String?,
+      apiId: json['ApiId'] as String?,
+      apiKey: json['ApiKey'] as String?,
+      apiName: json['ApiName'] as String?,
+      apiSpecificationDownloadUrl:
+          json['ApiSpecificationDownloadUrl'] as String?,
+      apiSpecificationDownloadUrlExpiresAt:
+          timeStampFromJson(json['ApiSpecificationDownloadUrlExpiresAt']),
+      protocolType: (json['ProtocolType'] as String?)?.toProtocolType(),
+      stage: json['Stage'] as String?,
+    );
+  }
+}
+
 /// The destination for the asset.
 class AssetDestinationEntry {
   /// The unique identifier for the asset.
   final String assetId;
 
-  /// The S3 bucket that is the destination for the asset.
+  /// The Amazon S3 bucket that is the destination for the asset.
   final String bucket;
 
   /// The name of the object in Amazon S3 for the asset.
@@ -780,6 +1125,7 @@ class AssetDestinationEntry {
     required this.bucket,
     this.key,
   });
+
   factory AssetDestinationEntry.fromJson(Map<String, dynamic> json) {
     return AssetDestinationEntry(
       assetId: json['AssetId'] as String,
@@ -800,14 +1146,51 @@ class AssetDestinationEntry {
   }
 }
 
+/// Details about the asset.
 class AssetDetails {
+  /// Information about the API Gateway API asset.
+  final ApiGatewayApiAsset? apiGatewayApiAsset;
+
+  /// The AWS Lake Formation data permission that is the asset.
+  final LakeFormationDataPermissionAsset? lakeFormationDataPermissionAsset;
+
+  /// The Amazon Redshift datashare that is the asset.
+  final RedshiftDataShareAsset? redshiftDataShareAsset;
+
+  /// The Amazon S3 data access that is the asset.
+  final S3DataAccessAsset? s3DataAccessAsset;
+
+  /// The Amazon S3 object that is the asset.
   final S3SnapshotAsset? s3SnapshotAsset;
 
   AssetDetails({
+    this.apiGatewayApiAsset,
+    this.lakeFormationDataPermissionAsset,
+    this.redshiftDataShareAsset,
+    this.s3DataAccessAsset,
     this.s3SnapshotAsset,
   });
+
   factory AssetDetails.fromJson(Map<String, dynamic> json) {
     return AssetDetails(
+      apiGatewayApiAsset: json['ApiGatewayApiAsset'] != null
+          ? ApiGatewayApiAsset.fromJson(
+              json['ApiGatewayApiAsset'] as Map<String, dynamic>)
+          : null,
+      lakeFormationDataPermissionAsset:
+          json['LakeFormationDataPermissionAsset'] != null
+              ? LakeFormationDataPermissionAsset.fromJson(
+                  json['LakeFormationDataPermissionAsset']
+                      as Map<String, dynamic>)
+              : null,
+      redshiftDataShareAsset: json['RedshiftDataShareAsset'] != null
+          ? RedshiftDataShareAsset.fromJson(
+              json['RedshiftDataShareAsset'] as Map<String, dynamic>)
+          : null,
+      s3DataAccessAsset: json['S3DataAccessAsset'] != null
+          ? S3DataAccessAsset.fromJson(
+              json['S3DataAccessAsset'] as Map<String, dynamic>)
+          : null,
       s3SnapshotAsset: json['S3SnapshotAsset'] != null
           ? S3SnapshotAsset.fromJson(
               json['S3SnapshotAsset'] as Map<String, dynamic>)
@@ -816,19 +1199,24 @@ class AssetDetails {
   }
 }
 
-/// An asset in AWS Data Exchange is a piece of data that can be stored as an S3
-/// object. The asset can be a structured data file, an image file, or some
-/// other data file. When you create an import job for your files, you create an
-/// asset in AWS Data Exchange for each of those files.
+/// An asset in AWS Data Exchange is a piece of data (Amazon S3 object) or a
+/// means of fulfilling data (Amazon Redshift datashare or Amazon API Gateway
+/// API, AWS Lake Formation data permission, or Amazon S3 data access). The
+/// asset can be a structured data file, an image file, or some other data file
+/// that can be stored as an Amazon S3 object, an Amazon API Gateway API, or an
+/// Amazon Redshift datashare, an AWS Lake Formation data permission, or an
+/// Amazon S3 data access. When you create an import job for your files, API
+/// Gateway APIs, Amazon Redshift datashares, AWS Lake Formation data
+/// permission, or Amazon S3 data access, you create an asset in AWS Data
+/// Exchange.
 class AssetEntry {
   /// The ARN for the asset.
   final String arn;
 
-  /// Information about the asset, including its size.
+  /// Details about the asset.
   final AssetDetails assetDetails;
 
-  /// The type of file your data is stored in. Currently, the supported asset type
-  /// is S3_SNAPSHOT.
+  /// The type of asset that is added to a data set.
   final AssetType assetType;
 
   /// The date and time that the asset was created, in ISO 8601 format.
@@ -840,9 +1228,14 @@ class AssetEntry {
   /// The unique identifier for the asset.
   final String id;
 
-  /// The name of the asset. When importing from Amazon S3, the S3 object key is
-  /// used as the asset name. When exporting to Amazon S3, the asset name is used
-  /// as default target S3 object key.
+  /// The name of the asset. When importing from Amazon S3, the Amazon S3 object
+  /// key is used as the asset name. When exporting to Amazon S3, the asset name
+  /// is used as default target Amazon S3 object key. When importing from Amazon
+  /// API Gateway API, the API name is used as the asset name. When importing from
+  /// Amazon Redshift, the datashare name is used as the asset name. When
+  /// importing from AWS Lake Formation, the static values of "Database(s)
+  /// included in LF-tag policy" or "Table(s) included in LF-tag policy" are used
+  /// as the asset name.
   final String name;
 
   /// The unique identifier for the revision associated with this asset.
@@ -868,6 +1261,7 @@ class AssetEntry {
     required this.updatedAt,
     this.sourceId,
   });
+
   factory AssetEntry.fromJson(Map<String, dynamic> json) {
     return AssetEntry(
       arn: json['Arn'] as String,
@@ -887,7 +1281,7 @@ class AssetEntry {
 
 /// The source of the assets.
 class AssetSourceEntry {
-  /// The S3 bucket that's part of the source of the asset.
+  /// The Amazon S3 bucket that's part of the source of the asset.
   final String bucket;
 
   /// The name of the object in Amazon S3 for the asset.
@@ -897,6 +1291,7 @@ class AssetSourceEntry {
     required this.bucket,
     required this.key,
   });
+
   factory AssetSourceEntry.fromJson(Map<String, dynamic> json) {
     return AssetSourceEntry(
       bucket: json['Bucket'] as String,
@@ -914,10 +1309,12 @@ class AssetSourceEntry {
   }
 }
 
-/// The type of file your data is stored in. Currently, the supported asset type
-/// is S3_SNAPSHOT.
 enum AssetType {
   s3Snapshot,
+  redshiftDataShare,
+  apiGatewayApi,
+  s3DataAccess,
+  lakeFormationDataPermission,
 }
 
 extension AssetTypeValueExtension on AssetType {
@@ -925,6 +1322,14 @@ extension AssetTypeValueExtension on AssetType {
     switch (this) {
       case AssetType.s3Snapshot:
         return 'S3_SNAPSHOT';
+      case AssetType.redshiftDataShare:
+        return 'REDSHIFT_DATA_SHARE';
+      case AssetType.apiGatewayApi:
+        return 'API_GATEWAY_API';
+      case AssetType.s3DataAccess:
+        return 'S3_DATA_ACCESS';
+      case AssetType.lakeFormationDataPermission:
+        return 'LAKE_FORMATION_DATA_PERMISSION';
     }
   }
 }
@@ -934,8 +1339,87 @@ extension AssetTypeFromString on String {
     switch (this) {
       case 'S3_SNAPSHOT':
         return AssetType.s3Snapshot;
+      case 'REDSHIFT_DATA_SHARE':
+        return AssetType.redshiftDataShare;
+      case 'API_GATEWAY_API':
+        return AssetType.apiGatewayApi;
+      case 'S3_DATA_ACCESS':
+        return AssetType.s3DataAccess;
+      case 'LAKE_FORMATION_DATA_PERMISSION':
+        return AssetType.lakeFormationDataPermission;
     }
     throw Exception('$this is not known in enum AssetType');
+  }
+}
+
+/// A revision destination is the Amazon S3 bucket folder destination to where
+/// the export will be sent.
+class AutoExportRevisionDestinationEntry {
+  /// The Amazon S3 bucket that is the destination for the event action.
+  final String bucket;
+
+  /// A string representing the pattern for generated names of the individual
+  /// assets in the revision. For more information about key patterns, see <a
+  /// href="https://docs.aws.amazon.com/data-exchange/latest/userguide/jobs.html#revision-export-keypatterns">Key
+  /// patterns when exporting revisions</a>.
+  final String? keyPattern;
+
+  AutoExportRevisionDestinationEntry({
+    required this.bucket,
+    this.keyPattern,
+  });
+
+  factory AutoExportRevisionDestinationEntry.fromJson(
+      Map<String, dynamic> json) {
+    return AutoExportRevisionDestinationEntry(
+      bucket: json['Bucket'] as String,
+      keyPattern: json['KeyPattern'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final keyPattern = this.keyPattern;
+    return {
+      'Bucket': bucket,
+      if (keyPattern != null) 'KeyPattern': keyPattern,
+    };
+  }
+}
+
+/// Details of the operation to be performed by the job.
+class AutoExportRevisionToS3RequestDetails {
+  /// A revision destination is the Amazon S3 bucket folder destination to where
+  /// the export will be sent.
+  final AutoExportRevisionDestinationEntry revisionDestination;
+
+  /// Encryption configuration for the auto export job.
+  final ExportServerSideEncryption? encryption;
+
+  AutoExportRevisionToS3RequestDetails({
+    required this.revisionDestination,
+    this.encryption,
+  });
+
+  factory AutoExportRevisionToS3RequestDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AutoExportRevisionToS3RequestDetails(
+      revisionDestination: AutoExportRevisionDestinationEntry.fromJson(
+          json['RevisionDestination'] as Map<String, dynamic>),
+      encryption: json['Encryption'] != null
+          ? ExportServerSideEncryption.fromJson(
+              json['Encryption'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final revisionDestination = this.revisionDestination;
+    final encryption = this.encryption;
+    return {
+      'RevisionDestination': revisionDestination,
+      if (encryption != null) 'Encryption': encryption,
+    };
   }
 }
 
@@ -996,8 +1480,7 @@ class CreateDataSetResponse {
   /// The ARN for the data set.
   final String? arn;
 
-  /// The type of file your data is stored in. Currently, the supported asset type
-  /// is S3_SNAPSHOT.
+  /// The type of asset that is added to a data set.
   final AssetType? assetType;
 
   /// The date and time that the data set was created, in ISO 8601 format.
@@ -1044,6 +1527,7 @@ class CreateDataSetResponse {
     this.tags,
     this.updatedAt,
   });
+
   factory CreateDataSetResponse.fromJson(Map<String, dynamic> json) {
     return CreateDataSetResponse(
       arn: json['Arn'] as String?,
@@ -1060,6 +1544,51 @@ class CreateDataSetResponse {
       sourceId: json['SourceId'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+}
+
+class CreateEventActionResponse {
+  /// What occurs after a certain event.
+  final Action? action;
+
+  /// The ARN for the event action.
+  final String? arn;
+
+  /// The date and time that the event action was created, in ISO 8601 format.
+  final DateTime? createdAt;
+
+  /// What occurs to start an action.
+  final Event? event;
+
+  /// The unique identifier for the event action.
+  final String? id;
+
+  /// The date and time that the event action was last updated, in ISO 8601
+  /// format.
+  final DateTime? updatedAt;
+
+  CreateEventActionResponse({
+    this.action,
+    this.arn,
+    this.createdAt,
+    this.event,
+    this.id,
+    this.updatedAt,
+  });
+
+  factory CreateEventActionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateEventActionResponse(
+      action: json['Action'] != null
+          ? Action.fromJson(json['Action'] as Map<String, dynamic>)
+          : null,
+      arn: json['Arn'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      event: json['Event'] != null
+          ? Event.fromJson(json['Event'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -1100,6 +1629,7 @@ class CreateJobResponse {
     this.type,
     this.updatedAt,
   });
+
   factory CreateJobResponse.fromJson(Map<String, dynamic> json) {
     return CreateJobResponse(
       arn: json['Arn'] as String?,
@@ -1120,7 +1650,7 @@ class CreateJobResponse {
 }
 
 class CreateRevisionResponse {
-  /// The ARN for the revision
+  /// The ARN for the revision.
   final String? arn;
 
   /// An optional comment about the revision.
@@ -1129,22 +1659,32 @@ class CreateRevisionResponse {
   /// The date and time that the revision was created, in ISO 8601 format.
   final DateTime? createdAt;
 
-  /// The unique identifier for the data set associated with this revision.
+  /// The unique identifier for the data set associated with the data set
+  /// revision.
   final String? dataSetId;
 
   /// To publish a revision to a data set in a product, the revision must first be
   /// finalized. Finalizing a revision tells AWS Data Exchange that your changes
   /// to the assets in the revision are complete. After it's in this read-only
-  /// state, you can publish the revision to your products.
-  ///
-  /// Finalized revisions can be published through the AWS Data Exchange console
-  /// or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace
-  /// Catalog API action. When using the API, revisions are uniquely identified by
-  /// their ARN.
+  /// state, you can publish the revision to your products. Finalized revisions
+  /// can be published through the AWS Data Exchange console or the AWS
+  /// Marketplace Catalog API, using the StartChangeSet AWS Marketplace Catalog
+  /// API action. When using the API, revisions are uniquely identified by their
+  /// ARN.
   final bool? finalized;
 
   /// The unique identifier for the revision.
   final String? id;
+
+  /// A required comment to inform subscribers of the reason their access to the
+  /// revision was revoked.
+  final String? revocationComment;
+
+  /// A status indicating that subscribers' access to the revision was revoked.
+  final bool? revoked;
+
+  /// The date and time that the revision was revoked, in ISO 8601 format.
+  final DateTime? revokedAt;
 
   /// The revision ID of the owned revision corresponding to the entitled revision
   /// being viewed. This parameter is returned when a revision owner is viewing
@@ -1164,10 +1704,14 @@ class CreateRevisionResponse {
     this.dataSetId,
     this.finalized,
     this.id,
+    this.revocationComment,
+    this.revoked,
+    this.revokedAt,
     this.sourceId,
     this.tags,
     this.updatedAt,
   });
+
   factory CreateRevisionResponse.fromJson(Map<String, dynamic> json) {
     return CreateRevisionResponse(
       arn: json['Arn'] as String?,
@@ -1176,10 +1720,72 @@ class CreateRevisionResponse {
       dataSetId: json['DataSetId'] as String?,
       finalized: json['Finalized'] as bool?,
       id: json['Id'] as String?,
+      revocationComment: json['RevocationComment'] as String?,
+      revoked: json['Revoked'] as bool?,
+      revokedAt: timeStampFromJson(json['RevokedAt']),
       sourceId: json['SourceId'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+}
+
+/// Details of the operation to create an Amazon S3 data access from an S3
+/// bucket.
+class CreateS3DataAccessFromS3BucketRequestDetails {
+  /// Details about the S3 data access source asset.
+  final S3DataAccessAssetSourceEntry assetSource;
+
+  /// The unique identifier for the data set associated with the creation of this
+  /// Amazon S3 data access.
+  final String dataSetId;
+
+  /// The unique identifier for a revision.
+  final String revisionId;
+
+  CreateS3DataAccessFromS3BucketRequestDetails({
+    required this.assetSource,
+    required this.dataSetId,
+    required this.revisionId,
+  });
+  Map<String, dynamic> toJson() {
+    final assetSource = this.assetSource;
+    final dataSetId = this.dataSetId;
+    final revisionId = this.revisionId;
+    return {
+      'AssetSource': assetSource,
+      'DataSetId': dataSetId,
+      'RevisionId': revisionId,
+    };
+  }
+}
+
+/// Details about the response of the operation to create an S3 data access from
+/// an S3 bucket.
+class CreateS3DataAccessFromS3BucketResponseDetails {
+  /// Details about the asset source from an Amazon S3 bucket.
+  final S3DataAccessAssetSourceEntry assetSource;
+
+  /// The unique identifier for this data set.
+  final String dataSetId;
+
+  /// The unique identifier for the revision.
+  final String revisionId;
+
+  CreateS3DataAccessFromS3BucketResponseDetails({
+    required this.assetSource,
+    required this.dataSetId,
+    required this.revisionId,
+  });
+
+  factory CreateS3DataAccessFromS3BucketResponseDetails.fromJson(
+      Map<String, dynamic> json) {
+    return CreateS3DataAccessFromS3BucketResponseDetails(
+      assetSource: S3DataAccessAssetSourceEntry.fromJson(
+          json['AssetSource'] as Map<String, dynamic>),
+      dataSetId: json['DataSetId'] as String,
+      revisionId: json['RevisionId'] as String,
     );
   }
 }
@@ -1189,8 +1795,7 @@ class DataSetEntry {
   /// The ARN for the data set.
   final String arn;
 
-  /// The type of file your data is stored in. Currently, the supported asset type
-  /// is S3_SNAPSHOT.
+  /// The type of asset that is added to a data set.
   final AssetType assetType;
 
   /// The date and time that the data set was created, in ISO 8601 format.
@@ -1233,6 +1838,7 @@ class DataSetEntry {
     this.originDetails,
     this.sourceId,
   });
+
   factory DataSetEntry.fromJson(Map<String, dynamic> json) {
     return DataSetEntry(
       arn: json['Arn'] as String,
@@ -1252,15 +1858,100 @@ class DataSetEntry {
   }
 }
 
+/// The LF-tag policy for database resources.
+class DatabaseLFTagPolicy {
+  /// A list of LF-tag conditions that apply to database resources.
+  final List<LFTag> expression;
+
+  DatabaseLFTagPolicy({
+    required this.expression,
+  });
+
+  factory DatabaseLFTagPolicy.fromJson(Map<String, dynamic> json) {
+    return DatabaseLFTagPolicy(
+      expression: (json['Expression'] as List)
+          .whereNotNull()
+          .map((e) => LFTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// The LF-tag policy and permissions for database resources.
+class DatabaseLFTagPolicyAndPermissions {
+  /// A list of LF-tag conditions that apply to database resources.
+  final List<LFTag> expression;
+
+  /// The permissions granted to subscribers on database resources.
+  final List<DatabaseLFTagPolicyPermission> permissions;
+
+  DatabaseLFTagPolicyAndPermissions({
+    required this.expression,
+    required this.permissions,
+  });
+
+  factory DatabaseLFTagPolicyAndPermissions.fromJson(
+      Map<String, dynamic> json) {
+    return DatabaseLFTagPolicyAndPermissions(
+      expression: (json['Expression'] as List)
+          .whereNotNull()
+          .map((e) => LFTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      permissions: (json['Permissions'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toDatabaseLFTagPolicyPermission())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final expression = this.expression;
+    final permissions = this.permissions;
+    return {
+      'Expression': expression,
+      'Permissions': permissions.map((e) => e.toValue()).toList(),
+    };
+  }
+}
+
+enum DatabaseLFTagPolicyPermission {
+  describe,
+}
+
+extension DatabaseLFTagPolicyPermissionValueExtension
+    on DatabaseLFTagPolicyPermission {
+  String toValue() {
+    switch (this) {
+      case DatabaseLFTagPolicyPermission.describe:
+        return 'DESCRIBE';
+    }
+  }
+}
+
+extension DatabaseLFTagPolicyPermissionFromString on String {
+  DatabaseLFTagPolicyPermission toDatabaseLFTagPolicyPermission() {
+    switch (this) {
+      case 'DESCRIBE':
+        return DatabaseLFTagPolicyPermission.describe;
+    }
+    throw Exception('$this is not known in enum DatabaseLFTagPolicyPermission');
+  }
+}
+
+/// Information about the job error.
 class Details {
+  /// Information about the job error.
   final ImportAssetFromSignedUrlJobErrorDetails?
       importAssetFromSignedUrlJobErrorDetails;
+
+  /// Details about the job error.
   final List<AssetSourceEntry>? importAssetsFromS3JobErrorDetails;
 
   Details({
     this.importAssetFromSignedUrlJobErrorDetails,
     this.importAssetsFromS3JobErrorDetails,
   });
+
   factory Details.fromJson(Map<String, dynamic> json) {
     return Details(
       importAssetFromSignedUrlJobErrorDetails:
@@ -1274,6 +1965,76 @@ class Details {
               ?.whereNotNull()
               .map((e) => AssetSourceEntry.fromJson(e as Map<String, dynamic>))
               .toList(),
+    );
+  }
+}
+
+/// What occurs to start an action.
+class Event {
+  /// What occurs to start the revision publish action.
+  final RevisionPublished? revisionPublished;
+
+  Event({
+    this.revisionPublished,
+  });
+
+  factory Event.fromJson(Map<String, dynamic> json) {
+    return Event(
+      revisionPublished: json['RevisionPublished'] != null
+          ? RevisionPublished.fromJson(
+              json['RevisionPublished'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final revisionPublished = this.revisionPublished;
+    return {
+      if (revisionPublished != null) 'RevisionPublished': revisionPublished,
+    };
+  }
+}
+
+/// An event action is an object that defines the relationship between a
+/// specific event and an automated action that will be taken on behalf of the
+/// customer.
+class EventActionEntry {
+  /// What occurs after a certain event.
+  final Action action;
+
+  /// The Amazon Resource Name (ARN) for the event action.
+  final String arn;
+
+  /// The date and time that the event action was created, in ISO 8601 format.
+  final DateTime createdAt;
+
+  /// What occurs to start an action.
+  final Event event;
+
+  /// The unique identifier for the event action.
+  final String id;
+
+  /// The date and time that the event action was last updated, in ISO 8601
+  /// format.
+  final DateTime updatedAt;
+
+  EventActionEntry({
+    required this.action,
+    required this.arn,
+    required this.createdAt,
+    required this.event,
+    required this.id,
+    required this.updatedAt,
+  });
+
+  factory EventActionEntry.fromJson(Map<String, dynamic> json) {
+    return EventActionEntry(
+      action: Action.fromJson(json['Action'] as Map<String, dynamic>),
+      arn: json['Arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
+      event: Event.fromJson(json['Event'] as Map<String, dynamic>),
+      id: json['Id'] as String,
+      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] as Object),
     );
   }
 }
@@ -1330,6 +2091,7 @@ class ExportAssetToSignedUrlResponseDetails {
     this.signedUrl,
     this.signedUrlExpiresAt,
   });
+
   factory ExportAssetToSignedUrlResponseDetails.fromJson(
       Map<String, dynamic> json) {
     return ExportAssetToSignedUrlResponseDetails(
@@ -1396,6 +2158,7 @@ class ExportAssetsToS3ResponseDetails {
     required this.revisionId,
     this.encryption,
   });
+
   factory ExportAssetsToS3ResponseDetails.fromJson(Map<String, dynamic> json) {
     return ExportAssetsToS3ResponseDetails(
       assetDestinations: (json['AssetDestinations'] as List)
@@ -1412,23 +2175,91 @@ class ExportAssetsToS3ResponseDetails {
   }
 }
 
-/// Encryption configuration of the export job. Includes the encryption type as
-/// well as the AWS KMS key. The KMS key is only necessary if you chose the KMS
-/// encryption type.
+/// Details of the operation to be performed by the job.
+class ExportRevisionsToS3RequestDetails {
+  /// The unique identifier for the data set associated with this export job.
+  final String dataSetId;
+
+  /// The destination for the revision.
+  final List<RevisionDestinationEntry> revisionDestinations;
+
+  /// Encryption configuration for the export job.
+  final ExportServerSideEncryption? encryption;
+
+  ExportRevisionsToS3RequestDetails({
+    required this.dataSetId,
+    required this.revisionDestinations,
+    this.encryption,
+  });
+  Map<String, dynamic> toJson() {
+    final dataSetId = this.dataSetId;
+    final revisionDestinations = this.revisionDestinations;
+    final encryption = this.encryption;
+    return {
+      'DataSetId': dataSetId,
+      'RevisionDestinations': revisionDestinations,
+      if (encryption != null) 'Encryption': encryption,
+    };
+  }
+}
+
+/// Details about the export revisions to Amazon S3 response.
+class ExportRevisionsToS3ResponseDetails {
+  /// The unique identifier for the data set associated with this export job.
+  final String dataSetId;
+
+  /// The destination in Amazon S3 where the revision is exported.
+  final List<RevisionDestinationEntry> revisionDestinations;
+
+  /// Encryption configuration of the export job.
+  final ExportServerSideEncryption? encryption;
+
+  /// The Amazon Resource Name (ARN) of the event action.
+  final String? eventActionArn;
+
+  ExportRevisionsToS3ResponseDetails({
+    required this.dataSetId,
+    required this.revisionDestinations,
+    this.encryption,
+    this.eventActionArn,
+  });
+
+  factory ExportRevisionsToS3ResponseDetails.fromJson(
+      Map<String, dynamic> json) {
+    return ExportRevisionsToS3ResponseDetails(
+      dataSetId: json['DataSetId'] as String,
+      revisionDestinations: (json['RevisionDestinations'] as List)
+          .whereNotNull()
+          .map((e) =>
+              RevisionDestinationEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      encryption: json['Encryption'] != null
+          ? ExportServerSideEncryption.fromJson(
+              json['Encryption'] as Map<String, dynamic>)
+          : null,
+      eventActionArn: json['EventActionArn'] as String?,
+    );
+  }
+}
+
+/// Encryption configuration of the export job. Includes the encryption type in
+/// addition to the AWS KMS key. The KMS key is only necessary if you chose the
+/// KMS encryption type.
 class ExportServerSideEncryption {
   /// The type of server side encryption used for encrypting the objects in Amazon
   /// S3.
   final ServerSideEncryptionTypes type;
 
-  /// The Amazon Resource Name (ARN) of the the AWS KMS key you want to use to
-  /// encrypt the Amazon S3 objects. This parameter is required if you choose
-  /// aws:kms as an encryption type.
+  /// The Amazon Resource Name (ARN) of the AWS KMS key you want to use to encrypt
+  /// the Amazon S3 objects. This parameter is required if you choose aws:kms as
+  /// an encryption type.
   final String? kmsKeyArn;
 
   ExportServerSideEncryption({
     required this.type,
     this.kmsKeyArn,
   });
+
   factory ExportServerSideEncryption.fromJson(Map<String, dynamic> json) {
     return ExportServerSideEncryption(
       type: (json['Type'] as String).toServerSideEncryptionTypes(),
@@ -1450,11 +2281,10 @@ class GetAssetResponse {
   /// The ARN for the asset.
   final String? arn;
 
-  /// Information about the asset, including its size.
+  /// Details about the asset.
   final AssetDetails? assetDetails;
 
-  /// The type of file your data is stored in. Currently, the supported asset type
-  /// is S3_SNAPSHOT.
+  /// The type of asset that is added to a data set.
   final AssetType? assetType;
 
   /// The date and time that the asset was created, in ISO 8601 format.
@@ -1466,9 +2296,14 @@ class GetAssetResponse {
   /// The unique identifier for the asset.
   final String? id;
 
-  /// The name of the asset When importing from Amazon S3, the S3 object key is
-  /// used as the asset name. When exporting to Amazon S3, the asset name is used
-  /// as default target S3 object key.
+  /// The name of the asset. When importing from Amazon S3, the Amazon S3 object
+  /// key is used as the asset name. When exporting to Amazon S3, the asset name
+  /// is used as default target Amazon S3 object key. When importing from Amazon
+  /// API Gateway API, the API name is used as the asset name. When importing from
+  /// Amazon Redshift, the datashare name is used as the asset name. When
+  /// importing from AWS Lake Formation, the static values of "Database(s)
+  /// included in the LF-tag policy" or "Table(s) included in the LF-tag policy"
+  /// are used as the asset name.
   final String? name;
 
   /// The unique identifier for the revision associated with this asset.
@@ -1494,6 +2329,7 @@ class GetAssetResponse {
     this.sourceId,
     this.updatedAt,
   });
+
   factory GetAssetResponse.fromJson(Map<String, dynamic> json) {
     return GetAssetResponse(
       arn: json['Arn'] as String?,
@@ -1516,8 +2352,7 @@ class GetDataSetResponse {
   /// The ARN for the data set.
   final String? arn;
 
-  /// The type of file your data is stored in. Currently, the supported asset type
-  /// is S3_SNAPSHOT.
+  /// The type of asset that is added to a data set.
   final AssetType? assetType;
 
   /// The date and time that the data set was created, in ISO 8601 format.
@@ -1564,6 +2399,7 @@ class GetDataSetResponse {
     this.tags,
     this.updatedAt,
   });
+
   factory GetDataSetResponse.fromJson(Map<String, dynamic> json) {
     return GetDataSetResponse(
       arn: json['Arn'] as String?,
@@ -1580,6 +2416,51 @@ class GetDataSetResponse {
       sourceId: json['SourceId'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+}
+
+class GetEventActionResponse {
+  /// What occurs after a certain event.
+  final Action? action;
+
+  /// The ARN for the event action.
+  final String? arn;
+
+  /// The date and time that the event action was created, in ISO 8601 format.
+  final DateTime? createdAt;
+
+  /// What occurs to start an action.
+  final Event? event;
+
+  /// The unique identifier for the event action.
+  final String? id;
+
+  /// The date and time that the event action was last updated, in ISO 8601
+  /// format.
+  final DateTime? updatedAt;
+
+  GetEventActionResponse({
+    this.action,
+    this.arn,
+    this.createdAt,
+    this.event,
+    this.id,
+    this.updatedAt,
+  });
+
+  factory GetEventActionResponse.fromJson(Map<String, dynamic> json) {
+    return GetEventActionResponse(
+      action: json['Action'] != null
+          ? Action.fromJson(json['Action'] as Map<String, dynamic>)
+          : null,
+      arn: json['Arn'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      event: json['Event'] != null
+          ? Event.fromJson(json['Event'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -1620,6 +2501,7 @@ class GetJobResponse {
     this.type,
     this.updatedAt,
   });
+
   factory GetJobResponse.fromJson(Map<String, dynamic> json) {
     return GetJobResponse(
       arn: json['Arn'] as String?,
@@ -1640,7 +2522,7 @@ class GetJobResponse {
 }
 
 class GetRevisionResponse {
-  /// The ARN for the revision
+  /// The ARN for the revision.
   final String? arn;
 
   /// An optional comment about the revision.
@@ -1649,22 +2531,32 @@ class GetRevisionResponse {
   /// The date and time that the revision was created, in ISO 8601 format.
   final DateTime? createdAt;
 
-  /// The unique identifier for the data set associated with this revision.
+  /// The unique identifier for the data set associated with the data set
+  /// revision.
   final String? dataSetId;
 
   /// To publish a revision to a data set in a product, the revision must first be
   /// finalized. Finalizing a revision tells AWS Data Exchange that your changes
   /// to the assets in the revision are complete. After it's in this read-only
-  /// state, you can publish the revision to your products.
-  ///
-  /// Finalized revisions can be published through the AWS Data Exchange console
-  /// or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace
-  /// Catalog API action. When using the API, revisions are uniquely identified by
-  /// their ARN.
+  /// state, you can publish the revision to your products. Finalized revisions
+  /// can be published through the AWS Data Exchange console or the AWS
+  /// Marketplace Catalog API, using the StartChangeSet AWS Marketplace Catalog
+  /// API action. When using the API, revisions are uniquely identified by their
+  /// ARN.
   final bool? finalized;
 
   /// The unique identifier for the revision.
   final String? id;
+
+  /// A required comment to inform subscribers of the reason their access to the
+  /// revision was revoked.
+  final String? revocationComment;
+
+  /// A status indicating that subscribers' access to the revision was revoked.
+  final bool? revoked;
+
+  /// The date and time that the revision was revoked, in ISO 8601 format.
+  final DateTime? revokedAt;
 
   /// The revision ID of the owned revision corresponding to the entitled revision
   /// being viewed. This parameter is returned when a revision owner is viewing
@@ -1684,10 +2576,14 @@ class GetRevisionResponse {
     this.dataSetId,
     this.finalized,
     this.id,
+    this.revocationComment,
+    this.revoked,
+    this.revokedAt,
     this.sourceId,
     this.tags,
     this.updatedAt,
   });
+
   factory GetRevisionResponse.fromJson(Map<String, dynamic> json) {
     return GetRevisionResponse(
       arn: json['Arn'] as String?,
@@ -1696,6 +2592,9 @@ class GetRevisionResponse {
       dataSetId: json['DataSetId'] as String?,
       finalized: json['Finalized'] as bool?,
       id: json['Id'] as String?,
+      revocationComment: json['RevocationComment'] as String?,
+      revoked: json['Revoked'] as bool?,
+      revokedAt: timeStampFromJson(json['RevokedAt']),
       sourceId: json['SourceId'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -1704,12 +2603,149 @@ class GetRevisionResponse {
   }
 }
 
+/// The request details.
+class ImportAssetFromApiGatewayApiRequestDetails {
+  /// The API Gateway API ID.
+  final String apiId;
+
+  /// The API name.
+  final String apiName;
+
+  /// The Base64-encoded MD5 hash of the OpenAPI 3.0 JSON API specification file.
+  /// It is used to ensure the integrity of the file.
+  final String apiSpecificationMd5Hash;
+
+  /// The data set ID.
+  final String dataSetId;
+
+  /// The protocol type.
+  final ProtocolType protocolType;
+
+  /// The revision ID.
+  final String revisionId;
+
+  /// The API stage.
+  final String stage;
+
+  /// The API description. Markdown supported.
+  final String? apiDescription;
+
+  /// The API Gateway API key.
+  final String? apiKey;
+
+  ImportAssetFromApiGatewayApiRequestDetails({
+    required this.apiId,
+    required this.apiName,
+    required this.apiSpecificationMd5Hash,
+    required this.dataSetId,
+    required this.protocolType,
+    required this.revisionId,
+    required this.stage,
+    this.apiDescription,
+    this.apiKey,
+  });
+  Map<String, dynamic> toJson() {
+    final apiId = this.apiId;
+    final apiName = this.apiName;
+    final apiSpecificationMd5Hash = this.apiSpecificationMd5Hash;
+    final dataSetId = this.dataSetId;
+    final protocolType = this.protocolType;
+    final revisionId = this.revisionId;
+    final stage = this.stage;
+    final apiDescription = this.apiDescription;
+    final apiKey = this.apiKey;
+    return {
+      'ApiId': apiId,
+      'ApiName': apiName,
+      'ApiSpecificationMd5Hash': apiSpecificationMd5Hash,
+      'DataSetId': dataSetId,
+      'ProtocolType': protocolType.toValue(),
+      'RevisionId': revisionId,
+      'Stage': stage,
+      if (apiDescription != null) 'ApiDescription': apiDescription,
+      if (apiKey != null) 'ApiKey': apiKey,
+    };
+  }
+}
+
+/// The response details.
+class ImportAssetFromApiGatewayApiResponseDetails {
+  /// The API ID.
+  final String apiId;
+
+  /// The API name.
+  final String apiName;
+
+  /// The Base64-encoded Md5 hash for the API asset, used to ensure the integrity
+  /// of the API at that location.
+  final String apiSpecificationMd5Hash;
+
+  /// The upload URL of the API specification.
+  final String apiSpecificationUploadUrl;
+
+  /// The date and time that the upload URL expires, in ISO 8601 format.
+  final DateTime apiSpecificationUploadUrlExpiresAt;
+
+  /// The data set ID.
+  final String dataSetId;
+
+  /// The protocol type.
+  final ProtocolType protocolType;
+
+  /// The revision ID.
+  final String revisionId;
+
+  /// The API stage.
+  final String stage;
+
+  /// The API description.
+  final String? apiDescription;
+
+  /// The API key.
+  final String? apiKey;
+
+  ImportAssetFromApiGatewayApiResponseDetails({
+    required this.apiId,
+    required this.apiName,
+    required this.apiSpecificationMd5Hash,
+    required this.apiSpecificationUploadUrl,
+    required this.apiSpecificationUploadUrlExpiresAt,
+    required this.dataSetId,
+    required this.protocolType,
+    required this.revisionId,
+    required this.stage,
+    this.apiDescription,
+    this.apiKey,
+  });
+
+  factory ImportAssetFromApiGatewayApiResponseDetails.fromJson(
+      Map<String, dynamic> json) {
+    return ImportAssetFromApiGatewayApiResponseDetails(
+      apiId: json['ApiId'] as String,
+      apiName: json['ApiName'] as String,
+      apiSpecificationMd5Hash: json['ApiSpecificationMd5Hash'] as String,
+      apiSpecificationUploadUrl: json['ApiSpecificationUploadUrl'] as String,
+      apiSpecificationUploadUrlExpiresAt: nonNullableTimeStampFromJson(
+          json['ApiSpecificationUploadUrlExpiresAt'] as Object),
+      dataSetId: json['DataSetId'] as String,
+      protocolType: (json['ProtocolType'] as String).toProtocolType(),
+      revisionId: json['RevisionId'] as String,
+      stage: json['Stage'] as String,
+      apiDescription: json['ApiDescription'] as String?,
+      apiKey: json['ApiKey'] as String?,
+    );
+  }
+}
+
+/// Details about the job error.
 class ImportAssetFromSignedUrlJobErrorDetails {
+  /// Details about the job error.
   final String assetName;
 
   ImportAssetFromSignedUrlJobErrorDetails({
     required this.assetName,
   });
+
   factory ImportAssetFromSignedUrlJobErrorDetails.fromJson(
       Map<String, dynamic> json) {
     return ImportAssetFromSignedUrlJobErrorDetails(
@@ -1720,8 +2756,8 @@ class ImportAssetFromSignedUrlJobErrorDetails {
 
 /// Details of the operation to be performed by the job.
 class ImportAssetFromSignedUrlRequestDetails {
-  /// The name of the asset. When importing from Amazon S3, the S3 object key is
-  /// used as the asset name.
+  /// The name of the asset. When importing from Amazon S3, the Amazon S3 object
+  /// key is used as the asset name.
   final String assetName;
 
   /// The unique identifier for the data set associated with this import job.
@@ -1757,7 +2793,7 @@ class ImportAssetFromSignedUrlRequestDetails {
 /// The details in the response for an import request, including the signed URL
 /// and other information.
 class ImportAssetFromSignedUrlResponseDetails {
-  /// The name for the asset associated with this import response.
+  /// The name for the asset associated with this import job.
   final String assetName;
 
   /// The unique identifier for the data set associated with this import job.
@@ -1784,6 +2820,7 @@ class ImportAssetFromSignedUrlResponseDetails {
     this.signedUrl,
     this.signedUrlExpiresAt,
   });
+
   factory ImportAssetFromSignedUrlResponseDetails.fromJson(
       Map<String, dynamic> json) {
     return ImportAssetFromSignedUrlResponseDetails(
@@ -1797,9 +2834,166 @@ class ImportAssetFromSignedUrlResponseDetails {
   }
 }
 
+/// Details about the assets imported from an AWS Lake Formation tag policy
+/// request.
+class ImportAssetsFromLakeFormationTagPolicyRequestDetails {
+  /// The identifier for the AWS Glue Data Catalog.
+  final String catalogId;
+
+  /// The unique identifier for the data set associated with this import job.
+  final String dataSetId;
+
+  /// The unique identifier for the revision associated with this import job.
+  final String revisionId;
+
+  /// The IAM role's ARN that allows AWS Data Exchange to assume the role and
+  /// grant and revoke permissions of subscribers to AWS Lake Formation data
+  /// permissions.
+  final String roleArn;
+
+  /// A structure for the database object.
+  final DatabaseLFTagPolicyAndPermissions? database;
+
+  /// A structure for the table object.
+  final TableLFTagPolicyAndPermissions? table;
+
+  ImportAssetsFromLakeFormationTagPolicyRequestDetails({
+    required this.catalogId,
+    required this.dataSetId,
+    required this.revisionId,
+    required this.roleArn,
+    this.database,
+    this.table,
+  });
+  Map<String, dynamic> toJson() {
+    final catalogId = this.catalogId;
+    final dataSetId = this.dataSetId;
+    final revisionId = this.revisionId;
+    final roleArn = this.roleArn;
+    final database = this.database;
+    final table = this.table;
+    return {
+      'CatalogId': catalogId,
+      'DataSetId': dataSetId,
+      'RevisionId': revisionId,
+      'RoleArn': roleArn,
+      if (database != null) 'Database': database,
+      if (table != null) 'Table': table,
+    };
+  }
+}
+
+/// Details from an import AWS Lake Formation tag policy job response.
+class ImportAssetsFromLakeFormationTagPolicyResponseDetails {
+  /// The identifier for the AWS Glue Data Catalog.
+  final String catalogId;
+
+  /// The unique identifier for the data set associated with this import job.
+  final String dataSetId;
+
+  /// The unique identifier for the revision associated with this import job.
+  final String revisionId;
+
+  /// The IAM role's ARN that allows AWS Data Exchange to assume the role and
+  /// grant and revoke permissions to AWS Lake Formation data permissions.
+  final String roleArn;
+
+  /// A structure for the database object.
+  final DatabaseLFTagPolicyAndPermissions? database;
+
+  /// A structure for the table object.
+  final TableLFTagPolicyAndPermissions? table;
+
+  ImportAssetsFromLakeFormationTagPolicyResponseDetails({
+    required this.catalogId,
+    required this.dataSetId,
+    required this.revisionId,
+    required this.roleArn,
+    this.database,
+    this.table,
+  });
+
+  factory ImportAssetsFromLakeFormationTagPolicyResponseDetails.fromJson(
+      Map<String, dynamic> json) {
+    return ImportAssetsFromLakeFormationTagPolicyResponseDetails(
+      catalogId: json['CatalogId'] as String,
+      dataSetId: json['DataSetId'] as String,
+      revisionId: json['RevisionId'] as String,
+      roleArn: json['RoleArn'] as String,
+      database: json['Database'] != null
+          ? DatabaseLFTagPolicyAndPermissions.fromJson(
+              json['Database'] as Map<String, dynamic>)
+          : null,
+      table: json['Table'] != null
+          ? TableLFTagPolicyAndPermissions.fromJson(
+              json['Table'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// Details from an import from Amazon Redshift datashare request.
+class ImportAssetsFromRedshiftDataSharesRequestDetails {
+  /// A list of Amazon Redshift datashare assets.
+  final List<RedshiftDataShareAssetSourceEntry> assetSources;
+
+  /// The unique identifier for the data set associated with this import job.
+  final String dataSetId;
+
+  /// The unique identifier for the revision associated with this import job.
+  final String revisionId;
+
+  ImportAssetsFromRedshiftDataSharesRequestDetails({
+    required this.assetSources,
+    required this.dataSetId,
+    required this.revisionId,
+  });
+  Map<String, dynamic> toJson() {
+    final assetSources = this.assetSources;
+    final dataSetId = this.dataSetId;
+    final revisionId = this.revisionId;
+    return {
+      'AssetSources': assetSources,
+      'DataSetId': dataSetId,
+      'RevisionId': revisionId,
+    };
+  }
+}
+
+/// Details from an import from Amazon Redshift datashare response.
+class ImportAssetsFromRedshiftDataSharesResponseDetails {
+  /// A list of Amazon Redshift datashare asset sources.
+  final List<RedshiftDataShareAssetSourceEntry> assetSources;
+
+  /// The unique identifier for the data set associated with this import job.
+  final String dataSetId;
+
+  /// The unique identifier for the revision associated with this import job.
+  final String revisionId;
+
+  ImportAssetsFromRedshiftDataSharesResponseDetails({
+    required this.assetSources,
+    required this.dataSetId,
+    required this.revisionId,
+  });
+
+  factory ImportAssetsFromRedshiftDataSharesResponseDetails.fromJson(
+      Map<String, dynamic> json) {
+    return ImportAssetsFromRedshiftDataSharesResponseDetails(
+      assetSources: (json['AssetSources'] as List)
+          .whereNotNull()
+          .map((e) => RedshiftDataShareAssetSourceEntry.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      dataSetId: json['DataSetId'] as String,
+      revisionId: json['RevisionId'] as String,
+    );
+  }
+}
+
 /// Details of the operation to be performed by the job.
 class ImportAssetsFromS3RequestDetails {
-  /// Is a list of S3 bucket and object key pairs.
+  /// Is a list of Amazon S3 bucket and object key pairs.
   final List<AssetSourceEntry> assetSources;
 
   /// The unique identifier for the data set associated with this import job.
@@ -1841,6 +3035,7 @@ class ImportAssetsFromS3ResponseDetails {
     required this.dataSetId,
     required this.revisionId,
   });
+
   factory ImportAssetsFromS3ResponseDetails.fromJson(
       Map<String, dynamic> json) {
     return ImportAssetsFromS3ResponseDetails(
@@ -1894,6 +3089,7 @@ class JobEntry {
     required this.updatedAt,
     this.errors,
   });
+
   factory JobEntry.fromJson(Map<String, dynamic> json) {
     return JobEntry(
       arn: json['Arn'] as String,
@@ -1919,6 +3115,8 @@ class JobError {
 
   /// The message related to the job error.
   final String message;
+
+  /// The details about the job error.
   final Details? details;
 
   /// The name of the limit that was reached.
@@ -1942,6 +3140,7 @@ class JobError {
     this.resourceId,
     this.resourceType,
   });
+
   factory JobError.fromJson(Map<String, dynamic> json) {
     return JobError(
       code: (json['Code'] as String).toCode(),
@@ -1958,10 +3157,12 @@ class JobError {
   }
 }
 
-/// The name of the limit that was reached.
 enum JobErrorLimitName {
   assetsPerRevision,
   assetSizeInGb,
+  amazonRedshiftDatashareAssetsPerRevision,
+  awsLakeFormationDataPermissionAssetsPerRevision,
+  amazonS3DataAccessAssetsPerRevision,
 }
 
 extension JobErrorLimitNameValueExtension on JobErrorLimitName {
@@ -1971,6 +3172,12 @@ extension JobErrorLimitNameValueExtension on JobErrorLimitName {
         return 'Assets per revision';
       case JobErrorLimitName.assetSizeInGb:
         return 'Asset size in GB';
+      case JobErrorLimitName.amazonRedshiftDatashareAssetsPerRevision:
+        return 'Amazon Redshift datashare assets per revision';
+      case JobErrorLimitName.awsLakeFormationDataPermissionAssetsPerRevision:
+        return 'AWS Lake Formation data permission assets per revision';
+      case JobErrorLimitName.amazonS3DataAccessAssetsPerRevision:
+        return 'Amazon S3 data access assets per revision';
     }
   }
 }
@@ -1982,15 +3189,22 @@ extension JobErrorLimitNameFromString on String {
         return JobErrorLimitName.assetsPerRevision;
       case 'Asset size in GB':
         return JobErrorLimitName.assetSizeInGb;
+      case 'Amazon Redshift datashare assets per revision':
+        return JobErrorLimitName.amazonRedshiftDatashareAssetsPerRevision;
+      case 'AWS Lake Formation data permission assets per revision':
+        return JobErrorLimitName
+            .awsLakeFormationDataPermissionAssetsPerRevision;
+      case 'Amazon S3 data access assets per revision':
+        return JobErrorLimitName.amazonS3DataAccessAssetsPerRevision;
     }
     throw Exception('$this is not known in enum JobErrorLimitName');
   }
 }
 
-/// The types of resource which the job error can apply to.
 enum JobErrorResourceTypes {
   revision,
   asset,
+  dataSet,
 }
 
 extension JobErrorResourceTypesValueExtension on JobErrorResourceTypes {
@@ -2000,6 +3214,8 @@ extension JobErrorResourceTypesValueExtension on JobErrorResourceTypes {
         return 'REVISION';
       case JobErrorResourceTypes.asset:
         return 'ASSET';
+      case JobErrorResourceTypes.dataSet:
+        return 'DATA_SET';
     }
   }
 }
@@ -2011,8 +3227,268 @@ extension JobErrorResourceTypesFromString on String {
         return JobErrorResourceTypes.revision;
       case 'ASSET':
         return JobErrorResourceTypes.asset;
+      case 'DATA_SET':
+        return JobErrorResourceTypes.dataSet;
     }
     throw Exception('$this is not known in enum JobErrorResourceTypes');
+  }
+}
+
+/// The Amazon Resource Name (ARN) of the AWS KMS key used to encrypt the shared
+/// S3 objects.
+class KmsKeyToGrant {
+  /// The AWS KMS CMK (Key Management System Customer Managed Key) used to encrypt
+  /// S3 objects in the shared S3 Bucket. AWS Data exchange will create a KMS
+  /// grant for each subscriber to allow them to access and decrypt their entitled
+  /// data that is encrypted using this KMS key specified.
+  final String kmsKeyArn;
+
+  KmsKeyToGrant({
+    required this.kmsKeyArn,
+  });
+
+  factory KmsKeyToGrant.fromJson(Map<String, dynamic> json) {
+    return KmsKeyToGrant(
+      kmsKeyArn: json['KmsKeyArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKeyArn = this.kmsKeyArn;
+    return {
+      'KmsKeyArn': kmsKeyArn,
+    };
+  }
+}
+
+enum LFPermission {
+  describe,
+  select,
+}
+
+extension LFPermissionValueExtension on LFPermission {
+  String toValue() {
+    switch (this) {
+      case LFPermission.describe:
+        return 'DESCRIBE';
+      case LFPermission.select:
+        return 'SELECT';
+    }
+  }
+}
+
+extension LFPermissionFromString on String {
+  LFPermission toLFPermission() {
+    switch (this) {
+      case 'DESCRIBE':
+        return LFPermission.describe;
+      case 'SELECT':
+        return LFPermission.select;
+    }
+    throw Exception('$this is not known in enum LFPermission');
+  }
+}
+
+/// Details about the AWS Lake Formation resource (Table or Database) included
+/// in the AWS Lake Formation data permission.
+class LFResourceDetails {
+  /// Details about the database resource included in the AWS Lake Formation data
+  /// permission.
+  final DatabaseLFTagPolicy? database;
+
+  /// Details about the table resource included in the AWS Lake Formation data
+  /// permission.
+  final TableLFTagPolicy? table;
+
+  LFResourceDetails({
+    this.database,
+    this.table,
+  });
+
+  factory LFResourceDetails.fromJson(Map<String, dynamic> json) {
+    return LFResourceDetails(
+      database: json['Database'] != null
+          ? DatabaseLFTagPolicy.fromJson(
+              json['Database'] as Map<String, dynamic>)
+          : null,
+      table: json['Table'] != null
+          ? TableLFTagPolicy.fromJson(json['Table'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+enum LFResourceType {
+  table,
+  database,
+}
+
+extension LFResourceTypeValueExtension on LFResourceType {
+  String toValue() {
+    switch (this) {
+      case LFResourceType.table:
+        return 'TABLE';
+      case LFResourceType.database:
+        return 'DATABASE';
+    }
+  }
+}
+
+extension LFResourceTypeFromString on String {
+  LFResourceType toLFResourceType() {
+    switch (this) {
+      case 'TABLE':
+        return LFResourceType.table;
+      case 'DATABASE':
+        return LFResourceType.database;
+    }
+    throw Exception('$this is not known in enum LFResourceType');
+  }
+}
+
+/// A structure that allows an LF-admin to grant permissions on certain
+/// conditions.
+class LFTag {
+  /// The key name for the LF-tag.
+  final String tagKey;
+
+  /// A list of LF-tag values.
+  final List<String> tagValues;
+
+  LFTag({
+    required this.tagKey,
+    required this.tagValues,
+  });
+
+  factory LFTag.fromJson(Map<String, dynamic> json) {
+    return LFTag(
+      tagKey: json['TagKey'] as String,
+      tagValues: (json['TagValues'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagKey = this.tagKey;
+    final tagValues = this.tagValues;
+    return {
+      'TagKey': tagKey,
+      'TagValues': tagValues,
+    };
+  }
+}
+
+/// Details about the LF-tag policy.
+class LFTagPolicyDetails {
+  /// The identifier for the AWS Glue Data Catalog.
+  final String catalogId;
+
+  /// Details for the Lake Formation Resources included in the LF-tag policy.
+  final LFResourceDetails resourceDetails;
+
+  /// The resource type for which the LF-tag policy applies.
+  final LFResourceType resourceType;
+
+  LFTagPolicyDetails({
+    required this.catalogId,
+    required this.resourceDetails,
+    required this.resourceType,
+  });
+
+  factory LFTagPolicyDetails.fromJson(Map<String, dynamic> json) {
+    return LFTagPolicyDetails(
+      catalogId: json['CatalogId'] as String,
+      resourceDetails: LFResourceDetails.fromJson(
+          json['ResourceDetails'] as Map<String, dynamic>),
+      resourceType: (json['ResourceType'] as String).toLFResourceType(),
+    );
+  }
+}
+
+/// The AWS Lake Formation data permission asset.
+class LakeFormationDataPermissionAsset {
+  /// Details about the AWS Lake Formation data permission.
+  final LakeFormationDataPermissionDetails lakeFormationDataPermissionDetails;
+
+  /// The data permission type.
+  final LakeFormationDataPermissionType lakeFormationDataPermissionType;
+
+  /// The permissions granted to the subscribers on the resource.
+  final List<LFPermission> permissions;
+
+  /// The IAM role's ARN that allows AWS Data Exchange to assume the role and
+  /// grant and revoke permissions to AWS Lake Formation data permissions.
+  final String? roleArn;
+
+  LakeFormationDataPermissionAsset({
+    required this.lakeFormationDataPermissionDetails,
+    required this.lakeFormationDataPermissionType,
+    required this.permissions,
+    this.roleArn,
+  });
+
+  factory LakeFormationDataPermissionAsset.fromJson(Map<String, dynamic> json) {
+    return LakeFormationDataPermissionAsset(
+      lakeFormationDataPermissionDetails:
+          LakeFormationDataPermissionDetails.fromJson(
+              json['LakeFormationDataPermissionDetails']
+                  as Map<String, dynamic>),
+      lakeFormationDataPermissionType:
+          (json['LakeFormationDataPermissionType'] as String)
+              .toLakeFormationDataPermissionType(),
+      permissions: (json['Permissions'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toLFPermission())
+          .toList(),
+      roleArn: json['RoleArn'] as String?,
+    );
+  }
+}
+
+/// Details about the AWS Lake Formation data permission.
+class LakeFormationDataPermissionDetails {
+  /// Details about the LF-tag policy.
+  final LFTagPolicyDetails? lFTagPolicy;
+
+  LakeFormationDataPermissionDetails({
+    this.lFTagPolicy,
+  });
+
+  factory LakeFormationDataPermissionDetails.fromJson(
+      Map<String, dynamic> json) {
+    return LakeFormationDataPermissionDetails(
+      lFTagPolicy: json['LFTagPolicy'] != null
+          ? LFTagPolicyDetails.fromJson(
+              json['LFTagPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+enum LakeFormationDataPermissionType {
+  lFTagPolicy,
+}
+
+extension LakeFormationDataPermissionTypeValueExtension
+    on LakeFormationDataPermissionType {
+  String toValue() {
+    switch (this) {
+      case LakeFormationDataPermissionType.lFTagPolicy:
+        return 'LFTagPolicy';
+    }
+  }
+}
+
+extension LakeFormationDataPermissionTypeFromString on String {
+  LakeFormationDataPermissionType toLakeFormationDataPermissionType() {
+    switch (this) {
+      case 'LFTagPolicy':
+        return LakeFormationDataPermissionType.lFTagPolicy;
+    }
+    throw Exception(
+        '$this is not known in enum LakeFormationDataPermissionType');
   }
 }
 
@@ -2028,6 +3504,7 @@ class ListDataSetRevisionsResponse {
     this.nextToken,
     this.revisions,
   });
+
   factory ListDataSetRevisionsResponse.fromJson(Map<String, dynamic> json) {
     return ListDataSetRevisionsResponse(
       nextToken: json['NextToken'] as String?,
@@ -2051,11 +3528,36 @@ class ListDataSetsResponse {
     this.dataSets,
     this.nextToken,
   });
+
   factory ListDataSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListDataSetsResponse(
       dataSets: (json['DataSets'] as List?)
           ?.whereNotNull()
           .map((e) => DataSetEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
+class ListEventActionsResponse {
+  /// The event action objects listed by the request.
+  final List<EventActionEntry>? eventActions;
+
+  /// The token value retrieved from a previous call to access the next page of
+  /// results.
+  final String? nextToken;
+
+  ListEventActionsResponse({
+    this.eventActions,
+    this.nextToken,
+  });
+
+  factory ListEventActionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListEventActionsResponse(
+      eventActions: (json['EventActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => EventActionEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
     );
@@ -2074,6 +3576,7 @@ class ListJobsResponse {
     this.jobs,
     this.nextToken,
   });
+
   factory ListJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListJobsResponse(
       jobs: (json['Jobs'] as List?)
@@ -2097,6 +3600,7 @@ class ListRevisionAssetsResponse {
     this.assets,
     this.nextToken,
   });
+
   factory ListRevisionAssetsResponse.fromJson(Map<String, dynamic> json) {
     return ListRevisionAssetsResponse(
       assets: (json['Assets'] as List?)
@@ -2115,6 +3619,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -2123,10 +3628,6 @@ class ListTagsForResourceResponse {
   }
 }
 
-/// A property that defines the data set as OWNED by the account (for providers)
-/// or ENTITLED to the account (for subscribers). When an owned data set is
-/// published in a product, AWS Data Exchange creates a copy of the data set.
-/// Subscribers can access that copy of the data set as an entitled data set.
 enum Origin {
   owned,
   entitled,
@@ -2155,12 +3656,15 @@ extension OriginFromString on String {
   }
 }
 
+/// Details about the origin of the data set.
 class OriginDetails {
+  /// The product ID of the origin of the data set.
   final String productId;
 
   OriginDetails({
     required this.productId,
   });
+
   factory OriginDetails.fromJson(Map<String, dynamic> json) {
     return OriginDetails(
       productId: json['ProductId'] as String,
@@ -2168,37 +3672,143 @@ class OriginDetails {
   }
 }
 
+enum ProtocolType {
+  rest,
+}
+
+extension ProtocolTypeValueExtension on ProtocolType {
+  String toValue() {
+    switch (this) {
+      case ProtocolType.rest:
+        return 'REST';
+    }
+  }
+}
+
+extension ProtocolTypeFromString on String {
+  ProtocolType toProtocolType() {
+    switch (this) {
+      case 'REST':
+        return ProtocolType.rest;
+    }
+    throw Exception('$this is not known in enum ProtocolType');
+  }
+}
+
+/// The Amazon Redshift datashare asset.
+class RedshiftDataShareAsset {
+  /// The Amazon Resource Name (ARN) of the datashare asset.
+  final String arn;
+
+  RedshiftDataShareAsset({
+    required this.arn,
+  });
+
+  factory RedshiftDataShareAsset.fromJson(Map<String, dynamic> json) {
+    return RedshiftDataShareAsset(
+      arn: json['Arn'] as String,
+    );
+  }
+}
+
+/// The source of the Amazon Redshift datashare asset.
+class RedshiftDataShareAssetSourceEntry {
+  /// The Amazon Resource Name (ARN) of the datashare asset.
+  final String dataShareArn;
+
+  RedshiftDataShareAssetSourceEntry({
+    required this.dataShareArn,
+  });
+
+  factory RedshiftDataShareAssetSourceEntry.fromJson(
+      Map<String, dynamic> json) {
+    return RedshiftDataShareAssetSourceEntry(
+      dataShareArn: json['DataShareArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataShareArn = this.dataShareArn;
+    return {
+      'DataShareArn': dataShareArn,
+    };
+  }
+}
+
 /// The details for the request.
 class RequestDetails {
+  /// Details of the request to create S3 data access from the Amazon S3 bucket.
+  final CreateS3DataAccessFromS3BucketRequestDetails?
+      createS3DataAccessFromS3Bucket;
+
   /// Details about the export to signed URL request.
   final ExportAssetToSignedUrlRequestDetails? exportAssetToSignedUrl;
 
   /// Details about the export to Amazon S3 request.
   final ExportAssetsToS3RequestDetails? exportAssetsToS3;
 
+  /// Details about the export to Amazon S3 request.
+  final ExportRevisionsToS3RequestDetails? exportRevisionsToS3;
+
   /// Details about the import from signed URL request.
-  final ImportAssetFromSignedUrlRequestDetails? importAssetFromSignedUrl;
+  final ImportAssetFromApiGatewayApiRequestDetails?
+      importAssetFromApiGatewayApi;
 
   /// Details about the import from Amazon S3 request.
+  final ImportAssetFromSignedUrlRequestDetails? importAssetFromSignedUrl;
+
+  /// Request details for the ImportAssetsFromLakeFormationTagPolicy job.
+  final ImportAssetsFromLakeFormationTagPolicyRequestDetails?
+      importAssetsFromLakeFormationTagPolicy;
+
+  /// Details from an import from Amazon Redshift datashare request.
+  final ImportAssetsFromRedshiftDataSharesRequestDetails?
+      importAssetsFromRedshiftDataShares;
+
+  /// Details about the import asset from API Gateway API request.
   final ImportAssetsFromS3RequestDetails? importAssetsFromS3;
 
   RequestDetails({
+    this.createS3DataAccessFromS3Bucket,
     this.exportAssetToSignedUrl,
     this.exportAssetsToS3,
+    this.exportRevisionsToS3,
+    this.importAssetFromApiGatewayApi,
     this.importAssetFromSignedUrl,
+    this.importAssetsFromLakeFormationTagPolicy,
+    this.importAssetsFromRedshiftDataShares,
     this.importAssetsFromS3,
   });
   Map<String, dynamic> toJson() {
+    final createS3DataAccessFromS3Bucket = this.createS3DataAccessFromS3Bucket;
     final exportAssetToSignedUrl = this.exportAssetToSignedUrl;
     final exportAssetsToS3 = this.exportAssetsToS3;
+    final exportRevisionsToS3 = this.exportRevisionsToS3;
+    final importAssetFromApiGatewayApi = this.importAssetFromApiGatewayApi;
     final importAssetFromSignedUrl = this.importAssetFromSignedUrl;
+    final importAssetsFromLakeFormationTagPolicy =
+        this.importAssetsFromLakeFormationTagPolicy;
+    final importAssetsFromRedshiftDataShares =
+        this.importAssetsFromRedshiftDataShares;
     final importAssetsFromS3 = this.importAssetsFromS3;
     return {
+      if (createS3DataAccessFromS3Bucket != null)
+        'CreateS3DataAccessFromS3Bucket': createS3DataAccessFromS3Bucket,
       if (exportAssetToSignedUrl != null)
         'ExportAssetToSignedUrl': exportAssetToSignedUrl,
       if (exportAssetsToS3 != null) 'ExportAssetsToS3': exportAssetsToS3,
+      if (exportRevisionsToS3 != null)
+        'ExportRevisionsToS3': exportRevisionsToS3,
+      if (importAssetFromApiGatewayApi != null)
+        'ImportAssetFromApiGatewayApi': importAssetFromApiGatewayApi,
       if (importAssetFromSignedUrl != null)
         'ImportAssetFromSignedUrl': importAssetFromSignedUrl,
+      if (importAssetsFromLakeFormationTagPolicy != null)
+        'ImportAssetsFromLakeFormationTagPolicy':
+            importAssetsFromLakeFormationTagPolicy,
+      if (importAssetsFromRedshiftDataShares != null)
+        'ImportAssetsFromRedshiftDataShares':
+            importAssetsFromRedshiftDataShares,
       if (importAssetsFromS3 != null) 'ImportAssetsFromS3': importAssetsFromS3,
     };
   }
@@ -2206,26 +3816,56 @@ class RequestDetails {
 
 /// Details for the response.
 class ResponseDetails {
+  /// Response details from the CreateS3DataAccessFromS3Bucket job.
+  final CreateS3DataAccessFromS3BucketResponseDetails?
+      createS3DataAccessFromS3Bucket;
+
   /// Details for the export to signed URL response.
   final ExportAssetToSignedUrlResponseDetails? exportAssetToSignedUrl;
 
   /// Details for the export to Amazon S3 response.
   final ExportAssetsToS3ResponseDetails? exportAssetsToS3;
 
+  /// Details for the export revisions to Amazon S3 response.
+  final ExportRevisionsToS3ResponseDetails? exportRevisionsToS3;
+
+  /// The response details.
+  final ImportAssetFromApiGatewayApiResponseDetails?
+      importAssetFromApiGatewayApi;
+
   /// Details for the import from signed URL response.
   final ImportAssetFromSignedUrlResponseDetails? importAssetFromSignedUrl;
+
+  /// Response details from the ImportAssetsFromLakeFormationTagPolicy job.
+  final ImportAssetsFromLakeFormationTagPolicyResponseDetails?
+      importAssetsFromLakeFormationTagPolicy;
+
+  /// Details from an import from Amazon Redshift datashare response.
+  final ImportAssetsFromRedshiftDataSharesResponseDetails?
+      importAssetsFromRedshiftDataShares;
 
   /// Details for the import from Amazon S3 response.
   final ImportAssetsFromS3ResponseDetails? importAssetsFromS3;
 
   ResponseDetails({
+    this.createS3DataAccessFromS3Bucket,
     this.exportAssetToSignedUrl,
     this.exportAssetsToS3,
+    this.exportRevisionsToS3,
+    this.importAssetFromApiGatewayApi,
     this.importAssetFromSignedUrl,
+    this.importAssetsFromLakeFormationTagPolicy,
+    this.importAssetsFromRedshiftDataShares,
     this.importAssetsFromS3,
   });
+
   factory ResponseDetails.fromJson(Map<String, dynamic> json) {
     return ResponseDetails(
+      createS3DataAccessFromS3Bucket: json['CreateS3DataAccessFromS3Bucket'] !=
+              null
+          ? CreateS3DataAccessFromS3BucketResponseDetails.fromJson(
+              json['CreateS3DataAccessFromS3Bucket'] as Map<String, dynamic>)
+          : null,
       exportAssetToSignedUrl: json['ExportAssetToSignedUrl'] != null
           ? ExportAssetToSignedUrlResponseDetails.fromJson(
               json['ExportAssetToSignedUrl'] as Map<String, dynamic>)
@@ -2234,15 +3874,75 @@ class ResponseDetails {
           ? ExportAssetsToS3ResponseDetails.fromJson(
               json['ExportAssetsToS3'] as Map<String, dynamic>)
           : null,
+      exportRevisionsToS3: json['ExportRevisionsToS3'] != null
+          ? ExportRevisionsToS3ResponseDetails.fromJson(
+              json['ExportRevisionsToS3'] as Map<String, dynamic>)
+          : null,
+      importAssetFromApiGatewayApi: json['ImportAssetFromApiGatewayApi'] != null
+          ? ImportAssetFromApiGatewayApiResponseDetails.fromJson(
+              json['ImportAssetFromApiGatewayApi'] as Map<String, dynamic>)
+          : null,
       importAssetFromSignedUrl: json['ImportAssetFromSignedUrl'] != null
           ? ImportAssetFromSignedUrlResponseDetails.fromJson(
               json['ImportAssetFromSignedUrl'] as Map<String, dynamic>)
           : null,
+      importAssetsFromLakeFormationTagPolicy:
+          json['ImportAssetsFromLakeFormationTagPolicy'] != null
+              ? ImportAssetsFromLakeFormationTagPolicyResponseDetails.fromJson(
+                  json['ImportAssetsFromLakeFormationTagPolicy']
+                      as Map<String, dynamic>)
+              : null,
+      importAssetsFromRedshiftDataShares:
+          json['ImportAssetsFromRedshiftDataShares'] != null
+              ? ImportAssetsFromRedshiftDataSharesResponseDetails.fromJson(
+                  json['ImportAssetsFromRedshiftDataShares']
+                      as Map<String, dynamic>)
+              : null,
       importAssetsFromS3: json['ImportAssetsFromS3'] != null
           ? ImportAssetsFromS3ResponseDetails.fromJson(
               json['ImportAssetsFromS3'] as Map<String, dynamic>)
           : null,
     );
+  }
+}
+
+/// The destination where the assets in the revision will be exported.
+class RevisionDestinationEntry {
+  /// The Amazon S3 bucket that is the destination for the assets in the revision.
+  final String bucket;
+
+  /// The unique identifier for the revision.
+  final String revisionId;
+
+  /// A string representing the pattern for generated names of the individual
+  /// assets in the revision. For more information about key patterns, see <a
+  /// href="https://docs.aws.amazon.com/data-exchange/latest/userguide/jobs.html#revision-export-keypatterns">Key
+  /// patterns when exporting revisions</a>.
+  final String? keyPattern;
+
+  RevisionDestinationEntry({
+    required this.bucket,
+    required this.revisionId,
+    this.keyPattern,
+  });
+
+  factory RevisionDestinationEntry.fromJson(Map<String, dynamic> json) {
+    return RevisionDestinationEntry(
+      bucket: json['Bucket'] as String,
+      revisionId: json['RevisionId'] as String,
+      keyPattern: json['KeyPattern'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final revisionId = this.revisionId;
+    final keyPattern = this.keyPattern;
+    return {
+      'Bucket': bucket,
+      'RevisionId': revisionId,
+      if (keyPattern != null) 'KeyPattern': keyPattern,
+    };
   }
 }
 
@@ -2254,7 +3954,8 @@ class RevisionEntry {
   /// The date and time that the revision was created, in ISO 8601 format.
   final DateTime createdAt;
 
-  /// The unique identifier for the data set associated with this revision.
+  /// The unique identifier for the data set associated with the data set
+  /// revision.
   final String dataSetId;
 
   /// The unique identifier for the revision.
@@ -2269,13 +3970,22 @@ class RevisionEntry {
   /// To publish a revision to a data set in a product, the revision must first be
   /// finalized. Finalizing a revision tells AWS Data Exchange that your changes
   /// to the assets in the revision are complete. After it's in this read-only
-  /// state, you can publish the revision to your products.
-  ///
-  /// Finalized revisions can be published through the AWS Data Exchange console
-  /// or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace
-  /// Catalog API action. When using the API, revisions are uniquely identified by
-  /// their ARN.
+  /// state, you can publish the revision to your products. Finalized revisions
+  /// can be published through the AWS Data Exchange console or the AWS
+  /// Marketplace Catalog API, using the StartChangeSet AWS Marketplace Catalog
+  /// API action. When using the API, revisions are uniquely identified by their
+  /// ARN.
   final bool? finalized;
+
+  /// A required comment to inform subscribers of the reason their access to the
+  /// revision was revoked.
+  final String? revocationComment;
+
+  /// A status indicating that subscribers' access to the revision was revoked.
+  final bool? revoked;
+
+  /// The date and time that the revision was revoked, in ISO 8601 format.
+  final DateTime? revokedAt;
 
   /// The revision ID of the owned revision corresponding to the entitled revision
   /// being viewed. This parameter is returned when a revision owner is viewing
@@ -2290,8 +4000,12 @@ class RevisionEntry {
     required this.updatedAt,
     this.comment,
     this.finalized,
+    this.revocationComment,
+    this.revoked,
+    this.revokedAt,
     this.sourceId,
   });
+
   factory RevisionEntry.fromJson(Map<String, dynamic> json) {
     return RevisionEntry(
       arn: json['Arn'] as String,
@@ -2301,19 +4015,233 @@ class RevisionEntry {
       updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] as Object),
       comment: json['Comment'] as String?,
       finalized: json['Finalized'] as bool?,
+      revocationComment: json['RevocationComment'] as String?,
+      revoked: json['Revoked'] as bool?,
+      revokedAt: timeStampFromJson(json['RevokedAt']),
       sourceId: json['SourceId'] as String?,
     );
   }
 }
 
-/// The S3 object that is the asset.
+/// Information about the published revision.
+class RevisionPublished {
+  /// The data set ID of the published revision.
+  final String dataSetId;
+
+  RevisionPublished({
+    required this.dataSetId,
+  });
+
+  factory RevisionPublished.fromJson(Map<String, dynamic> json) {
+    return RevisionPublished(
+      dataSetId: json['DataSetId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSetId = this.dataSetId;
+    return {
+      'DataSetId': dataSetId,
+    };
+  }
+}
+
+class RevokeRevisionResponse {
+  /// The ARN for the revision.
+  final String? arn;
+
+  /// An optional comment about the revision.
+  final String? comment;
+
+  /// The date and time that the revision was created, in ISO 8601 format.
+  final DateTime? createdAt;
+
+  /// The unique identifier for the data set associated with the data set
+  /// revision.
+  final String? dataSetId;
+
+  /// To publish a revision to a data set in a product, the revision must first be
+  /// finalized. Finalizing a revision tells AWS Data Exchange that changes to the
+  /// assets in the revision are complete. After it's in this read-only state, you
+  /// can publish the revision to your products. Finalized revisions can be
+  /// published through the AWS Data Exchange console or the AWS Marketplace
+  /// Catalog API, using the StartChangeSet AWS Marketplace Catalog API action.
+  /// When using the API, revisions are uniquely identified by their ARN.
+  final bool? finalized;
+
+  /// The unique identifier for the revision.
+  final String? id;
+
+  /// A required comment to inform subscribers of the reason their access to the
+  /// revision was revoked.
+  final String? revocationComment;
+
+  /// A status indicating that subscribers' access to the revision was revoked.
+  final bool? revoked;
+
+  /// The date and time that the revision was revoked, in ISO 8601 format.
+  final DateTime? revokedAt;
+
+  /// The revision ID of the owned revision corresponding to the entitled revision
+  /// being viewed. This parameter is returned when a revision owner is viewing
+  /// the entitled copy of its owned revision.
+  final String? sourceId;
+
+  /// The date and time that the revision was last updated, in ISO 8601 format.
+  final DateTime? updatedAt;
+
+  RevokeRevisionResponse({
+    this.arn,
+    this.comment,
+    this.createdAt,
+    this.dataSetId,
+    this.finalized,
+    this.id,
+    this.revocationComment,
+    this.revoked,
+    this.revokedAt,
+    this.sourceId,
+    this.updatedAt,
+  });
+
+  factory RevokeRevisionResponse.fromJson(Map<String, dynamic> json) {
+    return RevokeRevisionResponse(
+      arn: json['Arn'] as String?,
+      comment: json['Comment'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      dataSetId: json['DataSetId'] as String?,
+      finalized: json['Finalized'] as bool?,
+      id: json['Id'] as String?,
+      revocationComment: json['RevocationComment'] as String?,
+      revoked: json['Revoked'] as bool?,
+      revokedAt: timeStampFromJson(json['RevokedAt']),
+      sourceId: json['SourceId'] as String?,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+}
+
+/// The Amazon S3 data access that is the asset.
+class S3DataAccessAsset {
+  /// The Amazon S3 bucket hosting data to be shared in the S3 data access.
+  final String bucket;
+
+  /// The Amazon S3 bucket used for hosting shared data in the Amazon S3 data
+  /// access.
+  final List<String>? keyPrefixes;
+
+  /// S3 keys made available using this asset.
+  final List<String>? keys;
+
+  /// List of AWS KMS CMKs (Key Management System Customer Managed Keys) and ARNs
+  /// used to encrypt S3 objects being shared in this S3 Data Access asset.
+  /// Providers must include all AWS KMS keys used to encrypt these shared S3
+  /// objects.
+  final List<KmsKeyToGrant>? kmsKeysToGrant;
+
+  /// The automatically-generated bucket-style alias for your Amazon S3 Access
+  /// Point. Customers can access their entitled data using the S3 Access Point
+  /// alias.
+  final String? s3AccessPointAlias;
+
+  /// The ARN for your Amazon S3 Access Point. Customers can also access their
+  /// entitled data using the S3 Access Point ARN.
+  final String? s3AccessPointArn;
+
+  S3DataAccessAsset({
+    required this.bucket,
+    this.keyPrefixes,
+    this.keys,
+    this.kmsKeysToGrant,
+    this.s3AccessPointAlias,
+    this.s3AccessPointArn,
+  });
+
+  factory S3DataAccessAsset.fromJson(Map<String, dynamic> json) {
+    return S3DataAccessAsset(
+      bucket: json['Bucket'] as String,
+      keyPrefixes: (json['KeyPrefixes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      keys: (json['Keys'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      kmsKeysToGrant: (json['KmsKeysToGrant'] as List?)
+          ?.whereNotNull()
+          .map((e) => KmsKeyToGrant.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      s3AccessPointAlias: json['S3AccessPointAlias'] as String?,
+      s3AccessPointArn: json['S3AccessPointArn'] as String?,
+    );
+  }
+}
+
+/// Source details for an Amazon S3 data access asset.
+class S3DataAccessAssetSourceEntry {
+  /// The Amazon S3 bucket used for hosting shared data in the Amazon S3 data
+  /// access.
+  final String bucket;
+
+  /// Organizes Amazon S3 asset key prefixes stored in an Amazon S3 bucket.
+  final List<String>? keyPrefixes;
+
+  /// The keys used to create the Amazon S3 data access.
+  final List<String>? keys;
+
+  /// List of AWS KMS CMKs (Key Management System Customer Managed Keys) and ARNs
+  /// used to encrypt S3 objects being shared in this S3 Data Access asset.
+  final List<KmsKeyToGrant>? kmsKeysToGrant;
+
+  S3DataAccessAssetSourceEntry({
+    required this.bucket,
+    this.keyPrefixes,
+    this.keys,
+    this.kmsKeysToGrant,
+  });
+
+  factory S3DataAccessAssetSourceEntry.fromJson(Map<String, dynamic> json) {
+    return S3DataAccessAssetSourceEntry(
+      bucket: json['Bucket'] as String,
+      keyPrefixes: (json['KeyPrefixes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      keys: (json['Keys'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      kmsKeysToGrant: (json['KmsKeysToGrant'] as List?)
+          ?.whereNotNull()
+          .map((e) => KmsKeyToGrant.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final keyPrefixes = this.keyPrefixes;
+    final keys = this.keys;
+    final kmsKeysToGrant = this.kmsKeysToGrant;
+    return {
+      'Bucket': bucket,
+      if (keyPrefixes != null) 'KeyPrefixes': keyPrefixes,
+      if (keys != null) 'Keys': keys,
+      if (kmsKeysToGrant != null) 'KmsKeysToGrant': kmsKeysToGrant,
+    };
+  }
+}
+
+/// The Amazon S3 object that is the asset.
 class S3SnapshotAsset {
-  /// The size of the S3 object that is the object.
+  /// The size of the Amazon S3 object that is the object.
   final double size;
 
   S3SnapshotAsset({
     required this.size,
   });
+
   factory S3SnapshotAsset.fromJson(Map<String, dynamic> json) {
     return S3SnapshotAsset(
       size: json['Size'] as double,
@@ -2321,7 +4249,19 @@ class S3SnapshotAsset {
   }
 }
 
-/// The types of encryption supported in export jobs to Amazon S3.
+class SendApiAssetResponse {
+  /// The response body from the underlying API tracked by the API asset.
+  final String? body;
+
+  /// The response headers from the underlying API tracked by the API asset.
+  final Map<String, String>? responseHeaders;
+
+  SendApiAssetResponse({
+    this.body,
+    this.responseHeaders,
+  });
+}
+
 enum ServerSideEncryptionTypes {
   awsKms,
   aes256,
@@ -2352,6 +4292,7 @@ extension ServerSideEncryptionTypesFromString on String {
 
 class StartJobResponse {
   StartJobResponse();
+
   factory StartJobResponse.fromJson(Map<String, dynamic> _) {
     return StartJobResponse();
   }
@@ -2405,11 +4346,100 @@ extension StateFromString on String {
   }
 }
 
+/// The LF-tag policy for a table resource.
+class TableLFTagPolicy {
+  /// A list of LF-tag conditions that apply to table resources.
+  final List<LFTag> expression;
+
+  TableLFTagPolicy({
+    required this.expression,
+  });
+
+  factory TableLFTagPolicy.fromJson(Map<String, dynamic> json) {
+    return TableLFTagPolicy(
+      expression: (json['Expression'] as List)
+          .whereNotNull()
+          .map((e) => LFTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// The LF-tag policy and permissions that apply to table resources.
+class TableLFTagPolicyAndPermissions {
+  /// A list of LF-tag conditions that apply to table resources.
+  final List<LFTag> expression;
+
+  /// The permissions granted to subscribers on table resources.
+  final List<TableTagPolicyLFPermission> permissions;
+
+  TableLFTagPolicyAndPermissions({
+    required this.expression,
+    required this.permissions,
+  });
+
+  factory TableLFTagPolicyAndPermissions.fromJson(Map<String, dynamic> json) {
+    return TableLFTagPolicyAndPermissions(
+      expression: (json['Expression'] as List)
+          .whereNotNull()
+          .map((e) => LFTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      permissions: (json['Permissions'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toTableTagPolicyLFPermission())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final expression = this.expression;
+    final permissions = this.permissions;
+    return {
+      'Expression': expression,
+      'Permissions': permissions.map((e) => e.toValue()).toList(),
+    };
+  }
+}
+
+enum TableTagPolicyLFPermission {
+  describe,
+  select,
+}
+
+extension TableTagPolicyLFPermissionValueExtension
+    on TableTagPolicyLFPermission {
+  String toValue() {
+    switch (this) {
+      case TableTagPolicyLFPermission.describe:
+        return 'DESCRIBE';
+      case TableTagPolicyLFPermission.select:
+        return 'SELECT';
+    }
+  }
+}
+
+extension TableTagPolicyLFPermissionFromString on String {
+  TableTagPolicyLFPermission toTableTagPolicyLFPermission() {
+    switch (this) {
+      case 'DESCRIBE':
+        return TableTagPolicyLFPermission.describe;
+      case 'SELECT':
+        return TableTagPolicyLFPermission.select;
+    }
+    throw Exception('$this is not known in enum TableTagPolicyLFPermission');
+  }
+}
+
 enum Type {
   importAssetsFromS3,
   importAssetFromSignedUrl,
   exportAssetsToS3,
   exportAssetToSignedUrl,
+  exportRevisionsToS3,
+  importAssetsFromRedshiftDataShares,
+  importAssetFromApiGatewayApi,
+  createS3DataAccessFromS3Bucket,
+  importAssetsFromLakeFormationTagPolicy,
 }
 
 extension TypeValueExtension on Type {
@@ -2423,6 +4453,16 @@ extension TypeValueExtension on Type {
         return 'EXPORT_ASSETS_TO_S3';
       case Type.exportAssetToSignedUrl:
         return 'EXPORT_ASSET_TO_SIGNED_URL';
+      case Type.exportRevisionsToS3:
+        return 'EXPORT_REVISIONS_TO_S3';
+      case Type.importAssetsFromRedshiftDataShares:
+        return 'IMPORT_ASSETS_FROM_REDSHIFT_DATA_SHARES';
+      case Type.importAssetFromApiGatewayApi:
+        return 'IMPORT_ASSET_FROM_API_GATEWAY_API';
+      case Type.createS3DataAccessFromS3Bucket:
+        return 'CREATE_S3_DATA_ACCESS_FROM_S3_BUCKET';
+      case Type.importAssetsFromLakeFormationTagPolicy:
+        return 'IMPORT_ASSETS_FROM_LAKE_FORMATION_TAG_POLICY';
     }
   }
 }
@@ -2438,6 +4478,16 @@ extension TypeFromString on String {
         return Type.exportAssetsToS3;
       case 'EXPORT_ASSET_TO_SIGNED_URL':
         return Type.exportAssetToSignedUrl;
+      case 'EXPORT_REVISIONS_TO_S3':
+        return Type.exportRevisionsToS3;
+      case 'IMPORT_ASSETS_FROM_REDSHIFT_DATA_SHARES':
+        return Type.importAssetsFromRedshiftDataShares;
+      case 'IMPORT_ASSET_FROM_API_GATEWAY_API':
+        return Type.importAssetFromApiGatewayApi;
+      case 'CREATE_S3_DATA_ACCESS_FROM_S3_BUCKET':
+        return Type.createS3DataAccessFromS3Bucket;
+      case 'IMPORT_ASSETS_FROM_LAKE_FORMATION_TAG_POLICY':
+        return Type.importAssetsFromLakeFormationTagPolicy;
     }
     throw Exception('$this is not known in enum Type');
   }
@@ -2447,11 +4497,10 @@ class UpdateAssetResponse {
   /// The ARN for the asset.
   final String? arn;
 
-  /// Information about the asset, including its size.
+  /// Details about the asset.
   final AssetDetails? assetDetails;
 
-  /// The type of file your data is stored in. Currently, the supported asset type
-  /// is S3_SNAPSHOT.
+  /// The type of asset that is added to a data set.
   final AssetType? assetType;
 
   /// The date and time that the asset was created, in ISO 8601 format.
@@ -2463,9 +4512,14 @@ class UpdateAssetResponse {
   /// The unique identifier for the asset.
   final String? id;
 
-  /// The name of the asset When importing from Amazon S3, the S3 object key is
-  /// used as the asset name. When exporting to Amazon S3, the asset name is used
-  /// as default target S3 object key.
+  /// The name of the asset. When importing from Amazon S3, the Amazon S3 object
+  /// key is used as the asset name. When exporting to Amazon S3, the asset name
+  /// is used as default target Amazon S3 object key. When importing from Amazon
+  /// API Gateway API, the API name is used as the asset name. When importing from
+  /// Amazon Redshift, the datashare name is used as the asset name. When
+  /// importing from AWS Lake Formation, the static values of "Database(s)
+  /// included in the LF-tag policy"- or "Table(s) included in LF-tag policy" are
+  /// used as the asset name.
   final String? name;
 
   /// The unique identifier for the revision associated with this asset.
@@ -2491,6 +4545,7 @@ class UpdateAssetResponse {
     this.sourceId,
     this.updatedAt,
   });
+
   factory UpdateAssetResponse.fromJson(Map<String, dynamic> json) {
     return UpdateAssetResponse(
       arn: json['Arn'] as String?,
@@ -2513,8 +4568,7 @@ class UpdateDataSetResponse {
   /// The ARN for the data set.
   final String? arn;
 
-  /// The type of file your data is stored in. Currently, the supported asset type
-  /// is S3_SNAPSHOT.
+  /// The type of asset that is added to a data set.
   final AssetType? assetType;
 
   /// The date and time that the data set was created, in ISO 8601 format.
@@ -2557,6 +4611,7 @@ class UpdateDataSetResponse {
     this.sourceId,
     this.updatedAt,
   });
+
   factory UpdateDataSetResponse.fromJson(Map<String, dynamic> json) {
     return UpdateDataSetResponse(
       arn: json['Arn'] as String?,
@@ -2576,6 +4631,51 @@ class UpdateDataSetResponse {
   }
 }
 
+class UpdateEventActionResponse {
+  /// What occurs after a certain event.
+  final Action? action;
+
+  /// The ARN for the event action.
+  final String? arn;
+
+  /// The date and time that the event action was created, in ISO 8601 format.
+  final DateTime? createdAt;
+
+  /// What occurs to start an action.
+  final Event? event;
+
+  /// The unique identifier for the event action.
+  final String? id;
+
+  /// The date and time that the event action was last updated, in ISO 8601
+  /// format.
+  final DateTime? updatedAt;
+
+  UpdateEventActionResponse({
+    this.action,
+    this.arn,
+    this.createdAt,
+    this.event,
+    this.id,
+    this.updatedAt,
+  });
+
+  factory UpdateEventActionResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateEventActionResponse(
+      action: json['Action'] != null
+          ? Action.fromJson(json['Action'] as Map<String, dynamic>)
+          : null,
+      arn: json['Arn'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      event: json['Event'] != null
+          ? Event.fromJson(json['Event'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+}
+
 class UpdateRevisionResponse {
   /// The ARN for the revision.
   final String? arn;
@@ -2586,22 +4686,31 @@ class UpdateRevisionResponse {
   /// The date and time that the revision was created, in ISO 8601 format.
   final DateTime? createdAt;
 
-  /// The unique identifier for the data set associated with this revision.
+  /// The unique identifier for the data set associated with the data set
+  /// revision.
   final String? dataSetId;
 
   /// To publish a revision to a data set in a product, the revision must first be
   /// finalized. Finalizing a revision tells AWS Data Exchange that changes to the
   /// assets in the revision are complete. After it's in this read-only state, you
-  /// can publish the revision to your products.
-  ///
-  /// Finalized revisions can be published through the AWS Data Exchange console
-  /// or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace
-  /// Catalog API action. When using the API, revisions are uniquely identified by
-  /// their ARN.
+  /// can publish the revision to your products. Finalized revisions can be
+  /// published through the AWS Data Exchange console or the AWS Marketplace
+  /// Catalog API, using the StartChangeSet AWS Marketplace Catalog API action.
+  /// When using the API, revisions are uniquely identified by their ARN.
   final bool? finalized;
 
   /// The unique identifier for the revision.
   final String? id;
+
+  /// A required comment to inform subscribers of the reason their access to the
+  /// revision was revoked.
+  final String? revocationComment;
+
+  /// A status indicating that subscribers' access to the revision was revoked.
+  final bool? revoked;
+
+  /// The date and time that the revision was revoked, in ISO 8601 format.
+  final DateTime? revokedAt;
 
   /// The revision ID of the owned revision corresponding to the entitled revision
   /// being viewed. This parameter is returned when a revision owner is viewing
@@ -2618,9 +4727,13 @@ class UpdateRevisionResponse {
     this.dataSetId,
     this.finalized,
     this.id,
+    this.revocationComment,
+    this.revoked,
+    this.revokedAt,
     this.sourceId,
     this.updatedAt,
   });
+
   factory UpdateRevisionResponse.fromJson(Map<String, dynamic> json) {
     return UpdateRevisionResponse(
       arn: json['Arn'] as String?,
@@ -2629,6 +4742,9 @@ class UpdateRevisionResponse {
       dataSetId: json['DataSetId'] as String?,
       finalized: json['Finalized'] as bool?,
       id: json['Id'] as String?,
+      revocationComment: json['RevocationComment'] as String?,
+      revoked: json['Revoked'] as bool?,
+      revokedAt: timeStampFromJson(json['RevokedAt']),
       sourceId: json['SourceId'] as String?,
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );

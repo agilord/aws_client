@@ -18,7 +18,7 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// The WorkDocs API is designed for the following use cases:
+/// The Amazon WorkDocs API is designed for the following use cases:
 ///
 /// <ul>
 /// <li>
@@ -31,28 +31,50 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// <li>
 /// Security: Support security applications are supported for users who have
 /// additional security needs, such as antivirus or data loss prevention. The
-/// API actions, along with AWS CloudTrail, allow these applications to detect
-/// when changes occur in Amazon WorkDocs. Then, the application can take the
+/// API actions, along with CloudTrail, allow these applications to detect when
+/// changes occur in Amazon WorkDocs. Then, the application can take the
 /// necessary actions and replace the target file. If the target file violates
 /// the policy, the application can also choose to email the user.
 /// </li>
 /// <li>
 /// eDiscovery/Analytics: General administrative applications are supported,
 /// such as eDiscovery and analytics. These applications can choose to mimic or
-/// record the actions in an Amazon WorkDocs site, along with AWS CloudTrail, to
+/// record the actions in an Amazon WorkDocs site, along with CloudTrail, to
 /// replicate data for eDiscovery, backup, or analytical applications.
 /// </li>
 /// </ul>
 /// All Amazon WorkDocs API actions are Amazon authenticated and
-/// certificate-signed. They not only require the use of the AWS SDK, but also
-/// allow for the exclusive use of IAM users and roles to help facilitate
-/// access, trust, and permission policies. By creating a role and allowing an
-/// IAM user to access the Amazon WorkDocs site, the IAM user gains full
-/// administrative visibility into the entire Amazon WorkDocs site (or as set in
-/// the IAM policy). This includes, but is not limited to, the ability to modify
-/// file permissions and upload any file to any user. This allows developers to
-/// perform the three use cases above, as well as give users the ability to
-/// grant access on a selective basis using the IAM model.
+/// certificate-signed. They not only require the use of the Amazon Web Services
+/// SDK, but also allow for the exclusive use of IAM users and roles to help
+/// facilitate access, trust, and permission policies. By creating a role and
+/// allowing an IAM user to access the Amazon WorkDocs site, the IAM user gains
+/// full administrative visibility into the entire Amazon WorkDocs site (or as
+/// set in the IAM policy). This includes, but is not limited to, the ability to
+/// modify file permissions and upload any file to any user. This allows
+/// developers to perform the three use cases above, as well as give users the
+/// ability to grant access on a selective basis using the IAM model.
+/// <note>
+/// The pricing for Amazon WorkDocs APIs varies depending on the API call type
+/// for these actions:
+///
+/// <ul>
+/// <li>
+/// <code>READ (Get*)</code>
+/// </li>
+/// <li>
+/// <code>WRITE (Activate*, Add*, Create*, Deactivate*, Initiate*,
+/// Update*)</code>
+/// </li>
+/// <li>
+/// <code>LIST (Describe*)</code>
+/// </li>
+/// <li>
+/// <code>DELETE*, CANCEL</code>
+/// </li>
+/// </ul>
+/// For information about Amazon WorkDocs API pricing, see <a
+/// href="https://aws.amazon.com/workdocs/pricing/">Amazon WorkDocs Pricing</a>.
+/// </note>
 class WorkDocs {
   final _s.RestJsonProtocol _protocol;
   WorkDocs({
@@ -92,6 +114,7 @@ class WorkDocs {
   /// May throw [UnauthorizedResourceAccessException].
   /// May throw [FailedDependencyException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [documentId] :
   /// The ID of the document.
@@ -100,8 +123,8 @@ class WorkDocs {
   /// The ID of the version.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   Future<void> abortDocumentVersionUpload({
     required String documentId,
     required String versionId,
@@ -134,8 +157,8 @@ class WorkDocs {
   /// The ID of the user.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   Future<ActivateUserResponse> activateUser({
     required String userId,
     String? authenticationToken,
@@ -162,6 +185,7 @@ class WorkDocs {
   /// May throw [UnauthorizedResourceAccessException].
   /// May throw [FailedDependencyException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [ProhibitedStateException].
   ///
   /// Parameter [principals] :
   /// The users, groups, or organization being granted permission.
@@ -170,8 +194,8 @@ class WorkDocs {
   /// The ID of the resource.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [notificationOptions] :
   /// The notification options.
@@ -222,8 +246,8 @@ class WorkDocs {
   /// The ID of the document version.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [notifyCollaborators] :
   /// Set this parameter to TRUE to send an email out to the document
@@ -291,8 +315,8 @@ class WorkDocs {
   /// The ID of the resource.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [versionId] :
   /// The ID of the version, if the custom metadata is being added to a document
@@ -330,6 +354,7 @@ class WorkDocs {
   /// May throw [EntityAlreadyExistsException].
   /// May throw [ProhibitedStateException].
   /// May throw [ConflictingOperationException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [LimitExceededException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
@@ -340,8 +365,8 @@ class WorkDocs {
   /// The ID of the parent folder.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [name] :
   /// The name of the new folder.
@@ -385,8 +410,8 @@ class WorkDocs {
   /// The ID of the resource.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   Future<void> createLabels({
     required List<String> labels,
     required String resourceId,
@@ -412,12 +437,14 @@ class WorkDocs {
   /// receives a confirmation message, and must confirm the subscription.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/workdocs/latest/developerguide/subscribe-notifications.html">Subscribe
-  /// to Notifications</a> in the <i>Amazon WorkDocs Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/workdocs/latest/developerguide/manage-notifications.html">Setting
+  /// up notifications for an IAM user or role</a> in the <i>Amazon WorkDocs
+  /// Developer Guide</i>.
   ///
   /// May throw [UnauthorizedResourceAccessException].
   /// May throw [TooManySubscriptionsException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidArgumentException].
   ///
   /// Parameter [endpoint] :
   /// The endpoint to receive the notifications. If the protocol is HTTPS, the
@@ -476,8 +503,8 @@ class WorkDocs {
   /// The login name of the user.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [emailAddress] :
   /// The email address of the user.
@@ -538,8 +565,8 @@ class WorkDocs {
   /// The ID of the user.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   Future<void> deactivateUser({
     required String userId,
     String? authenticationToken,
@@ -577,8 +604,8 @@ class WorkDocs {
   /// The ID of the document version.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   Future<void> deleteComment({
     required String commentId,
     required String documentId,
@@ -612,8 +639,8 @@ class WorkDocs {
   /// The ID of the resource, either a document or folder.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [deleteAll] :
   /// Flag to indicate removal of all custom metadata properties from the
@@ -655,6 +682,7 @@ class WorkDocs {
   /// Permanently deletes the specified document and its associated metadata.
   ///
   /// May throw [EntityNotExistsException].
+  /// May throw [LimitExceededException].
   /// May throw [ProhibitedStateException].
   /// May throw [ConflictingOperationException].
   /// May throw [ConcurrentModificationException].
@@ -667,8 +695,8 @@ class WorkDocs {
   /// The ID of the document.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   Future<void> deleteDocument({
     required String documentId,
     String? authenticationToken,
@@ -686,9 +714,57 @@ class WorkDocs {
     );
   }
 
+  /// Deletes a specific version of a document.
+  ///
+  /// May throw [EntityNotExistsException].
+  /// May throw [ProhibitedStateException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [UnauthorizedResourceAccessException].
+  /// May throw [FailedDependencyException].
+  /// May throw [InvalidOperationException].
+  /// May throw [UnauthorizedOperationException].
+  ///
+  /// Parameter [deletePriorVersions] :
+  /// Deletes all versions of a document prior to the current version.
+  ///
+  /// Parameter [documentId] :
+  /// The ID of the document associated with the version being deleted.
+  ///
+  /// Parameter [versionId] :
+  /// The ID of the version being deleted.
+  ///
+  /// Parameter [authenticationToken] :
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
+  Future<void> deleteDocumentVersion({
+    required bool deletePriorVersions,
+    required String documentId,
+    required String versionId,
+    String? authenticationToken,
+  }) async {
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
+    final $query = <String, List<String>>{
+      'deletePriorVersions': [deletePriorVersions.toString()],
+    };
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/api/v1/documentVersions/${Uri.encodeComponent(documentId)}/versions/${Uri.encodeComponent(versionId)}',
+      queryParams: $query,
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Permanently deletes the specified folder and its contents.
   ///
   /// May throw [EntityNotExistsException].
+  /// May throw [LimitExceededException].
   /// May throw [ProhibitedStateException].
   /// May throw [ConflictingOperationException].
   /// May throw [ConcurrentModificationException].
@@ -701,8 +777,8 @@ class WorkDocs {
   /// The ID of the folder.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   Future<void> deleteFolder({
     required String folderId,
     String? authenticationToken,
@@ -734,8 +810,8 @@ class WorkDocs {
   /// The ID of the folder.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   Future<void> deleteFolderContents({
     required String folderId,
     String? authenticationToken,
@@ -760,13 +836,14 @@ class WorkDocs {
   /// May throw [UnauthorizedResourceAccessException].
   /// May throw [FailedDependencyException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [ProhibitedStateException].
   ///
   /// Parameter [resourceId] :
   /// The ID of the resource.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [deleteAll] :
   /// Flag to request removal of all labels from the specified resource.
@@ -823,6 +900,11 @@ class WorkDocs {
   }
 
   /// Deletes the specified user from a Simple AD or Microsoft AD directory.
+  /// <important>
+  /// Deleting a user immediately and permanently deletes all content in that
+  /// user's folder structure. Site retention policies do NOT apply to this type
+  /// of deletion.
+  /// </important>
   ///
   /// May throw [EntityNotExistsException].
   /// May throw [UnauthorizedOperationException].
@@ -835,7 +917,8 @@ class WorkDocs {
   ///
   /// Parameter [authenticationToken] :
   /// Amazon WorkDocs authentication token. Do not set this field when using
-  /// administrative API actions, as in accessing the API using AWS credentials.
+  /// administrative API actions, as in accessing the API using Amazon Web
+  /// Services credentials.
   Future<void> deleteUser({
     required String userId,
     String? authenticationToken,
@@ -866,8 +949,8 @@ class WorkDocs {
   /// is left empty, all activity types are returned.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [endTime] :
   /// The timestamp that determines the end time of the activities. The response
@@ -962,8 +1045,8 @@ class WorkDocs {
   /// The ID of the document version.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [limit] :
   /// The maximum number of items to return.
@@ -1015,13 +1098,14 @@ class WorkDocs {
   /// May throw [FailedDependencyException].
   /// May throw [ServiceUnavailableException].
   /// May throw [ProhibitedStateException].
+  /// May throw [InvalidPasswordException].
   ///
   /// Parameter [documentId] :
   /// The ID of the document.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [fields] :
   /// Specify "SOURCE" to include initialized versions and a URL for the source
@@ -1092,8 +1176,8 @@ class WorkDocs {
   /// The ID of the folder.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [include] :
   /// The contents to include. Specify "INITIALIZED" to include initialized
@@ -1165,8 +1249,8 @@ class WorkDocs {
   /// A query to describe groups by group name.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [limit] :
   /// The maximum number of items to return with this call.
@@ -1255,6 +1339,7 @@ class WorkDocs {
 
   /// Describes the permissions of a specified resource.
   ///
+  /// May throw [InvalidArgumentException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
   /// May throw [FailedDependencyException].
@@ -1264,8 +1349,8 @@ class WorkDocs {
   /// The ID of the resource.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [limit] :
   /// The maximum number of items to return with this call.
@@ -1383,8 +1468,8 @@ class WorkDocs {
   /// May throw [RequestedEntityTooLargeException].
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [fields] :
   /// A comma-separated list of values. Specify "STORAGE_METADATA" to include
@@ -1407,7 +1492,33 @@ class WorkDocs {
   /// The ID of the organization.
   ///
   /// Parameter [query] :
-  /// A query to filter users by user name.
+  /// A query to filter users by user name. Remember the following about the
+  /// <code>Userids</code> and <code>Query</code> parameters:
+  ///
+  /// <ul>
+  /// <li>
+  /// If you don't use either parameter, the API returns a paginated list of all
+  /// users on the site.
+  /// </li>
+  /// <li>
+  /// If you use both parameters, the API ignores the <code>Query</code>
+  /// parameter.
+  /// </li>
+  /// <li>
+  /// The <code>Userid</code> parameter only returns user names that match a
+  /// corresponding user ID.
+  /// </li>
+  /// <li>
+  /// The <code>Query</code> parameter runs a "prefix" search for users by the
+  /// <code>GivenName</code>, <code>SurName</code>, or <code>UserName</code>
+  /// fields included in a <a
+  /// href="https://docs.aws.amazon.com/workdocs/latest/APIReference/API_CreateUser.html">CreateUser</a>
+  /// API call. For example, querying on <code>Ma</code> returns Márcia
+  /// Oliveira, María García, and Mateo Jackson. If you use multiple characters,
+  /// the API only returns data that matches all characters. For example,
+  /// querying on <code>Ma J</code> only returns Mateo Jackson.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [sort] :
   /// The sorting criteria.
@@ -1507,8 +1618,8 @@ class WorkDocs {
   /// The ID of the document.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [includeCustomMetadata] :
   /// Set this to <code>TRUE</code> to include custom metadata in the response.
@@ -1554,8 +1665,8 @@ class WorkDocs {
   /// The ID of the document.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [fields] :
   /// A comma-separated list of values. Specify <code>NAME</code> to include the
@@ -1616,8 +1727,8 @@ class WorkDocs {
   /// The version ID of the document.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [fields] :
   /// A comma-separated list of values. Specify "SOURCE" to include a URL for
@@ -1667,8 +1778,8 @@ class WorkDocs {
   /// The ID of the folder.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [includeCustomMetadata] :
   /// Set to TRUE to include custom metadata in the response.
@@ -1714,8 +1825,8 @@ class WorkDocs {
   /// The ID of the folder.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [fields] :
   /// A comma-separated list of values. Specify "NAME" to include the names of
@@ -1769,8 +1880,8 @@ class WorkDocs {
   /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [authenticationToken] :
-  /// The Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// The Amazon WorkDocs authentication token. Not required when using Amazon
+  /// Web Services administrator credentials to access the API.
   ///
   /// Parameter [collectionType] :
   /// The collection type.
@@ -1833,6 +1944,7 @@ class WorkDocs {
   /// May throw [EntityAlreadyExistsException].
   /// May throw [StorageLimitExceededException].
   /// May throw [StorageLimitWillExceedException].
+  /// May throw [LimitExceededException].
   /// May throw [ProhibitedStateException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
@@ -1840,13 +1952,12 @@ class WorkDocs {
   /// May throw [ServiceUnavailableException].
   /// May throw [DraftUploadOutOfSyncException].
   /// May throw [ResourceAlreadyCheckedOutException].
-  ///
-  /// Parameter [parentFolderId] :
-  /// The ID of the parent folder.
+  /// May throw [InvalidPasswordException].
+  /// May throw [InvalidArgumentException].
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [contentCreatedTimestamp] :
   /// The timestamp when the content of the document was originally created.
@@ -1865,8 +1976,10 @@ class WorkDocs {
   ///
   /// Parameter [name] :
   /// The name of the document.
+  ///
+  /// Parameter [parentFolderId] :
+  /// The ID of the parent folder.
   Future<InitiateDocumentVersionUploadResponse> initiateDocumentVersionUpload({
-    required String parentFolderId,
     String? authenticationToken,
     DateTime? contentCreatedTimestamp,
     DateTime? contentModifiedTimestamp,
@@ -1874,13 +1987,13 @@ class WorkDocs {
     int? documentSizeInBytes,
     String? id,
     String? name,
+    String? parentFolderId,
   }) async {
     final headers = <String, String>{
       if (authenticationToken != null)
         'Authentication': authenticationToken.toString(),
     };
     final $payload = <String, dynamic>{
-      'ParentFolderId': parentFolderId,
       if (contentCreatedTimestamp != null)
         'ContentCreatedTimestamp': unixTimestampToJson(contentCreatedTimestamp),
       if (contentModifiedTimestamp != null)
@@ -1891,6 +2004,7 @@ class WorkDocs {
         'DocumentSizeInBytes': documentSizeInBytes,
       if (id != null) 'Id': id,
       if (name != null) 'Name': name,
+      if (parentFolderId != null) 'ParentFolderId': parentFolderId,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1913,8 +2027,8 @@ class WorkDocs {
   /// The ID of the resource.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   Future<void> removeAllResourcePermissions({
     required String resourceId,
     String? authenticationToken,
@@ -1948,8 +2062,8 @@ class WorkDocs {
   /// The ID of the resource.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [principalType] :
   /// The principal type of the resource.
@@ -1977,6 +2091,126 @@ class WorkDocs {
     );
   }
 
+  /// Recovers a deleted version of an Amazon WorkDocs document.
+  ///
+  /// May throw [EntityNotExistsException].
+  /// May throw [ProhibitedStateException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [UnauthorizedResourceAccessException].
+  /// May throw [FailedDependencyException].
+  /// May throw [InvalidOperationException].
+  /// May throw [UnauthorizedOperationException].
+  ///
+  /// Parameter [documentId] :
+  /// The ID of the document.
+  ///
+  /// Parameter [authenticationToken] :
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
+  Future<void> restoreDocumentVersions({
+    required String documentId,
+    String? authenticationToken,
+  }) async {
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
+    await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/api/v1/documentVersions/restore/${Uri.encodeComponent(documentId)}',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Searches metadata and the content of folders, documents, document
+  /// versions, and comments.
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [UnauthorizedResourceAccessException].
+  /// May throw [UnauthorizedOperationException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [additionalResponseFields] :
+  /// A list of attributes to include in the response. Used to request fields
+  /// that are not normally returned in a standard response.
+  ///
+  /// Parameter [authenticationToken] :
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
+  ///
+  /// Parameter [filters] :
+  /// Filters results based on entity metadata.
+  ///
+  /// Parameter [limit] :
+  /// Max results count per page.
+  ///
+  /// Parameter [marker] :
+  /// The marker for the next set of results.
+  ///
+  /// Parameter [orderBy] :
+  /// Order by results in one or more categories.
+  ///
+  /// Parameter [organizationId] :
+  /// Filters based on the resource owner OrgId. This is a mandatory parameter
+  /// when using Admin SigV4 credentials.
+  ///
+  /// Parameter [queryScopes] :
+  /// Filter based on the text field type. A Folder has only a name and no
+  /// content. A Comment has only content and no name. A Document or Document
+  /// Version has a name and content
+  ///
+  /// Parameter [queryText] :
+  /// The String to search for. Searches across different text fields based on
+  /// request parameters. Use double quotes around the query string for exact
+  /// phrase matches.
+  Future<SearchResourcesResponse> searchResources({
+    List<AdditionalResponseFieldType>? additionalResponseFields,
+    String? authenticationToken,
+    Filters? filters,
+    int? limit,
+    String? marker,
+    List<SearchSortResult>? orderBy,
+    String? organizationId,
+    List<SearchQueryScopeType>? queryScopes,
+    String? queryText,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
+    final $payload = <String, dynamic>{
+      if (additionalResponseFields != null)
+        'AdditionalResponseFields':
+            additionalResponseFields.map((e) => e.toValue()).toList(),
+      if (filters != null) 'Filters': filters,
+      if (limit != null) 'Limit': limit,
+      if (marker != null) 'Marker': marker,
+      if (orderBy != null) 'OrderBy': orderBy,
+      if (organizationId != null) 'OrganizationId': organizationId,
+      if (queryScopes != null)
+        'QueryScopes': queryScopes.map((e) => e.toValue()).toList(),
+      if (queryText != null) 'QueryText': queryText,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/api/v1/search',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return SearchResourcesResponse.fromJson(response);
+  }
+
   /// Updates the specified attributes of a document. The user must have access
   /// to both the document and its parent folder, if applicable.
   ///
@@ -1995,8 +2229,8 @@ class WorkDocs {
   /// The ID of the document.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [name] :
   /// The name of the document.
@@ -2054,8 +2288,8 @@ class WorkDocs {
   /// The version ID of the document.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [versionStatus] :
   /// The status of the version.
@@ -2100,8 +2334,8 @@ class WorkDocs {
   /// The ID of the folder.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [name] :
   /// The name of the folder.
@@ -2144,6 +2378,7 @@ class WorkDocs {
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
   /// May throw [IllegalUserStateException].
+  /// May throw [ProhibitedStateException].
   /// May throw [FailedDependencyException].
   /// May throw [ServiceUnavailableException].
   /// May throw [DeactivatingLastSystemUserException].
@@ -2153,14 +2388,14 @@ class WorkDocs {
   /// The ID of the user.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using AWS
-  /// administrator credentials to access the API.
+  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
+  /// Services administrator credentials to access the API.
   ///
   /// Parameter [givenName] :
   /// The given name of the user.
   ///
   /// Parameter [grantPoweruserPrivileges] :
-  /// Boolean value to determine whether the user is granted Poweruser
+  /// Boolean value to determine whether the user is granted Power user
   /// privileges.
   ///
   /// Parameter [locale] :
@@ -2220,6 +2455,7 @@ class ActivateUserResponse {
   ActivateUserResponse({
     this.user,
   });
+
   factory ActivateUserResponse.fromJson(Map<String, dynamic> json) {
     return ActivateUserResponse(
       user: json['User'] != null
@@ -2276,6 +2512,7 @@ class Activity {
     this.timeStamp,
     this.type,
   });
+
   factory Activity.fromJson(Map<String, dynamic> json) {
     return Activity(
       commentMetadata: json['CommentMetadata'] != null
@@ -2494,6 +2731,7 @@ class AddResourcePermissionsResponse {
   AddResourcePermissionsResponse({
     this.shareResults,
   });
+
   factory AddResourcePermissionsResponse.fromJson(Map<String, dynamic> json) {
     return AddResourcePermissionsResponse(
       shareResults: (json['ShareResults'] as List?)
@@ -2501,6 +2739,30 @@ class AddResourcePermissionsResponse {
           .map((e) => ShareResult.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+  }
+}
+
+enum AdditionalResponseFieldType {
+  weburl,
+}
+
+extension AdditionalResponseFieldTypeValueExtension
+    on AdditionalResponseFieldType {
+  String toValue() {
+    switch (this) {
+      case AdditionalResponseFieldType.weburl:
+        return 'WEBURL';
+    }
+  }
+}
+
+extension AdditionalResponseFieldTypeFromString on String {
+  AdditionalResponseFieldType toAdditionalResponseFieldType() {
+    switch (this) {
+      case 'WEBURL':
+        return AdditionalResponseFieldType.weburl;
+    }
+    throw Exception('$this is not known in enum AdditionalResponseFieldType');
   }
 }
 
@@ -2576,6 +2838,7 @@ class Comment {
     this.threadId,
     this.visibility,
   });
+
   factory Comment.fromJson(Map<String, dynamic> json) {
     return Comment(
       commentId: json['CommentId'] as String,
@@ -2604,6 +2867,9 @@ class CommentMetadata {
   /// The user who made the comment.
   final User? contributor;
 
+  /// The ID of the user who made the comment.
+  final String? contributorId;
+
   /// The timestamp that the comment was created.
   final DateTime? createdTimestamp;
 
@@ -2614,9 +2880,11 @@ class CommentMetadata {
     this.commentId,
     this.commentStatus,
     this.contributor,
+    this.contributorId,
     this.createdTimestamp,
     this.recipientId,
   });
+
   factory CommentMetadata.fromJson(Map<String, dynamic> json) {
     return CommentMetadata(
       commentId: json['CommentId'] as String?,
@@ -2624,6 +2892,7 @@ class CommentMetadata {
       contributor: json['Contributor'] != null
           ? User.fromJson(json['Contributor'] as Map<String, dynamic>)
           : null,
+      contributorId: json['ContributorId'] as String?,
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       recipientId: json['RecipientId'] as String?,
     );
@@ -2691,6 +2960,69 @@ extension CommentVisibilityTypeFromString on String {
   }
 }
 
+enum ContentCategoryType {
+  image,
+  document,
+  pdf,
+  spreadsheet,
+  presentation,
+  audio,
+  video,
+  sourceCode,
+  other,
+}
+
+extension ContentCategoryTypeValueExtension on ContentCategoryType {
+  String toValue() {
+    switch (this) {
+      case ContentCategoryType.image:
+        return 'IMAGE';
+      case ContentCategoryType.document:
+        return 'DOCUMENT';
+      case ContentCategoryType.pdf:
+        return 'PDF';
+      case ContentCategoryType.spreadsheet:
+        return 'SPREADSHEET';
+      case ContentCategoryType.presentation:
+        return 'PRESENTATION';
+      case ContentCategoryType.audio:
+        return 'AUDIO';
+      case ContentCategoryType.video:
+        return 'VIDEO';
+      case ContentCategoryType.sourceCode:
+        return 'SOURCE_CODE';
+      case ContentCategoryType.other:
+        return 'OTHER';
+    }
+  }
+}
+
+extension ContentCategoryTypeFromString on String {
+  ContentCategoryType toContentCategoryType() {
+    switch (this) {
+      case 'IMAGE':
+        return ContentCategoryType.image;
+      case 'DOCUMENT':
+        return ContentCategoryType.document;
+      case 'PDF':
+        return ContentCategoryType.pdf;
+      case 'SPREADSHEET':
+        return ContentCategoryType.spreadsheet;
+      case 'PRESENTATION':
+        return ContentCategoryType.presentation;
+      case 'AUDIO':
+        return ContentCategoryType.audio;
+      case 'VIDEO':
+        return ContentCategoryType.video;
+      case 'SOURCE_CODE':
+        return ContentCategoryType.sourceCode;
+      case 'OTHER':
+        return ContentCategoryType.other;
+    }
+    throw Exception('$this is not known in enum ContentCategoryType');
+  }
+}
+
 class CreateCommentResponse {
   /// The comment that has been created.
   final Comment? comment;
@@ -2698,6 +3030,7 @@ class CreateCommentResponse {
   CreateCommentResponse({
     this.comment,
   });
+
   factory CreateCommentResponse.fromJson(Map<String, dynamic> json) {
     return CreateCommentResponse(
       comment: json['Comment'] != null
@@ -2709,6 +3042,7 @@ class CreateCommentResponse {
 
 class CreateCustomMetadataResponse {
   CreateCustomMetadataResponse();
+
   factory CreateCustomMetadataResponse.fromJson(Map<String, dynamic> _) {
     return CreateCustomMetadataResponse();
   }
@@ -2721,6 +3055,7 @@ class CreateFolderResponse {
   CreateFolderResponse({
     this.metadata,
   });
+
   factory CreateFolderResponse.fromJson(Map<String, dynamic> json) {
     return CreateFolderResponse(
       metadata: json['Metadata'] != null
@@ -2732,6 +3067,7 @@ class CreateFolderResponse {
 
 class CreateLabelsResponse {
   CreateLabelsResponse();
+
   factory CreateLabelsResponse.fromJson(Map<String, dynamic> _) {
     return CreateLabelsResponse();
   }
@@ -2744,6 +3080,7 @@ class CreateNotificationSubscriptionResponse {
   CreateNotificationSubscriptionResponse({
     this.subscription,
   });
+
   factory CreateNotificationSubscriptionResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateNotificationSubscriptionResponse(
@@ -2761,6 +3098,7 @@ class CreateUserResponse {
   CreateUserResponse({
     this.user,
   });
+
   factory CreateUserResponse.fromJson(Map<String, dynamic> json) {
     return CreateUserResponse(
       user: json['User'] != null
@@ -2770,8 +3108,31 @@ class CreateUserResponse {
   }
 }
 
+/// Filters results based on timestamp range (in epochs).
+class DateRangeType {
+  /// Timestamp range end value (in epochs).
+  final DateTime? endValue;
+
+  /// Timestamp range start value (in epochs)
+  final DateTime? startValue;
+
+  DateRangeType({
+    this.endValue,
+    this.startValue,
+  });
+  Map<String, dynamic> toJson() {
+    final endValue = this.endValue;
+    final startValue = this.startValue;
+    return {
+      if (endValue != null) 'EndValue': unixTimestampToJson(endValue),
+      if (startValue != null) 'StartValue': unixTimestampToJson(startValue),
+    };
+  }
+}
+
 class DeleteCustomMetadataResponse {
   DeleteCustomMetadataResponse();
+
   factory DeleteCustomMetadataResponse.fromJson(Map<String, dynamic> _) {
     return DeleteCustomMetadataResponse();
   }
@@ -2779,6 +3140,7 @@ class DeleteCustomMetadataResponse {
 
 class DeleteLabelsResponse {
   DeleteLabelsResponse();
+
   factory DeleteLabelsResponse.fromJson(Map<String, dynamic> _) {
     return DeleteLabelsResponse();
   }
@@ -2795,6 +3157,7 @@ class DescribeActivitiesResponse {
     this.marker,
     this.userActivities,
   });
+
   factory DescribeActivitiesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeActivitiesResponse(
       marker: json['Marker'] as String?,
@@ -2818,6 +3181,7 @@ class DescribeCommentsResponse {
     this.comments,
     this.marker,
   });
+
   factory DescribeCommentsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeCommentsResponse(
       comments: (json['Comments'] as List?)
@@ -2841,6 +3205,7 @@ class DescribeDocumentVersionsResponse {
     this.documentVersions,
     this.marker,
   });
+
   factory DescribeDocumentVersionsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeDocumentVersionsResponse(
       documentVersions: (json['DocumentVersions'] as List?)
@@ -2869,6 +3234,7 @@ class DescribeFolderContentsResponse {
     this.folders,
     this.marker,
   });
+
   factory DescribeFolderContentsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeFolderContentsResponse(
       documents: (json['Documents'] as List?)
@@ -2896,6 +3262,7 @@ class DescribeGroupsResponse {
     this.groups,
     this.marker,
   });
+
   factory DescribeGroupsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeGroupsResponse(
       groups: (json['Groups'] as List?)
@@ -2919,6 +3286,7 @@ class DescribeNotificationSubscriptionsResponse {
     this.marker,
     this.subscriptions,
   });
+
   factory DescribeNotificationSubscriptionsResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeNotificationSubscriptionsResponse(
@@ -2943,6 +3311,7 @@ class DescribeResourcePermissionsResponse {
     this.marker,
     this.principals,
   });
+
   factory DescribeResourcePermissionsResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeResourcePermissionsResponse(
@@ -2966,6 +3335,7 @@ class DescribeRootFoldersResponse {
     this.folders,
     this.marker,
   });
+
   factory DescribeRootFoldersResponse.fromJson(Map<String, dynamic> json) {
     return DescribeRootFoldersResponse(
       folders: (json['Folders'] as List?)
@@ -2993,6 +3363,7 @@ class DescribeUsersResponse {
     this.totalNumberOfUsers,
     this.users,
   });
+
   factory DescribeUsersResponse.fromJson(Map<String, dynamic> json) {
     return DescribeUsersResponse(
       marker: json['Marker'] as String?,
@@ -3041,6 +3412,7 @@ class DocumentMetadata {
     this.parentFolderId,
     this.resourceState,
   });
+
   factory DocumentMetadata.fromJson(Map<String, dynamic> json) {
     return DocumentMetadata(
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
@@ -3206,6 +3578,7 @@ class DocumentVersionMetadata {
     this.status,
     this.thumbnail,
   });
+
   factory DocumentVersionMetadata.fromJson(Map<String, dynamic> json) {
     return DocumentVersionMetadata(
       contentCreatedTimestamp:
@@ -3249,6 +3622,81 @@ extension DocumentVersionStatusFromString on String {
         return DocumentVersionStatus.active;
     }
     throw Exception('$this is not known in enum DocumentVersionStatus');
+  }
+}
+
+/// Filters results based on entity metadata.
+class Filters {
+  /// Filter based on resource’s path.
+  final List<String>? ancestorIds;
+
+  /// Filters by content category.
+  final List<ContentCategoryType>? contentCategories;
+
+  /// Filter based on resource’s creation timestamp.
+  final DateRangeType? createdRange;
+
+  /// Filter by labels using exact match.
+  final List<String>? labels;
+
+  /// Filter based on resource’s modified timestamp.
+  final DateRangeType? modifiedRange;
+
+  /// Filter based on UserIds or GroupIds.
+  final List<SearchPrincipalType>? principals;
+
+  /// Filters based on entity type.
+  final List<SearchResourceType>? resourceTypes;
+
+  /// Filter based on file groupings.
+  final List<SearchCollectionType>? searchCollectionTypes;
+
+  /// Filter based on size (in bytes).
+  final LongRangeType? sizeRange;
+
+  /// Filters by the locale of the content or comment.
+  final List<LanguageCodeType>? textLocales;
+
+  Filters({
+    this.ancestorIds,
+    this.contentCategories,
+    this.createdRange,
+    this.labels,
+    this.modifiedRange,
+    this.principals,
+    this.resourceTypes,
+    this.searchCollectionTypes,
+    this.sizeRange,
+    this.textLocales,
+  });
+  Map<String, dynamic> toJson() {
+    final ancestorIds = this.ancestorIds;
+    final contentCategories = this.contentCategories;
+    final createdRange = this.createdRange;
+    final labels = this.labels;
+    final modifiedRange = this.modifiedRange;
+    final principals = this.principals;
+    final resourceTypes = this.resourceTypes;
+    final searchCollectionTypes = this.searchCollectionTypes;
+    final sizeRange = this.sizeRange;
+    final textLocales = this.textLocales;
+    return {
+      if (ancestorIds != null) 'AncestorIds': ancestorIds,
+      if (contentCategories != null)
+        'ContentCategories': contentCategories.map((e) => e.toValue()).toList(),
+      if (createdRange != null) 'CreatedRange': createdRange,
+      if (labels != null) 'Labels': labels,
+      if (modifiedRange != null) 'ModifiedRange': modifiedRange,
+      if (principals != null) 'Principals': principals,
+      if (resourceTypes != null)
+        'ResourceTypes': resourceTypes.map((e) => e.toValue()).toList(),
+      if (searchCollectionTypes != null)
+        'SearchCollectionTypes':
+            searchCollectionTypes.map((e) => e.toValue()).toList(),
+      if (sizeRange != null) 'SizeRange': sizeRange,
+      if (textLocales != null)
+        'TextLocales': textLocales.map((e) => e.toValue()).toList(),
+    };
   }
 }
 
@@ -3334,6 +3782,7 @@ class FolderMetadata {
     this.signature,
     this.size,
   });
+
   factory FolderMetadata.fromJson(Map<String, dynamic> json) {
     return FolderMetadata(
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
@@ -3361,6 +3810,7 @@ class GetCurrentUserResponse {
   GetCurrentUserResponse({
     this.user,
   });
+
   factory GetCurrentUserResponse.fromJson(Map<String, dynamic> json) {
     return GetCurrentUserResponse(
       user: json['User'] != null
@@ -3377,6 +3827,7 @@ class GetDocumentPathResponse {
   GetDocumentPathResponse({
     this.path,
   });
+
   factory GetDocumentPathResponse.fromJson(Map<String, dynamic> json) {
     return GetDocumentPathResponse(
       path: json['Path'] != null
@@ -3397,6 +3848,7 @@ class GetDocumentResponse {
     this.customMetadata,
     this.metadata,
   });
+
   factory GetDocumentResponse.fromJson(Map<String, dynamic> json) {
     return GetDocumentResponse(
       customMetadata: (json['CustomMetadata'] as Map<String, dynamic>?)
@@ -3419,6 +3871,7 @@ class GetDocumentVersionResponse {
     this.customMetadata,
     this.metadata,
   });
+
   factory GetDocumentVersionResponse.fromJson(Map<String, dynamic> json) {
     return GetDocumentVersionResponse(
       customMetadata: (json['CustomMetadata'] as Map<String, dynamic>?)
@@ -3438,6 +3891,7 @@ class GetFolderPathResponse {
   GetFolderPathResponse({
     this.path,
   });
+
   factory GetFolderPathResponse.fromJson(Map<String, dynamic> json) {
     return GetFolderPathResponse(
       path: json['Path'] != null
@@ -3458,6 +3912,7 @@ class GetFolderResponse {
     this.customMetadata,
     this.metadata,
   });
+
   factory GetFolderResponse.fromJson(Map<String, dynamic> json) {
     return GetFolderResponse(
       customMetadata: (json['CustomMetadata'] as Map<String, dynamic>?)
@@ -3485,6 +3940,7 @@ class GetResourcesResponse {
     this.folders,
     this.marker,
   });
+
   factory GetResourcesResponse.fromJson(Map<String, dynamic> json) {
     return GetResourcesResponse(
       documents: (json['Documents'] as List?)
@@ -3512,6 +3968,7 @@ class GroupMetadata {
     this.id,
     this.name,
   });
+
   factory GroupMetadata.fromJson(Map<String, dynamic> json) {
     return GroupMetadata(
       id: json['Id'] as String?,
@@ -3531,6 +3988,7 @@ class InitiateDocumentVersionUploadResponse {
     this.metadata,
     this.uploadMetadata,
   });
+
   factory InitiateDocumentVersionUploadResponse.fromJson(
       Map<String, dynamic> json) {
     return InitiateDocumentVersionUploadResponse(
@@ -3542,6 +4000,179 @@ class InitiateDocumentVersionUploadResponse {
               json['UploadMetadata'] as Map<String, dynamic>)
           : null,
     );
+  }
+}
+
+enum LanguageCodeType {
+  ar,
+  bg,
+  bn,
+  da,
+  de,
+  cs,
+  el,
+  en,
+  es,
+  fa,
+  fi,
+  fr,
+  hi,
+  hu,
+  id,
+  it,
+  ja,
+  ko,
+  lt,
+  lv,
+  nl,
+  no,
+  pt,
+  ro,
+  ru,
+  sv,
+  sw,
+  th,
+  tr,
+  zh,
+  $default,
+}
+
+extension LanguageCodeTypeValueExtension on LanguageCodeType {
+  String toValue() {
+    switch (this) {
+      case LanguageCodeType.ar:
+        return 'AR';
+      case LanguageCodeType.bg:
+        return 'BG';
+      case LanguageCodeType.bn:
+        return 'BN';
+      case LanguageCodeType.da:
+        return 'DA';
+      case LanguageCodeType.de:
+        return 'DE';
+      case LanguageCodeType.cs:
+        return 'CS';
+      case LanguageCodeType.el:
+        return 'EL';
+      case LanguageCodeType.en:
+        return 'EN';
+      case LanguageCodeType.es:
+        return 'ES';
+      case LanguageCodeType.fa:
+        return 'FA';
+      case LanguageCodeType.fi:
+        return 'FI';
+      case LanguageCodeType.fr:
+        return 'FR';
+      case LanguageCodeType.hi:
+        return 'HI';
+      case LanguageCodeType.hu:
+        return 'HU';
+      case LanguageCodeType.id:
+        return 'ID';
+      case LanguageCodeType.it:
+        return 'IT';
+      case LanguageCodeType.ja:
+        return 'JA';
+      case LanguageCodeType.ko:
+        return 'KO';
+      case LanguageCodeType.lt:
+        return 'LT';
+      case LanguageCodeType.lv:
+        return 'LV';
+      case LanguageCodeType.nl:
+        return 'NL';
+      case LanguageCodeType.no:
+        return 'NO';
+      case LanguageCodeType.pt:
+        return 'PT';
+      case LanguageCodeType.ro:
+        return 'RO';
+      case LanguageCodeType.ru:
+        return 'RU';
+      case LanguageCodeType.sv:
+        return 'SV';
+      case LanguageCodeType.sw:
+        return 'SW';
+      case LanguageCodeType.th:
+        return 'TH';
+      case LanguageCodeType.tr:
+        return 'TR';
+      case LanguageCodeType.zh:
+        return 'ZH';
+      case LanguageCodeType.$default:
+        return 'DEFAULT';
+    }
+  }
+}
+
+extension LanguageCodeTypeFromString on String {
+  LanguageCodeType toLanguageCodeType() {
+    switch (this) {
+      case 'AR':
+        return LanguageCodeType.ar;
+      case 'BG':
+        return LanguageCodeType.bg;
+      case 'BN':
+        return LanguageCodeType.bn;
+      case 'DA':
+        return LanguageCodeType.da;
+      case 'DE':
+        return LanguageCodeType.de;
+      case 'CS':
+        return LanguageCodeType.cs;
+      case 'EL':
+        return LanguageCodeType.el;
+      case 'EN':
+        return LanguageCodeType.en;
+      case 'ES':
+        return LanguageCodeType.es;
+      case 'FA':
+        return LanguageCodeType.fa;
+      case 'FI':
+        return LanguageCodeType.fi;
+      case 'FR':
+        return LanguageCodeType.fr;
+      case 'HI':
+        return LanguageCodeType.hi;
+      case 'HU':
+        return LanguageCodeType.hu;
+      case 'ID':
+        return LanguageCodeType.id;
+      case 'IT':
+        return LanguageCodeType.it;
+      case 'JA':
+        return LanguageCodeType.ja;
+      case 'KO':
+        return LanguageCodeType.ko;
+      case 'LT':
+        return LanguageCodeType.lt;
+      case 'LV':
+        return LanguageCodeType.lv;
+      case 'NL':
+        return LanguageCodeType.nl;
+      case 'NO':
+        return LanguageCodeType.no;
+      case 'PT':
+        return LanguageCodeType.pt;
+      case 'RO':
+        return LanguageCodeType.ro;
+      case 'RU':
+        return LanguageCodeType.ru;
+      case 'SV':
+        return LanguageCodeType.sv;
+      case 'SW':
+        return LanguageCodeType.sw;
+      case 'TH':
+        return LanguageCodeType.th;
+      case 'TR':
+        return LanguageCodeType.tr;
+      case 'ZH':
+        return LanguageCodeType.zh;
+      case 'DEFAULT':
+        return LanguageCodeType.$default;
+    }
+    throw Exception('$this is not known in enum LanguageCodeType');
   }
 }
 
@@ -3618,13 +4249,35 @@ extension LocaleTypeFromString on String {
   }
 }
 
+/// Filter based on size (in bytes).
+class LongRangeType {
+  /// The size end range (in bytes).
+  final int? endValue;
+
+  /// The size start range (in bytes).
+  final int? startValue;
+
+  LongRangeType({
+    this.endValue,
+    this.startValue,
+  });
+  Map<String, dynamic> toJson() {
+    final endValue = this.endValue;
+    final startValue = this.startValue;
+    return {
+      if (endValue != null) 'EndValue': endValue,
+      if (startValue != null) 'StartValue': startValue,
+    };
+  }
+}
+
 /// Set of options which defines notification preferences of given action.
 class NotificationOptions {
   /// Text value to be included in the email body.
   final String? emailMessage;
 
   /// Boolean value to indicate an email notification should be sent to the
-  /// receipients.
+  /// recipients.
   final bool? sendEmail;
 
   NotificationOptions({
@@ -3638,6 +4291,49 @@ class NotificationOptions {
       if (emailMessage != null) 'EmailMessage': emailMessage,
       if (sendEmail != null) 'SendEmail': sendEmail,
     };
+  }
+}
+
+enum OrderByFieldType {
+  relevance,
+  name,
+  size,
+  createdTimestamp,
+  modifiedTimestamp,
+}
+
+extension OrderByFieldTypeValueExtension on OrderByFieldType {
+  String toValue() {
+    switch (this) {
+      case OrderByFieldType.relevance:
+        return 'RELEVANCE';
+      case OrderByFieldType.name:
+        return 'NAME';
+      case OrderByFieldType.size:
+        return 'SIZE';
+      case OrderByFieldType.createdTimestamp:
+        return 'CREATED_TIMESTAMP';
+      case OrderByFieldType.modifiedTimestamp:
+        return 'MODIFIED_TIMESTAMP';
+    }
+  }
+}
+
+extension OrderByFieldTypeFromString on String {
+  OrderByFieldType toOrderByFieldType() {
+    switch (this) {
+      case 'RELEVANCE':
+        return OrderByFieldType.relevance;
+      case 'NAME':
+        return OrderByFieldType.name;
+      case 'SIZE':
+        return OrderByFieldType.size;
+      case 'CREATED_TIMESTAMP':
+        return OrderByFieldType.createdTimestamp;
+      case 'MODIFIED_TIMESTAMP':
+        return OrderByFieldType.modifiedTimestamp;
+    }
+    throw Exception('$this is not known in enum OrderByFieldType');
   }
 }
 
@@ -3681,6 +4377,7 @@ class Participants {
     this.groups,
     this.users,
   });
+
   factory Participants.fromJson(Map<String, dynamic> json) {
     return Participants(
       groups: (json['Groups'] as List?)
@@ -3707,6 +4404,7 @@ class PermissionInfo {
     this.role,
     this.type,
   });
+
   factory PermissionInfo.fromJson(Map<String, dynamic> json) {
     return PermissionInfo(
       role: (json['Role'] as String?)?.toRoleType(),
@@ -3731,6 +4429,7 @@ class Principal {
     this.roles,
     this.type,
   });
+
   factory Principal.fromJson(Map<String, dynamic> json) {
     return Principal(
       id: json['Id'] as String?,
@@ -3740,6 +4439,44 @@ class Principal {
           .toList(),
       type: (json['Type'] as String?)?.toPrincipalType(),
     );
+  }
+}
+
+enum PrincipalRoleType {
+  viewer,
+  contributor,
+  owner,
+  coowner,
+}
+
+extension PrincipalRoleTypeValueExtension on PrincipalRoleType {
+  String toValue() {
+    switch (this) {
+      case PrincipalRoleType.viewer:
+        return 'VIEWER';
+      case PrincipalRoleType.contributor:
+        return 'CONTRIBUTOR';
+      case PrincipalRoleType.owner:
+        return 'OWNER';
+      case PrincipalRoleType.coowner:
+        return 'COOWNER';
+    }
+  }
+}
+
+extension PrincipalRoleTypeFromString on String {
+  PrincipalRoleType toPrincipalRoleType() {
+    switch (this) {
+      case 'VIEWER':
+        return PrincipalRoleType.viewer;
+      case 'CONTRIBUTOR':
+        return PrincipalRoleType.contributor;
+      case 'OWNER':
+        return PrincipalRoleType.owner;
+      case 'COOWNER':
+        return PrincipalRoleType.coowner;
+    }
+    throw Exception('$this is not known in enum PrincipalRoleType');
   }
 }
 
@@ -3842,6 +4579,7 @@ class ResourceMetadata {
     this.type,
     this.versionId,
   });
+
   factory ResourceMetadata.fromJson(Map<String, dynamic> json) {
     return ResourceMetadata(
       id: json['Id'] as String?,
@@ -3865,6 +4603,7 @@ class ResourcePath {
   ResourcePath({
     this.components,
   });
+
   factory ResourcePath.fromJson(Map<String, dynamic> json) {
     return ResourcePath(
       components: (json['Components'] as List?)
@@ -3887,6 +4626,7 @@ class ResourcePathComponent {
     this.id,
     this.name,
   });
+
   factory ResourcePathComponent.fromJson(Map<String, dynamic> json) {
     return ResourcePathComponent(
       id: json['Id'] as String?,
@@ -3989,6 +4729,98 @@ extension ResourceTypeFromString on String {
   }
 }
 
+/// List of Documents, Folders, Comments, and Document Versions matching the
+/// query.
+class ResponseItem {
+  /// The comment that matches the query.
+  final CommentMetadata? commentMetadata;
+
+  /// The document that matches the query.
+  final DocumentMetadata? documentMetadata;
+
+  /// The document version that matches the metadata.
+  final DocumentVersionMetadata? documentVersionMetadata;
+
+  /// The folder that matches the query.
+  final FolderMetadata? folderMetadata;
+
+  /// The type of item being returned.
+  final ResponseItemType? resourceType;
+
+  /// The webUrl of the item being returned.
+  final String? webUrl;
+
+  ResponseItem({
+    this.commentMetadata,
+    this.documentMetadata,
+    this.documentVersionMetadata,
+    this.folderMetadata,
+    this.resourceType,
+    this.webUrl,
+  });
+
+  factory ResponseItem.fromJson(Map<String, dynamic> json) {
+    return ResponseItem(
+      commentMetadata: json['CommentMetadata'] != null
+          ? CommentMetadata.fromJson(
+              json['CommentMetadata'] as Map<String, dynamic>)
+          : null,
+      documentMetadata: json['DocumentMetadata'] != null
+          ? DocumentMetadata.fromJson(
+              json['DocumentMetadata'] as Map<String, dynamic>)
+          : null,
+      documentVersionMetadata: json['DocumentVersionMetadata'] != null
+          ? DocumentVersionMetadata.fromJson(
+              json['DocumentVersionMetadata'] as Map<String, dynamic>)
+          : null,
+      folderMetadata: json['FolderMetadata'] != null
+          ? FolderMetadata.fromJson(
+              json['FolderMetadata'] as Map<String, dynamic>)
+          : null,
+      resourceType: (json['ResourceType'] as String?)?.toResponseItemType(),
+      webUrl: json['WebUrl'] as String?,
+    );
+  }
+}
+
+enum ResponseItemType {
+  document,
+  folder,
+  comment,
+  documentVersion,
+}
+
+extension ResponseItemTypeValueExtension on ResponseItemType {
+  String toValue() {
+    switch (this) {
+      case ResponseItemType.document:
+        return 'DOCUMENT';
+      case ResponseItemType.folder:
+        return 'FOLDER';
+      case ResponseItemType.comment:
+        return 'COMMENT';
+      case ResponseItemType.documentVersion:
+        return 'DOCUMENT_VERSION';
+    }
+  }
+}
+
+extension ResponseItemTypeFromString on String {
+  ResponseItemType toResponseItemType() {
+    switch (this) {
+      case 'DOCUMENT':
+        return ResponseItemType.document;
+      case 'FOLDER':
+        return ResponseItemType.folder;
+      case 'COMMENT':
+        return ResponseItemType.comment;
+      case 'DOCUMENT_VERSION':
+        return ResponseItemType.documentVersion;
+    }
+    throw Exception('$this is not known in enum ResponseItemType');
+  }
+}
+
 enum RolePermissionType {
   direct,
   inherited,
@@ -4055,6 +4887,169 @@ extension RoleTypeFromString on String {
   }
 }
 
+enum SearchCollectionType {
+  owned,
+  sharedWithMe,
+}
+
+extension SearchCollectionTypeValueExtension on SearchCollectionType {
+  String toValue() {
+    switch (this) {
+      case SearchCollectionType.owned:
+        return 'OWNED';
+      case SearchCollectionType.sharedWithMe:
+        return 'SHARED_WITH_ME';
+    }
+  }
+}
+
+extension SearchCollectionTypeFromString on String {
+  SearchCollectionType toSearchCollectionType() {
+    switch (this) {
+      case 'OWNED':
+        return SearchCollectionType.owned;
+      case 'SHARED_WITH_ME':
+        return SearchCollectionType.sharedWithMe;
+    }
+    throw Exception('$this is not known in enum SearchCollectionType');
+  }
+}
+
+/// Filter based on UserIds or GroupIds.
+class SearchPrincipalType {
+  /// UserIds or GroupIds.
+  final String id;
+
+  /// The Role of a User or Group.
+  final List<PrincipalRoleType>? roles;
+
+  SearchPrincipalType({
+    required this.id,
+    this.roles,
+  });
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final roles = this.roles;
+    return {
+      'Id': id,
+      if (roles != null) 'Roles': roles.map((e) => e.toValue()).toList(),
+    };
+  }
+}
+
+enum SearchQueryScopeType {
+  name,
+  content,
+}
+
+extension SearchQueryScopeTypeValueExtension on SearchQueryScopeType {
+  String toValue() {
+    switch (this) {
+      case SearchQueryScopeType.name:
+        return 'NAME';
+      case SearchQueryScopeType.content:
+        return 'CONTENT';
+    }
+  }
+}
+
+extension SearchQueryScopeTypeFromString on String {
+  SearchQueryScopeType toSearchQueryScopeType() {
+    switch (this) {
+      case 'NAME':
+        return SearchQueryScopeType.name;
+      case 'CONTENT':
+        return SearchQueryScopeType.content;
+    }
+    throw Exception('$this is not known in enum SearchQueryScopeType');
+  }
+}
+
+enum SearchResourceType {
+  folder,
+  document,
+  comment,
+  documentVersion,
+}
+
+extension SearchResourceTypeValueExtension on SearchResourceType {
+  String toValue() {
+    switch (this) {
+      case SearchResourceType.folder:
+        return 'FOLDER';
+      case SearchResourceType.document:
+        return 'DOCUMENT';
+      case SearchResourceType.comment:
+        return 'COMMENT';
+      case SearchResourceType.documentVersion:
+        return 'DOCUMENT_VERSION';
+    }
+  }
+}
+
+extension SearchResourceTypeFromString on String {
+  SearchResourceType toSearchResourceType() {
+    switch (this) {
+      case 'FOLDER':
+        return SearchResourceType.folder;
+      case 'DOCUMENT':
+        return SearchResourceType.document;
+      case 'COMMENT':
+        return SearchResourceType.comment;
+      case 'DOCUMENT_VERSION':
+        return SearchResourceType.documentVersion;
+    }
+    throw Exception('$this is not known in enum SearchResourceType');
+  }
+}
+
+class SearchResourcesResponse {
+  /// List of Documents, Folders, Comments, and Document Versions matching the
+  /// query.
+  final List<ResponseItem>? items;
+
+  /// The marker to use when requesting the next set of results. If there are no
+  /// additional results, the string is empty.
+  final String? marker;
+
+  SearchResourcesResponse({
+    this.items,
+    this.marker,
+  });
+
+  factory SearchResourcesResponse.fromJson(Map<String, dynamic> json) {
+    return SearchResourcesResponse(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResponseItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+}
+
+/// The result of the sort operation.
+class SearchSortResult {
+  /// Sort search results based on this field name.
+  final OrderByFieldType? field;
+
+  /// Sort direction.
+  final SortOrder? order;
+
+  SearchSortResult({
+    this.field,
+    this.order,
+  });
+  Map<String, dynamic> toJson() {
+    final field = this.field;
+    final order = this.order;
+    return {
+      if (field != null) 'Field': field.toValue(),
+      if (order != null) 'Order': order.toValue(),
+    };
+  }
+}
+
 /// Describes the recipient type and ID, if available.
 class SharePrincipal {
   /// The ID of the recipient.
@@ -4111,6 +5106,7 @@ class ShareResult {
     this.status,
     this.statusMessage,
   });
+
   factory ShareResult.fromJson(Map<String, dynamic> json) {
     return ShareResult(
       inviteePrincipalId: json['InviteePrincipalId'] as String?,
@@ -4151,6 +5147,34 @@ extension ShareStatusTypeFromString on String {
   }
 }
 
+enum SortOrder {
+  asc,
+  desc,
+}
+
+extension SortOrderValueExtension on SortOrder {
+  String toValue() {
+    switch (this) {
+      case SortOrder.asc:
+        return 'ASC';
+      case SortOrder.desc:
+        return 'DESC';
+    }
+  }
+}
+
+extension SortOrderFromString on String {
+  SortOrder toSortOrder() {
+    switch (this) {
+      case 'ASC':
+        return SortOrder.asc;
+      case 'DESC':
+        return SortOrder.desc;
+    }
+    throw Exception('$this is not known in enum SortOrder');
+  }
+}
+
 /// Describes the storage for a user.
 class StorageRuleType {
   /// The amount of storage allocated, in bytes.
@@ -4163,6 +5187,7 @@ class StorageRuleType {
     this.storageAllocatedInBytes,
     this.storageType,
   });
+
   factory StorageRuleType.fromJson(Map<String, dynamic> json) {
     return StorageRuleType(
       storageAllocatedInBytes: json['StorageAllocatedInBytes'] as int?,
@@ -4225,6 +5250,7 @@ class Subscription {
     this.protocol,
     this.subscriptionId,
   });
+
   factory Subscription.fromJson(Map<String, dynamic> json) {
     return Subscription(
       endPoint: json['EndPoint'] as String?,
@@ -4236,6 +5262,7 @@ class Subscription {
 
 enum SubscriptionProtocolType {
   https,
+  sqs,
 }
 
 extension SubscriptionProtocolTypeValueExtension on SubscriptionProtocolType {
@@ -4243,6 +5270,8 @@ extension SubscriptionProtocolTypeValueExtension on SubscriptionProtocolType {
     switch (this) {
       case SubscriptionProtocolType.https:
         return 'HTTPS';
+      case SubscriptionProtocolType.sqs:
+        return 'SQS';
     }
   }
 }
@@ -4252,6 +5281,8 @@ extension SubscriptionProtocolTypeFromString on String {
     switch (this) {
       case 'HTTPS':
         return SubscriptionProtocolType.https;
+      case 'SQS':
+        return SubscriptionProtocolType.sqs;
     }
     throw Exception('$this is not known in enum SubscriptionProtocolType');
   }
@@ -4287,6 +5318,7 @@ class UpdateUserResponse {
   UpdateUserResponse({
     this.user,
   });
+
   factory UpdateUserResponse.fromJson(Map<String, dynamic> json) {
     return UpdateUserResponse(
       user: json['User'] != null
@@ -4308,6 +5340,7 @@ class UploadMetadata {
     this.signedHeaders,
     this.uploadUrl,
   });
+
   factory UploadMetadata.fromJson(Map<String, dynamic> json) {
     return UploadMetadata(
       signedHeaders: (json['SignedHeaders'] as Map<String, dynamic>?)
@@ -4381,6 +5414,7 @@ class User {
     this.type,
     this.username,
   });
+
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
@@ -4457,6 +5491,7 @@ class UserMetadata {
     this.surname,
     this.username,
   });
+
   factory UserMetadata.fromJson(Map<String, dynamic> json) {
     return UserMetadata(
       emailAddress: json['EmailAddress'] as String?,
@@ -4556,6 +5591,7 @@ class UserStorageMetadata {
     this.storageRule,
     this.storageUtilizedInBytes,
   });
+
   factory UserStorageMetadata.fromJson(Map<String, dynamic> json) {
     return UserStorageMetadata(
       storageRule: json['StorageRule'] != null

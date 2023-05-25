@@ -18,9 +18,8 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// Welcome to the Amazon SES API v2 Reference. This guide provides information
-/// about the Amazon SES API v2, including supported operations, data types,
-/// parameters, and schemas.
+/// <a href="http://aws.amazon.com/ses">Amazon SES</a> is an Amazon Web Services
+/// service that you can use to send email messages to your customers.
 class SESV2 {
   final _s.RestJsonProtocol _protocol;
   SESV2({
@@ -50,6 +49,33 @@ class SESV2 {
     _protocol.close();
   }
 
+  /// Retrieves batches of metric data collected based on your sending activity.
+  ///
+  /// You can execute this operation no more than 16 times per second, and with
+  /// at most 160 queries from the batches per second (cumulative).
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [queries] :
+  /// A list of queries for metrics to be retrieved.
+  Future<BatchGetMetricDataResponse> batchGetMetricData({
+    required List<BatchGetMetricDataQuery> queries,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Queries': queries,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v2/email/metrics/batch',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchGetMetricDataResponse.fromJson(response);
+  }
+
   /// Create a configuration set. <i>Configuration sets</i> are groups of rules
   /// that you can apply to the emails that you send. You apply a configuration
   /// set to an email by specifying the name of the configuration set when you
@@ -65,7 +91,9 @@ class SESV2 {
   /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set.
+  /// The name of the configuration set. The name can contain up to 64
+  /// alphanumeric characters, including letters, numbers, hyphens (-) and
+  /// underscores (_) only.
   ///
   /// Parameter [deliveryOptions] :
   /// An object that defines the dedicated IP pool that is used to send emails
@@ -80,12 +108,16 @@ class SESV2 {
   /// send using the configuration set.
   ///
   /// Parameter [tags] :
-  /// An array of objects that define the tags (keys and values) that you want
-  /// to associate with the configuration set.
+  /// An array of objects that define the tags (keys and values) to associate
+  /// with the configuration set.
   ///
   /// Parameter [trackingOptions] :
   /// An object that defines the open and click tracking options for emails that
   /// you send using the configuration set.
+  ///
+  /// Parameter [vdmOptions] :
+  /// An object that defines the VDM options for emails that you send using the
+  /// configuration set.
   Future<void> createConfigurationSet({
     required String configurationSetName,
     DeliveryOptions? deliveryOptions,
@@ -94,6 +126,7 @@ class SESV2 {
     SuppressionOptions? suppressionOptions,
     List<Tag>? tags,
     TrackingOptions? trackingOptions,
+    VdmOptions? vdmOptions,
   }) async {
     final $payload = <String, dynamic>{
       'ConfigurationSetName': configurationSetName,
@@ -103,6 +136,7 @@ class SESV2 {
       if (suppressionOptions != null) 'SuppressionOptions': suppressionOptions,
       if (tags != null) 'Tags': tags,
       if (trackingOptions != null) 'TrackingOptions': trackingOptions,
+      if (vdmOptions != null) 'VdmOptions': vdmOptions,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -129,8 +163,7 @@ class SESV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that you want to add an event
-  /// destination to.
+  /// The name of the configuration set .
   ///
   /// Parameter [eventDestination] :
   /// An object that defines the event destination.
@@ -242,8 +275,8 @@ class SESV2 {
   /// Creates a new custom verification email template.
   ///
   /// For more information about custom verification email templates, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html">Using
-  /// Custom Verification Email Templates</a> in the <i>Amazon SES Developer
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom">Using
+  /// custom verification email templates</a> in the <i>Amazon SES Developer
   /// Guide</i>.
   ///
   /// You can execute this operation no more than once per second.
@@ -269,8 +302,8 @@ class SESV2 {
   /// The content of the custom verification email. The total size of the email
   /// must be less than 10 MB. The message body may contain HTML, with some
   /// limitations. For more information, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html#custom-verification-emails-faq">Custom
-  /// Verification Email Frequently Asked Questions</a> in the <i>Amazon SES
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom-faq">Custom
+  /// verification email frequently asked questions</a> in the <i>Amazon SES
   /// Developer Guide</i>.
   ///
   /// Parameter [templateName] :
@@ -303,10 +336,10 @@ class SESV2 {
   }
 
   /// Create a new pool of dedicated IP addresses. A pool can include one or
-  /// more dedicated IP addresses that are associated with your AWS account. You
-  /// can associate a pool with a configuration set. When you send an email that
-  /// uses that configuration set, the message is sent from one of the addresses
-  /// in the associated pool.
+  /// more dedicated IP addresses that are associated with your Amazon Web
+  /// Services account. You can associate a pool with a configuration set. When
+  /// you send an email that uses that configuration set, the message is sent
+  /// from one of the addresses in the associated pool.
   ///
   /// May throw [AlreadyExistsException].
   /// May throw [LimitExceededException].
@@ -317,15 +350,20 @@ class SESV2 {
   /// Parameter [poolName] :
   /// The name of the dedicated IP pool.
   ///
+  /// Parameter [scalingMode] :
+  /// The type of scaling mode.
+  ///
   /// Parameter [tags] :
   /// An object that defines the tags (keys and values) that you want to
   /// associate with the pool.
   Future<void> createDedicatedIpPool({
     required String poolName,
+    ScalingMode? scalingMode,
     List<Tag>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'PoolName': poolName,
+      if (scalingMode != null) 'ScalingMode': scalingMode.toValue(),
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -419,22 +457,37 @@ class SESV2 {
   /// <code>CreateEmailIdentity</code> operation has to include the
   /// <code>DkimSigningAttributes</code> object. When you specify this object,
   /// you provide a selector (a component of the DNS record name that identifies
-  /// the public key that you want to use for DKIM authentication) and a private
-  /// key.
+  /// the public key to use for DKIM authentication) and a private key.
+  ///
+  /// When you verify a domain, this operation provides a set of DKIM tokens,
+  /// which you can convert into CNAME tokens. You add these CNAME tokens to the
+  /// DNS configuration for your domain. Your domain is verified when Amazon SES
+  /// detects these records in the DNS configuration for your domain. For some
+  /// DNS providers, it can take 72 hours or more to complete the domain
+  /// verification process.
+  ///
+  /// Additionally, you can associate an existing configuration set with the
+  /// email identity that you're verifying.
   ///
   /// May throw [AlreadyExistsException].
   /// May throw [LimitExceededException].
   /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [emailIdentity] :
-  /// The email address or domain that you want to verify.
+  /// The email address or domain to verify.
+  ///
+  /// Parameter [configurationSetName] :
+  /// The configuration set to use by default when sending from this identity.
+  /// Note that any configuration set defined in the email sending request takes
+  /// precedence.
   ///
   /// Parameter [dkimSigningAttributes] :
   /// If your request includes this object, Amazon SES configures the identity
-  /// to use Bring Your Own DKIM (BYODKIM) for DKIM authentication purposes, as
-  /// opposed to the default method, <a
+  /// to use Bring Your Own DKIM (BYODKIM) for DKIM authentication purposes, or,
+  /// configures the key length to be used for <a
   /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html">Easy
   /// DKIM</a>.
   ///
@@ -442,15 +495,18 @@ class SESV2 {
   /// opposed to an address.
   ///
   /// Parameter [tags] :
-  /// An array of objects that define the tags (keys and values) that you want
-  /// to associate with the email identity.
+  /// An array of objects that define the tags (keys and values) to associate
+  /// with the email identity.
   Future<CreateEmailIdentityResponse> createEmailIdentity({
     required String emailIdentity,
+    String? configurationSetName,
     DkimSigningAttributes? dkimSigningAttributes,
     List<Tag>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'EmailIdentity': emailIdentity,
+      if (configurationSetName != null)
+        'ConfigurationSetName': configurationSetName,
       if (dkimSigningAttributes != null)
         'DkimSigningAttributes': dkimSigningAttributes,
       if (tags != null) 'Tags': tags,
@@ -485,7 +541,7 @@ class SESV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [emailIdentity] :
-  /// The email identity for which you want to create a policy.
+  /// The email identity.
   ///
   /// Parameter [policy] :
   /// The text of the policy in JSON format. The policy cannot exceed 4 KB.
@@ -535,7 +591,7 @@ class SESV2 {
   /// part, and a text-only part.
   ///
   /// Parameter [templateName] :
-  /// The name of the template you want to create.
+  /// The name of the template.
   Future<void> createEmailTemplate({
     required EmailTemplateContent templateContent,
     required String templateName,
@@ -594,7 +650,7 @@ class SESV2 {
   /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that you want to delete.
+  /// The name of the configuration set.
   Future<void> deleteConfigurationSet({
     required String configurationSetName,
   }) async {
@@ -621,11 +677,11 @@ class SESV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that contains the event destination that
-  /// you want to delete.
+  /// The name of the configuration set that contains the event destination to
+  /// delete.
   ///
   /// Parameter [eventDestinationName] :
-  /// The name of the event destination that you want to delete.
+  /// The name of the event destination to delete.
   Future<void> deleteConfigurationSetEventDestination({
     required String configurationSetName,
     required String eventDestinationName,
@@ -687,8 +743,8 @@ class SESV2 {
   /// Deletes an existing custom verification email template.
   ///
   /// For more information about custom verification email templates, see <a
-  /// href="https://docs.aws.amazon.com/es/latest/DeveloperGuide/send-email-verify-address-custom.html">Using
-  /// Custom Verification Email Templates</a> in the <i>Amazon SES Developer
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom">Using
+  /// custom verification email templates</a> in the <i>Amazon SES Developer
   /// Guide</i>.
   ///
   /// You can execute this operation no more than once per second.
@@ -742,8 +798,7 @@ class SESV2 {
   /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [emailIdentity] :
-  /// The identity (that is, the email address or domain) that you want to
-  /// delete.
+  /// The identity (that is, the email address or domain) to delete.
   Future<void> deleteEmailIdentity({
     required String emailIdentity,
   }) async {
@@ -775,7 +830,7 @@ class SESV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [emailIdentity] :
-  /// The email identity for which you want to delete a policy.
+  /// The email identity.
   ///
   /// Parameter [policyName] :
   /// The name of the policy.
@@ -838,7 +893,7 @@ class SESV2 {
   }
 
   /// Obtain information about the email-sending status and capabilities of your
-  /// Amazon SES account in the current AWS Region.
+  /// Amazon SES account in the current Amazon Web Services Region.
   ///
   /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
@@ -894,8 +949,7 @@ class SESV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that you want to obtain more information
-  /// about.
+  /// The name of the configuration set.
   Future<GetConfigurationSetResponse> getConfigurationSet({
     required String configurationSetName,
   }) async {
@@ -949,7 +1003,7 @@ class SESV2 {
   /// The name of the contact list to which the contact belongs.
   ///
   /// Parameter [emailAddress] :
-  /// The contact's email addres.
+  /// The contact's email address.
   Future<GetContactResponse> getContact({
     required String contactListName,
     required String emailAddress,
@@ -990,8 +1044,8 @@ class SESV2 {
   /// specify.
   ///
   /// For more information about custom verification email templates, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html">Using
-  /// Custom Verification Email Templates</a> in the <i>Amazon SES Developer
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom">Using
+  /// custom verification email templates</a> in the <i>Amazon SES Developer
   /// Guide</i>.
   ///
   /// You can execute this operation no more than once per second.
@@ -1028,7 +1082,7 @@ class SESV2 {
   /// Parameter [ip] :
   /// The IP address that you want to obtain more information about. The value
   /// you specify has to be a dedicated IP address that's assocaited with your
-  /// AWS account.
+  /// Amazon Web Services account.
   Future<GetDedicatedIpResponse> getDedicatedIp({
     required String ip,
   }) async {
@@ -1041,7 +1095,29 @@ class SESV2 {
     return GetDedicatedIpResponse.fromJson(response);
   }
 
-  /// List the dedicated IP addresses that are associated with your AWS account.
+  /// Retrieve information about the dedicated pool.
+  ///
+  /// May throw [TooManyRequestsException].
+  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [poolName] :
+  /// The name of the dedicated IP pool to retrieve.
+  Future<GetDedicatedIpPoolResponse> getDedicatedIpPool({
+    required String poolName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v2/email/dedicated-ip-pools/${Uri.encodeComponent(poolName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetDedicatedIpPoolResponse.fromJson(response);
+  }
+
+  /// List the dedicated IP addresses that are associated with your Amazon Web
+  /// Services account.
   ///
   /// May throw [TooManyRequestsException].
   /// May throw [NotFoundException].
@@ -1088,8 +1164,8 @@ class SESV2 {
   ///
   /// When you use the Deliverability dashboard, you pay a monthly subscription
   /// charge, in addition to any other fees that you accrue by using Amazon SES
-  /// and other AWS services. For more information about the features and cost
-  /// of a Deliverability dashboard subscription, see <a
+  /// and other Amazon Web Services services. For more information about the
+  /// features and cost of a Deliverability dashboard subscription, see <a
   /// href="http://aws.amazon.com/ses/pricing/">Amazon SES Pricing</a>.
   ///
   /// May throw [TooManyRequestsException].
@@ -1199,7 +1275,7 @@ class SESV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [emailIdentity] :
-  /// The email identity that you want to retrieve details for.
+  /// The email identity.
   Future<GetEmailIdentityResponse> getEmailIdentity({
     required String emailIdentity,
   }) async {
@@ -1233,7 +1309,7 @@ class SESV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [emailIdentity] :
-  /// The email identity that you want to retrieve policies for.
+  /// The email identity.
   Future<GetEmailIdentityPoliciesResponse> getEmailIdentityPolicies({
     required String emailIdentity,
   }) async {
@@ -1257,7 +1333,7 @@ class SESV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [templateName] :
-  /// The name of the template you want to retrieve.
+  /// The name of the template.
   Future<GetEmailTemplateResponse> getEmailTemplate({
     required String templateName,
   }) async {
@@ -1435,11 +1511,11 @@ class SESV2 {
   }
 
   /// Lists the existing custom verification email templates for your account in
-  /// the current AWS Region.
+  /// the current Amazon Web Services Region.
   ///
   /// For more information about custom verification email templates, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html">Using
-  /// Custom Verification Email Templates</a> in the <i>Amazon SES Developer
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom">Using
+  /// custom verification email templates</a> in the <i>Amazon SES Developer
   /// Guide</i>.
   ///
   /// You can execute this operation no more than once per second.
@@ -1479,8 +1555,8 @@ class SESV2 {
     return ListCustomVerificationEmailTemplatesResponse.fromJson(response);
   }
 
-  /// List all of the dedicated IP pools that exist in your AWS account in the
-  /// current Region.
+  /// List all of the dedicated IP pools that exist in your Amazon Web Services
+  /// account in the current Region.
   ///
   /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
@@ -1563,13 +1639,12 @@ class SESV2 {
   /// May throw [NotFoundException].
   ///
   /// Parameter [endDate] :
-  /// The last day, in Unix time format, that you want to obtain deliverability
-  /// data for. This value has to be less than or equal to 30 days after the
-  /// value of the <code>StartDate</code> parameter.
+  /// The last day that you want to obtain deliverability data for. This value
+  /// has to be less than or equal to 30 days after the value of the
+  /// <code>StartDate</code> parameter.
   ///
   /// Parameter [startDate] :
-  /// The first day, in Unix time format, that you want to obtain deliverability
-  /// data for.
+  /// The first day that you want to obtain deliverability data for.
   ///
   /// Parameter [subscribedDomain] :
   /// The domain to obtain deliverability data for.
@@ -1611,10 +1686,10 @@ class SESV2 {
   }
 
   /// Returns a list of all of the email identities that are associated with
-  /// your AWS account. An identity can be either an email address or a domain.
-  /// This operation returns identities that are verified as well as those that
-  /// aren't. This operation returns identities that are associated with Amazon
-  /// SES and Amazon Pinpoint.
+  /// your Amazon Web Services account. An identity can be either an email
+  /// address or a domain. This operation returns identities that are verified
+  /// as well as those that aren't. This operation returns identities that are
+  /// associated with Amazon SES and Amazon Pinpoint.
   ///
   /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
@@ -1650,7 +1725,7 @@ class SESV2 {
   }
 
   /// Lists the email templates present in your Amazon SES account in the
-  /// current AWS Region.
+  /// current Amazon Web Services Region.
   ///
   /// You can execute this operation no more than once per second.
   ///
@@ -1727,6 +1802,52 @@ class SESV2 {
     return ListImportJobsResponse.fromJson(response);
   }
 
+  /// Lists the recommendations present in your Amazon SES account in the
+  /// current Amazon Web Services Region.
+  ///
+  /// You can execute this operation no more than once per second.
+  ///
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [filter] :
+  /// Filters applied when retrieving recommendations. Can eiter be an
+  /// individual filter, or combinations of <code>STATUS</code> and
+  /// <code>IMPACT</code> or <code>STATUS</code> and <code>TYPE</code>
+  ///
+  /// Parameter [nextToken] :
+  /// A token returned from a previous call to <code>ListRecommendations</code>
+  /// to indicate the position in the list of recommendations.
+  ///
+  /// Parameter [pageSize] :
+  /// The number of results to show in a single call to
+  /// <code>ListRecommendations</code>. If the number of results is larger than
+  /// the number you specified in this parameter, then the response includes a
+  /// <code>NextToken</code> element, which you can use to obtain additional
+  /// results.
+  ///
+  /// The value you specify has to be at least 1, and can be no more than 100.
+  Future<ListRecommendationsResponse> listRecommendations({
+    Map<ListRecommendationsFilterKey, String>? filter,
+    String? nextToken,
+    int? pageSize,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (filter != null)
+        'Filter': filter.map((k, e) => MapEntry(k.toValue(), e)),
+      if (nextToken != null) 'NextToken': nextToken,
+      if (pageSize != null) 'PageSize': pageSize,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v2/email/vdm/recommendations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListRecommendationsResponse.fromJson(response);
+  }
+
   /// Retrieves a list of email addresses that are on the suppression list for
   /// your account.
   ///
@@ -1736,8 +1857,7 @@ class SESV2 {
   ///
   /// Parameter [endDate] :
   /// Used to filter the list of suppressed email destinations so that it only
-  /// includes addresses that were added to the list before a specific date. The
-  /// date that you specify should be in Unix time format.
+  /// includes addresses that were added to the list before a specific date.
   ///
   /// Parameter [nextToken] :
   /// A token returned from a previous call to
@@ -1756,8 +1876,7 @@ class SESV2 {
   ///
   /// Parameter [startDate] :
   /// Used to filter the list of suppressed email destinations so that it only
-  /// includes addresses that were added to the list after a specific date. The
-  /// date that you specify should be in Unix time format.
+  /// includes addresses that were added to the list after a specific date.
   Future<ListSuppressedDestinationsResponse> listSuppressedDestinations({
     DateTime? endDate,
     String? nextToken,
@@ -1822,8 +1941,8 @@ class SESV2 {
   /// Parameter [autoWarmupEnabled] :
   /// Enables or disables the automatic warm-up feature for dedicated IP
   /// addresses that are associated with your Amazon SES account in the current
-  /// AWS Region. Set to <code>true</code> to enable the automatic warm-up
-  /// feature, or set to <code>false</code> to disable it.
+  /// Amazon Web Services Region. Set to <code>true</code> to enable the
+  /// automatic warm-up feature, or set to <code>false</code> to disable it.
   Future<void> putAccountDedicatedIpWarmupAttributes({
     bool? autoWarmupEnabled,
   }) async {
@@ -1863,7 +1982,7 @@ class SESV2 {
   ///
   /// Parameter [productionAccessEnabled] :
   /// Indicates whether or not your account should have production access in the
-  /// current AWS Region.
+  /// current Amazon Web Services Region.
   ///
   /// If the value is <code>false</code>, then your account is in the
   /// <i>sandbox</i>. When your account is in the sandbox, you can only send
@@ -1912,8 +2031,8 @@ class SESV2 {
   /// <code>true</code> to enable email sending, or set to <code>false</code> to
   /// disable email sending.
   /// <note>
-  /// If AWS paused your account's ability to send email, you can't use this
-  /// operation to resume your account's ability to send email.
+  /// If Amazon Web Services paused your account's ability to send email, you
+  /// can't use this operation to resume your account's ability to send email.
   /// </note>
   Future<void> putAccountSendingAttributes({
     bool? sendingEnabled,
@@ -1966,6 +2085,29 @@ class SESV2 {
     );
   }
 
+  /// Update your Amazon SES account VDM attributes.
+  ///
+  /// You can execute this operation no more than once per second.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [vdmAttributes] :
+  /// The VDM attributes that you wish to apply to your Amazon SES account.
+  Future<void> putAccountVdmAttributes({
+    required VdmAttributes vdmAttributes,
+  }) async {
+    final $payload = <String, dynamic>{
+      'VdmAttributes': vdmAttributes,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/v2/email/account/vdm',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Associate a configuration set with a dedicated IP pool. You can use
   /// dedicated IP pools to create groups of dedicated IP addresses for sending
   /// specific types of email.
@@ -1975,12 +2117,10 @@ class SESV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that you want to associate with a
-  /// dedicated IP pool.
+  /// The name of the configuration set to associate with a dedicated IP pool.
   ///
   /// Parameter [sendingPoolName] :
-  /// The name of the dedicated IP pool that you want to associate with the
-  /// configuration set.
+  /// The name of the dedicated IP pool to associate with the configuration set.
   ///
   /// Parameter [tlsPolicy] :
   /// Specifies whether messages that use the configuration set are required to
@@ -2007,15 +2147,15 @@ class SESV2 {
   }
 
   /// Enable or disable collection of reputation metrics for emails that you
-  /// send using a particular configuration set in a specific AWS Region.
+  /// send using a particular configuration set in a specific Amazon Web
+  /// Services Region.
   ///
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that you want to enable or disable
-  /// reputation metric tracking for.
+  /// The name of the configuration set.
   ///
   /// Parameter [reputationMetricsEnabled] :
   /// If <code>true</code>, tracking of reputation metrics is enabled for the
@@ -2039,15 +2179,14 @@ class SESV2 {
   }
 
   /// Enable or disable email sending for messages that use a particular
-  /// configuration set in a specific AWS Region.
+  /// configuration set in a specific Amazon Web Services Region.
   ///
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that you want to enable or disable email
-  /// sending for.
+  /// The name of the configuration set to enable or disable email sending for.
   ///
   /// Parameter [sendingEnabled] :
   /// If <code>true</code>, email sending is enabled for the configuration set.
@@ -2076,8 +2215,8 @@ class SESV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that you want to change the suppression
-  /// list preferences for.
+  /// The name of the configuration set to change the suppression list
+  /// preferences for.
   ///
   /// Parameter [suppressedReasons] :
   /// A list that contains the reasons that email addresses are automatically
@@ -2121,11 +2260,10 @@ class SESV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that you want to add a custom tracking
-  /// domain to.
+  /// The name of the configuration set.
   ///
   /// Parameter [customRedirectDomain] :
-  /// The domain that you want to use to track open and click events.
+  /// The domain to use to track open and click events.
   Future<void> putConfigurationSetTrackingOptions({
     required String configurationSetName,
     String? customRedirectDomain,
@@ -2143,10 +2281,40 @@ class SESV2 {
     );
   }
 
+  /// Specify VDM preferences for email that you send using the configuration
+  /// set.
+  ///
+  /// You can execute this operation no more than once per second.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [configurationSetName] :
+  /// The name of the configuration set.
+  ///
+  /// Parameter [vdmOptions] :
+  /// The VDM options to apply to the configuration set.
+  Future<void> putConfigurationSetVdmOptions({
+    required String configurationSetName,
+    VdmOptions? vdmOptions,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (vdmOptions != null) 'VdmOptions': vdmOptions,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/v2/email/configuration-sets/${Uri.encodeComponent(configurationSetName)}/vdm-options',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Move a dedicated IP address to an existing dedicated IP pool.
   /// <note>
   /// The dedicated IP address that you specify must already exist, and must be
-  /// associated with your AWS account.
+  /// associated with your Amazon Web Services account.
   ///
   /// The dedicated IP pool you specify must already exist. You can create a new
   /// pool by using the <code>CreateDedicatedIpPool</code> operation.
@@ -2163,7 +2331,7 @@ class SESV2 {
   /// Parameter [ip] :
   /// The IP address that you want to move to the dedicated IP pool. The value
   /// you specify has to be a dedicated IP address that's associated with your
-  /// AWS account.
+  /// Amazon Web Services account.
   Future<void> putDedicatedIpInPool({
     required String destinationPoolName,
     required String ip,
@@ -2175,6 +2343,42 @@ class SESV2 {
       payload: $payload,
       method: 'PUT',
       requestUri: '/v2/email/dedicated-ips/${Uri.encodeComponent(ip)}/pool',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Used to convert a dedicated IP pool to a different scaling mode.
+  /// <note>
+  /// <code>MANAGED</code> pools cannot be converted to <code>STANDARD</code>
+  /// scaling mode.
+  /// </note>
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [poolName] :
+  /// The name of the dedicated IP pool.
+  ///
+  /// Parameter [scalingMode] :
+  /// The scaling mode to apply to the dedicated IP pool.
+  /// <note>
+  /// Changing the scaling mode from <code>MANAGED</code> to
+  /// <code>STANDARD</code> is not supported.
+  /// </note>
+  Future<void> putDedicatedIpPoolScalingAttributes({
+    required String poolName,
+    required ScalingMode scalingMode,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ScalingMode': scalingMode.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/v2/email/dedicated-ip-pools/${Uri.encodeComponent(poolName)}/scaling',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2214,8 +2418,8 @@ class SESV2 {
   ///
   /// When you use the Deliverability dashboard, you pay a monthly subscription
   /// charge, in addition to any other fees that you accrue by using Amazon SES
-  /// and other AWS services. For more information about the features and cost
-  /// of a Deliverability dashboard subscription, see <a
+  /// and other Amazon Web Services services. For more information about the
+  /// features and cost of a Deliverability dashboard subscription, see <a
   /// href="http://aws.amazon.com/ses/pricing/">Amazon SES Pricing</a>.
   ///
   /// May throw [AlreadyExistsException].
@@ -2247,6 +2451,34 @@ class SESV2 {
     );
   }
 
+  /// Used to associate a configuration set with an email identity.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [emailIdentity] :
+  /// The email address or domain to associate with a configuration set.
+  ///
+  /// Parameter [configurationSetName] :
+  /// The configuration set to associate with an email identity.
+  Future<void> putEmailIdentityConfigurationSetAttributes({
+    required String emailIdentity,
+    String? configurationSetName,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (configurationSetName != null)
+        'ConfigurationSetName': configurationSetName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/v2/email/identities/${Uri.encodeComponent(emailIdentity)}/configuration-set',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Used to enable or disable DKIM authentication for an email identity.
   ///
   /// May throw [NotFoundException].
@@ -2254,7 +2486,7 @@ class SESV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [emailIdentity] :
-  /// The email identity that you want to change the DKIM settings for.
+  /// The email identity.
   ///
   /// Parameter [signingEnabled] :
   /// Sets the DKIM signing configuration for the identity.
@@ -2287,6 +2519,9 @@ class SESV2 {
   /// DKIM (BYODKIM).
   /// </li>
   /// <li>
+  /// Update the key length that should be used for Easy DKIM.
+  /// </li>
+  /// <li>
   /// Change from using no DKIM authentication to using Easy DKIM.
   /// </li>
   /// <li>
@@ -2305,11 +2540,11 @@ class SESV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [emailIdentity] :
-  /// The email identity that you want to configure DKIM for.
+  /// The email identity.
   ///
   /// Parameter [signingAttributesOrigin] :
-  /// The method that you want to use to configure DKIM for the identity. There
-  /// are two possible values:
+  /// The method to use to configure DKIM for the identity. There are the
+  /// following possible values:
   ///
   /// <ul>
   /// <li>
@@ -2325,9 +2560,11 @@ class SESV2 {
   ///
   /// Parameter [signingAttributes] :
   /// An object that contains information about the private key and selector
-  /// that you want to use to configure DKIM for the identity. This object is
-  /// only required if you want to configure Bring Your Own DKIM (BYODKIM) for
-  /// the identity.
+  /// that you want to use to configure DKIM for the identity for Bring Your Own
+  /// DKIM (BYODKIM) for the identity, or, configures the key length to be used
+  /// for <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html">Easy
+  /// DKIM</a>.
   Future<PutEmailIdentityDkimSigningAttributesResponse>
       putEmailIdentityDkimSigningAttributes({
     required String emailIdentity,
@@ -2368,8 +2605,7 @@ class SESV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [emailIdentity] :
-  /// The email identity that you want to configure bounce and complaint
-  /// feedback forwarding for.
+  /// The email identity.
   ///
   /// Parameter [emailForwardingEnabled] :
   /// Sets the feedback forwarding configuration for the identity.
@@ -2409,15 +2645,13 @@ class SESV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [emailIdentity] :
-  /// The verified email identity that you want to set up the custom MAIL FROM
-  /// domain for.
+  /// The verified email identity.
   ///
   /// Parameter [behaviorOnMxFailure] :
-  /// The action that you want to take if the required MX record isn't found
-  /// when you send an email. When you set this value to
-  /// <code>UseDefaultValue</code>, the mail is sent using <i>amazonses.com</i>
-  /// as the MAIL FROM domain. When you set this value to
-  /// <code>RejectMessage</code>, the Amazon SES API v2 returns a
+  /// The action to take if the required MX record isn't found when you send an
+  /// email. When you set this value to <code>UseDefaultValue</code>, the mail
+  /// is sent using <i>amazonses.com</i> as the MAIL FROM domain. When you set
+  /// this value to <code>RejectMessage</code>, the Amazon SES API v2 returns a
   /// <code>MailFromDomainNotVerified</code> error, and doesn't attempt to
   /// deliver the email.
   ///
@@ -2507,8 +2741,7 @@ class SESV2 {
   /// template message.
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that you want to use when sending the
-  /// email.
+  /// The name of the configuration set to use when sending the email.
   ///
   /// Parameter [defaultEmailTags] :
   /// A list of tags, in the form of name/value pairs, to apply to an email that
@@ -2538,8 +2771,8 @@ class SESV2 {
   /// SES Developer Guide</a>.
   ///
   /// Parameter [fromEmailAddress] :
-  /// The email address that you want to use as the "From" address for the
-  /// email. The address that you specify has to be verified.
+  /// The email address to use as the "From" address for the email. The address
+  /// that you specify has to be verified.
   ///
   /// Parameter [fromEmailAddressIdentityArn] :
   /// This parameter is used only for sending authorization. It is the ARN of
@@ -2598,15 +2831,15 @@ class SESV2 {
   }
 
   /// Adds an email address to the list of identities for your Amazon SES
-  /// account in the current AWS Region and attempts to verify it. As a result
-  /// of executing this operation, a customized verification email is sent to
-  /// the specified address.
+  /// account in the current Amazon Web Services Region and attempts to verify
+  /// it. As a result of executing this operation, a customized verification
+  /// email is sent to the specified address.
   ///
   /// To use this operation, you must first create a custom verification email
   /// template. For more information about creating and using custom
   /// verification email templates, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html">Using
-  /// Custom Verification Email Templates</a> in the <i>Amazon SES Developer
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom">Using
+  /// custom verification email templates</a> in the <i>Amazon SES Developer
   /// Guide</i>.
   ///
   /// You can execute this operation no more than once per second.
@@ -2648,8 +2881,8 @@ class SESV2 {
     return SendCustomVerificationEmailResponse.fromJson(response);
   }
 
-  /// Sends an email message. You can use the Amazon SES API v2 to send two
-  /// types of messages:
+  /// Sends an email message. You can use the Amazon SES API v2 to send the
+  /// following types of messages:
   ///
   /// <ul>
   /// <li>
@@ -2684,8 +2917,7 @@ class SESV2 {
   /// Simple message Raw message or a template Message.
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that you want to use when sending the
-  /// email.
+  /// The name of the configuration set to use when sending the email.
   ///
   /// Parameter [destination] :
   /// An object that contains the recipients of the email message.
@@ -2718,8 +2950,8 @@ class SESV2 {
   /// SES Developer Guide</a>.
   ///
   /// Parameter [fromEmailAddress] :
-  /// The email address that you want to use as the "From" address for the
-  /// email. The address that you specify has to be verified.
+  /// The email address to use as the "From" address for the email. The address
+  /// that you specify has to be verified.
   ///
   /// Parameter [fromEmailAddressIdentityArn] :
   /// This parameter is used only for sending authorization. It is the ARN of
@@ -2844,7 +3076,7 @@ class SESV2 {
   /// correspond to replacement tags in the email template.
   ///
   /// Parameter [templateName] :
-  /// The name of the template that you want to render.
+  /// The name of the template.
   Future<TestRenderEmailTemplateResponse> testRenderEmailTemplate({
     required String templateData,
     required String templateName,
@@ -2913,14 +3145,14 @@ class SESV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
-  /// The name of the configuration set that contains the event destination that
-  /// you want to modify.
+  /// The name of the configuration set that contains the event destination to
+  /// modify.
   ///
   /// Parameter [eventDestination] :
   /// An object that defines the event destination.
   ///
   /// Parameter [eventDestinationName] :
-  /// The name of the event destination that you want to modify.
+  /// The name of the event destination.
   Future<void> updateConfigurationSetEventDestination({
     required String configurationSetName,
     required EventDestinationDefinition eventDestination,
@@ -2951,7 +3183,7 @@ class SESV2 {
   /// The name of the contact list.
   ///
   /// Parameter [emailAddress] :
-  /// The contact's email addres.
+  /// The contact's email address.
   ///
   /// Parameter [attributesData] :
   /// The attribute data attached to a contact.
@@ -3020,8 +3252,8 @@ class SESV2 {
   /// Updates an existing custom verification email template.
   ///
   /// For more information about custom verification email templates, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html">Using
-  /// Custom Verification Email Templates</a> in the <i>Amazon SES Developer
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom">Using
+  /// custom verification email templates</a> in the <i>Amazon SES Developer
   /// Guide</i>.
   ///
   /// You can execute this operation no more than once per second.
@@ -3045,8 +3277,8 @@ class SESV2 {
   /// The content of the custom verification email. The total size of the email
   /// must be less than 10 MB. The message body may contain HTML, with some
   /// limitations. For more information, see <a
-  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html#custom-verification-emails-faq">Custom
-  /// Verification Email Frequently Asked Questions</a> in the <i>Amazon SES
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom-faq">Custom
+  /// verification email frequently asked questions</a> in the <i>Amazon SES
   /// Developer Guide</i>.
   ///
   /// Parameter [templateName] :
@@ -3099,7 +3331,7 @@ class SESV2 {
   /// May throw [BadRequestException].
   ///
   /// Parameter [emailIdentity] :
-  /// The email identity for which you want to update policy.
+  /// The email identity.
   ///
   /// Parameter [policy] :
   /// The text of the policy in JSON format. The policy cannot exceed 4 KB.
@@ -3148,7 +3380,7 @@ class SESV2 {
   /// part, and a text-only part.
   ///
   /// Parameter [templateName] :
-  /// The name of the template you want to update.
+  /// The name of the template.
   Future<void> updateEmailTemplate({
     required EmailTemplateContent templateContent,
     required String templateName,
@@ -3208,6 +3440,7 @@ class AccountDetails {
     this.useCaseDescription,
     this.websiteURL,
   });
+
   factory AccountDetails.fromJson(Map<String, dynamic> json) {
     return AccountDetails(
       additionalContactEmailAddresses:
@@ -3228,12 +3461,143 @@ class AccountDetails {
   }
 }
 
-/// The action that you want to take if the required MX record can't be found
-/// when you send an email. When you set this value to
-/// <code>UseDefaultValue</code>, the mail is sent using <i>amazonses.com</i> as
-/// the MAIL FROM domain. When you set this value to <code>RejectMessage</code>,
-/// the Amazon SES API v2 returns a <code>MailFromDomainNotVerified</code>
-/// error, and doesn't attempt to deliver the email.
+/// Represents a single metric data query to include in a batch.
+class BatchGetMetricDataQuery {
+  /// Represents the end date for the query interval.
+  final DateTime endDate;
+
+  /// The query identifier.
+  final String id;
+
+  /// The queried metric. This can be one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SEND</code> – Emails sent eligible for tracking in the VDM dashboard.
+  /// This excludes emails sent to the mailbox simulator and emails addressed to
+  /// more than one recipient.
+  /// </li>
+  /// <li>
+  /// <code>COMPLAINT</code> – Complaints received for your account. This excludes
+  /// complaints from the mailbox simulator, those originating from your
+  /// account-level suppression list (if enabled), and those for emails addressed
+  /// to more than one recipient
+  /// </li>
+  /// <li>
+  /// <code>PERMANENT_BOUNCE</code> – Permanent bounces - i.e. feedback received
+  /// for emails sent to non-existent mailboxes. Excludes bounces from the mailbox
+  /// simulator, those originating from your account-level suppression list (if
+  /// enabled), and those for emails addressed to more than one recipient.
+  /// </li>
+  /// <li>
+  /// <code>TRANSIENT_BOUNCE</code> – Transient bounces - i.e. feedback received
+  /// for delivery failures excluding issues with non-existent mailboxes. Excludes
+  /// bounces from the mailbox simulator, and those for emails addressed to more
+  /// than one recipient.
+  /// </li>
+  /// <li>
+  /// <code>OPEN</code> – Unique open events for emails including open trackers.
+  /// Excludes opens for emails addressed to more than one recipient.
+  /// </li>
+  /// <li>
+  /// <code>CLICK</code> – Unique click events for emails including wrapped links.
+  /// Excludes clicks for emails addressed to more than one recipient.
+  /// </li>
+  /// <li>
+  /// <code>DELIVERY</code> – Successful deliveries for email sending attempts.
+  /// Excludes deliveries to the mailbox simulator and for emails addressed to
+  /// more than one recipient.
+  /// </li>
+  /// <li>
+  /// <code>DELIVERY_OPEN</code> – Successful deliveries for email sending
+  /// attempts. Excludes deliveries to the mailbox simulator, for emails addressed
+  /// to more than one recipient, and emails without open trackers.
+  /// </li>
+  /// <li>
+  /// <code>DELIVERY_CLICK</code> – Successful deliveries for email sending
+  /// attempts. Excludes deliveries to the mailbox simulator, for emails addressed
+  /// to more than one recipient, and emails without click trackers.
+  /// </li>
+  /// <li>
+  /// <code>DELIVERY_COMPLAINT</code> – Successful deliveries for email sending
+  /// attempts. Excludes deliveries to the mailbox simulator, for emails addressed
+  /// to more than one recipient, and emails addressed to recipients hosted by
+  /// ISPs with which Amazon SES does not have a feedback loop agreement.
+  /// </li>
+  /// </ul>
+  final Metric metric;
+
+  /// The query namespace - e.g. <code>VDM</code>
+  final MetricNamespace namespace;
+
+  /// Represents the start date for the query interval.
+  final DateTime startDate;
+
+  /// An object that contains mapping between <code>MetricDimensionName</code> and
+  /// <code>MetricDimensionValue</code> to filter metrics by.
+  final Map<MetricDimensionName, String>? dimensions;
+
+  BatchGetMetricDataQuery({
+    required this.endDate,
+    required this.id,
+    required this.metric,
+    required this.namespace,
+    required this.startDate,
+    this.dimensions,
+  });
+  Map<String, dynamic> toJson() {
+    final endDate = this.endDate;
+    final id = this.id;
+    final metric = this.metric;
+    final namespace = this.namespace;
+    final startDate = this.startDate;
+    final dimensions = this.dimensions;
+    return {
+      'EndDate': unixTimestampToJson(endDate),
+      'Id': id,
+      'Metric': metric.toValue(),
+      'Namespace': namespace.toValue(),
+      'StartDate': unixTimestampToJson(startDate),
+      if (dimensions != null)
+        'Dimensions': dimensions.map((k, e) => MapEntry(k.toValue(), e)),
+    };
+  }
+}
+
+/// Represents the result of processing your metric data batch request
+class BatchGetMetricDataResponse {
+  /// A list of <code>MetricDataError</code> encountered while processing your
+  /// metric data batch request.
+  final List<MetricDataError>? errors;
+
+  /// A list of successfully retrieved <code>MetricDataResult</code>.
+  final List<MetricDataResult>? results;
+
+  BatchGetMetricDataResponse({
+    this.errors,
+    this.results,
+  });
+
+  factory BatchGetMetricDataResponse.fromJson(Map<String, dynamic> json) {
+    return BatchGetMetricDataResponse(
+      errors: (json['Errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => MetricDataError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      results: (json['Results'] as List?)
+          ?.whereNotNull()
+          .map((e) => MetricDataResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// The action to take if the required MX record can't be found when you send an
+/// email. When you set this value to <code>UseDefaultValue</code>, the mail is
+/// sent using <i>amazonses.com</i> as the MAIL FROM domain. When you set this
+/// value to <code>RejectMessage</code>, the Amazon SES API v2 returns a
+/// <code>MailFromDomainNotVerified</code> error, and doesn't attempt to deliver
+/// the email.
 ///
 /// These behaviors are taken when the custom MAIL FROM domain configuration is
 /// in the <code>Pending</code>, <code>Failed</code>, and
@@ -3273,7 +3637,7 @@ class BlacklistEntry {
   /// blacklist maintainer.
   final String? description;
 
-  /// The time when the blacklisting event occurred, shown in Unix time format.
+  /// The time when the blacklisting event occurred.
   final DateTime? listingTime;
 
   /// The name of the blacklist that the IP address appears on.
@@ -3284,6 +3648,7 @@ class BlacklistEntry {
     this.listingTime,
     this.rblName,
   });
+
   factory BlacklistEntry.fromJson(Map<String, dynamic> json) {
     return BlacklistEntry(
       description: json['Description'] as String?,
@@ -3463,6 +3828,7 @@ class BulkEmailEntryResult {
     this.messageId,
     this.status,
   });
+
   factory BulkEmailEntryResult.fromJson(Map<String, dynamic> json) {
     return BulkEmailEntryResult(
       error: json['Error'] as String?,
@@ -3571,6 +3937,7 @@ class CloudWatchDestination {
   CloudWatchDestination({
     required this.dimensionConfigurations,
   });
+
   factory CloudWatchDestination.fromJson(Map<String, dynamic> json) {
     return CloudWatchDestination(
       dimensionConfigurations: (json['DimensionConfigurations'] as List)
@@ -3598,8 +3965,8 @@ class CloudWatchDimensionConfiguration {
   ///
   /// <ul>
   /// <li>
-  /// It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores
-  /// (_), or dashes (-).
+  /// Can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_),
+  /// or dashes (-), at signs (@), and periods (.).
   /// </li>
   /// <li>
   /// It can contain no more than 256 characters.
@@ -3622,12 +3989,11 @@ class CloudWatchDimensionConfiguration {
   final String dimensionName;
 
   /// The location where the Amazon SES API v2 finds the value of a dimension to
-  /// publish to Amazon CloudWatch. If you want to use the message tags that you
-  /// specify using an <code>X-SES-MESSAGE-TAGS</code> header or a parameter to
-  /// the <code>SendEmail</code> or <code>SendRawEmail</code> API, choose
-  /// <code>messageTag</code>. If you want to use your own email headers, choose
-  /// <code>emailHeader</code>. If you want to use link tags, choose
-  /// <code>linkTags</code>.
+  /// publish to Amazon CloudWatch. To use the message tags that you specify using
+  /// an <code>X-SES-MESSAGE-TAGS</code> header or a parameter to the
+  /// <code>SendEmail</code> or <code>SendRawEmail</code> API, choose
+  /// <code>messageTag</code>. To use your own email headers, choose
+  /// <code>emailHeader</code>. To use link tags, choose <code>linkTags</code>.
   final DimensionValueSource dimensionValueSource;
 
   CloudWatchDimensionConfiguration({
@@ -3635,6 +4001,7 @@ class CloudWatchDimensionConfiguration {
     required this.dimensionName,
     required this.dimensionValueSource,
   });
+
   factory CloudWatchDimensionConfiguration.fromJson(Map<String, dynamic> json) {
     return CloudWatchDimensionConfiguration(
       defaultDimensionValue: json['DefaultDimensionValue'] as String,
@@ -3681,6 +4048,7 @@ class Contact {
     this.topicPreferences,
     this.unsubscribeAll,
   });
+
   factory Contact.fromJson(Map<String, dynamic> json) {
     return Contact(
       emailAddress: json['EmailAddress'] as String?,
@@ -3739,6 +4107,7 @@ class ContactList {
     this.contactListName,
     this.lastUpdatedTimestamp,
   });
+
   factory ContactList.fromJson(Map<String, dynamic> json) {
     return ContactList(
       contactListName: json['ContactListName'] as String?,
@@ -3749,8 +4118,8 @@ class ContactList {
 
 /// An object that contains details about the action of a contact list.
 class ContactListDestination {
-  /// &gt;The type of action that you want to perform on the addresses. Acceptable
-  /// values:
+  /// &gt;The type of action to perform on the addresses. The following are the
+  /// possible values:
   ///
   /// <ul>
   /// <li>
@@ -3770,6 +4139,7 @@ class ContactListDestination {
     required this.contactListImportAction,
     required this.contactListName,
   });
+
   factory ContactListDestination.fromJson(Map<String, dynamic> json) {
     return ContactListDestination(
       contactListImportAction: (json['ContactListImportAction'] as String)
@@ -3847,6 +4217,7 @@ class Content {
 /// request fails.
 class CreateConfigurationSetEventDestinationResponse {
   CreateConfigurationSetEventDestinationResponse();
+
   factory CreateConfigurationSetEventDestinationResponse.fromJson(
       Map<String, dynamic> _) {
     return CreateConfigurationSetEventDestinationResponse();
@@ -3857,6 +4228,7 @@ class CreateConfigurationSetEventDestinationResponse {
 /// request fails.
 class CreateConfigurationSetResponse {
   CreateConfigurationSetResponse();
+
   factory CreateConfigurationSetResponse.fromJson(Map<String, dynamic> _) {
     return CreateConfigurationSetResponse();
   }
@@ -3864,6 +4236,7 @@ class CreateConfigurationSetResponse {
 
 class CreateContactListResponse {
   CreateContactListResponse();
+
   factory CreateContactListResponse.fromJson(Map<String, dynamic> _) {
     return CreateContactListResponse();
   }
@@ -3871,6 +4244,7 @@ class CreateContactListResponse {
 
 class CreateContactResponse {
   CreateContactResponse();
+
   factory CreateContactResponse.fromJson(Map<String, dynamic> _) {
     return CreateContactResponse();
   }
@@ -3880,6 +4254,7 @@ class CreateContactResponse {
 /// with an empty HTTP body.
 class CreateCustomVerificationEmailTemplateResponse {
   CreateCustomVerificationEmailTemplateResponse();
+
   factory CreateCustomVerificationEmailTemplateResponse.fromJson(
       Map<String, dynamic> _) {
     return CreateCustomVerificationEmailTemplateResponse();
@@ -3890,6 +4265,7 @@ class CreateCustomVerificationEmailTemplateResponse {
 /// request fails.
 class CreateDedicatedIpPoolResponse {
   CreateDedicatedIpPoolResponse();
+
   factory CreateDedicatedIpPoolResponse.fromJson(Map<String, dynamic> _) {
     return CreateDedicatedIpPoolResponse();
   }
@@ -3912,6 +4288,7 @@ class CreateDeliverabilityTestReportResponse {
     required this.deliverabilityTestStatus,
     required this.reportId,
   });
+
   factory CreateDeliverabilityTestReportResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateDeliverabilityTestReportResponse(
@@ -3926,6 +4303,7 @@ class CreateDeliverabilityTestReportResponse {
 /// request fails.
 class CreateEmailIdentityPolicyResponse {
   CreateEmailIdentityPolicyResponse();
+
   factory CreateEmailIdentityPolicyResponse.fromJson(Map<String, dynamic> _) {
     return CreateEmailIdentityPolicyResponse();
   }
@@ -3940,7 +4318,8 @@ class CreateEmailIdentityResponse {
   /// identity.
   final DkimAttributes? dkimAttributes;
 
-  /// The email identity type.
+  /// The email identity type. Note: the <code>MANAGED_DOMAIN</code> identity type
+  /// is not supported.
   final IdentityType? identityType;
 
   /// Specifies whether or not the identity is verified. You can only send email
@@ -3955,6 +4334,7 @@ class CreateEmailIdentityResponse {
     this.identityType,
     this.verifiedForSendingStatus,
   });
+
   factory CreateEmailIdentityResponse.fromJson(Map<String, dynamic> json) {
     return CreateEmailIdentityResponse(
       dkimAttributes: json['DkimAttributes'] != null
@@ -3971,6 +4351,7 @@ class CreateEmailIdentityResponse {
 /// with an empty HTTP body.
 class CreateEmailTemplateResponse {
   CreateEmailTemplateResponse();
+
   factory CreateEmailTemplateResponse.fromJson(Map<String, dynamic> _) {
     return CreateEmailTemplateResponse();
   }
@@ -3985,6 +4366,7 @@ class CreateImportJobResponse {
   CreateImportJobResponse({
     this.jobId,
   });
+
   factory CreateImportJobResponse.fromJson(Map<String, dynamic> json) {
     return CreateImportJobResponse(
       jobId: json['JobId'] as String?,
@@ -4018,6 +4400,7 @@ class CustomVerificationEmailTemplateMetadata {
     this.templateName,
     this.templateSubject,
   });
+
   factory CustomVerificationEmailTemplateMetadata.fromJson(
       Map<String, dynamic> json) {
     return CustomVerificationEmailTemplateMetadata(
@@ -4049,6 +4432,7 @@ class DailyVolume {
     this.startDate,
     this.volumeStatistics,
   });
+
   factory DailyVolume.fromJson(Map<String, dynamic> json) {
     return DailyVolume(
       domainIspPlacements: (json['DomainIspPlacements'] as List?)
@@ -4061,6 +4445,82 @@ class DailyVolume {
               json['VolumeStatistics'] as Map<String, dynamic>)
           : null,
     );
+  }
+}
+
+/// An object containing additional settings for your VDM configuration as
+/// applicable to the Dashboard.
+class DashboardAttributes {
+  /// Specifies the status of your VDM engagement metrics collection. Can be one
+  /// of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLED</code> – Amazon SES enables engagement metrics for your
+  /// account.
+  /// </li>
+  /// <li>
+  /// <code>DISABLED</code> – Amazon SES disables engagement metrics for your
+  /// account.
+  /// </li>
+  /// </ul>
+  final FeatureStatus? engagementMetrics;
+
+  DashboardAttributes({
+    this.engagementMetrics,
+  });
+
+  factory DashboardAttributes.fromJson(Map<String, dynamic> json) {
+    return DashboardAttributes(
+      engagementMetrics:
+          (json['EngagementMetrics'] as String?)?.toFeatureStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final engagementMetrics = this.engagementMetrics;
+    return {
+      if (engagementMetrics != null)
+        'EngagementMetrics': engagementMetrics.toValue(),
+    };
+  }
+}
+
+/// An object containing additional settings for your VDM configuration as
+/// applicable to the Dashboard.
+class DashboardOptions {
+  /// Specifies the status of your VDM engagement metrics collection. Can be one
+  /// of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLED</code> – Amazon SES enables engagement metrics for the
+  /// configuration set.
+  /// </li>
+  /// <li>
+  /// <code>DISABLED</code> – Amazon SES disables engagement metrics for the
+  /// configuration set.
+  /// </li>
+  /// </ul>
+  final FeatureStatus? engagementMetrics;
+
+  DashboardOptions({
+    this.engagementMetrics,
+  });
+
+  factory DashboardOptions.fromJson(Map<String, dynamic> json) {
+    return DashboardOptions(
+      engagementMetrics:
+          (json['EngagementMetrics'] as String?)?.toFeatureStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final engagementMetrics = this.engagementMetrics;
+    return {
+      if (engagementMetrics != null)
+        'EngagementMetrics': engagementMetrics.toValue(),
+    };
   }
 }
 
@@ -4133,6 +4593,7 @@ class DedicatedIp {
     required this.warmupStatus,
     this.poolName,
   });
+
   factory DedicatedIp.fromJson(Map<String, dynamic> json) {
     return DedicatedIp(
       ip: json['Ip'] as String,
@@ -4143,10 +4604,43 @@ class DedicatedIp {
   }
 }
 
+/// Contains information about a dedicated IP pool.
+class DedicatedIpPool {
+  /// The name of the dedicated IP pool.
+  final String poolName;
+
+  /// The type of the dedicated IP pool.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>STANDARD</code> – A dedicated IP pool where you can control which IPs
+  /// are part of the pool.
+  /// </li>
+  /// <li>
+  /// <code>MANAGED</code> – A dedicated IP pool where the reputation and number
+  /// of IPs are automatically managed by Amazon SES.
+  /// </li>
+  /// </ul>
+  final ScalingMode scalingMode;
+
+  DedicatedIpPool({
+    required this.poolName,
+    required this.scalingMode,
+  });
+
+  factory DedicatedIpPool.fromJson(Map<String, dynamic> json) {
+    return DedicatedIpPool(
+      poolName: json['PoolName'] as String,
+      scalingMode: (json['ScalingMode'] as String).toScalingMode(),
+    );
+  }
+}
+
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
 class DeleteConfigurationSetEventDestinationResponse {
   DeleteConfigurationSetEventDestinationResponse();
+
   factory DeleteConfigurationSetEventDestinationResponse.fromJson(
       Map<String, dynamic> _) {
     return DeleteConfigurationSetEventDestinationResponse();
@@ -4157,6 +4651,7 @@ class DeleteConfigurationSetEventDestinationResponse {
 /// request fails.
 class DeleteConfigurationSetResponse {
   DeleteConfigurationSetResponse();
+
   factory DeleteConfigurationSetResponse.fromJson(Map<String, dynamic> _) {
     return DeleteConfigurationSetResponse();
   }
@@ -4164,6 +4659,7 @@ class DeleteConfigurationSetResponse {
 
 class DeleteContactListResponse {
   DeleteContactListResponse();
+
   factory DeleteContactListResponse.fromJson(Map<String, dynamic> _) {
     return DeleteContactListResponse();
   }
@@ -4171,6 +4667,7 @@ class DeleteContactListResponse {
 
 class DeleteContactResponse {
   DeleteContactResponse();
+
   factory DeleteContactResponse.fromJson(Map<String, dynamic> _) {
     return DeleteContactResponse();
   }
@@ -4180,6 +4677,7 @@ class DeleteContactResponse {
 /// with an empty HTTP body.
 class DeleteCustomVerificationEmailTemplateResponse {
   DeleteCustomVerificationEmailTemplateResponse();
+
   factory DeleteCustomVerificationEmailTemplateResponse.fromJson(
       Map<String, dynamic> _) {
     return DeleteCustomVerificationEmailTemplateResponse();
@@ -4190,6 +4688,7 @@ class DeleteCustomVerificationEmailTemplateResponse {
 /// request fails.
 class DeleteDedicatedIpPoolResponse {
   DeleteDedicatedIpPoolResponse();
+
   factory DeleteDedicatedIpPoolResponse.fromJson(Map<String, dynamic> _) {
     return DeleteDedicatedIpPoolResponse();
   }
@@ -4199,6 +4698,7 @@ class DeleteDedicatedIpPoolResponse {
 /// request fails.
 class DeleteEmailIdentityPolicyResponse {
   DeleteEmailIdentityPolicyResponse();
+
   factory DeleteEmailIdentityPolicyResponse.fromJson(Map<String, dynamic> _) {
     return DeleteEmailIdentityPolicyResponse();
   }
@@ -4208,6 +4708,7 @@ class DeleteEmailIdentityPolicyResponse {
 /// request fails.
 class DeleteEmailIdentityResponse {
   DeleteEmailIdentityResponse();
+
   factory DeleteEmailIdentityResponse.fromJson(Map<String, dynamic> _) {
     return DeleteEmailIdentityResponse();
   }
@@ -4217,6 +4718,7 @@ class DeleteEmailIdentityResponse {
 /// with an empty HTTP body.
 class DeleteEmailTemplateResponse {
   DeleteEmailTemplateResponse();
+
   factory DeleteEmailTemplateResponse.fromJson(Map<String, dynamic> _) {
     return DeleteEmailTemplateResponse();
   }
@@ -4226,6 +4728,7 @@ class DeleteEmailTemplateResponse {
 /// request fails.
 class DeleteSuppressedDestinationResponse {
   DeleteSuppressedDestinationResponse();
+
   factory DeleteSuppressedDestinationResponse.fromJson(Map<String, dynamic> _) {
     return DeleteSuppressedDestinationResponse();
   }
@@ -4273,8 +4776,7 @@ extension DeliverabilityDashboardAccountStatusFromString on String {
 /// An object that contains metadata related to a predictive inbox placement
 /// test.
 class DeliverabilityTestReport {
-  /// The date and time when the predictive inbox placement test was created, in
-  /// Unix time format.
+  /// The date and time when the predictive inbox placement test was created.
   final DateTime? createDate;
 
   /// The status of the predictive inbox placement test. If the status is
@@ -4307,6 +4809,7 @@ class DeliverabilityTestReport {
     this.reportName,
     this.subject,
   });
+
   factory DeliverabilityTestReport.fromJson(Map<String, dynamic> json) {
     return DeliverabilityTestReport(
       createDate: timeStampFromJson(json['CreateDate']),
@@ -4357,8 +4860,7 @@ extension DeliverabilityTestStatusFromString on String {
 
 /// Used to associate a configuration set with a dedicated IP pool.
 class DeliveryOptions {
-  /// The name of the dedicated IP pool that you want to associate with the
-  /// configuration set.
+  /// The name of the dedicated IP pool to associate with the configuration set.
   final String? sendingPoolName;
 
   /// Specifies whether messages that use the configuration set are required to
@@ -4372,6 +4874,7 @@ class DeliveryOptions {
     this.sendingPoolName,
     this.tlsPolicy,
   });
+
   factory DeliveryOptions.fromJson(Map<String, dynamic> json) {
     return DeliveryOptions(
       sendingPoolName: json['SendingPoolName'] as String?,
@@ -4390,6 +4893,17 @@ class DeliveryOptions {
 }
 
 /// An object that describes the recipients for an email.
+/// <note>
+/// Amazon SES does not support the SMTPUTF8 extension, as described in <a
+/// href="https://tools.ietf.org/html/rfc6531">RFC6531</a>. For this reason, the
+/// <i>local part</i> of a destination email address (the part of the email
+/// address that precedes the @ sign) may only contain <a
+/// href="https://en.wikipedia.org/wiki/Email_address#Local-part">7-bit ASCII
+/// characters</a>. If the <i>domain part</i> of an address (the part after the
+/// @ sign) contains non-ASCII characters, they must be encoded using Punycode,
+/// as described in <a
+/// href="https://tools.ietf.org/html/rfc3492.html">RFC3492</a>.
+/// </note>
 class Destination {
   /// An array that contains the email addresses of the "BCC" (blind carbon copy)
   /// recipients for the email.
@@ -4421,12 +4935,11 @@ class Destination {
 }
 
 /// The location where the Amazon SES API v2 finds the value of a dimension to
-/// publish to Amazon CloudWatch. If you want to use the message tags that you
-/// specify using an <code>X-SES-MESSAGE-TAGS</code> header or a parameter to
-/// the <code>SendEmail</code> or <code>SendRawEmail</code> API, choose
-/// <code>messageTag</code>. If you want to use your own email headers, choose
-/// <code>emailHeader</code>. If you want to use link tags, choose
-/// <code>linkTags</code>.
+/// publish to Amazon CloudWatch. To use the message tags that you specify using
+/// an <code>X-SES-MESSAGE-TAGS</code> header or a parameter to the
+/// <code>SendEmail</code> or <code>SendRawEmail</code> API, choose
+/// <code>messageTag</code>. To use your own email headers, choose
+/// <code>emailHeader</code>. To use link tags, choose <code>linkTags</code>.
 enum DimensionValueSource {
   messageTag,
   emailHeader,
@@ -4473,8 +4986,18 @@ extension DimensionValueSourceFromString on String {
 /// the TXT record must be a public key that's paired with the private key that
 /// you specified in the process of creating the identity
 class DkimAttributes {
-  /// A string that indicates how DKIM was configured for the identity. There are
-  /// two possible values:
+  /// [Easy DKIM] The key length of the DKIM key pair in use.
+  final DkimSigningKeyLength? currentSigningKeyLength;
+
+  /// [Easy DKIM] The last time a key pair was generated for this identity.
+  final DateTime? lastKeyGenerationTimestamp;
+
+  /// [Easy DKIM] The key length of the future DKIM key pair to be generated. This
+  /// can be changed at most once per day.
+  final DkimSigningKeyLength? nextSigningKeyLength;
+
+  /// A string that indicates how DKIM was configured for the identity. These are
+  /// the possible values:
   ///
   /// <ul>
   /// <li>
@@ -4542,13 +5065,23 @@ class DkimAttributes {
   final List<String>? tokens;
 
   DkimAttributes({
+    this.currentSigningKeyLength,
+    this.lastKeyGenerationTimestamp,
+    this.nextSigningKeyLength,
     this.signingAttributesOrigin,
     this.signingEnabled,
     this.status,
     this.tokens,
   });
+
   factory DkimAttributes.fromJson(Map<String, dynamic> json) {
     return DkimAttributes(
+      currentSigningKeyLength: (json['CurrentSigningKeyLength'] as String?)
+          ?.toDkimSigningKeyLength(),
+      lastKeyGenerationTimestamp:
+          timeStampFromJson(json['LastKeyGenerationTimestamp']),
+      nextSigningKeyLength:
+          (json['NextSigningKeyLength'] as String?)?.toDkimSigningKeyLength(),
       signingAttributesOrigin: (json['SigningAttributesOrigin'] as String?)
           ?.toDkimSigningAttributesOrigin(),
       signingEnabled: json['SigningEnabled'] as bool?,
@@ -4561,29 +5094,40 @@ class DkimAttributes {
   }
 }
 
-/// An object that contains information about the tokens used for setting up
-/// Bring Your Own DKIM (BYODKIM).
+/// An object that contains configuration for Bring Your Own DKIM (BYODKIM), or,
+/// for Easy DKIM
 class DkimSigningAttributes {
-  /// A private key that's used to generate a DKIM signature.
+  /// [Bring Your Own DKIM] A private key that's used to generate a DKIM
+  /// signature.
   ///
-  /// The private key must use 1024-bit RSA encryption, and must be encoded using
-  /// base64 encoding.
-  final String domainSigningPrivateKey;
+  /// The private key must use 1024 or 2048-bit RSA encryption, and must be
+  /// encoded using base64 encoding.
+  final String? domainSigningPrivateKey;
 
-  /// A string that's used to identify a public key in the DNS configuration for a
-  /// domain.
-  final String domainSigningSelector;
+  /// [Bring Your Own DKIM] A string that's used to identify a public key in the
+  /// DNS configuration for a domain.
+  final String? domainSigningSelector;
+
+  /// [Easy DKIM] The key length of the future DKIM key pair to be generated. This
+  /// can be changed at most once per day.
+  final DkimSigningKeyLength? nextSigningKeyLength;
 
   DkimSigningAttributes({
-    required this.domainSigningPrivateKey,
-    required this.domainSigningSelector,
+    this.domainSigningPrivateKey,
+    this.domainSigningSelector,
+    this.nextSigningKeyLength,
   });
   Map<String, dynamic> toJson() {
     final domainSigningPrivateKey = this.domainSigningPrivateKey;
     final domainSigningSelector = this.domainSigningSelector;
+    final nextSigningKeyLength = this.nextSigningKeyLength;
     return {
-      'DomainSigningPrivateKey': domainSigningPrivateKey,
-      'DomainSigningSelector': domainSigningSelector,
+      if (domainSigningPrivateKey != null)
+        'DomainSigningPrivateKey': domainSigningPrivateKey,
+      if (domainSigningSelector != null)
+        'DomainSigningSelector': domainSigningSelector,
+      if (nextSigningKeyLength != null)
+        'NextSigningKeyLength': nextSigningKeyLength.toValue(),
     };
   }
 }
@@ -4614,6 +5158,34 @@ extension DkimSigningAttributesOriginFromString on String {
         return DkimSigningAttributesOrigin.external;
     }
     throw Exception('$this is not known in enum DkimSigningAttributesOrigin');
+  }
+}
+
+enum DkimSigningKeyLength {
+  rsa_1024Bit,
+  rsa_2048Bit,
+}
+
+extension DkimSigningKeyLengthValueExtension on DkimSigningKeyLength {
+  String toValue() {
+    switch (this) {
+      case DkimSigningKeyLength.rsa_1024Bit:
+        return 'RSA_1024_BIT';
+      case DkimSigningKeyLength.rsa_2048Bit:
+        return 'RSA_2048_BIT';
+    }
+  }
+}
+
+extension DkimSigningKeyLengthFromString on String {
+  DkimSigningKeyLength toDkimSigningKeyLength() {
+    switch (this) {
+      case 'RSA_1024_BIT':
+        return DkimSigningKeyLength.rsa_1024Bit;
+      case 'RSA_2048_BIT':
+        return DkimSigningKeyLength.rsa_2048Bit;
+    }
+    throw Exception('$this is not known in enum DkimSigningKeyLength');
   }
 }
 
@@ -4704,9 +5276,9 @@ class DomainDeliverabilityCampaign {
   /// The major email providers who handled the email message.
   final List<String>? esps;
 
-  /// The first time, in Unix time format, when the email message was delivered to
-  /// any recipient's inbox. This value can help you determine how long it took
-  /// for a campaign to deliver an email message.
+  /// The first time when the email message was delivered to any recipient's
+  /// inbox. This value can help you determine how long it took for a campaign to
+  /// deliver an email message.
   final DateTime? firstSeenDateTime;
 
   /// The verified email address that the email message was sent from.
@@ -4719,9 +5291,9 @@ class DomainDeliverabilityCampaign {
   /// The number of email messages that were delivered to recipients’ inboxes.
   final int? inboxCount;
 
-  /// The last time, in Unix time format, when the email message was delivered to
-  /// any recipient's inbox. This value can help you determine how long it took
-  /// for a campaign to deliver an email message.
+  /// The last time when the email message was delivered to any recipient's inbox.
+  /// This value can help you determine how long it took for a campaign to deliver
+  /// an email message.
   final DateTime? lastSeenDateTime;
 
   /// The projected number of recipients that the email message was sent to.
@@ -4764,6 +5336,7 @@ class DomainDeliverabilityCampaign {
     this.spamCount,
     this.subject,
   });
+
   factory DomainDeliverabilityCampaign.fromJson(Map<String, dynamic> json) {
     return DomainDeliverabilityCampaign(
       campaignId: json['CampaignId'] as String?,
@@ -4796,16 +5369,15 @@ class DomainDeliverabilityCampaign {
 /// dashboard subscription is active for a domain, you gain access to
 /// reputation, inbox placement, and other metrics for the domain.
 class DomainDeliverabilityTrackingOption {
-  /// A verified domain that’s associated with your AWS account and currently has
-  /// an active Deliverability dashboard subscription.
+  /// A verified domain that’s associated with your Amazon Web Services account
+  /// and currently has an active Deliverability dashboard subscription.
   final String? domain;
 
   /// An object that contains information about the inbox placement data settings
   /// for the domain.
   final InboxPlacementTrackingOption? inboxPlacementTrackingOption;
 
-  /// The date, in Unix time format, when you enabled the Deliverability dashboard
-  /// for the domain.
+  /// The date when you enabled the Deliverability dashboard for the domain.
   final DateTime? subscriptionStartDate;
 
   DomainDeliverabilityTrackingOption({
@@ -4813,6 +5385,7 @@ class DomainDeliverabilityTrackingOption {
     this.inboxPlacementTrackingOption,
     this.subscriptionStartDate,
   });
+
   factory DomainDeliverabilityTrackingOption.fromJson(
       Map<String, dynamic> json) {
     return DomainDeliverabilityTrackingOption(
@@ -4870,6 +5443,7 @@ class DomainIspPlacement {
     this.spamPercentage,
     this.spamRawCount,
   });
+
   factory DomainIspPlacement.fromJson(Map<String, dynamic> json) {
     return DomainIspPlacement(
       inboxPercentage: json['InboxPercentage'] as double?,
@@ -4962,6 +5536,7 @@ class EmailTemplateContent {
     this.subject,
     this.text,
   });
+
   factory EmailTemplateContent.fromJson(Map<String, dynamic> json) {
     return EmailTemplateContent(
       html: json['Html'] as String?,
@@ -4994,6 +5569,7 @@ class EmailTemplateMetadata {
     this.createdTimestamp,
     this.templateName,
   });
+
   factory EmailTemplateMetadata.fromJson(Map<String, dynamic> json) {
     return EmailTemplateMetadata(
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
@@ -5011,6 +5587,63 @@ class EmailTemplateMetadata {
 class EventDestination {
   /// The types of events that Amazon SES sends to the specified event
   /// destinations.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SEND</code> - The send request was successful and SES will attempt to
+  /// deliver the message to the recipient’s mail server. (If account-level or
+  /// global suppression is being used, SES will still count it as a send, but
+  /// delivery is suppressed.)
+  /// </li>
+  /// <li>
+  /// <code>REJECT</code> - SES accepted the email, but determined that it
+  /// contained a virus and didn’t attempt to deliver it to the recipient’s mail
+  /// server.
+  /// </li>
+  /// <li>
+  /// <code>BOUNCE</code> - (<i>Hard bounce</i>) The recipient's mail server
+  /// permanently rejected the email. (<i>Soft bounces</i> are only included when
+  /// SES fails to deliver the email after retrying for a period of time.)
+  /// </li>
+  /// <li>
+  /// <code>COMPLAINT</code> - The email was successfully delivered to the
+  /// recipient’s mail server, but the recipient marked it as spam.
+  /// </li>
+  /// <li>
+  /// <code>DELIVERY</code> - SES successfully delivered the email to the
+  /// recipient's mail server.
+  /// </li>
+  /// <li>
+  /// <code>OPEN</code> - The recipient received the message and opened it in
+  /// their email client.
+  /// </li>
+  /// <li>
+  /// <code>CLICK</code> - The recipient clicked one or more links in the email.
+  /// </li>
+  /// <li>
+  /// <code>RENDERING_FAILURE</code> - The email wasn't sent because of a template
+  /// rendering issue. This event type can occur when template data is missing, or
+  /// when there is a mismatch between template parameters and data. (This event
+  /// type only occurs when you send email using the <a
+  /// href="https://docs.aws.amazon.com/ses/latest/APIReference/API_SendTemplatedEmail.html">
+  /// <code>SendTemplatedEmail</code> </a> or <a
+  /// href="https://docs.aws.amazon.com/ses/latest/APIReference/API_SendBulkTemplatedEmail.html">
+  /// <code>SendBulkTemplatedEmail</code> </a> API operations.)
+  /// </li>
+  /// <li>
+  /// <code>DELIVERY_DELAY</code> - The email couldn't be delivered to the
+  /// recipient’s mail server because a temporary issue occurred. Delivery delays
+  /// can occur, for example, when the recipient's inbox is full, or when the
+  /// receiving email server experiences a transient issue.
+  /// </li>
+  /// <li>
+  /// <code>SUBSCRIPTION</code> - The email was successfully delivered, but the
+  /// recipient updated their subscription preferences by clicking on an
+  /// <i>unsubscribe</i> link as part of your <a
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/sending-email-subscription-management.html">subscription
+  /// management</a>.
+  /// </li>
+  /// </ul>
   final List<EventType> matchingEventTypes;
 
   /// A name that identifies the event destination.
@@ -5055,6 +5688,7 @@ class EventDestination {
     this.pinpointDestination,
     this.snsDestination,
   });
+
   factory EventDestination.fromJson(Map<String, dynamic> json) {
     return EventDestination(
       matchingEventTypes: (json['MatchingEventTypes'] as List)
@@ -5236,6 +5870,7 @@ class FailureInfo {
     this.errorMessage,
     this.failedRecordsS3Url,
   });
+
   factory FailureInfo.fromJson(Map<String, dynamic> json) {
     return FailureInfo(
       errorMessage: json['ErrorMessage'] as String?,
@@ -5244,8 +5879,36 @@ class FailureInfo {
   }
 }
 
+enum FeatureStatus {
+  enabled,
+  disabled,
+}
+
+extension FeatureStatusValueExtension on FeatureStatus {
+  String toValue() {
+    switch (this) {
+      case FeatureStatus.enabled:
+        return 'ENABLED';
+      case FeatureStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension FeatureStatusFromString on String {
+  FeatureStatus toFeatureStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return FeatureStatus.enabled;
+      case 'DISABLED':
+        return FeatureStatus.disabled;
+    }
+    throw Exception('$this is not known in enum FeatureStatus');
+  }
+}
+
 /// A list of details about the email-sending capabilities of your Amazon SES
-/// account in the current AWS Region.
+/// account in the current Amazon Web Services Region.
 class GetAccountResponse {
   /// Indicates whether or not the automatic warm-up feature is enabled for
   /// dedicated IP addresses that are associated with your account.
@@ -5277,7 +5940,7 @@ class GetAccountResponse {
   final String? enforcementStatus;
 
   /// Indicates whether or not your account has production access in the current
-  /// AWS Region.
+  /// Amazon Web Services Region.
   ///
   /// If the value is <code>false</code>, then your account is in the
   /// <i>sandbox</i>. When your account is in the sandbox, you can only send email
@@ -5292,16 +5955,20 @@ class GetAccountResponse {
   final bool? productionAccessEnabled;
 
   /// An object that contains information about the per-day and per-second sending
-  /// limits for your Amazon SES account in the current AWS Region.
+  /// limits for your Amazon SES account in the current Amazon Web Services
+  /// Region.
   final SendQuota? sendQuota;
 
   /// Indicates whether or not email sending is enabled for your Amazon SES
-  /// account in the current AWS Region.
+  /// account in the current Amazon Web Services Region.
   final bool? sendingEnabled;
 
   /// An object that contains information about the email address suppression
-  /// preferences for your account in the current AWS Region.
+  /// preferences for your account in the current Amazon Web Services Region.
   final SuppressionAttributes? suppressionAttributes;
+
+  /// The VDM attributes that apply to your Amazon SES account.
+  final VdmAttributes? vdmAttributes;
 
   GetAccountResponse({
     this.dedicatedIpAutoWarmupEnabled,
@@ -5311,7 +5978,9 @@ class GetAccountResponse {
     this.sendQuota,
     this.sendingEnabled,
     this.suppressionAttributes,
+    this.vdmAttributes,
   });
+
   factory GetAccountResponse.fromJson(Map<String, dynamic> json) {
     return GetAccountResponse(
       dedicatedIpAutoWarmupEnabled:
@@ -5329,6 +5998,10 @@ class GetAccountResponse {
           ? SuppressionAttributes.fromJson(
               json['SuppressionAttributes'] as Map<String, dynamic>)
           : null,
+      vdmAttributes: json['VdmAttributes'] != null
+          ? VdmAttributes.fromJson(
+              json['VdmAttributes'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -5342,6 +6015,7 @@ class GetBlacklistReportsResponse {
   GetBlacklistReportsResponse({
     required this.blacklistReport,
   });
+
   factory GetBlacklistReportsResponse.fromJson(Map<String, dynamic> json) {
     return GetBlacklistReportsResponse(
       blacklistReport: (json['BlacklistReport'] as Map<String, dynamic>).map(
@@ -5365,6 +6039,7 @@ class GetConfigurationSetEventDestinationsResponse {
   GetConfigurationSetEventDestinationsResponse({
     this.eventDestinations,
   });
+
   factory GetConfigurationSetEventDestinationsResponse.fromJson(
       Map<String, dynamic> json) {
     return GetConfigurationSetEventDestinationsResponse(
@@ -5405,6 +6080,10 @@ class GetConfigurationSetResponse {
   /// you send using the configuration set.
   final TrackingOptions? trackingOptions;
 
+  /// An object that contains information about the VDM preferences for your
+  /// configuration set.
+  final VdmOptions? vdmOptions;
+
   GetConfigurationSetResponse({
     this.configurationSetName,
     this.deliveryOptions,
@@ -5413,7 +6092,9 @@ class GetConfigurationSetResponse {
     this.suppressionOptions,
     this.tags,
     this.trackingOptions,
+    this.vdmOptions,
   });
+
   factory GetConfigurationSetResponse.fromJson(Map<String, dynamic> json) {
     return GetConfigurationSetResponse(
       configurationSetName: json['ConfigurationSetName'] as String?,
@@ -5440,6 +6121,9 @@ class GetConfigurationSetResponse {
       trackingOptions: json['TrackingOptions'] != null
           ? TrackingOptions.fromJson(
               json['TrackingOptions'] as Map<String, dynamic>)
+          : null,
+      vdmOptions: json['VdmOptions'] != null
+          ? VdmOptions.fromJson(json['VdmOptions'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -5473,6 +6157,7 @@ class GetContactListResponse {
     this.tags,
     this.topics,
   });
+
   factory GetContactListResponse.fromJson(Map<String, dynamic> json) {
     return GetContactListResponse(
       contactListName: json['ContactListName'] as String?,
@@ -5501,7 +6186,7 @@ class GetContactResponse {
   /// A timestamp noting when the contact was created.
   final DateTime? createdTimestamp;
 
-  /// The contact's email addres.
+  /// The contact's email address.
   final String? emailAddress;
 
   /// A timestamp noting the last time the contact's information was updated.
@@ -5527,6 +6212,7 @@ class GetContactResponse {
     this.topicPreferences,
     this.unsubscribeAll,
   });
+
   factory GetContactResponse.fromJson(Map<String, dynamic> json) {
     return GetContactResponse(
       attributesData: json['AttributesData'] as String?,
@@ -5577,6 +6263,7 @@ class GetCustomVerificationEmailTemplateResponse {
     this.templateName,
     this.templateSubject,
   });
+
   factory GetCustomVerificationEmailTemplateResponse.fromJson(
       Map<String, dynamic> json) {
     return GetCustomVerificationEmailTemplateResponse(
@@ -5590,6 +6277,25 @@ class GetCustomVerificationEmailTemplateResponse {
   }
 }
 
+/// The following element is returned by the service.
+class GetDedicatedIpPoolResponse {
+  /// An object that contains information about a dedicated IP pool.
+  final DedicatedIpPool? dedicatedIpPool;
+
+  GetDedicatedIpPoolResponse({
+    this.dedicatedIpPool,
+  });
+
+  factory GetDedicatedIpPoolResponse.fromJson(Map<String, dynamic> json) {
+    return GetDedicatedIpPoolResponse(
+      dedicatedIpPool: json['DedicatedIpPool'] != null
+          ? DedicatedIpPool.fromJson(
+              json['DedicatedIpPool'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 /// Information about a dedicated IP address.
 class GetDedicatedIpResponse {
   /// An object that contains information about a dedicated IP address.
@@ -5598,6 +6304,7 @@ class GetDedicatedIpResponse {
   GetDedicatedIpResponse({
     this.dedicatedIp,
   });
+
   factory GetDedicatedIpResponse.fromJson(Map<String, dynamic> json) {
     return GetDedicatedIpResponse(
       dedicatedIp: json['DedicatedIp'] != null
@@ -5608,9 +6315,10 @@ class GetDedicatedIpResponse {
 }
 
 /// Information about the dedicated IP addresses that are associated with your
-/// AWS account.
+/// Amazon Web Services account.
 class GetDedicatedIpsResponse {
-  /// A list of dedicated IP addresses that are associated with your AWS account.
+  /// A list of dedicated IP addresses that are associated with your Amazon Web
+  /// Services account.
   final List<DedicatedIp>? dedicatedIps;
 
   /// A token that indicates that there are additional dedicated IP addresses to
@@ -5623,6 +6331,7 @@ class GetDedicatedIpsResponse {
     this.dedicatedIps,
     this.nextToken,
   });
+
   factory GetDedicatedIpsResponse.fromJson(Map<String, dynamic> json) {
     return GetDedicatedIpsResponse(
       dedicatedIps: (json['DedicatedIps'] as List?)
@@ -5656,11 +6365,10 @@ class GetDeliverabilityDashboardOptionsResponse {
   final List<DomainDeliverabilityTrackingOption>?
       pendingExpirationSubscribedDomains;
 
-  /// The date, in Unix time format, when your current subscription to the
-  /// Deliverability dashboard is scheduled to expire, if your subscription is
-  /// scheduled to expire at the end of the current calendar month. This value is
-  /// null if you have an active subscription that isn’t due to expire at the end
-  /// of the month.
+  /// The date when your current subscription to the Deliverability dashboard is
+  /// scheduled to expire, if your subscription is scheduled to expire at the end
+  /// of the current calendar month. This value is null if you have an active
+  /// subscription that isn’t due to expire at the end of the month.
   final DateTime? subscriptionExpiryDate;
 
   GetDeliverabilityDashboardOptionsResponse({
@@ -5670,6 +6378,7 @@ class GetDeliverabilityDashboardOptionsResponse {
     this.pendingExpirationSubscribedDomains,
     this.subscriptionExpiryDate,
   });
+
   factory GetDeliverabilityDashboardOptionsResponse.fromJson(
       Map<String, dynamic> json) {
     return GetDeliverabilityDashboardOptionsResponse(
@@ -5721,6 +6430,7 @@ class GetDeliverabilityTestReportResponse {
     this.message,
     this.tags,
   });
+
   factory GetDeliverabilityTestReportResponse.fromJson(
       Map<String, dynamic> json) {
     return GetDeliverabilityTestReportResponse(
@@ -5751,6 +6461,7 @@ class GetDomainDeliverabilityCampaignResponse {
   GetDomainDeliverabilityCampaignResponse({
     required this.domainDeliverabilityCampaign,
   });
+
   factory GetDomainDeliverabilityCampaignResponse.fromJson(
       Map<String, dynamic> json) {
     return GetDomainDeliverabilityCampaignResponse(
@@ -5777,6 +6488,7 @@ class GetDomainStatisticsReportResponse {
     required this.dailyVolumes,
     required this.overallVolume,
   });
+
   factory GetDomainStatisticsReportResponse.fromJson(
       Map<String, dynamic> json) {
     return GetDomainStatisticsReportResponse(
@@ -5798,6 +6510,7 @@ class GetEmailIdentityPoliciesResponse {
   GetEmailIdentityPoliciesResponse({
     this.policies,
   });
+
   factory GetEmailIdentityPoliciesResponse.fromJson(Map<String, dynamic> json) {
     return GetEmailIdentityPoliciesResponse(
       policies: (json['Policies'] as Map<String, dynamic>?)
@@ -5808,6 +6521,9 @@ class GetEmailIdentityPoliciesResponse {
 
 /// Details about an email identity.
 class GetEmailIdentityResponse {
+  /// The configuration set used by default when sending from this identity.
+  final String? configurationSetName;
+
   /// An object that contains information about the DKIM attributes for the
   /// identity.
   final DkimAttributes? dkimAttributes;
@@ -5826,7 +6542,8 @@ class GetEmailIdentityResponse {
   /// disabled).
   final bool? feedbackForwardingStatus;
 
-  /// The email identity type.
+  /// The email identity type. Note: the <code>MANAGED_DOMAIN</code> identity type
+  /// is not supported.
   final IdentityType? identityType;
 
   /// An object that contains information about the Mail-From attributes for the
@@ -5840,6 +6557,31 @@ class GetEmailIdentityResponse {
   /// associated with the email identity.
   final List<Tag>? tags;
 
+  /// The verification status of the identity. The status can be one of the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PENDING</code> – The verification process was initiated, but Amazon
+  /// SES hasn't yet been able to verify the identity.
+  /// </li>
+  /// <li>
+  /// <code>SUCCESS</code> – The verification process completed successfully.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> – The verification process failed.
+  /// </li>
+  /// <li>
+  /// <code>TEMPORARY_FAILURE</code> – A temporary issue is preventing Amazon SES
+  /// from determining the verification status of the identity.
+  /// </li>
+  /// <li>
+  /// <code>NOT_STARTED</code> – The verification process hasn't been initiated
+  /// for the identity.
+  /// </li>
+  /// </ul>
+  final VerificationStatus? verificationStatus;
+
   /// Specifies whether or not the identity is verified. You can only send email
   /// from verified email addresses or domains. For more information about
   /// verifying identities, see the <a
@@ -5848,16 +6590,20 @@ class GetEmailIdentityResponse {
   final bool? verifiedForSendingStatus;
 
   GetEmailIdentityResponse({
+    this.configurationSetName,
     this.dkimAttributes,
     this.feedbackForwardingStatus,
     this.identityType,
     this.mailFromAttributes,
     this.policies,
     this.tags,
+    this.verificationStatus,
     this.verifiedForSendingStatus,
   });
+
   factory GetEmailIdentityResponse.fromJson(Map<String, dynamic> json) {
     return GetEmailIdentityResponse(
+      configurationSetName: json['ConfigurationSetName'] as String?,
       dkimAttributes: json['DkimAttributes'] != null
           ? DkimAttributes.fromJson(
               json['DkimAttributes'] as Map<String, dynamic>)
@@ -5874,6 +6620,8 @@ class GetEmailIdentityResponse {
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
+      verificationStatus:
+          (json['VerificationStatus'] as String?)?.toVerificationStatus(),
       verifiedForSendingStatus: json['VerifiedForSendingStatus'] as bool?,
     );
   }
@@ -5885,13 +6633,14 @@ class GetEmailTemplateResponse {
   /// and a text-only part.
   final EmailTemplateContent templateContent;
 
-  /// The name of the template you want to retrieve.
+  /// The name of the template.
   final String templateName;
 
   GetEmailTemplateResponse({
     required this.templateContent,
     required this.templateName,
   });
+
   factory GetEmailTemplateResponse.fromJson(Map<String, dynamic> json) {
     return GetEmailTemplateResponse(
       templateContent: EmailTemplateContent.fromJson(
@@ -5943,6 +6692,7 @@ class GetImportJobResponse {
     this.jobStatus,
     this.processedRecordsCount,
   });
+
   factory GetImportJobResponse.fromJson(Map<String, dynamic> json) {
     return GetImportJobResponse(
       completedTimestamp: timeStampFromJson(json['CompletedTimestamp']),
@@ -5974,6 +6724,7 @@ class GetSuppressedDestinationResponse {
   GetSuppressedDestinationResponse({
     required this.suppressedDestination,
   });
+
   factory GetSuppressedDestinationResponse.fromJson(Map<String, dynamic> json) {
     return GetSuppressedDestinationResponse(
       suppressedDestination: SuppressedDestination.fromJson(
@@ -5982,25 +6733,89 @@ class GetSuppressedDestinationResponse {
   }
 }
 
+/// An object containing additional settings for your VDM configuration as
+/// applicable to the Guardian.
+class GuardianAttributes {
+  /// Specifies the status of your VDM optimized shared delivery. Can be one of
+  /// the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLED</code> – Amazon SES enables optimized shared delivery for your
+  /// account.
+  /// </li>
+  /// <li>
+  /// <code>DISABLED</code> – Amazon SES disables optimized shared delivery for
+  /// your account.
+  /// </li>
+  /// </ul>
+  final FeatureStatus? optimizedSharedDelivery;
+
+  GuardianAttributes({
+    this.optimizedSharedDelivery,
+  });
+
+  factory GuardianAttributes.fromJson(Map<String, dynamic> json) {
+    return GuardianAttributes(
+      optimizedSharedDelivery:
+          (json['OptimizedSharedDelivery'] as String?)?.toFeatureStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final optimizedSharedDelivery = this.optimizedSharedDelivery;
+    return {
+      if (optimizedSharedDelivery != null)
+        'OptimizedSharedDelivery': optimizedSharedDelivery.toValue(),
+    };
+  }
+}
+
+/// An object containing additional settings for your VDM configuration as
+/// applicable to the Guardian.
+class GuardianOptions {
+  /// Specifies the status of your VDM optimized shared delivery. Can be one of
+  /// the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLED</code> – Amazon SES enables optimized shared delivery for the
+  /// configuration set.
+  /// </li>
+  /// <li>
+  /// <code>DISABLED</code> – Amazon SES disables optimized shared delivery for
+  /// the configuration set.
+  /// </li>
+  /// </ul>
+  final FeatureStatus? optimizedSharedDelivery;
+
+  GuardianOptions({
+    this.optimizedSharedDelivery,
+  });
+
+  factory GuardianOptions.fromJson(Map<String, dynamic> json) {
+    return GuardianOptions(
+      optimizedSharedDelivery:
+          (json['OptimizedSharedDelivery'] as String?)?.toFeatureStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final optimizedSharedDelivery = this.optimizedSharedDelivery;
+    return {
+      if (optimizedSharedDelivery != null)
+        'OptimizedSharedDelivery': optimizedSharedDelivery.toValue(),
+    };
+  }
+}
+
 /// Information about an email identity.
 class IdentityInfo {
   /// The address or domain of the identity.
   final String? identityName;
 
-  /// The email identity type. The identity type can be one of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>EMAIL_ADDRESS</code> – The identity is an email address.
-  /// </li>
-  /// <li>
-  /// <code>DOMAIN</code> – The identity is a domain.
-  /// </li>
-  /// <li>
-  /// <code>MANAGED_DOMAIN</code> – The identity is a domain that is managed by
-  /// AWS.
-  /// </li>
-  /// </ul>
+  /// The email identity type. Note: the <code>MANAGED_DOMAIN</code> type is not
+  /// supported for email identity types.
   final IdentityType? identityType;
 
   /// Indicates whether or not you can send email from the identity.
@@ -6011,30 +6826,49 @@ class IdentityInfo {
   /// identity.
   final bool? sendingEnabled;
 
+  /// The verification status of the identity. The status can be one of the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PENDING</code> – The verification process was initiated, but Amazon
+  /// SES hasn't yet been able to verify the identity.
+  /// </li>
+  /// <li>
+  /// <code>SUCCESS</code> – The verification process completed successfully.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> – The verification process failed.
+  /// </li>
+  /// <li>
+  /// <code>TEMPORARY_FAILURE</code> – A temporary issue is preventing Amazon SES
+  /// from determining the verification status of the identity.
+  /// </li>
+  /// <li>
+  /// <code>NOT_STARTED</code> – The verification process hasn't been initiated
+  /// for the identity.
+  /// </li>
+  /// </ul>
+  final VerificationStatus? verificationStatus;
+
   IdentityInfo({
     this.identityName,
     this.identityType,
     this.sendingEnabled,
+    this.verificationStatus,
   });
+
   factory IdentityInfo.fromJson(Map<String, dynamic> json) {
     return IdentityInfo(
       identityName: json['IdentityName'] as String?,
       identityType: (json['IdentityType'] as String?)?.toIdentityType(),
       sendingEnabled: json['SendingEnabled'] as bool?,
+      verificationStatus:
+          (json['VerificationStatus'] as String?)?.toVerificationStatus(),
     );
   }
 }
 
-/// The email identity type. The identity type can be one of the following:
-///
-/// <ul>
-/// <li>
-/// <code>EMAIL_ADDRESS</code> – The identity is an email address.
-/// </li>
-/// <li>
-/// <code>DOMAIN</code> – The identity is a domain.
-/// </li>
-/// </ul>
 enum IdentityType {
   emailAddress,
   domain,
@@ -6081,6 +6915,7 @@ class ImportDataSource {
     required this.dataFormat,
     required this.s3Url,
   });
+
   factory ImportDataSource.fromJson(Map<String, dynamic> json) {
     return ImportDataSource(
       dataFormat: (json['DataFormat'] as String).toDataFormat(),
@@ -6112,6 +6947,7 @@ class ImportDestination {
     this.contactListDestination,
     this.suppressionListDestination,
   });
+
   factory ImportDestination.fromJson(Map<String, dynamic> json) {
     return ImportDestination(
       contactListDestination: json['ContactListDestination'] != null
@@ -6171,32 +7007,45 @@ extension ImportDestinationTypeFromString on String {
 class ImportJobSummary {
   /// The date and time when the import job was created.
   final DateTime? createdTimestamp;
+
+  /// The number of records that failed processing because of invalid input or
+  /// other reasons.
+  final int? failedRecordsCount;
   final ImportDestination? importDestination;
   final String? jobId;
   final JobStatus? jobStatus;
 
+  /// The current number of records processed.
+  final int? processedRecordsCount;
+
   ImportJobSummary({
     this.createdTimestamp,
+    this.failedRecordsCount,
     this.importDestination,
     this.jobId,
     this.jobStatus,
+    this.processedRecordsCount,
   });
+
   factory ImportJobSummary.fromJson(Map<String, dynamic> json) {
     return ImportJobSummary(
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      failedRecordsCount: json['FailedRecordsCount'] as int?,
       importDestination: json['ImportDestination'] != null
           ? ImportDestination.fromJson(
               json['ImportDestination'] as Map<String, dynamic>)
           : null,
       jobId: json['JobId'] as String?,
       jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      processedRecordsCount: json['ProcessedRecordsCount'] as int?,
     );
   }
 }
 
 /// An object that contains information about the inbox placement data settings
-/// for a verified domain that’s associated with your AWS account. This data is
-/// available only if you enabled the Deliverability dashboard for the domain.
+/// for a verified domain that’s associated with your Amazon Web Services
+/// account. This data is available only if you enabled the Deliverability
+/// dashboard for the domain.
 class InboxPlacementTrackingOption {
   /// Specifies whether inbox placement data is being tracked for the domain.
   final bool? global;
@@ -6209,6 +7058,7 @@ class InboxPlacementTrackingOption {
     this.global,
     this.trackedIsps,
   });
+
   factory InboxPlacementTrackingOption.fromJson(Map<String, dynamic> json) {
     return InboxPlacementTrackingOption(
       global: json['Global'] as bool?,
@@ -6243,6 +7093,7 @@ class IspPlacement {
     this.ispName,
     this.placementStatistics,
   });
+
   factory IspPlacement.fromJson(Map<String, dynamic> json) {
     return IspPlacement(
       ispName: json['IspName'] as String?,
@@ -6309,6 +7160,7 @@ class KinesisFirehoseDestination {
     required this.deliveryStreamArn,
     required this.iamRoleArn,
   });
+
   factory KinesisFirehoseDestination.fromJson(Map<String, dynamic> json) {
     return KinesisFirehoseDestination(
       deliveryStreamArn: json['DeliveryStreamArn'] as String,
@@ -6326,11 +7178,11 @@ class KinesisFirehoseDestination {
   }
 }
 
-/// A list of configuration sets in your Amazon SES account in the current AWS
-/// Region.
+/// A list of configuration sets in your Amazon SES account in the current
+/// Amazon Web Services Region.
 class ListConfigurationSetsResponse {
   /// An array that contains all of the configuration sets in your Amazon SES
-  /// account in the current AWS Region.
+  /// account in the current Amazon Web Services Region.
   final List<String>? configurationSets;
 
   /// A token that indicates that there are additional configuration sets to list.
@@ -6343,6 +7195,7 @@ class ListConfigurationSetsResponse {
     this.configurationSets,
     this.nextToken,
   });
+
   factory ListConfigurationSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListConfigurationSetsResponse(
       configurationSets: (json['ConfigurationSets'] as List?)
@@ -6368,6 +7221,7 @@ class ListContactListsResponse {
     this.contactLists,
     this.nextToken,
   });
+
   factory ListContactListsResponse.fromJson(Map<String, dynamic> json) {
     return ListContactListsResponse(
       contactLists: (json['ContactLists'] as List?)
@@ -6416,6 +7270,7 @@ class ListContactsResponse {
     this.contacts,
     this.nextToken,
   });
+
   factory ListContactsResponse.fromJson(Map<String, dynamic> json) {
     return ListContactsResponse(
       contacts: (json['Contacts'] as List?)
@@ -6444,6 +7299,7 @@ class ListCustomVerificationEmailTemplatesResponse {
     this.customVerificationEmailTemplates,
     this.nextToken,
   });
+
   factory ListCustomVerificationEmailTemplatesResponse.fromJson(
       Map<String, dynamic> json) {
     return ListCustomVerificationEmailTemplatesResponse(
@@ -6460,8 +7316,8 @@ class ListCustomVerificationEmailTemplatesResponse {
 
 /// A list of dedicated IP pools.
 class ListDedicatedIpPoolsResponse {
-  /// A list of all of the dedicated IP pools that are associated with your AWS
-  /// account in the current Region.
+  /// A list of all of the dedicated IP pools that are associated with your Amazon
+  /// Web Services account in the current Region.
   final List<String>? dedicatedIpPools;
 
   /// A token that indicates that there are additional IP pools to list. To view
@@ -6474,6 +7330,7 @@ class ListDedicatedIpPoolsResponse {
     this.dedicatedIpPools,
     this.nextToken,
   });
+
   factory ListDedicatedIpPoolsResponse.fromJson(Map<String, dynamic> json) {
     return ListDedicatedIpPoolsResponse(
       dedicatedIpPools: (json['DedicatedIpPools'] as List?)
@@ -6502,6 +7359,7 @@ class ListDeliverabilityTestReportsResponse {
     required this.deliverabilityTestReports,
     this.nextToken,
   });
+
   factory ListDeliverabilityTestReportsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListDeliverabilityTestReportsResponse(
@@ -6533,6 +7391,7 @@ class ListDomainDeliverabilityCampaignsResponse {
     required this.domainDeliverabilityCampaigns,
     this.nextToken,
   });
+
   factory ListDomainDeliverabilityCampaignsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListDomainDeliverabilityCampaignsResponse(
@@ -6550,8 +7409,8 @@ class ListDomainDeliverabilityCampaignsResponse {
 /// A list of all of the identities that you've attempted to verify, regardless
 /// of whether or not those identities were successfully verified.
 class ListEmailIdentitiesResponse {
-  /// An array that includes all of the email identities associated with your AWS
-  /// account.
+  /// An array that includes all of the email identities associated with your
+  /// Amazon Web Services account.
   final List<IdentityInfo>? emailIdentities;
 
   /// A token that indicates that there are additional configuration sets to list.
@@ -6564,6 +7423,7 @@ class ListEmailIdentitiesResponse {
     this.emailIdentities,
     this.nextToken,
   });
+
   factory ListEmailIdentitiesResponse.fromJson(Map<String, dynamic> json) {
     return ListEmailIdentitiesResponse(
       emailIdentities: (json['EmailIdentities'] as List?)
@@ -6590,6 +7450,7 @@ class ListEmailTemplatesResponse {
     this.nextToken,
     this.templatesMetadata,
   });
+
   factory ListEmailTemplatesResponse.fromJson(Map<String, dynamic> json) {
     return ListEmailTemplatesResponse(
       nextToken: json['NextToken'] as String?,
@@ -6617,6 +7478,7 @@ class ListImportJobsResponse {
     this.importJobs,
     this.nextToken,
   });
+
   factory ListImportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListImportJobsResponse(
       importJobs: (json['ImportJobs'] as List?)
@@ -6651,6 +7513,97 @@ class ListManagementOptions {
   }
 }
 
+/// The <code>ListRecommendations</code> filter type. This can be one of the
+/// following:
+///
+/// <ul>
+/// <li>
+/// <code>TYPE</code> – The recommendation type, with values like
+/// <code>DKIM</code>, <code>SPF</code>, <code>DMARC</code> or
+/// <code>BIMI</code>.
+/// </li>
+/// <li>
+/// <code>IMPACT</code> – The recommendation impact, with values like
+/// <code>HIGH</code> or <code>LOW</code>.
+/// </li>
+/// <li>
+/// <code>STATUS</code> – The recommendation status, with values like
+/// <code>OPEN</code> or <code>FIXED</code>.
+/// </li>
+/// <li>
+/// <code>RESOURCE_ARN</code> – The resource affected by the recommendation,
+/// with values like
+/// <code>arn:aws:ses:us-east-1:123456789012:identity/example.com</code>.
+/// </li>
+/// </ul>
+enum ListRecommendationsFilterKey {
+  type,
+  impact,
+  status,
+  resourceArn,
+}
+
+extension ListRecommendationsFilterKeyValueExtension
+    on ListRecommendationsFilterKey {
+  String toValue() {
+    switch (this) {
+      case ListRecommendationsFilterKey.type:
+        return 'TYPE';
+      case ListRecommendationsFilterKey.impact:
+        return 'IMPACT';
+      case ListRecommendationsFilterKey.status:
+        return 'STATUS';
+      case ListRecommendationsFilterKey.resourceArn:
+        return 'RESOURCE_ARN';
+    }
+  }
+}
+
+extension ListRecommendationsFilterKeyFromString on String {
+  ListRecommendationsFilterKey toListRecommendationsFilterKey() {
+    switch (this) {
+      case 'TYPE':
+        return ListRecommendationsFilterKey.type;
+      case 'IMPACT':
+        return ListRecommendationsFilterKey.impact;
+      case 'STATUS':
+        return ListRecommendationsFilterKey.status;
+      case 'RESOURCE_ARN':
+        return ListRecommendationsFilterKey.resourceArn;
+    }
+    throw Exception('$this is not known in enum ListRecommendationsFilterKey');
+  }
+}
+
+/// Contains the response to your request to retrieve the list of
+/// recommendations for your account.
+class ListRecommendationsResponse {
+  /// A string token indicating that there might be additional recommendations
+  /// available to be listed. Use the token provided in the
+  /// <code>ListRecommendationsResponse</code> to use in the subsequent call to
+  /// <code>ListRecommendations</code> with the same parameters to retrieve the
+  /// next page of recommendations.
+  final String? nextToken;
+
+  /// The recommendations applicable to your account.
+  final List<Recommendation>? recommendations;
+
+  ListRecommendationsResponse({
+    this.nextToken,
+    this.recommendations,
+  });
+
+  factory ListRecommendationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListRecommendationsResponse(
+      nextToken: json['NextToken'] as String?,
+      recommendations: (json['Recommendations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Recommendation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 /// A list of suppressed email addresses.
 class ListSuppressedDestinationsResponse {
   /// A token that indicates that there are additional email addresses on the
@@ -6667,6 +7620,7 @@ class ListSuppressedDestinationsResponse {
     this.nextToken,
     this.suppressedDestinationSummaries,
   });
+
   factory ListSuppressedDestinationsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListSuppressedDestinationsResponse(
@@ -6690,6 +7644,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     required this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List)
@@ -6702,12 +7657,12 @@ class ListTagsForResourceResponse {
 
 /// A list of attributes that are associated with a MAIL FROM domain.
 class MailFromAttributes {
-  /// The action that you want to take if the required MX record can't be found
-  /// when you send an email. When you set this value to
-  /// <code>UseDefaultValue</code>, the mail is sent using <i>amazonses.com</i> as
-  /// the MAIL FROM domain. When you set this value to <code>RejectMessage</code>,
-  /// the Amazon SES API v2 returns a <code>MailFromDomainNotVerified</code>
-  /// error, and doesn't attempt to deliver the email.
+  /// The action to take if the required MX record can't be found when you send an
+  /// email. When you set this value to <code>USE_DEFAULT_VALUE</code>, the mail
+  /// is sent using <i>amazonses.com</i> as the MAIL FROM domain. When you set
+  /// this value to <code>REJECT_MESSAGE</code>, the Amazon SES API v2 returns a
+  /// <code>MailFromDomainNotVerified</code> error, and doesn't attempt to deliver
+  /// the email.
   ///
   /// These behaviors are taken when the custom MAIL FROM domain configuration is
   /// in the <code>Pending</code>, <code>Failed</code>, and
@@ -6746,6 +7701,7 @@ class MailFromAttributes {
     required this.mailFromDomain,
     required this.mailFromDomainStatus,
   });
+
   factory MailFromAttributes.fromJson(Map<String, dynamic> json) {
     return MailFromAttributes(
       behaviorOnMxFailure:
@@ -6916,6 +7872,216 @@ class MessageTag {
   }
 }
 
+enum Metric {
+  send,
+  complaint,
+  permanentBounce,
+  transientBounce,
+  open,
+  click,
+  delivery,
+  deliveryOpen,
+  deliveryClick,
+  deliveryComplaint,
+}
+
+extension MetricValueExtension on Metric {
+  String toValue() {
+    switch (this) {
+      case Metric.send:
+        return 'SEND';
+      case Metric.complaint:
+        return 'COMPLAINT';
+      case Metric.permanentBounce:
+        return 'PERMANENT_BOUNCE';
+      case Metric.transientBounce:
+        return 'TRANSIENT_BOUNCE';
+      case Metric.open:
+        return 'OPEN';
+      case Metric.click:
+        return 'CLICK';
+      case Metric.delivery:
+        return 'DELIVERY';
+      case Metric.deliveryOpen:
+        return 'DELIVERY_OPEN';
+      case Metric.deliveryClick:
+        return 'DELIVERY_CLICK';
+      case Metric.deliveryComplaint:
+        return 'DELIVERY_COMPLAINT';
+    }
+  }
+}
+
+extension MetricFromString on String {
+  Metric toMetric() {
+    switch (this) {
+      case 'SEND':
+        return Metric.send;
+      case 'COMPLAINT':
+        return Metric.complaint;
+      case 'PERMANENT_BOUNCE':
+        return Metric.permanentBounce;
+      case 'TRANSIENT_BOUNCE':
+        return Metric.transientBounce;
+      case 'OPEN':
+        return Metric.open;
+      case 'CLICK':
+        return Metric.click;
+      case 'DELIVERY':
+        return Metric.delivery;
+      case 'DELIVERY_OPEN':
+        return Metric.deliveryOpen;
+      case 'DELIVERY_CLICK':
+        return Metric.deliveryClick;
+      case 'DELIVERY_COMPLAINT':
+        return Metric.deliveryComplaint;
+    }
+    throw Exception('$this is not known in enum Metric');
+  }
+}
+
+/// An error corresponding to the unsuccessful processing of a single metric
+/// data query.
+class MetricDataError {
+  /// The query error code. Can be one of:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>INTERNAL_FAILURE</code> – Amazon SES has failed to process one of the
+  /// queries.
+  /// </li>
+  /// <li>
+  /// <code>ACCESS_DENIED</code> – You have insufficient access to retrieve
+  /// metrics based on the given query.
+  /// </li>
+  /// </ul>
+  final QueryErrorCode? code;
+
+  /// The query identifier.
+  final String? id;
+
+  /// The error message associated with the current query error.
+  final String? message;
+
+  MetricDataError({
+    this.code,
+    this.id,
+    this.message,
+  });
+
+  factory MetricDataError.fromJson(Map<String, dynamic> json) {
+    return MetricDataError(
+      code: (json['Code'] as String?)?.toQueryErrorCode(),
+      id: json['Id'] as String?,
+      message: json['Message'] as String?,
+    );
+  }
+}
+
+/// The result of a single metric data query.
+class MetricDataResult {
+  /// The query identifier.
+  final String? id;
+
+  /// A list of timestamps for the metric data results.
+  final List<DateTime>? timestamps;
+
+  /// A list of values (cumulative / sum) for the metric data results.
+  final List<int>? values;
+
+  MetricDataResult({
+    this.id,
+    this.timestamps,
+    this.values,
+  });
+
+  factory MetricDataResult.fromJson(Map<String, dynamic> json) {
+    return MetricDataResult(
+      id: json['Id'] as String?,
+      timestamps: (json['Timestamps'] as List?)
+          ?.whereNotNull()
+          .map(nonNullableTimeStampFromJson)
+          .toList(),
+      values: (json['Values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as int)
+          .toList(),
+    );
+  }
+}
+
+/// The <code>BatchGetMetricDataQuery</code> dimension name. This can be one of
+/// the following:
+///
+/// <ul>
+/// <li>
+/// <code>EMAIL_IDENTITY</code> – The email identity used when sending messages.
+/// </li>
+/// <li>
+/// <code>CONFIGURATION_SET</code> – The configuration set used when sending
+/// messages (if one was used).
+/// </li>
+/// <li>
+/// <code>ISP</code> – The recipient ISP (e.g. <code>Gmail</code>,
+/// <code>Yahoo</code>, etc.).
+/// </li>
+/// </ul>
+enum MetricDimensionName {
+  emailIdentity,
+  configurationSet,
+  isp,
+}
+
+extension MetricDimensionNameValueExtension on MetricDimensionName {
+  String toValue() {
+    switch (this) {
+      case MetricDimensionName.emailIdentity:
+        return 'EMAIL_IDENTITY';
+      case MetricDimensionName.configurationSet:
+        return 'CONFIGURATION_SET';
+      case MetricDimensionName.isp:
+        return 'ISP';
+    }
+  }
+}
+
+extension MetricDimensionNameFromString on String {
+  MetricDimensionName toMetricDimensionName() {
+    switch (this) {
+      case 'EMAIL_IDENTITY':
+        return MetricDimensionName.emailIdentity;
+      case 'CONFIGURATION_SET':
+        return MetricDimensionName.configurationSet;
+      case 'ISP':
+        return MetricDimensionName.isp;
+    }
+    throw Exception('$this is not known in enum MetricDimensionName');
+  }
+}
+
+enum MetricNamespace {
+  vdm,
+}
+
+extension MetricNamespaceValueExtension on MetricNamespace {
+  String toValue() {
+    switch (this) {
+      case MetricNamespace.vdm:
+        return 'VDM';
+    }
+  }
+}
+
+extension MetricNamespaceFromString on String {
+  MetricNamespace toMetricNamespace() {
+    switch (this) {
+      case 'VDM':
+        return MetricNamespace.vdm;
+    }
+    throw Exception('$this is not known in enum MetricNamespace');
+  }
+}
+
 /// An object that contains information about email that was sent from the
 /// selected domain.
 class OverallVolume {
@@ -6936,6 +8102,7 @@ class OverallVolume {
     this.readRatePercent,
     this.volumeStatistics,
   });
+
   factory OverallVolume.fromJson(Map<String, dynamic> json) {
     return OverallVolume(
       domainIspPlacements: (json['DomainIspPlacements'] as List?)
@@ -6958,13 +8125,14 @@ class OverallVolume {
 /// href="https://docs.aws.amazon.com/pinpoint/latest/userguide/analytics-transactional-messages.html">Transactional
 /// Messaging Charts</a> in the <i>Amazon Pinpoint User Guide</i>.
 class PinpointDestination {
-  /// The Amazon Resource Name (ARN) of the Amazon Pinpoint project that you want
-  /// to send email events to.
+  /// The Amazon Resource Name (ARN) of the Amazon Pinpoint project to send email
+  /// events to.
   final String? applicationArn;
 
   PinpointDestination({
     this.applicationArn,
   });
+
   factory PinpointDestination.fromJson(Map<String, dynamic> json) {
     return PinpointDestination(
       applicationArn: json['ApplicationArn'] as String?,
@@ -7008,6 +8176,7 @@ class PlacementStatistics {
     this.spamPercentage,
     this.spfPercentage,
   });
+
   factory PlacementStatistics.fromJson(Map<String, dynamic> json) {
     return PlacementStatistics(
       dkimPercentage: json['DkimPercentage'] as double?,
@@ -7023,6 +8192,7 @@ class PlacementStatistics {
 /// request fails.
 class PutAccountDedicatedIpWarmupAttributesResponse {
   PutAccountDedicatedIpWarmupAttributesResponse();
+
   factory PutAccountDedicatedIpWarmupAttributesResponse.fromJson(
       Map<String, dynamic> _) {
     return PutAccountDedicatedIpWarmupAttributesResponse();
@@ -7033,6 +8203,7 @@ class PutAccountDedicatedIpWarmupAttributesResponse {
 /// request fails.
 class PutAccountDetailsResponse {
   PutAccountDetailsResponse();
+
   factory PutAccountDetailsResponse.fromJson(Map<String, dynamic> _) {
     return PutAccountDetailsResponse();
   }
@@ -7042,6 +8213,7 @@ class PutAccountDetailsResponse {
 /// request fails.
 class PutAccountSendingAttributesResponse {
   PutAccountSendingAttributesResponse();
+
   factory PutAccountSendingAttributesResponse.fromJson(Map<String, dynamic> _) {
     return PutAccountSendingAttributesResponse();
   }
@@ -7051,9 +8223,18 @@ class PutAccountSendingAttributesResponse {
 /// request fails.
 class PutAccountSuppressionAttributesResponse {
   PutAccountSuppressionAttributesResponse();
+
   factory PutAccountSuppressionAttributesResponse.fromJson(
       Map<String, dynamic> _) {
     return PutAccountSuppressionAttributesResponse();
+  }
+}
+
+class PutAccountVdmAttributesResponse {
+  PutAccountVdmAttributesResponse();
+
+  factory PutAccountVdmAttributesResponse.fromJson(Map<String, dynamic> _) {
+    return PutAccountVdmAttributesResponse();
   }
 }
 
@@ -7061,6 +8242,7 @@ class PutAccountSuppressionAttributesResponse {
 /// request fails.
 class PutConfigurationSetDeliveryOptionsResponse {
   PutConfigurationSetDeliveryOptionsResponse();
+
   factory PutConfigurationSetDeliveryOptionsResponse.fromJson(
       Map<String, dynamic> _) {
     return PutConfigurationSetDeliveryOptionsResponse();
@@ -7071,6 +8253,7 @@ class PutConfigurationSetDeliveryOptionsResponse {
 /// request fails.
 class PutConfigurationSetReputationOptionsResponse {
   PutConfigurationSetReputationOptionsResponse();
+
   factory PutConfigurationSetReputationOptionsResponse.fromJson(
       Map<String, dynamic> _) {
     return PutConfigurationSetReputationOptionsResponse();
@@ -7081,6 +8264,7 @@ class PutConfigurationSetReputationOptionsResponse {
 /// request fails.
 class PutConfigurationSetSendingOptionsResponse {
   PutConfigurationSetSendingOptionsResponse();
+
   factory PutConfigurationSetSendingOptionsResponse.fromJson(
       Map<String, dynamic> _) {
     return PutConfigurationSetSendingOptionsResponse();
@@ -7091,6 +8275,7 @@ class PutConfigurationSetSendingOptionsResponse {
 /// request fails.
 class PutConfigurationSetSuppressionOptionsResponse {
   PutConfigurationSetSuppressionOptionsResponse();
+
   factory PutConfigurationSetSuppressionOptionsResponse.fromJson(
       Map<String, dynamic> _) {
     return PutConfigurationSetSuppressionOptionsResponse();
@@ -7101,6 +8286,7 @@ class PutConfigurationSetSuppressionOptionsResponse {
 /// request fails.
 class PutConfigurationSetTrackingOptionsResponse {
   PutConfigurationSetTrackingOptionsResponse();
+
   factory PutConfigurationSetTrackingOptionsResponse.fromJson(
       Map<String, dynamic> _) {
     return PutConfigurationSetTrackingOptionsResponse();
@@ -7109,8 +8295,20 @@ class PutConfigurationSetTrackingOptionsResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+class PutConfigurationSetVdmOptionsResponse {
+  PutConfigurationSetVdmOptionsResponse();
+
+  factory PutConfigurationSetVdmOptionsResponse.fromJson(
+      Map<String, dynamic> _) {
+    return PutConfigurationSetVdmOptionsResponse();
+  }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the
+/// request fails.
 class PutDedicatedIpInPoolResponse {
   PutDedicatedIpInPoolResponse();
+
   factory PutDedicatedIpInPoolResponse.fromJson(Map<String, dynamic> _) {
     return PutDedicatedIpInPoolResponse();
   }
@@ -7118,8 +8316,20 @@ class PutDedicatedIpInPoolResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+class PutDedicatedIpPoolScalingAttributesResponse {
+  PutDedicatedIpPoolScalingAttributesResponse();
+
+  factory PutDedicatedIpPoolScalingAttributesResponse.fromJson(
+      Map<String, dynamic> _) {
+    return PutDedicatedIpPoolScalingAttributesResponse();
+  }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the
+/// request fails.
 class PutDedicatedIpWarmupAttributesResponse {
   PutDedicatedIpWarmupAttributesResponse();
+
   factory PutDedicatedIpWarmupAttributesResponse.fromJson(
       Map<String, dynamic> _) {
     return PutDedicatedIpWarmupAttributesResponse();
@@ -7129,9 +8339,21 @@ class PutDedicatedIpWarmupAttributesResponse {
 /// A response that indicates whether the Deliverability dashboard is enabled.
 class PutDeliverabilityDashboardOptionResponse {
   PutDeliverabilityDashboardOptionResponse();
+
   factory PutDeliverabilityDashboardOptionResponse.fromJson(
       Map<String, dynamic> _) {
     return PutDeliverabilityDashboardOptionResponse();
+  }
+}
+
+/// If the action is successful, the service sends back an HTTP 200 response
+/// with an empty HTTP body.
+class PutEmailIdentityConfigurationSetAttributesResponse {
+  PutEmailIdentityConfigurationSetAttributesResponse();
+
+  factory PutEmailIdentityConfigurationSetAttributesResponse.fromJson(
+      Map<String, dynamic> _) {
+    return PutEmailIdentityConfigurationSetAttributesResponse();
   }
 }
 
@@ -7139,6 +8361,7 @@ class PutDeliverabilityDashboardOptionResponse {
 /// request fails.
 class PutEmailIdentityDkimAttributesResponse {
   PutEmailIdentityDkimAttributesResponse();
+
   factory PutEmailIdentityDkimAttributesResponse.fromJson(
       Map<String, dynamic> _) {
     return PutEmailIdentityDkimAttributesResponse();
@@ -7209,6 +8432,7 @@ class PutEmailIdentityDkimSigningAttributesResponse {
     this.dkimStatus,
     this.dkimTokens,
   });
+
   factory PutEmailIdentityDkimSigningAttributesResponse.fromJson(
       Map<String, dynamic> json) {
     return PutEmailIdentityDkimSigningAttributesResponse(
@@ -7225,6 +8449,7 @@ class PutEmailIdentityDkimSigningAttributesResponse {
 /// request fails.
 class PutEmailIdentityFeedbackAttributesResponse {
   PutEmailIdentityFeedbackAttributesResponse();
+
   factory PutEmailIdentityFeedbackAttributesResponse.fromJson(
       Map<String, dynamic> _) {
     return PutEmailIdentityFeedbackAttributesResponse();
@@ -7235,6 +8460,7 @@ class PutEmailIdentityFeedbackAttributesResponse {
 /// request fails.
 class PutEmailIdentityMailFromAttributesResponse {
   PutEmailIdentityMailFromAttributesResponse();
+
   factory PutEmailIdentityMailFromAttributesResponse.fromJson(
       Map<String, dynamic> _) {
     return PutEmailIdentityMailFromAttributesResponse();
@@ -7245,8 +8471,37 @@ class PutEmailIdentityMailFromAttributesResponse {
 /// request fails.
 class PutSuppressedDestinationResponse {
   PutSuppressedDestinationResponse();
+
   factory PutSuppressedDestinationResponse.fromJson(Map<String, dynamic> _) {
     return PutSuppressedDestinationResponse();
+  }
+}
+
+enum QueryErrorCode {
+  internalFailure,
+  accessDenied,
+}
+
+extension QueryErrorCodeValueExtension on QueryErrorCode {
+  String toValue() {
+    switch (this) {
+      case QueryErrorCode.internalFailure:
+        return 'INTERNAL_FAILURE';
+      case QueryErrorCode.accessDenied:
+        return 'ACCESS_DENIED';
+    }
+  }
+}
+
+extension QueryErrorCodeFromString on String {
+  QueryErrorCode toQueryErrorCode() {
+    switch (this) {
+      case 'INTERNAL_FAILURE':
+        return QueryErrorCode.internalFailure;
+      case 'ACCESS_DENIED':
+        return QueryErrorCode.accessDenied;
+    }
+    throw Exception('$this is not known in enum QueryErrorCode');
   }
 }
 
@@ -7294,6 +8549,152 @@ class RawMessage {
   }
 }
 
+/// A recommendation generated for your account.
+class Recommendation {
+  /// The first time this issue was encountered and the recommendation was
+  /// generated.
+  final DateTime? createdTimestamp;
+
+  /// The recommendation description / disambiguator - e.g. <code>DKIM1</code> and
+  /// <code>DKIM2</code> are different recommendations about your DKIM setup.
+  final String? description;
+
+  /// The recommendation impact, with values like <code>HIGH</code> or
+  /// <code>LOW</code>.
+  final RecommendationImpact? impact;
+
+  /// The last time the recommendation was updated.
+  final DateTime? lastUpdatedTimestamp;
+
+  /// The resource affected by the recommendation, with values like
+  /// <code>arn:aws:ses:us-east-1:123456789012:identity/example.com</code>.
+  final String? resourceArn;
+
+  /// The recommendation status, with values like <code>OPEN</code> or
+  /// <code>FIXED</code>.
+  final RecommendationStatus? status;
+
+  /// The recommendation type, with values like <code>DKIM</code>,
+  /// <code>SPF</code>, <code>DMARC</code> or <code>BIMI</code>.
+  final RecommendationType? type;
+
+  Recommendation({
+    this.createdTimestamp,
+    this.description,
+    this.impact,
+    this.lastUpdatedTimestamp,
+    this.resourceArn,
+    this.status,
+    this.type,
+  });
+
+  factory Recommendation.fromJson(Map<String, dynamic> json) {
+    return Recommendation(
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      description: json['Description'] as String?,
+      impact: (json['Impact'] as String?)?.toRecommendationImpact(),
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      resourceArn: json['ResourceArn'] as String?,
+      status: (json['Status'] as String?)?.toRecommendationStatus(),
+      type: (json['Type'] as String?)?.toRecommendationType(),
+    );
+  }
+}
+
+enum RecommendationImpact {
+  low,
+  high,
+}
+
+extension RecommendationImpactValueExtension on RecommendationImpact {
+  String toValue() {
+    switch (this) {
+      case RecommendationImpact.low:
+        return 'LOW';
+      case RecommendationImpact.high:
+        return 'HIGH';
+    }
+  }
+}
+
+extension RecommendationImpactFromString on String {
+  RecommendationImpact toRecommendationImpact() {
+    switch (this) {
+      case 'LOW':
+        return RecommendationImpact.low;
+      case 'HIGH':
+        return RecommendationImpact.high;
+    }
+    throw Exception('$this is not known in enum RecommendationImpact');
+  }
+}
+
+enum RecommendationStatus {
+  open,
+  fixed,
+}
+
+extension RecommendationStatusValueExtension on RecommendationStatus {
+  String toValue() {
+    switch (this) {
+      case RecommendationStatus.open:
+        return 'OPEN';
+      case RecommendationStatus.fixed:
+        return 'FIXED';
+    }
+  }
+}
+
+extension RecommendationStatusFromString on String {
+  RecommendationStatus toRecommendationStatus() {
+    switch (this) {
+      case 'OPEN':
+        return RecommendationStatus.open;
+      case 'FIXED':
+        return RecommendationStatus.fixed;
+    }
+    throw Exception('$this is not known in enum RecommendationStatus');
+  }
+}
+
+enum RecommendationType {
+  dkim,
+  dmarc,
+  spf,
+  bimi,
+}
+
+extension RecommendationTypeValueExtension on RecommendationType {
+  String toValue() {
+    switch (this) {
+      case RecommendationType.dkim:
+        return 'DKIM';
+      case RecommendationType.dmarc:
+        return 'DMARC';
+      case RecommendationType.spf:
+        return 'SPF';
+      case RecommendationType.bimi:
+        return 'BIMI';
+    }
+  }
+}
+
+extension RecommendationTypeFromString on String {
+  RecommendationType toRecommendationType() {
+    switch (this) {
+      case 'DKIM':
+        return RecommendationType.dkim;
+      case 'DMARC':
+        return RecommendationType.dmarc;
+      case 'SPF':
+        return RecommendationType.spf;
+      case 'BIMI':
+        return RecommendationType.bimi;
+    }
+    throw Exception('$this is not known in enum RecommendationType');
+  }
+}
+
 /// The <code>ReplaceEmailContent</code> object to be used for a specific
 /// <code>BulkEmailEntry</code>. The <code>ReplacementTemplate</code> can be
 /// specified within this object.
@@ -7335,7 +8736,7 @@ class ReplacementTemplate {
 }
 
 /// Enable or disable collection of reputation metrics for emails that you send
-/// using this configuration set in the current AWS Region.
+/// using this configuration set in the current Amazon Web Services Region.
 class ReputationOptions {
   /// The date and time (in Unix time) when the reputation metrics were last given
   /// a fresh start. When your account is given a fresh start, your reputation
@@ -7351,6 +8752,7 @@ class ReputationOptions {
     this.lastFreshStart,
     this.reputationMetricsEnabled,
   });
+
   factory ReputationOptions.fromJson(Map<String, dynamic> json) {
     return ReputationOptions(
       lastFreshStart: timeStampFromJson(json['LastFreshStart']),
@@ -7402,6 +8804,7 @@ class ReviewDetails {
     this.caseId,
     this.status,
   });
+
   factory ReviewDetails.fromJson(Map<String, dynamic> json) {
     return ReviewDetails(
       caseId: json['CaseId'] as String?,
@@ -7448,13 +8851,44 @@ extension ReviewStatusFromString on String {
   }
 }
 
+enum ScalingMode {
+  standard,
+  managed,
+}
+
+extension ScalingModeValueExtension on ScalingMode {
+  String toValue() {
+    switch (this) {
+      case ScalingMode.standard:
+        return 'STANDARD';
+      case ScalingMode.managed:
+        return 'MANAGED';
+    }
+  }
+}
+
+extension ScalingModeFromString on String {
+  ScalingMode toScalingMode() {
+    switch (this) {
+      case 'STANDARD':
+        return ScalingMode.standard;
+      case 'MANAGED':
+        return ScalingMode.managed;
+    }
+    throw Exception('$this is not known in enum ScalingMode');
+  }
+}
+
 /// The following data is returned in JSON format by the service.
 class SendBulkEmailResponse {
+  /// One object per intended recipient. Check each response object and retry any
+  /// messages with a failure status.
   final List<BulkEmailEntryResult> bulkEmailEntryResults;
 
   SendBulkEmailResponse({
     required this.bulkEmailEntryResults,
   });
+
   factory SendBulkEmailResponse.fromJson(Map<String, dynamic> json) {
     return SendBulkEmailResponse(
       bulkEmailEntryResults: (json['BulkEmailEntryResults'] as List)
@@ -7474,6 +8908,7 @@ class SendCustomVerificationEmailResponse {
   SendCustomVerificationEmailResponse({
     this.messageId,
   });
+
   factory SendCustomVerificationEmailResponse.fromJson(
       Map<String, dynamic> json) {
     return SendCustomVerificationEmailResponse(
@@ -7497,6 +8932,7 @@ class SendEmailResponse {
   SendEmailResponse({
     this.messageId,
   });
+
   factory SendEmailResponse.fromJson(Map<String, dynamic> json) {
     return SendEmailResponse(
       messageId: json['MessageId'] as String?,
@@ -7505,19 +8941,21 @@ class SendEmailResponse {
 }
 
 /// An object that contains information about the per-day and per-second sending
-/// limits for your Amazon SES account in the current AWS Region.
+/// limits for your Amazon SES account in the current Amazon Web Services
+/// Region.
 class SendQuota {
-  /// The maximum number of emails that you can send in the current AWS Region
-  /// over a 24-hour period. This value is also called your <i>sending quota</i>.
+  /// The maximum number of emails that you can send in the current Amazon Web
+  /// Services Region over a 24-hour period. A value of -1 signifies an unlimited
+  /// quota. (This value is also referred to as your <i>sending quota</i>.)
   final double? max24HourSend;
 
-  /// The maximum number of emails that you can send per second in the current AWS
-  /// Region. This value is also called your <i>maximum sending rate</i> or your
-  /// <i>maximum TPS (transactions per second) rate</i>.
+  /// The maximum number of emails that you can send per second in the current
+  /// Amazon Web Services Region. This value is also called your <i>maximum
+  /// sending rate</i> or your <i>maximum TPS (transactions per second) rate</i>.
   final double? maxSendRate;
 
-  /// The number of emails sent from your Amazon SES account in the current AWS
-  /// Region over the past 24 hours.
+  /// The number of emails sent from your Amazon SES account in the current Amazon
+  /// Web Services Region over the past 24 hours.
   final double? sentLast24Hours;
 
   SendQuota({
@@ -7525,6 +8963,7 @@ class SendQuota {
     this.maxSendRate,
     this.sentLast24Hours,
   });
+
   factory SendQuota.fromJson(Map<String, dynamic> json) {
     return SendQuota(
       max24HourSend: json['Max24HourSend'] as double?,
@@ -7535,7 +8974,7 @@ class SendQuota {
 }
 
 /// Used to enable or disable email sending for messages that use this
-/// configuration set in the current AWS Region.
+/// configuration set in the current Amazon Web Services Region.
 class SendingOptions {
   /// If <code>true</code>, email sending is enabled for the configuration set. If
   /// <code>false</code>, email sending is disabled for the configuration set.
@@ -7544,6 +8983,7 @@ class SendingOptions {
   SendingOptions({
     this.sendingEnabled,
   });
+
   factory SendingOptions.fromJson(Map<String, dynamic> json) {
     return SendingOptions(
       sendingEnabled: json['SendingEnabled'] as bool?,
@@ -7561,9 +9001,8 @@ class SendingOptions {
 /// An object that defines an Amazon SNS destination for email events. You can
 /// use Amazon SNS to send notification when certain email events occur.
 class SnsDestination {
-  /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to
-  /// publish email events to. For more information about Amazon SNS topics, see
-  /// the <a
+  /// The Amazon Resource Name (ARN) of the Amazon SNS topic to publish email
+  /// events to. For more information about Amazon SNS topics, see the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
   final String topicArn;
@@ -7571,6 +9010,7 @@ class SnsDestination {
   SnsDestination({
     required this.topicArn,
   });
+
   factory SnsDestination.fromJson(Map<String, dynamic> json) {
     return SnsDestination(
       topicArn: json['TopicArn'] as String,
@@ -7637,6 +9077,7 @@ class SuppressedDestination {
     required this.reason,
     this.attributes,
   });
+
   factory SuppressedDestination.fromJson(Map<String, dynamic> json) {
     return SuppressedDestination(
       emailAddress: json['EmailAddress'] as String,
@@ -7666,6 +9107,7 @@ class SuppressedDestinationAttributes {
     this.feedbackId,
     this.messageId,
   });
+
   factory SuppressedDestinationAttributes.fromJson(Map<String, dynamic> json) {
     return SuppressedDestinationAttributes(
       feedbackId: json['FeedbackId'] as String?,
@@ -7692,6 +9134,7 @@ class SuppressedDestinationSummary {
     required this.lastUpdateTime,
     required this.reason,
   });
+
   factory SuppressedDestinationSummary.fromJson(Map<String, dynamic> json) {
     return SuppressedDestinationSummary(
       emailAddress: json['EmailAddress'] as String,
@@ -7703,7 +9146,7 @@ class SuppressedDestinationSummary {
 }
 
 /// An object that contains information about the email address suppression
-/// preferences for your account in the current AWS Region.
+/// preferences for your account in the current Amazon Web Services Region.
 class SuppressionAttributes {
   /// A list that contains the reasons that email addresses will be automatically
   /// added to the suppression list for your account. This list can contain any or
@@ -7726,6 +9169,7 @@ class SuppressionAttributes {
   SuppressionAttributes({
     this.suppressedReasons,
   });
+
   factory SuppressionAttributes.fromJson(Map<String, dynamic> json) {
     return SuppressionAttributes(
       suppressedReasons: (json['SuppressedReasons'] as List?)
@@ -7738,7 +9182,7 @@ class SuppressionAttributes {
 
 /// An object that contains details about the action of suppression list.
 class SuppressionListDestination {
-  /// The type of action that you want to perform on the address. Acceptable
+  /// The type of action to perform on the address. The following are possible
   /// values:
   ///
   /// <ul>
@@ -7755,6 +9199,7 @@ class SuppressionListDestination {
   SuppressionListDestination({
     required this.suppressionListImportAction,
   });
+
   factory SuppressionListDestination.fromJson(Map<String, dynamic> json) {
     return SuppressionListDestination(
       suppressionListImportAction:
@@ -7771,7 +9216,7 @@ class SuppressionListDestination {
   }
 }
 
-/// The type of action that you want to perform on the address. Acceptable
+/// The type of action to perform on the address. The following are possible
 /// values:
 ///
 /// <ul>
@@ -7878,6 +9323,7 @@ class SuppressionOptions {
   SuppressionOptions({
     this.suppressedReasons,
   });
+
   factory SuppressionOptions.fromJson(Map<String, dynamic> json) {
     return SuppressionOptions(
       suppressedReasons: (json['SuppressedReasons'] as List?)
@@ -7920,16 +9366,17 @@ class SuppressionOptions {
 /// only one value.
 /// </li>
 /// <li>
-/// The <code>aws:</code> prefix is reserved for use by AWS; you can’t use it in
-/// any tag keys or values that you define. In addition, you can't edit or
-/// remove tag keys or values that use this prefix. Tags that use this prefix
-/// don’t count against the limit of 50 tags per resource.
+/// The <code>aws:</code> prefix is reserved for use by Amazon Web Services; you
+/// can’t use it in any tag keys or values that you define. In addition, you
+/// can't edit or remove tag keys or values that use this prefix. Tags that use
+/// this prefix don’t count against the limit of 50 tags per resource.
 /// </li>
 /// <li>
 /// You can associate tags with public or shared resources, but the tags are
-/// available only for your AWS account, not any other accounts that share the
-/// resource. In addition, the tags are available only for resources that are
-/// located in the specified AWS Region for your AWS account.
+/// available only for your Amazon Web Services account, not any other accounts
+/// that share the resource. In addition, the tags are available only for
+/// resources that are located in the specified Amazon Web Services Region for
+/// your Amazon Web Services account.
 /// </li>
 /// </ul>
 class Tag {
@@ -7948,6 +9395,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -7967,6 +9415,7 @@ class Tag {
 
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
@@ -8018,6 +9467,7 @@ class TestRenderEmailTemplateResponse {
   TestRenderEmailTemplateResponse({
     required this.renderedTemplate,
   });
+
   factory TestRenderEmailTemplateResponse.fromJson(Map<String, dynamic> json) {
     return TestRenderEmailTemplateResponse(
       renderedTemplate: json['RenderedTemplate'] as String,
@@ -8080,6 +9530,7 @@ class Topic {
     required this.topicName,
     this.description,
   });
+
   factory Topic.fromJson(Map<String, dynamic> json) {
     return Topic(
       defaultSubscriptionStatus:
@@ -8143,6 +9594,7 @@ class TopicPreference {
     required this.subscriptionStatus,
     required this.topicName,
   });
+
   factory TopicPreference.fromJson(Map<String, dynamic> json) {
     return TopicPreference(
       subscriptionStatus:
@@ -8167,16 +9619,17 @@ class TopicPreference {
 /// contains links, those links are changed slightly in order to track when
 /// recipients click them.
 ///
-/// These images and links include references to a domain operated by AWS. You
-/// can optionally configure the Amazon SES to use a domain that you operate for
-/// these images and links.
+/// These images and links include references to a domain operated by Amazon Web
+/// Services. You can optionally configure the Amazon SES to use a domain that
+/// you operate for these images and links.
 class TrackingOptions {
-  /// The domain that you want to use for tracking open and click events.
+  /// The domain to use for tracking open and click events.
   final String customRedirectDomain;
 
   TrackingOptions({
     required this.customRedirectDomain,
   });
+
   factory TrackingOptions.fromJson(Map<String, dynamic> json) {
     return TrackingOptions(
       customRedirectDomain: json['CustomRedirectDomain'] as String,
@@ -8193,6 +9646,7 @@ class TrackingOptions {
 
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
   }
@@ -8202,6 +9656,7 @@ class UntagResourceResponse {
 /// request fails.
 class UpdateConfigurationSetEventDestinationResponse {
   UpdateConfigurationSetEventDestinationResponse();
+
   factory UpdateConfigurationSetEventDestinationResponse.fromJson(
       Map<String, dynamic> _) {
     return UpdateConfigurationSetEventDestinationResponse();
@@ -8210,6 +9665,7 @@ class UpdateConfigurationSetEventDestinationResponse {
 
 class UpdateContactListResponse {
   UpdateContactListResponse();
+
   factory UpdateContactListResponse.fromJson(Map<String, dynamic> _) {
     return UpdateContactListResponse();
   }
@@ -8217,6 +9673,7 @@ class UpdateContactListResponse {
 
 class UpdateContactResponse {
   UpdateContactResponse();
+
   factory UpdateContactResponse.fromJson(Map<String, dynamic> _) {
     return UpdateContactResponse();
   }
@@ -8226,6 +9683,7 @@ class UpdateContactResponse {
 /// with an empty HTTP body.
 class UpdateCustomVerificationEmailTemplateResponse {
   UpdateCustomVerificationEmailTemplateResponse();
+
   factory UpdateCustomVerificationEmailTemplateResponse.fromJson(
       Map<String, dynamic> _) {
     return UpdateCustomVerificationEmailTemplateResponse();
@@ -8236,6 +9694,7 @@ class UpdateCustomVerificationEmailTemplateResponse {
 /// request fails.
 class UpdateEmailIdentityPolicyResponse {
   UpdateEmailIdentityPolicyResponse();
+
   factory UpdateEmailIdentityPolicyResponse.fromJson(Map<String, dynamic> _) {
     return UpdateEmailIdentityPolicyResponse();
   }
@@ -8245,8 +9704,146 @@ class UpdateEmailIdentityPolicyResponse {
 /// with an empty HTTP body.
 class UpdateEmailTemplateResponse {
   UpdateEmailTemplateResponse();
+
   factory UpdateEmailTemplateResponse.fromJson(Map<String, dynamic> _) {
     return UpdateEmailTemplateResponse();
+  }
+}
+
+/// The VDM attributes that apply to your Amazon SES account.
+class VdmAttributes {
+  /// Specifies the status of your VDM configuration. Can be one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLED</code> – Amazon SES enables VDM for your account.
+  /// </li>
+  /// <li>
+  /// <code>DISABLED</code> – Amazon SES disables VDM for your account.
+  /// </li>
+  /// </ul>
+  final FeatureStatus vdmEnabled;
+
+  /// Specifies additional settings for your VDM configuration as applicable to
+  /// the Dashboard.
+  final DashboardAttributes? dashboardAttributes;
+
+  /// Specifies additional settings for your VDM configuration as applicable to
+  /// the Guardian.
+  final GuardianAttributes? guardianAttributes;
+
+  VdmAttributes({
+    required this.vdmEnabled,
+    this.dashboardAttributes,
+    this.guardianAttributes,
+  });
+
+  factory VdmAttributes.fromJson(Map<String, dynamic> json) {
+    return VdmAttributes(
+      vdmEnabled: (json['VdmEnabled'] as String).toFeatureStatus(),
+      dashboardAttributes: json['DashboardAttributes'] != null
+          ? DashboardAttributes.fromJson(
+              json['DashboardAttributes'] as Map<String, dynamic>)
+          : null,
+      guardianAttributes: json['GuardianAttributes'] != null
+          ? GuardianAttributes.fromJson(
+              json['GuardianAttributes'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final vdmEnabled = this.vdmEnabled;
+    final dashboardAttributes = this.dashboardAttributes;
+    final guardianAttributes = this.guardianAttributes;
+    return {
+      'VdmEnabled': vdmEnabled.toValue(),
+      if (dashboardAttributes != null)
+        'DashboardAttributes': dashboardAttributes,
+      if (guardianAttributes != null) 'GuardianAttributes': guardianAttributes,
+    };
+  }
+}
+
+/// An object that defines the VDM settings that apply to emails that you send
+/// using the configuration set.
+class VdmOptions {
+  /// Specifies additional settings for your VDM configuration as applicable to
+  /// the Dashboard.
+  final DashboardOptions? dashboardOptions;
+
+  /// Specifies additional settings for your VDM configuration as applicable to
+  /// the Guardian.
+  final GuardianOptions? guardianOptions;
+
+  VdmOptions({
+    this.dashboardOptions,
+    this.guardianOptions,
+  });
+
+  factory VdmOptions.fromJson(Map<String, dynamic> json) {
+    return VdmOptions(
+      dashboardOptions: json['DashboardOptions'] != null
+          ? DashboardOptions.fromJson(
+              json['DashboardOptions'] as Map<String, dynamic>)
+          : null,
+      guardianOptions: json['GuardianOptions'] != null
+          ? GuardianOptions.fromJson(
+              json['GuardianOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dashboardOptions = this.dashboardOptions;
+    final guardianOptions = this.guardianOptions;
+    return {
+      if (dashboardOptions != null) 'DashboardOptions': dashboardOptions,
+      if (guardianOptions != null) 'GuardianOptions': guardianOptions,
+    };
+  }
+}
+
+enum VerificationStatus {
+  pending,
+  success,
+  failed,
+  temporaryFailure,
+  notStarted,
+}
+
+extension VerificationStatusValueExtension on VerificationStatus {
+  String toValue() {
+    switch (this) {
+      case VerificationStatus.pending:
+        return 'PENDING';
+      case VerificationStatus.success:
+        return 'SUCCESS';
+      case VerificationStatus.failed:
+        return 'FAILED';
+      case VerificationStatus.temporaryFailure:
+        return 'TEMPORARY_FAILURE';
+      case VerificationStatus.notStarted:
+        return 'NOT_STARTED';
+    }
+  }
+}
+
+extension VerificationStatusFromString on String {
+  VerificationStatus toVerificationStatus() {
+    switch (this) {
+      case 'PENDING':
+        return VerificationStatus.pending;
+      case 'SUCCESS':
+        return VerificationStatus.success;
+      case 'FAILED':
+        return VerificationStatus.failed;
+      case 'TEMPORARY_FAILURE':
+        return VerificationStatus.temporaryFailure;
+      case 'NOT_STARTED':
+        return VerificationStatus.notStarted;
+    }
+    throw Exception('$this is not known in enum VerificationStatus');
   }
 }
 
@@ -8274,6 +9871,7 @@ class VolumeStatistics {
     this.projectedSpam,
     this.spamRawCount,
   });
+
   factory VolumeStatistics.fromJson(Map<String, dynamic> json) {
     return VolumeStatistics(
       inboxRawCount: json['InboxRawCount'] as int?,
@@ -8341,6 +9939,14 @@ class ConflictException extends _s.GenericAwsException {
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+class InternalServiceErrorException extends _s.GenericAwsException {
+  InternalServiceErrorException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'InternalServiceErrorException',
+            message: message);
+}
+
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
@@ -8390,6 +9996,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ConcurrentModificationException(type: type, message: message),
   'ConflictException': (type, message) =>
       ConflictException(type: type, message: message),
+  'InternalServiceErrorException': (type, message) =>
+      InternalServiceErrorException(type: type, message: message),
   'InvalidNextTokenException': (type, message) =>
       InvalidNextTokenException(type: type, message: message),
   'LimitExceededException': (type, message) =>

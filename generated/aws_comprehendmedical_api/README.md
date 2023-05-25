@@ -3,7 +3,7 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-Amazon Comprehend Medical extracts structured information from unstructured
+Comprehend Medical; extracts structured information from unstructured
 clinical text. Use these actions to gain insight in your documents.
 
 ## Links

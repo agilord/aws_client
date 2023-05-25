@@ -18,8 +18,34 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// Amazon Route 53 is a highly available and scalable Domain Name System (DNS)
+/// Amazon Route 53 is a highly available and scalable Domain Name System (DNS)
 /// web service.
+///
+/// You can use Route 53 to:
+///
+/// <ul>
+/// <li>
+/// Register domain names.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/welcome-domain-registration.html">How
+/// domain registration works</a>.
+/// </li>
+/// <li>
+/// Route internet traffic to the resources for your domain
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/welcome-dns-service.html">How
+/// internet traffic is routed to your website or web application</a>.
+/// </li>
+/// <li>
+/// Check the health of your resources.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/welcome-health-checks.html">How
+/// Route 53 checks the health of your resources</a>.
+/// </li>
+/// </ul>
 class Route53 {
   final _s.RestXmlProtocol _protocol;
   Route53({
@@ -48,7 +74,7 @@ class Route53 {
     _protocol.close();
   }
 
-  /// Activates a key signing key (KSK) so that it can be used for signing by
+  /// Activates a key-signing key (KSK) so that it can be used for signing by
   /// DNSSEC. This operation changes the KSK status to <code>ACTIVE</code>.
   ///
   /// May throw [ConcurrentModification].
@@ -56,12 +82,15 @@ class Route53 {
   /// May throw [InvalidKeySigningKeyStatus].
   /// May throw [InvalidSigningStatus].
   /// May throw [InvalidKMSArn].
+  /// May throw [InvalidInput].
   ///
   /// Parameter [hostedZoneId] :
   /// A unique string used to identify a hosted zone.
   ///
   /// Parameter [name] :
-  /// An alphanumeric string used to identify a key signing key (KSK).
+  /// A string used to identify a key-signing key (KSK). <code>Name</code> can
+  /// include numbers, letters, and underscores (_). <code>Name</code> must be
+  /// unique for each key-signing key in the same hosted zone.
   Future<ActivateKeySigningKeyResponse> activateKeySigningKey({
     required String hostedZoneId,
     required String name,
@@ -81,12 +110,34 @@ class Route53 {
   /// already exist. You can't convert a public hosted zone into a private
   /// hosted zone.
   /// </important> <note>
-  /// If you want to associate a VPC that was created by using one AWS account
-  /// with a private hosted zone that was created by using a different account,
-  /// the AWS account that created the private hosted zone must first submit a
+  /// If you want to associate a VPC that was created by using one Amazon Web
+  /// Services account with a private hosted zone that was created by using a
+  /// different account, the Amazon Web Services account that created the
+  /// private hosted zone must first submit a
   /// <code>CreateVPCAssociationAuthorization</code> request. Then the account
   /// that created the VPC must submit an
   /// <code>AssociateVPCWithHostedZone</code> request.
+  /// </note> <note>
+  /// When granting access, the hosted zone and the Amazon VPC must belong to
+  /// the same partition. A partition is a group of Amazon Web Services Regions.
+  /// Each Amazon Web Services account is scoped to one partition.
+  ///
+  /// The following are the supported partitions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aws</code> - Amazon Web Services Regions
+  /// </li>
+  /// <li>
+  /// <code>aws-cn</code> - China Regions
+  /// </li>
+  /// <li>
+  /// <code>aws-us-gov</code> - Amazon Web Services GovCloud (US) Region
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Access
+  /// Management</a> in the <i>Amazon Web Services General Reference</i>.
   /// </note>
   ///
   /// May throw [NoSuchHostedZone].
@@ -132,6 +183,95 @@ class Route53 {
       exceptionFnMap: _exceptionFns,
     );
     return AssociateVPCWithHostedZoneResponse.fromXml($result.body);
+  }
+
+  /// Creates, changes, or deletes CIDR blocks within a collection. Contains
+  /// authoritative IP information mapping blocks to one or multiple locations.
+  ///
+  /// A change request can update multiple locations in a collection at a time,
+  /// which is helpful if you want to move one or more CIDR blocks from one
+  /// location to another in one transaction, without downtime.
+  ///
+  /// <b>Limits</b>
+  ///
+  /// The max number of CIDR blocks included in the request is 1000. As a
+  /// result, big updates require multiple API calls.
+  ///
+  /// <b> PUT and DELETE_IF_EXISTS</b>
+  ///
+  /// Use <code>ChangeCidrCollection</code> to perform the following actions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PUT</code>: Create a CIDR block within the specified collection.
+  /// </li>
+  /// <li>
+  /// <code> DELETE_IF_EXISTS</code>: Delete an existing CIDR block from the
+  /// collection.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [NoSuchCidrCollectionException].
+  /// May throw [CidrCollectionVersionMismatchException].
+  /// May throw [InvalidInput].
+  /// May throw [CidrBlockInUseException].
+  /// May throw [LimitsExceeded].
+  /// May throw [ConcurrentModification].
+  ///
+  /// Parameter [changes] :
+  /// Information about changes to a CIDR collection.
+  ///
+  /// Parameter [id] :
+  /// The UUID of the CIDR collection to update.
+  ///
+  /// Parameter [collectionVersion] :
+  /// A sequential counter that Amazon Route 53 sets to 1 when you create a
+  /// collection and increments it by 1 each time you update the collection.
+  ///
+  /// We recommend that you use <code>ListCidrCollection</code> to get the
+  /// current value of <code>CollectionVersion</code> for the collection that
+  /// you want to update, and then include that value with the change request.
+  /// This prevents Route 53 from overwriting an intervening update:
+  ///
+  /// <ul>
+  /// <li>
+  /// If the value in the request matches the value of
+  /// <code>CollectionVersion</code> in the collection, Route 53 updates the
+  /// collection.
+  /// </li>
+  /// <li>
+  /// If the value of <code>CollectionVersion</code> in the collection is
+  /// greater than the value in the request, the collection was changed after
+  /// you got the version number. Route 53 does not update the collection, and
+  /// it returns a <code>CidrCollectionVersionMismatch</code> error.
+  /// </li>
+  /// </ul>
+  Future<ChangeCidrCollectionResponse> changeCidrCollection({
+    required List<CidrCollectionChange> changes,
+    required String id,
+    int? collectionVersion,
+  }) async {
+    _s.validateNumRange(
+      'collectionVersion',
+      collectionVersion,
+      1,
+      1152921504606846976,
+    );
+    final $result = await _protocol.send(
+      method: 'POST',
+      requestUri: '/2013-04-01/cidrcollection/${Uri.encodeComponent(id)}',
+      payload: ChangeCidrCollectionRequest(
+              changes: changes, id: id, collectionVersion: collectionVersion)
+          .toXml(
+        'ChangeCidrCollectionRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'https://route53.amazonaws.com/doc/2013-04-01/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    return ChangeCidrCollectionResponse.fromXml($result.body);
   }
 
   /// Creates, changes, or deletes a resource record set, which contains
@@ -197,8 +337,7 @@ class Route53 {
   /// specified values.
   /// </li>
   /// <li>
-  /// <code>UPSERT</code>: If a resource record set does not already exist, AWS
-  /// creates it. If a resource set does exist, Route 53 updates it with the
+  /// <code>UPSERT</code>: If a resource set exists Route 53 updates it with the
   /// values in the request.
   /// </li>
   /// </ul>
@@ -273,7 +412,7 @@ class Route53 {
   ///
   /// For information about using tags for cost allocation, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
-  /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User
+  /// Cost Allocation Tags</a> in the <i>Billing and Cost Management User
   /// Guide</i>.
   ///
   /// May throw [InvalidInput].
@@ -331,6 +470,48 @@ class Route53 {
         ],
       ),
       exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Creates a CIDR collection in the current Amazon Web Services account.
+  ///
+  /// May throw [LimitsExceeded].
+  /// May throw [InvalidInput].
+  /// May throw [CidrCollectionAlreadyExistsException].
+  /// May throw [ConcurrentModification].
+  ///
+  /// Parameter [callerReference] :
+  /// A client-specific token that allows requests to be securely retried so
+  /// that the intended outcome will only occur once, retries receive a similar
+  /// response, and there are no additional edge cases to handle.
+  ///
+  /// Parameter [name] :
+  /// A unique identifier for the account that can be used to reference the
+  /// collection from other API calls.
+  Future<CreateCidrCollectionResponse> createCidrCollection({
+    required String callerReference,
+    required String name,
+  }) async {
+    final $result = await _protocol.sendRaw(
+      method: 'POST',
+      requestUri: '/2013-04-01/cidrcollection',
+      payload: CreateCidrCollectionRequest(
+              callerReference: callerReference, name: name)
+          .toXml(
+        'CreateCidrCollectionRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'https://route53.amazonaws.com/doc/2013-04-01/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateCidrCollectionResponse(
+      collection: _s
+          .extractXmlChild($elem, 'Collection')
+          ?.let((e) => CidrCollection.fromXml(e)),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
     );
   }
 
@@ -453,7 +634,7 @@ class Route53 {
   /// create new resource record sets.
   /// </important>
   /// For more information about charges for hosted zones, see <a
-  /// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
+  /// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
   ///
   /// Note the following:
   ///
@@ -466,7 +647,7 @@ class Route53 {
   /// record and four NS records for the zone. For more information about SOA
   /// and NS records, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/SOA-NSrecords.html">NS
-  /// and SOA Records that Route 53 Creates for a Hosted Zone</a> in the
+  /// and SOA Records that Route 53 Creates for a Hosted Zone</a> in the
   /// <i>Amazon Route 53 Developer Guide</i>.
   ///
   /// If you want to use the same name servers for multiple public hosted zones,
@@ -474,19 +655,45 @@ class Route53 {
   /// zone. See the <code>DelegationSetId</code> element.
   /// </li>
   /// <li>
-  /// If your domain is registered with a registrar other than Route 53, you
+  /// If your domain is registered with a registrar other than Route 53, you
   /// must update the name servers with your registrar to make Route 53 the DNS
   /// service for the domain. For more information, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html">Migrating
-  /// DNS Service for an Existing Domain to Amazon Route 53</a> in the <i>Amazon
+  /// DNS Service for an Existing Domain to Amazon Route 53</a> in the <i>Amazon
   /// Route 53 Developer Guide</i>.
   /// </li>
   /// </ul>
   /// When you submit a <code>CreateHostedZone</code> request, the initial
   /// status of the hosted zone is <code>PENDING</code>. For public hosted
   /// zones, this means that the NS and SOA records are not yet available on all
-  /// Route 53 DNS servers. When the NS and SOA records are available, the
+  /// Route 53 DNS servers. When the NS and SOA records are available, the
   /// status of the zone changes to <code>INSYNC</code>.
+  ///
+  /// The <code>CreateHostedZone</code> request requires the caller to have an
+  /// <code>ec2:DescribeVpcs</code> permission.
+  /// <note>
+  /// When creating private hosted zones, the Amazon VPC must belong to the same
+  /// partition where the hosted zone is created. A partition is a group of
+  /// Amazon Web Services Regions. Each Amazon Web Services account is scoped to
+  /// one partition.
+  ///
+  /// The following are the supported partitions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aws</code> - Amazon Web Services Regions
+  /// </li>
+  /// <li>
+  /// <code>aws-cn</code> - China Regions
+  /// </li>
+  /// <li>
+  /// <code>aws-us-gov</code> - Amazon Web Services GovCloud (US) Region
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Access
+  /// Management</a> in the <i>Amazon Web Services General Reference</i>.
+  /// </note>
   ///
   /// May throw [InvalidDomainName].
   /// May throw [HostedZoneAlreadyExists].
@@ -509,19 +716,19 @@ class Route53 {
   /// Parameter [name] :
   /// The name of the domain. Specify a fully qualified domain name, for
   /// example, <i>www.example.com</i>. The trailing dot is optional; Amazon
-  /// Route 53 assumes that the domain name is fully qualified. This means that
-  /// Route 53 treats <i>www.example.com</i> (without a trailing dot) and
+  /// Route 53 assumes that the domain name is fully qualified. This means that
+  /// Route 53 treats <i>www.example.com</i> (without a trailing dot) and
   /// <i>www.example.com.</i> (with a trailing dot) as identical.
   ///
   /// If you're creating a public hosted zone, this is the name you have
   /// registered with your DNS registrar. If your domain name is registered with
-  /// a registrar other than Route 53, change the name servers for your domain
+  /// a registrar other than Route 53, change the name servers for your domain
   /// to the set of <code>NameServers</code> that <code>CreateHostedZone</code>
   /// returns in <code>DelegationSet</code>.
   ///
   /// Parameter [delegationSetId] :
   /// If you want to associate a reusable delegation set with this hosted zone,
-  /// the ID that Amazon Route 53 assigned to the reusable delegation set when
+  /// the ID that Amazon Route 53 assigned to the reusable delegation set when
   /// you created it. For more information about reusable delegation sets, see
   /// <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateReusableDelegationSet.html">CreateReusableDelegationSet</a>.
@@ -545,6 +752,10 @@ class Route53 {
   /// the Amazon VPC that you're associating with this hosted zone.
   ///
   /// You can specify only one Amazon VPC when you create a private hosted zone.
+  /// If you are associating a VPC with a hosted zone with this request, the
+  /// paramaters <code>VPCId</code> and <code>VPCRegion</code> are also
+  /// required.
+  ///
   /// To associate additional Amazon VPCs with the hosted zone, use <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_AssociateVPCWithHostedZone.html">AssociateVPCWithHostedZone</a>
   /// after you create a hosted zone.
@@ -584,7 +795,7 @@ class Route53 {
     );
   }
 
-  /// Creates a new key signing key (KSK) associated with a hosted zone. You can
+  /// Creates a new key-signing key (KSK) associated with a hosted zone. You can
   /// only have two KSKs per hosted zone.
   ///
   /// May throw [NoSuchHostedZone].
@@ -605,13 +816,13 @@ class Route53 {
   /// The unique string (ID) used to identify a hosted zone.
   ///
   /// Parameter [keyManagementServiceArn] :
-  /// The Amazon resource name (ARN) for a customer managed key (CMK) in AWS Key
+  /// The Amazon resource name (ARN) for a customer managed key in Key
   /// Management Service (KMS). The <code>KeyManagementServiceArn</code> must be
-  /// unique for each key signing key (KSK) in a single hosted zone. To see an
+  /// unique for each key-signing key (KSK) in a single hosted zone. To see an
   /// example of <code>KeyManagementServiceArn</code> that grants the correct
   /// permissions for DNSSEC, scroll down to <b>Example</b>.
   ///
-  /// You must configure the CMK as follows:
+  /// You must configure the customer managed customer managed key as follows:
   /// <dl> <dt>Status</dt> <dd>
   /// Enabled
   /// </dd> <dt>Key spec</dt> <dd>
@@ -637,20 +848,21 @@ class Route53 {
   ///
   /// <ul>
   /// <li>
-  /// <code>"Service": "api-service.dnssec.route53.aws.internal"</code>
+  /// <code>"Service": "dnssec-route53.amazonaws.com"</code>
   /// </li>
   /// </ul> </dd> </dl>
-  /// For more information about working with CMK in KMS, see <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">AWS
-  /// Key Management Service concepts</a>.
+  /// For more information about working with a customer managed key in KMS, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">Key
+  /// Management Service concepts</a>.
   ///
   /// Parameter [name] :
-  /// An alphanumeric string used to identify a key signing key (KSK).
-  /// <code>Name</code> must be unique for each key signing key in the same
-  /// hosted zone.
+  /// A string used to identify a key-signing key (KSK). <code>Name</code> can
+  /// include numbers, letters, and underscores (_). <code>Name</code> must be
+  /// unique for each key-signing key in the same hosted zone.
   ///
   /// Parameter [status] :
-  /// A string specifying the initial status of the key signing key (KSK). You
+  /// A string specifying the initial status of the key-signing key (KSK). You
   /// can set the value to <code>ACTIVE</code> or <code>INACTIVE</code>.
   Future<CreateKeySigningKeyResponse> createKeySigningKey({
     required String callerReference,
@@ -722,8 +934,8 @@ class Route53 {
   /// You must create the log group in the us-east-1 region.
   /// </li>
   /// <li>
-  /// You must use the same AWS account to create the log group and the hosted
-  /// zone that you want to configure query logging for.
+  /// You must use the same Amazon Web Services account to create the log group
+  /// and the hosted zone that you want to configure query logging for.
   /// </li>
   /// <li>
   /// When you create log groups for query logging, we recommend that you use a
@@ -732,11 +944,11 @@ class Route53 {
   /// <code>/aws/route53/<i>hosted zone name</i> </code>
   ///
   /// In the next step, you'll create a resource policy, which controls access
-  /// to one or more log groups and the associated AWS resources, such as Route
-  /// 53 hosted zones. There's a limit on the number of resource policies that
-  /// you can create, so we recommend that you use a consistent prefix so you
-  /// can use the same resource policy for all the log groups that you create
-  /// for query logging.
+  /// to one or more log groups and the associated Amazon Web Services
+  /// resources, such as Route 53 hosted zones. There's a limit on the number of
+  /// resource policies that you can create, so we recommend that you use a
+  /// consistent prefix so you can use the same resource policy for all the log
+  /// groups that you create for query logging.
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -749,9 +961,32 @@ class Route53 {
   /// for example:
   ///
   /// <code>arn:aws:logs:us-east-1:123412341234:log-group:/aws/route53/*</code>
+  ///
+  /// To avoid the confused deputy problem, a security issue where an entity
+  /// without a permission for an action can coerce a more-privileged entity to
+  /// perform it, you can optionally limit the permissions that a service has to
+  /// a resource in a resource-based policy by supplying the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// For <code>aws:SourceArn</code>, supply the hosted zone ARN used in
+  /// creating the query logging configuration. For example,
+  /// <code>aws:SourceArn: arn:aws:route53:::hostedzone/hosted zone ID</code>.
+  /// </li>
+  /// <li>
+  /// For <code>aws:SourceAccount</code>, supply the account ID for the account
+  /// that creates the query logging configuration. For example,
+  /// <code>aws:SourceAccount:111111111111</code>.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/confused-deputy.html">The
+  /// confused deputy problem</a> in the <i>Amazon Web Services IAM User
+  /// Guide</i>.
   /// <note>
   /// You can't use the CloudWatch console to create or edit a resource policy.
-  /// You must use the CloudWatch API, one of the AWS SDKs, or the AWS CLI.
+  /// You must use the CloudWatch API, one of the Amazon Web Services SDKs, or
+  /// the CLI.
   /// </note> </li> </ol> </dd> <dt>Log Streams and Edge Locations</dt> <dd>
   /// When Route 53 finishes creating the configuration for DNS query logging,
   /// it does the following:
@@ -824,7 +1059,7 @@ class Route53 {
   /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeLogGroups.html">DescribeLogGroups</a>
   /// API action, the <a
   /// href="https://docs.aws.amazon.com/cli/latest/reference/logs/describe-log-groups.html">describe-log-groups</a>
-  /// command, or the applicable command in one of the AWS SDKs.
+  /// command, or the applicable command in one of the Amazon Web Services SDKs.
   ///
   /// Parameter [hostedZoneId] :
   /// The ID of the hosted zone that you want to log queries for. You can log
@@ -857,7 +1092,8 @@ class Route53 {
   }
 
   /// Creates a delegation set (a group of four name servers) that can be reused
-  /// by multiple hosted zones that were created by the same AWS account.
+  /// by multiple hosted zones that were created by the same Amazon Web Services
+  /// account.
   ///
   /// You can also create a reusable delegation set that uses the four name
   /// servers that are associated with an existing hosted zone. Specify the
@@ -1147,12 +1383,12 @@ class Route53 {
     );
   }
 
-  /// Authorizes the AWS account that created a specified VPC to submit an
-  /// <code>AssociateVPCWithHostedZone</code> request to associate the VPC with
-  /// a specified hosted zone that was created by a different account. To submit
-  /// a <code>CreateVPCAssociationAuthorization</code> request, you must use the
-  /// account that created the hosted zone. After you authorize the association,
-  /// use the account that created the VPC to submit an
+  /// Authorizes the Amazon Web Services account that created a specified VPC to
+  /// submit an <code>AssociateVPCWithHostedZone</code> request to associate the
+  /// VPC with a specified hosted zone that was created by a different account.
+  /// To submit a <code>CreateVPCAssociationAuthorization</code> request, you
+  /// must use the account that created the hosted zone. After you authorize the
+  /// association, use the account that created the VPC to submit an
   /// <code>AssociateVPCWithHostedZone</code> request.
   /// <note>
   /// If you want to associate multiple VPCs that you created by using one
@@ -1196,7 +1432,7 @@ class Route53 {
     return CreateVPCAssociationAuthorizationResponse.fromXml($result.body);
   }
 
-  /// Deactivates a key signing key (KSK) so that it will not be used for
+  /// Deactivates a key-signing key (KSK) so that it will not be used for
   /// signing by DNSSEC. This operation changes the KSK status to
   /// <code>INACTIVE</code>.
   ///
@@ -1206,12 +1442,13 @@ class Route53 {
   /// May throw [InvalidSigningStatus].
   /// May throw [KeySigningKeyInUse].
   /// May throw [KeySigningKeyInParentDSRecord].
+  /// May throw [InvalidInput].
   ///
   /// Parameter [hostedZoneId] :
   /// A unique string used to identify a hosted zone.
   ///
   /// Parameter [name] :
-  /// An alphanumeric string used to identify a key signing key (KSK).
+  /// A string used to identify a key-signing key (KSK).
   Future<DeactivateKeySigningKeyResponse> deactivateKeySigningKey({
     required String hostedZoneId,
     required String name,
@@ -1223,6 +1460,26 @@ class Route53 {
       exceptionFnMap: _exceptionFns,
     );
     return DeactivateKeySigningKeyResponse.fromXml($result.body);
+  }
+
+  /// Deletes a CIDR collection in the current Amazon Web Services account. The
+  /// collection must be empty before it can be deleted.
+  ///
+  /// May throw [NoSuchCidrCollectionException].
+  /// May throw [CidrCollectionInUseException].
+  /// May throw [InvalidInput].
+  /// May throw [ConcurrentModification].
+  ///
+  /// Parameter [id] :
+  /// The UUID of the collection to delete.
+  Future<void> deleteCidrCollection({
+    required String id,
+  }) async {
+    await _protocol.send(
+      method: 'DELETE',
+      requestUri: '/2013-04-01/cidrcollection/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Deletes a health check.
@@ -1237,12 +1494,12 @@ class Route53 {
   /// and Deleting Health Checks</a> in the <i>Amazon Route 53 Developer
   /// Guide</i>.
   /// </important>
-  /// If you're using AWS Cloud Map and you configured Cloud Map to create a
-  /// Route 53 health check when you register an instance, you can't use the
-  /// Route 53 <code>DeleteHealthCheck</code> command to delete the health
-  /// check. The health check is deleted automatically when you deregister the
-  /// instance; there can be a delay of several hours before the health check is
-  /// deleted from Route 53.
+  /// If you're using Cloud Map and you configured Cloud Map to create a Route
+  /// 53 health check when you register an instance, you can't use the Route 53
+  /// <code>DeleteHealthCheck</code> command to delete the health check. The
+  /// health check is deleted automatically when you deregister the instance;
+  /// there can be a delay of several hours before the health check is deleted
+  /// from Route 53.
   ///
   /// May throw [NoSuchHealthCheck].
   /// May throw [HealthCheckInUse].
@@ -1263,11 +1520,11 @@ class Route53 {
 
   /// Deletes a hosted zone.
   ///
-  /// If the hosted zone was created by another service, such as AWS Cloud Map,
-  /// see <a
+  /// If the hosted zone was created by another service, such as Cloud Map, see
+  /// <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DeleteHostedZone.html#delete-public-hosted-zone-created-by-another-service">Deleting
   /// Public Hosted Zones That Were Created by Another Service</a> in the
-  /// <i>Amazon Route 53 Developer Guide</i> for information about how to delete
+  /// <i>Amazon Route 53 Developer Guide</i> for information about how to delete
   /// it. (The process is the same for public and private hosted zones that were
   /// created by another service.)
   ///
@@ -1287,9 +1544,9 @@ class Route53 {
   /// If you want to avoid the monthly charge for the hosted zone, you can
   /// transfer DNS service for the domain to a free DNS service. When you
   /// transfer DNS service, you have to update the name servers for the domain
-  /// registration. If the domain is registered with Route 53, see <a
+  /// registration. If the domain is registered with Route 53, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_UpdateDomainNameservers.html">UpdateDomainNameservers</a>
-  /// for information about how to replace Route 53 name servers with name
+  /// for information about how to replace Route 53 name servers with name
   /// servers for the new DNS service. If the domain is registered with another
   /// registrar, use the method provided by the registrar to update name servers
   /// for the domain registration. For more information, perform an internet
@@ -1299,7 +1556,7 @@ class Route53 {
   /// record and NS resource record sets. If the hosted zone contains other
   /// resource record sets, you must delete them before you can delete the
   /// hosted zone. If you try to delete a hosted zone that contains other
-  /// resource record sets, the request fails, and Route 53 returns a
+  /// resource record sets, the request fails, and Route 53 returns a
   /// <code>HostedZoneNotEmpty</code> error. For information about deleting
   /// records from your hosted zone, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ChangeResourceRecordSets.html">ChangeResourceRecordSets</a>.
@@ -1313,7 +1570,7 @@ class Route53 {
   /// </li>
   /// <li>
   /// Use the <code>ListHostedZones</code> action to get a list of the hosted
-  /// zones associated with the current AWS account.
+  /// zones associated with the current Amazon Web Services account.
   /// </li>
   /// </ul>
   ///
@@ -1336,21 +1593,30 @@ class Route53 {
     return DeleteHostedZoneResponse.fromXml($result.body);
   }
 
-  /// Deletes a key signing key (KSK). Before you can delete a KSK, you must
-  /// deactivate it. The KSK must be deactived before you can delete it
+  /// Deletes a key-signing key (KSK). Before you can delete a KSK, you must
+  /// deactivate it. The KSK must be deactivated before you can delete it
   /// regardless of whether the hosted zone is enabled for DNSSEC signing.
+  ///
+  /// You can use <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_DeactivateKeySigningKey.html">DeactivateKeySigningKey</a>
+  /// to deactivate the key before you delete it.
+  ///
+  /// Use <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetDNSSEC.html">GetDNSSEC</a>
+  /// to verify that the KSK is in an <code>INACTIVE</code> status.
   ///
   /// May throw [ConcurrentModification].
   /// May throw [NoSuchKeySigningKey].
   /// May throw [InvalidKeySigningKeyStatus].
   /// May throw [InvalidSigningStatus].
   /// May throw [InvalidKMSArn].
+  /// May throw [InvalidInput].
   ///
   /// Parameter [hostedZoneId] :
   /// A unique string used to identify a hosted zone.
   ///
   /// Parameter [name] :
-  /// An alphanumeric string used to identify a key signing key (KSK).
+  /// A string used to identify a key-signing key (KSK).
   Future<DeleteKeySigningKeyResponse> deleteKeySigningKey({
     required String hostedZoneId,
     required String name,
@@ -1500,9 +1766,9 @@ class Route53 {
   /// by a different account. You must use the account that created the hosted
   /// zone to submit a <code>DeleteVPCAssociationAuthorization</code> request.
   /// <important>
-  /// Sending this request only prevents the AWS account that created the VPC
-  /// from associating the VPC with the Amazon Route 53 hosted zone in the
-  /// future. If the VPC is already associated with the hosted zone,
+  /// Sending this request only prevents the Amazon Web Services account that
+  /// created the VPC from associating the VPC with the Amazon Route 53 hosted
+  /// zone in the future. If the VPC is already associated with the hosted zone,
   /// <code>DeleteVPCAssociationAuthorization</code> won't disassociate the VPC
   /// from the hosted zone. If you want to delete an existing association, use
   /// <code>DisassociateVPCFromHostedZone</code>.
@@ -1515,14 +1781,15 @@ class Route53 {
   /// May throw [InvalidInput].
   ///
   /// Parameter [hostedZoneId] :
-  /// When removing authorization to associate a VPC that was created by one AWS
-  /// account with a hosted zone that was created with a different AWS account,
-  /// the ID of the hosted zone.
+  /// When removing authorization to associate a VPC that was created by one
+  /// Amazon Web Services account with a hosted zone that was created with a
+  /// different Amazon Web Services account, the ID of the hosted zone.
   ///
   /// Parameter [vpc] :
-  /// When removing authorization to associate a VPC that was created by one AWS
-  /// account with a hosted zone that was created with a different AWS account,
-  /// a complex type that includes the ID and region of the VPC.
+  /// When removing authorization to associate a VPC that was created by one
+  /// Amazon Web Services account with a hosted zone that was created with a
+  /// different Amazon Web Services account, a complex type that includes the ID
+  /// and region of the VPC.
   Future<void> deleteVPCAssociationAuthorization({
     required String hostedZoneId,
     required VPC vpc,
@@ -1545,7 +1812,7 @@ class Route53 {
   }
 
   /// Disables DNSSEC signing in a specific hosted zone. This action does not
-  /// deactivate any key signing keys (KSKs) that are active in the hosted zone.
+  /// deactivate any key-signing keys (KSKs) that are active in the hosted zone.
   ///
   /// May throw [NoSuchHostedZone].
   /// May throw [InvalidArgument].
@@ -1554,6 +1821,7 @@ class Route53 {
   /// May throw [DNSSECNotFound].
   /// May throw [InvalidKeySigningKeyStatus].
   /// May throw [InvalidKMSArn].
+  /// May throw [InvalidInput].
   ///
   /// Parameter [hostedZoneId] :
   /// A unique string used to identify a hosted zone.
@@ -1585,11 +1853,11 @@ class Route53 {
   /// created the Amazon VPC.
   /// </li>
   /// <li>
-  /// Some services, such as AWS Cloud Map and Amazon Elastic File System
-  /// (Amazon EFS) automatically create hosted zones and associate VPCs with the
-  /// hosted zones. A service can create a hosted zone using your account or
-  /// using its own account. You can disassociate a VPC from a hosted zone only
-  /// if the service created the hosted zone using your account.
+  /// Some services, such as Cloud Map and Amazon Elastic File System (Amazon
+  /// EFS) automatically create hosted zones and associate VPCs with the hosted
+  /// zones. A service can create a hosted zone using your account or using its
+  /// own account. You can disassociate a VPC from a hosted zone only if the
+  /// service created the hosted zone using your account.
   ///
   /// When you run <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListHostedZonesByVPC.html">DisassociateVPCFromHostedZone</a>,
@@ -1598,7 +1866,28 @@ class Route53 {
   /// for <code>OwningService</code>, you can't use
   /// <code>DisassociateVPCFromHostedZone</code>.
   /// </li>
+  /// </ul> <note>
+  /// When revoking access, the hosted zone and the Amazon VPC must belong to
+  /// the same partition. A partition is a group of Amazon Web Services Regions.
+  /// Each Amazon Web Services account is scoped to one partition.
+  ///
+  /// The following are the supported partitions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aws</code> - Amazon Web Services Regions
+  /// </li>
+  /// <li>
+  /// <code>aws-cn</code> - China Regions
+  /// </li>
+  /// <li>
+  /// <code>aws-us-gov</code> - Amazon Web Services GovCloud (US) Region
+  /// </li>
   /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Access
+  /// Management</a> in the <i>Amazon Web Services General Reference</i>.
+  /// </note>
   ///
   /// May throw [NoSuchHostedZone].
   /// May throw [InvalidVPCId].
@@ -1649,6 +1938,7 @@ class Route53 {
   /// May throw [HostedZonePartiallyDelegated].
   /// May throw [DNSSECNotFound].
   /// May throw [InvalidKeySigningKeyStatus].
+  /// May throw [InvalidInput].
   ///
   /// Parameter [hostedZoneId] :
   /// A unique string used to identify a hosted zone.
@@ -1674,8 +1964,9 @@ class Route53 {
   /// href="https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&amp;limitType=service-code-route53">open
   /// a case</a>.
   /// <note>
-  /// You can also view account limits in AWS Trusted Advisor. Sign in to the
-  /// AWS Management Console and open the Trusted Advisor console at <a
+  /// You can also view account limits in Amazon Web Services Trusted Advisor.
+  /// Sign in to the Amazon Web Services Management Console and open the Trusted
+  /// Advisor console at <a
   /// href="https://console.aws.amazon.com/trustedadvisor">https://console.aws.amazon.com/trustedadvisor/</a>.
   /// Then choose <b>Service limits</b> in the navigation pane.
   /// </note>
@@ -1754,10 +2045,12 @@ class Route53 {
     return GetChangeResponse.fromXml($result.body);
   }
 
+  /// Route 53 does not perform authorization for this API because it retrieves
+  /// information that is already available to the public.
   /// <important>
   /// <code>GetCheckerIpRanges</code> still works, but we recommend that you
-  /// download ip-ranges.json, which includes IP address ranges for all AWS
-  /// services. For more information, see <a
+  /// download ip-ranges.json, which includes IP address ranges for all Amazon
+  /// Web Services services. For more information, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/route-53-ip-addresses.html">IP
   /// Address Ranges of Amazon Route 53 Servers</a> in the <i>Amazon Route 53
   /// Developer Guide</i>.
@@ -1772,10 +2065,11 @@ class Route53 {
   }
 
   /// Returns information about DNSSEC for a specific hosted zone, including the
-  /// key signing keys (KSKs) and zone signing keys (ZSKs) in the hosted zone.
+  /// key-signing keys (KSKs) in the hosted zone.
   ///
   /// May throw [NoSuchHostedZone].
   /// May throw [InvalidArgument].
+  /// May throw [InvalidInput].
   ///
   /// Parameter [hostedZoneId] :
   /// A unique string used to identify a hosted zone.
@@ -1793,6 +2087,9 @@ class Route53 {
 
   /// Gets information about whether a specified geographic location is
   /// supported for Amazon Route 53 geolocation resource record sets.
+  ///
+  /// Route 53 does not perform authorization for this API because it retrieves
+  /// information that is already available to the public.
   ///
   /// Use the following syntax to determine whether a continent is supported for
   /// geolocation:
@@ -1850,14 +2147,13 @@ class Route53 {
   /// 3166-1 alpha-2</a>.
   ///
   /// Parameter [subdivisionCode] :
-  /// For <code>SubdivisionCode</code>, Amazon Route 53 supports only states of
-  /// the United States. For a list of state abbreviations, see <a
+  /// The code for the subdivision, such as a particular state within the United
+  /// States. For a list of US state abbreviations, see <a
   /// href="https://pe.usps.com/text/pub28/28apb.htm">Appendix B: Two–Letter
   /// State and Possession Abbreviations</a> on the United States Postal Service
-  /// website.
-  ///
-  /// If you specify <code>subdivisioncode</code>, you must also specify
-  /// <code>US</code> for <code>CountryCode</code>.
+  /// website. For a list of all supported subdivision codes, use the <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListGeoLocations.html">ListGeoLocations</a>
+  /// API.
   Future<GetGeoLocationResponse> getGeoLocation({
     String? continentCode,
     String? countryCode,
@@ -1901,7 +2197,7 @@ class Route53 {
   }
 
   /// Retrieves the number of health checks that are associated with the current
-  /// AWS account.
+  /// Amazon Web Services account.
   Future<GetHealthCheckCountResponse> getHealthCheckCount() async {
     final $result = await _protocol.send(
       method: 'GET',
@@ -1940,6 +2236,11 @@ class Route53 {
   }
 
   /// Gets status of a specified health check.
+  /// <important>
+  /// This API is intended for use during development to diagnose behavior. It
+  /// doesn’t support production use-cases with high query rates that require
+  /// immediate and actionable responses.
+  /// </important>
   ///
   /// May throw [NoSuchHealthCheck].
   /// May throw [InvalidInput].
@@ -1986,7 +2287,7 @@ class Route53 {
   }
 
   /// Retrieves the number of hosted zones that are associated with the current
-  /// AWS account.
+  /// Amazon Web Services account.
   ///
   /// May throw [InvalidInput].
   Future<GetHostedZoneCountResponse> getHostedZoneCount() async {
@@ -2186,7 +2487,7 @@ class Route53 {
   }
 
   /// Gets the number of traffic policy instances that are associated with the
-  /// current AWS account.
+  /// current Amazon Web Services account.
   Future<GetTrafficPolicyInstanceCountResponse>
       getTrafficPolicyInstanceCount() async {
     final $result = await _protocol.send(
@@ -2197,12 +2498,120 @@ class Route53 {
     return GetTrafficPolicyInstanceCountResponse.fromXml($result.body);
   }
 
+  /// Returns a paginated list of location objects and their CIDR blocks.
+  ///
+  /// May throw [NoSuchCidrCollectionException].
+  /// May throw [NoSuchCidrLocationException].
+  /// May throw [InvalidInput].
+  ///
+  /// Parameter [collectionId] :
+  /// The UUID of the CIDR collection.
+  ///
+  /// Parameter [locationName] :
+  /// The name of the CIDR collection location.
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of results you want returned.
+  ///
+  /// Parameter [nextToken] :
+  /// An opaque pagination token to indicate where the service is to begin
+  /// enumerating results.
+  Future<ListCidrBlocksResponse> listCidrBlocks({
+    required String collectionId,
+    String? locationName,
+    String? maxResults,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (locationName != null) 'location': [locationName],
+      if (maxResults != null) 'maxresults': [maxResults],
+      if (nextToken != null) 'nexttoken': [nextToken],
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri:
+          '/2013-04-01/cidrcollection/${Uri.encodeComponent(collectionId)}/cidrblocks',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCidrBlocksResponse.fromXml($result.body);
+  }
+
+  /// Returns a paginated list of CIDR collections in the Amazon Web Services
+  /// account (metadata only).
+  ///
+  /// May throw [InvalidInput].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of CIDR collections to return in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// An opaque pagination token to indicate where the service is to begin
+  /// enumerating results.
+  ///
+  /// If no value is provided, the listing of results starts from the beginning.
+  Future<ListCidrCollectionsResponse> listCidrCollections({
+    String? maxResults,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxresults': [maxResults],
+      if (nextToken != null) 'nexttoken': [nextToken],
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri: '/2013-04-01/cidrcollection',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCidrCollectionsResponse.fromXml($result.body);
+  }
+
+  /// Returns a paginated list of CIDR locations for the given collection
+  /// (metadata only, does not include CIDR blocks).
+  ///
+  /// May throw [NoSuchCidrCollectionException].
+  /// May throw [InvalidInput].
+  ///
+  /// Parameter [collectionId] :
+  /// The CIDR collection ID.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of CIDR collection locations to return in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// An opaque pagination token to indicate where the service is to begin
+  /// enumerating results.
+  ///
+  /// If no value is provided, the listing of results starts from the beginning.
+  Future<ListCidrLocationsResponse> listCidrLocations({
+    required String collectionId,
+    String? maxResults,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxresults': [maxResults],
+      if (nextToken != null) 'nexttoken': [nextToken],
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri:
+          '/2013-04-01/cidrcollection/${Uri.encodeComponent(collectionId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCidrLocationsResponse.fromXml($result.body);
+  }
+
   /// Retrieves a list of supported geographic locations.
   ///
   /// Countries are listed first, and continents are listed last. If Amazon
   /// Route 53 supports subdivisions for a country (for example, states or
   /// provinces), the subdivisions for that country are listed in alphabetical
   /// order immediately after the corresponding country.
+  ///
+  /// Route 53 does not perform authorization for this API because it retrieves
+  /// information that is already available to the public.
   ///
   /// For a list of supported geolocation codes, see the <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GeoLocation.html">GeoLocation</a>
@@ -2271,7 +2680,7 @@ class Route53 {
   }
 
   /// Retrieve a list of the health checks that are associated with the current
-  /// AWS account.
+  /// Amazon Web Services account.
   ///
   /// May throw [InvalidInput].
   /// May throw [IncompatibleVersion].
@@ -2313,8 +2722,8 @@ class Route53 {
   }
 
   /// Retrieves a list of the public and private hosted zones that are
-  /// associated with the current AWS account. The response includes a
-  /// <code>HostedZones</code> child element for each hosted zone.
+  /// associated with the current Amazon Web Services account. The response
+  /// includes a <code>HostedZones</code> child element for each hosted zone.
   ///
   /// Amazon Route 53 returns a maximum of 100 items in each response. If you
   /// have a lot of hosted zones, you can use the <code>maxitems</code>
@@ -2370,7 +2779,7 @@ class Route53 {
 
   /// Retrieves a list of your hosted zones in lexicographic order. The response
   /// includes a <code>HostedZones</code> child element for each hosted zone
-  /// created by the current AWS account.
+  /// created by the current Amazon Web Services account.
   ///
   /// <code>ListHostedZonesByName</code> sorts hosted zones by name with the
   /// labels reversed. For example:
@@ -2414,7 +2823,8 @@ class Route53 {
   /// </li>
   /// <li>
   /// If the value of <code>IsTruncated</code> in the response is true, there
-  /// are more hosted zones associated with the current AWS account.
+  /// are more hosted zones associated with the current Amazon Web Services
+  /// account.
   ///
   /// If <code>IsTruncated</code> is false, this response includes the last
   /// hosted zone that is associated with the current account. The
@@ -2424,8 +2834,8 @@ class Route53 {
   /// <li>
   /// The <code>NextDNSName</code> and <code>NextHostedZoneId</code> elements in
   /// the response contain the domain name and the hosted zone ID of the next
-  /// hosted zone that is associated with the current AWS account. If you want
-  /// to list more hosted zones, make another call to
+  /// hosted zone that is associated with the current Amazon Web Services
+  /// account. If you want to list more hosted zones, make another call to
   /// <code>ListHostedZonesByName</code>, and specify the value of
   /// <code>NextDNSName</code> and <code>NextHostedZoneId</code> in the
   /// <code>dnsname</code> and <code>hostedzoneid</code> parameters,
@@ -2441,10 +2851,10 @@ class Route53 {
   /// include the <code>dnsname</code> parameter only if you want to specify the
   /// name of the first hosted zone in the response. If you don't include the
   /// <code>dnsname</code> parameter, Amazon Route 53 returns all of the hosted
-  /// zones that were created by the current AWS account, in ASCII order. For
-  /// subsequent requests, include both <code>dnsname</code> and
-  /// <code>hostedzoneid</code> parameters. For <code>dnsname</code>, specify
-  /// the value of <code>NextDNSName</code> from the previous response.
+  /// zones that were created by the current Amazon Web Services account, in
+  /// ASCII order. For subsequent requests, include both <code>dnsname</code>
+  /// and <code>hostedzoneid</code> parameters. For <code>dnsname</code>,
+  /// specify the value of <code>NextDNSName</code> from the previous response.
   ///
   /// Parameter [hostedZoneId] :
   /// (Optional) For your first request to <code>ListHostedZonesByName</code>,
@@ -2486,23 +2896,46 @@ class Route53 {
   }
 
   /// Lists all the private hosted zones that a specified VPC is associated
-  /// with, regardless of which AWS account or AWS service owns the hosted
-  /// zones. The <code>HostedZoneOwner</code> structure in the response contains
-  /// one of the following values:
+  /// with, regardless of which Amazon Web Services account or Amazon Web
+  /// Services service owns the hosted zones. The <code>HostedZoneOwner</code>
+  /// structure in the response contains one of the following values:
   ///
   /// <ul>
   /// <li>
   /// An <code>OwningAccount</code> element, which contains the account number
-  /// of either the current AWS account or another AWS account. Some services,
-  /// such as AWS Cloud Map, create hosted zones using the current account.
+  /// of either the current Amazon Web Services account or another Amazon Web
+  /// Services account. Some services, such as Cloud Map, create hosted zones
+  /// using the current account.
   /// </li>
   /// <li>
-  /// An <code>OwningService</code> element, which identifies the AWS service
-  /// that created and owns the hosted zone. For example, if a hosted zone was
-  /// created by Amazon Elastic File System (Amazon EFS), the value of
-  /// <code>Owner</code> is <code>efs.amazonaws.com</code>.
+  /// An <code>OwningService</code> element, which identifies the Amazon Web
+  /// Services service that created and owns the hosted zone. For example, if a
+  /// hosted zone was created by Amazon Elastic File System (Amazon EFS), the
+  /// value of <code>Owner</code> is <code>efs.amazonaws.com</code>.
+  /// </li>
+  /// </ul> <note>
+  /// When listing private hosted zones, the hosted zone and the Amazon VPC must
+  /// belong to the same partition where the hosted zones were created. A
+  /// partition is a group of Amazon Web Services Regions. Each Amazon Web
+  /// Services account is scoped to one partition.
+  ///
+  /// The following are the supported partitions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aws</code> - Amazon Web Services Regions
+  /// </li>
+  /// <li>
+  /// <code>aws-cn</code> - China Regions
+  /// </li>
+  /// <li>
+  /// <code>aws-us-gov</code> - Amazon Web Services GovCloud (US) Region
   /// </li>
   /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Access
+  /// Management</a> in the <i>Amazon Web Services General Reference</i>.
+  /// </note>
   ///
   /// May throw [InvalidInput].
   /// May throw [InvalidPaginationToken].
@@ -2511,8 +2944,8 @@ class Route53 {
   /// The ID of the Amazon VPC that you want to list hosted zones for.
   ///
   /// Parameter [vPCRegion] :
-  /// For the Amazon VPC that you specified for <code>VPCId</code>, the AWS
-  /// Region that you created the VPC in.
+  /// For the Amazon VPC that you specified for <code>VPCId</code>, the Amazon
+  /// Web Services Region that you created the VPC in.
   ///
   /// Parameter [maxItems] :
   /// (Optional) The maximum number of hosted zones that you want Amazon Route
@@ -2554,8 +2987,8 @@ class Route53 {
   }
 
   /// Lists the configurations for DNS query logging that are associated with
-  /// the current AWS account or the configuration that is associated with a
-  /// specified hosted zone.
+  /// the current Amazon Web Services account or the configuration that is
+  /// associated with a specified hosted zone.
   ///
   /// For more information about DNS query logs, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateQueryLoggingConfig.html">CreateQueryLoggingConfig</a>.
@@ -2575,13 +3008,13 @@ class Route53 {
   ///
   /// If you don't specify a hosted zone ID,
   /// <code>ListQueryLoggingConfigs</code> returns all of the configurations
-  /// that are associated with the current AWS account.
+  /// that are associated with the current Amazon Web Services account.
   ///
   /// Parameter [maxResults] :
   /// (Optional) The maximum number of query logging configurations that you
   /// want Amazon Route 53 to return in response to the current request. If the
-  /// current AWS account has more than <code>MaxResults</code> configurations,
-  /// use the value of <a
+  /// current Amazon Web Services account has more than <code>MaxResults</code>
+  /// configurations, use the value of <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListQueryLoggingConfigs.html#API_ListQueryLoggingConfigs_RequestSyntax">NextToken</a>
   /// in the response to get the next page of results.
   ///
@@ -2589,7 +3022,7 @@ class Route53 {
   /// up to 100 configurations.
   ///
   /// Parameter [nextToken] :
-  /// (Optional) If the current AWS account has more than
+  /// (Optional) If the current Amazon Web Services account has more than
   /// <code>MaxResults</code> query logging configurations, use
   /// <code>NextToken</code> to get the second and subsequent pages of results.
   ///
@@ -2620,7 +3053,7 @@ class Route53 {
 
   /// Lists the resource record sets in a specified hosted zone.
   ///
-  /// <code>ListResourceRecordSets</code> returns up to 100 resource record sets
+  /// <code>ListResourceRecordSets</code> returns up to 300 resource record sets
   /// at a time in ASCII order, beginning at a position specified by the
   /// <code>name</code> and <code>type</code> elements.
   ///
@@ -2777,7 +3210,7 @@ class Route53 {
   }
 
   /// Retrieves a list of the reusable delegation sets that are associated with
-  /// the current AWS account.
+  /// the current Amazon Web Services account.
   ///
   /// May throw [InvalidInput].
   ///
@@ -2819,7 +3252,7 @@ class Route53 {
   ///
   /// For information about using tags for cost allocation, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
-  /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User
+  /// Cost Allocation Tags</a> in the <i>Billing and Cost Management User
   /// Guide</i>.
   ///
   /// May throw [InvalidInput].
@@ -2859,7 +3292,7 @@ class Route53 {
   ///
   /// For information about using tags for cost allocation, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
-  /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User
+  /// Cost Allocation Tags</a> in the <i>Billing and Cost Management User
   /// Guide</i>.
   ///
   /// May throw [InvalidInput].
@@ -2906,8 +3339,8 @@ class Route53 {
   }
 
   /// Gets information about the latest version for every traffic policy that is
-  /// associated with the current AWS account. Policies are listed in the order
-  /// that they were created in.
+  /// associated with the current Amazon Web Services account. Policies are
+  /// listed in the order that they were created in.
   ///
   /// For information about how of deleting a traffic policy affects the
   /// response from <code>ListTrafficPolicies</code>, see <a
@@ -2953,7 +3386,7 @@ class Route53 {
   }
 
   /// Gets information about the traffic policy instances that you created by
-  /// using the current AWS account.
+  /// using the current Amazon Web Services account.
   /// <note>
   /// After you submit an <code>UpdateTrafficPolicyInstance</code> request,
   /// there's a brief delay while Amazon Route 53 creates the resource record
@@ -3341,6 +3774,8 @@ class Route53 {
   /// address of a DNS resolver, an EDNS0 client subnet IP address, and a subnet
   /// mask.
   ///
+  /// This call only supports querying public hosted zones.
+  ///
   /// May throw [NoSuchHostedZone].
   /// May throw [InvalidInput].
   ///
@@ -3386,7 +3821,7 @@ class Route53 {
   /// If you want to simulate a request from a specific DNS resolver, specify
   /// the IP address for that resolver. If you omit this value,
   /// <code>TestDnsAnswer</code> uses the IP address of a DNS resolver in the
-  /// AWS US East (N. Virginia) Region (<code>us-east-1</code>).
+  /// Amazon Web Services US East (N. Virginia) Region (<code>us-east-1</code>).
   Future<TestDNSAnswerResponse> testDNSAnswer({
     required String hostedZoneId,
     required String recordName,
@@ -3716,10 +4151,10 @@ class Route53 {
   /// unhealthy.
   /// </li>
   /// <li>
-  /// <code>LastKnownStatus</code>: Route 53 uses the status of the health check
-  /// from the last time CloudWatch had sufficient data to determine the alarm
-  /// state. For new health checks that have no last known status, the default
-  /// status for the health check is healthy.
+  /// <code>LastKnownStatus</code>: By default, Route 53 uses the status of the
+  /// health check from the last time CloudWatch had sufficient data to
+  /// determine the alarm state. For new health checks that have no last known
+  /// status, the status for the health check is healthy.
   /// </li>
   /// </ul>
   ///
@@ -3868,6 +4303,7 @@ class Route53 {
   ///
   /// May throw [NoSuchHostedZone].
   /// May throw [InvalidInput].
+  /// May throw [PriorRequestNotComplete].
   ///
   /// Parameter [id] :
   /// The ID for the hosted zone that you want to update the comment for.
@@ -4158,9 +4594,9 @@ class AlarmIdentifier {
   /// was created in.
   ///
   /// For the current list of CloudWatch regions, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#cw_region">Amazon
-  /// CloudWatch</a> in the <i>AWS Service Endpoints</i> chapter of the <i>Amazon
-  /// Web Services General Reference</i>.
+  /// href="https://docs.aws.amazon.com/general/latest/gr/cw_region.html">Amazon
+  /// CloudWatch endpoints and quotas</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
   final CloudWatchRegion region;
 
   AlarmIdentifier({
@@ -4192,18 +4628,14 @@ class AlarmIdentifier {
   }
 }
 
-/// <i>Alias resource record sets only:</i> Information about the AWS resource,
-/// such as a CloudFront distribution or an Amazon S3 bucket, that you want to
-/// route traffic to.
+/// <i>Alias resource record sets only:</i> Information about the Amazon Web
+/// Services resource, such as a CloudFront distribution or an Amazon S3 bucket,
+/// that you want to route traffic to.
 ///
 /// When creating resource record sets for a private hosted zone, note the
 /// following:
 ///
 /// <ul>
-/// <li>
-/// Creating geolocation alias resource record sets or latency alias resource
-/// record sets in a private hosted zone is unsupported.
-/// </li>
 /// <li>
 /// For information about creating failover resource record sets in a private
 /// hosted zone, see <a
@@ -4217,7 +4649,7 @@ class AliasTarget {
   /// <dl> <dt>Amazon API Gateway custom regional APIs and edge-optimized
   /// APIs</dt> <dd>
   /// Specify the applicable domain name for your API. You can get the applicable
-  /// value using the AWS CLI command <a
+  /// value using the CLI command <a
   /// href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-domain-names.html">get-domain-names</a>:
   ///
   /// <ul>
@@ -4238,7 +4670,7 @@ class AliasTarget {
   /// <code>vpce-123456789abcdef01-example-us-east-1a.elasticloadbalancing.us-east-1.vpce.amazonaws.com</code>.
   /// For edge-optimized APIs, this is the domain name for the corresponding
   /// CloudFront distribution. You can get the value of <code>DnsName</code> using
-  /// the AWS CLI command <a
+  /// the CLI command <a
   /// href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpc-endpoints.html">describe-vpc-endpoints</a>.
   /// </dd> <dt>CloudFront distribution</dt> <dd>
   /// Specify the domain name that CloudFront assigned when you created your
@@ -4283,34 +4715,36 @@ class AliasTarget {
   ///
   /// <ul>
   /// <li>
-  /// <i>AWS Management Console</i>: For information about how to get the value by
-  /// using the console, see <a
+  /// <i>Amazon Web Services Management Console</i>: For information about how to
+  /// get the value by using the console, see <a
   /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/customdomains.html">Using
-  /// Custom Domains with AWS Elastic Beanstalk</a> in the <i>AWS Elastic
-  /// Beanstalk Developer Guide</i>.
+  /// Custom Domains with Elastic Beanstalk</a> in the <i>Elastic Beanstalk
+  /// Developer Guide</i>.
   /// </li>
   /// <li>
   /// <i>Elastic Beanstalk API</i>: Use the <code>DescribeEnvironments</code>
   /// action to get the value of the <code>CNAME</code> attribute. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_DescribeEnvironments.html">DescribeEnvironments</a>
-  /// in the <i>AWS Elastic Beanstalk API Reference</i>.
+  /// in the <i>Elastic Beanstalk API Reference</i>.
   /// </li>
   /// <li>
-  /// <i>AWS CLI</i>: Use the <code>describe-environments</code> command to get
-  /// the value of the <code>CNAME</code> attribute. For more information, see <a
+  /// <i>CLI</i>: Use the <code>describe-environments</code> command to get the
+  /// value of the <code>CNAME</code> attribute. For more information, see <a
   /// href="https://docs.aws.amazon.com/cli/latest/reference/elasticbeanstalk/describe-environments.html">describe-environments</a>
-  /// in the <i>AWS CLI Command Reference</i>.
+  /// in the <i>CLI Command Reference</i>.
   /// </li>
   /// </ul> </dd> <dt>ELB load balancer</dt> <dd>
   /// Specify the DNS name that is associated with the load balancer. Get the DNS
-  /// name by using the AWS Management Console, the ELB API, or the AWS CLI.
+  /// name by using the Amazon Web Services Management Console, the ELB API, or
+  /// the CLI.
   ///
   /// <ul>
   /// <li>
-  /// <b>AWS Management Console</b>: Go to the EC2 page, choose <b>Load
-  /// Balancers</b> in the navigation pane, choose the load balancer, choose the
-  /// <b>Description</b> tab, and get the value of the <b>DNS name</b> field.
+  /// <b>Amazon Web Services Management Console</b>: Go to the EC2 page, choose
+  /// <b>Load Balancers</b> in the navigation pane, choose the load balancer,
+  /// choose the <b>Description</b> tab, and get the value of the <b>DNS name</b>
+  /// field.
   ///
   /// If you're routing traffic to a Classic Load Balancer, get the value that
   /// begins with <b>dualstack</b>. If you're routing traffic to another type of
@@ -4332,7 +4766,7 @@ class AliasTarget {
   /// </li>
   /// </ul> </li>
   /// <li>
-  /// <b>AWS CLI</b>: Use <code>describe-load-balancers</code> to get the value of
+  /// <b>CLI</b>: Use <code>describe-load-balancers</code> to get the value of
   /// <code>DNSName</code>. For more information, see the applicable guide:
   ///
   /// <ul>
@@ -4345,7 +4779,7 @@ class AliasTarget {
   /// href="http://docs.aws.amazon.com/cli/latest/reference/elbv2/describe-load-balancers.html">describe-load-balancers</a>
   /// </li>
   /// </ul> </li>
-  /// </ul> </dd> <dt>AWS Global Accelerator accelerator</dt> <dd>
+  /// </ul> </dd> <dt>Global Accelerator accelerator</dt> <dd>
   /// Specify the DNS name for your accelerator:
   ///
   /// <ul>
@@ -4354,7 +4788,7 @@ class AliasTarget {
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/api/API_DescribeAccelerator.html">DescribeAccelerator</a>.
   /// </li>
   /// <li>
-  /// <b>AWS CLI:</b> To get the DNS name, use <a
+  /// <b>CLI:</b> To get the DNS name, use <a
   /// href="https://docs.aws.amazon.com/cli/latest/reference/globalaccelerator/describe-accelerator.html">describe-accelerator</a>.
   /// </li>
   /// </ul> </dd> <dt>Amazon S3 bucket that is configured as a static website</dt>
@@ -4385,8 +4819,9 @@ class AliasTarget {
   /// <i>Applies only to alias, failover alias, geolocation alias, latency alias,
   /// and weighted alias resource record sets:</i> When
   /// <code>EvaluateTargetHealth</code> is <code>true</code>, an alias resource
-  /// record set inherits the health of the referenced AWS resource, such as an
-  /// ELB load balancer or another resource record set in the hosted zone.
+  /// record set inherits the health of the referenced Amazon Web Services
+  /// resource, such as an ELB load balancer or another resource record set in the
+  /// hosted zone.
   ///
   /// Note the following:
   /// <dl> <dt>CloudFront distributions</dt> <dd>
@@ -4445,10 +4880,11 @@ class AliasTarget {
   /// <code>EvaluateTargetHealth</code> to <code>true</code> when the alias target
   /// is an S3 bucket.
   /// </dd> <dt>Other records in the same hosted zone</dt> <dd>
-  /// If the AWS resource that you specify in <code>DNSName</code> is a record or
-  /// a group of records (for example, a group of weighted records) but is not
-  /// another alias record, we recommend that you associate a health check with
-  /// all of the records in the alias target. For more information, see <a
+  /// If the Amazon Web Services resource that you specify in <code>DNSName</code>
+  /// is a record or a group of records (for example, a group of weighted records)
+  /// but is not another alias record, we recommend that you associate a health
+  /// check with all of the records in the alias target. For more information, see
+  /// <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-complex-configs.html#dns-failover-complex-configs-hc-omitting">What
   /// Happens When You Omit Health Checks?</a> in the <i>Amazon Route 53 Developer
   /// Guide</i>.
@@ -4464,7 +4900,7 @@ class AliasTarget {
   /// <dl> <dt>Amazon API Gateway custom regional APIs and edge-optimized
   /// APIs</dt> <dd>
   /// Specify the hosted zone ID for your API. You can get the applicable value
-  /// using the AWS CLI command <a
+  /// using the CLI command <a
   /// href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-domain-names.html">get-domain-names</a>:
   ///
   /// <ul>
@@ -4478,7 +4914,7 @@ class AliasTarget {
   /// </ul> </dd> <dt>Amazon Virtual Private Cloud interface VPC endpoint</dt>
   /// <dd>
   /// Specify the hosted zone ID for your interface endpoint. You can get the
-  /// value of <code>HostedZoneId</code> using the AWS CLI command <a
+  /// value of <code>HostedZoneId</code> using the CLI command <a
   /// href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpc-endpoints.html">describe-vpc-endpoints</a>.
   /// </dd> <dt>CloudFront distribution</dt> <dd>
   /// Specify <code>Z2FDTNDATAQYW2</code>.
@@ -4489,26 +4925,26 @@ class AliasTarget {
   /// Specify the hosted zone ID for the region that you created the environment
   /// in. The environment must have a regionalized subdomain. For a list of
   /// regions and the corresponding hosted zone IDs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#elasticbeanstalk_region">AWS
-  /// Elastic Beanstalk</a> in the "AWS Service Endpoints" chapter of the
-  /// <i>Amazon Web Services General Reference</i>.
+  /// href="https://docs.aws.amazon.com/general/latest/gr/elasticbeanstalk.html">Elastic
+  /// Beanstalk endpoints and quotas</a> in the the <i>Amazon Web Services General
+  /// Reference</i>.
   /// </dd> <dt>ELB load balancer</dt> <dd>
   /// Specify the value of the hosted zone ID for the load balancer. Use the
   /// following methods to get the hosted zone ID:
   ///
   /// <ul>
   /// <li>
-  /// <a href="https://docs.aws.amazon.com/general/latest/gr/elb.html">Service
-  /// Endpoints</a> table in the "Elastic Load Balancing Endpoints and Quotas"
-  /// topic in the <i>Amazon Web Services General Reference</i>: Use the value
-  /// that corresponds with the region that you created your load balancer in.
-  /// Note that there are separate columns for Application and Classic Load
-  /// Balancers and for Network Load Balancers.
+  /// <a href="https://docs.aws.amazon.com/general/latest/gr/elb.html">Elastic
+  /// Load Balancing endpoints and quotas</a> topic in the <i>Amazon Web Services
+  /// General Reference</i>: Use the value that corresponds with the region that
+  /// you created your load balancer in. Note that there are separate columns for
+  /// Application and Classic Load Balancers and for Network Load Balancers.
   /// </li>
   /// <li>
-  /// <b>AWS Management Console</b>: Go to the Amazon EC2 page, choose <b>Load
-  /// Balancers</b> in the navigation pane, select the load balancer, and get the
-  /// value of the <b>Hosted zone</b> field on the <b>Description</b> tab.
+  /// <b>Amazon Web Services Management Console</b>: Go to the Amazon EC2 page,
+  /// choose <b>Load Balancers</b> in the navigation pane, select the load
+  /// balancer, and get the value of the <b>Hosted zone</b> field on the
+  /// <b>Description</b> tab.
   /// </li>
   /// <li>
   /// <b>Elastic Load Balancing API</b>: Use <code>DescribeLoadBalancers</code> to
@@ -4527,8 +4963,8 @@ class AliasTarget {
   /// </li>
   /// </ul> </li>
   /// <li>
-  /// <b>AWS CLI</b>: Use <code>describe-load-balancers</code> to get the
-  /// applicable value. For more information, see the applicable guide:
+  /// <b>CLI</b>: Use <code>describe-load-balancers</code> to get the applicable
+  /// value. For more information, see the applicable guide:
   ///
   /// <ul>
   /// <li>
@@ -4542,7 +4978,7 @@ class AliasTarget {
   /// to get the value of <code>CanonicalHostedZoneId</code>.
   /// </li>
   /// </ul> </li>
-  /// </ul> </dd> <dt>AWS Global Accelerator accelerator</dt> <dd>
+  /// </ul> </dd> <dt>Global Accelerator accelerator</dt> <dd>
   /// Specify <code>Z2BJ6XQ5FK7U4H</code>.
   /// </dd> <dt>An Amazon S3 bucket configured as a static website</dt> <dd>
   /// Specify the hosted zone ID for the region that you created the bucket in.
@@ -4766,10 +5202,84 @@ class ChangeBatch {
   }
 }
 
+class ChangeCidrCollectionRequest {
+  /// Information about changes to a CIDR collection.
+  final List<CidrCollectionChange> changes;
+
+  /// The UUID of the CIDR collection to update.
+  final String id;
+
+  /// A sequential counter that Amazon Route 53 sets to 1 when you create a
+  /// collection and increments it by 1 each time you update the collection.
+  ///
+  /// We recommend that you use <code>ListCidrCollection</code> to get the current
+  /// value of <code>CollectionVersion</code> for the collection that you want to
+  /// update, and then include that value with the change request. This prevents
+  /// Route 53 from overwriting an intervening update:
+  ///
+  /// <ul>
+  /// <li>
+  /// If the value in the request matches the value of
+  /// <code>CollectionVersion</code> in the collection, Route 53 updates the
+  /// collection.
+  /// </li>
+  /// <li>
+  /// If the value of <code>CollectionVersion</code> in the collection is greater
+  /// than the value in the request, the collection was changed after you got the
+  /// version number. Route 53 does not update the collection, and it returns a
+  /// <code>CidrCollectionVersionMismatch</code> error.
+  /// </li>
+  /// </ul>
+  final int? collectionVersion;
+
+  ChangeCidrCollectionRequest({
+    required this.changes,
+    required this.id,
+    this.collectionVersion,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final changes = this.changes;
+    final id = this.id;
+    final collectionVersion = this.collectionVersion;
+    final $children = <_s.XmlNode>[
+      if (collectionVersion != null)
+        _s.encodeXmlIntValue('CollectionVersion', collectionVersion),
+      _s.XmlElement(
+          _s.XmlName('Changes'), [], changes.map((e) => e.toXml('member'))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class ChangeCidrCollectionResponse {
+  /// The ID that is returned by <code>ChangeCidrCollection</code>. You can use it
+  /// as input to <code>GetChange</code> to see if a CIDR collection change has
+  /// propagated or not.
+  final String id;
+
+  ChangeCidrCollectionResponse({
+    required this.id,
+  });
+  factory ChangeCidrCollectionResponse.fromXml(_s.XmlElement elem) {
+    return ChangeCidrCollectionResponse(
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+    );
+  }
+}
+
 /// A complex type that describes change information about changes made to your
 /// hosted zone.
 class ChangeInfo {
-  /// The ID of the request.
+  /// This element contains an ID that you use when performing a <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetChange.html">GetChange</a>
+  /// action to get detailed information about the change.
   final String id;
 
   /// The current state of the request. <code>PENDING</code> indicates that this
@@ -4783,12 +5293,7 @@ class ChangeInfo {
   /// 17:48:16.751 UTC.
   final DateTime submittedAt;
 
-  /// A complex type that describes change information about changes made to your
-  /// hosted zone.
-  ///
-  /// This element contains an ID that you use when performing a <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetChange.html">GetChange</a>
-  /// action to get detailed information about the change.
+  /// A comment you can provide.
   final String? comment;
 
   ChangeInfo({
@@ -4955,6 +5460,167 @@ class ChangeTagsForResourceResponse {
   }
 }
 
+/// A complex type that lists the CIDR blocks.
+class CidrBlockSummary {
+  /// Value for the CIDR block.
+  final String? cidrBlock;
+
+  /// The location name of the CIDR block.
+  final String? locationName;
+
+  CidrBlockSummary({
+    this.cidrBlock,
+    this.locationName,
+  });
+  factory CidrBlockSummary.fromXml(_s.XmlElement elem) {
+    return CidrBlockSummary(
+      cidrBlock: _s.extractXmlStringValue(elem, 'CidrBlock'),
+      locationName: _s.extractXmlStringValue(elem, 'LocationName'),
+    );
+  }
+}
+
+/// A complex type that identifies a CIDR collection.
+class CidrCollection {
+  /// The ARN of the collection. Can be used to reference the collection in IAM
+  /// policy or in another Amazon Web Services account.
+  final String? arn;
+
+  /// The unique ID of the CIDR collection.
+  final String? id;
+
+  /// The name of a CIDR collection.
+  final String? name;
+
+  /// A sequential counter that Route 53 sets to 1 when you create a CIDR
+  /// collection and increments by 1 each time you update settings for the CIDR
+  /// collection.
+  final int? version;
+
+  CidrCollection({
+    this.arn,
+    this.id,
+    this.name,
+    this.version,
+  });
+  factory CidrCollection.fromXml(_s.XmlElement elem) {
+    return CidrCollection(
+      arn: _s.extractXmlStringValue(elem, 'Arn'),
+      id: _s.extractXmlStringValue(elem, 'Id'),
+      name: _s.extractXmlStringValue(elem, 'Name'),
+      version: _s.extractXmlIntValue(elem, 'Version'),
+    );
+  }
+}
+
+/// A complex type that contains information about the CIDR collection change.
+class CidrCollectionChange {
+  /// CIDR collection change action.
+  final CidrCollectionChangeAction action;
+
+  /// List of CIDR blocks.
+  final List<String> cidrList;
+
+  /// Name of the location that is associated with the CIDR collection.
+  final String locationName;
+
+  CidrCollectionChange({
+    required this.action,
+    required this.cidrList,
+    required this.locationName,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final action = this.action;
+    final cidrList = this.cidrList;
+    final locationName = this.locationName;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('LocationName', locationName),
+      _s.encodeXmlStringValue('Action', action.toValue()),
+      _s.XmlElement(_s.XmlName('CidrList'), [],
+          cidrList.map((e) => _s.encodeXmlStringValue('Cidr', e))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+enum CidrCollectionChangeAction {
+  put,
+  deleteIfExists,
+}
+
+extension CidrCollectionChangeActionValueExtension
+    on CidrCollectionChangeAction {
+  String toValue() {
+    switch (this) {
+      case CidrCollectionChangeAction.put:
+        return 'PUT';
+      case CidrCollectionChangeAction.deleteIfExists:
+        return 'DELETE_IF_EXISTS';
+    }
+  }
+}
+
+extension CidrCollectionChangeActionFromString on String {
+  CidrCollectionChangeAction toCidrCollectionChangeAction() {
+    switch (this) {
+      case 'PUT':
+        return CidrCollectionChangeAction.put;
+      case 'DELETE_IF_EXISTS':
+        return CidrCollectionChangeAction.deleteIfExists;
+    }
+    throw Exception('$this is not known in enum CidrCollectionChangeAction');
+  }
+}
+
+/// The object that is specified in resource record set object when you are
+/// linking a resource record set to a CIDR location.
+///
+/// A <code>LocationName</code> with an asterisk “*” can be used to create a
+/// default CIDR record. <code>CollectionId</code> is still required for default
+/// record.
+class CidrRoutingConfig {
+  /// The CIDR collection ID.
+  final String collectionId;
+
+  /// The CIDR collection location name.
+  final String locationName;
+
+  CidrRoutingConfig({
+    required this.collectionId,
+    required this.locationName,
+  });
+  factory CidrRoutingConfig.fromXml(_s.XmlElement elem) {
+    return CidrRoutingConfig(
+      collectionId: _s.extractXmlStringValue(elem, 'CollectionId')!,
+      locationName: _s.extractXmlStringValue(elem, 'LocationName')!,
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final collectionId = this.collectionId;
+    final locationName = this.locationName;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('CollectionId', collectionId),
+      _s.encodeXmlStringValue('LocationName', locationName),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
 /// A complex type that contains information about the CloudWatch alarm that
 /// Amazon Route 53 is monitoring for this health check.
 class CloudWatchAlarmConfiguration {
@@ -5032,14 +5698,18 @@ enum CloudWatchRegion {
   usWest_2,
   caCentral_1,
   euCentral_1,
+  euCentral_2,
   euWest_1,
   euWest_2,
   euWest_3,
   apEast_1,
   meSouth_1,
+  meCentral_1,
   apSouth_1,
+  apSouth_2,
   apSoutheast_1,
   apSoutheast_2,
+  apSoutheast_3,
   apNortheast_1,
   apNortheast_2,
   apNortheast_3,
@@ -5049,10 +5719,13 @@ enum CloudWatchRegion {
   cnNorth_1,
   afSouth_1,
   euSouth_1,
+  euSouth_2,
   usGovWest_1,
   usGovEast_1,
   usIsoEast_1,
+  usIsoWest_1,
   usIsobEast_1,
+  apSoutheast_4,
 }
 
 extension CloudWatchRegionValueExtension on CloudWatchRegion {
@@ -5070,6 +5743,8 @@ extension CloudWatchRegionValueExtension on CloudWatchRegion {
         return 'ca-central-1';
       case CloudWatchRegion.euCentral_1:
         return 'eu-central-1';
+      case CloudWatchRegion.euCentral_2:
+        return 'eu-central-2';
       case CloudWatchRegion.euWest_1:
         return 'eu-west-1';
       case CloudWatchRegion.euWest_2:
@@ -5080,12 +5755,18 @@ extension CloudWatchRegionValueExtension on CloudWatchRegion {
         return 'ap-east-1';
       case CloudWatchRegion.meSouth_1:
         return 'me-south-1';
+      case CloudWatchRegion.meCentral_1:
+        return 'me-central-1';
       case CloudWatchRegion.apSouth_1:
         return 'ap-south-1';
+      case CloudWatchRegion.apSouth_2:
+        return 'ap-south-2';
       case CloudWatchRegion.apSoutheast_1:
         return 'ap-southeast-1';
       case CloudWatchRegion.apSoutheast_2:
         return 'ap-southeast-2';
+      case CloudWatchRegion.apSoutheast_3:
+        return 'ap-southeast-3';
       case CloudWatchRegion.apNortheast_1:
         return 'ap-northeast-1';
       case CloudWatchRegion.apNortheast_2:
@@ -5104,14 +5785,20 @@ extension CloudWatchRegionValueExtension on CloudWatchRegion {
         return 'af-south-1';
       case CloudWatchRegion.euSouth_1:
         return 'eu-south-1';
+      case CloudWatchRegion.euSouth_2:
+        return 'eu-south-2';
       case CloudWatchRegion.usGovWest_1:
         return 'us-gov-west-1';
       case CloudWatchRegion.usGovEast_1:
         return 'us-gov-east-1';
       case CloudWatchRegion.usIsoEast_1:
         return 'us-iso-east-1';
+      case CloudWatchRegion.usIsoWest_1:
+        return 'us-iso-west-1';
       case CloudWatchRegion.usIsobEast_1:
         return 'us-isob-east-1';
+      case CloudWatchRegion.apSoutheast_4:
+        return 'ap-southeast-4';
     }
   }
 }
@@ -5131,6 +5818,8 @@ extension CloudWatchRegionFromString on String {
         return CloudWatchRegion.caCentral_1;
       case 'eu-central-1':
         return CloudWatchRegion.euCentral_1;
+      case 'eu-central-2':
+        return CloudWatchRegion.euCentral_2;
       case 'eu-west-1':
         return CloudWatchRegion.euWest_1;
       case 'eu-west-2':
@@ -5141,12 +5830,18 @@ extension CloudWatchRegionFromString on String {
         return CloudWatchRegion.apEast_1;
       case 'me-south-1':
         return CloudWatchRegion.meSouth_1;
+      case 'me-central-1':
+        return CloudWatchRegion.meCentral_1;
       case 'ap-south-1':
         return CloudWatchRegion.apSouth_1;
+      case 'ap-south-2':
+        return CloudWatchRegion.apSouth_2;
       case 'ap-southeast-1':
         return CloudWatchRegion.apSoutheast_1;
       case 'ap-southeast-2':
         return CloudWatchRegion.apSoutheast_2;
+      case 'ap-southeast-3':
+        return CloudWatchRegion.apSoutheast_3;
       case 'ap-northeast-1':
         return CloudWatchRegion.apNortheast_1;
       case 'ap-northeast-2':
@@ -5165,16 +5860,57 @@ extension CloudWatchRegionFromString on String {
         return CloudWatchRegion.afSouth_1;
       case 'eu-south-1':
         return CloudWatchRegion.euSouth_1;
+      case 'eu-south-2':
+        return CloudWatchRegion.euSouth_2;
       case 'us-gov-west-1':
         return CloudWatchRegion.usGovWest_1;
       case 'us-gov-east-1':
         return CloudWatchRegion.usGovEast_1;
       case 'us-iso-east-1':
         return CloudWatchRegion.usIsoEast_1;
+      case 'us-iso-west-1':
+        return CloudWatchRegion.usIsoWest_1;
       case 'us-isob-east-1':
         return CloudWatchRegion.usIsobEast_1;
+      case 'ap-southeast-4':
+        return CloudWatchRegion.apSoutheast_4;
     }
     throw Exception('$this is not known in enum CloudWatchRegion');
+  }
+}
+
+/// A complex type that is an entry in an <a
+/// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CidrCollection.html">CidrCollection</a>
+/// array.
+class CollectionSummary {
+  /// The ARN of the collection summary. Can be used to reference the collection
+  /// in IAM policy or cross-account.
+  final String? arn;
+
+  /// Unique ID for the CIDR collection.
+  final String? id;
+
+  /// The name of a CIDR collection.
+  final String? name;
+
+  /// A sequential counter that Route 53 sets to 1 when you create a CIDR
+  /// collection and increments by 1 each time you update settings for the CIDR
+  /// collection.
+  final int? version;
+
+  CollectionSummary({
+    this.arn,
+    this.id,
+    this.name,
+    this.version,
+  });
+  factory CollectionSummary.fromXml(_s.XmlElement elem) {
+    return CollectionSummary(
+      arn: _s.extractXmlStringValue(elem, 'Arn'),
+      id: _s.extractXmlStringValue(elem, 'Id'),
+      name: _s.extractXmlStringValue(elem, 'Name'),
+      version: _s.extractXmlIntValue(elem, 'Version'),
+    );
   }
 }
 
@@ -5214,6 +5950,51 @@ extension ComparisonOperatorFromString on String {
     }
     throw Exception('$this is not known in enum ComparisonOperator');
   }
+}
+
+class CreateCidrCollectionRequest {
+  /// A client-specific token that allows requests to be securely retried so that
+  /// the intended outcome will only occur once, retries receive a similar
+  /// response, and there are no additional edge cases to handle.
+  final String callerReference;
+
+  /// A unique identifier for the account that can be used to reference the
+  /// collection from other API calls.
+  final String name;
+
+  CreateCidrCollectionRequest({
+    required this.callerReference,
+    required this.name,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final callerReference = this.callerReference;
+    final name = this.name;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Name', name),
+      _s.encodeXmlStringValue('CallerReference', callerReference),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class CreateCidrCollectionResponse {
+  /// A complex type that contains information about the CIDR collection.
+  final CidrCollection? collection;
+
+  /// A unique URL that represents the location for the CIDR collection.
+  final String? location;
+
+  CreateCidrCollectionResponse({
+    this.collection,
+    this.location,
+  });
 }
 
 /// A complex type that contains the health check request information.
@@ -5299,20 +6080,20 @@ class CreateHostedZoneRequest {
   final String callerReference;
 
   /// The name of the domain. Specify a fully qualified domain name, for example,
-  /// <i>www.example.com</i>. The trailing dot is optional; Amazon Route 53
-  /// assumes that the domain name is fully qualified. This means that Route 53
+  /// <i>www.example.com</i>. The trailing dot is optional; Amazon Route 53
+  /// assumes that the domain name is fully qualified. This means that Route 53
   /// treats <i>www.example.com</i> (without a trailing dot) and
   /// <i>www.example.com.</i> (with a trailing dot) as identical.
   ///
   /// If you're creating a public hosted zone, this is the name you have
   /// registered with your DNS registrar. If your domain name is registered with a
-  /// registrar other than Route 53, change the name servers for your domain to
+  /// registrar other than Route 53, change the name servers for your domain to
   /// the set of <code>NameServers</code> that <code>CreateHostedZone</code>
   /// returns in <code>DelegationSet</code>.
   final String name;
 
   /// If you want to associate a reusable delegation set with this hosted zone,
-  /// the ID that Amazon Route 53 assigned to the reusable delegation set when you
+  /// the ID that Amazon Route 53 assigned to the reusable delegation set when you
   /// created it. For more information about reusable delegation sets, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateReusableDelegationSet.html">CreateReusableDelegationSet</a>.
   final String? delegationSetId;
@@ -5335,6 +6116,9 @@ class CreateHostedZoneRequest {
   /// the Amazon VPC that you're associating with this hosted zone.
   ///
   /// You can specify only one Amazon VPC when you create a private hosted zone.
+  /// If you are associating a VPC with a hosted zone with this request, the
+  /// paramaters <code>VPCId</code> and <code>VPCRegion</code> are also required.
+  ///
   /// To associate additional Amazon VPCs with the hosted zone, use <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_AssociateVPCWithHostedZone.html">AssociateVPCWithHostedZone</a>
   /// after you create a hosted zone.
@@ -5407,13 +6191,13 @@ class CreateKeySigningKeyRequest {
   /// The unique string (ID) used to identify a hosted zone.
   final String hostedZoneId;
 
-  /// The Amazon resource name (ARN) for a customer managed key (CMK) in AWS Key
-  /// Management Service (KMS). The <code>KeyManagementServiceArn</code> must be
-  /// unique for each key signing key (KSK) in a single hosted zone. To see an
-  /// example of <code>KeyManagementServiceArn</code> that grants the correct
-  /// permissions for DNSSEC, scroll down to <b>Example</b>.
+  /// The Amazon resource name (ARN) for a customer managed key in Key Management
+  /// Service (KMS). The <code>KeyManagementServiceArn</code> must be unique for
+  /// each key-signing key (KSK) in a single hosted zone. To see an example of
+  /// <code>KeyManagementServiceArn</code> that grants the correct permissions for
+  /// DNSSEC, scroll down to <b>Example</b>.
   ///
-  /// You must configure the CMK as follows:
+  /// You must configure the customer managed customer managed key as follows:
   /// <dl> <dt>Status</dt> <dd>
   /// Enabled
   /// </dd> <dt>Key spec</dt> <dd>
@@ -5439,20 +6223,21 @@ class CreateKeySigningKeyRequest {
   ///
   /// <ul>
   /// <li>
-  /// <code>"Service": "api-service.dnssec.route53.aws.internal"</code>
+  /// <code>"Service": "dnssec-route53.amazonaws.com"</code>
   /// </li>
   /// </ul> </dd> </dl>
-  /// For more information about working with CMK in KMS, see <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">AWS
-  /// Key Management Service concepts</a>.
+  /// For more information about working with a customer managed key in KMS, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">Key
+  /// Management Service concepts</a>.
   final String keyManagementServiceArn;
 
-  /// An alphanumeric string used to identify a key signing key (KSK).
-  /// <code>Name</code> must be unique for each key signing key in the same hosted
-  /// zone.
+  /// A string used to identify a key-signing key (KSK). <code>Name</code> can
+  /// include numbers, letters, and underscores (_). <code>Name</code> must be
+  /// unique for each key-signing key in the same hosted zone.
   final String name;
 
-  /// A string specifying the initial status of the key signing key (KSK). You can
+  /// A string specifying the initial status of the key-signing key (KSK). You can
   /// set the value to <code>ACTIVE</code> or <code>INACTIVE</code>.
   final String status;
 
@@ -5491,10 +6276,10 @@ class CreateKeySigningKeyRequest {
 class CreateKeySigningKeyResponse {
   final ChangeInfo changeInfo;
 
-  /// The key signing key (KSK) that the request creates.
+  /// The key-signing key (KSK) that the request creates.
   final KeySigningKey keySigningKey;
 
-  /// The unique URL representing the new key signing key (KSK).
+  /// The unique URL representing the new key-signing key (KSK).
   final String location;
 
   CreateKeySigningKeyResponse({
@@ -5514,7 +6299,7 @@ class CreateQueryLoggingConfigRequest {
   /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeLogGroups.html">DescribeLogGroups</a>
   /// API action, the <a
   /// href="https://docs.aws.amazon.com/cli/latest/reference/logs/describe-log-groups.html">describe-log-groups</a>
-  /// command, or the applicable command in one of the AWS SDKs.
+  /// command, or the applicable command in one of the Amazon Web Services SDKs.
   final String cloudWatchLogsLogGroupArn;
 
   /// The ID of the hosted zone that you want to log queries for. You can log
@@ -5849,15 +6634,25 @@ class CreateVPCAssociationAuthorizationResponse {
 
 /// A string repesenting the status of DNSSEC signing.
 class DNSSECStatus {
-  /// Indicates your hosted zone signging status: <code>SIGNING</code>,
-  /// <code>NOT_SIGNING</code>, or <code>INTERNAL_FAILURE</code>. If the status is
-  /// <code>INTERNAL_FAILURE</code>, see <code>StatusMessage</code> for
-  /// information about steps that you can take to correct the problem.
+  /// A string that represents the current hosted zone signing status.
   ///
-  /// A status <code>INTERNAL_FAILURE</code> means there was an error during a
-  /// request. Before you can continue to work with DNSSEC signing, including
-  /// working with key signing keys (KSKs), you must correct the problem by
-  /// enabling or disabling DNSSEC signing for the hosted zone.
+  /// Status can have one of the following values:
+  /// <dl> <dt>SIGNING</dt> <dd>
+  /// DNSSEC signing is enabled for the hosted zone.
+  /// </dd> <dt>NOT_SIGNING</dt> <dd>
+  /// DNSSEC signing is not enabled for the hosted zone.
+  /// </dd> <dt>DELETING</dt> <dd>
+  /// DNSSEC signing is in the process of being removed for the hosted zone.
+  /// </dd> <dt>ACTION_NEEDED</dt> <dd>
+  /// There is a problem with signing in the hosted zone that requires you to take
+  /// action to resolve. For example, the customer managed key might have been
+  /// deleted, or the permissions for the customer managed key might have been
+  /// changed.
+  /// </dd> <dt>INTERNAL_FAILURE</dt> <dd>
+  /// There was an error during a request. Before you can continue to work with
+  /// DNSSEC signing, including with key-signing keys (KSKs), you must correct the
+  /// problem by enabling or disabling DNSSEC signing for the hosted zone.
+  /// </dd> </dl>
   final String? serveSignature;
 
   /// The status message provided for the following DNSSEC signing status:
@@ -5917,6 +6712,15 @@ class DelegationSet {
       callerReference: _s.extractXmlStringValue(elem, 'CallerReference'),
       id: _s.extractXmlStringValue(elem, 'Id'),
     );
+  }
+}
+
+class DeleteCidrCollectionResponse {
+  DeleteCidrCollectionResponse();
+  factory DeleteCidrCollectionResponse.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return DeleteCidrCollectionResponse();
   }
 }
 
@@ -6000,17 +6804,19 @@ class DeleteTrafficPolicyResponse {
 }
 
 /// A complex type that contains information about the request to remove
-/// authorization to associate a VPC that was created by one AWS account with a
-/// hosted zone that was created with a different AWS account.
+/// authorization to associate a VPC that was created by one Amazon Web Services
+/// account with a hosted zone that was created with a different Amazon Web
+/// Services account.
 class DeleteVPCAssociationAuthorizationRequest {
-  /// When removing authorization to associate a VPC that was created by one AWS
-  /// account with a hosted zone that was created with a different AWS account,
-  /// the ID of the hosted zone.
+  /// When removing authorization to associate a VPC that was created by one
+  /// Amazon Web Services account with a hosted zone that was created with a
+  /// different Amazon Web Services account, the ID of the hosted zone.
   final String hostedZoneId;
 
-  /// When removing authorization to associate a VPC that was created by one AWS
-  /// account with a hosted zone that was created with a different AWS account, a
-  /// complex type that includes the ID and region of the VPC.
+  /// When removing authorization to associate a VPC that was created by one
+  /// Amazon Web Services account with a hosted zone that was created with a
+  /// different Amazon Web Services account, a complex type that includes the ID
+  /// and region of the VPC.
   final VPC vpc;
 
   DeleteVPCAssociationAuthorizationRequest({
@@ -6250,8 +7056,13 @@ class GeoLocationDetails {
   /// The name of the country.
   final String? countryName;
 
-  /// The code for the subdivision. Route 53 currently supports only states in the
-  /// United States.
+  /// The code for the subdivision, such as a particular state within the United
+  /// States. For a list of US state abbreviations, see <a
+  /// href="https://pe.usps.com/text/pub28/28apb.htm">Appendix B: Two–Letter State
+  /// and Possession Abbreviations</a> on the United States Postal Service
+  /// website. For a list of all supported subdivision codes, use the <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListGeoLocations.html">ListGeoLocations</a>
+  /// API.
   final String? subdivisionCode;
 
   /// The full name of the subdivision. Route 53 currently supports only states in
@@ -6338,7 +7149,7 @@ class GetCheckerIpRangesResponse {
 }
 
 class GetDNSSECResponse {
-  /// The key signing keys (KSKs) in your account.
+  /// The key-signing keys (KSKs) in your account.
   final List<KeySigningKey> keySigningKeys;
 
   /// A string repesenting the status of DNSSEC.
@@ -6381,7 +7192,8 @@ class GetGeoLocationResponse {
 /// A complex type that contains the response to a
 /// <code>GetHealthCheckCount</code> request.
 class GetHealthCheckCountResponse {
-  /// The number of health checks associated with the current AWS account.
+  /// The number of health checks associated with the current Amazon Web Services
+  /// account.
   final int healthCheckCount;
 
   GetHealthCheckCountResponse({
@@ -6419,7 +7231,7 @@ class GetHealthCheckLastFailureReasonResponse {
 /// request.
 class GetHealthCheckResponse {
   /// A complex type that contains information about one health check that is
-  /// associated with the current AWS account.
+  /// associated with the current Amazon Web Services account.
   final HealthCheck healthCheck;
 
   GetHealthCheckResponse({
@@ -6459,7 +7271,7 @@ class GetHealthCheckStatusResponse {
 /// <code>GetHostedZoneCount</code> request.
 class GetHostedZoneCountResponse {
   /// The total number of public and private hosted zones that are associated with
-  /// the current AWS account.
+  /// the current Amazon Web Services account.
   final int hostedZoneCount;
 
   GetHostedZoneCountResponse({
@@ -6593,7 +7405,7 @@ class GetReusableDelegationSetResponse {
 /// Amazon Route 53 created based on a specified traffic policy.
 class GetTrafficPolicyInstanceCountResponse {
   /// The number of traffic policy instances that are associated with the current
-  /// AWS account.
+  /// Amazon Web Services account.
   final int trafficPolicyInstanceCount;
 
   GetTrafficPolicyInstanceCountResponse({
@@ -6641,7 +7453,7 @@ class GetTrafficPolicyResponse {
 }
 
 /// A complex type that contains information about one health check that is
-/// associated with the current AWS account.
+/// associated with the current Amazon Web Services account.
 class HealthCheck {
   /// A unique string that you specified when you created the health check.
   final String callerReference;
@@ -6654,7 +7466,7 @@ class HealthCheck {
   /// to the health check.
   final int healthCheckVersion;
 
-  /// The identifier that Amazon Route 53assigned to the health check when you
+  /// The identifier that Amazon Route 53 assigned to the health check when you
   /// created it. When you add or update a resource record set, you use this value
   /// to specify which health check to use. The value can be up to 64 characters
   /// long.
@@ -6748,6 +7560,12 @@ class HealthCheckConfig {
   /// checks, Route 53 adds up the number of health checks that Route 53 health
   /// checkers consider to be healthy and compares that number with the value of
   /// <code>HealthThreshold</code>.
+  /// </li>
+  /// <li>
+  /// <b>RECOVERY_CONTROL</b>: The health check is assocated with a Route53
+  /// Application Recovery Controller routing control. If the routing control
+  /// state is <code>ON</code>, the health check is considered healthy. If the
+  /// state is <code>OFF</code>, the health check is considered unhealthy.
   /// </li>
   /// </ul>
   /// For more information, see <a
@@ -6868,7 +7686,7 @@ class HealthCheckConfig {
   /// Route 53 substitutes the value of <code>IPAddress</code> in the
   /// <code>Host</code> header in each of the preceding cases.
   ///
-  /// <b>If you don't specify a value for <code>IPAddress</code> </b>:
+  /// <b>If you don't specify a value for</b> <code>IPAddress</code>:
   ///
   /// Route 53 sends a DNS request to the domain that you specify for
   /// <code>FullyQualifiedDomainName</code> at the interval that you specify for
@@ -7005,9 +7823,9 @@ class HealthCheckConfig {
   final bool? inverted;
 
   /// Specify whether you want Amazon Route 53 to measure the latency between
-  /// health checkers in multiple AWS regions and your endpoint, and to display
-  /// CloudWatch latency graphs on the <b>Health Checks</b> page in the Route 53
-  /// console.
+  /// health checkers in multiple Amazon Web Services regions and your endpoint,
+  /// and to display CloudWatch latency graphs on the <b>Health Checks</b> page in
+  /// the Route 53 console.
   /// <important>
   /// You can't change the value of <code>MeasureLatency</code> after you create a
   /// health check.
@@ -7055,6 +7873,14 @@ class HealthCheckConfig {
   /// parameters, for example, <code>/welcome.html?language=jp&amp;login=y</code>.
   final String? resourcePath;
 
+  /// The Amazon Resource Name (ARN) for the Route 53 Application Recovery
+  /// Controller routing control.
+  ///
+  /// For more information about Route 53 Application Recovery Controller, see <a
+  /// href="https://docs.aws.amazon.com/r53recovery/latest/dg/what-is-route-53-recovery.html">Route
+  /// 53 Application Recovery Controller Developer Guide.</a>.
+  final String? routingControlArn;
+
   /// If the value of Type is <code>HTTP_STR_MATCH</code> or
   /// <code>HTTPS_STR_MATCH</code>, the string that you want Amazon Route 53 to
   /// search for in the response body from the specified resource. If the string
@@ -7081,6 +7907,7 @@ class HealthCheckConfig {
     this.regions,
     this.requestInterval,
     this.resourcePath,
+    this.routingControlArn,
     this.searchString,
   });
   factory HealthCheckConfig.fromXml(_s.XmlElement elem) {
@@ -7110,6 +7937,7 @@ class HealthCheckConfig {
           .toList()),
       requestInterval: _s.extractXmlIntValue(elem, 'RequestInterval'),
       resourcePath: _s.extractXmlStringValue(elem, 'ResourcePath'),
+      routingControlArn: _s.extractXmlStringValue(elem, 'RoutingControlArn'),
       searchString: _s.extractXmlStringValue(elem, 'SearchString'),
     );
   }
@@ -7131,6 +7959,7 @@ class HealthCheckConfig {
     final regions = this.regions;
     final requestInterval = this.requestInterval;
     final resourcePath = this.resourcePath;
+    final routingControlArn = this.routingControlArn;
     final searchString = this.searchString;
     final $children = <_s.XmlNode>[
       if (iPAddress != null) _s.encodeXmlStringValue('IPAddress', iPAddress),
@@ -7167,6 +7996,8 @@ class HealthCheckConfig {
       if (insufficientDataHealthStatus != null)
         _s.encodeXmlStringValue('InsufficientDataHealthStatus',
             insufficientDataHealthStatus.toValue()),
+      if (routingControlArn != null)
+        _s.encodeXmlStringValue('RoutingControlArn', routingControlArn),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -7276,6 +8107,7 @@ enum HealthCheckType {
   tcp,
   calculated,
   cloudwatchMetric,
+  recoveryControl,
 }
 
 extension HealthCheckTypeValueExtension on HealthCheckType {
@@ -7295,6 +8127,8 @@ extension HealthCheckTypeValueExtension on HealthCheckType {
         return 'CALCULATED';
       case HealthCheckType.cloudwatchMetric:
         return 'CLOUDWATCH_METRIC';
+      case HealthCheckType.recoveryControl:
+        return 'RECOVERY_CONTROL';
     }
   }
 }
@@ -7316,6 +8150,8 @@ extension HealthCheckTypeFromString on String {
         return HealthCheckType.calculated;
       case 'CLOUDWATCH_METRIC':
         return HealthCheckType.cloudwatchMetric;
+      case 'RECOVERY_CONTROL':
+        return HealthCheckType.recoveryControl;
     }
     throw Exception('$this is not known in enum HealthCheckType');
   }
@@ -7484,19 +8320,20 @@ extension HostedZoneLimitTypeFromString on String {
 /// <code>OwningAccount</code>, there is no value for
 /// <code>OwningService</code>, and vice versa.
 class HostedZoneOwner {
-  /// If the hosted zone was created by an AWS account, or was created by an AWS
-  /// service that creates hosted zones using the current account,
-  /// <code>OwningAccount</code> contains the account ID of that account. For
-  /// example, when you use AWS Cloud Map to create a hosted zone, Cloud Map
-  /// creates the hosted zone using the current AWS account.
+  /// If the hosted zone was created by an Amazon Web Services account, or was
+  /// created by an Amazon Web Services service that creates hosted zones using
+  /// the current account, <code>OwningAccount</code> contains the account ID of
+  /// that account. For example, when you use Cloud Map to create a hosted zone,
+  /// Cloud Map creates the hosted zone using the current Amazon Web Services
+  /// account.
   final String? owningAccount;
 
-  /// If an AWS service uses its own account to create a hosted zone and associate
-  /// the specified VPC with that hosted zone, <code>OwningService</code> contains
-  /// an abbreviation that identifies the service. For example, if Amazon Elastic
-  /// File System (Amazon EFS) created a hosted zone and associated a VPC with the
-  /// hosted zone, the value of <code>OwningService</code> is
-  /// <code>efs.amazonaws.com</code>.
+  /// If an Amazon Web Services service uses its own account to create a hosted
+  /// zone and associate the specified VPC with that hosted zone,
+  /// <code>OwningService</code> contains an abbreviation that identifies the
+  /// service. For example, if Amazon Elastic File System (Amazon EFS) created a
+  /// hosted zone and associated a VPC with the hosted zone, the value of
+  /// <code>OwningService</code> is <code>efs.amazonaws.com</code>.
   final String? owningService;
 
   HostedZoneOwner({
@@ -7526,7 +8363,8 @@ class HostedZoneSummary {
   final String name;
 
   /// The owner of a private hosted zone that the specified VPC is associated
-  /// with. The owner can be either an AWS account or an AWS service.
+  /// with. The owner can be either an Amazon Web Services account or an Amazon
+  /// Web Services service.
   final HostedZoneOwner owner;
 
   HostedZoneSummary({
@@ -7577,13 +8415,13 @@ extension InsufficientDataHealthStatusFromString on String {
   }
 }
 
-/// A key signing key (KSK) is a complex type that represents a public/private
+/// A key-signing key (KSK) is a complex type that represents a public/private
 /// key pair. The private key is used to generate a digital signature for the
 /// zone signing key (ZSK). The public key is stored in the DNS and is used to
 /// authenticate the ZSK. A KSK is always associated with a hosted zone; it
 /// cannot exist by itself.
 class KeySigningKey {
-  /// The date when the key signing key (KSK) was created.
+  /// The date when the key-signing key (KSK) was created.
   final DateTime? createdDate;
 
   /// A string that represents a DNSKEY record.
@@ -7610,7 +8448,7 @@ class KeySigningKey {
   /// the DNS system.
   final String? digestValue;
 
-  /// An integer that specifies how the key is used. For key signing key (KSK),
+  /// An integer that specifies how the key is used. For key-signing key (KSK),
   /// this value is always 257.
   final int? flag;
 
@@ -7619,11 +8457,11 @@ class KeySigningKey {
   /// href="https://tools.ietf.org/rfc/rfc4034.txt">RFC-4034 Appendix B</a>.
   final int? keyTag;
 
-  /// The Amazon resource name (ARN) used to identify the customer managed key
-  /// (CMK) in AWS Key Management Service (KMS). The <code>KmsArn</code> must be
-  /// unique for each key signing key (KSK) in a single hosted zone.
+  /// The Amazon resource name (ARN) used to identify the customer managed key in
+  /// Key Management Service (KMS). The <code>KmsArn</code> must be unique for
+  /// each key-signing key (KSK) in a single hosted zone.
   ///
-  /// You must configure the CMK as follows:
+  /// You must configure the customer managed key as follows:
   /// <dl> <dt>Status</dt> <dd>
   /// Enabled
   /// </dd> <dt>Key spec</dt> <dd>
@@ -7649,21 +8487,21 @@ class KeySigningKey {
   ///
   /// <ul>
   /// <li>
-  /// <code>"Service": "api-service.dnssec.route53.aws.internal"</code>
+  /// <code>"Service": "dnssec-route53.amazonaws.com"</code>
   /// </li>
   /// </ul> </dd> </dl>
-  /// For more information about working with the customer managed key (CMK) in
-  /// KMS, see <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">AWS
-  /// Key Management Service concepts</a>.
+  /// For more information about working with the customer managed key in KMS, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">Key
+  /// Management Service concepts</a>.
   final String? kmsArn;
 
-  /// The last time that the key signing key (KSK) was changed.
+  /// The last time that the key-signing key (KSK) was changed.
   final DateTime? lastModifiedDate;
 
-  /// An alphanumeric string used to identify a key signing key (KSK).
-  /// <code>Name</code> must be unique for each key signing key in the same hosted
-  /// zone.
+  /// A string used to identify a key-signing key (KSK). <code>Name</code> can
+  /// include numbers, letters, and underscores (_). <code>Name</code> must be
+  /// unique for each key-signing key in the same hosted zone.
   final String? name;
 
   /// The public key, represented as a Base64 encoding, as required by <a
@@ -7682,15 +8520,19 @@ class KeySigningKey {
   /// 3.1</a>.
   final int? signingAlgorithmType;
 
-  /// A string that represents the current key signing key (KSK) status.
+  /// A string that represents the current key-signing key (KSK) status.
   ///
   /// Status can have one of the following values:
   /// <dl> <dt>ACTIVE</dt> <dd>
   /// The KSK is being used for signing.
   /// </dd> <dt>INACTIVE</dt> <dd>
   /// The KSK is not being used for signing.
+  /// </dd> <dt>DELETING</dt> <dd>
+  /// The KSK is in the process of being deleted.
   /// </dd> <dt>ACTION_NEEDED</dt> <dd>
-  /// There is an error in the KSK that requires you to take action to resolve.
+  /// There is a problem with the KSK that requires you to take action to resolve.
+  /// For example, the customer managed key might have been deleted, or the
+  /// permissions for the customer managed key might have been changed.
   /// </dd> <dt>INTERNAL_FAILURE</dt> <dd>
   /// There was an error during a request. Before you can continue to work with
   /// DNSSEC signing, including actions that involve this KSK, you must correct
@@ -7698,7 +8540,7 @@ class KeySigningKey {
   /// </dd> </dl>
   final String? status;
 
-  /// The status message provided for the following key signing key (KSK)
+  /// The status message provided for the following key-signing key (KSK)
   /// statuses: <code>ACTION_NEEDED</code> or <code>INTERNAL_FAILURE</code>. The
   /// status message includes information about what the problem might be and
   /// steps that you can take to correct the issue.
@@ -7774,6 +8616,83 @@ class LinkedService {
   }
 }
 
+class ListCidrBlocksResponse {
+  /// A complex type that contains information about the CIDR blocks.
+  final List<CidrBlockSummary>? cidrBlocks;
+
+  /// An opaque pagination token to indicate where the service is to begin
+  /// enumerating results.
+  ///
+  /// If no value is provided, the listing of results starts from the beginning.
+  final String? nextToken;
+
+  ListCidrBlocksResponse({
+    this.cidrBlocks,
+    this.nextToken,
+  });
+  factory ListCidrBlocksResponse.fromXml(_s.XmlElement elem) {
+    return ListCidrBlocksResponse(
+      cidrBlocks: _s.extractXmlChild(elem, 'CidrBlocks')?.let((elem) => elem
+          .findElements('member')
+          .map((c) => CidrBlockSummary.fromXml(c))
+          .toList()),
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+    );
+  }
+}
+
+class ListCidrCollectionsResponse {
+  /// A complex type with information about the CIDR collection.
+  final List<CollectionSummary>? cidrCollections;
+
+  /// An opaque pagination token to indicate where the service is to begin
+  /// enumerating results.
+  ///
+  /// If no value is provided, the listing of results starts from the beginning.
+  final String? nextToken;
+
+  ListCidrCollectionsResponse({
+    this.cidrCollections,
+    this.nextToken,
+  });
+  factory ListCidrCollectionsResponse.fromXml(_s.XmlElement elem) {
+    return ListCidrCollectionsResponse(
+      cidrCollections: _s.extractXmlChild(elem, 'CidrCollections')?.let(
+          (elem) => elem
+              .findElements('member')
+              .map((c) => CollectionSummary.fromXml(c))
+              .toList()),
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+    );
+  }
+}
+
+class ListCidrLocationsResponse {
+  /// A complex type that contains information about the list of CIDR locations.
+  final List<LocationSummary>? cidrLocations;
+
+  /// An opaque pagination token to indicate where the service is to begin
+  /// enumerating results.
+  ///
+  /// If no value is provided, the listing of results starts from the beginning.
+  final String? nextToken;
+
+  ListCidrLocationsResponse({
+    this.cidrLocations,
+    this.nextToken,
+  });
+  factory ListCidrLocationsResponse.fromXml(_s.XmlElement elem) {
+    return ListCidrLocationsResponse(
+      cidrLocations: _s.extractXmlChild(elem, 'CidrLocations')?.let((elem) =>
+          elem
+              .findElements('member')
+              .map((c) => LocationSummary.fromXml(c))
+              .toList()),
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+    );
+  }
+}
+
 /// A complex type containing the response information for the request.
 class ListGeoLocationsResponse {
   /// A complex type that contains one <code>GeoLocationDetails</code> element for
@@ -7839,7 +8758,8 @@ class ListGeoLocationsResponse {
 /// request.
 class ListHealthChecksResponse {
   /// A complex type that contains one <code>HealthCheck</code> element for each
-  /// health check that is associated with the current AWS account.
+  /// health check that is associated with the current Amazon Web Services
+  /// account.
   final List<HealthCheck> healthChecks;
 
   /// A flag that indicates whether there are more health checks to be listed. If
@@ -7972,7 +8892,7 @@ class ListHostedZonesByVPCResponse {
   /// <code>ListHostedZonesByVPC</code> request.
   final String maxItems;
 
-  /// The value that you specified for <code>NextToken</code> in the most recent
+  /// The value that you will use for <code>NextToken</code> in the next
   /// <code>ListHostedZonesByVPC</code> request.
   final String? nextToken;
 
@@ -8050,12 +8970,12 @@ class ListQueryLoggingConfigsResponse {
   /// An array that contains one <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_QueryLoggingConfig.html">QueryLoggingConfig</a>
   /// element for each configuration for DNS query logging that is associated with
-  /// the current AWS account.
+  /// the current Amazon Web Services account.
   final List<QueryLoggingConfig> queryLoggingConfigs;
 
   /// If a response includes the last of the query logging configurations that are
-  /// associated with the current AWS account, <code>NextToken</code> doesn't
-  /// appear in the response.
+  /// associated with the current Amazon Web Services account,
+  /// <code>NextToken</code> doesn't appear in the response.
   ///
   /// If a response doesn't include the last of the configurations, you can get
   /// more configurations by submitting another <a
@@ -8141,10 +9061,11 @@ class ListResourceRecordSetsResponse {
 }
 
 /// A complex type that contains information about the reusable delegation sets
-/// that are associated with the current AWS account.
+/// that are associated with the current Amazon Web Services account.
 class ListReusableDelegationSetsResponse {
   /// A complex type that contains one <code>DelegationSet</code> element for each
-  /// reusable delegation set that was created by the current AWS account.
+  /// reusable delegation set that was created by the current Amazon Web Services
+  /// account.
   final List<DelegationSet> delegationSets;
 
   /// A flag that indicates whether there are more reusable delegation sets to be
@@ -8289,7 +9210,7 @@ class ListTrafficPoliciesResponse {
   final String trafficPolicyIdMarker;
 
   /// A list that contains one <code>TrafficPolicySummary</code> element for each
-  /// traffic policy that was created by the current AWS account.
+  /// traffic policy that was created by the current Amazon Web Services account.
   final List<TrafficPolicySummary> trafficPolicySummaries;
 
   ListTrafficPoliciesResponse({
@@ -8586,6 +9507,21 @@ class ListVPCAssociationAuthorizationsResponse {
   }
 }
 
+/// A complex type that contains information about the CIDR location.
+class LocationSummary {
+  /// A string that specifies a location name.
+  final String? locationName;
+
+  LocationSummary({
+    this.locationName,
+  });
+  factory LocationSummary.fromXml(_s.XmlElement elem) {
+    return LocationSummary(
+      locationName: _s.extractXmlStringValue(elem, 'LocationName'),
+    );
+  }
+}
+
 /// A complex type that contains information about a configuration for DNS query
 /// logging.
 class QueryLoggingConfig {
@@ -8835,9 +9771,9 @@ class ResourceRecordSet {
   /// DNS Resource Record Types</a> in the <i>Amazon Route 53 Developer Guide</i>.
   ///
   /// Valid values for basic resource record sets: <code>A</code> |
-  /// <code>AAAA</code> | <code>CAA</code> | <code>CNAME</code> | <code>MX</code>
-  /// | <code>NAPTR</code> | <code>NS</code> | <code>PTR</code> | <code>SOA</code>
-  /// | <code>SPF</code> | <code>SRV</code> | <code>TXT</code>
+  /// <code>AAAA</code> | <code>CAA</code> | <code>CNAME</code> | <code>DS</code>
+  /// |<code>MX</code> | <code>NAPTR</code> | <code>NS</code> | <code>PTR</code> |
+  /// <code>SOA</code> | <code>SPF</code> | <code>SRV</code> | <code>TXT</code>
   ///
   /// Values for weighted, latency, geolocation, and failover resource record
   /// sets: <code>A</code> | <code>AAAA</code> | <code>CAA</code> |
@@ -8903,9 +9839,9 @@ class ResourceRecordSet {
   /// </ul>
   final RRType type;
 
-  /// <i>Alias resource record sets only:</i> Information about the AWS resource,
-  /// such as a CloudFront distribution or an Amazon S3 bucket, that you want to
-  /// route traffic to.
+  /// <i>Alias resource record sets only:</i> Information about the Amazon Web
+  /// Services resource, such as a CloudFront distribution or an Amazon S3 bucket,
+  /// that you want to route traffic to.
   ///
   /// If you're creating resource records sets for a private hosted zone, note the
   /// following:
@@ -8916,10 +9852,6 @@ class ResourceRecordSet {
   /// route traffic to a CloudFront distribution.
   /// </li>
   /// <li>
-  /// Creating geolocation alias resource record sets or latency alias resource
-  /// record sets in a private hosted zone is unsupported.
-  /// </li>
-  /// <li>
   /// For information about creating failover resource record sets in a private
   /// hosted zone, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-private-hosted-zones.html">Configuring
@@ -8928,6 +9860,7 @@ class ResourceRecordSet {
   /// </li>
   /// </ul>
   final AliasTarget? aliasTarget;
+  final CidrRoutingConfig? cidrRoutingConfig;
 
   /// <i>Failover resource record sets only:</i> To configure failover, you add
   /// the <code>Failover</code> element to two resource record sets. For one
@@ -9221,13 +10154,10 @@ class ResourceRecordSet {
 
   /// <i>Latency-based resource record sets only:</i> The Amazon EC2 Region where
   /// you created the resource that this resource record set refers to. The
-  /// resource typically is an AWS resource, such as an EC2 instance or an ELB
-  /// load balancer, and is referred to by an IP address or a DNS domain name,
-  /// depending on the record type.
-  /// <note>
-  /// Although creating latency and latency alias resource record sets in a
-  /// private hosted zone is allowed, it's not supported.
-  /// </note>
+  /// resource typically is an Amazon Web Services resource, such as an EC2
+  /// instance or an ELB load balancer, and is referred to by an IP address or a
+  /// DNS domain name, depending on the record type.
+  ///
   /// When Amazon Route 53 receives a DNS query for a domain name and type for
   /// which you have created latency resource record sets, Route 53 selects the
   /// latency resource record set that has the lowest latency between the end user
@@ -9369,6 +10299,7 @@ class ResourceRecordSet {
     required this.name,
     required this.type,
     this.aliasTarget,
+    this.cidrRoutingConfig,
     this.failover,
     this.geoLocation,
     this.healthCheckId,
@@ -9387,6 +10318,9 @@ class ResourceRecordSet {
       aliasTarget: _s
           .extractXmlChild(elem, 'AliasTarget')
           ?.let((e) => AliasTarget.fromXml(e)),
+      cidrRoutingConfig: _s
+          .extractXmlChild(elem, 'CidrRoutingConfig')
+          ?.let((e) => CidrRoutingConfig.fromXml(e)),
       failover: _s
           .extractXmlStringValue(elem, 'Failover')
           ?.toResourceRecordSetFailover(),
@@ -9414,6 +10348,7 @@ class ResourceRecordSet {
     final name = this.name;
     final type = this.type;
     final aliasTarget = this.aliasTarget;
+    final cidrRoutingConfig = this.cidrRoutingConfig;
     final failover = this.failover;
     final geoLocation = this.geoLocation;
     final healthCheckId = this.healthCheckId;
@@ -9446,6 +10381,8 @@ class ResourceRecordSet {
       if (trafficPolicyInstanceId != null)
         _s.encodeXmlStringValue(
             'TrafficPolicyInstanceId', trafficPolicyInstanceId),
+      if (cidrRoutingConfig != null)
+        cidrRoutingConfig.toXml('CidrRoutingConfig'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9496,8 +10433,10 @@ enum ResourceRecordSetRegion {
   euWest_2,
   euWest_3,
   euCentral_1,
+  euCentral_2,
   apSoutheast_1,
   apSoutheast_2,
+  apSoutheast_3,
   apNortheast_1,
   apNortheast_2,
   apNortheast_3,
@@ -9507,9 +10446,13 @@ enum ResourceRecordSetRegion {
   cnNorthwest_1,
   apEast_1,
   meSouth_1,
+  meCentral_1,
   apSouth_1,
+  apSouth_2,
   afSouth_1,
   euSouth_1,
+  euSouth_2,
+  apSoutheast_4,
 }
 
 extension ResourceRecordSetRegionValueExtension on ResourceRecordSetRegion {
@@ -9533,10 +10476,14 @@ extension ResourceRecordSetRegionValueExtension on ResourceRecordSetRegion {
         return 'eu-west-3';
       case ResourceRecordSetRegion.euCentral_1:
         return 'eu-central-1';
+      case ResourceRecordSetRegion.euCentral_2:
+        return 'eu-central-2';
       case ResourceRecordSetRegion.apSoutheast_1:
         return 'ap-southeast-1';
       case ResourceRecordSetRegion.apSoutheast_2:
         return 'ap-southeast-2';
+      case ResourceRecordSetRegion.apSoutheast_3:
+        return 'ap-southeast-3';
       case ResourceRecordSetRegion.apNortheast_1:
         return 'ap-northeast-1';
       case ResourceRecordSetRegion.apNortheast_2:
@@ -9555,12 +10502,20 @@ extension ResourceRecordSetRegionValueExtension on ResourceRecordSetRegion {
         return 'ap-east-1';
       case ResourceRecordSetRegion.meSouth_1:
         return 'me-south-1';
+      case ResourceRecordSetRegion.meCentral_1:
+        return 'me-central-1';
       case ResourceRecordSetRegion.apSouth_1:
         return 'ap-south-1';
+      case ResourceRecordSetRegion.apSouth_2:
+        return 'ap-south-2';
       case ResourceRecordSetRegion.afSouth_1:
         return 'af-south-1';
       case ResourceRecordSetRegion.euSouth_1:
         return 'eu-south-1';
+      case ResourceRecordSetRegion.euSouth_2:
+        return 'eu-south-2';
+      case ResourceRecordSetRegion.apSoutheast_4:
+        return 'ap-southeast-4';
     }
   }
 }
@@ -9586,10 +10541,14 @@ extension ResourceRecordSetRegionFromString on String {
         return ResourceRecordSetRegion.euWest_3;
       case 'eu-central-1':
         return ResourceRecordSetRegion.euCentral_1;
+      case 'eu-central-2':
+        return ResourceRecordSetRegion.euCentral_2;
       case 'ap-southeast-1':
         return ResourceRecordSetRegion.apSoutheast_1;
       case 'ap-southeast-2':
         return ResourceRecordSetRegion.apSoutheast_2;
+      case 'ap-southeast-3':
+        return ResourceRecordSetRegion.apSoutheast_3;
       case 'ap-northeast-1':
         return ResourceRecordSetRegion.apNortheast_1;
       case 'ap-northeast-2':
@@ -9608,12 +10567,20 @@ extension ResourceRecordSetRegionFromString on String {
         return ResourceRecordSetRegion.apEast_1;
       case 'me-south-1':
         return ResourceRecordSetRegion.meSouth_1;
+      case 'me-central-1':
+        return ResourceRecordSetRegion.meCentral_1;
       case 'ap-south-1':
         return ResourceRecordSetRegion.apSouth_1;
+      case 'ap-south-2':
+        return ResourceRecordSetRegion.apSouth_2;
       case 'af-south-1':
         return ResourceRecordSetRegion.afSouth_1;
       case 'eu-south-1':
         return ResourceRecordSetRegion.euSouth_1;
+      case 'eu-south-2':
+        return ResourceRecordSetRegion.euSouth_2;
+      case 'ap-southeast-4':
+        return ResourceRecordSetRegion.apSoutheast_4;
     }
     throw Exception('$this is not known in enum ResourceRecordSetRegion');
   }
@@ -10053,7 +11020,8 @@ class TrafficPolicyInstance {
 }
 
 /// A complex type that contains information about the latest version of one
-/// traffic policy that is associated with the current AWS account.
+/// traffic policy that is associated with the current Amazon Web Services
+/// account.
 class TrafficPolicySummary {
   /// The ID that Amazon Route 53 assigned to the traffic policy when you created
   /// it.
@@ -10065,8 +11033,8 @@ class TrafficPolicySummary {
   /// The name that you specified for the traffic policy when you created it.
   final String name;
 
-  /// The number of traffic policies that are associated with the current AWS
-  /// account.
+  /// The number of traffic policies that are associated with the current Amazon
+  /// Web Services account.
   final int trafficPolicyCount;
 
   /// The DNS type of the resource record sets that Amazon Route 53 creates when
@@ -10382,9 +11350,9 @@ class UpdateHealthCheckRequest {
   /// <code>Unhealthy</code>: Route 53 considers the health check to be unhealthy.
   /// </li>
   /// <li>
-  /// <code>LastKnownStatus</code>: Route 53 uses the status of the health check
-  /// from the last time CloudWatch had sufficient data to determine the alarm
-  /// state. For new health checks that have no last known status, the default
+  /// <code>LastKnownStatus</code>: By default, Route 53 uses the status of the
+  /// health check from the last time CloudWatch had sufficient data to determine
+  /// the alarm state. For new health checks that have no last known status, the
   /// status for the health check is healthy.
   /// </li>
   /// </ul>
@@ -10725,6 +11693,10 @@ class UpdateTrafficPolicyInstanceResponse {
 
 /// (Private hosted zones only) A complex type that contains information about
 /// an Amazon VPC.
+///
+/// If you associate a private hosted zone with an Amazon VPC when you make a <a
+/// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateHostedZone.html">CreateHostedZone</a>
+/// request, the following parameters are also required.
 class VPC {
   final String? vPCId;
 
@@ -10770,15 +11742,20 @@ enum VPCRegion {
   euWest_2,
   euWest_3,
   euCentral_1,
+  euCentral_2,
   apEast_1,
   meSouth_1,
   usGovWest_1,
   usGovEast_1,
   usIsoEast_1,
+  usIsoWest_1,
   usIsobEast_1,
+  meCentral_1,
   apSoutheast_1,
   apSoutheast_2,
+  apSoutheast_3,
   apSouth_1,
+  apSouth_2,
   apNortheast_1,
   apNortheast_2,
   apNortheast_3,
@@ -10788,6 +11765,8 @@ enum VPCRegion {
   cnNorth_1,
   afSouth_1,
   euSouth_1,
+  euSouth_2,
+  apSoutheast_4,
 }
 
 extension VPCRegionValueExtension on VPCRegion {
@@ -10809,6 +11788,8 @@ extension VPCRegionValueExtension on VPCRegion {
         return 'eu-west-3';
       case VPCRegion.euCentral_1:
         return 'eu-central-1';
+      case VPCRegion.euCentral_2:
+        return 'eu-central-2';
       case VPCRegion.apEast_1:
         return 'ap-east-1';
       case VPCRegion.meSouth_1:
@@ -10819,14 +11800,22 @@ extension VPCRegionValueExtension on VPCRegion {
         return 'us-gov-east-1';
       case VPCRegion.usIsoEast_1:
         return 'us-iso-east-1';
+      case VPCRegion.usIsoWest_1:
+        return 'us-iso-west-1';
       case VPCRegion.usIsobEast_1:
         return 'us-isob-east-1';
+      case VPCRegion.meCentral_1:
+        return 'me-central-1';
       case VPCRegion.apSoutheast_1:
         return 'ap-southeast-1';
       case VPCRegion.apSoutheast_2:
         return 'ap-southeast-2';
+      case VPCRegion.apSoutheast_3:
+        return 'ap-southeast-3';
       case VPCRegion.apSouth_1:
         return 'ap-south-1';
+      case VPCRegion.apSouth_2:
+        return 'ap-south-2';
       case VPCRegion.apNortheast_1:
         return 'ap-northeast-1';
       case VPCRegion.apNortheast_2:
@@ -10845,6 +11834,10 @@ extension VPCRegionValueExtension on VPCRegion {
         return 'af-south-1';
       case VPCRegion.euSouth_1:
         return 'eu-south-1';
+      case VPCRegion.euSouth_2:
+        return 'eu-south-2';
+      case VPCRegion.apSoutheast_4:
+        return 'ap-southeast-4';
     }
   }
 }
@@ -10868,6 +11861,8 @@ extension VPCRegionFromString on String {
         return VPCRegion.euWest_3;
       case 'eu-central-1':
         return VPCRegion.euCentral_1;
+      case 'eu-central-2':
+        return VPCRegion.euCentral_2;
       case 'ap-east-1':
         return VPCRegion.apEast_1;
       case 'me-south-1':
@@ -10878,14 +11873,22 @@ extension VPCRegionFromString on String {
         return VPCRegion.usGovEast_1;
       case 'us-iso-east-1':
         return VPCRegion.usIsoEast_1;
+      case 'us-iso-west-1':
+        return VPCRegion.usIsoWest_1;
       case 'us-isob-east-1':
         return VPCRegion.usIsobEast_1;
+      case 'me-central-1':
+        return VPCRegion.meCentral_1;
       case 'ap-southeast-1':
         return VPCRegion.apSoutheast_1;
       case 'ap-southeast-2':
         return VPCRegion.apSoutheast_2;
+      case 'ap-southeast-3':
+        return VPCRegion.apSoutheast_3;
       case 'ap-south-1':
         return VPCRegion.apSouth_1;
+      case 'ap-south-2':
+        return VPCRegion.apSouth_2;
       case 'ap-northeast-1':
         return VPCRegion.apNortheast_1;
       case 'ap-northeast-2':
@@ -10904,9 +11907,40 @@ extension VPCRegionFromString on String {
         return VPCRegion.afSouth_1;
       case 'eu-south-1':
         return VPCRegion.euSouth_1;
+      case 'eu-south-2':
+        return VPCRegion.euSouth_2;
+      case 'ap-southeast-4':
+        return VPCRegion.apSoutheast_4;
     }
     throw Exception('$this is not known in enum VPCRegion');
   }
+}
+
+class CidrBlockInUseException extends _s.GenericAwsException {
+  CidrBlockInUseException({String? type, String? message})
+      : super(type: type, code: 'CidrBlockInUseException', message: message);
+}
+
+class CidrCollectionAlreadyExistsException extends _s.GenericAwsException {
+  CidrCollectionAlreadyExistsException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'CidrCollectionAlreadyExistsException',
+            message: message);
+}
+
+class CidrCollectionInUseException extends _s.GenericAwsException {
+  CidrCollectionInUseException({String? type, String? message})
+      : super(
+            type: type, code: 'CidrCollectionInUseException', message: message);
+}
+
+class CidrCollectionVersionMismatchException extends _s.GenericAwsException {
+  CidrCollectionVersionMismatchException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'CidrCollectionVersionMismatchException',
+            message: message);
 }
 
 class ConcurrentModification extends _s.GenericAwsException {
@@ -11107,6 +12141,20 @@ class NoSuchChange extends _s.GenericAwsException {
       : super(type: type, code: 'NoSuchChange', message: message);
 }
 
+class NoSuchCidrCollectionException extends _s.GenericAwsException {
+  NoSuchCidrCollectionException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'NoSuchCidrCollectionException',
+            message: message);
+}
+
+class NoSuchCidrLocationException extends _s.GenericAwsException {
+  NoSuchCidrLocationException({String? type, String? message})
+      : super(
+            type: type, code: 'NoSuchCidrLocationException', message: message);
+}
+
 class NoSuchCloudWatchLogsLogGroup extends _s.GenericAwsException {
   NoSuchCloudWatchLogsLogGroup({String? type, String? message})
       : super(
@@ -11259,6 +12307,14 @@ class VPCAssociationNotFound extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'CidrBlockInUseException': (type, message) =>
+      CidrBlockInUseException(type: type, message: message),
+  'CidrCollectionAlreadyExistsException': (type, message) =>
+      CidrCollectionAlreadyExistsException(type: type, message: message),
+  'CidrCollectionInUseException': (type, message) =>
+      CidrCollectionInUseException(type: type, message: message),
+  'CidrCollectionVersionMismatchException': (type, message) =>
+      CidrCollectionVersionMismatchException(type: type, message: message),
   'ConcurrentModification': (type, message) =>
       ConcurrentModification(type: type, message: message),
   'ConflictingDomainExists': (type, message) =>
@@ -11330,6 +12386,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
   'LimitsExceeded': (type, message) =>
       LimitsExceeded(type: type, message: message),
   'NoSuchChange': (type, message) => NoSuchChange(type: type, message: message),
+  'NoSuchCidrCollectionException': (type, message) =>
+      NoSuchCidrCollectionException(type: type, message: message),
+  'NoSuchCidrLocationException': (type, message) =>
+      NoSuchCidrLocationException(type: type, message: message),
   'NoSuchCloudWatchLogsLogGroup': (type, message) =>
       NoSuchCloudWatchLogsLogGroup(type: type, message: message),
   'NoSuchDelegationSet': (type, message) =>

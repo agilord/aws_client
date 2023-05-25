@@ -20,8 +20,8 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 /// Amazon Kinesis Data Firehose is a fully managed service that delivers
 /// real-time streaming data to destinations such as Amazon Simple Storage
-/// Service (Amazon S3), Amazon Elasticsearch Service (Amazon ES), Amazon
-/// Redshift, and Splunk.
+/// Service (Amazon S3), Amazon OpenSearch Service, Amazon Redshift, Splunk, and
+/// various other supportd destinations.
 class Firehose {
   final _s.JsonProtocol _protocol;
   Firehose({
@@ -52,7 +52,8 @@ class Firehose {
 
   /// Creates a Kinesis Data Firehose delivery stream.
   ///
-  /// By default, you can create up to 50 delivery streams per AWS Region.
+  /// By default, you can create up to 50 delivery streams per Amazon Web
+  /// Services Region.
   ///
   /// This is an asynchronous operation that immediately returns. The initial
   /// status of the delivery stream is <code>CREATING</code>. After the delivery
@@ -140,10 +141,18 @@ class Firehose {
   /// May throw [InvalidKMSResourceException].
   ///
   /// Parameter [deliveryStreamName] :
-  /// The name of the delivery stream. This name must be unique per AWS account
-  /// in the same AWS Region. If the delivery streams are in different accounts
-  /// or different Regions, you can have multiple delivery streams with the same
-  /// name.
+  /// The name of the delivery stream. This name must be unique per Amazon Web
+  /// Services account in the same Amazon Web Services Region. If the delivery
+  /// streams are in different accounts or different Regions, you can have
+  /// multiple delivery streams with the same name.
+  ///
+  /// Parameter [amazonOpenSearchServerlessDestinationConfiguration] :
+  /// The destination in the Serverless offering for Amazon OpenSearch Service.
+  /// You can specify only one destination.
+  ///
+  /// Parameter [amazonopensearchserviceDestinationConfiguration] :
+  /// The destination in Amazon OpenSearch Service. You can specify only one
+  /// destination.
   ///
   /// Parameter [deliveryStreamEncryptionConfigurationInput] :
   /// Used to specify the type and Amazon Resource Name (ARN) of the KMS key
@@ -191,17 +200,21 @@ class Firehose {
   ///
   /// Parameter [tags] :
   /// A set of tags to assign to the delivery stream. A tag is a key-value pair
-  /// that you can define and assign to AWS resources. Tags are metadata. For
-  /// example, you can add friendly names and descriptions or other types of
-  /// information that can help you distinguish the delivery stream. For more
-  /// information about tags, see <a
+  /// that you can define and assign to Amazon Web Services resources. Tags are
+  /// metadata. For example, you can add friendly names and descriptions or
+  /// other types of information that can help you distinguish the delivery
+  /// stream. For more information about tags, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
-  /// Cost Allocation Tags</a> in the AWS Billing and Cost Management User
-  /// Guide.
+  /// Cost Allocation Tags</a> in the Amazon Web Services Billing and Cost
+  /// Management User Guide.
   ///
   /// You can specify up to 50 tags when creating a delivery stream.
   Future<CreateDeliveryStreamOutput> createDeliveryStream({
     required String deliveryStreamName,
+    AmazonOpenSearchServerlessDestinationConfiguration?
+        amazonOpenSearchServerlessDestinationConfiguration,
+    AmazonopensearchserviceDestinationConfiguration?
+        amazonopensearchserviceDestinationConfiguration,
     DeliveryStreamEncryptionConfigurationInput?
         deliveryStreamEncryptionConfigurationInput,
     DeliveryStreamType? deliveryStreamType,
@@ -227,6 +240,12 @@ class Firehose {
       headers: headers,
       payload: {
         'DeliveryStreamName': deliveryStreamName,
+        if (amazonOpenSearchServerlessDestinationConfiguration != null)
+          'AmazonOpenSearchServerlessDestinationConfiguration':
+              amazonOpenSearchServerlessDestinationConfiguration,
+        if (amazonopensearchserviceDestinationConfiguration != null)
+          'AmazonopensearchserviceDestinationConfiguration':
+              amazonopensearchserviceDestinationConfiguration,
         if (deliveryStreamEncryptionConfigurationInput != null)
           'DeliveryStreamEncryptionConfigurationInput':
               deliveryStreamEncryptionConfigurationInput,
@@ -286,8 +305,8 @@ class Firehose {
   /// deletion, you can then use the <a
   /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_RevokeGrant.html">RevokeGrant</a>
   /// operation to revoke the grant you gave to Kinesis Data Firehose. If a
-  /// failure to retire the grant happens due to an AWS KMS issue, Kinesis Data
-  /// Firehose keeps retrying the delete operation.
+  /// failure to retire the grant happens due to an Amazon Web Services KMS
+  /// issue, Kinesis Data Firehose keeps retrying the delete operation.
   ///
   /// The default value is false.
   Future<void> deleteDeliveryStream({
@@ -503,7 +522,7 @@ class Firehose {
   ///
   /// You must specify the name of the delivery stream and the data record when
   /// using <a>PutRecord</a>. The data record consists of a data blob that can
-  /// be up to 1,000 KB in size, and any kind of data. For example, it can be a
+  /// be up to 1,000 KiB in size, and any kind of data. For example, it can be a
   /// segment from a log file, geographic location data, website clickstream
   /// data, and so on.
   ///
@@ -577,7 +596,7 @@ class Firehose {
   /// Kinesis Data Firehose Quota</a>.
   ///
   /// Each <a>PutRecordBatch</a> request supports up to 500 records. Each record
-  /// in the request can be as large as 1,000 KB (before 64-bit encoding), up to
+  /// in the request can be as large as 1,000 KB (before base64 encoding), up to
   /// a limit of 4 MB for the entire request. These limits cannot be changed.
   ///
   /// You must specify the name of the delivery stream and the data record when
@@ -812,15 +831,15 @@ class Firehose {
   }
 
   /// Adds or updates tags for the specified delivery stream. A tag is a
-  /// key-value pair that you can define and assign to AWS resources. If you
-  /// specify a tag that already exists, the tag value is replaced with the
-  /// value that you specify in the request. Tags are metadata. For example, you
-  /// can add friendly names and descriptions or other types of information that
-  /// can help you distinguish the delivery stream. For more information about
-  /// tags, see <a
+  /// key-value pair that you can define and assign to Amazon Web Services
+  /// resources. If you specify a tag that already exists, the tag value is
+  /// replaced with the value that you specify in the request. Tags are
+  /// metadata. For example, you can add friendly names and descriptions or
+  /// other types of information that can help you distinguish the delivery
+  /// stream. For more information about tags, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
-  /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User
-  /// Guide</i>.
+  /// Cost Allocation Tags</a> in the <i>Amazon Web Services Billing and Cost
+  /// Management User Guide</i>.
   ///
   /// Each delivery stream can have up to 50 tags.
   ///
@@ -951,6 +970,13 @@ class Firehose {
   /// Parameter [destinationId] :
   /// The ID of the destination.
   ///
+  /// Parameter [amazonOpenSearchServerlessDestinationUpdate] :
+  /// Describes an update for a destination in the Serverless offering for
+  /// Amazon OpenSearch Service.
+  ///
+  /// Parameter [amazonopensearchserviceDestinationUpdate] :
+  /// Describes an update for a destination in Amazon OpenSearch Service.
+  ///
   /// Parameter [elasticsearchDestinationUpdate] :
   /// Describes an update for a destination in Amazon ES.
   ///
@@ -972,6 +998,10 @@ class Firehose {
     required String currentDeliveryStreamVersionId,
     required String deliveryStreamName,
     required String destinationId,
+    AmazonOpenSearchServerlessDestinationUpdate?
+        amazonOpenSearchServerlessDestinationUpdate,
+    AmazonopensearchserviceDestinationUpdate?
+        amazonopensearchserviceDestinationUpdate,
     ElasticsearchDestinationUpdate? elasticsearchDestinationUpdate,
     ExtendedS3DestinationUpdate? extendedS3DestinationUpdate,
     HttpEndpointDestinationUpdate? httpEndpointDestinationUpdate,
@@ -993,6 +1023,12 @@ class Firehose {
         'CurrentDeliveryStreamVersionId': currentDeliveryStreamVersionId,
         'DeliveryStreamName': deliveryStreamName,
         'DestinationId': destinationId,
+        if (amazonOpenSearchServerlessDestinationUpdate != null)
+          'AmazonOpenSearchServerlessDestinationUpdate':
+              amazonOpenSearchServerlessDestinationUpdate,
+        if (amazonopensearchserviceDestinationUpdate != null)
+          'AmazonopensearchserviceDestinationUpdate':
+              amazonopensearchserviceDestinationUpdate,
         if (elasticsearchDestinationUpdate != null)
           'ElasticsearchDestinationUpdate': elasticsearchDestinationUpdate,
         if (extendedS3DestinationUpdate != null)
@@ -1007,6 +1043,747 @@ class Firehose {
           'SplunkDestinationUpdate': splunkDestinationUpdate,
       },
     );
+  }
+}
+
+/// Describes the buffering to perform before delivering data to the Serverless
+/// offering for Amazon OpenSearch Service destination.
+class AmazonOpenSearchServerlessBufferingHints {
+  /// Buffer incoming data for the specified period of time, in seconds, before
+  /// delivering it to the destination. The default value is 300 (5 minutes).
+  final int? intervalInSeconds;
+
+  /// Buffer incoming data to the specified size, in MBs, before delivering it to
+  /// the destination. The default value is 5.
+  ///
+  /// We recommend setting this parameter to a value greater than the amount of
+  /// data you typically ingest into the delivery stream in 10 seconds. For
+  /// example, if you typically ingest data at 1 MB/sec, the value should be 10 MB
+  /// or higher.
+  final int? sizeInMBs;
+
+  AmazonOpenSearchServerlessBufferingHints({
+    this.intervalInSeconds,
+    this.sizeInMBs,
+  });
+
+  factory AmazonOpenSearchServerlessBufferingHints.fromJson(
+      Map<String, dynamic> json) {
+    return AmazonOpenSearchServerlessBufferingHints(
+      intervalInSeconds: json['IntervalInSeconds'] as int?,
+      sizeInMBs: json['SizeInMBs'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intervalInSeconds = this.intervalInSeconds;
+    final sizeInMBs = this.sizeInMBs;
+    return {
+      if (intervalInSeconds != null) 'IntervalInSeconds': intervalInSeconds,
+      if (sizeInMBs != null) 'SizeInMBs': sizeInMBs,
+    };
+  }
+}
+
+/// Describes the configuration of a destination in the Serverless offering for
+/// Amazon OpenSearch Service.
+class AmazonOpenSearchServerlessDestinationConfiguration {
+  /// The Serverless offering for Amazon OpenSearch Service index name.
+  final String indexName;
+
+  /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data
+  /// Firehose for calling the Serverless offering for Amazon OpenSearch Service
+  /// Configuration API and for indexing documents.
+  final String roleARN;
+  final S3DestinationConfiguration s3Configuration;
+
+  /// The buffering options. If no value is specified, the default values for
+  /// AmazonopensearchserviceBufferingHints are used.
+  final AmazonOpenSearchServerlessBufferingHints? bufferingHints;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// The endpoint to use when communicating with the collection in the Serverless
+  /// offering for Amazon OpenSearch Service.
+  final String? collectionEndpoint;
+  final ProcessingConfiguration? processingConfiguration;
+
+  /// The retry behavior in case Kinesis Data Firehose is unable to deliver
+  /// documents to the Serverless offering for Amazon OpenSearch Service. The
+  /// default value is 300 (5 minutes).
+  final AmazonOpenSearchServerlessRetryOptions? retryOptions;
+
+  /// Defines how documents should be delivered to Amazon S3. When it is set to
+  /// FailedDocumentsOnly, Kinesis Data Firehose writes any documents that could
+  /// not be indexed to the configured Amazon S3 destination, with
+  /// AmazonOpenSearchService-failed/ appended to the key prefix. When set to
+  /// AllDocuments, Kinesis Data Firehose delivers all incoming records to Amazon
+  /// S3, and also writes failed documents with AmazonOpenSearchService-failed/
+  /// appended to the prefix.
+  final AmazonOpenSearchServerlessS3BackupMode? s3BackupMode;
+  final VpcConfiguration? vpcConfiguration;
+
+  AmazonOpenSearchServerlessDestinationConfiguration({
+    required this.indexName,
+    required this.roleARN,
+    required this.s3Configuration,
+    this.bufferingHints,
+    this.cloudWatchLoggingOptions,
+    this.collectionEndpoint,
+    this.processingConfiguration,
+    this.retryOptions,
+    this.s3BackupMode,
+    this.vpcConfiguration,
+  });
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final roleARN = this.roleARN;
+    final s3Configuration = this.s3Configuration;
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final collectionEndpoint = this.collectionEndpoint;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final s3BackupMode = this.s3BackupMode;
+    final vpcConfiguration = this.vpcConfiguration;
+    return {
+      'IndexName': indexName,
+      'RoleARN': roleARN,
+      'S3Configuration': s3Configuration,
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (collectionEndpoint != null) 'CollectionEndpoint': collectionEndpoint,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+    };
+  }
+}
+
+/// The destination description in the Serverless offering for Amazon OpenSearch
+/// Service.
+class AmazonOpenSearchServerlessDestinationDescription {
+  /// The buffering options.
+  final AmazonOpenSearchServerlessBufferingHints? bufferingHints;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// The endpoint to use when communicating with the collection in the Serverless
+  /// offering for Amazon OpenSearch Service.
+  final String? collectionEndpoint;
+
+  /// The Serverless offering for Amazon OpenSearch Service index name.
+  final String? indexName;
+  final ProcessingConfiguration? processingConfiguration;
+
+  /// The Serverless offering for Amazon OpenSearch Service retry options.
+  final AmazonOpenSearchServerlessRetryOptions? retryOptions;
+
+  /// The Amazon Resource Name (ARN) of the AWS credentials.
+  final String? roleARN;
+
+  /// The Amazon S3 backup mode.
+  final AmazonOpenSearchServerlessS3BackupMode? s3BackupMode;
+  final S3DestinationDescription? s3DestinationDescription;
+  final VpcConfigurationDescription? vpcConfigurationDescription;
+
+  AmazonOpenSearchServerlessDestinationDescription({
+    this.bufferingHints,
+    this.cloudWatchLoggingOptions,
+    this.collectionEndpoint,
+    this.indexName,
+    this.processingConfiguration,
+    this.retryOptions,
+    this.roleARN,
+    this.s3BackupMode,
+    this.s3DestinationDescription,
+    this.vpcConfigurationDescription,
+  });
+
+  factory AmazonOpenSearchServerlessDestinationDescription.fromJson(
+      Map<String, dynamic> json) {
+    return AmazonOpenSearchServerlessDestinationDescription(
+      bufferingHints: json['BufferingHints'] != null
+          ? AmazonOpenSearchServerlessBufferingHints.fromJson(
+              json['BufferingHints'] as Map<String, dynamic>)
+          : null,
+      cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
+          ? CloudWatchLoggingOptions.fromJson(
+              json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
+          : null,
+      collectionEndpoint: json['CollectionEndpoint'] as String?,
+      indexName: json['IndexName'] as String?,
+      processingConfiguration: json['ProcessingConfiguration'] != null
+          ? ProcessingConfiguration.fromJson(
+              json['ProcessingConfiguration'] as Map<String, dynamic>)
+          : null,
+      retryOptions: json['RetryOptions'] != null
+          ? AmazonOpenSearchServerlessRetryOptions.fromJson(
+              json['RetryOptions'] as Map<String, dynamic>)
+          : null,
+      roleARN: json['RoleARN'] as String?,
+      s3BackupMode: (json['S3BackupMode'] as String?)
+          ?.toAmazonOpenSearchServerlessS3BackupMode(),
+      s3DestinationDescription: json['S3DestinationDescription'] != null
+          ? S3DestinationDescription.fromJson(
+              json['S3DestinationDescription'] as Map<String, dynamic>)
+          : null,
+      vpcConfigurationDescription: json['VpcConfigurationDescription'] != null
+          ? VpcConfigurationDescription.fromJson(
+              json['VpcConfigurationDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// Describes an update for a destination in the Serverless offering for Amazon
+/// OpenSearch Service.
+class AmazonOpenSearchServerlessDestinationUpdate {
+  /// The buffering options. If no value is specified,
+  /// AmazonopensearchBufferingHints object default values are used.
+  final AmazonOpenSearchServerlessBufferingHints? bufferingHints;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// The endpoint to use when communicating with the collection in the Serverless
+  /// offering for Amazon OpenSearch Service.
+  final String? collectionEndpoint;
+
+  /// The Serverless offering for Amazon OpenSearch Service index name.
+  final String? indexName;
+  final ProcessingConfiguration? processingConfiguration;
+
+  /// The retry behavior in case Kinesis Data Firehose is unable to deliver
+  /// documents to the Serverless offering for Amazon OpenSearch Service. The
+  /// default value is 300 (5 minutes).
+  final AmazonOpenSearchServerlessRetryOptions? retryOptions;
+
+  /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data
+  /// Firehose for calling the Serverless offering for Amazon OpenSearch Service
+  /// Configuration API and for indexing documents.
+  final String? roleARN;
+  final S3DestinationUpdate? s3Update;
+
+  AmazonOpenSearchServerlessDestinationUpdate({
+    this.bufferingHints,
+    this.cloudWatchLoggingOptions,
+    this.collectionEndpoint,
+    this.indexName,
+    this.processingConfiguration,
+    this.retryOptions,
+    this.roleARN,
+    this.s3Update,
+  });
+  Map<String, dynamic> toJson() {
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final collectionEndpoint = this.collectionEndpoint;
+    final indexName = this.indexName;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final roleARN = this.roleARN;
+    final s3Update = this.s3Update;
+    return {
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (collectionEndpoint != null) 'CollectionEndpoint': collectionEndpoint,
+      if (indexName != null) 'IndexName': indexName,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (s3Update != null) 'S3Update': s3Update,
+    };
+  }
+}
+
+/// Configures retry behavior in case Kinesis Data Firehose is unable to deliver
+/// documents to the Serverless offering for Amazon OpenSearch Service.
+class AmazonOpenSearchServerlessRetryOptions {
+  /// After an initial failure to deliver to the Serverless offering for Amazon
+  /// OpenSearch Service, the total amount of time during which Kinesis Data
+  /// Firehose retries delivery (including the first attempt). After this time has
+  /// elapsed, the failed documents are written to Amazon S3. Default value is 300
+  /// seconds (5 minutes). A value of 0 (zero) results in no retries.
+  final int? durationInSeconds;
+
+  AmazonOpenSearchServerlessRetryOptions({
+    this.durationInSeconds,
+  });
+
+  factory AmazonOpenSearchServerlessRetryOptions.fromJson(
+      Map<String, dynamic> json) {
+    return AmazonOpenSearchServerlessRetryOptions(
+      durationInSeconds: json['DurationInSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationInSeconds = this.durationInSeconds;
+    return {
+      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
+    };
+  }
+}
+
+enum AmazonOpenSearchServerlessS3BackupMode {
+  failedDocumentsOnly,
+  allDocuments,
+}
+
+extension AmazonOpenSearchServerlessS3BackupModeValueExtension
+    on AmazonOpenSearchServerlessS3BackupMode {
+  String toValue() {
+    switch (this) {
+      case AmazonOpenSearchServerlessS3BackupMode.failedDocumentsOnly:
+        return 'FailedDocumentsOnly';
+      case AmazonOpenSearchServerlessS3BackupMode.allDocuments:
+        return 'AllDocuments';
+    }
+  }
+}
+
+extension AmazonOpenSearchServerlessS3BackupModeFromString on String {
+  AmazonOpenSearchServerlessS3BackupMode
+      toAmazonOpenSearchServerlessS3BackupMode() {
+    switch (this) {
+      case 'FailedDocumentsOnly':
+        return AmazonOpenSearchServerlessS3BackupMode.failedDocumentsOnly;
+      case 'AllDocuments':
+        return AmazonOpenSearchServerlessS3BackupMode.allDocuments;
+    }
+    throw Exception(
+        '$this is not known in enum AmazonOpenSearchServerlessS3BackupMode');
+  }
+}
+
+/// Describes the buffering to perform before delivering data to the Amazon
+/// OpenSearch Service destination.
+class AmazonopensearchserviceBufferingHints {
+  /// Buffer incoming data for the specified period of time, in seconds, before
+  /// delivering it to the destination. The default value is 300 (5 minutes).
+  final int? intervalInSeconds;
+
+  /// Buffer incoming data to the specified size, in MBs, before delivering it to
+  /// the destination. The default value is 5.
+  ///
+  /// We recommend setting this parameter to a value greater than the amount of
+  /// data you typically ingest into the delivery stream in 10 seconds. For
+  /// example, if you typically ingest data at 1 MB/sec, the value should be 10 MB
+  /// or higher.
+  final int? sizeInMBs;
+
+  AmazonopensearchserviceBufferingHints({
+    this.intervalInSeconds,
+    this.sizeInMBs,
+  });
+
+  factory AmazonopensearchserviceBufferingHints.fromJson(
+      Map<String, dynamic> json) {
+    return AmazonopensearchserviceBufferingHints(
+      intervalInSeconds: json['IntervalInSeconds'] as int?,
+      sizeInMBs: json['SizeInMBs'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intervalInSeconds = this.intervalInSeconds;
+    final sizeInMBs = this.sizeInMBs;
+    return {
+      if (intervalInSeconds != null) 'IntervalInSeconds': intervalInSeconds,
+      if (sizeInMBs != null) 'SizeInMBs': sizeInMBs,
+    };
+  }
+}
+
+/// Describes the configuration of a destination in Amazon OpenSearch Service
+class AmazonopensearchserviceDestinationConfiguration {
+  /// The ElasticsearAmazon OpenSearch Service index name.
+  final String indexName;
+
+  /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data
+  /// Firehose for calling the Amazon OpenSearch Service Configuration API and for
+  /// indexing documents.
+  final String roleARN;
+  final S3DestinationConfiguration s3Configuration;
+
+  /// The buffering options. If no value is specified, the default values for
+  /// AmazonopensearchserviceBufferingHints are used.
+  final AmazonopensearchserviceBufferingHints? bufferingHints;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// The endpoint to use when communicating with the cluster. Specify either this
+  /// ClusterEndpoint or the DomainARN field.
+  final String? clusterEndpoint;
+
+  /// The ARN of the Amazon OpenSearch Service domain. The IAM role must have
+  /// permissions for DescribeElasticsearchDomain, DescribeElasticsearchDomains,
+  /// and DescribeElasticsearchDomainConfig after assuming the role specified in
+  /// RoleARN.
+  final String? domainARN;
+
+  /// The Amazon OpenSearch Service index rotation period. Index rotation appends
+  /// a timestamp to the IndexName to facilitate the expiration of old data.
+  final AmazonopensearchserviceIndexRotationPeriod? indexRotationPeriod;
+  final ProcessingConfiguration? processingConfiguration;
+
+  /// The retry behavior in case Kinesis Data Firehose is unable to deliver
+  /// documents to Amazon OpenSearch Service. The default value is 300 (5
+  /// minutes).
+  final AmazonopensearchserviceRetryOptions? retryOptions;
+
+  /// Defines how documents should be delivered to Amazon S3. When it is set to
+  /// FailedDocumentsOnly, Kinesis Data Firehose writes any documents that could
+  /// not be indexed to the configured Amazon S3 destination, with
+  /// AmazonOpenSearchService-failed/ appended to the key prefix. When set to
+  /// AllDocuments, Kinesis Data Firehose delivers all incoming records to Amazon
+  /// S3, and also writes failed documents with AmazonOpenSearchService-failed/
+  /// appended to the prefix.
+  final AmazonopensearchserviceS3BackupMode? s3BackupMode;
+
+  /// The Amazon OpenSearch Service type name. For Elasticsearch 6.x, there can be
+  /// only one type per index. If you try to specify a new type for an existing
+  /// index that already has another type, Kinesis Data Firehose returns an error
+  /// during run time.
+  final String? typeName;
+  final VpcConfiguration? vpcConfiguration;
+
+  AmazonopensearchserviceDestinationConfiguration({
+    required this.indexName,
+    required this.roleARN,
+    required this.s3Configuration,
+    this.bufferingHints,
+    this.cloudWatchLoggingOptions,
+    this.clusterEndpoint,
+    this.domainARN,
+    this.indexRotationPeriod,
+    this.processingConfiguration,
+    this.retryOptions,
+    this.s3BackupMode,
+    this.typeName,
+    this.vpcConfiguration,
+  });
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final roleARN = this.roleARN;
+    final s3Configuration = this.s3Configuration;
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final clusterEndpoint = this.clusterEndpoint;
+    final domainARN = this.domainARN;
+    final indexRotationPeriod = this.indexRotationPeriod;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final s3BackupMode = this.s3BackupMode;
+    final typeName = this.typeName;
+    final vpcConfiguration = this.vpcConfiguration;
+    return {
+      'IndexName': indexName,
+      'RoleARN': roleARN,
+      'S3Configuration': s3Configuration,
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (clusterEndpoint != null) 'ClusterEndpoint': clusterEndpoint,
+      if (domainARN != null) 'DomainARN': domainARN,
+      if (indexRotationPeriod != null)
+        'IndexRotationPeriod': indexRotationPeriod.toValue(),
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.toValue(),
+      if (typeName != null) 'TypeName': typeName,
+      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+    };
+  }
+}
+
+/// The destination description in Amazon OpenSearch Service.
+class AmazonopensearchserviceDestinationDescription {
+  /// The buffering options.
+  final AmazonopensearchserviceBufferingHints? bufferingHints;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// The endpoint to use when communicating with the cluster. Kinesis Data
+  /// Firehose uses either this ClusterEndpoint or the DomainARN field to send
+  /// data to Amazon OpenSearch Service.
+  final String? clusterEndpoint;
+
+  /// The ARN of the Amazon OpenSearch Service domain.
+  final String? domainARN;
+
+  /// The Amazon OpenSearch Service index name.
+  final String? indexName;
+
+  /// The Amazon OpenSearch Service index rotation period
+  final AmazonopensearchserviceIndexRotationPeriod? indexRotationPeriod;
+  final ProcessingConfiguration? processingConfiguration;
+
+  /// The Amazon OpenSearch Service retry options.
+  final AmazonopensearchserviceRetryOptions? retryOptions;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials.
+  final String? roleARN;
+
+  /// The Amazon S3 backup mode.
+  final AmazonopensearchserviceS3BackupMode? s3BackupMode;
+  final S3DestinationDescription? s3DestinationDescription;
+
+  /// The Amazon OpenSearch Service type name. This applies to Elasticsearch 6.x
+  /// and lower versions. For Elasticsearch 7.x and OpenSearch Service 1.x,
+  /// there's no value for TypeName.
+  final String? typeName;
+  final VpcConfigurationDescription? vpcConfigurationDescription;
+
+  AmazonopensearchserviceDestinationDescription({
+    this.bufferingHints,
+    this.cloudWatchLoggingOptions,
+    this.clusterEndpoint,
+    this.domainARN,
+    this.indexName,
+    this.indexRotationPeriod,
+    this.processingConfiguration,
+    this.retryOptions,
+    this.roleARN,
+    this.s3BackupMode,
+    this.s3DestinationDescription,
+    this.typeName,
+    this.vpcConfigurationDescription,
+  });
+
+  factory AmazonopensearchserviceDestinationDescription.fromJson(
+      Map<String, dynamic> json) {
+    return AmazonopensearchserviceDestinationDescription(
+      bufferingHints: json['BufferingHints'] != null
+          ? AmazonopensearchserviceBufferingHints.fromJson(
+              json['BufferingHints'] as Map<String, dynamic>)
+          : null,
+      cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
+          ? CloudWatchLoggingOptions.fromJson(
+              json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
+          : null,
+      clusterEndpoint: json['ClusterEndpoint'] as String?,
+      domainARN: json['DomainARN'] as String?,
+      indexName: json['IndexName'] as String?,
+      indexRotationPeriod: (json['IndexRotationPeriod'] as String?)
+          ?.toAmazonopensearchserviceIndexRotationPeriod(),
+      processingConfiguration: json['ProcessingConfiguration'] != null
+          ? ProcessingConfiguration.fromJson(
+              json['ProcessingConfiguration'] as Map<String, dynamic>)
+          : null,
+      retryOptions: json['RetryOptions'] != null
+          ? AmazonopensearchserviceRetryOptions.fromJson(
+              json['RetryOptions'] as Map<String, dynamic>)
+          : null,
+      roleARN: json['RoleARN'] as String?,
+      s3BackupMode: (json['S3BackupMode'] as String?)
+          ?.toAmazonopensearchserviceS3BackupMode(),
+      s3DestinationDescription: json['S3DestinationDescription'] != null
+          ? S3DestinationDescription.fromJson(
+              json['S3DestinationDescription'] as Map<String, dynamic>)
+          : null,
+      typeName: json['TypeName'] as String?,
+      vpcConfigurationDescription: json['VpcConfigurationDescription'] != null
+          ? VpcConfigurationDescription.fromJson(
+              json['VpcConfigurationDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// Describes an update for a destination in Amazon OpenSearch Service.
+class AmazonopensearchserviceDestinationUpdate {
+  /// The buffering options. If no value is specified,
+  /// AmazonopensearchBufferingHints object default values are used.
+  final AmazonopensearchserviceBufferingHints? bufferingHints;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// The endpoint to use when communicating with the cluster. Specify either this
+  /// ClusterEndpoint or the DomainARN field.
+  final String? clusterEndpoint;
+
+  /// The ARN of the Amazon OpenSearch Service domain. The IAM role must have
+  /// permissions for DescribeDomain, DescribeDomains, and DescribeDomainConfig
+  /// after assuming the IAM role specified in RoleARN.
+  final String? domainARN;
+
+  /// The Amazon OpenSearch Service index name.
+  final String? indexName;
+
+  /// The Amazon OpenSearch Service index rotation period. Index rotation appends
+  /// a timestamp to IndexName to facilitate the expiration of old data.
+  final AmazonopensearchserviceIndexRotationPeriod? indexRotationPeriod;
+  final ProcessingConfiguration? processingConfiguration;
+
+  /// The retry behavior in case Kinesis Data Firehose is unable to deliver
+  /// documents to Amazon OpenSearch Service. The default value is 300 (5
+  /// minutes).
+  final AmazonopensearchserviceRetryOptions? retryOptions;
+
+  /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data
+  /// Firehose for calling the Amazon OpenSearch Service Configuration API and for
+  /// indexing documents.
+  final String? roleARN;
+  final S3DestinationUpdate? s3Update;
+
+  /// The Amazon OpenSearch Service type name. For Elasticsearch 6.x, there can be
+  /// only one type per index. If you try to specify a new type for an existing
+  /// index that already has another type, Kinesis Data Firehose returns an error
+  /// during runtime.
+  ///
+  /// If you upgrade Elasticsearch from 6.x to 7.x and don’t update your delivery
+  /// stream, Kinesis Data Firehose still delivers data to Elasticsearch with the
+  /// old index name and type name. If you want to update your delivery stream
+  /// with a new index name, provide an empty string for TypeName.
+  final String? typeName;
+
+  AmazonopensearchserviceDestinationUpdate({
+    this.bufferingHints,
+    this.cloudWatchLoggingOptions,
+    this.clusterEndpoint,
+    this.domainARN,
+    this.indexName,
+    this.indexRotationPeriod,
+    this.processingConfiguration,
+    this.retryOptions,
+    this.roleARN,
+    this.s3Update,
+    this.typeName,
+  });
+  Map<String, dynamic> toJson() {
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final clusterEndpoint = this.clusterEndpoint;
+    final domainARN = this.domainARN;
+    final indexName = this.indexName;
+    final indexRotationPeriod = this.indexRotationPeriod;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final roleARN = this.roleARN;
+    final s3Update = this.s3Update;
+    final typeName = this.typeName;
+    return {
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (clusterEndpoint != null) 'ClusterEndpoint': clusterEndpoint,
+      if (domainARN != null) 'DomainARN': domainARN,
+      if (indexName != null) 'IndexName': indexName,
+      if (indexRotationPeriod != null)
+        'IndexRotationPeriod': indexRotationPeriod.toValue(),
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (s3Update != null) 'S3Update': s3Update,
+      if (typeName != null) 'TypeName': typeName,
+    };
+  }
+}
+
+enum AmazonopensearchserviceIndexRotationPeriod {
+  noRotation,
+  oneHour,
+  oneDay,
+  oneWeek,
+  oneMonth,
+}
+
+extension AmazonopensearchserviceIndexRotationPeriodValueExtension
+    on AmazonopensearchserviceIndexRotationPeriod {
+  String toValue() {
+    switch (this) {
+      case AmazonopensearchserviceIndexRotationPeriod.noRotation:
+        return 'NoRotation';
+      case AmazonopensearchserviceIndexRotationPeriod.oneHour:
+        return 'OneHour';
+      case AmazonopensearchserviceIndexRotationPeriod.oneDay:
+        return 'OneDay';
+      case AmazonopensearchserviceIndexRotationPeriod.oneWeek:
+        return 'OneWeek';
+      case AmazonopensearchserviceIndexRotationPeriod.oneMonth:
+        return 'OneMonth';
+    }
+  }
+}
+
+extension AmazonopensearchserviceIndexRotationPeriodFromString on String {
+  AmazonopensearchserviceIndexRotationPeriod
+      toAmazonopensearchserviceIndexRotationPeriod() {
+    switch (this) {
+      case 'NoRotation':
+        return AmazonopensearchserviceIndexRotationPeriod.noRotation;
+      case 'OneHour':
+        return AmazonopensearchserviceIndexRotationPeriod.oneHour;
+      case 'OneDay':
+        return AmazonopensearchserviceIndexRotationPeriod.oneDay;
+      case 'OneWeek':
+        return AmazonopensearchserviceIndexRotationPeriod.oneWeek;
+      case 'OneMonth':
+        return AmazonopensearchserviceIndexRotationPeriod.oneMonth;
+    }
+    throw Exception(
+        '$this is not known in enum AmazonopensearchserviceIndexRotationPeriod');
+  }
+}
+
+/// Configures retry behavior in case Kinesis Data Firehose is unable to deliver
+/// documents to Amazon OpenSearch Service.
+class AmazonopensearchserviceRetryOptions {
+  /// After an initial failure to deliver to Amazon OpenSearch Service, the total
+  /// amount of time during which Kinesis Data Firehose retries delivery
+  /// (including the first attempt). After this time has elapsed, the failed
+  /// documents are written to Amazon S3. Default value is 300 seconds (5
+  /// minutes). A value of 0 (zero) results in no retries.
+  final int? durationInSeconds;
+
+  AmazonopensearchserviceRetryOptions({
+    this.durationInSeconds,
+  });
+
+  factory AmazonopensearchserviceRetryOptions.fromJson(
+      Map<String, dynamic> json) {
+    return AmazonopensearchserviceRetryOptions(
+      durationInSeconds: json['DurationInSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationInSeconds = this.durationInSeconds;
+    return {
+      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
+    };
+  }
+}
+
+enum AmazonopensearchserviceS3BackupMode {
+  failedDocumentsOnly,
+  allDocuments,
+}
+
+extension AmazonopensearchserviceS3BackupModeValueExtension
+    on AmazonopensearchserviceS3BackupMode {
+  String toValue() {
+    switch (this) {
+      case AmazonopensearchserviceS3BackupMode.failedDocumentsOnly:
+        return 'FailedDocumentsOnly';
+      case AmazonopensearchserviceS3BackupMode.allDocuments:
+        return 'AllDocuments';
+    }
+  }
+}
+
+extension AmazonopensearchserviceS3BackupModeFromString on String {
+  AmazonopensearchserviceS3BackupMode toAmazonopensearchserviceS3BackupMode() {
+    switch (this) {
+      case 'FailedDocumentsOnly':
+        return AmazonopensearchserviceS3BackupMode.failedDocumentsOnly;
+      case 'AllDocuments':
+        return AmazonopensearchserviceS3BackupMode.allDocuments;
+    }
+    throw Exception(
+        '$this is not known in enum AmazonopensearchserviceS3BackupMode');
   }
 }
 
@@ -1038,6 +1815,7 @@ class BufferingHints {
     this.intervalInSeconds,
     this.sizeInMBs,
   });
+
   factory BufferingHints.fromJson(Map<String, dynamic> json) {
     return BufferingHints(
       intervalInSeconds: json['IntervalInSeconds'] as int?,
@@ -1073,6 +1851,7 @@ class CloudWatchLoggingOptions {
     this.logGroupName,
     this.logStreamName,
   });
+
   factory CloudWatchLoggingOptions.fromJson(Map<String, dynamic> json) {
     return CloudWatchLoggingOptions(
       enabled: json['Enabled'] as bool?,
@@ -1204,6 +1983,7 @@ class CopyCommand {
     this.copyOptions,
     this.dataTableColumns,
   });
+
   factory CopyCommand.fromJson(Map<String, dynamic> json) {
     return CopyCommand(
       dataTableName: json['DataTableName'] as String,
@@ -1231,6 +2011,7 @@ class CreateDeliveryStreamOutput {
   CreateDeliveryStreamOutput({
     this.deliveryStreamARN,
   });
+
   factory CreateDeliveryStreamOutput.fromJson(Map<String, dynamic> json) {
     return CreateDeliveryStreamOutput(
       deliveryStreamARN: json['DeliveryStreamARN'] as String?,
@@ -1241,9 +2022,9 @@ class CreateDeliveryStreamOutput {
 /// Specifies that you want Kinesis Data Firehose to convert data from the JSON
 /// format to the Parquet or ORC format before writing it to Amazon S3. Kinesis
 /// Data Firehose uses the serializer and deserializer that you specify, in
-/// addition to the column information from the AWS Glue table, to deserialize
-/// your input data from JSON and then serialize it to the Parquet or ORC
-/// format. For more information, see <a
+/// addition to the column information from the Amazon Web Services Glue table,
+/// to deserialize your input data from JSON and then serialize it to the
+/// Parquet or ORC format. For more information, see <a
 /// href="https://docs.aws.amazon.com/firehose/latest/dev/record-format-conversion.html">Kinesis
 /// Data Firehose Record Format Conversion</a>.
 class DataFormatConversionConfiguration {
@@ -1261,9 +2042,9 @@ class DataFormatConversionConfiguration {
   /// is required if <code>Enabled</code> is set to true.
   final OutputFormatConfiguration? outputFormatConfiguration;
 
-  /// Specifies the AWS Glue Data Catalog table that contains the column
-  /// information. This parameter is required if <code>Enabled</code> is set to
-  /// true.
+  /// Specifies the Amazon Web Services Glue Data Catalog table that contains the
+  /// column information. This parameter is required if <code>Enabled</code> is
+  /// set to true.
   final SchemaConfiguration? schemaConfiguration;
 
   DataFormatConversionConfiguration({
@@ -1272,6 +2053,7 @@ class DataFormatConversionConfiguration {
     this.outputFormatConfiguration,
     this.schemaConfiguration,
   });
+
   factory DataFormatConversionConfiguration.fromJson(
       Map<String, dynamic> json) {
     return DataFormatConversionConfiguration(
@@ -1310,6 +2092,7 @@ class DataFormatConversionConfiguration {
 
 class DeleteDeliveryStreamOutput {
   DeleteDeliveryStreamOutput();
+
   factory DeleteDeliveryStreamOutput.fromJson(Map<String, dynamic> _) {
     return DeleteDeliveryStreamOutput();
   }
@@ -1320,7 +2103,7 @@ class DeliveryStreamDescription {
   /// The Amazon Resource Name (ARN) of the delivery stream. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String deliveryStreamARN;
 
   /// The name of the delivery stream.
@@ -1393,6 +2176,7 @@ class DeliveryStreamDescription {
     this.lastUpdateTimestamp,
     this.source,
   });
+
   factory DeliveryStreamDescription.fromJson(Map<String, dynamic> json) {
     return DeliveryStreamDescription(
       deliveryStreamARN: json['DeliveryStreamARN'] as String,
@@ -1441,14 +2225,14 @@ class DeliveryStreamEncryptionConfiguration {
 
   /// If <code>KeyType</code> is <code>CUSTOMER_MANAGED_CMK</code>, this field
   /// contains the ARN of the customer managed CMK. If <code>KeyType</code> is
-  /// <code>AWS_OWNED_CMK</code>,
+  /// <code>Amazon Web Services_OWNED_CMK</code>,
   /// <code>DeliveryStreamEncryptionConfiguration</code> doesn't contain a value
   /// for <code>KeyARN</code>.
   final String? keyARN;
 
   /// Indicates the type of customer master key (CMK) that is used for encryption.
-  /// The default setting is <code>AWS_OWNED_CMK</code>. For more information
-  /// about CMKs, see <a
+  /// The default setting is <code>Amazon Web Services_OWNED_CMK</code>. For more
+  /// information about CMKs, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys">Customer
   /// Master Keys (CMKs)</a>.
   final KeyType? keyType;
@@ -1467,6 +2251,7 @@ class DeliveryStreamEncryptionConfiguration {
     this.keyType,
     this.status,
   });
+
   factory DeliveryStreamEncryptionConfiguration.fromJson(
       Map<String, dynamic> json) {
     return DeliveryStreamEncryptionConfiguration(
@@ -1485,8 +2270,8 @@ class DeliveryStreamEncryptionConfiguration {
 /// Server-Side Encryption (SSE).
 class DeliveryStreamEncryptionConfigurationInput {
   /// Indicates the type of customer master key (CMK) to use for encryption. The
-  /// default setting is <code>AWS_OWNED_CMK</code>. For more information about
-  /// CMKs, see <a
+  /// default setting is <code>Amazon Web Services_OWNED_CMK</code>. For more
+  /// information about CMKs, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys">Customer
   /// Master Keys (CMKs)</a>. When you invoke <a>CreateDeliveryStream</a> or
   /// <a>StartDeliveryStreamEncryption</a> with <code>KeyType</code> set to
@@ -1510,15 +2295,15 @@ class DeliveryStreamEncryptionConfigurationInput {
   /// doesn't support asymmetric CMKs. For information about symmetric and
   /// asymmetric CMKs, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symm-asymm-concepts.html">About
-  /// Symmetric and Asymmetric CMKs</a> in the AWS Key Management Service
-  /// developer guide.
+  /// Symmetric and Asymmetric CMKs</a> in the Amazon Web Services Key Management
+  /// Service developer guide.
   /// </important>
   final KeyType keyType;
 
   /// If you set <code>KeyType</code> to <code>CUSTOMER_MANAGED_CMK</code>, you
   /// must specify the Amazon Resource Name (ARN) of the CMK. If you set
-  /// <code>KeyType</code> to <code>AWS_OWNED_CMK</code>, Kinesis Data Firehose
-  /// uses a service-account CMK.
+  /// <code>KeyType</code> to <code>Amazon Web Services_OWNED_CMK</code>, Kinesis
+  /// Data Firehose uses a service-account CMK.
   final String? keyARN;
 
   DeliveryStreamEncryptionConfigurationInput({
@@ -1756,6 +2541,7 @@ class DescribeDeliveryStreamOutput {
   DescribeDeliveryStreamOutput({
     required this.deliveryStreamDescription,
   });
+
   factory DescribeDeliveryStreamOutput.fromJson(Map<String, dynamic> json) {
     return DescribeDeliveryStreamOutput(
       deliveryStreamDescription: DeliveryStreamDescription.fromJson(
@@ -1790,6 +2576,7 @@ class Deserializer {
     this.hiveJsonSerDe,
     this.openXJsonSerDe,
   });
+
   factory Deserializer.fromJson(Map<String, dynamic> json) {
     return Deserializer(
       hiveJsonSerDe: json['HiveJsonSerDe'] != null
@@ -1818,6 +2605,14 @@ class DestinationDescription {
   /// The ID of the destination.
   final String destinationId;
 
+  /// The destination in the Serverless offering for Amazon OpenSearch Service.
+  final AmazonOpenSearchServerlessDestinationDescription?
+      amazonOpenSearchServerlessDestinationDescription;
+
+  /// The destination in Amazon OpenSearch Service.
+  final AmazonopensearchserviceDestinationDescription?
+      amazonopensearchserviceDestinationDescription;
+
   /// The destination in Amazon ES.
   final ElasticsearchDestinationDescription?
       elasticsearchDestinationDescription;
@@ -1839,6 +2634,8 @@ class DestinationDescription {
 
   DestinationDescription({
     required this.destinationId,
+    this.amazonOpenSearchServerlessDestinationDescription,
+    this.amazonopensearchserviceDestinationDescription,
     this.elasticsearchDestinationDescription,
     this.extendedS3DestinationDescription,
     this.httpEndpointDestinationDescription,
@@ -1846,9 +2643,22 @@ class DestinationDescription {
     this.s3DestinationDescription,
     this.splunkDestinationDescription,
   });
+
   factory DestinationDescription.fromJson(Map<String, dynamic> json) {
     return DestinationDescription(
       destinationId: json['DestinationId'] as String,
+      amazonOpenSearchServerlessDestinationDescription:
+          json['AmazonOpenSearchServerlessDestinationDescription'] != null
+              ? AmazonOpenSearchServerlessDestinationDescription.fromJson(
+                  json['AmazonOpenSearchServerlessDestinationDescription']
+                      as Map<String, dynamic>)
+              : null,
+      amazonopensearchserviceDestinationDescription:
+          json['AmazonopensearchserviceDestinationDescription'] != null
+              ? AmazonopensearchserviceDestinationDescription.fromJson(
+                  json['AmazonopensearchserviceDestinationDescription']
+                      as Map<String, dynamic>)
+              : null,
       elasticsearchDestinationDescription:
           json['ElasticsearchDestinationDescription'] != null
               ? ElasticsearchDestinationDescription.fromJson(
@@ -1884,6 +2694,43 @@ class DestinationDescription {
   }
 }
 
+/// The configuration of the dynamic partitioning mechanism that creates smaller
+/// data sets from the streaming data by partitioning it based on partition
+/// keys. Currently, dynamic partitioning is only supported for Amazon S3
+/// destinations.
+class DynamicPartitioningConfiguration {
+  /// Specifies that the dynamic partitioning is enabled for this Kinesis Data
+  /// Firehose delivery stream.
+  final bool? enabled;
+
+  /// The retry behavior in case Kinesis Data Firehose is unable to deliver data
+  /// to an Amazon S3 prefix.
+  final RetryOptions? retryOptions;
+
+  DynamicPartitioningConfiguration({
+    this.enabled,
+    this.retryOptions,
+  });
+
+  factory DynamicPartitioningConfiguration.fromJson(Map<String, dynamic> json) {
+    return DynamicPartitioningConfiguration(
+      enabled: json['Enabled'] as bool?,
+      retryOptions: json['RetryOptions'] != null
+          ? RetryOptions.fromJson(json['RetryOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final retryOptions = this.retryOptions;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+    };
+  }
+}
+
 /// Describes the buffering to perform before delivering data to the Amazon ES
 /// destination.
 class ElasticsearchBufferingHints {
@@ -1904,6 +2751,7 @@ class ElasticsearchBufferingHints {
     this.intervalInSeconds,
     this.sizeInMBs,
   });
+
   factory ElasticsearchBufferingHints.fromJson(Map<String, dynamic> json) {
     return ElasticsearchBufferingHints(
       intervalInSeconds: json['IntervalInSeconds'] as int?,
@@ -1932,7 +2780,7 @@ class ElasticsearchDestinationConfiguration {
   /// href="https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html#using-iam-s3">Grant
   /// Kinesis Data Firehose Access to an Amazon S3 Destination</a> and <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String roleARN;
 
   /// The configuration for the backup Amazon S3 location.
@@ -1950,12 +2798,11 @@ class ElasticsearchDestinationConfiguration {
   final String? clusterEndpoint;
 
   /// The ARN of the Amazon ES domain. The IAM role must have permissions
-  /// for <code>DescribeElasticsearchDomain</code>,
-  /// <code>DescribeElasticsearchDomains</code>, and
-  /// <code>DescribeElasticsearchDomainConfig</code> after assuming the role
-  /// specified in <b>RoleARN</b>. For more information, see <a
+  /// for <code>DescribeDomain</code>, <code>DescribeDomains</code>, and
+  /// <code>DescribeDomainConfig</code> after assuming the role specified in
+  /// <b>RoleARN</b>. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   ///
   /// Specify either <code>ClusterEndpoint</code> or <code>DomainARN</code>.
   final String? domainARN;
@@ -1978,11 +2825,11 @@ class ElasticsearchDestinationConfiguration {
   /// Defines how documents should be delivered to Amazon S3. When it is set to
   /// <code>FailedDocumentsOnly</code>, Kinesis Data Firehose writes any documents
   /// that could not be indexed to the configured Amazon S3 destination, with
-  /// <code>elasticsearch-failed/</code> appended to the key prefix. When set to
-  /// <code>AllDocuments</code>, Kinesis Data Firehose delivers all incoming
-  /// records to Amazon S3, and also writes failed documents with
-  /// <code>elasticsearch-failed/</code> appended to the prefix. For more
-  /// information, see <a
+  /// <code>AmazonOpenSearchService-failed/</code> appended to the key prefix.
+  /// When set to <code>AllDocuments</code>, Kinesis Data Firehose delivers all
+  /// incoming records to Amazon S3, and also writes failed documents with
+  /// <code>AmazonOpenSearchService-failed/</code> appended to the prefix. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/firehose/latest/dev/basic-deliver.html#es-s3-backup">Amazon
   /// S3 Backup for the Amazon ES Destination</a>. Default value is
   /// <code>FailedDocumentsOnly</code>.
@@ -2066,7 +2913,7 @@ class ElasticsearchDestinationDescription {
 
   /// The ARN of the Amazon ES domain. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   ///
   /// Kinesis Data Firehose uses either <code>ClusterEndpoint</code> or
   /// <code>DomainARN</code> to send data to Amazon ES.
@@ -2084,10 +2931,10 @@ class ElasticsearchDestinationDescription {
   /// The Amazon ES retry options.
   final ElasticsearchRetryOptions? retryOptions;
 
-  /// The Amazon Resource Name (ARN) of the AWS credentials. For more information,
-  /// see <a
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String? roleARN;
 
   /// The Amazon S3 backup mode.
@@ -2097,7 +2944,8 @@ class ElasticsearchDestinationDescription {
   final S3DestinationDescription? s3DestinationDescription;
 
   /// The Elasticsearch type name. This applies to Elasticsearch 6.x and lower
-  /// versions. For Elasticsearch 7.x, there's no value for <code>TypeName</code>.
+  /// versions. For Elasticsearch 7.x and OpenSearch Service 1.x, there's no value
+  /// for <code>TypeName</code>.
   final String? typeName;
 
   /// The details of the VPC of the Amazon ES destination.
@@ -2118,6 +2966,7 @@ class ElasticsearchDestinationDescription {
     this.typeName,
     this.vpcConfigurationDescription,
   });
+
   factory ElasticsearchDestinationDescription.fromJson(
       Map<String, dynamic> json) {
     return ElasticsearchDestinationDescription(
@@ -2172,12 +3021,11 @@ class ElasticsearchDestinationUpdate {
   final String? clusterEndpoint;
 
   /// The ARN of the Amazon ES domain. The IAM role must have permissions
-  /// for <code>DescribeElasticsearchDomain</code>,
-  /// <code>DescribeElasticsearchDomains</code>, and
-  /// <code>DescribeElasticsearchDomainConfig</code> after assuming the IAM role
-  /// specified in <code>RoleARN</code>. For more information, see <a
+  /// for <code>DescribeDomain</code>, <code>DescribeDomains</code>, and
+  /// <code>DescribeDomainConfig</code> after assuming the IAM role specified in
+  /// <code>RoleARN</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   ///
   /// Specify either <code>ClusterEndpoint</code> or <code>DomainARN</code>.
   final String? domainARN;
@@ -2206,7 +3054,7 @@ class ElasticsearchDestinationUpdate {
   /// href="https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html#using-iam-s3">Grant
   /// Kinesis Data Firehose Access to an Amazon S3 Destination</a> and <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String? roleARN;
 
   /// The Amazon S3 destination.
@@ -2325,6 +3173,7 @@ class ElasticsearchRetryOptions {
   ElasticsearchRetryOptions({
     this.durationInSeconds,
   });
+
   factory ElasticsearchRetryOptions.fromJson(Map<String, dynamic> json) {
     return ElasticsearchRetryOptions(
       durationInSeconds: json['DurationInSeconds'] as int?,
@@ -2380,6 +3229,7 @@ class EncryptionConfiguration {
     this.kMSEncryptionConfig,
     this.noEncryptionConfig,
   });
+
   factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
     return EncryptionConfiguration(
       kMSEncryptionConfig: json['KMSEncryptionConfig'] != null
@@ -2407,13 +3257,13 @@ class EncryptionConfiguration {
 class ExtendedS3DestinationConfiguration {
   /// The ARN of the S3 bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String bucketARN;
 
-  /// The Amazon Resource Name (ARN) of the AWS credentials. For more information,
-  /// see <a
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String roleARN;
 
   /// The buffering option.
@@ -2429,6 +3279,12 @@ class ExtendedS3DestinationConfiguration {
   /// The serializer, deserializer, and schema for converting data from the JSON
   /// format to the Parquet or ORC format before writing it to Amazon S3.
   final DataFormatConversionConfiguration? dataFormatConversionConfiguration;
+
+  /// The configuration of the dynamic partitioning mechanism that creates smaller
+  /// data sets from the streaming data by partitioning it based on partition
+  /// keys. Currently, dynamic partitioning is only supported for Amazon S3
+  /// destinations.
+  final DynamicPartitioningConfiguration? dynamicPartitioningConfiguration;
 
   /// The encryption configuration. If no value is specified, the default is no
   /// encryption.
@@ -2465,6 +3321,7 @@ class ExtendedS3DestinationConfiguration {
     this.cloudWatchLoggingOptions,
     this.compressionFormat,
     this.dataFormatConversionConfiguration,
+    this.dynamicPartitioningConfiguration,
     this.encryptionConfiguration,
     this.errorOutputPrefix,
     this.prefix,
@@ -2480,6 +3337,8 @@ class ExtendedS3DestinationConfiguration {
     final compressionFormat = this.compressionFormat;
     final dataFormatConversionConfiguration =
         this.dataFormatConversionConfiguration;
+    final dynamicPartitioningConfiguration =
+        this.dynamicPartitioningConfiguration;
     final encryptionConfiguration = this.encryptionConfiguration;
     final errorOutputPrefix = this.errorOutputPrefix;
     final prefix = this.prefix;
@@ -2496,6 +3355,8 @@ class ExtendedS3DestinationConfiguration {
         'CompressionFormat': compressionFormat.toValue(),
       if (dataFormatConversionConfiguration != null)
         'DataFormatConversionConfiguration': dataFormatConversionConfiguration,
+      if (dynamicPartitioningConfiguration != null)
+        'DynamicPartitioningConfiguration': dynamicPartitioningConfiguration,
       if (encryptionConfiguration != null)
         'EncryptionConfiguration': encryptionConfiguration,
       if (errorOutputPrefix != null) 'ErrorOutputPrefix': errorOutputPrefix,
@@ -2513,7 +3374,7 @@ class ExtendedS3DestinationConfiguration {
 class ExtendedS3DestinationDescription {
   /// The ARN of the S3 bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String bucketARN;
 
   /// The buffering option.
@@ -2527,10 +3388,10 @@ class ExtendedS3DestinationDescription {
   /// encryption.
   final EncryptionConfiguration encryptionConfiguration;
 
-  /// The Amazon Resource Name (ARN) of the AWS credentials. For more information,
-  /// see <a
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String roleARN;
 
   /// The Amazon CloudWatch logging options for your delivery stream.
@@ -2539,6 +3400,12 @@ class ExtendedS3DestinationDescription {
   /// The serializer, deserializer, and schema for converting data from the JSON
   /// format to the Parquet or ORC format before writing it to Amazon S3.
   final DataFormatConversionConfiguration? dataFormatConversionConfiguration;
+
+  /// The configuration of the dynamic partitioning mechanism that creates smaller
+  /// data sets from the streaming data by partitioning it based on partition
+  /// keys. Currently, dynamic partitioning is only supported for Amazon S3
+  /// destinations.
+  final DynamicPartitioningConfiguration? dynamicPartitioningConfiguration;
 
   /// A prefix that Kinesis Data Firehose evaluates and adds to failed records
   /// before writing them to S3. This prefix appears immediately following the
@@ -2570,12 +3437,14 @@ class ExtendedS3DestinationDescription {
     required this.roleARN,
     this.cloudWatchLoggingOptions,
     this.dataFormatConversionConfiguration,
+    this.dynamicPartitioningConfiguration,
     this.errorOutputPrefix,
     this.prefix,
     this.processingConfiguration,
     this.s3BackupDescription,
     this.s3BackupMode,
   });
+
   factory ExtendedS3DestinationDescription.fromJson(Map<String, dynamic> json) {
     return ExtendedS3DestinationDescription(
       bucketARN: json['BucketARN'] as String,
@@ -2594,6 +3463,12 @@ class ExtendedS3DestinationDescription {
           json['DataFormatConversionConfiguration'] != null
               ? DataFormatConversionConfiguration.fromJson(
                   json['DataFormatConversionConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      dynamicPartitioningConfiguration:
+          json['DynamicPartitioningConfiguration'] != null
+              ? DynamicPartitioningConfiguration.fromJson(
+                  json['DynamicPartitioningConfiguration']
                       as Map<String, dynamic>)
               : null,
       errorOutputPrefix: json['ErrorOutputPrefix'] as String?,
@@ -2615,7 +3490,7 @@ class ExtendedS3DestinationDescription {
 class ExtendedS3DestinationUpdate {
   /// The ARN of the S3 bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String? bucketARN;
 
   /// The buffering option.
@@ -2631,6 +3506,12 @@ class ExtendedS3DestinationUpdate {
   /// The serializer, deserializer, and schema for converting data from the JSON
   /// format to the Parquet or ORC format before writing it to Amazon S3.
   final DataFormatConversionConfiguration? dataFormatConversionConfiguration;
+
+  /// The configuration of the dynamic partitioning mechanism that creates smaller
+  /// data sets from the streaming data by partitioning it based on partition
+  /// keys. Currently, dynamic partitioning is only supported for Amazon S3
+  /// destinations.
+  final DynamicPartitioningConfiguration? dynamicPartitioningConfiguration;
 
   /// The encryption configuration. If no value is specified, the default is no
   /// encryption.
@@ -2652,10 +3533,10 @@ class ExtendedS3DestinationUpdate {
   /// The data processing configuration.
   final ProcessingConfiguration? processingConfiguration;
 
-  /// The Amazon Resource Name (ARN) of the AWS credentials. For more information,
-  /// see <a
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String? roleARN;
 
   /// You can update a delivery stream to enable Amazon S3 backup if it is
@@ -2672,6 +3553,7 @@ class ExtendedS3DestinationUpdate {
     this.cloudWatchLoggingOptions,
     this.compressionFormat,
     this.dataFormatConversionConfiguration,
+    this.dynamicPartitioningConfiguration,
     this.encryptionConfiguration,
     this.errorOutputPrefix,
     this.prefix,
@@ -2687,6 +3569,8 @@ class ExtendedS3DestinationUpdate {
     final compressionFormat = this.compressionFormat;
     final dataFormatConversionConfiguration =
         this.dataFormatConversionConfiguration;
+    final dynamicPartitioningConfiguration =
+        this.dynamicPartitioningConfiguration;
     final encryptionConfiguration = this.encryptionConfiguration;
     final errorOutputPrefix = this.errorOutputPrefix;
     final prefix = this.prefix;
@@ -2703,6 +3587,8 @@ class ExtendedS3DestinationUpdate {
         'CompressionFormat': compressionFormat.toValue(),
       if (dataFormatConversionConfiguration != null)
         'DataFormatConversionConfiguration': dataFormatConversionConfiguration,
+      if (dynamicPartitioningConfiguration != null)
+        'DynamicPartitioningConfiguration': dynamicPartitioningConfiguration,
       if (encryptionConfiguration != null)
         'EncryptionConfiguration': encryptionConfiguration,
       if (errorOutputPrefix != null) 'ErrorOutputPrefix': errorOutputPrefix,
@@ -2731,6 +3617,7 @@ class FailureDescription {
     required this.details,
     required this.type,
   });
+
   factory FailureDescription.fromJson(Map<String, dynamic> json) {
     return FailureDescription(
       details: json['Details'] as String,
@@ -2787,6 +3674,7 @@ class HiveJsonSerDe {
   HiveJsonSerDe({
     this.timestampFormats,
   });
+
   factory HiveJsonSerDe.fromJson(Map<String, dynamic> json) {
     return HiveJsonSerDe(
       timestampFormats: (json['TimestampFormats'] as List?)
@@ -2828,6 +3716,7 @@ class HttpEndpointBufferingHints {
     this.intervalInSeconds,
     this.sizeInMBs,
   });
+
   factory HttpEndpointBufferingHints.fromJson(Map<String, dynamic> json) {
     return HttpEndpointBufferingHints(
       intervalInSeconds: json['IntervalInSeconds'] as int?,
@@ -2858,6 +3747,7 @@ class HttpEndpointCommonAttribute {
     required this.attributeName,
     required this.attributeValue,
   });
+
   factory HttpEndpointCommonAttribute.fromJson(Map<String, dynamic> json) {
     return HttpEndpointCommonAttribute(
       attributeName: json['AttributeName'] as String,
@@ -2879,6 +3769,12 @@ class HttpEndpointCommonAttribute {
 /// delivers data.
 class HttpEndpointConfiguration {
   /// The URL of the HTTP endpoint selected as the destination.
+  /// <important>
+  /// If you choose an HTTP endpoint as your destination, review and follow the
+  /// instructions in the <a
+  /// href="https://docs.aws.amazon.com/firehose/latest/dev/httpdeliveryrequestresponse.html">Appendix
+  /// - HTTP Endpoint Delivery Request and Response Specifications</a>.
+  /// </important>
   final String url;
 
   /// The access key required for Kinesis Firehose to authenticate with the HTTP
@@ -2917,6 +3813,7 @@ class HttpEndpointDescription {
     this.name,
     this.url,
   });
+
   factory HttpEndpointDescription.fromJson(Map<String, dynamic> json) {
     return HttpEndpointDescription(
       name: json['Name'] as String?,
@@ -3048,6 +3945,7 @@ class HttpEndpointDestinationDescription {
     this.s3BackupMode,
     this.s3DestinationDescription,
   });
+
   factory HttpEndpointDestinationDescription.fromJson(
       Map<String, dynamic> json) {
     return HttpEndpointDestinationDescription(
@@ -3178,6 +4076,7 @@ class HttpEndpointRequestConfiguration {
     this.commonAttributes,
     this.contentEncoding,
   });
+
   factory HttpEndpointRequestConfiguration.fromJson(Map<String, dynamic> json) {
     return HttpEndpointRequestConfiguration(
       commonAttributes: (json['CommonAttributes'] as List?)
@@ -3215,6 +4114,7 @@ class HttpEndpointRetryOptions {
   HttpEndpointRetryOptions({
     this.durationInSeconds,
   });
+
   factory HttpEndpointRetryOptions.fromJson(Map<String, dynamic> json) {
     return HttpEndpointRetryOptions(
       durationInSeconds: json['DurationInSeconds'] as int?,
@@ -3269,6 +4169,7 @@ class InputFormatConfiguration {
   InputFormatConfiguration({
     this.deserializer,
   });
+
   factory InputFormatConfiguration.fromJson(Map<String, dynamic> json) {
     return InputFormatConfiguration(
       deserializer: json['Deserializer'] != null
@@ -3288,15 +4189,16 @@ class InputFormatConfiguration {
 /// Describes an encryption key for a destination in Amazon S3.
 class KMSEncryptionConfig {
   /// The Amazon Resource Name (ARN) of the encryption key. Must belong to the
-  /// same AWS Region as the destination Amazon S3 bucket. For more information,
-  /// see <a
+  /// same Amazon Web Services Region as the destination Amazon S3 bucket. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String awsKMSKeyARN;
 
   KMSEncryptionConfig({
     required this.awsKMSKeyARN,
   });
+
   factory KMSEncryptionConfig.fromJson(Map<String, dynamic> json) {
     return KMSEncryptionConfig(
       awsKMSKeyARN: json['AWSKMSKeyARN'] as String,
@@ -3349,8 +4251,8 @@ class KinesisStreamSourceConfiguration {
 
   /// The ARN of the role that provides access to the source Kinesis data stream.
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam">AWS
-  /// Identity and Access Management (IAM) ARN Format</a>.
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam">Amazon
+  /// Web Services Identity and Access Management (IAM) ARN Format</a>.
   final String roleARN;
 
   KinesisStreamSourceConfiguration({
@@ -3382,8 +4284,8 @@ class KinesisStreamSourceDescription {
 
   /// The ARN of the role used by the source Kinesis data stream. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam">AWS
-  /// Identity and Access Management (IAM) ARN Format</a>.
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam">Amazon
+  /// Web Services Identity and Access Management (IAM) ARN Format</a>.
   final String? roleARN;
 
   KinesisStreamSourceDescription({
@@ -3391,6 +4293,7 @@ class KinesisStreamSourceDescription {
     this.kinesisStreamARN,
     this.roleARN,
   });
+
   factory KinesisStreamSourceDescription.fromJson(Map<String, dynamic> json) {
     return KinesisStreamSourceDescription(
       deliveryStartTimestamp: timeStampFromJson(json['DeliveryStartTimestamp']),
@@ -3411,6 +4314,7 @@ class ListDeliveryStreamsOutput {
     required this.deliveryStreamNames,
     required this.hasMoreDeliveryStreams,
   });
+
   factory ListDeliveryStreamsOutput.fromJson(Map<String, dynamic> json) {
     return ListDeliveryStreamsOutput(
       deliveryStreamNames: (json['DeliveryStreamNames'] as List)
@@ -3437,6 +4341,7 @@ class ListTagsForDeliveryStreamOutput {
     required this.hasMoreTags,
     required this.tags,
   });
+
   factory ListTagsForDeliveryStreamOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForDeliveryStreamOutput(
       hasMoreTags: json['HasMoreTags'] as bool,
@@ -3502,6 +4407,7 @@ class OpenXJsonSerDe {
     this.columnToJsonKeyMappings,
     this.convertDotsInJsonKeysToUnderscores,
   });
+
   factory OpenXJsonSerDe.fromJson(Map<String, dynamic> json) {
     return OpenXJsonSerDe(
       caseInsensitive: json['CaseInsensitive'] as bool?,
@@ -3663,6 +4569,7 @@ class OrcSerDe {
     this.rowIndexStride,
     this.stripeSizeBytes,
   });
+
   factory OrcSerDe.fromJson(Map<String, dynamic> json) {
     return OrcSerDe(
       blockSizeBytes: json['BlockSizeBytes'] as int?,
@@ -3723,6 +4630,7 @@ class OutputFormatConfiguration {
   OutputFormatConfiguration({
     this.serializer,
   });
+
   factory OutputFormatConfiguration.fromJson(Map<String, dynamic> json) {
     return OutputFormatConfiguration(
       serializer: json['Serializer'] != null
@@ -3813,6 +4721,7 @@ class ParquetSerDe {
     this.pageSizeBytes,
     this.writerVersion,
   });
+
   factory ParquetSerDe.fromJson(Map<String, dynamic> json) {
     return ParquetSerDe(
       blockSizeBytes: json['BlockSizeBytes'] as int?,
@@ -3884,6 +4793,7 @@ class ProcessingConfiguration {
     this.enabled,
     this.processors,
   });
+
   factory ProcessingConfiguration.fromJson(Map<String, dynamic> json) {
     return ProcessingConfiguration(
       enabled: json['Enabled'] as bool?,
@@ -3916,6 +4826,7 @@ class Processor {
     required this.type,
     this.parameters,
   });
+
   factory Processor.fromJson(Map<String, dynamic> json) {
     return Processor(
       type: (json['Type'] as String).toProcessorType(),
@@ -3938,7 +4849,12 @@ class Processor {
 
 /// Describes the processor parameter.
 class ProcessorParameter {
-  /// The name of the parameter.
+  /// The name of the parameter. Currently the following default values are
+  /// supported: 3 for <code>NumberOfRetries</code> and 60 for the
+  /// <code>BufferIntervalInSeconds</code>. The <code>BufferSizeInMBs</code>
+  /// ranges between 0.2 MB and up to 3MB. The default buffering hint is 1MB for
+  /// all destinations, except Splunk. For Splunk, the default buffering hint is
+  /// 256 KB.
   final ProcessorParameterName parameterName;
 
   /// The parameter value.
@@ -3948,6 +4864,7 @@ class ProcessorParameter {
     required this.parameterName,
     required this.parameterValue,
   });
+
   factory ProcessorParameter.fromJson(Map<String, dynamic> json) {
     return ProcessorParameter(
       parameterName:
@@ -3969,9 +4886,13 @@ class ProcessorParameter {
 enum ProcessorParameterName {
   lambdaArn,
   numberOfRetries,
+  metadataExtractionQuery,
+  jsonParsingEngine,
   roleArn,
   bufferSizeInMBs,
   bufferIntervalInSeconds,
+  subRecordType,
+  delimiter,
 }
 
 extension ProcessorParameterNameValueExtension on ProcessorParameterName {
@@ -3981,12 +4902,20 @@ extension ProcessorParameterNameValueExtension on ProcessorParameterName {
         return 'LambdaArn';
       case ProcessorParameterName.numberOfRetries:
         return 'NumberOfRetries';
+      case ProcessorParameterName.metadataExtractionQuery:
+        return 'MetadataExtractionQuery';
+      case ProcessorParameterName.jsonParsingEngine:
+        return 'JsonParsingEngine';
       case ProcessorParameterName.roleArn:
         return 'RoleArn';
       case ProcessorParameterName.bufferSizeInMBs:
         return 'BufferSizeInMBs';
       case ProcessorParameterName.bufferIntervalInSeconds:
         return 'BufferIntervalInSeconds';
+      case ProcessorParameterName.subRecordType:
+        return 'SubRecordType';
+      case ProcessorParameterName.delimiter:
+        return 'Delimiter';
     }
   }
 }
@@ -3998,26 +4927,43 @@ extension ProcessorParameterNameFromString on String {
         return ProcessorParameterName.lambdaArn;
       case 'NumberOfRetries':
         return ProcessorParameterName.numberOfRetries;
+      case 'MetadataExtractionQuery':
+        return ProcessorParameterName.metadataExtractionQuery;
+      case 'JsonParsingEngine':
+        return ProcessorParameterName.jsonParsingEngine;
       case 'RoleArn':
         return ProcessorParameterName.roleArn;
       case 'BufferSizeInMBs':
         return ProcessorParameterName.bufferSizeInMBs;
       case 'BufferIntervalInSeconds':
         return ProcessorParameterName.bufferIntervalInSeconds;
+      case 'SubRecordType':
+        return ProcessorParameterName.subRecordType;
+      case 'Delimiter':
+        return ProcessorParameterName.delimiter;
     }
     throw Exception('$this is not known in enum ProcessorParameterName');
   }
 }
 
 enum ProcessorType {
+  recordDeAggregation,
   lambda,
+  metadataExtraction,
+  appendDelimiterToRecord,
 }
 
 extension ProcessorTypeValueExtension on ProcessorType {
   String toValue() {
     switch (this) {
+      case ProcessorType.recordDeAggregation:
+        return 'RecordDeAggregation';
       case ProcessorType.lambda:
         return 'Lambda';
+      case ProcessorType.metadataExtraction:
+        return 'MetadataExtraction';
+      case ProcessorType.appendDelimiterToRecord:
+        return 'AppendDelimiterToRecord';
     }
   }
 }
@@ -4025,8 +4971,14 @@ extension ProcessorTypeValueExtension on ProcessorType {
 extension ProcessorTypeFromString on String {
   ProcessorType toProcessorType() {
     switch (this) {
+      case 'RecordDeAggregation':
+        return ProcessorType.recordDeAggregation;
       case 'Lambda':
         return ProcessorType.lambda;
+      case 'MetadataExtraction':
+        return ProcessorType.metadataExtraction;
+      case 'AppendDelimiterToRecord':
+        return ProcessorType.appendDelimiterToRecord;
     }
     throw Exception('$this is not known in enum ProcessorType');
   }
@@ -4052,6 +5004,7 @@ class PutRecordBatchOutput {
     required this.requestResponses,
     this.encrypted,
   });
+
   factory PutRecordBatchOutput.fromJson(Map<String, dynamic> json) {
     return PutRecordBatchOutput(
       failedPutCount: json['FailedPutCount'] as int,
@@ -4084,6 +5037,7 @@ class PutRecordBatchResponseEntry {
     this.errorMessage,
     this.recordId,
   });
+
   factory PutRecordBatchResponseEntry.fromJson(Map<String, dynamic> json) {
     return PutRecordBatchResponseEntry(
       errorCode: json['ErrorCode'] as String?,
@@ -4105,6 +5059,7 @@ class PutRecordOutput {
     required this.recordId,
     this.encrypted,
   });
+
   factory PutRecordOutput.fromJson(Map<String, dynamic> json) {
     return PutRecordOutput(
       recordId: json['RecordId'] as String,
@@ -4141,10 +5096,10 @@ class RedshiftDestinationConfiguration {
   /// The user password.
   final String password;
 
-  /// The Amazon Resource Name (ARN) of the AWS credentials. For more information,
-  /// see <a
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String roleARN;
 
   /// The configuration for the intermediate Amazon S3 location from which Amazon
@@ -4230,10 +5185,10 @@ class RedshiftDestinationDescription {
   /// The <code>COPY</code> command.
   final CopyCommand copyCommand;
 
-  /// The Amazon Resource Name (ARN) of the AWS credentials. For more information,
-  /// see <a
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String roleARN;
 
   /// The Amazon S3 destination.
@@ -4270,6 +5225,7 @@ class RedshiftDestinationDescription {
     this.s3BackupDescription,
     this.s3BackupMode,
   });
+
   factory RedshiftDestinationDescription.fromJson(Map<String, dynamic> json) {
     return RedshiftDestinationDescription(
       clusterJDBCURL: json['ClusterJDBCURL'] as String,
@@ -4321,10 +5277,10 @@ class RedshiftDestinationUpdate {
   /// documents to Amazon Redshift. Default value is 3600 (60 minutes).
   final RedshiftRetryOptions? retryOptions;
 
-  /// The Amazon Resource Name (ARN) of the AWS credentials. For more information,
-  /// see <a
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String? roleARN;
 
   /// You can update a delivery stream to enable Amazon S3 backup if it is
@@ -4402,6 +5358,7 @@ class RedshiftRetryOptions {
   RedshiftRetryOptions({
     this.durationInSeconds,
   });
+
   factory RedshiftRetryOptions.fromJson(Map<String, dynamic> json) {
     return RedshiftRetryOptions(
       durationInSeconds: json['DurationInSeconds'] as int?,
@@ -4444,6 +5401,31 @@ extension RedshiftS3BackupModeFromString on String {
   }
 }
 
+/// The retry behavior in case Kinesis Data Firehose is unable to deliver data
+/// to an Amazon S3 prefix.
+class RetryOptions {
+  /// The period of time during which Kinesis Data Firehose retries to deliver
+  /// data to the specified Amazon S3 prefix.
+  final int? durationInSeconds;
+
+  RetryOptions({
+    this.durationInSeconds,
+  });
+
+  factory RetryOptions.fromJson(Map<String, dynamic> json) {
+    return RetryOptions(
+      durationInSeconds: json['DurationInSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationInSeconds = this.durationInSeconds;
+    return {
+      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
+    };
+  }
+}
+
 enum S3BackupMode {
   disabled,
   enabled,
@@ -4476,13 +5458,13 @@ extension S3BackupModeFromString on String {
 class S3DestinationConfiguration {
   /// The ARN of the S3 bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String bucketARN;
 
-  /// The Amazon Resource Name (ARN) of the AWS credentials. For more information,
-  /// see <a
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String roleARN;
 
   /// The buffering option. If no value is specified, <code>BufferingHints</code>
@@ -4557,7 +5539,7 @@ class S3DestinationConfiguration {
 class S3DestinationDescription {
   /// The ARN of the S3 bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String bucketARN;
 
   /// The buffering option. If no value is specified, <code>BufferingHints</code>
@@ -4572,10 +5554,10 @@ class S3DestinationDescription {
   /// encryption.
   final EncryptionConfiguration encryptionConfiguration;
 
-  /// The Amazon Resource Name (ARN) of the AWS credentials. For more information,
-  /// see <a
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String roleARN;
 
   /// The Amazon CloudWatch logging options for your delivery stream.
@@ -4604,6 +5586,7 @@ class S3DestinationDescription {
     this.errorOutputPrefix,
     this.prefix,
   });
+
   factory S3DestinationDescription.fromJson(Map<String, dynamic> json) {
     return S3DestinationDescription(
       bucketARN: json['BucketARN'] as String,
@@ -4628,7 +5611,7 @@ class S3DestinationDescription {
 class S3DestinationUpdate {
   /// The ARN of the S3 bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String? bucketARN;
 
   /// The buffering option. If no value is specified, <code>BufferingHints</code>
@@ -4664,10 +5647,10 @@ class S3DestinationUpdate {
   /// Prefixes for Amazon S3 Objects</a>.
   final String? prefix;
 
-  /// The Amazon Resource Name (ARN) of the AWS credentials. For more information,
-  /// see <a
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String? roleARN;
 
   S3DestinationUpdate({
@@ -4709,24 +5692,41 @@ class S3DestinationUpdate {
 /// your data before it writes it to Amazon S3. This parameter is required if
 /// <code>Enabled</code> is set to true.
 class SchemaConfiguration {
-  /// The ID of the AWS Glue Data Catalog. If you don't supply this, the AWS
-  /// account ID is used by default.
+  /// The ID of the Amazon Web Services Glue Data Catalog. If you don't supply
+  /// this, the Amazon Web Services account ID is used by default.
   final String? catalogId;
 
-  /// Specifies the name of the AWS Glue database that contains the schema for the
-  /// output data.
+  /// Specifies the name of the Amazon Web Services Glue database that contains
+  /// the schema for the output data.
+  /// <important>
+  /// If the <code>SchemaConfiguration</code> request parameter is used as part of
+  /// invoking the <code>CreateDeliveryStream</code> API, then the
+  /// <code>DatabaseName</code> property is required and its value must be
+  /// specified.
+  /// </important>
   final String? databaseName;
 
-  /// If you don't specify an AWS Region, the default is the current Region.
+  /// If you don't specify an Amazon Web Services Region, the default is the
+  /// current Region.
   final String? region;
 
-  /// The role that Kinesis Data Firehose can use to access AWS Glue. This role
-  /// must be in the same account you use for Kinesis Data Firehose. Cross-account
-  /// roles aren't allowed.
+  /// The role that Kinesis Data Firehose can use to access Amazon Web Services
+  /// Glue. This role must be in the same account you use for Kinesis Data
+  /// Firehose. Cross-account roles aren't allowed.
+  /// <important>
+  /// If the <code>SchemaConfiguration</code> request parameter is used as part of
+  /// invoking the <code>CreateDeliveryStream</code> API, then the
+  /// <code>RoleARN</code> property is required and its value must be specified.
+  /// </important>
   final String? roleARN;
 
-  /// Specifies the AWS Glue table that contains the column information that
-  /// constitutes your data schema.
+  /// Specifies the Amazon Web Services Glue table that contains the column
+  /// information that constitutes your data schema.
+  /// <important>
+  /// If the <code>SchemaConfiguration</code> request parameter is used as part of
+  /// invoking the <code>CreateDeliveryStream</code> API, then the
+  /// <code>TableName</code> property is required and its value must be specified.
+  /// </important>
   final String? tableName;
 
   /// Specifies the table version for the output data schema. If you don't specify
@@ -4743,6 +5743,7 @@ class SchemaConfiguration {
     this.tableName,
     this.versionId,
   });
+
   factory SchemaConfiguration.fromJson(Map<String, dynamic> json) {
     return SchemaConfiguration(
       catalogId: json['CatalogId'] as String?,
@@ -4794,6 +5795,7 @@ class Serializer {
     this.orcSerDe,
     this.parquetSerDe,
   });
+
   factory Serializer.fromJson(Map<String, dynamic> json) {
     return Serializer(
       orcSerDe: json['OrcSerDe'] != null
@@ -4825,6 +5827,7 @@ class SourceDescription {
   SourceDescription({
     this.kinesisStreamSourceDescription,
   });
+
   factory SourceDescription.fromJson(Map<String, dynamic> json) {
     return SourceDescription(
       kinesisStreamSourceDescription: json['KinesisStreamSourceDescription'] !=
@@ -4971,6 +5974,7 @@ class SplunkDestinationDescription {
     this.s3BackupMode,
     this.s3DestinationDescription,
   });
+
   factory SplunkDestinationDescription.fromJson(Map<String, dynamic> json) {
     return SplunkDestinationDescription(
       cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
@@ -5095,6 +6099,7 @@ class SplunkRetryOptions {
   SplunkRetryOptions({
     this.durationInSeconds,
   });
+
   factory SplunkRetryOptions.fromJson(Map<String, dynamic> json) {
     return SplunkRetryOptions(
       durationInSeconds: json['DurationInSeconds'] as int?,
@@ -5139,6 +6144,7 @@ extension SplunkS3BackupModeFromString on String {
 
 class StartDeliveryStreamEncryptionOutput {
   StartDeliveryStreamEncryptionOutput();
+
   factory StartDeliveryStreamEncryptionOutput.fromJson(Map<String, dynamic> _) {
     return StartDeliveryStreamEncryptionOutput();
   }
@@ -5146,6 +6152,7 @@ class StartDeliveryStreamEncryptionOutput {
 
 class StopDeliveryStreamEncryptionOutput {
   StopDeliveryStreamEncryptionOutput();
+
   factory StopDeliveryStreamEncryptionOutput.fromJson(Map<String, dynamic> _) {
     return StopDeliveryStreamEncryptionOutput();
   }
@@ -5167,6 +6174,7 @@ class Tag {
     required this.key,
     this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -5186,6 +6194,7 @@ class Tag {
 
 class TagDeliveryStreamOutput {
   TagDeliveryStreamOutput();
+
   factory TagDeliveryStreamOutput.fromJson(Map<String, dynamic> _) {
     return TagDeliveryStreamOutput();
   }
@@ -5193,6 +6202,7 @@ class TagDeliveryStreamOutput {
 
 class UntagDeliveryStreamOutput {
   UntagDeliveryStreamOutput();
+
   factory UntagDeliveryStreamOutput.fromJson(Map<String, dynamic> _) {
     return UntagDeliveryStreamOutput();
   }
@@ -5200,6 +6210,7 @@ class UntagDeliveryStreamOutput {
 
 class UpdateDestinationOutput {
   UpdateDestinationOutput();
+
   factory UpdateDestinationOutput.fromJson(Map<String, dynamic> _) {
     return UpdateDestinationOutput();
   }
@@ -5373,6 +6384,7 @@ class VpcConfigurationDescription {
     required this.subnetIds,
     required this.vpcId,
   });
+
   factory VpcConfigurationDescription.fromJson(Map<String, dynamic> json) {
     return VpcConfigurationDescription(
       roleARN: json['RoleARN'] as String,

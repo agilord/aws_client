@@ -464,6 +464,7 @@ class IoT1ClickDevicesService {
 
 class Attributes {
   Attributes();
+
   factory Attributes.fromJson(Map<String, dynamic> _) {
     return Attributes();
   }
@@ -482,6 +483,7 @@ class ClaimDevicesByClaimCodeResponse {
     this.claimCode,
     this.total,
   });
+
   factory ClaimDevicesByClaimCodeResponse.fromJson(Map<String, dynamic> json) {
     return ClaimDevicesByClaimCodeResponse(
       claimCode: json['claimCode'] as String?,
@@ -497,6 +499,7 @@ class DescribeDeviceResponse {
   DescribeDeviceResponse({
     this.deviceDescription,
   });
+
   factory DescribeDeviceResponse.fromJson(Map<String, dynamic> json) {
     return DescribeDeviceResponse(
       deviceDescription: json['deviceDescription'] != null
@@ -522,6 +525,7 @@ class Device {
     this.deviceId,
     this.type,
   });
+
   factory Device.fromJson(Map<String, dynamic> json) {
     return Device(
       attributes: json['attributes'] != null
@@ -567,6 +571,7 @@ class DeviceDescription {
     this.tags,
     this.type,
   });
+
   factory DeviceDescription.fromJson(Map<String, dynamic> json) {
     return DeviceDescription(
       arn: json['arn'] as String?,
@@ -593,6 +598,7 @@ class DeviceEvent {
     this.device,
     this.stdEvent,
   });
+
   factory DeviceEvent.fromJson(Map<String, dynamic> json) {
     return DeviceEvent(
       device: json['device'] != null
@@ -614,6 +620,7 @@ class DeviceMethod {
     this.deviceType,
     this.methodName,
   });
+
   factory DeviceMethod.fromJson(Map<String, dynamic> json) {
     return DeviceMethod(
       deviceType: json['deviceType'] as String?,
@@ -638,6 +645,7 @@ class FinalizeDeviceClaimResponse {
   FinalizeDeviceClaimResponse({
     this.state,
   });
+
   factory FinalizeDeviceClaimResponse.fromJson(Map<String, dynamic> json) {
     return FinalizeDeviceClaimResponse(
       state: json['state'] as String?,
@@ -652,6 +660,7 @@ class GetDeviceMethodsResponse {
   GetDeviceMethodsResponse({
     this.deviceMethods,
   });
+
   factory GetDeviceMethodsResponse.fromJson(Map<String, dynamic> json) {
     return GetDeviceMethodsResponse(
       deviceMethods: (json['deviceMethods'] as List?)
@@ -669,6 +678,7 @@ class InitiateDeviceClaimResponse {
   InitiateDeviceClaimResponse({
     this.state,
   });
+
   factory InitiateDeviceClaimResponse.fromJson(Map<String, dynamic> json) {
     return InitiateDeviceClaimResponse(
       state: json['state'] as String?,
@@ -683,6 +693,7 @@ class InvokeDeviceMethodResponse {
   InvokeDeviceMethodResponse({
     this.deviceMethodResponse,
   });
+
   factory InvokeDeviceMethodResponse.fromJson(Map<String, dynamic> json) {
     return InvokeDeviceMethodResponse(
       deviceMethodResponse: json['deviceMethodResponse'] as String?,
@@ -703,6 +714,7 @@ class ListDeviceEventsResponse {
     this.events,
     this.nextToken,
   });
+
   factory ListDeviceEventsResponse.fromJson(Map<String, dynamic> json) {
     return ListDeviceEventsResponse(
       events: (json['events'] as List?)
@@ -725,6 +737,7 @@ class ListDevicesResponse {
     this.devices,
     this.nextToken,
   });
+
   factory ListDevicesResponse.fromJson(Map<String, dynamic> json) {
     return ListDevicesResponse(
       devices: (json['devices'] as List?)
@@ -750,6 +763,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -765,6 +779,7 @@ class UnclaimDeviceResponse {
   UnclaimDeviceResponse({
     this.state,
   });
+
   factory UnclaimDeviceResponse.fromJson(Map<String, dynamic> json) {
     return UnclaimDeviceResponse(
       state: json['state'] as String?,
@@ -774,6 +789,7 @@ class UnclaimDeviceResponse {
 
 class UpdateDeviceStateResponse {
   UpdateDeviceStateResponse();
+
   factory UpdateDeviceStateResponse.fromJson(Map<String, dynamic> _) {
     return UpdateDeviceStateResponse();
   }

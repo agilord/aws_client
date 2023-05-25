@@ -18,11 +18,12 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// AWS Storage Gateway is the service that connects an on-premises software
+/// Storage Gateway is the service that connects an on-premises software
 /// appliance with cloud-based storage to provide seamless and secure
-/// integration between an organization's on-premises IT environment and the AWS
-/// storage infrastructure. The service enables you to securely upload data to
-/// the AWS Cloud for cost effective backup and rapid disaster recovery.
+/// integration between an organization's on-premises IT environment and the
+/// Amazon Web Services storage infrastructure. The service enables you to
+/// securely upload data to the Amazon Web Services Cloud for cost effective
+/// backup and rapid disaster recovery.
 class StorageGateway {
   final _s.JsonProtocol _protocol;
   StorageGateway({
@@ -52,11 +53,11 @@ class StorageGateway {
   }
 
   /// Activates the gateway you previously deployed on your host. In the
-  /// activation process, you specify information such as the AWS Region that
-  /// you want to use for storing snapshots or tapes, the time zone for
-  /// scheduled snapshots the gateway snapshot schedule window, an activation
-  /// key, and a name for your gateway. The activation process also associates
-  /// your gateway with your account. For more information, see
+  /// activation process, you specify information such as the Amazon Web
+  /// Services Region that you want to use for storing snapshots or tapes, the
+  /// time zone for scheduled snapshots the gateway snapshot schedule window, an
+  /// activation key, and a name for your gateway. The activation process also
+  /// associates your gateway with your account. For more information, see
   /// <a>UpdateGatewayInformation</a>.
   /// <note>
   /// You must turn on the gateway VM before you can activate your gateway.
@@ -77,23 +78,25 @@ class StorageGateway {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/get-activation-key.html">Getting
-  /// activation key</a> in the <i>AWS Storage Gateway User Guide</i>.
+  /// activation key</a> in the <i>Storage Gateway User Guide</i>.
   ///
   /// Parameter [gatewayName] :
   /// The name you configured for your gateway.
   ///
   /// Parameter [gatewayRegion] :
-  /// A value that indicates the AWS Region where you want to store your data.
-  /// The gateway AWS Region specified must be the same AWS Region as the AWS
-  /// Region in your <code>Host</code> header in the request. For more
-  /// information about available AWS Regions and endpoints for AWS Storage
-  /// Gateway, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/sg.html">AWS Storage
-  /// Gateway endpoints and quotas</a> in the <i>AWS General Reference</i>.
+  /// A value that indicates the Amazon Web Services Region where you want to
+  /// store your data. The gateway Amazon Web Services Region specified must be
+  /// the same Amazon Web Services Region as the Amazon Web Services Region in
+  /// your <code>Host</code> header in the request. For more information about
+  /// available Amazon Web Services Regions and endpoints for Storage Gateway,
+  /// see <a href="https://docs.aws.amazon.com/general/latest/gr/sg.html">
+  /// Storage Gateway endpoints and quotas</a> in the <i>Amazon Web Services
+  /// General Reference</i>.
   ///
   /// Valid Values: See <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/sg.html">AWS Storage
-  /// Gateway endpoints and quotas</a> in the <i>AWS General Reference</i>.
+  /// href="https://docs.aws.amazon.com/general/latest/gr/sg.html"> Storage
+  /// Gateway endpoints and quotas</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
   ///
   /// Parameter [gatewayTimezone] :
   /// A value that indicates the time zone you want to set for the gateway. The
@@ -108,7 +111,7 @@ class StorageGateway {
   /// after activation. The default value is <code>CACHED</code>.
   ///
   /// Valid Values: <code>STORED</code> | <code>CACHED</code> | <code>VTL</code>
-  /// | <code>FILE_S3</code>
+  /// | <code>VTL_SNOW</code> | <code>FILE_S3</code> | <code>FILE_FSX_SMB</code>
   ///
   /// Parameter [mediumChangerType] :
   /// The value that indicates the type of medium changer to use for tape
@@ -171,7 +174,7 @@ class StorageGateway {
   /// operation is only supported in the cached volume, tape, and file gateway
   /// type (see <a
   /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/StorageGatewayConcepts.html">How
-  /// AWS Storage Gateway works (architecture)</a>.
+  /// Storage Gateway works (architecture)</a>.
   ///
   /// In the request, you specify the gateway Amazon Resource Name (ARN) to
   /// which you want to add cache, and one or more disk IDs that you want to
@@ -211,7 +214,7 @@ class StorageGateway {
   /// metadata to resources, which you can use to categorize these resources.
   /// For example, you can categorize resources by purpose, owner, environment,
   /// or team. Each tag consists of a key and a value, which you define. You can
-  /// add tags to the following AWS Storage Gateway resources:
+  /// add tags to the following Storage Gateway resources:
   ///
   /// <ul>
   /// <li>
@@ -225,6 +228,9 @@ class StorageGateway {
   /// </li>
   /// <li>
   /// NFS and SMB file shares
+  /// </li>
+  /// <li>
+  /// File System associations
   /// </li>
   /// </ul>
   /// You can create a maximum of 50 tags for each resource. Virtual tapes and
@@ -270,7 +276,7 @@ class StorageGateway {
 
   /// Configures one or more gateway local disks as upload buffer for a
   /// specified gateway. This operation is supported for the stored volume,
-  /// cached volume and tape gateway types.
+  /// cached volume, and tape gateway types.
   ///
   /// In the request, you specify the gateway Amazon Resource Name (ARN) to
   /// which you want to add upload buffer, and one or more disk IDs that you
@@ -355,8 +361,6 @@ class StorageGateway {
   /// directly into the S3 storage class (S3 Glacier or S3 Glacier Deep Archive)
   /// that corresponds to the pool.
   ///
-  /// Valid Values: <code>GLACIER</code> | <code>DEEP_ARCHIVE</code>
-  ///
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
   ///
@@ -366,8 +370,6 @@ class StorageGateway {
   /// with the pool. When you use your backup application to eject the tape, the
   /// tape is archived directly into the storage class (S3 Glacier or S3 Glacier
   /// Deep Archive) that corresponds to the pool.
-  ///
-  /// Valid Values: <code>GLACIER</code> | <code>DEEP_ARCHIVE</code>
   ///
   /// Parameter [tapeARN] :
   /// The unique Amazon Resource Name (ARN) of the virtual tape that you want to
@@ -406,6 +408,83 @@ class StorageGateway {
     );
 
     return AssignTapePoolOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Associate an Amazon FSx file system with the FSx File Gateway. After the
+  /// association process is complete, the file shares on the Amazon FSx file
+  /// system are available for access through the gateway. This operation only
+  /// supports the FSx File Gateway type.
+  ///
+  /// May throw [InvalidGatewayRequestException].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [clientToken] :
+  /// A unique string value that you supply that is used by the FSx File Gateway
+  /// to ensure idempotent file system association creation.
+  ///
+  /// Parameter [locationARN] :
+  /// The Amazon Resource Name (ARN) of the Amazon FSx file system to associate
+  /// with the FSx File Gateway.
+  ///
+  /// Parameter [password] :
+  /// The password of the user credential.
+  ///
+  /// Parameter [userName] :
+  /// The user name of the user credential that has permission to access the
+  /// root share D$ of the Amazon FSx file system. The user account must belong
+  /// to the Amazon FSx delegated admin user group.
+  ///
+  /// Parameter [auditDestinationARN] :
+  /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
+  ///
+  /// Parameter [endpointNetworkConfiguration] :
+  /// Specifies the network configuration information for the gateway associated
+  /// with the Amazon FSx file system.
+  /// <note>
+  /// If multiple file systems are associated with this gateway, this
+  /// parameter's <code>IpAddresses</code> field is required.
+  /// </note>
+  ///
+  /// Parameter [tags] :
+  /// A list of up to 50 tags that can be assigned to the file system
+  /// association. Each tag is a key-value pair.
+  Future<AssociateFileSystemOutput> associateFileSystem({
+    required String clientToken,
+    required String gatewayARN,
+    required String locationARN,
+    required String password,
+    required String userName,
+    String? auditDestinationARN,
+    CacheAttributes? cacheAttributes,
+    EndpointNetworkConfiguration? endpointNetworkConfiguration,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StorageGateway_20130630.AssociateFileSystem'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ClientToken': clientToken,
+        'GatewayARN': gatewayARN,
+        'LocationARN': locationARN,
+        'Password': password,
+        'UserName': userName,
+        if (auditDestinationARN != null)
+          'AuditDestinationARN': auditDestinationARN,
+        if (cacheAttributes != null) 'CacheAttributes': cacheAttributes,
+        if (endpointNetworkConfiguration != null)
+          'EndpointNetworkConfiguration': endpointNetworkConfiguration,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return AssociateFileSystemOutput.fromJson(jsonResponse.body);
   }
 
   /// Connects a volume to an iSCSI connection and then attaches the volume to
@@ -592,7 +671,7 @@ class StorageGateway {
   ///
   /// Parameter [kMSEncrypted] :
   /// Set to <code>true</code> to use Amazon S3 server-side encryption with your
-  /// own AWS KMS key, or <code>false</code> to use a key managed by Amazon S3.
+  /// own KMS key, or <code>false</code> to use a key managed by Amazon S3.
   /// Optional.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
@@ -665,22 +744,23 @@ class StorageGateway {
     return CreateCachediSCSIVolumeOutput.fromJson(jsonResponse.body);
   }
 
-  /// Creates a Network File System (NFS) file share on an existing file
-  /// gateway. In Storage Gateway, a file share is a file system mount point
+  /// Creates a Network File System (NFS) file share on an existing S3 File
+  /// Gateway. In Storage Gateway, a file share is a file system mount point
   /// backed by Amazon S3 cloud storage. Storage Gateway exposes file shares
-  /// using an NFS interface. This operation is only supported for file
-  /// gateways.
+  /// using an NFS interface. This operation is only supported for S3 File
+  /// Gateways.
   /// <important>
-  /// File gateway requires AWS Security Token Service (AWS STS) to be activated
-  /// to enable you to create a file share. Make sure AWS STS is activated in
-  /// the AWS Region you are creating your file gateway in. If AWS STS is not
-  /// activated in the AWS Region, activate it. For information about how to
-  /// activate AWS STS, see <a
+  /// S3 File gateway requires Security Token Service (Amazon Web Services STS)
+  /// to be activated to enable you to create a file share. Make sure Amazon Web
+  /// Services STS is activated in the Amazon Web Services Region you are
+  /// creating your S3 File Gateway in. If Amazon Web Services STS is not
+  /// activated in the Amazon Web Services Region, activate it. For information
+  /// about how to activate Amazon Web Services STS, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html">Activating
-  /// and deactivating AWS STS in an AWS Region</a> in the <i>AWS Identity and
-  /// Access Management User Guide</i>.
+  /// and deactivating Amazon Web Services STS in an Amazon Web Services
+  /// Region</a> in the <i>Identity and Access Management User Guide</i>.
   ///
-  /// File gateway does not support creating hard or symbolic links on a file
+  /// S3 File Gateways do not support creating hard or symbolic links on a file
   /// share.
   /// </important>
   ///
@@ -688,32 +768,65 @@ class StorageGateway {
   /// May throw [InternalServerError].
   ///
   /// Parameter [clientToken] :
-  /// A unique string value that you supply that is used by file gateway to
+  /// A unique string value that you supply that is used by S3 File Gateway to
   /// ensure idempotent file share creation.
   ///
   /// Parameter [gatewayARN] :
-  /// The Amazon Resource Name (ARN) of the file gateway on which you want to
+  /// The Amazon Resource Name (ARN) of the S3 File Gateway on which you want to
   /// create a file share.
   ///
   /// Parameter [locationARN] :
-  /// The ARN of the backend storage used for storing file data. A prefix name
-  /// can be added to the S3 bucket name. It must end with a "/".
+  /// A custom ARN for the backend storage used for storing data for file
+  /// shares. It includes a resource ARN with an optional prefix concatenation.
+  /// The prefix must end with a forward slash (/).
+  /// <note>
+  /// You can specify LocationARN as a bucket ARN, access point ARN or access
+  /// point alias, as shown in the following examples.
+  ///
+  /// Bucket ARN:
+  ///
+  /// <code>arn:aws:s3:::my-bucket/prefix/</code>
+  ///
+  /// Access point ARN:
+  ///
+  /// <code>arn:aws:s3:region:account-id:accesspoint/access-point-name/prefix/</code>
+  ///
+  /// If you specify an access point, the bucket policy must be configured to
+  /// delegate access control to the access point. For information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-policies.html#access-points-delegating-control">Delegating
+  /// access control to access points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Access point alias:
+  ///
+  /// <code>test-ap-ab123cdef4gehijklmn5opqrstuvuse1a-s3alias</code>
+  /// </note>
   ///
   /// Parameter [role] :
-  /// The ARN of the AWS Identity and Access Management (IAM) role that a file
-  /// gateway assumes when it accesses the underlying storage.
+  /// The ARN of the Identity and Access Management (IAM) role that an S3 File
+  /// Gateway assumes when it accesses the underlying storage.
+  ///
+  /// Parameter [auditDestinationARN] :
+  /// The Amazon Resource Name (ARN) of the storage used for audit logs.
+  ///
+  /// Parameter [bucketRegion] :
+  /// Specifies the Region of the S3 bucket where the NFS file share stores
+  /// files.
+  /// <note>
+  /// This parameter is required for NFS file shares that connect to Amazon S3
+  /// through a VPC endpoint, a VPC access point, or an access point alias that
+  /// points to a VPC access point.
+  /// </note>
   ///
   /// Parameter [cacheAttributes] :
-  /// Refresh cache information.
+  /// Specifies refresh cache information for the file share.
   ///
   /// Parameter [clientList] :
-  /// The list of clients that are allowed to access the file gateway. The list
-  /// must contain either valid IP addresses or valid CIDR blocks.
+  /// The list of clients that are allowed to access the S3 File Gateway. The
+  /// list must contain either valid IP addresses or valid CIDR blocks.
   ///
   /// Parameter [defaultStorageClass] :
   /// The default storage class for objects put into an Amazon S3 bucket by the
-  /// file gateway. The default value is <code>S3_INTELLIGENT_TIERING</code>.
-  /// Optional.
+  /// S3 File Gateway. The default value is <code>S3_STANDARD</code>. Optional.
   ///
   /// Valid Values: <code>S3_STANDARD</code> |
   /// <code>S3_INTELLIGENT_TIERING</code> | <code>S3_STANDARD_IA</code> |
@@ -723,7 +836,8 @@ class StorageGateway {
   /// The name of the file share. Optional.
   /// <note>
   /// <code>FileShareName</code> must be set if an S3 prefix name is set in
-  /// <code>LocationARN</code>.
+  /// <code>LocationARN</code>, or if an access point or access point alias is
+  /// used.
   /// </note>
   ///
   /// Parameter [guessMIMETypeEnabled] :
@@ -736,7 +850,7 @@ class StorageGateway {
   ///
   /// Parameter [kMSEncrypted] :
   /// Set to <code>true</code> to use Amazon S3 server-side encryption with your
-  /// own AWS KMS key, or <code>false</code> to use a key managed by Amazon S3.
+  /// own KMS key, or <code>false</code> to use a key managed by Amazon S3.
   /// Optional.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
@@ -752,11 +866,29 @@ class StorageGateway {
   ///
   /// Parameter [notificationPolicy] :
   /// The notification policy of the file share.
+  /// <code>SettlingTimeInSeconds</code> controls the number of seconds to wait
+  /// after the last point in time a client wrote to a file before generating an
+  /// <code>ObjectUploaded</code> notification. Because clients can make many
+  /// small writes to files, it's best to set this parameter for as long as
+  /// possible to avoid generating multiple notifications for the same file in a
+  /// small time period.
+  /// <note>
+  /// <code>SettlingTimeInSeconds</code> has no effect on the timing of the
+  /// object uploading to Amazon S3, only the timing of the notification.
+  /// </note>
+  /// The following example sets <code>NotificationPolicy</code> on with
+  /// <code>SettlingTimeInSeconds</code> set to 60.
+  ///
+  /// <code>{\"Upload\": {\"SettlingTimeInSeconds\": 60}}</code>
+  ///
+  /// The following example sets <code>NotificationPolicy</code> off.
+  ///
+  /// <code>{}</code>
   ///
   /// Parameter [objectACL] :
   /// A value that sets the access control list (ACL) permission for objects in
-  /// the S3 bucket that a file gateway puts objects into. The default value is
-  /// <code>private</code>.
+  /// the S3 bucket that a S3 File Gateway puts objects into. The default value
+  /// is <code>private</code>.
   ///
   /// Parameter [readOnly] :
   /// A value that sets the write status of a file share. Set this value to
@@ -804,11 +936,22 @@ class StorageGateway {
   /// . _ : / @. The maximum length of a tag's key is 128 characters, and the
   /// maximum length for a tag's value is 256.
   /// </note>
+  ///
+  /// Parameter [vPCEndpointDNSName] :
+  /// Specifies the DNS name for the VPC endpoint that the NFS file share uses
+  /// to connect to Amazon S3.
+  /// <note>
+  /// This parameter is required for NFS file shares that connect to Amazon S3
+  /// through a VPC endpoint, a VPC access point, or an access point alias that
+  /// points to a VPC access point.
+  /// </note>
   Future<CreateNFSFileShareOutput> createNFSFileShare({
     required String clientToken,
     required String gatewayARN,
     required String locationARN,
     required String role,
+    String? auditDestinationARN,
+    String? bucketRegion,
     CacheAttributes? cacheAttributes,
     List<String>? clientList,
     String? defaultStorageClass,
@@ -823,6 +966,7 @@ class StorageGateway {
     bool? requesterPays,
     String? squash,
     List<Tag>? tags,
+    String? vPCEndpointDNSName,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -839,6 +983,9 @@ class StorageGateway {
         'GatewayARN': gatewayARN,
         'LocationARN': locationARN,
         'Role': role,
+        if (auditDestinationARN != null)
+          'AuditDestinationARN': auditDestinationARN,
+        if (bucketRegion != null) 'BucketRegion': bucketRegion,
         if (cacheAttributes != null) 'CacheAttributes': cacheAttributes,
         if (clientList != null) 'ClientList': clientList,
         if (defaultStorageClass != null)
@@ -857,26 +1004,29 @@ class StorageGateway {
         if (requesterPays != null) 'RequesterPays': requesterPays,
         if (squash != null) 'Squash': squash,
         if (tags != null) 'Tags': tags,
+        if (vPCEndpointDNSName != null)
+          'VPCEndpointDNSName': vPCEndpointDNSName,
       },
     );
 
     return CreateNFSFileShareOutput.fromJson(jsonResponse.body);
   }
 
-  /// Creates a Server Message Block (SMB) file share on an existing file
-  /// gateway. In Storage Gateway, a file share is a file system mount point
+  /// Creates a Server Message Block (SMB) file share on an existing S3 File
+  /// Gateway. In Storage Gateway, a file share is a file system mount point
   /// backed by Amazon S3 cloud storage. Storage Gateway exposes file shares
-  /// using an SMB interface. This operation is only supported for file
-  /// gateways.
+  /// using an SMB interface. This operation is only supported for S3 File
+  /// Gateways.
   /// <important>
-  /// File gateways require AWS Security Token Service (AWS STS) to be activated
-  /// to enable you to create a file share. Make sure that AWS STS is activated
-  /// in the AWS Region you are creating your file gateway in. If AWS STS is not
-  /// activated in this AWS Region, activate it. For information about how to
-  /// activate AWS STS, see <a
+  /// S3 File Gateways require Security Token Service (Amazon Web Services STS)
+  /// to be activated to enable you to create a file share. Make sure that
+  /// Amazon Web Services STS is activated in the Amazon Web Services Region you
+  /// are creating your S3 File Gateway in. If Amazon Web Services STS is not
+  /// activated in this Amazon Web Services Region, activate it. For information
+  /// about how to activate Amazon Web Services STS, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html">Activating
-  /// and deactivating AWS STS in an AWS Region</a> in the <i>AWS Identity and
-  /// Access Management User Guide</i>.
+  /// and deactivating Amazon Web Services STS in an Amazon Web Services
+  /// Region</a> in the <i>Identity and Access Management User Guide</i>.
   ///
   /// File gateways don't support creating hard or symbolic links on a file
   /// share.
@@ -886,19 +1036,41 @@ class StorageGateway {
   /// May throw [InternalServerError].
   ///
   /// Parameter [clientToken] :
-  /// A unique string value that you supply that is used by file gateway to
+  /// A unique string value that you supply that is used by S3 File Gateway to
   /// ensure idempotent file share creation.
   ///
   /// Parameter [gatewayARN] :
-  /// The ARN of the file gateway on which you want to create a file share.
+  /// The ARN of the S3 File Gateway on which you want to create a file share.
   ///
   /// Parameter [locationARN] :
-  /// The ARN of the backend storage used for storing file data. A prefix name
-  /// can be added to the S3 bucket name. It must end with a "/".
+  /// A custom ARN for the backend storage used for storing data for file
+  /// shares. It includes a resource ARN with an optional prefix concatenation.
+  /// The prefix must end with a forward slash (/).
+  /// <note>
+  /// You can specify LocationARN as a bucket ARN, access point ARN or access
+  /// point alias, as shown in the following examples.
+  ///
+  /// Bucket ARN:
+  ///
+  /// <code>arn:aws:s3:::my-bucket/prefix/</code>
+  ///
+  /// Access point ARN:
+  ///
+  /// <code>arn:aws:s3:region:account-id:accesspoint/access-point-name/prefix/</code>
+  ///
+  /// If you specify an access point, the bucket policy must be configured to
+  /// delegate access control to the access point. For information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-policies.html#access-points-delegating-control">Delegating
+  /// access control to access points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Access point alias:
+  ///
+  /// <code>test-ap-ab123cdef4gehijklmn5opqrstuvuse1a-s3alias</code>
+  /// </note>
   ///
   /// Parameter [role] :
-  /// The ARN of the AWS Identity and Access Management (IAM) role that a file
-  /// gateway assumes when it accesses the underlying storage.
+  /// The ARN of the Identity and Access Management (IAM) role that an S3 File
+  /// Gateway assumes when it accesses the underlying storage.
   ///
   /// Parameter [accessBasedEnumeration] :
   /// The files and folders on this share will only be visible to users with
@@ -916,7 +1088,7 @@ class StorageGateway {
   /// </important>
   ///
   /// Parameter [auditDestinationARN] :
-  /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
+  /// The Amazon Resource Name (ARN) of the storage used for audit logs.
   ///
   /// Parameter [authentication] :
   /// The authentication method that users use to access the file share. The
@@ -924,8 +1096,17 @@ class StorageGateway {
   ///
   /// Valid Values: <code>ActiveDirectory</code> | <code>GuestAccess</code>
   ///
+  /// Parameter [bucketRegion] :
+  /// Specifies the Region of the S3 bucket where the SMB file share stores
+  /// files.
+  /// <note>
+  /// This parameter is required for SMB file shares that connect to Amazon S3
+  /// through a VPC endpoint, a VPC access point, or an access point alias that
+  /// points to a VPC access point.
+  /// </note>
+  ///
   /// Parameter [cacheAttributes] :
-  /// Refresh cache information.
+  /// Specifies refresh cache information for the file share.
   ///
   /// Parameter [caseSensitivity] :
   /// The case of an object name in an Amazon S3 bucket. For
@@ -935,8 +1116,7 @@ class StorageGateway {
   ///
   /// Parameter [defaultStorageClass] :
   /// The default storage class for objects put into an Amazon S3 bucket by the
-  /// file gateway. The default value is <code>S3_INTELLIGENT_TIERING</code>.
-  /// Optional.
+  /// S3 File Gateway. The default value is <code>S3_STANDARD</code>. Optional.
   ///
   /// Valid Values: <code>S3_STANDARD</code> |
   /// <code>S3_INTELLIGENT_TIERING</code> | <code>S3_STANDARD_IA</code> |
@@ -946,7 +1126,8 @@ class StorageGateway {
   /// The name of the file share. Optional.
   /// <note>
   /// <code>FileShareName</code> must be set if an S3 prefix name is set in
-  /// <code>LocationARN</code>.
+  /// <code>LocationARN</code>, or if an access point or access point alias is
+  /// used.
   /// </note>
   ///
   /// Parameter [guessMIMETypeEnabled] :
@@ -966,7 +1147,7 @@ class StorageGateway {
   ///
   /// Parameter [kMSEncrypted] :
   /// Set to <code>true</code> to use Amazon S3 server-side encryption with your
-  /// own AWS KMS key, or <code>false</code> to use a key managed by Amazon S3.
+  /// own KMS key, or <code>false</code> to use a key managed by Amazon S3.
   /// Optional.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
@@ -979,11 +1160,38 @@ class StorageGateway {
   ///
   /// Parameter [notificationPolicy] :
   /// The notification policy of the file share.
+  /// <code>SettlingTimeInSeconds</code> controls the number of seconds to wait
+  /// after the last point in time a client wrote to a file before generating an
+  /// <code>ObjectUploaded</code> notification. Because clients can make many
+  /// small writes to files, it's best to set this parameter for as long as
+  /// possible to avoid generating multiple notifications for the same file in a
+  /// small time period.
+  /// <note>
+  /// <code>SettlingTimeInSeconds</code> has no effect on the timing of the
+  /// object uploading to Amazon S3, only the timing of the notification.
+  /// </note>
+  /// The following example sets <code>NotificationPolicy</code> on with
+  /// <code>SettlingTimeInSeconds</code> set to 60.
+  ///
+  /// <code>{\"Upload\": {\"SettlingTimeInSeconds\": 60}}</code>
+  ///
+  /// The following example sets <code>NotificationPolicy</code> off.
+  ///
+  /// <code>{}</code>
   ///
   /// Parameter [objectACL] :
   /// A value that sets the access control list (ACL) permission for objects in
-  /// the S3 bucket that a file gateway puts objects into. The default value is
-  /// <code>private</code>.
+  /// the S3 bucket that a S3 File Gateway puts objects into. The default value
+  /// is <code>private</code>.
+  ///
+  /// Parameter [oplocksEnabled] :
+  /// Specifies whether opportunistic locking is enabled for the SMB file share.
+  /// <note>
+  /// Enabling opportunistic locking on case-sensitive shares is not recommended
+  /// for workloads that involve access to files with the same name in different
+  /// case.
+  /// </note>
+  /// Valid Values: <code>true</code> | <code>false</code>
   ///
   /// Parameter [readOnly] :
   /// A value that sets the write status of a file share. Set this value to
@@ -1013,7 +1221,7 @@ class StorageGateway {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/smb-acl.html">Using
   /// Microsoft Windows ACLs to control access to an SMB file share</a> in the
-  /// <i>AWS Storage Gateway User Guide</i>.
+  /// <i>Storage Gateway User Guide</i>.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
   ///
@@ -1025,6 +1233,15 @@ class StorageGateway {
   /// representable in UTF-8 format, and the following special characters: + - =
   /// . _ : / @. The maximum length of a tag's key is 128 characters, and the
   /// maximum length for a tag's value is 256.
+  /// </note>
+  ///
+  /// Parameter [vPCEndpointDNSName] :
+  /// Specifies the DNS name for the VPC endpoint that the SMB file share uses
+  /// to connect to Amazon S3.
+  /// <note>
+  /// This parameter is required for SMB file shares that connect to Amazon S3
+  /// through a VPC endpoint, a VPC access point, or an access point alias that
+  /// points to a VPC access point.
   /// </note>
   ///
   /// Parameter [validUserList] :
@@ -1042,6 +1259,7 @@ class StorageGateway {
     List<String>? adminUserList,
     String? auditDestinationARN,
     String? authentication,
+    String? bucketRegion,
     CacheAttributes? cacheAttributes,
     CaseSensitivity? caseSensitivity,
     String? defaultStorageClass,
@@ -1052,10 +1270,12 @@ class StorageGateway {
     String? kMSKey,
     String? notificationPolicy,
     ObjectACL? objectACL,
+    bool? oplocksEnabled,
     bool? readOnly,
     bool? requesterPays,
     bool? sMBACLEnabled,
     List<Tag>? tags,
+    String? vPCEndpointDNSName,
     List<String>? validUserList,
   }) async {
     final headers = <String, String>{
@@ -1079,6 +1299,7 @@ class StorageGateway {
         if (auditDestinationARN != null)
           'AuditDestinationARN': auditDestinationARN,
         if (authentication != null) 'Authentication': authentication,
+        if (bucketRegion != null) 'BucketRegion': bucketRegion,
         if (cacheAttributes != null) 'CacheAttributes': cacheAttributes,
         if (caseSensitivity != null)
           'CaseSensitivity': caseSensitivity.toValue(),
@@ -1093,10 +1314,13 @@ class StorageGateway {
         if (notificationPolicy != null)
           'NotificationPolicy': notificationPolicy,
         if (objectACL != null) 'ObjectACL': objectACL.toValue(),
+        if (oplocksEnabled != null) 'OplocksEnabled': oplocksEnabled,
         if (readOnly != null) 'ReadOnly': readOnly,
         if (requesterPays != null) 'RequesterPays': requesterPays,
         if (sMBACLEnabled != null) 'SMBACLEnabled': sMBACLEnabled,
         if (tags != null) 'Tags': tags,
+        if (vPCEndpointDNSName != null)
+          'VPCEndpointDNSName': vPCEndpointDNSName,
         if (validUserList != null) 'ValidUserList': validUserList,
       },
     );
@@ -1106,23 +1330,23 @@ class StorageGateway {
 
   /// Initiates a snapshot of a volume.
   ///
-  /// AWS Storage Gateway provides the ability to back up point-in-time
-  /// snapshots of your data to Amazon Simple Storage (Amazon S3) for durable
-  /// off-site recovery, as well as import the data to an Amazon Elastic Block
-  /// Store (EBS) volume in Amazon Elastic Compute Cloud (EC2). You can take
-  /// snapshots of your gateway volume on a scheduled or ad hoc basis. This API
-  /// enables you to take an ad hoc snapshot. For more information, see <a
+  /// Storage Gateway provides the ability to back up point-in-time snapshots of
+  /// your data to Amazon Simple Storage (Amazon S3) for durable off-site
+  /// recovery, and also import the data to an Amazon Elastic Block Store (EBS)
+  /// volume in Amazon Elastic Compute Cloud (EC2). You can take snapshots of
+  /// your gateway volume on a scheduled or ad hoc basis. This API enables you
+  /// to take an ad hoc snapshot. For more information, see <a
   /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/managing-volumes.html#SchedulingSnapshot">Editing
   /// a snapshot schedule</a>.
   ///
   /// In the <code>CreateSnapshot</code> request, you identify the volume by
   /// providing its Amazon Resource Name (ARN). You must also provide
-  /// description for the snapshot. When AWS Storage Gateway takes the snapshot
-  /// of specified volume, the snapshot and description appears in the AWS
-  /// Storage Gateway console. In response, AWS Storage Gateway returns you a
-  /// snapshot ID. You can use this snapshot ID to check the snapshot progress
-  /// or later use it when you want to create a volume from a snapshot. This
-  /// operation is only supported in stored and cached volume gateway type.
+  /// description for the snapshot. When Storage Gateway takes the snapshot of
+  /// specified volume, the snapshot and description appears in the Storage
+  /// Gateway console. In response, Storage Gateway returns you a snapshot ID.
+  /// You can use this snapshot ID to check the snapshot progress or later use
+  /// it when you want to create a volume from a snapshot. This operation is
+  /// only supported in stored and cached volume gateway type.
   /// <note>
   /// To list or delete a snapshot, you must use the Amazon EC2 API. For more
   /// information, see <a
@@ -1144,7 +1368,7 @@ class StorageGateway {
   /// Parameter [snapshotDescription] :
   /// Textual description of the snapshot that appears in the Amazon EC2
   /// console, Elastic Block Store snapshots panel in the <b>Description</b>
-  /// field, and in the AWS Storage Gateway snapshot <b>Details</b> pane,
+  /// field, and in the Storage Gateway snapshot <b>Details</b> pane,
   /// <b>Description</b> field.
   ///
   /// Parameter [volumeARN] :
@@ -1197,7 +1421,7 @@ class StorageGateway {
   /// identify the volume by providing its Amazon Resource Name (ARN). You must
   /// also provide a description for the snapshot. When the gateway takes a
   /// snapshot of the specified volume, the snapshot and its description appear
-  /// in the AWS Storage Gateway console. In response, the gateway returns you a
+  /// in the Storage Gateway console. In response, the gateway returns you a
   /// snapshot ID. You can use this snapshot ID to check the snapshot progress
   /// or later use it when you want to create a volume from a snapshot.
   /// <note>
@@ -1216,7 +1440,7 @@ class StorageGateway {
   /// Parameter [snapshotDescription] :
   /// Textual description of the snapshot that appears in the Amazon EC2
   /// console, Elastic Block Store snapshots panel in the <b>Description</b>
-  /// field, and in the AWS Storage Gateway snapshot <b>Details</b> pane,
+  /// field, and in the Storage Gateway snapshot <b>Details</b> pane,
   /// <b>Description</b> field.
   ///
   /// Parameter [volumeARN] :
@@ -1292,9 +1516,8 @@ class StorageGateway {
   /// Valid Values: A valid IP address.
   ///
   /// Parameter [preserveExistingData] :
-  /// Set to true <code>true</code> if you want to preserve the data on the
-  /// local disk. Otherwise, set to <code>false</code> to create an empty
-  /// volume.
+  /// Set to <code>true</code> if you want to preserve the data on the local
+  /// disk. Otherwise, set to <code>false</code> to create an empty volume.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
   ///
@@ -1310,7 +1533,7 @@ class StorageGateway {
   ///
   /// Parameter [kMSEncrypted] :
   /// Set to <code>true</code> to use Amazon S3 server-side encryption with your
-  /// own AWS KMS key, or <code>false</code> to use a key managed by Amazon S3.
+  /// own KMS key, or <code>false</code> to use a key managed by Amazon S3.
   /// Optional.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
@@ -1322,7 +1545,7 @@ class StorageGateway {
   /// <code>KMSEncrypted</code> is <code>true</code>. Optional.
   ///
   /// Parameter [snapshotId] :
-  /// The snapshot ID (e.g. "snap-1122aabb") of the snapshot to restore as the
+  /// The snapshot ID (e.g., "snap-1122aabb") of the snapshot to restore as the
   /// new stored volume. Specify this field if you want to create the iSCSI
   /// storage volume from a snapshot; otherwise, do not include this field. To
   /// list snapshots for your account use <a
@@ -1396,10 +1619,11 @@ class StorageGateway {
   ///
   /// Parameter [retentionLockType] :
   /// Tape retention lock can be configured in two modes. When configured in
-  /// governance mode, AWS accounts with specific IAM permissions are authorized
-  /// to remove the tape retention lock from archived virtual tapes. When
-  /// configured in compliance mode, the tape retention lock cannot be removed
-  /// by any user, including the root AWS account.
+  /// governance mode, Amazon Web Services accounts with specific IAM
+  /// permissions are authorized to remove the tape retention lock from archived
+  /// virtual tapes. When configured in compliance mode, the tape retention lock
+  /// cannot be removed by any user, including the root Amazon Web Services
+  /// account.
   ///
   /// Parameter [tags] :
   /// A list of up to 50 tags that can be assigned to tape pool. Each tag is a
@@ -1464,7 +1688,7 @@ class StorageGateway {
   /// Parameter [gatewayARN] :
   /// The unique Amazon Resource Name (ARN) that represents the gateway to
   /// associate the virtual tape with. Use the <a>ListGateways</a> operation to
-  /// return a list of gateways for your account and AWS Region.
+  /// return a list of gateways for your account and Amazon Web Services Region.
   ///
   /// Parameter [tapeBarcode] :
   /// The barcode that you want to assign to the tape.
@@ -1481,7 +1705,7 @@ class StorageGateway {
   ///
   /// Parameter [kMSEncrypted] :
   /// Set to <code>true</code> to use Amazon S3 server-side encryption with your
-  /// own AWS KMS key, or <code>false</code> to use a key managed by Amazon S3.
+  /// own KMS key, or <code>false</code> to use a key managed by Amazon S3.
   /// Optional.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
@@ -1498,8 +1722,6 @@ class StorageGateway {
   /// with the pool. When you use your backup application to eject the tape, the
   /// tape is archived directly into the storage class (S3 Glacier or S3 Deep
   /// Archive) that corresponds to the pool.
-  ///
-  /// Valid Values: <code>GLACIER</code> | <code>DEEP_ARCHIVE</code>
   ///
   /// Parameter [tags] :
   /// A list of up to 50 tags that can be assigned to a virtual tape that has a
@@ -1573,7 +1795,7 @@ class StorageGateway {
   /// Parameter [gatewayARN] :
   /// The unique Amazon Resource Name (ARN) that represents the gateway to
   /// associate the virtual tapes with. Use the <a>ListGateways</a> operation to
-  /// return a list of gateways for your account and AWS Region.
+  /// return a list of gateways for your account and Amazon Web Services Region.
   ///
   /// Parameter [numTapesToCreate] :
   /// The number of virtual tapes that you want to create.
@@ -1582,7 +1804,7 @@ class StorageGateway {
   /// A prefix that you append to the barcode of the virtual tape you are
   /// creating. This prefix makes the barcode unique.
   /// <note>
-  /// The prefix must be 1 to 4 characters in length and must be one of the
+  /// The prefix must be 1-4 characters in length and must be one of the
   /// uppercase letters from A to Z.
   /// </note>
   ///
@@ -1594,7 +1816,7 @@ class StorageGateway {
   ///
   /// Parameter [kMSEncrypted] :
   /// Set to <code>true</code> to use Amazon S3 server-side encryption with your
-  /// own AWS KMS key, or <code>false</code> to use a key managed by Amazon S3.
+  /// own KMS key, or <code>false</code> to use a key managed by Amazon S3.
   /// Optional.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
@@ -1611,8 +1833,6 @@ class StorageGateway {
   /// with the pool. When you use your backup application to eject the tape, the
   /// tape is archived directly into the storage class (S3 Glacier or S3 Glacier
   /// Deep Archive) that corresponds to the pool.
-  ///
-  /// Valid Values: <code>GLACIER</code> | <code>DEEP_ARCHIVE</code>
   ///
   /// Parameter [tags] :
   /// A list of up to 50 tags that can be assigned to a virtual tape. Each tag
@@ -1706,8 +1926,8 @@ class StorageGateway {
   /// upload and download bandwidth rate limit, or you can delete both. If you
   /// delete only one of the limits, the other limit remains unchanged. To
   /// specify which gateway to work with, use the Amazon Resource Name (ARN) of
-  /// the gateway in your request. This operation is supported for the stored
-  /// volume, cached volume and tape gateway types.
+  /// the gateway in your request. This operation is supported only for the
+  /// stored volume, cached volume, and tape gateway types.
   ///
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
@@ -1778,8 +1998,8 @@ class StorageGateway {
     return DeleteChapCredentialsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Deletes a file share from a file gateway. This operation is only supported
-  /// for file gateways.
+  /// Deletes a file share from an S3 File Gateway. This operation is only
+  /// supported for S3 File Gateways.
   ///
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
@@ -1789,10 +2009,10 @@ class StorageGateway {
   ///
   /// Parameter [forceDelete] :
   /// If this value is set to <code>true</code>, the operation deletes a file
-  /// share immediately and aborts all data uploads to AWS. Otherwise, the file
-  /// share is not deleted until all data is uploaded to AWS. This process
-  /// aborts the data upload process, and the file share enters the
-  /// <code>FORCE_DELETING</code> status.
+  /// share immediately and aborts all data uploads to Amazon Web Services.
+  /// Otherwise, the file share is not deleted until all data is uploaded to
+  /// Amazon Web Services. This process aborts the data upload process, and the
+  /// file share enters the <code>FORCE_DELETING</code> status.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
   Future<DeleteFileShareOutput> deleteFileShare({
@@ -1834,7 +2054,7 @@ class StorageGateway {
   /// EBS snapshots by canceling your Amazon EC2 subscription.  If you prefer
   /// not to cancel your Amazon EC2 subscription, you can delete your snapshots
   /// using the Amazon EC2 console. For more information, see the <a
-  /// href="http://aws.amazon.com/storagegateway">AWS Storage Gateway detail
+  /// href="http://aws.amazon.com/storagegateway">Storage Gateway detail
   /// page</a>.
   /// </important>
   ///
@@ -1869,7 +2089,7 @@ class StorageGateway {
   /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/backing-up-volumes.html">Backing
   /// up your volumes</a>. In the <code>DeleteSnapshotSchedule</code> request,
   /// you identify the volume by providing its Amazon Resource Name (ARN). This
-  /// operation is only supported in stored and cached volume gateway types.
+  /// operation is only supported for cached volume gateway types.
   /// <note>
   /// To list or delete a snapshot, you must use the Amazon EC2 API. For more
   /// information, go to <a
@@ -1912,7 +2132,7 @@ class StorageGateway {
   /// Parameter [gatewayARN] :
   /// The unique Amazon Resource Name (ARN) of the gateway that the virtual tape
   /// to delete is associated with. Use the <a>ListGateways</a> operation to
-  /// return a list of gateways for your account and AWS Region.
+  /// return a list of gateways for your account and Amazon Web Services Region.
   ///
   /// Parameter [tapeARN] :
   /// The Amazon Resource Name (ARN) of the virtual tape to delete.
@@ -2064,7 +2284,7 @@ class StorageGateway {
     return DeleteVolumeOutput.fromJson(jsonResponse.body);
   }
 
-  /// Returns information about the most recent High Availability monitoring
+  /// Returns information about the most recent high availability monitoring
   /// test that was performed on the host in a cluster. If a test isn't
   /// performed, the status and start time in the response would be null.
   ///
@@ -2094,10 +2314,11 @@ class StorageGateway {
 
   /// Returns the bandwidth rate limits of a gateway. By default, these limits
   /// are not set, which means no bandwidth rate limiting is in effect. This
-  /// operation is supported for the stored volume, cached volume, and tape
-  /// gateway types.
+  /// operation is supported only for the stored volume, cached volume, and tape
+  /// gateway types. To describe bandwidth rate limits for S3 file gateways, use
+  /// <a>DescribeBandwidthRateLimitSchedule</a>.
   ///
-  /// This operation only returns a value for a bandwidth rate limit only if the
+  /// This operation returns a value for a bandwidth rate limit only if the
   /// limit is set. If no limits are set for the gateway, then this operation
   /// returns only the gateway ARN in the response body. To specify which
   /// gateway to describe, use the Amazon Resource Name (ARN) of the gateway in
@@ -2129,7 +2350,8 @@ class StorageGateway {
   /// Returns information about the bandwidth rate limit schedule of a gateway.
   /// By default, gateways do not have bandwidth rate limit schedules, which
   /// means no bandwidth rate limiting is in effect. This operation is supported
-  /// only in the volume and tape gateway types.
+  /// only for volume, tape and S3 file gateways. FSx file gateways do not
+  /// support bandwidth rate limits.
   ///
   /// This operation returns information about a gateway's bandwidth rate limit
   /// schedule. A bandwidth rate limit schedule consists of one or more
@@ -2204,8 +2426,8 @@ class StorageGateway {
   /// This operation is only supported in the cached volume gateway types.
   ///
   /// The list of gateway volumes in the request must be from one gateway. In
-  /// the response, AWS Storage Gateway returns volume information sorted by
-  /// volume Amazon Resource Name (ARN).
+  /// the response, Storage Gateway returns volume information sorted by volume
+  /// Amazon Resource Name (ARN).
   ///
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
@@ -2268,6 +2490,36 @@ class StorageGateway {
     return DescribeChapCredentialsOutput.fromJson(jsonResponse.body);
   }
 
+  /// Gets the file system association information. This operation is only
+  /// supported for FSx File Gateways.
+  ///
+  /// May throw [InvalidGatewayRequestException].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [fileSystemAssociationARNList] :
+  /// An array containing the Amazon Resource Name (ARN) of each file system
+  /// association to be described.
+  Future<DescribeFileSystemAssociationsOutput> describeFileSystemAssociations({
+    required List<String> fileSystemAssociationARNList,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StorageGateway_20130630.DescribeFileSystemAssociations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'FileSystemAssociationARNList': fileSystemAssociationARNList,
+      },
+    );
+
+    return DescribeFileSystemAssociationsOutput.fromJson(jsonResponse.body);
+  }
+
   /// Returns metadata about a gateway such as its name, network interfaces,
   /// configured time zone, and the state (whether the gateway is running or
   /// not). To specify which gateway to describe, use the Amazon Resource Name
@@ -2324,7 +2576,8 @@ class StorageGateway {
   }
 
   /// Gets a description for one or more Network File System (NFS) file shares
-  /// from a file gateway. This operation is only supported for file gateways.
+  /// from an S3 File Gateway. This operation is only supported for S3 File
+  /// Gateways.
   ///
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
@@ -2354,7 +2607,8 @@ class StorageGateway {
   }
 
   /// Gets a description for one or more Server Message Block (SMB) file shares
-  /// from a file gateway. This operation is only supported for file gateways.
+  /// from a S3 File Gateway. This operation is only supported for S3 File
+  /// Gateways.
   ///
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
@@ -2443,9 +2697,8 @@ class StorageGateway {
 
   /// Returns the description of the gateway volumes specified in the request.
   /// The list of gateway volumes in the request must be from one gateway. In
-  /// the response, AWS Storage Gateway returns volume information sorted by
-  /// volume ARNs. This operation is only supported in stored volume gateway
-  /// type.
+  /// the response, Storage Gateway returns volume information sorted by volume
+  /// ARNs. This operation is only supported in stored volume gateway type.
   ///
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
@@ -2478,7 +2731,7 @@ class StorageGateway {
   /// Returns a description of specified virtual tapes in the virtual tape shelf
   /// (VTS). This operation is only supported in the tape gateway type.
   ///
-  /// If a specific <code>TapeARN</code> is not specified, AWS Storage Gateway
+  /// If a specific <code>TapeARN</code> is not specified, Storage Gateway
   /// returns a description of all virtual tapes found in the VTS associated
   /// with your account.
   ///
@@ -2665,7 +2918,7 @@ class StorageGateway {
   }
 
   /// Returns a description of virtual tape library (VTL) devices for the
-  /// specified tape gateway. In the response, AWS Storage Gateway returns VTL
+  /// specified tape gateway. In the response, Storage Gateway returns VTL
   /// device information.
   ///
   /// This operation is only supported in the tape gateway type.
@@ -2833,6 +3086,47 @@ class StorageGateway {
     return DisableGatewayOutput.fromJson(jsonResponse.body);
   }
 
+  /// Disassociates an Amazon FSx file system from the specified gateway. After
+  /// the disassociation process finishes, the gateway can no longer access the
+  /// Amazon FSx file system. This operation is only supported in the FSx File
+  /// Gateway type.
+  ///
+  /// May throw [InvalidGatewayRequestException].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [fileSystemAssociationARN] :
+  /// The Amazon Resource Name (ARN) of the file system association to be
+  /// deleted.
+  ///
+  /// Parameter [forceDelete] :
+  /// If this value is set to true, the operation disassociates an Amazon FSx
+  /// file system immediately. It ends all data uploads to the file system, and
+  /// the file system association enters the <code>FORCE_DELETING</code> status.
+  /// If this value is set to false, the Amazon FSx file system does not
+  /// disassociate until all data is uploaded.
+  Future<DisassociateFileSystemOutput> disassociateFileSystem({
+    required String fileSystemAssociationARN,
+    bool? forceDelete,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StorageGateway_20130630.DisassociateFileSystem'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'FileSystemAssociationARN': fileSystemAssociationARN,
+        if (forceDelete != null) 'ForceDelete': forceDelete,
+      },
+    );
+
+    return DisassociateFileSystemOutput.fromJson(jsonResponse.body);
+  }
+
   /// Adds a file gateway to an Active Directory domain. This operation is only
   /// supported for file gateways that support the SMB file protocol.
   ///
@@ -2845,7 +3139,7 @@ class StorageGateway {
   /// Parameter [gatewayARN] :
   /// The Amazon Resource Name (ARN) of the gateway. Use the
   /// <code>ListGateways</code> operation to return a list of gateways for your
-  /// account and AWS Region.
+  /// account and Amazon Web Services Region.
   ///
   /// Parameter [password] :
   /// Sets the password of the user who has permission to add the gateway to the
@@ -2942,9 +3236,9 @@ class StorageGateway {
     return ListAutomaticTapeCreationPoliciesOutput.fromJson(jsonResponse.body);
   }
 
-  /// Gets a list of the file shares for a specific file gateway, or the list of
-  /// file shares that belong to the calling user account. This operation is
-  /// only supported for file gateways.
+  /// Gets a list of the file shares for a specific S3 File Gateway, or the list
+  /// of file shares that belong to the calling user account. This operation is
+  /// only supported for S3 File Gateways.
   ///
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
@@ -2993,9 +3287,57 @@ class StorageGateway {
     return ListFileSharesOutput.fromJson(jsonResponse.body);
   }
 
-  /// Lists gateways owned by an AWS account in an AWS Region specified in the
-  /// request. The returned list is ordered by gateway Amazon Resource Name
-  /// (ARN).
+  /// Gets a list of <code>FileSystemAssociationSummary</code> objects. Each
+  /// object contains a summary of a file system association. This operation is
+  /// only supported for FSx File Gateways.
+  ///
+  /// May throw [InvalidGatewayRequestException].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of file system associations to return in the response.
+  /// If present, <code>Limit</code> must be an integer with a value greater
+  /// than zero. Optional.
+  ///
+  /// Parameter [marker] :
+  /// Opaque pagination token returned from a previous
+  /// <code>ListFileSystemAssociations</code> operation. If present,
+  /// <code>Marker</code> specifies where to continue the list from after a
+  /// previous call to <code>ListFileSystemAssociations</code>. Optional.
+  Future<ListFileSystemAssociationsOutput> listFileSystemAssociations({
+    String? gatewayARN,
+    int? limit,
+    String? marker,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      1152921504606846976,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StorageGateway_20130630.ListFileSystemAssociations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (gatewayARN != null) 'GatewayARN': gatewayARN,
+        if (limit != null) 'Limit': limit,
+        if (marker != null) 'Marker': marker,
+      },
+    );
+
+    return ListFileSystemAssociationsOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Lists gateways owned by an Amazon Web Services account in an Amazon Web
+  /// Services Region specified in the request. The returned list is ordered by
+  /// gateway Amazon Resource Name (ARN).
   ///
   /// By default, the operation returns a maximum of 100 gateways. This
   /// operation supports pagination that allows you to optionally reduce the
@@ -3359,20 +3701,20 @@ class StorageGateway {
   }
 
   /// Sends you notification through CloudWatch Events when all files written to
-  /// your file share have been uploaded to Amazon S3.
+  /// your file share have been uploaded to S3. Amazon S3.
   ///
-  /// AWS Storage Gateway can send a notification through Amazon CloudWatch
-  /// Events when all files written to your file share up to that point in time
-  /// have been uploaded to Amazon S3. These files include files written to the
-  /// file share up to the time that you make a request for notification. When
-  /// the upload is done, Storage Gateway sends you notification through an
-  /// Amazon CloudWatch Event. You can configure CloudWatch Events to send the
-  /// notification through event targets such as Amazon SNS or AWS Lambda
-  /// function. This operation is only supported for file gateways.
+  /// Storage Gateway can send a notification through Amazon CloudWatch Events
+  /// when all files written to your file share up to that point in time have
+  /// been uploaded to Amazon S3. These files include files written to the file
+  /// share up to the time that you make a request for notification. When the
+  /// upload is done, Storage Gateway sends you notification through an Amazon
+  /// CloudWatch Event. You can configure CloudWatch Events to send the
+  /// notification through event targets such as Amazon SNS or Lambda function.
+  /// This operation is only supported for S3 File Gateways.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/monitoring-file-gateway.html#get-upload-notification">Getting
-  /// file upload notification</a> in the <i>AWS Storage Gateway User Guide</i>.
+  /// file upload notification</a> in the <i>Storage Gateway User Guide</i>.
   ///
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
@@ -3397,40 +3739,58 @@ class StorageGateway {
     return NotifyWhenUploadedOutput.fromJson(jsonResponse.body);
   }
 
-  /// Refreshes the cache for the specified file share. This operation finds
-  /// objects in the Amazon S3 bucket that were added, removed, or replaced
-  /// since the gateway last listed the bucket's contents and cached the
-  /// results. This operation is only supported in the file gateway type. You
-  /// can subscribe to be notified through an Amazon CloudWatch event when your
-  /// RefreshCache operation completes. For more information, see <a
+  /// Refreshes the cached inventory of objects for the specified file share.
+  /// This operation finds objects in the Amazon S3 bucket that were added,
+  /// removed, or replaced since the gateway last listed the bucket's contents
+  /// and cached the results. This operation does not import files into the S3
+  /// File Gateway cache storage. It only updates the cached inventory to
+  /// reflect changes in the inventory of the objects in the S3 bucket. This
+  /// operation is only supported in the S3 File Gateway types.
+  ///
+  /// You can subscribe to be notified through an Amazon CloudWatch event when
+  /// your <code>RefreshCache</code> operation completes. For more information,
+  /// see <a
   /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/monitoring-file-gateway.html#get-notification">Getting
-  /// notified about file operations</a> in the <i>AWS Storage Gateway User
-  /// Guide</i>.
+  /// notified about file operations</a> in the <i>Storage Gateway User
+  /// Guide</i>. This operation is Only supported for S3 File Gateways.
   ///
   /// When this API is called, it only initiates the refresh operation. When the
   /// API call completes and returns a success code, it doesn't necessarily mean
   /// that the file refresh has completed. You should use the refresh-complete
   /// notification to determine that the operation has completed before you
   /// check for new files on the gateway file share. You can subscribe to be
-  /// notified through an CloudWatch event when your <code>RefreshCache</code>
+  /// notified through a CloudWatch event when your <code>RefreshCache</code>
   /// operation completes.
   ///
-  /// Throttle limit: This API is asynchronous so the gateway will accept no
+  /// Throttle limit: This API is asynchronous, so the gateway will accept no
   /// more than two refreshes at any time. We recommend using the
   /// refresh-complete CloudWatch event notification before issuing additional
   /// requests. For more information, see <a
   /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/monitoring-file-gateway.html#get-notification">Getting
-  /// notified about file operations</a> in the <i>AWS Storage Gateway User
+  /// notified about file operations</a> in the <i>Storage Gateway User
   /// Guide</i>.
-  ///
+  /// <important>
+  /// <ul>
+  /// <li>
+  /// Wait at least 60 seconds between consecutive RefreshCache API requests.
+  /// </li>
+  /// <li>
+  /// RefreshCache does not evict cache entries if invoked consecutively within
+  /// 60 seconds of a previous RefreshCache request.
+  /// </li>
+  /// <li>
   /// If you invoke the RefreshCache API when two requests are already being
   /// processed, any new request will cause an
   /// <code>InvalidGatewayRequestException</code> error because too many
   /// requests were sent to the server.
-  ///
+  /// </li>
+  /// </ul> </important> <note>
+  /// The S3 bucket name does not need to be included when entering the list of
+  /// folders in the FolderList parameter.
+  /// </note>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/monitoring-file-gateway.html#get-notification">Getting
-  /// notified about file operations</a> in the <i>AWS Storage Gateway User
+  /// notified about file operations</a> in the <i>Storage Gateway User
   /// Guide</i>.
   ///
   /// May throw [InvalidGatewayRequestException].
@@ -3574,7 +3934,7 @@ class StorageGateway {
   /// Parameter [gatewayARN] :
   /// The Amazon Resource Name (ARN) of the gateway you want to retrieve the
   /// virtual tape to. Use the <a>ListGateways</a> operation to return a list of
-  /// gateways for your account and AWS Region.
+  /// gateways for your account and Amazon Web Services Region.
   ///
   /// You retrieve archived virtual tapes to only one gateway and the gateway
   /// must be a tape gateway.
@@ -3681,14 +4041,15 @@ class StorageGateway {
 
   /// Sets the password for the guest user <code>smbguest</code>. The
   /// <code>smbguest</code> user is the user when the authentication method for
-  /// the file share is set to <code>GuestAccess</code>.
+  /// the file share is set to <code>GuestAccess</code>. This operation only
+  /// supported for S3 File Gateways
   ///
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
   ///
   /// Parameter [gatewayARN] :
-  /// The Amazon Resource Name (ARN) of the file gateway the SMB file share is
-  /// associated with.
+  /// The Amazon Resource Name (ARN) of the S3 File Gateway the SMB file share
+  /// is associated with.
   ///
   /// Parameter [password] :
   /// The password that you want to set for your SMB server.
@@ -3876,8 +4237,9 @@ class StorageGateway {
   /// Updates the bandwidth rate limits of a gateway. You can update both the
   /// upload and download bandwidth rate limit or specify only one of the two.
   /// If you don't set a bandwidth rate limit, the existing rate limit remains.
-  /// This operation is supported for the stored volume, cached volume, and tape
-  /// gateway types.
+  /// This operation is supported only for the stored volume, cached volume, and
+  /// tape gateway types. To update bandwidth rate limits for S3 file gateways,
+  /// use <a>UpdateBandwidthRateLimitSchedule</a>.
   ///
   /// By default, a gateway's bandwidth rate limits are not set. If you don't
   /// set any limit, the gateway does not have any limitations on its bandwidth
@@ -3938,8 +4300,9 @@ class StorageGateway {
   /// Updates the bandwidth rate limit schedule for a specified gateway. By
   /// default, gateways do not have bandwidth rate limit schedules, which means
   /// no bandwidth rate limiting is in effect. Use this to initiate or update a
-  /// gateway's bandwidth rate limit schedule. This operation is supported in
-  /// the volume and tape gateway types.
+  /// gateway's bandwidth rate limit schedule. This operation is supported only
+  /// for volume, tape and S3 file gateways. FSx file gateways do not support
+  /// bandwidth rate limits.
   ///
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
@@ -4035,6 +4398,56 @@ class StorageGateway {
     return UpdateChapCredentialsOutput.fromJson(jsonResponse.body);
   }
 
+  /// Updates a file system association. This operation is only supported in the
+  /// FSx File Gateways.
+  ///
+  /// May throw [InvalidGatewayRequestException].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [fileSystemAssociationARN] :
+  /// The Amazon Resource Name (ARN) of the file system association that you
+  /// want to update.
+  ///
+  /// Parameter [auditDestinationARN] :
+  /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
+  ///
+  /// Parameter [password] :
+  /// The password of the user credential.
+  ///
+  /// Parameter [userName] :
+  /// The user name of the user credential that has permission to access the
+  /// root share D$ of the Amazon FSx file system. The user account must belong
+  /// to the Amazon FSx delegated admin user group.
+  Future<UpdateFileSystemAssociationOutput> updateFileSystemAssociation({
+    required String fileSystemAssociationARN,
+    String? auditDestinationARN,
+    CacheAttributes? cacheAttributes,
+    String? password,
+    String? userName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StorageGateway_20130630.UpdateFileSystemAssociation'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'FileSystemAssociationARN': fileSystemAssociationARN,
+        if (auditDestinationARN != null)
+          'AuditDestinationARN': auditDestinationARN,
+        if (cacheAttributes != null) 'CacheAttributes': cacheAttributes,
+        if (password != null) 'Password': password,
+        if (userName != null) 'UserName': userName,
+      },
+    );
+
+    return UpdateFileSystemAssociationOutput.fromJson(jsonResponse.body);
+  }
+
   /// Updates a gateway's metadata, which includes the gateway's name and time
   /// zone. To specify which gateway to update, use the Amazon Resource Name
   /// (ARN) of the gateway in your request.
@@ -4055,11 +4468,15 @@ class StorageGateway {
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html">What
   /// is Amazon CloudWatch Logs?</a>
   ///
+  /// Parameter [gatewayCapacity] :
+  /// Specifies the size of the gateway's metadata cache.
+  ///
   /// Parameter [gatewayTimezone] :
   /// A value that indicates the time zone of the gateway.
   Future<UpdateGatewayInformationOutput> updateGatewayInformation({
     required String gatewayARN,
     String? cloudWatchLogGroupARN,
+    GatewayCapacity? gatewayCapacity,
     String? gatewayName,
     String? gatewayTimezone,
   }) async {
@@ -4077,6 +4494,8 @@ class StorageGateway {
         'GatewayARN': gatewayARN,
         if (cloudWatchLogGroupARN != null)
           'CloudWatchLogGroupARN': cloudWatchLogGroupARN,
+        if (gatewayCapacity != null)
+          'GatewayCapacity': gatewayCapacity.toValue(),
         if (gatewayName != null) 'GatewayName': gatewayName,
         if (gatewayTimezone != null) 'GatewayTimezone': gatewayTimezone,
       },
@@ -4208,7 +4627,7 @@ class StorageGateway {
   }
 
   /// Updates a Network File System (NFS) file share. This operation is only
-  /// supported in the file gateway type.
+  /// supported in S3 File Gateways.
   /// <note>
   /// To leave a file share field unchanged, set the corresponding input field
   /// to null.
@@ -4239,17 +4658,19 @@ class StorageGateway {
   /// Parameter [fileShareARN] :
   /// The Amazon Resource Name (ARN) of the file share to be updated.
   ///
+  /// Parameter [auditDestinationARN] :
+  /// The Amazon Resource Name (ARN) of the storage used for audit logs.
+  ///
   /// Parameter [cacheAttributes] :
-  /// Refresh cache information.
+  /// Specifies refresh cache information for the file share.
   ///
   /// Parameter [clientList] :
-  /// The list of clients that are allowed to access the file gateway. The list
-  /// must contain either valid IP addresses or valid CIDR blocks.
+  /// The list of clients that are allowed to access the S3 File Gateway. The
+  /// list must contain either valid IP addresses or valid CIDR blocks.
   ///
   /// Parameter [defaultStorageClass] :
   /// The default storage class for objects put into an Amazon S3 bucket by the
-  /// file gateway. The default value is <code>S3_INTELLIGENT_TIERING</code>.
-  /// Optional.
+  /// S3 File Gateway. The default value is <code>S3_STANDARD</code>. Optional.
   ///
   /// Valid Values: <code>S3_STANDARD</code> |
   /// <code>S3_INTELLIGENT_TIERING</code> | <code>S3_STANDARD_IA</code> |
@@ -4259,7 +4680,8 @@ class StorageGateway {
   /// The name of the file share. Optional.
   /// <note>
   /// <code>FileShareName</code> must be set if an S3 prefix name is set in
-  /// <code>LocationARN</code>.
+  /// <code>LocationARN</code>, or if an access point or access point alias is
+  /// used.
   /// </note>
   ///
   /// Parameter [guessMIMETypeEnabled] :
@@ -4272,7 +4694,7 @@ class StorageGateway {
   ///
   /// Parameter [kMSEncrypted] :
   /// Set to <code>true</code> to use Amazon S3 server-side encryption with your
-  /// own AWS KMS key, or <code>false</code> to use a key managed by Amazon S3.
+  /// own KMS key, or <code>false</code> to use a key managed by Amazon S3.
   /// Optional.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
@@ -4288,11 +4710,29 @@ class StorageGateway {
   ///
   /// Parameter [notificationPolicy] :
   /// The notification policy of the file share.
+  /// <code>SettlingTimeInSeconds</code> controls the number of seconds to wait
+  /// after the last point in time a client wrote to a file before generating an
+  /// <code>ObjectUploaded</code> notification. Because clients can make many
+  /// small writes to files, it's best to set this parameter for as long as
+  /// possible to avoid generating multiple notifications for the same file in a
+  /// small time period.
+  /// <note>
+  /// <code>SettlingTimeInSeconds</code> has no effect on the timing of the
+  /// object uploading to Amazon S3, only the timing of the notification.
+  /// </note>
+  /// The following example sets <code>NotificationPolicy</code> on with
+  /// <code>SettlingTimeInSeconds</code> set to 60.
+  ///
+  /// <code>{\"Upload\": {\"SettlingTimeInSeconds\": 60}}</code>
+  ///
+  /// The following example sets <code>NotificationPolicy</code> off.
+  ///
+  /// <code>{}</code>
   ///
   /// Parameter [objectACL] :
   /// A value that sets the access control list (ACL) permission for objects in
-  /// the S3 bucket that a file gateway puts objects into. The default value is
-  /// <code>private</code>.
+  /// the S3 bucket that a S3 File Gateway puts objects into. The default value
+  /// is <code>private</code>.
   ///
   /// Parameter [readOnly] :
   /// A value that sets the write status of a file share. Set this value to
@@ -4332,6 +4772,7 @@ class StorageGateway {
   /// </ul>
   Future<UpdateNFSFileShareOutput> updateNFSFileShare({
     required String fileShareARN,
+    String? auditDestinationARN,
     CacheAttributes? cacheAttributes,
     List<String>? clientList,
     String? defaultStorageClass,
@@ -4358,6 +4799,8 @@ class StorageGateway {
       headers: headers,
       payload: {
         'FileShareARN': fileShareARN,
+        if (auditDestinationARN != null)
+          'AuditDestinationARN': auditDestinationARN,
         if (cacheAttributes != null) 'CacheAttributes': cacheAttributes,
         if (clientList != null) 'ClientList': clientList,
         if (defaultStorageClass != null)
@@ -4382,19 +4825,20 @@ class StorageGateway {
   }
 
   /// Updates a Server Message Block (SMB) file share. This operation is only
-  /// supported for file gateways.
+  /// supported for S3 File Gateways.
   /// <note>
   /// To leave a file share field unchanged, set the corresponding input field
   /// to null.
   /// </note> <important>
-  /// File gateways require AWS Security Token Service (AWS STS) to be activated
-  /// to enable you to create a file share. Make sure that AWS STS is activated
-  /// in the AWS Region you are creating your file gateway in. If AWS STS is not
-  /// activated in this AWS Region, activate it. For information about how to
-  /// activate AWS STS, see <a
+  /// File gateways require Security Token Service (Amazon Web Services STS) to
+  /// be activated to enable you to create a file share. Make sure that Amazon
+  /// Web Services STS is activated in the Amazon Web Services Region you are
+  /// creating your file gateway in. If Amazon Web Services STS is not activated
+  /// in this Amazon Web Services Region, activate it. For information about how
+  /// to activate Amazon Web Services STS, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html">Activating
-  /// and deactivating AWS STS in an AWS Region</a> in the <i>AWS Identity and
-  /// Access Management User Guide</i>.
+  /// and deactivating Amazon Web Services STS in an Amazon Web Services
+  /// Region</a> in the <i>Identity and Access Management User Guide</i>.
   ///
   /// File gateways don't support creating hard or symbolic links on a file
   /// share.
@@ -4419,10 +4863,10 @@ class StorageGateway {
   /// Authentication is set to <code>ActiveDirectory</code>.
   ///
   /// Parameter [auditDestinationARN] :
-  /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
+  /// The Amazon Resource Name (ARN) of the storage used for audit logs.
   ///
   /// Parameter [cacheAttributes] :
-  /// Refresh cache information.
+  /// Specifies refresh cache information for the file share.
   ///
   /// Parameter [caseSensitivity] :
   /// The case of an object name in an Amazon S3 bucket. For
@@ -4432,8 +4876,7 @@ class StorageGateway {
   ///
   /// Parameter [defaultStorageClass] :
   /// The default storage class for objects put into an Amazon S3 bucket by the
-  /// file gateway. The default value is <code>S3_INTELLIGENT_TIERING</code>.
-  /// Optional.
+  /// S3 File Gateway. The default value is <code>S3_STANDARD</code>. Optional.
   ///
   /// Valid Values: <code>S3_STANDARD</code> |
   /// <code>S3_INTELLIGENT_TIERING</code> | <code>S3_STANDARD_IA</code> |
@@ -4443,7 +4886,8 @@ class StorageGateway {
   /// The name of the file share. Optional.
   /// <note>
   /// <code>FileShareName</code> must be set if an S3 prefix name is set in
-  /// <code>LocationARN</code>.
+  /// <code>LocationARN</code>, or if an access point or access point alias is
+  /// used.
   /// </note>
   ///
   /// Parameter [guessMIMETypeEnabled] :
@@ -4463,7 +4907,7 @@ class StorageGateway {
   ///
   /// Parameter [kMSEncrypted] :
   /// Set to <code>true</code> to use Amazon S3 server-side encryption with your
-  /// own AWS KMS key, or <code>false</code> to use a key managed by Amazon S3.
+  /// own KMS key, or <code>false</code> to use a key managed by Amazon S3.
   /// Optional.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
@@ -4476,11 +4920,38 @@ class StorageGateway {
   ///
   /// Parameter [notificationPolicy] :
   /// The notification policy of the file share.
+  /// <code>SettlingTimeInSeconds</code> controls the number of seconds to wait
+  /// after the last point in time a client wrote to a file before generating an
+  /// <code>ObjectUploaded</code> notification. Because clients can make many
+  /// small writes to files, it's best to set this parameter for as long as
+  /// possible to avoid generating multiple notifications for the same file in a
+  /// small time period.
+  /// <note>
+  /// <code>SettlingTimeInSeconds</code> has no effect on the timing of the
+  /// object uploading to Amazon S3, only the timing of the notification.
+  /// </note>
+  /// The following example sets <code>NotificationPolicy</code> on with
+  /// <code>SettlingTimeInSeconds</code> set to 60.
+  ///
+  /// <code>{\"Upload\": {\"SettlingTimeInSeconds\": 60}}</code>
+  ///
+  /// The following example sets <code>NotificationPolicy</code> off.
+  ///
+  /// <code>{}</code>
   ///
   /// Parameter [objectACL] :
   /// A value that sets the access control list (ACL) permission for objects in
-  /// the S3 bucket that a file gateway puts objects into. The default value is
-  /// <code>private</code>.
+  /// the S3 bucket that a S3 File Gateway puts objects into. The default value
+  /// is <code>private</code>.
+  ///
+  /// Parameter [oplocksEnabled] :
+  /// Specifies whether opportunistic locking is enabled for the SMB file share.
+  /// <note>
+  /// Enabling opportunistic locking on case-sensitive shares is not recommended
+  /// for workloads that involve access to files with the same name in different
+  /// case.
+  /// </note>
+  /// Valid Values: <code>true</code> | <code>false</code>
   ///
   /// Parameter [readOnly] :
   /// A value that sets the write status of a file share. Set this value to
@@ -4510,7 +4981,7 @@ class StorageGateway {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/smb-acl.html">Using
   /// Microsoft Windows ACLs to control access to an SMB file share</a> in the
-  /// <i>AWS Storage Gateway User Guide</i>.
+  /// <i>Storage Gateway User Guide</i>.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
   ///
@@ -4535,6 +5006,7 @@ class StorageGateway {
     String? kMSKey,
     String? notificationPolicy,
     ObjectACL? objectACL,
+    bool? oplocksEnabled,
     bool? readOnly,
     bool? requesterPays,
     bool? sMBACLEnabled,
@@ -4571,6 +5043,7 @@ class StorageGateway {
         if (notificationPolicy != null)
           'NotificationPolicy': notificationPolicy,
         if (objectACL != null) 'ObjectACL': objectACL.toValue(),
+        if (oplocksEnabled != null) 'OplocksEnabled': oplocksEnabled,
         if (readOnly != null) 'ReadOnly': readOnly,
         if (requesterPays != null) 'RequesterPays': requesterPays,
         if (sMBACLEnabled != null) 'SMBACLEnabled': sMBACLEnabled,
@@ -4581,8 +5054,8 @@ class StorageGateway {
     return UpdateSMBFileShareOutput.fromJson(jsonResponse.body);
   }
 
-  /// Controls whether the shares on a gateway are visible in a net view or
-  /// browse list.
+  /// Controls whether the shares on an S3 File Gateway are visible in a net
+  /// view or browse list. The operation is only supported for S3 File Gateways.
   ///
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
@@ -4612,6 +5085,38 @@ class StorageGateway {
     return UpdateSMBFileShareVisibilityOutput.fromJson(jsonResponse.body);
   }
 
+  /// Updates the list of Active Directory users and groups that have special
+  /// permissions for SMB file shares on the gateway.
+  ///
+  /// May throw [InvalidGatewayRequestException].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [sMBLocalGroups] :
+  /// A list of Active Directory users and groups that you want to grant special
+  /// permissions for SMB file shares on the gateway.
+  Future<UpdateSMBLocalGroupsOutput> updateSMBLocalGroups({
+    required String gatewayARN,
+    required SMBLocalGroups sMBLocalGroups,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StorageGateway_20130630.UpdateSMBLocalGroups'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'GatewayARN': gatewayARN,
+        'SMBLocalGroups': sMBLocalGroups,
+      },
+    );
+
+    return UpdateSMBLocalGroupsOutput.fromJson(jsonResponse.body);
+  }
+
   /// Updates the SMB security strategy on a file gateway. This action is only
   /// supported in file gateways.
   /// <note>
@@ -4629,6 +5134,7 @@ class StorageGateway {
   /// ClientSpecified: if you use this option, requests are established based on
   /// what is negotiated by the client. This option is recommended when you want
   /// to maximize compatibility across different clients in your environment.
+  /// Supported only in S3 File Gateway.
   ///
   /// MandatorySigning: if you use this option, file gateway only allows
   /// connections from SMBv2 or SMBv3 clients that have signing enabled. This
@@ -4788,10 +5294,10 @@ class StorageGateway {
   }
 }
 
-/// AWS Storage Gateway returns the Amazon Resource Name (ARN) of the activated
+/// Storage Gateway returns the Amazon Resource Name (ARN) of the activated
 /// gateway. It is a string made of information such as your account, gateway
-/// name, and AWS Region. This ARN is used to reference the gateway in other API
-/// operations as well as resource-based authorization.
+/// name, and Amazon Web Services Region. This ARN is used to reference the
+/// gateway in other API operations as well as resource-based authorization.
 /// <note>
 /// For gateways activated prior to September 02, 2015, the gateway ARN contains
 /// the gateway name rather than the gateway ID. Changing the name of the
@@ -4803,6 +5309,7 @@ class ActivateGatewayOutput {
   ActivateGatewayOutput({
     this.gatewayARN,
   });
+
   factory ActivateGatewayOutput.fromJson(Map<String, dynamic> json) {
     return ActivateGatewayOutput(
       gatewayARN: json['GatewayARN'] as String?,
@@ -4869,6 +5376,7 @@ class AddCacheOutput {
   AddCacheOutput({
     this.gatewayARN,
   });
+
   factory AddCacheOutput.fromJson(Map<String, dynamic> json) {
     return AddCacheOutput(
       gatewayARN: json['GatewayARN'] as String?,
@@ -4884,6 +5392,7 @@ class AddTagsToResourceOutput {
   AddTagsToResourceOutput({
     this.resourceARN,
   });
+
   factory AddTagsToResourceOutput.fromJson(Map<String, dynamic> json) {
     return AddTagsToResourceOutput(
       resourceARN: json['ResourceARN'] as String?,
@@ -4897,6 +5406,7 @@ class AddUploadBufferOutput {
   AddUploadBufferOutput({
     this.gatewayARN,
   });
+
   factory AddUploadBufferOutput.fromJson(Map<String, dynamic> json) {
     return AddUploadBufferOutput(
       gatewayARN: json['GatewayARN'] as String?,
@@ -4912,6 +5422,7 @@ class AddWorkingStorageOutput {
   AddWorkingStorageOutput({
     this.gatewayARN,
   });
+
   factory AddWorkingStorageOutput.fromJson(Map<String, dynamic> json) {
     return AddWorkingStorageOutput(
       gatewayARN: json['GatewayARN'] as String?,
@@ -4927,9 +5438,25 @@ class AssignTapePoolOutput {
   AssignTapePoolOutput({
     this.tapeARN,
   });
+
   factory AssignTapePoolOutput.fromJson(Map<String, dynamic> json) {
     return AssignTapePoolOutput(
       tapeARN: json['TapeARN'] as String?,
+    );
+  }
+}
+
+class AssociateFileSystemOutput {
+  /// The ARN of the newly created file system association.
+  final String? fileSystemAssociationARN;
+
+  AssociateFileSystemOutput({
+    this.fileSystemAssociationARN,
+  });
+
+  factory AssociateFileSystemOutput.fromJson(Map<String, dynamic> json) {
+    return AssociateFileSystemOutput(
+      fileSystemAssociationARN: json['FileSystemAssociationARN'] as String?,
     );
   }
 }
@@ -4948,6 +5475,7 @@ class AttachVolumeOutput {
     this.targetARN,
     this.volumeARN,
   });
+
   factory AttachVolumeOutput.fromJson(Map<String, dynamic> json) {
     return AttachVolumeOutput(
       targetARN: json['TargetARN'] as String?,
@@ -4970,6 +5498,7 @@ class AutomaticTapeCreationPolicyInfo {
     this.automaticTapeCreationRules,
     this.gatewayARN,
   });
+
   factory AutomaticTapeCreationPolicyInfo.fromJson(Map<String, dynamic> json) {
     return AutomaticTapeCreationPolicyInfo(
       automaticTapeCreationRules: (json['AutomaticTapeCreationRules'] as List?)
@@ -5002,8 +5531,6 @@ class AutomaticTapeCreationRule {
   /// with the pool. When you use your backup application to eject the tape, the
   /// tape is archived directly into the storage class (S3 Glacier or S3 Glacier
   /// Deep Archive) that corresponds to the pool.
-  ///
-  /// Valid Values: <code>GLACIER</code> | <code>DEEP_ARCHIVE</code>
   final String poolId;
 
   /// A prefix that you append to the barcode of the virtual tape that you are
@@ -5029,6 +5556,7 @@ class AutomaticTapeCreationRule {
     required this.tapeSizeInBytes,
     this.worm,
   });
+
   factory AutomaticTapeCreationRule.fromJson(Map<String, dynamic> json) {
     return AutomaticTapeCreationRule(
       minimumNumTapes: json['MinimumNumTapes'] as int,
@@ -5097,7 +5625,7 @@ extension AvailabilityMonitorTestStatusFromString on String {
 class BandwidthRateLimitInterval {
   /// The days of the week component of the bandwidth rate limit interval,
   /// represented as ordinal numbers from 0 to 6, where 0 represents Sunday and 6
-  /// Saturday.
+  /// represents Saturday.
   final List<int> daysOfWeek;
 
   /// The hour of the day to end the bandwidth rate limit interval.
@@ -5137,6 +5665,7 @@ class BandwidthRateLimitInterval {
     this.averageDownloadRateLimitInBitsPerSec,
     this.averageUploadRateLimitInBitsPerSec,
   });
+
   factory BandwidthRateLimitInterval.fromJson(Map<String, dynamic> json) {
     return BandwidthRateLimitInterval(
       daysOfWeek: (json['DaysOfWeek'] as List)
@@ -5180,19 +5709,21 @@ class BandwidthRateLimitInterval {
   }
 }
 
-/// Lists refresh cache information.
+/// The refresh cache information for the file share or FSx file systems.
 class CacheAttributes {
   /// Refreshes a file share's cache by using Time To Live (TTL). TTL is the
   /// length of time since the last refresh after which access to the directory
   /// would cause the file gateway to first refresh that directory's contents from
-  /// the Amazon S3 bucket. The TTL duration is in seconds.
+  /// the Amazon S3 bucket or Amazon FSx file system. The TTL duration is in
+  /// seconds.
   ///
-  /// Valid Values: 300 to 2,592,000 seconds (5 minutes to 30 days)
+  /// Valid Values:0, 300 to 2,592,000 seconds (5 minutes to 30 days)
   final int? cacheStaleTimeoutInSeconds;
 
   CacheAttributes({
     this.cacheStaleTimeoutInSeconds,
   });
+
   factory CacheAttributes.fromJson(Map<String, dynamic> json) {
     return CacheAttributes(
       cacheStaleTimeoutInSeconds: json['CacheStaleTimeoutInSeconds'] as int?,
@@ -5268,6 +5799,12 @@ class CachediSCSIVolume {
   /// <note>
   /// This value is not available for volumes created prior to May 13, 2015, until
   /// you store data on the volume.
+  ///
+  /// If you use a delete tool that overwrites the data on your volume with random
+  /// data, your usage will not be reduced. This is because the random data is not
+  /// compressible. If you want to reduce the amount of billed storage on your
+  /// volume, we recommend overwriting your files with zeros to compress the data
+  /// to a negligible amount of actual storage.
   /// </note>
   final int? volumeUsedInBytes;
 
@@ -5290,6 +5827,7 @@ class CachediSCSIVolume {
     this.volumeUsedInBytes,
     this.volumeiSCSIAttributes,
   });
+
   factory CachediSCSIVolume.fromJson(Map<String, dynamic> json) {
     return CachediSCSIVolume(
       createdDate: timeStampFromJson(json['CreatedDate']),
@@ -5321,6 +5859,7 @@ class CancelArchivalOutput {
   CancelArchivalOutput({
     this.tapeARN,
   });
+
   factory CancelArchivalOutput.fromJson(Map<String, dynamic> json) {
     return CancelArchivalOutput(
       tapeARN: json['TapeARN'] as String?,
@@ -5337,6 +5876,7 @@ class CancelRetrievalOutput {
   CancelRetrievalOutput({
     this.tapeARN,
   });
+
   factory CancelRetrievalOutput.fromJson(Map<String, dynamic> json) {
     return CancelRetrievalOutput(
       tapeARN: json['TapeARN'] as String?,
@@ -5398,6 +5938,7 @@ class ChapInfo {
     this.secretToAuthenticateTarget,
     this.targetARN,
   });
+
   factory ChapInfo.fromJson(Map<String, dynamic> json) {
     return ChapInfo(
       initiatorName: json['InitiatorName'] as String?,
@@ -5421,6 +5962,7 @@ class CreateCachediSCSIVolumeOutput {
     this.targetARN,
     this.volumeARN,
   });
+
   factory CreateCachediSCSIVolumeOutput.fromJson(Map<String, dynamic> json) {
     return CreateCachediSCSIVolumeOutput(
       targetARN: json['TargetARN'] as String?,
@@ -5437,6 +5979,7 @@ class CreateNFSFileShareOutput {
   CreateNFSFileShareOutput({
     this.fileShareARN,
   });
+
   factory CreateNFSFileShareOutput.fromJson(Map<String, dynamic> json) {
     return CreateNFSFileShareOutput(
       fileShareARN: json['FileShareARN'] as String?,
@@ -5452,6 +5995,7 @@ class CreateSMBFileShareOutput {
   CreateSMBFileShareOutput({
     this.fileShareARN,
   });
+
   factory CreateSMBFileShareOutput.fromJson(Map<String, dynamic> json) {
     return CreateSMBFileShareOutput(
       fileShareARN: json['FileShareARN'] as String?,
@@ -5476,6 +6020,7 @@ class CreateSnapshotFromVolumeRecoveryPointOutput {
     this.volumeARN,
     this.volumeRecoveryPointTime,
   });
+
   factory CreateSnapshotFromVolumeRecoveryPointOutput.fromJson(
       Map<String, dynamic> json) {
     return CreateSnapshotFromVolumeRecoveryPointOutput(
@@ -5502,6 +6047,7 @@ class CreateSnapshotOutput {
     this.snapshotId,
     this.volumeARN,
   });
+
   factory CreateSnapshotOutput.fromJson(Map<String, dynamic> json) {
     return CreateSnapshotOutput(
       snapshotId: json['SnapshotId'] as String?,
@@ -5527,6 +6073,7 @@ class CreateStorediSCSIVolumeOutput {
     this.volumeARN,
     this.volumeSizeInBytes,
   });
+
   factory CreateStorediSCSIVolumeOutput.fromJson(Map<String, dynamic> json) {
     return CreateStorediSCSIVolumeOutput(
       targetARN: json['TargetARN'] as String?,
@@ -5539,12 +6086,13 @@ class CreateStorediSCSIVolumeOutput {
 class CreateTapePoolOutput {
   /// The unique Amazon Resource Name (ARN) that represents the custom tape pool.
   /// Use the <a>ListTapePools</a> operation to return a list of tape pools for
-  /// your account and AWS Region.
+  /// your account and Amazon Web Services Region.
   final String? poolARN;
 
   CreateTapePoolOutput({
     this.poolARN,
   });
+
   factory CreateTapePoolOutput.fromJson(Map<String, dynamic> json) {
     return CreateTapePoolOutput(
       poolARN: json['PoolARN'] as String?,
@@ -5561,6 +6109,7 @@ class CreateTapeWithBarcodeOutput {
   CreateTapeWithBarcodeOutput({
     this.tapeARN,
   });
+
   factory CreateTapeWithBarcodeOutput.fromJson(Map<String, dynamic> json) {
     return CreateTapeWithBarcodeOutput(
       tapeARN: json['TapeARN'] as String?,
@@ -5577,6 +6126,7 @@ class CreateTapesOutput {
   CreateTapesOutput({
     this.tapeARNs,
   });
+
   factory CreateTapesOutput.fromJson(Map<String, dynamic> json) {
     return CreateTapesOutput(
       tapeARNs: (json['TapeARNs'] as List?)
@@ -5593,6 +6143,7 @@ class DeleteAutomaticTapeCreationPolicyOutput {
   DeleteAutomaticTapeCreationPolicyOutput({
     this.gatewayARN,
   });
+
   factory DeleteAutomaticTapeCreationPolicyOutput.fromJson(
       Map<String, dynamic> json) {
     return DeleteAutomaticTapeCreationPolicyOutput(
@@ -5609,6 +6160,7 @@ class DeleteBandwidthRateLimitOutput {
   DeleteBandwidthRateLimitOutput({
     this.gatewayARN,
   });
+
   factory DeleteBandwidthRateLimitOutput.fromJson(Map<String, dynamic> json) {
     return DeleteBandwidthRateLimitOutput(
       gatewayARN: json['GatewayARN'] as String?,
@@ -5628,6 +6180,7 @@ class DeleteChapCredentialsOutput {
     this.initiatorName,
     this.targetARN,
   });
+
   factory DeleteChapCredentialsOutput.fromJson(Map<String, dynamic> json) {
     return DeleteChapCredentialsOutput(
       initiatorName: json['InitiatorName'] as String?,
@@ -5644,6 +6197,7 @@ class DeleteFileShareOutput {
   DeleteFileShareOutput({
     this.fileShareARN,
   });
+
   factory DeleteFileShareOutput.fromJson(Map<String, dynamic> json) {
     return DeleteFileShareOutput(
       fileShareARN: json['FileShareARN'] as String?,
@@ -5658,6 +6212,7 @@ class DeleteGatewayOutput {
   DeleteGatewayOutput({
     this.gatewayARN,
   });
+
   factory DeleteGatewayOutput.fromJson(Map<String, dynamic> json) {
     return DeleteGatewayOutput(
       gatewayARN: json['GatewayARN'] as String?,
@@ -5672,6 +6227,7 @@ class DeleteSnapshotScheduleOutput {
   DeleteSnapshotScheduleOutput({
     this.volumeARN,
   });
+
   factory DeleteSnapshotScheduleOutput.fromJson(Map<String, dynamic> json) {
     return DeleteSnapshotScheduleOutput(
       volumeARN: json['VolumeARN'] as String?,
@@ -5688,6 +6244,7 @@ class DeleteTapeArchiveOutput {
   DeleteTapeArchiveOutput({
     this.tapeARN,
   });
+
   factory DeleteTapeArchiveOutput.fromJson(Map<String, dynamic> json) {
     return DeleteTapeArchiveOutput(
       tapeARN: json['TapeARN'] as String?,
@@ -5703,6 +6260,7 @@ class DeleteTapeOutput {
   DeleteTapeOutput({
     this.tapeARN,
   });
+
   factory DeleteTapeOutput.fromJson(Map<String, dynamic> json) {
     return DeleteTapeOutput(
       tapeARN: json['TapeARN'] as String?,
@@ -5717,6 +6275,7 @@ class DeleteTapePoolOutput {
   DeleteTapePoolOutput({
     this.poolARN,
   });
+
   factory DeleteTapePoolOutput.fromJson(Map<String, dynamic> json) {
     return DeleteTapePoolOutput(
       poolARN: json['PoolARN'] as String?,
@@ -5734,6 +6293,7 @@ class DeleteVolumeOutput {
   DeleteVolumeOutput({
     this.volumeARN,
   });
+
   factory DeleteVolumeOutput.fromJson(Map<String, dynamic> json) {
     return DeleteVolumeOutput(
       volumeARN: json['VolumeARN'] as String?,
@@ -5744,11 +6304,11 @@ class DeleteVolumeOutput {
 class DescribeAvailabilityMonitorTestOutput {
   final String? gatewayARN;
 
-  /// The time the High Availability monitoring test was started. If a test hasn't
+  /// The time the high availability monitoring test was started. If a test hasn't
   /// been performed, the value of this field is null.
   final DateTime? startTime;
 
-  /// The status of the High Availability monitoring test. If a test hasn't been
+  /// The status of the high availability monitoring test. If a test hasn't been
   /// performed, the value of this field is null.
   final AvailabilityMonitorTestStatus? status;
 
@@ -5757,6 +6317,7 @@ class DescribeAvailabilityMonitorTestOutput {
     this.startTime,
     this.status,
   });
+
   factory DescribeAvailabilityMonitorTestOutput.fromJson(
       Map<String, dynamic> json) {
     return DescribeAvailabilityMonitorTestOutput(
@@ -5783,6 +6344,7 @@ class DescribeBandwidthRateLimitOutput {
     this.averageUploadRateLimitInBitsPerSec,
     this.gatewayARN,
   });
+
   factory DescribeBandwidthRateLimitOutput.fromJson(Map<String, dynamic> json) {
     return DescribeBandwidthRateLimitOutput(
       averageDownloadRateLimitInBitsPerSec:
@@ -5804,6 +6366,7 @@ class DescribeBandwidthRateLimitScheduleOutput {
     this.bandwidthRateLimitIntervals,
     this.gatewayARN,
   });
+
   factory DescribeBandwidthRateLimitScheduleOutput.fromJson(
       Map<String, dynamic> json) {
     return DescribeBandwidthRateLimitScheduleOutput(
@@ -5823,8 +6386,8 @@ class DescribeCacheOutput {
   final int? cacheAllocatedInBytes;
 
   /// The file share's contribution to the overall percentage of the gateway's
-  /// cache that has not been persisted to AWS. The sample is taken at the end of
-  /// the reporting period.
+  /// cache that has not been persisted to Amazon Web Services. The sample is
+  /// taken at the end of the reporting period.
   final double? cacheDirtyPercentage;
 
   /// Percent of application read operations from the file shares that are served
@@ -5855,6 +6418,7 @@ class DescribeCacheOutput {
     this.diskIds,
     this.gatewayARN,
   });
+
   factory DescribeCacheOutput.fromJson(Map<String, dynamic> json) {
     return DescribeCacheOutput(
       cacheAllocatedInBytes: json['CacheAllocatedInBytes'] as int?,
@@ -5880,6 +6444,7 @@ class DescribeCachediSCSIVolumesOutput {
   DescribeCachediSCSIVolumesOutput({
     this.cachediSCSIVolumes,
   });
+
   factory DescribeCachediSCSIVolumesOutput.fromJson(Map<String, dynamic> json) {
     return DescribeCachediSCSIVolumesOutput(
       cachediSCSIVolumes: (json['CachediSCSIVolumes'] as List?)
@@ -5921,6 +6486,7 @@ class DescribeChapCredentialsOutput {
   DescribeChapCredentialsOutput({
     this.chapCredentials,
   });
+
   factory DescribeChapCredentialsOutput.fromJson(Map<String, dynamic> json) {
     return DescribeChapCredentialsOutput(
       chapCredentials: (json['ChapCredentials'] as List?)
@@ -5931,10 +6497,34 @@ class DescribeChapCredentialsOutput {
   }
 }
 
+class DescribeFileSystemAssociationsOutput {
+  /// An array containing the <code>FileSystemAssociationInfo</code> data type of
+  /// each file system association to be described.
+  final List<FileSystemAssociationInfo>? fileSystemAssociationInfoList;
+
+  DescribeFileSystemAssociationsOutput({
+    this.fileSystemAssociationInfoList,
+  });
+
+  factory DescribeFileSystemAssociationsOutput.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeFileSystemAssociationsOutput(
+      fileSystemAssociationInfoList:
+          (json['FileSystemAssociationInfoList'] as List?)
+              ?.whereNotNull()
+              .map((e) =>
+                  FileSystemAssociationInfo.fromJson(e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+}
+
 /// A JSON object containing the following fields:
 class DescribeGatewayInformationOutput {
   /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that is
-  /// used to monitor events in the gateway.
+  /// used to monitor events in the gateway. This field only only exist and
+  /// returns once it have been chosen and set by the SGW service, based on the OS
+  /// version of the gateway VM
   final String? cloudWatchLogGroupARN;
 
   /// Date after which this gateway will not receive software updates for new
@@ -5944,7 +6534,7 @@ class DescribeGatewayInformationOutput {
   /// The ID of the Amazon EC2 instance that was used to launch the gateway.
   final String? ec2InstanceId;
 
-  /// The AWS Region where the Amazon EC2 instance is located.
+  /// The Amazon Web Services Region where the Amazon EC2 instance is located.
   final String? ec2InstanceRegion;
 
   /// The type of endpoint for your gateway.
@@ -5952,6 +6542,9 @@ class DescribeGatewayInformationOutput {
   /// Valid Values: <code>STANDARD</code> | <code>FIPS</code>
   final String? endpointType;
   final String? gatewayARN;
+
+  /// Specifies the size of the gateway's metadata cache.
+  final GatewayCapacity? gatewayCapacity;
 
   /// The unique identifier assigned to your gateway during activation. This ID
   /// becomes part of the gateway Amazon Resource Name (ARN), which you use as
@@ -5974,12 +6567,18 @@ class DescribeGatewayInformationOutput {
   /// The type of the gateway.
   final String? gatewayType;
 
-  /// The type of hypervisor environment used by the host.
+  /// The type of hardware or software platform on which the gateway is running.
   final HostEnvironment? hostEnvironment;
+
+  /// A unique identifier for the specific instance of the host platform running
+  /// the gateway. This value is only available for certain host environments, and
+  /// its format depends on the host environment type.
+  final String? hostEnvironmentId;
 
   /// The date on which the last software update was applied to the gateway. If
   /// the gateway has never been updated, this field does not return a value in
-  /// the response.
+  /// the response. This only only exist and returns once it have been chosen and
+  /// set by the SGW service, based on the OS version of the gateway VM
   final String? lastSoftwareUpdate;
 
   /// The date on which an update to the gateway is available. This date is in the
@@ -5990,6 +6589,10 @@ class DescribeGatewayInformationOutput {
   /// Date after which this gateway will not receive software updates for new
   /// features.
   final String? softwareUpdatesEndDate;
+
+  /// A list of the metadata cache sizes that the gateway can support based on its
+  /// current hardware specifications.
+  final List<GatewayCapacity>? supportedGatewayCapacities;
 
   /// A list of up to 50 tags assigned to the gateway, sorted alphabetically by
   /// key name. Each tag is a key-value pair. For a gateway with more than 10 tags
@@ -6008,6 +6611,7 @@ class DescribeGatewayInformationOutput {
     this.ec2InstanceRegion,
     this.endpointType,
     this.gatewayARN,
+    this.gatewayCapacity,
     this.gatewayId,
     this.gatewayName,
     this.gatewayNetworkInterfaces,
@@ -6015,12 +6619,15 @@ class DescribeGatewayInformationOutput {
     this.gatewayTimezone,
     this.gatewayType,
     this.hostEnvironment,
+    this.hostEnvironmentId,
     this.lastSoftwareUpdate,
     this.nextUpdateAvailabilityDate,
     this.softwareUpdatesEndDate,
+    this.supportedGatewayCapacities,
     this.tags,
     this.vPCEndpoint,
   });
+
   factory DescribeGatewayInformationOutput.fromJson(Map<String, dynamic> json) {
     return DescribeGatewayInformationOutput(
       cloudWatchLogGroupARN: json['CloudWatchLogGroupARN'] as String?,
@@ -6029,6 +6636,8 @@ class DescribeGatewayInformationOutput {
       ec2InstanceRegion: json['Ec2InstanceRegion'] as String?,
       endpointType: json['EndpointType'] as String?,
       gatewayARN: json['GatewayARN'] as String?,
+      gatewayCapacity:
+          (json['GatewayCapacity'] as String?)?.toGatewayCapacity(),
       gatewayId: json['GatewayId'] as String?,
       gatewayName: json['GatewayName'] as String?,
       gatewayNetworkInterfaces: (json['GatewayNetworkInterfaces'] as List?)
@@ -6040,9 +6649,14 @@ class DescribeGatewayInformationOutput {
       gatewayType: json['GatewayType'] as String?,
       hostEnvironment:
           (json['HostEnvironment'] as String?)?.toHostEnvironment(),
+      hostEnvironmentId: json['HostEnvironmentId'] as String?,
       lastSoftwareUpdate: json['LastSoftwareUpdate'] as String?,
       nextUpdateAvailabilityDate: json['NextUpdateAvailabilityDate'] as String?,
       softwareUpdatesEndDate: json['SoftwareUpdatesEndDate'] as String?,
+      supportedGatewayCapacities: (json['SupportedGatewayCapacities'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toGatewayCapacity())
+          .toList(),
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -6105,6 +6719,7 @@ class DescribeMaintenanceStartTimeOutput {
     this.minuteOfHour,
     this.timezone,
   });
+
   factory DescribeMaintenanceStartTimeOutput.fromJson(
       Map<String, dynamic> json) {
     return DescribeMaintenanceStartTimeOutput(
@@ -6126,6 +6741,7 @@ class DescribeNFSFileSharesOutput {
   DescribeNFSFileSharesOutput({
     this.nFSFileShareInfoList,
   });
+
   factory DescribeNFSFileSharesOutput.fromJson(Map<String, dynamic> json) {
     return DescribeNFSFileSharesOutput(
       nFSFileShareInfoList: (json['NFSFileShareInfoList'] as List?)
@@ -6144,6 +6760,7 @@ class DescribeSMBFileSharesOutput {
   DescribeSMBFileSharesOutput({
     this.sMBFileShareInfoList,
   });
+
   factory DescribeSMBFileSharesOutput.fromJson(Map<String, dynamic> json) {
     return DescribeSMBFileSharesOutput(
       sMBFileShareInfoList: (json['SMBFileShareInfoList'] as List?)
@@ -6192,15 +6809,21 @@ class DescribeSMBSettingsOutput {
   /// The name of the domain that the gateway is joined to.
   final String? domainName;
 
-  /// The shares on this gateway appear when listing shares.
+  /// The shares on this gateway appear when listing shares. Only supported for S3
+  /// File Gateways.
   final bool? fileSharesVisible;
   final String? gatewayARN;
 
   /// This value is <code>true</code> if a password for the guest user
-  /// <code>smbguest</code> is set, otherwise <code>false</code>.
+  /// <code>smbguest</code> is set, otherwise <code>false</code>. Only supported
+  /// for S3 File Gateways.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
   final bool? sMBGuestPasswordSet;
+
+  /// A list of Active Directory users and groups that have special permissions
+  /// for SMB file shares on the gateway.
+  final SMBLocalGroups? sMBLocalGroups;
 
   /// The type of security strategy that was specified for file gateway.
   ///
@@ -6209,7 +6832,7 @@ class DescribeSMBSettingsOutput {
   /// <code>ClientSpecified</code>: If you use this option, requests are
   /// established based on what is negotiated by the client. This option is
   /// recommended when you want to maximize compatibility across different clients
-  /// in your environment.
+  /// in your environment. Only supported for S3 File Gateways.
   /// </li>
   /// <li>
   /// <code>MandatorySigning</code>: If you use this option, file gateway only
@@ -6233,8 +6856,10 @@ class DescribeSMBSettingsOutput {
     this.fileSharesVisible,
     this.gatewayARN,
     this.sMBGuestPasswordSet,
+    this.sMBLocalGroups,
     this.sMBSecurityStrategy,
   });
+
   factory DescribeSMBSettingsOutput.fromJson(Map<String, dynamic> json) {
     return DescribeSMBSettingsOutput(
       activeDirectoryStatus:
@@ -6243,6 +6868,10 @@ class DescribeSMBSettingsOutput {
       fileSharesVisible: json['FileSharesVisible'] as bool?,
       gatewayARN: json['GatewayARN'] as String?,
       sMBGuestPasswordSet: json['SMBGuestPasswordSet'] as bool?,
+      sMBLocalGroups: json['SMBLocalGroups'] != null
+          ? SMBLocalGroups.fromJson(
+              json['SMBLocalGroups'] as Map<String, dynamic>)
+          : null,
       sMBSecurityStrategy:
           (json['SMBSecurityStrategy'] as String?)?.toSMBSecurityStrategy(),
     );
@@ -6282,6 +6911,7 @@ class DescribeSnapshotScheduleOutput {
     this.timezone,
     this.volumeARN,
   });
+
   factory DescribeSnapshotScheduleOutput.fromJson(Map<String, dynamic> json) {
     return DescribeSnapshotScheduleOutput(
       description: json['Description'] as String?,
@@ -6371,6 +7001,7 @@ class DescribeStorediSCSIVolumesOutput {
   DescribeStorediSCSIVolumesOutput({
     this.storediSCSIVolumes,
   });
+
   factory DescribeStorediSCSIVolumesOutput.fromJson(Map<String, dynamic> json) {
     return DescribeStorediSCSIVolumesOutput(
       storediSCSIVolumes: (json['StorediSCSIVolumes'] as List?)
@@ -6401,6 +7032,7 @@ class DescribeTapeArchivesOutput {
     this.marker,
     this.tapeArchives,
   });
+
   factory DescribeTapeArchivesOutput.fromJson(Map<String, dynamic> json) {
     return DescribeTapeArchivesOutput(
       marker: json['Marker'] as String?,
@@ -6433,6 +7065,7 @@ class DescribeTapeRecoveryPointsOutput {
     this.marker,
     this.tapeRecoveryPointInfos,
   });
+
   factory DescribeTapeRecoveryPointsOutput.fromJson(Map<String, dynamic> json) {
     return DescribeTapeRecoveryPointsOutput(
       gatewayARN: json['GatewayARN'] as String?,
@@ -6447,8 +7080,8 @@ class DescribeTapeRecoveryPointsOutput {
 
 /// DescribeTapesOutput
 class DescribeTapesOutput {
-  /// An opaque string which can be used as part of a subsequent DescribeTapes
-  /// call to retrieve the next page of results.
+  /// An opaque string that can be used as part of a subsequent
+  /// <code>DescribeTapes</code> call to retrieve the next page of results.
   ///
   /// If a response does not contain a marker, then there are no more results to
   /// be retrieved.
@@ -6461,6 +7094,7 @@ class DescribeTapesOutput {
     this.marker,
     this.tapes,
   });
+
   factory DescribeTapesOutput.fromJson(Map<String, dynamic> json) {
     return DescribeTapesOutput(
       marker: json['Marker'] as String?,
@@ -6492,6 +7126,7 @@ class DescribeUploadBufferOutput {
     this.uploadBufferAllocatedInBytes,
     this.uploadBufferUsedInBytes,
   });
+
   factory DescribeUploadBufferOutput.fromJson(Map<String, dynamic> json) {
     return DescribeUploadBufferOutput(
       diskIds: (json['DiskIds'] as List?)
@@ -6525,6 +7160,7 @@ class DescribeVTLDevicesOutput {
     this.marker,
     this.vTLDevices,
   });
+
   factory DescribeVTLDevicesOutput.fromJson(Map<String, dynamic> json) {
     return DescribeVTLDevicesOutput(
       gatewayARN: json['GatewayARN'] as String?,
@@ -6560,6 +7196,7 @@ class DescribeWorkingStorageOutput {
     this.workingStorageAllocatedInBytes,
     this.workingStorageUsedInBytes,
   });
+
   factory DescribeWorkingStorageOutput.fromJson(Map<String, dynamic> json) {
     return DescribeWorkingStorageOutput(
       diskIds: (json['DiskIds'] as List?)
@@ -6582,6 +7219,7 @@ class DetachVolumeOutput {
   DetachVolumeOutput({
     this.volumeARN,
   });
+
   factory DetachVolumeOutput.fromJson(Map<String, dynamic> json) {
     return DetachVolumeOutput(
       volumeARN: json['VolumeARN'] as String?,
@@ -6610,6 +7248,7 @@ class DeviceiSCSIAttributes {
     this.networkInterfacePort,
     this.targetARN,
   });
+
   factory DeviceiSCSIAttributes.fromJson(Map<String, dynamic> json) {
     return DeviceiSCSIAttributes(
       chapEnabled: json['ChapEnabled'] as bool?,
@@ -6628,9 +7267,25 @@ class DisableGatewayOutput {
   DisableGatewayOutput({
     this.gatewayARN,
   });
+
   factory DisableGatewayOutput.fromJson(Map<String, dynamic> json) {
     return DisableGatewayOutput(
       gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
+}
+
+class DisassociateFileSystemOutput {
+  /// The Amazon Resource Name (ARN) of the deleted file system association.
+  final String? fileSystemAssociationARN;
+
+  DisassociateFileSystemOutput({
+    this.fileSystemAssociationARN,
+  });
+
+  factory DisassociateFileSystemOutput.fromJson(Map<String, dynamic> json) {
+    return DisassociateFileSystemOutput(
+      fileSystemAssociationARN: json['FileSystemAssociationARN'] as String?,
     );
   }
 }
@@ -6672,6 +7327,7 @@ class Disk {
     this.diskSizeInBytes,
     this.diskStatus,
   });
+
   factory Disk.fromJson(Map<String, dynamic> json) {
     return Disk(
       diskAllocationResource: json['DiskAllocationResource'] as String?,
@@ -6689,7 +7345,39 @@ class Disk {
   }
 }
 
-/// Describes a file share.
+/// Specifies network configuration information for the gateway associated with
+/// the Amazon FSx file system.
+class EndpointNetworkConfiguration {
+  /// A list of gateway IP addresses on which the associated Amazon FSx file
+  /// system is available.
+  /// <note>
+  /// If multiple file systems are associated with this gateway, this field is
+  /// required.
+  /// </note>
+  final List<String>? ipAddresses;
+
+  EndpointNetworkConfiguration({
+    this.ipAddresses,
+  });
+
+  factory EndpointNetworkConfiguration.fromJson(Map<String, dynamic> json) {
+    return EndpointNetworkConfiguration(
+      ipAddresses: (json['IpAddresses'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipAddresses = this.ipAddresses;
+    return {
+      if (ipAddresses != null) 'IpAddresses': ipAddresses,
+    };
+  }
+}
+
+/// Describes a file share. Only supported S3 File Gateway.
 class FileShareInfo {
   final String? fileShareARN;
   final String? fileShareId;
@@ -6704,6 +7392,7 @@ class FileShareInfo {
     this.fileShareType,
     this.gatewayARN,
   });
+
   factory FileShareInfo.fromJson(Map<String, dynamic> json) {
     return FileShareInfo(
       fileShareARN: json['FileShareARN'] as String?,
@@ -6744,16 +7433,181 @@ extension FileShareTypeFromString on String {
   }
 }
 
+/// Describes the object returned by <code>DescribeFileSystemAssociations</code>
+/// that describes a created file system association.
+class FileSystemAssociationInfo {
+  /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
+  final String? auditDestinationARN;
+  final CacheAttributes? cacheAttributes;
+
+  /// Specifies network configuration information for the gateway associated with
+  /// the Amazon FSx file system.
+  /// <note>
+  /// If multiple file systems are associated with this gateway, this parameter's
+  /// <code>IpAddresses</code> field is required.
+  /// </note>
+  final EndpointNetworkConfiguration? endpointNetworkConfiguration;
+
+  /// The Amazon Resource Name (ARN) of the file system association.
+  final String? fileSystemAssociationARN;
+
+  /// The status of the file system association. Valid Values:
+  /// <code>AVAILABLE</code> | <code>CREATING</code> | <code>DELETING</code> |
+  /// <code>FORCE_DELETING</code> | <code>UPDATING</code> | <code>ERROR</code>
+  final String? fileSystemAssociationStatus;
+
+  /// An array containing the FileSystemAssociationStatusDetail data type, which
+  /// provides detailed information on file system association status.
+  final List<FileSystemAssociationStatusDetail>?
+      fileSystemAssociationStatusDetails;
+  final String? gatewayARN;
+
+  /// The ARN of the backend Amazon FSx file system used for storing file data.
+  /// For information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/APIReference/API_FileSystem.html">FileSystem</a>
+  /// in the <i>Amazon FSx API Reference</i>.
+  final String? locationARN;
+
+  /// A list of up to 50 tags assigned to the SMB file share, sorted
+  /// alphabetically by key name. Each tag is a key-value pair.
+  final List<Tag>? tags;
+
+  FileSystemAssociationInfo({
+    this.auditDestinationARN,
+    this.cacheAttributes,
+    this.endpointNetworkConfiguration,
+    this.fileSystemAssociationARN,
+    this.fileSystemAssociationStatus,
+    this.fileSystemAssociationStatusDetails,
+    this.gatewayARN,
+    this.locationARN,
+    this.tags,
+  });
+
+  factory FileSystemAssociationInfo.fromJson(Map<String, dynamic> json) {
+    return FileSystemAssociationInfo(
+      auditDestinationARN: json['AuditDestinationARN'] as String?,
+      cacheAttributes: json['CacheAttributes'] != null
+          ? CacheAttributes.fromJson(
+              json['CacheAttributes'] as Map<String, dynamic>)
+          : null,
+      endpointNetworkConfiguration: json['EndpointNetworkConfiguration'] != null
+          ? EndpointNetworkConfiguration.fromJson(
+              json['EndpointNetworkConfiguration'] as Map<String, dynamic>)
+          : null,
+      fileSystemAssociationARN: json['FileSystemAssociationARN'] as String?,
+      fileSystemAssociationStatus:
+          json['FileSystemAssociationStatus'] as String?,
+      fileSystemAssociationStatusDetails:
+          (json['FileSystemAssociationStatusDetails'] as List?)
+              ?.whereNotNull()
+              .map((e) => FileSystemAssociationStatusDetail.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      gatewayARN: json['GatewayARN'] as String?,
+      locationARN: json['LocationARN'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// Detailed information on file system association status.
+class FileSystemAssociationStatusDetail {
+  /// The error code for a given file system association status.
+  final String? errorCode;
+
+  FileSystemAssociationStatusDetail({
+    this.errorCode,
+  });
+
+  factory FileSystemAssociationStatusDetail.fromJson(
+      Map<String, dynamic> json) {
+    return FileSystemAssociationStatusDetail(
+      errorCode: json['ErrorCode'] as String?,
+    );
+  }
+}
+
+/// Gets the summary returned by <code>ListFileSystemAssociation</code>, which
+/// is a summary of a created file system association.
+class FileSystemAssociationSummary {
+  /// The Amazon Resource Name (ARN) of the file system association.
+  final String? fileSystemAssociationARN;
+
+  /// The ID of the file system association.
+  final String? fileSystemAssociationId;
+
+  /// The status of the file share. Valid Values: <code>AVAILABLE</code> |
+  /// <code>CREATING</code> | <code>DELETING</code> | <code>FORCE_DELETING</code>
+  /// | <code>UPDATING</code> | <code>ERROR</code>
+  final String? fileSystemAssociationStatus;
+  final String? gatewayARN;
+
+  FileSystemAssociationSummary({
+    this.fileSystemAssociationARN,
+    this.fileSystemAssociationId,
+    this.fileSystemAssociationStatus,
+    this.gatewayARN,
+  });
+
+  factory FileSystemAssociationSummary.fromJson(Map<String, dynamic> json) {
+    return FileSystemAssociationSummary(
+      fileSystemAssociationARN: json['FileSystemAssociationARN'] as String?,
+      fileSystemAssociationId: json['FileSystemAssociationId'] as String?,
+      fileSystemAssociationStatus:
+          json['FileSystemAssociationStatus'] as String?,
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
+}
+
+enum GatewayCapacity {
+  small,
+  medium,
+  large,
+}
+
+extension GatewayCapacityValueExtension on GatewayCapacity {
+  String toValue() {
+    switch (this) {
+      case GatewayCapacity.small:
+        return 'Small';
+      case GatewayCapacity.medium:
+        return 'Medium';
+      case GatewayCapacity.large:
+        return 'Large';
+    }
+  }
+}
+
+extension GatewayCapacityFromString on String {
+  GatewayCapacity toGatewayCapacity() {
+    switch (this) {
+      case 'Small':
+        return GatewayCapacity.small;
+      case 'Medium':
+        return GatewayCapacity.medium;
+      case 'Large':
+        return GatewayCapacity.large;
+    }
+    throw Exception('$this is not known in enum GatewayCapacity');
+  }
+}
+
 /// Describes a gateway object.
 class GatewayInfo {
   /// The ID of the Amazon EC2 instance that was used to launch the gateway.
   final String? ec2InstanceId;
 
-  /// The AWS Region where the Amazon EC2 instance is located.
+  /// The Amazon Web Services Region where the Amazon EC2 instance is located.
   final String? ec2InstanceRegion;
 
   /// The Amazon Resource Name (ARN) of the gateway. Use the <a>ListGateways</a>
-  /// operation to return a list of gateways for your account and AWS Region.
+  /// operation to return a list of gateways for your account and Amazon Web
+  /// Services Region.
   final String? gatewayARN;
 
   /// The unique identifier assigned to your gateway during activation. This ID
@@ -6772,6 +7626,14 @@ class GatewayInfo {
   /// The type of the gateway.
   final String? gatewayType;
 
+  /// The type of hardware or software platform on which the gateway is running.
+  final HostEnvironment? hostEnvironment;
+
+  /// A unique identifier for the specific instance of the host platform running
+  /// the gateway. This value is only available for certain host environments, and
+  /// its format depends on the host environment type.
+  final String? hostEnvironmentId;
+
   GatewayInfo({
     this.ec2InstanceId,
     this.ec2InstanceRegion,
@@ -6780,7 +7642,10 @@ class GatewayInfo {
     this.gatewayName,
     this.gatewayOperationalState,
     this.gatewayType,
+    this.hostEnvironment,
+    this.hostEnvironmentId,
   });
+
   factory GatewayInfo.fromJson(Map<String, dynamic> json) {
     return GatewayInfo(
       ec2InstanceId: json['Ec2InstanceId'] as String?,
@@ -6790,6 +7655,9 @@ class GatewayInfo {
       gatewayName: json['GatewayName'] as String?,
       gatewayOperationalState: json['GatewayOperationalState'] as String?,
       gatewayType: json['GatewayType'] as String?,
+      hostEnvironment:
+          (json['HostEnvironment'] as String?)?.toHostEnvironment(),
+      hostEnvironmentId: json['HostEnvironmentId'] as String?,
     );
   }
 }
@@ -6800,6 +7668,7 @@ enum HostEnvironment {
   ec2,
   kvm,
   other,
+  snowball,
 }
 
 extension HostEnvironmentValueExtension on HostEnvironment {
@@ -6815,6 +7684,8 @@ extension HostEnvironmentValueExtension on HostEnvironment {
         return 'KVM';
       case HostEnvironment.other:
         return 'OTHER';
+      case HostEnvironment.snowball:
+        return 'SNOWBALL';
     }
   }
 }
@@ -6832,6 +7703,8 @@ extension HostEnvironmentFromString on String {
         return HostEnvironment.kvm;
       case 'OTHER':
         return HostEnvironment.other;
+      case 'SNOWBALL':
+        return HostEnvironment.snowball;
     }
     throw Exception('$this is not known in enum HostEnvironment');
   }
@@ -6880,6 +7753,7 @@ class JoinDomainOutput {
     this.activeDirectoryStatus,
     this.gatewayARN,
   });
+
   factory JoinDomainOutput.fromJson(Map<String, dynamic> json) {
     return JoinDomainOutput(
       activeDirectoryStatus:
@@ -6898,6 +7772,7 @@ class ListAutomaticTapeCreationPoliciesOutput {
   ListAutomaticTapeCreationPoliciesOutput({
     this.automaticTapeCreationPolicyInfos,
   });
+
   factory ListAutomaticTapeCreationPoliciesOutput.fromJson(
       Map<String, dynamic> json) {
     return ListAutomaticTapeCreationPoliciesOutput(
@@ -6913,7 +7788,7 @@ class ListAutomaticTapeCreationPoliciesOutput {
 
 /// ListFileShareOutput
 class ListFileSharesOutput {
-  /// An array of information about the file gateway's file shares.
+  /// An array of information about the S3 File Gateway's file shares.
   final List<FileShareInfo>? fileShareInfoList;
 
   /// If the request includes <code>Marker</code>, the response returns that value
@@ -6930,12 +7805,47 @@ class ListFileSharesOutput {
     this.marker,
     this.nextMarker,
   });
+
   factory ListFileSharesOutput.fromJson(Map<String, dynamic> json) {
     return ListFileSharesOutput(
       fileShareInfoList: (json['FileShareInfoList'] as List?)
           ?.whereNotNull()
           .map((e) => FileShareInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
+      marker: json['Marker'] as String?,
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+}
+
+class ListFileSystemAssociationsOutput {
+  /// An array of information about the Amazon FSx gateway's file system
+  /// associations.
+  final List<FileSystemAssociationSummary>? fileSystemAssociationSummaryList;
+
+  /// If the request includes <code>Marker</code>, the response returns that value
+  /// in this field.
+  final String? marker;
+
+  /// If a value is present, there are more file system associations to return. In
+  /// a subsequent request, use <code>NextMarker</code> as the value for
+  /// <code>Marker</code> to retrieve the next set of file system associations.
+  final String? nextMarker;
+
+  ListFileSystemAssociationsOutput({
+    this.fileSystemAssociationSummaryList,
+    this.marker,
+    this.nextMarker,
+  });
+
+  factory ListFileSystemAssociationsOutput.fromJson(Map<String, dynamic> json) {
+    return ListFileSystemAssociationsOutput(
+      fileSystemAssociationSummaryList:
+          (json['FileSystemAssociationSummaryList'] as List?)
+              ?.whereNotNull()
+              .map((e) => FileSystemAssociationSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
       marker: json['Marker'] as String?,
       nextMarker: json['NextMarker'] as String?,
     );
@@ -6955,6 +7865,7 @@ class ListGatewaysOutput {
     this.gateways,
     this.marker,
   });
+
   factory ListGatewaysOutput.fromJson(Map<String, dynamic> json) {
     return ListGatewaysOutput(
       gateways: (json['Gateways'] as List?)
@@ -6981,6 +7892,7 @@ class ListLocalDisksOutput {
     this.disks,
     this.gatewayARN,
   });
+
   factory ListLocalDisksOutput.fromJson(Map<String, dynamic> json) {
     return ListLocalDisksOutput(
       disks: (json['Disks'] as List?)
@@ -7010,6 +7922,7 @@ class ListTagsForResourceOutput {
     this.resourceARN,
     this.tags,
   });
+
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceOutput(
       marker: json['Marker'] as String?,
@@ -7038,6 +7951,7 @@ class ListTapePoolsOutput {
     this.marker,
     this.poolInfos,
   });
+
   factory ListTapePoolsOutput.fromJson(Map<String, dynamic> json) {
     return ListTapePoolsOutput(
       marker: json['Marker'] as String?,
@@ -7071,6 +7985,7 @@ class ListTapesOutput {
     this.marker,
     this.tapeInfos,
   });
+
   factory ListTapesOutput.fromJson(Map<String, dynamic> json) {
     return ListTapesOutput(
       marker: json['Marker'] as String?,
@@ -7091,6 +8006,7 @@ class ListVolumeInitiatorsOutput {
   ListVolumeInitiatorsOutput({
     this.initiators,
   });
+
   factory ListVolumeInitiatorsOutput.fromJson(Map<String, dynamic> json) {
     return ListVolumeInitiatorsOutput(
       initiators: (json['Initiators'] as List?)
@@ -7111,6 +8027,7 @@ class ListVolumeRecoveryPointsOutput {
     this.gatewayARN,
     this.volumeRecoveryPointInfos,
   });
+
   factory ListVolumeRecoveryPointsOutput.fromJson(Map<String, dynamic> json) {
     return ListVolumeRecoveryPointsOutput(
       gatewayARN: json['GatewayARN'] as String?,
@@ -7151,6 +8068,7 @@ class ListVolumesOutput {
     this.marker,
     this.volumeInfos,
   });
+
   factory ListVolumesOutput.fromJson(Map<String, dynamic> json) {
     return ListVolumesOutput(
       gatewayARN: json['GatewayARN'] as String?,
@@ -7168,7 +8086,7 @@ class ListVolumesOutput {
 /// Unix file permissions assigned to them. Upon discovery in an S3 bucket by
 /// Storage Gateway, the S3 objects that represent files and folders are
 /// assigned these default Unix permissions. This operation is only supported
-/// for file gateways.
+/// for S3 File Gateways.
 class NFSFileShareDefaults {
   /// The Unix directory mode in the form "nnnn". For example, <code>0666</code>
   /// represents the default access mode for all directories inside the file
@@ -7194,6 +8112,7 @@ class NFSFileShareDefaults {
     this.groupId,
     this.ownerId,
   });
+
   factory NFSFileShareDefaults.fromJson(Map<String, dynamic> json) {
     return NFSFileShareDefaults(
       directoryMode: json['DirectoryMode'] as String?,
@@ -7218,16 +8137,26 @@ class NFSFileShareDefaults {
 }
 
 /// The Unix file permissions and ownership information assigned, by default, to
-/// native S3 objects when file gateway discovers them in S3 buckets. This
-/// operation is only supported in file gateways.
+/// native S3 objects when an S3 File Gateway discovers them in S3 buckets. This
+/// operation is only supported in S3 File Gateways.
 class NFSFileShareInfo {
-  /// Refresh cache information.
+  /// The Amazon Resource Name (ARN) of the storage used for audit logs.
+  final String? auditDestinationARN;
+
+  /// Specifies the Region of the S3 bucket where the NFS file share stores files.
+  /// <note>
+  /// This parameter is required for NFS file shares that connect to Amazon S3
+  /// through a VPC endpoint, a VPC access point, or an access point alias that
+  /// points to a VPC access point.
+  /// </note>
+  final String? bucketRegion;
+
+  /// Refresh cache information for the file share.
   final CacheAttributes? cacheAttributes;
   final List<String>? clientList;
 
-  /// The default storage class for objects put into an Amazon S3 bucket by the
-  /// file gateway. The default value is <code>S3_INTELLIGENT_TIERING</code>.
-  /// Optional.
+  /// The default storage class for objects put into an Amazon S3 bucket by the S3
+  /// File Gateway. The default value is <code>S3_STANDARD</code>. Optional.
   ///
   /// Valid Values: <code>S3_STANDARD</code> | <code>S3_INTELLIGENT_TIERING</code>
   /// | <code>S3_STANDARD_IA</code> | <code>S3_ONEZONE_IA</code>
@@ -7238,7 +8167,8 @@ class NFSFileShareInfo {
   /// The name of the file share. Optional.
   /// <note>
   /// <code>FileShareName</code> must be set if an S3 prefix name is set in
-  /// <code>LocationARN</code>.
+  /// <code>LocationARN</code>, or if an access point or access point alias is
+  /// used.
   /// </note>
   final String? fileShareName;
   final String? fileShareStatus;
@@ -7253,7 +8183,7 @@ class NFSFileShareInfo {
   final bool? guessMIMETypeEnabled;
 
   /// Set to <code>true</code> to use Amazon S3 server-side encryption with your
-  /// own AWS KMS key, or <code>false</code> to use a key managed by Amazon S3.
+  /// own KMS key, or <code>false</code> to use a key managed by Amazon S3.
   /// Optional.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
@@ -7263,6 +8193,24 @@ class NFSFileShareInfo {
   final NFSFileShareDefaults? nFSFileShareDefaults;
 
   /// The notification policy of the file share.
+  /// <code>SettlingTimeInSeconds</code> controls the number of seconds to wait
+  /// after the last point in time a client wrote to a file before generating an
+  /// <code>ObjectUploaded</code> notification. Because clients can make many
+  /// small writes to files, it's best to set this parameter for as long as
+  /// possible to avoid generating multiple notifications for the same file in a
+  /// small time period.
+  /// <note>
+  /// <code>SettlingTimeInSeconds</code> has no effect on the timing of the object
+  /// uploading to Amazon S3, only the timing of the notification.
+  /// </note>
+  /// The following example sets <code>NotificationPolicy</code> on with
+  /// <code>SettlingTimeInSeconds</code> set to 60.
+  ///
+  /// <code>{\"Upload\": {\"SettlingTimeInSeconds\": 60}}</code>
+  ///
+  /// The following example sets <code>NotificationPolicy</code> off.
+  ///
+  /// <code>{}</code>
   final String? notificationPolicy;
   final ObjectACL? objectACL;
   final String? path;
@@ -7295,7 +8243,18 @@ class NFSFileShareInfo {
   /// <code>ListTagsForResource</code> API operation.
   final List<Tag>? tags;
 
+  /// Specifies the DNS name for the VPC endpoint that the NFS file share uses to
+  /// connect to Amazon S3.
+  /// <note>
+  /// This parameter is required for NFS file shares that connect to Amazon S3
+  /// through a VPC endpoint, a VPC access point, or an access point alias that
+  /// points to a VPC access point.
+  /// </note>
+  final String? vPCEndpointDNSName;
+
   NFSFileShareInfo({
+    this.auditDestinationARN,
+    this.bucketRegion,
     this.cacheAttributes,
     this.clientList,
     this.defaultStorageClass,
@@ -7317,9 +8276,13 @@ class NFSFileShareInfo {
     this.role,
     this.squash,
     this.tags,
+    this.vPCEndpointDNSName,
   });
+
   factory NFSFileShareInfo.fromJson(Map<String, dynamic> json) {
     return NFSFileShareInfo(
+      auditDestinationARN: json['AuditDestinationARN'] as String?,
+      bucketRegion: json['BucketRegion'] as String?,
       cacheAttributes: json['CacheAttributes'] != null
           ? CacheAttributes.fromJson(
               json['CacheAttributes'] as Map<String, dynamic>)
@@ -7353,6 +8316,7 @@ class NFSFileShareInfo {
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
+      vPCEndpointDNSName: json['VPCEndpointDNSName'] as String?,
     );
   }
 }
@@ -7377,6 +8341,7 @@ class NetworkInterface {
     this.ipv6Address,
     this.macAddress,
   });
+
   factory NetworkInterface.fromJson(Map<String, dynamic> json) {
     return NetworkInterface(
       ipv4Address: json['Ipv4Address'] as String?,
@@ -7394,6 +8359,7 @@ class NotifyWhenUploadedOutput {
     this.fileShareARN,
     this.notificationId,
   });
+
   factory NotifyWhenUploadedOutput.fromJson(Map<String, dynamic> json) {
     return NotifyWhenUploadedOutput(
       fileShareARN: json['FileShareARN'] as String?,
@@ -7403,8 +8369,8 @@ class NotifyWhenUploadedOutput {
 }
 
 /// A value that sets the access control list (ACL) permission for objects in
-/// the S3 bucket that a file gateway puts objects into. The default value is
-/// <code>private</code>.
+/// the S3 bucket that an S3 File Gateway puts objects into. The default value
+/// is <code>private</code>.
 enum ObjectACL {
   private,
   publicRead,
@@ -7462,7 +8428,7 @@ extension ObjectACLFromString on String {
 class PoolInfo {
   /// The Amazon Resource Name (ARN) of the custom tape pool. Use the
   /// <a>ListTapePools</a> operation to return a list of custom tape pools for
-  /// your account and AWS Region.
+  /// your account and Amazon Web Services Region.
   final String? poolARN;
 
   /// The name of the custom tape pool. <code>PoolName</code> can use all ASCII
@@ -7478,10 +8444,11 @@ class PoolInfo {
   final int? retentionLockTimeInDays;
 
   /// Tape retention lock type, which can be configured in two modes. When
-  /// configured in governance mode, AWS accounts with specific IAM permissions
-  /// are authorized to remove the tape retention lock from archived virtual
-  /// tapes. When configured in compliance mode, the tape retention lock cannot be
-  /// removed by any user, including the root AWS account.
+  /// configured in governance mode, Amazon Web Services accounts with specific
+  /// IAM permissions are authorized to remove the tape retention lock from
+  /// archived virtual tapes. When configured in compliance mode, the tape
+  /// retention lock cannot be removed by any user, including the root Amazon Web
+  /// Services account.
   final RetentionLockType? retentionLockType;
 
   /// The storage class that is associated with the custom pool. When you use your
@@ -7498,6 +8465,7 @@ class PoolInfo {
     this.retentionLockType,
     this.storageClass,
   });
+
   factory PoolInfo.fromJson(Map<String, dynamic> json) {
     return PoolInfo(
       poolARN: json['PoolARN'] as String?,
@@ -7548,6 +8516,7 @@ class RefreshCacheOutput {
     this.fileShareARN,
     this.notificationId,
   });
+
   factory RefreshCacheOutput.fromJson(Map<String, dynamic> json) {
     return RefreshCacheOutput(
       fileShareARN: json['FileShareARN'] as String?,
@@ -7565,6 +8534,7 @@ class RemoveTagsFromResourceOutput {
   RemoveTagsFromResourceOutput({
     this.resourceARN,
   });
+
   factory RemoveTagsFromResourceOutput.fromJson(Map<String, dynamic> json) {
     return RemoveTagsFromResourceOutput(
       resourceARN: json['ResourceARN'] as String?,
@@ -7578,6 +8548,7 @@ class ResetCacheOutput {
   ResetCacheOutput({
     this.gatewayARN,
   });
+
   factory ResetCacheOutput.fromJson(Map<String, dynamic> json) {
     return ResetCacheOutput(
       gatewayARN: json['GatewayARN'] as String?,
@@ -7626,6 +8597,7 @@ class RetrieveTapeArchiveOutput {
   RetrieveTapeArchiveOutput({
     this.tapeARN,
   });
+
   factory RetrieveTapeArchiveOutput.fromJson(Map<String, dynamic> json) {
     return RetrieveTapeArchiveOutput(
       tapeARN: json['TapeARN'] as String?,
@@ -7642,6 +8614,7 @@ class RetrieveTapeRecoveryPointOutput {
   RetrieveTapeRecoveryPointOutput({
     this.tapeARN,
   });
+
   factory RetrieveTapeRecoveryPointOutput.fromJson(Map<String, dynamic> json) {
     return RetrieveTapeRecoveryPointOutput(
       tapeARN: json['TapeARN'] as String?,
@@ -7650,8 +8623,8 @@ class RetrieveTapeRecoveryPointOutput {
 }
 
 /// The Windows file permissions and ownership information assigned, by default,
-/// to native S3 objects when file gateway discovers them in S3 buckets. This
-/// operation is only supported for file gateways.
+/// to native S3 objects when S3 File Gateway discovers them in S3 buckets. This
+/// operation is only supported for S3 File Gateways.
 class SMBFileShareInfo {
   /// Indicates whether <code>AccessBasedEnumeration</code> is enabled.
   final bool? accessBasedEnumeration;
@@ -7663,11 +8636,19 @@ class SMBFileShareInfo {
   /// Authentication is set to <code>ActiveDirectory</code>.
   final List<String>? adminUserList;
 
-  /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
+  /// The Amazon Resource Name (ARN) of the storage used for audit logs.
   final String? auditDestinationARN;
   final String? authentication;
 
-  /// Refresh cache information.
+  /// Specifies the Region of the S3 bucket where the SMB file share stores files.
+  /// <note>
+  /// This parameter is required for SMB file shares that connect to Amazon S3
+  /// through a VPC endpoint, a VPC access point, or an access point alias that
+  /// points to a VPC access point.
+  /// </note>
+  final String? bucketRegion;
+
+  /// Refresh cache information for the file share.
   final CacheAttributes? cacheAttributes;
 
   /// The case of an object name in an Amazon S3 bucket. For
@@ -7676,9 +8657,8 @@ class SMBFileShareInfo {
   /// The default value is <code>ClientSpecified</code>.
   final CaseSensitivity? caseSensitivity;
 
-  /// The default storage class for objects put into an Amazon S3 bucket by the
-  /// file gateway. The default value is <code>S3_INTELLIGENT_TIERING</code>.
-  /// Optional.
+  /// The default storage class for objects put into an Amazon S3 bucket by the S3
+  /// File Gateway. The default value is <code>S3_STANDARD</code>. Optional.
   ///
   /// Valid Values: <code>S3_STANDARD</code> | <code>S3_INTELLIGENT_TIERING</code>
   /// | <code>S3_STANDARD_IA</code> | <code>S3_ONEZONE_IA</code>
@@ -7689,7 +8669,8 @@ class SMBFileShareInfo {
   /// The name of the file share. Optional.
   /// <note>
   /// <code>FileShareName</code> must be set if an S3 prefix name is set in
-  /// <code>LocationARN</code>.
+  /// <code>LocationARN</code>, or if an access point or access point alias is
+  /// used.
   /// </note>
   final String? fileShareName;
   final String? fileShareStatus;
@@ -7711,7 +8692,7 @@ class SMBFileShareInfo {
   final List<String>? invalidUserList;
 
   /// Set to <code>true</code> to use Amazon S3 server-side encryption with your
-  /// own AWS KMS key, or <code>false</code> to use a key managed by Amazon S3.
+  /// own KMS key, or <code>false</code> to use a key managed by Amazon S3.
   /// Optional.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
@@ -7720,8 +8701,35 @@ class SMBFileShareInfo {
   final String? locationARN;
 
   /// The notification policy of the file share.
+  /// <code>SettlingTimeInSeconds</code> controls the number of seconds to wait
+  /// after the last point in time a client wrote to a file before generating an
+  /// <code>ObjectUploaded</code> notification. Because clients can make many
+  /// small writes to files, it's best to set this parameter for as long as
+  /// possible to avoid generating multiple notifications for the same file in a
+  /// small time period.
+  /// <note>
+  /// <code>SettlingTimeInSeconds</code> has no effect on the timing of the object
+  /// uploading to Amazon S3, only the timing of the notification.
+  /// </note>
+  /// The following example sets <code>NotificationPolicy</code> on with
+  /// <code>SettlingTimeInSeconds</code> set to 60.
+  ///
+  /// <code>{\"Upload\": {\"SettlingTimeInSeconds\": 60}}</code>
+  ///
+  /// The following example sets <code>NotificationPolicy</code> off.
+  ///
+  /// <code>{}</code>
   final String? notificationPolicy;
   final ObjectACL? objectACL;
+
+  /// Specifies whether opportunistic locking is enabled for the SMB file share.
+  /// <note>
+  /// Enabling opportunistic locking on case-sensitive shares is not recommended
+  /// for workloads that involve access to files with the same name in different
+  /// case.
+  /// </note>
+  /// Valid Values: <code>true</code> | <code>false</code>
+  final bool? oplocksEnabled;
 
   /// The file share path used by the SMB client to identify the mount point.
   final String? path;
@@ -7755,7 +8763,7 @@ class SMBFileShareInfo {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/smb-acl.html">Using
   /// Microsoft Windows ACLs to control access to an SMB file share</a> in the
-  /// <i>AWS Storage Gateway User Guide</i>.
+  /// <i>Storage Gateway User Guide</i>.
   final bool? sMBACLEnabled;
 
   /// A list of up to 50 tags assigned to the SMB file share, sorted
@@ -7763,6 +8771,15 @@ class SMBFileShareInfo {
   /// more than 10 tags assigned, you can view all tags using the
   /// <code>ListTagsForResource</code> API operation.
   final List<Tag>? tags;
+
+  /// Specifies the DNS name for the VPC endpoint that the SMB file share uses to
+  /// connect to Amazon S3.
+  /// <note>
+  /// This parameter is required for SMB file shares that connect to Amazon S3
+  /// through a VPC endpoint, a VPC access point, or an access point alias that
+  /// points to a VPC access point.
+  /// </note>
+  final String? vPCEndpointDNSName;
 
   /// A list of users or groups in the Active Directory that are allowed to access
   /// the file share. A group must be prefixed with the @ character. Acceptable
@@ -7776,6 +8793,7 @@ class SMBFileShareInfo {
     this.adminUserList,
     this.auditDestinationARN,
     this.authentication,
+    this.bucketRegion,
     this.cacheAttributes,
     this.caseSensitivity,
     this.defaultStorageClass,
@@ -7791,14 +8809,17 @@ class SMBFileShareInfo {
     this.locationARN,
     this.notificationPolicy,
     this.objectACL,
+    this.oplocksEnabled,
     this.path,
     this.readOnly,
     this.requesterPays,
     this.role,
     this.sMBACLEnabled,
     this.tags,
+    this.vPCEndpointDNSName,
     this.validUserList,
   });
+
   factory SMBFileShareInfo.fromJson(Map<String, dynamic> json) {
     return SMBFileShareInfo(
       accessBasedEnumeration: json['AccessBasedEnumeration'] as bool?,
@@ -7808,6 +8829,7 @@ class SMBFileShareInfo {
           .toList(),
       auditDestinationARN: json['AuditDestinationARN'] as String?,
       authentication: json['Authentication'] as String?,
+      bucketRegion: json['BucketRegion'] as String?,
       cacheAttributes: json['CacheAttributes'] != null
           ? CacheAttributes.fromJson(
               json['CacheAttributes'] as Map<String, dynamic>)
@@ -7830,6 +8852,7 @@ class SMBFileShareInfo {
       locationARN: json['LocationARN'] as String?,
       notificationPolicy: json['NotificationPolicy'] as String?,
       objectACL: (json['ObjectACL'] as String?)?.toObjectACL(),
+      oplocksEnabled: json['OplocksEnabled'] as bool?,
       path: json['Path'] as String?,
       readOnly: json['ReadOnly'] as bool?,
       requesterPays: json['RequesterPays'] as bool?,
@@ -7839,11 +8862,44 @@ class SMBFileShareInfo {
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
+      vPCEndpointDNSName: json['VPCEndpointDNSName'] as String?,
       validUserList: (json['ValidUserList'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
     );
+  }
+}
+
+/// A list of Active Directory users and groups that have special permissions
+/// for SMB file shares on the gateway.
+class SMBLocalGroups {
+  /// A list of Active Directory users and groups that have local Gateway Admin
+  /// permissions. Acceptable formats include: <code>DOMAIN\User1</code>,
+  /// <code>user1</code>, <code>DOMAIN\group1</code>, and <code>group1</code>.
+  ///
+  /// Gateway Admins can use the Shared Folders Microsoft Management Console
+  /// snap-in to force-close files that are open and locked.
+  final List<String>? gatewayAdmins;
+
+  SMBLocalGroups({
+    this.gatewayAdmins,
+  });
+
+  factory SMBLocalGroups.fromJson(Map<String, dynamic> json) {
+    return SMBLocalGroups(
+      gatewayAdmins: (json['GatewayAdmins'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final gatewayAdmins = this.gatewayAdmins;
+    return {
+      if (gatewayAdmins != null) 'GatewayAdmins': gatewayAdmins,
+    };
   }
 }
 
@@ -7886,6 +8942,7 @@ class SetLocalConsolePasswordOutput {
   SetLocalConsolePasswordOutput({
     this.gatewayARN,
   });
+
   factory SetLocalConsolePasswordOutput.fromJson(Map<String, dynamic> json) {
     return SetLocalConsolePasswordOutput(
       gatewayARN: json['GatewayARN'] as String?,
@@ -7899,6 +8956,7 @@ class SetSMBGuestPasswordOutput {
   SetSMBGuestPasswordOutput({
     this.gatewayARN,
   });
+
   factory SetSMBGuestPasswordOutput.fromJson(Map<String, dynamic> json) {
     return SetSMBGuestPasswordOutput(
       gatewayARN: json['GatewayARN'] as String?,
@@ -7914,6 +8972,7 @@ class ShutdownGatewayOutput {
   ShutdownGatewayOutput({
     this.gatewayARN,
   });
+
   factory ShutdownGatewayOutput.fromJson(Map<String, dynamic> json) {
     return ShutdownGatewayOutput(
       gatewayARN: json['GatewayARN'] as String?,
@@ -7927,6 +8986,7 @@ class StartAvailabilityMonitorTestOutput {
   StartAvailabilityMonitorTestOutput({
     this.gatewayARN,
   });
+
   factory StartAvailabilityMonitorTestOutput.fromJson(
       Map<String, dynamic> json) {
     return StartAvailabilityMonitorTestOutput(
@@ -7943,6 +9003,7 @@ class StartGatewayOutput {
   StartGatewayOutput({
     this.gatewayARN,
   });
+
   factory StartGatewayOutput.fromJson(Map<String, dynamic> json) {
     return StartGatewayOutput(
       gatewayARN: json['GatewayARN'] as String?,
@@ -8043,6 +9104,7 @@ class StorediSCSIVolume {
     this.volumeUsedInBytes,
     this.volumeiSCSIAttributes,
   });
+
   factory StorediSCSIVolume.fromJson(Map<String, dynamic> json) {
     return StorediSCSIVolume(
       createdDate: timeStampFromJson(json['CreatedDate']),
@@ -8081,6 +9143,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -8110,8 +9173,6 @@ class Tape {
   /// pool. When you use your backup application to eject the tape, the tape is
   /// archived directly into the storage class (S3 Glacier or S3 Glacier Deep
   /// Archive) that corresponds to the pool.
-  ///
-  /// Valid Values: <code>GLACIER</code> | <code>DEEP_ARCHIVE</code>
   final String? poolId;
 
   /// For archiving virtual tapes, indicates how much data remains to be uploaded
@@ -8167,6 +9228,7 @@ class Tape {
     this.vTLDevice,
     this.worm,
   });
+
   factory Tape.fromJson(Map<String, dynamic> json) {
     return Tape(
       kMSKey: json['KMSKey'] as String?,
@@ -8203,8 +9265,6 @@ class TapeArchive {
 
   /// The ID of the pool that was used to archive the tape. The tapes in this pool
   /// are archived in the S3 storage class that is associated with the pool.
-  ///
-  /// Valid Values: <code>GLACIER</code> | <code>DEEP_ARCHIVE</code>
   final String? poolId;
 
   /// If the archived tape is subject to tape retention lock, the date that the
@@ -8257,6 +9317,7 @@ class TapeArchive {
     this.tapeUsedInBytes,
     this.worm,
   });
+
   factory TapeArchive.fromJson(Map<String, dynamic> json) {
     return TapeArchive(
       completionTime: timeStampFromJson(json['CompletionTime']),
@@ -8279,7 +9340,8 @@ class TapeArchive {
 /// Describes a virtual tape.
 class TapeInfo {
   /// The Amazon Resource Name (ARN) of the gateway. Use the <a>ListGateways</a>
-  /// operation to return a list of gateways for your account and AWS Region.
+  /// operation to return a list of gateways for your account and Amazon Web
+  /// Services Region.
   final String? gatewayARN;
 
   /// The date that the tape entered the custom tape pool with tape retention lock
@@ -8291,8 +9353,6 @@ class TapeInfo {
   /// pool. When you use your backup application to eject the tape, the tape is
   /// archived directly into the storage class (S3 Glacier or S3 Glacier Deep
   /// Archive) that corresponds to the pool.
-  ///
-  /// Valid Values: <code>GLACIER</code> | <code>DEEP_ARCHIVE</code>
   final String? poolId;
 
   /// The date that the tape became subject to tape retention lock.
@@ -8320,6 +9380,7 @@ class TapeInfo {
     this.tapeSizeInBytes,
     this.tapeStatus,
   });
+
   factory TapeInfo.fromJson(Map<String, dynamic> json) {
     return TapeInfo(
       gatewayARN: json['GatewayARN'] as String?,
@@ -8358,6 +9419,7 @@ class TapeRecoveryPointInfo {
     this.tapeSizeInBytes,
     this.tapeStatus,
   });
+
   factory TapeRecoveryPointInfo.fromJson(Map<String, dynamic> json) {
     return TapeRecoveryPointInfo(
       tapeARN: json['TapeARN'] as String?,
@@ -8402,6 +9464,7 @@ class UpdateAutomaticTapeCreationPolicyOutput {
   UpdateAutomaticTapeCreationPolicyOutput({
     this.gatewayARN,
   });
+
   factory UpdateAutomaticTapeCreationPolicyOutput.fromJson(
       Map<String, dynamic> json) {
     return UpdateAutomaticTapeCreationPolicyOutput(
@@ -8418,6 +9481,7 @@ class UpdateBandwidthRateLimitOutput {
   UpdateBandwidthRateLimitOutput({
     this.gatewayARN,
   });
+
   factory UpdateBandwidthRateLimitOutput.fromJson(Map<String, dynamic> json) {
     return UpdateBandwidthRateLimitOutput(
       gatewayARN: json['GatewayARN'] as String?,
@@ -8431,6 +9495,7 @@ class UpdateBandwidthRateLimitScheduleOutput {
   UpdateBandwidthRateLimitScheduleOutput({
     this.gatewayARN,
   });
+
   factory UpdateBandwidthRateLimitScheduleOutput.fromJson(
       Map<String, dynamic> json) {
     return UpdateBandwidthRateLimitScheduleOutput(
@@ -8453,10 +9518,27 @@ class UpdateChapCredentialsOutput {
     this.initiatorName,
     this.targetARN,
   });
+
   factory UpdateChapCredentialsOutput.fromJson(Map<String, dynamic> json) {
     return UpdateChapCredentialsOutput(
       initiatorName: json['InitiatorName'] as String?,
       targetARN: json['TargetARN'] as String?,
+    );
+  }
+}
+
+class UpdateFileSystemAssociationOutput {
+  /// The ARN of the updated file system association.
+  final String? fileSystemAssociationARN;
+
+  UpdateFileSystemAssociationOutput({
+    this.fileSystemAssociationARN,
+  });
+
+  factory UpdateFileSystemAssociationOutput.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateFileSystemAssociationOutput(
+      fileSystemAssociationARN: json['FileSystemAssociationARN'] as String?,
     );
   }
 }
@@ -8473,6 +9555,7 @@ class UpdateGatewayInformationOutput {
     this.gatewayARN,
     this.gatewayName,
   });
+
   factory UpdateGatewayInformationOutput.fromJson(Map<String, dynamic> json) {
     return UpdateGatewayInformationOutput(
       gatewayARN: json['GatewayARN'] as String?,
@@ -8489,6 +9572,7 @@ class UpdateGatewaySoftwareNowOutput {
   UpdateGatewaySoftwareNowOutput({
     this.gatewayARN,
   });
+
   factory UpdateGatewaySoftwareNowOutput.fromJson(Map<String, dynamic> json) {
     return UpdateGatewaySoftwareNowOutput(
       gatewayARN: json['GatewayARN'] as String?,
@@ -8504,6 +9588,7 @@ class UpdateMaintenanceStartTimeOutput {
   UpdateMaintenanceStartTimeOutput({
     this.gatewayARN,
   });
+
   factory UpdateMaintenanceStartTimeOutput.fromJson(Map<String, dynamic> json) {
     return UpdateMaintenanceStartTimeOutput(
       gatewayARN: json['GatewayARN'] as String?,
@@ -8519,6 +9604,7 @@ class UpdateNFSFileShareOutput {
   UpdateNFSFileShareOutput({
     this.fileShareARN,
   });
+
   factory UpdateNFSFileShareOutput.fromJson(Map<String, dynamic> json) {
     return UpdateNFSFileShareOutput(
       fileShareARN: json['FileShareARN'] as String?,
@@ -8534,6 +9620,7 @@ class UpdateSMBFileShareOutput {
   UpdateSMBFileShareOutput({
     this.fileShareARN,
   });
+
   factory UpdateSMBFileShareOutput.fromJson(Map<String, dynamic> json) {
     return UpdateSMBFileShareOutput(
       fileShareARN: json['FileShareARN'] as String?,
@@ -8547,9 +9634,24 @@ class UpdateSMBFileShareVisibilityOutput {
   UpdateSMBFileShareVisibilityOutput({
     this.gatewayARN,
   });
+
   factory UpdateSMBFileShareVisibilityOutput.fromJson(
       Map<String, dynamic> json) {
     return UpdateSMBFileShareVisibilityOutput(
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
+}
+
+class UpdateSMBLocalGroupsOutput {
+  final String? gatewayARN;
+
+  UpdateSMBLocalGroupsOutput({
+    this.gatewayARN,
+  });
+
+  factory UpdateSMBLocalGroupsOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateSMBLocalGroupsOutput(
       gatewayARN: json['GatewayARN'] as String?,
     );
   }
@@ -8561,6 +9663,7 @@ class UpdateSMBSecurityStrategyOutput {
   UpdateSMBSecurityStrategyOutput({
     this.gatewayARN,
   });
+
   factory UpdateSMBSecurityStrategyOutput.fromJson(Map<String, dynamic> json) {
     return UpdateSMBSecurityStrategyOutput(
       gatewayARN: json['GatewayARN'] as String?,
@@ -8578,6 +9681,7 @@ class UpdateSnapshotScheduleOutput {
   UpdateSnapshotScheduleOutput({
     this.volumeARN,
   });
+
   factory UpdateSnapshotScheduleOutput.fromJson(Map<String, dynamic> json) {
     return UpdateSnapshotScheduleOutput(
       volumeARN: json['VolumeARN'] as String?,
@@ -8593,6 +9697,7 @@ class UpdateVTLDeviceTypeOutput {
   UpdateVTLDeviceTypeOutput({
     this.vTLDeviceARN,
   });
+
   factory UpdateVTLDeviceTypeOutput.fromJson(Map<String, dynamic> json) {
     return UpdateVTLDeviceTypeOutput(
       vTLDeviceARN: json['VTLDeviceARN'] as String?,
@@ -8625,6 +9730,7 @@ class VTLDevice {
     this.vTLDeviceType,
     this.vTLDeviceVendor,
   });
+
   factory VTLDevice.fromJson(Map<String, dynamic> json) {
     return VTLDevice(
       deviceiSCSIAttributes: json['DeviceiSCSIAttributes'] != null
@@ -8690,6 +9796,7 @@ class VolumeInfo {
     this.volumeSizeInBytes,
     this.volumeType,
   });
+
   factory VolumeInfo.fromJson(Map<String, dynamic> json) {
     return VolumeInfo(
       gatewayARN: json['GatewayARN'] as String?,
@@ -8727,6 +9834,7 @@ class VolumeRecoveryPointInfo {
     this.volumeSizeInBytes,
     this.volumeUsageInBytes,
   });
+
   factory VolumeRecoveryPointInfo.fromJson(Map<String, dynamic> json) {
     return VolumeRecoveryPointInfo(
       volumeARN: json['VolumeARN'] as String?,
@@ -8761,6 +9869,7 @@ class VolumeiSCSIAttributes {
     this.networkInterfacePort,
     this.targetARN,
   });
+
   factory VolumeiSCSIAttributes.fromJson(Map<String, dynamic> json) {
     return VolumeiSCSIAttributes(
       chapEnabled: json['ChapEnabled'] as bool?,

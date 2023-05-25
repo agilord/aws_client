@@ -76,6 +76,7 @@ class OutputShape {
     this.timeCustom,
     this.timeFormat,
   });
+
   factory OutputShape.fromJson(Map<String, dynamic> json) {
     return OutputShape(
       structMember: json['StructMember'] != null
@@ -96,6 +97,7 @@ class TimeContainer {
     this.bar,
     this.foo,
   });
+
   factory TimeContainer.fromJson(Map<String, dynamic> json) {
     return TimeContainer(
       bar: timeStampFromJson(json['bar']),

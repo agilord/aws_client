@@ -3,22 +3,15 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-Using AWS Batch, you can run batch computing workloads on the AWS Cloud.
-Batch computing is a common means for developers, scientists, and engineers
-to access large amounts of compute resources. AWS Batch utilizes the
-advantages of this computing workload to remove the undifferentiated heavy
-lifting of configuring and managing required infrastructure, while also
-adopting a familiar batch computing software approach. Given these
-advantages, AWS Batch can help you to efficiently provision resources in
-response to jobs submitted, thus effectively helping to eliminate capacity
-constraints, reduce compute costs, and deliver your results more quickly.
-
-As a fully managed service, AWS Batch can run batch computing workloads of
-any scale. AWS Batch automatically provisions compute resources and
-optimizes workload distribution based on the quantity and scale of your
-specific workloads. With AWS Batch, there's no need to install or manage
-batch computing software. This means that you can focus your time and energy
-on analyzing results and solving your specific problems.
+Using Batch, you can run batch computing workloads on the Amazon Web
+Services Cloud. Batch computing is a common means for developers,
+scientists, and engineers to access large amounts of compute resources.
+Batch uses the advantages of the batch computing to remove the
+undifferentiated heavy lifting of configuring and managing required
+infrastructure. At the same time, it also adopts a familiar batch computing
+software approach. You can use Batch to efficiently provision resources d,
+and work toward eliminating capacity constraints, reducing your overall
+compute costs, and delivering results more quickly.
 
 ## Links
 

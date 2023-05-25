@@ -407,7 +407,7 @@ class OpsWorksCM {
   /// Parameter [engineVersion] :
   /// The major release version of the engine that you want to use. For a Chef
   /// server, the valid value for EngineVersion is currently <code>2</code>. For
-  /// a Puppet server, the valid value is <code>2017</code>.
+  /// a Puppet server, valid values are <code>2019</code> or <code>2017</code>.
   ///
   /// Parameter [keyPair] :
   /// The Amazon EC2 key pair to set for the instance. This parameter is
@@ -1125,7 +1125,7 @@ class OpsWorksCM {
   /// Parameter [keyPair] :
   /// The name of the key pair to set on the new EC2 instance. This can be
   /// helpful if the administrator no longer has the SSH key.
-  Future<void> restoreServer({
+  Future<RestoreServerResponse> restoreServer({
     required String backupId,
     required String serverName,
     String? instanceType,
@@ -1135,7 +1135,7 @@ class OpsWorksCM {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorksCM_V2016_11_01.RestoreServer'
     };
-    await _protocol.send(
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1148,6 +1148,8 @@ class OpsWorksCM {
         if (keyPair != null) 'KeyPair': keyPair,
       },
     );
+
+    return RestoreServerResponse.fromJson(jsonResponse.body);
   }
 
   /// Manually starts server maintenance. This command can be useful if an
@@ -1434,6 +1436,7 @@ class AccountAttribute {
     this.name,
     this.used,
   });
+
   factory AccountAttribute.fromJson(Map<String, dynamic> json) {
     return AccountAttribute(
       maximum: json['Maximum'] as int?,
@@ -1452,6 +1455,7 @@ class AssociateNodeResponse {
   AssociateNodeResponse({
     this.nodeAssociationStatusToken,
   });
+
   factory AssociateNodeResponse.fromJson(Map<String, dynamic> json) {
     return AssociateNodeResponse(
       nodeAssociationStatusToken: json['NodeAssociationStatusToken'] as String?,
@@ -1574,6 +1578,7 @@ class Backup {
     this.toolsVersion,
     this.userArn,
   });
+
   factory Backup.fromJson(Map<String, dynamic> json) {
     return Backup(
       backupArn: json['BackupArn'] as String?,
@@ -1683,6 +1688,7 @@ class CreateBackupResponse {
   CreateBackupResponse({
     this.backup,
   });
+
   factory CreateBackupResponse.fromJson(Map<String, dynamic> json) {
     return CreateBackupResponse(
       backup: json['Backup'] != null
@@ -1699,6 +1705,7 @@ class CreateServerResponse {
   CreateServerResponse({
     this.server,
   });
+
   factory CreateServerResponse.fromJson(Map<String, dynamic> json) {
     return CreateServerResponse(
       server: json['Server'] != null
@@ -1710,6 +1717,7 @@ class CreateServerResponse {
 
 class DeleteBackupResponse {
   DeleteBackupResponse();
+
   factory DeleteBackupResponse.fromJson(Map<String, dynamic> _) {
     return DeleteBackupResponse();
   }
@@ -1717,6 +1725,7 @@ class DeleteBackupResponse {
 
 class DeleteServerResponse {
   DeleteServerResponse();
+
   factory DeleteServerResponse.fromJson(Map<String, dynamic> _) {
     return DeleteServerResponse();
   }
@@ -1729,6 +1738,7 @@ class DescribeAccountAttributesResponse {
   DescribeAccountAttributesResponse({
     this.attributes,
   });
+
   factory DescribeAccountAttributesResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeAccountAttributesResponse(
@@ -1751,6 +1761,7 @@ class DescribeBackupsResponse {
     this.backups,
     this.nextToken,
   });
+
   factory DescribeBackupsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeBackupsResponse(
       backups: (json['Backups'] as List?)
@@ -1781,6 +1792,7 @@ class DescribeEventsResponse {
     this.nextToken,
     this.serverEvents,
   });
+
   factory DescribeEventsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeEventsResponse(
       nextToken: json['NextToken'] as String?,
@@ -1818,6 +1830,7 @@ class DescribeNodeAssociationStatusResponse {
     this.engineAttributes,
     this.nodeAssociationStatus,
   });
+
   factory DescribeNodeAssociationStatusResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeNodeAssociationStatusResponse(
@@ -1844,17 +1857,31 @@ class DescribeServersResponse {
   /// 1 must have had at least one successful maintenance run after November 1,
   /// 2019.
   ///
-  /// <i>For Puppet Server:</i>
-  /// <code>DescribeServersResponse$Servers$EngineAttributes</code> contains
-  /// PUPPET_API_CA_CERT. This is the PEM-encoded CA certificate that is used by
-  /// the Puppet API over TCP port number 8140. The CA certificate is also used to
-  /// sign node certificates.
+  /// <i>For Puppet servers:</i>
+  /// <code>DescribeServersResponse$Servers$EngineAttributes</code> contains the
+  /// following two responses:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PUPPET_API_CA_CERT</code>, the PEM-encoded CA certificate that is used
+  /// by the Puppet API over TCP port number 8140. The CA certificate is also used
+  /// to sign node certificates.
+  /// </li>
+  /// <li>
+  /// <code>PUPPET_API_CRL</code>, a certificate revocation list. The certificate
+  /// revocation list is for internal maintenance purposes only. For more
+  /// information about the Puppet certificate revocation list, see <a
+  /// href="https://puppet.com/docs/puppet/5.5/man/certificate_revocation_list.html">Man
+  /// Page: puppet certificate_revocation_list</a> in the Puppet documentation.
+  /// </li>
+  /// </ul>
   final List<Server>? servers;
 
   DescribeServersResponse({
     this.nextToken,
     this.servers,
   });
+
   factory DescribeServersResponse.fromJson(Map<String, dynamic> json) {
     return DescribeServersResponse(
       nextToken: json['NextToken'] as String?,
@@ -1875,6 +1902,7 @@ class DisassociateNodeResponse {
   DisassociateNodeResponse({
     this.nodeAssociationStatusToken,
   });
+
   factory DisassociateNodeResponse.fromJson(Map<String, dynamic> json) {
     return DisassociateNodeResponse(
       nodeAssociationStatusToken: json['NodeAssociationStatusToken'] as String?,
@@ -1894,6 +1922,7 @@ class EngineAttribute {
     this.name,
     this.value,
   });
+
   factory EngineAttribute.fromJson(Map<String, dynamic> json) {
     return EngineAttribute(
       name: json['Name'] as String?,
@@ -1922,6 +1951,7 @@ class ExportServerEngineAttributeResponse {
     this.engineAttribute,
     this.serverName,
   });
+
   factory ExportServerEngineAttributeResponse.fromJson(
       Map<String, dynamic> json) {
     return ExportServerEngineAttributeResponse(
@@ -1946,6 +1976,7 @@ class ListTagsForResourceResponse {
     this.nextToken,
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       nextToken: json['NextToken'] as String?,
@@ -2034,9 +2065,18 @@ extension NodeAssociationStatusFromString on String {
 }
 
 class RestoreServerResponse {
-  RestoreServerResponse();
-  factory RestoreServerResponse.fromJson(Map<String, dynamic> _) {
-    return RestoreServerResponse();
+  final Server? server;
+
+  RestoreServerResponse({
+    this.server,
+  });
+
+  factory RestoreServerResponse.fromJson(Map<String, dynamic> json) {
+    return RestoreServerResponse(
+      server: json['Server'] != null
+          ? Server.fromJson(json['Server'] as Map<String, dynamic>)
+          : null,
+    );
   }
 }
 
@@ -2116,8 +2156,8 @@ class Server {
   final String? engineModel;
 
   /// The engine version of the server. For a Chef server, the valid value for
-  /// EngineVersion is currently <code>2</code>. For a Puppet server, the valid
-  /// value is <code>2017</code>.
+  /// EngineVersion is currently <code>2</code>. For a Puppet server, specify
+  /// either <code>2019</code> or <code>2017</code>.
   final String? engineVersion;
 
   /// The instance profile ARN of the server.
@@ -2193,6 +2233,7 @@ class Server {
     this.statusReason,
     this.subnetIds,
   });
+
   factory Server.fromJson(Map<String, dynamic> json) {
     return Server(
       associatePublicIpAddress: json['AssociatePublicIpAddress'] as bool?,
@@ -2254,6 +2295,7 @@ class ServerEvent {
     this.message,
     this.serverName,
   });
+
   factory ServerEvent.fromJson(Map<String, dynamic> json) {
     return ServerEvent(
       createdAt: timeStampFromJson(json['CreatedAt']),
@@ -2354,6 +2396,7 @@ class StartMaintenanceResponse {
   StartMaintenanceResponse({
     this.server,
   });
+
   factory StartMaintenanceResponse.fromJson(Map<String, dynamic> json) {
     return StartMaintenanceResponse(
       server: json['Server'] != null
@@ -2384,6 +2427,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -2403,6 +2447,7 @@ class Tag {
 
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
@@ -2410,6 +2455,7 @@ class TagResourceResponse {
 
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
   }
@@ -2423,6 +2469,7 @@ class UpdateServerEngineAttributesResponse {
   UpdateServerEngineAttributesResponse({
     this.server,
   });
+
   factory UpdateServerEngineAttributesResponse.fromJson(
       Map<String, dynamic> json) {
     return UpdateServerEngineAttributesResponse(
@@ -2440,6 +2487,7 @@ class UpdateServerResponse {
   UpdateServerResponse({
     this.server,
   });
+
   factory UpdateServerResponse.fromJson(Map<String, dynamic> json) {
     return UpdateServerResponse(
       server: json['Server'] != null

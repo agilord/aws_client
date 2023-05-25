@@ -3,29 +3,31 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-The AWS Support API reference is intended for programmers who need detailed
-information about the AWS Support operations and data types. This service
-enables you to manage your AWS Support cases programmatically. It uses HTTP
-methods that return results in JSON format.
+The <i>Amazon Web Services Support API Reference</i> is intended for
+programmers who need detailed information about the Amazon Web Services
+Support operations and data types. You can use the API to manage your
+support cases programmatically. The Amazon Web Services Support API uses
+HTTP methods that return results in JSON format.
 <note>
 <ul>
 <li>
-You must have a Business or Enterprise support plan to use the AWS Support
-API.
+You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to
+use the Amazon Web Services Support API.
 </li>
 <li>
-If you call the AWS Support API from an account that does not have a
-Business or Enterprise support plan, the
+If you call the Amazon Web Services Support API from an account that doesn't
+have a Business, Enterprise On-Ramp, or Enterprise Support plan, the
 <code>SubscriptionRequiredException</code> error message appears. For
 information about changing your support plan, see <a
-href="https://aws.amazon.com/premiumsupport/">AWS Support</a>.
+href="https://aws.amazon.com/premiumsupport/">Amazon Web Services
+Support</a>.
 </li>
 </ul> </note>
-The AWS Support service also exposes a set of <a
-href="https://aws.amazon.com/premiumsupport/trustedadvisor/">AWS Trusted
-Advisor</a> features. You can retrieve a list of checks and their
-descriptions, get check results, specify checks to refresh, and get the
-refresh status of checks.
+You can also use the Amazon Web Services Support API to access features for
+<a href="https://aws.amazon.com/premiumsupport/trustedadvisor/">Trusted
+Advisor</a>. You can return a list of checks and their descriptions, get
+check results, specify checks to refresh, and get the refresh status of
+checks.
 
 ## Links
 

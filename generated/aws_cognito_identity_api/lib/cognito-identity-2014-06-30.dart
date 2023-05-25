@@ -112,7 +112,7 @@ class CognitoIdentity {
   /// by purpose, owner, environment, or other criteria.
   ///
   /// Parameter [openIdConnectProviderARNs] :
-  /// A list of OpendID Connect provider ARNs.
+  /// The Amazon Resource Names (ARN) of the OpenID Connect providers.
   ///
   /// Parameter [samlProviderARNs] :
   /// An array of Amazon Resource Names (ARNs) of the SAML provider for your
@@ -327,9 +327,9 @@ class CognitoIdentity {
   /// unauthenticated identity.
   ///
   /// The Logins parameter is required when using identities associated with
-  /// external identity providers such as FaceBook. For examples of
+  /// external identity providers such as Facebook. For examples of
   /// <code>Logins</code> maps, see the code examples in the <a
-  /// href="http://docs.aws.amazon.com/cognito/latest/developerguide/external-identity-providers.html">External
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/external-identity-providers.html">External
   /// Identity Providers</a> section of the Amazon Cognito Developer Guide.
   Future<GetCredentialsForIdentityResponse> getCredentialsForIdentity({
     required String identityId,
@@ -469,7 +469,7 @@ class CognitoIdentity {
   /// returned by <a>GetId</a>. You can optionally add additional logins for the
   /// identity. Supplying multiple logins creates an implicit link.
   ///
-  /// The OpenId token is valid for 10 minutes.
+  /// The OpenID token is valid for 10 minutes.
   ///
   /// This is a public API. You do not need any credentials to call this API.
   ///
@@ -489,7 +489,7 @@ class CognitoIdentity {
   /// tokens. When using graph.facebook.com and www.amazon.com, supply the
   /// access_token returned from the provider's authflow. For
   /// accounts.google.com, an Amazon Cognito user pool provider, or any other
-  /// OpenId Connect provider, always include the <code>id_token</code>.
+  /// OpenID Connect provider, always include the <code>id_token</code>.
   Future<GetOpenIdTokenResponse> getOpenIdToken({
     required String identityId,
     Map<String, String>? logins,
@@ -558,6 +558,9 @@ class CognitoIdentity {
   /// Parameter [identityId] :
   /// A unique identifier in the format REGION:GUID.
   ///
+  /// Parameter [principalTags] :
+  /// Use this operation to configure attribute mappings for custom providers.
+  ///
   /// Parameter [tokenDuration] :
   /// The expiration time of the token, in seconds. You can specify a custom
   /// expiration time for the token so that you can cache it. If you don't
@@ -576,6 +579,7 @@ class CognitoIdentity {
     required String identityPoolId,
     required Map<String, String> logins,
     String? identityId,
+    Map<String, String>? principalTags,
     int? tokenDuration,
   }) async {
     _s.validateNumRange(
@@ -599,12 +603,51 @@ class CognitoIdentity {
         'IdentityPoolId': identityPoolId,
         'Logins': logins,
         if (identityId != null) 'IdentityId': identityId,
+        if (principalTags != null) 'PrincipalTags': principalTags,
         if (tokenDuration != null) 'TokenDuration': tokenDuration,
       },
     );
 
     return GetOpenIdTokenForDeveloperIdentityResponse.fromJson(
         jsonResponse.body);
+  }
+
+  /// Use <code>GetPrincipalTagAttributeMap</code> to list all mappings between
+  /// <code>PrincipalTags</code> and user attributes.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InternalErrorException].
+  ///
+  /// Parameter [identityPoolId] :
+  /// You can use this operation to get the ID of the Identity Pool you setup
+  /// attribute mappings for.
+  ///
+  /// Parameter [identityProviderName] :
+  /// You can use this operation to get the provider name.
+  Future<GetPrincipalTagAttributeMapResponse> getPrincipalTagAttributeMap({
+    required String identityPoolId,
+    required String identityProviderName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSCognitoIdentityService.GetPrincipalTagAttributeMap'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'IdentityPoolId': identityPoolId,
+        'IdentityProviderName': identityProviderName,
+      },
+    );
+
+    return GetPrincipalTagAttributeMapResponse.fromJson(jsonResponse.body);
   }
 
   /// Lists the identities in an identity pool.
@@ -927,7 +970,7 @@ class CognitoIdentity {
   /// How users for a specific identity provider are to mapped to roles. This is
   /// a string to <a>RoleMapping</a> object map. The string identifies the
   /// identity provider, for example, "graph.facebook.com" or
-  /// "cognito-idp-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id".
+  /// "cognito-idp.us-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id".
   ///
   /// Up to 25 rules can be specified per identity provider.
   Future<void> setIdentityPoolRoles({
@@ -953,9 +996,57 @@ class CognitoIdentity {
     );
   }
 
-  /// Assigns a set of tags to an Amazon Cognito identity pool. A tag is a label
-  /// that you can use to categorize and manage identity pools in different
-  /// ways, such as by purpose, owner, environment, or other criteria.
+  /// You can use this operation to use default (username and clientID)
+  /// attribute or custom attribute mappings.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InternalErrorException].
+  ///
+  /// Parameter [identityPoolId] :
+  /// The ID of the Identity Pool you want to set attribute mappings for.
+  ///
+  /// Parameter [identityProviderName] :
+  /// The provider name you want to use for attribute mappings.
+  ///
+  /// Parameter [principalTags] :
+  /// You can use this operation to add principal tags.
+  ///
+  /// Parameter [useDefaults] :
+  /// You can use this operation to use default (username and clientID)
+  /// attribute mappings.
+  Future<SetPrincipalTagAttributeMapResponse> setPrincipalTagAttributeMap({
+    required String identityPoolId,
+    required String identityProviderName,
+    Map<String, String>? principalTags,
+    bool? useDefaults,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSCognitoIdentityService.SetPrincipalTagAttributeMap'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'IdentityPoolId': identityPoolId,
+        'IdentityProviderName': identityProviderName,
+        if (principalTags != null) 'PrincipalTags': principalTags,
+        if (useDefaults != null) 'UseDefaults': useDefaults,
+      },
+    );
+
+    return SetPrincipalTagAttributeMapResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Assigns a set of tags to the specified Amazon Cognito identity pool. A tag
+  /// is a label that you can use to categorize and manage identity pools in
+  /// different ways, such as by purpose, owner, environment, or other criteria.
   ///
   /// Each tag consists of a key and value, both of which you define. A key is a
   /// general category for more specific values. For example, if you have two
@@ -980,7 +1071,7 @@ class CognitoIdentity {
   /// May throw [InternalErrorException].
   ///
   /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) of the identity pool to assign the tags to.
+  /// The Amazon Resource Name (ARN) of the identity pool.
   ///
   /// Parameter [tags] :
   /// The tags to assign to the identity pool.
@@ -1104,8 +1195,8 @@ class CognitoIdentity {
     );
   }
 
-  /// Removes the specified tags from an Amazon Cognito identity pool. You can
-  /// use this action up to 5 times per second, per account
+  /// Removes the specified tags from the specified Amazon Cognito identity
+  /// pool. You can use this action up to 5 times per second, per account
   ///
   /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
@@ -1114,8 +1205,7 @@ class CognitoIdentity {
   /// May throw [InternalErrorException].
   ///
   /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) of the identity pool that the tags are
-  /// assigned to.
+  /// The Amazon Resource Name (ARN) of the identity pool.
   ///
   /// Parameter [tagKeys] :
   /// The keys of the tags to remove from the user pool.
@@ -1181,7 +1271,7 @@ class CognitoIdentity {
   /// ways, such as by purpose, owner, environment, or other criteria.
   ///
   /// Parameter [openIdConnectProviderARNs] :
-  /// A list of OpendID Connect provider ARNs.
+  /// The ARNs of the OpenID Connect providers.
   ///
   /// Parameter [samlProviderARNs] :
   /// An array of Amazon Resource Names (ARNs) of the SAML provider for your
@@ -1288,6 +1378,7 @@ class CognitoIdentityProvider {
     this.providerName,
     this.serverSideTokenCheck,
   });
+
   factory CognitoIdentityProvider.fromJson(Map<String, dynamic> json) {
     return CognitoIdentityProvider(
       clientId: json['ClientId'] as String?,
@@ -1329,6 +1420,7 @@ class Credentials {
     this.secretKey,
     this.sessionToken,
   });
+
   factory Credentials.fromJson(Map<String, dynamic> json) {
     return Credentials(
       accessKeyId: json['AccessKeyId'] as String?,
@@ -1349,6 +1441,7 @@ class DeleteIdentitiesResponse {
   DeleteIdentitiesResponse({
     this.unprocessedIdentityIds,
   });
+
   factory DeleteIdentitiesResponse.fromJson(Map<String, dynamic> json) {
     return DeleteIdentitiesResponse(
       unprocessedIdentityIds: (json['UnprocessedIdentityIds'] as List?)
@@ -1400,6 +1493,7 @@ class GetCredentialsForIdentityResponse {
     this.credentials,
     this.identityId,
   });
+
   factory GetCredentialsForIdentityResponse.fromJson(
       Map<String, dynamic> json) {
     return GetCredentialsForIdentityResponse(
@@ -1419,6 +1513,7 @@ class GetIdResponse {
   GetIdResponse({
     this.identityId,
   });
+
   factory GetIdResponse.fromJson(Map<String, dynamic> json) {
     return GetIdResponse(
       identityId: json['IdentityId'] as String?,
@@ -1447,6 +1542,7 @@ class GetIdentityPoolRolesResponse {
     this.roleMappings,
     this.roles,
   });
+
   factory GetIdentityPoolRolesResponse.fromJson(Map<String, dynamic> json) {
     return GetIdentityPoolRolesResponse(
       identityPoolId: json['IdentityPoolId'] as String?,
@@ -1472,6 +1568,7 @@ class GetOpenIdTokenForDeveloperIdentityResponse {
     this.identityId,
     this.token,
   });
+
   factory GetOpenIdTokenForDeveloperIdentityResponse.fromJson(
       Map<String, dynamic> json) {
     return GetOpenIdTokenForDeveloperIdentityResponse(
@@ -1494,10 +1591,46 @@ class GetOpenIdTokenResponse {
     this.identityId,
     this.token,
   });
+
   factory GetOpenIdTokenResponse.fromJson(Map<String, dynamic> json) {
     return GetOpenIdTokenResponse(
       identityId: json['IdentityId'] as String?,
       token: json['Token'] as String?,
+    );
+  }
+}
+
+class GetPrincipalTagAttributeMapResponse {
+  /// You can use this operation to get the ID of the Identity Pool you setup
+  /// attribute mappings for.
+  final String? identityPoolId;
+
+  /// You can use this operation to get the provider name.
+  final String? identityProviderName;
+
+  /// You can use this operation to add principal tags. The
+  /// <code>PrincipalTags</code>operation enables you to reference user attributes
+  /// in your IAM permissions policy.
+  final Map<String, String>? principalTags;
+
+  /// You can use this operation to list
+  final bool? useDefaults;
+
+  GetPrincipalTagAttributeMapResponse({
+    this.identityPoolId,
+    this.identityProviderName,
+    this.principalTags,
+    this.useDefaults,
+  });
+
+  factory GetPrincipalTagAttributeMapResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetPrincipalTagAttributeMapResponse(
+      identityPoolId: json['IdentityPoolId'] as String?,
+      identityProviderName: json['IdentityProviderName'] as String?,
+      principalTags: (json['PrincipalTags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      useDefaults: json['UseDefaults'] as bool?,
     );
   }
 }
@@ -1522,6 +1655,7 @@ class IdentityDescription {
     this.lastModifiedDate,
     this.logins,
   });
+
   factory IdentityDescription.fromJson(Map<String, dynamic> json) {
     return IdentityDescription(
       creationDate: timeStampFromJson(json['CreationDate']),
@@ -1564,7 +1698,7 @@ class IdentityPool {
   /// such as by purpose, owner, environment, or other criteria.
   final Map<String, String>? identityPoolTags;
 
-  /// A list of OpendID Connect provider ARNs.
+  /// The ARNs of the OpenID Connect providers.
   final List<String>? openIdConnectProviderARNs;
 
   /// An array of Amazon Resource Names (ARNs) of the SAML provider for your
@@ -1586,6 +1720,7 @@ class IdentityPool {
     this.samlProviderARNs,
     this.supportedLoginProviders,
   });
+
   factory IdentityPool.fromJson(Map<String, dynamic> json) {
     return IdentityPool(
       allowUnauthenticatedIdentities:
@@ -1628,6 +1763,7 @@ class IdentityPoolShortDescription {
     this.identityPoolId,
     this.identityPoolName,
   });
+
   factory IdentityPoolShortDescription.fromJson(Map<String, dynamic> json) {
     return IdentityPoolShortDescription(
       identityPoolId: json['IdentityPoolId'] as String?,
@@ -1652,6 +1788,7 @@ class ListIdentitiesResponse {
     this.identityPoolId,
     this.nextToken,
   });
+
   factory ListIdentitiesResponse.fromJson(Map<String, dynamic> json) {
     return ListIdentitiesResponse(
       identities: (json['Identities'] as List?)
@@ -1676,6 +1813,7 @@ class ListIdentityPoolsResponse {
     this.identityPools,
     this.nextToken,
   });
+
   factory ListIdentityPoolsResponse.fromJson(Map<String, dynamic> json) {
     return ListIdentityPoolsResponse(
       identityPools: (json['IdentityPools'] as List?)
@@ -1695,6 +1833,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -1728,6 +1867,7 @@ class LookupDeveloperIdentityResponse {
     this.identityId,
     this.nextToken,
   });
+
   factory LookupDeveloperIdentityResponse.fromJson(Map<String, dynamic> json) {
     return LookupDeveloperIdentityResponse(
       developerUserIdentifierList:
@@ -1764,6 +1904,7 @@ class MappingRule {
     required this.roleARN,
     required this.value,
   });
+
   factory MappingRule.fromJson(Map<String, dynamic> json) {
     return MappingRule(
       claim: json['Claim'] as String,
@@ -1834,6 +1975,7 @@ class MergeDeveloperIdentitiesResponse {
   MergeDeveloperIdentitiesResponse({
     this.identityId,
   });
+
   factory MergeDeveloperIdentitiesResponse.fromJson(Map<String, dynamic> json) {
     return MergeDeveloperIdentitiesResponse(
       identityId: json['IdentityId'] as String?,
@@ -1869,6 +2011,7 @@ class RoleMapping {
     this.ambiguousRoleResolution,
     this.rulesConfiguration,
   });
+
   factory RoleMapping.fromJson(Map<String, dynamic> json) {
     return RoleMapping(
       type: (json['Type'] as String).toRoleMappingType(),
@@ -1932,6 +2075,7 @@ class RulesConfigurationType {
   RulesConfigurationType({
     required this.rules,
   });
+
   factory RulesConfigurationType.fromJson(Map<String, dynamic> json) {
     return RulesConfigurationType(
       rules: (json['Rules'] as List)
@@ -1949,8 +2093,44 @@ class RulesConfigurationType {
   }
 }
 
+class SetPrincipalTagAttributeMapResponse {
+  /// The ID of the Identity Pool you want to set attribute mappings for.
+  final String? identityPoolId;
+
+  /// The provider name you want to use for attribute mappings.
+  final String? identityProviderName;
+
+  /// You can use this operation to add principal tags. The
+  /// <code>PrincipalTags</code>operation enables you to reference user attributes
+  /// in your IAM permissions policy.
+  final Map<String, String>? principalTags;
+
+  /// You can use this operation to select default (username and clientID)
+  /// attribute mappings.
+  final bool? useDefaults;
+
+  SetPrincipalTagAttributeMapResponse({
+    this.identityPoolId,
+    this.identityProviderName,
+    this.principalTags,
+    this.useDefaults,
+  });
+
+  factory SetPrincipalTagAttributeMapResponse.fromJson(
+      Map<String, dynamic> json) {
+    return SetPrincipalTagAttributeMapResponse(
+      identityPoolId: json['IdentityPoolId'] as String?,
+      identityProviderName: json['IdentityProviderName'] as String?,
+      principalTags: (json['PrincipalTags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      useDefaults: json['UseDefaults'] as bool?,
+    );
+  }
+}
+
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
@@ -1969,6 +2149,7 @@ class UnprocessedIdentityId {
     this.errorCode,
     this.identityId,
   });
+
   factory UnprocessedIdentityId.fromJson(Map<String, dynamic> json) {
     return UnprocessedIdentityId(
       errorCode: (json['ErrorCode'] as String?)?.toErrorCode(),
@@ -1979,6 +2160,7 @@ class UnprocessedIdentityId {
 
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
   }

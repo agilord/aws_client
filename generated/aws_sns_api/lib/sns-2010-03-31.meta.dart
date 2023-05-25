@@ -16,6 +16,21 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "AmazonResourceName": {"type": "string", "flattened": false},
+  "BatchResultErrorEntry": {
+    "type": "structure",
+    "members": {
+      "Id": {"shape": "String", "flattened": false},
+      "Code": {"shape": "String", "flattened": false},
+      "Message": {"shape": "String", "flattened": false},
+      "SenderFault": {"shape": "boolean", "flattened": false}
+    },
+    "flattened": false
+  },
+  "BatchResultErrorEntryList": {
+    "type": "list",
+    "member": {"shape": "BatchResultErrorEntry"},
+    "flattened": false
+  },
   "Binary": {"type": "blob", "flattened": false},
   "CheckIfPhoneNumberIsOptedOutInput": {
     "type": "structure",
@@ -83,12 +98,26 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "CreateSMSSandboxPhoneNumberInput": {
+    "type": "structure",
+    "members": {
+      "PhoneNumber": {"shape": "PhoneNumberString", "flattened": false},
+      "LanguageCode": {"shape": "LanguageCodeString", "flattened": false}
+    },
+    "flattened": false
+  },
+  "CreateSMSSandboxPhoneNumberResult": {
+    "type": "structure",
+    "members": {},
+    "flattened": false
+  },
   "CreateTopicInput": {
     "type": "structure",
     "members": {
       "Name": {"shape": "topicName", "flattened": false},
       "Attributes": {"shape": "TopicAttributesMap", "flattened": false},
-      "Tags": {"shape": "TagList", "flattened": false}
+      "Tags": {"shape": "TagList", "flattened": false},
+      "DataProtectionPolicy": {"shape": "attributeValue", "flattened": false}
     },
     "flattened": false
   },
@@ -118,6 +147,18 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "DeleteSMSSandboxPhoneNumberInput": {
+    "type": "structure",
+    "members": {
+      "PhoneNumber": {"shape": "PhoneNumberString", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DeleteSMSSandboxPhoneNumberResult": {
+    "type": "structure",
+    "members": {},
+    "flattened": false
+  },
   "DeleteTopicInput": {
     "type": "structure",
     "members": {
@@ -130,6 +171,20 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "EndpointArn": {"shape": "String", "flattened": false},
       "Attributes": {"shape": "MapStringToString", "flattened": false}
+    },
+    "flattened": false
+  },
+  "GetDataProtectionPolicyInput": {
+    "type": "structure",
+    "members": {
+      "ResourceArn": {"shape": "topicARN", "flattened": false}
+    },
+    "flattened": false
+  },
+  "GetDataProtectionPolicyResponse": {
+    "type": "structure",
+    "members": {
+      "DataProtectionPolicy": {"shape": "attributeValue", "flattened": false}
     },
     "flattened": false
   },
@@ -175,6 +230,18 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "GetSMSSandboxAccountStatusInput": {
+    "type": "structure",
+    "members": {},
+    "flattened": false
+  },
+  "GetSMSSandboxAccountStatusResult": {
+    "type": "structure",
+    "members": {
+      "IsInSandbox": {"shape": "boolean", "flattened": false}
+    },
+    "flattened": false
+  },
   "GetSubscriptionAttributesInput": {
     "type": "structure",
     "members": {
@@ -203,6 +270,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "Iso2CountryCode": {"type": "string", "flattened": false},
+  "LanguageCodeString": {"type": "string", "flattened": false},
   "ListEndpointsByPlatformApplicationInput": {
     "type": "structure",
     "members": {
@@ -227,6 +296,28 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "ListOfPlatformApplications": {
     "type": "list",
     "member": {"shape": "PlatformApplication"},
+    "flattened": false
+  },
+  "ListOriginationNumbersRequest": {
+    "type": "structure",
+    "members": {
+      "NextToken": {"shape": "nextToken", "flattened": false},
+      "MaxResults": {
+        "shape": "MaxItemsListOriginationNumbers",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "ListOriginationNumbersResult": {
+    "type": "structure",
+    "members": {
+      "NextToken": {"shape": "nextToken", "flattened": false},
+      "PhoneNumbers": {
+        "shape": "PhoneNumberInformationList",
+        "flattened": false
+      }
+    },
     "flattened": false
   },
   "ListPhoneNumbersOptedOutInput": {
@@ -259,6 +350,25 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "NextToken": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ListSMSSandboxPhoneNumbersInput": {
+    "type": "structure",
+    "members": {
+      "NextToken": {"shape": "nextToken", "flattened": false},
+      "MaxResults": {"shape": "MaxItems", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ListSMSSandboxPhoneNumbersResult": {
+    "type": "structure",
+    "members": {
+      "PhoneNumbers": {
+        "shape": "SMSSandboxPhoneNumberList",
+        "flattened": false
+      },
+      "NextToken": {"shape": "string", "flattened": false}
     },
     "flattened": false
   },
@@ -333,6 +443,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "value": {"shape": "String"},
     "flattened": false
   },
+  "MaxItems": {"type": "integer", "flattened": false},
+  "MaxItemsListOriginationNumbers": {"type": "integer", "flattened": false},
   "MessageAttributeMap": {
     "type": "map",
     "key": {"shape": "String", "locationName": "Name"},
@@ -348,6 +460,13 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "NumberCapability": {"type": "string", "flattened": false},
+  "NumberCapabilityList": {
+    "type": "list",
+    "member": {"shape": "NumberCapability"},
+    "flattened": false
+  },
+  "OTPCode": {"type": "string", "flattened": false},
   "OptInPhoneNumberInput": {
     "type": "structure",
     "members": {
@@ -361,17 +480,92 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "PhoneNumber": {"type": "string", "flattened": false},
+  "PhoneNumberInformation": {
+    "type": "structure",
+    "members": {
+      "CreatedAt": {"shape": "Timestamp", "flattened": false},
+      "PhoneNumber": {"shape": "String", "flattened": false},
+      "Status": {"shape": "String", "flattened": false},
+      "Iso2CountryCode": {"shape": "Iso2CountryCode", "flattened": false},
+      "RouteType": {"shape": "RouteType", "flattened": false},
+      "NumberCapabilities": {
+        "shape": "NumberCapabilityList",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "PhoneNumberInformationList": {
+    "type": "list",
+    "member": {"shape": "PhoneNumberInformation"},
+    "flattened": false
+  },
   "PhoneNumberList": {
     "type": "list",
     "member": {"shape": "PhoneNumber"},
     "flattened": false
   },
+  "PhoneNumberString": {"type": "string", "flattened": false},
   "PlatformApplication": {
     "type": "structure",
     "members": {
       "PlatformApplicationArn": {"shape": "String", "flattened": false},
       "Attributes": {"shape": "MapStringToString", "flattened": false}
     },
+    "flattened": false
+  },
+  "PublishBatchInput": {
+    "type": "structure",
+    "members": {
+      "TopicArn": {"shape": "topicARN", "flattened": false},
+      "PublishBatchRequestEntries": {
+        "shape": "PublishBatchRequestEntryList",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "PublishBatchRequestEntry": {
+    "type": "structure",
+    "members": {
+      "Id": {"shape": "String", "flattened": false},
+      "Message": {"shape": "message", "flattened": false},
+      "Subject": {"shape": "subject", "flattened": false},
+      "MessageStructure": {"shape": "messageStructure", "flattened": false},
+      "MessageAttributes": {"shape": "MessageAttributeMap", "flattened": false},
+      "MessageDeduplicationId": {"shape": "String", "flattened": false},
+      "MessageGroupId": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "PublishBatchRequestEntryList": {
+    "type": "list",
+    "member": {"shape": "PublishBatchRequestEntry"},
+    "flattened": false
+  },
+  "PublishBatchResponse": {
+    "type": "structure",
+    "members": {
+      "Successful": {
+        "shape": "PublishBatchResultEntryList",
+        "flattened": false
+      },
+      "Failed": {"shape": "BatchResultErrorEntryList", "flattened": false}
+    },
+    "flattened": false
+  },
+  "PublishBatchResultEntry": {
+    "type": "structure",
+    "members": {
+      "Id": {"shape": "String", "flattened": false},
+      "MessageId": {"shape": "messageId", "flattened": false},
+      "SequenceNumber": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "PublishBatchResultEntryList": {
+    "type": "list",
+    "member": {"shape": "PublishBatchResultEntry"},
     "flattened": false
   },
   "PublishInput": {
@@ -397,12 +591,41 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "PutDataProtectionPolicyInput": {
+    "type": "structure",
+    "members": {
+      "ResourceArn": {"shape": "topicARN", "flattened": false},
+      "DataProtectionPolicy": {"shape": "attributeValue", "flattened": false}
+    },
+    "flattened": false
+  },
   "RemovePermissionInput": {
     "type": "structure",
     "members": {
       "TopicArn": {"shape": "topicARN", "flattened": false},
       "Label": {"shape": "label", "flattened": false}
     },
+    "flattened": false
+  },
+  "RouteType": {"type": "string", "flattened": false},
+  "SMSSandboxPhoneNumber": {
+    "type": "structure",
+    "members": {
+      "PhoneNumber": {"shape": "PhoneNumberString", "flattened": false},
+      "Status": {
+        "shape": "SMSSandboxPhoneNumberVerificationStatus",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "SMSSandboxPhoneNumberList": {
+    "type": "list",
+    "member": {"shape": "SMSSandboxPhoneNumber"},
+    "flattened": false
+  },
+  "SMSSandboxPhoneNumberVerificationStatus": {
+    "type": "string",
     "flattened": false
   },
   "SetEndpointAttributesInput": {
@@ -525,6 +748,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "TagValue": {"type": "string", "flattened": false},
+  "Timestamp": {"type": "timestamp", "flattened": false},
   "Topic": {
     "type": "structure",
     "members": {
@@ -559,6 +783,19 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "UntagResourceResponse": {
+    "type": "structure",
+    "members": {},
+    "flattened": false
+  },
+  "VerifySMSSandboxPhoneNumberInput": {
+    "type": "structure",
+    "members": {
+      "PhoneNumber": {"shape": "PhoneNumberString", "flattened": false},
+      "OneTimePassword": {"shape": "OTPCode", "flattened": false}
+    },
+    "flattened": false
+  },
+  "VerifySMSSandboxPhoneNumberResult": {
     "type": "structure",
     "members": {},
     "flattened": false

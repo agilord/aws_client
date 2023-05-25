@@ -51,6 +51,102 @@ class IoTEvents {
     _protocol.close();
   }
 
+  /// Creates an alarm model to monitor an AWS IoT Events input attribute. You
+  /// can use the alarm to get notified when the value is outside a specified
+  /// range. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iotevents/latest/developerguide/create-alarms.html">Create
+  /// an alarm model</a> in the <i>AWS IoT Events Developer Guide</i>.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [LimitExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [alarmModelName] :
+  /// A unique name that helps you identify the alarm model. You can't change
+  /// this name after you create the alarm model.
+  ///
+  /// Parameter [alarmRule] :
+  /// Defines when your alarm is invoked.
+  ///
+  /// Parameter [roleArn] :
+  /// The ARN of the IAM role that allows the alarm to perform actions and
+  /// access AWS resources. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  ///
+  /// Parameter [alarmCapabilities] :
+  /// Contains the configuration information of alarm state changes.
+  ///
+  /// Parameter [alarmEventActions] :
+  /// Contains information about one or more alarm actions.
+  ///
+  /// Parameter [alarmModelDescription] :
+  /// A description that tells you what the alarm model detects.
+  ///
+  /// Parameter [alarmNotification] :
+  /// Contains information about one or more notification actions.
+  ///
+  /// Parameter [key] :
+  /// An input attribute used as a key to create an alarm. AWS IoT Events routes
+  /// <a
+  /// href="https://docs.aws.amazon.com/iotevents/latest/apireference/API_Input.html">inputs</a>
+  /// associated with this key to the alarm.
+  ///
+  /// Parameter [severity] :
+  /// A non-negative integer that reflects the severity level of the alarm.
+  ///
+  /// Parameter [tags] :
+  /// A list of key-value pairs that contain metadata for the alarm model. The
+  /// tags help you manage the alarm model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iotevents/latest/developerguide/tagging-iotevents.html">Tagging
+  /// your AWS IoT Events resources</a> in the <i>AWS IoT Events Developer
+  /// Guide</i>.
+  ///
+  /// You can create up to 50 tags for one alarm model.
+  Future<CreateAlarmModelResponse> createAlarmModel({
+    required String alarmModelName,
+    required AlarmRule alarmRule,
+    required String roleArn,
+    AlarmCapabilities? alarmCapabilities,
+    AlarmEventActions? alarmEventActions,
+    String? alarmModelDescription,
+    AlarmNotification? alarmNotification,
+    String? key,
+    int? severity,
+    List<Tag>? tags,
+  }) async {
+    _s.validateNumRange(
+      'severity',
+      severity,
+      0,
+      2147483647,
+    );
+    final $payload = <String, dynamic>{
+      'alarmModelName': alarmModelName,
+      'alarmRule': alarmRule,
+      'roleArn': roleArn,
+      if (alarmCapabilities != null) 'alarmCapabilities': alarmCapabilities,
+      if (alarmEventActions != null) 'alarmEventActions': alarmEventActions,
+      if (alarmModelDescription != null)
+        'alarmModelDescription': alarmModelDescription,
+      if (alarmNotification != null) 'alarmNotification': alarmNotification,
+      if (key != null) 'key': key,
+      if (severity != null) 'severity': severity,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/alarm-models',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateAlarmModelResponse.fromJson(response);
+  }
+
   /// Creates a detector model.
   ///
   /// May throw [InvalidRequestException].
@@ -157,6 +253,29 @@ class IoTEvents {
     return CreateInputResponse.fromJson(response);
   }
 
+  /// Deletes an alarm model. Any alarm instances that were created based on
+  /// this alarm model are also deleted. This action can't be undone.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [alarmModelName] :
+  /// The name of the alarm model.
+  Future<void> deleteAlarmModel({
+    required String alarmModelName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/alarm-models/${Uri.encodeComponent(alarmModelName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Deletes a detector model. Any active instances of the detector model are
   /// also deleted.
   ///
@@ -202,6 +321,38 @@ class IoTEvents {
     );
   }
 
+  /// Retrieves information about an alarm model. If you don't specify a value
+  /// for the <code>alarmModelVersion</code> parameter, the latest version is
+  /// returned.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [alarmModelName] :
+  /// The name of the alarm model.
+  ///
+  /// Parameter [alarmModelVersion] :
+  /// The version of the alarm model.
+  Future<DescribeAlarmModelResponse> describeAlarmModel({
+    required String alarmModelName,
+    String? alarmModelVersion,
+  }) async {
+    final $query = <String, List<String>>{
+      if (alarmModelVersion != null) 'version': [alarmModelVersion],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/alarm-models/${Uri.encodeComponent(alarmModelName)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeAlarmModelResponse.fromJson(response);
+  }
+
   /// Describes a detector model. If the <code>version</code> parameter is not
   /// specified, information about the latest version is returned.
   ///
@@ -231,6 +382,33 @@ class IoTEvents {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDetectorModelResponse.fromJson(response);
+  }
+
+  /// Retrieves runtime information about a detector model analysis.
+  /// <note>
+  /// After AWS IoT Events starts analyzing your detector model, you have up to
+  /// 24 hours to retrieve the analysis results.
+  /// </note>
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [analysisId] :
+  /// The ID of the analysis result that you want to retrieve.
+  Future<DescribeDetectorModelAnalysisResponse> describeDetectorModelAnalysis({
+    required String analysisId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/analysis/detector-models/${Uri.encodeComponent(analysisId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeDetectorModelAnalysisResponse.fromJson(response);
   }
 
   /// Describes an input.
@@ -273,6 +451,127 @@ class IoTEvents {
     return DescribeLoggingOptionsResponse.fromJson(response);
   }
 
+  /// Retrieves one or more analysis results of the detector model.
+  /// <note>
+  /// After AWS IoT Events starts analyzing your detector model, you have up to
+  /// 24 hours to retrieve the analysis results.
+  /// </note>
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [analysisId] :
+  /// The ID of the analysis result that you want to retrieve.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be returned per request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token that you can use to return the next set of results.
+  Future<GetDetectorModelAnalysisResultsResponse>
+      getDetectorModelAnalysisResults({
+    required String analysisId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/analysis/detector-models/${Uri.encodeComponent(analysisId)}/results',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetDetectorModelAnalysisResultsResponse.fromJson(response);
+  }
+
+  /// Lists all the versions of an alarm model. The operation returns only the
+  /// metadata associated with each alarm model version.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [alarmModelName] :
+  /// The name of the alarm model.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be returned per request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token that you can use to return the next set of results.
+  Future<ListAlarmModelVersionsResponse> listAlarmModelVersions({
+    required String alarmModelName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/alarm-models/${Uri.encodeComponent(alarmModelName)}/versions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAlarmModelVersionsResponse.fromJson(response);
+  }
+
+  /// Lists the alarm models that you created. The operation returns only the
+  /// metadata associated with each alarm model.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be returned per request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token that you can use to return the next set of results.
+  Future<ListAlarmModelsResponse> listAlarmModels({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/alarm-models',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAlarmModelsResponse.fromJson(response);
+  }
+
   /// Lists all the versions of a detector model. Only the metadata associated
   /// with each detector model version is returned.
   ///
@@ -286,10 +585,10 @@ class IoTEvents {
   /// The name of the detector model whose versions are returned.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of results to return at one time.
+  /// The maximum number of results to be returned per request.
   ///
   /// Parameter [nextToken] :
-  /// The token for the next set of results.
+  /// The token that you can use to return the next set of results.
   Future<ListDetectorModelVersionsResponse> listDetectorModelVersions({
     required String detectorModelName,
     int? maxResults,
@@ -325,10 +624,10 @@ class IoTEvents {
   /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of results to return at one time.
+  /// The maximum number of results to be returned per request.
   ///
   /// Parameter [nextToken] :
-  /// The token for the next set of results.
+  /// The token that you can use to return the next set of results.
   Future<ListDetectorModelsResponse> listDetectorModels({
     int? maxResults,
     String? nextToken,
@@ -353,6 +652,47 @@ class IoTEvents {
     return ListDetectorModelsResponse.fromJson(response);
   }
 
+  /// Lists one or more input routings.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [inputIdentifier] :
+  /// The identifer of the routed input.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be returned per request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token that you can use to return the next set of results.
+  Future<ListInputRoutingsResponse> listInputRoutings({
+    required InputIdentifier inputIdentifier,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $payload = <String, dynamic>{
+      'inputIdentifier': inputIdentifier,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/input-routings',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListInputRoutingsResponse.fromJson(response);
+  }
+
   /// Lists the inputs you have created.
   ///
   /// May throw [InvalidRequestException].
@@ -361,10 +701,10 @@ class IoTEvents {
   /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of results to return at one time.
+  /// The maximum number of results to be returned per request.
   ///
   /// Parameter [nextToken] :
-  /// The token for the next set of results.
+  /// The token that you can use to return the next set of results.
   Future<ListInputsResponse> listInputs({
     int? maxResults,
     String? nextToken,
@@ -446,6 +786,30 @@ class IoTEvents {
     );
   }
 
+  /// Performs an analysis of your detector model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-analyze-api.html">Troubleshooting
+  /// a detector model</a> in the <i>AWS IoT Events Developer Guide</i>.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  /// May throw [ServiceUnavailableException].
+  Future<StartDetectorModelAnalysisResponse> startDetectorModelAnalysis({
+    required DetectorModelDefinition detectorModelDefinition,
+  }) async {
+    final $payload = <String, dynamic>{
+      'detectorModelDefinition': detectorModelDefinition,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/analysis/detector-models/',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartDetectorModelAnalysisResponse.fromJson(response);
+  }
+
   /// Adds to or modifies the tags of the given resource. Tags are metadata that
   /// can be used to manage a resource.
   ///
@@ -508,6 +872,77 @@ class IoTEvents {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Updates an alarm model. Any alarms that were created based on the previous
+  /// version are deleted and then created again as new data arrives.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [alarmModelName] :
+  /// The name of the alarm model.
+  ///
+  /// Parameter [alarmRule] :
+  /// Defines when your alarm is invoked.
+  ///
+  /// Parameter [roleArn] :
+  /// The ARN of the IAM role that allows the alarm to perform actions and
+  /// access AWS resources. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  ///
+  /// Parameter [alarmCapabilities] :
+  /// Contains the configuration information of alarm state changes.
+  ///
+  /// Parameter [alarmEventActions] :
+  /// Contains information about one or more alarm actions.
+  ///
+  /// Parameter [alarmModelDescription] :
+  /// The description of the alarm model.
+  ///
+  /// Parameter [alarmNotification] :
+  /// Contains information about one or more notification actions.
+  ///
+  /// Parameter [severity] :
+  /// A non-negative integer that reflects the severity level of the alarm.
+  Future<UpdateAlarmModelResponse> updateAlarmModel({
+    required String alarmModelName,
+    required AlarmRule alarmRule,
+    required String roleArn,
+    AlarmCapabilities? alarmCapabilities,
+    AlarmEventActions? alarmEventActions,
+    String? alarmModelDescription,
+    AlarmNotification? alarmNotification,
+    int? severity,
+  }) async {
+    _s.validateNumRange(
+      'severity',
+      severity,
+      0,
+      2147483647,
+    );
+    final $payload = <String, dynamic>{
+      'alarmRule': alarmRule,
+      'roleArn': roleArn,
+      if (alarmCapabilities != null) 'alarmCapabilities': alarmCapabilities,
+      if (alarmEventActions != null) 'alarmEventActions': alarmEventActions,
+      if (alarmModelDescription != null)
+        'alarmModelDescription': alarmModelDescription,
+      if (alarmNotification != null) 'alarmNotification': alarmNotification,
+      if (severity != null) 'severity': severity,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/alarm-models/${Uri.encodeComponent(alarmModelName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateAlarmModelResponse.fromJson(response);
   }
 
   /// Updates a detector model. Detectors (instances) spawned by the previous
@@ -596,6 +1031,34 @@ class IoTEvents {
   }
 }
 
+/// Specifies whether to get notified for alarm state changes.
+class AcknowledgeFlow {
+  /// The value must be <code>TRUE</code> or <code>FALSE</code>. If
+  /// <code>TRUE</code>, you receive a notification when the alarm state changes.
+  /// You must choose to acknowledge the notification before the alarm state can
+  /// return to <code>NORMAL</code>. If <code>FALSE</code>, you won't receive
+  /// notifications. The alarm automatically changes to the <code>NORMAL</code>
+  /// state when the input property value returns to the specified range.
+  final bool enabled;
+
+  AcknowledgeFlow({
+    required this.enabled,
+  });
+
+  factory AcknowledgeFlow.fromJson(Map<String, dynamic> json) {
+    return AcknowledgeFlow(
+      enabled: json['enabled'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      'enabled': enabled,
+    };
+  }
+}
+
 /// An action to be performed when the <code>condition</code> is TRUE.
 class Action {
   /// Information needed to clear the timer.
@@ -604,7 +1067,7 @@ class Action {
   /// Writes to the DynamoDB table that you created. The default action payload
   /// contains all attribute-value pairs that have the information about the
   /// detector model instance and the event that triggered the action. You can
-  /// also customize the <a
+  /// customize the <a
   /// href="https://docs.aws.amazon.com/iotevents/latest/apireference/API_Payload.html">payload</a>.
   /// One column of the DynamoDB table receives all attribute-value pairs in the
   /// payload that you specify. For more information, see <a
@@ -615,7 +1078,7 @@ class Action {
   /// Writes to the DynamoDB table that you created. The default action payload
   /// contains all attribute-value pairs that have the information about the
   /// detector model instance and the event that triggered the action. You can
-  /// also customize the <a
+  /// customize the <a
   /// href="https://docs.aws.amazon.com/iotevents/latest/apireference/API_Payload.html">payload</a>.
   /// A separate column of the DynamoDB table receives one attribute-value pair in
   /// the payload that you specify. For more information, see <a
@@ -674,6 +1137,7 @@ class Action {
     this.sns,
     this.sqs,
   });
+
   factory Action.fromJson(Map<String, dynamic> json) {
     return Action(
       clearTimer: json['clearTimer'] != null
@@ -756,41 +1220,577 @@ class Action {
   }
 }
 
+/// Specifies one of the following actions to receive notifications when the
+/// alarm state changes.
+class AlarmAction {
+  final DynamoDBAction? dynamoDB;
+  final DynamoDBv2Action? dynamoDBv2;
+  final FirehoseAction? firehose;
+  final IotEventsAction? iotEvents;
+  final IotSiteWiseAction? iotSiteWise;
+  final IotTopicPublishAction? iotTopicPublish;
+  final LambdaAction? lambda;
+  final SNSTopicPublishAction? sns;
+  final SqsAction? sqs;
+
+  AlarmAction({
+    this.dynamoDB,
+    this.dynamoDBv2,
+    this.firehose,
+    this.iotEvents,
+    this.iotSiteWise,
+    this.iotTopicPublish,
+    this.lambda,
+    this.sns,
+    this.sqs,
+  });
+
+  factory AlarmAction.fromJson(Map<String, dynamic> json) {
+    return AlarmAction(
+      dynamoDB: json['dynamoDB'] != null
+          ? DynamoDBAction.fromJson(json['dynamoDB'] as Map<String, dynamic>)
+          : null,
+      dynamoDBv2: json['dynamoDBv2'] != null
+          ? DynamoDBv2Action.fromJson(
+              json['dynamoDBv2'] as Map<String, dynamic>)
+          : null,
+      firehose: json['firehose'] != null
+          ? FirehoseAction.fromJson(json['firehose'] as Map<String, dynamic>)
+          : null,
+      iotEvents: json['iotEvents'] != null
+          ? IotEventsAction.fromJson(json['iotEvents'] as Map<String, dynamic>)
+          : null,
+      iotSiteWise: json['iotSiteWise'] != null
+          ? IotSiteWiseAction.fromJson(
+              json['iotSiteWise'] as Map<String, dynamic>)
+          : null,
+      iotTopicPublish: json['iotTopicPublish'] != null
+          ? IotTopicPublishAction.fromJson(
+              json['iotTopicPublish'] as Map<String, dynamic>)
+          : null,
+      lambda: json['lambda'] != null
+          ? LambdaAction.fromJson(json['lambda'] as Map<String, dynamic>)
+          : null,
+      sns: json['sns'] != null
+          ? SNSTopicPublishAction.fromJson(json['sns'] as Map<String, dynamic>)
+          : null,
+      sqs: json['sqs'] != null
+          ? SqsAction.fromJson(json['sqs'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dynamoDB = this.dynamoDB;
+    final dynamoDBv2 = this.dynamoDBv2;
+    final firehose = this.firehose;
+    final iotEvents = this.iotEvents;
+    final iotSiteWise = this.iotSiteWise;
+    final iotTopicPublish = this.iotTopicPublish;
+    final lambda = this.lambda;
+    final sns = this.sns;
+    final sqs = this.sqs;
+    return {
+      if (dynamoDB != null) 'dynamoDB': dynamoDB,
+      if (dynamoDBv2 != null) 'dynamoDBv2': dynamoDBv2,
+      if (firehose != null) 'firehose': firehose,
+      if (iotEvents != null) 'iotEvents': iotEvents,
+      if (iotSiteWise != null) 'iotSiteWise': iotSiteWise,
+      if (iotTopicPublish != null) 'iotTopicPublish': iotTopicPublish,
+      if (lambda != null) 'lambda': lambda,
+      if (sns != null) 'sns': sns,
+      if (sqs != null) 'sqs': sqs,
+    };
+  }
+}
+
+/// Contains the configuration information of alarm state changes.
+class AlarmCapabilities {
+  /// Specifies whether to get notified for alarm state changes.
+  final AcknowledgeFlow? acknowledgeFlow;
+
+  /// Specifies the default alarm state. The configuration applies to all alarms
+  /// that were created based on this alarm model.
+  final InitializationConfiguration? initializationConfiguration;
+
+  AlarmCapabilities({
+    this.acknowledgeFlow,
+    this.initializationConfiguration,
+  });
+
+  factory AlarmCapabilities.fromJson(Map<String, dynamic> json) {
+    return AlarmCapabilities(
+      acknowledgeFlow: json['acknowledgeFlow'] != null
+          ? AcknowledgeFlow.fromJson(
+              json['acknowledgeFlow'] as Map<String, dynamic>)
+          : null,
+      initializationConfiguration: json['initializationConfiguration'] != null
+          ? InitializationConfiguration.fromJson(
+              json['initializationConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acknowledgeFlow = this.acknowledgeFlow;
+    final initializationConfiguration = this.initializationConfiguration;
+    return {
+      if (acknowledgeFlow != null) 'acknowledgeFlow': acknowledgeFlow,
+      if (initializationConfiguration != null)
+        'initializationConfiguration': initializationConfiguration,
+    };
+  }
+}
+
+/// Contains information about one or more alarm actions.
+class AlarmEventActions {
+  /// Specifies one or more supported actions to receive notifications when the
+  /// alarm state changes.
+  final List<AlarmAction>? alarmActions;
+
+  AlarmEventActions({
+    this.alarmActions,
+  });
+
+  factory AlarmEventActions.fromJson(Map<String, dynamic> json) {
+    return AlarmEventActions(
+      alarmActions: (json['alarmActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => AlarmAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alarmActions = this.alarmActions;
+    return {
+      if (alarmActions != null) 'alarmActions': alarmActions,
+    };
+  }
+}
+
+/// Contains a summary of an alarm model.
+class AlarmModelSummary {
+  /// The description of the alarm model.
+  final String? alarmModelDescription;
+
+  /// The name of the alarm model.
+  final String? alarmModelName;
+
+  /// The time the alarm model was created, in the Unix epoch format.
+  final DateTime? creationTime;
+
+  AlarmModelSummary({
+    this.alarmModelDescription,
+    this.alarmModelName,
+    this.creationTime,
+  });
+
+  factory AlarmModelSummary.fromJson(Map<String, dynamic> json) {
+    return AlarmModelSummary(
+      alarmModelDescription: json['alarmModelDescription'] as String?,
+      alarmModelName: json['alarmModelName'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+    );
+  }
+}
+
+enum AlarmModelVersionStatus {
+  active,
+  activating,
+  inactive,
+  failed,
+}
+
+extension AlarmModelVersionStatusValueExtension on AlarmModelVersionStatus {
+  String toValue() {
+    switch (this) {
+      case AlarmModelVersionStatus.active:
+        return 'ACTIVE';
+      case AlarmModelVersionStatus.activating:
+        return 'ACTIVATING';
+      case AlarmModelVersionStatus.inactive:
+        return 'INACTIVE';
+      case AlarmModelVersionStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension AlarmModelVersionStatusFromString on String {
+  AlarmModelVersionStatus toAlarmModelVersionStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return AlarmModelVersionStatus.active;
+      case 'ACTIVATING':
+        return AlarmModelVersionStatus.activating;
+      case 'INACTIVE':
+        return AlarmModelVersionStatus.inactive;
+      case 'FAILED':
+        return AlarmModelVersionStatus.failed;
+    }
+    throw Exception('$this is not known in enum AlarmModelVersionStatus');
+  }
+}
+
+/// Contains a summary of an alarm model version.
+class AlarmModelVersionSummary {
+  /// The ARN of the alarm model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  final String? alarmModelArn;
+
+  /// The name of the alarm model.
+  final String? alarmModelName;
+
+  /// The version of the alarm model.
+  final String? alarmModelVersion;
+
+  /// The time the alarm model was created, in the Unix epoch format.
+  final DateTime? creationTime;
+
+  /// The time the alarm model was last updated, in the Unix epoch format.
+  final DateTime? lastUpdateTime;
+
+  /// The ARN of the IAM role that allows the alarm to perform actions and access
+  /// AWS resources. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  final String? roleArn;
+
+  /// The status of the alarm model. The status can be one of the following
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code> - The alarm model is active and it's ready to evaluate
+  /// data.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVATING</code> - AWS IoT Events is activating your alarm model.
+  /// Activating an alarm model can take up to a few minutes.
+  /// </li>
+  /// <li>
+  /// <code>INACTIVE</code> - The alarm model is inactive, so it isn't ready to
+  /// evaluate data. Check your alarm model information and update the alarm
+  /// model.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - You couldn't create or update the alarm model. Check
+  /// your alarm model information and try again.
+  /// </li>
+  /// </ul>
+  final AlarmModelVersionStatus? status;
+
+  /// Contains information about the status of the alarm model version.
+  final String? statusMessage;
+
+  AlarmModelVersionSummary({
+    this.alarmModelArn,
+    this.alarmModelName,
+    this.alarmModelVersion,
+    this.creationTime,
+    this.lastUpdateTime,
+    this.roleArn,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory AlarmModelVersionSummary.fromJson(Map<String, dynamic> json) {
+    return AlarmModelVersionSummary(
+      alarmModelArn: json['alarmModelArn'] as String?,
+      alarmModelName: json['alarmModelName'] as String?,
+      alarmModelVersion: json['alarmModelVersion'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      roleArn: json['roleArn'] as String?,
+      status: (json['status'] as String?)?.toAlarmModelVersionStatus(),
+      statusMessage: json['statusMessage'] as String?,
+    );
+  }
+}
+
+/// Contains information about one or more notification actions.
+class AlarmNotification {
+  /// Contains the notification settings of an alarm model. The settings apply to
+  /// all alarms that were created based on this alarm model.
+  final List<NotificationAction>? notificationActions;
+
+  AlarmNotification({
+    this.notificationActions,
+  });
+
+  factory AlarmNotification.fromJson(Map<String, dynamic> json) {
+    return AlarmNotification(
+      notificationActions: (json['notificationActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => NotificationAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final notificationActions = this.notificationActions;
+    return {
+      if (notificationActions != null)
+        'notificationActions': notificationActions,
+    };
+  }
+}
+
+/// Defines when your alarm is invoked.
+class AlarmRule {
+  /// A rule that compares an input property value to a threshold value with a
+  /// comparison operator.
+  final SimpleRule? simpleRule;
+
+  AlarmRule({
+    this.simpleRule,
+  });
+
+  factory AlarmRule.fromJson(Map<String, dynamic> json) {
+    return AlarmRule(
+      simpleRule: json['simpleRule'] != null
+          ? SimpleRule.fromJson(json['simpleRule'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final simpleRule = this.simpleRule;
+    return {
+      if (simpleRule != null) 'simpleRule': simpleRule,
+    };
+  }
+}
+
+/// Contains the result of the analysis.
+class AnalysisResult {
+  /// The severity level of the analysis result. Based on the severity level,
+  /// analysis results fall into three general categories:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>INFO</code> - An information result tells you about a significant
+  /// field in your detector model. This type of result usually doesn't require
+  /// immediate action.
+  /// </li>
+  /// <li>
+  /// <code>WARNING</code> - A warning result draws special attention to fields
+  /// that might cause issues for your detector model. We recommend that you
+  /// review warnings and take necessary actions before you use your detector
+  /// model in production environments. Otherwise, the detector model might not
+  /// work as expected.
+  /// </li>
+  /// <li>
+  /// <code>ERROR</code> - An error result notifies you about a problem found in
+  /// your detector model. You must fix all errors before you can publish your
+  /// detector model.
+  /// </li>
+  /// </ul>
+  final AnalysisResultLevel? level;
+
+  /// Contains one or more locations that you can use to locate the fields in your
+  /// detector model that the analysis result references.
+  final List<AnalysisResultLocation>? locations;
+
+  /// Contains additional information about the analysis result.
+  final String? message;
+
+  /// The type of the analysis result. Analyses fall into the following types
+  /// based on the validators used to generate the analysis result:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>supported-actions</code> - You must specify AWS IoT Events supported
+  /// actions that work with other AWS services in a supported AWS Region.
+  /// </li>
+  /// <li>
+  /// <code>service-limits</code> - Resources or API operations can't exceed
+  /// service quotas (also known as limits). Update your detector model or request
+  /// a quota increase.
+  /// </li>
+  /// <li>
+  /// <code>structure</code> - The detector model must follow a structure that AWS
+  /// IoT Events supports.
+  /// </li>
+  /// <li>
+  /// <code>expression-syntax</code> - Your expression must follow the required
+  /// syntax.
+  /// </li>
+  /// <li>
+  /// <code>data-type</code> - Data types referenced in the detector model must be
+  /// compatible.
+  /// </li>
+  /// <li>
+  /// <code>referenced-data</code> - You must define the data referenced in your
+  /// detector model before you can use the data.
+  /// </li>
+  /// <li>
+  /// <code>referenced-resource</code> - Resources that the detector model uses
+  /// must be available.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-analyze-api.html">Running
+  /// detector model analyses</a> in the <i>AWS IoT Events Developer Guide</i>.
+  final String? type;
+
+  AnalysisResult({
+    this.level,
+    this.locations,
+    this.message,
+    this.type,
+  });
+
+  factory AnalysisResult.fromJson(Map<String, dynamic> json) {
+    return AnalysisResult(
+      level: (json['level'] as String?)?.toAnalysisResultLevel(),
+      locations: (json['locations'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => AnalysisResultLocation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      message: json['message'] as String?,
+      type: json['type'] as String?,
+    );
+  }
+}
+
+enum AnalysisResultLevel {
+  info,
+  warning,
+  error,
+}
+
+extension AnalysisResultLevelValueExtension on AnalysisResultLevel {
+  String toValue() {
+    switch (this) {
+      case AnalysisResultLevel.info:
+        return 'INFO';
+      case AnalysisResultLevel.warning:
+        return 'WARNING';
+      case AnalysisResultLevel.error:
+        return 'ERROR';
+    }
+  }
+}
+
+extension AnalysisResultLevelFromString on String {
+  AnalysisResultLevel toAnalysisResultLevel() {
+    switch (this) {
+      case 'INFO':
+        return AnalysisResultLevel.info;
+      case 'WARNING':
+        return AnalysisResultLevel.warning;
+      case 'ERROR':
+        return AnalysisResultLevel.error;
+    }
+    throw Exception('$this is not known in enum AnalysisResultLevel');
+  }
+}
+
+/// Contains information that you can use to locate the field in your detector
+/// model that the analysis result references.
+class AnalysisResultLocation {
+  /// A <a href="https://github.com/json-path/JsonPath">JsonPath</a> expression
+  /// that identifies the error field in your detector model.
+  final String? path;
+
+  AnalysisResultLocation({
+    this.path,
+  });
+
+  factory AnalysisResultLocation.fromJson(Map<String, dynamic> json) {
+    return AnalysisResultLocation(
+      path: json['path'] as String?,
+    );
+  }
+}
+
+enum AnalysisStatus {
+  running,
+  complete,
+  failed,
+}
+
+extension AnalysisStatusValueExtension on AnalysisStatus {
+  String toValue() {
+    switch (this) {
+      case AnalysisStatus.running:
+        return 'RUNNING';
+      case AnalysisStatus.complete:
+        return 'COMPLETE';
+      case AnalysisStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension AnalysisStatusFromString on String {
+  AnalysisStatus toAnalysisStatus() {
+    switch (this) {
+      case 'RUNNING':
+        return AnalysisStatus.running;
+      case 'COMPLETE':
+        return AnalysisStatus.complete;
+      case 'FAILED':
+        return AnalysisStatus.failed;
+    }
+    throw Exception('$this is not known in enum AnalysisStatus');
+  }
+}
+
 /// A structure that contains timestamp information. For more information, see
 /// <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_TimeInNanos.html">TimeInNanos</a>
 /// in the <i>AWS IoT SiteWise API Reference</i>.
 ///
-/// For parameters that are string data type, you can specify the following
-/// options:
+/// You must use expressions for all parameters in
+/// <code>AssetPropertyTimestamp</code>. The expressions accept literals,
+/// operators, functions, references, and substitution templates.
+/// <p class="title"> <b>Examples</b>
 ///
 /// <ul>
 /// <li>
-/// Use a string. For example, the <code>timeInSeconds</code> value can be
+/// For literal values, the expressions must contain single quotes. For example,
+/// the value for the <code>timeInSeconds</code> parameter can be
 /// <code>'1586400675'</code>.
 /// </li>
 /// <li>
-/// Use an expression. For example, the <code>timeInSeconds</code> value can be
-/// <code>'${$input.TemperatureInput.sensorData.timestamp/1000}'</code>.
+/// For references, you must specify either variables or input values. For
+/// example, the value for the <code>offsetInNanos</code> parameter can be
+/// <code>$variable.time</code>.
+/// </li>
+/// <li>
+/// For a substitution template, you must use <code>${}</code>, and the template
+/// must be in single quotes. A substitution template can also contain a
+/// combination of literals, operators, functions, references, and substitution
+/// templates.
 ///
+/// In the following example, the value for the <code>timeInSeconds</code>
+/// parameter uses a substitution template.
+///
+/// <code>'${$input.TemperatureInput.sensorData.timestamp / 1000}'</code>
+/// </li>
+/// </ul>
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-expressions.html">Expressions</a>
 /// in the <i>AWS IoT Events Developer Guide</i>.
-/// </li>
-/// </ul>
 class AssetPropertyTimestamp {
   /// The timestamp, in seconds, in the Unix epoch format. The valid range is
-  /// between 1-31556889864403199. You can also specify an expression.
+  /// between 1-31556889864403199.
   final String timeInSeconds;
 
   /// The nanosecond offset converted from <code>timeInSeconds</code>. The valid
-  /// range is between 0-999999999. You can also specify an expression.
+  /// range is between 0-999999999.
   final String? offsetInNanos;
 
   AssetPropertyTimestamp({
     required this.timeInSeconds,
     this.offsetInNanos,
   });
+
   factory AssetPropertyTimestamp.fromJson(Map<String, dynamic> json) {
     return AssetPropertyTimestamp(
       timeInSeconds: json['timeInSeconds'] as String,
@@ -812,61 +1812,64 @@ class AssetPropertyTimestamp {
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_AssetPropertyValue.html">AssetPropertyValue</a>
 /// in the <i>AWS IoT SiteWise API Reference</i>.
 ///
-/// For parameters that are string data type, you can specify the following
-/// options:
+/// You must use expressions for all parameters in
+/// <code>AssetPropertyValue</code>. The expressions accept literals, operators,
+/// functions, references, and substitution templates.
+/// <p class="title"> <b>Examples</b>
 ///
 /// <ul>
 /// <li>
-/// Use a string. For example, the <code>quality</code> value can be
-/// <code>'GOOD'</code>.
+/// For literal values, the expressions must contain single quotes. For example,
+/// the value for the <code>quality</code> parameter can be <code>'GOOD'</code>.
 /// </li>
 /// <li>
-/// Use an expression. For example, the <code>quality</code> value can be
-/// <code>$input.TemperatureInput.sensorData.quality</code> .
-///
+/// For references, you must specify either variables or input values. For
+/// example, the value for the <code>quality</code> parameter can be
+/// <code>$input.TemperatureInput.sensorData.quality</code>.
+/// </li>
+/// </ul>
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-expressions.html">Expressions</a>
 /// in the <i>AWS IoT Events Developer Guide</i>.
-/// </li>
-/// </ul>
 class AssetPropertyValue {
-  /// The value to send to an asset property.
-  final AssetPropertyVariant value;
-
   /// The quality of the asset property value. The value must be
-  /// <code>GOOD</code>, <code>BAD</code>, or <code>UNCERTAIN</code>. You can also
-  /// specify an expression.
+  /// <code>'GOOD'</code>, <code>'BAD'</code>, or <code>'UNCERTAIN'</code>.
   final String? quality;
 
   /// The timestamp associated with the asset property value. The default is the
   /// current event time.
   final AssetPropertyTimestamp? timestamp;
 
+  /// The value to send to an asset property.
+  final AssetPropertyVariant? value;
+
   AssetPropertyValue({
-    required this.value,
     this.quality,
     this.timestamp,
+    this.value,
   });
+
   factory AssetPropertyValue.fromJson(Map<String, dynamic> json) {
     return AssetPropertyValue(
-      value:
-          AssetPropertyVariant.fromJson(json['value'] as Map<String, dynamic>),
       quality: json['quality'] as String?,
       timestamp: json['timestamp'] != null
           ? AssetPropertyTimestamp.fromJson(
               json['timestamp'] as Map<String, dynamic>)
           : null,
+      value: json['value'] != null
+          ? AssetPropertyVariant.fromJson(json['value'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final value = this.value;
     final quality = this.quality;
     final timestamp = this.timestamp;
+    final value = this.value;
     return {
-      'value': value,
       if (quality != null) 'quality': quality,
       if (timestamp != null) 'timestamp': timestamp,
+      if (value != null) 'value': value,
     };
   }
 }
@@ -875,46 +1878,61 @@ class AssetPropertyValue {
 /// <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_Variant.html">Variant</a>
 /// in the <i>AWS IoT SiteWise API Reference</i>.
-/// <important>
+///
+/// You must use expressions for all parameters in
+/// <code>AssetPropertyVariant</code>. The expressions accept literals,
+/// operators, functions, references, and substitution templates.
+/// <p class="title"> <b>Examples</b>
+///
+/// <ul>
+/// <li>
+/// For literal values, the expressions must contain single quotes. For example,
+/// the value for the <code>integerValue</code> parameter can be
+/// <code>'100'</code>.
+/// </li>
+/// <li>
+/// For references, you must specify either variables or parameters. For
+/// example, the value for the <code>booleanValue</code> parameter can be
+/// <code>$variable.offline</code>.
+/// </li>
+/// <li>
+/// For a substitution template, you must use <code>${}</code>, and the template
+/// must be in single quotes. A substitution template can also contain a
+/// combination of literals, operators, functions, references, and substitution
+/// templates.
+///
+/// In the following example, the value for the <code>doubleValue</code>
+/// parameter uses a substitution template.
+///
+/// <code>'${$input.TemperatureInput.sensorData.temperature * 6 / 5 +
+/// 32}'</code>
+/// </li>
+/// </ul>
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-expressions.html">Expressions</a>
+/// in the <i>AWS IoT Events Developer Guide</i>.
+///
 /// You must specify one of the following value types, depending on the
 /// <code>dataType</code> of the specified asset property. For more information,
 /// see <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_AssetProperty.html">AssetProperty</a>
 /// in the <i>AWS IoT SiteWise API Reference</i>.
-/// </important>
-/// For parameters that are string data type, you can specify the following
-/// options:
-///
-/// <ul>
-/// <li>
-/// Use a string. For example, the <code>doubleValue</code> value can be
-/// <code>'47.9'</code>.
-/// </li>
-/// <li>
-/// Use an expression. For example, the <code>doubleValue</code> value can be
-/// <code>$input.TemperatureInput.sensorData.temperature</code>.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-expressions.html">Expressions</a>
-/// in the <i>AWS IoT Events Developer Guide</i>.
-/// </li>
-/// </ul>
 class AssetPropertyVariant {
-  /// The asset property value is a Boolean value that must be <code>TRUE</code>
-  /// or <code>FALSE</code>. You can also specify an expression. If you use an
-  /// expression, the evaluated result should be a Boolean value.
+  /// The asset property value is a Boolean value that must be <code>'TRUE'</code>
+  /// or <code>'FALSE'</code>. You must use an expression, and the evaluated
+  /// result should be a Boolean value.
   final String? booleanValue;
 
-  /// The asset property value is a double. You can also specify an expression. If
-  /// you use an expression, the evaluated result should be a double.
+  /// The asset property value is a double. You must use an expression, and the
+  /// evaluated result should be a double.
   final String? doubleValue;
 
-  /// The asset property value is an integer. You can also specify an expression.
-  /// If you use an expression, the evaluated result should be an integer.
+  /// The asset property value is an integer. You must use an expression, and the
+  /// evaluated result should be an integer.
   final String? integerValue;
 
-  /// The asset property value is a string. You can also specify an expression. If
-  /// you use an expression, the evaluated result should be a string.
+  /// The asset property value is a string. You must use an expression, and the
+  /// evaluated result should be a string.
   final String? stringValue;
 
   AssetPropertyVariant({
@@ -923,6 +1941,7 @@ class AssetPropertyVariant {
     this.integerValue,
     this.stringValue,
   });
+
   factory AssetPropertyVariant.fromJson(Map<String, dynamic> json) {
     return AssetPropertyVariant(
       booleanValue: json['booleanValue'] as String?,
@@ -965,6 +1984,7 @@ class Attribute {
   Attribute({
     required this.jsonPath,
   });
+
   factory Attribute.fromJson(Map<String, dynamic> json) {
     return Attribute(
       jsonPath: json['jsonPath'] as String,
@@ -987,6 +2007,7 @@ class ClearTimerAction {
   ClearTimerAction({
     required this.timerName,
   });
+
   factory ClearTimerAction.fromJson(Map<String, dynamic> json) {
     return ClearTimerAction(
       timerName: json['timerName'] as String,
@@ -1001,6 +2022,112 @@ class ClearTimerAction {
   }
 }
 
+enum ComparisonOperator {
+  greater,
+  greaterOrEqual,
+  less,
+  lessOrEqual,
+  equal,
+  notEqual,
+}
+
+extension ComparisonOperatorValueExtension on ComparisonOperator {
+  String toValue() {
+    switch (this) {
+      case ComparisonOperator.greater:
+        return 'GREATER';
+      case ComparisonOperator.greaterOrEqual:
+        return 'GREATER_OR_EQUAL';
+      case ComparisonOperator.less:
+        return 'LESS';
+      case ComparisonOperator.lessOrEqual:
+        return 'LESS_OR_EQUAL';
+      case ComparisonOperator.equal:
+        return 'EQUAL';
+      case ComparisonOperator.notEqual:
+        return 'NOT_EQUAL';
+    }
+  }
+}
+
+extension ComparisonOperatorFromString on String {
+  ComparisonOperator toComparisonOperator() {
+    switch (this) {
+      case 'GREATER':
+        return ComparisonOperator.greater;
+      case 'GREATER_OR_EQUAL':
+        return ComparisonOperator.greaterOrEqual;
+      case 'LESS':
+        return ComparisonOperator.less;
+      case 'LESS_OR_EQUAL':
+        return ComparisonOperator.lessOrEqual;
+      case 'EQUAL':
+        return ComparisonOperator.equal;
+      case 'NOT_EQUAL':
+        return ComparisonOperator.notEqual;
+    }
+    throw Exception('$this is not known in enum ComparisonOperator');
+  }
+}
+
+class CreateAlarmModelResponse {
+  /// The ARN of the alarm model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  final String? alarmModelArn;
+
+  /// The version of the alarm model.
+  final String? alarmModelVersion;
+
+  /// The time the alarm model was created, in the Unix epoch format.
+  final DateTime? creationTime;
+
+  /// The time the alarm model was last updated, in the Unix epoch format.
+  final DateTime? lastUpdateTime;
+
+  /// The status of the alarm model. The status can be one of the following
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code> - The alarm model is active and it's ready to evaluate
+  /// data.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVATING</code> - AWS IoT Events is activating your alarm model.
+  /// Activating an alarm model can take up to a few minutes.
+  /// </li>
+  /// <li>
+  /// <code>INACTIVE</code> - The alarm model is inactive, so it isn't ready to
+  /// evaluate data. Check your alarm model information and update the alarm
+  /// model.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - You couldn't create or update the alarm model. Check
+  /// your alarm model information and try again.
+  /// </li>
+  /// </ul>
+  final AlarmModelVersionStatus? status;
+
+  CreateAlarmModelResponse({
+    this.alarmModelArn,
+    this.alarmModelVersion,
+    this.creationTime,
+    this.lastUpdateTime,
+    this.status,
+  });
+
+  factory CreateAlarmModelResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAlarmModelResponse(
+      alarmModelArn: json['alarmModelArn'] as String?,
+      alarmModelVersion: json['alarmModelVersion'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      status: (json['status'] as String?)?.toAlarmModelVersionStatus(),
+    );
+  }
+}
+
 class CreateDetectorModelResponse {
   /// Information about how the detector model is configured.
   final DetectorModelConfiguration? detectorModelConfiguration;
@@ -1008,6 +2135,7 @@ class CreateDetectorModelResponse {
   CreateDetectorModelResponse({
     this.detectorModelConfiguration,
   });
+
   factory CreateDetectorModelResponse.fromJson(Map<String, dynamic> json) {
     return CreateDetectorModelResponse(
       detectorModelConfiguration: json['detectorModelConfiguration'] != null
@@ -1025,6 +2153,7 @@ class CreateInputResponse {
   CreateInputResponse({
     this.inputConfiguration,
   });
+
   factory CreateInputResponse.fromJson(Map<String, dynamic> json) {
     return CreateInputResponse(
       inputConfiguration: json['inputConfiguration'] != null
@@ -1035,8 +2164,17 @@ class CreateInputResponse {
   }
 }
 
+class DeleteAlarmModelResponse {
+  DeleteAlarmModelResponse();
+
+  factory DeleteAlarmModelResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteAlarmModelResponse();
+  }
+}
+
 class DeleteDetectorModelResponse {
   DeleteDetectorModelResponse();
+
   factory DeleteDetectorModelResponse.fromJson(Map<String, dynamic> _) {
     return DeleteDetectorModelResponse();
   }
@@ -1044,8 +2182,166 @@ class DeleteDetectorModelResponse {
 
 class DeleteInputResponse {
   DeleteInputResponse();
+
   factory DeleteInputResponse.fromJson(Map<String, dynamic> _) {
     return DeleteInputResponse();
+  }
+}
+
+class DescribeAlarmModelResponse {
+  /// Contains the configuration information of alarm state changes.
+  final AlarmCapabilities? alarmCapabilities;
+
+  /// Contains information about one or more alarm actions.
+  final AlarmEventActions? alarmEventActions;
+
+  /// The ARN of the alarm model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  final String? alarmModelArn;
+
+  /// The description of the alarm model.
+  final String? alarmModelDescription;
+
+  /// The name of the alarm model.
+  final String? alarmModelName;
+
+  /// The version of the alarm model.
+  final String? alarmModelVersion;
+
+  /// Contains information about one or more notification actions.
+  final AlarmNotification? alarmNotification;
+
+  /// Defines when your alarm is invoked.
+  final AlarmRule? alarmRule;
+
+  /// The time the alarm model was created, in the Unix epoch format.
+  final DateTime? creationTime;
+
+  /// An input attribute used as a key to create an alarm. AWS IoT Events routes
+  /// <a
+  /// href="https://docs.aws.amazon.com/iotevents/latest/apireference/API_Input.html">inputs</a>
+  /// associated with this key to the alarm.
+  final String? key;
+
+  /// The time the alarm model was last updated, in the Unix epoch format.
+  final DateTime? lastUpdateTime;
+
+  /// The ARN of the IAM role that allows the alarm to perform actions and access
+  /// AWS resources. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  final String? roleArn;
+
+  /// A non-negative integer that reflects the severity level of the alarm.
+  final int? severity;
+
+  /// The status of the alarm model. The status can be one of the following
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code> - The alarm model is active and it's ready to evaluate
+  /// data.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVATING</code> - AWS IoT Events is activating your alarm model.
+  /// Activating an alarm model can take up to a few minutes.
+  /// </li>
+  /// <li>
+  /// <code>INACTIVE</code> - The alarm model is inactive, so it isn't ready to
+  /// evaluate data. Check your alarm model information and update the alarm
+  /// model.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - You couldn't create or update the alarm model. Check
+  /// your alarm model information and try again.
+  /// </li>
+  /// </ul>
+  final AlarmModelVersionStatus? status;
+
+  /// Contains information about the status of the alarm model.
+  final String? statusMessage;
+
+  DescribeAlarmModelResponse({
+    this.alarmCapabilities,
+    this.alarmEventActions,
+    this.alarmModelArn,
+    this.alarmModelDescription,
+    this.alarmModelName,
+    this.alarmModelVersion,
+    this.alarmNotification,
+    this.alarmRule,
+    this.creationTime,
+    this.key,
+    this.lastUpdateTime,
+    this.roleArn,
+    this.severity,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory DescribeAlarmModelResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAlarmModelResponse(
+      alarmCapabilities: json['alarmCapabilities'] != null
+          ? AlarmCapabilities.fromJson(
+              json['alarmCapabilities'] as Map<String, dynamic>)
+          : null,
+      alarmEventActions: json['alarmEventActions'] != null
+          ? AlarmEventActions.fromJson(
+              json['alarmEventActions'] as Map<String, dynamic>)
+          : null,
+      alarmModelArn: json['alarmModelArn'] as String?,
+      alarmModelDescription: json['alarmModelDescription'] as String?,
+      alarmModelName: json['alarmModelName'] as String?,
+      alarmModelVersion: json['alarmModelVersion'] as String?,
+      alarmNotification: json['alarmNotification'] != null
+          ? AlarmNotification.fromJson(
+              json['alarmNotification'] as Map<String, dynamic>)
+          : null,
+      alarmRule: json['alarmRule'] != null
+          ? AlarmRule.fromJson(json['alarmRule'] as Map<String, dynamic>)
+          : null,
+      creationTime: timeStampFromJson(json['creationTime']),
+      key: json['key'] as String?,
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      roleArn: json['roleArn'] as String?,
+      severity: json['severity'] as int?,
+      status: (json['status'] as String?)?.toAlarmModelVersionStatus(),
+      statusMessage: json['statusMessage'] as String?,
+    );
+  }
+}
+
+class DescribeDetectorModelAnalysisResponse {
+  /// The status of the analysis activity. The status can be one of the following
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>RUNNING</code> - AWS IoT Events is analyzing your detector model. This
+  /// process can take several minutes to complete.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETE</code> - AWS IoT Events finished analyzing your detector
+  /// model.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - AWS IoT Events couldn't analyze your detector model.
+  /// Try again later.
+  /// </li>
+  /// </ul>
+  final AnalysisStatus? status;
+
+  DescribeDetectorModelAnalysisResponse({
+    this.status,
+  });
+
+  factory DescribeDetectorModelAnalysisResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeDetectorModelAnalysisResponse(
+      status: (json['status'] as String?)?.toAnalysisStatus(),
+    );
   }
 }
 
@@ -1056,6 +2352,7 @@ class DescribeDetectorModelResponse {
   DescribeDetectorModelResponse({
     this.detectorModel,
   });
+
   factory DescribeDetectorModelResponse.fromJson(Map<String, dynamic> json) {
     return DescribeDetectorModelResponse(
       detectorModel: json['detectorModel'] != null
@@ -1073,6 +2370,7 @@ class DescribeInputResponse {
   DescribeInputResponse({
     this.input,
   });
+
   factory DescribeInputResponse.fromJson(Map<String, dynamic> json) {
     return DescribeInputResponse(
       input: json['input'] != null
@@ -1089,6 +2387,7 @@ class DescribeLoggingOptionsResponse {
   DescribeLoggingOptionsResponse({
     this.loggingOptions,
   });
+
   factory DescribeLoggingOptionsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeLoggingOptionsResponse(
       loggingOptions: json['loggingOptions'] != null
@@ -1113,6 +2412,7 @@ class DetectorDebugOption {
     required this.detectorModelName,
     this.keyValue,
   });
+
   factory DetectorDebugOption.fromJson(Map<String, dynamic> json) {
     return DetectorDebugOption(
       detectorModelName: json['detectorModelName'] as String,
@@ -1142,6 +2442,7 @@ class DetectorModel {
     this.detectorModelConfiguration,
     this.detectorModelDefinition,
   });
+
   factory DetectorModel.fromJson(Map<String, dynamic> json) {
     return DetectorModel(
       detectorModelConfiguration: json['detectorModelConfiguration'] != null
@@ -1210,6 +2511,7 @@ class DetectorModelConfiguration {
     this.roleArn,
     this.status,
   });
+
   factory DetectorModelConfiguration.fromJson(Map<String, dynamic> json) {
     return DetectorModelConfiguration(
       creationTime: timeStampFromJson(json['creationTime']),
@@ -1239,6 +2541,7 @@ class DetectorModelDefinition {
     required this.initialStateName,
     required this.states,
   });
+
   factory DetectorModelDefinition.fromJson(Map<String, dynamic> json) {
     return DetectorModelDefinition(
       initialStateName: json['initialStateName'] as String,
@@ -1275,6 +2578,7 @@ class DetectorModelSummary {
     this.detectorModelDescription,
     this.detectorModelName,
   });
+
   factory DetectorModelSummary.fromJson(Map<String, dynamic> json) {
     return DetectorModelSummary(
       creationTime: timeStampFromJson(json['creationTime']),
@@ -1376,6 +2680,7 @@ class DetectorModelVersionSummary {
     this.roleArn,
     this.status,
   });
+
   factory DetectorModelVersionSummary.fromJson(Map<String, dynamic> json) {
     return DetectorModelVersionSummary(
       creationTime: timeStampFromJson(json['creationTime']),
@@ -1392,42 +2697,72 @@ class DetectorModelVersionSummary {
 }
 
 /// Defines an action to write to the Amazon DynamoDB table that you created.
-/// The standard action payload contains all attribute-value pairs that have the
-/// information about the detector model instance and the event that triggered
-/// the action. You can also customize the <a
+/// The standard action payload contains all the information about the detector
+/// model instance and the event that triggered the action. You can customize
+/// the <a
 /// href="https://docs.aws.amazon.com/iotevents/latest/apireference/API_Payload.html">payload</a>.
 /// One column of the DynamoDB table receives all attribute-value pairs in the
 /// payload that you specify.
 ///
-/// The <code>tableName</code> and <code>hashKeyField</code> values must match
-/// the table name and the partition key of the DynamoDB table.
-/// <note>
-/// If the DynamoDB table also has a sort key, you must specify
-/// <code>rangeKeyField</code>. The <code>rangeKeyField</code> value must match
-/// the sort key.
-/// </note> <p/>
-/// The <code>hashKeyValue</code> and <code>rangeKeyValue</code> use
-/// substitution templates. These templates provide data at runtime. The syntax
-/// is <code>${sql-expression}</code>.
+/// You must use expressions for all parameters in <code>DynamoDBAction</code>.
+/// The expressions accept literals, operators, functions, references, and
+/// substitution templates.
+/// <p class="title"> <b>Examples</b>
 ///
-/// You can use expressions for parameters that are string data type. For more
-/// information, see <a
+/// <ul>
+/// <li>
+/// For literal values, the expressions must contain single quotes. For example,
+/// the value for the <code>hashKeyType</code> parameter can be
+/// <code>'STRING'</code>.
+/// </li>
+/// <li>
+/// For references, you must specify either variables or input values. For
+/// example, the value for the <code>hashKeyField</code> parameter can be
+/// <code>$input.GreenhouseInput.name</code>.
+/// </li>
+/// <li>
+/// For a substitution template, you must use <code>${}</code>, and the template
+/// must be in single quotes. A substitution template can also contain a
+/// combination of literals, operators, functions, references, and substitution
+/// templates.
+///
+/// In the following example, the value for the <code>hashKeyValue</code>
+/// parameter uses a substitution template.
+///
+/// <code>'${$input.GreenhouseInput.temperature * 6 / 5 + 32} in
+/// Fahrenheit'</code>
+/// </li>
+/// <li>
+/// For a string concatenation, you must use <code>+</code>. A string
+/// concatenation can also contain a combination of literals, operators,
+/// functions, references, and substitution templates.
+///
+/// In the following example, the value for the <code>tableName</code> parameter
+/// uses a string concatenation.
+///
+/// <code>'GreenhouseTemperatureTable ' + $input.GreenhouseInput.date</code>
+/// </li>
+/// </ul>
+/// For more information, see <a
 /// href="https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-expressions.html">Expressions</a>
 /// in the <i>AWS IoT Events Developer Guide</i>.
-/// <note>
+///
 /// If the defined payload type is a string, <code>DynamoDBAction</code> writes
 /// non-JSON data to the DynamoDB table as binary data. The DynamoDB console
-/// displays the data as Base64-encoded text. The <code>payloadField</code> is
+/// displays the data as Base64-encoded text. The value for the
+/// <code>payloadField</code> parameter is
 /// <code>&lt;payload-field&gt;_raw</code>.
-/// </note>
 class DynamoDBAction {
-  /// The name of the hash key (also called the partition key).
+  /// The name of the hash key (also called the partition key). The
+  /// <code>hashKeyField</code> value must match the partition key of the target
+  /// DynamoDB table.
   final String hashKeyField;
 
   /// The value of the hash key (also called the partition key).
   final String hashKeyValue;
 
-  /// The name of the DynamoDB table.
+  /// The name of the DynamoDB table. The <code>tableName</code> value must match
+  /// the table name of the target DynamoDB table.
   final String tableName;
 
   /// The data type for the hash key (also called the partition key). You can
@@ -1435,37 +2770,37 @@ class DynamoDBAction {
   ///
   /// <ul>
   /// <li>
-  /// <code>STRING</code> - The hash key is a string.
+  /// <code>'STRING'</code> - The hash key is a string.
   /// </li>
   /// <li>
-  /// <code>NUMBER</code> - The hash key is a number.
+  /// <code>'NUMBER'</code> - The hash key is a number.
   /// </li>
   /// </ul>
   /// If you don't specify <code>hashKeyType</code>, the default value is
-  /// <code>STRING</code>.
+  /// <code>'STRING'</code>.
   final String? hashKeyType;
 
   /// The type of operation to perform. You can specify the following values:
   ///
   /// <ul>
   /// <li>
-  /// <code>INSERT</code> - Insert data as a new item into the DynamoDB table.
+  /// <code>'INSERT'</code> - Insert data as a new item into the DynamoDB table.
   /// This item uses the specified hash key as a partition key. If you specified a
   /// range key, the item uses the range key as a sort key.
   /// </li>
   /// <li>
-  /// <code>UPDATE</code> - Update an existing item of the DynamoDB table with new
-  /// data. This item's partition key must match the specified hash key. If you
-  /// specified a range key, the range key must match the item's sort key.
+  /// <code>'UPDATE'</code> - Update an existing item of the DynamoDB table with
+  /// new data. This item's partition key must match the specified hash key. If
+  /// you specified a range key, the range key must match the item's sort key.
   /// </li>
   /// <li>
-  /// <code>DELETE</code> - Delete an existing item of the DynamoDB table. This
+  /// <code>'DELETE'</code> - Delete an existing item of the DynamoDB table. This
   /// item's partition key must match the specified hash key. If you specified a
   /// range key, the range key must match the item's sort key.
   /// </li>
   /// </ul>
   /// If you don't specify this parameter, AWS IoT Events triggers the
-  /// <code>INSERT</code> operation.
+  /// <code>'INSERT'</code> operation.
   final String? operation;
   final Payload? payload;
 
@@ -1475,7 +2810,9 @@ class DynamoDBAction {
   /// <code>payload</code>.
   final String? payloadField;
 
-  /// The name of the range key (also called the sort key).
+  /// The name of the range key (also called the sort key). The
+  /// <code>rangeKeyField</code> value must match the sort key of the target
+  /// DynamoDB table.
   final String? rangeKeyField;
 
   /// The data type for the range key (also called the sort key), You can specify
@@ -1483,14 +2820,14 @@ class DynamoDBAction {
   ///
   /// <ul>
   /// <li>
-  /// <code>STRING</code> - The range key is a string.
+  /// <code>'STRING'</code> - The range key is a string.
   /// </li>
   /// <li>
-  /// <code>NUMBER</code> - The range key is number.
+  /// <code>'NUMBER'</code> - The range key is number.
   /// </li>
   /// </ul>
   /// If you don't specify <code>rangeKeyField</code>, the default value is
-  /// <code>STRING</code>.
+  /// <code>'STRING'</code>.
   final String? rangeKeyType;
 
   /// The value of the range key (also called the sort key).
@@ -1508,6 +2845,7 @@ class DynamoDBAction {
     this.rangeKeyType,
     this.rangeKeyValue,
   });
+
   factory DynamoDBAction.fromJson(Map<String, dynamic> json) {
     return DynamoDBAction(
       hashKeyField: json['hashKeyField'] as String,
@@ -1552,20 +2890,59 @@ class DynamoDBAction {
 }
 
 /// Defines an action to write to the Amazon DynamoDB table that you created.
-/// The default action payload contains all attribute-value pairs that have the
-/// information about the detector model instance and the event that triggered
-/// the action. You can also customize the <a
+/// The default action payload contains all the information about the detector
+/// model instance and the event that triggered the action. You can customize
+/// the <a
 /// href="https://docs.aws.amazon.com/iotevents/latest/apireference/API_Payload.html">payload</a>.
 /// A separate column of the DynamoDB table receives one attribute-value pair in
 /// the payload that you specify.
-/// <important>
-/// The <code>type</code> value for <code>Payload</code> must be
-/// <code>JSON</code>.
-/// </important>
-/// You can use expressions for parameters that are strings. For more
-/// information, see <a
+///
+/// You must use expressions for all parameters in
+/// <code>DynamoDBv2Action</code>. The expressions accept literals, operators,
+/// functions, references, and substitution templates.
+/// <p class="title"> <b>Examples</b>
+///
+/// <ul>
+/// <li>
+/// For literal values, the expressions must contain single quotes. For example,
+/// the value for the <code>tableName</code> parameter can be
+/// <code>'GreenhouseTemperatureTable'</code>.
+/// </li>
+/// <li>
+/// For references, you must specify either variables or input values. For
+/// example, the value for the <code>tableName</code> parameter can be
+/// <code>$variable.ddbtableName</code>.
+/// </li>
+/// <li>
+/// For a substitution template, you must use <code>${}</code>, and the template
+/// must be in single quotes. A substitution template can also contain a
+/// combination of literals, operators, functions, references, and substitution
+/// templates.
+///
+/// In the following example, the value for the <code>contentExpression</code>
+/// parameter in <code>Payload</code> uses a substitution template.
+///
+/// <code>'{\"sensorID\": \"${$input.GreenhouseInput.sensor_id}\",
+/// \"temperature\": \"${$input.GreenhouseInput.temperature * 9 / 5 +
+/// 32}\"}'</code>
+/// </li>
+/// <li>
+/// For a string concatenation, you must use <code>+</code>. A string
+/// concatenation can also contain a combination of literals, operators,
+/// functions, references, and substitution templates.
+///
+/// In the following example, the value for the <code>tableName</code> parameter
+/// uses a string concatenation.
+///
+/// <code>'GreenhouseTemperatureTable ' + $input.GreenhouseInput.date</code>
+/// </li>
+/// </ul>
+/// For more information, see <a
 /// href="https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-expressions.html">Expressions</a>
 /// in the <i>AWS IoT Events Developer Guide</i>.
+///
+/// The value for the <code>type</code> parameter in <code>Payload</code> must
+/// be <code>JSON</code>.
 class DynamoDBv2Action {
   /// The name of the DynamoDB table.
   final String tableName;
@@ -1575,6 +2952,7 @@ class DynamoDBv2Action {
     required this.tableName,
     this.payload,
   });
+
   factory DynamoDBv2Action.fromJson(Map<String, dynamic> json) {
     return DynamoDBv2Action(
       tableName: json['tableName'] as String,
@@ -1590,6 +2968,118 @@ class DynamoDBv2Action {
     return {
       'tableName': tableName,
       if (payload != null) 'payload': payload,
+    };
+  }
+}
+
+/// Contains the configuration information of email notifications.
+class EmailConfiguration {
+  /// The email address that sends emails.
+  /// <important>
+  /// If you use the AWS IoT Events managed AWS Lambda function to manage your
+  /// emails, you must <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-email-addresses.html">verify
+  /// the email address that sends emails in Amazon SES</a>.
+  /// </important>
+  final String from;
+
+  /// Contains the information of one or more recipients who receive the emails.
+  /// <important>
+  /// You must <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/addusers.html">add
+  /// the users that receive emails to your AWS SSO store</a>.
+  /// </important>
+  final EmailRecipients recipients;
+
+  /// Contains the subject and message of an email.
+  final EmailContent? content;
+
+  EmailConfiguration({
+    required this.from,
+    required this.recipients,
+    this.content,
+  });
+
+  factory EmailConfiguration.fromJson(Map<String, dynamic> json) {
+    return EmailConfiguration(
+      from: json['from'] as String,
+      recipients:
+          EmailRecipients.fromJson(json['recipients'] as Map<String, dynamic>),
+      content: json['content'] != null
+          ? EmailContent.fromJson(json['content'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final from = this.from;
+    final recipients = this.recipients;
+    final content = this.content;
+    return {
+      'from': from,
+      'recipients': recipients,
+      if (content != null) 'content': content,
+    };
+  }
+}
+
+/// Contains the subject and message of an email.
+class EmailContent {
+  /// The message that you want to send. The message can be up to 200 characters.
+  final String? additionalMessage;
+
+  /// The subject of the email.
+  final String? subject;
+
+  EmailContent({
+    this.additionalMessage,
+    this.subject,
+  });
+
+  factory EmailContent.fromJson(Map<String, dynamic> json) {
+    return EmailContent(
+      additionalMessage: json['additionalMessage'] as String?,
+      subject: json['subject'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalMessage = this.additionalMessage;
+    final subject = this.subject;
+    return {
+      if (additionalMessage != null) 'additionalMessage': additionalMessage,
+      if (subject != null) 'subject': subject,
+    };
+  }
+}
+
+/// Contains the information of one or more recipients who receive the emails.
+/// <important>
+/// You must <a
+/// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/addusers.html">add
+/// the users that receive emails to your AWS SSO store</a>.
+/// </important>
+class EmailRecipients {
+  /// Specifies one or more recipients who receive the email.
+  final List<RecipientDetail>? to;
+
+  EmailRecipients({
+    this.to,
+  });
+
+  factory EmailRecipients.fromJson(Map<String, dynamic> json) {
+    return EmailRecipients(
+      to: (json['to'] as List?)
+          ?.whereNotNull()
+          .map((e) => RecipientDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final to = this.to;
+    return {
+      if (to != null) 'to': to,
     };
   }
 }
@@ -1642,6 +3132,7 @@ class Event {
     this.actions,
     this.condition,
   });
+
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
       eventName: json['eventName'] as String,
@@ -1686,6 +3177,7 @@ class FirehoseAction {
     this.payload,
     this.separator,
   });
+
   factory FirehoseAction.fromJson(Map<String, dynamic> json) {
     return FirehoseAction(
       deliveryStreamName: json['deliveryStreamName'] as String,
@@ -1708,6 +3200,57 @@ class FirehoseAction {
   }
 }
 
+class GetDetectorModelAnalysisResultsResponse {
+  /// Contains information about one or more analysis results.
+  final List<AnalysisResult>? analysisResults;
+
+  /// The token that you can use to return the next set of results, or
+  /// <code>null</code> if there are no more results.
+  final String? nextToken;
+
+  GetDetectorModelAnalysisResultsResponse({
+    this.analysisResults,
+    this.nextToken,
+  });
+
+  factory GetDetectorModelAnalysisResultsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetDetectorModelAnalysisResultsResponse(
+      analysisResults: (json['analysisResults'] as List?)
+          ?.whereNotNull()
+          .map((e) => AnalysisResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+}
+
+/// Specifies the default alarm state. The configuration applies to all alarms
+/// that were created based on this alarm model.
+class InitializationConfiguration {
+  /// The value must be <code>TRUE</code> or <code>FALSE</code>. If
+  /// <code>FALSE</code>, all alarm instances created based on the alarm model are
+  /// activated. The default value is <code>TRUE</code>.
+  final bool disabledOnInitialization;
+
+  InitializationConfiguration({
+    required this.disabledOnInitialization,
+  });
+
+  factory InitializationConfiguration.fromJson(Map<String, dynamic> json) {
+    return InitializationConfiguration(
+      disabledOnInitialization: json['disabledOnInitialization'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final disabledOnInitialization = this.disabledOnInitialization;
+    return {
+      'disabledOnInitialization': disabledOnInitialization,
+    };
+  }
+}
+
 /// Information about the input.
 class Input {
   /// Information about the configuration of an input.
@@ -1720,6 +3263,7 @@ class Input {
     this.inputConfiguration,
     this.inputDefinition,
   });
+
   factory Input.fromJson(Map<String, dynamic> json) {
     return Input(
       inputConfiguration: json['inputConfiguration'] != null
@@ -1762,6 +3306,7 @@ class InputConfiguration {
     required this.status,
     this.inputDescription,
   });
+
   factory InputConfiguration.fromJson(Map<String, dynamic> json) {
     return InputConfiguration(
       creationTime:
@@ -1789,6 +3334,7 @@ class InputDefinition {
   InputDefinition({
     required this.attributes,
   });
+
   factory InputDefinition.fromJson(Map<String, dynamic> json) {
     return InputDefinition(
       attributes: (json['attributes'] as List)
@@ -1802,6 +3348,30 @@ class InputDefinition {
     final attributes = this.attributes;
     return {
       'attributes': attributes,
+    };
+  }
+}
+
+/// The identifer of the input.
+class InputIdentifier {
+  /// The identifier of the input routed to AWS IoT Events.
+  final IotEventsInputIdentifier? iotEventsInputIdentifier;
+
+  /// The identifer of the input routed from AWS IoT SiteWise.
+  final IotSiteWiseInputIdentifier? iotSiteWiseInputIdentifier;
+
+  InputIdentifier({
+    this.iotEventsInputIdentifier,
+    this.iotSiteWiseInputIdentifier,
+  });
+  Map<String, dynamic> toJson() {
+    final iotEventsInputIdentifier = this.iotEventsInputIdentifier;
+    final iotSiteWiseInputIdentifier = this.iotSiteWiseInputIdentifier;
+    return {
+      if (iotEventsInputIdentifier != null)
+        'iotEventsInputIdentifier': iotEventsInputIdentifier,
+      if (iotSiteWiseInputIdentifier != null)
+        'iotSiteWiseInputIdentifier': iotSiteWiseInputIdentifier,
     };
   }
 }
@@ -1872,6 +3442,7 @@ class InputSummary {
     this.lastUpdateTime,
     this.status,
   });
+
   factory InputSummary.fromJson(Map<String, dynamic> json) {
     return InputSummary(
       creationTime: timeStampFromJson(json['creationTime']),
@@ -1898,6 +3469,7 @@ class IotEventsAction {
     required this.inputName,
     this.payload,
   });
+
   factory IotEventsAction.fromJson(Map<String, dynamic> json) {
     return IotEventsAction(
       inputName: json['inputName'] as String,
@@ -1917,80 +3489,156 @@ class IotEventsAction {
   }
 }
 
+/// The identifier of the input routed to AWS IoT Events.
+class IotEventsInputIdentifier {
+  /// The name of the input routed to AWS IoT Events.
+  final String inputName;
+
+  IotEventsInputIdentifier({
+    required this.inputName,
+  });
+  Map<String, dynamic> toJson() {
+    final inputName = this.inputName;
+    return {
+      'inputName': inputName,
+    };
+  }
+}
+
 /// Sends information about the detector model instance and the event that
 /// triggered the action to a specified asset property in AWS IoT SiteWise.
-/// <important>
-/// You must specify either <code>propertyAlias</code> or both
-/// <code>assetId</code> and <code>propertyId</code> to identify the target
-/// asset property in AWS IoT SiteWise.
-/// </important>
-/// For parameters that are string data type, you can specify the following
-/// options:
+///
+/// You must use expressions for all parameters in
+/// <code>IotSiteWiseAction</code>. The expressions accept literals, operators,
+/// functions, references, and substitutions templates.
+/// <p class="title"> <b>Examples</b>
 ///
 /// <ul>
 /// <li>
-/// Use a string. For example, the <code>propertyAlias</code> value can be
+/// For literal values, the expressions must contain single quotes. For example,
+/// the value for the <code>propertyAlias</code> parameter can be
 /// <code>'/company/windfarm/3/turbine/7/temperature'</code>.
 /// </li>
 /// <li>
-/// Use an expression. For example, the <code>propertyAlias</code> value can be
-/// <code>'company/windfarm/${$input.TemperatureInput.sensorData.windfarmID}/turbine/${$input.TemperatureInput.sensorData.turbineID}/temperature'</code>.
+/// For references, you must specify either variables or input values. For
+/// example, the value for the <code>assetId</code> parameter can be
+/// <code>$input.TurbineInput.assetId1</code>.
+/// </li>
+/// <li>
+/// For a substitution template, you must use <code>${}</code>, and the template
+/// must be in single quotes. A substitution template can also contain a
+/// combination of literals, operators, functions, references, and substitution
+/// templates.
+///
+/// In the following example, the value for the <code>propertyAlias</code>
+/// parameter uses a substitution template.
+///
+/// <code>'company/windfarm/${$input.TemperatureInput.sensorData.windfarmID}/turbine/
+/// ${$input.TemperatureInput.sensorData.turbineID}/temperature'</code>
+/// </li>
+/// </ul>
+/// You must specify either <code>propertyAlias</code> or both
+/// <code>assetId</code> and <code>propertyId</code> to identify the target
+/// asset property in AWS IoT SiteWise.
 ///
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-expressions.html">Expressions</a>
 /// in the <i>AWS IoT Events Developer Guide</i>.
-/// </li>
-/// </ul>
 class IotSiteWiseAction {
-  /// The value to send to the asset property. This value contains timestamp,
-  /// quality, and value (TQV) information.
-  final AssetPropertyValue propertyValue;
-
-  /// The ID of the asset that has the specified property. You can specify an
-  /// expression.
+  /// The ID of the asset that has the specified property.
   final String? assetId;
 
   /// A unique identifier for this entry. You can use the entry ID to track which
   /// data entry causes an error in case of failure. The default is a new unique
-  /// identifier. You can also specify an expression.
+  /// identifier.
   final String? entryId;
 
-  /// The alias of the asset property. You can also specify an expression.
+  /// The alias of the asset property.
   final String? propertyAlias;
 
-  /// The ID of the asset property. You can specify an expression.
+  /// The ID of the asset property.
   final String? propertyId;
 
+  /// The value to send to the asset property. This value contains timestamp,
+  /// quality, and value (TQV) information.
+  final AssetPropertyValue? propertyValue;
+
   IotSiteWiseAction({
-    required this.propertyValue,
     this.assetId,
     this.entryId,
     this.propertyAlias,
     this.propertyId,
+    this.propertyValue,
   });
+
   factory IotSiteWiseAction.fromJson(Map<String, dynamic> json) {
     return IotSiteWiseAction(
-      propertyValue: AssetPropertyValue.fromJson(
-          json['propertyValue'] as Map<String, dynamic>),
       assetId: json['assetId'] as String?,
       entryId: json['entryId'] as String?,
       propertyAlias: json['propertyAlias'] as String?,
       propertyId: json['propertyId'] as String?,
+      propertyValue: json['propertyValue'] != null
+          ? AssetPropertyValue.fromJson(
+              json['propertyValue'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final propertyValue = this.propertyValue;
     final assetId = this.assetId;
     final entryId = this.entryId;
     final propertyAlias = this.propertyAlias;
     final propertyId = this.propertyId;
+    final propertyValue = this.propertyValue;
     return {
-      'propertyValue': propertyValue,
       if (assetId != null) 'assetId': assetId,
       if (entryId != null) 'entryId': entryId,
       if (propertyAlias != null) 'propertyAlias': propertyAlias,
       if (propertyId != null) 'propertyId': propertyId,
+      if (propertyValue != null) 'propertyValue': propertyValue,
+    };
+  }
+}
+
+/// The asset model property identifer of the input routed from AWS IoT
+/// SiteWise.
+class IotSiteWiseAssetModelPropertyIdentifier {
+  /// The ID of the AWS IoT SiteWise asset model.
+  final String assetModelId;
+
+  /// The ID of the AWS IoT SiteWise asset property.
+  final String propertyId;
+
+  IotSiteWiseAssetModelPropertyIdentifier({
+    required this.assetModelId,
+    required this.propertyId,
+  });
+  Map<String, dynamic> toJson() {
+    final assetModelId = this.assetModelId;
+    final propertyId = this.propertyId;
+    return {
+      'assetModelId': assetModelId,
+      'propertyId': propertyId,
+    };
+  }
+}
+
+/// The identifer of the input routed from AWS IoT SiteWise.
+class IotSiteWiseInputIdentifier {
+  /// The identifier of the AWS IoT SiteWise asset model property.
+  final IotSiteWiseAssetModelPropertyIdentifier?
+      iotSiteWiseAssetModelPropertyIdentifier;
+
+  IotSiteWiseInputIdentifier({
+    this.iotSiteWiseAssetModelPropertyIdentifier,
+  });
+  Map<String, dynamic> toJson() {
+    final iotSiteWiseAssetModelPropertyIdentifier =
+        this.iotSiteWiseAssetModelPropertyIdentifier;
+    return {
+      if (iotSiteWiseAssetModelPropertyIdentifier != null)
+        'iotSiteWiseAssetModelPropertyIdentifier':
+            iotSiteWiseAssetModelPropertyIdentifier,
     };
   }
 }
@@ -2012,6 +3660,7 @@ class IotTopicPublishAction {
     required this.mqttTopic,
     this.payload,
   });
+
   factory IotTopicPublishAction.fromJson(Map<String, dynamic> json) {
     return IotTopicPublishAction(
       mqttTopic: json['mqttTopic'] as String,
@@ -2045,6 +3694,7 @@ class LambdaAction {
     required this.functionArn,
     this.payload,
   });
+
   factory LambdaAction.fromJson(Map<String, dynamic> json) {
     return LambdaAction(
       functionArn: json['functionArn'] as String,
@@ -2064,18 +3714,68 @@ class LambdaAction {
   }
 }
 
+class ListAlarmModelVersionsResponse {
+  /// A list that summarizes each alarm model version.
+  final List<AlarmModelVersionSummary>? alarmModelVersionSummaries;
+
+  /// The token that you can use to return the next set of results, or
+  /// <code>null</code> if there are no more results.
+  final String? nextToken;
+
+  ListAlarmModelVersionsResponse({
+    this.alarmModelVersionSummaries,
+    this.nextToken,
+  });
+
+  factory ListAlarmModelVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAlarmModelVersionsResponse(
+      alarmModelVersionSummaries: (json['alarmModelVersionSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AlarmModelVersionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+}
+
+class ListAlarmModelsResponse {
+  /// A list that summarizes each alarm model.
+  final List<AlarmModelSummary>? alarmModelSummaries;
+
+  /// The token that you can use to return the next set of results, or
+  /// <code>null</code> if there are no more results.
+  final String? nextToken;
+
+  ListAlarmModelsResponse({
+    this.alarmModelSummaries,
+    this.nextToken,
+  });
+
+  factory ListAlarmModelsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAlarmModelsResponse(
+      alarmModelSummaries: (json['alarmModelSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => AlarmModelSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+}
+
 class ListDetectorModelVersionsResponse {
   /// Summary information about the detector model versions.
   final List<DetectorModelVersionSummary>? detectorModelVersionSummaries;
 
-  /// A token to retrieve the next set of results, or <code>null</code> if there
-  /// are no additional results.
+  /// The token that you can use to return the next set of results, or
+  /// <code>null</code> if there are no more results.
   final String? nextToken;
 
   ListDetectorModelVersionsResponse({
     this.detectorModelVersionSummaries,
     this.nextToken,
   });
+
   factory ListDetectorModelVersionsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListDetectorModelVersionsResponse(
@@ -2094,14 +3794,15 @@ class ListDetectorModelsResponse {
   /// Summary information about the detector models.
   final List<DetectorModelSummary>? detectorModelSummaries;
 
-  /// A token to retrieve the next set of results, or <code>null</code> if there
-  /// are no additional results.
+  /// The token that you can use to return the next set of results, or
+  /// <code>null</code> if there are no more results.
   final String? nextToken;
 
   ListDetectorModelsResponse({
     this.detectorModelSummaries,
     this.nextToken,
   });
+
   factory ListDetectorModelsResponse.fromJson(Map<String, dynamic> json) {
     return ListDetectorModelsResponse(
       detectorModelSummaries: (json['detectorModelSummaries'] as List?)
@@ -2113,18 +3814,43 @@ class ListDetectorModelsResponse {
   }
 }
 
+class ListInputRoutingsResponse {
+  /// The token that you can use to return the next set of results, or
+  /// <code>null</code> if there are no more results.
+  final String? nextToken;
+
+  /// Summary information about the routed resources.
+  final List<RoutedResource>? routedResources;
+
+  ListInputRoutingsResponse({
+    this.nextToken,
+    this.routedResources,
+  });
+
+  factory ListInputRoutingsResponse.fromJson(Map<String, dynamic> json) {
+    return ListInputRoutingsResponse(
+      nextToken: json['nextToken'] as String?,
+      routedResources: (json['routedResources'] as List?)
+          ?.whereNotNull()
+          .map((e) => RoutedResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 class ListInputsResponse {
   /// Summary information about the inputs.
   final List<InputSummary>? inputSummaries;
 
-  /// A token to retrieve the next set of results, or <code>null</code> if there
-  /// are no additional results.
+  /// The token that you can use to return the next set of results, or
+  /// <code>null</code> if there are no more results.
   final String? nextToken;
 
   ListInputsResponse({
     this.inputSummaries,
     this.nextToken,
   });
+
   factory ListInputsResponse.fromJson(Map<String, dynamic> json) {
     return ListInputsResponse(
       inputSummaries: (json['inputSummaries'] as List?)
@@ -2143,6 +3869,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as List?)
@@ -2208,6 +3935,7 @@ class LoggingOptions {
     required this.roleArn,
     this.detectorDebugOptions,
   });
+
   factory LoggingOptions.fromJson(Map<String, dynamic> json) {
     return LoggingOptions(
       enabled: json['enabled'] as bool,
@@ -2235,6 +3963,82 @@ class LoggingOptions {
   }
 }
 
+/// Contains the notification settings of an alarm model. The settings apply to
+/// all alarms that were created based on this alarm model.
+class NotificationAction {
+  /// Specifies an AWS Lambda function to manage alarm notifications. You can
+  /// create one or use the <a
+  /// href="https://docs.aws.amazon.com/iotevents/latest/developerguide/lambda-support.html">AWS
+  /// Lambda function provided by AWS IoT Events</a>.
+  final NotificationTargetActions action;
+
+  /// Contains the configuration information of email notifications.
+  final List<EmailConfiguration>? emailConfigurations;
+
+  /// Contains the configuration information of SMS notifications.
+  final List<SMSConfiguration>? smsConfigurations;
+
+  NotificationAction({
+    required this.action,
+    this.emailConfigurations,
+    this.smsConfigurations,
+  });
+
+  factory NotificationAction.fromJson(Map<String, dynamic> json) {
+    return NotificationAction(
+      action: NotificationTargetActions.fromJson(
+          json['action'] as Map<String, dynamic>),
+      emailConfigurations: (json['emailConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => EmailConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      smsConfigurations: (json['smsConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => SMSConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final emailConfigurations = this.emailConfigurations;
+    final smsConfigurations = this.smsConfigurations;
+    return {
+      'action': action,
+      if (emailConfigurations != null)
+        'emailConfigurations': emailConfigurations,
+      if (smsConfigurations != null) 'smsConfigurations': smsConfigurations,
+    };
+  }
+}
+
+/// Specifies an AWS Lambda function to manage alarm notifications. You can
+/// create one or use the <a
+/// href="https://docs.aws.amazon.com/iotevents/latest/developerguide/lambda-support.html">AWS
+/// Lambda function provided by AWS IoT Events</a>.
+class NotificationTargetActions {
+  final LambdaAction? lambdaAction;
+
+  NotificationTargetActions({
+    this.lambdaAction,
+  });
+
+  factory NotificationTargetActions.fromJson(Map<String, dynamic> json) {
+    return NotificationTargetActions(
+      lambdaAction: json['lambdaAction'] != null
+          ? LambdaAction.fromJson(json['lambdaAction'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lambdaAction = this.lambdaAction;
+    return {
+      if (lambdaAction != null) 'lambdaAction': lambdaAction,
+    };
+  }
+}
+
 /// When entering this state, perform these <code>actions</code> if the
 /// <code>condition</code> is TRUE.
 class OnEnterLifecycle {
@@ -2245,6 +4049,7 @@ class OnEnterLifecycle {
   OnEnterLifecycle({
     this.events,
   });
+
   factory OnEnterLifecycle.fromJson(Map<String, dynamic> json) {
     return OnEnterLifecycle(
       events: (json['events'] as List?)
@@ -2272,6 +4077,7 @@ class OnExitLifecycle {
   OnExitLifecycle({
     this.events,
   });
+
   factory OnExitLifecycle.fromJson(Map<String, dynamic> json) {
     return OnExitLifecycle(
       events: (json['events'] as List?)
@@ -2304,6 +4110,7 @@ class OnInputLifecycle {
     this.events,
     this.transitionEvents,
   });
+
   factory OnInputLifecycle.fromJson(Map<String, dynamic> json) {
     return OnInputLifecycle(
       events: (json['events'] as List?)
@@ -2351,6 +4158,7 @@ class Payload {
     required this.contentExpression,
     required this.type,
   });
+
   factory Payload.fromJson(Map<String, dynamic> json) {
     return Payload(
       contentExpression: json['contentExpression'] as String,
@@ -2396,6 +4204,31 @@ extension PayloadTypeFromString on String {
   }
 }
 
+/// The information that identifies the recipient.
+class RecipientDetail {
+  /// The AWS Single Sign-On (AWS SSO) authentication information.
+  final SSOIdentity? ssoIdentity;
+
+  RecipientDetail({
+    this.ssoIdentity,
+  });
+
+  factory RecipientDetail.fromJson(Map<String, dynamic> json) {
+    return RecipientDetail(
+      ssoIdentity: json['ssoIdentity'] != null
+          ? SSOIdentity.fromJson(json['ssoIdentity'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ssoIdentity = this.ssoIdentity;
+    return {
+      if (ssoIdentity != null) 'ssoIdentity': ssoIdentity,
+    };
+  }
+}
+
 /// Information required to reset the timer. The timer is reset to the
 /// previously evaluated result of the duration. The duration expression isn't
 /// reevaluated when you reset the timer.
@@ -2406,6 +4239,7 @@ class ResetTimerAction {
   ResetTimerAction({
     required this.timerName,
   });
+
   factory ResetTimerAction.fromJson(Map<String, dynamic> json) {
     return ResetTimerAction(
       timerName: json['timerName'] as String,
@@ -2416,6 +4250,74 @@ class ResetTimerAction {
     final timerName = this.timerName;
     return {
       'timerName': timerName,
+    };
+  }
+}
+
+/// Contains information about the routed resource.
+class RoutedResource {
+  /// The ARN of the routed resource. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  final String? arn;
+
+  /// The name of the routed resource.
+  final String? name;
+
+  RoutedResource({
+    this.arn,
+    this.name,
+  });
+
+  factory RoutedResource.fromJson(Map<String, dynamic> json) {
+    return RoutedResource(
+      arn: json['arn'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+}
+
+/// Contains the configuration information of SMS notifications.
+class SMSConfiguration {
+  /// Specifies one or more recipients who receive the message.
+  /// <important>
+  /// You must <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/addusers.html">add
+  /// the users that receive SMS messages to your AWS SSO store</a>.
+  /// </important>
+  final List<RecipientDetail> recipients;
+
+  /// The message that you want to send. The message can be up to 200 characters.
+  final String? additionalMessage;
+
+  /// The sender ID.
+  final String? senderId;
+
+  SMSConfiguration({
+    required this.recipients,
+    this.additionalMessage,
+    this.senderId,
+  });
+
+  factory SMSConfiguration.fromJson(Map<String, dynamic> json) {
+    return SMSConfiguration(
+      recipients: (json['recipients'] as List)
+          .whereNotNull()
+          .map((e) => RecipientDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      additionalMessage: json['additionalMessage'] as String?,
+      senderId: json['senderId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recipients = this.recipients;
+    final additionalMessage = this.additionalMessage;
+    final senderId = this.senderId;
+    return {
+      'recipients': recipients,
+      if (additionalMessage != null) 'additionalMessage': additionalMessage,
+      if (senderId != null) 'senderId': senderId,
     };
   }
 }
@@ -2433,6 +4335,7 @@ class SNSTopicPublishAction {
     required this.targetArn,
     this.payload,
   });
+
   factory SNSTopicPublishAction.fromJson(Map<String, dynamic> json) {
     return SNSTopicPublishAction(
       targetArn: json['targetArn'] as String,
@@ -2448,6 +4351,39 @@ class SNSTopicPublishAction {
     return {
       'targetArn': targetArn,
       if (payload != null) 'payload': payload,
+    };
+  }
+}
+
+/// Contains information about your identity source in AWS Single Sign-On. For
+/// more information, see the <a
+/// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html">AWS
+/// Single Sign-On User Guide</a>.
+class SSOIdentity {
+  /// The ID of the AWS SSO identity store.
+  final String identityStoreId;
+
+  /// The user ID.
+  final String? userId;
+
+  SSOIdentity({
+    required this.identityStoreId,
+    this.userId,
+  });
+
+  factory SSOIdentity.fromJson(Map<String, dynamic> json) {
+    return SSOIdentity(
+      identityStoreId: json['identityStoreId'] as String,
+      userId: json['userId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identityStoreId = this.identityStoreId;
+    final userId = this.userId;
+    return {
+      'identityStoreId': identityStoreId,
+      if (userId != null) 'userId': userId,
     };
   }
 }
@@ -2475,6 +4411,7 @@ class SetTimerAction {
     this.durationExpression,
     this.seconds,
   });
+
   factory SetTimerAction.fromJson(Map<String, dynamic> json) {
     return SetTimerAction(
       timerName: json['timerName'] as String,
@@ -2507,6 +4444,7 @@ class SetVariableAction {
     required this.value,
     required this.variableName,
   });
+
   factory SetVariableAction.fromJson(Map<String, dynamic> json) {
     return SetVariableAction(
       value: json['value'] as String,
@@ -2520,6 +4458,47 @@ class SetVariableAction {
     return {
       'value': value,
       'variableName': variableName,
+    };
+  }
+}
+
+/// A rule that compares an input property value to a threshold value with a
+/// comparison operator.
+class SimpleRule {
+  /// The comparison operator.
+  final ComparisonOperator comparisonOperator;
+
+  /// The value on the left side of the comparison operator. You can specify an
+  /// AWS IoT Events input attribute as an input property.
+  final String inputProperty;
+
+  /// The value on the right side of the comparison operator. You can enter a
+  /// number or specify an AWS IoT Events input attribute.
+  final String threshold;
+
+  SimpleRule({
+    required this.comparisonOperator,
+    required this.inputProperty,
+    required this.threshold,
+  });
+
+  factory SimpleRule.fromJson(Map<String, dynamic> json) {
+    return SimpleRule(
+      comparisonOperator:
+          (json['comparisonOperator'] as String).toComparisonOperator(),
+      inputProperty: json['inputProperty'] as String,
+      threshold: json['threshold'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comparisonOperator = this.comparisonOperator;
+    final inputProperty = this.inputProperty;
+    final threshold = this.threshold;
+    return {
+      'comparisonOperator': comparisonOperator.toValue(),
+      'inputProperty': inputProperty,
+      'threshold': threshold,
     };
   }
 }
@@ -2543,6 +4522,7 @@ class SqsAction {
     this.payload,
     this.useBase64,
   });
+
   factory SqsAction.fromJson(Map<String, dynamic> json) {
     return SqsAction(
       queueUrl: json['queueUrl'] as String,
@@ -2562,6 +4542,22 @@ class SqsAction {
       if (payload != null) 'payload': payload,
       if (useBase64 != null) 'useBase64': useBase64,
     };
+  }
+}
+
+class StartDetectorModelAnalysisResponse {
+  /// The ID that you can use to retrieve the analysis result.
+  final String? analysisId;
+
+  StartDetectorModelAnalysisResponse({
+    this.analysisId,
+  });
+
+  factory StartDetectorModelAnalysisResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartDetectorModelAnalysisResponse(
+      analysisId: json['analysisId'] as String?,
+    );
   }
 }
 
@@ -2588,6 +4584,7 @@ class State {
     this.onExit,
     this.onInput,
   });
+
   factory State.fromJson(Map<String, dynamic> json) {
     return State(
       stateName: json['stateName'] as String,
@@ -2629,6 +4626,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['key'] as String,
@@ -2648,6 +4646,7 @@ class Tag {
 
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
@@ -2675,6 +4674,7 @@ class TransitionEvent {
     required this.nextState,
     this.actions,
   });
+
   factory TransitionEvent.fromJson(Map<String, dynamic> json) {
     return TransitionEvent(
       condition: json['condition'] as String,
@@ -2703,8 +4703,67 @@ class TransitionEvent {
 
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
+  }
+}
+
+class UpdateAlarmModelResponse {
+  /// The ARN of the alarm model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  final String? alarmModelArn;
+
+  /// The version of the alarm model.
+  final String? alarmModelVersion;
+
+  /// The time the alarm model was created, in the Unix epoch format.
+  final DateTime? creationTime;
+
+  /// The time the alarm model was last updated, in the Unix epoch format.
+  final DateTime? lastUpdateTime;
+
+  /// The status of the alarm model. The status can be one of the following
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code> - The alarm model is active and it's ready to evaluate
+  /// data.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVATING</code> - AWS IoT Events is activating your alarm model.
+  /// Activating an alarm model can take up to a few minutes.
+  /// </li>
+  /// <li>
+  /// <code>INACTIVE</code> - The alarm model is inactive, so it isn't ready to
+  /// evaluate data. Check your alarm model information and update the alarm
+  /// model.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - You couldn't create or update the alarm model. Check
+  /// your alarm model information and try again.
+  /// </li>
+  /// </ul>
+  final AlarmModelVersionStatus? status;
+
+  UpdateAlarmModelResponse({
+    this.alarmModelArn,
+    this.alarmModelVersion,
+    this.creationTime,
+    this.lastUpdateTime,
+    this.status,
+  });
+
+  factory UpdateAlarmModelResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAlarmModelResponse(
+      alarmModelArn: json['alarmModelArn'] as String?,
+      alarmModelVersion: json['alarmModelVersion'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      status: (json['status'] as String?)?.toAlarmModelVersionStatus(),
+    );
   }
 }
 
@@ -2715,6 +4774,7 @@ class UpdateDetectorModelResponse {
   UpdateDetectorModelResponse({
     this.detectorModelConfiguration,
   });
+
   factory UpdateDetectorModelResponse.fromJson(Map<String, dynamic> json) {
     return UpdateDetectorModelResponse(
       detectorModelConfiguration: json['detectorModelConfiguration'] != null
@@ -2732,6 +4792,7 @@ class UpdateInputResponse {
   UpdateInputResponse({
     this.inputConfiguration,
   });
+
   factory UpdateInputResponse.fromJson(Map<String, dynamic> json) {
     return UpdateInputResponse(
       inputConfiguration: json['inputConfiguration'] != null

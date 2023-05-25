@@ -3,9 +3,8 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-Welcome to the Amazon SES API v2 Reference. This guide provides information
-about the Amazon SES API v2, including supported operations, data types,
-parameters, and schemas.
+<a href="https://aws.amazon.com/ses">Amazon SES</a> is an Amazon Web Services
+service that you can use to send email messages to your customers.
 
 ## Links
 

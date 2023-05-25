@@ -1376,6 +1376,7 @@ class Artwork {
     this.paddingPolicy,
     this.sizingPolicy,
   });
+
   factory Artwork.fromJson(Map<String, dynamic> json) {
     return Artwork(
       albumArtFormat: json['AlbumArtFormat'] as String?,
@@ -1480,6 +1481,7 @@ class AudioCodecOptions {
     this.profile,
     this.signed,
   });
+
   factory AudioCodecOptions.fromJson(Map<String, dynamic> json) {
     return AudioCodecOptions(
       bitDepth: json['BitDepth'] as String?,
@@ -1730,6 +1732,7 @@ class AudioParameters {
     this.codecOptions,
     this.sampleRate,
   });
+
   factory AudioParameters.fromJson(Map<String, dynamic> json) {
     return AudioParameters(
       audioPackingMode: json['AudioPackingMode'] as String?,
@@ -1766,6 +1769,7 @@ class AudioParameters {
 /// canceled, the value of <code>Success</code> is <code>true</code>.
 class CancelJobResponse {
   CancelJobResponse();
+
   factory CancelJobResponse.fromJson(Map<String, dynamic> _) {
     return CancelJobResponse();
   }
@@ -1851,6 +1855,7 @@ class CaptionFormat {
     this.format,
     this.pattern,
   });
+
   factory CaptionFormat.fromJson(Map<String, dynamic> json) {
     return CaptionFormat(
       encryption: json['Encryption'] != null
@@ -1920,6 +1925,7 @@ class CaptionSource {
     this.language,
     this.timeOffset,
   });
+
   factory CaptionSource.fromJson(Map<String, dynamic> json) {
     return CaptionSource(
       encryption: json['Encryption'] != null
@@ -1990,6 +1996,7 @@ class Captions {
     this.captionSources,
     this.mergePolicy,
   });
+
   factory Captions.fromJson(Map<String, dynamic> json) {
     return Captions(
       captionFormats: (json['CaptionFormats'] as List?)
@@ -2026,6 +2033,7 @@ class Clip {
   Clip({
     this.timeSpan,
   });
+
   factory Clip.fromJson(Map<String, dynamic> json) {
     return Clip(
       timeSpan: json['TimeSpan'] != null
@@ -2357,6 +2365,7 @@ class CreateJobResponse {
   CreateJobResponse({
     this.job,
   });
+
   factory CreateJobResponse.fromJson(Map<String, dynamic> json) {
     return CreateJobResponse(
       job: json['Job'] != null
@@ -2385,6 +2394,7 @@ class CreatePipelineResponse {
     this.pipeline,
     this.warnings,
   });
+
   factory CreatePipelineResponse.fromJson(Map<String, dynamic> json) {
     return CreatePipelineResponse(
       pipeline: json['Pipeline'] != null
@@ -2414,6 +2424,7 @@ class CreatePresetResponse {
     this.preset,
     this.warning,
   });
+
   factory CreatePresetResponse.fromJson(Map<String, dynamic> json) {
     return CreatePresetResponse(
       preset: json['Preset'] != null
@@ -2427,6 +2438,7 @@ class CreatePresetResponse {
 /// The <code>DeletePipelineResponse</code> structure.
 class DeletePipelineResponse {
   DeletePipelineResponse();
+
   factory DeletePipelineResponse.fromJson(Map<String, dynamic> _) {
     return DeletePipelineResponse();
   }
@@ -2435,6 +2447,7 @@ class DeletePipelineResponse {
 /// The <code>DeletePresetResponse</code> structure.
 class DeletePresetResponse {
   DeletePresetResponse();
+
   factory DeletePresetResponse.fromJson(Map<String, dynamic> _) {
     return DeletePresetResponse();
   }
@@ -2465,6 +2478,7 @@ class DetectedProperties {
     this.height,
     this.width,
   });
+
   factory DetectedProperties.fromJson(Map<String, dynamic> json) {
     return DetectedProperties(
       durationMillis: json['DurationMillis'] as int?,
@@ -2576,6 +2590,7 @@ class Encryption {
     this.keyMd5,
     this.mode,
   });
+
   factory Encryption.fromJson(Map<String, dynamic> json) {
     return Encryption(
       initializationVector: json['InitializationVector'] as String?,
@@ -2658,6 +2673,7 @@ class HlsContentProtection {
     this.licenseAcquisitionUrl,
     this.method,
   });
+
   factory HlsContentProtection.fromJson(Map<String, dynamic> json) {
     return HlsContentProtection(
       initializationVector: json['InitializationVector'] as String?,
@@ -2726,6 +2742,7 @@ class InputCaptions {
     this.captionSources,
     this.mergePolicy,
   });
+
   factory InputCaptions.fromJson(Map<String, dynamic> json) {
     return InputCaptions(
       captionSources: (json['CaptionSources'] as List?)
@@ -2855,6 +2872,7 @@ class Job {
     this.timing,
     this.userMetadata,
   });
+
   factory Job.fromJson(Map<String, dynamic> json) {
     return Job(
       arn: json['Arn'] as String?,
@@ -2924,6 +2942,7 @@ class JobAlbumArt {
     this.artwork,
     this.mergePolicy,
   });
+
   factory JobAlbumArt.fromJson(Map<String, dynamic> json) {
     return JobAlbumArt(
       artwork: (json['Artwork'] as List?)
@@ -3081,6 +3100,7 @@ class JobInput {
     this.resolution,
     this.timeSpan,
   });
+
   factory JobInput.fromJson(Map<String, dynamic> json) {
     return JobInput(
       aspectRatio: json['AspectRatio'] as String?,
@@ -3402,6 +3422,7 @@ class JobOutput {
     this.watermarks,
     this.width,
   });
+
   factory JobOutput.fromJson(Map<String, dynamic> json) {
     return JobOutput(
       albumArt: json['AlbumArt'] != null
@@ -3473,6 +3494,7 @@ class JobWatermark {
     this.inputKey,
     this.presetWatermarkId,
   });
+
   factory JobWatermark.fromJson(Map<String, dynamic> json) {
     return JobWatermark(
       encryption: json['Encryption'] != null
@@ -3510,6 +3532,7 @@ class ListJobsByPipelineResponse {
     this.jobs,
     this.nextPageToken,
   });
+
   factory ListJobsByPipelineResponse.fromJson(Map<String, dynamic> json) {
     return ListJobsByPipelineResponse(
       jobs: (json['Jobs'] as List?)
@@ -3536,6 +3559,7 @@ class ListJobsByStatusResponse {
     this.jobs,
     this.nextPageToken,
   });
+
   factory ListJobsByStatusResponse.fromJson(Map<String, dynamic> json) {
     return ListJobsByStatusResponse(
       jobs: (json['Jobs'] as List?)
@@ -3562,6 +3586,7 @@ class ListPipelinesResponse {
     this.nextPageToken,
     this.pipelines,
   });
+
   factory ListPipelinesResponse.fromJson(Map<String, dynamic> json) {
     return ListPipelinesResponse(
       nextPageToken: json['NextPageToken'] as String?,
@@ -3588,6 +3613,7 @@ class ListPresetsResponse {
     this.nextPageToken,
     this.presets,
   });
+
   factory ListPresetsResponse.fromJson(Map<String, dynamic> json) {
     return ListPresetsResponse(
       nextPageToken: json['NextPageToken'] as String?,
@@ -3628,6 +3654,7 @@ class Notifications {
     this.progressing,
     this.warning,
   });
+
   factory Notifications.fromJson(Map<String, dynamic> json) {
     return Notifications(
       completed: json['Completed'] as String?,
@@ -3709,6 +3736,7 @@ class Permission {
     this.grantee,
     this.granteeType,
   });
+
   factory Permission.fromJson(Map<String, dynamic> json) {
     return Permission(
       access: (json['Access'] as List?)
@@ -3967,6 +3995,7 @@ class Pipeline {
     this.status,
     this.thumbnailConfig,
   });
+
   factory Pipeline.fromJson(Map<String, dynamic> json) {
     return Pipeline(
       arn: json['Arn'] as String?,
@@ -4049,6 +4078,7 @@ class PipelineOutputConfig {
     this.permissions,
     this.storageClass,
   });
+
   factory PipelineOutputConfig.fromJson(Map<String, dynamic> json) {
     return PipelineOutputConfig(
       bucket: json['Bucket'] as String?,
@@ -4132,6 +4162,7 @@ class PlayReadyDrm {
     this.keyMd5,
     this.licenseAcquisitionUrl,
   });
+
   factory PlayReadyDrm.fromJson(Map<String, dynamic> json) {
     return PlayReadyDrm(
       format: json['Format'] as String?,
@@ -4259,6 +4290,7 @@ class Playlist {
     this.status,
     this.statusDetail,
   });
+
   factory Playlist.fromJson(Map<String, dynamic> json) {
     return Playlist(
       format: json['Format'] as String?,
@@ -4334,6 +4366,7 @@ class Preset {
     this.type,
     this.video,
   });
+
   factory Preset.fromJson(Map<String, dynamic> json) {
     return Preset(
       arn: json['Arn'] as String?,
@@ -4580,6 +4613,7 @@ class PresetWatermark {
     this.verticalAlign,
     this.verticalOffset,
   });
+
   factory PresetWatermark.fromJson(Map<String, dynamic> json) {
     return PresetWatermark(
       horizontalAlign: json['HorizontalAlign'] as String?,
@@ -4629,6 +4663,7 @@ class ReadJobResponse {
   ReadJobResponse({
     this.job,
   });
+
   factory ReadJobResponse.fromJson(Map<String, dynamic> json) {
     return ReadJobResponse(
       job: json['Job'] != null
@@ -4655,6 +4690,7 @@ class ReadPipelineResponse {
     this.pipeline,
     this.warnings,
   });
+
   factory ReadPipelineResponse.fromJson(Map<String, dynamic> json) {
     return ReadPipelineResponse(
       pipeline: json['Pipeline'] != null
@@ -4676,6 +4712,7 @@ class ReadPresetResponse {
   ReadPresetResponse({
     this.preset,
   });
+
   factory ReadPresetResponse.fromJson(Map<String, dynamic> json) {
     return ReadPresetResponse(
       preset: json['Preset'] != null
@@ -4701,6 +4738,7 @@ class TestRoleResponse {
     this.messages,
     this.success,
   });
+
   factory TestRoleResponse.fromJson(Map<String, dynamic> json) {
     return TestRoleResponse(
       messages: (json['Messages'] as List?)
@@ -4825,6 +4863,7 @@ class Thumbnails {
     this.resolution,
     this.sizingPolicy,
   });
+
   factory Thumbnails.fromJson(Map<String, dynamic> json) {
     return Thumbnails(
       aspectRatio: json['AspectRatio'] as String?,
@@ -4881,6 +4920,7 @@ class TimeSpan {
     this.duration,
     this.startTime,
   });
+
   factory TimeSpan.fromJson(Map<String, dynamic> json) {
     return TimeSpan(
       duration: json['Duration'] as String?,
@@ -4914,6 +4954,7 @@ class Timing {
     this.startTimeMillis,
     this.submitTimeMillis,
   });
+
   factory Timing.fromJson(Map<String, dynamic> json) {
     return Timing(
       finishTimeMillis: json['FinishTimeMillis'] as int?,
@@ -4932,6 +4973,7 @@ class UpdatePipelineNotificationsResponse {
   UpdatePipelineNotificationsResponse({
     this.pipeline,
   });
+
   factory UpdatePipelineNotificationsResponse.fromJson(
       Map<String, dynamic> json) {
     return UpdatePipelineNotificationsResponse(
@@ -4960,6 +5002,7 @@ class UpdatePipelineResponse {
     this.pipeline,
     this.warnings,
   });
+
   factory UpdatePipelineResponse.fromJson(Map<String, dynamic> json) {
     return UpdatePipelineResponse(
       pipeline: json['Pipeline'] != null
@@ -4982,6 +5025,7 @@ class UpdatePipelineStatusResponse {
   UpdatePipelineStatusResponse({
     this.pipeline,
   });
+
   factory UpdatePipelineStatusResponse.fromJson(Map<String, dynamic> json) {
     return UpdatePipelineStatusResponse(
       pipeline: json['Pipeline'] != null
@@ -5571,6 +5615,7 @@ class VideoParameters {
     this.sizingPolicy,
     this.watermarks,
   });
+
   factory VideoParameters.fromJson(Map<String, dynamic> json) {
     return VideoParameters(
       aspectRatio: json['AspectRatio'] as String?,
@@ -5652,6 +5697,7 @@ class Warning {
     this.code,
     this.message,
   });
+
   factory Warning.fromJson(Map<String, dynamic> json) {
     return Warning(
       code: json['Code'] as String?,

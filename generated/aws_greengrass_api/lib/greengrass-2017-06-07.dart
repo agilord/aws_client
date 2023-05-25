@@ -486,21 +486,21 @@ class Greengrass {
   ///
   /// May throw [BadRequestException].
   ///
+  /// Parameter [name] :
+  /// The name of the group.
+  ///
   /// Parameter [amznClientToken] :
   /// A client token used to correlate requests and responses.
   ///
   /// Parameter [initialVersion] :
   /// Information about the initial version of the group.
   ///
-  /// Parameter [name] :
-  /// The name of the group.
-  ///
   /// Parameter [tags] :
   /// Tag(s) to add to the new resource.
   Future<CreateGroupResponse> createGroup({
+    required String name,
     String? amznClientToken,
     GroupVersion? initialVersion,
-    String? name,
     Map<String, String>? tags,
   }) async {
     final headers = <String, String>{
@@ -508,8 +508,8 @@ class Greengrass {
         'X-Amzn-Client-Token': amznClientToken.toString(),
     };
     final $payload = <String, dynamic>{
+      'Name': name,
       if (initialVersion != null) 'InitialVersion': initialVersion,
-      if (name != null) 'Name': name,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -2733,6 +2733,7 @@ class AssociateRoleToGroupResponse {
   AssociateRoleToGroupResponse({
     this.associatedAt,
   });
+
   factory AssociateRoleToGroupResponse.fromJson(Map<String, dynamic> json) {
     return AssociateRoleToGroupResponse(
       associatedAt: json['AssociatedAt'] as String?,
@@ -2747,6 +2748,7 @@ class AssociateServiceRoleToAccountResponse {
   AssociateServiceRoleToAccountResponse({
     this.associatedAt,
   });
+
   factory AssociateServiceRoleToAccountResponse.fromJson(
       Map<String, dynamic> json) {
     return AssociateServiceRoleToAccountResponse(
@@ -2772,6 +2774,7 @@ class BulkDeployment {
     this.bulkDeploymentId,
     this.createdAt,
   });
+
   factory BulkDeployment.fromJson(Map<String, dynamic> json) {
     return BulkDeployment(
       bulkDeploymentArn: json['BulkDeploymentArn'] as String?,
@@ -2804,6 +2807,7 @@ class BulkDeploymentMetrics {
     this.recordsProcessed,
     this.retryAttempts,
   });
+
   factory BulkDeploymentMetrics.fromJson(Map<String, dynamic> json) {
     return BulkDeploymentMetrics(
       invalidInputRecords: json['InvalidInputRecords'] as int?,
@@ -2851,6 +2855,7 @@ class BulkDeploymentResult {
     this.errorMessage,
     this.groupArn,
   });
+
   factory BulkDeploymentResult.fromJson(Map<String, dynamic> json) {
     return BulkDeploymentResult(
       createdAt: json['CreatedAt'] as String?,
@@ -2965,6 +2970,7 @@ class ConnectivityInfo {
     this.metadata,
     this.portNumber,
   });
+
   factory ConnectivityInfo.fromJson(Map<String, dynamic> json) {
     return ConnectivityInfo(
       hostAddress: json['HostAddress'] as String?,
@@ -3008,6 +3014,7 @@ class Connector {
     required this.id,
     this.parameters,
   });
+
   factory Connector.fromJson(Map<String, dynamic> json) {
     return Connector(
       connectorArn: json['ConnectorArn'] as String,
@@ -3039,6 +3046,7 @@ class ConnectorDefinitionVersion {
   ConnectorDefinitionVersion({
     this.connectors,
   });
+
   factory ConnectorDefinitionVersion.fromJson(Map<String, dynamic> json) {
     return ConnectorDefinitionVersion(
       connectors: (json['Connectors'] as List?)
@@ -3078,6 +3086,7 @@ class Core {
     required this.thingArn,
     this.syncShadow,
   });
+
   factory Core.fromJson(Map<String, dynamic> json) {
     return Core(
       certificateArn: json['CertificateArn'] as String,
@@ -3109,6 +3118,7 @@ class CoreDefinitionVersion {
   CoreDefinitionVersion({
     this.cores,
   });
+
   factory CoreDefinitionVersion.fromJson(Map<String, dynamic> json) {
     return CoreDefinitionVersion(
       cores: (json['Cores'] as List?)
@@ -3158,6 +3168,7 @@ class CreateConnectorDefinitionResponse {
     this.latestVersionArn,
     this.name,
   });
+
   factory CreateConnectorDefinitionResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateConnectorDefinitionResponse(
@@ -3191,6 +3202,7 @@ class CreateConnectorDefinitionVersionResponse {
     this.id,
     this.version,
   });
+
   factory CreateConnectorDefinitionVersionResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateConnectorDefinitionVersionResponse(
@@ -3234,6 +3246,7 @@ class CreateCoreDefinitionResponse {
     this.latestVersionArn,
     this.name,
   });
+
   factory CreateCoreDefinitionResponse.fromJson(Map<String, dynamic> json) {
     return CreateCoreDefinitionResponse(
       arn: json['Arn'] as String?,
@@ -3266,6 +3279,7 @@ class CreateCoreDefinitionVersionResponse {
     this.id,
     this.version,
   });
+
   factory CreateCoreDefinitionVersionResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateCoreDefinitionVersionResponse(
@@ -3288,6 +3302,7 @@ class CreateDeploymentResponse {
     this.deploymentArn,
     this.deploymentId,
   });
+
   factory CreateDeploymentResponse.fromJson(Map<String, dynamic> json) {
     return CreateDeploymentResponse(
       deploymentArn: json['DeploymentArn'] as String?,
@@ -3328,6 +3343,7 @@ class CreateDeviceDefinitionResponse {
     this.latestVersionArn,
     this.name,
   });
+
   factory CreateDeviceDefinitionResponse.fromJson(Map<String, dynamic> json) {
     return CreateDeviceDefinitionResponse(
       arn: json['Arn'] as String?,
@@ -3360,6 +3376,7 @@ class CreateDeviceDefinitionVersionResponse {
     this.id,
     this.version,
   });
+
   factory CreateDeviceDefinitionVersionResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateDeviceDefinitionVersionResponse(
@@ -3403,6 +3420,7 @@ class CreateFunctionDefinitionResponse {
     this.latestVersionArn,
     this.name,
   });
+
   factory CreateFunctionDefinitionResponse.fromJson(Map<String, dynamic> json) {
     return CreateFunctionDefinitionResponse(
       arn: json['Arn'] as String?,
@@ -3435,6 +3453,7 @@ class CreateFunctionDefinitionVersionResponse {
     this.id,
     this.version,
   });
+
   factory CreateFunctionDefinitionVersionResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateFunctionDefinitionVersionResponse(
@@ -3453,6 +3472,7 @@ class CreateGroupCertificateAuthorityResponse {
   CreateGroupCertificateAuthorityResponse({
     this.groupCertificateAuthorityArn,
   });
+
   factory CreateGroupCertificateAuthorityResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateGroupCertificateAuthorityResponse(
@@ -3494,6 +3514,7 @@ class CreateGroupResponse {
     this.latestVersionArn,
     this.name,
   });
+
   factory CreateGroupResponse.fromJson(Map<String, dynamic> json) {
     return CreateGroupResponse(
       arn: json['Arn'] as String?,
@@ -3526,6 +3547,7 @@ class CreateGroupVersionResponse {
     this.id,
     this.version,
   });
+
   factory CreateGroupVersionResponse.fromJson(Map<String, dynamic> json) {
     return CreateGroupVersionResponse(
       arn: json['Arn'] as String?,
@@ -3568,6 +3590,7 @@ class CreateLoggerDefinitionResponse {
     this.latestVersionArn,
     this.name,
   });
+
   factory CreateLoggerDefinitionResponse.fromJson(Map<String, dynamic> json) {
     return CreateLoggerDefinitionResponse(
       arn: json['Arn'] as String?,
@@ -3600,6 +3623,7 @@ class CreateLoggerDefinitionVersionResponse {
     this.id,
     this.version,
   });
+
   factory CreateLoggerDefinitionVersionResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateLoggerDefinitionVersionResponse(
@@ -3643,6 +3667,7 @@ class CreateResourceDefinitionResponse {
     this.latestVersionArn,
     this.name,
   });
+
   factory CreateResourceDefinitionResponse.fromJson(Map<String, dynamic> json) {
     return CreateResourceDefinitionResponse(
       arn: json['Arn'] as String?,
@@ -3675,6 +3700,7 @@ class CreateResourceDefinitionVersionResponse {
     this.id,
     this.version,
   });
+
   factory CreateResourceDefinitionVersionResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateResourceDefinitionVersionResponse(
@@ -3701,6 +3727,7 @@ class CreateSoftwareUpdateJobResponse {
     this.iotJobId,
     this.platformSoftwareVersion,
   });
+
   factory CreateSoftwareUpdateJobResponse.fromJson(Map<String, dynamic> json) {
     return CreateSoftwareUpdateJobResponse(
       iotJobArn: json['IotJobArn'] as String?,
@@ -3742,6 +3769,7 @@ class CreateSubscriptionDefinitionResponse {
     this.latestVersionArn,
     this.name,
   });
+
   factory CreateSubscriptionDefinitionResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateSubscriptionDefinitionResponse(
@@ -3775,6 +3803,7 @@ class CreateSubscriptionDefinitionVersionResponse {
     this.id,
     this.version,
   });
+
   factory CreateSubscriptionDefinitionVersionResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateSubscriptionDefinitionVersionResponse(
@@ -3823,6 +3852,7 @@ class DefinitionInformation {
     this.name,
     this.tags,
   });
+
   factory DefinitionInformation.fromJson(Map<String, dynamic> json) {
     return DefinitionInformation(
       arn: json['Arn'] as String?,
@@ -3840,6 +3870,7 @@ class DefinitionInformation {
 
 class DeleteConnectorDefinitionResponse {
   DeleteConnectorDefinitionResponse();
+
   factory DeleteConnectorDefinitionResponse.fromJson(Map<String, dynamic> _) {
     return DeleteConnectorDefinitionResponse();
   }
@@ -3847,6 +3878,7 @@ class DeleteConnectorDefinitionResponse {
 
 class DeleteCoreDefinitionResponse {
   DeleteCoreDefinitionResponse();
+
   factory DeleteCoreDefinitionResponse.fromJson(Map<String, dynamic> _) {
     return DeleteCoreDefinitionResponse();
   }
@@ -3854,6 +3886,7 @@ class DeleteCoreDefinitionResponse {
 
 class DeleteDeviceDefinitionResponse {
   DeleteDeviceDefinitionResponse();
+
   factory DeleteDeviceDefinitionResponse.fromJson(Map<String, dynamic> _) {
     return DeleteDeviceDefinitionResponse();
   }
@@ -3861,6 +3894,7 @@ class DeleteDeviceDefinitionResponse {
 
 class DeleteFunctionDefinitionResponse {
   DeleteFunctionDefinitionResponse();
+
   factory DeleteFunctionDefinitionResponse.fromJson(Map<String, dynamic> _) {
     return DeleteFunctionDefinitionResponse();
   }
@@ -3868,6 +3902,7 @@ class DeleteFunctionDefinitionResponse {
 
 class DeleteGroupResponse {
   DeleteGroupResponse();
+
   factory DeleteGroupResponse.fromJson(Map<String, dynamic> _) {
     return DeleteGroupResponse();
   }
@@ -3875,6 +3910,7 @@ class DeleteGroupResponse {
 
 class DeleteLoggerDefinitionResponse {
   DeleteLoggerDefinitionResponse();
+
   factory DeleteLoggerDefinitionResponse.fromJson(Map<String, dynamic> _) {
     return DeleteLoggerDefinitionResponse();
   }
@@ -3882,6 +3918,7 @@ class DeleteLoggerDefinitionResponse {
 
 class DeleteResourceDefinitionResponse {
   DeleteResourceDefinitionResponse();
+
   factory DeleteResourceDefinitionResponse.fromJson(Map<String, dynamic> _) {
     return DeleteResourceDefinitionResponse();
   }
@@ -3889,6 +3926,7 @@ class DeleteResourceDefinitionResponse {
 
 class DeleteSubscriptionDefinitionResponse {
   DeleteSubscriptionDefinitionResponse();
+
   factory DeleteSubscriptionDefinitionResponse.fromJson(
       Map<String, dynamic> _) {
     return DeleteSubscriptionDefinitionResponse();
@@ -3919,6 +3957,7 @@ class Deployment {
     this.deploymentType,
     this.groupArn,
   });
+
   factory Deployment.fromJson(Map<String, dynamic> json) {
     return Deployment(
       createdAt: json['CreatedAt'] as String?,
@@ -3993,6 +4032,7 @@ class Device {
     required this.thingArn,
     this.syncShadow,
   });
+
   factory Device.fromJson(Map<String, dynamic> json) {
     return Device(
       certificateArn: json['CertificateArn'] as String,
@@ -4024,6 +4064,7 @@ class DeviceDefinitionVersion {
   DeviceDefinitionVersion({
     this.devices,
   });
+
   factory DeviceDefinitionVersion.fromJson(Map<String, dynamic> json) {
     return DeviceDefinitionVersion(
       devices: (json['Devices'] as List?)
@@ -4049,6 +4090,7 @@ class DisassociateRoleFromGroupResponse {
   DisassociateRoleFromGroupResponse({
     this.disassociatedAt,
   });
+
   factory DisassociateRoleFromGroupResponse.fromJson(
       Map<String, dynamic> json) {
     return DisassociateRoleFromGroupResponse(
@@ -4064,6 +4106,7 @@ class DisassociateServiceRoleFromAccountResponse {
   DisassociateServiceRoleFromAccountResponse({
     this.disassociatedAt,
   });
+
   factory DisassociateServiceRoleFromAccountResponse.fromJson(
       Map<String, dynamic> json) {
     return DisassociateServiceRoleFromAccountResponse(
@@ -4112,6 +4155,7 @@ class ErrorDetail {
     this.detailedErrorCode,
     this.detailedErrorMessage,
   });
+
   factory ErrorDetail.fromJson(Map<String, dynamic> json) {
     return ErrorDetail(
       detailedErrorCode: json['DetailedErrorCode'] as String?,
@@ -4138,6 +4182,7 @@ class $Function {
     this.functionArn,
     this.functionConfiguration,
   });
+
   factory $Function.fromJson(Map<String, dynamic> json) {
     return $Function(
       id: json['Id'] as String,
@@ -4177,6 +4222,10 @@ class FunctionConfiguration {
   /// The name of the function executable.
   final String? executable;
 
+  /// The Lambda runtime supported by Greengrass which is to be used instead of
+  /// the one specified in the Lambda function.
+  final String? functionRuntimeOverride;
+
   /// The memory size, in KB, which the function requires. This setting is not
   /// applicable and should be cleared when you run the Lambda function without
   /// containerization.
@@ -4196,10 +4245,12 @@ class FunctionConfiguration {
     this.environment,
     this.execArgs,
     this.executable,
+    this.functionRuntimeOverride,
     this.memorySize,
     this.pinned,
     this.timeout,
   });
+
   factory FunctionConfiguration.fromJson(Map<String, dynamic> json) {
     return FunctionConfiguration(
       encodingType: (json['EncodingType'] as String?)?.toEncodingType(),
@@ -4209,6 +4260,7 @@ class FunctionConfiguration {
           : null,
       execArgs: json['ExecArgs'] as String?,
       executable: json['Executable'] as String?,
+      functionRuntimeOverride: json['FunctionRuntimeOverride'] as String?,
       memorySize: json['MemorySize'] as int?,
       pinned: json['Pinned'] as bool?,
       timeout: json['Timeout'] as int?,
@@ -4220,6 +4272,7 @@ class FunctionConfiguration {
     final environment = this.environment;
     final execArgs = this.execArgs;
     final executable = this.executable;
+    final functionRuntimeOverride = this.functionRuntimeOverride;
     final memorySize = this.memorySize;
     final pinned = this.pinned;
     final timeout = this.timeout;
@@ -4228,6 +4281,8 @@ class FunctionConfiguration {
       if (environment != null) 'Environment': environment,
       if (execArgs != null) 'ExecArgs': execArgs,
       if (executable != null) 'Executable': executable,
+      if (functionRuntimeOverride != null)
+        'FunctionRuntimeOverride': functionRuntimeOverride,
       if (memorySize != null) 'MemorySize': memorySize,
       if (pinned != null) 'Pinned': pinned,
       if (timeout != null) 'Timeout': timeout,
@@ -4261,6 +4316,7 @@ class FunctionConfigurationEnvironment {
     this.resourceAccessPolicies,
     this.variables,
   });
+
   factory FunctionConfigurationEnvironment.fromJson(Map<String, dynamic> json) {
     return FunctionConfigurationEnvironment(
       accessSysfs: json['AccessSysfs'] as bool?,
@@ -4300,6 +4356,7 @@ class FunctionDefaultConfig {
   FunctionDefaultConfig({
     this.execution,
   });
+
   factory FunctionDefaultConfig.fromJson(Map<String, dynamic> json) {
     return FunctionDefaultConfig(
       execution: json['Execution'] != null
@@ -4326,6 +4383,7 @@ class FunctionDefaultExecutionConfig {
     this.isolationMode,
     this.runAs,
   });
+
   factory FunctionDefaultExecutionConfig.fromJson(Map<String, dynamic> json) {
     return FunctionDefaultExecutionConfig(
       isolationMode:
@@ -4360,6 +4418,7 @@ class FunctionDefinitionVersion {
     this.defaultConfig,
     this.functions,
   });
+
   factory FunctionDefinitionVersion.fromJson(Map<String, dynamic> json) {
     return FunctionDefinitionVersion(
       defaultConfig: json['DefaultConfig'] != null
@@ -4392,6 +4451,7 @@ class FunctionExecutionConfig {
     this.isolationMode,
     this.runAs,
   });
+
   factory FunctionExecutionConfig.fromJson(Map<String, dynamic> json) {
     return FunctionExecutionConfig(
       isolationMode:
@@ -4463,6 +4523,7 @@ class FunctionRunAsConfig {
     this.gid,
     this.uid,
   });
+
   factory FunctionRunAsConfig.fromJson(Map<String, dynamic> json) {
     return FunctionRunAsConfig(
       gid: json['Gid'] as int?,
@@ -4491,6 +4552,7 @@ class GetAssociatedRoleResponse {
     this.associatedAt,
     this.roleArn,
   });
+
   factory GetAssociatedRoleResponse.fromJson(Map<String, dynamic> json) {
     return GetAssociatedRoleResponse(
       associatedAt: json['AssociatedAt'] as String?,
@@ -4526,6 +4588,7 @@ class GetBulkDeploymentStatusResponse {
     this.errorMessage,
     this.tags,
   });
+
   factory GetBulkDeploymentStatusResponse.fromJson(Map<String, dynamic> json) {
     return GetBulkDeploymentStatusResponse(
       bulkDeploymentMetrics: json['BulkDeploymentMetrics'] != null
@@ -4557,6 +4620,7 @@ class GetConnectivityInfoResponse {
     this.connectivityInfo,
     this.message,
   });
+
   factory GetConnectivityInfoResponse.fromJson(Map<String, dynamic> json) {
     return GetConnectivityInfoResponse(
       connectivityInfo: (json['ConnectivityInfo'] as List?)
@@ -4604,6 +4668,7 @@ class GetConnectorDefinitionResponse {
     this.name,
     this.tags,
   });
+
   factory GetConnectorDefinitionResponse.fromJson(Map<String, dynamic> json) {
     return GetConnectorDefinitionResponse(
       arn: json['Arn'] as String?,
@@ -4648,6 +4713,7 @@ class GetConnectorDefinitionVersionResponse {
     this.nextToken,
     this.version,
   });
+
   factory GetConnectorDefinitionVersionResponse.fromJson(
       Map<String, dynamic> json) {
     return GetConnectorDefinitionVersionResponse(
@@ -4700,6 +4766,7 @@ class GetCoreDefinitionResponse {
     this.name,
     this.tags,
   });
+
   factory GetCoreDefinitionResponse.fromJson(Map<String, dynamic> json) {
     return GetCoreDefinitionResponse(
       arn: json['Arn'] as String?,
@@ -4744,6 +4811,7 @@ class GetCoreDefinitionVersionResponse {
     this.nextToken,
     this.version,
   });
+
   factory GetCoreDefinitionVersionResponse.fromJson(Map<String, dynamic> json) {
     return GetCoreDefinitionVersionResponse(
       arn: json['Arn'] as String?,
@@ -4784,6 +4852,7 @@ class GetDeploymentStatusResponse {
     this.errorMessage,
     this.updatedAt,
   });
+
   factory GetDeploymentStatusResponse.fromJson(Map<String, dynamic> json) {
     return GetDeploymentStatusResponse(
       deploymentStatus: json['DeploymentStatus'] as String?,
@@ -4834,6 +4903,7 @@ class GetDeviceDefinitionResponse {
     this.name,
     this.tags,
   });
+
   factory GetDeviceDefinitionResponse.fromJson(Map<String, dynamic> json) {
     return GetDeviceDefinitionResponse(
       arn: json['Arn'] as String?,
@@ -4878,6 +4948,7 @@ class GetDeviceDefinitionVersionResponse {
     this.nextToken,
     this.version,
   });
+
   factory GetDeviceDefinitionVersionResponse.fromJson(
       Map<String, dynamic> json) {
     return GetDeviceDefinitionVersionResponse(
@@ -4930,6 +5001,7 @@ class GetFunctionDefinitionResponse {
     this.name,
     this.tags,
   });
+
   factory GetFunctionDefinitionResponse.fromJson(Map<String, dynamic> json) {
     return GetFunctionDefinitionResponse(
       arn: json['Arn'] as String?,
@@ -4974,6 +5046,7 @@ class GetFunctionDefinitionVersionResponse {
     this.nextToken,
     this.version,
   });
+
   factory GetFunctionDefinitionVersionResponse.fromJson(
       Map<String, dynamic> json) {
     return GetFunctionDefinitionVersionResponse(
@@ -5005,6 +5078,7 @@ class GetGroupCertificateAuthorityResponse {
     this.groupCertificateAuthorityId,
     this.pemEncodedCertificate,
   });
+
   factory GetGroupCertificateAuthorityResponse.fromJson(
       Map<String, dynamic> json) {
     return GetGroupCertificateAuthorityResponse(
@@ -5034,6 +5108,7 @@ class GetGroupCertificateConfigurationResponse {
     this.certificateExpiryInMilliseconds,
     this.groupId,
   });
+
   factory GetGroupCertificateConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return GetGroupCertificateConfigurationResponse(
@@ -5082,6 +5157,7 @@ class GetGroupResponse {
     this.name,
     this.tags,
   });
+
   factory GetGroupResponse.fromJson(Map<String, dynamic> json) {
     return GetGroupResponse(
       arn: json['Arn'] as String?,
@@ -5121,6 +5197,7 @@ class GetGroupVersionResponse {
     this.id,
     this.version,
   });
+
   factory GetGroupVersionResponse.fromJson(Map<String, dynamic> json) {
     return GetGroupVersionResponse(
       arn: json['Arn'] as String?,
@@ -5170,6 +5247,7 @@ class GetLoggerDefinitionResponse {
     this.name,
     this.tags,
   });
+
   factory GetLoggerDefinitionResponse.fromJson(Map<String, dynamic> json) {
     return GetLoggerDefinitionResponse(
       arn: json['Arn'] as String?,
@@ -5209,6 +5287,7 @@ class GetLoggerDefinitionVersionResponse {
     this.id,
     this.version,
   });
+
   factory GetLoggerDefinitionVersionResponse.fromJson(
       Map<String, dynamic> json) {
     return GetLoggerDefinitionVersionResponse(
@@ -5260,6 +5339,7 @@ class GetResourceDefinitionResponse {
     this.name,
     this.tags,
   });
+
   factory GetResourceDefinitionResponse.fromJson(Map<String, dynamic> json) {
     return GetResourceDefinitionResponse(
       arn: json['Arn'] as String?,
@@ -5299,6 +5379,7 @@ class GetResourceDefinitionVersionResponse {
     this.id,
     this.version,
   });
+
   factory GetResourceDefinitionVersionResponse.fromJson(
       Map<String, dynamic> json) {
     return GetResourceDefinitionVersionResponse(
@@ -5325,6 +5406,7 @@ class GetServiceRoleForAccountResponse {
     this.associatedAt,
     this.roleArn,
   });
+
   factory GetServiceRoleForAccountResponse.fromJson(Map<String, dynamic> json) {
     return GetServiceRoleForAccountResponse(
       associatedAt: json['AssociatedAt'] as String?,
@@ -5369,6 +5451,7 @@ class GetSubscriptionDefinitionResponse {
     this.name,
     this.tags,
   });
+
   factory GetSubscriptionDefinitionResponse.fromJson(
       Map<String, dynamic> json) {
     return GetSubscriptionDefinitionResponse(
@@ -5414,6 +5497,7 @@ class GetSubscriptionDefinitionVersionResponse {
     this.nextToken,
     this.version,
   });
+
   factory GetSubscriptionDefinitionVersionResponse.fromJson(
       Map<String, dynamic> json) {
     return GetSubscriptionDefinitionVersionResponse(
@@ -5437,6 +5521,7 @@ class GetThingRuntimeConfigurationResponse {
   GetThingRuntimeConfigurationResponse({
     this.runtimeConfiguration,
   });
+
   factory GetThingRuntimeConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return GetThingRuntimeConfigurationResponse(
@@ -5460,6 +5545,7 @@ class GroupCertificateAuthorityProperties {
     this.groupCertificateAuthorityArn,
     this.groupCertificateAuthorityId,
   });
+
   factory GroupCertificateAuthorityProperties.fromJson(
       Map<String, dynamic> json) {
     return GroupCertificateAuthorityProperties(
@@ -5503,6 +5589,7 @@ class GroupInformation {
     this.latestVersionArn,
     this.name,
   });
+
   factory GroupInformation.fromJson(Map<String, dynamic> json) {
     return GroupInformation(
       arn: json['Arn'] as String?,
@@ -5531,6 +5618,7 @@ class GroupOwnerSetting {
     this.autoAddGroupOwner,
     this.groupOwner,
   });
+
   factory GroupOwnerSetting.fromJson(Map<String, dynamic> json) {
     return GroupOwnerSetting(
       autoAddGroupOwner: json['AutoAddGroupOwner'] as bool?,
@@ -5580,6 +5668,7 @@ class GroupVersion {
     this.resourceDefinitionVersionArn,
     this.subscriptionDefinitionVersionArn,
   });
+
   factory GroupVersion.fromJson(Map<String, dynamic> json) {
     return GroupVersion(
       connectorDefinitionVersionArn:
@@ -5636,6 +5725,7 @@ class ListBulkDeploymentDetailedReportsResponse {
     this.deployments,
     this.nextToken,
   });
+
   factory ListBulkDeploymentDetailedReportsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListBulkDeploymentDetailedReportsResponse(
@@ -5660,6 +5750,7 @@ class ListBulkDeploymentsResponse {
     this.bulkDeployments,
     this.nextToken,
   });
+
   factory ListBulkDeploymentsResponse.fromJson(Map<String, dynamic> json) {
     return ListBulkDeploymentsResponse(
       bulkDeployments: (json['BulkDeployments'] as List?)
@@ -5683,6 +5774,7 @@ class ListConnectorDefinitionVersionsResponse {
     this.nextToken,
     this.versions,
   });
+
   factory ListConnectorDefinitionVersionsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListConnectorDefinitionVersionsResponse(
@@ -5707,6 +5799,7 @@ class ListConnectorDefinitionsResponse {
     this.definitions,
     this.nextToken,
   });
+
   factory ListConnectorDefinitionsResponse.fromJson(Map<String, dynamic> json) {
     return ListConnectorDefinitionsResponse(
       definitions: (json['Definitions'] as List?)
@@ -5730,6 +5823,7 @@ class ListCoreDefinitionVersionsResponse {
     this.nextToken,
     this.versions,
   });
+
   factory ListCoreDefinitionVersionsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListCoreDefinitionVersionsResponse(
@@ -5754,6 +5848,7 @@ class ListCoreDefinitionsResponse {
     this.definitions,
     this.nextToken,
   });
+
   factory ListCoreDefinitionsResponse.fromJson(Map<String, dynamic> json) {
     return ListCoreDefinitionsResponse(
       definitions: (json['Definitions'] as List?)
@@ -5777,6 +5872,7 @@ class ListDeploymentsResponse {
     this.deployments,
     this.nextToken,
   });
+
   factory ListDeploymentsResponse.fromJson(Map<String, dynamic> json) {
     return ListDeploymentsResponse(
       deployments: (json['Deployments'] as List?)
@@ -5800,6 +5896,7 @@ class ListDeviceDefinitionVersionsResponse {
     this.nextToken,
     this.versions,
   });
+
   factory ListDeviceDefinitionVersionsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListDeviceDefinitionVersionsResponse(
@@ -5824,6 +5921,7 @@ class ListDeviceDefinitionsResponse {
     this.definitions,
     this.nextToken,
   });
+
   factory ListDeviceDefinitionsResponse.fromJson(Map<String, dynamic> json) {
     return ListDeviceDefinitionsResponse(
       definitions: (json['Definitions'] as List?)
@@ -5847,6 +5945,7 @@ class ListFunctionDefinitionVersionsResponse {
     this.nextToken,
     this.versions,
   });
+
   factory ListFunctionDefinitionVersionsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListFunctionDefinitionVersionsResponse(
@@ -5871,6 +5970,7 @@ class ListFunctionDefinitionsResponse {
     this.definitions,
     this.nextToken,
   });
+
   factory ListFunctionDefinitionsResponse.fromJson(Map<String, dynamic> json) {
     return ListFunctionDefinitionsResponse(
       definitions: (json['Definitions'] as List?)
@@ -5889,6 +5989,7 @@ class ListGroupCertificateAuthoritiesResponse {
   ListGroupCertificateAuthoritiesResponse({
     this.groupCertificateAuthorities,
   });
+
   factory ListGroupCertificateAuthoritiesResponse.fromJson(
       Map<String, dynamic> json) {
     return ListGroupCertificateAuthoritiesResponse(
@@ -5914,6 +6015,7 @@ class ListGroupVersionsResponse {
     this.nextToken,
     this.versions,
   });
+
   factory ListGroupVersionsResponse.fromJson(Map<String, dynamic> json) {
     return ListGroupVersionsResponse(
       nextToken: json['NextToken'] as String?,
@@ -5937,6 +6039,7 @@ class ListGroupsResponse {
     this.groups,
     this.nextToken,
   });
+
   factory ListGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListGroupsResponse(
       groups: (json['Groups'] as List?)
@@ -5960,6 +6063,7 @@ class ListLoggerDefinitionVersionsResponse {
     this.nextToken,
     this.versions,
   });
+
   factory ListLoggerDefinitionVersionsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListLoggerDefinitionVersionsResponse(
@@ -5984,6 +6088,7 @@ class ListLoggerDefinitionsResponse {
     this.definitions,
     this.nextToken,
   });
+
   factory ListLoggerDefinitionsResponse.fromJson(Map<String, dynamic> json) {
     return ListLoggerDefinitionsResponse(
       definitions: (json['Definitions'] as List?)
@@ -6007,6 +6112,7 @@ class ListResourceDefinitionVersionsResponse {
     this.nextToken,
     this.versions,
   });
+
   factory ListResourceDefinitionVersionsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListResourceDefinitionVersionsResponse(
@@ -6031,6 +6137,7 @@ class ListResourceDefinitionsResponse {
     this.definitions,
     this.nextToken,
   });
+
   factory ListResourceDefinitionsResponse.fromJson(Map<String, dynamic> json) {
     return ListResourceDefinitionsResponse(
       definitions: (json['Definitions'] as List?)
@@ -6054,6 +6161,7 @@ class ListSubscriptionDefinitionVersionsResponse {
     this.nextToken,
     this.versions,
   });
+
   factory ListSubscriptionDefinitionVersionsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListSubscriptionDefinitionVersionsResponse(
@@ -6078,6 +6186,7 @@ class ListSubscriptionDefinitionsResponse {
     this.definitions,
     this.nextToken,
   });
+
   factory ListSubscriptionDefinitionsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListSubscriptionDefinitionsResponse(
@@ -6096,6 +6205,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -6118,6 +6228,7 @@ class LocalDeviceResourceData {
     this.groupOwnerSetting,
     this.sourcePath,
   });
+
   factory LocalDeviceResourceData.fromJson(Map<String, dynamic> json) {
     return LocalDeviceResourceData(
       groupOwnerSetting: json['GroupOwnerSetting'] != null
@@ -6156,6 +6267,7 @@ class LocalVolumeResourceData {
     this.groupOwnerSetting,
     this.sourcePath,
   });
+
   factory LocalVolumeResourceData.fromJson(Map<String, dynamic> json) {
     return LocalVolumeResourceData(
       destinationPath: json['DestinationPath'] as String?,
@@ -6206,6 +6318,7 @@ class Logger {
     required this.type,
     this.space,
   });
+
   factory Logger.fromJson(Map<String, dynamic> json) {
     return Logger(
       component: (json['Component'] as String).toLoggerComponent(),
@@ -6268,6 +6381,7 @@ class LoggerDefinitionVersion {
   LoggerDefinitionVersion({
     this.loggers,
   });
+
   factory LoggerDefinitionVersion.fromJson(Map<String, dynamic> json) {
     return LoggerDefinitionVersion(
       loggers: (json['Loggers'] as List?)
@@ -6396,6 +6510,7 @@ class ResetDeploymentsResponse {
     this.deploymentArn,
     this.deploymentId,
   });
+
   factory ResetDeploymentsResponse.fromJson(Map<String, dynamic> json) {
     return ResetDeploymentsResponse(
       deploymentArn: json['DeploymentArn'] as String?,
@@ -6424,6 +6539,7 @@ class Resource {
     required this.name,
     required this.resourceDataContainer,
   });
+
   factory Resource.fromJson(Map<String, dynamic> json) {
     return Resource(
       id: json['Id'] as String,
@@ -6459,6 +6575,7 @@ class ResourceAccessPolicy {
     required this.resourceId,
     this.permission,
   });
+
   factory ResourceAccessPolicy.fromJson(Map<String, dynamic> json) {
     return ResourceAccessPolicy(
       resourceId: json['ResourceId'] as String,
@@ -6506,6 +6623,7 @@ class ResourceDataContainer {
     this.sageMakerMachineLearningModelResourceData,
     this.secretsManagerSecretResourceData,
   });
+
   factory ResourceDataContainer.fromJson(Map<String, dynamic> json) {
     return ResourceDataContainer(
       localDeviceResourceData: json['LocalDeviceResourceData'] != null
@@ -6571,6 +6689,7 @@ class ResourceDefinitionVersion {
   ResourceDefinitionVersion({
     this.resources,
   });
+
   factory ResourceDefinitionVersion.fromJson(Map<String, dynamic> json) {
     return ResourceDefinitionVersion(
       resources: (json['Resources'] as List?)
@@ -6603,6 +6722,7 @@ class ResourceDownloadOwnerSetting {
     required this.groupOwner,
     required this.groupPermission,
   });
+
   factory ResourceDownloadOwnerSetting.fromJson(Map<String, dynamic> json) {
     return ResourceDownloadOwnerSetting(
       groupOwner: json['GroupOwner'] as String,
@@ -6628,6 +6748,7 @@ class RuntimeConfiguration {
   RuntimeConfiguration({
     this.telemetryConfiguration,
   });
+
   factory RuntimeConfiguration.fromJson(Map<String, dynamic> json) {
     return RuntimeConfiguration(
       telemetryConfiguration: json['TelemetryConfiguration'] != null
@@ -6653,6 +6774,7 @@ class S3MachineLearningModelResourceData {
     this.ownerSetting,
     this.s3Uri,
   });
+
   factory S3MachineLearningModelResourceData.fromJson(
       Map<String, dynamic> json) {
     return S3MachineLearningModelResourceData(
@@ -6692,6 +6814,7 @@ class SageMakerMachineLearningModelResourceData {
     this.ownerSetting,
     this.sageMakerJobArn,
   });
+
   factory SageMakerMachineLearningModelResourceData.fromJson(
       Map<String, dynamic> json) {
     return SageMakerMachineLearningModelResourceData(
@@ -6734,6 +6857,7 @@ class SecretsManagerSecretResourceData {
     this.arn,
     this.additionalStagingLabelsToDownload,
   });
+
   factory SecretsManagerSecretResourceData.fromJson(Map<String, dynamic> json) {
     return SecretsManagerSecretResourceData(
       arn: json['ARN'] as String?,
@@ -6797,6 +6921,7 @@ class StartBulkDeploymentResponse {
     this.bulkDeploymentArn,
     this.bulkDeploymentId,
   });
+
   factory StartBulkDeploymentResponse.fromJson(Map<String, dynamic> json) {
     return StartBulkDeploymentResponse(
       bulkDeploymentArn: json['BulkDeploymentArn'] as String?,
@@ -6807,6 +6932,7 @@ class StartBulkDeploymentResponse {
 
 class StopBulkDeploymentResponse {
   StopBulkDeploymentResponse();
+
   factory StopBulkDeploymentResponse.fromJson(Map<String, dynamic> _) {
     return StopBulkDeploymentResponse();
   }
@@ -6838,6 +6964,7 @@ class Subscription {
     required this.subject,
     required this.target,
   });
+
   factory Subscription.fromJson(Map<String, dynamic> json) {
     return Subscription(
       id: json['Id'] as String,
@@ -6869,6 +6996,7 @@ class SubscriptionDefinitionVersion {
   SubscriptionDefinitionVersion({
     this.subscriptions,
   });
+
   factory SubscriptionDefinitionVersion.fromJson(Map<String, dynamic> json) {
     return SubscriptionDefinitionVersion(
       subscriptions: (json['Subscriptions'] as List?)
@@ -6927,6 +7055,7 @@ class TelemetryConfiguration {
     required this.telemetry,
     this.configurationSyncStatus,
   });
+
   factory TelemetryConfiguration.fromJson(Map<String, dynamic> json) {
     return TelemetryConfiguration(
       telemetry: (json['Telemetry'] as String).toTelemetry(),
@@ -7023,6 +7152,7 @@ class UpdateConnectivityInfoResponse {
     this.message,
     this.version,
   });
+
   factory UpdateConnectivityInfoResponse.fromJson(Map<String, dynamic> json) {
     return UpdateConnectivityInfoResponse(
       message: json['message'] as String?,
@@ -7033,6 +7163,7 @@ class UpdateConnectivityInfoResponse {
 
 class UpdateConnectorDefinitionResponse {
   UpdateConnectorDefinitionResponse();
+
   factory UpdateConnectorDefinitionResponse.fromJson(Map<String, dynamic> _) {
     return UpdateConnectorDefinitionResponse();
   }
@@ -7040,6 +7171,7 @@ class UpdateConnectorDefinitionResponse {
 
 class UpdateCoreDefinitionResponse {
   UpdateCoreDefinitionResponse();
+
   factory UpdateCoreDefinitionResponse.fromJson(Map<String, dynamic> _) {
     return UpdateCoreDefinitionResponse();
   }
@@ -7047,6 +7179,7 @@ class UpdateCoreDefinitionResponse {
 
 class UpdateDeviceDefinitionResponse {
   UpdateDeviceDefinitionResponse();
+
   factory UpdateDeviceDefinitionResponse.fromJson(Map<String, dynamic> _) {
     return UpdateDeviceDefinitionResponse();
   }
@@ -7054,6 +7187,7 @@ class UpdateDeviceDefinitionResponse {
 
 class UpdateFunctionDefinitionResponse {
   UpdateFunctionDefinitionResponse();
+
   factory UpdateFunctionDefinitionResponse.fromJson(Map<String, dynamic> _) {
     return UpdateFunctionDefinitionResponse();
   }
@@ -7076,6 +7210,7 @@ class UpdateGroupCertificateConfigurationResponse {
     this.certificateExpiryInMilliseconds,
     this.groupId,
   });
+
   factory UpdateGroupCertificateConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return UpdateGroupCertificateConfigurationResponse(
@@ -7090,6 +7225,7 @@ class UpdateGroupCertificateConfigurationResponse {
 
 class UpdateGroupResponse {
   UpdateGroupResponse();
+
   factory UpdateGroupResponse.fromJson(Map<String, dynamic> _) {
     return UpdateGroupResponse();
   }
@@ -7097,6 +7233,7 @@ class UpdateGroupResponse {
 
 class UpdateLoggerDefinitionResponse {
   UpdateLoggerDefinitionResponse();
+
   factory UpdateLoggerDefinitionResponse.fromJson(Map<String, dynamic> _) {
     return UpdateLoggerDefinitionResponse();
   }
@@ -7104,6 +7241,7 @@ class UpdateLoggerDefinitionResponse {
 
 class UpdateResourceDefinitionResponse {
   UpdateResourceDefinitionResponse();
+
   factory UpdateResourceDefinitionResponse.fromJson(Map<String, dynamic> _) {
     return UpdateResourceDefinitionResponse();
   }
@@ -7111,6 +7249,7 @@ class UpdateResourceDefinitionResponse {
 
 class UpdateSubscriptionDefinitionResponse {
   UpdateSubscriptionDefinitionResponse();
+
   factory UpdateSubscriptionDefinitionResponse.fromJson(
       Map<String, dynamic> _) {
     return UpdateSubscriptionDefinitionResponse();
@@ -7198,6 +7337,7 @@ extension UpdateTargetsOperatingSystemFromString on String {
 
 class UpdateThingRuntimeConfigurationResponse {
   UpdateThingRuntimeConfigurationResponse();
+
   factory UpdateThingRuntimeConfigurationResponse.fromJson(
       Map<String, dynamic> _) {
     return UpdateThingRuntimeConfigurationResponse();
@@ -7224,6 +7364,7 @@ class VersionInformation {
     this.id,
     this.version,
   });
+
   factory VersionInformation.fromJson(Map<String, dynamic> json) {
     return VersionInformation(
       arn: json['Arn'] as String?,

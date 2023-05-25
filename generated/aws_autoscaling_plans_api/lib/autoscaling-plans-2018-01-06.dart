@@ -18,11 +18,8 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// Use AWS Auto Scaling to quickly discover all the scalable AWS resources for
-/// your application and configure dynamic scaling and predictive scaling for
-/// your resources using scaling plans. Use this service in conjunction with the
-/// Amazon EC2 Auto Scaling, Application Auto Scaling, Amazon CloudWatch, and
-/// AWS CloudFormation services.
+/// Use AWS Auto Scaling to create scaling plans for your applications to
+/// automatically scale your scalable AWS resources.
 class AutoScalingPlans {
   final _s.JsonProtocol _protocol;
   AutoScalingPlans({
@@ -63,8 +60,16 @@ class AutoScalingPlans {
   /// A CloudFormation stack or set of tags. You can create one scaling plan per
   /// application source.
   ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/plans/APIReference/API_ApplicationSource.html">ApplicationSource</a>
+  /// in the <i>AWS Auto Scaling API Reference</i>.
+  ///
   /// Parameter [scalingInstructions] :
   /// The scaling instructions.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/plans/APIReference/API_ScalingInstruction.html">ScalingInstruction</a>
+  /// in the <i>AWS Auto Scaling API Reference</i>.
   ///
   /// Parameter [scalingPlanName] :
   /// The name of the scaling plan. Names cannot contain vertical bars, colons,
@@ -111,7 +116,8 @@ class AutoScalingPlans {
   /// The name of the scaling plan.
   ///
   /// Parameter [scalingPlanVersion] :
-  /// The version number of the scaling plan.
+  /// The version number of the scaling plan. Currently, the only valid value is
+  /// <code>1</code>.
   Future<void> deleteScalingPlan({
     required String scalingPlanName,
     required int scalingPlanVersion,
@@ -144,7 +150,8 @@ class AutoScalingPlans {
   /// The name of the scaling plan.
   ///
   /// Parameter [scalingPlanVersion] :
-  /// The version number of the scaling plan.
+  /// The version number of the scaling plan. Currently, the only valid value is
+  /// <code>1</code>.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of scalable resources to return. The value must be
@@ -203,8 +210,12 @@ class AutoScalingPlans {
   /// sources, you cannot specify scaling plan names.
   ///
   /// Parameter [scalingPlanVersion] :
-  /// The version number of the scaling plan. If you specify a scaling plan
-  /// version, you must also specify a scaling plan name.
+  /// The version number of the scaling plan. Currently, the only valid value is
+  /// <code>1</code>.
+  /// <note>
+  /// If you specify a scaling plan version, you must also specify a scaling
+  /// plan name.
+  /// </note>
   Future<DescribeScalingPlansResponse> describeScalingPlans({
     List<ApplicationSource>? applicationSources,
     int? maxResults,
@@ -279,52 +290,25 @@ class AutoScalingPlans {
   /// </ul>
   ///
   /// Parameter [resourceId] :
-  /// The ID of the resource. This string consists of the resource type and
-  /// unique identifier.
-  ///
-  /// <ul>
-  /// <li>
-  /// Auto Scaling group - The resource type is <code>autoScalingGroup</code>
-  /// and the unique identifier is the name of the Auto Scaling group. Example:
+  /// The ID of the resource. This string consists of a prefix
+  /// (<code>autoScalingGroup</code>) followed by the name of a specified Auto
+  /// Scaling group (<code>my-asg</code>). Example:
   /// <code>autoScalingGroup/my-asg</code>.
-  /// </li>
-  /// <li>
-  /// ECS service - The resource type is <code>service</code> and the unique
-  /// identifier is the cluster name and service name. Example:
-  /// <code>service/default/sample-webapp</code>.
-  /// </li>
-  /// <li>
-  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
-  /// and the unique identifier is the Spot Fleet request ID. Example:
-  /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
-  /// </li>
-  /// <li>
-  /// DynamoDB table - The resource type is <code>table</code> and the unique
-  /// identifier is the resource ID. Example: <code>table/my-table</code>.
-  /// </li>
-  /// <li>
-  /// DynamoDB global secondary index - The resource type is <code>index</code>
-  /// and the unique identifier is the resource ID. Example:
-  /// <code>table/my-table/index/my-table-index</code>.
-  /// </li>
-  /// <li>
-  /// Aurora DB cluster - The resource type is <code>cluster</code> and the
-  /// unique identifier is the cluster name. Example:
-  /// <code>cluster:my-db-cluster</code>.
-  /// </li>
-  /// </ul>
   ///
   /// Parameter [scalableDimension] :
-  /// The scalable dimension for the resource.
+  /// The scalable dimension for the resource. The only valid value is
+  /// <code>autoscaling:autoScalingGroup:DesiredCapacity</code>.
   ///
   /// Parameter [scalingPlanName] :
   /// The name of the scaling plan.
   ///
   /// Parameter [scalingPlanVersion] :
-  /// The version number of the scaling plan.
+  /// The version number of the scaling plan. Currently, the only valid value is
+  /// <code>1</code>.
   ///
   /// Parameter [serviceNamespace] :
-  /// The namespace of the AWS service.
+  /// The namespace of the AWS service. The only valid value is
+  /// <code>autoscaling</code>.
   ///
   /// Parameter [startTime] :
   /// The inclusive start time of the time range for the forecast data to get.
@@ -381,13 +365,22 @@ class AutoScalingPlans {
   /// The name of the scaling plan.
   ///
   /// Parameter [scalingPlanVersion] :
-  /// The version number of the scaling plan.
+  /// The version number of the scaling plan. The only valid value is
+  /// <code>1</code>. Currently, you cannot have multiple scaling plan versions.
   ///
   /// Parameter [applicationSource] :
   /// A CloudFormation stack or set of tags.
   ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/plans/APIReference/API_ApplicationSource.html">ApplicationSource</a>
+  /// in the <i>AWS Auto Scaling API Reference</i>.
+  ///
   /// Parameter [scalingInstructions] :
   /// The scaling instructions.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/plans/APIReference/API_ScalingInstruction.html">ScalingInstruction</a>
+  /// in the <i>AWS Auto Scaling API Reference</i>.
   Future<void> updateScalingPlan({
     required String scalingPlanName,
     required int scalingPlanVersion,
@@ -427,6 +420,7 @@ class ApplicationSource {
     this.cloudFormationStackARN,
     this.tagFilters,
   });
+
   factory ApplicationSource.fromJson(Map<String, dynamic> json) {
     return ApplicationSource(
       cloudFormationStackARN: json['CloudFormationStackARN'] as String?,
@@ -449,14 +443,14 @@ class ApplicationSource {
 }
 
 class CreateScalingPlanResponse {
-  /// The version number of the scaling plan. This value is always 1.
-  ///
-  /// Currently, you cannot specify multiple scaling plan versions.
+  /// The version number of the scaling plan. This value is always <code>1</code>.
+  /// Currently, you cannot have multiple scaling plan versions.
   final int scalingPlanVersion;
 
   CreateScalingPlanResponse({
     required this.scalingPlanVersion,
   });
+
   factory CreateScalingPlanResponse.fromJson(Map<String, dynamic> json) {
     return CreateScalingPlanResponse(
       scalingPlanVersion: json['ScalingPlanVersion'] as int,
@@ -470,8 +464,6 @@ class CreateScalingPlanResponse {
 /// For predictive scaling to work with a customized load metric specification,
 /// AWS Auto Scaling needs access to the <code>Sum</code> and
 /// <code>Average</code> statistics that CloudWatch computes from metric data.
-/// Statistics are calculations used to aggregate data over specified time
-/// periods.
 ///
 /// When you choose a load metric, make sure that the required <code>Sum</code>
 /// and <code>Average</code> statistics for your metric are available in
@@ -485,10 +477,23 @@ class CreateScalingPlanResponse {
 /// must represent the average request count processed by each instance of the
 /// group.
 ///
+/// If you publish your own metrics, you can aggregate the data points at a
+/// given interval and then publish the aggregated data points to CloudWatch.
+/// Before AWS Auto Scaling generates the forecast, it sums up all the metric
+/// data points that occurred within each hour to match the granularity period
+/// that is used in the forecast (60 minutes).
+///
 /// For information about terminology, available metrics, or how to publish new
 /// metrics, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
 /// CloudWatch Concepts</a> in the <i>Amazon CloudWatch User Guide</i>.
+///
+/// After creating your scaling plan, you can use the AWS Auto Scaling console
+/// to visualize forecasts for the specified metric. For more information, see
+/// <a
+/// href="https://docs.aws.amazon.com/autoscaling/plans/userguide/gs-create-scaling-plan.html#gs-view-resource">View
+/// Scaling Information for a Resource</a> in the <i>AWS Auto Scaling User
+/// Guide</i>.
 class CustomizedLoadMetricSpecification {
   /// The name of the metric.
   final String metricName;
@@ -496,8 +501,7 @@ class CustomizedLoadMetricSpecification {
   /// The namespace of the metric.
   final String namespace;
 
-  /// The statistic of the metric. Currently, the value must always be
-  /// <code>Sum</code>.
+  /// The statistic of the metric. The only valid value is <code>Sum</code>.
   final MetricStatistic statistic;
 
   /// The dimensions of the metric.
@@ -516,6 +520,7 @@ class CustomizedLoadMetricSpecification {
     this.dimensions,
     this.unit,
   });
+
   factory CustomizedLoadMetricSpecification.fromJson(
       Map<String, dynamic> json) {
     return CustomizedLoadMetricSpecification(
@@ -567,9 +572,10 @@ class CustomizedLoadMetricSpecification {
 /// capacity increases.
 /// </li>
 /// </ul>
-/// For more information about CloudWatch, see <a
+/// For information about terminology, available metrics, or how to publish new
+/// metrics, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
-/// CloudWatch Concepts</a>.
+/// CloudWatch Concepts</a> in the <i>Amazon CloudWatch User Guide</i>.
 class CustomizedScalingMetricSpecification {
   /// The name of the metric.
   final String metricName;
@@ -596,6 +602,7 @@ class CustomizedScalingMetricSpecification {
     this.dimensions,
     this.unit,
   });
+
   factory CustomizedScalingMetricSpecification.fromJson(
       Map<String, dynamic> json) {
     return CustomizedScalingMetricSpecification(
@@ -638,6 +645,7 @@ class Datapoint {
     this.timestamp,
     this.value,
   });
+
   factory Datapoint.fromJson(Map<String, dynamic> json) {
     return Datapoint(
       timestamp: timeStampFromJson(json['Timestamp']),
@@ -648,6 +656,7 @@ class Datapoint {
 
 class DeleteScalingPlanResponse {
   DeleteScalingPlanResponse();
+
   factory DeleteScalingPlanResponse.fromJson(Map<String, dynamic> _) {
     return DeleteScalingPlanResponse();
   }
@@ -665,6 +674,7 @@ class DescribeScalingPlanResourcesResponse {
     this.nextToken,
     this.scalingPlanResources,
   });
+
   factory DescribeScalingPlanResourcesResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeScalingPlanResourcesResponse(
@@ -689,6 +699,7 @@ class DescribeScalingPlansResponse {
     this.nextToken,
     this.scalingPlans,
   });
+
   factory DescribeScalingPlansResponse.fromJson(Map<String, dynamic> json) {
     return DescribeScalingPlansResponse(
       nextToken: json['NextToken'] as String?,
@@ -745,6 +756,7 @@ class GetScalingPlanResourceForecastDataResponse {
   GetScalingPlanResourceForecastDataResponse({
     required this.datapoints,
   });
+
   factory GetScalingPlanResourceForecastDataResponse.fromJson(
       Map<String, dynamic> json) {
     return GetScalingPlanResourceForecastDataResponse(
@@ -806,6 +818,7 @@ class MetricDimension {
     required this.name,
     required this.value,
   });
+
   factory MetricDimension.fromJson(Map<String, dynamic> json) {
     return MetricDimension(
       name: json['Name'] as String,
@@ -890,35 +903,53 @@ extension PolicyTypeFromString on String {
 }
 
 /// Represents a predefined metric that can be used for predictive scaling.
+///
+/// After creating your scaling plan, you can use the AWS Auto Scaling console
+/// to visualize forecasts for the specified metric. For more information, see
+/// <a
+/// href="https://docs.aws.amazon.com/autoscaling/plans/userguide/gs-create-scaling-plan.html#gs-view-resource">View
+/// Scaling Information for a Resource</a> in the <i>AWS Auto Scaling User
+/// Guide</i>.
 class PredefinedLoadMetricSpecification {
   /// The metric type.
   final LoadMetricType predefinedLoadMetricType;
 
   /// Identifies the resource associated with the metric type. You can't specify a
   /// resource label unless the metric type is
-  /// <code>ALBRequestCountPerTarget</code> and there is a target group for an
+  /// <code>ALBTargetGroupRequestCount</code> and there is a target group for an
   /// Application Load Balancer attached to the Auto Scaling group.
   ///
-  /// The format is
+  /// You create the resource label by appending the final portion of the load
+  /// balancer ARN and the final portion of the target group ARN into a single
+  /// value, separated by a forward slash (/). The format is
   /// app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt;/targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt;,
   /// where:
   ///
   /// <ul>
   /// <li>
   /// app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion
-  /// of the load balancer ARN.
+  /// of the load balancer ARN
   /// </li>
   /// <li>
   /// targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final
   /// portion of the target group ARN.
   /// </li>
   /// </ul>
+  /// This is an example:
+  /// app/EC2Co-EcsEl-1TKLTMITMM0EO/f37c06a68c1748aa/targetgroup/EC2Co-Defau-LDNM7Q3ZH1ZN/6d4ea56ca2d6a18d.
+  ///
+  /// To find the ARN for an Application Load Balancer, use the <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
+  /// API operation. To find the ARN for the target group, use the <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeTargetGroups.html">DescribeTargetGroups</a>
+  /// API operation.
   final String? resourceLabel;
 
   PredefinedLoadMetricSpecification({
     required this.predefinedLoadMetricType,
     this.resourceLabel,
   });
+
   factory PredefinedLoadMetricSpecification.fromJson(
       Map<String, dynamic> json) {
     return PredefinedLoadMetricSpecification(
@@ -951,26 +982,37 @@ class PredefinedScalingMetricSpecification {
   /// Application Load Balancer attached to the Auto Scaling group, Spot Fleet
   /// request, or ECS service.
   ///
-  /// The format is
+  /// You create the resource label by appending the final portion of the load
+  /// balancer ARN and the final portion of the target group ARN into a single
+  /// value, separated by a forward slash (/). The format is
   /// app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt;/targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt;,
   /// where:
   ///
   /// <ul>
   /// <li>
   /// app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion
-  /// of the load balancer ARN.
+  /// of the load balancer ARN
   /// </li>
   /// <li>
   /// targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final
   /// portion of the target group ARN.
   /// </li>
   /// </ul>
+  /// This is an example:
+  /// app/EC2Co-EcsEl-1TKLTMITMM0EO/f37c06a68c1748aa/targetgroup/EC2Co-Defau-LDNM7Q3ZH1ZN/6d4ea56ca2d6a18d.
+  ///
+  /// To find the ARN for an Application Load Balancer, use the <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
+  /// API operation. To find the ARN for the target group, use the <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeTargetGroups.html">DescribeTargetGroups</a>
+  /// API operation.
   final String? resourceLabel;
 
   PredefinedScalingMetricSpecification({
     required this.predefinedScalingMetricType,
     this.resourceLabel,
   });
+
   factory PredefinedScalingMetricSpecification.fromJson(
       Map<String, dynamic> json) {
     return PredefinedScalingMetricSpecification(
@@ -1118,12 +1160,8 @@ extension ScalableDimensionFromString on String {
   }
 }
 
-/// Describes a scaling instruction for a scalable resource.
-///
-/// The scaling instruction is used in combination with a scaling plan, which is
-/// a set of instructions for configuring dynamic scaling and predictive scaling
-/// for the scalable resources in your application. Each scaling instruction
-/// applies to one resource.
+/// Describes a scaling instruction for a scalable resource in a scaling plan.
+/// Each scaling instruction applies to one resource.
 ///
 /// AWS Auto Scaling creates target tracking scaling policies based on the
 /// scaling instructions. Target tracking scaling policies adjust the capacity
@@ -1138,14 +1176,14 @@ extension ScalableDimensionFromString on String {
 /// With predictive scaling, AWS Auto Scaling generates forecasts with traffic
 /// predictions for the two days ahead and schedules scaling actions that
 /// proactively add and remove resource capacity to match the forecast.
-///
+/// <important>
 /// We recommend waiting a minimum of 24 hours after creating an Auto Scaling
 /// group to configure predictive scaling. At minimum, there must be 24 hours of
-/// historical data to generate a forecast.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/autoscaling/plans/userguide/auto-scaling-getting-started.html">Getting
-/// Started with AWS Auto Scaling</a>.
+/// historical data to generate a forecast. For more information, see <a
+/// href="https://docs.aws.amazon.com/autoscaling/plans/userguide/gs-best-practices.html">Best
+/// Practices for AWS Auto Scaling</a> in the <i>AWS Auto Scaling User
+/// Guide</i>.
+/// </important>
 class ScalingInstruction {
   /// The maximum capacity of the resource. The exception to this upper limit is
   /// if you specify a non-default setting for
@@ -1232,17 +1270,8 @@ class ScalingInstruction {
   /// The namespace of the AWS service.
   final ServiceNamespace serviceNamespace;
 
-  /// The structure that defines new target tracking configurations (up to 10).
-  /// Each of these structures includes a specific scaling metric and a target
-  /// value for the metric, along with various parameters to use with dynamic
-  /// scaling.
-  ///
-  /// With predictive scaling and dynamic scaling, the resource scales based on
-  /// the target tracking configuration that provides the largest capacity for
-  /// both scale in and scale out.
-  ///
-  /// Condition: The scaling metric must be unique across target tracking
-  /// configurations.
+  /// The target tracking configurations (up to 10). Each of these structures must
+  /// specify a unique scaling metric and a target value for the metric.
   final List<TargetTrackingConfiguration> targetTrackingConfigurations;
 
   /// The customized load metric to use for predictive scaling. This parameter or
@@ -1356,6 +1385,7 @@ class ScalingInstruction {
     this.scalingPolicyUpdateBehavior,
     this.scheduledActionBufferTime,
   });
+
   factory ScalingInstruction.fromJson(Map<String, dynamic> json) {
     return ScalingInstruction(
       maxCapacity: json['MaxCapacity'] as int,
@@ -1531,7 +1561,8 @@ extension ScalingMetricTypeFromString on String {
 
 /// Represents a scaling plan.
 class ScalingPlan {
-  /// The application source.
+  /// A CloudFormation stack or a set of tags. You can create one scaling plan per
+  /// application source.
   final ApplicationSource applicationSource;
 
   /// The scaling instructions.
@@ -1593,6 +1624,7 @@ class ScalingPlan {
     this.statusMessage,
     this.statusStartTime,
   });
+
   factory ScalingPlan.fromJson(Map<String, dynamic> json) {
     return ScalingPlan(
       applicationSource: ApplicationSource.fromJson(
@@ -1732,6 +1764,7 @@ class ScalingPlanResource {
     this.scalingPolicies,
     this.scalingStatusMessage,
   });
+
   factory ScalingPlanResource.fromJson(Map<String, dynamic> json) {
     return ScalingPlanResource(
       resourceId: json['ResourceId'] as String,
@@ -1827,6 +1860,7 @@ class ScalingPolicy {
     required this.policyType,
     this.targetTrackingConfiguration,
   });
+
   factory ScalingPolicy.fromJson(Map<String, dynamic> json) {
     return ScalingPolicy(
       policyName: json['PolicyName'] as String,
@@ -1956,6 +1990,7 @@ class TagFilter {
     this.key,
     this.values,
   });
+
   factory TagFilter.fromJson(Map<String, dynamic> json) {
     return TagFilter(
       key: json['Key'] as String?,
@@ -1979,8 +2014,9 @@ class TagFilter {
 /// Describes a target tracking configuration to use with AWS Auto Scaling. Used
 /// with <a>ScalingInstruction</a> and <a>ScalingPolicy</a>.
 class TargetTrackingConfiguration {
-  /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108
-  /// (Base 10) or 2e-360 to 2e360 (Base 2).
+  /// The target value for the metric. Although this property accepts numbers of
+  /// type Double, it won't accept values that are either too small or too large.
+  /// Values must be in the range of -2^360 to 2^360.
   final double targetValue;
 
   /// A customized metric. You can specify either a predefined metric or a
@@ -2007,25 +2043,27 @@ class TargetTrackingConfiguration {
   final PredefinedScalingMetricSpecification?
       predefinedScalingMetricSpecification;
 
-  /// The amount of time, in seconds, after a scale in activity completes before
-  /// another scale in activity can start. This value is not used if the scalable
-  /// resource is an Auto Scaling group.
+  /// The amount of time, in seconds, after a scale-in activity completes before
+  /// another scale-in activity can start. This property is not used if the
+  /// scalable resource is an Auto Scaling group.
   ///
-  /// The cooldown period is used to block subsequent scale in requests until it
-  /// has expired. The intention is to scale in conservatively to protect your
-  /// application's availability. However, if another alarm triggers a scale-out
-  /// policy during the cooldown period after a scale-in, AWS Auto Scaling scales
-  /// out your scalable target immediately.
+  /// With the <i>scale-in cooldown period</i>, the intention is to scale in
+  /// conservatively to protect your application’s availability, so scale-in
+  /// activities are blocked until the cooldown period has expired. However, if
+  /// another alarm triggers a scale-out activity during the scale-in cooldown
+  /// period, Auto Scaling scales out the target immediately. In this case, the
+  /// scale-in cooldown period stops and doesn't complete.
   final int? scaleInCooldown;
 
-  /// The amount of time, in seconds, after a scale-out activity completes before
-  /// another scale-out activity can start. This value is not used if the scalable
-  /// resource is an Auto Scaling group.
+  /// The amount of time, in seconds, to wait for a previous scale-out activity to
+  /// take effect. This property is not used if the scalable resource is an Auto
+  /// Scaling group.
   ///
-  /// While the cooldown period is in effect, the capacity that has been added by
-  /// the previous scale-out event that initiated the cooldown is calculated as
-  /// part of the desired capacity for the next scale out. The intention is to
-  /// continuously (but not excessively) scale out.
+  /// With the <i>scale-out cooldown period</i>, the intention is to continuously
+  /// (but not excessively) scale out. After Auto Scaling successfully scales out
+  /// using a target tracking scaling policy, it starts to calculate the cooldown
+  /// time. The scaling policy won't increase the desired capacity again unless
+  /// either a larger scale out is triggered or the cooldown period ends.
   final int? scaleOutCooldown;
 
   TargetTrackingConfiguration({
@@ -2037,6 +2075,7 @@ class TargetTrackingConfiguration {
     this.scaleInCooldown,
     this.scaleOutCooldown,
   });
+
   factory TargetTrackingConfiguration.fromJson(Map<String, dynamic> json) {
     return TargetTrackingConfiguration(
       targetValue: json['TargetValue'] as double,
@@ -2088,6 +2127,7 @@ class TargetTrackingConfiguration {
 
 class UpdateScalingPlanResponse {
   UpdateScalingPlanResponse();
+
   factory UpdateScalingPlanResponse.fromJson(Map<String, dynamic> _) {
     return UpdateScalingPlanResponse();
   }

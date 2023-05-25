@@ -3,13 +3,9 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-Transit Gateway Network Manager (Network Manager) enables you to create a
-global network, in which you can monitor your AWS and on-premises networks
-that are built around transit gateways.
-
-The Network Manager APIs are supported in the US West (Oregon) Region only.
-You must specify the <code>us-west-2</code> Region in all requests made to
-Network Manager.
+Amazon Web Services enables you to centrally manage your Amazon Web Services
+Cloud WAN core network and your Transit Gateway network across Amazon Web
+Services accounts, Regions, and on-premises locations.
 
 ## Links
 

@@ -1374,6 +1374,7 @@ class KinesisAnalytics {
 
 class AddApplicationCloudWatchLoggingOptionResponse {
   AddApplicationCloudWatchLoggingOptionResponse();
+
   factory AddApplicationCloudWatchLoggingOptionResponse.fromJson(
       Map<String, dynamic> _) {
     return AddApplicationCloudWatchLoggingOptionResponse();
@@ -1382,6 +1383,7 @@ class AddApplicationCloudWatchLoggingOptionResponse {
 
 class AddApplicationInputProcessingConfigurationResponse {
   AddApplicationInputProcessingConfigurationResponse();
+
   factory AddApplicationInputProcessingConfigurationResponse.fromJson(
       Map<String, dynamic> _) {
     return AddApplicationInputProcessingConfigurationResponse();
@@ -1391,6 +1393,7 @@ class AddApplicationInputProcessingConfigurationResponse {
 /// <p/>
 class AddApplicationInputResponse {
   AddApplicationInputResponse();
+
   factory AddApplicationInputResponse.fromJson(Map<String, dynamic> _) {
     return AddApplicationInputResponse();
   }
@@ -1399,6 +1402,7 @@ class AddApplicationInputResponse {
 /// <p/>
 class AddApplicationOutputResponse {
   AddApplicationOutputResponse();
+
   factory AddApplicationOutputResponse.fromJson(Map<String, dynamic> _) {
     return AddApplicationOutputResponse();
   }
@@ -1407,6 +1411,7 @@ class AddApplicationOutputResponse {
 /// <p/>
 class AddApplicationReferenceDataSourceResponse {
   AddApplicationReferenceDataSourceResponse();
+
   factory AddApplicationReferenceDataSourceResponse.fromJson(
       Map<String, dynamic> _) {
     return AddApplicationReferenceDataSourceResponse();
@@ -1487,6 +1492,7 @@ class ApplicationDetail {
     this.outputDescriptions,
     this.referenceDataSourceDescriptions,
   });
+
   factory ApplicationDetail.fromJson(Map<String, dynamic> json) {
     return ApplicationDetail(
       applicationARN: json['ApplicationARN'] as String,
@@ -1594,6 +1600,7 @@ class ApplicationSummary {
     required this.applicationName,
     required this.applicationStatus,
   });
+
   factory ApplicationSummary.fromJson(Map<String, dynamic> json) {
     return ApplicationSummary(
       applicationARN: json['ApplicationARN'] as String,
@@ -1669,6 +1676,7 @@ class CSVMappingParameters {
     required this.recordColumnDelimiter,
     required this.recordRowDelimiter,
   });
+
   factory CSVMappingParameters.fromJson(Map<String, dynamic> json) {
     return CSVMappingParameters(
       recordColumnDelimiter: json['RecordColumnDelimiter'] as String,
@@ -1729,6 +1737,7 @@ class CloudWatchLoggingOptionDescription {
     required this.roleARN,
     this.cloudWatchLoggingOptionId,
   });
+
   factory CloudWatchLoggingOptionDescription.fromJson(
       Map<String, dynamic> json) {
     return CloudWatchLoggingOptionDescription(
@@ -1779,6 +1788,7 @@ class CreateApplicationResponse {
   CreateApplicationResponse({
     required this.applicationSummary,
   });
+
   factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) {
     return CreateApplicationResponse(
       applicationSummary: ApplicationSummary.fromJson(
@@ -1789,6 +1799,7 @@ class CreateApplicationResponse {
 
 class DeleteApplicationCloudWatchLoggingOptionResponse {
   DeleteApplicationCloudWatchLoggingOptionResponse();
+
   factory DeleteApplicationCloudWatchLoggingOptionResponse.fromJson(
       Map<String, dynamic> _) {
     return DeleteApplicationCloudWatchLoggingOptionResponse();
@@ -1797,6 +1808,7 @@ class DeleteApplicationCloudWatchLoggingOptionResponse {
 
 class DeleteApplicationInputProcessingConfigurationResponse {
   DeleteApplicationInputProcessingConfigurationResponse();
+
   factory DeleteApplicationInputProcessingConfigurationResponse.fromJson(
       Map<String, dynamic> _) {
     return DeleteApplicationInputProcessingConfigurationResponse();
@@ -1806,6 +1818,7 @@ class DeleteApplicationInputProcessingConfigurationResponse {
 /// <p/>
 class DeleteApplicationOutputResponse {
   DeleteApplicationOutputResponse();
+
   factory DeleteApplicationOutputResponse.fromJson(Map<String, dynamic> _) {
     return DeleteApplicationOutputResponse();
   }
@@ -1813,6 +1826,7 @@ class DeleteApplicationOutputResponse {
 
 class DeleteApplicationReferenceDataSourceResponse {
   DeleteApplicationReferenceDataSourceResponse();
+
   factory DeleteApplicationReferenceDataSourceResponse.fromJson(
       Map<String, dynamic> _) {
     return DeleteApplicationReferenceDataSourceResponse();
@@ -1822,6 +1836,7 @@ class DeleteApplicationReferenceDataSourceResponse {
 /// <p/>
 class DeleteApplicationResponse {
   DeleteApplicationResponse();
+
   factory DeleteApplicationResponse.fromJson(Map<String, dynamic> _) {
     return DeleteApplicationResponse();
   }
@@ -1837,6 +1852,7 @@ class DescribeApplicationResponse {
   DescribeApplicationResponse({
     required this.applicationDetail,
   });
+
   factory DescribeApplicationResponse.fromJson(Map<String, dynamic> json) {
     return DescribeApplicationResponse(
       applicationDetail: ApplicationDetail.fromJson(
@@ -1856,6 +1872,7 @@ class DestinationSchema {
   DestinationSchema({
     required this.recordFormatType,
   });
+
   factory DestinationSchema.fromJson(Map<String, dynamic> json) {
     return DestinationSchema(
       recordFormatType:
@@ -1895,6 +1912,7 @@ class DiscoverInputSchemaResponse {
     this.processedInputRecords,
     this.rawInputRecords,
   });
+
   factory DiscoverInputSchemaResponse.fromJson(Map<String, dynamic> json) {
     return DiscoverInputSchemaResponse(
       inputSchema: json['InputSchema'] != null
@@ -2081,6 +2099,7 @@ class InputDescription {
     this.kinesisStreamsInputDescription,
     this.namePrefix,
   });
+
   factory InputDescription.fromJson(Map<String, dynamic> json) {
     return InputDescription(
       inAppStreamNames: (json['InAppStreamNames'] as List?)
@@ -2172,6 +2191,7 @@ class InputLambdaProcessorDescription {
     this.resourceARN,
     this.roleARN,
   });
+
   factory InputLambdaProcessorDescription.fromJson(Map<String, dynamic> json) {
     return InputLambdaProcessorDescription(
       resourceARN: json['ResourceARN'] as String?,
@@ -2225,6 +2245,7 @@ class InputParallelism {
   InputParallelism({
     this.count,
   });
+
   factory InputParallelism.fromJson(Map<String, dynamic> json) {
     return InputParallelism(
       count: json['Count'] as int?,
@@ -2289,6 +2310,7 @@ class InputProcessingConfigurationDescription {
   InputProcessingConfigurationDescription({
     this.inputLambdaProcessorDescription,
   });
+
   factory InputProcessingConfigurationDescription.fromJson(
       Map<String, dynamic> json) {
     return InputProcessingConfigurationDescription(
@@ -2411,6 +2433,7 @@ class InputStartingPositionConfiguration {
   InputStartingPositionConfiguration({
     this.inputStartingPosition,
   });
+
   factory InputStartingPositionConfiguration.fromJson(
       Map<String, dynamic> json) {
     return InputStartingPositionConfiguration(
@@ -2502,6 +2525,7 @@ class JSONMappingParameters {
   JSONMappingParameters({
     required this.recordRowPath,
   });
+
   factory JSONMappingParameters.fromJson(Map<String, dynamic> json) {
     return JSONMappingParameters(
       recordRowPath: json['RecordRowPath'] as String,
@@ -2557,6 +2581,7 @@ class KinesisFirehoseInputDescription {
     this.resourceARN,
     this.roleARN,
   });
+
   factory KinesisFirehoseInputDescription.fromJson(Map<String, dynamic> json) {
     return KinesisFirehoseInputDescription(
       resourceARN: json['ResourceARN'] as String?,
@@ -2632,6 +2657,7 @@ class KinesisFirehoseOutputDescription {
     this.resourceARN,
     this.roleARN,
   });
+
   factory KinesisFirehoseOutputDescription.fromJson(Map<String, dynamic> json) {
     return KinesisFirehoseOutputDescription(
       resourceARN: json['ResourceARN'] as String?,
@@ -2708,6 +2734,7 @@ class KinesisStreamsInputDescription {
     this.resourceARN,
     this.roleARN,
   });
+
   factory KinesisStreamsInputDescription.fromJson(Map<String, dynamic> json) {
     return KinesisStreamsInputDescription(
       resourceARN: json['ResourceARN'] as String?,
@@ -2782,6 +2809,7 @@ class KinesisStreamsOutputDescription {
     this.resourceARN,
     this.roleARN,
   });
+
   factory KinesisStreamsOutputDescription.fromJson(Map<String, dynamic> json) {
     return KinesisStreamsOutputDescription(
       resourceARN: json['ResourceARN'] as String?,
@@ -2866,6 +2894,7 @@ class LambdaOutputDescription {
     this.resourceARN,
     this.roleARN,
   });
+
   factory LambdaOutputDescription.fromJson(Map<String, dynamic> json) {
     return LambdaOutputDescription(
       resourceARN: json['ResourceARN'] as String?,
@@ -2920,6 +2949,7 @@ class ListApplicationsResponse {
     required this.applicationSummaries,
     required this.hasMoreApplications,
   });
+
   factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) {
     return ListApplicationsResponse(
       applicationSummaries: (json['ApplicationSummaries'] as List)
@@ -2938,6 +2968,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
@@ -2965,6 +2996,7 @@ class MappingParameters {
     this.cSVMappingParameters,
     this.jSONMappingParameters,
   });
+
   factory MappingParameters.fromJson(Map<String, dynamic> json) {
     return MappingParameters(
       cSVMappingParameters: json['CSVMappingParameters'] != null
@@ -3076,6 +3108,7 @@ class OutputDescription {
     this.name,
     this.outputId,
   });
+
   factory OutputDescription.fromJson(Map<String, dynamic> json) {
     return OutputDescription(
       destinationSchema: json['DestinationSchema'] != null
@@ -3183,6 +3216,7 @@ class RecordColumn {
     required this.sqlType,
     this.mapping,
   });
+
   factory RecordColumn.fromJson(Map<String, dynamic> json) {
     return RecordColumn(
       name: json['Name'] as String,
@@ -3219,6 +3253,7 @@ class RecordFormat {
     required this.recordFormatType,
     this.mappingParameters,
   });
+
   factory RecordFormat.fromJson(Map<String, dynamic> json) {
     return RecordFormat(
       recordFormatType:
@@ -3335,6 +3370,7 @@ class ReferenceDataSourceDescription {
     required this.tableName,
     this.referenceSchema,
   });
+
   factory ReferenceDataSourceDescription.fromJson(Map<String, dynamic> json) {
     return ReferenceDataSourceDescription(
       referenceId: json['ReferenceId'] as String,
@@ -3482,6 +3518,7 @@ class S3ReferenceDataSourceDescription {
     required this.fileKey,
     required this.referenceRoleARN,
   });
+
   factory S3ReferenceDataSourceDescription.fromJson(Map<String, dynamic> json) {
     return S3ReferenceDataSourceDescription(
       bucketARN: json['BucketARN'] as String,
@@ -3541,6 +3578,7 @@ class SourceSchema {
     required this.recordFormat,
     this.recordEncoding,
   });
+
   factory SourceSchema.fromJson(Map<String, dynamic> json) {
     return SourceSchema(
       recordColumns: (json['RecordColumns'] as List)
@@ -3568,6 +3606,7 @@ class SourceSchema {
 /// <p/>
 class StartApplicationResponse {
   StartApplicationResponse();
+
   factory StartApplicationResponse.fromJson(Map<String, dynamic> _) {
     return StartApplicationResponse();
   }
@@ -3576,6 +3615,7 @@ class StartApplicationResponse {
 /// <p/>
 class StopApplicationResponse {
   StopApplicationResponse();
+
   factory StopApplicationResponse.fromJson(Map<String, dynamic> _) {
     return StopApplicationResponse();
   }
@@ -3599,6 +3639,7 @@ class Tag {
     required this.key,
     this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -3618,6 +3659,7 @@ class Tag {
 
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
@@ -3625,6 +3667,7 @@ class TagResourceResponse {
 
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
   }
@@ -3632,6 +3675,7 @@ class UntagResourceResponse {
 
 class UpdateApplicationResponse {
   UpdateApplicationResponse();
+
   factory UpdateApplicationResponse.fromJson(Map<String, dynamic> _) {
     return UpdateApplicationResponse();
   }

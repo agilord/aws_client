@@ -3303,6 +3303,7 @@ class CloudDirectory {
 
 class AddFacetToObjectResponse {
   AddFacetToObjectResponse();
+
   factory AddFacetToObjectResponse.fromJson(Map<String, dynamic> _) {
     return AddFacetToObjectResponse();
   }
@@ -3322,6 +3323,7 @@ class ApplySchemaResponse {
     this.appliedSchemaArn,
     this.directoryArn,
   });
+
   factory ApplySchemaResponse.fromJson(Map<String, dynamic> json) {
     return ApplySchemaResponse(
       appliedSchemaArn: json['AppliedSchemaArn'] as String?,
@@ -3338,6 +3340,7 @@ class AttachObjectResponse {
   AttachObjectResponse({
     this.attachedObjectIdentifier,
   });
+
   factory AttachObjectResponse.fromJson(Map<String, dynamic> json) {
     return AttachObjectResponse(
       attachedObjectIdentifier: json['AttachedObjectIdentifier'] as String?,
@@ -3347,6 +3350,7 @@ class AttachObjectResponse {
 
 class AttachPolicyResponse {
   AttachPolicyResponse();
+
   factory AttachPolicyResponse.fromJson(Map<String, dynamic> _) {
     return AttachPolicyResponse();
   }
@@ -3360,6 +3364,7 @@ class AttachToIndexResponse {
   AttachToIndexResponse({
     this.attachedObjectIdentifier,
   });
+
   factory AttachToIndexResponse.fromJson(Map<String, dynamic> json) {
     return AttachToIndexResponse(
       attachedObjectIdentifier: json['AttachedObjectIdentifier'] as String?,
@@ -3374,6 +3379,7 @@ class AttachTypedLinkResponse {
   AttachTypedLinkResponse({
     this.typedLinkSpecifier,
   });
+
   factory AttachTypedLinkResponse.fromJson(Map<String, dynamic> json) {
     return AttachTypedLinkResponse(
       typedLinkSpecifier: json['TypedLinkSpecifier'] != null
@@ -3401,6 +3407,7 @@ class AttributeKey {
     required this.name,
     required this.schemaArn,
   });
+
   factory AttributeKey.fromJson(Map<String, dynamic> json) {
     return AttributeKey(
       facetName: json['FacetName'] as String,
@@ -3433,6 +3440,7 @@ class AttributeKeyAndValue {
     required this.key,
     required this.value,
   });
+
   factory AttributeKeyAndValue.fromJson(Map<String, dynamic> json) {
     return AttributeKeyAndValue(
       key: AttributeKey.fromJson(json['Key'] as Map<String, dynamic>),
@@ -3463,6 +3471,7 @@ class AttributeNameAndValue {
     required this.attributeName,
     required this.value,
   });
+
   factory AttributeNameAndValue.fromJson(Map<String, dynamic> json) {
     return AttributeNameAndValue(
       attributeName: json['AttributeName'] as String,
@@ -3512,6 +3521,7 @@ class BatchAddFacetToObject {
 /// The result of a batch add facet to object operation.
 class BatchAddFacetToObjectResponse {
   BatchAddFacetToObjectResponse();
+
   factory BatchAddFacetToObjectResponse.fromJson(Map<String, dynamic> _) {
     return BatchAddFacetToObjectResponse();
   }
@@ -3553,6 +3563,7 @@ class BatchAttachObjectResponse {
   BatchAttachObjectResponse({
     this.attachedObjectIdentifier,
   });
+
   factory BatchAttachObjectResponse.fromJson(Map<String, dynamic> json) {
     return BatchAttachObjectResponse(
       attachedObjectIdentifier: json['attachedObjectIdentifier'] as String?,
@@ -3588,6 +3599,7 @@ class BatchAttachPolicy {
 /// Represents the output of an <a>AttachPolicy</a> response operation.
 class BatchAttachPolicyResponse {
   BatchAttachPolicyResponse();
+
   factory BatchAttachPolicyResponse.fromJson(Map<String, dynamic> _) {
     return BatchAttachPolicyResponse();
   }
@@ -3626,6 +3638,7 @@ class BatchAttachToIndexResponse {
   BatchAttachToIndexResponse({
     this.attachedObjectIdentifier,
   });
+
   factory BatchAttachToIndexResponse.fromJson(Map<String, dynamic> json) {
     return BatchAttachToIndexResponse(
       attachedObjectIdentifier: json['AttachedObjectIdentifier'] as String?,
@@ -3677,6 +3690,7 @@ class BatchAttachTypedLinkResponse {
   BatchAttachTypedLinkResponse({
     this.typedLinkSpecifier,
   });
+
   factory BatchAttachTypedLinkResponse.fromJson(Map<String, dynamic> json) {
     return BatchAttachTypedLinkResponse(
       typedLinkSpecifier: json['TypedLinkSpecifier'] != null
@@ -3740,6 +3754,7 @@ class BatchCreateIndexResponse {
   BatchCreateIndexResponse({
     this.objectIdentifier,
   });
+
   factory BatchCreateIndexResponse.fromJson(Map<String, dynamic> json) {
     return BatchCreateIndexResponse(
       objectIdentifier: json['ObjectIdentifier'] as String?,
@@ -3799,6 +3814,7 @@ class BatchCreateObjectResponse {
   BatchCreateObjectResponse({
     this.objectIdentifier,
   });
+
   factory BatchCreateObjectResponse.fromJson(Map<String, dynamic> json) {
     return BatchCreateObjectResponse(
       objectIdentifier: json['ObjectIdentifier'] as String?,
@@ -3825,6 +3841,7 @@ class BatchDeleteObject {
 /// Represents the output of a <a>DeleteObject</a> response operation.
 class BatchDeleteObjectResponse {
   BatchDeleteObjectResponse();
+
   factory BatchDeleteObjectResponse.fromJson(Map<String, dynamic> _) {
     return BatchDeleteObjectResponse();
   }
@@ -3863,6 +3880,7 @@ class BatchDetachFromIndexResponse {
   BatchDetachFromIndexResponse({
     this.detachedObjectIdentifier,
   });
+
   factory BatchDetachFromIndexResponse.fromJson(Map<String, dynamic> json) {
     return BatchDetachFromIndexResponse(
       detachedObjectIdentifier: json['DetachedObjectIdentifier'] as String?,
@@ -3909,6 +3927,7 @@ class BatchDetachObjectResponse {
   BatchDetachObjectResponse({
     this.detachedObjectIdentifier,
   });
+
   factory BatchDetachObjectResponse.fromJson(Map<String, dynamic> json) {
     return BatchDetachObjectResponse(
       detachedObjectIdentifier: json['detachedObjectIdentifier'] as String?,
@@ -3943,6 +3962,7 @@ class BatchDetachPolicy {
 /// Represents the output of a <a>DetachPolicy</a> response operation.
 class BatchDetachPolicyResponse {
   BatchDetachPolicyResponse();
+
   factory BatchDetachPolicyResponse.fromJson(Map<String, dynamic> _) {
     return BatchDetachPolicyResponse();
   }
@@ -3969,6 +3989,7 @@ class BatchDetachTypedLink {
 /// Represents the output of a <a>DetachTypedLink</a> response operation.
 class BatchDetachTypedLinkResponse {
   BatchDetachTypedLinkResponse();
+
   factory BatchDetachTypedLinkResponse.fromJson(Map<String, dynamic> _) {
     return BatchDetachTypedLinkResponse();
   }
@@ -4006,6 +4027,7 @@ class BatchGetLinkAttributesResponse {
   BatchGetLinkAttributesResponse({
     this.attributes,
   });
+
   factory BatchGetLinkAttributesResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetLinkAttributesResponse(
       attributes: (json['Attributes'] as List?)
@@ -4055,6 +4077,7 @@ class BatchGetObjectAttributesResponse {
   BatchGetObjectAttributesResponse({
     this.attributes,
   });
+
   factory BatchGetObjectAttributesResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetObjectAttributesResponse(
       attributes: (json['Attributes'] as List?)
@@ -4095,6 +4118,7 @@ class BatchGetObjectInformationResponse {
     this.objectIdentifier,
     this.schemaFacets,
   });
+
   factory BatchGetObjectInformationResponse.fromJson(
       Map<String, dynamic> json) {
     return BatchGetObjectInformationResponse(
@@ -4149,6 +4173,7 @@ class BatchListAttachedIndicesResponse {
     this.indexAttachments,
     this.nextToken,
   });
+
   factory BatchListAttachedIndicesResponse.fromJson(Map<String, dynamic> json) {
     return BatchListAttachedIndicesResponse(
       indexAttachments: (json['IndexAttachments'] as List?)
@@ -4220,6 +4245,7 @@ class BatchListIncomingTypedLinksResponse {
     this.linkSpecifiers,
     this.nextToken,
   });
+
   factory BatchListIncomingTypedLinksResponse.fromJson(
       Map<String, dynamic> json) {
     return BatchListIncomingTypedLinksResponse(
@@ -4281,6 +4307,7 @@ class BatchListIndexResponse {
     this.indexAttachments,
     this.nextToken,
   });
+
   factory BatchListIndexResponse.fromJson(Map<String, dynamic> json) {
     return BatchListIndexResponse(
       indexAttachments: (json['IndexAttachments'] as List?)
@@ -4341,6 +4368,7 @@ class BatchListObjectAttributesResponse {
     this.attributes,
     this.nextToken,
   });
+
   factory BatchListObjectAttributesResponse.fromJson(
       Map<String, dynamic> json) {
     return BatchListObjectAttributesResponse(
@@ -4395,6 +4423,7 @@ class BatchListObjectChildrenResponse {
     this.children,
     this.nextToken,
   });
+
   factory BatchListObjectChildrenResponse.fromJson(Map<String, dynamic> json) {
     return BatchListObjectChildrenResponse(
       children: (json['Children'] as Map<String, dynamic>?)
@@ -4448,6 +4477,7 @@ class BatchListObjectParentPathsResponse {
     this.nextToken,
     this.pathToObjectIdentifiersList,
   });
+
   factory BatchListObjectParentPathsResponse.fromJson(
       Map<String, dynamic> json) {
     return BatchListObjectParentPathsResponse(
@@ -4462,9 +4492,16 @@ class BatchListObjectParentPathsResponse {
   }
 }
 
+/// Lists parent objects that are associated with a given object in pagination
+/// fashion.
 class BatchListObjectParents {
   final ObjectReference objectReference;
+
+  /// The maximum number of items to be retrieved in a single call. This is an
+  /// approximate number.
   final int? maxResults;
+
+  /// The pagination token.
   final String? nextToken;
 
   BatchListObjectParents({
@@ -4484,14 +4521,19 @@ class BatchListObjectParents {
   }
 }
 
+/// Represents the output of a <a>ListObjectParents</a> response operation.
 class BatchListObjectParentsResponse {
+  /// The pagination token.
   final String? nextToken;
+
+  /// Returns a list of parent reference and LinkName Tuples.
   final List<ObjectIdentifierAndLinkNameTuple>? parentLinks;
 
   BatchListObjectParentsResponse({
     this.nextToken,
     this.parentLinks,
   });
+
   factory BatchListObjectParentsResponse.fromJson(Map<String, dynamic> json) {
     return BatchListObjectParentsResponse(
       nextToken: json['NextToken'] as String?,
@@ -4547,6 +4589,7 @@ class BatchListObjectPoliciesResponse {
     this.attachedPolicyIds,
     this.nextToken,
   });
+
   factory BatchListObjectPoliciesResponse.fromJson(Map<String, dynamic> json) {
     return BatchListObjectPoliciesResponse(
       attachedPolicyIds: (json['AttachedPolicyIds'] as List?)
@@ -4618,6 +4661,7 @@ class BatchListOutgoingTypedLinksResponse {
     this.nextToken,
     this.typedLinkSpecifiers,
   });
+
   factory BatchListOutgoingTypedLinksResponse.fromJson(
       Map<String, dynamic> json) {
     return BatchListOutgoingTypedLinksResponse(
@@ -4672,6 +4716,7 @@ class BatchListPolicyAttachmentsResponse {
     this.nextToken,
     this.objectIdentifiers,
   });
+
   factory BatchListPolicyAttachmentsResponse.fromJson(
       Map<String, dynamic> json) {
     return BatchListPolicyAttachmentsResponse(
@@ -4729,6 +4774,7 @@ class BatchLookupPolicyResponse {
     this.nextToken,
     this.policyToPathList,
   });
+
   factory BatchLookupPolicyResponse.fromJson(Map<String, dynamic> json) {
     return BatchLookupPolicyResponse(
       nextToken: json['NextToken'] as String?,
@@ -4753,6 +4799,7 @@ class BatchReadException {
     this.message,
     this.type,
   });
+
   factory BatchReadException.fromJson(Map<String, dynamic> json) {
     return BatchReadException(
       message: json['Message'] as String?,
@@ -4881,6 +4928,9 @@ class BatchReadOperation {
   /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directorystructure.html">Directory
   /// Structure</a>.
   final BatchListObjectParentPaths? listObjectParentPaths;
+
+  /// Lists parent objects that are associated with a given object in pagination
+  /// fashion.
   final BatchListObjectParents? listObjectParents;
 
   /// Returns policies attached to an object in pagination fashion.
@@ -4977,6 +5027,7 @@ class BatchReadOperationResponse {
     this.exceptionResponse,
     this.successfulResponse,
   });
+
   factory BatchReadOperationResponse.fromJson(Map<String, dynamic> json) {
     return BatchReadOperationResponse(
       exceptionResponse: json['ExceptionResponse'] != null
@@ -4998,6 +5049,7 @@ class BatchReadResponse {
   BatchReadResponse({
     this.responses,
   });
+
   factory BatchReadResponse.fromJson(Map<String, dynamic> json) {
     return BatchReadResponse(
       responses: (json['Responses'] as List?)
@@ -5047,6 +5099,8 @@ class BatchReadSuccessfulResponse {
   /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directorystructure.html">Directory
   /// Structure</a>.
   final BatchListObjectParentPathsResponse? listObjectParentPaths;
+
+  /// The list of parent objects to retrieve.
   final BatchListObjectParentsResponse? listObjectParents;
 
   /// Returns policies attached to an object in pagination fashion.
@@ -5089,6 +5143,7 @@ class BatchReadSuccessfulResponse {
     this.listPolicyAttachments,
     this.lookupPolicy,
   });
+
   factory BatchReadSuccessfulResponse.fromJson(Map<String, dynamic> json) {
     return BatchReadSuccessfulResponse(
       getLinkAttributes: json['GetLinkAttributes'] != null
@@ -5176,6 +5231,7 @@ class BatchRemoveFacetFromObject {
 /// An empty result that represents success.
 class BatchRemoveFacetFromObjectResponse {
   BatchRemoveFacetFromObjectResponse();
+
   factory BatchRemoveFacetFromObjectResponse.fromJson(Map<String, dynamic> _) {
     return BatchRemoveFacetFromObjectResponse();
   }
@@ -5209,6 +5265,7 @@ class BatchUpdateLinkAttributes {
 /// Represents the output of a <a>UpdateLinkAttributes</a> response operation.
 class BatchUpdateLinkAttributesResponse {
   BatchUpdateLinkAttributesResponse();
+
   factory BatchUpdateLinkAttributesResponse.fromJson(Map<String, dynamic> _) {
     return BatchUpdateLinkAttributesResponse();
   }
@@ -5244,6 +5301,7 @@ class BatchUpdateObjectAttributesResponse {
   BatchUpdateObjectAttributesResponse({
     this.objectIdentifier,
   });
+
   factory BatchUpdateObjectAttributesResponse.fromJson(
       Map<String, dynamic> json) {
     return BatchUpdateObjectAttributesResponse(
@@ -5437,6 +5495,7 @@ class BatchWriteOperationResponse {
     this.updateLinkAttributes,
     this.updateObjectAttributes,
   });
+
   factory BatchWriteOperationResponse.fromJson(Map<String, dynamic> json) {
     return BatchWriteOperationResponse(
       addFacetToObject: json['AddFacetToObject'] != null
@@ -5510,6 +5569,7 @@ class BatchWriteResponse {
   BatchWriteResponse({
     this.responses,
   });
+
   factory BatchWriteResponse.fromJson(Map<String, dynamic> json) {
     return BatchWriteResponse(
       responses: (json['Responses'] as List?)
@@ -5571,6 +5631,7 @@ class CreateDirectoryResponse {
     required this.name,
     required this.objectIdentifier,
   });
+
   factory CreateDirectoryResponse.fromJson(Map<String, dynamic> json) {
     return CreateDirectoryResponse(
       appliedSchemaArn: json['AppliedSchemaArn'] as String,
@@ -5583,6 +5644,7 @@ class CreateDirectoryResponse {
 
 class CreateFacetResponse {
   CreateFacetResponse();
+
   factory CreateFacetResponse.fromJson(Map<String, dynamic> _) {
     return CreateFacetResponse();
   }
@@ -5595,6 +5657,7 @@ class CreateIndexResponse {
   CreateIndexResponse({
     this.objectIdentifier,
   });
+
   factory CreateIndexResponse.fromJson(Map<String, dynamic> json) {
     return CreateIndexResponse(
       objectIdentifier: json['ObjectIdentifier'] as String?,
@@ -5609,6 +5672,7 @@ class CreateObjectResponse {
   CreateObjectResponse({
     this.objectIdentifier,
   });
+
   factory CreateObjectResponse.fromJson(Map<String, dynamic> json) {
     return CreateObjectResponse(
       objectIdentifier: json['ObjectIdentifier'] as String?,
@@ -5624,6 +5688,7 @@ class CreateSchemaResponse {
   CreateSchemaResponse({
     this.schemaArn,
   });
+
   factory CreateSchemaResponse.fromJson(Map<String, dynamic> json) {
     return CreateSchemaResponse(
       schemaArn: json['SchemaArn'] as String?,
@@ -5633,6 +5698,7 @@ class CreateSchemaResponse {
 
 class CreateTypedLinkFacetResponse {
   CreateTypedLinkFacetResponse();
+
   factory CreateTypedLinkFacetResponse.fromJson(Map<String, dynamic> _) {
     return CreateTypedLinkFacetResponse();
   }
@@ -5645,6 +5711,7 @@ class DeleteDirectoryResponse {
   DeleteDirectoryResponse({
     required this.directoryArn,
   });
+
   factory DeleteDirectoryResponse.fromJson(Map<String, dynamic> json) {
     return DeleteDirectoryResponse(
       directoryArn: json['DirectoryArn'] as String,
@@ -5654,6 +5721,7 @@ class DeleteDirectoryResponse {
 
 class DeleteFacetResponse {
   DeleteFacetResponse();
+
   factory DeleteFacetResponse.fromJson(Map<String, dynamic> _) {
     return DeleteFacetResponse();
   }
@@ -5661,6 +5729,7 @@ class DeleteFacetResponse {
 
 class DeleteObjectResponse {
   DeleteObjectResponse();
+
   factory DeleteObjectResponse.fromJson(Map<String, dynamic> _) {
     return DeleteObjectResponse();
   }
@@ -5674,6 +5743,7 @@ class DeleteSchemaResponse {
   DeleteSchemaResponse({
     this.schemaArn,
   });
+
   factory DeleteSchemaResponse.fromJson(Map<String, dynamic> json) {
     return DeleteSchemaResponse(
       schemaArn: json['SchemaArn'] as String?,
@@ -5683,6 +5753,7 @@ class DeleteSchemaResponse {
 
 class DeleteTypedLinkFacetResponse {
   DeleteTypedLinkFacetResponse();
+
   factory DeleteTypedLinkFacetResponse.fromJson(Map<String, dynamic> _) {
     return DeleteTypedLinkFacetResponse();
   }
@@ -5696,6 +5767,7 @@ class DetachFromIndexResponse {
   DetachFromIndexResponse({
     this.detachedObjectIdentifier,
   });
+
   factory DetachFromIndexResponse.fromJson(Map<String, dynamic> json) {
     return DetachFromIndexResponse(
       detachedObjectIdentifier: json['DetachedObjectIdentifier'] as String?,
@@ -5710,6 +5782,7 @@ class DetachObjectResponse {
   DetachObjectResponse({
     this.detachedObjectIdentifier,
   });
+
   factory DetachObjectResponse.fromJson(Map<String, dynamic> json) {
     return DetachObjectResponse(
       detachedObjectIdentifier: json['DetachedObjectIdentifier'] as String?,
@@ -5719,6 +5792,7 @@ class DetachObjectResponse {
 
 class DetachPolicyResponse {
   DetachPolicyResponse();
+
   factory DetachPolicyResponse.fromJson(Map<String, dynamic> _) {
     return DetachPolicyResponse();
   }
@@ -5746,6 +5820,7 @@ class Directory {
     this.name,
     this.state,
   });
+
   factory Directory.fromJson(Map<String, dynamic> json) {
     return Directory(
       creationDateTime: timeStampFromJson(json['CreationDateTime']),
@@ -5796,6 +5871,7 @@ class DisableDirectoryResponse {
   DisableDirectoryResponse({
     required this.directoryArn,
   });
+
   factory DisableDirectoryResponse.fromJson(Map<String, dynamic> json) {
     return DisableDirectoryResponse(
       directoryArn: json['DirectoryArn'] as String,
@@ -5810,6 +5886,7 @@ class EnableDirectoryResponse {
   EnableDirectoryResponse({
     required this.directoryArn,
   });
+
   factory EnableDirectoryResponse.fromJson(Map<String, dynamic> json) {
     return EnableDirectoryResponse(
       directoryArn: json['DirectoryArn'] as String,
@@ -5841,6 +5918,7 @@ class Facet {
     this.name,
     this.objectType,
   });
+
   factory Facet.fromJson(Map<String, dynamic> json) {
     return Facet(
       facetStyle: (json['FacetStyle'] as String?)?.toFacetStyle(),
@@ -5875,6 +5953,7 @@ class FacetAttribute {
     this.attributeReference,
     this.requiredBehavior,
   });
+
   factory FacetAttribute.fromJson(Map<String, dynamic> json) {
     return FacetAttribute(
       name: json['Name'] as String,
@@ -5929,6 +6008,7 @@ class FacetAttributeDefinition {
     this.isImmutable,
     this.rules,
   });
+
   factory FacetAttributeDefinition.fromJson(Map<String, dynamic> json) {
     return FacetAttributeDefinition(
       type: (json['Type'] as String).toFacetAttributeType(),
@@ -5974,6 +6054,7 @@ class FacetAttributeReference {
     required this.targetAttributeName,
     required this.targetFacetName,
   });
+
   factory FacetAttributeReference.fromJson(Map<String, dynamic> json) {
     return FacetAttributeReference(
       targetAttributeName: json['TargetAttributeName'] as String,
@@ -6097,6 +6178,7 @@ class GetAppliedSchemaVersionResponse {
   GetAppliedSchemaVersionResponse({
     this.appliedSchemaArn,
   });
+
   factory GetAppliedSchemaVersionResponse.fromJson(Map<String, dynamic> json) {
     return GetAppliedSchemaVersionResponse(
       appliedSchemaArn: json['AppliedSchemaArn'] as String?,
@@ -6111,6 +6193,7 @@ class GetDirectoryResponse {
   GetDirectoryResponse({
     required this.directory,
   });
+
   factory GetDirectoryResponse.fromJson(Map<String, dynamic> json) {
     return GetDirectoryResponse(
       directory: Directory.fromJson(json['Directory'] as Map<String, dynamic>),
@@ -6125,6 +6208,7 @@ class GetFacetResponse {
   GetFacetResponse({
     this.facet,
   });
+
   factory GetFacetResponse.fromJson(Map<String, dynamic> json) {
     return GetFacetResponse(
       facet: json['Facet'] != null
@@ -6141,6 +6225,7 @@ class GetLinkAttributesResponse {
   GetLinkAttributesResponse({
     this.attributes,
   });
+
   factory GetLinkAttributesResponse.fromJson(Map<String, dynamic> json) {
     return GetLinkAttributesResponse(
       attributes: (json['Attributes'] as List?)
@@ -6158,6 +6243,7 @@ class GetObjectAttributesResponse {
   GetObjectAttributesResponse({
     this.attributes,
   });
+
   factory GetObjectAttributesResponse.fromJson(Map<String, dynamic> json) {
     return GetObjectAttributesResponse(
       attributes: (json['Attributes'] as List?)
@@ -6181,6 +6267,7 @@ class GetObjectInformationResponse {
     this.objectIdentifier,
     this.schemaFacets,
   });
+
   factory GetObjectInformationResponse.fromJson(Map<String, dynamic> json) {
     return GetObjectInformationResponse(
       objectIdentifier: json['ObjectIdentifier'] as String?,
@@ -6203,6 +6290,7 @@ class GetSchemaAsJsonResponse {
     this.document,
     this.name,
   });
+
   factory GetSchemaAsJsonResponse.fromJson(Map<String, dynamic> json) {
     return GetSchemaAsJsonResponse(
       document: json['Document'] as String?,
@@ -6227,6 +6315,7 @@ class GetTypedLinkFacetInformationResponse {
   GetTypedLinkFacetInformationResponse({
     this.identityAttributeOrder,
   });
+
   factory GetTypedLinkFacetInformationResponse.fromJson(
       Map<String, dynamic> json) {
     return GetTypedLinkFacetInformationResponse(
@@ -6254,6 +6343,7 @@ class IndexAttachment {
     this.indexedAttributes,
     this.objectIdentifier,
   });
+
   factory IndexAttachment.fromJson(Map<String, dynamic> json) {
     return IndexAttachment(
       indexedAttributes: (json['IndexedAttributes'] as List?)
@@ -6324,6 +6414,7 @@ class ListAppliedSchemaArnsResponse {
     this.nextToken,
     this.schemaArns,
   });
+
   factory ListAppliedSchemaArnsResponse.fromJson(Map<String, dynamic> json) {
     return ListAppliedSchemaArnsResponse(
       nextToken: json['NextToken'] as String?,
@@ -6346,6 +6437,7 @@ class ListAttachedIndicesResponse {
     this.indexAttachments,
     this.nextToken,
   });
+
   factory ListAttachedIndicesResponse.fromJson(Map<String, dynamic> json) {
     return ListAttachedIndicesResponse(
       indexAttachments: (json['IndexAttachments'] as List?)
@@ -6368,6 +6460,7 @@ class ListDevelopmentSchemaArnsResponse {
     this.nextToken,
     this.schemaArns,
   });
+
   factory ListDevelopmentSchemaArnsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListDevelopmentSchemaArnsResponse(
@@ -6392,6 +6485,7 @@ class ListDirectoriesResponse {
     required this.directories,
     this.nextToken,
   });
+
   factory ListDirectoriesResponse.fromJson(Map<String, dynamic> json) {
     return ListDirectoriesResponse(
       directories: (json['Directories'] as List)
@@ -6414,6 +6508,7 @@ class ListFacetAttributesResponse {
     this.attributes,
     this.nextToken,
   });
+
   factory ListFacetAttributesResponse.fromJson(Map<String, dynamic> json) {
     return ListFacetAttributesResponse(
       attributes: (json['Attributes'] as List?)
@@ -6436,6 +6531,7 @@ class ListFacetNamesResponse {
     this.facetNames,
     this.nextToken,
   });
+
   factory ListFacetNamesResponse.fromJson(Map<String, dynamic> json) {
     return ListFacetNamesResponse(
       facetNames: (json['FacetNames'] as List?)
@@ -6458,6 +6554,7 @@ class ListIncomingTypedLinksResponse {
     this.linkSpecifiers,
     this.nextToken,
   });
+
   factory ListIncomingTypedLinksResponse.fromJson(Map<String, dynamic> json) {
     return ListIncomingTypedLinksResponse(
       linkSpecifiers: (json['LinkSpecifiers'] as List?)
@@ -6480,6 +6577,7 @@ class ListIndexResponse {
     this.indexAttachments,
     this.nextToken,
   });
+
   factory ListIndexResponse.fromJson(Map<String, dynamic> json) {
     return ListIndexResponse(
       indexAttachments: (json['IndexAttachments'] as List?)
@@ -6502,6 +6600,7 @@ class ListManagedSchemaArnsResponse {
     this.nextToken,
     this.schemaArns,
   });
+
   factory ListManagedSchemaArnsResponse.fromJson(Map<String, dynamic> json) {
     return ListManagedSchemaArnsResponse(
       nextToken: json['NextToken'] as String?,
@@ -6525,6 +6624,7 @@ class ListObjectAttributesResponse {
     this.attributes,
     this.nextToken,
   });
+
   factory ListObjectAttributesResponse.fromJson(Map<String, dynamic> json) {
     return ListObjectAttributesResponse(
       attributes: (json['Attributes'] as List?)
@@ -6548,6 +6648,7 @@ class ListObjectChildrenResponse {
     this.children,
     this.nextToken,
   });
+
   factory ListObjectChildrenResponse.fromJson(Map<String, dynamic> json) {
     return ListObjectChildrenResponse(
       children: (json['Children'] as Map<String, dynamic>?)
@@ -6569,6 +6670,7 @@ class ListObjectParentPathsResponse {
     this.nextToken,
     this.pathToObjectIdentifiersList,
   });
+
   factory ListObjectParentPathsResponse.fromJson(Map<String, dynamic> json) {
     return ListObjectParentPathsResponse(
       nextToken: json['NextToken'] as String?,
@@ -6598,6 +6700,7 @@ class ListObjectParentsResponse {
     this.parentLinks,
     this.parents,
   });
+
   factory ListObjectParentsResponse.fromJson(Map<String, dynamic> json) {
     return ListObjectParentsResponse(
       nextToken: json['NextToken'] as String?,
@@ -6624,6 +6727,7 @@ class ListObjectPoliciesResponse {
     this.attachedPolicyIds,
     this.nextToken,
   });
+
   factory ListObjectPoliciesResponse.fromJson(Map<String, dynamic> json) {
     return ListObjectPoliciesResponse(
       attachedPolicyIds: (json['AttachedPolicyIds'] as List?)
@@ -6646,6 +6750,7 @@ class ListOutgoingTypedLinksResponse {
     this.nextToken,
     this.typedLinkSpecifiers,
   });
+
   factory ListOutgoingTypedLinksResponse.fromJson(Map<String, dynamic> json) {
     return ListOutgoingTypedLinksResponse(
       nextToken: json['NextToken'] as String?,
@@ -6668,6 +6773,7 @@ class ListPolicyAttachmentsResponse {
     this.nextToken,
     this.objectIdentifiers,
   });
+
   factory ListPolicyAttachmentsResponse.fromJson(Map<String, dynamic> json) {
     return ListPolicyAttachmentsResponse(
       nextToken: json['NextToken'] as String?,
@@ -6690,6 +6796,7 @@ class ListPublishedSchemaArnsResponse {
     this.nextToken,
     this.schemaArns,
   });
+
   factory ListPublishedSchemaArnsResponse.fromJson(Map<String, dynamic> json) {
     return ListPublishedSchemaArnsResponse(
       nextToken: json['NextToken'] as String?,
@@ -6713,6 +6820,7 @@ class ListTagsForResourceResponse {
     this.nextToken,
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       nextToken: json['NextToken'] as String?,
@@ -6735,6 +6843,7 @@ class ListTypedLinkFacetAttributesResponse {
     this.attributes,
     this.nextToken,
   });
+
   factory ListTypedLinkFacetAttributesResponse.fromJson(
       Map<String, dynamic> json) {
     return ListTypedLinkFacetAttributesResponse(
@@ -6759,6 +6868,7 @@ class ListTypedLinkFacetNamesResponse {
     this.facetNames,
     this.nextToken,
   });
+
   factory ListTypedLinkFacetNamesResponse.fromJson(Map<String, dynamic> json) {
     return ListTypedLinkFacetNamesResponse(
       facetNames: (json['FacetNames'] as List?)
@@ -6784,6 +6894,7 @@ class LookupPolicyResponse {
     this.nextToken,
     this.policyToPathList,
   });
+
   factory LookupPolicyResponse.fromJson(Map<String, dynamic> json) {
     return LookupPolicyResponse(
       nextToken: json['NextToken'] as String?,
@@ -6876,6 +6987,7 @@ class ObjectIdentifierAndLinkNameTuple {
     this.linkName,
     this.objectIdentifier,
   });
+
   factory ObjectIdentifierAndLinkNameTuple.fromJson(Map<String, dynamic> json) {
     return ObjectIdentifierAndLinkNameTuple(
       linkName: json['LinkName'] as String?,
@@ -6899,7 +7011,9 @@ class ObjectReference {
   /// <i>$ObjectIdentifier</i> - An object identifier is an opaque string provided
   /// by Amazon Cloud Directory. When creating objects, the system will provide
   /// you with the identifier of the created object. An object’s identifier is
-  /// immutable and no two objects will ever share the same object identifier
+  /// immutable and no two objects will ever share the same object identifier. To
+  /// identify an object with ObjectIdentifier, the ObjectIdentifier must be
+  /// wrapped in double quotes.
   /// </li>
   /// <li>
   /// <i>/some/path</i> - Identifies the object based on path
@@ -6913,6 +7027,7 @@ class ObjectReference {
   ObjectReference({
     this.selector,
   });
+
   factory ObjectReference.fromJson(Map<String, dynamic> json) {
     return ObjectReference(
       selector: json['Selector'] as String?,
@@ -6979,6 +7094,7 @@ class PathToObjectIdentifiers {
     this.objectIdentifiers,
     this.path,
   });
+
   factory PathToObjectIdentifiers.fromJson(Map<String, dynamic> json) {
     return PathToObjectIdentifiers(
       objectIdentifiers: (json['ObjectIdentifiers'] as List?)
@@ -7011,6 +7127,7 @@ class PolicyAttachment {
     this.policyId,
     this.policyType,
   });
+
   factory PolicyAttachment.fromJson(Map<String, dynamic> json) {
     return PolicyAttachment(
       objectIdentifier: json['ObjectIdentifier'] as String?,
@@ -7034,6 +7151,7 @@ class PolicyToPath {
     this.path,
     this.policies,
   });
+
   factory PolicyToPath.fromJson(Map<String, dynamic> json) {
     return PolicyToPath(
       path: json['Path'] as String?,
@@ -7053,6 +7171,7 @@ class PublishSchemaResponse {
   PublishSchemaResponse({
     this.publishedSchemaArn,
   });
+
   factory PublishSchemaResponse.fromJson(Map<String, dynamic> json) {
     return PublishSchemaResponse(
       publishedSchemaArn: json['PublishedSchemaArn'] as String?,
@@ -7067,6 +7186,7 @@ class PutSchemaFromJsonResponse {
   PutSchemaFromJsonResponse({
     this.arn,
   });
+
   factory PutSchemaFromJsonResponse.fromJson(Map<String, dynamic> json) {
     return PutSchemaFromJsonResponse(
       arn: json['Arn'] as String?,
@@ -7119,6 +7239,7 @@ extension RangeModeFromString on String {
 
 class RemoveFacetFromObjectResponse {
   RemoveFacetFromObjectResponse();
+
   factory RemoveFacetFromObjectResponse.fromJson(Map<String, dynamic> _) {
     return RemoveFacetFromObjectResponse();
   }
@@ -7165,6 +7286,7 @@ class Rule {
     this.parameters,
     this.type,
   });
+
   factory Rule.fromJson(Map<String, dynamic> json) {
     return Rule(
       parameters: (json['Parameters'] as Map<String, dynamic>?)
@@ -7223,19 +7345,21 @@ extension RuleTypeFromString on String {
 
 /// A facet.
 class SchemaFacet {
-  /// The name of the facet.
+  /// The name of the facet. If this value is set, SchemaArn must also be set.
   final String? facetName;
 
   /// The ARN of the schema that contains the facet with no minor component. See
   /// <a>arns</a> and <a
   /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_inplaceschemaupgrade.html">In-Place
-  /// Schema Upgrade</a> for a description of when to provide minor versions.
+  /// Schema Upgrade</a> for a description of when to provide minor versions. If
+  /// this value is set, FacetName must also be set.
   final String? schemaArn;
 
   SchemaFacet({
     this.facetName,
     this.schemaArn,
   });
+
   factory SchemaFacet.fromJson(Map<String, dynamic> json) {
     return SchemaFacet(
       facetName: json['FacetName'] as String?,
@@ -7265,6 +7389,7 @@ class Tag {
     this.key,
     this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String?,
@@ -7284,6 +7409,7 @@ class Tag {
 
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
@@ -7315,6 +7441,7 @@ class TypedAttributeValue {
     this.numberValue,
     this.stringValue,
   });
+
   factory TypedAttributeValue.fromJson(Map<String, dynamic> json) {
     return TypedAttributeValue(
       binaryValue: _s.decodeNullableUint8List(json['BinaryValue'] as String?),
@@ -7406,6 +7533,7 @@ class TypedLinkAttributeDefinition {
     this.isImmutable,
     this.rules,
   });
+
   factory TypedLinkAttributeDefinition.fromJson(Map<String, dynamic> json) {
     return TypedLinkAttributeDefinition(
       name: json['Name'] as String,
@@ -7534,6 +7662,7 @@ class TypedLinkSchemaAndFacetName {
     required this.schemaArn,
     required this.typedLinkName,
   });
+
   factory TypedLinkSchemaAndFacetName.fromJson(Map<String, dynamic> json) {
     return TypedLinkSchemaAndFacetName(
       schemaArn: json['SchemaArn'] as String,
@@ -7577,6 +7706,7 @@ class TypedLinkSpecifier {
     required this.targetObjectReference,
     required this.typedLinkFacet,
   });
+
   factory TypedLinkSpecifier.fromJson(Map<String, dynamic> json) {
     return TypedLinkSpecifier(
       identityAttributeValues: (json['IdentityAttributeValues'] as List)
@@ -7608,6 +7738,7 @@ class TypedLinkSpecifier {
 
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
   }
@@ -7643,6 +7774,7 @@ extension UpdateActionTypeFromString on String {
 
 class UpdateFacetResponse {
   UpdateFacetResponse();
+
   factory UpdateFacetResponse.fromJson(Map<String, dynamic> _) {
     return UpdateFacetResponse();
   }
@@ -7650,6 +7782,7 @@ class UpdateFacetResponse {
 
 class UpdateLinkAttributesResponse {
   UpdateLinkAttributesResponse();
+
   factory UpdateLinkAttributesResponse.fromJson(Map<String, dynamic> _) {
     return UpdateLinkAttributesResponse();
   }
@@ -7662,6 +7795,7 @@ class UpdateObjectAttributesResponse {
   UpdateObjectAttributesResponse({
     this.objectIdentifier,
   });
+
   factory UpdateObjectAttributesResponse.fromJson(Map<String, dynamic> json) {
     return UpdateObjectAttributesResponse(
       objectIdentifier: json['ObjectIdentifier'] as String?,
@@ -7677,6 +7811,7 @@ class UpdateSchemaResponse {
   UpdateSchemaResponse({
     this.schemaArn,
   });
+
   factory UpdateSchemaResponse.fromJson(Map<String, dynamic> json) {
     return UpdateSchemaResponse(
       schemaArn: json['SchemaArn'] as String?,
@@ -7686,6 +7821,7 @@ class UpdateSchemaResponse {
 
 class UpdateTypedLinkFacetResponse {
   UpdateTypedLinkFacetResponse();
+
   factory UpdateTypedLinkFacetResponse.fromJson(Map<String, dynamic> _) {
     return UpdateTypedLinkFacetResponse();
   }
@@ -7702,6 +7838,7 @@ class UpgradeAppliedSchemaResponse {
     this.directoryArn,
     this.upgradedSchemaArn,
   });
+
   factory UpgradeAppliedSchemaResponse.fromJson(Map<String, dynamic> json) {
     return UpgradeAppliedSchemaResponse(
       directoryArn: json['DirectoryArn'] as String?,
@@ -7717,6 +7854,7 @@ class UpgradePublishedSchemaResponse {
   UpgradePublishedSchemaResponse({
     this.upgradedSchemaArn,
   });
+
   factory UpgradePublishedSchemaResponse.fromJson(Map<String, dynamic> json) {
     return UpgradePublishedSchemaResponse(
       upgradedSchemaArn: json['UpgradedSchemaArn'] as String?,

@@ -76,6 +76,7 @@ class IoTThingsGraph {
   /// Parameter [namespaceVersion] :
   /// The version of the user's namespace. Defaults to the latest version of the
   /// user's namespace.
+  @Deprecated('Deprecated')
   Future<void> associateEntityToThing({
     required String entityId,
     required String thingName,
@@ -118,6 +119,7 @@ class IoTThingsGraph {
   /// The namespace version in which the workflow is to be created.
   ///
   /// If no value is specified, the latest version is used by default.
+  @Deprecated('Deprecated')
   Future<CreateFlowTemplateResponse> createFlowTemplate({
     required DefinitionDocument definition,
     int? compatibleNamespaceVersion,
@@ -196,6 +198,7 @@ class IoTThingsGraph {
   /// Parameter [tags] :
   /// Metadata, consisting of key-value pairs, that can be used to categorize
   /// your system instances.
+  @Deprecated('Deprecated')
   Future<CreateSystemInstanceResponse> createSystemInstance({
     required DefinitionDocument definition,
     required DeploymentTarget target,
@@ -248,6 +251,7 @@ class IoTThingsGraph {
   /// The namespace version in which the system is to be created.
   ///
   /// If no value is specified, the latest version is used by default.
+  @Deprecated('Deprecated')
   Future<CreateSystemTemplateResponse> createSystemTemplate({
     required DefinitionDocument definition,
     int? compatibleNamespaceVersion,
@@ -288,6 +292,7 @@ class IoTThingsGraph {
   /// The ID should be in the following format.
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME</code>
+  @Deprecated('Deprecated')
   Future<void> deleteFlowTemplate({
     required String id,
   }) async {
@@ -309,10 +314,12 @@ class IoTThingsGraph {
 
   /// Deletes the specified namespace. This action deletes all of the entities
   /// in the namespace. Delete the systems and flows that use entities in the
-  /// namespace before performing this action.
+  /// namespace before performing this action. This action takes no request
+  /// parameters.
   ///
   /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
+  @Deprecated('Deprecated')
   Future<DeleteNamespaceResponse> deleteNamespace() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -342,6 +349,7 @@ class IoTThingsGraph {
   ///
   /// Parameter [id] :
   /// The ID of the system instance to be deleted.
+  @Deprecated('Deprecated')
   Future<void> deleteSystemInstance({
     String? id,
   }) async {
@@ -377,6 +385,7 @@ class IoTThingsGraph {
   /// The ID should be in the following format.
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME</code>
+  @Deprecated('Deprecated')
   Future<void> deleteSystemTemplate({
     required String id,
   }) async {
@@ -430,6 +439,7 @@ class IoTThingsGraph {
   /// The ID should be in the following format.
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME</code>
+  @Deprecated('Deprecated')
   Future<DeploySystemInstanceResponse> deploySystemInstance({
     String? id,
   }) async {
@@ -466,6 +476,7 @@ class IoTThingsGraph {
   /// The ID should be in the following format.
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME</code>
+  @Deprecated('Deprecated')
   Future<void> deprecateFlowTemplate({
     required String id,
   }) async {
@@ -498,6 +509,7 @@ class IoTThingsGraph {
   /// The ID should be in the following format.
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME</code>
+  @Deprecated('Deprecated')
   Future<void> deprecateSystemTemplate({
     required String id,
   }) async {
@@ -528,6 +540,7 @@ class IoTThingsGraph {
   /// Parameter [namespaceName] :
   /// The name of the user's namespace. Set this to <code>aws</code> to get the
   /// public namespace.
+  @Deprecated('Deprecated')
   Future<DescribeNamespaceResponse> describeNamespace({
     String? namespaceName,
   }) async {
@@ -563,6 +576,7 @@ class IoTThingsGraph {
   ///
   /// Parameter [thingName] :
   /// The name of the thing to disassociate.
+  @Deprecated('Deprecated')
   Future<void> dissociateEntityFromThing({
     required EntityType entityType,
     required String thingName,
@@ -634,6 +648,7 @@ class IoTThingsGraph {
   /// Parameter [namespaceVersion] :
   /// The version of the user's namespace. Defaults to the latest version of the
   /// user's namespace.
+  @Deprecated('Deprecated')
   Future<GetEntitiesResponse> getEntities({
     required List<String> ids,
     int? namespaceVersion,
@@ -674,6 +689,7 @@ class IoTThingsGraph {
   ///
   /// Parameter [revisionNumber] :
   /// The number of the workflow revision to retrieve.
+  @Deprecated('Deprecated')
   Future<GetFlowTemplateResponse> getFlowTemplate({
     required String id,
     int? revisionNumber,
@@ -720,6 +736,7 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
+  @Deprecated('Deprecated')
   Future<GetFlowTemplateRevisionsResponse> getFlowTemplateRevisions({
     required String id,
     int? maxResults,
@@ -756,6 +773,7 @@ class IoTThingsGraph {
   /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
+  @Deprecated('Deprecated')
   Future<GetNamespaceDeletionStatusResponse>
       getNamespaceDeletionStatus() async {
     final headers = <String, String>{
@@ -787,6 +805,7 @@ class IoTThingsGraph {
   /// The ID should be in the following format.
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME</code>
+  @Deprecated('Deprecated')
   Future<GetSystemInstanceResponse> getSystemInstance({
     required String id,
   }) async {
@@ -824,6 +843,7 @@ class IoTThingsGraph {
   ///
   /// Parameter [revisionNumber] :
   /// The number that specifies the revision of the system to get.
+  @Deprecated('Deprecated')
   Future<GetSystemTemplateResponse> getSystemTemplate({
     required String id,
     int? revisionNumber,
@@ -870,6 +890,7 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
+  @Deprecated('Deprecated')
   Future<GetSystemTemplateRevisionsResponse> getSystemTemplateRevisions({
     required String id,
     int? maxResults,
@@ -911,6 +932,7 @@ class IoTThingsGraph {
   /// Parameter [uploadId] :
   /// The ID of the upload. This value is returned by the
   /// <code>UploadEntityDefinitions</code> action.
+  @Deprecated('Deprecated')
   Future<GetUploadStatusResponse> getUploadStatus({
     required String uploadId,
   }) async {
@@ -949,6 +971,7 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
+  @Deprecated('Deprecated')
   Future<ListFlowExecutionMessagesResponse> listFlowExecutionMessages({
     required String flowExecutionId,
     int? maxResults,
@@ -996,6 +1019,7 @@ class IoTThingsGraph {
   ///
   /// Parameter [nextToken] :
   /// The token that specifies the next page of results to return.
+  @Deprecated('Deprecated')
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
     int? maxResults,
@@ -1057,6 +1081,7 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
+  @Deprecated('Deprecated')
   Future<SearchEntitiesResponse> searchEntities({
     required List<EntityType> entityTypes,
     List<EntityFilter>? filters,
@@ -1117,6 +1142,7 @@ class IoTThingsGraph {
   ///
   /// Parameter [startTime] :
   /// The date and time of the earliest flow execution to return.
+  @Deprecated('Deprecated')
   Future<SearchFlowExecutionsResponse> searchFlowExecutions({
     required String systemInstanceId,
     DateTime? endTime,
@@ -1170,6 +1196,7 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
+  @Deprecated('Deprecated')
   Future<SearchFlowTemplatesResponse> searchFlowTemplates({
     List<FlowTemplateFilter>? filters,
     int? maxResults,
@@ -1221,6 +1248,7 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
+  @Deprecated('Deprecated')
   Future<SearchSystemInstancesResponse> searchSystemInstances({
     List<SystemInstanceFilter>? filters,
     int? maxResults,
@@ -1270,6 +1298,7 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
+  @Deprecated('Deprecated')
   Future<SearchSystemTemplatesResponse> searchSystemTemplates({
     List<SystemTemplateFilter>? filters,
     int? maxResults,
@@ -1334,6 +1363,7 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
+  @Deprecated('Deprecated')
   Future<SearchThingsResponse> searchThings({
     required String entityId,
     int? maxResults,
@@ -1379,6 +1409,7 @@ class IoTThingsGraph {
   ///
   /// Parameter [tags] :
   /// A list of tags to add to the resource.&gt;
+  @Deprecated('Deprecated')
   Future<void> tagResource({
     required String resourceArn,
     required List<Tag> tags,
@@ -1410,6 +1441,7 @@ class IoTThingsGraph {
   ///
   /// Parameter [id] :
   /// The ID of the system instance to remove from its target.
+  @Deprecated('Deprecated')
   Future<UndeploySystemInstanceResponse> undeploySystemInstance({
     String? id,
   }) async {
@@ -1451,6 +1483,7 @@ class IoTThingsGraph {
   /// tool environments, see <a
   /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters.html#cli-using-param-json">Using
   /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>.
+  @Deprecated('Deprecated')
   Future<void> untagResource({
     required String resourceArn,
     required List<String> tagKeys,
@@ -1500,6 +1533,7 @@ class IoTThingsGraph {
   /// If no value is specified, the latest version is used by default. Use the
   /// <code>GetFlowTemplateRevisions</code> if you want to find earlier
   /// revisions of the flow to update.
+  @Deprecated('Deprecated')
   Future<UpdateFlowTemplateResponse> updateFlowTemplate({
     required DefinitionDocument definition,
     required String id,
@@ -1551,6 +1585,7 @@ class IoTThingsGraph {
   /// user's namespace.
   ///
   /// If no value is specified, the latest version is used by default.
+  @Deprecated('Deprecated')
   Future<UpdateSystemTemplateResponse> updateSystemTemplate({
     required DefinitionDocument definition,
     required String id,
@@ -1621,6 +1656,7 @@ class IoTThingsGraph {
   /// A Boolean that specifies whether to synchronize with the latest version of
   /// the public namespace. If set to <code>true</code>, the upload will create
   /// a new namespace version.
+  @Deprecated('Deprecated')
   Future<UploadEntityDefinitionsResponse> uploadEntityDefinitions({
     bool? deprecateExistingEntities,
     DefinitionDocument? document,
@@ -1651,6 +1687,7 @@ class IoTThingsGraph {
 
 class AssociateEntityToThingResponse {
   AssociateEntityToThingResponse();
+
   factory AssociateEntityToThingResponse.fromJson(Map<String, dynamic> _) {
     return AssociateEntityToThingResponse();
   }
@@ -1663,6 +1700,7 @@ class CreateFlowTemplateResponse {
   CreateFlowTemplateResponse({
     this.summary,
   });
+
   factory CreateFlowTemplateResponse.fromJson(Map<String, dynamic> json) {
     return CreateFlowTemplateResponse(
       summary: json['summary'] != null
@@ -1680,6 +1718,7 @@ class CreateSystemInstanceResponse {
   CreateSystemInstanceResponse({
     this.summary,
   });
+
   factory CreateSystemInstanceResponse.fromJson(Map<String, dynamic> json) {
     return CreateSystemInstanceResponse(
       summary: json['summary'] != null
@@ -1697,6 +1736,7 @@ class CreateSystemTemplateResponse {
   CreateSystemTemplateResponse({
     this.summary,
   });
+
   factory CreateSystemTemplateResponse.fromJson(Map<String, dynamic> json) {
     return CreateSystemTemplateResponse(
       summary: json['summary'] != null
@@ -1720,6 +1760,7 @@ class DefinitionDocument {
     required this.language,
     required this.text,
   });
+
   factory DefinitionDocument.fromJson(Map<String, dynamic> json) {
     return DefinitionDocument(
       language: (json['language'] as String).toDefinitionLanguage(),
@@ -1762,6 +1803,7 @@ extension DefinitionLanguageFromString on String {
 
 class DeleteFlowTemplateResponse {
   DeleteFlowTemplateResponse();
+
   factory DeleteFlowTemplateResponse.fromJson(Map<String, dynamic> _) {
     return DeleteFlowTemplateResponse();
   }
@@ -1778,6 +1820,7 @@ class DeleteNamespaceResponse {
     this.namespaceArn,
     this.namespaceName,
   });
+
   factory DeleteNamespaceResponse.fromJson(Map<String, dynamic> json) {
     return DeleteNamespaceResponse(
       namespaceArn: json['namespaceArn'] as String?,
@@ -1788,6 +1831,7 @@ class DeleteNamespaceResponse {
 
 class DeleteSystemInstanceResponse {
   DeleteSystemInstanceResponse();
+
   factory DeleteSystemInstanceResponse.fromJson(Map<String, dynamic> _) {
     return DeleteSystemInstanceResponse();
   }
@@ -1795,6 +1839,7 @@ class DeleteSystemInstanceResponse {
 
 class DeleteSystemTemplateResponse {
   DeleteSystemTemplateResponse();
+
   factory DeleteSystemTemplateResponse.fromJson(Map<String, dynamic> _) {
     return DeleteSystemTemplateResponse();
   }
@@ -1813,6 +1858,7 @@ class DependencyRevision {
     this.id,
     this.revisionNumber,
   });
+
   factory DependencyRevision.fromJson(Map<String, dynamic> json) {
     return DependencyRevision(
       id: json['id'] as String?,
@@ -1833,6 +1879,7 @@ class DeploySystemInstanceResponse {
     required this.summary,
     this.greengrassDeploymentId,
   });
+
   factory DeploySystemInstanceResponse.fromJson(Map<String, dynamic> json) {
     return DeploySystemInstanceResponse(
       summary: SystemInstanceSummary.fromJson(
@@ -1872,6 +1919,7 @@ extension DeploymentTargetFromString on String {
 
 class DeprecateFlowTemplateResponse {
   DeprecateFlowTemplateResponse();
+
   factory DeprecateFlowTemplateResponse.fromJson(Map<String, dynamic> _) {
     return DeprecateFlowTemplateResponse();
   }
@@ -1879,6 +1927,7 @@ class DeprecateFlowTemplateResponse {
 
 class DeprecateSystemTemplateResponse {
   DeprecateSystemTemplateResponse();
+
   factory DeprecateSystemTemplateResponse.fromJson(Map<String, dynamic> _) {
     return DeprecateSystemTemplateResponse();
   }
@@ -1908,6 +1957,7 @@ class DescribeNamespaceResponse {
     this.trackingNamespaceName,
     this.trackingNamespaceVersion,
   });
+
   factory DescribeNamespaceResponse.fromJson(Map<String, dynamic> json) {
     return DescribeNamespaceResponse(
       namespaceArn: json['namespaceArn'] as String?,
@@ -1921,6 +1971,7 @@ class DescribeNamespaceResponse {
 
 class DissociateEntityFromThingResponse {
   DissociateEntityFromThingResponse();
+
   factory DissociateEntityFromThingResponse.fromJson(Map<String, dynamic> _) {
     return DissociateEntityFromThingResponse();
   }
@@ -1950,6 +2001,7 @@ class EntityDescription {
     this.id,
     this.type,
   });
+
   factory EntityDescription.fromJson(Map<String, dynamic> json) {
     return EntityDescription(
       arn: json['arn'] as String?,
@@ -2223,6 +2275,7 @@ class FlowExecutionMessage {
     this.payload,
     this.timestamp,
   });
+
   factory FlowExecutionMessage.fromJson(Map<String, dynamic> json) {
     return FlowExecutionMessage(
       eventType: (json['eventType'] as String?)?.toFlowExecutionEventType(),
@@ -2299,6 +2352,7 @@ class FlowExecutionSummary {
     this.systemInstanceId,
     this.updatedAt,
   });
+
   factory FlowExecutionSummary.fromJson(Map<String, dynamic> json) {
     return FlowExecutionSummary(
       createdAt: timeStampFromJson(json['createdAt']),
@@ -2328,6 +2382,7 @@ class FlowTemplateDescription {
     this.summary,
     this.validatedNamespaceVersion,
   });
+
   factory FlowTemplateDescription.fromJson(Map<String, dynamic> json) {
     return FlowTemplateDescription(
       definition: json['definition'] != null
@@ -2409,6 +2464,7 @@ class FlowTemplateSummary {
     this.id,
     this.revisionNumber,
   });
+
   factory FlowTemplateSummary.fromJson(Map<String, dynamic> json) {
     return FlowTemplateSummary(
       arn: json['arn'] as String?,
@@ -2426,6 +2482,7 @@ class GetEntitiesResponse {
   GetEntitiesResponse({
     this.descriptions,
   });
+
   factory GetEntitiesResponse.fromJson(Map<String, dynamic> json) {
     return GetEntitiesResponse(
       descriptions: (json['descriptions'] as List?)
@@ -2443,6 +2500,7 @@ class GetFlowTemplateResponse {
   GetFlowTemplateResponse({
     this.description,
   });
+
   factory GetFlowTemplateResponse.fromJson(Map<String, dynamic> json) {
     return GetFlowTemplateResponse(
       description: json['description'] != null
@@ -2465,6 +2523,7 @@ class GetFlowTemplateRevisionsResponse {
     this.nextToken,
     this.summaries,
   });
+
   factory GetFlowTemplateRevisionsResponse.fromJson(Map<String, dynamic> json) {
     return GetFlowTemplateRevisionsResponse(
       nextToken: json['nextToken'] as String?,
@@ -2499,6 +2558,7 @@ class GetNamespaceDeletionStatusResponse {
     this.namespaceName,
     this.status,
   });
+
   factory GetNamespaceDeletionStatusResponse.fromJson(
       Map<String, dynamic> json) {
     return GetNamespaceDeletionStatusResponse(
@@ -2519,6 +2579,7 @@ class GetSystemInstanceResponse {
   GetSystemInstanceResponse({
     this.description,
   });
+
   factory GetSystemInstanceResponse.fromJson(Map<String, dynamic> json) {
     return GetSystemInstanceResponse(
       description: json['description'] != null
@@ -2536,6 +2597,7 @@ class GetSystemTemplateResponse {
   GetSystemTemplateResponse({
     this.description,
   });
+
   factory GetSystemTemplateResponse.fromJson(Map<String, dynamic> json) {
     return GetSystemTemplateResponse(
       description: json['description'] != null
@@ -2559,6 +2621,7 @@ class GetSystemTemplateRevisionsResponse {
     this.nextToken,
     this.summaries,
   });
+
   factory GetSystemTemplateRevisionsResponse.fromJson(
       Map<String, dynamic> json) {
     return GetSystemTemplateRevisionsResponse(
@@ -2604,6 +2667,7 @@ class GetUploadStatusResponse {
     this.namespaceName,
     this.namespaceVersion,
   });
+
   factory GetUploadStatusResponse.fromJson(Map<String, dynamic> json) {
     return GetUploadStatusResponse(
       createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
@@ -2633,6 +2697,7 @@ class ListFlowExecutionMessagesResponse {
     this.messages,
     this.nextToken,
   });
+
   factory ListFlowExecutionMessagesResponse.fromJson(
       Map<String, dynamic> json) {
     return ListFlowExecutionMessagesResponse(
@@ -2656,6 +2721,7 @@ class ListTagsForResourceResponse {
     this.nextToken,
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       nextToken: json['nextToken'] as String?,
@@ -2680,6 +2746,7 @@ class MetricsConfiguration {
     this.cloudMetricEnabled,
     this.metricRuleRoleArn,
   });
+
   factory MetricsConfiguration.fromJson(Map<String, dynamic> json) {
     return MetricsConfiguration(
       cloudMetricEnabled: json['cloudMetricEnabled'] as bool?,
@@ -2767,6 +2834,7 @@ class SearchEntitiesResponse {
     this.descriptions,
     this.nextToken,
   });
+
   factory SearchEntitiesResponse.fromJson(Map<String, dynamic> json) {
     return SearchEntitiesResponse(
       descriptions: (json['descriptions'] as List?)
@@ -2791,6 +2859,7 @@ class SearchFlowExecutionsResponse {
     this.nextToken,
     this.summaries,
   });
+
   factory SearchFlowExecutionsResponse.fromJson(Map<String, dynamic> json) {
     return SearchFlowExecutionsResponse(
       nextToken: json['nextToken'] as String?,
@@ -2815,6 +2884,7 @@ class SearchFlowTemplatesResponse {
     this.nextToken,
     this.summaries,
   });
+
   factory SearchFlowTemplatesResponse.fromJson(Map<String, dynamic> json) {
     return SearchFlowTemplatesResponse(
       nextToken: json['nextToken'] as String?,
@@ -2839,6 +2909,7 @@ class SearchSystemInstancesResponse {
     this.nextToken,
     this.summaries,
   });
+
   factory SearchSystemInstancesResponse.fromJson(Map<String, dynamic> json) {
     return SearchSystemInstancesResponse(
       nextToken: json['nextToken'] as String?,
@@ -2863,6 +2934,7 @@ class SearchSystemTemplatesResponse {
     this.nextToken,
     this.summaries,
   });
+
   factory SearchSystemTemplatesResponse.fromJson(Map<String, dynamic> json) {
     return SearchSystemTemplatesResponse(
       nextToken: json['nextToken'] as String?,
@@ -2886,6 +2958,7 @@ class SearchThingsResponse {
     this.nextToken,
     this.things,
   });
+
   factory SearchThingsResponse.fromJson(Map<String, dynamic> json) {
     return SearchThingsResponse(
       nextToken: json['nextToken'] as String?,
@@ -2993,6 +3066,7 @@ class SystemInstanceDescription {
     this.validatedDependencyRevisions,
     this.validatedNamespaceVersion,
   });
+
   factory SystemInstanceDescription.fromJson(Map<String, dynamic> json) {
     return SystemInstanceDescription(
       definition: json['definition'] != null
@@ -3118,6 +3192,7 @@ class SystemInstanceSummary {
     this.target,
     this.updatedAt,
   });
+
   factory SystemInstanceSummary.fromJson(Map<String, dynamic> json) {
     return SystemInstanceSummary(
       arn: json['arn'] as String?,
@@ -3151,6 +3226,7 @@ class SystemTemplateDescription {
     this.summary,
     this.validatedNamespaceVersion,
   });
+
   factory SystemTemplateDescription.fromJson(Map<String, dynamic> json) {
     return SystemTemplateDescription(
       definition: json['definition'] != null
@@ -3232,6 +3308,7 @@ class SystemTemplateSummary {
     this.id,
     this.revisionNumber,
   });
+
   factory SystemTemplateSummary.fromJson(Map<String, dynamic> json) {
     return SystemTemplateSummary(
       arn: json['arn'] as String?,
@@ -3257,6 +3334,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['key'] as String,
@@ -3276,6 +3354,7 @@ class Tag {
 
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
@@ -3293,6 +3372,7 @@ class Thing {
     this.thingArn,
     this.thingName,
   });
+
   factory Thing.fromJson(Map<String, dynamic> json) {
     return Thing(
       thingArn: json['thingArn'] as String?,
@@ -3309,6 +3389,7 @@ class UndeploySystemInstanceResponse {
   UndeploySystemInstanceResponse({
     this.summary,
   });
+
   factory UndeploySystemInstanceResponse.fromJson(Map<String, dynamic> json) {
     return UndeploySystemInstanceResponse(
       summary: json['summary'] != null
@@ -3321,6 +3402,7 @@ class UndeploySystemInstanceResponse {
 
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
   }
@@ -3333,6 +3415,7 @@ class UpdateFlowTemplateResponse {
   UpdateFlowTemplateResponse({
     this.summary,
   });
+
   factory UpdateFlowTemplateResponse.fromJson(Map<String, dynamic> json) {
     return UpdateFlowTemplateResponse(
       summary: json['summary'] != null
@@ -3350,6 +3433,7 @@ class UpdateSystemTemplateResponse {
   UpdateSystemTemplateResponse({
     this.summary,
   });
+
   factory UpdateSystemTemplateResponse.fromJson(Map<String, dynamic> json) {
     return UpdateSystemTemplateResponse(
       summary: json['summary'] != null
@@ -3368,6 +3452,7 @@ class UploadEntityDefinitionsResponse {
   UploadEntityDefinitionsResponse({
     required this.uploadId,
   });
+
   factory UploadEntityDefinitionsResponse.fromJson(Map<String, dynamic> json) {
     return UploadEntityDefinitionsResponse(
       uploadId: json['uploadId'] as String,

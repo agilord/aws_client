@@ -62,6 +62,83 @@ class AppStream {
     _protocol.close();
   }
 
+  /// Associates the specified application with the specified fleet. This is
+  /// only supported for Elastic fleets.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [OperationNotPermittedException].
+  ///
+  /// Parameter [applicationArn] :
+  /// The ARN of the application.
+  ///
+  /// Parameter [fleetName] :
+  /// The name of the fleet.
+  Future<AssociateApplicationFleetResult> associateApplicationFleet({
+    required String applicationArn,
+    required String fleetName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.AssociateApplicationFleet'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationArn': applicationArn,
+        'FleetName': fleetName,
+      },
+    );
+
+    return AssociateApplicationFleetResult.fromJson(jsonResponse.body);
+  }
+
+  /// Associates an application to entitle.
+  ///
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [EntitlementNotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [OperationNotPermittedException].
+  ///
+  /// Parameter [applicationIdentifier] :
+  /// The identifier of the application.
+  ///
+  /// Parameter [entitlementName] :
+  /// The name of the entitlement.
+  ///
+  /// Parameter [stackName] :
+  /// The name of the stack.
+  Future<void> associateApplicationToEntitlement({
+    required String applicationIdentifier,
+    required String entitlementName,
+    required String stackName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'PhotonAdminProxyService.AssociateApplicationToEntitlement'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationIdentifier': applicationIdentifier,
+        'EntitlementName': entitlementName,
+        'StackName': stackName,
+      },
+    );
+  }
+
   /// Associates the specified fleet with the specified stack.
   ///
   /// May throw [LimitExceededException].
@@ -206,6 +283,164 @@ class AppStream {
     return CopyImageResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates an app block.
+  ///
+  /// App blocks are an Amazon AppStream 2.0 resource that stores the details
+  /// about the virtual hard disk in an S3 bucket. It also stores the setup
+  /// script with details about how to mount the virtual hard disk. The virtual
+  /// hard disk includes the application binaries and other files necessary to
+  /// launch your applications. Multiple applications can be assigned to a
+  /// single app block.
+  ///
+  /// This is only supported for Elastic fleets.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [LimitExceededException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceAlreadyExistsException].
+  ///
+  /// Parameter [name] :
+  /// The name of the app block.
+  ///
+  /// Parameter [setupScriptDetails] :
+  /// The setup script details of the app block.
+  ///
+  /// Parameter [sourceS3Location] :
+  /// The source S3 location of the app block.
+  ///
+  /// Parameter [description] :
+  /// The description of the app block.
+  ///
+  /// Parameter [displayName] :
+  /// The display name of the app block. This is not displayed to the user.
+  ///
+  /// Parameter [tags] :
+  /// The tags assigned to the app block.
+  Future<CreateAppBlockResult> createAppBlock({
+    required String name,
+    required ScriptDetails setupScriptDetails,
+    required S3Location sourceS3Location,
+    String? description,
+    String? displayName,
+    Map<String, String>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.CreateAppBlock'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+        'SetupScriptDetails': setupScriptDetails,
+        'SourceS3Location': sourceS3Location,
+        if (description != null) 'Description': description,
+        if (displayName != null) 'DisplayName': displayName,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateAppBlockResult.fromJson(jsonResponse.body);
+  }
+
+  /// Creates an application.
+  ///
+  /// Applications are an Amazon AppStream 2.0 resource that stores the details
+  /// about how to launch applications on Elastic fleet streaming instances. An
+  /// application consists of the launch details, icon, and display name.
+  /// Applications are associated with an app block that contains the
+  /// application binaries and other files. The applications assigned to an
+  /// Elastic fleet are the applications users can launch.
+  ///
+  /// This is only supported for Elastic fleets.
+  ///
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [LimitExceededException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [appBlockArn] :
+  /// The app block ARN to which the application should be associated
+  ///
+  /// Parameter [iconS3Location] :
+  /// The location in S3 of the application icon.
+  ///
+  /// Parameter [instanceFamilies] :
+  /// The instance families the application supports. Valid values are
+  /// GENERAL_PURPOSE and GRAPHICS_G4.
+  ///
+  /// Parameter [launchPath] :
+  /// The launch path of the application.
+  ///
+  /// Parameter [name] :
+  /// The name of the application. This name is visible to users when display
+  /// name is not specified.
+  ///
+  /// Parameter [platforms] :
+  /// The platforms the application supports. WINDOWS_SERVER_2019 and
+  /// AMAZON_LINUX2 are supported for Elastic fleets.
+  ///
+  /// Parameter [description] :
+  /// The description of the application.
+  ///
+  /// Parameter [displayName] :
+  /// The display name of the application. This name is visible to users in the
+  /// application catalog.
+  ///
+  /// Parameter [launchParameters] :
+  /// The launch parameters of the application.
+  ///
+  /// Parameter [tags] :
+  /// The tags assigned to the application.
+  ///
+  /// Parameter [workingDirectory] :
+  /// The working directory of the application.
+  Future<CreateApplicationResult> createApplication({
+    required String appBlockArn,
+    required S3Location iconS3Location,
+    required List<String> instanceFamilies,
+    required String launchPath,
+    required String name,
+    required List<PlatformType> platforms,
+    String? description,
+    String? displayName,
+    String? launchParameters,
+    Map<String, String>? tags,
+    String? workingDirectory,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.CreateApplication'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AppBlockArn': appBlockArn,
+        'IconS3Location': iconS3Location,
+        'InstanceFamilies': instanceFamilies,
+        'LaunchPath': launchPath,
+        'Name': name,
+        'Platforms': platforms.map((e) => e.toValue()).toList(),
+        if (description != null) 'Description': description,
+        if (displayName != null) 'DisplayName': displayName,
+        if (launchParameters != null) 'LaunchParameters': launchParameters,
+        if (tags != null) 'Tags': tags,
+        if (workingDirectory != null) 'WorkingDirectory': workingDirectory,
+      },
+    );
+
+    return CreateApplicationResult.fromJson(jsonResponse.body);
+  }
+
   /// Creates a Directory Config object in AppStream 2.0. This object includes
   /// the configuration information required to join fleets and image builders
   /// to Microsoft Active Directory domains.
@@ -223,12 +458,25 @@ class AppStream {
   /// Parameter [organizationalUnitDistinguishedNames] :
   /// The distinguished names of the organizational units for computer accounts.
   ///
+  /// Parameter [certificateBasedAuthProperties] :
+  /// The certificate-based authentication properties used to authenticate SAML
+  /// 2.0 Identity Provider (IdP) user identities to Active Directory
+  /// domain-joined streaming instances. Fallback is turned on by default when
+  /// certificate-based authentication is <b>Enabled</b> . Fallback allows users
+  /// to log in using their AD domain password if certificate-based
+  /// authentication is unsuccessful, or to unlock a desktop lock screen.
+  /// <b>Enabled_no_directory_login_fallback</b> enables certificate-based
+  /// authentication, but does not allow users to log in using their AD domain
+  /// password. Users will be disconnected to re-authenticate using
+  /// certificates.
+  ///
   /// Parameter [serviceAccountCredentials] :
   /// The credentials for the service account used by the fleet or image builder
   /// to connect to the directory.
   Future<CreateDirectoryConfigResult> createDirectoryConfig({
     required String directoryName,
     required List<String> organizationalUnitDistinguishedNames,
+    CertificateBasedAuthProperties? certificateBasedAuthProperties,
     ServiceAccountCredentials? serviceAccountCredentials,
   }) async {
     final headers = <String, String>{
@@ -245,6 +493,8 @@ class AppStream {
         'DirectoryName': directoryName,
         'OrganizationalUnitDistinguishedNames':
             organizationalUnitDistinguishedNames,
+        if (certificateBasedAuthProperties != null)
+          'CertificateBasedAuthProperties': certificateBasedAuthProperties,
         if (serviceAccountCredentials != null)
           'ServiceAccountCredentials': serviceAccountCredentials,
       },
@@ -253,8 +503,64 @@ class AppStream {
     return CreateDirectoryConfigResult.fromJson(jsonResponse.body);
   }
 
-  /// Creates a fleet. A fleet consists of streaming instances that run a
-  /// specified image.
+  /// Creates a new entitlement. Entitlements control access to specific
+  /// applications within a stack, based on user attributes. Entitlements apply
+  /// to SAML 2.0 federated user identities. Amazon AppStream 2.0 user pool and
+  /// streaming URL users are entitled to all applications in a stack.
+  /// Entitlements don't apply to the desktop stream view application, or to
+  /// applications managed by a dynamic app provider using the Dynamic
+  /// Application Framework.
+  ///
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [EntitlementAlreadyExistsException].
+  ///
+  /// Parameter [appVisibility] :
+  /// Specifies whether all or selected apps are entitled.
+  ///
+  /// Parameter [attributes] :
+  /// The attributes of the entitlement.
+  ///
+  /// Parameter [name] :
+  /// The name of the entitlement.
+  ///
+  /// Parameter [stackName] :
+  /// The name of the stack with which the entitlement is associated.
+  ///
+  /// Parameter [description] :
+  /// The description of the entitlement.
+  Future<CreateEntitlementResult> createEntitlement({
+    required AppVisibility appVisibility,
+    required List<EntitlementAttribute> attributes,
+    required String name,
+    required String stackName,
+    String? description,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.CreateEntitlement'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AppVisibility': appVisibility.toValue(),
+        'Attributes': attributes,
+        'Name': name,
+        'StackName': stackName,
+        if (description != null) 'Description': description,
+      },
+    );
+
+    return CreateEntitlementResult.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a fleet. A fleet consists of streaming instances that your users
+  /// access for their applications and desktops.
   ///
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceNotAvailableException].
@@ -268,19 +574,25 @@ class AppStream {
   /// May throw [IncompatibleImageException].
   /// May throw [OperationNotPermittedException].
   ///
-  /// Parameter [computeCapacity] :
-  /// The desired capacity for the fleet.
-  ///
   /// Parameter [instanceType] :
   /// The instance type to use when launching fleet instances. The following
   /// instance types are available:
   ///
   /// <ul>
   /// <li>
+  /// stream.standard.small
+  /// </li>
+  /// <li>
   /// stream.standard.medium
   /// </li>
   /// <li>
   /// stream.standard.large
+  /// </li>
+  /// <li>
+  /// stream.standard.xlarge
+  /// </li>
+  /// <li>
+  /// stream.standard.2xlarge
   /// </li>
   /// <li>
   /// stream.compute.large
@@ -373,9 +685,32 @@ class AppStream {
   /// stream.graphics-pro.16xlarge
   /// </li>
   /// </ul>
+  /// The following instance types are available for Elastic fleets:
+  ///
+  /// <ul>
+  /// <li>
+  /// stream.standard.small
+  /// </li>
+  /// <li>
+  /// stream.standard.medium
+  /// </li>
+  /// <li>
+  /// stream.standard.large
+  /// </li>
+  /// <li>
+  /// stream.standard.xlarge
+  /// </li>
+  /// <li>
+  /// stream.standard.2xlarge
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [name] :
   /// A unique name for the fleet.
+  ///
+  /// Parameter [computeCapacity] :
+  /// The desired capacity for the fleet. This is not allowed for Elastic
+  /// fleets. For Elastic fleets, specify MaxConcurrentSessions instead.
   ///
   /// Parameter [description] :
   /// The description to display.
@@ -394,7 +729,8 @@ class AppStream {
   ///
   /// Parameter [domainJoinInfo] :
   /// The name of the directory and organizational unit (OU) to use to join the
-  /// fleet to a Microsoft Active Directory domain.
+  /// fleet to a Microsoft Active Directory domain. This is not allowed for
+  /// Elastic fleets.
   ///
   /// Parameter [enableDefaultInternetAccess] :
   /// Enables or disables default internet access for the fleet.
@@ -459,6 +795,10 @@ class AppStream {
   /// Parameter [imageName] :
   /// The name of the image used to create the fleet.
   ///
+  /// Parameter [maxConcurrentSessions] :
+  /// The maximum concurrent sessions of the Elastic fleet. This is required for
+  /// Elastic fleets, and not allowed for other fleet types.
+  ///
   /// Parameter [maxUserDurationInSeconds] :
   /// The maximum amount of time that a streaming session can remain active, in
   /// seconds. If users are still connected to a streaming instance five minutes
@@ -467,6 +807,14 @@ class AppStream {
   /// terminated and replaced by a new instance.
   ///
   /// Specify a value between 600 and 360000.
+  ///
+  /// Parameter [platform] :
+  /// The fleet platform. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported
+  /// for Elastic fleets.
+  ///
+  /// Parameter [sessionScriptS3Location] :
+  /// The S3 location of the session scripts configuration zip file. This only
+  /// applies to Elastic fleets.
   ///
   /// Parameter [streamView] :
   /// The AppStream 2.0 view that is displayed to your users when they stream
@@ -494,12 +842,19 @@ class AppStream {
   /// Your Resources</a> in the <i>Amazon AppStream 2.0 Administration
   /// Guide</i>.
   ///
+  /// Parameter [usbDeviceFilterStrings] :
+  /// The USB device filter strings that specify which USB devices a user can
+  /// redirect to the fleet streaming session, when using the Windows native
+  /// client. This is allowed but not required for Elastic fleets.
+  ///
   /// Parameter [vpcConfig] :
-  /// The VPC configuration for the fleet.
+  /// The VPC configuration for the fleet. This is required for Elastic fleets,
+  /// but not required for other fleet types. Elastic fleets require that you
+  /// specify at least two subnets in different availability zones.
   Future<CreateFleetResult> createFleet({
-    required ComputeCapacity computeCapacity,
     required String instanceType,
     required String name,
+    ComputeCapacity? computeCapacity,
     String? description,
     int? disconnectTimeoutInSeconds,
     String? displayName,
@@ -510,9 +865,13 @@ class AppStream {
     int? idleDisconnectTimeoutInSeconds,
     String? imageArn,
     String? imageName,
+    int? maxConcurrentSessions,
     int? maxUserDurationInSeconds,
+    PlatformType? platform,
+    S3Location? sessionScriptS3Location,
     StreamView? streamView,
     Map<String, String>? tags,
+    List<String>? usbDeviceFilterStrings,
     VpcConfig? vpcConfig,
   }) async {
     final headers = <String, String>{
@@ -526,9 +885,9 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ComputeCapacity': computeCapacity,
         'InstanceType': instanceType,
         'Name': name,
+        if (computeCapacity != null) 'ComputeCapacity': computeCapacity,
         if (description != null) 'Description': description,
         if (disconnectTimeoutInSeconds != null)
           'DisconnectTimeoutInSeconds': disconnectTimeoutInSeconds,
@@ -542,10 +901,17 @@ class AppStream {
           'IdleDisconnectTimeoutInSeconds': idleDisconnectTimeoutInSeconds,
         if (imageArn != null) 'ImageArn': imageArn,
         if (imageName != null) 'ImageName': imageName,
+        if (maxConcurrentSessions != null)
+          'MaxConcurrentSessions': maxConcurrentSessions,
         if (maxUserDurationInSeconds != null)
           'MaxUserDurationInSeconds': maxUserDurationInSeconds,
+        if (platform != null) 'Platform': platform.toValue(),
+        if (sessionScriptS3Location != null)
+          'SessionScriptS3Location': sessionScriptS3Location,
         if (streamView != null) 'StreamView': streamView.toValue(),
         if (tags != null) 'Tags': tags,
+        if (usbDeviceFilterStrings != null)
+          'UsbDeviceFilterStrings': usbDeviceFilterStrings,
         if (vpcConfig != null) 'VpcConfig': vpcConfig,
       },
     );
@@ -576,6 +942,9 @@ class AppStream {
   /// instance types are available:
   ///
   /// <ul>
+  /// <li>
+  /// stream.standard.small
+  /// </li>
   /// <li>
   /// stream.standard.medium
   /// </li>
@@ -866,6 +1235,10 @@ class AppStream {
   /// Parameter [storageConnectors] :
   /// The storage connectors to enable.
   ///
+  /// Parameter [streamingExperienceSettings] :
+  /// The streaming protocol you want your stack to prefer. This can be UDP or
+  /// TCP. Currently, UDP is only supported in the Windows native client.
+  ///
   /// Parameter [tags] :
   /// The tags to associate with the stack. A tag is a key-value pair, and the
   /// value is optional. For example, Environment=Test. If you do not specify a
@@ -896,6 +1269,7 @@ class AppStream {
     String? feedbackURL,
     String? redirectURL,
     List<StorageConnector>? storageConnectors,
+    StreamingExperienceSettings? streamingExperienceSettings,
     Map<String, String>? tags,
     List<UserSetting>? userSettings,
   }) async {
@@ -920,6 +1294,8 @@ class AppStream {
         if (feedbackURL != null) 'FeedbackURL': feedbackURL,
         if (redirectURL != null) 'RedirectURL': redirectURL,
         if (storageConnectors != null) 'StorageConnectors': storageConnectors,
+        if (streamingExperienceSettings != null)
+          'StreamingExperienceSettings': streamingExperienceSettings,
         if (tags != null) 'Tags': tags,
         if (userSettings != null) 'UserSettings': userSettings,
       },
@@ -948,7 +1324,10 @@ class AppStream {
   ///
   /// Parameter [applicationId] :
   /// The name of the application to launch after the session starts. This is
-  /// the name that you specified as <b>Name</b> in the Image Assistant.
+  /// the name that you specified as <b>Name</b> in the Image Assistant. If your
+  /// fleet is enabled for the <b>Desktop</b> stream view, you can also choose
+  /// to launch directly to the operating system desktop. To do so, specify
+  /// <b>Desktop</b>.
   ///
   /// Parameter [sessionContext] :
   /// The session context. For more information, see <a
@@ -987,6 +1366,93 @@ class AppStream {
     );
 
     return CreateStreamingURLResult.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a new image with the latest Windows operating system updates,
+  /// driver updates, and AppStream 2.0 agent software.
+  ///
+  /// For more information, see the "Update an Image by Using Managed AppStream
+  /// 2.0 Image Updates" section in <a
+  /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/administer-images.html">Administer
+  /// Your AppStream 2.0 Images</a>, in the <i>Amazon AppStream 2.0
+  /// Administration Guide</i>.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [InvalidAccountStatusException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [IncompatibleImageException].
+  ///
+  /// Parameter [existingImageName] :
+  /// The name of the image to update.
+  ///
+  /// Parameter [newImageName] :
+  /// The name of the new image. The name must be unique within the AWS account
+  /// and Region.
+  ///
+  /// Parameter [dryRun] :
+  /// Indicates whether to display the status of image update availability
+  /// before AppStream 2.0 initiates the process of creating a new updated
+  /// image. If this value is set to <code>true</code>, AppStream 2.0 displays
+  /// whether image updates are available. If this value is set to
+  /// <code>false</code>, AppStream 2.0 initiates the process of creating a new
+  /// updated image without displaying whether image updates are available.
+  ///
+  /// Parameter [newImageDescription] :
+  /// The description to display for the new image.
+  ///
+  /// Parameter [newImageDisplayName] :
+  /// The name to display for the new image.
+  ///
+  /// Parameter [newImageTags] :
+  /// The tags to associate with the new image. A tag is a key-value pair, and
+  /// the value is optional. For example, Environment=Test. If you do not
+  /// specify a value, Environment=.
+  ///
+  /// Generally allowed characters are: letters, numbers, and spaces
+  /// representable in UTF-8, and the following special characters:
+  ///
+  /// _ . : / = + \ - @
+  ///
+  /// If you do not specify a value, the value is set to an empty string.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
+  /// Your Resources</a> in the <i>Amazon AppStream 2.0 Administration
+  /// Guide</i>.
+  Future<CreateUpdatedImageResult> createUpdatedImage({
+    required String existingImageName,
+    required String newImageName,
+    bool? dryRun,
+    String? newImageDescription,
+    String? newImageDisplayName,
+    Map<String, String>? newImageTags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.CreateUpdatedImage'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'existingImageName': existingImageName,
+        'newImageName': newImageName,
+        if (dryRun != null) 'dryRun': dryRun,
+        if (newImageDescription != null)
+          'newImageDescription': newImageDescription,
+        if (newImageDisplayName != null)
+          'newImageDisplayName': newImageDisplayName,
+        if (newImageTags != null) 'newImageTags': newImageTags,
+      },
+    );
+
+    return CreateUpdatedImageResult.fromJson(jsonResponse.body);
   }
 
   /// Creates a usage report subscription. Usage reports are generated daily.
@@ -1074,6 +1540,61 @@ class AppStream {
     );
   }
 
+  /// Deletes an app block.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [name] :
+  /// The name of the app block.
+  Future<void> deleteAppBlock({
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.DeleteAppBlock'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+      },
+    );
+  }
+
+  /// Deletes an application.
+  ///
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConcurrentModificationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the application.
+  Future<void> deleteApplication({
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.DeleteApplication'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+      },
+    );
+  }
+
   /// Deletes the specified Directory Config object from AppStream 2.0. This
   /// object includes the information required to join streaming instances to an
   /// Active Directory domain.
@@ -1098,6 +1619,40 @@ class AppStream {
       headers: headers,
       payload: {
         'DirectoryName': directoryName,
+      },
+    );
+  }
+
+  /// Deletes the specified entitlement.
+  ///
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [EntitlementNotFoundException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ConcurrentModificationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the entitlement.
+  ///
+  /// Parameter [stackName] :
+  /// The name of the stack with which the entitlement is associated.
+  Future<void> deleteEntitlement({
+    required String name,
+    required String stackName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.DeleteEntitlement'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+        'StackName': stackName,
       },
     );
   }
@@ -1231,6 +1786,7 @@ class AppStream {
   ///
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [OperationNotPermittedException].
   /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [name] :
@@ -1305,6 +1861,132 @@ class AppStream {
     );
   }
 
+  /// Retrieves a list that describes one or more app blocks.
+  ///
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [arns] :
+  /// The ARNs of the app blocks.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum size of each page of results.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token used to retrieve the next page of results for this
+  /// operation.
+  Future<DescribeAppBlocksResult> describeAppBlocks({
+    List<String>? arns,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.DescribeAppBlocks'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (arns != null) 'Arns': arns,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeAppBlocksResult.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a list that describes one or more application fleet
+  /// associations. Either ApplicationArn or FleetName must be specified.
+  ///
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [OperationNotPermittedException].
+  ///
+  /// Parameter [applicationArn] :
+  /// The ARN of the application.
+  ///
+  /// Parameter [fleetName] :
+  /// The name of the fleet.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum size of each page of results.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token used to retrieve the next page of results for this
+  /// operation.
+  Future<DescribeApplicationFleetAssociationsResult>
+      describeApplicationFleetAssociations({
+    String? applicationArn,
+    String? fleetName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'PhotonAdminProxyService.DescribeApplicationFleetAssociations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (applicationArn != null) 'ApplicationArn': applicationArn,
+        if (fleetName != null) 'FleetName': fleetName,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeApplicationFleetAssociationsResult.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Retrieves a list that describes one or more applications.
+  ///
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [arns] :
+  /// The ARNs for the applications.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum size of each page of results.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token used to retrieve the next page of results for this
+  /// operation.
+  Future<DescribeApplicationsResult> describeApplications({
+    List<String>? arns,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.DescribeApplications'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (arns != null) 'Arns': arns,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeApplicationsResult.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves a list that describes one or more specified Directory Config
   /// objects for AppStream 2.0, if the names for these objects are provided.
   /// Otherwise, all Directory Config objects in the account are described.
@@ -1348,6 +2030,51 @@ class AppStream {
     );
 
     return DescribeDirectoryConfigsResult.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a list that describes one of more entitlements.
+  ///
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [EntitlementNotFoundException].
+  ///
+  /// Parameter [stackName] :
+  /// The name of the stack with which the entitlement is associated.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum size of each page of results.
+  ///
+  /// Parameter [name] :
+  /// The name of the entitlement.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token used to retrieve the next page of results for this
+  /// operation.
+  Future<DescribeEntitlementsResult> describeEntitlements({
+    required String stackName,
+    int? maxResults,
+    String? name,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.DescribeEntitlements'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'StackName': stackName,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (name != null) 'Name': name,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeEntitlementsResult.fromJson(jsonResponse.body);
   }
 
   /// Retrieves a list that describes one or more specified fleets, if the fleet
@@ -1742,6 +2469,7 @@ class AppStream {
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [authenticationType] :
   /// The authentication type for the users in the user pool to describe. You
@@ -1809,6 +2537,77 @@ class AppStream {
       payload: {
         'AuthenticationType': authenticationType.toValue(),
         'UserName': userName,
+      },
+    );
+  }
+
+  /// Disassociates the specified application from the fleet.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [OperationNotPermittedException].
+  ///
+  /// Parameter [applicationArn] :
+  /// The ARN of the application.
+  ///
+  /// Parameter [fleetName] :
+  /// The name of the fleet.
+  Future<void> disassociateApplicationFleet({
+    required String applicationArn,
+    required String fleetName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.DisassociateApplicationFleet'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationArn': applicationArn,
+        'FleetName': fleetName,
+      },
+    );
+  }
+
+  /// Deletes the specified application from the specified entitlement.
+  ///
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [EntitlementNotFoundException].
+  /// May throw [OperationNotPermittedException].
+  ///
+  /// Parameter [applicationIdentifier] :
+  /// The identifier of the application to remove from the entitlement.
+  ///
+  /// Parameter [entitlementName] :
+  /// The name of the entitlement.
+  ///
+  /// Parameter [stackName] :
+  /// The name of the stack with which the entitlement is associated.
+  Future<void> disassociateApplicationFromEntitlement({
+    required String applicationIdentifier,
+    required String entitlementName,
+    required String stackName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'PhotonAdminProxyService.DisassociateApplicationFromEntitlement'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationIdentifier': applicationIdentifier,
+        'EntitlementName': entitlementName,
+        'StackName': stackName,
       },
     );
   }
@@ -1970,6 +2769,51 @@ class AppStream {
     );
 
     return ListAssociatedStacksResult.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a list of entitled applications.
+  ///
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [EntitlementNotFoundException].
+  ///
+  /// Parameter [entitlementName] :
+  /// The name of the entitlement.
+  ///
+  /// Parameter [stackName] :
+  /// The name of the stack with which the entitlement is associated.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum size of each page of results.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token used to retrieve the next page of results for this
+  /// operation.
+  Future<ListEntitledApplicationsResult> listEntitledApplications({
+    required String entitlementName,
+    required String stackName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.ListEntitledApplications'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'EntitlementName': entitlementName,
+        'StackName': stackName,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListEntitledApplicationsResult.fromJson(jsonResponse.body);
   }
 
   /// Retrieves a list of all tags for the specified AppStream 2.0 resource. You
@@ -2224,6 +3068,79 @@ class AppStream {
     );
   }
 
+  /// Updates the specified application.
+  ///
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [name] :
+  /// The name of the application. This name is visible to users when display
+  /// name is not specified.
+  ///
+  /// Parameter [appBlockArn] :
+  /// The ARN of the app block.
+  ///
+  /// Parameter [attributesToDelete] :
+  /// The attributes to delete for an application.
+  ///
+  /// Parameter [description] :
+  /// The description of the application.
+  ///
+  /// Parameter [displayName] :
+  /// The display name of the application. This name is visible to users in the
+  /// application catalog.
+  ///
+  /// Parameter [iconS3Location] :
+  /// The icon S3 location of the application.
+  ///
+  /// Parameter [launchParameters] :
+  /// The launch parameters of the application.
+  ///
+  /// Parameter [launchPath] :
+  /// The launch path of the application.
+  ///
+  /// Parameter [workingDirectory] :
+  /// The working directory of the application.
+  Future<UpdateApplicationResult> updateApplication({
+    required String name,
+    String? appBlockArn,
+    List<ApplicationAttribute>? attributesToDelete,
+    String? description,
+    String? displayName,
+    S3Location? iconS3Location,
+    String? launchParameters,
+    String? launchPath,
+    String? workingDirectory,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.UpdateApplication'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+        if (appBlockArn != null) 'AppBlockArn': appBlockArn,
+        if (attributesToDelete != null)
+          'AttributesToDelete':
+              attributesToDelete.map((e) => e.toValue()).toList(),
+        if (description != null) 'Description': description,
+        if (displayName != null) 'DisplayName': displayName,
+        if (iconS3Location != null) 'IconS3Location': iconS3Location,
+        if (launchParameters != null) 'LaunchParameters': launchParameters,
+        if (launchPath != null) 'LaunchPath': launchPath,
+        if (workingDirectory != null) 'WorkingDirectory': workingDirectory,
+      },
+    );
+
+    return UpdateApplicationResult.fromJson(jsonResponse.body);
+  }
+
   /// Updates the specified Directory Config object in AppStream 2.0. This
   /// object includes the configuration information required to join fleets and
   /// image builders to Microsoft Active Directory domains.
@@ -2237,6 +3154,18 @@ class AppStream {
   /// Parameter [directoryName] :
   /// The name of the Directory Config object.
   ///
+  /// Parameter [certificateBasedAuthProperties] :
+  /// The certificate-based authentication properties used to authenticate SAML
+  /// 2.0 Identity Provider (IdP) user identities to Active Directory
+  /// domain-joined streaming instances. Fallback is turned on by default when
+  /// certificate-based authentication is <b>Enabled</b> . Fallback allows users
+  /// to log in using their AD domain password if certificate-based
+  /// authentication is unsuccessful, or to unlock a desktop lock screen.
+  /// <b>Enabled_no_directory_login_fallback</b> enables certificate-based
+  /// authentication, but does not allow users to log in using their AD domain
+  /// password. Users will be disconnected to re-authenticate using
+  /// certificates.
+  ///
   /// Parameter [organizationalUnitDistinguishedNames] :
   /// The distinguished names of the organizational units for computer accounts.
   ///
@@ -2245,6 +3174,7 @@ class AppStream {
   /// to connect to the directory.
   Future<UpdateDirectoryConfigResult> updateDirectoryConfig({
     required String directoryName,
+    CertificateBasedAuthProperties? certificateBasedAuthProperties,
     List<String>? organizationalUnitDistinguishedNames,
     ServiceAccountCredentials? serviceAccountCredentials,
   }) async {
@@ -2260,6 +3190,8 @@ class AppStream {
       headers: headers,
       payload: {
         'DirectoryName': directoryName,
+        if (certificateBasedAuthProperties != null)
+          'CertificateBasedAuthProperties': certificateBasedAuthProperties,
         if (organizationalUnitDistinguishedNames != null)
           'OrganizationalUnitDistinguishedNames':
               organizationalUnitDistinguishedNames,
@@ -2271,15 +3203,85 @@ class AppStream {
     return UpdateDirectoryConfigResult.fromJson(jsonResponse.body);
   }
 
+  /// Updates the specified entitlement.
+  ///
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [EntitlementNotFoundException].
+  /// May throw [ConcurrentModificationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the entitlement.
+  ///
+  /// Parameter [stackName] :
+  /// The name of the stack with which the entitlement is associated.
+  ///
+  /// Parameter [appVisibility] :
+  /// Specifies whether all or only selected apps are entitled.
+  ///
+  /// Parameter [attributes] :
+  /// The attributes of the entitlement.
+  ///
+  /// Parameter [description] :
+  /// The description of the entitlement.
+  Future<UpdateEntitlementResult> updateEntitlement({
+    required String name,
+    required String stackName,
+    AppVisibility? appVisibility,
+    List<EntitlementAttribute>? attributes,
+    String? description,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.UpdateEntitlement'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+        'StackName': stackName,
+        if (appVisibility != null) 'AppVisibility': appVisibility.toValue(),
+        if (attributes != null) 'Attributes': attributes,
+        if (description != null) 'Description': description,
+      },
+    );
+
+    return UpdateEntitlementResult.fromJson(jsonResponse.body);
+  }
+
   /// Updates the specified fleet.
   ///
   /// If the fleet is in the <code>STOPPED</code> state, you can update any
-  /// attribute except the fleet name. If the fleet is in the
-  /// <code>RUNNING</code> state, you can update the <code>DisplayName</code>,
-  /// <code>ComputeCapacity</code>, <code>ImageARN</code>,
-  /// <code>ImageName</code>, <code>IdleDisconnectTimeoutInSeconds</code>, and
-  /// <code>DisconnectTimeoutInSeconds</code> attributes. If the fleet is in the
-  /// <code>STARTING</code> or <code>STOPPING</code> state, you can't update it.
+  /// attribute except the fleet name.
+  ///
+  /// If the fleet is in the <code>RUNNING</code> state, you can update the
+  /// following based on the fleet type:
+  ///
+  /// <ul>
+  /// <li>
+  /// Always-On and On-Demand fleet types
+  ///
+  /// You can update the <code>DisplayName</code>, <code>ComputeCapacity</code>,
+  /// <code>ImageARN</code>, <code>ImageName</code>,
+  /// <code>IdleDisconnectTimeoutInSeconds</code>, and
+  /// <code>DisconnectTimeoutInSeconds</code> attributes.
+  /// </li>
+  /// <li>
+  /// Elastic fleet type
+  ///
+  /// You can update the <code>DisplayName</code>,
+  /// <code>IdleDisconnectTimeoutInSeconds</code>,
+  /// <code>DisconnectTimeoutInSeconds</code>,
+  /// <code>MaxConcurrentSessions</code>, <code>SessionScriptS3Location</code>
+  /// and <code>UsbDeviceFilterStrings</code> attributes.
+  /// </li>
+  /// </ul>
+  /// If the fleet is in the <code>STARTING</code> or <code>STOPPED</code>
+  /// state, you can't update it.
   ///
   /// May throw [ResourceInUseException].
   /// May throw [LimitExceededException].
@@ -2297,7 +3299,8 @@ class AppStream {
   /// The fleet attributes to delete.
   ///
   /// Parameter [computeCapacity] :
-  /// The desired capacity for the fleet.
+  /// The desired capacity for the fleet. This is not allowed for Elastic
+  /// fleets.
   ///
   /// Parameter [deleteVpcConfig] :
   /// Deletes the VPC association for the specified fleet.
@@ -2378,10 +3381,19 @@ class AppStream {
   ///
   /// <ul>
   /// <li>
+  /// stream.standard.small
+  /// </li>
+  /// <li>
   /// stream.standard.medium
   /// </li>
   /// <li>
   /// stream.standard.large
+  /// </li>
+  /// <li>
+  /// stream.standard.xlarge
+  /// </li>
+  /// <li>
+  /// stream.standard.2xlarge
   /// </li>
   /// <li>
   /// stream.compute.large
@@ -2474,6 +3486,28 @@ class AppStream {
   /// stream.graphics-pro.16xlarge
   /// </li>
   /// </ul>
+  /// The following instance types are available for Elastic fleets:
+  ///
+  /// <ul>
+  /// <li>
+  /// stream.standard.small
+  /// </li>
+  /// <li>
+  /// stream.standard.medium
+  /// </li>
+  /// <li>
+  /// stream.standard.large
+  /// </li>
+  /// <li>
+  /// stream.standard.xlarge
+  /// </li>
+  /// <li>
+  /// stream.standard.2xlarge
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [maxConcurrentSessions] :
+  /// The maximum number of concurrent sessions for a fleet.
   ///
   /// Parameter [maxUserDurationInSeconds] :
   /// The maximum amount of time that a streaming session can remain active, in
@@ -2487,6 +3521,14 @@ class AppStream {
   /// Parameter [name] :
   /// A unique name for the fleet.
   ///
+  /// Parameter [platform] :
+  /// The platform of the fleet. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are
+  /// supported for Elastic fleets.
+  ///
+  /// Parameter [sessionScriptS3Location] :
+  /// The S3 location of the session scripts configuration zip file. This only
+  /// applies to Elastic fleets.
+  ///
   /// Parameter [streamView] :
   /// The AppStream 2.0 view that is displayed to your users when they stream
   /// from the fleet. When <code>APP</code> is specified, only the windows of
@@ -2496,8 +3538,15 @@ class AppStream {
   ///
   /// The default value is <code>APP</code>.
   ///
+  /// Parameter [usbDeviceFilterStrings] :
+  /// The USB device filter strings that specify which USB devices a user can
+  /// redirect to the fleet streaming session, when using the Windows native
+  /// client. This is allowed but not required for Elastic fleets.
+  ///
   /// Parameter [vpcConfig] :
-  /// The VPC configuration for the fleet.
+  /// The VPC configuration for the fleet. This is required for Elastic fleets,
+  /// but not required for other fleet types. Elastic fleets require that you
+  /// specify at least two subnets in different availability zones.
   Future<UpdateFleetResult> updateFleet({
     List<FleetAttribute>? attributesToDelete,
     ComputeCapacity? computeCapacity,
@@ -2512,9 +3561,13 @@ class AppStream {
     String? imageArn,
     String? imageName,
     String? instanceType,
+    int? maxConcurrentSessions,
     int? maxUserDurationInSeconds,
     String? name,
+    PlatformType? platform,
+    S3Location? sessionScriptS3Location,
     StreamView? streamView,
+    List<String>? usbDeviceFilterStrings,
     VpcConfig? vpcConfig,
   }) async {
     final headers = <String, String>{
@@ -2546,10 +3599,17 @@ class AppStream {
         if (imageArn != null) 'ImageArn': imageArn,
         if (imageName != null) 'ImageName': imageName,
         if (instanceType != null) 'InstanceType': instanceType,
+        if (maxConcurrentSessions != null)
+          'MaxConcurrentSessions': maxConcurrentSessions,
         if (maxUserDurationInSeconds != null)
           'MaxUserDurationInSeconds': maxUserDurationInSeconds,
         if (name != null) 'Name': name,
+        if (platform != null) 'Platform': platform.toValue(),
+        if (sessionScriptS3Location != null)
+          'SessionScriptS3Location': sessionScriptS3Location,
         if (streamView != null) 'StreamView': streamView.toValue(),
+        if (usbDeviceFilterStrings != null)
+          'UsbDeviceFilterStrings': usbDeviceFilterStrings,
         if (vpcConfig != null) 'VpcConfig': vpcConfig,
       },
     );
@@ -2648,6 +3708,10 @@ class AppStream {
   /// Parameter [storageConnectors] :
   /// The storage connectors to enable.
   ///
+  /// Parameter [streamingExperienceSettings] :
+  /// The streaming protocol you want your stack to prefer. This can be UDP or
+  /// TCP. Currently, UDP is only supported in the Windows native client.
+  ///
   /// Parameter [userSettings] :
   /// The actions that are enabled or disabled for users during their streaming
   /// sessions. By default, these actions are enabled.
@@ -2663,6 +3727,7 @@ class AppStream {
     String? feedbackURL,
     String? redirectURL,
     List<StorageConnector>? storageConnectors,
+    StreamingExperienceSettings? streamingExperienceSettings,
     List<UserSetting>? userSettings,
   }) async {
     final headers = <String, String>{
@@ -2691,6 +3756,8 @@ class AppStream {
         if (feedbackURL != null) 'FeedbackURL': feedbackURL,
         if (redirectURL != null) 'RedirectURL': redirectURL,
         if (storageConnectors != null) 'StorageConnectors': storageConnectors,
+        if (streamingExperienceSettings != null)
+          'StreamingExperienceSettings': streamingExperienceSettings,
         if (userSettings != null) 'UserSettings': userSettings,
       },
     );
@@ -2716,6 +3783,7 @@ class AccessEndpoint {
     required this.endpointType,
     this.vpceId,
   });
+
   factory AccessEndpoint.fromJson(Map<String, dynamic> json) {
     return AccessEndpoint(
       endpointType: (json['EndpointType'] as String).toAccessEndpointType(),
@@ -2762,6 +3830,8 @@ enum Action {
   fileUpload,
   fileDownload,
   printingToLocalDevice,
+  domainPasswordSignin,
+  domainSmartCardSignin,
 }
 
 extension ActionValueExtension on Action {
@@ -2777,6 +3847,10 @@ extension ActionValueExtension on Action {
         return 'FILE_DOWNLOAD';
       case Action.printingToLocalDevice:
         return 'PRINTING_TO_LOCAL_DEVICE';
+      case Action.domainPasswordSignin:
+        return 'DOMAIN_PASSWORD_SIGNIN';
+      case Action.domainSmartCardSignin:
+        return 'DOMAIN_SMART_CARD_SIGNIN';
     }
   }
 }
@@ -2794,21 +3868,129 @@ extension ActionFromString on String {
         return Action.fileDownload;
       case 'PRINTING_TO_LOCAL_DEVICE':
         return Action.printingToLocalDevice;
+      case 'DOMAIN_PASSWORD_SIGNIN':
+        return Action.domainPasswordSignin;
+      case 'DOMAIN_SMART_CARD_SIGNIN':
+        return Action.domainSmartCardSignin;
     }
     throw Exception('$this is not known in enum Action');
   }
 }
 
+/// Describes an app block.
+///
+/// App blocks are an Amazon AppStream 2.0 resource that stores the details
+/// about the virtual hard disk in an S3 bucket. It also stores the setup script
+/// with details about how to mount the virtual hard disk. The virtual hard disk
+/// includes the application binaries and other files necessary to launch your
+/// applications. Multiple applications can be assigned to a single app block.
+///
+/// This is only supported for Elastic fleets.
+class AppBlock {
+  /// The ARN of the app block.
+  final String arn;
+
+  /// The name of the app block.
+  final String name;
+
+  /// The setup script details of the app block.
+  final ScriptDetails setupScriptDetails;
+
+  /// The created time of the app block.
+  final DateTime? createdTime;
+
+  /// The description of the app block.
+  final String? description;
+
+  /// The display name of the app block.
+  final String? displayName;
+
+  /// The source S3 location of the app block.
+  final S3Location? sourceS3Location;
+
+  AppBlock({
+    required this.arn,
+    required this.name,
+    required this.setupScriptDetails,
+    this.createdTime,
+    this.description,
+    this.displayName,
+    this.sourceS3Location,
+  });
+
+  factory AppBlock.fromJson(Map<String, dynamic> json) {
+    return AppBlock(
+      arn: json['Arn'] as String,
+      name: json['Name'] as String,
+      setupScriptDetails: ScriptDetails.fromJson(
+          json['SetupScriptDetails'] as Map<String, dynamic>),
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      displayName: json['DisplayName'] as String?,
+      sourceS3Location: json['SourceS3Location'] != null
+          ? S3Location.fromJson(
+              json['SourceS3Location'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+enum AppVisibility {
+  all,
+  associated,
+}
+
+extension AppVisibilityValueExtension on AppVisibility {
+  String toValue() {
+    switch (this) {
+      case AppVisibility.all:
+        return 'ALL';
+      case AppVisibility.associated:
+        return 'ASSOCIATED';
+    }
+  }
+}
+
+extension AppVisibilityFromString on String {
+  AppVisibility toAppVisibility() {
+    switch (this) {
+      case 'ALL':
+        return AppVisibility.all;
+      case 'ASSOCIATED':
+        return AppVisibility.associated;
+    }
+    throw Exception('$this is not known in enum AppVisibility');
+  }
+}
+
 /// Describes an application in the application catalog.
 class Application {
+  /// The app block ARN of the application.
+  final String? appBlockArn;
+
+  /// The ARN of the application.
+  final String? arn;
+
+  /// The time at which the application was created within the app block.
+  final DateTime? createdTime;
+
+  /// The description of the application.
+  final String? description;
+
   /// The application name to display.
   final String? displayName;
 
   /// If there is a problem, the application can be disabled after image creation.
   final bool? enabled;
 
+  /// The S3 location of the application icon.
+  final S3Location? iconS3Location;
+
   /// The URL for the application icon. This URL might be time-limited.
   final String? iconURL;
+
+  /// The instance families for the application.
+  final List<String>? instanceFamilies;
 
   /// The arguments that are passed to the application at launch.
   final String? launchParameters;
@@ -2822,25 +4004,105 @@ class Application {
   /// The name of the application.
   final String? name;
 
+  /// The platforms on which the application can run.
+  final List<PlatformType>? platforms;
+
+  /// The working directory for the application.
+  final String? workingDirectory;
+
   Application({
+    this.appBlockArn,
+    this.arn,
+    this.createdTime,
+    this.description,
     this.displayName,
     this.enabled,
+    this.iconS3Location,
     this.iconURL,
+    this.instanceFamilies,
     this.launchParameters,
     this.launchPath,
     this.metadata,
     this.name,
+    this.platforms,
+    this.workingDirectory,
   });
+
   factory Application.fromJson(Map<String, dynamic> json) {
     return Application(
+      appBlockArn: json['AppBlockArn'] as String?,
+      arn: json['Arn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
       displayName: json['DisplayName'] as String?,
       enabled: json['Enabled'] as bool?,
+      iconS3Location: json['IconS3Location'] != null
+          ? S3Location.fromJson(json['IconS3Location'] as Map<String, dynamic>)
+          : null,
       iconURL: json['IconURL'] as String?,
+      instanceFamilies: (json['InstanceFamilies'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       launchParameters: json['LaunchParameters'] as String?,
       launchPath: json['LaunchPath'] as String?,
       metadata: (json['Metadata'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       name: json['Name'] as String?,
+      platforms: (json['Platforms'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toPlatformType())
+          .toList(),
+      workingDirectory: json['WorkingDirectory'] as String?,
+    );
+  }
+}
+
+enum ApplicationAttribute {
+  launchParameters,
+  workingDirectory,
+}
+
+extension ApplicationAttributeValueExtension on ApplicationAttribute {
+  String toValue() {
+    switch (this) {
+      case ApplicationAttribute.launchParameters:
+        return 'LAUNCH_PARAMETERS';
+      case ApplicationAttribute.workingDirectory:
+        return 'WORKING_DIRECTORY';
+    }
+  }
+}
+
+extension ApplicationAttributeFromString on String {
+  ApplicationAttribute toApplicationAttribute() {
+    switch (this) {
+      case 'LAUNCH_PARAMETERS':
+        return ApplicationAttribute.launchParameters;
+      case 'WORKING_DIRECTORY':
+        return ApplicationAttribute.workingDirectory;
+    }
+    throw Exception('$this is not known in enum ApplicationAttribute');
+  }
+}
+
+/// Describes the application fleet association.
+class ApplicationFleetAssociation {
+  /// The ARN of the application associated with the fleet.
+  final String applicationArn;
+
+  /// The name of the fleet associated with the application.
+  final String fleetName;
+
+  ApplicationFleetAssociation({
+    required this.applicationArn,
+    required this.fleetName,
+  });
+
+  factory ApplicationFleetAssociation.fromJson(Map<String, dynamic> json) {
+    return ApplicationFleetAssociation(
+      applicationArn: json['ApplicationArn'] as String,
+      fleetName: json['FleetName'] as String,
     );
   }
 }
@@ -2892,6 +4154,7 @@ class ApplicationSettingsResponse {
     this.s3BucketName,
     this.settingsGroup,
   });
+
   factory ApplicationSettingsResponse.fromJson(Map<String, dynamic> json) {
     return ApplicationSettingsResponse(
       enabled: json['Enabled'] as bool?,
@@ -2901,8 +4164,38 @@ class ApplicationSettingsResponse {
   }
 }
 
+class AssociateApplicationFleetResult {
+  /// If fleet name is specified, this returns the list of applications that are
+  /// associated to it. If application ARN is specified, this returns the list of
+  /// fleets to which it is associated.
+  final ApplicationFleetAssociation? applicationFleetAssociation;
+
+  AssociateApplicationFleetResult({
+    this.applicationFleetAssociation,
+  });
+
+  factory AssociateApplicationFleetResult.fromJson(Map<String, dynamic> json) {
+    return AssociateApplicationFleetResult(
+      applicationFleetAssociation: json['ApplicationFleetAssociation'] != null
+          ? ApplicationFleetAssociation.fromJson(
+              json['ApplicationFleetAssociation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class AssociateApplicationToEntitlementResult {
+  AssociateApplicationToEntitlementResult();
+
+  factory AssociateApplicationToEntitlementResult.fromJson(
+      Map<String, dynamic> _) {
+    return AssociateApplicationToEntitlementResult();
+  }
+}
+
 class AssociateFleetResult {
   AssociateFleetResult();
+
   factory AssociateFleetResult.fromJson(Map<String, dynamic> _) {
     return AssociateFleetResult();
   }
@@ -2912,6 +4205,7 @@ enum AuthenticationType {
   api,
   saml,
   userpool,
+  awsAd,
 }
 
 extension AuthenticationTypeValueExtension on AuthenticationType {
@@ -2923,6 +4217,8 @@ extension AuthenticationTypeValueExtension on AuthenticationType {
         return 'SAML';
       case AuthenticationType.userpool:
         return 'USERPOOL';
+      case AuthenticationType.awsAd:
+        return 'AWS_AD';
     }
   }
 }
@@ -2936,6 +4232,8 @@ extension AuthenticationTypeFromString on String {
         return AuthenticationType.saml;
       case 'USERPOOL':
         return AuthenticationType.userpool;
+      case 'AWS_AD':
+        return AuthenticationType.awsAd;
     }
     throw Exception('$this is not known in enum AuthenticationType');
   }
@@ -2948,6 +4246,7 @@ class BatchAssociateUserStackResult {
   BatchAssociateUserStackResult({
     this.errors,
   });
+
   factory BatchAssociateUserStackResult.fromJson(Map<String, dynamic> json) {
     return BatchAssociateUserStackResult(
       errors: (json['errors'] as List?)
@@ -2966,6 +4265,7 @@ class BatchDisassociateUserStackResult {
   BatchDisassociateUserStackResult({
     this.errors,
   });
+
   factory BatchDisassociateUserStackResult.fromJson(Map<String, dynamic> json) {
     return BatchDisassociateUserStackResult(
       errors: (json['errors'] as List?)
@@ -2974,6 +4274,79 @@ class BatchDisassociateUserStackResult {
               UserStackAssociationError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+  }
+}
+
+/// The certificate-based authentication properties used to authenticate SAML
+/// 2.0 Identity Provider (IdP) user identities to Active Directory
+/// domain-joined streaming instances. Fallback is turned on by default when
+/// certificate-based authentication is <b>Enabled</b> . Fallback allows users
+/// to log in using their AD domain password if certificate-based authentication
+/// is unsuccessful, or to unlock a desktop lock screen.
+/// <b>Enabled_no_directory_login_fallback</b> enables certificate-based
+/// authentication, but does not allow users to log in using their AD domain
+/// password. Users will be disconnected to re-authenticate using certificates.
+class CertificateBasedAuthProperties {
+  /// The ARN of the AWS Certificate Manager Private CA resource.
+  final String? certificateAuthorityArn;
+
+  /// The status of the certificate-based authentication properties.
+  final CertificateBasedAuthStatus? status;
+
+  CertificateBasedAuthProperties({
+    this.certificateAuthorityArn,
+    this.status,
+  });
+
+  factory CertificateBasedAuthProperties.fromJson(Map<String, dynamic> json) {
+    return CertificateBasedAuthProperties(
+      certificateAuthorityArn: json['CertificateAuthorityArn'] as String?,
+      status: (json['Status'] as String?)?.toCertificateBasedAuthStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateAuthorityArn = this.certificateAuthorityArn;
+    final status = this.status;
+    return {
+      if (certificateAuthorityArn != null)
+        'CertificateAuthorityArn': certificateAuthorityArn,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
+enum CertificateBasedAuthStatus {
+  disabled,
+  enabled,
+  enabledNoDirectoryLoginFallback,
+}
+
+extension CertificateBasedAuthStatusValueExtension
+    on CertificateBasedAuthStatus {
+  String toValue() {
+    switch (this) {
+      case CertificateBasedAuthStatus.disabled:
+        return 'DISABLED';
+      case CertificateBasedAuthStatus.enabled:
+        return 'ENABLED';
+      case CertificateBasedAuthStatus.enabledNoDirectoryLoginFallback:
+        return 'ENABLED_NO_DIRECTORY_LOGIN_FALLBACK';
+    }
+  }
+}
+
+extension CertificateBasedAuthStatusFromString on String {
+  CertificateBasedAuthStatus toCertificateBasedAuthStatus() {
+    switch (this) {
+      case 'DISABLED':
+        return CertificateBasedAuthStatus.disabled;
+      case 'ENABLED':
+        return CertificateBasedAuthStatus.enabled;
+      case 'ENABLED_NO_DIRECTORY_LOGIN_FALLBACK':
+        return CertificateBasedAuthStatus.enabledNoDirectoryLoginFallback;
+    }
+    throw Exception('$this is not known in enum CertificateBasedAuthStatus');
   }
 }
 
@@ -3014,6 +4387,7 @@ class ComputeCapacityStatus {
     this.inUse,
     this.running,
   });
+
   factory ComputeCapacityStatus.fromJson(Map<String, dynamic> json) {
     return ComputeCapacityStatus(
       desired: json['Desired'] as int,
@@ -3031,9 +4405,43 @@ class CopyImageResponse {
   CopyImageResponse({
     this.destinationImageName,
   });
+
   factory CopyImageResponse.fromJson(Map<String, dynamic> json) {
     return CopyImageResponse(
       destinationImageName: json['DestinationImageName'] as String?,
+    );
+  }
+}
+
+class CreateAppBlockResult {
+  /// The app block.
+  final AppBlock? appBlock;
+
+  CreateAppBlockResult({
+    this.appBlock,
+  });
+
+  factory CreateAppBlockResult.fromJson(Map<String, dynamic> json) {
+    return CreateAppBlockResult(
+      appBlock: json['AppBlock'] != null
+          ? AppBlock.fromJson(json['AppBlock'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class CreateApplicationResult {
+  final Application? application;
+
+  CreateApplicationResult({
+    this.application,
+  });
+
+  factory CreateApplicationResult.fromJson(Map<String, dynamic> json) {
+    return CreateApplicationResult(
+      application: json['Application'] != null
+          ? Application.fromJson(json['Application'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -3045,11 +4453,29 @@ class CreateDirectoryConfigResult {
   CreateDirectoryConfigResult({
     this.directoryConfig,
   });
+
   factory CreateDirectoryConfigResult.fromJson(Map<String, dynamic> json) {
     return CreateDirectoryConfigResult(
       directoryConfig: json['DirectoryConfig'] != null
           ? DirectoryConfig.fromJson(
               json['DirectoryConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class CreateEntitlementResult {
+  /// The entitlement.
+  final Entitlement? entitlement;
+
+  CreateEntitlementResult({
+    this.entitlement,
+  });
+
+  factory CreateEntitlementResult.fromJson(Map<String, dynamic> json) {
+    return CreateEntitlementResult(
+      entitlement: json['Entitlement'] != null
+          ? Entitlement.fromJson(json['Entitlement'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -3062,6 +4488,7 @@ class CreateFleetResult {
   CreateFleetResult({
     this.fleet,
   });
+
   factory CreateFleetResult.fromJson(Map<String, dynamic> json) {
     return CreateFleetResult(
       fleet: json['Fleet'] != null
@@ -3078,6 +4505,7 @@ class CreateImageBuilderResult {
   CreateImageBuilderResult({
     this.imageBuilder,
   });
+
   factory CreateImageBuilderResult.fromJson(Map<String, dynamic> json) {
     return CreateImageBuilderResult(
       imageBuilder: json['ImageBuilder'] != null
@@ -3098,6 +4526,7 @@ class CreateImageBuilderStreamingURLResult {
     this.expires,
     this.streamingURL,
   });
+
   factory CreateImageBuilderStreamingURLResult.fromJson(
       Map<String, dynamic> json) {
     return CreateImageBuilderStreamingURLResult(
@@ -3114,6 +4543,7 @@ class CreateStackResult {
   CreateStackResult({
     this.stack,
   });
+
   factory CreateStackResult.fromJson(Map<String, dynamic> json) {
     return CreateStackResult(
       stack: json['Stack'] != null
@@ -3134,10 +4564,31 @@ class CreateStreamingURLResult {
     this.expires,
     this.streamingURL,
   });
+
   factory CreateStreamingURLResult.fromJson(Map<String, dynamic> json) {
     return CreateStreamingURLResult(
       expires: timeStampFromJson(json['Expires']),
       streamingURL: json['StreamingURL'] as String?,
+    );
+  }
+}
+
+class CreateUpdatedImageResult {
+  /// Indicates whether a new image can be created.
+  final bool? canUpdateImage;
+  final Image? image;
+
+  CreateUpdatedImageResult({
+    this.canUpdateImage,
+    this.image,
+  });
+
+  factory CreateUpdatedImageResult.fromJson(Map<String, dynamic> json) {
+    return CreateUpdatedImageResult(
+      canUpdateImage: json['canUpdateImage'] as bool?,
+      image: json['image'] != null
+          ? Image.fromJson(json['image'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -3161,6 +4612,7 @@ class CreateUsageReportSubscriptionResult {
     this.s3BucketName,
     this.schedule,
   });
+
   factory CreateUsageReportSubscriptionResult.fromJson(
       Map<String, dynamic> json) {
     return CreateUsageReportSubscriptionResult(
@@ -3172,20 +4624,47 @@ class CreateUsageReportSubscriptionResult {
 
 class CreateUserResult {
   CreateUserResult();
+
   factory CreateUserResult.fromJson(Map<String, dynamic> _) {
     return CreateUserResult();
   }
 }
 
+class DeleteAppBlockResult {
+  DeleteAppBlockResult();
+
+  factory DeleteAppBlockResult.fromJson(Map<String, dynamic> _) {
+    return DeleteAppBlockResult();
+  }
+}
+
+class DeleteApplicationResult {
+  DeleteApplicationResult();
+
+  factory DeleteApplicationResult.fromJson(Map<String, dynamic> _) {
+    return DeleteApplicationResult();
+  }
+}
+
 class DeleteDirectoryConfigResult {
   DeleteDirectoryConfigResult();
+
   factory DeleteDirectoryConfigResult.fromJson(Map<String, dynamic> _) {
     return DeleteDirectoryConfigResult();
   }
 }
 
+class DeleteEntitlementResult {
+  DeleteEntitlementResult();
+
+  factory DeleteEntitlementResult.fromJson(Map<String, dynamic> _) {
+    return DeleteEntitlementResult();
+  }
+}
+
 class DeleteFleetResult {
   DeleteFleetResult();
+
   factory DeleteFleetResult.fromJson(Map<String, dynamic> _) {
     return DeleteFleetResult();
   }
@@ -3198,6 +4677,7 @@ class DeleteImageBuilderResult {
   DeleteImageBuilderResult({
     this.imageBuilder,
   });
+
   factory DeleteImageBuilderResult.fromJson(Map<String, dynamic> json) {
     return DeleteImageBuilderResult(
       imageBuilder: json['ImageBuilder'] != null
@@ -3209,6 +4689,7 @@ class DeleteImageBuilderResult {
 
 class DeleteImagePermissionsResult {
   DeleteImagePermissionsResult();
+
   factory DeleteImagePermissionsResult.fromJson(Map<String, dynamic> _) {
     return DeleteImagePermissionsResult();
   }
@@ -3221,6 +4702,7 @@ class DeleteImageResult {
   DeleteImageResult({
     this.image,
   });
+
   factory DeleteImageResult.fromJson(Map<String, dynamic> json) {
     return DeleteImageResult(
       image: json['Image'] != null
@@ -3232,6 +4714,7 @@ class DeleteImageResult {
 
 class DeleteStackResult {
   DeleteStackResult();
+
   factory DeleteStackResult.fromJson(Map<String, dynamic> _) {
     return DeleteStackResult();
   }
@@ -3239,6 +4722,7 @@ class DeleteStackResult {
 
 class DeleteUsageReportSubscriptionResult {
   DeleteUsageReportSubscriptionResult();
+
   factory DeleteUsageReportSubscriptionResult.fromJson(Map<String, dynamic> _) {
     return DeleteUsageReportSubscriptionResult();
   }
@@ -3246,8 +4730,84 @@ class DeleteUsageReportSubscriptionResult {
 
 class DeleteUserResult {
   DeleteUserResult();
+
   factory DeleteUserResult.fromJson(Map<String, dynamic> _) {
     return DeleteUserResult();
+  }
+}
+
+class DescribeAppBlocksResult {
+  /// The app blocks in the list.
+  final List<AppBlock>? appBlocks;
+
+  /// The pagination token used to retrieve the next page of results for this
+  /// operation.
+  final String? nextToken;
+
+  DescribeAppBlocksResult({
+    this.appBlocks,
+    this.nextToken,
+  });
+
+  factory DescribeAppBlocksResult.fromJson(Map<String, dynamic> json) {
+    return DescribeAppBlocksResult(
+      appBlocks: (json['AppBlocks'] as List?)
+          ?.whereNotNull()
+          .map((e) => AppBlock.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
+class DescribeApplicationFleetAssociationsResult {
+  /// The application fleet associations in the list.
+  final List<ApplicationFleetAssociation>? applicationFleetAssociations;
+
+  /// The pagination token used to retrieve the next page of results for this
+  /// operation.
+  final String? nextToken;
+
+  DescribeApplicationFleetAssociationsResult({
+    this.applicationFleetAssociations,
+    this.nextToken,
+  });
+
+  factory DescribeApplicationFleetAssociationsResult.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeApplicationFleetAssociationsResult(
+      applicationFleetAssociations: (json['ApplicationFleetAssociations']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ApplicationFleetAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
+class DescribeApplicationsResult {
+  /// The applications in the list.
+  final List<Application>? applications;
+
+  /// The pagination token used to retrieve the next page of results for this
+  /// operation.
+  final String? nextToken;
+
+  DescribeApplicationsResult({
+    this.applications,
+    this.nextToken,
+  });
+
+  factory DescribeApplicationsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeApplicationsResult(
+      applications: (json['Applications'] as List?)
+          ?.whereNotNull()
+          .map((e) => Application.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
   }
 }
 
@@ -3265,11 +4825,36 @@ class DescribeDirectoryConfigsResult {
     this.directoryConfigs,
     this.nextToken,
   });
+
   factory DescribeDirectoryConfigsResult.fromJson(Map<String, dynamic> json) {
     return DescribeDirectoryConfigsResult(
       directoryConfigs: (json['DirectoryConfigs'] as List?)
           ?.whereNotNull()
           .map((e) => DirectoryConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
+class DescribeEntitlementsResult {
+  /// The entitlements.
+  final List<Entitlement>? entitlements;
+
+  /// The pagination token used to retrieve the next page of results for this
+  /// operation.
+  final String? nextToken;
+
+  DescribeEntitlementsResult({
+    this.entitlements,
+    this.nextToken,
+  });
+
+  factory DescribeEntitlementsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeEntitlementsResult(
+      entitlements: (json['Entitlements'] as List?)
+          ?.whereNotNull()
+          .map((e) => Entitlement.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
     );
@@ -3288,6 +4873,7 @@ class DescribeFleetsResult {
     this.fleets,
     this.nextToken,
   });
+
   factory DescribeFleetsResult.fromJson(Map<String, dynamic> json) {
     return DescribeFleetsResult(
       fleets: (json['Fleets'] as List?)
@@ -3311,6 +4897,7 @@ class DescribeImageBuildersResult {
     this.imageBuilders,
     this.nextToken,
   });
+
   factory DescribeImageBuildersResult.fromJson(Map<String, dynamic> json) {
     return DescribeImageBuildersResult(
       imageBuilders: (json['ImageBuilders'] as List?)
@@ -3338,6 +4925,7 @@ class DescribeImagePermissionsResult {
     this.nextToken,
     this.sharedImagePermissionsList,
   });
+
   factory DescribeImagePermissionsResult.fromJson(Map<String, dynamic> json) {
     return DescribeImagePermissionsResult(
       name: json['Name'] as String?,
@@ -3363,6 +4951,7 @@ class DescribeImagesResult {
     this.images,
     this.nextToken,
   });
+
   factory DescribeImagesResult.fromJson(Map<String, dynamic> json) {
     return DescribeImagesResult(
       images: (json['Images'] as List?)
@@ -3386,6 +4975,7 @@ class DescribeSessionsResult {
     this.nextToken,
     this.sessions,
   });
+
   factory DescribeSessionsResult.fromJson(Map<String, dynamic> json) {
     return DescribeSessionsResult(
       nextToken: json['NextToken'] as String?,
@@ -3409,6 +4999,7 @@ class DescribeStacksResult {
     this.nextToken,
     this.stacks,
   });
+
   factory DescribeStacksResult.fromJson(Map<String, dynamic> json) {
     return DescribeStacksResult(
       nextToken: json['NextToken'] as String?,
@@ -3432,6 +5023,7 @@ class DescribeUsageReportSubscriptionsResult {
     this.nextToken,
     this.usageReportSubscriptions,
   });
+
   factory DescribeUsageReportSubscriptionsResult.fromJson(
       Map<String, dynamic> json) {
     return DescribeUsageReportSubscriptionsResult(
@@ -3457,6 +5049,7 @@ class DescribeUserStackAssociationsResult {
     this.nextToken,
     this.userStackAssociations,
   });
+
   factory DescribeUserStackAssociationsResult.fromJson(
       Map<String, dynamic> json) {
     return DescribeUserStackAssociationsResult(
@@ -3481,6 +5074,7 @@ class DescribeUsersResult {
     this.nextToken,
     this.users,
   });
+
   factory DescribeUsersResult.fromJson(Map<String, dynamic> json) {
     return DescribeUsersResult(
       nextToken: json['NextToken'] as String?,
@@ -3498,6 +5092,17 @@ class DirectoryConfig {
   /// The fully qualified name of the directory (for example, corp.example.com).
   final String directoryName;
 
+  /// The certificate-based authentication properties used to authenticate SAML
+  /// 2.0 Identity Provider (IdP) user identities to Active Directory
+  /// domain-joined streaming instances. Fallback is turned on by default when
+  /// certificate-based authentication is <b>Enabled</b> . Fallback allows users
+  /// to log in using their AD domain password if certificate-based authentication
+  /// is unsuccessful, or to unlock a desktop lock screen.
+  /// <b>Enabled_no_directory_login_fallback</b> enables certificate-based
+  /// authentication, but does not allow users to log in using their AD domain
+  /// password. Users will be disconnected to re-authenticate using certificates.
+  final CertificateBasedAuthProperties? certificateBasedAuthProperties;
+
   /// The time the directory configuration was created.
   final DateTime? createdTime;
 
@@ -3510,13 +5115,20 @@ class DirectoryConfig {
 
   DirectoryConfig({
     required this.directoryName,
+    this.certificateBasedAuthProperties,
     this.createdTime,
     this.organizationalUnitDistinguishedNames,
     this.serviceAccountCredentials,
   });
+
   factory DirectoryConfig.fromJson(Map<String, dynamic> json) {
     return DirectoryConfig(
       directoryName: json['DirectoryName'] as String,
+      certificateBasedAuthProperties: json['CertificateBasedAuthProperties'] !=
+              null
+          ? CertificateBasedAuthProperties.fromJson(
+              json['CertificateBasedAuthProperties'] as Map<String, dynamic>)
+          : null,
       createdTime: timeStampFromJson(json['CreatedTime']),
       organizationalUnitDistinguishedNames:
           (json['OrganizationalUnitDistinguishedNames'] as List?)
@@ -3533,13 +5145,32 @@ class DirectoryConfig {
 
 class DisableUserResult {
   DisableUserResult();
+
   factory DisableUserResult.fromJson(Map<String, dynamic> _) {
     return DisableUserResult();
   }
 }
 
+class DisassociateApplicationFleetResult {
+  DisassociateApplicationFleetResult();
+
+  factory DisassociateApplicationFleetResult.fromJson(Map<String, dynamic> _) {
+    return DisassociateApplicationFleetResult();
+  }
+}
+
+class DisassociateApplicationFromEntitlementResult {
+  DisassociateApplicationFromEntitlementResult();
+
+  factory DisassociateApplicationFromEntitlementResult.fromJson(
+      Map<String, dynamic> _) {
+    return DisassociateApplicationFromEntitlementResult();
+  }
+}
+
 class DisassociateFleetResult {
   DisassociateFleetResult();
+
   factory DisassociateFleetResult.fromJson(Map<String, dynamic> _) {
     return DisassociateFleetResult();
   }
@@ -3558,6 +5189,7 @@ class DomainJoinInfo {
     this.directoryName,
     this.organizationalUnitDistinguishedName,
   });
+
   factory DomainJoinInfo.fromJson(Map<String, dynamic> json) {
     return DomainJoinInfo(
       directoryName: json['DirectoryName'] as String?,
@@ -3581,13 +5213,149 @@ class DomainJoinInfo {
 
 class EnableUserResult {
   EnableUserResult();
+
   factory EnableUserResult.fromJson(Map<String, dynamic> _) {
     return EnableUserResult();
   }
 }
 
+/// The application associated to an entitlement. Access is controlled based on
+/// user attributes.
+class EntitledApplication {
+  /// The identifier of the application.
+  final String applicationIdentifier;
+
+  EntitledApplication({
+    required this.applicationIdentifier,
+  });
+
+  factory EntitledApplication.fromJson(Map<String, dynamic> json) {
+    return EntitledApplication(
+      applicationIdentifier: json['ApplicationIdentifier'] as String,
+    );
+  }
+}
+
+/// Specifies an entitlement. Entitlements control access to specific
+/// applications within a stack, based on user attributes. Entitlements apply to
+/// SAML 2.0 federated user identities. Amazon AppStream 2.0 user pool and
+/// streaming URL users are entitled to all applications in a stack.
+/// Entitlements don't apply to the desktop stream view application, or to
+/// applications managed by a dynamic app provider using the Dynamic Application
+/// Framework.
+class Entitlement {
+  /// Specifies whether all or selected apps are entitled.
+  final AppVisibility appVisibility;
+
+  /// The attributes of the entitlement.
+  final List<EntitlementAttribute> attributes;
+
+  /// The name of the entitlement.
+  final String name;
+
+  /// The name of the stack with which the entitlement is associated.
+  final String stackName;
+
+  /// The time when the entitlement was created.
+  final DateTime? createdTime;
+
+  /// The description of the entitlement.
+  final String? description;
+
+  /// The time when the entitlement was last modified.
+  final DateTime? lastModifiedTime;
+
+  Entitlement({
+    required this.appVisibility,
+    required this.attributes,
+    required this.name,
+    required this.stackName,
+    this.createdTime,
+    this.description,
+    this.lastModifiedTime,
+  });
+
+  factory Entitlement.fromJson(Map<String, dynamic> json) {
+    return Entitlement(
+      appVisibility: (json['AppVisibility'] as String).toAppVisibility(),
+      attributes: (json['Attributes'] as List)
+          .whereNotNull()
+          .map((e) => EntitlementAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['Name'] as String,
+      stackName: json['StackName'] as String,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+    );
+  }
+}
+
+/// An attribute associated with an entitlement. Application entitlements work
+/// by matching a supported SAML 2.0 attribute name to a value when a user
+/// identity federates to an Amazon AppStream 2.0 SAML application.
+class EntitlementAttribute {
+  /// A supported AWS IAM SAML <code>PrincipalTag</code> attribute that is matched
+  /// to the associated value when a user identity federates into an Amazon
+  /// AppStream 2.0 SAML application.
+  ///
+  /// The following are valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// roles
+  /// </li>
+  /// <li>
+  /// department
+  /// </li>
+  /// <li>
+  /// organization
+  /// </li>
+  /// <li>
+  /// groups
+  /// </li>
+  /// <li>
+  /// title
+  /// </li>
+  /// <li>
+  /// costCenter
+  /// </li>
+  /// <li>
+  /// userType
+  /// </li>
+  /// </ul>
+  ///
+  final String name;
+
+  /// A value that is matched to a supported SAML attribute name when a user
+  /// identity federates into an Amazon AppStream 2.0 SAML application.
+  final String value;
+
+  EntitlementAttribute({
+    required this.name,
+    required this.value,
+  });
+
+  factory EntitlementAttribute.fromJson(Map<String, dynamic> json) {
+    return EntitlementAttribute(
+      name: json['Name'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
+}
+
 class ExpireSessionResult {
   ExpireSessionResult();
+
   factory ExpireSessionResult.fromJson(Map<String, dynamic> _) {
     return ExpireSessionResult();
   }
@@ -3605,6 +5373,9 @@ class Fleet {
   /// instance types are available:
   ///
   /// <ul>
+  /// <li>
+  /// stream.standard.small
+  /// </li>
   /// <li>
   /// stream.standard.medium
   /// </li>
@@ -3795,6 +5566,9 @@ class Fleet {
   /// The name of the image used to create the fleet.
   final String? imageName;
 
+  /// The maximum number of concurrent sessions for the fleet.
+  final int? maxConcurrentSessions;
+
   /// The maximum amount of time that a streaming session can remain active, in
   /// seconds. If users are still connected to a streaming instance five minutes
   /// before this limit is reached, they are prompted to save any open documents
@@ -3804,6 +5578,13 @@ class Fleet {
   /// Specify a value between 600 and 360000.
   final int? maxUserDurationInSeconds;
 
+  /// The platform of the fleet.
+  final PlatformType? platform;
+
+  /// The S3 location of the session scripts configuration zip file. This only
+  /// applies to Elastic fleets.
+  final S3Location? sessionScriptS3Location;
+
   /// The AppStream 2.0 view that is displayed to your users when they stream from
   /// the fleet. When <code>APP</code> is specified, only the windows of
   /// applications opened by users display. When <code>DESKTOP</code> is
@@ -3812,6 +5593,9 @@ class Fleet {
   ///
   /// The default value is <code>APP</code>.
   final StreamView? streamView;
+
+  /// The USB device filter strings associated with the fleet.
+  final List<String>? usbDeviceFilterStrings;
 
   /// The VPC configuration for the fleet.
   final VpcConfig? vpcConfig;
@@ -3834,10 +5618,15 @@ class Fleet {
     this.idleDisconnectTimeoutInSeconds,
     this.imageArn,
     this.imageName,
+    this.maxConcurrentSessions,
     this.maxUserDurationInSeconds,
+    this.platform,
+    this.sessionScriptS3Location,
     this.streamView,
+    this.usbDeviceFilterStrings,
     this.vpcConfig,
   });
+
   factory Fleet.fromJson(Map<String, dynamic> json) {
     return Fleet(
       arn: json['Arn'] as String,
@@ -3865,8 +5654,18 @@ class Fleet {
           json['IdleDisconnectTimeoutInSeconds'] as int?,
       imageArn: json['ImageArn'] as String?,
       imageName: json['ImageName'] as String?,
+      maxConcurrentSessions: json['MaxConcurrentSessions'] as int?,
       maxUserDurationInSeconds: json['MaxUserDurationInSeconds'] as int?,
+      platform: (json['Platform'] as String?)?.toPlatformType(),
+      sessionScriptS3Location: json['SessionScriptS3Location'] != null
+          ? S3Location.fromJson(
+              json['SessionScriptS3Location'] as Map<String, dynamic>)
+          : null,
       streamView: (json['StreamView'] as String?)?.toStreamView(),
+      usbDeviceFilterStrings: (json['UsbDeviceFilterStrings'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       vpcConfig: json['VpcConfig'] != null
           ? VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>)
           : null,
@@ -3880,6 +5679,8 @@ enum FleetAttribute {
   vpcConfigurationSecurityGroupIds,
   domainJoinInfo,
   iamRoleArn,
+  usbDeviceFilterStrings,
+  sessionScriptS3Location,
 }
 
 extension FleetAttributeValueExtension on FleetAttribute {
@@ -3893,6 +5694,10 @@ extension FleetAttributeValueExtension on FleetAttribute {
         return 'DOMAIN_JOIN_INFO';
       case FleetAttribute.iamRoleArn:
         return 'IAM_ROLE_ARN';
+      case FleetAttribute.usbDeviceFilterStrings:
+        return 'USB_DEVICE_FILTER_STRINGS';
+      case FleetAttribute.sessionScriptS3Location:
+        return 'SESSION_SCRIPT_S3_LOCATION';
     }
   }
 }
@@ -3908,6 +5713,10 @@ extension FleetAttributeFromString on String {
         return FleetAttribute.domainJoinInfo;
       case 'IAM_ROLE_ARN':
         return FleetAttribute.iamRoleArn;
+      case 'USB_DEVICE_FILTER_STRINGS':
+        return FleetAttribute.usbDeviceFilterStrings;
+      case 'SESSION_SCRIPT_S3_LOCATION':
+        return FleetAttribute.sessionScriptS3Location;
     }
     throw Exception('$this is not known in enum FleetAttribute');
   }
@@ -3925,6 +5734,7 @@ class FleetError {
     this.errorCode,
     this.errorMessage,
   });
+
   factory FleetError.fromJson(Map<String, dynamic> json) {
     return FleetError(
       errorCode: (json['ErrorCode'] as String?)?.toFleetErrorCode(),
@@ -3950,6 +5760,8 @@ enum FleetErrorCode {
   securityGroupsNotFound,
   igwNotAttached,
   iamServiceRoleMissingDescribeSecurityGroupsAction,
+  fleetStopped,
+  fleetInstanceProvisioningFailure,
   domainJoinErrorFileNotFound,
   domainJoinErrorAccessDenied,
   domainJoinErrorLogonFailure,
@@ -3999,6 +5811,10 @@ extension FleetErrorCodeValueExtension on FleetErrorCode {
         return 'IGW_NOT_ATTACHED';
       case FleetErrorCode.iamServiceRoleMissingDescribeSecurityGroupsAction:
         return 'IAM_SERVICE_ROLE_MISSING_DESCRIBE_SECURITY_GROUPS_ACTION';
+      case FleetErrorCode.fleetStopped:
+        return 'FLEET_STOPPED';
+      case FleetErrorCode.fleetInstanceProvisioningFailure:
+        return 'FLEET_INSTANCE_PROVISIONING_FAILURE';
       case FleetErrorCode.domainJoinErrorFileNotFound:
         return 'DOMAIN_JOIN_ERROR_FILE_NOT_FOUND';
       case FleetErrorCode.domainJoinErrorAccessDenied:
@@ -4062,6 +5878,10 @@ extension FleetErrorCodeFromString on String {
         return FleetErrorCode.igwNotAttached;
       case 'IAM_SERVICE_ROLE_MISSING_DESCRIBE_SECURITY_GROUPS_ACTION':
         return FleetErrorCode.iamServiceRoleMissingDescribeSecurityGroupsAction;
+      case 'FLEET_STOPPED':
+        return FleetErrorCode.fleetStopped;
+      case 'FLEET_INSTANCE_PROVISIONING_FAILURE':
+        return FleetErrorCode.fleetInstanceProvisioningFailure;
       case 'DOMAIN_JOIN_ERROR_FILE_NOT_FOUND':
         return FleetErrorCode.domainJoinErrorFileNotFound;
       case 'DOMAIN_JOIN_ERROR_ACCESS_DENIED':
@@ -4132,6 +5952,7 @@ extension FleetStateFromString on String {
 enum FleetType {
   alwaysOn,
   onDemand,
+  elastic,
 }
 
 extension FleetTypeValueExtension on FleetType {
@@ -4141,6 +5962,8 @@ extension FleetTypeValueExtension on FleetType {
         return 'ALWAYS_ON';
       case FleetType.onDemand:
         return 'ON_DEMAND';
+      case FleetType.elastic:
+        return 'ELASTIC';
     }
   }
 }
@@ -4152,6 +5975,8 @@ extension FleetTypeFromString on String {
         return FleetType.alwaysOn;
       case 'ON_DEMAND':
         return FleetType.onDemand;
+      case 'ELASTIC':
+        return FleetType.elastic;
     }
     throw Exception('$this is not known in enum FleetType');
   }
@@ -4191,6 +6016,9 @@ class Image {
   /// Indicates whether an image builder can be launched from this image.
   final bool? imageBuilderSupported;
 
+  /// Describes the errors that are returned when a new image can't be created.
+  final List<ResourceError>? imageErrors;
+
   /// The permissions to provide to the destination AWS account for the specified
   /// image.
   final ImagePermissions? imagePermissions;
@@ -4224,6 +6052,7 @@ class Image {
     this.displayName,
     this.imageBuilderName,
     this.imageBuilderSupported,
+    this.imageErrors,
     this.imagePermissions,
     this.platform,
     this.publicBaseImageReleasedDate,
@@ -4231,6 +6060,7 @@ class Image {
     this.stateChangeReason,
     this.visibility,
   });
+
   factory Image.fromJson(Map<String, dynamic> json) {
     return Image(
       name: json['Name'] as String,
@@ -4246,6 +6076,10 @@ class Image {
       displayName: json['DisplayName'] as String?,
       imageBuilderName: json['ImageBuilderName'] as String?,
       imageBuilderSupported: json['ImageBuilderSupported'] as bool?,
+      imageErrors: (json['ImageErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceError.fromJson(e as Map<String, dynamic>))
+          .toList(),
       imagePermissions: json['ImagePermissions'] != null
           ? ImagePermissions.fromJson(
               json['ImagePermissions'] as Map<String, dynamic>)
@@ -4320,6 +6154,9 @@ class ImageBuilder {
   /// available:
   ///
   /// <ul>
+  /// <li>
+  /// stream.standard.small
+  /// </li>
   /// <li>
   /// stream.standard.medium
   /// </li>
@@ -4452,6 +6289,7 @@ class ImageBuilder {
     this.stateChangeReason,
     this.vpcConfig,
   });
+
   factory ImageBuilder.fromJson(Map<String, dynamic> json) {
     return ImageBuilder(
       name: json['Name'] as String,
@@ -4503,6 +6341,8 @@ enum ImageBuilderState {
   snapshotting,
   deleting,
   failed,
+  updating,
+  pendingQualification,
 }
 
 extension ImageBuilderStateValueExtension on ImageBuilderState {
@@ -4526,6 +6366,10 @@ extension ImageBuilderStateValueExtension on ImageBuilderState {
         return 'DELETING';
       case ImageBuilderState.failed:
         return 'FAILED';
+      case ImageBuilderState.updating:
+        return 'UPDATING';
+      case ImageBuilderState.pendingQualification:
+        return 'PENDING_QUALIFICATION';
     }
   }
 }
@@ -4551,6 +6395,10 @@ extension ImageBuilderStateFromString on String {
         return ImageBuilderState.deleting;
       case 'FAILED':
         return ImageBuilderState.failed;
+      case 'UPDATING':
+        return ImageBuilderState.updating;
+      case 'PENDING_QUALIFICATION':
+        return ImageBuilderState.pendingQualification;
     }
     throw Exception('$this is not known in enum ImageBuilderState');
   }
@@ -4568,6 +6416,7 @@ class ImageBuilderStateChangeReason {
     this.code,
     this.message,
   });
+
   factory ImageBuilderStateChangeReason.fromJson(Map<String, dynamic> json) {
     return ImageBuilderStateChangeReason(
       code: (json['Code'] as String?)?.toImageBuilderStateChangeReasonCode(),
@@ -4618,6 +6467,7 @@ class ImagePermissions {
     this.allowFleet,
     this.allowImageBuilder,
   });
+
   factory ImagePermissions.fromJson(Map<String, dynamic> json) {
     return ImagePermissions(
       allowFleet: json['allowFleet'] as bool?,
@@ -4641,6 +6491,8 @@ enum ImageState {
   failed,
   copying,
   deleting,
+  creating,
+  importing,
 }
 
 extension ImageStateValueExtension on ImageState {
@@ -4656,6 +6508,10 @@ extension ImageStateValueExtension on ImageState {
         return 'COPYING';
       case ImageState.deleting:
         return 'DELETING';
+      case ImageState.creating:
+        return 'CREATING';
+      case ImageState.importing:
+        return 'IMPORTING';
     }
   }
 }
@@ -4673,6 +6529,10 @@ extension ImageStateFromString on String {
         return ImageState.copying;
       case 'DELETING':
         return ImageState.deleting;
+      case 'CREATING':
+        return ImageState.creating;
+      case 'IMPORTING':
+        return ImageState.importing;
     }
     throw Exception('$this is not known in enum ImageState');
   }
@@ -4690,6 +6550,7 @@ class ImageStateChangeReason {
     this.code,
     this.message,
   });
+
   factory ImageStateChangeReason.fromJson(Map<String, dynamic> json) {
     return ImageStateChangeReason(
       code: (json['Code'] as String?)?.toImageStateChangeReasonCode(),
@@ -4746,6 +6607,7 @@ class LastReportGenerationExecutionError {
     this.errorCode,
     this.errorMessage,
   });
+
   factory LastReportGenerationExecutionError.fromJson(
       Map<String, dynamic> json) {
     return LastReportGenerationExecutionError(
@@ -4768,6 +6630,7 @@ class ListAssociatedFleetsResult {
     this.names,
     this.nextToken,
   });
+
   factory ListAssociatedFleetsResult.fromJson(Map<String, dynamic> json) {
     return ListAssociatedFleetsResult(
       names: (json['Names'] as List?)
@@ -4791,11 +6654,36 @@ class ListAssociatedStacksResult {
     this.names,
     this.nextToken,
   });
+
   factory ListAssociatedStacksResult.fromJson(Map<String, dynamic> json) {
     return ListAssociatedStacksResult(
       names: (json['Names'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
+class ListEntitledApplicationsResult {
+  /// The entitled applications.
+  final List<EntitledApplication>? entitledApplications;
+
+  /// The pagination token used to retrieve the next page of results for this
+  /// operation.
+  final String? nextToken;
+
+  ListEntitledApplicationsResult({
+    this.entitledApplications,
+    this.nextToken,
+  });
+
+  factory ListEntitledApplicationsResult.fromJson(Map<String, dynamic> json) {
+    return ListEntitledApplicationsResult(
+      entitledApplications: (json['EntitledApplications'] as List?)
+          ?.whereNotNull()
+          .map((e) => EntitledApplication.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
     );
@@ -4809,6 +6697,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -4860,6 +6749,7 @@ class NetworkAccessConfiguration {
     this.eniId,
     this.eniPrivateIpAddress,
   });
+
   factory NetworkAccessConfiguration.fromJson(Map<String, dynamic> json) {
     return NetworkAccessConfiguration(
       eniId: json['EniId'] as String?,
@@ -4900,6 +6790,7 @@ enum PlatformType {
   windows,
   windowsServer_2016,
   windowsServer_2019,
+  amazonLinux2,
 }
 
 extension PlatformTypeValueExtension on PlatformType {
@@ -4911,6 +6802,8 @@ extension PlatformTypeValueExtension on PlatformType {
         return 'WINDOWS_SERVER_2016';
       case PlatformType.windowsServer_2019:
         return 'WINDOWS_SERVER_2019';
+      case PlatformType.amazonLinux2:
+        return 'AMAZON_LINUX2';
     }
   }
 }
@@ -4924,8 +6817,38 @@ extension PlatformTypeFromString on String {
         return PlatformType.windowsServer_2016;
       case 'WINDOWS_SERVER_2019':
         return PlatformType.windowsServer_2019;
+      case 'AMAZON_LINUX2':
+        return PlatformType.amazonLinux2;
     }
     throw Exception('$this is not known in enum PlatformType');
+  }
+}
+
+enum PreferredProtocol {
+  tcp,
+  udp,
+}
+
+extension PreferredProtocolValueExtension on PreferredProtocol {
+  String toValue() {
+    switch (this) {
+      case PreferredProtocol.tcp:
+        return 'TCP';
+      case PreferredProtocol.udp:
+        return 'UDP';
+    }
+  }
+}
+
+extension PreferredProtocolFromString on String {
+  PreferredProtocol toPreferredProtocol() {
+    switch (this) {
+      case 'TCP':
+        return PreferredProtocol.tcp;
+      case 'UDP':
+        return PreferredProtocol.udp;
+    }
+    throw Exception('$this is not known in enum PreferredProtocol');
   }
 }
 
@@ -4945,12 +6868,89 @@ class ResourceError {
     this.errorMessage,
     this.errorTimestamp,
   });
+
   factory ResourceError.fromJson(Map<String, dynamic> json) {
     return ResourceError(
       errorCode: (json['ErrorCode'] as String?)?.toFleetErrorCode(),
       errorMessage: json['ErrorMessage'] as String?,
       errorTimestamp: timeStampFromJson(json['ErrorTimestamp']),
     );
+  }
+}
+
+/// Describes the S3 location.
+class S3Location {
+  /// The S3 bucket of the S3 object.
+  final String s3Bucket;
+
+  /// The S3 key of the S3 object.
+  final String s3Key;
+
+  S3Location({
+    required this.s3Bucket,
+    required this.s3Key,
+  });
+
+  factory S3Location.fromJson(Map<String, dynamic> json) {
+    return S3Location(
+      s3Bucket: json['S3Bucket'] as String,
+      s3Key: json['S3Key'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Bucket = this.s3Bucket;
+    final s3Key = this.s3Key;
+    return {
+      'S3Bucket': s3Bucket,
+      'S3Key': s3Key,
+    };
+  }
+}
+
+/// Describes the details of the script.
+class ScriptDetails {
+  /// The run path for the script.
+  final String executablePath;
+
+  /// The S3 object location for the script.
+  final S3Location scriptS3Location;
+
+  /// The run timeout, in seconds, for the script.
+  final int timeoutInSeconds;
+
+  /// The runtime parameters passed to the run path for the script.
+  final String? executableParameters;
+
+  ScriptDetails({
+    required this.executablePath,
+    required this.scriptS3Location,
+    required this.timeoutInSeconds,
+    this.executableParameters,
+  });
+
+  factory ScriptDetails.fromJson(Map<String, dynamic> json) {
+    return ScriptDetails(
+      executablePath: json['ExecutablePath'] as String,
+      scriptS3Location:
+          S3Location.fromJson(json['ScriptS3Location'] as Map<String, dynamic>),
+      timeoutInSeconds: json['TimeoutInSeconds'] as int,
+      executableParameters: json['ExecutableParameters'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executablePath = this.executablePath;
+    final scriptS3Location = this.scriptS3Location;
+    final timeoutInSeconds = this.timeoutInSeconds;
+    final executableParameters = this.executableParameters;
+    return {
+      'ExecutablePath': executablePath,
+      'ScriptS3Location': scriptS3Location,
+      'TimeoutInSeconds': timeoutInSeconds,
+      if (executableParameters != null)
+        'ExecutableParameters': executableParameters,
+    };
   }
 }
 
@@ -4970,6 +6970,7 @@ class ServiceAccountCredentials {
     required this.accountName,
     required this.accountPassword,
   });
+
   factory ServiceAccountCredentials.fromJson(Map<String, dynamic> json) {
     return ServiceAccountCredentials(
       accountName: json['AccountName'] as String,
@@ -5040,6 +7041,7 @@ class Session {
     this.networkAccessConfiguration,
     this.startTime,
   });
+
   factory Session.fromJson(Map<String, dynamic> json) {
     return Session(
       fleetName: json['FleetName'] as String,
@@ -5136,6 +7138,7 @@ class SharedImagePermissions {
     required this.imagePermissions,
     required this.sharedAccountId,
   });
+
   factory SharedImagePermissions.fromJson(Map<String, dynamic> json) {
     return SharedImagePermissions(
       imagePermissions: ImagePermissions.fromJson(
@@ -5187,6 +7190,10 @@ class Stack {
   /// The storage connectors to enable.
   final List<StorageConnector>? storageConnectors;
 
+  /// The streaming protocol you want your stack to prefer. This can be UDP or
+  /// TCP. Currently, UDP is only supported in the Windows native client.
+  final StreamingExperienceSettings? streamingExperienceSettings;
+
   /// The actions that are enabled or disabled for users during their streaming
   /// sessions. By default these actions are enabled.
   final List<UserSetting>? userSettings;
@@ -5204,8 +7211,10 @@ class Stack {
     this.redirectURL,
     this.stackErrors,
     this.storageConnectors,
+    this.streamingExperienceSettings,
     this.userSettings,
   });
+
   factory Stack.fromJson(Map<String, dynamic> json) {
     return Stack(
       name: json['Name'] as String,
@@ -5235,6 +7244,10 @@ class Stack {
           ?.whereNotNull()
           .map((e) => StorageConnector.fromJson(e as Map<String, dynamic>))
           .toList(),
+      streamingExperienceSettings: json['StreamingExperienceSettings'] != null
+          ? StreamingExperienceSettings.fromJson(
+              json['StreamingExperienceSettings'] as Map<String, dynamic>)
+          : null,
       userSettings: (json['UserSettings'] as List?)
           ?.whereNotNull()
           .map((e) => UserSetting.fromJson(e as Map<String, dynamic>))
@@ -5255,6 +7268,7 @@ enum StackAttribute {
   embedHostDomains,
   iamRoleArn,
   accessEndpoints,
+  streamingExperienceSettings,
 }
 
 extension StackAttributeValueExtension on StackAttribute {
@@ -5282,6 +7296,8 @@ extension StackAttributeValueExtension on StackAttribute {
         return 'IAM_ROLE_ARN';
       case StackAttribute.accessEndpoints:
         return 'ACCESS_ENDPOINTS';
+      case StackAttribute.streamingExperienceSettings:
+        return 'STREAMING_EXPERIENCE_SETTINGS';
     }
   }
 }
@@ -5311,6 +7327,8 @@ extension StackAttributeFromString on String {
         return StackAttribute.iamRoleArn;
       case 'ACCESS_ENDPOINTS':
         return StackAttribute.accessEndpoints;
+      case 'STREAMING_EXPERIENCE_SETTINGS':
+        return StackAttribute.streamingExperienceSettings;
     }
     throw Exception('$this is not known in enum StackAttribute');
   }
@@ -5328,6 +7346,7 @@ class StackError {
     this.errorCode,
     this.errorMessage,
   });
+
   factory StackError.fromJson(Map<String, dynamic> json) {
     return StackError(
       errorCode: (json['ErrorCode'] as String?)?.toStackErrorCode(),
@@ -5366,6 +7385,7 @@ extension StackErrorCodeFromString on String {
 
 class StartFleetResult {
   StartFleetResult();
+
   factory StartFleetResult.fromJson(Map<String, dynamic> _) {
     return StartFleetResult();
   }
@@ -5378,6 +7398,7 @@ class StartImageBuilderResult {
   StartImageBuilderResult({
     this.imageBuilder,
   });
+
   factory StartImageBuilderResult.fromJson(Map<String, dynamic> json) {
     return StartImageBuilderResult(
       imageBuilder: json['ImageBuilder'] != null
@@ -5389,6 +7410,7 @@ class StartImageBuilderResult {
 
 class StopFleetResult {
   StopFleetResult();
+
   factory StopFleetResult.fromJson(Map<String, dynamic> _) {
     return StopFleetResult();
   }
@@ -5401,6 +7423,7 @@ class StopImageBuilderResult {
   StopImageBuilderResult({
     this.imageBuilder,
   });
+
   factory StopImageBuilderResult.fromJson(Map<String, dynamic> json) {
     return StopImageBuilderResult(
       imageBuilder: json['ImageBuilder'] != null
@@ -5426,6 +7449,7 @@ class StorageConnector {
     this.domains,
     this.resourceIdentifier,
   });
+
   factory StorageConnector.fromJson(Map<String, dynamic> json) {
     return StorageConnector(
       connectorType: (json['ConnectorType'] as String).toStorageConnectorType(),
@@ -5511,8 +7535,36 @@ extension StreamViewFromString on String {
   }
 }
 
+/// The streaming protocol you want your stack to prefer. This can be UDP or
+/// TCP. Currently, UDP is only supported in the Windows native client.
+class StreamingExperienceSettings {
+  /// The preferred protocol that you want to use while streaming your
+  /// application.
+  final PreferredProtocol? preferredProtocol;
+
+  StreamingExperienceSettings({
+    this.preferredProtocol,
+  });
+
+  factory StreamingExperienceSettings.fromJson(Map<String, dynamic> json) {
+    return StreamingExperienceSettings(
+      preferredProtocol:
+          (json['PreferredProtocol'] as String?)?.toPreferredProtocol(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final preferredProtocol = this.preferredProtocol;
+    return {
+      if (preferredProtocol != null)
+        'PreferredProtocol': preferredProtocol.toValue(),
+    };
+  }
+}
+
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
@@ -5520,8 +7572,25 @@ class TagResourceResponse {
 
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
+  }
+}
+
+class UpdateApplicationResult {
+  final Application? application;
+
+  UpdateApplicationResult({
+    this.application,
+  });
+
+  factory UpdateApplicationResult.fromJson(Map<String, dynamic> json) {
+    return UpdateApplicationResult(
+      application: json['Application'] != null
+          ? Application.fromJson(json['Application'] as Map<String, dynamic>)
+          : null,
+    );
   }
 }
 
@@ -5532,11 +7601,29 @@ class UpdateDirectoryConfigResult {
   UpdateDirectoryConfigResult({
     this.directoryConfig,
   });
+
   factory UpdateDirectoryConfigResult.fromJson(Map<String, dynamic> json) {
     return UpdateDirectoryConfigResult(
       directoryConfig: json['DirectoryConfig'] != null
           ? DirectoryConfig.fromJson(
               json['DirectoryConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class UpdateEntitlementResult {
+  /// The entitlement.
+  final Entitlement? entitlement;
+
+  UpdateEntitlementResult({
+    this.entitlement,
+  });
+
+  factory UpdateEntitlementResult.fromJson(Map<String, dynamic> json) {
+    return UpdateEntitlementResult(
+      entitlement: json['Entitlement'] != null
+          ? Entitlement.fromJson(json['Entitlement'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -5549,6 +7636,7 @@ class UpdateFleetResult {
   UpdateFleetResult({
     this.fleet,
   });
+
   factory UpdateFleetResult.fromJson(Map<String, dynamic> json) {
     return UpdateFleetResult(
       fleet: json['Fleet'] != null
@@ -5560,6 +7648,7 @@ class UpdateFleetResult {
 
 class UpdateImagePermissionsResult {
   UpdateImagePermissionsResult();
+
   factory UpdateImagePermissionsResult.fromJson(Map<String, dynamic> _) {
     return UpdateImagePermissionsResult();
   }
@@ -5572,6 +7661,7 @@ class UpdateStackResult {
   UpdateStackResult({
     this.stack,
   });
+
   factory UpdateStackResult.fromJson(Map<String, dynamic> json) {
     return UpdateStackResult(
       stack: json['Stack'] != null
@@ -5666,6 +7756,7 @@ class UsageReportSubscription {
     this.schedule,
     this.subscriptionErrors,
   });
+
   factory UsageReportSubscription.fromJson(Map<String, dynamic> json) {
     return UsageReportSubscription(
       lastGeneratedReportDate:
@@ -5739,6 +7830,7 @@ class User {
     this.status,
     this.userName,
   });
+
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       authenticationType:
@@ -5767,6 +7859,7 @@ class UserSetting {
     required this.action,
     required this.permission,
   });
+
   factory UserSetting.fromJson(Map<String, dynamic> json) {
     return UserSetting(
       action: (json['Action'] as String).toAction(),
@@ -5808,6 +7901,7 @@ class UserStackAssociation {
     required this.userName,
     this.sendEmailNotification,
   });
+
   factory UserStackAssociation.fromJson(Map<String, dynamic> json) {
     return UserStackAssociation(
       authenticationType:
@@ -5852,6 +7946,7 @@ class UserStackAssociationError {
     this.errorMessage,
     this.userStackAssociation,
   });
+
   factory UserStackAssociationError.fromJson(Map<String, dynamic> json) {
     return UserStackAssociationError(
       errorCode:
@@ -5951,6 +8046,7 @@ class VpcConfig {
     this.securityGroupIds,
     this.subnetIds,
   });
+
   factory VpcConfig.fromJson(Map<String, dynamic> json) {
     return VpcConfig(
       securityGroupIds: (json['SecurityGroupIds'] as List?)
@@ -5980,6 +8076,20 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             type: type,
             code: 'ConcurrentModificationException',
             message: message);
+}
+
+class EntitlementAlreadyExistsException extends _s.GenericAwsException {
+  EntitlementAlreadyExistsException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'EntitlementAlreadyExistsException',
+            message: message);
+}
+
+class EntitlementNotFoundException extends _s.GenericAwsException {
+  EntitlementNotFoundException({String? type, String? message})
+      : super(
+            type: type, code: 'EntitlementNotFoundException', message: message);
 }
 
 class IncompatibleImageException extends _s.GenericAwsException {
@@ -6058,6 +8168,10 @@ class ResourceNotFoundException extends _s.GenericAwsException {
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'ConcurrentModificationException': (type, message) =>
       ConcurrentModificationException(type: type, message: message),
+  'EntitlementAlreadyExistsException': (type, message) =>
+      EntitlementAlreadyExistsException(type: type, message: message),
+  'EntitlementNotFoundException': (type, message) =>
+      EntitlementNotFoundException(type: type, message: message),
   'IncompatibleImageException': (type, message) =>
       IncompatibleImageException(type: type, message: message),
   'InvalidAccountStatusException': (type, message) =>

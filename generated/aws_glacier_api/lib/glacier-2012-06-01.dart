@@ -2225,6 +2225,7 @@ class CSVInput {
     this.quoteEscapeCharacter,
     this.recordDelimiter,
   });
+
   factory CSVInput.fromJson(Map<String, dynamic> json) {
     return CSVInput(
       comments: json['Comments'] as String?,
@@ -2283,6 +2284,7 @@ class CSVOutput {
     this.quoteFields,
     this.recordDelimiter,
   });
+
   factory CSVOutput.fromJson(Map<String, dynamic> json) {
     return CSVOutput(
       fieldDelimiter: json['FieldDelimiter'] as String?,
@@ -2383,6 +2385,7 @@ class DataRetrievalPolicy {
   DataRetrievalPolicy({
     this.rules,
   });
+
   factory DataRetrievalPolicy.fromJson(Map<String, dynamic> json) {
     return DataRetrievalPolicy(
       rules: (json['Rules'] as List?)
@@ -2419,6 +2422,7 @@ class DataRetrievalRule {
     this.bytesPerHour,
     this.strategy,
   });
+
   factory DataRetrievalRule.fromJson(Map<String, dynamic> json) {
     return DataRetrievalRule(
       bytesPerHour: json['BytesPerHour'] as int?,
@@ -2472,6 +2476,7 @@ class DescribeVaultOutput {
     this.vaultARN,
     this.vaultName,
   });
+
   factory DescribeVaultOutput.fromJson(Map<String, dynamic> json) {
     return DescribeVaultOutput(
       creationDate: json['CreationDate'] as String?,
@@ -2505,6 +2510,7 @@ class Encryption {
     this.kMSContext,
     this.kMSKeyId,
   });
+
   factory Encryption.fromJson(Map<String, dynamic> json) {
     return Encryption(
       encryptionType: (json['EncryptionType'] as String?)?.toEncryptionType(),
@@ -2618,6 +2624,7 @@ class GetDataRetrievalPolicyOutput {
   GetDataRetrievalPolicyOutput({
     this.policy,
   });
+
   factory GetDataRetrievalPolicyOutput.fromJson(Map<String, dynamic> json) {
     return GetDataRetrievalPolicyOutput(
       policy: json['Policy'] != null
@@ -2724,6 +2731,7 @@ class GetVaultLockOutput {
     this.policy,
     this.state,
   });
+
   factory GetVaultLockOutput.fromJson(Map<String, dynamic> json) {
     return GetVaultLockOutput(
       creationDate: json['CreationDate'] as String?,
@@ -2882,6 +2890,7 @@ class GlacierJobDescription {
     this.tier,
     this.vaultARN,
   });
+
   factory GlacierJobDescription.fromJson(Map<String, dynamic> json) {
     return GlacierJobDescription(
       action: (json['Action'] as String?)?.toActionCode(),
@@ -2930,6 +2939,7 @@ class Grant {
     this.grantee,
     this.permission,
   });
+
   factory Grant.fromJson(Map<String, dynamic> json) {
     return Grant(
       grantee: json['Grantee'] != null
@@ -2973,6 +2983,7 @@ class Grantee {
     this.id,
     this.uri,
   });
+
   factory Grantee.fromJson(Map<String, dynamic> json) {
     return Grantee(
       type: (json['Type'] as String).toType(),
@@ -3050,6 +3061,7 @@ class InputSerialization {
   InputSerialization({
     this.csv,
   });
+
   factory InputSerialization.fromJson(Map<String, dynamic> json) {
     return InputSerialization(
       csv: json['csv'] != null
@@ -3104,6 +3116,7 @@ class InventoryRetrievalJobDescription {
     this.marker,
     this.startDate,
   });
+
   factory InventoryRetrievalJobDescription.fromJson(Map<String, dynamic> json) {
     return InventoryRetrievalJobDescription(
       endDate: json['EndDate'] as String?,
@@ -3272,6 +3285,7 @@ class ListJobsOutput {
     this.jobList,
     this.marker,
   });
+
   factory ListJobsOutput.fromJson(Map<String, dynamic> json) {
     return ListJobsOutput(
       jobList: (json['JobList'] as List?)
@@ -3298,6 +3312,7 @@ class ListMultipartUploadsOutput {
     this.marker,
     this.uploadsList,
   });
+
   factory ListMultipartUploadsOutput.fromJson(Map<String, dynamic> json) {
     return ListMultipartUploadsOutput(
       marker: json['Marker'] as String?,
@@ -3348,6 +3363,7 @@ class ListPartsOutput {
     this.parts,
     this.vaultARN,
   });
+
   factory ListPartsOutput.fromJson(Map<String, dynamic> json) {
     return ListPartsOutput(
       archiveDescription: json['ArchiveDescription'] as String?,
@@ -3371,6 +3387,7 @@ class ListProvisionedCapacityOutput {
   ListProvisionedCapacityOutput({
     this.provisionedCapacityList,
   });
+
   factory ListProvisionedCapacityOutput.fromJson(Map<String, dynamic> json) {
     return ListProvisionedCapacityOutput(
       provisionedCapacityList: (json['ProvisionedCapacityList'] as List?)
@@ -3390,6 +3407,7 @@ class ListTagsForVaultOutput {
   ListTagsForVaultOutput({
     this.tags,
   });
+
   factory ListTagsForVaultOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForVaultOutput(
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -3411,6 +3429,7 @@ class ListVaultsOutput {
     this.marker,
     this.vaultList,
   });
+
   factory ListVaultsOutput.fromJson(Map<String, dynamic> json) {
     return ListVaultsOutput(
       marker: json['Marker'] as String?,
@@ -3431,6 +3450,7 @@ class OutputLocation {
   OutputLocation({
     this.s3,
   });
+
   factory OutputLocation.fromJson(Map<String, dynamic> json) {
     return OutputLocation(
       s3: json['S3'] != null
@@ -3455,6 +3475,7 @@ class OutputSerialization {
   OutputSerialization({
     this.csv,
   });
+
   factory OutputSerialization.fromJson(Map<String, dynamic> json) {
     return OutputSerialization(
       csv: json['csv'] != null
@@ -3484,6 +3505,7 @@ class PartListElement {
     this.rangeInBytes,
     this.sHA256TreeHash,
   });
+
   factory PartListElement.fromJson(Map<String, dynamic> json) {
     return PartListElement(
       rangeInBytes: json['RangeInBytes'] as String?,
@@ -3553,6 +3575,7 @@ class ProvisionedCapacityDescription {
     this.expirationDate,
     this.startDate,
   });
+
   factory ProvisionedCapacityDescription.fromJson(Map<String, dynamic> json) {
     return ProvisionedCapacityDescription(
       capacityId: json['CapacityId'] as String?,
@@ -3637,6 +3660,7 @@ class S3Location {
     this.tagging,
     this.userMetadata,
   });
+
   factory S3Location.fromJson(Map<String, dynamic> json) {
     return S3Location(
       accessControlList: (json['AccessControlList'] as List?)
@@ -3699,6 +3723,7 @@ class SelectParameters {
     this.inputSerialization,
     this.outputSerialization,
   });
+
   factory SelectParameters.fromJson(Map<String, dynamic> json) {
     return SelectParameters(
       expression: json['Expression'] as String?,
@@ -3855,6 +3880,7 @@ class UploadListElement {
     this.partSizeInBytes,
     this.vaultARN,
   });
+
   factory UploadListElement.fromJson(Map<String, dynamic> json) {
     return UploadListElement(
       archiveDescription: json['ArchiveDescription'] as String?,
@@ -3884,6 +3910,7 @@ class VaultAccessPolicy {
   VaultAccessPolicy({
     this.policy,
   });
+
   factory VaultAccessPolicy.fromJson(Map<String, dynamic> json) {
     return VaultAccessPolicy(
       policy: json['Policy'] as String?,
@@ -3928,6 +3955,7 @@ class VaultNotificationConfig {
     this.events,
     this.sNSTopic,
   });
+
   factory VaultNotificationConfig.fromJson(Map<String, dynamic> json) {
     return VaultNotificationConfig(
       events: (json['Events'] as List?)

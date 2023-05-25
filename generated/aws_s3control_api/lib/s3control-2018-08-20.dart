@@ -18,7 +18,8 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// AWS S3 Control provides access to Amazon S3 control plane operations.
+/// Amazon Web Services S3 Control provides access to Amazon S3 control plane
+/// actions.
 class S3Control {
   final _s.RestXmlProtocol _protocol;
   S3Control({
@@ -50,40 +51,24 @@ class S3Control {
 
   /// Creates an access point and associates it with the specified bucket. For
   /// more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-points.html">Managing
-  /// Data Access with Amazon S3 Access Points</a> in the <i>Amazon Simple
-  /// Storage Service Developer Guide</i>.
-  /// <p/>
-  /// <b>Using this action with Amazon S3 on Outposts</b>
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html">Managing
+  /// Data Access with Amazon S3 Access Points</a> in the <i>Amazon S3 User
+  /// Guide</i>.
+  /// <p/> <note>
+  /// S3 on Outposts only supports VPC-style access points.
   ///
-  /// This action:
-  ///
-  /// <ul>
-  /// <li>
-  /// Requires a virtual private cloud (VPC) configuration as S3 on Outposts
-  /// only supports VPC style access points.
-  /// </li>
-  /// <li>
-  /// Does not support ACL on S3 on Outposts buckets.
-  /// </li>
-  /// <li>
-  /// Does not support Public Access on S3 on Outposts buckets.
-  /// </li>
-  /// <li>
-  /// Does not support object lock for S3 on Outposts buckets.
-  /// </li>
-  /// </ul>
   /// For more information, see <a
-  /// href="AmazonS3/latest/dev/S3onOutposts.html">Using Amazon S3 on
-  /// Outposts</a> in the <i>Amazon Simple Storage Service Developer Guide </i>.
-  ///
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">
+  /// Accessing Amazon S3 on Outposts using virtual private cloud (VPC) only
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
+  /// </note>
   /// All Amazon S3 on Outposts REST API requests for this action require an
   /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
-  /// the request and an S3 on Outposts endpoint hostname prefix instead of
-  /// <code>s3-control</code>. For an example of the request syntax for Amazon
-  /// S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-  /// the <code>x-amz-outpost-id</code> derived using the access point ARN, see
-  /// the <a
+  /// the request. In addition, you must use an S3 on Outposts endpoint hostname
+  /// prefix instead of <code>s3-control</code>. For an example of the request
+  /// syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+  /// hostname prefix and the <code>x-amz-outpost-id</code> derived by using the
+  /// access point ARN, see the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessPoint.html#API_control_CreateAccessPoint_Examples">Examples</a>
   /// section.
   /// <p/>
@@ -105,8 +90,8 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID for the owner of the bucket for which you want to
-  /// create an access point.
+  /// The Amazon Web Services account ID for the account that owns the specified
+  /// access point.
   ///
   /// Parameter [bucket] :
   /// The name of the bucket that you want to associate this access point with.
@@ -114,10 +99,10 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
-  /// For example, to access the bucket <code>reports</code> through outpost
+  /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
@@ -125,6 +110,14 @@ class S3Control {
   ///
   /// Parameter [name] :
   /// The name you want to assign to this access point.
+  ///
+  /// Parameter [bucketAccountId] :
+  /// The Amazon Web Services account ID associated with the S3 bucket
+  /// associated with this access point.
+  ///
+  /// Parameter [publicAccessBlockConfiguration] :
+  /// The <code>PublicAccessBlock</code> configuration that you want to apply to
+  /// the access point.
   ///
   /// Parameter [vpcConfiguration] :
   /// If you include this field, Amazon S3 restricts access to this access point
@@ -137,6 +130,7 @@ class S3Control {
     required String accountId,
     required String bucket,
     required String name,
+    String? bucketAccountId,
     PublicAccessBlockConfiguration? publicAccessBlockConfiguration,
     VpcConfiguration? vpcConfiguration,
   }) async {
@@ -151,6 +145,7 @@ class S3Control {
               accountId: accountId,
               bucket: bucket,
               name: name,
+              bucketAccountId: bucketAccountId,
               publicAccessBlockConfiguration: publicAccessBlockConfiguration,
               vpcConfiguration: vpcConfiguration)
           .toXml(
@@ -165,41 +160,98 @@ class S3Control {
     return CreateAccessPointResult.fromXml($result.body);
   }
 
+  /// Creates an Object Lambda Access Point. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/transforming-objects.html">Transforming
+  /// objects with Object Lambda Access Points</a> in the <i>Amazon S3 User
+  /// Guide</i>.
+  ///
+  /// The following actions are related to
+  /// <code>CreateAccessPointForObjectLambda</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPointForObjectLambda.html">DeleteAccessPointForObjectLambda</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointForObjectLambda.html">GetAccessPointForObjectLambda</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPointsForObjectLambda.html">ListAccessPointsForObjectLambda</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID for owner of the specified Object
+  /// Lambda Access Point.
+  ///
+  /// Parameter [configuration] :
+  /// Object Lambda Access Point configuration as a JSON document.
+  ///
+  /// Parameter [name] :
+  /// The name you want to assign to this Object Lambda Access Point.
+  Future<CreateAccessPointForObjectLambdaResult>
+      createAccessPointForObjectLambda({
+    required String accountId,
+    required ObjectLambdaConfiguration configuration,
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $result = await _protocol.send(
+      method: 'PUT',
+      requestUri:
+          '/v20180820/accesspointforobjectlambda/${Uri.encodeComponent(name)}',
+      headers: headers,
+      payload: CreateAccessPointForObjectLambdaRequest(
+              accountId: accountId, configuration: configuration, name: name)
+          .toXml(
+        'CreateAccessPointForObjectLambdaRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateAccessPointForObjectLambdaResult.fromXml($result.body);
+  }
+
   /// <note>
-  /// This API operation creates an Amazon S3 on Outposts bucket. To create an
-  /// S3 bucket, see <a
+  /// This action creates an Amazon S3 on Outposts bucket. To create an S3
+  /// bucket, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html">Create
-  /// Bucket</a> in the <i>Amazon Simple Storage Service API</i>.
+  /// Bucket</a> in the <i>Amazon S3 API Reference</i>.
   /// </note>
   /// Creates a new Outposts bucket. By creating the bucket, you become the
   /// bucket owner. To create an Outposts bucket, you must have S3 on Outposts.
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// Amazon S3 on Outposts</a> in <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// Amazon S3 on Outposts</a> in <i>Amazon S3 User Guide</i>.
   ///
   /// Not every string is an acceptable bucket name. For information on bucket
   /// naming restrictions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html#bucketnamingrules">Working
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/BucketRestrictions.html#bucketnamingrules">Working
   /// with Amazon S3 Buckets</a>.
   ///
-  /// S3 on Outposts buckets do not support
+  /// S3 on Outposts buckets support:
   ///
   /// <ul>
   /// <li>
-  /// ACLs. Instead, configure access point policies to manage access to
-  /// buckets.
+  /// Tags
   /// </li>
   /// <li>
-  /// Public access.
-  /// </li>
-  /// <li>
-  /// Object Lock
-  /// </li>
-  /// <li>
-  /// Bucket Location constraint
+  /// LifecycleConfigurations for deleting expired objects
   /// </li>
   /// </ul>
+  /// For a complete list of restrictions and Amazon S3 feature limitations on
+  /// S3 on Outposts, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OnOutpostsRestrictionsLimitations.html">
+  /// Amazon S3 on Outposts Restrictions and Limitations</a>.
+  ///
   /// For an example of the request syntax for Amazon S3 on Outposts that uses
   /// the S3 on Outposts endpoint hostname prefix and
   /// <code>x-amz-outpost-id</code> in your API request, see the <a
@@ -291,7 +343,7 @@ class S3Control {
   /// Parameter [outpostId] :
   /// The ID of the Outposts where the bucket is being created.
   /// <note>
-  /// This is required by Amazon S3 on Outposts buckets.
+  /// This ID is required by Amazon S3 on Outposts buckets.
   /// </note>
   Future<CreateBucketResult> createBucket({
     required String bucket,
@@ -333,14 +385,13 @@ class S3Control {
     );
   }
 
-  /// S3 Batch Operations performs large-scale Batch Operations on Amazon S3
-  /// objects. Batch Operations can run a single operation or action on lists of
+  /// You can use S3 Batch Operations to perform large-scale batch actions on
+  /// Amazon S3 objects. Batch Operations can run a single action on lists of
   /// Amazon S3 objects that you specify. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-basics.html">S3
-  /// Batch Operations</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html">S3
+  /// Batch Operations</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// This operation creates an S3 Batch Operations job.
+  /// This action creates a S3 Batch Operations job.
   /// <p/>
   /// Related actions include:
   ///
@@ -361,6 +412,10 @@ class S3Control {
   /// <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_UpdateJobStatus.html">UpdateJobStatus</a>
   /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_JobOperation.html">JobOperation</a>
+  /// </li>
   /// </ul>
   ///
   /// May throw [TooManyRequestsException].
@@ -369,16 +424,13 @@ class S3Control {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID that creates the job.
-  ///
-  /// Parameter [manifest] :
-  /// Configuration parameters for the manifest.
+  /// The Amazon Web Services account ID that creates the job.
   ///
   /// Parameter [operation] :
-  /// The operation that you want this job to perform on each object listed in
-  /// the manifest. For more information about the available operations, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-operations.html">Operations</a>
-  /// in the <i>Amazon Simple Storage Service Developer Guide</i>.
+  /// The action that you want this job to perform on every object listed in the
+  /// manifest. For more information about the available actions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-actions.html">Operations</a>
+  /// in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [priority] :
   /// The numerical priority for this job. Higher numbers indicate higher
@@ -388,9 +440,9 @@ class S3Control {
   /// Configuration parameters for the optional job-completion report.
   ///
   /// Parameter [roleArn] :
-  /// The Amazon Resource Name (ARN) for the AWS Identity and Access Management
-  /// (IAM) role that Batch Operations will use to run this job's operation on
-  /// each object in the manifest.
+  /// The Amazon Resource Name (ARN) for the Identity and Access Management
+  /// (IAM) role that Batch Operations will use to run this job's action on
+  /// every object in the manifest.
   ///
   /// Parameter [clientRequestToken] :
   /// An idempotency token to ensure that you don't accidentally submit the same
@@ -406,12 +458,18 @@ class S3Control {
   /// length. Descriptions don't need to be unique and can be used for multiple
   /// jobs.
   ///
+  /// Parameter [manifest] :
+  /// Configuration parameters for the manifest.
+  ///
+  /// Parameter [manifestGenerator] :
+  /// The attribute container for the ManifestGenerator details. Jobs must be
+  /// created with either a manifest file or a ManifestGenerator, but not both.
+  ///
   /// Parameter [tags] :
   /// A set of tags to associate with the S3 Batch Operations job. This is an
   /// optional parameter.
   Future<CreateJobResult> createJob({
     required String accountId,
-    required JobManifest manifest,
     required JobOperation operation,
     required int priority,
     required JobReport report,
@@ -419,6 +477,8 @@ class S3Control {
     String? clientRequestToken,
     bool? confirmationRequired,
     String? description,
+    JobManifest? manifest,
+    JobManifestGenerator? manifestGenerator,
     List<S3Tag>? tags,
   }) async {
     _s.validateNumRange(
@@ -438,7 +498,6 @@ class S3Control {
       headers: headers,
       payload: CreateJobRequest(
               accountId: accountId,
-              manifest: manifest,
               operation: operation,
               priority: priority,
               report: report,
@@ -446,6 +505,8 @@ class S3Control {
               clientRequestToken: clientRequestToken,
               confirmationRequired: confirmationRequired,
               description: description,
+              manifest: manifest,
+              manifestGenerator: manifestGenerator,
               tags: tags)
           .toXml(
         'CreateJobRequest',
@@ -459,15 +520,93 @@ class S3Control {
     return CreateJobResult.fromXml($result.body);
   }
 
+  /// Creates a Multi-Region Access Point and associates it with the specified
+  /// buckets. For more information about creating Multi-Region Access Points,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html">Creating
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// This action will always be routed to the US West (Oregon) Region. For more
+  /// information about the restrictions around managing Multi-Region Access
+  /// Points, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html">Managing
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// This request is asynchronous, meaning that you might receive a response
+  /// before the command has completed. When this request provides a response,
+  /// it provides a token that you can use to monitor the status of the request
+  /// with <code>DescribeMultiRegionAccessPointOperation</code>.
+  ///
+  /// The following actions are related to
+  /// <code>CreateMultiRegionAccessPoint</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteMultiRegionAccessPoint.html">DeleteMultiRegionAccessPoint</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeMultiRegionAccessPointOperation.html">DescribeMultiRegionAccessPointOperation</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPoint.html">GetMultiRegionAccessPoint</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListMultiRegionAccessPoints.html">ListMultiRegionAccessPoints</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID for the owner of the Multi-Region
+  /// Access Point. The owner of the Multi-Region Access Point also must own the
+  /// underlying buckets.
+  ///
+  /// Parameter [details] :
+  /// A container element containing details about the Multi-Region Access
+  /// Point.
+  ///
+  /// Parameter [clientToken] :
+  /// An idempotency token used to identify the request and guarantee that
+  /// requests are unique.
+  Future<CreateMultiRegionAccessPointResult> createMultiRegionAccessPoint({
+    required String accountId,
+    required CreateMultiRegionAccessPointInput details,
+    String? clientToken,
+  }) async {
+    clientToken ??= _s.generateIdempotencyToken();
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $result = await _protocol.send(
+      method: 'POST',
+      requestUri: '/v20180820/async-requests/mrap/create',
+      headers: headers,
+      payload: CreateMultiRegionAccessPointRequest(
+              accountId: accountId, details: details, clientToken: clientToken)
+          .toXml(
+        'CreateMultiRegionAccessPointRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateMultiRegionAccessPointResult.fromXml($result.body);
+  }
+
   /// Deletes the specified access point.
   ///
   /// All Amazon S3 on Outposts REST API requests for this action require an
   /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
-  /// the request and an S3 on Outposts endpoint hostname prefix instead of
-  /// <code>s3-control</code>. For an example of the request syntax for Amazon
-  /// S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-  /// the <code>x-amz-outpost-id</code> derived using the access point ARN, see
-  /// the <a
+  /// the request. In addition, you must use an S3 on Outposts endpoint hostname
+  /// prefix instead of <code>s3-control</code>. For an example of the request
+  /// syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+  /// hostname prefix and the <code>x-amz-outpost-id</code> derived by using the
+  /// access point ARN, see the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPoint.html#API_control_DeleteAccessPoint_Examples">Examples</a>
   /// section.
   ///
@@ -489,7 +628,8 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The account ID for the account that owns the specified access point.
+  /// The Amazon Web Services account ID for the account that owns the specified
+  /// access point.
   ///
   /// Parameter [name] :
   /// The name of the access point you want to delete.
@@ -497,11 +637,12 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the access point accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the access point accessed in the
+  /// format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;</code>.
   /// For example, to access the access point <code>reports-ap</code> through
-  /// outpost <code>my-outpost</code> owned by account <code>123456789012</code>
+  /// Outpost <code>my-outpost</code> owned by account <code>123456789012</code>
   /// in Region <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap</code>.
   /// The value must be URL encoded.
@@ -520,15 +661,57 @@ class S3Control {
     );
   }
 
+  /// Deletes the specified Object Lambda Access Point.
+  ///
+  /// The following actions are related to
+  /// <code>DeleteAccessPointForObjectLambda</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessPointForObjectLambda.html">CreateAccessPointForObjectLambda</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointForObjectLambda.html">GetAccessPointForObjectLambda</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPointsForObjectLambda.html">ListAccessPointsForObjectLambda</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The account ID for the account that owns the specified Object Lambda
+  /// Access Point.
+  ///
+  /// Parameter [name] :
+  /// The name of the access point you want to delete.
+  Future<void> deleteAccessPointForObjectLambda({
+    required String accountId,
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    await _protocol.send(
+      method: 'DELETE',
+      requestUri:
+          '/v20180820/accesspointforobjectlambda/${Uri.encodeComponent(name)}',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Deletes the access point policy for the specified access point.
   /// <p/>
   /// All Amazon S3 on Outposts REST API requests for this action require an
   /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
-  /// the request and an S3 on Outposts endpoint hostname prefix instead of
-  /// <code>s3-control</code>. For an example of the request syntax for Amazon
-  /// S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-  /// the <code>x-amz-outpost-id</code> derived using the access point ARN, see
-  /// the <a
+  /// the request. In addition, you must use an S3 on Outposts endpoint hostname
+  /// prefix instead of <code>s3-control</code>. For an example of the request
+  /// syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+  /// hostname prefix and the <code>x-amz-outpost-id</code> derived by using the
+  /// access point ARN, see the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPointPolicy.html#API_control_DeleteAccessPointPolicy_Examples">Examples</a>
   /// section.
   ///
@@ -554,11 +737,12 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the access point accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the access point accessed in the
+  /// format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;</code>.
   /// For example, to access the access point <code>reports-ap</code> through
-  /// outpost <code>my-outpost</code> owned by account <code>123456789012</code>
+  /// Outpost <code>my-outpost</code> owned by account <code>123456789012</code>
   /// in Region <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap</code>.
   /// The value must be URL encoded.
@@ -577,26 +761,64 @@ class S3Control {
     );
   }
 
+  /// Removes the resource policy for an Object Lambda Access Point.
+  ///
+  /// The following actions are related to
+  /// <code>DeleteAccessPointPolicyForObjectLambda</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointPolicyForObjectLambda.html">GetAccessPointPolicyForObjectLambda</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointPolicyForObjectLambda.html">PutAccessPointPolicyForObjectLambda</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The account ID for the account that owns the specified Object Lambda
+  /// Access Point.
+  ///
+  /// Parameter [name] :
+  /// The name of the Object Lambda Access Point you want to delete the policy
+  /// for.
+  Future<void> deleteAccessPointPolicyForObjectLambda({
+    required String accountId,
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    await _protocol.send(
+      method: 'DELETE',
+      requestUri:
+          '/v20180820/accesspointforobjectlambda/${Uri.encodeComponent(name)}/policy',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// <note>
-  /// This API operation deletes an Amazon S3 on Outposts bucket. To delete an
-  /// S3 bucket, see <a
+  /// This action deletes an Amazon S3 on Outposts bucket. To delete an S3
+  /// bucket, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html">DeleteBucket</a>
-  /// in the <i>Amazon Simple Storage Service API</i>.
+  /// in the <i>Amazon S3 API Reference</i>.
   /// </note>
   /// Deletes the Amazon S3 on Outposts bucket. All objects (including all
   /// object versions and delete markers) in the bucket must be deleted before
   /// the bucket itself can be deleted. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// Amazon S3 on Outposts</a> in <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// Amazon S3 on Outposts</a> in <i>Amazon S3 User Guide</i>.
   ///
   /// All Amazon S3 on Outposts REST API requests for this action require an
   /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
-  /// the request and an S3 on Outposts endpoint hostname prefix instead of
-  /// <code>s3-control</code>. For an example of the request syntax for Amazon
-  /// S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-  /// the <code>x-amz-outpost-id</code> derived using the access point ARN, see
-  /// the <a
+  /// the request. In addition, you must use an S3 on Outposts endpoint hostname
+  /// prefix instead of <code>s3-control</code>. For an example of the request
+  /// syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+  /// hostname prefix and the <code>x-amz-outpost-id</code> derived by using the
+  /// access point ARN, see the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucket.html#API_control_DeleteBucket_Examples">Examples</a>
   /// section.
   /// <p class="title"> <b>Related Resources</b>
@@ -625,10 +847,10 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
-  /// For example, to access the bucket <code>reports</code> through outpost
+  /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
@@ -649,10 +871,10 @@ class S3Control {
   }
 
   /// <note>
-  /// This API action deletes an Amazon S3 on Outposts bucket's lifecycle
+  /// This action deletes an Amazon S3 on Outposts bucket's lifecycle
   /// configuration. To delete an S3 bucket's lifecycle configuration, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketLifecycle.html">DeleteBucketLifecycle</a>
-  /// in the <i>Amazon Simple Storage Service API</i>.
+  /// in the <i>Amazon S3 API Reference</i>.
   /// </note>
   /// Deletes the lifecycle configuration from the specified Outposts bucket.
   /// Amazon S3 on Outposts removes all the lifecycle configuration rules in the
@@ -660,28 +882,27 @@ class S3Control {
   /// expire, and Amazon S3 on Outposts no longer automatically deletes any
   /// objects on the basis of rules contained in the deleted lifecycle
   /// configuration. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// Amazon S3 on Outposts</a> in <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// Amazon S3 on Outposts</a> in <i>Amazon S3 User Guide</i>.
   ///
-  /// To use this operation, you must have permission to perform the
+  /// To use this action, you must have permission to perform the
   /// <code>s3-outposts:DeleteLifecycleConfiguration</code> action. By default,
   /// the bucket owner has this permission and the Outposts bucket owner can
   /// grant this permission to others.
   ///
   /// All Amazon S3 on Outposts REST API requests for this action require an
   /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
-  /// the request and an S3 on Outposts endpoint hostname prefix instead of
-  /// <code>s3-control</code>. For an example of the request syntax for Amazon
-  /// S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-  /// the <code>x-amz-outpost-id</code> derived using the access point ARN, see
-  /// the <a
+  /// the request. In addition, you must use an S3 on Outposts endpoint hostname
+  /// prefix instead of <code>s3-control</code>. For an example of the request
+  /// syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+  /// hostname prefix and the <code>x-amz-outpost-id</code> derived by using the
+  /// access point ARN, see the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketLifecycleConfiguration.html#API_control_DeleteBucketLifecycleConfiguration_Examples">Examples</a>
   /// section.
   ///
   /// For more information about object expiration, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#intro-lifecycle-rules-actions">
-  /// Elements to Describe Lifecycle Actions</a>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#intro-lifecycle-rules-actions">Elements
+  /// to Describe Lifecycle Actions</a>.
   ///
   /// Related actions include:
   ///
@@ -705,10 +926,10 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
-  /// For example, to access the bucket <code>reports</code> through outpost
+  /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
@@ -730,21 +951,20 @@ class S3Control {
   }
 
   /// <note>
-  /// This API operation deletes an Amazon S3 on Outposts bucket policy. To
-  /// delete an S3 bucket policy, see <a
+  /// This action deletes an Amazon S3 on Outposts bucket policy. To delete an
+  /// S3 bucket policy, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketPolicy.html">DeleteBucketPolicy</a>
-  /// in the <i>Amazon Simple Storage Service API</i>.
+  /// in the <i>Amazon S3 API Reference</i>.
   /// </note>
-  /// This implementation of the DELETE operation uses the policy subresource to
+  /// This implementation of the DELETE action uses the policy subresource to
   /// delete the policy of a specified Amazon S3 on Outposts bucket. If you are
-  /// using an identity other than the root user of the AWS account that owns
-  /// the bucket, the calling identity must have the
+  /// using an identity other than the root user of the Amazon Web Services
+  /// account that owns the bucket, the calling identity must have the
   /// <code>s3-outposts:DeleteBucketPolicy</code> permissions on the specified
   /// Outposts bucket and belong to the bucket owner's account to use this
-  /// operation. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// Amazon S3 on Outposts</a> in <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// action. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// Amazon S3 on Outposts</a> in <i>Amazon S3 User Guide</i>.
   ///
   /// If you don't have <code>DeleteBucketPolicy</code> permissions, Amazon S3
   /// returns a <code>403 Access Denied</code> error. If you have the correct
@@ -752,21 +972,21 @@ class S3Control {
   /// owner's account, Amazon S3 returns a <code>405 Method Not Allowed</code>
   /// error.
   /// <important>
-  /// As a security precaution, the root user of the AWS account that owns a
-  /// bucket can always use this operation, even if the policy explicitly denies
-  /// the root user the ability to perform this action.
+  /// As a security precaution, the root user of the Amazon Web Services account
+  /// that owns a bucket can always use this action, even if the policy
+  /// explicitly denies the root user the ability to perform this action.
   /// </important>
-  /// For more information about bucket policies, see <a href="
-  /// https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
+  /// For more information about bucket policies, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
   /// Bucket Policies and User Policies</a>.
   ///
   /// All Amazon S3 on Outposts REST API requests for this action require an
   /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
-  /// the request and an S3 on Outposts endpoint hostname prefix instead of
-  /// <code>s3-control</code>. For an example of the request syntax for Amazon
-  /// S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-  /// the <code>x-amz-outpost-id</code> derived using the access point ARN, see
-  /// the <a
+  /// the request. In addition, you must use an S3 on Outposts endpoint hostname
+  /// prefix instead of <code>s3-control</code>. For an example of the request
+  /// syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+  /// hostname prefix and the <code>x-amz-outpost-id</code> derived by using the
+  /// access point ARN, see the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketPolicy.html#API_control_DeleteBucketPolicy_Examples">Examples</a>
   /// section.
   ///
@@ -792,10 +1012,10 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
-  /// For example, to access the bucket <code>reports</code> through outpost
+  /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
@@ -816,27 +1036,115 @@ class S3Control {
   }
 
   /// <note>
-  /// This operation deletes an Amazon S3 on Outposts bucket's tags. To delete
-  /// an S3 bucket tags, see <a
+  /// This operation deletes an Amazon S3 on Outposts bucket's replication
+  /// configuration. To delete an S3 bucket's replication configuration, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketReplication.html">DeleteBucketReplication</a>
+  /// in the <i>Amazon S3 API Reference</i>.
+  /// </note>
+  /// Deletes the replication configuration from the specified S3 on Outposts
+  /// bucket.
+  ///
+  /// To use this operation, you must have permissions to perform the
+  /// <code>s3-outposts:PutReplicationConfiguration</code> action. The Outposts
+  /// bucket owner has this permission by default and can grant it to others.
+  /// For more information about permissions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsIAM.html">Setting
+  /// up IAM with S3 on Outposts</a> and <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsBucketPolicy.html">Managing
+  /// access to S3 on Outposts buckets</a> in the <i>Amazon S3 User Guide</i>.
+  /// <note>
+  /// It can take a while to propagate <code>PUT</code> or <code>DELETE</code>
+  /// requests for a replication configuration to all S3 on Outposts systems.
+  /// Therefore, the replication configuration that's returned by a
+  /// <code>GET</code> request soon after a <code>PUT</code> or
+  /// <code>DELETE</code> request might return a more recent result than what's
+  /// on the Outpost. If an Outpost is offline, the delay in updating the
+  /// replication configuration on that Outpost can be significant.
+  /// </note>
+  /// All Amazon S3 on Outposts REST API requests for this action require an
+  /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
+  /// the request. In addition, you must use an S3 on Outposts endpoint hostname
+  /// prefix instead of <code>s3-control</code>. For an example of the request
+  /// syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+  /// hostname prefix and the <code>x-amz-outpost-id</code> derived by using the
+  /// access point ARN, see the <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketReplication.html#API_control_DeleteBucketReplication_Examples">Examples</a>
+  /// section.
+  ///
+  /// For information about S3 replication on Outposts configuration, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsReplication.html">Replicating
+  /// objects for S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// The following operations are related to
+  /// <code>DeleteBucketReplication</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketReplication.html">PutBucketReplication</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketReplication.html">GetBucketReplication</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID of the Outposts bucket to delete the
+  /// replication configuration for.
+  ///
+  /// Parameter [bucket] :
+  /// Specifies the S3 on Outposts bucket to delete the replication
+  /// configuration for.
+  ///
+  /// For using this parameter with Amazon S3 on Outposts with the REST API, you
+  /// must specify the name and the x-amz-outpost-id as well.
+  ///
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
+  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
+  /// For example, to access the bucket <code>reports</code> through Outpost
+  /// <code>my-outpost</code> owned by account <code>123456789012</code> in
+  /// Region <code>us-west-2</code>, use the URL encoding of
+  /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
+  /// The value must be URL encoded.
+  Future<void> deleteBucketReplication({
+    required String accountId,
+    required String bucket,
+  }) async {
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    await _protocol.send(
+      method: 'DELETE',
+      requestUri:
+          '/v20180820/bucket/${Uri.encodeComponent(bucket)}/replication',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// <note>
+  /// This action deletes an Amazon S3 on Outposts bucket's tags. To delete an
+  /// S3 bucket tags, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketTagging.html">DeleteBucketTagging</a>
-  /// in the <i>Amazon Simple Storage Service API</i>.
+  /// in the <i>Amazon S3 API Reference</i>.
   /// </note>
   /// Deletes the tags from the Outposts bucket. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// Amazon S3 on Outposts</a> in <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// Amazon S3 on Outposts</a> in <i>Amazon S3 User Guide</i>.
   ///
-  /// To use this operation, you must have permission to perform the
+  /// To use this action, you must have permission to perform the
   /// <code>PutBucketTagging</code> action. By default, the bucket owner has
   /// this permission and can grant this permission to others.
   ///
   /// All Amazon S3 on Outposts REST API requests for this action require an
   /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
-  /// the request and an S3 on Outposts endpoint hostname prefix instead of
-  /// <code>s3-control</code>. For an example of the request syntax for Amazon
-  /// S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-  /// the <code>x-amz-outpost-id</code> derived using the access point ARN, see
-  /// the <a
+  /// the request. In addition, you must use an S3 on Outposts endpoint hostname
+  /// prefix instead of <code>s3-control</code>. For an example of the request
+  /// syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+  /// hostname prefix and the <code>x-amz-outpost-id</code> derived by using the
+  /// access point ARN, see the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketTagging.html#API_control_DeleteBucketTagging_Examples">Examples</a>
   /// section.
   ///
@@ -854,7 +1162,8 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID of the Outposts bucket tag set to be removed.
+  /// The Amazon Web Services account ID of the Outposts bucket tag set to be
+  /// removed.
   ///
   /// Parameter [bucket] :
   /// The bucket ARN that has the tag set to be removed.
@@ -862,10 +1171,10 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
-  /// For example, to access the bucket <code>reports</code> through outpost
+  /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
@@ -886,11 +1195,12 @@ class S3Control {
   }
 
   /// Removes the entire tag set from the specified S3 Batch Operations job. To
-  /// use this operation, you must have permission to perform the
-  /// <code>s3:DeleteJobTagging</code> action. For more information, see <a
+  /// use the <code>DeleteJobTagging</code> operation, you must have permission
+  /// to perform the <code>s3:DeleteJobTagging</code> action. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-managing-jobs.html#batch-ops-job-tags">Controlling
-  /// access and labeling jobs using tags</a> in the <i>Amazon Simple Storage
-  /// Service Developer Guide</i>.
+  /// access and labeling jobs using tags</a> in the <i>Amazon S3 User
+  /// Guide</i>.
   /// <p/>
   /// Related actions include:
   ///
@@ -914,7 +1224,8 @@ class S3Control {
   /// May throw [NotFoundException].
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID associated with the S3 Batch Operations job.
+  /// The Amazon Web Services account ID associated with the S3 Batch Operations
+  /// job.
   ///
   /// Parameter [jobId] :
   /// The ID for the S3 Batch Operations job whose tags you want to delete.
@@ -933,8 +1244,83 @@ class S3Control {
     );
   }
 
-  /// Removes the <code>PublicAccessBlock</code> configuration for an AWS
-  /// account. For more information, see <a
+  /// Deletes a Multi-Region Access Point. This action does not delete the
+  /// buckets associated with the Multi-Region Access Point, only the
+  /// Multi-Region Access Point itself.
+  ///
+  /// This action will always be routed to the US West (Oregon) Region. For more
+  /// information about the restrictions around managing Multi-Region Access
+  /// Points, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html">Managing
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// This request is asynchronous, meaning that you might receive a response
+  /// before the command has completed. When this request provides a response,
+  /// it provides a token that you can use to monitor the status of the request
+  /// with <code>DescribeMultiRegionAccessPointOperation</code>.
+  ///
+  /// The following actions are related to
+  /// <code>DeleteMultiRegionAccessPoint</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html">CreateMultiRegionAccessPoint</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeMultiRegionAccessPointOperation.html">DescribeMultiRegionAccessPointOperation</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPoint.html">GetMultiRegionAccessPoint</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListMultiRegionAccessPoints.html">ListMultiRegionAccessPoints</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID for the owner of the Multi-Region
+  /// Access Point.
+  ///
+  /// Parameter [details] :
+  /// A container element containing details about the Multi-Region Access
+  /// Point.
+  ///
+  /// Parameter [clientToken] :
+  /// An idempotency token used to identify the request and guarantee that
+  /// requests are unique.
+  Future<DeleteMultiRegionAccessPointResult> deleteMultiRegionAccessPoint({
+    required String accountId,
+    required DeleteMultiRegionAccessPointInput details,
+    String? clientToken,
+  }) async {
+    clientToken ??= _s.generateIdempotencyToken();
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $result = await _protocol.send(
+      method: 'POST',
+      requestUri: '/v20180820/async-requests/mrap/delete',
+      headers: headers,
+      payload: DeleteMultiRegionAccessPointRequest(
+              accountId: accountId, details: details, clientToken: clientToken)
+          .toXml(
+        'DeleteMultiRegionAccessPointRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteMultiRegionAccessPointResult.fromXml($result.body);
+  }
+
+  /// Removes the <code>PublicAccessBlock</code> configuration for an Amazon Web
+  /// Services account. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html">
   /// Using Amazon S3 block public access</a>.
   ///
@@ -952,8 +1338,8 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The account ID for the AWS account whose <code>PublicAccessBlock</code>
-  /// configuration you want to remove.
+  /// The account ID for the Amazon Web Services account whose
+  /// <code>PublicAccessBlock</code> configuration you want to remove.
   Future<void> deletePublicAccessBlock({
     required String accountId,
   }) async {
@@ -970,16 +1356,16 @@ class S3Control {
 
   /// Deletes the Amazon S3 Storage Lens configuration. For more information
   /// about S3 Storage Lens, see <a
-  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html">Working
-  /// with Amazon S3 Storage Lens</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html">Assessing
+  /// your storage activity and usage with Amazon S3 Storage Lens </a> in the
+  /// <i>Amazon S3 User Guide</i>.
   /// <note>
   /// To use this action, you must have permission to perform the
   /// <code>s3:DeleteStorageLensConfiguration</code> action. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html#storage_lens_IAM">Setting
-  /// permissions to use Amazon S3 Storage Lens</a> in the <i>Amazon Simple
-  /// Storage Service Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html">Setting
+  /// permissions to use Amazon S3 Storage Lens</a> in the <i>Amazon S3 User
+  /// Guide</i>.
   /// </note>
   ///
   /// Parameter [accountId] :
@@ -1004,16 +1390,16 @@ class S3Control {
 
   /// Deletes the Amazon S3 Storage Lens configuration tags. For more
   /// information about S3 Storage Lens, see <a
-  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html">Working
-  /// with Amazon S3 Storage Lens</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html">Assessing
+  /// your storage activity and usage with Amazon S3 Storage Lens </a> in the
+  /// <i>Amazon S3 User Guide</i>.
   /// <note>
   /// To use this action, you must have permission to perform the
   /// <code>s3:DeleteStorageLensConfigurationTagging</code> action. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html#storage_lens_IAM">Setting
-  /// permissions to use Amazon S3 Storage Lens</a> in the <i>Amazon Simple
-  /// Storage Service Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html">Setting
+  /// permissions to use Amazon S3 Storage Lens</a> in the <i>Amazon S3 User
+  /// Guide</i>.
   /// </note>
   ///
   /// Parameter [accountId] :
@@ -1039,9 +1425,8 @@ class S3Control {
 
   /// Retrieves the configuration parameters and status for a Batch Operations
   /// job. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-basics.html">S3
-  /// Batch Operations</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html">S3
+  /// Batch Operations</a> in the <i>Amazon S3 User Guide</i>.
   /// <p/>
   /// Related actions include:
   ///
@@ -1070,7 +1455,8 @@ class S3Control {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [accountId] :
-  /// <p/>
+  /// The Amazon Web Services account ID associated with the S3 Batch Operations
+  /// job.
   ///
   /// Parameter [jobId] :
   /// The ID for the job whose information you want to retrieve.
@@ -1090,15 +1476,70 @@ class S3Control {
     return DescribeJobResult.fromXml($result.body);
   }
 
+  /// Retrieves the status of an asynchronous request to manage a Multi-Region
+  /// Access Point. For more information about managing Multi-Region Access
+  /// Points and how asynchronous requests work, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html">Managing
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// The following actions are related to
+  /// <code>GetMultiRegionAccessPoint</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html">CreateMultiRegionAccessPoint</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteMultiRegionAccessPoint.html">DeleteMultiRegionAccessPoint</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPoint.html">GetMultiRegionAccessPoint</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListMultiRegionAccessPoints.html">ListMultiRegionAccessPoints</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID for the owner of the Multi-Region
+  /// Access Point.
+  ///
+  /// Parameter [requestTokenARN] :
+  /// The request token associated with the request you want to know about. This
+  /// request token is returned as part of the response when you make an
+  /// asynchronous request. You provide this token to query about the status of
+  /// the asynchronous action.
+  Future<DescribeMultiRegionAccessPointOperationResult>
+      describeMultiRegionAccessPointOperation({
+    required String accountId,
+    required String requestTokenARN,
+  }) async {
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri:
+          '/v20180820/async-requests/mrap/${requestTokenARN.split('/').map(Uri.encodeComponent).join('/')}',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeMultiRegionAccessPointOperationResult.fromXml($result.body);
+  }
+
   /// Returns configuration information about the specified access point.
   /// <p/>
   /// All Amazon S3 on Outposts REST API requests for this action require an
   /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
-  /// the request and an S3 on Outposts endpoint hostname prefix instead of
-  /// <code>s3-control</code>. For an example of the request syntax for Amazon
-  /// S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-  /// the <code>x-amz-outpost-id</code> derived using the access point ARN, see
-  /// the <a
+  /// the request. In addition, you must use an S3 on Outposts endpoint hostname
+  /// prefix instead of <code>s3-control</code>. For an example of the request
+  /// syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+  /// hostname prefix and the <code>x-amz-outpost-id</code> derived by using the
+  /// access point ARN, see the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPoint.html#API_control_GetAccessPoint_Examples">Examples</a>
   /// section.
   ///
@@ -1120,7 +1561,8 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The account ID for the account that owns the specified access point.
+  /// The Amazon Web Services account ID for the account that owns the specified
+  /// access point.
   ///
   /// Parameter [name] :
   /// The name of the access point whose configuration information you want to
@@ -1129,11 +1571,12 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the access point accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the access point accessed in the
+  /// format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;</code>.
   /// For example, to access the access point <code>reports-ap</code> through
-  /// outpost <code>my-outpost</code> owned by account <code>123456789012</code>
+  /// Outpost <code>my-outpost</code> owned by account <code>123456789012</code>
   /// in Region <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap</code>.
   /// The value must be URL encoded.
@@ -1151,6 +1594,88 @@ class S3Control {
       exceptionFnMap: _exceptionFns,
     );
     return GetAccessPointResult.fromXml($result.body);
+  }
+
+  /// Returns configuration for an Object Lambda Access Point.
+  ///
+  /// The following actions are related to
+  /// <code>GetAccessPointConfigurationForObjectLambda</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointConfigurationForObjectLambda.html">PutAccessPointConfigurationForObjectLambda</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The account ID for the account that owns the specified Object Lambda
+  /// Access Point.
+  ///
+  /// Parameter [name] :
+  /// The name of the Object Lambda Access Point you want to return the
+  /// configuration for.
+  Future<GetAccessPointConfigurationForObjectLambdaResult>
+      getAccessPointConfigurationForObjectLambda({
+    required String accountId,
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri:
+          '/v20180820/accesspointforobjectlambda/${Uri.encodeComponent(name)}/configuration',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAccessPointConfigurationForObjectLambdaResult.fromXml(
+        $result.body);
+  }
+
+  /// Returns configuration information about the specified Object Lambda Access
+  /// Point
+  ///
+  /// The following actions are related to
+  /// <code>GetAccessPointForObjectLambda</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessPointForObjectLambda.html">CreateAccessPointForObjectLambda</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPointForObjectLambda.html">DeleteAccessPointForObjectLambda</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPointsForObjectLambda.html">ListAccessPointsForObjectLambda</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The account ID for the account that owns the specified Object Lambda
+  /// Access Point.
+  ///
+  /// Parameter [name] :
+  /// The name of the Object Lambda Access Point.
+  Future<GetAccessPointForObjectLambdaResult> getAccessPointForObjectLambda({
+    required String accountId,
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri:
+          '/v20180820/accesspointforobjectlambda/${Uri.encodeComponent(name)}',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAccessPointForObjectLambdaResult.fromXml($result.body);
   }
 
   /// Returns the access point policy associated with the specified access
@@ -1178,11 +1703,12 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the access point accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the access point accessed in the
+  /// format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;</code>.
   /// For example, to access the access point <code>reports-ap</code> through
-  /// outpost <code>my-outpost</code> owned by account <code>123456789012</code>
+  /// Outpost <code>my-outpost</code> owned by account <code>123456789012</code>
   /// in Region <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap</code>.
   /// The value must be URL encoded.
@@ -1202,12 +1728,52 @@ class S3Control {
     return GetAccessPointPolicyResult.fromXml($result.body);
   }
 
+  /// Returns the resource policy for an Object Lambda Access Point.
+  ///
+  /// The following actions are related to
+  /// <code>GetAccessPointPolicyForObjectLambda</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPointPolicyForObjectLambda.html">DeleteAccessPointPolicyForObjectLambda</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointPolicyForObjectLambda.html">PutAccessPointPolicyForObjectLambda</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The account ID for the account that owns the specified Object Lambda
+  /// Access Point.
+  ///
+  /// Parameter [name] :
+  /// The name of the Object Lambda Access Point.
+  Future<GetAccessPointPolicyForObjectLambdaResult>
+      getAccessPointPolicyForObjectLambda({
+    required String accountId,
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri:
+          '/v20180820/accesspointforobjectlambda/${Uri.encodeComponent(name)}/policy',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAccessPointPolicyForObjectLambdaResult.fromXml($result.body);
+  }
+
   /// Indicates whether the specified access point currently has a policy that
   /// allows public access. For more information about public access through
   /// access points, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-points.html">Managing
-  /// Data Access with Amazon S3 Access Points</a> in the <i>Amazon Simple
-  /// Storage Service Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html">Managing
+  /// Data Access with Amazon S3 access points</a> in the <i>Amazon S3 User
+  /// Guide</i>.
   ///
   /// Parameter [accountId] :
   /// The account ID for the account that owns the specified access point.
@@ -1231,17 +1797,44 @@ class S3Control {
     return GetAccessPointPolicyStatusResult.fromXml($result.body);
   }
 
-  /// Gets an Amazon S3 on Outposts bucket. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">
-  /// Using Amazon S3 on Outposts</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// Returns the status of the resource policy associated with an Object Lambda
+  /// Access Point.
   ///
-  /// If you are using an identity other than the root user of the AWS account
-  /// that owns the bucket, the calling identity must have the
-  /// <code>s3-outposts:GetBucket</code> permissions on the specified bucket and
-  /// belong to the bucket owner's account in order to use this operation. Only
-  /// users from Outposts bucket owner account with the right permissions can
-  /// perform actions on an Outposts bucket.
+  /// Parameter [accountId] :
+  /// The account ID for the account that owns the specified Object Lambda
+  /// Access Point.
+  ///
+  /// Parameter [name] :
+  /// The name of the Object Lambda Access Point.
+  Future<GetAccessPointPolicyStatusForObjectLambdaResult>
+      getAccessPointPolicyStatusForObjectLambda({
+    required String accountId,
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri:
+          '/v20180820/accesspointforobjectlambda/${Uri.encodeComponent(name)}/policyStatus',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAccessPointPolicyStatusForObjectLambdaResult.fromXml(
+        $result.body);
+  }
+
+  /// Gets an Amazon S3 on Outposts bucket. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">
+  /// Using Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you are using an identity other than the root user of the Amazon Web
+  /// Services account that owns the Outposts bucket, the calling identity must
+  /// have the <code>s3-outposts:GetBucket</code> permissions on the specified
+  /// Outposts bucket and belong to the Outposts bucket owner's account in order
+  /// to use this action. Only users from Outposts bucket owner account with the
+  /// right permissions can perform actions on an Outposts bucket.
   ///
   /// If you don't have <code>s3-outposts:GetBucket</code> permissions or you're
   /// not using an identity that belongs to the bucket owner's account, Amazon
@@ -1252,11 +1845,11 @@ class S3Control {
   ///
   /// All Amazon S3 on Outposts REST API requests for this action require an
   /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
-  /// the request and an S3 on Outposts endpoint hostname prefix instead of
-  /// <code>s3-control</code>. For an example of the request syntax for Amazon
-  /// S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-  /// the <code>x-amz-outpost-id</code> derived using the access point ARN, see
-  /// the <a
+  /// the request. In addition, you must use an S3 on Outposts endpoint hostname
+  /// prefix instead of <code>s3-control</code>. For an example of the request
+  /// syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+  /// hostname prefix and the <code>x-amz-outpost-id</code> derived by using the
+  /// access point ARN, see the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucket.html#API_control_GetBucket_Examples">Examples</a>
   /// section.
   ///
@@ -1276,7 +1869,7 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID of the Outposts bucket.
+  /// The Amazon Web Services account ID of the Outposts bucket.
   ///
   /// Parameter [bucket] :
   /// Specifies the bucket.
@@ -1284,10 +1877,10 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
-  /// For example, to access the bucket <code>reports</code> through outpost
+  /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
@@ -1309,36 +1902,35 @@ class S3Control {
   }
 
   /// <note>
-  /// This operation gets an Amazon S3 on Outposts bucket's lifecycle
+  /// This action gets an Amazon S3 on Outposts bucket's lifecycle
   /// configuration. To get an S3 bucket's lifecycle configuration, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html">GetBucketLifecycleConfiguration</a>
-  /// in the <i>Amazon Simple Storage Service API</i>.
+  /// in the <i>Amazon S3 API Reference</i>.
   /// </note>
   /// Returns the lifecycle configuration information set on the Outposts
   /// bucket. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
   /// Amazon S3 on Outposts</a> and for information about lifecycle
   /// configuration, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html">
-  /// Object Lifecycle Management</a> in <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// Object Lifecycle Management</a> in <i>Amazon S3 User Guide</i>.
   ///
-  /// To use this operation, you must have permission to perform the
+  /// To use this action, you must have permission to perform the
   /// <code>s3-outposts:GetLifecycleConfiguration</code> action. The Outposts
   /// bucket owner has this permission, by default. The bucket owner can grant
   /// this permission to others. For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
   ///
   /// All Amazon S3 on Outposts REST API requests for this action require an
   /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
-  /// the request and an S3 on Outposts endpoint hostname prefix instead of
-  /// <code>s3-control</code>. For an example of the request syntax for Amazon
-  /// S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-  /// the <code>x-amz-outpost-id</code> derived using the access point ARN, see
-  /// the <a
+  /// the request. In addition, you must use an S3 on Outposts endpoint hostname
+  /// prefix instead of <code>s3-control</code>. For an example of the request
+  /// syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+  /// hostname prefix and the <code>x-amz-outpost-id</code> derived by using the
+  /// access point ARN, see the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketLifecycleConfiguration.html#API_control_GetBucketLifecycleConfiguration_Examples">Examples</a>
   /// section.
   ///
@@ -1376,7 +1968,7 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID of the Outposts bucket.
+  /// The Amazon Web Services account ID of the Outposts bucket.
   ///
   /// Parameter [bucket] :
   /// The Amazon Resource Name (ARN) of the bucket.
@@ -1384,10 +1976,10 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
-  /// For example, to access the bucket <code>reports</code> through outpost
+  /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
@@ -1414,18 +2006,17 @@ class S3Control {
   /// This action gets a bucket policy for an Amazon S3 on Outposts bucket. To
   /// get a policy for an S3 bucket, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketPolicy.html">GetBucketPolicy</a>
-  /// in the <i>Amazon Simple Storage Service API</i>.
+  /// in the <i>Amazon S3 API Reference</i>.
   /// </note>
   /// Returns the policy of a specified Outposts bucket. For more information,
   /// see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// Amazon S3 on Outposts</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// If you are using an identity other than the root user of the AWS account
-  /// that owns the bucket, the calling identity must have the
+  /// If you are using an identity other than the root user of the Amazon Web
+  /// Services account that owns the bucket, the calling identity must have the
   /// <code>GetBucketPolicy</code> permissions on the specified bucket and
-  /// belong to the bucket owner's account in order to use this operation.
+  /// belong to the bucket owner's account in order to use this action.
   ///
   /// Only users from Outposts bucket owner account with the right permissions
   /// can perform actions on an Outposts bucket. If you don't have
@@ -1433,9 +2024,9 @@ class S3Control {
   /// an identity that belongs to the bucket owner's account, Amazon S3 returns
   /// a <code>403 Access Denied</code> error.
   /// <important>
-  /// As a security precaution, the root user of the AWS account that owns a
-  /// bucket can always use this operation, even if the policy explicitly denies
-  /// the root user the ability to perform this action.
+  /// As a security precaution, the root user of the Amazon Web Services account
+  /// that owns a bucket can always use this action, even if the policy
+  /// explicitly denies the root user the ability to perform this action.
   /// </important>
   /// For more information about bucket policies, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
@@ -1443,11 +2034,11 @@ class S3Control {
   ///
   /// All Amazon S3 on Outposts REST API requests for this action require an
   /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
-  /// the request and an S3 on Outposts endpoint hostname prefix instead of
-  /// <code>s3-control</code>. For an example of the request syntax for Amazon
-  /// S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-  /// the <code>x-amz-outpost-id</code> derived using the access point ARN, see
-  /// the <a
+  /// the request. In addition, you must use an S3 on Outposts endpoint hostname
+  /// prefix instead of <code>s3-control</code>. For an example of the request
+  /// syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+  /// hostname prefix and the <code>x-amz-outpost-id</code> derived by using the
+  /// access point ARN, see the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketPolicy.html#API_control_GetBucketPolicy_Examples">Examples</a>
   /// section.
   ///
@@ -1469,7 +2060,7 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID of the Outposts bucket.
+  /// The Amazon Web Services account ID of the Outposts bucket.
   ///
   /// Parameter [bucket] :
   /// Specifies the bucket.
@@ -1477,10 +2068,10 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
-  /// For example, to access the bucket <code>reports</code> through outpost
+  /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
@@ -1502,18 +2093,114 @@ class S3Control {
   }
 
   /// <note>
-  /// This operation gets an Amazon S3 on Outposts bucket's tags. To get an S3
+  /// This operation gets an Amazon S3 on Outposts bucket's replication
+  /// configuration. To get an S3 bucket's replication configuration, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketReplication.html">GetBucketReplication</a>
+  /// in the <i>Amazon S3 API Reference</i>.
+  /// </note>
+  /// Returns the replication configuration of an S3 on Outposts bucket. For
+  /// more information about S3 on Outposts, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>. For
+  /// information about S3 replication on Outposts configuration, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsReplication.html">Replicating
+  /// objects for S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// <note>
+  /// It can take a while to propagate <code>PUT</code> or <code>DELETE</code>
+  /// requests for a replication configuration to all S3 on Outposts systems.
+  /// Therefore, the replication configuration that's returned by a
+  /// <code>GET</code> request soon after a <code>PUT</code> or
+  /// <code>DELETE</code> request might return a more recent result than what's
+  /// on the Outpost. If an Outpost is offline, the delay in updating the
+  /// replication configuration on that Outpost can be significant.
+  /// </note>
+  /// This action requires permissions for the
+  /// <code>s3-outposts:GetReplicationConfiguration</code> action. The Outposts
+  /// bucket owner has this permission by default and can grant it to others.
+  /// For more information about permissions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsIAM.html">Setting
+  /// up IAM with S3 on Outposts</a> and <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsBucketPolicy.html">Managing
+  /// access to S3 on Outposts bucket</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// All Amazon S3 on Outposts REST API requests for this action require an
+  /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
+  /// the request. In addition, you must use an S3 on Outposts endpoint hostname
+  /// prefix instead of <code>s3-control</code>. For an example of the request
+  /// syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+  /// hostname prefix and the <code>x-amz-outpost-id</code> derived by using the
+  /// access point ARN, see the <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketReplication.html#API_control_GetBucketReplication_Examples">Examples</a>
+  /// section.
+  ///
+  /// If you include the <code>Filter</code> element in a replication
+  /// configuration, you must also include the
+  /// <code>DeleteMarkerReplication</code>, <code>Status</code>, and
+  /// <code>Priority</code> elements. The response also returns those elements.
+  ///
+  /// For information about S3 on Outposts replication failure reasons, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/outposts-replication-eventbridge.html#outposts-replication-failure-codes">Replication
+  /// failure reasons</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// The following operations are related to <code>GetBucketReplication</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketReplication.html">PutBucketReplication</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketReplication.html">DeleteBucketReplication</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID of the Outposts bucket.
+  ///
+  /// Parameter [bucket] :
+  /// Specifies the bucket to get the replication information for.
+  ///
+  /// For using this parameter with Amazon S3 on Outposts with the REST API, you
+  /// must specify the name and the x-amz-outpost-id as well.
+  ///
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
+  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
+  /// For example, to access the bucket <code>reports</code> through Outpost
+  /// <code>my-outpost</code> owned by account <code>123456789012</code> in
+  /// Region <code>us-west-2</code>, use the URL encoding of
+  /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
+  /// The value must be URL encoded.
+  Future<GetBucketReplicationResult> getBucketReplication({
+    required String accountId,
+    required String bucket,
+  }) async {
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri:
+          '/v20180820/bucket/${Uri.encodeComponent(bucket)}/replication',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetBucketReplicationResult.fromXml($result.body);
+  }
+
+  /// <note>
+  /// This action gets an Amazon S3 on Outposts bucket's tags. To get an S3
   /// bucket tags, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketTagging.html">GetBucketTagging</a>
-  /// in the <i>Amazon Simple Storage Service API</i>.
+  /// in the <i>Amazon S3 API Reference</i>.
   /// </note>
   /// Returns the tag set associated with the Outposts bucket. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// Amazon S3 on Outposts</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// To use this operation, you must have permission to perform the
+  /// To use this action, you must have permission to perform the
   /// <code>GetBucketTagging</code> action. By default, the bucket owner has
   /// this permission and can grant this permission to others.
   ///
@@ -1531,11 +2218,11 @@ class S3Control {
   /// </ul>
   /// All Amazon S3 on Outposts REST API requests for this action require an
   /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
-  /// the request and an S3 on Outposts endpoint hostname prefix instead of
-  /// <code>s3-control</code>. For an example of the request syntax for Amazon
-  /// S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-  /// the <code>x-amz-outpost-id</code> derived using the access point ARN, see
-  /// the <a
+  /// the request. In addition, you must use an S3 on Outposts endpoint hostname
+  /// prefix instead of <code>s3-control</code>. For an example of the request
+  /// syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+  /// hostname prefix and the <code>x-amz-outpost-id</code> derived by using the
+  /// access point ARN, see the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketTagging.html#API_control_GetBucketTagging_Examples">Examples</a>
   /// section.
   ///
@@ -1553,7 +2240,7 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID of the Outposts bucket.
+  /// The Amazon Web Services account ID of the Outposts bucket.
   ///
   /// Parameter [bucket] :
   /// Specifies the bucket.
@@ -1561,10 +2248,10 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
-  /// For example, to access the bucket <code>reports</code> through outpost
+  /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
@@ -1585,12 +2272,79 @@ class S3Control {
     return GetBucketTaggingResult.fromXml($result.body);
   }
 
-  /// Returns the tags on an S3 Batch Operations job. To use this operation, you
-  /// must have permission to perform the <code>s3:GetJobTagging</code> action.
-  /// For more information, see <a
+  /// <note>
+  /// This operation returns the versioning state for S3 on Outposts buckets
+  /// only. To return the versioning state for an S3 bucket, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketVersioning.html">GetBucketVersioning</a>
+  /// in the <i>Amazon S3 API Reference</i>.
+  /// </note>
+  /// Returns the versioning state for an S3 on Outposts bucket. With S3
+  /// Versioning, you can save multiple distinct copies of your objects and
+  /// recover from unintended user actions and application failures.
+  ///
+  /// If you've never set versioning on your bucket, it has no versioning state.
+  /// In that case, the <code>GetBucketVersioning</code> request does not return
+  /// a versioning state value.
+  ///
+  /// For more information about versioning, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/Versioning.html">Versioning</a>
+  /// in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// All Amazon S3 on Outposts REST API requests for this action require an
+  /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
+  /// the request. In addition, you must use an S3 on Outposts endpoint hostname
+  /// prefix instead of <code>s3-control</code>. For an example of the request
+  /// syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+  /// hostname prefix and the <code>x-amz-outpost-id</code> derived by using the
+  /// access point ARN, see the <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketVersioning.html#API_control_GetBucketVersioning_Examples">Examples</a>
+  /// section.
+  ///
+  /// The following operations are related to <code>GetBucketVersioning</code>
+  /// for S3 on Outposts.
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketVersioning.html">PutBucketVersioning</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketLifecycleConfiguration.html">PutBucketLifecycleConfiguration</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketLifecycleConfiguration.html">GetBucketLifecycleConfiguration</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID of the S3 on Outposts bucket.
+  ///
+  /// Parameter [bucket] :
+  /// The S3 on Outposts bucket to return the versioning state for.
+  Future<GetBucketVersioningResult> getBucketVersioning({
+    required String accountId,
+    required String bucket,
+  }) async {
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri: '/v20180820/bucket/${Uri.encodeComponent(bucket)}/versioning',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetBucketVersioningResult.fromXml($result.body);
+  }
+
+  /// Returns the tags on an S3 Batch Operations job. To use the
+  /// <code>GetJobTagging</code> operation, you must have permission to perform
+  /// the <code>s3:GetJobTagging</code> action. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-managing-jobs.html#batch-ops-job-tags">Controlling
-  /// access and labeling jobs using tags</a> in the <i>Amazon Simple Storage
-  /// Service Developer Guide</i>.
+  /// access and labeling jobs using tags</a> in the <i>Amazon S3 User
+  /// Guide</i>.
   /// <p/>
   /// Related actions include:
   ///
@@ -1614,7 +2368,8 @@ class S3Control {
   /// May throw [NotFoundException].
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID associated with the S3 Batch Operations job.
+  /// The Amazon Web Services account ID associated with the S3 Batch Operations
+  /// job.
   ///
   /// Parameter [jobId] :
   /// The ID for the S3 Batch Operations job whose tags you want to retrieve.
@@ -1634,8 +2389,222 @@ class S3Control {
     return GetJobTaggingResult.fromXml($result.body);
   }
 
-  /// Retrieves the <code>PublicAccessBlock</code> configuration for an AWS
-  /// account. For more information, see <a
+  /// Returns configuration information about the specified Multi-Region Access
+  /// Point.
+  ///
+  /// This action will always be routed to the US West (Oregon) Region. For more
+  /// information about the restrictions around managing Multi-Region Access
+  /// Points, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html">Managing
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// The following actions are related to
+  /// <code>GetMultiRegionAccessPoint</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html">CreateMultiRegionAccessPoint</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteMultiRegionAccessPoint.html">DeleteMultiRegionAccessPoint</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeMultiRegionAccessPointOperation.html">DescribeMultiRegionAccessPointOperation</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListMultiRegionAccessPoints.html">ListMultiRegionAccessPoints</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID for the owner of the Multi-Region
+  /// Access Point.
+  ///
+  /// Parameter [name] :
+  /// The name of the Multi-Region Access Point whose configuration information
+  /// you want to receive. The name of the Multi-Region Access Point is
+  /// different from the alias. For more information about the distinction
+  /// between the name and the alias of an Multi-Region Access Point, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html#multi-region-access-point-naming">Managing
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  Future<GetMultiRegionAccessPointResult> getMultiRegionAccessPoint({
+    required String accountId,
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri:
+          '/v20180820/mrap/instances/${name.split('/').map(Uri.encodeComponent).join('/')}',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMultiRegionAccessPointResult.fromXml($result.body);
+  }
+
+  /// Returns the access control policy of the specified Multi-Region Access
+  /// Point.
+  ///
+  /// This action will always be routed to the US West (Oregon) Region. For more
+  /// information about the restrictions around managing Multi-Region Access
+  /// Points, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html">Managing
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// The following actions are related to
+  /// <code>GetMultiRegionAccessPointPolicy</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPointPolicyStatus.html">GetMultiRegionAccessPointPolicyStatus</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutMultiRegionAccessPointPolicy.html">PutMultiRegionAccessPointPolicy</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID for the owner of the Multi-Region
+  /// Access Point.
+  ///
+  /// Parameter [name] :
+  /// Specifies the Multi-Region Access Point. The name of the Multi-Region
+  /// Access Point is different from the alias. For more information about the
+  /// distinction between the name and the alias of an Multi-Region Access
+  /// Point, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html#multi-region-access-point-naming">Managing
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  Future<GetMultiRegionAccessPointPolicyResult>
+      getMultiRegionAccessPointPolicy({
+    required String accountId,
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri:
+          '/v20180820/mrap/instances/${name.split('/').map(Uri.encodeComponent).join('/')}/policy',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMultiRegionAccessPointPolicyResult.fromXml($result.body);
+  }
+
+  /// Indicates whether the specified Multi-Region Access Point has an access
+  /// control policy that allows public access.
+  ///
+  /// This action will always be routed to the US West (Oregon) Region. For more
+  /// information about the restrictions around managing Multi-Region Access
+  /// Points, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html">Managing
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// The following actions are related to
+  /// <code>GetMultiRegionAccessPointPolicyStatus</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPointPolicy.html">GetMultiRegionAccessPointPolicy</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutMultiRegionAccessPointPolicy.html">PutMultiRegionAccessPointPolicy</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID for the owner of the Multi-Region
+  /// Access Point.
+  ///
+  /// Parameter [name] :
+  /// Specifies the Multi-Region Access Point. The name of the Multi-Region
+  /// Access Point is different from the alias. For more information about the
+  /// distinction between the name and the alias of an Multi-Region Access
+  /// Point, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html#multi-region-access-point-naming">Managing
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  Future<GetMultiRegionAccessPointPolicyStatusResult>
+      getMultiRegionAccessPointPolicyStatus({
+    required String accountId,
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri:
+          '/v20180820/mrap/instances/${name.split('/').map(Uri.encodeComponent).join('/')}/policystatus',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMultiRegionAccessPointPolicyStatusResult.fromXml($result.body);
+  }
+
+  /// Returns the routing configuration for a Multi-Region Access Point,
+  /// indicating which Regions are active or passive.
+  ///
+  /// To obtain routing control changes and failover requests, use the Amazon S3
+  /// failover control infrastructure endpoints in these five Amazon Web
+  /// Services Regions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>us-east-1</code>
+  /// </li>
+  /// <li>
+  /// <code>us-west-2</code>
+  /// </li>
+  /// <li>
+  /// <code>ap-southeast-2</code>
+  /// </li>
+  /// <li>
+  /// <code>ap-northeast-1</code>
+  /// </li>
+  /// <li>
+  /// <code>eu-west-1</code>
+  /// </li>
+  /// </ul> <note>
+  /// Your Amazon S3 bucket does not need to be in these five Regions.
+  /// </note>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID for the owner of the Multi-Region
+  /// Access Point.
+  ///
+  /// Parameter [mrap] :
+  /// The Multi-Region Access Point ARN.
+  Future<GetMultiRegionAccessPointRoutesResult>
+      getMultiRegionAccessPointRoutes({
+    required String accountId,
+    required String mrap,
+  }) async {
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri:
+          '/v20180820/mrap/instances/${mrap.split('/').map(Uri.encodeComponent).join('/')}/routes',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMultiRegionAccessPointRoutesResult.fromXml($result.body);
+  }
+
+  /// Retrieves the <code>PublicAccessBlock</code> configuration for an Amazon
+  /// Web Services account. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html">
   /// Using Amazon S3 block public access</a>.
   ///
@@ -1655,8 +2624,8 @@ class S3Control {
   /// May throw [NoSuchPublicAccessBlockConfiguration].
   ///
   /// Parameter [accountId] :
-  /// The account ID for the AWS account whose <code>PublicAccessBlock</code>
-  /// configuration you want to retrieve.
+  /// The account ID for the Amazon Web Services account whose
+  /// <code>PublicAccessBlock</code> configuration you want to retrieve.
   Future<GetPublicAccessBlockOutput> getPublicAccessBlock({
     required String accountId,
   }) async {
@@ -1678,16 +2647,19 @@ class S3Control {
 
   /// Gets the Amazon S3 Storage Lens configuration. For more information, see
   /// <a
-  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html">Working
-  /// with Amazon S3 Storage Lens</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html">Assessing
+  /// your storage activity and usage with Amazon S3 Storage Lens </a> in the
+  /// <i>Amazon S3 User Guide</i>. For a complete list of S3 Storage Lens
+  /// metrics, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
+  /// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
   /// <note>
   /// To use this action, you must have permission to perform the
   /// <code>s3:GetStorageLensConfiguration</code> action. For more information,
   /// see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html#storage_lens_IAM">Setting
-  /// permissions to use Amazon S3 Storage Lens</a> in the <i>Amazon Simple
-  /// Storage Service Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html">Setting
+  /// permissions to use Amazon S3 Storage Lens</a> in the <i>Amazon S3 User
+  /// Guide</i>.
   /// </note>
   ///
   /// Parameter [accountId] :
@@ -1716,16 +2688,16 @@ class S3Control {
 
   /// Gets the tags of Amazon S3 Storage Lens configuration. For more
   /// information about S3 Storage Lens, see <a
-  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html">Working
-  /// with Amazon S3 Storage Lens</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html">Assessing
+  /// your storage activity and usage with Amazon S3 Storage Lens </a> in the
+  /// <i>Amazon S3 User Guide</i>.
   /// <note>
   /// To use this action, you must have permission to perform the
   /// <code>s3:GetStorageLensConfigurationTagging</code> action. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html#storage_lens_IAM">Setting
-  /// permissions to use Amazon S3 Storage Lens</a> in the <i>Amazon Simple
-  /// Storage Service Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html">Setting
+  /// permissions to use Amazon S3 Storage Lens</a> in the <i>Amazon S3 User
+  /// Guide</i>.
   /// </note>
   ///
   /// Parameter [accountId] :
@@ -1751,20 +2723,20 @@ class S3Control {
     return GetStorageLensConfigurationTaggingResult.fromXml($result.body);
   }
 
-  /// Returns a list of the access points currently associated with the
-  /// specified bucket. You can retrieve up to 1000 access points per call. If
-  /// the specified bucket has more than 1,000 access points (or the number
-  /// specified in <code>maxResults</code>, whichever is less), the response
-  /// will include a continuation token that you can use to list the additional
-  /// access points.
+  /// Returns a list of the access points that are owned by the current account
+  /// that's associated with the specified bucket. You can retrieve up to 1000
+  /// access points per call. If the specified bucket has more than 1,000 access
+  /// points (or the number specified in <code>maxResults</code>, whichever is
+  /// less), the response will include a continuation token that you can use to
+  /// list the additional access points.
   /// <p/>
   /// All Amazon S3 on Outposts REST API requests for this action require an
   /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
-  /// the request and an S3 on Outposts endpoint hostname prefix instead of
-  /// <code>s3-control</code>. For an example of the request syntax for Amazon
-  /// S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-  /// the <code>x-amz-outpost-id</code> derived using the access point ARN, see
-  /// the <a
+  /// the request. In addition, you must use an S3 on Outposts endpoint hostname
+  /// prefix instead of <code>s3-control</code>. For an example of the request
+  /// syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+  /// hostname prefix and the <code>x-amz-outpost-id</code> derived by using the
+  /// access point ARN, see the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPoint.html#API_control_GetAccessPoint_Examples">Examples</a>
   /// section.
   ///
@@ -1786,8 +2758,8 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID for owner of the bucket whose access points you want to
-  /// list.
+  /// The Amazon Web Services account ID for the account that owns the specified
+  /// access points.
   ///
   /// Parameter [bucket] :
   /// The name of the bucket whose associated access points you want to list.
@@ -1795,10 +2767,10 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
-  /// For example, to access the bucket <code>reports</code> through outpost
+  /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
@@ -1846,12 +2818,78 @@ class S3Control {
     return ListAccessPointsResult.fromXml($result.body);
   }
 
+  /// Returns some or all (up to 1,000) access points associated with the Object
+  /// Lambda Access Point per call. If there are more access points than what
+  /// can be returned in one call, the response will include a continuation
+  /// token that you can use to list the additional access points.
+  ///
+  /// The following actions are related to
+  /// <code>ListAccessPointsForObjectLambda</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessPointForObjectLambda.html">CreateAccessPointForObjectLambda</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPointForObjectLambda.html">DeleteAccessPointForObjectLambda</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointForObjectLambda.html">GetAccessPointForObjectLambda</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The account ID for the account that owns the specified Object Lambda
+  /// Access Point.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of access points that you want to include in the list.
+  /// The response may contain fewer access points but will never contain more.
+  /// If there are more than this number of access points, then the response
+  /// will include a continuation token in the <code>NextToken</code> field that
+  /// you can use to retrieve the next page of access points.
+  ///
+  /// Parameter [nextToken] :
+  /// If the list has more access points than can be returned in one call to
+  /// this API, this field contains a continuation token that you can provide in
+  /// subsequent calls to this API to retrieve additional access points.
+  Future<ListAccessPointsForObjectLambdaResult>
+      listAccessPointsForObjectLambda({
+    required String accountId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      1000,
+    );
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri: '/v20180820/accesspointforobjectlambda',
+      queryParams: $query,
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAccessPointsForObjectLambdaResult.fromXml($result.body);
+  }
+
   /// Lists current S3 Batch Operations jobs and jobs that have ended within the
-  /// last 30 days for the AWS account making the request. For more information,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-basics.html">S3
-  /// Batch Operations</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// last 30 days for the Amazon Web Services account making the request. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html">S3
+  /// Batch Operations</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Related actions include:
   /// <p/>
@@ -1879,7 +2917,8 @@ class S3Control {
   /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [accountId] :
-  /// <p/>
+  /// The Amazon Web Services account ID associated with the S3 Batch Operations
+  /// job.
   ///
   /// Parameter [jobStatuses] :
   /// The <code>List Jobs</code> request returns jobs that match the statuses
@@ -1927,11 +2966,80 @@ class S3Control {
     return ListJobsResult.fromXml($result.body);
   }
 
+  /// Returns a list of the Multi-Region Access Points currently associated with
+  /// the specified Amazon Web Services account. Each call can return up to 100
+  /// Multi-Region Access Points, the maximum number of Multi-Region Access
+  /// Points that can be associated with a single account.
+  ///
+  /// This action will always be routed to the US West (Oregon) Region. For more
+  /// information about the restrictions around managing Multi-Region Access
+  /// Points, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html">Managing
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// The following actions are related to
+  /// <code>ListMultiRegionAccessPoint</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html">CreateMultiRegionAccessPoint</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteMultiRegionAccessPoint.html">DeleteMultiRegionAccessPoint</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeMultiRegionAccessPointOperation.html">DescribeMultiRegionAccessPointOperation</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPoint.html">GetMultiRegionAccessPoint</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID for the owner of the Multi-Region
+  /// Access Point.
+  ///
+  /// Parameter [maxResults] :
+  /// Not currently used. Do not use this parameter.
+  ///
+  /// Parameter [nextToken] :
+  /// Not currently used. Do not use this parameter.
+  Future<ListMultiRegionAccessPointsResult> listMultiRegionAccessPoints({
+    required String accountId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      1000,
+    );
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri: '/v20180820/mrap/instances',
+      queryParams: $query,
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListMultiRegionAccessPointsResult.fromXml($result.body);
+  }
+
   /// Returns a list of all Outposts buckets in an Outpost that are owned by the
   /// authenticated sender of the request. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// Amazon S3 on Outposts</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// For an example of the request syntax for Amazon S3 on Outposts that uses
   /// the S3 on Outposts endpoint hostname prefix and
@@ -1940,7 +3048,7 @@ class S3Control {
   /// section.
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID of the Outposts bucket.
+  /// The Amazon Web Services account ID of the Outposts bucket.
   ///
   /// Parameter [maxResults] :
   /// <p/>
@@ -1949,9 +3057,9 @@ class S3Control {
   /// <p/>
   ///
   /// Parameter [outpostId] :
-  /// The ID of the AWS Outposts.
+  /// The ID of the Outposts resource.
   /// <note>
-  /// This is required by Amazon S3 on Outposts buckets.
+  /// This ID is required by Amazon S3 on Outposts buckets.
   /// </note>
   Future<ListRegionalBucketsResult> listRegionalBuckets({
     required String accountId,
@@ -1985,16 +3093,16 @@ class S3Control {
 
   /// Gets a list of Amazon S3 Storage Lens configurations. For more information
   /// about S3 Storage Lens, see <a
-  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html">Working
-  /// with Amazon S3 Storage Lens</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html">Assessing
+  /// your storage activity and usage with Amazon S3 Storage Lens </a> in the
+  /// <i>Amazon S3 User Guide</i>.
   /// <note>
   /// To use this action, you must have permission to perform the
   /// <code>s3:ListStorageLensConfigurations</code> action. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html#storage_lens_IAM">Setting
-  /// permissions to use Amazon S3 Storage Lens</a> in the <i>Amazon Simple
-  /// Storage Service Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html">Setting
+  /// permissions to use Amazon S3 Storage Lens</a> in the <i>Amazon S3 User
+  /// Guide</i>.
   /// </note>
   ///
   /// Parameter [accountId] :
@@ -2022,17 +3130,64 @@ class S3Control {
     return ListStorageLensConfigurationsResult.fromXml($result.body);
   }
 
+  /// Replaces configuration for an Object Lambda Access Point.
+  ///
+  /// The following actions are related to
+  /// <code>PutAccessPointConfigurationForObjectLambda</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointConfigurationForObjectLambda.html">GetAccessPointConfigurationForObjectLambda</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The account ID for the account that owns the specified Object Lambda
+  /// Access Point.
+  ///
+  /// Parameter [configuration] :
+  /// Object Lambda Access Point configuration document.
+  ///
+  /// Parameter [name] :
+  /// The name of the Object Lambda Access Point.
+  Future<void> putAccessPointConfigurationForObjectLambda({
+    required String accountId,
+    required ObjectLambdaConfiguration configuration,
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    await _protocol.send(
+      method: 'PUT',
+      requestUri:
+          '/v20180820/accesspointforobjectlambda/${Uri.encodeComponent(name)}/configuration',
+      headers: headers,
+      payload: PutAccessPointConfigurationForObjectLambdaRequest(
+              accountId: accountId, configuration: configuration, name: name)
+          .toXml(
+        'PutAccessPointConfigurationForObjectLambdaRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Associates an access policy with the specified access point. Each access
   /// point can have only one policy, so a request made to this API replaces any
   /// existing policy associated with the specified access point.
   /// <p/>
   /// All Amazon S3 on Outposts REST API requests for this action require an
   /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
-  /// the request and an S3 on Outposts endpoint hostname prefix instead of
-  /// <code>s3-control</code>. For an example of the request syntax for Amazon
-  /// S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-  /// the <code>x-amz-outpost-id</code> derived using the access point ARN, see
-  /// the <a
+  /// the request. In addition, you must use an S3 on Outposts endpoint hostname
+  /// prefix instead of <code>s3-control</code>. For an example of the request
+  /// syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+  /// hostname prefix and the <code>x-amz-outpost-id</code> derived by using the
+  /// access point ARN, see the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointPolicy.html#API_control_PutAccessPointPolicy_Examples">Examples</a>
   /// section.
   ///
@@ -2050,8 +3205,8 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID for owner of the bucket associated with the specified
-  /// access point.
+  /// The Amazon Web Services account ID for owner of the bucket associated with
+  /// the specified access point.
   ///
   /// Parameter [name] :
   /// The name of the access point that you want to associate with the specified
@@ -2060,11 +3215,12 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the access point accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the access point accessed in the
+  /// format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;</code>.
   /// For example, to access the access point <code>reports-ap</code> through
-  /// outpost <code>my-outpost</code> owned by account <code>123456789012</code>
+  /// Outpost <code>my-outpost</code> owned by account <code>123456789012</code>
   /// in Region <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap</code>.
   /// The value must be URL encoded.
@@ -2072,9 +3228,9 @@ class S3Control {
   /// Parameter [policy] :
   /// The policy that you want to apply to the specified access point. For more
   /// information about access point policies, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-points.html">Managing
-  /// data access with Amazon S3 Access Points</a> in the <i>Amazon Simple
-  /// Storage Service Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html">Managing
+  /// data access with Amazon S3 access points</a> in the <i>Amazon S3 User
+  /// Guide</i>.
   Future<void> putAccessPointPolicy({
     required String accountId,
     required String name,
@@ -2100,27 +3256,78 @@ class S3Control {
     );
   }
 
+  /// Creates or replaces resource policy for an Object Lambda Access Point. For
+  /// an example policy, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/olap-create.html#olap-create-cli">Creating
+  /// Object Lambda Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// The following actions are related to
+  /// <code>PutAccessPointPolicyForObjectLambda</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPointPolicyForObjectLambda.html">DeleteAccessPointPolicyForObjectLambda</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointPolicyForObjectLambda.html">GetAccessPointPolicyForObjectLambda</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The account ID for the account that owns the specified Object Lambda
+  /// Access Point.
+  ///
+  /// Parameter [name] :
+  /// The name of the Object Lambda Access Point.
+  ///
+  /// Parameter [policy] :
+  /// Object Lambda Access Point resource policy document.
+  Future<void> putAccessPointPolicyForObjectLambda({
+    required String accountId,
+    required String name,
+    required String policy,
+  }) async {
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    await _protocol.send(
+      method: 'PUT',
+      requestUri:
+          '/v20180820/accesspointforobjectlambda/${Uri.encodeComponent(name)}/policy',
+      headers: headers,
+      payload: PutAccessPointPolicyForObjectLambdaRequest(
+              accountId: accountId, name: name, policy: policy)
+          .toXml(
+        'PutAccessPointPolicyForObjectLambdaRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// <note>
   /// This action puts a lifecycle configuration to an Amazon S3 on Outposts
   /// bucket. To put a lifecycle configuration to an S3 bucket, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html">PutBucketLifecycleConfiguration</a>
-  /// in the <i>Amazon Simple Storage Service API</i>.
+  /// in the <i>Amazon S3 API Reference</i>.
   /// </note>
-  /// Creates a new lifecycle configuration for the Outposts bucket or replaces
-  /// an existing lifecycle configuration. Outposts buckets only support
-  /// lifecycle configurations that delete/expire objects after a certain period
-  /// of time and abort incomplete multipart uploads. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Managing
-  /// Lifecycle Permissions for Amazon S3 on Outposts</a>.
+  /// Creates a new lifecycle configuration for the S3 on Outposts bucket or
+  /// replaces an existing lifecycle configuration. Outposts buckets only
+  /// support lifecycle configurations that delete/expire objects after a
+  /// certain period of time and abort incomplete multipart uploads.
   /// <p/>
   /// All Amazon S3 on Outposts REST API requests for this action require an
   /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
-  /// the request and an S3 on Outposts endpoint hostname prefix instead of
-  /// <code>s3-control</code>. For an example of the request syntax for Amazon
-  /// S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-  /// the <code>x-amz-outpost-id</code> derived using the access point ARN, see
-  /// the <a
+  /// the request. In addition, you must use an S3 on Outposts endpoint hostname
+  /// prefix instead of <code>s3-control</code>. For an example of the request
+  /// syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+  /// hostname prefix and the <code>x-amz-outpost-id</code> derived by using the
+  /// access point ARN, see the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketLifecycleConfiguration.html#API_control_PutBucketLifecycleConfiguration_Examples">Examples</a>
   /// section.
   ///
@@ -2139,7 +3346,7 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID of the Outposts bucket.
+  /// The Amazon Web Services account ID of the Outposts bucket.
   ///
   /// Parameter [bucket] :
   /// The name of the bucket for which to set the configuration.
@@ -2168,18 +3375,18 @@ class S3Control {
   /// This action puts a bucket policy to an Amazon S3 on Outposts bucket. To
   /// put a policy on an S3 bucket, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketPolicy.html">PutBucketPolicy</a>
-  /// in the <i>Amazon Simple Storage Service API</i>.
+  /// in the <i>Amazon S3 API Reference</i>.
   /// </note>
   /// Applies an Amazon S3 bucket policy to an Outposts bucket. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// Amazon S3 on Outposts</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// If you are using an identity other than the root user of the AWS account
-  /// that owns the Outposts bucket, the calling identity must have the
-  /// <code>PutBucketPolicy</code> permissions on the specified Outposts bucket
-  /// and belong to the bucket owner's account in order to use this operation.
+  /// If you are using an identity other than the root user of the Amazon Web
+  /// Services account that owns the Outposts bucket, the calling identity must
+  /// have the <code>PutBucketPolicy</code> permissions on the specified
+  /// Outposts bucket and belong to the bucket owner's account in order to use
+  /// this action.
   ///
   /// If you don't have <code>PutBucketPolicy</code> permissions, Amazon S3
   /// returns a <code>403 Access Denied</code> error. If you have the correct
@@ -2187,9 +3394,9 @@ class S3Control {
   /// owner's account, Amazon S3 returns a <code>405 Method Not Allowed</code>
   /// error.
   /// <important>
-  /// As a security precaution, the root user of the AWS account that owns a
-  /// bucket can always use this operation, even if the policy explicitly denies
-  /// the root user the ability to perform this action.
+  /// As a security precaution, the root user of the Amazon Web Services account
+  /// that owns a bucket can always use this action, even if the policy
+  /// explicitly denies the root user the ability to perform this action.
   /// </important>
   /// For more information about bucket policies, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
@@ -2197,11 +3404,11 @@ class S3Control {
   ///
   /// All Amazon S3 on Outposts REST API requests for this action require an
   /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
-  /// the request and an S3 on Outposts endpoint hostname prefix instead of
-  /// <code>s3-control</code>. For an example of the request syntax for Amazon
-  /// S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-  /// the <code>x-amz-outpost-id</code> derived using the access point ARN, see
-  /// the <a
+  /// the request. In addition, you must use an S3 on Outposts endpoint hostname
+  /// prefix instead of <code>s3-control</code>. For an example of the request
+  /// syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+  /// hostname prefix and the <code>x-amz-outpost-id</code> derived by using the
+  /// access point ARN, see the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketPolicy.html#API_control_PutBucketPolicy_Examples">Examples</a>
   /// section.
   ///
@@ -2219,7 +3426,7 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID of the Outposts bucket.
+  /// The Amazon Web Services account ID of the Outposts bucket.
   ///
   /// Parameter [bucket] :
   /// Specifies the bucket.
@@ -2227,10 +3434,10 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
-  /// For example, to access the bucket <code>reports</code> through outpost
+  /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
@@ -2278,39 +3485,182 @@ class S3Control {
   }
 
   /// <note>
+  /// This action creates an Amazon S3 on Outposts bucket's replication
+  /// configuration. To create an S3 bucket's replication configuration, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketReplication.html">PutBucketReplication</a>
+  /// in the <i>Amazon S3 API Reference</i>.
+  /// </note>
+  /// Creates a replication configuration or replaces an existing one. For
+  /// information about S3 replication on Outposts configuration, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsReplication.html">Replicating
+  /// objects for S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// <note>
+  /// It can take a while to propagate <code>PUT</code> or <code>DELETE</code>
+  /// requests for a replication configuration to all S3 on Outposts systems.
+  /// Therefore, the replication configuration that's returned by a
+  /// <code>GET</code> request soon after a <code>PUT</code> or
+  /// <code>DELETE</code> request might return a more recent result than what's
+  /// on the Outpost. If an Outpost is offline, the delay in updating the
+  /// replication configuration on that Outpost can be significant.
+  /// </note>
+  /// Specify the replication configuration in the request body. In the
+  /// replication configuration, you provide the following information:
+  ///
+  /// <ul>
+  /// <li>
+  /// The name of the destination bucket or buckets where you want S3 on
+  /// Outposts to replicate objects
+  /// </li>
+  /// <li>
+  /// The Identity and Access Management (IAM) role that S3 on Outposts can
+  /// assume to replicate objects on your behalf
+  /// </li>
+  /// <li>
+  /// Other relevant information, such as replication rules
+  /// </li>
+  /// </ul>
+  /// A replication configuration must include at least one rule and can contain
+  /// a maximum of 100. Each rule identifies a subset of objects to replicate by
+  /// filtering the objects in the source Outposts bucket. To choose additional
+  /// subsets of objects to replicate, add a rule for each subset.
+  ///
+  /// To specify a subset of the objects in the source Outposts bucket to apply
+  /// a replication rule to, add the <code>Filter</code> element as a child of
+  /// the <code>Rule</code> element. You can filter objects based on an object
+  /// key prefix, one or more object tags, or both. When you add the
+  /// <code>Filter</code> element in the configuration, you must also add the
+  /// following elements: <code>DeleteMarkerReplication</code>,
+  /// <code>Status</code>, and <code>Priority</code>.
+  ///
+  /// Using <code>PutBucketReplication</code> on Outposts requires that both the
+  /// source and destination buckets must have versioning enabled. For
+  /// information about enabling versioning on a bucket, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsManagingVersioning.html">Managing
+  /// S3 Versioning for your S3 on Outposts bucket</a>.
+  ///
+  /// For information about S3 on Outposts replication failure reasons, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/outposts-replication-eventbridge.html#outposts-replication-failure-codes">Replication
+  /// failure reasons</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// <b>Handling Replication of Encrypted Objects</b>
+  ///
+  /// Outposts buckets are encrypted at all times. All the objects in the source
+  /// Outposts bucket are encrypted and can be replicated. Also, all the
+  /// replicas in the destination Outposts bucket are encrypted with the same
+  /// encryption key as the objects in the source Outposts bucket.
+  ///
+  /// <b>Permissions</b>
+  ///
+  /// To create a <code>PutBucketReplication</code> request, you must have
+  /// <code>s3-outposts:PutReplicationConfiguration</code> permissions for the
+  /// bucket. The Outposts bucket owner has this permission by default and can
+  /// grant it to others. For more information about permissions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsIAM.html">Setting
+  /// up IAM with S3 on Outposts</a> and <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsBucketPolicy.html">Managing
+  /// access to S3 on Outposts buckets</a>.
+  /// <note>
+  /// To perform this operation, the user or role must also have the
+  /// <code>iam:CreateRole</code> and <code>iam:PassRole</code> permissions. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html">Granting
+  /// a user permissions to pass a role to an Amazon Web Services service</a>.
+  /// </note>
+  /// All Amazon S3 on Outposts REST API requests for this action require an
+  /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
+  /// the request. In addition, you must use an S3 on Outposts endpoint hostname
+  /// prefix instead of <code>s3-control</code>. For an example of the request
+  /// syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+  /// hostname prefix and the <code>x-amz-outpost-id</code> derived by using the
+  /// access point ARN, see the <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketReplication.html#API_control_PutBucketReplication_Examples">Examples</a>
+  /// section.
+  ///
+  /// The following operations are related to <code>PutBucketReplication</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketReplication.html">GetBucketReplication</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketReplication.html">DeleteBucketReplication</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID of the Outposts bucket.
+  ///
+  /// Parameter [bucket] :
+  /// Specifies the S3 on Outposts bucket to set the configuration for.
+  ///
+  /// For using this parameter with Amazon S3 on Outposts with the REST API, you
+  /// must specify the name and the x-amz-outpost-id as well.
+  ///
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
+  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
+  /// For example, to access the bucket <code>reports</code> through Outpost
+  /// <code>my-outpost</code> owned by account <code>123456789012</code> in
+  /// Region <code>us-west-2</code>, use the URL encoding of
+  /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
+  /// The value must be URL encoded.
+  ///
+  /// Parameter [replicationConfiguration] :
+  /// <p/>
+  Future<void> putBucketReplication({
+    required String accountId,
+    required String bucket,
+    required ReplicationConfiguration replicationConfiguration,
+  }) async {
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    await _protocol.send(
+      method: 'PUT',
+      requestUri:
+          '/v20180820/bucket/${Uri.encodeComponent(bucket)}/replication',
+      headers: headers,
+      payload: replicationConfiguration.toXml('ReplicationConfiguration'),
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// <note>
   /// This action puts tags on an Amazon S3 on Outposts bucket. To put tags on
   /// an S3 bucket, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketTagging.html">PutBucketTagging</a>
-  /// in the <i>Amazon Simple Storage Service API</i>.
+  /// in the <i>Amazon S3 API Reference</i>.
   /// </note>
-  /// Sets the tags for an Outposts bucket. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// Amazon S3 on Outposts</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// Sets the tags for an S3 on Outposts bucket. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// Use tags to organize your AWS bill to reflect your own cost structure. To
-  /// do this, sign up to get your AWS account bill with tag key values
-  /// included. Then, to see the cost of combined resources, organize your
-  /// billing information according to resources with the same tag key values.
-  /// For example, you can tag several resources with a specific application
-  /// name, and then organize your billing information to see the total cost of
-  /// that application across several services. For more information, see <a
+  /// Use tags to organize your Amazon Web Services bill to reflect your own
+  /// cost structure. To do this, sign up to get your Amazon Web Services
+  /// account bill with tag key values included. Then, to see the cost of
+  /// combined resources, organize your billing information according to
+  /// resources with the same tag key values. For example, you can tag several
+  /// resources with a specific application name, and then organize your billing
+  /// information to see the total cost of that application across several
+  /// services. For more information, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Cost
-  /// Allocation and Tagging</a>.
+  /// allocation and tagging</a>.
   /// <note>
   /// Within a bucket, if you add a tag that has the same key as an existing
   /// tag, the new value overwrites the old value. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/CostAllocTagging.html">Using
-  /// Cost Allocation in Amazon S3 Bucket Tags</a>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/CostAllocTagging.html">
+  /// Using cost allocation in Amazon S3 bucket tags</a>.
   /// </note>
-  /// To use this operation, you must have permissions to perform the
+  /// To use this action, you must have permissions to perform the
   /// <code>s3-outposts:PutBucketTagging</code> action. The Outposts bucket
   /// owner has this permission by default and can grant this permission to
   /// others. For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">
   /// Permissions Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
-  /// Access Permissions to Your Amazon S3 Resources</a>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
+  /// access permissions to your Amazon S3 resources</a>.
   ///
   /// <code>PutBucketTagging</code> has the following special errors:
   ///
@@ -2326,7 +3676,7 @@ class S3Control {
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html">
   /// User-Defined Tag Restrictions</a> and <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/aws-tag-restrictions.html">
-  /// AWS-Generated Cost Allocation Tag Restrictions</a>.
+  /// Amazon Web Services-Generated Cost Allocation Tag Restrictions</a>.
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -2342,7 +3692,7 @@ class S3Control {
   ///
   /// <ul>
   /// <li>
-  /// Description: A conflicting conditional operation is currently in progress
+  /// Description: A conflicting conditional action is currently in progress
   /// against this resource. Try again.
   /// </li>
   /// </ul> </li>
@@ -2358,11 +3708,11 @@ class S3Control {
   /// </ul>
   /// All Amazon S3 on Outposts REST API requests for this action require an
   /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
-  /// the request and an S3 on Outposts endpoint hostname prefix instead of
-  /// <code>s3-control</code>. For an example of the request syntax for Amazon
-  /// S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-  /// the <code>x-amz-outpost-id</code> derived using the access point ARN, see
-  /// the <a
+  /// the request. In addition, you must use an S3 on Outposts endpoint hostname
+  /// prefix instead of <code>s3-control</code>. For an example of the request
+  /// syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+  /// hostname prefix and the <code>x-amz-outpost-id</code> derived by using the
+  /// access point ARN, see the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketTagging.html#API_control_PutBucketTagging_Examples">Examples</a>
   /// section.
   ///
@@ -2380,7 +3730,7 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID of the Outposts bucket.
+  /// The Amazon Web Services account ID of the Outposts bucket.
   ///
   /// Parameter [bucket] :
   /// The Amazon Resource Name (ARN) of the bucket.
@@ -2388,10 +3738,10 @@ class S3Control {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
-  /// For example, to access the bucket <code>reports</code> through outpost
+  /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
@@ -2416,6 +3766,110 @@ class S3Control {
     );
   }
 
+  /// <note>
+  /// This operation sets the versioning state for S3 on Outposts buckets only.
+  /// To set the versioning state for an S3 bucket, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketVersioning.html">PutBucketVersioning</a>
+  /// in the <i>Amazon S3 API Reference</i>.
+  /// </note>
+  /// Sets the versioning state for an S3 on Outposts bucket. With S3
+  /// Versioning, you can save multiple distinct copies of your objects and
+  /// recover from unintended user actions and application failures.
+  ///
+  /// You can set the versioning state to one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Enabled</b> - Enables versioning for the objects in the bucket. All
+  /// objects added to the bucket receive a unique version ID.
+  /// </li>
+  /// <li>
+  /// <b>Suspended</b> - Suspends versioning for the objects in the bucket. All
+  /// objects added to the bucket receive the version ID <code>null</code>.
+  /// </li>
+  /// </ul>
+  /// If you've never set versioning on your bucket, it has no versioning state.
+  /// In that case, a <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketVersioning.html">
+  /// GetBucketVersioning</a> request does not return a versioning state value.
+  ///
+  /// When you enable S3 Versioning, for each object in your bucket, you have a
+  /// current version and zero or more noncurrent versions. You can configure
+  /// your bucket S3 Lifecycle rules to expire noncurrent versions after a
+  /// specified time period. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsLifecycleManaging.html">
+  /// Creating and managing a lifecycle configuration for your S3 on Outposts
+  /// bucket</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you have an object expiration lifecycle configuration in your
+  /// non-versioned bucket and you want to maintain the same permanent delete
+  /// behavior when you enable versioning, you must add a noncurrent expiration
+  /// policy. The noncurrent expiration lifecycle configuration will manage the
+  /// deletes of the noncurrent object versions in the version-enabled bucket.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/Versioning.html">Versioning</a>
+  /// in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// All Amazon S3 on Outposts REST API requests for this action require an
+  /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
+  /// the request. In addition, you must use an S3 on Outposts endpoint hostname
+  /// prefix instead of <code>s3-control</code>. For an example of the request
+  /// syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
+  /// hostname prefix and the <code>x-amz-outpost-id</code> derived by using the
+  /// access point ARN, see the <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketVersioning.html#API_control_PutBucketVersioning_Examples">Examples</a>
+  /// section.
+  ///
+  /// The following operations are related to <code>PutBucketVersioning</code>
+  /// for S3 on Outposts.
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketVersioning.html">GetBucketVersioning</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketLifecycleConfiguration.html">PutBucketLifecycleConfiguration</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketLifecycleConfiguration.html">GetBucketLifecycleConfiguration</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID of the S3 on Outposts bucket.
+  ///
+  /// Parameter [bucket] :
+  /// The S3 on Outposts bucket to set the versioning state for.
+  ///
+  /// Parameter [versioningConfiguration] :
+  /// The root-level tag for the <code>VersioningConfiguration</code>
+  /// parameters.
+  ///
+  /// Parameter [mfa] :
+  /// The concatenation of the authentication device's serial number, a space,
+  /// and the value that is displayed on your authentication device.
+  Future<void> putBucketVersioning({
+    required String accountId,
+    required String bucket,
+    required VersioningConfiguration versioningConfiguration,
+    String? mfa,
+  }) async {
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+      if (mfa != null) 'x-amz-mfa': mfa.toString(),
+    };
+    await _protocol.send(
+      method: 'PUT',
+      requestUri: '/v20180820/bucket/${Uri.encodeComponent(bucket)}/versioning',
+      headers: headers,
+      payload: versioningConfiguration.toXml('VersioningConfiguration'),
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Sets the supplied tag-set on an S3 Batch Operations job.
   ///
   /// A tag is a key-value pair. You can associate S3 Batch Operations tags with
@@ -2427,8 +3881,8 @@ class S3Control {
   /// modify that tag set, and use this action to replace the tag set with the
   /// one you modified. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-managing-jobs.html#batch-ops-job-tags">Controlling
-  /// access and labeling jobs using tags</a> in the <i>Amazon Simple Storage
-  /// Service Developer Guide</i>.
+  /// access and labeling jobs using tags</a> in the <i>Amazon S3 User
+  /// Guide</i>.
   /// <p/> <note>
   /// <ul>
   /// <li>
@@ -2465,20 +3919,19 @@ class S3Control {
   /// For tagging-related restrictions related to characters and encodings, see
   /// <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html">User-Defined
-  /// Tag Restrictions</a> in the <i>AWS Billing and Cost Management User
-  /// Guide</i>.
+  /// Tag Restrictions</a> in the <i>Billing and Cost Management User Guide</i>.
   /// </li>
   /// </ul> </li>
   /// </ul> </note> <p/>
-  /// To use this operation, you must have permission to perform the
-  /// <code>s3:PutJobTagging</code> action.
+  /// To use the <code>PutJobTagging</code> operation, you must have permission
+  /// to perform the <code>s3:PutJobTagging</code> action.
   ///
   /// Related actions include:
   ///
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateJob.html">CreatJob</a>
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateJob.html">CreateJob</a>
   /// </li>
   /// <li>
   /// <a
@@ -2496,7 +3949,8 @@ class S3Control {
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID associated with the S3 Batch Operations job.
+  /// The Amazon Web Services account ID associated with the S3 Batch Operations
+  /// job.
   ///
   /// Parameter [jobId] :
   /// The ID for the S3 Batch Operations job whose tags you want to replace.
@@ -2528,8 +3982,74 @@ class S3Control {
     );
   }
 
+  /// Associates an access control policy with the specified Multi-Region Access
+  /// Point. Each Multi-Region Access Point can have only one policy, so a
+  /// request made to this action replaces any existing policy that is
+  /// associated with the specified Multi-Region Access Point.
+  ///
+  /// This action will always be routed to the US West (Oregon) Region. For more
+  /// information about the restrictions around managing Multi-Region Access
+  /// Points, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html">Managing
+  /// Multi-Region Access Points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// The following actions are related to
+  /// <code>PutMultiRegionAccessPointPolicy</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPointPolicy.html">GetMultiRegionAccessPointPolicy</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPointPolicyStatus.html">GetMultiRegionAccessPointPolicyStatus</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID for the owner of the Multi-Region
+  /// Access Point.
+  ///
+  /// Parameter [details] :
+  /// A container element containing the details of the policy for the
+  /// Multi-Region Access Point.
+  ///
+  /// Parameter [clientToken] :
+  /// An idempotency token used to identify the request and guarantee that
+  /// requests are unique.
+  Future<PutMultiRegionAccessPointPolicyResult>
+      putMultiRegionAccessPointPolicy({
+    required String accountId,
+    required PutMultiRegionAccessPointPolicyInput details,
+    String? clientToken,
+  }) async {
+    clientToken ??= _s.generateIdempotencyToken();
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $result = await _protocol.send(
+      method: 'POST',
+      requestUri: '/v20180820/async-requests/mrap/put-policy',
+      headers: headers,
+      payload: PutMultiRegionAccessPointPolicyRequest(
+              accountId: accountId, details: details, clientToken: clientToken)
+          .toXml(
+        'PutMultiRegionAccessPointPolicyRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutMultiRegionAccessPointPolicyResult.fromXml($result.body);
+  }
+
   /// Creates or modifies the <code>PublicAccessBlock</code> configuration for
-  /// an AWS account. For more information, see <a
+  /// an Amazon Web Services account. For this operation, users must have the
+  /// <code>s3:PutAccountPublicAccessBlock</code> permission. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html">
   /// Using Amazon S3 block public access</a>.
   ///
@@ -2547,12 +4067,12 @@ class S3Control {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The account ID for the AWS account whose <code>PublicAccessBlock</code>
-  /// configuration you want to set.
+  /// The account ID for the Amazon Web Services account whose
+  /// <code>PublicAccessBlock</code> configuration you want to set.
   ///
   /// Parameter [publicAccessBlockConfiguration] :
   /// The <code>PublicAccessBlock</code> configuration that you want to apply to
-  /// the specified AWS account.
+  /// the specified Amazon Web Services account.
   Future<void> putPublicAccessBlock({
     required String accountId,
     required PublicAccessBlockConfiguration publicAccessBlockConfiguration,
@@ -2572,16 +4092,18 @@ class S3Control {
 
   /// Puts an Amazon S3 Storage Lens configuration. For more information about
   /// S3 Storage Lens, see <a
-  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html">Working
-  /// with Amazon S3 Storage Lens</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html">Working
+  /// with Amazon S3 Storage Lens</a> in the <i>Amazon S3 User Guide</i>. For a
+  /// complete list of S3 Storage Lens metrics, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
+  /// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
   /// <note>
   /// To use this action, you must have permission to perform the
   /// <code>s3:PutStorageLensConfiguration</code> action. For more information,
   /// see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html#storage_lens_IAM">Setting
-  /// permissions to use Amazon S3 Storage Lens</a> in the <i>Amazon Simple
-  /// Storage Service Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html">Setting
+  /// permissions to use Amazon S3 Storage Lens</a> in the <i>Amazon S3 User
+  /// Guide</i>.
   /// </note>
   ///
   /// Parameter [accountId] :
@@ -2629,16 +4151,16 @@ class S3Control {
 
   /// Put or replace tags on an existing Amazon S3 Storage Lens configuration.
   /// For more information about S3 Storage Lens, see <a
-  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html">Working
-  /// with Amazon S3 Storage Lens</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html">Assessing
+  /// your storage activity and usage with Amazon S3 Storage Lens </a> in the
+  /// <i>Amazon S3 User Guide</i>.
   /// <note>
   /// To use this action, you must have permission to perform the
   /// <code>s3:PutStorageLensConfigurationTagging</code> action. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html#storage_lens_IAM">Setting
-  /// permissions to use Amazon S3 Storage Lens</a> in the <i>Amazon Simple
-  /// Storage Service Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html">Setting
+  /// permissions to use Amazon S3 Storage Lens</a> in the <i>Amazon S3 User
+  /// Guide</i>.
   /// </note>
   ///
   /// Parameter [accountId] :
@@ -2678,11 +4200,88 @@ class S3Control {
     );
   }
 
+  /// Submits an updated route configuration for a Multi-Region Access Point.
+  /// This API operation updates the routing status for the specified Regions
+  /// from active to passive, or from passive to active. A value of
+  /// <code>0</code> indicates a passive status, which means that traffic won't
+  /// be routed to the specified Region. A value of <code>100</code> indicates
+  /// an active status, which means that traffic will be routed to the specified
+  /// Region. At least one Region must be active at all times.
+  ///
+  /// When the routing configuration is changed, any in-progress operations
+  /// (uploads, copies, deletes, and so on) to formerly active Regions will
+  /// continue to run to their final completion state (success or failure). The
+  /// routing configurations of any Regions that aren’t specified remain
+  /// unchanged.
+  /// <note>
+  /// Updated routing configurations might not be immediately applied. It can
+  /// take up to 2 minutes for your changes to take effect.
+  /// </note>
+  /// To submit routing control changes and failover requests, use the Amazon S3
+  /// failover control infrastructure endpoints in these five Amazon Web
+  /// Services Regions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>us-east-1</code>
+  /// </li>
+  /// <li>
+  /// <code>us-west-2</code>
+  /// </li>
+  /// <li>
+  /// <code>ap-southeast-2</code>
+  /// </li>
+  /// <li>
+  /// <code>ap-northeast-1</code>
+  /// </li>
+  /// <li>
+  /// <code>eu-west-1</code>
+  /// </li>
+  /// </ul> <note>
+  /// Your Amazon S3 bucket does not need to be in these five Regions.
+  /// </note>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID for the owner of the Multi-Region
+  /// Access Point.
+  ///
+  /// Parameter [mrap] :
+  /// The Multi-Region Access Point ARN.
+  ///
+  /// Parameter [routeUpdates] :
+  /// The different routes that make up the new route configuration. Active
+  /// routes return a value of <code>100</code>, and passive routes return a
+  /// value of <code>0</code>.
+  Future<void> submitMultiRegionAccessPointRoutes({
+    required String accountId,
+    required String mrap,
+    required List<MultiRegionAccessPointRoute> routeUpdates,
+  }) async {
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    await _protocol.send(
+      method: 'PATCH',
+      requestUri:
+          '/v20180820/mrap/instances/${mrap.split('/').map(Uri.encodeComponent).join('/')}/routes',
+      headers: headers,
+      payload: SubmitMultiRegionAccessPointRoutesRequest(
+              accountId: accountId, mrap: mrap, routeUpdates: routeUpdates)
+          .toXml(
+        'SubmitMultiRegionAccessPointRoutesRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Updates an existing S3 Batch Operations job's priority. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-basics.html">S3
-  /// Batch Operations</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html">S3
+  /// Batch Operations</a> in the <i>Amazon S3 User Guide</i>.
   /// <p/>
   /// Related actions include:
   ///
@@ -2711,7 +4310,8 @@ class S3Control {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [accountId] :
-  /// <p/>
+  /// The Amazon Web Services account ID associated with the S3 Batch Operations
+  /// job.
   ///
   /// Parameter [jobId] :
   /// The ID for the job whose priority you want to update.
@@ -2746,12 +4346,11 @@ class S3Control {
     return UpdateJobPriorityResult.fromXml($result.body);
   }
 
-  /// Updates the status for the specified job. Use this operation to confirm
-  /// that you want to run a job or to cancel an existing job. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-basics.html">S3
-  /// Batch Operations</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// Updates the status for the specified job. Use this action to confirm that
+  /// you want to run a job or to cancel an existing job. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html">S3
+  /// Batch Operations</a> in the <i>Amazon S3 User Guide</i>.
   /// <p/>
   /// Related actions include:
   ///
@@ -2781,7 +4380,8 @@ class S3Control {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [accountId] :
-  /// <p/>
+  /// The Amazon Web Services account ID associated with the S3 Batch Operations
+  /// job.
   ///
   /// Parameter [jobId] :
   /// The ID of the job whose status you want to update.
@@ -2849,6 +4449,39 @@ class AbortIncompleteMultipartUpload {
   }
 }
 
+/// A container for information about access control for replicas.
+/// <note>
+/// This is not supported by Amazon S3 on Outposts buckets.
+/// </note>
+class AccessControlTranslation {
+  /// Specifies the replica ownership.
+  final OwnerOverride owner;
+
+  AccessControlTranslation({
+    required this.owner,
+  });
+  factory AccessControlTranslation.fromXml(_s.XmlElement elem) {
+    return AccessControlTranslation(
+      owner: _s.extractXmlStringValue(elem, 'Owner')!.toOwnerOverride(),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final owner = this.owner;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Owner', owner.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
 /// An access point used to access a bucket.
 class AccessPoint {
   /// The name of the bucket associated with this access point.
@@ -2868,8 +4501,19 @@ class AccessPoint {
   /// The ARN for the access point.
   final String? accessPointArn;
 
+  /// The name or alias of the access point.
+  final String? alias;
+
+  /// The Amazon Web Services account ID associated with the S3 bucket associated
+  /// with this access point.
+  final String? bucketAccountId;
+
   /// The virtual private cloud (VPC) configuration for this access point, if one
   /// exists.
+  /// <note>
+  /// This element is empty if this access point is an Amazon S3 on Outposts
+  /// access point that is used by other Amazon Web Services.
+  /// </note>
   final VpcConfiguration? vpcConfiguration;
 
   AccessPoint({
@@ -2877,6 +4521,8 @@ class AccessPoint {
     required this.name,
     required this.networkOrigin,
     this.accessPointArn,
+    this.alias,
+    this.bucketAccountId,
     this.vpcConfiguration,
   });
   factory AccessPoint.fromXml(_s.XmlElement elem) {
@@ -2886,6 +4532,8 @@ class AccessPoint {
       networkOrigin:
           _s.extractXmlStringValue(elem, 'NetworkOrigin')!.toNetworkOrigin(),
       accessPointArn: _s.extractXmlStringValue(elem, 'AccessPointArn'),
+      alias: _s.extractXmlStringValue(elem, 'Alias'),
+      bucketAccountId: _s.extractXmlStringValue(elem, 'BucketAccountId'),
       vpcConfiguration: _s
           .extractXmlChild(elem, 'VpcConfiguration')
           ?.let((e) => VpcConfiguration.fromXml(e)),
@@ -2893,17 +4541,36 @@ class AccessPoint {
   }
 }
 
-/// A container for the account level Amazon S3 Storage Lens configuration.
+/// A container for the account-level Amazon S3 Storage Lens configuration.
+///
+/// For more information about S3 Storage Lens, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html">Assessing
+/// your storage activity and usage with S3 Storage Lens</a> in the <i>Amazon S3
+/// User Guide</i>. For a complete list of S3 Storage Lens metrics, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
+/// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
 class AccountLevel {
   /// A container for the S3 Storage Lens bucket-level configuration.
   final BucketLevel bucketLevel;
 
-  /// A container for the S3 Storage Lens activity metrics.
+  /// A container for S3 Storage Lens activity metrics.
   final ActivityMetrics? activityMetrics;
+
+  /// A container for S3 Storage Lens advanced cost-optimization metrics.
+  final AdvancedCostOptimizationMetrics? advancedCostOptimizationMetrics;
+
+  /// A container for S3 Storage Lens advanced data-protection metrics.
+  final AdvancedDataProtectionMetrics? advancedDataProtectionMetrics;
+
+  /// A container for detailed status code metrics.
+  final DetailedStatusCodesMetrics? detailedStatusCodesMetrics;
 
   AccountLevel({
     required this.bucketLevel,
     this.activityMetrics,
+    this.advancedCostOptimizationMetrics,
+    this.advancedDataProtectionMetrics,
+    this.detailedStatusCodesMetrics,
   });
   factory AccountLevel.fromXml(_s.XmlElement elem) {
     return AccountLevel(
@@ -2912,15 +4579,35 @@ class AccountLevel {
       activityMetrics: _s
           .extractXmlChild(elem, 'ActivityMetrics')
           ?.let((e) => ActivityMetrics.fromXml(e)),
+      advancedCostOptimizationMetrics: _s
+          .extractXmlChild(elem, 'AdvancedCostOptimizationMetrics')
+          ?.let((e) => AdvancedCostOptimizationMetrics.fromXml(e)),
+      advancedDataProtectionMetrics: _s
+          .extractXmlChild(elem, 'AdvancedDataProtectionMetrics')
+          ?.let((e) => AdvancedDataProtectionMetrics.fromXml(e)),
+      detailedStatusCodesMetrics: _s
+          .extractXmlChild(elem, 'DetailedStatusCodesMetrics')
+          ?.let((e) => DetailedStatusCodesMetrics.fromXml(e)),
     );
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
     final bucketLevel = this.bucketLevel;
     final activityMetrics = this.activityMetrics;
+    final advancedCostOptimizationMetrics =
+        this.advancedCostOptimizationMetrics;
+    final advancedDataProtectionMetrics = this.advancedDataProtectionMetrics;
+    final detailedStatusCodesMetrics = this.detailedStatusCodesMetrics;
     final $children = <_s.XmlNode>[
       if (activityMetrics != null) activityMetrics.toXml('ActivityMetrics'),
       bucketLevel.toXml('BucketLevel'),
+      if (advancedCostOptimizationMetrics != null)
+        advancedCostOptimizationMetrics
+            .toXml('AdvancedCostOptimizationMetrics'),
+      if (advancedDataProtectionMetrics != null)
+        advancedDataProtectionMetrics.toXml('AdvancedDataProtectionMetrics'),
+      if (detailedStatusCodesMetrics != null)
+        detailedStatusCodesMetrics.toXml('DetailedStatusCodesMetrics'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -2933,9 +4620,19 @@ class AccountLevel {
   }
 }
 
-/// A container for the activity metrics.
+/// The container element for Amazon S3 Storage Lens activity metrics. Activity
+/// metrics show details about how your storage is requested, such as requests
+/// (for example, All requests, Get requests, Put requests), bytes uploaded or
+/// downloaded, and errors.
+///
+/// For more information about S3 Storage Lens, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html">Assessing
+/// your storage activity and usage with S3 Storage Lens</a> in the <i>Amazon S3
+/// User Guide</i>. For a complete list of S3 Storage Lens metrics, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
+/// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
 class ActivityMetrics {
-  /// A container for whether the activity metrics are enabled.
+  /// A container that indicates whether activity metrics are enabled.
   final bool? isEnabled;
 
   ActivityMetrics({
@@ -2951,6 +4648,300 @@ class ActivityMetrics {
     final isEnabled = this.isEnabled;
     final $children = <_s.XmlNode>[
       if (isEnabled != null) _s.encodeXmlBoolValue('IsEnabled', isEnabled),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The container element for Amazon S3 Storage Lens advanced cost-optimization
+/// metrics. Advanced cost-optimization metrics provide insights that you can
+/// use to manage and optimize your storage costs, for example, lifecycle rule
+/// counts for transitions, expirations, and incomplete multipart uploads.
+///
+/// For more information about S3 Storage Lens, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html">Assessing
+/// your storage activity and usage with S3 Storage Lens</a> in the <i>Amazon S3
+/// User Guide</i>. For a complete list of S3 Storage Lens metrics, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
+/// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
+class AdvancedCostOptimizationMetrics {
+  /// A container that indicates whether advanced cost-optimization metrics are
+  /// enabled.
+  final bool? isEnabled;
+
+  AdvancedCostOptimizationMetrics({
+    this.isEnabled,
+  });
+  factory AdvancedCostOptimizationMetrics.fromXml(_s.XmlElement elem) {
+    return AdvancedCostOptimizationMetrics(
+      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled'),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final isEnabled = this.isEnabled;
+    final $children = <_s.XmlNode>[
+      if (isEnabled != null) _s.encodeXmlBoolValue('IsEnabled', isEnabled),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The container element for Amazon S3 Storage Lens advanced data-protection
+/// metrics. Advanced data-protection metrics provide insights that you can use
+/// to perform audits and protect your data, for example replication rule counts
+/// within and across Regions.
+///
+/// For more information about S3 Storage Lens, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html">Assessing
+/// your storage activity and usage with S3 Storage Lens</a> in the <i>Amazon S3
+/// User Guide</i>. For a complete list of S3 Storage Lens metrics, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
+/// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
+class AdvancedDataProtectionMetrics {
+  /// A container that indicates whether advanced data-protection metrics are
+  /// enabled.
+  final bool? isEnabled;
+
+  AdvancedDataProtectionMetrics({
+    this.isEnabled,
+  });
+  factory AdvancedDataProtectionMetrics.fromXml(_s.XmlElement elem) {
+    return AdvancedDataProtectionMetrics(
+      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled'),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final isEnabled = this.isEnabled;
+    final $children = <_s.XmlNode>[
+      if (isEnabled != null) _s.encodeXmlBoolValue('IsEnabled', isEnabled),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Error details for the failed asynchronous operation.
+class AsyncErrorDetails {
+  /// A string that uniquely identifies the error condition.
+  final String? code;
+
+  /// A generic description of the error condition in English.
+  final String? message;
+
+  /// The ID of the request associated with the error.
+  final String? requestId;
+
+  /// The identifier of the resource associated with the error.
+  final String? resource;
+
+  AsyncErrorDetails({
+    this.code,
+    this.message,
+    this.requestId,
+    this.resource,
+  });
+  factory AsyncErrorDetails.fromXml(_s.XmlElement elem) {
+    return AsyncErrorDetails(
+      code: _s.extractXmlStringValue(elem, 'Code'),
+      message: _s.extractXmlStringValue(elem, 'Message'),
+      requestId: _s.extractXmlStringValue(elem, 'RequestId'),
+      resource: _s.extractXmlStringValue(elem, 'Resource'),
+    );
+  }
+}
+
+/// A container for the information about an asynchronous operation.
+class AsyncOperation {
+  /// The time that the request was sent to the service.
+  final DateTime? creationTime;
+
+  /// The specific operation for the asynchronous request.
+  final AsyncOperationName? operation;
+
+  /// The parameters associated with the request.
+  final AsyncRequestParameters? requestParameters;
+
+  /// The current status of the request.
+  final String? requestStatus;
+
+  /// The request token associated with the request.
+  final String? requestTokenARN;
+
+  /// The details of the response.
+  final AsyncResponseDetails? responseDetails;
+
+  AsyncOperation({
+    this.creationTime,
+    this.operation,
+    this.requestParameters,
+    this.requestStatus,
+    this.requestTokenARN,
+    this.responseDetails,
+  });
+  factory AsyncOperation.fromXml(_s.XmlElement elem) {
+    return AsyncOperation(
+      creationTime: _s.extractXmlDateTimeValue(elem, 'CreationTime'),
+      operation:
+          _s.extractXmlStringValue(elem, 'Operation')?.toAsyncOperationName(),
+      requestParameters: _s
+          .extractXmlChild(elem, 'RequestParameters')
+          ?.let((e) => AsyncRequestParameters.fromXml(e)),
+      requestStatus: _s.extractXmlStringValue(elem, 'RequestStatus'),
+      requestTokenARN: _s.extractXmlStringValue(elem, 'RequestTokenARN'),
+      responseDetails: _s
+          .extractXmlChild(elem, 'ResponseDetails')
+          ?.let((e) => AsyncResponseDetails.fromXml(e)),
+    );
+  }
+}
+
+enum AsyncOperationName {
+  createMultiRegionAccessPoint,
+  deleteMultiRegionAccessPoint,
+  putMultiRegionAccessPointPolicy,
+}
+
+extension AsyncOperationNameValueExtension on AsyncOperationName {
+  String toValue() {
+    switch (this) {
+      case AsyncOperationName.createMultiRegionAccessPoint:
+        return 'CreateMultiRegionAccessPoint';
+      case AsyncOperationName.deleteMultiRegionAccessPoint:
+        return 'DeleteMultiRegionAccessPoint';
+      case AsyncOperationName.putMultiRegionAccessPointPolicy:
+        return 'PutMultiRegionAccessPointPolicy';
+    }
+  }
+}
+
+extension AsyncOperationNameFromString on String {
+  AsyncOperationName toAsyncOperationName() {
+    switch (this) {
+      case 'CreateMultiRegionAccessPoint':
+        return AsyncOperationName.createMultiRegionAccessPoint;
+      case 'DeleteMultiRegionAccessPoint':
+        return AsyncOperationName.deleteMultiRegionAccessPoint;
+      case 'PutMultiRegionAccessPointPolicy':
+        return AsyncOperationName.putMultiRegionAccessPointPolicy;
+    }
+    throw Exception('$this is not known in enum AsyncOperationName');
+  }
+}
+
+/// A container for the request parameters associated with an asynchronous
+/// request.
+class AsyncRequestParameters {
+  /// A container of the parameters for a <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html">CreateMultiRegionAccessPoint</a>
+  /// request.
+  final CreateMultiRegionAccessPointInput? createMultiRegionAccessPointRequest;
+
+  /// A container of the parameters for a <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteMultiRegionAccessPoint.html">DeleteMultiRegionAccessPoint</a>
+  /// request.
+  final DeleteMultiRegionAccessPointInput? deleteMultiRegionAccessPointRequest;
+
+  /// A container of the parameters for a <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutMultiRegionAccessPoint.html">PutMultiRegionAccessPoint</a>
+  /// request.
+  final PutMultiRegionAccessPointPolicyInput?
+      putMultiRegionAccessPointPolicyRequest;
+
+  AsyncRequestParameters({
+    this.createMultiRegionAccessPointRequest,
+    this.deleteMultiRegionAccessPointRequest,
+    this.putMultiRegionAccessPointPolicyRequest,
+  });
+  factory AsyncRequestParameters.fromXml(_s.XmlElement elem) {
+    return AsyncRequestParameters(
+      createMultiRegionAccessPointRequest: _s
+          .extractXmlChild(elem, 'CreateMultiRegionAccessPointRequest')
+          ?.let((e) => CreateMultiRegionAccessPointInput.fromXml(e)),
+      deleteMultiRegionAccessPointRequest: _s
+          .extractXmlChild(elem, 'DeleteMultiRegionAccessPointRequest')
+          ?.let((e) => DeleteMultiRegionAccessPointInput.fromXml(e)),
+      putMultiRegionAccessPointPolicyRequest: _s
+          .extractXmlChild(elem, 'PutMultiRegionAccessPointPolicyRequest')
+          ?.let((e) => PutMultiRegionAccessPointPolicyInput.fromXml(e)),
+    );
+  }
+}
+
+/// A container for the response details that are returned when querying about
+/// an asynchronous request.
+class AsyncResponseDetails {
+  /// Error details for an asynchronous request.
+  final AsyncErrorDetails? errorDetails;
+
+  /// The details for the Multi-Region Access Point.
+  final MultiRegionAccessPointsAsyncResponse? multiRegionAccessPointDetails;
+
+  AsyncResponseDetails({
+    this.errorDetails,
+    this.multiRegionAccessPointDetails,
+  });
+  factory AsyncResponseDetails.fromXml(_s.XmlElement elem) {
+    return AsyncResponseDetails(
+      errorDetails: _s
+          .extractXmlChild(elem, 'ErrorDetails')
+          ?.let((e) => AsyncErrorDetails.fromXml(e)),
+      multiRegionAccessPointDetails: _s
+          .extractXmlChild(elem, 'MultiRegionAccessPointDetails')
+          ?.let((e) => MultiRegionAccessPointsAsyncResponse.fromXml(e)),
+    );
+  }
+}
+
+/// Lambda function used to transform objects through an Object Lambda Access
+/// Point.
+class AwsLambdaTransformation {
+  /// The Amazon Resource Name (ARN) of the Lambda function.
+  final String functionArn;
+
+  /// Additional JSON that provides supplemental data to the Lambda function used
+  /// to transform objects.
+  final String? functionPayload;
+
+  AwsLambdaTransformation({
+    required this.functionArn,
+    this.functionPayload,
+  });
+  factory AwsLambdaTransformation.fromXml(_s.XmlElement elem) {
+    return AwsLambdaTransformation(
+      functionArn: _s.extractXmlStringValue(elem, 'FunctionArn')!,
+      functionPayload: _s.extractXmlStringValue(elem, 'FunctionPayload'),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final functionArn = this.functionArn;
+    final functionPayload = this.functionPayload;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('FunctionArn', functionArn),
+      if (functionPayload != null)
+        _s.encodeXmlStringValue('FunctionPayload', functionPayload),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -3001,16 +4992,36 @@ extension BucketCannedACLFromString on String {
   }
 }
 
-/// A container for the bucket-level configuration.
+/// A container for the bucket-level configuration for Amazon S3 Storage Lens.
+///
+/// For more information about S3 Storage Lens, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html">Assessing
+/// your storage activity and usage with S3 Storage Lens</a> in the <i>Amazon S3
+/// User Guide</i>.
 class BucketLevel {
-  /// A container for the bucket-level activity metrics for Amazon S3 Storage Lens
+  /// A container for the bucket-level activity metrics for S3 Storage Lens.
   final ActivityMetrics? activityMetrics;
 
-  /// A container for the bucket-level prefix-level metrics for S3 Storage Lens
+  /// A container for bucket-level advanced cost-optimization metrics for S3
+  /// Storage Lens.
+  final AdvancedCostOptimizationMetrics? advancedCostOptimizationMetrics;
+
+  /// A container for bucket-level advanced data-protection metrics for S3 Storage
+  /// Lens.
+  final AdvancedDataProtectionMetrics? advancedDataProtectionMetrics;
+
+  /// A container for bucket-level detailed status code metrics for S3 Storage
+  /// Lens.
+  final DetailedStatusCodesMetrics? detailedStatusCodesMetrics;
+
+  /// A container for the prefix-level metrics for S3 Storage Lens.
   final PrefixLevel? prefixLevel;
 
   BucketLevel({
     this.activityMetrics,
+    this.advancedCostOptimizationMetrics,
+    this.advancedDataProtectionMetrics,
+    this.detailedStatusCodesMetrics,
     this.prefixLevel,
   });
   factory BucketLevel.fromXml(_s.XmlElement elem) {
@@ -3018,6 +5029,15 @@ class BucketLevel {
       activityMetrics: _s
           .extractXmlChild(elem, 'ActivityMetrics')
           ?.let((e) => ActivityMetrics.fromXml(e)),
+      advancedCostOptimizationMetrics: _s
+          .extractXmlChild(elem, 'AdvancedCostOptimizationMetrics')
+          ?.let((e) => AdvancedCostOptimizationMetrics.fromXml(e)),
+      advancedDataProtectionMetrics: _s
+          .extractXmlChild(elem, 'AdvancedDataProtectionMetrics')
+          ?.let((e) => AdvancedDataProtectionMetrics.fromXml(e)),
+      detailedStatusCodesMetrics: _s
+          .extractXmlChild(elem, 'DetailedStatusCodesMetrics')
+          ?.let((e) => DetailedStatusCodesMetrics.fromXml(e)),
       prefixLevel: _s
           .extractXmlChild(elem, 'PrefixLevel')
           ?.let((e) => PrefixLevel.fromXml(e)),
@@ -3026,10 +5046,21 @@ class BucketLevel {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
     final activityMetrics = this.activityMetrics;
+    final advancedCostOptimizationMetrics =
+        this.advancedCostOptimizationMetrics;
+    final advancedDataProtectionMetrics = this.advancedDataProtectionMetrics;
+    final detailedStatusCodesMetrics = this.detailedStatusCodesMetrics;
     final prefixLevel = this.prefixLevel;
     final $children = <_s.XmlNode>[
       if (activityMetrics != null) activityMetrics.toXml('ActivityMetrics'),
       if (prefixLevel != null) prefixLevel.toXml('PrefixLevel'),
+      if (advancedCostOptimizationMetrics != null)
+        advancedCostOptimizationMetrics
+            .toXml('AdvancedCostOptimizationMetrics'),
+      if (advancedDataProtectionMetrics != null)
+        advancedDataProtectionMetrics.toXml('AdvancedDataProtectionMetrics'),
+      if (detailedStatusCodesMetrics != null)
+        detailedStatusCodesMetrics.toXml('DetailedStatusCodesMetrics'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -3115,9 +5146,132 @@ extension BucketLocationConstraintFromString on String {
   }
 }
 
+enum BucketVersioningStatus {
+  enabled,
+  suspended,
+}
+
+extension BucketVersioningStatusValueExtension on BucketVersioningStatus {
+  String toValue() {
+    switch (this) {
+      case BucketVersioningStatus.enabled:
+        return 'Enabled';
+      case BucketVersioningStatus.suspended:
+        return 'Suspended';
+    }
+  }
+}
+
+extension BucketVersioningStatusFromString on String {
+  BucketVersioningStatus toBucketVersioningStatus() {
+    switch (this) {
+      case 'Enabled':
+        return BucketVersioningStatus.enabled;
+      case 'Suspended':
+        return BucketVersioningStatus.suspended;
+    }
+    throw Exception('$this is not known in enum BucketVersioningStatus');
+  }
+}
+
+/// A container for enabling Amazon CloudWatch publishing for S3 Storage Lens
+/// metrics.
+///
+/// For more information about publishing S3 Storage Lens metrics to CloudWatch,
+/// see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_view_metrics_cloudwatch.html">Monitor
+/// S3 Storage Lens metrics in CloudWatch</a> in the <i>Amazon S3 User
+/// Guide</i>.
+class CloudWatchMetrics {
+  /// A container that indicates whether CloudWatch publishing for S3 Storage Lens
+  /// metrics is enabled. A value of <code>true</code> indicates that CloudWatch
+  /// publishing for S3 Storage Lens metrics is enabled.
+  final bool isEnabled;
+
+  CloudWatchMetrics({
+    required this.isEnabled,
+  });
+  factory CloudWatchMetrics.fromXml(_s.XmlElement elem) {
+    return CloudWatchMetrics(
+      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled')!,
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final isEnabled = this.isEnabled;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlBoolValue('IsEnabled', isEnabled),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class CreateAccessPointForObjectLambdaRequest {
+  /// The Amazon Web Services account ID for owner of the specified Object Lambda
+  /// Access Point.
+  final String accountId;
+
+  /// Object Lambda Access Point configuration as a JSON document.
+  final ObjectLambdaConfiguration configuration;
+
+  /// The name you want to assign to this Object Lambda Access Point.
+  final String name;
+
+  CreateAccessPointForObjectLambdaRequest({
+    required this.accountId,
+    required this.configuration,
+    required this.name,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountId = this.accountId;
+    final configuration = this.configuration;
+    final name = this.name;
+    final $children = <_s.XmlNode>[
+      configuration.toXml('Configuration'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class CreateAccessPointForObjectLambdaResult {
+  /// The alias of the Object Lambda Access Point.
+  final ObjectLambdaAccessPointAlias? alias;
+
+  /// Specifies the ARN for the Object Lambda Access Point.
+  final String? objectLambdaAccessPointArn;
+
+  CreateAccessPointForObjectLambdaResult({
+    this.alias,
+    this.objectLambdaAccessPointArn,
+  });
+  factory CreateAccessPointForObjectLambdaResult.fromXml(_s.XmlElement elem) {
+    return CreateAccessPointForObjectLambdaResult(
+      alias: _s
+          .extractXmlChild(elem, 'Alias')
+          ?.let((e) => ObjectLambdaAccessPointAlias.fromXml(e)),
+      objectLambdaAccessPointArn:
+          _s.extractXmlStringValue(elem, 'ObjectLambdaAccessPointArn'),
+    );
+  }
+}
+
 class CreateAccessPointRequest {
-  /// The AWS account ID for the owner of the bucket for which you want to create
-  /// an access point.
+  /// The Amazon Web Services account ID for the account that owns the specified
+  /// access point.
   final String accountId;
 
   /// The name of the bucket that you want to associate this access point with.
@@ -3125,10 +5279,10 @@ class CreateAccessPointRequest {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
-  /// For example, to access the bucket <code>reports</code> through outpost
+  /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in Region
   /// <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
@@ -3137,6 +5291,13 @@ class CreateAccessPointRequest {
 
   /// The name you want to assign to this access point.
   final String name;
+
+  /// The Amazon Web Services account ID associated with the S3 bucket associated
+  /// with this access point.
+  final String? bucketAccountId;
+
+  /// The <code>PublicAccessBlock</code> configuration that you want to apply to
+  /// the access point.
   final PublicAccessBlockConfiguration? publicAccessBlockConfiguration;
 
   /// If you include this field, Amazon S3 restricts access to this access point
@@ -3151,6 +5312,7 @@ class CreateAccessPointRequest {
     required this.accountId,
     required this.bucket,
     required this.name,
+    this.bucketAccountId,
     this.publicAccessBlockConfiguration,
     this.vpcConfiguration,
   });
@@ -3158,6 +5320,7 @@ class CreateAccessPointRequest {
     final accountId = this.accountId;
     final bucket = this.bucket;
     final name = this.name;
+    final bucketAccountId = this.bucketAccountId;
     final publicAccessBlockConfiguration = this.publicAccessBlockConfiguration;
     final vpcConfiguration = this.vpcConfiguration;
     final $children = <_s.XmlNode>[
@@ -3165,6 +5328,8 @@ class CreateAccessPointRequest {
       if (vpcConfiguration != null) vpcConfiguration.toXml('VpcConfiguration'),
       if (publicAccessBlockConfiguration != null)
         publicAccessBlockConfiguration.toXml('PublicAccessBlockConfiguration'),
+      if (bucketAccountId != null)
+        _s.encodeXmlStringValue('BucketAccountId', bucketAccountId),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -3184,12 +5349,17 @@ class CreateAccessPointResult {
   /// </note>
   final String? accessPointArn;
 
+  /// The name or alias of the access point.
+  final String? alias;
+
   CreateAccessPointResult({
     this.accessPointArn,
+    this.alias,
   });
   factory CreateAccessPointResult.fromXml(_s.XmlElement elem) {
     return CreateAccessPointResult(
       accessPointArn: _s.extractXmlStringValue(elem, 'AccessPointArn'),
+      alias: _s.extractXmlStringValue(elem, 'Alias'),
     );
   }
 }
@@ -3234,10 +5404,10 @@ class CreateBucketResult {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
-  /// For example, to access the bucket <code>reports</code> through outpost
+  /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in Region
   /// <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
@@ -3254,16 +5424,13 @@ class CreateBucketResult {
 }
 
 class CreateJobRequest {
-  /// The AWS account ID that creates the job.
+  /// The Amazon Web Services account ID that creates the job.
   final String accountId;
 
-  /// Configuration parameters for the manifest.
-  final JobManifest manifest;
-
-  /// The operation that you want this job to perform on each object listed in the
-  /// manifest. For more information about the available operations, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-operations.html">Operations</a>
-  /// in the <i>Amazon Simple Storage Service Developer Guide</i>.
+  /// The action that you want this job to perform on every object listed in the
+  /// manifest. For more information about the available actions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-actions.html">Operations</a>
+  /// in the <i>Amazon S3 User Guide</i>.
   final JobOperation operation;
 
   /// The numerical priority for this job. Higher numbers indicate higher
@@ -3273,9 +5440,9 @@ class CreateJobRequest {
   /// Configuration parameters for the optional job-completion report.
   final JobReport report;
 
-  /// The Amazon Resource Name (ARN) for the AWS Identity and Access Management
-  /// (IAM) role that Batch Operations will use to run this job's operation on
-  /// each object in the manifest.
+  /// The Amazon Resource Name (ARN) for the Identity and Access Management (IAM)
+  /// role that Batch Operations will use to run this job's action on every object
+  /// in the manifest.
   final String roleArn;
 
   /// An idempotency token to ensure that you don't accidentally submit the same
@@ -3292,13 +5459,19 @@ class CreateJobRequest {
   /// jobs.
   final String? description;
 
+  /// Configuration parameters for the manifest.
+  final JobManifest? manifest;
+
+  /// The attribute container for the ManifestGenerator details. Jobs must be
+  /// created with either a manifest file or a ManifestGenerator, but not both.
+  final JobManifestGenerator? manifestGenerator;
+
   /// A set of tags to associate with the S3 Batch Operations job. This is an
   /// optional parameter.
   final List<S3Tag>? tags;
 
   CreateJobRequest({
     required this.accountId,
-    required this.manifest,
     required this.operation,
     required this.priority,
     required this.report,
@@ -3306,11 +5479,12 @@ class CreateJobRequest {
     this.clientRequestToken,
     this.confirmationRequired,
     this.description,
+    this.manifest,
+    this.manifestGenerator,
     this.tags,
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
     final accountId = this.accountId;
-    final manifest = this.manifest;
     final operation = this.operation;
     final priority = this.priority;
     final report = this.report;
@@ -3318,6 +5492,8 @@ class CreateJobRequest {
     final clientRequestToken = this.clientRequestToken;
     final confirmationRequired = this.confirmationRequired;
     final description = this.description;
+    final manifest = this.manifest;
+    final manifestGenerator = this.manifestGenerator;
     final tags = this.tags;
     final $children = <_s.XmlNode>[
       if (confirmationRequired != null)
@@ -3326,7 +5502,7 @@ class CreateJobRequest {
       report.toXml('Report'),
       if (clientRequestToken != null)
         _s.encodeXmlStringValue('ClientRequestToken', clientRequestToken),
-      manifest.toXml('Manifest'),
+      if (manifest != null) manifest.toXml('Manifest'),
       if (description != null)
         _s.encodeXmlStringValue('Description', description),
       _s.encodeXmlIntValue('Priority', priority),
@@ -3334,6 +5510,8 @@ class CreateJobRequest {
       if (tags != null)
         _s.XmlElement(
             _s.XmlName('Tags'), [], tags.map((e) => e.toXml('member'))),
+      if (manifestGenerator != null)
+        manifestGenerator.toXml('ManifestGenerator'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -3361,12 +5539,277 @@ class CreateJobResult {
   }
 }
 
+/// A container for the information associated with a <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html">CreateMultiRegionAccessPoint</a>
+/// request.
+class CreateMultiRegionAccessPointInput {
+  /// The name of the Multi-Region Access Point associated with this request.
+  final String name;
+
+  /// The buckets in different Regions that are associated with the Multi-Region
+  /// Access Point.
+  final List<Region> regions;
+  final PublicAccessBlockConfiguration? publicAccessBlock;
+
+  CreateMultiRegionAccessPointInput({
+    required this.name,
+    required this.regions,
+    this.publicAccessBlock,
+  });
+  factory CreateMultiRegionAccessPointInput.fromXml(_s.XmlElement elem) {
+    return CreateMultiRegionAccessPointInput(
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      regions: _s
+          .extractXmlChild(elem, 'Regions')!
+          .findElements('Region')
+          .map((c) => Region.fromXml(c))
+          .toList(),
+      publicAccessBlock: _s
+          .extractXmlChild(elem, 'PublicAccessBlock')
+          ?.let((e) => PublicAccessBlockConfiguration.fromXml(e)),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final name = this.name;
+    final regions = this.regions;
+    final publicAccessBlock = this.publicAccessBlock;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Name', name),
+      if (publicAccessBlock != null)
+        publicAccessBlock.toXml('PublicAccessBlock'),
+      _s.XmlElement(
+          _s.XmlName('Regions'), [], regions.map((e) => e.toXml('Region'))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class CreateMultiRegionAccessPointRequest {
+  /// The Amazon Web Services account ID for the owner of the Multi-Region Access
+  /// Point. The owner of the Multi-Region Access Point also must own the
+  /// underlying buckets.
+  final String accountId;
+
+  /// A container element containing details about the Multi-Region Access Point.
+  final CreateMultiRegionAccessPointInput details;
+
+  /// An idempotency token used to identify the request and guarantee that
+  /// requests are unique.
+  final String? clientToken;
+
+  CreateMultiRegionAccessPointRequest({
+    required this.accountId,
+    required this.details,
+    this.clientToken,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountId = this.accountId;
+    final details = this.details;
+    final clientToken = this.clientToken;
+    final $children = <_s.XmlNode>[
+      if (clientToken != null)
+        _s.encodeXmlStringValue('ClientToken', clientToken),
+      details.toXml('Details'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class CreateMultiRegionAccessPointResult {
+  /// The request token associated with the request. You can use this token with
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeMultiRegionAccessPointOperation.html">DescribeMultiRegionAccessPointOperation</a>
+  /// to determine the status of asynchronous requests.
+  final String? requestTokenARN;
+
+  CreateMultiRegionAccessPointResult({
+    this.requestTokenARN,
+  });
+  factory CreateMultiRegionAccessPointResult.fromXml(_s.XmlElement elem) {
+    return CreateMultiRegionAccessPointResult(
+      requestTokenARN: _s.extractXmlStringValue(elem, 'RequestTokenARN'),
+    );
+  }
+}
+
 class DeleteJobTaggingResult {
   DeleteJobTaggingResult();
   factory DeleteJobTaggingResult.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteJobTaggingResult();
+  }
+}
+
+/// Specifies whether S3 on Outposts replicates delete markers. If you specify a
+/// <code>Filter</code> element in your replication configuration, you must also
+/// include a <code>DeleteMarkerReplication</code> element. If your
+/// <code>Filter</code> includes a <code>Tag</code> element, the
+/// <code>DeleteMarkerReplication</code> element's <code>Status</code> child
+/// element must be set to <code>Disabled</code>, because S3 on Outposts does
+/// not support replicating delete markers for tag-based rules.
+///
+/// For more information about delete marker replication, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsReplication.html#outposts-replication-what-is-replicated">How
+/// delete operations affect replication</a> in the <i>Amazon S3 User Guide</i>.
+class DeleteMarkerReplication {
+  /// Indicates whether to replicate delete markers.
+  final DeleteMarkerReplicationStatus status;
+
+  DeleteMarkerReplication({
+    required this.status,
+  });
+  factory DeleteMarkerReplication.fromXml(_s.XmlElement elem) {
+    return DeleteMarkerReplication(
+      status: _s
+          .extractXmlStringValue(elem, 'Status')!
+          .toDeleteMarkerReplicationStatus(),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final status = this.status;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Status', status.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+enum DeleteMarkerReplicationStatus {
+  enabled,
+  disabled,
+}
+
+extension DeleteMarkerReplicationStatusValueExtension
+    on DeleteMarkerReplicationStatus {
+  String toValue() {
+    switch (this) {
+      case DeleteMarkerReplicationStatus.enabled:
+        return 'Enabled';
+      case DeleteMarkerReplicationStatus.disabled:
+        return 'Disabled';
+    }
+  }
+}
+
+extension DeleteMarkerReplicationStatusFromString on String {
+  DeleteMarkerReplicationStatus toDeleteMarkerReplicationStatus() {
+    switch (this) {
+      case 'Enabled':
+        return DeleteMarkerReplicationStatus.enabled;
+      case 'Disabled':
+        return DeleteMarkerReplicationStatus.disabled;
+    }
+    throw Exception('$this is not known in enum DeleteMarkerReplicationStatus');
+  }
+}
+
+/// A container for the information associated with a <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteMultiRegionAccessPoint.html">DeleteMultiRegionAccessPoint</a>
+/// request.
+class DeleteMultiRegionAccessPointInput {
+  /// The name of the Multi-Region Access Point associated with this request.
+  final String name;
+
+  DeleteMultiRegionAccessPointInput({
+    required this.name,
+  });
+  factory DeleteMultiRegionAccessPointInput.fromXml(_s.XmlElement elem) {
+    return DeleteMultiRegionAccessPointInput(
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final name = this.name;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Name', name),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class DeleteMultiRegionAccessPointRequest {
+  /// The Amazon Web Services account ID for the owner of the Multi-Region Access
+  /// Point.
+  final String accountId;
+
+  /// A container element containing details about the Multi-Region Access Point.
+  final DeleteMultiRegionAccessPointInput details;
+
+  /// An idempotency token used to identify the request and guarantee that
+  /// requests are unique.
+  final String? clientToken;
+
+  DeleteMultiRegionAccessPointRequest({
+    required this.accountId,
+    required this.details,
+    this.clientToken,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountId = this.accountId;
+    final details = this.details;
+    final clientToken = this.clientToken;
+    final $children = <_s.XmlNode>[
+      if (clientToken != null)
+        _s.encodeXmlStringValue('ClientToken', clientToken),
+      details.toXml('Details'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class DeleteMultiRegionAccessPointResult {
+  /// The request token associated with the request. You can use this token with
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeMultiRegionAccessPointOperation.html">DescribeMultiRegionAccessPointOperation</a>
+  /// to determine the status of asynchronous requests.
+  final String? requestTokenARN;
+
+  DeleteMultiRegionAccessPointResult({
+    this.requestTokenARN,
+  });
+  factory DeleteMultiRegionAccessPointResult.fromXml(_s.XmlElement elem) {
+    return DeleteMultiRegionAccessPointResult(
+      requestTokenARN: _s.extractXmlStringValue(elem, 'RequestTokenARN'),
+    );
   }
 }
 
@@ -3391,6 +5834,237 @@ class DescribeJobResult {
     return DescribeJobResult(
       job:
           _s.extractXmlChild(elem, 'Job')?.let((e) => JobDescriptor.fromXml(e)),
+    );
+  }
+}
+
+class DescribeMultiRegionAccessPointOperationResult {
+  /// A container element containing the details of the asynchronous operation.
+  final AsyncOperation? asyncOperation;
+
+  DescribeMultiRegionAccessPointOperationResult({
+    this.asyncOperation,
+  });
+  factory DescribeMultiRegionAccessPointOperationResult.fromXml(
+      _s.XmlElement elem) {
+    return DescribeMultiRegionAccessPointOperationResult(
+      asyncOperation: _s
+          .extractXmlChild(elem, 'AsyncOperation')
+          ?.let((e) => AsyncOperation.fromXml(e)),
+    );
+  }
+}
+
+/// Specifies information about the replication destination bucket and its
+/// settings for an S3 on Outposts replication configuration.
+class Destination {
+  /// The Amazon Resource Name (ARN) of the access point for the destination
+  /// bucket where you want S3 on Outposts to store the replication results.
+  final String bucket;
+
+  /// Specify this property only in a cross-account scenario (where the source and
+  /// destination bucket owners are not the same), and you want to change replica
+  /// ownership to the Amazon Web Services account that owns the destination
+  /// bucket. If this property is not specified in the replication configuration,
+  /// the replicas are owned by same Amazon Web Services account that owns the
+  /// source object.
+  /// <note>
+  /// This is not supported by Amazon S3 on Outposts buckets.
+  /// </note>
+  final AccessControlTranslation? accessControlTranslation;
+
+  /// The destination bucket owner's account ID.
+  final String? account;
+
+  /// A container that provides information about encryption. If
+  /// <code>SourceSelectionCriteria</code> is specified, you must specify this
+  /// element.
+  /// <note>
+  /// This is not supported by Amazon S3 on Outposts buckets.
+  /// </note>
+  final EncryptionConfiguration? encryptionConfiguration;
+
+  /// A container that specifies replication metrics-related settings.
+  final Metrics? metrics;
+
+  /// A container that specifies S3 Replication Time Control (S3 RTC) settings,
+  /// including whether S3 RTC is enabled and the time when all objects and
+  /// operations on objects must be replicated. Must be specified together with a
+  /// <code>Metrics</code> block.
+  /// <note>
+  /// This is not supported by Amazon S3 on Outposts buckets.
+  /// </note>
+  final ReplicationTime? replicationTime;
+
+  /// The storage class to use when replicating objects. All objects stored on S3
+  /// on Outposts are stored in the <code>OUTPOSTS</code> storage class. S3 on
+  /// Outposts uses the <code>OUTPOSTS</code> storage class to create the object
+  /// replicas.
+  /// <note>
+  /// Values other than <code>OUTPOSTS</code> are not supported by Amazon S3 on
+  /// Outposts.
+  /// </note>
+  final ReplicationStorageClass? storageClass;
+
+  Destination({
+    required this.bucket,
+    this.accessControlTranslation,
+    this.account,
+    this.encryptionConfiguration,
+    this.metrics,
+    this.replicationTime,
+    this.storageClass,
+  });
+  factory Destination.fromXml(_s.XmlElement elem) {
+    return Destination(
+      bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
+      accessControlTranslation: _s
+          .extractXmlChild(elem, 'AccessControlTranslation')
+          ?.let((e) => AccessControlTranslation.fromXml(e)),
+      account: _s.extractXmlStringValue(elem, 'Account'),
+      encryptionConfiguration: _s
+          .extractXmlChild(elem, 'EncryptionConfiguration')
+          ?.let((e) => EncryptionConfiguration.fromXml(e)),
+      metrics:
+          _s.extractXmlChild(elem, 'Metrics')?.let((e) => Metrics.fromXml(e)),
+      replicationTime: _s
+          .extractXmlChild(elem, 'ReplicationTime')
+          ?.let((e) => ReplicationTime.fromXml(e)),
+      storageClass: _s
+          .extractXmlStringValue(elem, 'StorageClass')
+          ?.toReplicationStorageClass(),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final bucket = this.bucket;
+    final accessControlTranslation = this.accessControlTranslation;
+    final account = this.account;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final metrics = this.metrics;
+    final replicationTime = this.replicationTime;
+    final storageClass = this.storageClass;
+    final $children = <_s.XmlNode>[
+      if (account != null) _s.encodeXmlStringValue('Account', account),
+      _s.encodeXmlStringValue('Bucket', bucket),
+      if (replicationTime != null) replicationTime.toXml('ReplicationTime'),
+      if (accessControlTranslation != null)
+        accessControlTranslation.toXml('AccessControlTranslation'),
+      if (encryptionConfiguration != null)
+        encryptionConfiguration.toXml('EncryptionConfiguration'),
+      if (metrics != null) metrics.toXml('Metrics'),
+      if (storageClass != null)
+        _s.encodeXmlStringValue('StorageClass', storageClass.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The container element for Amazon S3 Storage Lens detailed status code
+/// metrics. Detailed status code metrics generate metrics for HTTP status
+/// codes, such as <code>200 OK</code>, <code>403 Forbidden</code>, <code>503
+/// Service Unavailable</code> and others.
+///
+/// For more information about S3 Storage Lens, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html">Assessing
+/// your storage activity and usage with S3 Storage Lens</a> in the <i>Amazon S3
+/// User Guide</i>. For a complete list of S3 Storage Lens metrics, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
+/// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
+class DetailedStatusCodesMetrics {
+  /// A container that indicates whether detailed status code metrics are enabled.
+  final bool? isEnabled;
+
+  DetailedStatusCodesMetrics({
+    this.isEnabled,
+  });
+  factory DetailedStatusCodesMetrics.fromXml(_s.XmlElement elem) {
+    return DetailedStatusCodesMetrics(
+      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled'),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final isEnabled = this.isEnabled;
+    final $children = <_s.XmlNode>[
+      if (isEnabled != null) _s.encodeXmlBoolValue('IsEnabled', isEnabled),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Specifies encryption-related information for an Amazon S3 bucket that is a
+/// destination for replicated objects.
+/// <note>
+/// This is not supported by Amazon S3 on Outposts buckets.
+/// </note>
+class EncryptionConfiguration {
+  /// Specifies the ID of the customer managed KMS key that's stored in Key
+  /// Management Service (KMS) for the destination bucket. This ID is either the
+  /// Amazon Resource Name (ARN) for the KMS key or the alias ARN for the KMS key.
+  /// Amazon S3 uses this KMS key to encrypt replica objects. Amazon S3 supports
+  /// only symmetric encryption KMS keys. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#symmetric-cmks">Symmetric
+  /// encryption KMS keys</a> in the <i>Amazon Web Services Key Management Service
+  /// Developer Guide</i>.
+  final String? replicaKmsKeyID;
+
+  EncryptionConfiguration({
+    this.replicaKmsKeyID,
+  });
+  factory EncryptionConfiguration.fromXml(_s.XmlElement elem) {
+    return EncryptionConfiguration(
+      replicaKmsKeyID: _s.extractXmlStringValue(elem, 'ReplicaKmsKeyID'),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final replicaKmsKeyID = this.replicaKmsKeyID;
+    final $children = <_s.XmlNode>[
+      if (replicaKmsKeyID != null)
+        _s.encodeXmlStringValue('ReplicaKmsKeyID', replicaKmsKeyID),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The last established access control policy for a Multi-Region Access Point.
+///
+/// When you update the policy, the update is first listed as the proposed
+/// policy. After the update is finished and all Regions have been updated, the
+/// proposed policy is listed as the established policy. If both policies have
+/// the same version number, the proposed policy is the established policy.
+class EstablishedMultiRegionAccessPointPolicy {
+  /// The details of the last established policy.
+  final String? policy;
+
+  EstablishedMultiRegionAccessPointPolicy({
+    this.policy,
+  });
+  factory EstablishedMultiRegionAccessPointPolicy.fromXml(_s.XmlElement elem) {
+    return EstablishedMultiRegionAccessPointPolicy(
+      policy: _s.extractXmlStringValue(elem, 'Policy'),
     );
   }
 }
@@ -3437,6 +6111,71 @@ class Exclude {
       $attributes,
       $children,
     );
+  }
+}
+
+/// An optional configuration to replicate existing source bucket objects.
+/// <note>
+/// This is not supported by Amazon S3 on Outposts buckets.
+/// </note>
+class ExistingObjectReplication {
+  /// Specifies whether Amazon S3 replicates existing source bucket objects.
+  final ExistingObjectReplicationStatus status;
+
+  ExistingObjectReplication({
+    required this.status,
+  });
+  factory ExistingObjectReplication.fromXml(_s.XmlElement elem) {
+    return ExistingObjectReplication(
+      status: _s
+          .extractXmlStringValue(elem, 'Status')!
+          .toExistingObjectReplicationStatus(),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final status = this.status;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Status', status.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+enum ExistingObjectReplicationStatus {
+  enabled,
+  disabled,
+}
+
+extension ExistingObjectReplicationStatusValueExtension
+    on ExistingObjectReplicationStatus {
+  String toValue() {
+    switch (this) {
+      case ExistingObjectReplicationStatus.enabled:
+        return 'Enabled';
+      case ExistingObjectReplicationStatus.disabled:
+        return 'Disabled';
+    }
+  }
+}
+
+extension ExistingObjectReplicationStatusFromString on String {
+  ExistingObjectReplicationStatus toExistingObjectReplicationStatus() {
+    switch (this) {
+      case 'Enabled':
+        return ExistingObjectReplicationStatus.enabled;
+      case 'Disabled':
+        return ExistingObjectReplicationStatus.disabled;
+    }
+    throw Exception(
+        '$this is not known in enum ExistingObjectReplicationStatus');
   }
 }
 
@@ -3496,6 +6235,137 @@ extension FormatFromString on String {
   }
 }
 
+/// The encryption configuration to use when storing the generated manifest.
+class GeneratedManifestEncryption {
+  /// Configuration details on how SSE-KMS is used to encrypt generated manifest
+  /// objects.
+  final SSEKMSEncryption? ssekms;
+
+  /// Specifies the use of SSE-S3 to encrypt generated manifest objects.
+  final SSES3Encryption? sses3;
+
+  GeneratedManifestEncryption({
+    this.ssekms,
+    this.sses3,
+  });
+  factory GeneratedManifestEncryption.fromXml(_s.XmlElement elem) {
+    return GeneratedManifestEncryption(
+      ssekms: _s
+          .extractXmlChild(elem, 'SSE-KMS')
+          ?.let((e) => SSEKMSEncryption.fromXml(e)),
+      sses3: _s
+          .extractXmlChild(elem, 'SSE-S3')
+          ?.let((e) => SSES3Encryption.fromXml(e)),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final ssekms = this.ssekms;
+    final sses3 = this.sses3;
+    final $children = <_s.XmlNode>[
+      if (sses3 != null) sses3.toXml('SSE-S3'),
+      if (ssekms != null) ssekms.toXml('SSE-KMS'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+enum GeneratedManifestFormat {
+  s3InventoryReportCsv_20211130,
+}
+
+extension GeneratedManifestFormatValueExtension on GeneratedManifestFormat {
+  String toValue() {
+    switch (this) {
+      case GeneratedManifestFormat.s3InventoryReportCsv_20211130:
+        return 'S3InventoryReport_CSV_20211130';
+    }
+  }
+}
+
+extension GeneratedManifestFormatFromString on String {
+  GeneratedManifestFormat toGeneratedManifestFormat() {
+    switch (this) {
+      case 'S3InventoryReport_CSV_20211130':
+        return GeneratedManifestFormat.s3InventoryReportCsv_20211130;
+    }
+    throw Exception('$this is not known in enum GeneratedManifestFormat');
+  }
+}
+
+class GetAccessPointConfigurationForObjectLambdaResult {
+  /// Object Lambda Access Point configuration document.
+  final ObjectLambdaConfiguration? configuration;
+
+  GetAccessPointConfigurationForObjectLambdaResult({
+    this.configuration,
+  });
+  factory GetAccessPointConfigurationForObjectLambdaResult.fromXml(
+      _s.XmlElement elem) {
+    return GetAccessPointConfigurationForObjectLambdaResult(
+      configuration: _s
+          .extractXmlChild(elem, 'Configuration')
+          ?.let((e) => ObjectLambdaConfiguration.fromXml(e)),
+    );
+  }
+}
+
+class GetAccessPointForObjectLambdaResult {
+  /// The alias of the Object Lambda Access Point.
+  final ObjectLambdaAccessPointAlias? alias;
+
+  /// The date and time when the specified Object Lambda Access Point was created.
+  final DateTime? creationDate;
+
+  /// The name of the Object Lambda Access Point.
+  final String? name;
+
+  /// Configuration to block all public access. This setting is turned on and can
+  /// not be edited.
+  final PublicAccessBlockConfiguration? publicAccessBlockConfiguration;
+
+  GetAccessPointForObjectLambdaResult({
+    this.alias,
+    this.creationDate,
+    this.name,
+    this.publicAccessBlockConfiguration,
+  });
+  factory GetAccessPointForObjectLambdaResult.fromXml(_s.XmlElement elem) {
+    return GetAccessPointForObjectLambdaResult(
+      alias: _s
+          .extractXmlChild(elem, 'Alias')
+          ?.let((e) => ObjectLambdaAccessPointAlias.fromXml(e)),
+      creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate'),
+      name: _s.extractXmlStringValue(elem, 'Name'),
+      publicAccessBlockConfiguration: _s
+          .extractXmlChild(elem, 'PublicAccessBlockConfiguration')
+          ?.let((e) => PublicAccessBlockConfiguration.fromXml(e)),
+    );
+  }
+}
+
+class GetAccessPointPolicyForObjectLambdaResult {
+  /// Object Lambda Access Point resource policy document.
+  final String? policy;
+
+  GetAccessPointPolicyForObjectLambdaResult({
+    this.policy,
+  });
+  factory GetAccessPointPolicyForObjectLambdaResult.fromXml(
+      _s.XmlElement elem) {
+    return GetAccessPointPolicyForObjectLambdaResult(
+      policy: _s.extractXmlStringValue(elem, 'Policy'),
+    );
+  }
+}
+
 class GetAccessPointPolicyResult {
   /// The access point policy associated with the specified access point.
   final String? policy;
@@ -3506,6 +6376,22 @@ class GetAccessPointPolicyResult {
   factory GetAccessPointPolicyResult.fromXml(_s.XmlElement elem) {
     return GetAccessPointPolicyResult(
       policy: _s.extractXmlStringValue(elem, 'Policy'),
+    );
+  }
+}
+
+class GetAccessPointPolicyStatusForObjectLambdaResult {
+  final PolicyStatus? policyStatus;
+
+  GetAccessPointPolicyStatusForObjectLambdaResult({
+    this.policyStatus,
+  });
+  factory GetAccessPointPolicyStatusForObjectLambdaResult.fromXml(
+      _s.XmlElement elem) {
+    return GetAccessPointPolicyStatusForObjectLambdaResult(
+      policyStatus: _s
+          .extractXmlChild(elem, 'PolicyStatus')
+          ?.let((e) => PolicyStatus.fromXml(e)),
     );
   }
 }
@@ -3527,11 +6413,24 @@ class GetAccessPointPolicyStatusResult {
 }
 
 class GetAccessPointResult {
+  /// The ARN of the access point.
+  final String? accessPointArn;
+
+  /// The name or alias of the access point.
+  final String? alias;
+
   /// The name of the bucket associated with the specified access point.
   final String? bucket;
 
+  /// The Amazon Web Services account ID associated with the S3 bucket associated
+  /// with this access point.
+  final String? bucketAccountId;
+
   /// The date and time when the specified access point was created.
   final DateTime? creationDate;
+
+  /// The VPC endpoint for the access point.
+  final Map<String, String>? endpoints;
 
   /// The name of the specified access point.
   final String? name;
@@ -3549,11 +6448,19 @@ class GetAccessPointResult {
 
   /// Contains the virtual private cloud (VPC) configuration for the specified
   /// access point.
+  /// <note>
+  /// This element is empty if this access point is an Amazon S3 on Outposts
+  /// access point that is used by other Amazon Web Services.
+  /// </note>
   final VpcConfiguration? vpcConfiguration;
 
   GetAccessPointResult({
+    this.accessPointArn,
+    this.alias,
     this.bucket,
+    this.bucketAccountId,
     this.creationDate,
+    this.endpoints,
     this.name,
     this.networkOrigin,
     this.publicAccessBlockConfiguration,
@@ -3561,8 +6468,20 @@ class GetAccessPointResult {
   });
   factory GetAccessPointResult.fromXml(_s.XmlElement elem) {
     return GetAccessPointResult(
+      accessPointArn: _s.extractXmlStringValue(elem, 'AccessPointArn'),
+      alias: _s.extractXmlStringValue(elem, 'Alias'),
       bucket: _s.extractXmlStringValue(elem, 'Bucket'),
+      bucketAccountId: _s.extractXmlStringValue(elem, 'BucketAccountId'),
       creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate'),
+      endpoints: Map.fromEntries(
+        elem.getElement('Endpoints')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
+      ),
       name: _s.extractXmlStringValue(elem, 'Name'),
       networkOrigin:
           _s.extractXmlStringValue(elem, 'NetworkOrigin')?.toNetworkOrigin(),
@@ -3603,6 +6522,24 @@ class GetBucketPolicyResult {
   factory GetBucketPolicyResult.fromXml(_s.XmlElement elem) {
     return GetBucketPolicyResult(
       policy: _s.extractXmlStringValue(elem, 'Policy'),
+    );
+  }
+}
+
+class GetBucketReplicationResult {
+  /// A container for one or more replication rules. A replication configuration
+  /// must have at least one rule and you can add up to 100 rules. The maximum
+  /// size of a replication configuration is 128 KB.
+  final ReplicationConfiguration? replicationConfiguration;
+
+  GetBucketReplicationResult({
+    this.replicationConfiguration,
+  });
+  factory GetBucketReplicationResult.fromXml(_s.XmlElement elem) {
+    return GetBucketReplicationResult(
+      replicationConfiguration: _s
+          .extractXmlChild(elem, 'ReplicationConfiguration')
+          ?.let((e) => ReplicationConfiguration.fromXml(e)),
     );
   }
 }
@@ -3650,6 +6587,30 @@ class GetBucketTaggingResult {
   }
 }
 
+class GetBucketVersioningResult {
+  /// Specifies whether MFA delete is enabled in the bucket versioning
+  /// configuration. This element is returned only if the bucket has been
+  /// configured with MFA delete. If MFA delete has never been configured for the
+  /// bucket, this element is not returned.
+  final MFADeleteStatus? mFADelete;
+
+  /// The versioning state of the S3 on Outposts bucket.
+  final BucketVersioningStatus? status;
+
+  GetBucketVersioningResult({
+    this.mFADelete,
+    this.status,
+  });
+  factory GetBucketVersioningResult.fromXml(_s.XmlElement elem) {
+    return GetBucketVersioningResult(
+      mFADelete:
+          _s.extractXmlStringValue(elem, 'MfaDelete')?.toMFADeleteStatus(),
+      status:
+          _s.extractXmlStringValue(elem, 'Status')?.toBucketVersioningStatus(),
+    );
+  }
+}
+
 class GetJobTaggingResult {
   /// The set of tags associated with the S3 Batch Operations job.
   final List<S3Tag>? tags;
@@ -3665,9 +6626,82 @@ class GetJobTaggingResult {
   }
 }
 
+class GetMultiRegionAccessPointPolicyResult {
+  /// The policy associated with the specified Multi-Region Access Point.
+  final MultiRegionAccessPointPolicyDocument? policy;
+
+  GetMultiRegionAccessPointPolicyResult({
+    this.policy,
+  });
+  factory GetMultiRegionAccessPointPolicyResult.fromXml(_s.XmlElement elem) {
+    return GetMultiRegionAccessPointPolicyResult(
+      policy: _s
+          .extractXmlChild(elem, 'Policy')
+          ?.let((e) => MultiRegionAccessPointPolicyDocument.fromXml(e)),
+    );
+  }
+}
+
+class GetMultiRegionAccessPointPolicyStatusResult {
+  final PolicyStatus? established;
+
+  GetMultiRegionAccessPointPolicyStatusResult({
+    this.established,
+  });
+  factory GetMultiRegionAccessPointPolicyStatusResult.fromXml(
+      _s.XmlElement elem) {
+    return GetMultiRegionAccessPointPolicyStatusResult(
+      established: _s
+          .extractXmlChild(elem, 'Established')
+          ?.let((e) => PolicyStatus.fromXml(e)),
+    );
+  }
+}
+
+class GetMultiRegionAccessPointResult {
+  /// A container element containing the details of the requested Multi-Region
+  /// Access Point.
+  final MultiRegionAccessPointReport? accessPoint;
+
+  GetMultiRegionAccessPointResult({
+    this.accessPoint,
+  });
+  factory GetMultiRegionAccessPointResult.fromXml(_s.XmlElement elem) {
+    return GetMultiRegionAccessPointResult(
+      accessPoint: _s
+          .extractXmlChild(elem, 'AccessPoint')
+          ?.let((e) => MultiRegionAccessPointReport.fromXml(e)),
+    );
+  }
+}
+
+class GetMultiRegionAccessPointRoutesResult {
+  /// The Multi-Region Access Point ARN.
+  final String? mrap;
+
+  /// The different routes that make up the route configuration. Active routes
+  /// return a value of <code>100</code>, and passive routes return a value of
+  /// <code>0</code>.
+  final List<MultiRegionAccessPointRoute>? routes;
+
+  GetMultiRegionAccessPointRoutesResult({
+    this.mrap,
+    this.routes,
+  });
+  factory GetMultiRegionAccessPointRoutesResult.fromXml(_s.XmlElement elem) {
+    return GetMultiRegionAccessPointRoutesResult(
+      mrap: _s.extractXmlStringValue(elem, 'Mrap'),
+      routes: _s.extractXmlChild(elem, 'Routes')?.let((elem) => elem
+          .findElements('Route')
+          .map((c) => MultiRegionAccessPointRoute.fromXml(c))
+          .toList()),
+    );
+  }
+}
+
 class GetPublicAccessBlockOutput {
   /// The <code>PublicAccessBlock</code> configuration currently in effect for
-  /// this AWS account.
+  /// this Amazon Web Services account.
   final PublicAccessBlockConfiguration? publicAccessBlockConfiguration;
 
   GetPublicAccessBlockOutput({
@@ -3765,6 +6799,10 @@ class JobDescriptor {
   /// failure.
   final List<JobFailure>? failureReasons;
 
+  /// The attribute of the JobDescriptor containing details about the job's
+  /// generated manifest.
+  final S3GeneratedManifestDescriptor? generatedManifestDescriptor;
+
   /// The Amazon Resource Name (ARN) for this job.
   final String? jobArn;
 
@@ -3773,6 +6811,10 @@ class JobDescriptor {
 
   /// The configuration information for the specified job's manifest object.
   final JobManifest? manifest;
+
+  /// The manifest generator that was used to generate a job manifest for this
+  /// job.
+  final JobManifestGenerator? manifestGenerator;
 
   /// The operation that the specified job is configured to run on the objects
   /// listed in the manifest.
@@ -3789,8 +6831,8 @@ class JobDescriptor {
   /// requested one in the <code>Create Job</code> request.
   final JobReport? report;
 
-  /// The Amazon Resource Name (ARN) for the AWS Identity and Access Management
-  /// (IAM) role assigned to run the tasks for this job.
+  /// The Amazon Resource Name (ARN) for the Identity and Access Management (IAM)
+  /// role assigned to run the tasks for this job.
   final String? roleArn;
 
   /// The current status of the specified job.
@@ -3818,9 +6860,11 @@ class JobDescriptor {
     this.creationTime,
     this.description,
     this.failureReasons,
+    this.generatedManifestDescriptor,
     this.jobArn,
     this.jobId,
     this.manifest,
+    this.manifestGenerator,
     this.operation,
     this.priority,
     this.progressSummary,
@@ -3843,11 +6887,17 @@ class JobDescriptor {
               .findElements('member')
               .map((c) => JobFailure.fromXml(c))
               .toList()),
+      generatedManifestDescriptor: _s
+          .extractXmlChild(elem, 'GeneratedManifestDescriptor')
+          ?.let((e) => S3GeneratedManifestDescriptor.fromXml(e)),
       jobArn: _s.extractXmlStringValue(elem, 'JobArn'),
       jobId: _s.extractXmlStringValue(elem, 'JobId'),
       manifest: _s
           .extractXmlChild(elem, 'Manifest')
           ?.let((e) => JobManifest.fromXml(e)),
+      manifestGenerator: _s
+          .extractXmlChild(elem, 'ManifestGenerator')
+          ?.let((e) => JobManifestGenerator.fromXml(e)),
       operation: _s
           .extractXmlChild(elem, 'Operation')
           ?.let((e) => JobOperation.fromXml(e)),
@@ -3900,7 +6950,7 @@ class JobListDescriptor {
   /// The ID for the specified job.
   final String? jobId;
 
-  /// The operation that the specified job is configured to run on each object
+  /// The operation that the specified job is configured to run on every object
   /// listed in the manifest.
   final OperationName? operation;
 
@@ -4050,12 +7100,121 @@ extension JobManifestFormatFromString on String {
   }
 }
 
+/// Configures the type of the job's ManifestGenerator.
+class JobManifestGenerator {
+  /// The S3 job ManifestGenerator's configuration details.
+  final S3JobManifestGenerator? s3JobManifestGenerator;
+
+  JobManifestGenerator({
+    this.s3JobManifestGenerator,
+  });
+  factory JobManifestGenerator.fromXml(_s.XmlElement elem) {
+    return JobManifestGenerator(
+      s3JobManifestGenerator: _s
+          .extractXmlChild(elem, 'S3JobManifestGenerator')
+          ?.let((e) => S3JobManifestGenerator.fromXml(e)),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final s3JobManifestGenerator = this.s3JobManifestGenerator;
+    final $children = <_s.XmlNode>[
+      if (s3JobManifestGenerator != null)
+        s3JobManifestGenerator.toXml('S3JobManifestGenerator'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The filter used to describe a set of objects for the job's manifest.
+class JobManifestGeneratorFilter {
+  /// If provided, the generated manifest should include only source bucket
+  /// objects that were created after this time.
+  final DateTime? createdAfter;
+
+  /// If provided, the generated manifest should include only source bucket
+  /// objects that were created before this time.
+  final DateTime? createdBefore;
+
+  /// Include objects in the generated manifest only if they are eligible for
+  /// replication according to the Replication configuration on the source bucket.
+  final bool? eligibleForReplication;
+
+  /// If provided, the generated manifest should include only source bucket
+  /// objects that have one of the specified Replication statuses.
+  final List<ReplicationStatus>? objectReplicationStatuses;
+
+  JobManifestGeneratorFilter({
+    this.createdAfter,
+    this.createdBefore,
+    this.eligibleForReplication,
+    this.objectReplicationStatuses,
+  });
+  factory JobManifestGeneratorFilter.fromXml(_s.XmlElement elem) {
+    return JobManifestGeneratorFilter(
+      createdAfter: _s.extractXmlDateTimeValue(elem, 'CreatedAfter'),
+      createdBefore: _s.extractXmlDateTimeValue(elem, 'CreatedBefore'),
+      eligibleForReplication:
+          _s.extractXmlBoolValue(elem, 'EligibleForReplication'),
+      objectReplicationStatuses: _s
+          .extractXmlChild(elem, 'ObjectReplicationStatuses')
+          ?.let((elem) => _s
+              .extractXmlStringListValues(elem, 'member')
+              .map((s) => s.toReplicationStatus())
+              .toList()),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final createdAfter = this.createdAfter;
+    final createdBefore = this.createdBefore;
+    final eligibleForReplication = this.eligibleForReplication;
+    final objectReplicationStatuses = this.objectReplicationStatuses;
+    final $children = <_s.XmlNode>[
+      if (eligibleForReplication != null)
+        _s.encodeXmlBoolValue('EligibleForReplication', eligibleForReplication),
+      if (createdAfter != null)
+        _s.encodeXmlDateTimeValue('CreatedAfter', createdAfter),
+      if (createdBefore != null)
+        _s.encodeXmlDateTimeValue('CreatedBefore', createdBefore),
+      if (objectReplicationStatuses != null)
+        _s.XmlElement(
+            _s.XmlName('ObjectReplicationStatuses'),
+            [],
+            objectReplicationStatuses
+                .map((e) => _s.encodeXmlStringValue('member', e.toValue()))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
 /// Contains the information required to locate a manifest object.
 class JobManifestLocation {
   /// The ETag for the specified manifest object.
   final String eTag;
 
   /// The Amazon Resource Name (ARN) for a manifest object.
+  /// <important>
+  /// When you're using XML requests, you must replace special characters (such as
+  /// carriage returns) in object keys with their equivalent XML entity codes. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints">
+  /// XML-related object key constraints</a> in the <i>Amazon S3 User Guide</i>.
+  /// </important>
   final String objectArn;
 
   /// The optional version ID to identify a specific version of the manifest
@@ -4141,47 +7300,60 @@ class JobManifestSpec {
   }
 }
 
-/// The operation that you want this job to perform on each object listed in the
-/// manifest. For more information about the available operations, see <a
+/// The operation that you want this job to perform on every object listed in
+/// the manifest. For more information about the available operations, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-operations.html">Operations</a>
-/// in the <i>Amazon Simple Storage Service Developer Guide</i>.
+/// in the <i>Amazon S3 User Guide</i>.
 class JobOperation {
-  /// Directs the specified job to invoke an AWS Lambda function on each object in
+  /// Directs the specified job to invoke an Lambda function on every object in
   /// the manifest.
   final LambdaInvokeOperation? lambdaInvoke;
 
-  /// Directs the specified job to run an Initiate Glacier Restore call on each
+  /// Directs the specified job to execute a DELETE Object tagging call on every
+  /// object in the manifest.
+  final S3DeleteObjectTaggingOperation? s3DeleteObjectTagging;
+
+  /// Directs the specified job to initiate restore requests for every archived
   /// object in the manifest.
   final S3InitiateRestoreObjectOperation? s3InitiateRestoreObject;
 
-  /// Directs the specified job to run a PUT Object acl call on each object in the
-  /// manifest.
+  /// Directs the specified job to run a <code>PutObjectAcl</code> call on every
+  /// object in the manifest.
   final S3SetObjectAclOperation? s3PutObjectAcl;
 
-  /// Directs the specified job to run a PUT Copy object call on each object in
+  /// Directs the specified job to run a PUT Copy object call on every object in
   /// the manifest.
   final S3CopyObjectOperation? s3PutObjectCopy;
   final S3SetObjectLegalHoldOperation? s3PutObjectLegalHold;
   final S3SetObjectRetentionOperation? s3PutObjectRetention;
 
-  /// Directs the specified job to run a PUT Object tagging call on each object in
-  /// the manifest.
+  /// Directs the specified job to run a PUT Object tagging call on every object
+  /// in the manifest.
   final S3SetObjectTaggingOperation? s3PutObjectTagging;
+
+  /// Directs the specified job to invoke <code>ReplicateObject</code> on every
+  /// object in the job's manifest.
+  final S3ReplicateObjectOperation? s3ReplicateObject;
 
   JobOperation({
     this.lambdaInvoke,
+    this.s3DeleteObjectTagging,
     this.s3InitiateRestoreObject,
     this.s3PutObjectAcl,
     this.s3PutObjectCopy,
     this.s3PutObjectLegalHold,
     this.s3PutObjectRetention,
     this.s3PutObjectTagging,
+    this.s3ReplicateObject,
   });
   factory JobOperation.fromXml(_s.XmlElement elem) {
     return JobOperation(
       lambdaInvoke: _s
           .extractXmlChild(elem, 'LambdaInvoke')
           ?.let((e) => LambdaInvokeOperation.fromXml(e)),
+      s3DeleteObjectTagging: _s
+          .extractXmlChild(elem, 'S3DeleteObjectTagging')
+          ?.let((e) => S3DeleteObjectTaggingOperation.fromXml(e)),
       s3InitiateRestoreObject: _s
           .extractXmlChild(elem, 'S3InitiateRestoreObject')
           ?.let((e) => S3InitiateRestoreObjectOperation.fromXml(e)),
@@ -4200,29 +7372,38 @@ class JobOperation {
       s3PutObjectTagging: _s
           .extractXmlChild(elem, 'S3PutObjectTagging')
           ?.let((e) => S3SetObjectTaggingOperation.fromXml(e)),
+      s3ReplicateObject: _s
+          .extractXmlChild(elem, 'S3ReplicateObject')
+          ?.let((e) => S3ReplicateObjectOperation.fromXml(e)),
     );
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
     final lambdaInvoke = this.lambdaInvoke;
+    final s3DeleteObjectTagging = this.s3DeleteObjectTagging;
     final s3InitiateRestoreObject = this.s3InitiateRestoreObject;
     final s3PutObjectAcl = this.s3PutObjectAcl;
     final s3PutObjectCopy = this.s3PutObjectCopy;
     final s3PutObjectLegalHold = this.s3PutObjectLegalHold;
     final s3PutObjectRetention = this.s3PutObjectRetention;
     final s3PutObjectTagging = this.s3PutObjectTagging;
+    final s3ReplicateObject = this.s3ReplicateObject;
     final $children = <_s.XmlNode>[
       if (lambdaInvoke != null) lambdaInvoke.toXml('LambdaInvoke'),
       if (s3PutObjectCopy != null) s3PutObjectCopy.toXml('S3PutObjectCopy'),
       if (s3PutObjectAcl != null) s3PutObjectAcl.toXml('S3PutObjectAcl'),
       if (s3PutObjectTagging != null)
         s3PutObjectTagging.toXml('S3PutObjectTagging'),
+      if (s3DeleteObjectTagging != null)
+        s3DeleteObjectTagging.toXml('S3DeleteObjectTagging'),
       if (s3InitiateRestoreObject != null)
         s3InitiateRestoreObject.toXml('S3InitiateRestoreObject'),
       if (s3PutObjectLegalHold != null)
         s3PutObjectLegalHold.toXml('S3PutObjectLegalHold'),
       if (s3PutObjectRetention != null)
         s3PutObjectRetention.toXml('S3PutObjectRetention'),
+      if (s3ReplicateObject != null)
+        s3ReplicateObject.toXml('S3ReplicateObject'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -4244,12 +7425,16 @@ class JobProgressSummary {
   /// <p/>
   final int? numberOfTasksSucceeded;
 
+  /// The JobTimers attribute of a job's progress summary.
+  final JobTimers? timers;
+
   /// <p/>
   final int? totalNumberOfTasks;
 
   JobProgressSummary({
     this.numberOfTasksFailed,
     this.numberOfTasksSucceeded,
+    this.timers,
     this.totalNumberOfTasks,
   });
   factory JobProgressSummary.fromXml(_s.XmlElement elem) {
@@ -4257,6 +7442,8 @@ class JobProgressSummary {
       numberOfTasksFailed: _s.extractXmlIntValue(elem, 'NumberOfTasksFailed'),
       numberOfTasksSucceeded:
           _s.extractXmlIntValue(elem, 'NumberOfTasksSucceeded'),
+      timers:
+          _s.extractXmlChild(elem, 'Timers')?.let((e) => JobTimers.fromXml(e)),
       totalNumberOfTasks: _s.extractXmlIntValue(elem, 'TotalNumberOfTasks'),
     );
   }
@@ -4460,11 +7647,28 @@ extension JobStatusFromString on String {
   }
 }
 
+/// Provides timing details for the job.
+class JobTimers {
+  /// Indicates the elapsed time in seconds the job has been in the Active job
+  /// state.
+  final int? elapsedTimeInActiveSeconds;
+
+  JobTimers({
+    this.elapsedTimeInActiveSeconds,
+  });
+  factory JobTimers.fromXml(_s.XmlElement elem) {
+    return JobTimers(
+      elapsedTimeInActiveSeconds:
+          _s.extractXmlIntValue(elem, 'ElapsedTimeInActiveSeconds'),
+    );
+  }
+}
+
 /// Contains the configuration parameters for a <code>Lambda Invoke</code>
 /// operation.
 class LambdaInvokeOperation {
-  /// The Amazon Resource Name (ARN) for the AWS Lambda function that the
-  /// specified job will invoke for each object in the manifest.
+  /// The Amazon Resource Name (ARN) for the Lambda function that the specified
+  /// job will invoke on every object in the manifest.
   final String? functionArn;
 
   LambdaInvokeOperation({
@@ -4581,8 +7785,8 @@ class LifecycleRule {
   /// that Amazon S3 waits before permanently removing all parts of the upload.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config">
-  /// Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Policy</a> in
-  /// the <i>Amazon Simple Storage Service Developer Guide</i>.
+  /// Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle
+  /// Configuration</a> in the <i>Amazon S3 User Guide</i>.
   final AbortIncompleteMultipartUpload? abortIncompleteMultipartUpload;
 
   /// Specifies the expiration for the lifecycle of the object in the form of
@@ -4597,9 +7801,6 @@ class LifecycleRule {
   final String? id;
 
   /// The noncurrent version expiration of the lifecycle rule.
-  /// <note>
-  /// This is not supported by Amazon S3 on Outposts buckets.
-  /// </note>
   final NoncurrentVersionExpiration? noncurrentVersionExpiration;
 
   /// Specifies the transition rule for the lifecycle rule that describes when
@@ -4698,6 +7899,12 @@ class LifecycleRule {
 
 /// The container for the Outposts bucket lifecycle rule and operator.
 class LifecycleRuleAndOperator {
+  /// Minimum object size to which the rule applies.
+  final int? objectSizeGreaterThan;
+
+  /// Maximum object size to which the rule applies.
+  final int? objectSizeLessThan;
+
   /// Prefix identifying one or more objects to which the rule applies.
   final String? prefix;
 
@@ -4706,11 +7913,16 @@ class LifecycleRuleAndOperator {
   final List<S3Tag>? tags;
 
   LifecycleRuleAndOperator({
+    this.objectSizeGreaterThan,
+    this.objectSizeLessThan,
     this.prefix,
     this.tags,
   });
   factory LifecycleRuleAndOperator.fromXml(_s.XmlElement elem) {
     return LifecycleRuleAndOperator(
+      objectSizeGreaterThan:
+          _s.extractXmlIntValue(elem, 'ObjectSizeGreaterThan'),
+      objectSizeLessThan: _s.extractXmlIntValue(elem, 'ObjectSizeLessThan'),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
       tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
           elem.findElements('member').map((c) => S3Tag.fromXml(c)).toList()),
@@ -4718,6 +7930,8 @@ class LifecycleRuleAndOperator {
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final objectSizeGreaterThan = this.objectSizeGreaterThan;
+    final objectSizeLessThan = this.objectSizeLessThan;
     final prefix = this.prefix;
     final tags = this.tags;
     final $children = <_s.XmlNode>[
@@ -4725,6 +7939,10 @@ class LifecycleRuleAndOperator {
       if (tags != null)
         _s.XmlElement(
             _s.XmlName('Tags'), [], tags.map((e) => e.toXml('member'))),
+      if (objectSizeGreaterThan != null)
+        _s.encodeXmlIntValue('ObjectSizeGreaterThan', objectSizeGreaterThan),
+      if (objectSizeLessThan != null)
+        _s.encodeXmlIntValue('ObjectSizeLessThan', objectSizeLessThan),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -4742,12 +7960,27 @@ class LifecycleRuleFilter {
   /// The container for the <code>AND</code> condition for the lifecycle rule.
   final LifecycleRuleAndOperator? and;
 
+  /// Minimum object size to which the rule applies.
+  final int? objectSizeGreaterThan;
+
+  /// Maximum object size to which the rule applies.
+  final int? objectSizeLessThan;
+
   /// Prefix identifying one or more objects to which the rule applies.
+  /// <important>
+  /// When you're using XML requests, you must replace special characters (such as
+  /// carriage returns) in object keys with their equivalent XML entity codes. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints">
+  /// XML-related object key constraints</a> in the <i>Amazon S3 User Guide</i>.
+  /// </important>
   final String? prefix;
   final S3Tag? tag;
 
   LifecycleRuleFilter({
     this.and,
+    this.objectSizeGreaterThan,
+    this.objectSizeLessThan,
     this.prefix,
     this.tag,
   });
@@ -4756,6 +7989,9 @@ class LifecycleRuleFilter {
       and: _s
           .extractXmlChild(elem, 'And')
           ?.let((e) => LifecycleRuleAndOperator.fromXml(e)),
+      objectSizeGreaterThan:
+          _s.extractXmlIntValue(elem, 'ObjectSizeGreaterThan'),
+      objectSizeLessThan: _s.extractXmlIntValue(elem, 'ObjectSizeLessThan'),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
       tag: _s.extractXmlChild(elem, 'Tag')?.let((e) => S3Tag.fromXml(e)),
     );
@@ -4763,12 +7999,18 @@ class LifecycleRuleFilter {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
     final and = this.and;
+    final objectSizeGreaterThan = this.objectSizeGreaterThan;
+    final objectSizeLessThan = this.objectSizeLessThan;
     final prefix = this.prefix;
     final tag = this.tag;
     final $children = <_s.XmlNode>[
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
       if (tag != null) tag.toXml('Tag'),
       if (and != null) and.toXml('And'),
+      if (objectSizeGreaterThan != null)
+        _s.encodeXmlIntValue('ObjectSizeGreaterThan', objectSizeGreaterThan),
+      if (objectSizeLessThan != null)
+        _s.encodeXmlIntValue('ObjectSizeLessThan', objectSizeLessThan),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -4777,6 +8019,32 @@ class LifecycleRuleFilter {
       _s.XmlName(elemName),
       $attributes,
       $children,
+    );
+  }
+}
+
+class ListAccessPointsForObjectLambdaResult {
+  /// If the list has more access points than can be returned in one call to this
+  /// API, this field contains a continuation token that you can provide in
+  /// subsequent calls to this API to retrieve additional access points.
+  final String? nextToken;
+
+  /// Returns list of Object Lambda Access Points.
+  final List<ObjectLambdaAccessPoint>? objectLambdaAccessPointList;
+
+  ListAccessPointsForObjectLambdaResult({
+    this.nextToken,
+    this.objectLambdaAccessPointList,
+  });
+  factory ListAccessPointsForObjectLambdaResult.fromXml(_s.XmlElement elem) {
+    return ListAccessPointsForObjectLambdaResult(
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+      objectLambdaAccessPointList: _s
+          .extractXmlChild(elem, 'ObjectLambdaAccessPointList')
+          ?.let((elem) => elem
+              .findElements('ObjectLambdaAccessPoint')
+              .map((c) => ObjectLambdaAccessPoint.fromXml(c))
+              .toList()),
     );
   }
 }
@@ -4826,6 +8094,31 @@ class ListJobsResult {
       jobs: _s.extractXmlChild(elem, 'Jobs')?.let((elem) => elem
           .findElements('member')
           .map((c) => JobListDescriptor.fromXml(c))
+          .toList()),
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+    );
+  }
+}
+
+class ListMultiRegionAccessPointsResult {
+  /// The list of Multi-Region Access Points associated with the user.
+  final List<MultiRegionAccessPointReport>? accessPoints;
+
+  /// If the specified bucket has more Multi-Region Access Points than can be
+  /// returned in one call to this action, this field contains a continuation
+  /// token. You can use this token tin subsequent calls to this action to
+  /// retrieve additional Multi-Region Access Points.
+  final String? nextToken;
+
+  ListMultiRegionAccessPointsResult({
+    this.accessPoints,
+    this.nextToken,
+  });
+  factory ListMultiRegionAccessPointsResult.fromXml(_s.XmlElement elem) {
+    return ListMultiRegionAccessPointsResult(
+      accessPoints: _s.extractXmlChild(elem, 'AccessPoints')?.let((elem) => elem
+          .findElements('AccessPoint')
+          .map((c) => MultiRegionAccessPointReport.fromXml(c))
           .toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
@@ -4916,6 +8209,384 @@ class ListStorageLensConfigurationsResult {
   }
 }
 
+enum MFADelete {
+  enabled,
+  disabled,
+}
+
+extension MFADeleteValueExtension on MFADelete {
+  String toValue() {
+    switch (this) {
+      case MFADelete.enabled:
+        return 'Enabled';
+      case MFADelete.disabled:
+        return 'Disabled';
+    }
+  }
+}
+
+extension MFADeleteFromString on String {
+  MFADelete toMFADelete() {
+    switch (this) {
+      case 'Enabled':
+        return MFADelete.enabled;
+      case 'Disabled':
+        return MFADelete.disabled;
+    }
+    throw Exception('$this is not known in enum MFADelete');
+  }
+}
+
+enum MFADeleteStatus {
+  enabled,
+  disabled,
+}
+
+extension MFADeleteStatusValueExtension on MFADeleteStatus {
+  String toValue() {
+    switch (this) {
+      case MFADeleteStatus.enabled:
+        return 'Enabled';
+      case MFADeleteStatus.disabled:
+        return 'Disabled';
+    }
+  }
+}
+
+extension MFADeleteStatusFromString on String {
+  MFADeleteStatus toMFADeleteStatus() {
+    switch (this) {
+      case 'Enabled':
+        return MFADeleteStatus.enabled;
+      case 'Disabled':
+        return MFADeleteStatus.disabled;
+    }
+    throw Exception('$this is not known in enum MFADeleteStatus');
+  }
+}
+
+/// A container that specifies replication metrics-related settings.
+class Metrics {
+  /// Specifies whether replication metrics are enabled.
+  final MetricsStatus status;
+
+  /// A container that specifies the time threshold for emitting the
+  /// <code>s3:Replication:OperationMissedThreshold</code> event.
+  /// <note>
+  /// This is not supported by Amazon S3 on Outposts buckets.
+  /// </note>
+  final ReplicationTimeValue? eventThreshold;
+
+  Metrics({
+    required this.status,
+    this.eventThreshold,
+  });
+  factory Metrics.fromXml(_s.XmlElement elem) {
+    return Metrics(
+      status: _s.extractXmlStringValue(elem, 'Status')!.toMetricsStatus(),
+      eventThreshold: _s
+          .extractXmlChild(elem, 'EventThreshold')
+          ?.let((e) => ReplicationTimeValue.fromXml(e)),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final status = this.status;
+    final eventThreshold = this.eventThreshold;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Status', status.toValue()),
+      if (eventThreshold != null) eventThreshold.toXml('EventThreshold'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+enum MetricsStatus {
+  enabled,
+  disabled,
+}
+
+extension MetricsStatusValueExtension on MetricsStatus {
+  String toValue() {
+    switch (this) {
+      case MetricsStatus.enabled:
+        return 'Enabled';
+      case MetricsStatus.disabled:
+        return 'Disabled';
+    }
+  }
+}
+
+extension MetricsStatusFromString on String {
+  MetricsStatus toMetricsStatus() {
+    switch (this) {
+      case 'Enabled':
+        return MetricsStatus.enabled;
+      case 'Disabled':
+        return MetricsStatus.disabled;
+    }
+    throw Exception('$this is not known in enum MetricsStatus');
+  }
+}
+
+/// The Multi-Region Access Point access control policy.
+///
+/// When you update the policy, the update is first listed as the proposed
+/// policy. After the update is finished and all Regions have been updated, the
+/// proposed policy is listed as the established policy. If both policies have
+/// the same version number, the proposed policy is the established policy.
+class MultiRegionAccessPointPolicyDocument {
+  /// The last established policy for the Multi-Region Access Point.
+  final EstablishedMultiRegionAccessPointPolicy? established;
+
+  /// The proposed policy for the Multi-Region Access Point.
+  final ProposedMultiRegionAccessPointPolicy? proposed;
+
+  MultiRegionAccessPointPolicyDocument({
+    this.established,
+    this.proposed,
+  });
+  factory MultiRegionAccessPointPolicyDocument.fromXml(_s.XmlElement elem) {
+    return MultiRegionAccessPointPolicyDocument(
+      established: _s
+          .extractXmlChild(elem, 'Established')
+          ?.let((e) => EstablishedMultiRegionAccessPointPolicy.fromXml(e)),
+      proposed: _s
+          .extractXmlChild(elem, 'Proposed')
+          ?.let((e) => ProposedMultiRegionAccessPointPolicy.fromXml(e)),
+    );
+  }
+}
+
+/// Status information for a single Multi-Region Access Point Region.
+class MultiRegionAccessPointRegionalResponse {
+  /// The name of the Region in the Multi-Region Access Point.
+  final String? name;
+
+  /// The current status of the Multi-Region Access Point in this Region.
+  final String? requestStatus;
+
+  MultiRegionAccessPointRegionalResponse({
+    this.name,
+    this.requestStatus,
+  });
+  factory MultiRegionAccessPointRegionalResponse.fromXml(_s.XmlElement elem) {
+    return MultiRegionAccessPointRegionalResponse(
+      name: _s.extractXmlStringValue(elem, 'Name'),
+      requestStatus: _s.extractXmlStringValue(elem, 'RequestStatus'),
+    );
+  }
+}
+
+/// A collection of statuses for a Multi-Region Access Point in the various
+/// Regions it supports.
+class MultiRegionAccessPointReport {
+  /// The alias for the Multi-Region Access Point. For more information about the
+  /// distinction between the name and the alias of an Multi-Region Access Point,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html#multi-region-access-point-naming">Managing
+  /// Multi-Region Access Points</a>.
+  final String? alias;
+
+  /// When the Multi-Region Access Point create request was received.
+  final DateTime? createdAt;
+
+  /// The name of the Multi-Region Access Point.
+  final String? name;
+  final PublicAccessBlockConfiguration? publicAccessBlock;
+
+  /// A collection of the Regions and buckets associated with the Multi-Region
+  /// Access Point.
+  final List<RegionReport>? regions;
+
+  /// The current status of the Multi-Region Access Point.
+  ///
+  /// <code>CREATING</code> and <code>DELETING</code> are temporary states that
+  /// exist while the request is propagating and being completed. If a
+  /// Multi-Region Access Point has a status of <code>PARTIALLY_CREATED</code>,
+  /// you can retry creation or send a request to delete the Multi-Region Access
+  /// Point. If a Multi-Region Access Point has a status of
+  /// <code>PARTIALLY_DELETED</code>, you can retry a delete request to finish the
+  /// deletion of the Multi-Region Access Point.
+  final MultiRegionAccessPointStatus? status;
+
+  MultiRegionAccessPointReport({
+    this.alias,
+    this.createdAt,
+    this.name,
+    this.publicAccessBlock,
+    this.regions,
+    this.status,
+  });
+  factory MultiRegionAccessPointReport.fromXml(_s.XmlElement elem) {
+    return MultiRegionAccessPointReport(
+      alias: _s.extractXmlStringValue(elem, 'Alias'),
+      createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
+      name: _s.extractXmlStringValue(elem, 'Name'),
+      publicAccessBlock: _s
+          .extractXmlChild(elem, 'PublicAccessBlock')
+          ?.let((e) => PublicAccessBlockConfiguration.fromXml(e)),
+      regions: _s.extractXmlChild(elem, 'Regions')?.let((elem) => elem
+          .findElements('Region')
+          .map((c) => RegionReport.fromXml(c))
+          .toList()),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.toMultiRegionAccessPointStatus(),
+    );
+  }
+}
+
+/// A structure for a Multi-Region Access Point that indicates where Amazon S3
+/// traffic can be routed. Routes can be either active or passive. Active routes
+/// can process Amazon S3 requests through the Multi-Region Access Point, but
+/// passive routes are not eligible to process Amazon S3 requests.
+///
+/// Each route contains the Amazon S3 bucket name and the Amazon Web Services
+/// Region that the bucket is located in. The route also includes the
+/// <code>TrafficDialPercentage</code> value, which shows whether the bucket and
+/// Region are active (indicated by a value of <code>100</code>) or passive
+/// (indicated by a value of <code>0</code>).
+class MultiRegionAccessPointRoute {
+  /// The traffic state for the specified bucket or Amazon Web Services Region.
+  ///
+  /// A value of <code>0</code> indicates a passive state, which means that no new
+  /// traffic will be routed to the Region.
+  ///
+  /// A value of <code>100</code> indicates an active state, which means that
+  /// traffic will be routed to the specified Region.
+  ///
+  /// When the routing configuration for a Region is changed from active to
+  /// passive, any in-progress operations (uploads, copies, deletes, and so on) to
+  /// the formerly active Region will continue to run to until a final success or
+  /// failure status is reached.
+  ///
+  /// If all Regions in the routing configuration are designated as passive,
+  /// you'll receive an <code>InvalidRequest</code> error.
+  final int trafficDialPercentage;
+
+  /// The name of the Amazon S3 bucket for which you'll submit a routing
+  /// configuration change. Either the <code>Bucket</code> or the
+  /// <code>Region</code> value must be provided. If both are provided, the bucket
+  /// must be in the specified Region.
+  final String? bucket;
+
+  /// The Amazon Web Services Region to which you'll be submitting a routing
+  /// configuration change. Either the <code>Bucket</code> or the
+  /// <code>Region</code> value must be provided. If both are provided, the bucket
+  /// must be in the specified Region.
+  final String? region;
+
+  MultiRegionAccessPointRoute({
+    required this.trafficDialPercentage,
+    this.bucket,
+    this.region,
+  });
+  factory MultiRegionAccessPointRoute.fromXml(_s.XmlElement elem) {
+    return MultiRegionAccessPointRoute(
+      trafficDialPercentage:
+          _s.extractXmlIntValue(elem, 'TrafficDialPercentage')!,
+      bucket: _s.extractXmlStringValue(elem, 'Bucket'),
+      region: _s.extractXmlStringValue(elem, 'Region'),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final trafficDialPercentage = this.trafficDialPercentage;
+    final bucket = this.bucket;
+    final region = this.region;
+    final $children = <_s.XmlNode>[
+      if (bucket != null) _s.encodeXmlStringValue('Bucket', bucket),
+      if (region != null) _s.encodeXmlStringValue('Region', region),
+      _s.encodeXmlIntValue('TrafficDialPercentage', trafficDialPercentage),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+enum MultiRegionAccessPointStatus {
+  ready,
+  inconsistentAcrossRegions,
+  creating,
+  partiallyCreated,
+  partiallyDeleted,
+  deleting,
+}
+
+extension MultiRegionAccessPointStatusValueExtension
+    on MultiRegionAccessPointStatus {
+  String toValue() {
+    switch (this) {
+      case MultiRegionAccessPointStatus.ready:
+        return 'READY';
+      case MultiRegionAccessPointStatus.inconsistentAcrossRegions:
+        return 'INCONSISTENT_ACROSS_REGIONS';
+      case MultiRegionAccessPointStatus.creating:
+        return 'CREATING';
+      case MultiRegionAccessPointStatus.partiallyCreated:
+        return 'PARTIALLY_CREATED';
+      case MultiRegionAccessPointStatus.partiallyDeleted:
+        return 'PARTIALLY_DELETED';
+      case MultiRegionAccessPointStatus.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension MultiRegionAccessPointStatusFromString on String {
+  MultiRegionAccessPointStatus toMultiRegionAccessPointStatus() {
+    switch (this) {
+      case 'READY':
+        return MultiRegionAccessPointStatus.ready;
+      case 'INCONSISTENT_ACROSS_REGIONS':
+        return MultiRegionAccessPointStatus.inconsistentAcrossRegions;
+      case 'CREATING':
+        return MultiRegionAccessPointStatus.creating;
+      case 'PARTIALLY_CREATED':
+        return MultiRegionAccessPointStatus.partiallyCreated;
+      case 'PARTIALLY_DELETED':
+        return MultiRegionAccessPointStatus.partiallyDeleted;
+      case 'DELETING':
+        return MultiRegionAccessPointStatus.deleting;
+    }
+    throw Exception('$this is not known in enum MultiRegionAccessPointStatus');
+  }
+}
+
+/// The Multi-Region Access Point details that are returned when querying about
+/// an asynchronous request.
+class MultiRegionAccessPointsAsyncResponse {
+  /// A collection of status information for the different Regions that a
+  /// Multi-Region Access Point supports.
+  final List<MultiRegionAccessPointRegionalResponse>? regions;
+
+  MultiRegionAccessPointsAsyncResponse({
+    this.regions,
+  });
+  factory MultiRegionAccessPointsAsyncResponse.fromXml(_s.XmlElement elem) {
+    return MultiRegionAccessPointsAsyncResponse(
+      regions: _s.extractXmlChild(elem, 'Regions')?.let((elem) => elem
+          .findElements('Region')
+          .map((c) => MultiRegionAccessPointRegionalResponse.fromXml(c))
+          .toList()),
+    );
+  }
+}
+
 enum NetworkOrigin {
   internet,
   vpc,
@@ -4946,28 +8617,42 @@ extension NetworkOriginFromString on String {
 
 /// The container of the noncurrent version expiration.
 class NoncurrentVersionExpiration {
+  /// Specifies how many noncurrent versions S3 on Outposts will retain. If there
+  /// are this many more recent noncurrent versions, S3 on Outposts will take the
+  /// associated action. For more information about noncurrent versions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/intro-lifecycle-rules.html">Lifecycle
+  /// configuration elements</a> in the <i>Amazon S3 User Guide</i>.
+  final int? newerNoncurrentVersions;
+
   /// Specifies the number of days an object is noncurrent before Amazon S3 can
   /// perform the associated action. For information about the noncurrent days
   /// calculations, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#non-current-days-calculations">How
   /// Amazon S3 Calculates When an Object Became Noncurrent</a> in the <i>Amazon
-  /// Simple Storage Service Developer Guide</i>.
+  /// S3 User Guide</i>.
   final int? noncurrentDays;
 
   NoncurrentVersionExpiration({
+    this.newerNoncurrentVersions,
     this.noncurrentDays,
   });
   factory NoncurrentVersionExpiration.fromXml(_s.XmlElement elem) {
     return NoncurrentVersionExpiration(
+      newerNoncurrentVersions:
+          _s.extractXmlIntValue(elem, 'NewerNoncurrentVersions'),
       noncurrentDays: _s.extractXmlIntValue(elem, 'NoncurrentDays'),
     );
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final newerNoncurrentVersions = this.newerNoncurrentVersions;
     final noncurrentDays = this.noncurrentDays;
     final $children = <_s.XmlNode>[
       if (noncurrentDays != null)
         _s.encodeXmlIntValue('NoncurrentDays', noncurrentDays),
+      if (newerNoncurrentVersions != null)
+        _s.encodeXmlIntValue(
+            'NewerNoncurrentVersions', newerNoncurrentVersions),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -4987,7 +8672,7 @@ class NoncurrentVersionTransition {
   /// calculations, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#non-current-days-calculations">
   /// How Amazon S3 Calculates How Long an Object Has Been Noncurrent</a> in the
-  /// <i>Amazon Simple Storage Service Developer Guide</i>.
+  /// <i>Amazon S3 User Guide</i>.
   final int? noncurrentDays;
 
   /// The class of storage used to store the object.
@@ -5026,14 +8711,339 @@ class NoncurrentVersionTransition {
   }
 }
 
+/// An access point with an attached Lambda function used to access transformed
+/// data from an Amazon S3 bucket.
+class ObjectLambdaAccessPoint {
+  /// The name of the Object Lambda Access Point.
+  final String name;
+
+  /// The alias of the Object Lambda Access Point.
+  final ObjectLambdaAccessPointAlias? alias;
+
+  /// Specifies the ARN for the Object Lambda Access Point.
+  final String? objectLambdaAccessPointArn;
+
+  ObjectLambdaAccessPoint({
+    required this.name,
+    this.alias,
+    this.objectLambdaAccessPointArn,
+  });
+  factory ObjectLambdaAccessPoint.fromXml(_s.XmlElement elem) {
+    return ObjectLambdaAccessPoint(
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      alias: _s
+          .extractXmlChild(elem, 'Alias')
+          ?.let((e) => ObjectLambdaAccessPointAlias.fromXml(e)),
+      objectLambdaAccessPointArn:
+          _s.extractXmlStringValue(elem, 'ObjectLambdaAccessPointArn'),
+    );
+  }
+}
+
+/// The alias of an Object Lambda Access Point. For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/olap-use.html#ol-access-points-alias">How
+/// to use a bucket-style alias for your S3 bucket Object Lambda Access
+/// Point</a>.
+class ObjectLambdaAccessPointAlias {
+  /// The status of the Object Lambda Access Point alias. If the status is
+  /// <code>PROVISIONING</code>, the Object Lambda Access Point is provisioning
+  /// the alias and the alias is not ready for use yet. If the status is
+  /// <code>READY</code>, the Object Lambda Access Point alias is successfully
+  /// provisioned and ready for use.
+  final ObjectLambdaAccessPointAliasStatus? status;
+
+  /// The alias value of the Object Lambda Access Point.
+  final String? value;
+
+  ObjectLambdaAccessPointAlias({
+    this.status,
+    this.value,
+  });
+  factory ObjectLambdaAccessPointAlias.fromXml(_s.XmlElement elem) {
+    return ObjectLambdaAccessPointAlias(
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.toObjectLambdaAccessPointAliasStatus(),
+      value: _s.extractXmlStringValue(elem, 'Value'),
+    );
+  }
+}
+
+enum ObjectLambdaAccessPointAliasStatus {
+  provisioning,
+  ready,
+}
+
+extension ObjectLambdaAccessPointAliasStatusValueExtension
+    on ObjectLambdaAccessPointAliasStatus {
+  String toValue() {
+    switch (this) {
+      case ObjectLambdaAccessPointAliasStatus.provisioning:
+        return 'PROVISIONING';
+      case ObjectLambdaAccessPointAliasStatus.ready:
+        return 'READY';
+    }
+  }
+}
+
+extension ObjectLambdaAccessPointAliasStatusFromString on String {
+  ObjectLambdaAccessPointAliasStatus toObjectLambdaAccessPointAliasStatus() {
+    switch (this) {
+      case 'PROVISIONING':
+        return ObjectLambdaAccessPointAliasStatus.provisioning;
+      case 'READY':
+        return ObjectLambdaAccessPointAliasStatus.ready;
+    }
+    throw Exception(
+        '$this is not known in enum ObjectLambdaAccessPointAliasStatus');
+  }
+}
+
+enum ObjectLambdaAllowedFeature {
+  getObjectRange,
+  getObjectPartNumber,
+  headObjectRange,
+  headObjectPartNumber,
+}
+
+extension ObjectLambdaAllowedFeatureValueExtension
+    on ObjectLambdaAllowedFeature {
+  String toValue() {
+    switch (this) {
+      case ObjectLambdaAllowedFeature.getObjectRange:
+        return 'GetObject-Range';
+      case ObjectLambdaAllowedFeature.getObjectPartNumber:
+        return 'GetObject-PartNumber';
+      case ObjectLambdaAllowedFeature.headObjectRange:
+        return 'HeadObject-Range';
+      case ObjectLambdaAllowedFeature.headObjectPartNumber:
+        return 'HeadObject-PartNumber';
+    }
+  }
+}
+
+extension ObjectLambdaAllowedFeatureFromString on String {
+  ObjectLambdaAllowedFeature toObjectLambdaAllowedFeature() {
+    switch (this) {
+      case 'GetObject-Range':
+        return ObjectLambdaAllowedFeature.getObjectRange;
+      case 'GetObject-PartNumber':
+        return ObjectLambdaAllowedFeature.getObjectPartNumber;
+      case 'HeadObject-Range':
+        return ObjectLambdaAllowedFeature.headObjectRange;
+      case 'HeadObject-PartNumber':
+        return ObjectLambdaAllowedFeature.headObjectPartNumber;
+    }
+    throw Exception('$this is not known in enum ObjectLambdaAllowedFeature');
+  }
+}
+
+/// A configuration used when creating an Object Lambda Access Point.
+class ObjectLambdaConfiguration {
+  /// Standard access point associated with the Object Lambda Access Point.
+  final String supportingAccessPoint;
+
+  /// A container for transformation configurations for an Object Lambda Access
+  /// Point.
+  final List<ObjectLambdaTransformationConfiguration>
+      transformationConfigurations;
+
+  /// A container for allowed features. Valid inputs are
+  /// <code>GetObject-Range</code>, <code>GetObject-PartNumber</code>,
+  /// <code>HeadObject-Range</code>, and <code>HeadObject-PartNumber</code>.
+  final List<ObjectLambdaAllowedFeature>? allowedFeatures;
+
+  /// A container for whether the CloudWatch metrics configuration is enabled.
+  final bool? cloudWatchMetricsEnabled;
+
+  ObjectLambdaConfiguration({
+    required this.supportingAccessPoint,
+    required this.transformationConfigurations,
+    this.allowedFeatures,
+    this.cloudWatchMetricsEnabled,
+  });
+  factory ObjectLambdaConfiguration.fromXml(_s.XmlElement elem) {
+    return ObjectLambdaConfiguration(
+      supportingAccessPoint:
+          _s.extractXmlStringValue(elem, 'SupportingAccessPoint')!,
+      transformationConfigurations: _s
+          .extractXmlChild(elem, 'TransformationConfigurations')!
+          .findElements('TransformationConfiguration')
+          .map((c) => ObjectLambdaTransformationConfiguration.fromXml(c))
+          .toList(),
+      allowedFeatures: _s.extractXmlChild(elem, 'AllowedFeatures')?.let(
+          (elem) => _s
+              .extractXmlStringListValues(elem, 'AllowedFeature')
+              .map((s) => s.toObjectLambdaAllowedFeature())
+              .toList()),
+      cloudWatchMetricsEnabled:
+          _s.extractXmlBoolValue(elem, 'CloudWatchMetricsEnabled'),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final supportingAccessPoint = this.supportingAccessPoint;
+    final transformationConfigurations = this.transformationConfigurations;
+    final allowedFeatures = this.allowedFeatures;
+    final cloudWatchMetricsEnabled = this.cloudWatchMetricsEnabled;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('SupportingAccessPoint', supportingAccessPoint),
+      if (cloudWatchMetricsEnabled != null)
+        _s.encodeXmlBoolValue(
+            'CloudWatchMetricsEnabled', cloudWatchMetricsEnabled),
+      if (allowedFeatures != null)
+        _s.XmlElement(
+            _s.XmlName('AllowedFeatures'),
+            [],
+            allowedFeatures.map(
+                (e) => _s.encodeXmlStringValue('AllowedFeature', e.toValue()))),
+      _s.XmlElement(
+          _s.XmlName('TransformationConfigurations'),
+          [],
+          transformationConfigurations
+              .map((e) => e.toXml('TransformationConfiguration'))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A container for AwsLambdaTransformation.
+class ObjectLambdaContentTransformation {
+  /// A container for an Lambda function.
+  final AwsLambdaTransformation? awsLambda;
+
+  ObjectLambdaContentTransformation({
+    this.awsLambda,
+  });
+  factory ObjectLambdaContentTransformation.fromXml(_s.XmlElement elem) {
+    return ObjectLambdaContentTransformation(
+      awsLambda: _s
+          .extractXmlChild(elem, 'AwsLambda')
+          ?.let((e) => AwsLambdaTransformation.fromXml(e)),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final awsLambda = this.awsLambda;
+    final $children = <_s.XmlNode>[
+      if (awsLambda != null) awsLambda.toXml('AwsLambda'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A configuration used when creating an Object Lambda Access Point
+/// transformation.
+class ObjectLambdaTransformationConfiguration {
+  /// A container for the action of an Object Lambda Access Point configuration.
+  /// Valid inputs are <code>GetObject</code>, <code>ListObjects</code>,
+  /// <code>HeadObject</code>, and <code>ListObjectsV2</code>.
+  final List<ObjectLambdaTransformationConfigurationAction> actions;
+
+  /// A container for the content transformation of an Object Lambda Access Point
+  /// configuration.
+  final ObjectLambdaContentTransformation contentTransformation;
+
+  ObjectLambdaTransformationConfiguration({
+    required this.actions,
+    required this.contentTransformation,
+  });
+  factory ObjectLambdaTransformationConfiguration.fromXml(_s.XmlElement elem) {
+    return ObjectLambdaTransformationConfiguration(
+      actions: _s
+          .extractXmlStringListValues(
+              _s.extractXmlChild(elem, 'Actions')!, 'Action')
+          .map((s) => s.toObjectLambdaTransformationConfigurationAction())
+          .toList(),
+      contentTransformation: ObjectLambdaContentTransformation.fromXml(
+          _s.extractXmlChild(elem, 'ContentTransformation')!),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final actions = this.actions;
+    final contentTransformation = this.contentTransformation;
+    final $children = <_s.XmlNode>[
+      _s.XmlElement(_s.XmlName('Actions'), [],
+          actions.map((e) => _s.encodeXmlStringValue('Action', e.toValue()))),
+      contentTransformation.toXml('ContentTransformation'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+enum ObjectLambdaTransformationConfigurationAction {
+  getObject,
+  headObject,
+  listObjects,
+  listObjectsV2,
+}
+
+extension ObjectLambdaTransformationConfigurationActionValueExtension
+    on ObjectLambdaTransformationConfigurationAction {
+  String toValue() {
+    switch (this) {
+      case ObjectLambdaTransformationConfigurationAction.getObject:
+        return 'GetObject';
+      case ObjectLambdaTransformationConfigurationAction.headObject:
+        return 'HeadObject';
+      case ObjectLambdaTransformationConfigurationAction.listObjects:
+        return 'ListObjects';
+      case ObjectLambdaTransformationConfigurationAction.listObjectsV2:
+        return 'ListObjectsV2';
+    }
+  }
+}
+
+extension ObjectLambdaTransformationConfigurationActionFromString on String {
+  ObjectLambdaTransformationConfigurationAction
+      toObjectLambdaTransformationConfigurationAction() {
+    switch (this) {
+      case 'GetObject':
+        return ObjectLambdaTransformationConfigurationAction.getObject;
+      case 'HeadObject':
+        return ObjectLambdaTransformationConfigurationAction.headObject;
+      case 'ListObjects':
+        return ObjectLambdaTransformationConfigurationAction.listObjects;
+      case 'ListObjectsV2':
+        return ObjectLambdaTransformationConfigurationAction.listObjectsV2;
+    }
+    throw Exception(
+        '$this is not known in enum ObjectLambdaTransformationConfigurationAction');
+  }
+}
+
 enum OperationName {
   lambdaInvoke,
   s3PutObjectCopy,
   s3PutObjectAcl,
   s3PutObjectTagging,
+  s3DeleteObjectTagging,
   s3InitiateRestoreObject,
   s3PutObjectLegalHold,
   s3PutObjectRetention,
+  s3ReplicateObject,
 }
 
 extension OperationNameValueExtension on OperationName {
@@ -5047,12 +9057,16 @@ extension OperationNameValueExtension on OperationName {
         return 'S3PutObjectAcl';
       case OperationName.s3PutObjectTagging:
         return 'S3PutObjectTagging';
+      case OperationName.s3DeleteObjectTagging:
+        return 'S3DeleteObjectTagging';
       case OperationName.s3InitiateRestoreObject:
         return 'S3InitiateRestoreObject';
       case OperationName.s3PutObjectLegalHold:
         return 'S3PutObjectLegalHold';
       case OperationName.s3PutObjectRetention:
         return 'S3PutObjectRetention';
+      case OperationName.s3ReplicateObject:
+        return 'S3ReplicateObject';
     }
   }
 }
@@ -5068,12 +9082,16 @@ extension OperationNameFromString on String {
         return OperationName.s3PutObjectAcl;
       case 'S3PutObjectTagging':
         return OperationName.s3PutObjectTagging;
+      case 'S3DeleteObjectTagging':
+        return OperationName.s3DeleteObjectTagging;
       case 'S3InitiateRestoreObject':
         return OperationName.s3InitiateRestoreObject;
       case 'S3PutObjectLegalHold':
         return OperationName.s3PutObjectLegalHold;
       case 'S3PutObjectRetention':
         return OperationName.s3PutObjectRetention;
+      case 'S3ReplicateObject':
+        return OperationName.s3ReplicateObject;
     }
     throw Exception('$this is not known in enum OperationName');
   }
@@ -5102,12 +9120,34 @@ extension OutputSchemaVersionFromString on String {
   }
 }
 
+enum OwnerOverride {
+  destination,
+}
+
+extension OwnerOverrideValueExtension on OwnerOverride {
+  String toValue() {
+    switch (this) {
+      case OwnerOverride.destination:
+        return 'Destination';
+    }
+  }
+}
+
+extension OwnerOverrideFromString on String {
+  OwnerOverride toOwnerOverride() {
+    switch (this) {
+      case 'Destination':
+        return OwnerOverride.destination;
+    }
+    throw Exception('$this is not known in enum OwnerOverride');
+  }
+}
+
 /// Indicates whether this access point policy is public. For more information
 /// about how Amazon S3 evaluates policies to determine whether they are public,
 /// see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status">The
-/// Meaning of "Public"</a> in the <i>Amazon Simple Storage Service Developer
-/// Guide</i>.
+/// Meaning of "Public"</a> in the <i>Amazon S3 User Guide</i>.
 class PolicyStatus {
   /// <p/>
   final bool? isPublic;
@@ -5191,15 +9231,34 @@ class PrefixLevelStorageMetrics {
   }
 }
 
+/// The proposed access control policy for the Multi-Region Access Point.
+///
+/// When you update the policy, the update is first listed as the proposed
+/// policy. After the update is finished and all Regions have been updated, the
+/// proposed policy is listed as the established policy. If both policies have
+/// the same version number, the proposed policy is the established policy.
+class ProposedMultiRegionAccessPointPolicy {
+  /// The details of the proposed policy.
+  final String? policy;
+
+  ProposedMultiRegionAccessPointPolicy({
+    this.policy,
+  });
+  factory ProposedMultiRegionAccessPointPolicy.fromXml(_s.XmlElement elem) {
+    return ProposedMultiRegionAccessPointPolicy(
+      policy: _s.extractXmlStringValue(elem, 'Policy'),
+    );
+  }
+}
+
 /// The <code>PublicAccessBlock</code> configuration that you want to apply to
 /// this Amazon S3 account. You can enable the configuration options in any
 /// combination. For more information about when Amazon S3 considers a bucket or
 /// object public, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status">The
-/// Meaning of "Public"</a> in the <i>Amazon Simple Storage Service Developer
-/// Guide</i>.
+/// Meaning of "Public"</a> in the <i>Amazon S3 User Guide</i>.
 ///
-/// This is not supported for Amazon S3 on Outposts.
+/// This data type is not supported for Amazon S3 on Outposts.
 class PublicAccessBlockConfiguration {
   /// Specifies whether Amazon S3 should block public access control lists (ACLs)
   /// for buckets in this account. Setting this element to <code>TRUE</code>
@@ -5207,7 +9266,8 @@ class PublicAccessBlockConfiguration {
   ///
   /// <ul>
   /// <li>
-  /// PUT Bucket acl and PUT Object acl calls fail if the specified ACL is public.
+  /// <code>PutBucketAcl</code> and <code>PutObjectAcl</code> calls fail if the
+  /// specified ACL is public.
   /// </li>
   /// <li>
   /// PUT Object calls fail if the request includes a public ACL.
@@ -5218,7 +9278,7 @@ class PublicAccessBlockConfiguration {
   /// </ul>
   /// Enabling this setting doesn't affect existing policies or ACLs.
   ///
-  /// This is not supported for Amazon S3 on Outposts.
+  /// This property is not supported for Amazon S3 on Outposts.
   final bool? blockPublicAcls;
 
   /// Specifies whether Amazon S3 should block public bucket policies for buckets
@@ -5228,7 +9288,7 @@ class PublicAccessBlockConfiguration {
   ///
   /// Enabling this setting doesn't affect existing bucket policies.
   ///
-  /// This is not supported for Amazon S3 on Outposts.
+  /// This property is not supported for Amazon S3 on Outposts.
   final bool? blockPublicPolicy;
 
   /// Specifies whether Amazon S3 should ignore public ACLs for buckets in this
@@ -5239,19 +9299,19 @@ class PublicAccessBlockConfiguration {
   /// Enabling this setting doesn't affect the persistence of any existing ACLs
   /// and doesn't prevent new public ACLs from being set.
   ///
-  /// This is not supported for Amazon S3 on Outposts.
+  /// This property is not supported for Amazon S3 on Outposts.
   final bool? ignorePublicAcls;
 
   /// Specifies whether Amazon S3 should restrict public bucket policies for
   /// buckets in this account. Setting this element to <code>TRUE</code> restricts
-  /// access to buckets with public policies to only AWS service principals and
-  /// authorized users within this account.
+  /// access to buckets with public policies to only Amazon Web Service principals
+  /// and authorized users within this account.
   ///
   /// Enabling this setting doesn't affect previously stored bucket policies,
   /// except that public and cross-account access within any public bucket policy,
   /// including non-public delegation to specific accounts, is blocked.
   ///
-  /// This is not supported for Amazon S3 on Outposts.
+  /// This property is not supported for Amazon S3 on Outposts.
   final bool? restrictPublicBuckets;
 
   PublicAccessBlockConfiguration({
@@ -5296,9 +9356,77 @@ class PublicAccessBlockConfiguration {
   }
 }
 
+class PutAccessPointConfigurationForObjectLambdaRequest {
+  /// The account ID for the account that owns the specified Object Lambda Access
+  /// Point.
+  final String accountId;
+
+  /// Object Lambda Access Point configuration document.
+  final ObjectLambdaConfiguration configuration;
+
+  /// The name of the Object Lambda Access Point.
+  final String name;
+
+  PutAccessPointConfigurationForObjectLambdaRequest({
+    required this.accountId,
+    required this.configuration,
+    required this.name,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountId = this.accountId;
+    final configuration = this.configuration;
+    final name = this.name;
+    final $children = <_s.XmlNode>[
+      configuration.toXml('Configuration'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class PutAccessPointPolicyForObjectLambdaRequest {
+  /// The account ID for the account that owns the specified Object Lambda Access
+  /// Point.
+  final String accountId;
+
+  /// The name of the Object Lambda Access Point.
+  final String name;
+
+  /// Object Lambda Access Point resource policy document.
+  final String policy;
+
+  PutAccessPointPolicyForObjectLambdaRequest({
+    required this.accountId,
+    required this.name,
+    required this.policy,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountId = this.accountId;
+    final name = this.name;
+    final policy = this.policy;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Policy', policy),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
 class PutAccessPointPolicyRequest {
-  /// The AWS account ID for owner of the bucket associated with the specified
-  /// access point.
+  /// The Amazon Web Services account ID for owner of the bucket associated with
+  /// the specified access point.
   final String accountId;
 
   /// The name of the access point that you want to associate with the specified
@@ -5307,11 +9435,12 @@ class PutAccessPointPolicyRequest {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the access point accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the access point accessed in the
+  /// format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;</code>.
   /// For example, to access the access point <code>reports-ap</code> through
-  /// outpost <code>my-outpost</code> owned by account <code>123456789012</code>
+  /// Outpost <code>my-outpost</code> owned by account <code>123456789012</code>
   /// in Region <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap</code>.
   /// The value must be URL encoded.
@@ -5319,9 +9448,9 @@ class PutAccessPointPolicyRequest {
 
   /// The policy that you want to apply to the specified access point. For more
   /// information about access point policies, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-points.html">Managing
-  /// data access with Amazon S3 Access Points</a> in the <i>Amazon Simple Storage
-  /// Service Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html">Managing
+  /// data access with Amazon S3 access points</a> in the <i>Amazon S3 User
+  /// Guide</i>.
   final String policy;
 
   PutAccessPointPolicyRequest({
@@ -5348,7 +9477,7 @@ class PutAccessPointPolicyRequest {
 }
 
 class PutBucketPolicyRequest {
-  /// The AWS account ID of the Outposts bucket.
+  /// The Amazon Web Services account ID of the Outposts bucket.
   final String accountId;
 
   /// Specifies the bucket.
@@ -5356,10 +9485,10 @@ class PutBucketPolicyRequest {
   /// For using this parameter with Amazon S3 on Outposts with the REST API, you
   /// must specify the name and the x-amz-outpost-id as well.
   ///
-  /// For using this parameter with S3 on Outposts with the AWS SDK and CLI, you
-  /// must specify the ARN of the bucket accessed in the format
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
   /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
-  /// For example, to access the bucket <code>reports</code> through outpost
+  /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in Region
   /// <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
@@ -5402,7 +9531,8 @@ class PutBucketPolicyRequest {
 }
 
 class PutJobTaggingRequest {
-  /// The AWS account ID associated with the S3 Batch Operations job.
+  /// The Amazon Web Services account ID associated with the S3 Batch Operations
+  /// job.
   final String accountId;
 
   /// The ID for the S3 Batch Operations job whose tags you want to replace.
@@ -5440,6 +9570,100 @@ class PutJobTaggingResult {
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return PutJobTaggingResult();
+  }
+}
+
+/// A container for the information associated with a <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutMultiRegionAccessPoint.html">PutMultiRegionAccessPoint</a>
+/// request.
+class PutMultiRegionAccessPointPolicyInput {
+  /// The name of the Multi-Region Access Point associated with the request.
+  final String name;
+
+  /// The policy details for the <code>PutMultiRegionAccessPoint</code> request.
+  final String policy;
+
+  PutMultiRegionAccessPointPolicyInput({
+    required this.name,
+    required this.policy,
+  });
+  factory PutMultiRegionAccessPointPolicyInput.fromXml(_s.XmlElement elem) {
+    return PutMultiRegionAccessPointPolicyInput(
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      policy: _s.extractXmlStringValue(elem, 'Policy')!,
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final name = this.name;
+    final policy = this.policy;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Name', name),
+      _s.encodeXmlStringValue('Policy', policy),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class PutMultiRegionAccessPointPolicyRequest {
+  /// The Amazon Web Services account ID for the owner of the Multi-Region Access
+  /// Point.
+  final String accountId;
+
+  /// A container element containing the details of the policy for the
+  /// Multi-Region Access Point.
+  final PutMultiRegionAccessPointPolicyInput details;
+
+  /// An idempotency token used to identify the request and guarantee that
+  /// requests are unique.
+  final String? clientToken;
+
+  PutMultiRegionAccessPointPolicyRequest({
+    required this.accountId,
+    required this.details,
+    this.clientToken,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountId = this.accountId;
+    final details = this.details;
+    final clientToken = this.clientToken;
+    final $children = <_s.XmlNode>[
+      if (clientToken != null)
+        _s.encodeXmlStringValue('ClientToken', clientToken),
+      details.toXml('Details'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class PutMultiRegionAccessPointPolicyResult {
+  /// The request token associated with the request. You can use this token with
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeMultiRegionAccessPointOperation.html">DescribeMultiRegionAccessPointOperation</a>
+  /// to determine the status of asynchronous requests.
+  final String? requestTokenARN;
+
+  PutMultiRegionAccessPointPolicyResult({
+    this.requestTokenARN,
+  });
+  factory PutMultiRegionAccessPointPolicyResult.fromXml(_s.XmlElement elem) {
+    return PutMultiRegionAccessPointPolicyResult(
+      requestTokenARN: _s.extractXmlStringValue(elem, 'RequestTokenARN'),
+    );
   }
 }
 
@@ -5531,6 +9755,73 @@ class PutStorageLensConfigurationTaggingResult {
   }
 }
 
+/// A Region that supports a Multi-Region Access Point as well as the associated
+/// bucket for the Region.
+class Region {
+  /// The name of the associated bucket for the Region.
+  final String bucket;
+
+  /// The Amazon Web Services account ID that owns the Amazon S3 bucket that's
+  /// associated with this Multi-Region Access Point.
+  final String? bucketAccountId;
+
+  Region({
+    required this.bucket,
+    this.bucketAccountId,
+  });
+  factory Region.fromXml(_s.XmlElement elem) {
+    return Region(
+      bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
+      bucketAccountId: _s.extractXmlStringValue(elem, 'BucketAccountId'),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final bucket = this.bucket;
+    final bucketAccountId = this.bucketAccountId;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Bucket', bucket),
+      if (bucketAccountId != null)
+        _s.encodeXmlStringValue('BucketAccountId', bucketAccountId),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A combination of a bucket and Region that's part of a Multi-Region Access
+/// Point.
+class RegionReport {
+  /// The name of the bucket.
+  final String? bucket;
+
+  /// The Amazon Web Services account ID that owns the Amazon S3 bucket that's
+  /// associated with this Multi-Region Access Point.
+  final String? bucketAccountId;
+
+  /// The name of the Region.
+  final String? region;
+
+  RegionReport({
+    this.bucket,
+    this.bucketAccountId,
+    this.region,
+  });
+  factory RegionReport.fromXml(_s.XmlElement elem) {
+    return RegionReport(
+      bucket: _s.extractXmlStringValue(elem, 'Bucket'),
+      bucketAccountId: _s.extractXmlStringValue(elem, 'BucketAccountId'),
+      region: _s.extractXmlStringValue(elem, 'Region'),
+    );
+  }
+}
+
 /// The container for the regional bucket.
 class RegionalBucket {
   /// <p/>
@@ -5545,7 +9836,7 @@ class RegionalBucket {
   /// The Amazon Resource Name (ARN) for the regional bucket.
   final String? bucketArn;
 
-  /// The AWS Outposts ID of the regional bucket.
+  /// The Outposts ID of the regional bucket.
   final String? outpostId;
 
   RegionalBucket({
@@ -5563,6 +9854,637 @@ class RegionalBucket {
           _s.extractXmlBoolValue(elem, 'PublicAccessBlockEnabled')!,
       bucketArn: _s.extractXmlStringValue(elem, 'BucketArn'),
       outpostId: _s.extractXmlStringValue(elem, 'OutpostId'),
+    );
+  }
+}
+
+/// A filter that you can use to specify whether replica modification sync is
+/// enabled. S3 on Outposts replica modification sync can help you keep object
+/// metadata synchronized between replicas and source objects. By default, S3 on
+/// Outposts replicates metadata from the source objects to the replicas only.
+/// When replica modification sync is enabled, S3 on Outposts replicates
+/// metadata changes made to the replica copies back to the source object,
+/// making the replication bidirectional.
+///
+/// To replicate object metadata modifications on replicas, you can specify this
+/// element and set the <code>Status</code> of this element to
+/// <code>Enabled</code>.
+/// <note>
+/// You must enable replica modification sync on the source and destination
+/// buckets to replicate replica metadata changes between the source and the
+/// replicas.
+/// </note>
+class ReplicaModifications {
+  /// Specifies whether S3 on Outposts replicates modifications to object metadata
+  /// on replicas.
+  final ReplicaModificationsStatus status;
+
+  ReplicaModifications({
+    required this.status,
+  });
+  factory ReplicaModifications.fromXml(_s.XmlElement elem) {
+    return ReplicaModifications(
+      status: _s
+          .extractXmlStringValue(elem, 'Status')!
+          .toReplicaModificationsStatus(),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final status = this.status;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Status', status.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+enum ReplicaModificationsStatus {
+  enabled,
+  disabled,
+}
+
+extension ReplicaModificationsStatusValueExtension
+    on ReplicaModificationsStatus {
+  String toValue() {
+    switch (this) {
+      case ReplicaModificationsStatus.enabled:
+        return 'Enabled';
+      case ReplicaModificationsStatus.disabled:
+        return 'Disabled';
+    }
+  }
+}
+
+extension ReplicaModificationsStatusFromString on String {
+  ReplicaModificationsStatus toReplicaModificationsStatus() {
+    switch (this) {
+      case 'Enabled':
+        return ReplicaModificationsStatus.enabled;
+      case 'Disabled':
+        return ReplicaModificationsStatus.disabled;
+    }
+    throw Exception('$this is not known in enum ReplicaModificationsStatus');
+  }
+}
+
+/// A container for one or more replication rules. A replication configuration
+/// must have at least one rule and you can add up to 100 rules. The maximum
+/// size of a replication configuration is 128 KB.
+class ReplicationConfiguration {
+  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  /// role that S3 on Outposts assumes when replicating objects. For information
+  /// about S3 replication on Outposts configuration, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/outposts-replication-how-setup.html">Setting
+  /// up replication</a> in the <i>Amazon S3 User Guide</i>.
+  final String role;
+
+  /// A container for one or more replication rules. A replication configuration
+  /// must have at least one rule and can contain an array of 100 rules at the
+  /// most.
+  final List<ReplicationRule> rules;
+
+  ReplicationConfiguration({
+    required this.role,
+    required this.rules,
+  });
+  factory ReplicationConfiguration.fromXml(_s.XmlElement elem) {
+    return ReplicationConfiguration(
+      role: _s.extractXmlStringValue(elem, 'Role')!,
+      rules: _s
+          .extractXmlChild(elem, 'Rules')!
+          .findElements('Rule')
+          .map((c) => ReplicationRule.fromXml(c))
+          .toList(),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final role = this.role;
+    final rules = this.rules;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Role', role),
+      _s.XmlElement(_s.XmlName('Rules'), [], rules.map((e) => e.toXml('Rule'))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Specifies which S3 on Outposts objects to replicate and where to store the
+/// replicas.
+class ReplicationRule {
+  /// The Amazon Resource Name (ARN) of the access point for the source Outposts
+  /// bucket that you want S3 on Outposts to replicate the objects from.
+  final String bucket;
+
+  /// A container for information about the replication destination and its
+  /// configurations.
+  final Destination destination;
+
+  /// Specifies whether the rule is enabled.
+  final ReplicationRuleStatus status;
+
+  /// Specifies whether S3 on Outposts replicates delete markers. If you specify a
+  /// <code>Filter</code> element in your replication configuration, you must also
+  /// include a <code>DeleteMarkerReplication</code> element. If your
+  /// <code>Filter</code> includes a <code>Tag</code> element, the
+  /// <code>DeleteMarkerReplication</code> element's <code>Status</code> child
+  /// element must be set to <code>Disabled</code>, because S3 on Outposts doesn't
+  /// support replicating delete markers for tag-based rules.
+  ///
+  /// For more information about delete marker replication, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsReplication.html#outposts-replication-what-is-replicated">How
+  /// delete operations affect replication</a> in the <i>Amazon S3 User Guide</i>.
+  final DeleteMarkerReplication? deleteMarkerReplication;
+
+  /// An optional configuration to replicate existing source bucket objects.
+  /// <note>
+  /// This is not supported by Amazon S3 on Outposts buckets.
+  /// </note>
+  final ExistingObjectReplication? existingObjectReplication;
+
+  /// A filter that identifies the subset of objects to which the replication rule
+  /// applies. A <code>Filter</code> element must specify exactly one
+  /// <code>Prefix</code>, <code>Tag</code>, or <code>And</code> child element.
+  final ReplicationRuleFilter? filter;
+
+  /// A unique identifier for the rule. The maximum value is 255 characters.
+  final String? id;
+
+  /// An object key name prefix that identifies the object or objects to which the
+  /// rule applies. The maximum prefix length is 1,024 characters. To include all
+  /// objects in an Outposts bucket, specify an empty string.
+  /// <important>
+  /// When you're using XML requests, you must replace special characters (such as
+  /// carriage returns) in object keys with their equivalent XML entity codes. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints">
+  /// XML-related object key constraints</a> in the <i>Amazon S3 User Guide</i>.
+  /// </important>
+  final String? prefix;
+
+  /// The priority indicates which rule has precedence whenever two or more
+  /// replication rules conflict. S3 on Outposts attempts to replicate objects
+  /// according to all replication rules. However, if there are two or more rules
+  /// with the same destination Outposts bucket, then objects will be replicated
+  /// according to the rule with the highest priority. The higher the number, the
+  /// higher the priority.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication-between-outposts.html">Creating
+  /// replication rules on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  final int? priority;
+
+  /// A container that describes additional filters for identifying the source
+  /// Outposts objects that you want to replicate. You can choose to enable or
+  /// disable the replication of these objects.
+  final SourceSelectionCriteria? sourceSelectionCriteria;
+
+  ReplicationRule({
+    required this.bucket,
+    required this.destination,
+    required this.status,
+    this.deleteMarkerReplication,
+    this.existingObjectReplication,
+    this.filter,
+    this.id,
+    this.prefix,
+    this.priority,
+    this.sourceSelectionCriteria,
+  });
+  factory ReplicationRule.fromXml(_s.XmlElement elem) {
+    return ReplicationRule(
+      bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
+      destination:
+          Destination.fromXml(_s.extractXmlChild(elem, 'Destination')!),
+      status:
+          _s.extractXmlStringValue(elem, 'Status')!.toReplicationRuleStatus(),
+      deleteMarkerReplication: _s
+          .extractXmlChild(elem, 'DeleteMarkerReplication')
+          ?.let((e) => DeleteMarkerReplication.fromXml(e)),
+      existingObjectReplication: _s
+          .extractXmlChild(elem, 'ExistingObjectReplication')
+          ?.let((e) => ExistingObjectReplication.fromXml(e)),
+      filter: _s
+          .extractXmlChild(elem, 'Filter')
+          ?.let((e) => ReplicationRuleFilter.fromXml(e)),
+      id: _s.extractXmlStringValue(elem, 'ID'),
+      prefix: _s.extractXmlStringValue(elem, 'Prefix'),
+      priority: _s.extractXmlIntValue(elem, 'Priority'),
+      sourceSelectionCriteria: _s
+          .extractXmlChild(elem, 'SourceSelectionCriteria')
+          ?.let((e) => SourceSelectionCriteria.fromXml(e)),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final bucket = this.bucket;
+    final destination = this.destination;
+    final status = this.status;
+    final deleteMarkerReplication = this.deleteMarkerReplication;
+    final existingObjectReplication = this.existingObjectReplication;
+    final filter = this.filter;
+    final id = this.id;
+    final prefix = this.prefix;
+    final priority = this.priority;
+    final sourceSelectionCriteria = this.sourceSelectionCriteria;
+    final $children = <_s.XmlNode>[
+      if (id != null) _s.encodeXmlStringValue('ID', id),
+      if (priority != null) _s.encodeXmlIntValue('Priority', priority),
+      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
+      if (filter != null) filter.toXml('Filter'),
+      _s.encodeXmlStringValue('Status', status.toValue()),
+      if (sourceSelectionCriteria != null)
+        sourceSelectionCriteria.toXml('SourceSelectionCriteria'),
+      if (existingObjectReplication != null)
+        existingObjectReplication.toXml('ExistingObjectReplication'),
+      destination.toXml('Destination'),
+      if (deleteMarkerReplication != null)
+        deleteMarkerReplication.toXml('DeleteMarkerReplication'),
+      _s.encodeXmlStringValue('Bucket', bucket),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A container for specifying rule filters. The filters determine the subset of
+/// objects to which the rule applies. This element is required only if you
+/// specify more than one filter.
+///
+/// For example:
+///
+/// <ul>
+/// <li>
+/// If you specify both a <code>Prefix</code> and a <code>Tag</code> filter,
+/// wrap these filters in an <code>And</code> element.
+/// </li>
+/// <li>
+/// If you specify a filter based on multiple tags, wrap the <code>Tag</code>
+/// elements in an <code>And</code> element.
+/// </li>
+/// </ul>
+class ReplicationRuleAndOperator {
+  /// An object key name prefix that identifies the subset of objects that the
+  /// rule applies to.
+  final String? prefix;
+
+  /// An array of tags that contain key and value pairs.
+  final List<S3Tag>? tags;
+
+  ReplicationRuleAndOperator({
+    this.prefix,
+    this.tags,
+  });
+  factory ReplicationRuleAndOperator.fromXml(_s.XmlElement elem) {
+    return ReplicationRuleAndOperator(
+      prefix: _s.extractXmlStringValue(elem, 'Prefix'),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
+          elem.findElements('member').map((c) => S3Tag.fromXml(c)).toList()),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final prefix = this.prefix;
+    final tags = this.tags;
+    final $children = <_s.XmlNode>[
+      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
+      if (tags != null)
+        _s.XmlElement(
+            _s.XmlName('Tags'), [], tags.map((e) => e.toXml('member'))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A filter that identifies the subset of objects to which the replication rule
+/// applies. A <code>Filter</code> element must specify exactly one
+/// <code>Prefix</code>, <code>Tag</code>, or <code>And</code> child element.
+class ReplicationRuleFilter {
+  /// A container for specifying rule filters. The filters determine the subset of
+  /// objects that the rule applies to. This element is required only if you
+  /// specify more than one filter. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// If you specify both a <code>Prefix</code> and a <code>Tag</code> filter,
+  /// wrap these filters in an <code>And</code> element.
+  /// </li>
+  /// <li>
+  /// If you specify a filter based on multiple tags, wrap the <code>Tag</code>
+  /// elements in an <code>And</code> element.
+  /// </li>
+  /// </ul>
+  final ReplicationRuleAndOperator? and;
+
+  /// An object key name prefix that identifies the subset of objects that the
+  /// rule applies to.
+  /// <important>
+  /// When you're using XML requests, you must replace special characters (such as
+  /// carriage returns) in object keys with their equivalent XML entity codes. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints">
+  /// XML-related object key constraints</a> in the <i>Amazon S3 User Guide</i>.
+  /// </important>
+  final String? prefix;
+  final S3Tag? tag;
+
+  ReplicationRuleFilter({
+    this.and,
+    this.prefix,
+    this.tag,
+  });
+  factory ReplicationRuleFilter.fromXml(_s.XmlElement elem) {
+    return ReplicationRuleFilter(
+      and: _s
+          .extractXmlChild(elem, 'And')
+          ?.let((e) => ReplicationRuleAndOperator.fromXml(e)),
+      prefix: _s.extractXmlStringValue(elem, 'Prefix'),
+      tag: _s.extractXmlChild(elem, 'Tag')?.let((e) => S3Tag.fromXml(e)),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final and = this.and;
+    final prefix = this.prefix;
+    final tag = this.tag;
+    final $children = <_s.XmlNode>[
+      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
+      if (tag != null) tag.toXml('Tag'),
+      if (and != null) and.toXml('And'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+enum ReplicationRuleStatus {
+  enabled,
+  disabled,
+}
+
+extension ReplicationRuleStatusValueExtension on ReplicationRuleStatus {
+  String toValue() {
+    switch (this) {
+      case ReplicationRuleStatus.enabled:
+        return 'Enabled';
+      case ReplicationRuleStatus.disabled:
+        return 'Disabled';
+    }
+  }
+}
+
+extension ReplicationRuleStatusFromString on String {
+  ReplicationRuleStatus toReplicationRuleStatus() {
+    switch (this) {
+      case 'Enabled':
+        return ReplicationRuleStatus.enabled;
+      case 'Disabled':
+        return ReplicationRuleStatus.disabled;
+    }
+    throw Exception('$this is not known in enum ReplicationRuleStatus');
+  }
+}
+
+enum ReplicationStatus {
+  completed,
+  failed,
+  replica,
+  none,
+}
+
+extension ReplicationStatusValueExtension on ReplicationStatus {
+  String toValue() {
+    switch (this) {
+      case ReplicationStatus.completed:
+        return 'COMPLETED';
+      case ReplicationStatus.failed:
+        return 'FAILED';
+      case ReplicationStatus.replica:
+        return 'REPLICA';
+      case ReplicationStatus.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension ReplicationStatusFromString on String {
+  ReplicationStatus toReplicationStatus() {
+    switch (this) {
+      case 'COMPLETED':
+        return ReplicationStatus.completed;
+      case 'FAILED':
+        return ReplicationStatus.failed;
+      case 'REPLICA':
+        return ReplicationStatus.replica;
+      case 'NONE':
+        return ReplicationStatus.none;
+    }
+    throw Exception('$this is not known in enum ReplicationStatus');
+  }
+}
+
+enum ReplicationStorageClass {
+  standard,
+  reducedRedundancy,
+  standardIa,
+  onezoneIa,
+  intelligentTiering,
+  glacier,
+  deepArchive,
+  outposts,
+  glacierIr,
+}
+
+extension ReplicationStorageClassValueExtension on ReplicationStorageClass {
+  String toValue() {
+    switch (this) {
+      case ReplicationStorageClass.standard:
+        return 'STANDARD';
+      case ReplicationStorageClass.reducedRedundancy:
+        return 'REDUCED_REDUNDANCY';
+      case ReplicationStorageClass.standardIa:
+        return 'STANDARD_IA';
+      case ReplicationStorageClass.onezoneIa:
+        return 'ONEZONE_IA';
+      case ReplicationStorageClass.intelligentTiering:
+        return 'INTELLIGENT_TIERING';
+      case ReplicationStorageClass.glacier:
+        return 'GLACIER';
+      case ReplicationStorageClass.deepArchive:
+        return 'DEEP_ARCHIVE';
+      case ReplicationStorageClass.outposts:
+        return 'OUTPOSTS';
+      case ReplicationStorageClass.glacierIr:
+        return 'GLACIER_IR';
+    }
+  }
+}
+
+extension ReplicationStorageClassFromString on String {
+  ReplicationStorageClass toReplicationStorageClass() {
+    switch (this) {
+      case 'STANDARD':
+        return ReplicationStorageClass.standard;
+      case 'REDUCED_REDUNDANCY':
+        return ReplicationStorageClass.reducedRedundancy;
+      case 'STANDARD_IA':
+        return ReplicationStorageClass.standardIa;
+      case 'ONEZONE_IA':
+        return ReplicationStorageClass.onezoneIa;
+      case 'INTELLIGENT_TIERING':
+        return ReplicationStorageClass.intelligentTiering;
+      case 'GLACIER':
+        return ReplicationStorageClass.glacier;
+      case 'DEEP_ARCHIVE':
+        return ReplicationStorageClass.deepArchive;
+      case 'OUTPOSTS':
+        return ReplicationStorageClass.outposts;
+      case 'GLACIER_IR':
+        return ReplicationStorageClass.glacierIr;
+    }
+    throw Exception('$this is not known in enum ReplicationStorageClass');
+  }
+}
+
+/// A container that specifies S3 Replication Time Control (S3 RTC) related
+/// information, including whether S3 RTC is enabled and the time when all
+/// objects and operations on objects must be replicated.
+/// <note>
+/// This is not supported by Amazon S3 on Outposts buckets.
+/// </note>
+class ReplicationTime {
+  /// Specifies whether S3 Replication Time Control (S3 RTC) is enabled.
+  final ReplicationTimeStatus status;
+
+  /// A container that specifies the time by which replication should be complete
+  /// for all objects and operations on objects.
+  final ReplicationTimeValue time;
+
+  ReplicationTime({
+    required this.status,
+    required this.time,
+  });
+  factory ReplicationTime.fromXml(_s.XmlElement elem) {
+    return ReplicationTime(
+      status:
+          _s.extractXmlStringValue(elem, 'Status')!.toReplicationTimeStatus(),
+      time: ReplicationTimeValue.fromXml(_s.extractXmlChild(elem, 'Time')!),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final status = this.status;
+    final time = this.time;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Status', status.toValue()),
+      time.toXml('Time'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+enum ReplicationTimeStatus {
+  enabled,
+  disabled,
+}
+
+extension ReplicationTimeStatusValueExtension on ReplicationTimeStatus {
+  String toValue() {
+    switch (this) {
+      case ReplicationTimeStatus.enabled:
+        return 'Enabled';
+      case ReplicationTimeStatus.disabled:
+        return 'Disabled';
+    }
+  }
+}
+
+extension ReplicationTimeStatusFromString on String {
+  ReplicationTimeStatus toReplicationTimeStatus() {
+    switch (this) {
+      case 'Enabled':
+        return ReplicationTimeStatus.enabled;
+      case 'Disabled':
+        return ReplicationTimeStatus.disabled;
+    }
+    throw Exception('$this is not known in enum ReplicationTimeStatus');
+  }
+}
+
+/// A container that specifies the time value for S3 Replication Time Control
+/// (S3 RTC). This value is also used for the replication metrics
+/// <code>EventThreshold</code> element.
+/// <note>
+/// This is not supported by Amazon S3 on Outposts buckets.
+/// </note>
+class ReplicationTimeValue {
+  /// Contains an integer that specifies the time period in minutes.
+  ///
+  /// Valid value: 15
+  final int? minutes;
+
+  ReplicationTimeValue({
+    this.minutes,
+  });
+  factory ReplicationTimeValue.fromXml(_s.XmlElement elem) {
+    return ReplicationTimeValue(
+      minutes: _s.extractXmlIntValue(elem, 'Minutes'),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final minutes = this.minutes;
+    final $children = <_s.XmlNode>[
+      if (minutes != null) _s.encodeXmlIntValue('Minutes', minutes),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
     );
   }
 }
@@ -5807,17 +10729,70 @@ extension S3CannedAccessControlListFromString on String {
   }
 }
 
+enum S3ChecksumAlgorithm {
+  crc32,
+  crc32c,
+  sha1,
+  sha256,
+}
+
+extension S3ChecksumAlgorithmValueExtension on S3ChecksumAlgorithm {
+  String toValue() {
+    switch (this) {
+      case S3ChecksumAlgorithm.crc32:
+        return 'CRC32';
+      case S3ChecksumAlgorithm.crc32c:
+        return 'CRC32C';
+      case S3ChecksumAlgorithm.sha1:
+        return 'SHA1';
+      case S3ChecksumAlgorithm.sha256:
+        return 'SHA256';
+    }
+  }
+}
+
+extension S3ChecksumAlgorithmFromString on String {
+  S3ChecksumAlgorithm toS3ChecksumAlgorithm() {
+    switch (this) {
+      case 'CRC32':
+        return S3ChecksumAlgorithm.crc32;
+      case 'CRC32C':
+        return S3ChecksumAlgorithm.crc32c;
+      case 'SHA1':
+        return S3ChecksumAlgorithm.sha1;
+      case 'SHA256':
+        return S3ChecksumAlgorithm.sha256;
+    }
+    throw Exception('$this is not known in enum S3ChecksumAlgorithm');
+  }
+}
+
 /// Contains the configuration parameters for a PUT Copy object operation. S3
-/// Batch Operations passes each value through to the underlying PUT Copy object
-/// API. For more information about the parameters for this operation, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectCOPY.html">PUT
-/// Object - Copy</a>.
+/// Batch Operations passes every object to the underlying
+/// <code>CopyObject</code> API operation. For more information about the
+/// parameters for this operation, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectCOPY.html">CopyObject</a>.
 class S3CopyObjectOperation {
   /// <p/>
   final List<S3Grant>? accessControlGrants;
 
+  /// Specifies whether Amazon S3 should use an S3 Bucket Key for object
+  /// encryption with server-side encryption using Amazon Web Services KMS
+  /// (SSE-KMS). Setting this header to <code>true</code> causes Amazon S3 to use
+  /// an S3 Bucket Key for object encryption with SSE-KMS.
+  ///
+  /// Specifying this header with an <i>object</i> action doesn’t affect
+  /// <i>bucket-level</i> settings for S3 Bucket Key.
+  final bool? bucketKeyEnabled;
+
   /// <p/>
   final S3CannedAccessControlList? cannedAccessControlList;
+
+  /// Indicates the algorithm that you want Amazon S3 to use to create the
+  /// checksum. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/CheckingObjectIntegrity.xml">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final S3ChecksumAlgorithm? checksumAlgorithm;
 
   /// <p/>
   final S3MetadataDirective? metadataDirective;
@@ -5825,7 +10800,9 @@ class S3CopyObjectOperation {
   /// <p/>
   final DateTime? modifiedSinceConstraint;
 
-  /// <p/>
+  /// If you don't provide this parameter, Amazon S3 copies all the metadata from
+  /// the original objects. If you specify an empty set, the new objects will have
+  /// no tags. Otherwise, Amazon S3 assigns the supplied tags to the new objects.
   final S3ObjectMetadata? newObjectMetadata;
 
   /// <p/>
@@ -5856,14 +10833,16 @@ class S3CopyObjectOperation {
   /// <p/>
   final S3StorageClass? storageClass;
 
-  /// Specifies the folder prefix into which you would like the objects to be
-  /// copied. For example, to copy objects into a folder named "Folder1" in the
-  /// destination bucket, set the TargetKeyPrefix to "Folder1/".
+  /// Specifies the folder prefix that you want the objects to be copied into. For
+  /// example, to copy objects into a folder named <code>Folder1</code> in the
+  /// destination bucket, set the <code>TargetKeyPrefix</code> property to
+  /// <code>Folder1</code>.
   final String? targetKeyPrefix;
 
-  /// Specifies the destination bucket ARN for the batch copy operation. For
-  /// example, to copy objects to a bucket named "destinationBucket", set the
-  /// TargetResource to "arn:aws:s3:::destinationBucket".
+  /// Specifies the destination bucket Amazon Resource Name (ARN) for the batch
+  /// copy operation. For example, to copy objects to a bucket named
+  /// <code>destinationBucket</code>, set the <code>TargetResource</code> property
+  /// to <code>arn:aws:s3:::destinationBucket</code>.
   final String? targetResource;
 
   /// <p/>
@@ -5871,7 +10850,9 @@ class S3CopyObjectOperation {
 
   S3CopyObjectOperation({
     this.accessControlGrants,
+    this.bucketKeyEnabled,
     this.cannedAccessControlList,
+    this.checksumAlgorithm,
     this.metadataDirective,
     this.modifiedSinceConstraint,
     this.newObjectMetadata,
@@ -5894,9 +10875,13 @@ class S3CopyObjectOperation {
               .findElements('member')
               .map((c) => S3Grant.fromXml(c))
               .toList()),
+      bucketKeyEnabled: _s.extractXmlBoolValue(elem, 'BucketKeyEnabled'),
       cannedAccessControlList: _s
           .extractXmlStringValue(elem, 'CannedAccessControlList')
           ?.toS3CannedAccessControlList(),
+      checksumAlgorithm: _s
+          .extractXmlStringValue(elem, 'ChecksumAlgorithm')
+          ?.toS3ChecksumAlgorithm(),
       metadataDirective: _s
           .extractXmlStringValue(elem, 'MetadataDirective')
           ?.toS3MetadataDirective(),
@@ -5932,7 +10917,9 @@ class S3CopyObjectOperation {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
     final accessControlGrants = this.accessControlGrants;
+    final bucketKeyEnabled = this.bucketKeyEnabled;
     final cannedAccessControlList = this.cannedAccessControlList;
+    final checksumAlgorithm = this.checksumAlgorithm;
     final metadataDirective = this.metadataDirective;
     final modifiedSinceConstraint = this.modifiedSinceConstraint;
     final newObjectMetadata = this.newObjectMetadata;
@@ -5988,6 +10975,11 @@ class S3CopyObjectOperation {
       if (objectLockRetainUntilDate != null)
         _s.encodeXmlDateTimeValue(
             'ObjectLockRetainUntilDate', objectLockRetainUntilDate),
+      if (bucketKeyEnabled != null)
+        _s.encodeXmlBoolValue('BucketKeyEnabled', bucketKeyEnabled),
+      if (checksumAlgorithm != null)
+        _s.encodeXmlStringValue(
+            'ChecksumAlgorithm', checksumAlgorithm.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -5996,6 +10988,53 @@ class S3CopyObjectOperation {
       _s.XmlName(elemName),
       $attributes,
       $children,
+    );
+  }
+}
+
+/// Contains no configuration parameters because the DELETE Object tagging
+/// (<code>DeleteObjectTagging</code>) API operation accepts only the bucket
+/// name and key name as parameters, which are defined in the job's manifest.
+class S3DeleteObjectTaggingOperation {
+  S3DeleteObjectTaggingOperation();
+  factory S3DeleteObjectTaggingOperation.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return S3DeleteObjectTaggingOperation();
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final $children = <_s.XmlNode>[];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Describes the specified job's generated manifest. Batch Operations jobs
+/// created with a ManifestGenerator populate details of this descriptor after
+/// execution of the ManifestGenerator.
+class S3GeneratedManifestDescriptor {
+  /// The format of the generated manifest.
+  final GeneratedManifestFormat? format;
+  final JobManifestLocation? location;
+
+  S3GeneratedManifestDescriptor({
+    this.format,
+    this.location,
+  });
+  factory S3GeneratedManifestDescriptor.fromXml(_s.XmlElement elem) {
+    return S3GeneratedManifestDescriptor(
+      format:
+          _s.extractXmlStringValue(elem, 'Format')?.toGeneratedManifestFormat(),
+      location: _s
+          .extractXmlChild(elem, 'Location')
+          ?.let((e) => JobManifestLocation.fromXml(e)),
     );
   }
 }
@@ -6149,16 +11188,33 @@ extension S3GranteeTypeIdentifierFromString on String {
   }
 }
 
-/// Contains the configuration parameters for an Initiate Glacier Restore job.
-/// S3 Batch Operations passes each value through to the underlying POST Object
-/// restore API. For more information about the parameters for this operation,
-/// see <a
+/// Contains the configuration parameters for a POST Object restore job. S3
+/// Batch Operations passes every object to the underlying
+/// <code>RestoreObject</code> API operation. For more information about the
+/// parameters for this operation, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPOSTrestore.html#RESTObjectPOSTrestore-restore-request">RestoreObject</a>.
 class S3InitiateRestoreObjectOperation {
-  /// <p/>
+  /// This argument specifies how long the S3 Glacier or S3 Glacier Deep Archive
+  /// object remains available in Amazon S3. S3 Initiate Restore Object jobs that
+  /// target S3 Glacier and S3 Glacier Deep Archive objects require
+  /// <code>ExpirationInDays</code> set to 1 or greater.
+  ///
+  /// Conversely, do <i>not</i> set <code>ExpirationInDays</code> when creating S3
+  /// Initiate Restore Object jobs that target S3 Intelligent-Tiering Archive
+  /// Access and Deep Archive Access tier objects. Objects in S3
+  /// Intelligent-Tiering archive access tiers are not subject to restore expiry,
+  /// so specifying <code>ExpirationInDays</code> results in restore request
+  /// failure.
+  ///
+  /// S3 Batch Operations jobs can operate either on S3 Glacier and S3 Glacier
+  /// Deep Archive storage class objects or on S3 Intelligent-Tiering Archive
+  /// Access and Deep Archive Access storage tier objects, but not both types in
+  /// the same job. If you need to restore objects of both types you <i>must</i>
+  /// create separate Batch Operations jobs.
   final int? expirationInDays;
 
-  /// <p/>
+  /// S3 Batch Operations supports <code>STANDARD</code> and <code>BULK</code>
+  /// retrieval tiers, but not the <code>EXPEDITED</code> retrieval tier.
   final S3GlacierJobTier? glacierJobTier;
 
   S3InitiateRestoreObjectOperation({
@@ -6182,6 +11238,144 @@ class S3InitiateRestoreObjectOperation {
         _s.encodeXmlIntValue('ExpirationInDays', expirationInDays),
       if (glacierJobTier != null)
         _s.encodeXmlStringValue('GlacierJobTier', glacierJobTier.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The container for the service that will create the S3 manifest.
+class S3JobManifestGenerator {
+  /// Determines whether or not to write the job's generated manifest to a bucket.
+  final bool enableManifestOutput;
+
+  /// The source bucket used by the ManifestGenerator.
+  final String sourceBucket;
+
+  /// The Amazon Web Services account ID that owns the bucket the generated
+  /// manifest is written to. If provided the generated manifest bucket's owner
+  /// Amazon Web Services account ID must match this value, else the job fails.
+  final String? expectedBucketOwner;
+
+  /// Specifies rules the S3JobManifestGenerator should use to use to decide
+  /// whether an object in the source bucket should or should not be included in
+  /// the generated job manifest.
+  final JobManifestGeneratorFilter? filter;
+
+  /// Specifies the location the generated manifest will be written to.
+  final S3ManifestOutputLocation? manifestOutputLocation;
+
+  S3JobManifestGenerator({
+    required this.enableManifestOutput,
+    required this.sourceBucket,
+    this.expectedBucketOwner,
+    this.filter,
+    this.manifestOutputLocation,
+  });
+  factory S3JobManifestGenerator.fromXml(_s.XmlElement elem) {
+    return S3JobManifestGenerator(
+      enableManifestOutput:
+          _s.extractXmlBoolValue(elem, 'EnableManifestOutput')!,
+      sourceBucket: _s.extractXmlStringValue(elem, 'SourceBucket')!,
+      expectedBucketOwner:
+          _s.extractXmlStringValue(elem, 'ExpectedBucketOwner'),
+      filter: _s
+          .extractXmlChild(elem, 'Filter')
+          ?.let((e) => JobManifestGeneratorFilter.fromXml(e)),
+      manifestOutputLocation: _s
+          .extractXmlChild(elem, 'ManifestOutputLocation')
+          ?.let((e) => S3ManifestOutputLocation.fromXml(e)),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final enableManifestOutput = this.enableManifestOutput;
+    final sourceBucket = this.sourceBucket;
+    final expectedBucketOwner = this.expectedBucketOwner;
+    final filter = this.filter;
+    final manifestOutputLocation = this.manifestOutputLocation;
+    final $children = <_s.XmlNode>[
+      if (expectedBucketOwner != null)
+        _s.encodeXmlStringValue('ExpectedBucketOwner', expectedBucketOwner),
+      _s.encodeXmlStringValue('SourceBucket', sourceBucket),
+      if (manifestOutputLocation != null)
+        manifestOutputLocation.toXml('ManifestOutputLocation'),
+      if (filter != null) filter.toXml('Filter'),
+      _s.encodeXmlBoolValue('EnableManifestOutput', enableManifestOutput),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Location details for where the generated manifest should be written.
+class S3ManifestOutputLocation {
+  /// The bucket ARN the generated manifest should be written to.
+  final String bucket;
+
+  /// The format of the generated manifest.
+  final GeneratedManifestFormat manifestFormat;
+
+  /// The Account ID that owns the bucket the generated manifest is written to.
+  final String? expectedManifestBucketOwner;
+
+  /// Specifies what encryption should be used when the generated manifest objects
+  /// are written.
+  final GeneratedManifestEncryption? manifestEncryption;
+
+  /// Prefix identifying one or more objects to which the manifest applies.
+  final String? manifestPrefix;
+
+  S3ManifestOutputLocation({
+    required this.bucket,
+    required this.manifestFormat,
+    this.expectedManifestBucketOwner,
+    this.manifestEncryption,
+    this.manifestPrefix,
+  });
+  factory S3ManifestOutputLocation.fromXml(_s.XmlElement elem) {
+    return S3ManifestOutputLocation(
+      bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
+      manifestFormat: _s
+          .extractXmlStringValue(elem, 'ManifestFormat')!
+          .toGeneratedManifestFormat(),
+      expectedManifestBucketOwner:
+          _s.extractXmlStringValue(elem, 'ExpectedManifestBucketOwner'),
+      manifestEncryption: _s
+          .extractXmlChild(elem, 'ManifestEncryption')
+          ?.let((e) => GeneratedManifestEncryption.fromXml(e)),
+      manifestPrefix: _s.extractXmlStringValue(elem, 'ManifestPrefix'),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final bucket = this.bucket;
+    final manifestFormat = this.manifestFormat;
+    final expectedManifestBucketOwner = this.expectedManifestBucketOwner;
+    final manifestEncryption = this.manifestEncryption;
+    final manifestPrefix = this.manifestPrefix;
+    final $children = <_s.XmlNode>[
+      if (expectedManifestBucketOwner != null)
+        _s.encodeXmlStringValue(
+            'ExpectedManifestBucketOwner', expectedManifestBucketOwner),
+      _s.encodeXmlStringValue('Bucket', bucket),
+      if (manifestPrefix != null)
+        _s.encodeXmlStringValue('ManifestPrefix', manifestPrefix),
+      if (manifestEncryption != null)
+        manifestEncryption.toXml('ManifestEncryption'),
+      _s.encodeXmlStringValue('ManifestFormat', manifestFormat.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6548,13 +11742,36 @@ extension S3PermissionFromString on String {
   }
 }
 
+/// Directs the specified job to invoke <code>ReplicateObject</code> on every
+/// object in the job's manifest.
+class S3ReplicateObjectOperation {
+  S3ReplicateObjectOperation();
+  factory S3ReplicateObjectOperation.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return S3ReplicateObjectOperation();
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final $children = <_s.XmlNode>[];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
 /// Contains the S3 Object Lock retention mode to be applied to all objects in
 /// the S3 Batch Operations job. If you don't provide <code>Mode</code> and
 /// <code>RetainUntilDate</code> data types in your operation, you will remove
 /// the retention from your objects. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-retention-date.html">Using
-/// S3 Object Lock retention with S3 Batch Operations</a> in the <i>Amazon
-/// Simple Storage Service Developer Guide</i>.
+/// S3 Object Lock retention with S3 Batch Operations</a> in the <i>Amazon S3
+/// User Guide</i>.
 class S3Retention {
   /// The Object Lock retention mode to be applied to all objects in the Batch
   /// Operations job.
@@ -6623,11 +11840,11 @@ extension S3SSEAlgorithmFromString on String {
   }
 }
 
-/// Contains the configuration parameters for a Set Object ACL operation. S3
-/// Batch Operations passes each value through to the underlying PUT Object acl
-/// API. For more information about the parameters for this operation, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTacl.html">PUT
-/// Object acl</a>.
+/// Contains the configuration parameters for a PUT Object ACL operation. S3
+/// Batch Operations passes every object to the underlying
+/// <code>PutObjectAcl</code> API operation. For more information about the
+/// parameters for this operation, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTacl.html">PutObjectAcl</a>.
 class S3SetObjectAclOperation {
   /// <p/>
   final S3AccessControlPolicy? accessControlPolicy;
@@ -6661,11 +11878,11 @@ class S3SetObjectAclOperation {
 }
 
 /// Contains the configuration for an S3 Object Lock legal hold operation that
-/// an S3 Batch Operations job passes each object through to the underlying
-/// <code>PutObjectLegalHold</code> API. For more information, see <a
+/// an S3 Batch Operations job passes to every object to the underlying
+/// <code>PutObjectLegalHold</code> API operation. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-legal-hold.html">Using
-/// S3 Object Lock legal hold with S3 Batch Operations</a> in the <i>Amazon
-/// Simple Storage Service Developer Guide</i>.
+/// S3 Object Lock legal hold with S3 Batch Operations</a> in the <i>Amazon S3
+/// User Guide</i>.
 class S3SetObjectLegalHoldOperation {
   /// Contains the Object Lock legal hold status to be applied to all objects in
   /// the Batch Operations job.
@@ -6698,18 +11915,18 @@ class S3SetObjectLegalHoldOperation {
 }
 
 /// Contains the configuration parameters for the Object Lock retention action
-/// for an S3 Batch Operations job. Batch Operations passes each value through
-/// to the underlying <code>PutObjectRetention</code> API. For more information,
-/// see <a
+/// for an S3 Batch Operations job. Batch Operations passes every object to the
+/// underlying <code>PutObjectRetention</code> API operation. For more
+/// information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-retention-date.html">Using
-/// S3 Object Lock retention with S3 Batch Operations</a> in the <i>Amazon
-/// Simple Storage Service Developer Guide</i>.
+/// S3 Object Lock retention with S3 Batch Operations</a> in the <i>Amazon S3
+/// User Guide</i>.
 class S3SetObjectRetentionOperation {
   /// Contains the Object Lock retention mode to be applied to all objects in the
   /// Batch Operations job. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-retention-date.html">Using
-  /// S3 Object Lock retention with S3 Batch Operations</a> in the <i>Amazon
-  /// Simple Storage Service Developer Guide</i>.
+  /// S3 Object Lock retention with S3 Batch Operations</a> in the <i>Amazon S3
+  /// User Guide</i>.
   final S3Retention retention;
 
   /// Indicates if the action should be applied to objects in the Batch Operations
@@ -6748,12 +11965,11 @@ class S3SetObjectRetentionOperation {
   }
 }
 
-/// Contains the configuration parameters for a Set Object Tagging operation. S3
-/// Batch Operations passes each value through to the underlying PUT Object
-/// tagging API. For more information about the parameters for this operation,
-/// see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTtagging.html">PUT
-/// Object tagging</a>.
+/// Contains the configuration parameters for a PUT Object Tagging operation. S3
+/// Batch Operations passes every object to the underlying
+/// <code>PutObjectTagging</code> API operation. For more information about the
+/// parameters for this operation, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTtagging.html">PutObjectTagging</a>.
 class S3SetObjectTaggingOperation {
   /// <p/>
   final List<S3Tag>? tagSet;
@@ -6793,6 +12009,7 @@ enum S3StorageClass {
   glacier,
   intelligentTiering,
   deepArchive,
+  glacierIr,
 }
 
 extension S3StorageClassValueExtension on S3StorageClass {
@@ -6810,6 +12027,8 @@ extension S3StorageClassValueExtension on S3StorageClass {
         return 'INTELLIGENT_TIERING';
       case S3StorageClass.deepArchive:
         return 'DEEP_ARCHIVE';
+      case S3StorageClass.glacierIr:
+        return 'GLACIER_IR';
     }
   }
 }
@@ -6829,17 +12048,19 @@ extension S3StorageClassFromString on String {
         return S3StorageClass.intelligentTiering;
       case 'DEEP_ARCHIVE':
         return S3StorageClass.deepArchive;
+      case 'GLACIER_IR':
+        return S3StorageClass.glacierIr;
     }
     throw Exception('$this is not known in enum S3StorageClass');
   }
 }
 
-/// <p/>
+/// A container for a key-value name pair.
 class S3Tag {
-  /// <p/>
+  /// Key of the tag
   final String key;
 
-  /// <p/>
+  /// Value of the tag
   final String value;
 
   S3Tag({
@@ -6904,6 +12125,38 @@ class SSEKMS {
   }
 }
 
+/// Configuration for the use of SSE-KMS to encrypt generated manifest objects.
+class SSEKMSEncryption {
+  /// Specifies the ID of the Amazon Web Services Key Management Service (Amazon
+  /// Web Services KMS) symmetric encryption customer managed key to use for
+  /// encrypting generated manifest objects.
+  final String keyId;
+
+  SSEKMSEncryption({
+    required this.keyId,
+  });
+  factory SSEKMSEncryption.fromXml(_s.XmlElement elem) {
+    return SSEKMSEncryption(
+      keyId: _s.extractXmlStringValue(elem, 'KeyId')!,
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final keyId = this.keyId;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('KeyId', keyId),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
 /// <p/>
 class SSES3 {
   SSES3();
@@ -6911,6 +12164,28 @@ class SSES3 {
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return SSES3();
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final $children = <_s.XmlNode>[];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Configuration for the use of SSE-S3 to encrypt generated manifest objects.
+class SSES3Encryption {
+  SSES3Encryption();
+  factory SSES3Encryption.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return SSES3Encryption();
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
@@ -6977,10 +12252,143 @@ class SelectionCriteria {
   }
 }
 
-/// The AWS organization for your S3 Storage Lens.
+/// A container that describes additional filters for identifying the source
+/// objects that you want to replicate. You can choose to enable or disable the
+/// replication of these objects.
+class SourceSelectionCriteria {
+  /// A filter that you can use to specify whether replica modification sync is
+  /// enabled. S3 on Outposts replica modification sync can help you keep object
+  /// metadata synchronized between replicas and source objects. By default, S3 on
+  /// Outposts replicates metadata from the source objects to the replicas only.
+  /// When replica modification sync is enabled, S3 on Outposts replicates
+  /// metadata changes made to the replica copies back to the source object,
+  /// making the replication bidirectional.
+  ///
+  /// To replicate object metadata modifications on replicas, you can specify this
+  /// element and set the <code>Status</code> of this element to
+  /// <code>Enabled</code>.
+  /// <note>
+  /// You must enable replica modification sync on the source and destination
+  /// buckets to replicate replica metadata changes between the source and the
+  /// replicas.
+  /// </note>
+  final ReplicaModifications? replicaModifications;
+
+  /// A filter that you can use to select Amazon S3 objects that are encrypted
+  /// with server-side encryption by using Key Management Service (KMS) keys. If
+  /// you include <code>SourceSelectionCriteria</code> in the replication
+  /// configuration, this element is required.
+  /// <note>
+  /// This is not supported by Amazon S3 on Outposts buckets.
+  /// </note>
+  final SseKmsEncryptedObjects? sseKmsEncryptedObjects;
+
+  SourceSelectionCriteria({
+    this.replicaModifications,
+    this.sseKmsEncryptedObjects,
+  });
+  factory SourceSelectionCriteria.fromXml(_s.XmlElement elem) {
+    return SourceSelectionCriteria(
+      replicaModifications: _s
+          .extractXmlChild(elem, 'ReplicaModifications')
+          ?.let((e) => ReplicaModifications.fromXml(e)),
+      sseKmsEncryptedObjects: _s
+          .extractXmlChild(elem, 'SseKmsEncryptedObjects')
+          ?.let((e) => SseKmsEncryptedObjects.fromXml(e)),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final replicaModifications = this.replicaModifications;
+    final sseKmsEncryptedObjects = this.sseKmsEncryptedObjects;
+    final $children = <_s.XmlNode>[
+      if (sseKmsEncryptedObjects != null)
+        sseKmsEncryptedObjects.toXml('SseKmsEncryptedObjects'),
+      if (replicaModifications != null)
+        replicaModifications.toXml('ReplicaModifications'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A container for filter information that you can use to select S3 objects
+/// that are encrypted with Key Management Service (KMS).
+/// <note>
+/// This is not supported by Amazon S3 on Outposts buckets.
+/// </note>
+class SseKmsEncryptedObjects {
+  /// Specifies whether Amazon S3 replicates objects that are created with
+  /// server-side encryption by using an KMS key stored in Key Management Service.
+  final SseKmsEncryptedObjectsStatus status;
+
+  SseKmsEncryptedObjects({
+    required this.status,
+  });
+  factory SseKmsEncryptedObjects.fromXml(_s.XmlElement elem) {
+    return SseKmsEncryptedObjects(
+      status: _s
+          .extractXmlStringValue(elem, 'Status')!
+          .toSseKmsEncryptedObjectsStatus(),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final status = this.status;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Status', status.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+enum SseKmsEncryptedObjectsStatus {
+  enabled,
+  disabled,
+}
+
+extension SseKmsEncryptedObjectsStatusValueExtension
+    on SseKmsEncryptedObjectsStatus {
+  String toValue() {
+    switch (this) {
+      case SseKmsEncryptedObjectsStatus.enabled:
+        return 'Enabled';
+      case SseKmsEncryptedObjectsStatus.disabled:
+        return 'Disabled';
+    }
+  }
+}
+
+extension SseKmsEncryptedObjectsStatusFromString on String {
+  SseKmsEncryptedObjectsStatus toSseKmsEncryptedObjectsStatus() {
+    switch (this) {
+      case 'Enabled':
+        return SseKmsEncryptedObjectsStatus.enabled;
+      case 'Disabled':
+        return SseKmsEncryptedObjectsStatus.disabled;
+    }
+    throw Exception('$this is not known in enum SseKmsEncryptedObjectsStatus');
+  }
+}
+
+/// The Amazon Web Services organization for your S3 Storage Lens.
 class StorageLensAwsOrg {
-  /// A container for the Amazon Resource Name (ARN) of the AWS organization. This
-  /// property is read-only and follows the following format: <code>
+  /// A container for the Amazon Resource Name (ARN) of the Amazon Web Services
+  /// organization. This property is read-only and follows the following format:
+  /// <code>
   /// arn:aws:organizations:<i>us-east-1</i>:<i>example-account-id</i>:organization/<i>o-ex2l495dck</i>
   /// </code>
   final String arn;
@@ -7022,7 +12430,8 @@ class StorageLensConfiguration {
   /// A container for whether the S3 Storage Lens configuration is enabled.
   final bool isEnabled;
 
-  /// A container for the AWS organization for this S3 Storage Lens configuration.
+  /// A container for the Amazon Web Services organization for this S3 Storage
+  /// Lens configuration.
   final StorageLensAwsOrg? awsOrg;
 
   /// A container to specify the properties of your S3 Storage Lens metrics export
@@ -7109,24 +12518,41 @@ class StorageLensConfiguration {
 /// A container to specify the properties of your S3 Storage Lens metrics
 /// export, including the destination, schema, and format.
 class StorageLensDataExport {
+  /// A container for enabling Amazon CloudWatch publishing for S3 Storage Lens
+  /// metrics.
+  final CloudWatchMetrics? cloudWatchMetrics;
+
   /// A container for the bucket where the S3 Storage Lens metrics export will be
   /// located.
-  final S3BucketDestination s3BucketDestination;
+  /// <note>
+  /// This bucket must be located in the same Region as the storage lens
+  /// configuration.
+  /// </note>
+  final S3BucketDestination? s3BucketDestination;
 
   StorageLensDataExport({
-    required this.s3BucketDestination,
+    this.cloudWatchMetrics,
+    this.s3BucketDestination,
   });
   factory StorageLensDataExport.fromXml(_s.XmlElement elem) {
     return StorageLensDataExport(
-      s3BucketDestination: S3BucketDestination.fromXml(
-          _s.extractXmlChild(elem, 'S3BucketDestination')!),
+      cloudWatchMetrics: _s
+          .extractXmlChild(elem, 'CloudWatchMetrics')
+          ?.let((e) => CloudWatchMetrics.fromXml(e)),
+      s3BucketDestination: _s
+          .extractXmlChild(elem, 'S3BucketDestination')
+          ?.let((e) => S3BucketDestination.fromXml(e)),
     );
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final cloudWatchMetrics = this.cloudWatchMetrics;
     final s3BucketDestination = this.s3BucketDestination;
     final $children = <_s.XmlNode>[
-      s3BucketDestination.toXml('S3BucketDestination'),
+      if (s3BucketDestination != null)
+        s3BucketDestination.toXml('S3BucketDestination'),
+      if (cloudWatchMetrics != null)
+        cloudWatchMetrics.toXml('CloudWatchMetrics'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -7214,6 +12640,52 @@ class StorageLensTag {
   }
 }
 
+class SubmitMultiRegionAccessPointRoutesRequest {
+  /// The Amazon Web Services account ID for the owner of the Multi-Region Access
+  /// Point.
+  final String accountId;
+
+  /// The Multi-Region Access Point ARN.
+  final String mrap;
+
+  /// The different routes that make up the new route configuration. Active routes
+  /// return a value of <code>100</code>, and passive routes return a value of
+  /// <code>0</code>.
+  final List<MultiRegionAccessPointRoute> routeUpdates;
+
+  SubmitMultiRegionAccessPointRoutesRequest({
+    required this.accountId,
+    required this.mrap,
+    required this.routeUpdates,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountId = this.accountId;
+    final mrap = this.mrap;
+    final routeUpdates = this.routeUpdates;
+    final $children = <_s.XmlNode>[
+      _s.XmlElement(_s.XmlName('RouteUpdates'), [],
+          routeUpdates.map((e) => e.toXml('Route'))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class SubmitMultiRegionAccessPointRoutesResult {
+  SubmitMultiRegionAccessPointRoutesResult();
+  factory SubmitMultiRegionAccessPointRoutesResult.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return SubmitMultiRegionAccessPointRoutesResult();
+  }
+}
+
 /// <p/>
 class Tagging {
   /// A collection for a set of tags.
@@ -7242,8 +12714,8 @@ class Tagging {
 /// Specifies when an object transitions to a specified storage class. For more
 /// information about Amazon S3 Lifecycle configuration rules, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-transition-general-considerations.html">
-/// Transitioning objects using Amazon S3 Lifecycle</a> in the <i>Amazon Simple
-/// Storage Service Developer Guide</i>.
+/// Transitioning objects using Amazon S3 Lifecycle</a> in the <i>Amazon S3 User
+/// Guide</i>.
 class Transition {
   /// Indicates when objects are transitioned to the specified storage class. The
   /// date value must be in ISO 8601 format. The time is always midnight UTC.
@@ -7374,6 +12846,40 @@ class UpdateJobStatusResult {
       jobId: _s.extractXmlStringValue(elem, 'JobId'),
       status: _s.extractXmlStringValue(elem, 'Status')?.toJobStatus(),
       statusUpdateReason: _s.extractXmlStringValue(elem, 'StatusUpdateReason'),
+    );
+  }
+}
+
+/// Describes the versioning state of an Amazon S3 on Outposts bucket. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketVersioning.html">PutBucketVersioning</a>.
+class VersioningConfiguration {
+  /// Specifies whether MFA delete is enabled or disabled in the bucket versioning
+  /// configuration for the S3 on Outposts bucket.
+  final MFADelete? mFADelete;
+
+  /// Sets the versioning state of the S3 on Outposts bucket.
+  final BucketVersioningStatus? status;
+
+  VersioningConfiguration({
+    this.mFADelete,
+    this.status,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final mFADelete = this.mFADelete;
+    final status = this.status;
+    final $children = <_s.XmlNode>[
+      if (mFADelete != null)
+        _s.encodeXmlStringValue('MfaDelete', mFADelete.toValue()),
+      if (status != null) _s.encodeXmlStringValue('Status', status.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
     );
   }
 }

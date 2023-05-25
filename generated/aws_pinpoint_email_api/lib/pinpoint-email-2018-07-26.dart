@@ -1631,6 +1631,7 @@ class BlacklistEntry {
     this.listingTime,
     this.rblName,
   });
+
   factory BlacklistEntry.fromJson(Map<String, dynamic> json) {
     return BlacklistEntry(
       description: json['Description'] as String?,
@@ -1677,6 +1678,7 @@ class CloudWatchDestination {
   CloudWatchDestination({
     required this.dimensionConfigurations,
   });
+
   factory CloudWatchDestination.fromJson(Map<String, dynamic> json) {
     return CloudWatchDestination(
       dimensionConfigurations: (json['DimensionConfigurations'] as List)
@@ -1741,6 +1743,7 @@ class CloudWatchDimensionConfiguration {
     required this.dimensionName,
     required this.dimensionValueSource,
   });
+
   factory CloudWatchDimensionConfiguration.fromJson(Map<String, dynamic> json) {
     return CloudWatchDimensionConfiguration(
       defaultDimensionValue: json['DefaultDimensionValue'] as String,
@@ -1793,6 +1796,7 @@ class Content {
 /// request fails.
 class CreateConfigurationSetEventDestinationResponse {
   CreateConfigurationSetEventDestinationResponse();
+
   factory CreateConfigurationSetEventDestinationResponse.fromJson(
       Map<String, dynamic> _) {
     return CreateConfigurationSetEventDestinationResponse();
@@ -1803,6 +1807,7 @@ class CreateConfigurationSetEventDestinationResponse {
 /// request fails.
 class CreateConfigurationSetResponse {
   CreateConfigurationSetResponse();
+
   factory CreateConfigurationSetResponse.fromJson(Map<String, dynamic> _) {
     return CreateConfigurationSetResponse();
   }
@@ -1812,6 +1817,7 @@ class CreateConfigurationSetResponse {
 /// request fails.
 class CreateDedicatedIpPoolResponse {
   CreateDedicatedIpPoolResponse();
+
   factory CreateDedicatedIpPoolResponse.fromJson(Map<String, dynamic> _) {
     return CreateDedicatedIpPoolResponse();
   }
@@ -1834,6 +1840,7 @@ class CreateDeliverabilityTestReportResponse {
     required this.deliverabilityTestStatus,
     required this.reportId,
   });
+
   factory CreateDeliverabilityTestReportResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateDeliverabilityTestReportResponse(
@@ -1870,6 +1877,7 @@ class CreateEmailIdentityResponse {
     this.identityType,
     this.verifiedForSendingStatus,
   });
+
   factory CreateEmailIdentityResponse.fromJson(Map<String, dynamic> json) {
     return CreateEmailIdentityResponse(
       dkimAttributes: json['DkimAttributes'] != null
@@ -1901,6 +1909,7 @@ class DailyVolume {
     this.startDate,
     this.volumeStatistics,
   });
+
   factory DailyVolume.fromJson(Map<String, dynamic> json) {
     return DailyVolume(
       domainIspPlacements: (json['DomainIspPlacements'] as List?)
@@ -1952,6 +1961,7 @@ class DedicatedIp {
     required this.warmupStatus,
     this.poolName,
   });
+
   factory DedicatedIp.fromJson(Map<String, dynamic> json) {
     return DedicatedIp(
       ip: json['Ip'] as String,
@@ -1966,6 +1976,7 @@ class DedicatedIp {
 /// request fails.
 class DeleteConfigurationSetEventDestinationResponse {
   DeleteConfigurationSetEventDestinationResponse();
+
   factory DeleteConfigurationSetEventDestinationResponse.fromJson(
       Map<String, dynamic> _) {
     return DeleteConfigurationSetEventDestinationResponse();
@@ -1976,6 +1987,7 @@ class DeleteConfigurationSetEventDestinationResponse {
 /// request fails.
 class DeleteConfigurationSetResponse {
   DeleteConfigurationSetResponse();
+
   factory DeleteConfigurationSetResponse.fromJson(Map<String, dynamic> _) {
     return DeleteConfigurationSetResponse();
   }
@@ -1985,6 +1997,7 @@ class DeleteConfigurationSetResponse {
 /// request fails.
 class DeleteDedicatedIpPoolResponse {
   DeleteDedicatedIpPoolResponse();
+
   factory DeleteDedicatedIpPoolResponse.fromJson(Map<String, dynamic> _) {
     return DeleteDedicatedIpPoolResponse();
   }
@@ -1994,6 +2007,7 @@ class DeleteDedicatedIpPoolResponse {
 /// request fails.
 class DeleteEmailIdentityResponse {
   DeleteEmailIdentityResponse();
+
   factory DeleteEmailIdentityResponse.fromJson(Map<String, dynamic> _) {
     return DeleteEmailIdentityResponse();
   }
@@ -2075,6 +2089,7 @@ class DeliverabilityTestReport {
     this.reportName,
     this.subject,
   });
+
   factory DeliverabilityTestReport.fromJson(Map<String, dynamic> json) {
     return DeliverabilityTestReport(
       createDate: timeStampFromJson(json['CreateDate']),
@@ -2140,6 +2155,7 @@ class DeliveryOptions {
     this.sendingPoolName,
     this.tlsPolicy,
   });
+
   factory DeliveryOptions.fromJson(Map<String, dynamic> json) {
     return DeliveryOptions(
       sendingPoolName: json['SendingPoolName'] as String?,
@@ -2280,6 +2296,7 @@ class DkimAttributes {
     this.status,
     this.tokens,
   });
+
   factory DkimAttributes.fromJson(Map<String, dynamic> json) {
     return DkimAttributes(
       signingEnabled: json['SigningEnabled'] as bool?,
@@ -2443,6 +2460,7 @@ class DomainDeliverabilityCampaign {
     this.spamCount,
     this.subject,
   });
+
   factory DomainDeliverabilityCampaign.fromJson(Map<String, dynamic> json) {
     return DomainDeliverabilityCampaign(
       campaignId: json['CampaignId'] as String?,
@@ -2492,6 +2510,7 @@ class DomainDeliverabilityTrackingOption {
     this.inboxPlacementTrackingOption,
     this.subscriptionStartDate,
   });
+
   factory DomainDeliverabilityTrackingOption.fromJson(
       Map<String, dynamic> json) {
     return DomainDeliverabilityTrackingOption(
@@ -2549,6 +2568,7 @@ class DomainIspPlacement {
     this.spamPercentage,
     this.spamRawCount,
   });
+
   factory DomainIspPlacement.fromJson(Map<String, dynamic> json) {
     return DomainIspPlacement(
       inboxPercentage: json['InboxPercentage'] as double?,
@@ -2674,6 +2694,7 @@ class EventDestination {
     this.pinpointDestination,
     this.snsDestination,
   });
+
   factory EventDestination.fromJson(Map<String, dynamic> json) {
     return EventDestination(
       matchingEventTypes: (json['MatchingEventTypes'] as List)
@@ -2889,6 +2910,7 @@ class GetAccountResponse {
     this.sendQuota,
     this.sendingEnabled,
   });
+
   factory GetAccountResponse.fromJson(Map<String, dynamic> json) {
     return GetAccountResponse(
       dedicatedIpAutoWarmupEnabled:
@@ -2912,6 +2934,7 @@ class GetBlacklistReportsResponse {
   GetBlacklistReportsResponse({
     required this.blacklistReport,
   });
+
   factory GetBlacklistReportsResponse.fromJson(Map<String, dynamic> json) {
     return GetBlacklistReportsResponse(
       blacklistReport: (json['BlacklistReport'] as Map<String, dynamic>).map(
@@ -2935,6 +2958,7 @@ class GetConfigurationSetEventDestinationsResponse {
   GetConfigurationSetEventDestinationsResponse({
     this.eventDestinations,
   });
+
   factory GetConfigurationSetEventDestinationsResponse.fromJson(
       Map<String, dynamic> json) {
     return GetConfigurationSetEventDestinationsResponse(
@@ -2979,6 +3003,7 @@ class GetConfigurationSetResponse {
     this.tags,
     this.trackingOptions,
   });
+
   factory GetConfigurationSetResponse.fromJson(Map<String, dynamic> json) {
     return GetConfigurationSetResponse(
       configurationSetName: json['ConfigurationSetName'] as String?,
@@ -3014,6 +3039,7 @@ class GetDedicatedIpResponse {
   GetDedicatedIpResponse({
     this.dedicatedIp,
   });
+
   factory GetDedicatedIpResponse.fromJson(Map<String, dynamic> json) {
     return GetDedicatedIpResponse(
       dedicatedIp: json['DedicatedIp'] != null
@@ -3040,6 +3066,7 @@ class GetDedicatedIpsResponse {
     this.dedicatedIps,
     this.nextToken,
   });
+
   factory GetDedicatedIpsResponse.fromJson(Map<String, dynamic> json) {
     return GetDedicatedIpsResponse(
       dedicatedIps: (json['DedicatedIps'] as List?)
@@ -3089,6 +3116,7 @@ class GetDeliverabilityDashboardOptionsResponse {
     this.pendingExpirationSubscribedDomains,
     this.subscriptionExpiryDate,
   });
+
   factory GetDeliverabilityDashboardOptionsResponse.fromJson(
       Map<String, dynamic> json) {
     return GetDeliverabilityDashboardOptionsResponse(
@@ -3140,6 +3168,7 @@ class GetDeliverabilityTestReportResponse {
     this.message,
     this.tags,
   });
+
   factory GetDeliverabilityTestReportResponse.fromJson(
       Map<String, dynamic> json) {
     return GetDeliverabilityTestReportResponse(
@@ -3171,6 +3200,7 @@ class GetDomainDeliverabilityCampaignResponse {
   GetDomainDeliverabilityCampaignResponse({
     required this.domainDeliverabilityCampaign,
   });
+
   factory GetDomainDeliverabilityCampaignResponse.fromJson(
       Map<String, dynamic> json) {
     return GetDomainDeliverabilityCampaignResponse(
@@ -3197,6 +3227,7 @@ class GetDomainStatisticsReportResponse {
     required this.dailyVolumes,
     required this.overallVolume,
   });
+
   factory GetDomainStatisticsReportResponse.fromJson(
       Map<String, dynamic> json) {
     return GetDomainStatisticsReportResponse(
@@ -3258,6 +3289,7 @@ class GetEmailIdentityResponse {
     this.tags,
     this.verifiedForSendingStatus,
   });
+
   factory GetEmailIdentityResponse.fromJson(Map<String, dynamic> json) {
     return GetEmailIdentityResponse(
       dkimAttributes: json['DkimAttributes'] != null
@@ -3313,6 +3345,7 @@ class IdentityInfo {
     this.identityType,
     this.sendingEnabled,
   });
+
   factory IdentityInfo.fromJson(Map<String, dynamic> json) {
     return IdentityInfo(
       identityName: json['IdentityName'] as String?,
@@ -3381,6 +3414,7 @@ class InboxPlacementTrackingOption {
     this.global,
     this.trackedIsps,
   });
+
   factory InboxPlacementTrackingOption.fromJson(Map<String, dynamic> json) {
     return InboxPlacementTrackingOption(
       global: json['Global'] as bool?,
@@ -3415,6 +3449,7 @@ class IspPlacement {
     this.ispName,
     this.placementStatistics,
   });
+
   factory IspPlacement.fromJson(Map<String, dynamic> json) {
     return IspPlacement(
       ispName: json['IspName'] as String?,
@@ -3442,6 +3477,7 @@ class KinesisFirehoseDestination {
     required this.deliveryStreamArn,
     required this.iamRoleArn,
   });
+
   factory KinesisFirehoseDestination.fromJson(Map<String, dynamic> json) {
     return KinesisFirehoseDestination(
       deliveryStreamArn: json['DeliveryStreamArn'] as String,
@@ -3476,6 +3512,7 @@ class ListConfigurationSetsResponse {
     this.configurationSets,
     this.nextToken,
   });
+
   factory ListConfigurationSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListConfigurationSetsResponse(
       configurationSets: (json['ConfigurationSets'] as List?)
@@ -3503,6 +3540,7 @@ class ListDedicatedIpPoolsResponse {
     this.dedicatedIpPools,
     this.nextToken,
   });
+
   factory ListDedicatedIpPoolsResponse.fromJson(Map<String, dynamic> json) {
     return ListDedicatedIpPoolsResponse(
       dedicatedIpPools: (json['DedicatedIpPools'] as List?)
@@ -3531,6 +3569,7 @@ class ListDeliverabilityTestReportsResponse {
     required this.deliverabilityTestReports,
     this.nextToken,
   });
+
   factory ListDeliverabilityTestReportsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListDeliverabilityTestReportsResponse(
@@ -3563,6 +3602,7 @@ class ListDomainDeliverabilityCampaignsResponse {
     required this.domainDeliverabilityCampaigns,
     this.nextToken,
   });
+
   factory ListDomainDeliverabilityCampaignsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListDomainDeliverabilityCampaignsResponse(
@@ -3595,6 +3635,7 @@ class ListEmailIdentitiesResponse {
     this.emailIdentities,
     this.nextToken,
   });
+
   factory ListEmailIdentitiesResponse.fromJson(Map<String, dynamic> json) {
     return ListEmailIdentitiesResponse(
       emailIdentities: (json['EmailIdentities'] as List?)
@@ -3615,6 +3656,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     required this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List)
@@ -3671,6 +3713,7 @@ class MailFromAttributes {
     required this.mailFromDomain,
     required this.mailFromDomainStatus,
   });
+
   factory MailFromAttributes.fromJson(Map<String, dynamic> json) {
     return MailFromAttributes(
       behaviorOnMxFailure:
@@ -3833,6 +3876,7 @@ class OverallVolume {
     this.readRatePercent,
     this.volumeStatistics,
   });
+
   factory OverallVolume.fromJson(Map<String, dynamic> json) {
     return OverallVolume(
       domainIspPlacements: (json['DomainIspPlacements'] as List?)
@@ -3860,6 +3904,7 @@ class PinpointDestination {
   PinpointDestination({
     this.applicationArn,
   });
+
   factory PinpointDestination.fromJson(Map<String, dynamic> json) {
     return PinpointDestination(
       applicationArn: json['ApplicationArn'] as String?,
@@ -3903,6 +3948,7 @@ class PlacementStatistics {
     this.spamPercentage,
     this.spfPercentage,
   });
+
   factory PlacementStatistics.fromJson(Map<String, dynamic> json) {
     return PlacementStatistics(
       dkimPercentage: json['DkimPercentage'] as double?,
@@ -3918,6 +3964,7 @@ class PlacementStatistics {
 /// request fails.
 class PutAccountDedicatedIpWarmupAttributesResponse {
   PutAccountDedicatedIpWarmupAttributesResponse();
+
   factory PutAccountDedicatedIpWarmupAttributesResponse.fromJson(
       Map<String, dynamic> _) {
     return PutAccountDedicatedIpWarmupAttributesResponse();
@@ -3928,6 +3975,7 @@ class PutAccountDedicatedIpWarmupAttributesResponse {
 /// request fails.
 class PutAccountSendingAttributesResponse {
   PutAccountSendingAttributesResponse();
+
   factory PutAccountSendingAttributesResponse.fromJson(Map<String, dynamic> _) {
     return PutAccountSendingAttributesResponse();
   }
@@ -3937,6 +3985,7 @@ class PutAccountSendingAttributesResponse {
 /// request fails.
 class PutConfigurationSetDeliveryOptionsResponse {
   PutConfigurationSetDeliveryOptionsResponse();
+
   factory PutConfigurationSetDeliveryOptionsResponse.fromJson(
       Map<String, dynamic> _) {
     return PutConfigurationSetDeliveryOptionsResponse();
@@ -3947,6 +3996,7 @@ class PutConfigurationSetDeliveryOptionsResponse {
 /// request fails.
 class PutConfigurationSetReputationOptionsResponse {
   PutConfigurationSetReputationOptionsResponse();
+
   factory PutConfigurationSetReputationOptionsResponse.fromJson(
       Map<String, dynamic> _) {
     return PutConfigurationSetReputationOptionsResponse();
@@ -3957,6 +4007,7 @@ class PutConfigurationSetReputationOptionsResponse {
 /// request fails.
 class PutConfigurationSetSendingOptionsResponse {
   PutConfigurationSetSendingOptionsResponse();
+
   factory PutConfigurationSetSendingOptionsResponse.fromJson(
       Map<String, dynamic> _) {
     return PutConfigurationSetSendingOptionsResponse();
@@ -3967,6 +4018,7 @@ class PutConfigurationSetSendingOptionsResponse {
 /// request fails.
 class PutConfigurationSetTrackingOptionsResponse {
   PutConfigurationSetTrackingOptionsResponse();
+
   factory PutConfigurationSetTrackingOptionsResponse.fromJson(
       Map<String, dynamic> _) {
     return PutConfigurationSetTrackingOptionsResponse();
@@ -3977,6 +4029,7 @@ class PutConfigurationSetTrackingOptionsResponse {
 /// request fails.
 class PutDedicatedIpInPoolResponse {
   PutDedicatedIpInPoolResponse();
+
   factory PutDedicatedIpInPoolResponse.fromJson(Map<String, dynamic> _) {
     return PutDedicatedIpInPoolResponse();
   }
@@ -3986,6 +4039,7 @@ class PutDedicatedIpInPoolResponse {
 /// request fails.
 class PutDedicatedIpWarmupAttributesResponse {
   PutDedicatedIpWarmupAttributesResponse();
+
   factory PutDedicatedIpWarmupAttributesResponse.fromJson(
       Map<String, dynamic> _) {
     return PutDedicatedIpWarmupAttributesResponse();
@@ -3996,6 +4050,7 @@ class PutDedicatedIpWarmupAttributesResponse {
 /// for your Amazon Pinpoint account.
 class PutDeliverabilityDashboardOptionResponse {
   PutDeliverabilityDashboardOptionResponse();
+
   factory PutDeliverabilityDashboardOptionResponse.fromJson(
       Map<String, dynamic> _) {
     return PutDeliverabilityDashboardOptionResponse();
@@ -4006,6 +4061,7 @@ class PutDeliverabilityDashboardOptionResponse {
 /// request fails.
 class PutEmailIdentityDkimAttributesResponse {
   PutEmailIdentityDkimAttributesResponse();
+
   factory PutEmailIdentityDkimAttributesResponse.fromJson(
       Map<String, dynamic> _) {
     return PutEmailIdentityDkimAttributesResponse();
@@ -4016,6 +4072,7 @@ class PutEmailIdentityDkimAttributesResponse {
 /// request fails.
 class PutEmailIdentityFeedbackAttributesResponse {
   PutEmailIdentityFeedbackAttributesResponse();
+
   factory PutEmailIdentityFeedbackAttributesResponse.fromJson(
       Map<String, dynamic> _) {
     return PutEmailIdentityFeedbackAttributesResponse();
@@ -4026,6 +4083,7 @@ class PutEmailIdentityFeedbackAttributesResponse {
 /// request fails.
 class PutEmailIdentityMailFromAttributesResponse {
   PutEmailIdentityMailFromAttributesResponse();
+
   factory PutEmailIdentityMailFromAttributesResponse.fromJson(
       Map<String, dynamic> _) {
     return PutEmailIdentityMailFromAttributesResponse();
@@ -4093,6 +4151,7 @@ class ReputationOptions {
     this.lastFreshStart,
     this.reputationMetricsEnabled,
   });
+
   factory ReputationOptions.fromJson(Map<String, dynamic> json) {
     return ReputationOptions(
       lastFreshStart: timeStampFromJson(json['LastFreshStart']),
@@ -4128,6 +4187,7 @@ class SendEmailResponse {
   SendEmailResponse({
     this.messageId,
   });
+
   factory SendEmailResponse.fromJson(Map<String, dynamic> json) {
     return SendEmailResponse(
       messageId: json['MessageId'] as String?,
@@ -4156,6 +4216,7 @@ class SendQuota {
     this.maxSendRate,
     this.sentLast24Hours,
   });
+
   factory SendQuota.fromJson(Map<String, dynamic> json) {
     return SendQuota(
       max24HourSend: json['Max24HourSend'] as double?,
@@ -4175,6 +4236,7 @@ class SendingOptions {
   SendingOptions({
     this.sendingEnabled,
   });
+
   factory SendingOptions.fromJson(Map<String, dynamic> json) {
     return SendingOptions(
       sendingEnabled: json['SendingEnabled'] as bool?,
@@ -4202,6 +4264,7 @@ class SnsDestination {
   SnsDestination({
     required this.topicArn,
   });
+
   factory SnsDestination.fromJson(Map<String, dynamic> json) {
     return SnsDestination(
       topicArn: json['TopicArn'] as String,
@@ -4267,6 +4330,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -4286,6 +4350,7 @@ class Tag {
 
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
@@ -4364,6 +4429,7 @@ class TrackingOptions {
   TrackingOptions({
     required this.customRedirectDomain,
   });
+
   factory TrackingOptions.fromJson(Map<String, dynamic> json) {
     return TrackingOptions(
       customRedirectDomain: json['CustomRedirectDomain'] as String,
@@ -4380,6 +4446,7 @@ class TrackingOptions {
 
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
   }
@@ -4389,6 +4456,7 @@ class UntagResourceResponse {
 /// request fails.
 class UpdateConfigurationSetEventDestinationResponse {
   UpdateConfigurationSetEventDestinationResponse();
+
   factory UpdateConfigurationSetEventDestinationResponse.fromJson(
       Map<String, dynamic> _) {
     return UpdateConfigurationSetEventDestinationResponse();
@@ -4419,6 +4487,7 @@ class VolumeStatistics {
     this.projectedSpam,
     this.spamRawCount,
   });
+
   factory VolumeStatistics.fromJson(Map<String, dynamic> json) {
     return VolumeStatistics(
       inboxRawCount: json['InboxRawCount'] as int?,

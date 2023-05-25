@@ -135,7 +135,7 @@ class MachineLearning {
   ///
   /// Amazon ML needs permissions to store and retrieve the logs on your behalf.
   /// For information about how to set permissions, see the <a
-  /// href="http://docs.aws.amazon.com/machine-learning/latest/dg">Amazon
+  /// href="https://docs.aws.amazon.com/machine-learning/latest/dg">Amazon
   /// Machine Learning Developer Guide</a>.
   ///
   /// Parameter [batchPredictionName] :
@@ -207,12 +207,16 @@ class MachineLearning {
   /// <ul>
   /// <li>
   /// DatabaseInformation -
+  ///
   /// <ul>
-  /// <li> <code>DatabaseName</code> - The name of the Amazon RDS database.</li>
-  /// <li> <code>InstanceIdentifier </code> - A unique identifier for the Amazon
-  /// RDS database instance.</li>
-  /// </ul>
+  /// <li>
+  /// <code>DatabaseName</code> - The name of the Amazon RDS database.
   /// </li>
+  /// <li>
+  /// <code>InstanceIdentifier </code> - A unique identifier for the Amazon RDS
+  /// database instance.
+  /// </li>
+  /// </ul> </li>
   /// <li>
   /// DatabaseCredentials - AWS Identity and Access Management (IAM) credentials
   /// that are used to connect to the Amazon RDS database.
@@ -221,14 +225,14 @@ class MachineLearning {
   /// ResourceRole - A role (DataPipelineDefaultResourceRole) assumed by an EC2
   /// instance to carry out the copy task from Amazon RDS to Amazon Simple
   /// Storage Service (Amazon S3). For more information, see <a
-  /// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-iam-roles.html">Role
+  /// href="https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-iam-roles.html">Role
   /// templates</a> for data pipelines.
   /// </li>
   /// <li>
   /// ServiceRole - A role (DataPipelineDefaultRole) assumed by the AWS Data
   /// Pipeline service to monitor the progress of the copy task from Amazon RDS
   /// to Amazon S3. For more information, see <a
-  /// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-iam-roles.html">Role
+  /// href="https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-iam-roles.html">Role
   /// templates</a> for data pipelines.
   /// </li>
   /// <li>
@@ -257,7 +261,7 @@ class MachineLearning {
   /// <li>
   /// DataRearrangement - A JSON string that represents the splitting and
   /// rearrangement requirements for the <code>Datasource</code>.
-  /// <br>
+  ///
   /// Sample - <code>
   /// "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}"</code>
   /// </li>
@@ -267,16 +271,15 @@ class MachineLearning {
   /// The role that Amazon ML assumes on behalf of the user to create and
   /// activate a data pipeline in the user's account and copy data using the
   /// <code>SelectSqlQuery</code> query from Amazon RDS to Amazon S3.
-  ///
-  ///
+  /// <p/>
   ///
   /// Parameter [computeStatistics] :
   /// The compute statistics for a <code>DataSource</code>. The statistics are
   /// generated from the observation data referenced by a
   /// <code>DataSource</code>. Amazon ML uses the statistics internally during
   /// <code>MLModel</code> training. This parameter must be set to
-  /// <code>true</code> if the <code></code>DataSource<code></code> needs to be
-  /// used for <code>MLModel</code> training.
+  /// <code>true</code> if the <code/>DataSource<code/> needs to be used for
+  /// <code>MLModel</code> training.
   ///
   /// Parameter [dataSourceName] :
   /// A user-supplied name or description of the <code>DataSource</code>.
@@ -346,14 +349,13 @@ class MachineLearning {
   /// manipulated; for example, will it be combined with another variable or
   /// will it be split apart into word combinations? The recipe provides answers
   /// to these questions.
-  /// <?oxy_insert_start author="laurama" timestamp="20160406T153842-0700">
+  ///
   /// You can't change an existing datasource, but you can copy and modify the
   /// settings from an existing Amazon Redshift datasource to create a new
   /// datasource. To do so, call <code>GetDataSource</code> for an existing
   /// datasource and copy the values to a <code>CreateDataSource</code> call.
   /// Change the settings that you want to change and make sure that all
   /// required fields have the appropriate values.
-  /// <?oxy_insert_end>
   ///
   /// May throw [InvalidInputException].
   /// May throw [InternalServerException].
@@ -368,13 +370,16 @@ class MachineLearning {
   /// <ul>
   /// <li>
   /// DatabaseInformation -
+  ///
   /// <ul>
-  /// <li> <code>DatabaseName</code> - The name of the Amazon Redshift database.
+  /// <li>
+  /// <code>DatabaseName</code> - The name of the Amazon Redshift database.
   /// </li>
-  /// <li> <code> ClusterIdentifier</code> - The unique ID for the Amazon
-  /// Redshift cluster.</li>
-  /// </ul>
+  /// <li>
+  /// <code> ClusterIdentifier</code> - The unique ID for the Amazon Redshift
+  /// cluster.
   /// </li>
+  /// </ul> </li>
   /// <li>
   /// DatabaseCredentials - The AWS Identity and Access Management (IAM)
   /// credentials that are used to connect to the Amazon Redshift database.
@@ -407,7 +412,6 @@ class MachineLearning {
   /// Parameter [roleARN] :
   /// A fully specified role Amazon Resource Name (ARN). Amazon ML assumes the
   /// role on behalf of the user to create the following:
-  ///
   ///
   /// <ul>
   /// <li>
@@ -534,8 +538,8 @@ class MachineLearning {
   /// generated from the observation data referenced by a
   /// <code>DataSource</code>. Amazon ML uses the statistics internally during
   /// <code>MLModel</code> training. This parameter must be set to
-  /// <code>true</code> if the <code></code>DataSource<code></code> needs to be
-  /// used for <code>MLModel</code> training.
+  /// <code>true</code> if the <code/>DataSource<code/> needs to be used for
+  /// <code>MLModel</code> training.
   ///
   /// Parameter [dataSourceName] :
   /// A user-supplied name or description of the <code>DataSource</code>.
@@ -669,15 +673,21 @@ class MachineLearning {
   /// address. Choose from the following types:
   ///
   /// <ul>
-  /// <li>Choose <code>REGRESSION</code> if the <code>MLModel</code> will be
-  /// used to predict a numeric value.</li>
-  /// <li>Choose <code>BINARY</code> if the <code>MLModel</code> result has two
-  /// possible values.</li>
-  /// <li>Choose <code>MULTICLASS</code> if the <code>MLModel</code> result has
-  /// a limited number of values. </li>
+  /// <li>
+  /// Choose <code>REGRESSION</code> if the <code>MLModel</code> will be used to
+  /// predict a numeric value.
+  /// </li>
+  /// <li>
+  /// Choose <code>BINARY</code> if the <code>MLModel</code> result has two
+  /// possible values.
+  /// </li>
+  /// <li>
+  /// Choose <code>MULTICLASS</code> if the <code>MLModel</code> result has a
+  /// limited number of values.
+  /// </li>
   /// </ul>
   /// For more information, see the <a
-  /// href="http://docs.aws.amazon.com/machine-learning/latest/dg">Amazon
+  /// href="https://docs.aws.amazon.com/machine-learning/latest/dg">Amazon
   /// Machine Learning Developer Guide</a>.
   ///
   /// Parameter [trainingDataSourceId] :
@@ -712,9 +722,7 @@ class MachineLearning {
   /// data. Shuffling the data improves a model's ability to find the optimal
   /// solution for a variety of data types. The valid values are
   /// <code>auto</code> and <code>none</code>. The default value is
-  /// <code>none</code>. We <?oxy_insert_start author="laurama"
-  /// timestamp="20160329T131121-0700">strongly recommend that you shuffle your
-  /// data.<?oxy_insert_end>
+  /// <code>none</code>. We strongly recommend that you shuffle your data.
   /// </li>
   /// <li>
   /// <code>sgd.l1RegularizationAmount</code> - The coefficient regularization
@@ -897,10 +905,9 @@ class MachineLearning {
   /// After invoking the <code>DeleteEvaluation</code> operation, you can use
   /// the <code>GetEvaluation</code> operation to verify that the status of the
   /// <code>Evaluation</code> changed to <code>DELETED</code>.
-  /// <caution><title>Caution</title>
-  /// The results of the <code>DeleteEvaluation</code> operation are
-  /// irreversible.
-  /// </caution>
+  ///
+  /// <b>Caution:</b> The results of the <code>DeleteEvaluation</code> operation
+  /// are irreversible.
   ///
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
@@ -1055,22 +1062,35 @@ class MachineLearning {
   /// <code>BatchPrediction</code>:
   ///
   /// <ul>
-  /// <li> <code>CreatedAt</code> - Sets the search criteria to the
-  /// <code>BatchPrediction</code> creation date.</li>
-  /// <li> <code>Status</code> - Sets the search criteria to the
-  /// <code>BatchPrediction</code> status.</li>
-  /// <li> <code>Name</code> - Sets the search criteria to the contents of the
-  /// <code>BatchPrediction</code><b> </b> <code>Name</code>.</li>
-  /// <li> <code>IAMUser</code> - Sets the search criteria to the user account
-  /// that invoked the <code>BatchPrediction</code> creation.</li>
-  /// <li> <code>MLModelId</code> - Sets the search criteria to the
-  /// <code>MLModel</code> used in the <code>BatchPrediction</code>.</li>
-  /// <li> <code>DataSourceId</code> - Sets the search criteria to the
-  /// <code>DataSource</code> used in the <code>BatchPrediction</code>.</li>
-  /// <li> <code>DataURI</code> - Sets the search criteria to the data file(s)
-  /// used in the <code>BatchPrediction</code>. The URL can identify either a
-  /// file or an Amazon Simple Storage Solution (Amazon S3) bucket or
-  /// directory.</li>
+  /// <li>
+  /// <code>CreatedAt</code> - Sets the search criteria to the
+  /// <code>BatchPrediction</code> creation date.
+  /// </li>
+  /// <li>
+  /// <code>Status</code> - Sets the search criteria to the
+  /// <code>BatchPrediction</code> status.
+  /// </li>
+  /// <li>
+  /// <code>Name</code> - Sets the search criteria to the contents of the
+  /// <code>BatchPrediction</code> <b> </b> <code>Name</code>.
+  /// </li>
+  /// <li>
+  /// <code>IAMUser</code> - Sets the search criteria to the user account that
+  /// invoked the <code>BatchPrediction</code> creation.
+  /// </li>
+  /// <li>
+  /// <code>MLModelId</code> - Sets the search criteria to the
+  /// <code>MLModel</code> used in the <code>BatchPrediction</code>.
+  /// </li>
+  /// <li>
+  /// <code>DataSourceId</code> - Sets the search criteria to the
+  /// <code>DataSource</code> used in the <code>BatchPrediction</code>.
+  /// </li>
+  /// <li>
+  /// <code>DataURI</code> - Sets the search criteria to the data file(s) used
+  /// in the <code>BatchPrediction</code>. The URL can identify either a file or
+  /// an Amazon Simple Storage Solution (Amazon S3) bucket or directory.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [ge] :
@@ -1133,10 +1153,12 @@ class MachineLearning {
   /// of <code>MLModel</code>s.
   ///
   /// <ul>
-  /// <li> <code>asc</code> - Arranges the list in ascending order (A-Z,
-  /// 0-9).</li>
-  /// <li> <code>dsc</code> - Arranges the list in descending order (Z-A,
-  /// 9-0).</li>
+  /// <li>
+  /// <code>asc</code> - Arranges the list in ascending order (A-Z, 0-9).
+  /// </li>
+  /// <li>
+  /// <code>dsc</code> - Arranges the list in descending order (Z-A, 9-0).
+  /// </li>
   /// </ul>
   /// Results are sorted by <code>FilterVariable</code>.
   Future<DescribeBatchPredictionsOutput> describeBatchPredictions({
@@ -1202,18 +1224,27 @@ class MachineLearning {
   /// <code>DataSource</code>:
   ///
   /// <ul>
-  /// <li> <code>CreatedAt</code> - Sets the search criteria to
-  /// <code>DataSource</code> creation dates.</li>
-  /// <li> <code>Status</code> - Sets the search criteria to
-  /// <code>DataSource</code> statuses.</li>
-  /// <li> <code>Name</code> - Sets the search criteria to the contents of
-  /// <code>DataSource</code> <b> </b> <code>Name</code>.</li>
-  /// <li> <code>DataUri</code> - Sets the search criteria to the URI of data
-  /// files used to create the <code>DataSource</code>. The URI can identify
-  /// either a file or an Amazon Simple Storage Service (Amazon S3) bucket or
-  /// directory.</li>
-  /// <li> <code>IAMUser</code> - Sets the search criteria to the user account
-  /// that invoked the <code>DataSource</code> creation.</li>
+  /// <li>
+  /// <code>CreatedAt</code> - Sets the search criteria to
+  /// <code>DataSource</code> creation dates.
+  /// </li>
+  /// <li>
+  /// <code>Status</code> - Sets the search criteria to <code>DataSource</code>
+  /// statuses.
+  /// </li>
+  /// <li>
+  /// <code>Name</code> - Sets the search criteria to the contents of
+  /// <code>DataSource</code> <code>Name</code>.
+  /// </li>
+  /// <li>
+  /// <code>DataUri</code> - Sets the search criteria to the URI of data files
+  /// used to create the <code>DataSource</code>. The URI can identify either a
+  /// file or an Amazon Simple Storage Service (Amazon S3) bucket or directory.
+  /// </li>
+  /// <li>
+  /// <code>IAMUser</code> - Sets the search criteria to the user account that
+  /// invoked the <code>DataSource</code> creation.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [ge] :
@@ -1274,10 +1305,12 @@ class MachineLearning {
   /// of <code>DataSource</code>.
   ///
   /// <ul>
-  /// <li> <code>asc</code> - Arranges the list in ascending order (A-Z,
-  /// 0-9).</li>
-  /// <li> <code>dsc</code> - Arranges the list in descending order (Z-A,
-  /// 9-0).</li>
+  /// <li>
+  /// <code>asc</code> - Arranges the list in ascending order (A-Z, 0-9).
+  /// </li>
+  /// <li>
+  /// <code>dsc</code> - Arranges the list in descending order (Z-A, 9-0).
+  /// </li>
   /// </ul>
   /// Results are sorted by <code>FilterVariable</code>.
   Future<DescribeDataSourcesOutput> describeDataSources({
@@ -1343,21 +1376,35 @@ class MachineLearning {
   /// <code>Evaluation</code> objects:
   ///
   /// <ul>
-  /// <li> <code>CreatedAt</code> - Sets the search criteria to the
-  /// <code>Evaluation</code> creation date.</li>
-  /// <li> <code>Status</code> - Sets the search criteria to the
-  /// <code>Evaluation</code> status.</li>
-  /// <li> <code>Name</code> - Sets the search criteria to the contents of
-  /// <code>Evaluation</code> <b> </b> <code>Name</code>.</li>
-  /// <li> <code>IAMUser</code> - Sets the search criteria to the user account
-  /// that invoked an <code>Evaluation</code>.</li>
-  /// <li> <code>MLModelId</code> - Sets the search criteria to the
-  /// <code>MLModel</code> that was evaluated.</li>
-  /// <li> <code>DataSourceId</code> - Sets the search criteria to the
-  /// <code>DataSource</code> used in <code>Evaluation</code>.</li>
-  /// <li> <code>DataUri</code> - Sets the search criteria to the data file(s)
-  /// used in <code>Evaluation</code>. The URL can identify either a file or an
-  /// Amazon Simple Storage Solution (Amazon S3) bucket or directory.</li>
+  /// <li>
+  /// <code>CreatedAt</code> - Sets the search criteria to the
+  /// <code>Evaluation</code> creation date.
+  /// </li>
+  /// <li>
+  /// <code>Status</code> - Sets the search criteria to the
+  /// <code>Evaluation</code> status.
+  /// </li>
+  /// <li>
+  /// <code>Name</code> - Sets the search criteria to the contents of
+  /// <code>Evaluation</code> <b> </b> <code>Name</code>.
+  /// </li>
+  /// <li>
+  /// <code>IAMUser</code> - Sets the search criteria to the user account that
+  /// invoked an <code>Evaluation</code>.
+  /// </li>
+  /// <li>
+  /// <code>MLModelId</code> - Sets the search criteria to the
+  /// <code>MLModel</code> that was evaluated.
+  /// </li>
+  /// <li>
+  /// <code>DataSourceId</code> - Sets the search criteria to the
+  /// <code>DataSource</code> used in <code>Evaluation</code>.
+  /// </li>
+  /// <li>
+  /// <code>DataUri</code> - Sets the search criteria to the data file(s) used
+  /// in <code>Evaluation</code>. The URL can identify either a file or an
+  /// Amazon Simple Storage Solution (Amazon S3) bucket or directory.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [ge] :
@@ -1418,10 +1465,12 @@ class MachineLearning {
   /// of <code>Evaluation</code>.
   ///
   /// <ul>
-  /// <li> <code>asc</code> - Arranges the list in ascending order (A-Z,
-  /// 0-9).</li>
-  /// <li> <code>dsc</code> - Arranges the list in descending order (Z-A,
-  /// 9-0).</li>
+  /// <li>
+  /// <code>asc</code> - Arranges the list in ascending order (A-Z, 0-9).
+  /// </li>
+  /// <li>
+  /// <code>dsc</code> - Arranges the list in descending order (Z-A, 9-0).
+  /// </li>
   /// </ul>
   /// Results are sorted by <code>FilterVariable</code>.
   Future<DescribeEvaluationsOutput> describeEvaluations({
@@ -1487,27 +1536,44 @@ class MachineLearning {
   /// <code>MLModel</code>:
   ///
   /// <ul>
-  /// <li> <code>CreatedAt</code> - Sets the search criteria to
-  /// <code>MLModel</code> creation date.</li>
-  /// <li> <code>Status</code> - Sets the search criteria to
-  /// <code>MLModel</code> status.</li>
-  /// <li> <code>Name</code> - Sets the search criteria to the contents of
-  /// <code>MLModel</code><b> </b> <code>Name</code>.</li>
-  /// <li> <code>IAMUser</code> - Sets the search criteria to the user account
-  /// that invoked the <code>MLModel</code> creation.</li>
-  /// <li> <code>TrainingDataSourceId</code> - Sets the search criteria to the
-  /// <code>DataSource</code> used to train one or more
-  /// <code>MLModel</code>.</li>
-  /// <li> <code>RealtimeEndpointStatus</code> - Sets the search criteria to the
-  /// <code>MLModel</code> real-time endpoint status.</li>
-  /// <li> <code>MLModelType</code> - Sets the search criteria to
-  /// <code>MLModel</code> type: binary, regression, or multi-class.</li>
-  /// <li> <code>Algorithm</code> - Sets the search criteria to the algorithm
-  /// that the <code>MLModel</code> uses.</li>
-  /// <li> <code>TrainingDataURI</code> - Sets the search criteria to the data
+  /// <li>
+  /// <code>CreatedAt</code> - Sets the search criteria to <code>MLModel</code>
+  /// creation date.
+  /// </li>
+  /// <li>
+  /// <code>Status</code> - Sets the search criteria to <code>MLModel</code>
+  /// status.
+  /// </li>
+  /// <li>
+  /// <code>Name</code> - Sets the search criteria to the contents of
+  /// <code>MLModel</code> <b> </b> <code>Name</code>.
+  /// </li>
+  /// <li>
+  /// <code>IAMUser</code> - Sets the search criteria to the user account that
+  /// invoked the <code>MLModel</code> creation.
+  /// </li>
+  /// <li>
+  /// <code>TrainingDataSourceId</code> - Sets the search criteria to the
+  /// <code>DataSource</code> used to train one or more <code>MLModel</code>.
+  /// </li>
+  /// <li>
+  /// <code>RealtimeEndpointStatus</code> - Sets the search criteria to the
+  /// <code>MLModel</code> real-time endpoint status.
+  /// </li>
+  /// <li>
+  /// <code>MLModelType</code> - Sets the search criteria to
+  /// <code>MLModel</code> type: binary, regression, or multi-class.
+  /// </li>
+  /// <li>
+  /// <code>Algorithm</code> - Sets the search criteria to the algorithm that
+  /// the <code>MLModel</code> uses.
+  /// </li>
+  /// <li>
+  /// <code>TrainingDataURI</code> - Sets the search criteria to the data
   /// file(s) used in training a <code>MLModel</code>. The URL can identify
   /// either a file or an Amazon Simple Storage Service (Amazon S3) bucket or
-  /// directory.</li>
+  /// directory.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [ge] :
@@ -1570,10 +1636,12 @@ class MachineLearning {
   /// of <code>MLModel</code>.
   ///
   /// <ul>
-  /// <li> <code>asc</code> - Arranges the list in ascending order (A-Z,
-  /// 0-9).</li>
-  /// <li> <code>dsc</code> - Arranges the list in descending order (Z-A,
-  /// 9-0).</li>
+  /// <li>
+  /// <code>asc</code> - Arranges the list in ascending order (A-Z, 0-9).
+  /// </li>
+  /// <li>
+  /// <code>dsc</code> - Arranges the list in descending order (Z-A, 9-0).
+  /// </li>
   /// </ul>
   /// Results are sorted by <code>FilterVariable</code>.
   Future<DescribeMLModelsOutput> describeMLModels({
@@ -1808,10 +1876,9 @@ class MachineLearning {
 
   /// Generates a prediction for the observation using the specified <code>ML
   /// Model</code>.
-  /// <note><title>Note</title>
-  /// Not all response parameters will be populated. Whether a response
-  /// parameter is populated depends on the type of model requested.
-  /// </note>
+  ///
+  /// <b>Note:</b> Not all response parameters will be populated. Whether a
+  /// response parameter is populated depends on the type of model requested.
   ///
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
@@ -2025,6 +2092,7 @@ class AddTagsOutput {
     this.resourceId,
     this.resourceType,
   });
+
   factory AddTagsOutput.fromJson(Map<String, dynamic> json) {
     return AddTagsOutput(
       resourceId: json['ResourceId'] as String?,
@@ -2037,8 +2105,12 @@ class AddTagsOutput {
 /// supported by Amazon ML include the following:
 ///
 /// <ul>
-/// <li> <code>SGD</code> - Stochastic Gradient Descent.</li>
-/// <li> <code>RandomForest</code> - Random forest of decision trees.</li>
+/// <li>
+/// <code>SGD</code> - Stochastic Gradient Descent.
+/// </li>
+/// <li>
+/// <code>RandomForest</code> - Random forest of decision trees.
+/// </li>
 /// </ul>
 enum Algorithm {
   sgd,
@@ -2118,15 +2190,25 @@ class BatchPrediction {
   /// the following values:
   ///
   /// <ul>
-  /// <li> <code>PENDING</code> - Amazon Machine Learning (Amazon ML) submitted a
-  /// request to generate predictions for a batch of observations.</li>
-  /// <li> <code>INPROGRESS</code> - The process is underway.</li>
-  /// <li> <code>FAILED</code> - The request to perform a batch prediction did not
-  /// run to completion. It is not usable.</li>
-  /// <li> <code>COMPLETED</code> - The batch prediction process completed
-  /// successfully.</li>
-  /// <li> <code>DELETED</code> - The <code>BatchPrediction</code> is marked as
-  /// deleted. It is not usable.</li>
+  /// <li>
+  /// <code>PENDING</code> - Amazon Machine Learning (Amazon ML) submitted a
+  /// request to generate predictions for a batch of observations.
+  /// </li>
+  /// <li>
+  /// <code>INPROGRESS</code> - The process is underway.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - The request to perform a batch prediction did not run
+  /// to completion. It is not usable.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED</code> - The batch prediction process completed
+  /// successfully.
+  /// </li>
+  /// <li>
+  /// <code>DELETED</code> - The <code>BatchPrediction</code> is marked as
+  /// deleted. It is not usable.
+  /// </li>
   /// </ul>
   final EntityStatus? status;
   final int? totalRecordCount;
@@ -2149,6 +2231,7 @@ class BatchPrediction {
     this.status,
     this.totalRecordCount,
   });
+
   factory BatchPrediction.fromJson(Map<String, dynamic> json) {
     return BatchPrediction(
       batchPredictionDataSourceId:
@@ -2176,21 +2259,35 @@ class BatchPrediction {
 /// <code>BatchPrediction</code>.
 ///
 /// <ul>
-/// <li> <code>CreatedAt</code> - Sets the search criteria to
-/// <code>BatchPrediction</code> creation date.</li>
-/// <li> <code>Status</code> - Sets the search criteria to
-/// <code>BatchPrediction</code> status.</li>
-/// <li> <code>Name</code> - Sets the search criteria to the contents of
-/// <code>BatchPrediction</code><b> </b> <code>Name</code>.</li>
-/// <li> <code>IAMUser</code> - Sets the search criteria to the user account
-/// that invoked the <code>BatchPrediction</code> creation.</li>
-/// <li> <code>MLModelId</code> - Sets the search criteria to the
-/// <code>MLModel</code> used in the <code>BatchPrediction</code>.</li>
-/// <li> <code>DataSourceId</code> - Sets the search criteria to the
-/// <code>DataSource</code> used in the <code>BatchPrediction</code>.</li>
-/// <li> <code>DataURI</code> - Sets the search criteria to the data file(s)
-/// used in the <code>BatchPrediction</code>. The URL can identify either a file
-/// or an Amazon Simple Storage Service (Amazon S3) bucket or directory.</li>
+/// <li>
+/// <code>CreatedAt</code> - Sets the search criteria to
+/// <code>BatchPrediction</code> creation date.
+/// </li>
+/// <li>
+/// <code>Status</code> - Sets the search criteria to
+/// <code>BatchPrediction</code> status.
+/// </li>
+/// <li>
+/// <code>Name</code> - Sets the search criteria to the contents of
+/// <code>BatchPrediction</code> <code>Name</code>.
+/// </li>
+/// <li>
+/// <code>IAMUser</code> - Sets the search criteria to the user account that
+/// invoked the <code>BatchPrediction</code> creation.
+/// </li>
+/// <li>
+/// <code>MLModelId</code> - Sets the search criteria to the
+/// <code>MLModel</code> used in the <code>BatchPrediction</code>.
+/// </li>
+/// <li>
+/// <code>DataSourceId</code> - Sets the search criteria to the
+/// <code>DataSource</code> used in the <code>BatchPrediction</code>.
+/// </li>
+/// <li>
+/// <code>DataURI</code> - Sets the search criteria to the data file(s) used in
+/// the <code>BatchPrediction</code>. The URL can identify either a file or an
+/// Amazon Simple Storage Service (Amazon S3) bucket or directory.
+/// </li>
 /// </ul>
 enum BatchPredictionFilterVariable {
   createdAt,
@@ -2266,6 +2363,7 @@ class CreateBatchPredictionOutput {
   CreateBatchPredictionOutput({
     this.batchPredictionId,
   });
+
   factory CreateBatchPredictionOutput.fromJson(Map<String, dynamic> json) {
     return CreateBatchPredictionOutput(
       batchPredictionId: json['BatchPredictionId'] as String?,
@@ -2292,6 +2390,7 @@ class CreateDataSourceFromRDSOutput {
   CreateDataSourceFromRDSOutput({
     this.dataSourceId,
   });
+
   factory CreateDataSourceFromRDSOutput.fromJson(Map<String, dynamic> json) {
     return CreateDataSourceFromRDSOutput(
       dataSourceId: json['DataSourceId'] as String?,
@@ -2314,6 +2413,7 @@ class CreateDataSourceFromRedshiftOutput {
   CreateDataSourceFromRedshiftOutput({
     this.dataSourceId,
   });
+
   factory CreateDataSourceFromRedshiftOutput.fromJson(
       Map<String, dynamic> json) {
     return CreateDataSourceFromRedshiftOutput(
@@ -2337,6 +2437,7 @@ class CreateDataSourceFromS3Output {
   CreateDataSourceFromS3Output({
     this.dataSourceId,
   });
+
   factory CreateDataSourceFromS3Output.fromJson(Map<String, dynamic> json) {
     return CreateDataSourceFromS3Output(
       dataSourceId: json['DataSourceId'] as String?,
@@ -2359,6 +2460,7 @@ class CreateEvaluationOutput {
   CreateEvaluationOutput({
     this.evaluationId,
   });
+
   factory CreateEvaluationOutput.fromJson(Map<String, dynamic> json) {
     return CreateEvaluationOutput(
       evaluationId: json['EvaluationId'] as String?,
@@ -2381,6 +2483,7 @@ class CreateMLModelOutput {
   CreateMLModelOutput({
     this.mLModelId,
   });
+
   factory CreateMLModelOutput.fromJson(Map<String, dynamic> json) {
     return CreateMLModelOutput(
       mLModelId: json['MLModelId'] as String?,
@@ -2392,11 +2495,10 @@ class CreateMLModelOutput {
 ///
 /// The result contains the <code>MLModelId</code> and the endpoint information
 /// for the <code>MLModel</code>.
-/// <note>
-/// The endpoint information includes the URI of the <code>MLModel</code>; that
-/// is, the location to send online prediction requests for the specified
-/// <code>MLModel</code>.
-/// </note>
+///
+/// <b>Note:</b> The endpoint information includes the URI of the
+/// <code>MLModel</code>; that is, the location to send online prediction
+/// requests for the specified <code>MLModel</code>.
 class CreateRealtimeEndpointOutput {
   /// A user-supplied ID that uniquely identifies the <code>MLModel</code>. This
   /// value should be identical to the value of the <code>MLModelId</code> in the
@@ -2410,6 +2512,7 @@ class CreateRealtimeEndpointOutput {
     this.mLModelId,
     this.realtimeEndpointInfo,
   });
+
   factory CreateRealtimeEndpointOutput.fromJson(Map<String, dynamic> json) {
     return CreateRealtimeEndpointOutput(
       mLModelId: json['MLModelId'] as String?,
@@ -2478,14 +2581,24 @@ class DataSource {
   /// of the following values:
   ///
   /// <ul>
-  /// <li>PENDING - Amazon Machine Learning (Amazon ML) submitted a request to
-  /// create a <code>DataSource</code>.</li>
-  /// <li>INPROGRESS - The creation process is underway.</li>
-  /// <li>FAILED - The request to create a <code>DataSource</code> did not run to
-  /// completion. It is not usable.</li>
-  /// <li>COMPLETED - The creation process completed successfully.</li>
-  /// <li>DELETED - The <code>DataSource</code> is marked as deleted. It is not
-  /// usable.</li>
+  /// <li>
+  /// PENDING - Amazon Machine Learning (Amazon ML) submitted a request to create
+  /// a <code>DataSource</code>.
+  /// </li>
+  /// <li>
+  /// INPROGRESS - The creation process is underway.
+  /// </li>
+  /// <li>
+  /// FAILED - The request to create a <code>DataSource</code> did not run to
+  /// completion. It is not usable.
+  /// </li>
+  /// <li>
+  /// COMPLETED - The creation process completed successfully.
+  /// </li>
+  /// <li>
+  /// DELETED - The <code>DataSource</code> is marked as deleted. It is not
+  /// usable.
+  /// </li>
   /// </ul>
   final EntityStatus? status;
 
@@ -2509,6 +2622,7 @@ class DataSource {
     this.startedAt,
     this.status,
   });
+
   factory DataSource.fromJson(Map<String, dynamic> json) {
     return DataSource(
       computeStatistics: json['ComputeStatistics'] as bool?,
@@ -2542,22 +2656,30 @@ class DataSource {
 /// <code>DataSource</code>.
 ///
 /// <ul>
-/// <li> <code>CreatedAt</code> - Sets the search criteria to
-/// <code>DataSource</code> creation date.</li>
-/// <li> <code>Status</code> - Sets the search criteria to
-/// <code>DataSource</code> status.</li>
-/// <li> <code>Name</code> - Sets the search criteria to the contents of
-/// <code>DataSource</code> <b> </b> <code>Name</code>.</li>
-/// <li> <code>DataUri</code> - Sets the search criteria to the URI of data
-/// files used to create the <code>DataSource</code>. The URI can identify
-/// either a file or an Amazon Simple Storage Service (Amazon S3) bucket or
-/// directory.</li>
-/// <li> <code>IAMUser</code> - Sets the search criteria to the user account
-/// that invoked the <code>DataSource</code> creation.</li>
-/// </ul> <note><title>Note</title>
-/// The variable names should match the variable names in the
+/// <li>
+/// <code>CreatedAt</code> - Sets the search criteria to <code>DataSource</code>
+/// creation date.
+/// </li>
+/// <li>
+/// <code>Status</code> - Sets the search criteria to <code>DataSource</code>
+/// status.
+/// </li>
+/// <li>
+/// <code>Name</code> - Sets the search criteria to the contents of
+/// <code>DataSource</code> <code>Name</code>.
+/// </li>
+/// <li>
+/// <code>DataUri</code> - Sets the search criteria to the URI of data files
+/// used to create the <code>DataSource</code>. The URI can identify either a
+/// file or an Amazon Simple Storage Service (Amazon S3) bucket or directory.
+/// </li>
+/// <li>
+/// <code>IAMUser</code> - Sets the search criteria to the user account that
+/// invoked the <code>DataSource</code> creation.
+/// </li>
+/// </ul>
+/// <b>Note:</b> The variable names should match the variable names in the
 /// <code>DataSource</code>.
-/// </note>
 enum DataSourceFilterVariable {
   createdAt,
   lastUpdatedAt,
@@ -2620,6 +2742,7 @@ class DeleteBatchPredictionOutput {
   DeleteBatchPredictionOutput({
     this.batchPredictionId,
   });
+
   factory DeleteBatchPredictionOutput.fromJson(Map<String, dynamic> json) {
     return DeleteBatchPredictionOutput(
       batchPredictionId: json['BatchPredictionId'] as String?,
@@ -2637,6 +2760,7 @@ class DeleteDataSourceOutput {
   DeleteDataSourceOutput({
     this.dataSourceId,
   });
+
   factory DeleteDataSourceOutput.fromJson(Map<String, dynamic> json) {
     return DeleteDataSourceOutput(
       dataSourceId: json['DataSourceId'] as String?,
@@ -2660,6 +2784,7 @@ class DeleteEvaluationOutput {
   DeleteEvaluationOutput({
     this.evaluationId,
   });
+
   factory DeleteEvaluationOutput.fromJson(Map<String, dynamic> json) {
     return DeleteEvaluationOutput(
       evaluationId: json['EvaluationId'] as String?,
@@ -2681,6 +2806,7 @@ class DeleteMLModelOutput {
   DeleteMLModelOutput({
     this.mLModelId,
   });
+
   factory DeleteMLModelOutput.fromJson(Map<String, dynamic> json) {
     return DeleteMLModelOutput(
       mLModelId: json['MLModelId'] as String?,
@@ -2705,6 +2831,7 @@ class DeleteRealtimeEndpointOutput {
     this.mLModelId,
     this.realtimeEndpointInfo,
   });
+
   factory DeleteRealtimeEndpointOutput.fromJson(Map<String, dynamic> json) {
     return DeleteRealtimeEndpointOutput(
       mLModelId: json['MLModelId'] as String?,
@@ -2728,6 +2855,7 @@ class DeleteTagsOutput {
     this.resourceId,
     this.resourceType,
   });
+
   factory DeleteTagsOutput.fromJson(Map<String, dynamic> json) {
     return DeleteTagsOutput(
       resourceId: json['ResourceId'] as String?,
@@ -2751,6 +2879,7 @@ class DescribeBatchPredictionsOutput {
     this.nextToken,
     this.results,
   });
+
   factory DescribeBatchPredictionsOutput.fromJson(Map<String, dynamic> json) {
     return DescribeBatchPredictionsOutput(
       nextToken: json['NextToken'] as String?,
@@ -2776,6 +2905,7 @@ class DescribeDataSourcesOutput {
     this.nextToken,
     this.results,
   });
+
   factory DescribeDataSourcesOutput.fromJson(Map<String, dynamic> json) {
     return DescribeDataSourcesOutput(
       nextToken: json['NextToken'] as String?,
@@ -2801,6 +2931,7 @@ class DescribeEvaluationsOutput {
     this.nextToken,
     this.results,
   });
+
   factory DescribeEvaluationsOutput.fromJson(Map<String, dynamic> json) {
     return DescribeEvaluationsOutput(
       nextToken: json['NextToken'] as String?,
@@ -2826,6 +2957,7 @@ class DescribeMLModelsOutput {
     this.nextToken,
     this.results,
   });
+
   factory DescribeMLModelsOutput.fromJson(Map<String, dynamic> json) {
     return DescribeMLModelsOutput(
       nextToken: json['NextToken'] as String?,
@@ -2853,6 +2985,7 @@ class DescribeTagsOutput {
     this.resourceType,
     this.tags,
   });
+
   factory DescribeTagsOutput.fromJson(Map<String, dynamic> json) {
     return DescribeTagsOutput(
       resourceId: json['ResourceId'] as String?,
@@ -2866,9 +2999,17 @@ class DescribeTagsOutput {
 }
 
 /// Contains the key values of <code>DetailsMap</code>:
+///
+/// <ul>
+/// <li>
 /// <code>PredictiveModelType</code> - Indicates the type of the
-/// <code>MLModel</code>. <code>Algorithm</code> - Indicates the algorithm that
-/// was used for the <code>MLModel</code>.
+/// <code>MLModel</code>.
+/// </li>
+/// <li>
+/// <code>Algorithm</code> - Indicates the algorithm that was used for the
+/// <code>MLModel</code>.
+/// </li>
+/// </ul>
 enum DetailsAttributes {
   predictiveModelType,
   algorithm,
@@ -2900,11 +3041,21 @@ extension DetailsAttributesFromString on String {
 /// Object status with the following possible values:
 ///
 /// <ul>
-/// <li><code>PENDING</code></li>
-/// <li><code>INPROGRESS</code></li>
-/// <li><code>FAILED</code></li>
-/// <li><code>COMPLETED</code></li>
-/// <li><code>DELETED</code></li>
+/// <li>
+/// <code>PENDING</code>
+/// </li>
+/// <li>
+/// <code>INPROGRESS</code>
+/// </li>
+/// <li>
+/// <code>FAILED</code>
+/// </li>
+/// <li>
+/// <code>COMPLETED</code>
+/// </li>
+/// <li>
+/// <code>DELETED</code>
+/// </li>
 /// </ul>
 enum EntityStatus {
   pending,
@@ -3011,7 +3162,7 @@ class Evaluation {
   /// </li>
   /// </ul>
   /// For more information about performance metrics, please see the <a
-  /// href="http://docs.aws.amazon.com/machine-learning/latest/dg">Amazon Machine
+  /// href="https://docs.aws.amazon.com/machine-learning/latest/dg">Amazon Machine
   /// Learning Developer Guide</a>.
   final PerformanceMetrics? performanceMetrics;
   final DateTime? startedAt;
@@ -3020,15 +3171,24 @@ class Evaluation {
   /// values:
   ///
   /// <ul>
-  /// <li> <code>PENDING</code> - Amazon Machine Learning (Amazon ML) submitted a
-  /// request to evaluate an <code>MLModel</code>.</li>
-  /// <li> <code>INPROGRESS</code> - The evaluation is underway.</li>
-  /// <li> <code>FAILED</code> - The request to evaluate an <code>MLModel</code>
-  /// did not run to completion. It is not usable.</li>
-  /// <li> <code>COMPLETED</code> - The evaluation process completed
-  /// successfully.</li>
-  /// <li> <code>DELETED</code> - The <code>Evaluation</code> is marked as
-  /// deleted. It is not usable.</li>
+  /// <li>
+  /// <code>PENDING</code> - Amazon Machine Learning (Amazon ML) submitted a
+  /// request to evaluate an <code>MLModel</code>.
+  /// </li>
+  /// <li>
+  /// <code>INPROGRESS</code> - The evaluation is underway.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - The request to evaluate an <code>MLModel</code> did
+  /// not run to completion. It is not usable.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED</code> - The evaluation process completed successfully.
+  /// </li>
+  /// <li>
+  /// <code>DELETED</code> - The <code>Evaluation</code> is marked as deleted. It
+  /// is not usable.
+  /// </li>
   /// </ul>
   final EntityStatus? status;
 
@@ -3048,6 +3208,7 @@ class Evaluation {
     this.startedAt,
     this.status,
   });
+
   factory Evaluation.fromJson(Map<String, dynamic> json) {
     return Evaluation(
       computeTime: json['ComputeTime'] as int?,
@@ -3075,21 +3236,35 @@ class Evaluation {
 /// <code>Evaluation</code>.
 ///
 /// <ul>
-/// <li> <code>CreatedAt</code> - Sets the search criteria to
-/// <code>Evaluation</code> creation date.</li>
-/// <li> <code>Status</code> - Sets the search criteria to
-/// <code>Evaluation</code> status.</li>
-/// <li> <code>Name</code> - Sets the search criteria to the contents of
-/// <code>Evaluation</code> <b> </b> <code>Name</code>.</li>
-/// <li> <code>IAMUser</code> - Sets the search criteria to the user account
-/// that invoked an evaluation.</li>
-/// <li> <code>MLModelId</code> - Sets the search criteria to the
-/// <code>Predictor</code> that was evaluated.</li>
-/// <li> <code>DataSourceId</code> - Sets the search criteria to the
-/// <code>DataSource</code> used in evaluation.</li>
-/// <li> <code>DataUri</code> - Sets the search criteria to the data file(s)
-/// used in evaluation. The URL can identify either a file or an Amazon Simple
-/// Storage Service (Amazon S3) bucket or directory.</li>
+/// <li>
+/// <code>CreatedAt</code> - Sets the search criteria to <code>Evaluation</code>
+/// creation date.
+/// </li>
+/// <li>
+/// <code>Status</code> - Sets the search criteria to <code>Evaluation</code>
+/// status.
+/// </li>
+/// <li>
+/// <code>Name</code> - Sets the search criteria to the contents of
+/// <code>Evaluation</code> <b> </b> <code>Name</code>.
+/// </li>
+/// <li>
+/// <code>IAMUser</code> - Sets the search criteria to the user account that
+/// invoked an evaluation.
+/// </li>
+/// <li>
+/// <code>MLModelId</code> - Sets the search criteria to the
+/// <code>Predictor</code> that was evaluated.
+/// </li>
+/// <li>
+/// <code>DataSourceId</code> - Sets the search criteria to the
+/// <code>DataSource</code> used in evaluation.
+/// </li>
+/// <li>
+/// <code>DataUri</code> - Sets the search criteria to the data file(s) used in
+/// evaluation. The URL can identify either a file or an Amazon Simple Storage
+/// Service (Amazon S3) bucket or directory.
+/// </li>
 /// </ul>
 enum EvaluationFilterVariable {
   createdAt,
@@ -3224,15 +3399,25 @@ class GetBatchPredictionOutput {
   /// following values:
   ///
   /// <ul>
-  /// <li> <code>PENDING</code> - Amazon Machine Learning (Amazon ML) submitted a
-  /// request to generate batch predictions.</li>
-  /// <li> <code>INPROGRESS</code> - The batch predictions are in progress.</li>
-  /// <li> <code>FAILED</code> - The request to perform a batch prediction did not
-  /// run to completion. It is not usable.</li>
-  /// <li> <code>COMPLETED</code> - The batch prediction process completed
-  /// successfully.</li>
-  /// <li> <code>DELETED</code> - The <code>BatchPrediction</code> is marked as
-  /// deleted. It is not usable.</li>
+  /// <li>
+  /// <code>PENDING</code> - Amazon Machine Learning (Amazon ML) submitted a
+  /// request to generate batch predictions.
+  /// </li>
+  /// <li>
+  /// <code>INPROGRESS</code> - The batch predictions are in progress.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - The request to perform a batch prediction did not run
+  /// to completion. It is not usable.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED</code> - The batch prediction process completed
+  /// successfully.
+  /// </li>
+  /// <li>
+  /// <code>DELETED</code> - The <code>BatchPrediction</code> is marked as
+  /// deleted. It is not usable.
+  /// </li>
   /// </ul>
   final EntityStatus? status;
 
@@ -3259,6 +3444,7 @@ class GetBatchPredictionOutput {
     this.status,
     this.totalRecordCount,
   });
+
   factory GetBatchPredictionOutput.fromJson(Map<String, dynamic> json) {
     return GetBatchPredictionOutput(
       batchPredictionDataSourceId:
@@ -3323,9 +3509,8 @@ class GetDataSourceOutput {
   final String? dataSourceId;
 
   /// The schema used by all of the data files of this <code>DataSource</code>.
-  /// <note><title>Note</title>
-  /// This parameter is provided as part of the verbose format.
-  /// </note>
+  ///
+  /// <b>Note:</b> This parameter is provided as part of the verbose format.
   final String? dataSourceSchema;
 
   /// The epoch time when Amazon Machine Learning marked the
@@ -3365,15 +3550,24 @@ class GetDataSourceOutput {
   /// of the following values:
   ///
   /// <ul>
-  /// <li> <code>PENDING</code> - Amazon ML submitted a request to create a
-  /// <code>DataSource</code>.</li>
-  /// <li> <code>INPROGRESS</code> - The creation process is underway.</li>
-  /// <li> <code>FAILED</code> - The request to create a <code>DataSource</code>
-  /// did not run to completion. It is not usable.</li>
-  /// <li> <code>COMPLETED</code> - The creation process completed
-  /// successfully.</li>
-  /// <li> <code>DELETED</code> - The <code>DataSource</code> is marked as
-  /// deleted. It is not usable.</li>
+  /// <li>
+  /// <code>PENDING</code> - Amazon ML submitted a request to create a
+  /// <code>DataSource</code>.
+  /// </li>
+  /// <li>
+  /// <code>INPROGRESS</code> - The creation process is underway.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - The request to create a <code>DataSource</code> did
+  /// not run to completion. It is not usable.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED</code> - The creation process completed successfully.
+  /// </li>
+  /// <li>
+  /// <code>DELETED</code> - The <code>DataSource</code> is marked as deleted. It
+  /// is not usable.
+  /// </li>
   /// </ul>
   final EntityStatus? status;
 
@@ -3399,6 +3593,7 @@ class GetDataSourceOutput {
     this.startedAt,
     this.status,
   });
+
   factory GetDataSourceOutput.fromJson(Map<String, dynamic> json) {
     return GetDataSourceOutput(
       computeStatistics: json['ComputeStatistics'] as bool?,
@@ -3503,7 +3698,7 @@ class GetEvaluationOutput {
   /// </li>
   /// </ul>
   /// For more information about performance metrics, please see the <a
-  /// href="http://docs.aws.amazon.com/machine-learning/latest/dg">Amazon Machine
+  /// href="https://docs.aws.amazon.com/machine-learning/latest/dg">Amazon Machine
   /// Learning Developer Guide</a>.
   final PerformanceMetrics? performanceMetrics;
 
@@ -3517,15 +3712,24 @@ class GetEvaluationOutput {
   /// values:
   ///
   /// <ul>
-  /// <li> <code>PENDING</code> - Amazon Machine Language (Amazon ML) submitted a
-  /// request to evaluate an <code>MLModel</code>.</li>
-  /// <li> <code>INPROGRESS</code> - The evaluation is underway.</li>
-  /// <li> <code>FAILED</code> - The request to evaluate an <code>MLModel</code>
-  /// did not run to completion. It is not usable.</li>
-  /// <li> <code>COMPLETED</code> - The evaluation process completed
-  /// successfully.</li>
-  /// <li> <code>DELETED</code> - The <code>Evaluation</code> is marked as
-  /// deleted. It is not usable.</li>
+  /// <li>
+  /// <code>PENDING</code> - Amazon Machine Language (Amazon ML) submitted a
+  /// request to evaluate an <code>MLModel</code>.
+  /// </li>
+  /// <li>
+  /// <code>INPROGRESS</code> - The evaluation is underway.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - The request to evaluate an <code>MLModel</code> did
+  /// not run to completion. It is not usable.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED</code> - The evaluation process completed successfully.
+  /// </li>
+  /// <li>
+  /// <code>DELETED</code> - The <code>Evaluation</code> is marked as deleted. It
+  /// is not usable.
+  /// </li>
   /// </ul>
   final EntityStatus? status;
 
@@ -3546,6 +3750,7 @@ class GetEvaluationOutput {
     this.startedAt,
     this.status,
   });
+
   factory GetEvaluationOutput.fromJson(Map<String, dynamic> json) {
     return GetEvaluationOutput(
       computeTime: json['ComputeTime'] as int?,
@@ -3609,21 +3814,25 @@ class GetMLModelOutput {
   /// operation.
   final String? logUri;
 
-  /// The MLModel ID<?oxy_insert_start author="annbech"
-  /// timestamp="20160328T151251-0700">,<?oxy_insert_end> which is same as the
-  /// <code>MLModelId</code> in the request.
+  /// The MLModel ID, which is same as the <code>MLModelId</code> in the request.
   final String? mLModelId;
 
   /// Identifies the <code>MLModel</code> category. The following are the
   /// available types:
   ///
   /// <ul>
-  /// <li>REGRESSION -- Produces a numeric result. For example, "What price should
-  /// a house be listed at?"</li>
-  /// <li>BINARY -- Produces one of two possible results. For example, "Is this an
-  /// e-commerce website?"</li>
-  /// <li>MULTICLASS -- Produces one of several possible results. For example, "Is
-  /// this a HIGH, LOW or MEDIUM risk trade?"</li>
+  /// <li>
+  /// REGRESSION -- Produces a numeric result. For example, "What price should a
+  /// house be listed at?"
+  /// </li>
+  /// <li>
+  /// BINARY -- Produces one of two possible results. For example, "Is this an
+  /// e-commerce website?"
+  /// </li>
+  /// <li>
+  /// MULTICLASS -- Produces one of several possible results. For example, "Is
+  /// this a HIGH, LOW or MEDIUM risk trade?"
+  /// </li>
   /// </ul>
   final MLModelType? mLModelType;
 
@@ -3638,22 +3847,19 @@ class GetMLModelOutput {
   /// <code>Recipe</code> provides detailed information about the observation data
   /// to use during training, and manipulations to perform on the observation data
   /// during training.
-  /// <note><title>Note</title>
-  /// This parameter is provided as part of the verbose format.
-  /// </note>
+  ///
+  /// <b>Note:</b> This parameter is provided as part of the verbose format.
   final String? recipe;
 
   /// The schema used by all of the data files referenced by the
   /// <code>DataSource</code>.
-  /// <note><title>Note</title>
-  /// This parameter is provided as part of the verbose format.
-  /// </note>
+  ///
+  /// <b>Note:</b> This parameter is provided as part of the verbose format.
   final String? schema;
 
-  /// The scoring threshold is used in binary classification
-  /// <code>MLModel</code><?oxy_insert_start author="laurama"
-  /// timestamp="20160329T114851-0700"> <?oxy_insert_end>models. It marks the
-  /// boundary between a positive prediction and a negative prediction.
+  /// The scoring threshold is used in binary classification <code>MLModel</code>
+  /// models. It marks the boundary between a positive prediction and a negative
+  /// prediction.
   ///
   /// Output values greater than or equal to the threshold receive a positive
   /// result from the MLModel, such as <code>true</code>. Output values less than
@@ -3675,14 +3881,24 @@ class GetMLModelOutput {
   /// the following values:
   ///
   /// <ul>
-  /// <li> <code>PENDING</code> - Amazon Machine Learning (Amazon ML) submitted a
-  /// request to describe a <code>MLModel</code>.</li>
-  /// <li> <code>INPROGRESS</code> - The request is processing.</li>
-  /// <li> <code>FAILED</code> - The request did not run to completion. The ML
-  /// model isn't usable.</li>
-  /// <li> <code>COMPLETED</code> - The request completed successfully.</li>
-  /// <li> <code>DELETED</code> - The <code>MLModel</code> is marked as deleted.
-  /// It isn't usable.</li>
+  /// <li>
+  /// <code>PENDING</code> - Amazon Machine Learning (Amazon ML) submitted a
+  /// request to describe a <code>MLModel</code>.
+  /// </li>
+  /// <li>
+  /// <code>INPROGRESS</code> - The request is processing.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - The request did not run to completion. The ML model
+  /// isn't usable.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED</code> - The request completed successfully.
+  /// </li>
+  /// <li>
+  /// <code>DELETED</code> - The <code>MLModel</code> is marked as deleted. It
+  /// isn't usable.
+  /// </li>
   /// </ul>
   final EntityStatus? status;
 
@@ -3765,6 +3981,7 @@ class GetMLModelOutput {
     this.trainingDataSourceId,
     this.trainingParameters,
   });
+
   factory GetMLModelOutput.fromJson(Map<String, dynamic> json) {
     return GetMLModelOutput(
       computeTime: json['ComputeTime'] as int?,
@@ -3797,92 +4014,6 @@ class GetMLModelOutput {
   }
 }
 
-/// A second request to use or change an object was not allowed. This can result
-/// from retrying a request using a parameter that was not present in the
-/// original request.
-class IdempotentParameterMismatchException implements _s.AwsException {
-  final int? code;
-  final String? message;
-
-  IdempotentParameterMismatchException({
-    this.code,
-    this.message,
-  });
-  factory IdempotentParameterMismatchException.fromJson(
-      Map<String, dynamic> json) {
-    return IdempotentParameterMismatchException(
-      code: json['code'] as int?,
-      message: json['message'] as String?,
-    );
-  }
-}
-
-/// An error on the server occurred when trying to process a request.
-class InternalServerException implements _s.AwsException {
-  final int? code;
-  final String? message;
-
-  InternalServerException({
-    this.code,
-    this.message,
-  });
-  factory InternalServerException.fromJson(Map<String, dynamic> json) {
-    return InternalServerException(
-      code: json['code'] as int?,
-      message: json['message'] as String?,
-    );
-  }
-}
-
-/// An error on the client occurred. Typically, the cause is an invalid input
-/// value.
-class InvalidInputException implements _s.AwsException {
-  final int? code;
-  final String? message;
-
-  InvalidInputException({
-    this.code,
-    this.message,
-  });
-  factory InvalidInputException.fromJson(Map<String, dynamic> json) {
-    return InvalidInputException(
-      code: json['code'] as int?,
-      message: json['message'] as String?,
-    );
-  }
-}
-
-class InvalidTagException implements _s.AwsException {
-  final String? message;
-
-  InvalidTagException({
-    this.message,
-  });
-  factory InvalidTagException.fromJson(Map<String, dynamic> json) {
-    return InvalidTagException(
-      message: json['message'] as String?,
-    );
-  }
-}
-
-/// The subscriber exceeded the maximum number of operations. This exception can
-/// occur when listing objects such as <code>DataSource</code>.
-class LimitExceededException implements _s.AwsException {
-  final int? code;
-  final String? message;
-
-  LimitExceededException({
-    this.code,
-    this.message,
-  });
-  factory LimitExceededException.fromJson(Map<String, dynamic> json) {
-    return LimitExceededException(
-      code: json['code'] as int?,
-      message: json['message'] as String?,
-    );
-  }
-}
-
 /// Represents the output of a <code>GetMLModel</code> operation.
 ///
 /// The content consists of the detailed metadata and the current status of the
@@ -3892,8 +4023,10 @@ class MLModel {
   /// algorithm is supported:
   ///
   /// <ul>
-  /// <li> <code>SGD</code> -- Stochastic gradient descent. The goal of
-  /// <code>SGD</code> is to minimize the gradient of the loss function. </li>
+  /// <li>
+  /// <code>SGD</code> -- Stochastic gradient descent. The goal of
+  /// <code>SGD</code> is to minimize the gradient of the loss function.
+  /// </li>
   /// </ul>
   final Algorithm? algorithm;
   final int? computeTime;
@@ -3926,15 +4059,18 @@ class MLModel {
   /// available types:
   ///
   /// <ul>
-  /// <li> <code>REGRESSION</code> - Produces a numeric result. For example, "What
-  /// price should a house be listed at?"</li>
-  /// <li> <code>BINARY</code> - Produces one of two possible results. For
-  /// example, "Is this a child-friendly web site?".</li>
-  /// <li> <code>MULTICLASS</code> - Produces one of several possible results. For
-  /// example, "Is this a HIGH-, LOW-, or MEDIUM<?oxy_delete author="annbech"
-  /// timestamp="20160328T175050-0700" content=" "><?oxy_insert_start
-  /// author="annbech" timestamp="20160328T175050-0700">-<?oxy_insert_end>risk
-  /// trade?".</li>
+  /// <li>
+  /// <code>REGRESSION</code> - Produces a numeric result. For example, "What
+  /// price should a house be listed at?"
+  /// </li>
+  /// <li>
+  /// <code>BINARY</code> - Produces one of two possible results. For example, "Is
+  /// this a child-friendly web site?".
+  /// </li>
+  /// <li>
+  /// <code>MULTICLASS</code> - Produces one of several possible results. For
+  /// example, "Is this a HIGH-, LOW-, or MEDIUM-risk trade?".
+  /// </li>
   /// </ul>
   final MLModelType? mLModelType;
 
@@ -3956,15 +4092,24 @@ class MLModel {
   /// the following values:
   ///
   /// <ul>
-  /// <li> <code>PENDING</code> - Amazon Machine Learning (Amazon ML) submitted a
-  /// request to create an <code>MLModel</code>.</li>
-  /// <li> <code>INPROGRESS</code> - The creation process is underway.</li>
-  /// <li> <code>FAILED</code> - The request to create an <code>MLModel</code>
-  /// didn't run to completion. The model isn't usable.</li>
-  /// <li> <code>COMPLETED</code> - The creation process completed
-  /// successfully.</li>
-  /// <li> <code>DELETED</code> - The <code>MLModel</code> is marked as deleted.
-  /// It isn't usable.</li>
+  /// <li>
+  /// <code>PENDING</code> - Amazon Machine Learning (Amazon ML) submitted a
+  /// request to create an <code>MLModel</code>.
+  /// </li>
+  /// <li>
+  /// <code>INPROGRESS</code> - The creation process is underway.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - The request to create an <code>MLModel</code> didn't
+  /// run to completion. The model isn't usable.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED</code> - The creation process completed successfully.
+  /// </li>
+  /// <li>
+  /// <code>DELETED</code> - The <code>MLModel</code> is marked as deleted. It
+  /// isn't usable.
+  /// </li>
   /// </ul>
   final EntityStatus? status;
 
@@ -4046,6 +4191,7 @@ class MLModel {
     this.trainingDataSourceId,
     this.trainingParameters,
   });
+
   factory MLModel.fromJson(Map<String, dynamic> json) {
     return MLModel(
       algorithm: (json['Algorithm'] as String?)?.toAlgorithm(),
@@ -4197,7 +4343,7 @@ extension MLModelTypeFromString on String {
 /// </li>
 /// </ul>
 /// For more information about performance metrics, please see the <a
-/// href="http://docs.aws.amazon.com/machine-learning/latest/dg">Amazon Machine
+/// href="https://docs.aws.amazon.com/machine-learning/latest/dg">Amazon Machine
 /// Learning Developer Guide</a>.
 class PerformanceMetrics {
   final Map<String, String>? properties;
@@ -4205,6 +4351,7 @@ class PerformanceMetrics {
   PerformanceMetrics({
     this.properties,
   });
+
   factory PerformanceMetrics.fromJson(Map<String, dynamic> json) {
     return PerformanceMetrics(
       properties: (json['Properties'] as Map<String, dynamic>?)
@@ -4219,6 +4366,7 @@ class PredictOutput {
   PredictOutput({
     this.prediction,
   });
+
   factory PredictOutput.fromJson(Map<String, dynamic> json) {
     return PredictOutput(
       prediction: json['Prediction'] != null
@@ -4266,6 +4414,7 @@ class Prediction {
     this.predictedScores,
     this.predictedValue,
   });
+
   factory Prediction.fromJson(Map<String, dynamic> json) {
     return Prediction(
       details: (json['details'] as Map<String, dynamic>?)
@@ -4274,21 +4423,6 @@ class Prediction {
       predictedScores: (json['predictedScores'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as double)),
       predictedValue: json['predictedValue'] as double?,
-    );
-  }
-}
-
-/// The exception is thrown when a predict request is made to an unmounted
-/// <code>MLModel</code>.
-class PredictorNotMountedException implements _s.AwsException {
-  final String? message;
-
-  PredictorNotMountedException({
-    this.message,
-  });
-  factory PredictorNotMountedException.fromJson(Map<String, dynamic> json) {
-    return PredictorNotMountedException(
-      message: json['message'] as String?,
     );
   }
 }
@@ -4307,7 +4441,7 @@ class RDSDataSpec {
   /// The role (DataPipelineDefaultResourceRole) assumed by an Amazon Elastic
   /// Compute Cloud (Amazon EC2) instance to carry out the copy operation from
   /// Amazon RDS to an Amazon S3 task. For more information, see <a
-  /// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-iam-roles.html">Role
+  /// href="https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-iam-roles.html">Role
   /// templates</a> for data pipelines.
   final String resourceRole;
 
@@ -4328,7 +4462,7 @@ class RDSDataSpec {
   /// The role (DataPipelineDefaultRole) assumed by AWS Data Pipeline service to
   /// monitor the progress of the copy task from Amazon RDS to Amazon S3. For more
   /// information, see <a
-  /// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-iam-roles.html">Role
+  /// href="https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-iam-roles.html">Role
   /// templates</a> for data pipelines.
   final String serviceRole;
 
@@ -4347,7 +4481,7 @@ class RDSDataSpec {
   ///
   /// <ul>
   /// <li>
-  /// <b><code>percentBegin</code></b>
+  /// <b> <code>percentBegin</code> </b>
   ///
   /// Use <code>percentBegin</code> to indicate the beginning of the range of the
   /// data used to create the Datasource. If you do not include
@@ -4355,7 +4489,7 @@ class RDSDataSpec {
   /// all of the data when creating the datasource.
   /// </li>
   /// <li>
-  /// <b><code>percentEnd</code></b>
+  /// <b> <code>percentEnd</code> </b>
   ///
   /// Use <code>percentEnd</code> to indicate the end of the range of the data
   /// used to create the Datasource. If you do not include
@@ -4363,7 +4497,7 @@ class RDSDataSpec {
   /// all of the data when creating the datasource.
   /// </li>
   /// <li>
-  /// <b><code>complement</code></b>
+  /// <b> <code>complement</code> </b>
   ///
   /// The <code>complement</code> parameter instructs Amazon ML to use the data
   /// that is not included in the range of <code>percentBegin</code> to
@@ -4384,7 +4518,7 @@ class RDSDataSpec {
   /// "percentEnd":25, "complement":"true"}}</code>
   /// </li>
   /// <li>
-  /// <b><code>strategy</code></b>
+  /// <b> <code>strategy</code> </b>
   ///
   /// To change how Amazon ML splits the data for a datasource, use the
   /// <code>strategy</code> parameter.
@@ -4469,7 +4603,6 @@ class RDSDataSpec {
   /// "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ],
   ///
   /// "excludedVariableNames": [ "F6" ] }
-  /// <?oxy_insert_end>
   final String? dataSchema;
 
   /// The Amazon S3 location of the <code>DataSchema</code>.
@@ -4527,6 +4660,7 @@ class RDSDatabase {
     required this.databaseName,
     required this.instanceIdentifier,
   });
+
   factory RDSDatabase.fromJson(Map<String, dynamic> json) {
     return RDSDatabase(
       databaseName: json['DatabaseName'] as String,
@@ -4577,7 +4711,7 @@ class RDSMetadata {
   /// The role (DataPipelineDefaultResourceRole) assumed by an Amazon EC2 instance
   /// to carry out the copy task from Amazon RDS to Amazon S3. For more
   /// information, see <a
-  /// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-iam-roles.html">Role
+  /// href="https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-iam-roles.html">Role
   /// templates</a> for data pipelines.
   final String? resourceRole;
 
@@ -4589,7 +4723,7 @@ class RDSMetadata {
   /// The role (DataPipelineDefaultRole) assumed by the Data Pipeline service to
   /// monitor the progress of the copy task from Amazon RDS to Amazon S3. For more
   /// information, see <a
-  /// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-iam-roles.html">Role
+  /// href="https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-iam-roles.html">Role
   /// templates</a> for data pipelines.
   final String? serviceRole;
 
@@ -4601,6 +4735,7 @@ class RDSMetadata {
     this.selectSqlQuery,
     this.serviceRole,
   });
+
   factory RDSMetadata.fromJson(Map<String, dynamic> json) {
     return RDSMetadata(
       dataPipelineId: json['DataPipelineId'] as String?,
@@ -4625,20 +4760,23 @@ class RealtimeEndpointInfo {
   /// This element can have one of the following values:
   ///
   /// <ul>
-  /// <li> <code>NONE</code> - Endpoint does not exist or was previously
-  /// deleted.</li>
-  /// <li> <code>READY</code> - Endpoint is ready to be used for real-time
-  /// predictions.</li>
-  /// <li> <code>UPDATING</code> - Updating/creating the endpoint. </li>
+  /// <li>
+  /// <code>NONE</code> - Endpoint does not exist or was previously deleted.
+  /// </li>
+  /// <li>
+  /// <code>READY</code> - Endpoint is ready to be used for real-time predictions.
+  /// </li>
+  /// <li>
+  /// <code>UPDATING</code> - Updating/creating the endpoint.
+  /// </li>
   /// </ul>
   final RealtimeEndpointStatus? endpointStatus;
 
   /// The URI that specifies where to send real-time prediction requests for the
   /// <code>MLModel</code>.
-  /// <note><title>Note</title>
-  /// The application must wait until the real-time endpoint is ready before using
-  /// this URI.
-  /// </note>
+  ///
+  /// <b>Note:</b> The application must wait until the real-time endpoint is ready
+  /// before using this URI.
   final String? endpointUrl;
 
   /// The maximum processing rate for the real-time endpoint for
@@ -4651,6 +4789,7 @@ class RealtimeEndpointInfo {
     this.endpointUrl,
     this.peakRequestsPerSecond,
   });
+
   factory RealtimeEndpointInfo.fromJson(Map<String, dynamic> json) {
     return RealtimeEndpointInfo(
       createdAt: timeStampFromJson(json['CreatedAt']),
@@ -4729,7 +4868,7 @@ class RedshiftDataSpec {
   ///
   /// <ul>
   /// <li>
-  /// <b><code>percentBegin</code></b>
+  /// <b> <code>percentBegin</code> </b>
   ///
   /// Use <code>percentBegin</code> to indicate the beginning of the range of the
   /// data used to create the Datasource. If you do not include
@@ -4737,7 +4876,7 @@ class RedshiftDataSpec {
   /// all of the data when creating the datasource.
   /// </li>
   /// <li>
-  /// <b><code>percentEnd</code></b>
+  /// <b> <code>percentEnd</code> </b>
   ///
   /// Use <code>percentEnd</code> to indicate the end of the range of the data
   /// used to create the Datasource. If you do not include
@@ -4745,7 +4884,7 @@ class RedshiftDataSpec {
   /// all of the data when creating the datasource.
   /// </li>
   /// <li>
-  /// <b><code>complement</code></b>
+  /// <b> <code>complement</code> </b>
   ///
   /// The <code>complement</code> parameter instructs Amazon ML to use the data
   /// that is not included in the range of <code>percentBegin</code> to
@@ -4766,7 +4905,7 @@ class RedshiftDataSpec {
   /// "percentEnd":25, "complement":"true"}}</code>
   /// </li>
   /// <li>
-  /// <b><code>strategy</code></b>
+  /// <b> <code>strategy</code> </b>
   ///
   /// To change how Amazon ML splits the data for a datasource, use the
   /// <code>strategy</code> parameter.
@@ -4896,6 +5035,7 @@ class RedshiftDatabase {
     required this.clusterIdentifier,
     required this.databaseName,
   });
+
   factory RedshiftDatabase.fromJson(Map<String, dynamic> json) {
     return RedshiftDatabase(
       clusterIdentifier: json['ClusterIdentifier'] as String,
@@ -4947,6 +5087,7 @@ class RedshiftMetadata {
     this.redshiftDatabase,
     this.selectSqlQuery,
   });
+
   factory RedshiftMetadata.fromJson(Map<String, dynamic> json) {
     return RedshiftMetadata(
       databaseUserName: json['DatabaseUserName'] as String?,
@@ -4955,23 +5096,6 @@ class RedshiftMetadata {
               json['RedshiftDatabase'] as Map<String, dynamic>)
           : null,
       selectSqlQuery: json['SelectSqlQuery'] as String?,
-    );
-  }
-}
-
-/// A specified resource cannot be located.
-class ResourceNotFoundException implements _s.AwsException {
-  final int? code;
-  final String? message;
-
-  ResourceNotFoundException({
-    this.code,
-    this.message,
-  });
-  factory ResourceNotFoundException.fromJson(Map<String, dynamic> json) {
-    return ResourceNotFoundException(
-      code: json['code'] as int?,
-      message: json['message'] as String?,
     );
   }
 }
@@ -4993,7 +5117,7 @@ class S3DataSpec {
   ///
   /// <ul>
   /// <li>
-  /// <b><code>percentBegin</code></b>
+  /// <b> <code>percentBegin</code> </b>
   ///
   /// Use <code>percentBegin</code> to indicate the beginning of the range of the
   /// data used to create the Datasource. If you do not include
@@ -5001,7 +5125,7 @@ class S3DataSpec {
   /// all of the data when creating the datasource.
   /// </li>
   /// <li>
-  /// <b><code>percentEnd</code></b>
+  /// <b> <code>percentEnd</code> </b>
   ///
   /// Use <code>percentEnd</code> to indicate the end of the range of the data
   /// used to create the Datasource. If you do not include
@@ -5009,7 +5133,7 @@ class S3DataSpec {
   /// all of the data when creating the datasource.
   /// </li>
   /// <li>
-  /// <b><code>complement</code></b>
+  /// <b> <code>complement</code> </b>
   ///
   /// The <code>complement</code> parameter instructs Amazon ML to use the data
   /// that is not included in the range of <code>percentBegin</code> to
@@ -5030,7 +5154,7 @@ class S3DataSpec {
   /// "percentEnd":25, "complement":"true"}}</code>
   /// </li>
   /// <li>
-  /// <b><code>strategy</code></b>
+  /// <b> <code>strategy</code> </b>
   ///
   /// To change how Amazon ML splits the data for a datasource, use the
   /// <code>strategy</code> parameter.
@@ -5115,7 +5239,6 @@ class S3DataSpec {
   /// "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ],
   ///
   /// "excludedVariableNames": [ "F6" ] }
-  /// <?oxy_insert_end>
   final String? dataSchema;
 
   /// Describes the schema location in Amazon S3. You must provide either the
@@ -5147,10 +5270,12 @@ class S3DataSpec {
 /// following:
 ///
 /// <ul>
-/// <li> <code>asc</code> - Present the information in ascending order (from
-/// A-Z).</li>
-/// <li> <code>dsc</code> - Present the information in descending order (from
-/// Z-A).</li>
+/// <li>
+/// <code>asc</code> - Present the information in ascending order (from A-Z).
+/// </li>
+/// <li>
+/// <code>dsc</code> - Present the information in descending order (from Z-A).
+/// </li>
 /// </ul>
 enum SortOrder {
   asc,
@@ -5195,6 +5320,7 @@ class Tag {
     this.key,
     this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String?,
@@ -5209,19 +5335,6 @@ class Tag {
       if (key != null) 'Key': key,
       if (value != null) 'Value': value,
     };
-  }
-}
-
-class TagLimitExceededException implements _s.AwsException {
-  final String? message;
-
-  TagLimitExceededException({
-    this.message,
-  });
-  factory TagLimitExceededException.fromJson(Map<String, dynamic> json) {
-    return TagLimitExceededException(
-      message: json['message'] as String?,
-    );
   }
 }
 
@@ -5276,6 +5389,7 @@ class UpdateBatchPredictionOutput {
   UpdateBatchPredictionOutput({
     this.batchPredictionId,
   });
+
   factory UpdateBatchPredictionOutput.fromJson(Map<String, dynamic> json) {
     return UpdateBatchPredictionOutput(
       batchPredictionId: json['BatchPredictionId'] as String?,
@@ -5296,6 +5410,7 @@ class UpdateDataSourceOutput {
   UpdateDataSourceOutput({
     this.dataSourceId,
   });
+
   factory UpdateDataSourceOutput.fromJson(Map<String, dynamic> json) {
     return UpdateDataSourceOutput(
       dataSourceId: json['DataSourceId'] as String?,
@@ -5316,6 +5431,7 @@ class UpdateEvaluationOutput {
   UpdateEvaluationOutput({
     this.evaluationId,
   });
+
   factory UpdateEvaluationOutput.fromJson(Map<String, dynamic> json) {
     return UpdateEvaluationOutput(
       evaluationId: json['EvaluationId'] as String?,
@@ -5336,6 +5452,7 @@ class UpdateMLModelOutput {
   UpdateMLModelOutput({
     this.mLModelId,
   });
+
   factory UpdateMLModelOutput.fromJson(Map<String, dynamic> json) {
     return UpdateMLModelOutput(
       mLModelId: json['MLModelId'] as String?,
@@ -5343,21 +5460,65 @@ class UpdateMLModelOutput {
   }
 }
 
+class IdempotentParameterMismatchException extends _s.GenericAwsException {
+  IdempotentParameterMismatchException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'IdempotentParameterMismatchException',
+            message: message);
+}
+
+class InternalServerException extends _s.GenericAwsException {
+  InternalServerException({String? type, String? message})
+      : super(type: type, code: 'InternalServerException', message: message);
+}
+
+class InvalidInputException extends _s.GenericAwsException {
+  InvalidInputException({String? type, String? message})
+      : super(type: type, code: 'InvalidInputException', message: message);
+}
+
+class InvalidTagException extends _s.GenericAwsException {
+  InvalidTagException({String? type, String? message})
+      : super(type: type, code: 'InvalidTagException', message: message);
+}
+
+class LimitExceededException extends _s.GenericAwsException {
+  LimitExceededException({String? type, String? message})
+      : super(type: type, code: 'LimitExceededException', message: message);
+}
+
+class PredictorNotMountedException extends _s.GenericAwsException {
+  PredictorNotMountedException({String? type, String? message})
+      : super(
+            type: type, code: 'PredictorNotMountedException', message: message);
+}
+
+class ResourceNotFoundException extends _s.GenericAwsException {
+  ResourceNotFoundException({String? type, String? message})
+      : super(type: type, code: 'ResourceNotFoundException', message: message);
+}
+
+class TagLimitExceededException extends _s.GenericAwsException {
+  TagLimitExceededException({String? type, String? message})
+      : super(type: type, code: 'TagLimitExceededException', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'IdempotentParameterMismatchException': (type, message) =>
-      IdempotentParameterMismatchException(message: message),
+      IdempotentParameterMismatchException(type: type, message: message),
   'InternalServerException': (type, message) =>
-      InternalServerException(message: message),
+      InternalServerException(type: type, message: message),
   'InvalidInputException': (type, message) =>
-      InvalidInputException(message: message),
+      InvalidInputException(type: type, message: message),
   'InvalidTagException': (type, message) =>
-      InvalidTagException(message: message),
+      InvalidTagException(type: type, message: message),
   'LimitExceededException': (type, message) =>
-      LimitExceededException(message: message),
+      LimitExceededException(type: type, message: message),
   'PredictorNotMountedException': (type, message) =>
-      PredictorNotMountedException(message: message),
+      PredictorNotMountedException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
-      ResourceNotFoundException(message: message),
+      ResourceNotFoundException(type: type, message: message),
   'TagLimitExceededException': (type, message) =>
-      TagLimitExceededException(message: message),
+      TagLimitExceededException(type: type, message: message),
 };

@@ -18,12 +18,12 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// <a href="https://aws.amazon.com/servicecatalog/">AWS Service Catalog</a>
-/// enables organizations to create and manage catalogs of IT services that are
-/// approved for AWS. To get the most out of this documentation, you should be
-/// familiar with the terminology discussed in <a
-/// href="http://docs.aws.amazon.com/servicecatalog/latest/adminguide/what-is_concepts.html">AWS
-/// Service Catalog Concepts</a>.
+/// <a href="http://aws.amazon.com/servicecatalog">Service Catalog</a> enables
+/// organizations to create and manage catalogs of IT services that are approved
+/// for Amazon Web Services. To get the most out of this documentation, you
+/// should be familiar with the terminology discussed in <a
+/// href="http://docs.aws.amazon.com/servicecatalog/latest/adminguide/what-is_concepts.html">Service
+/// Catalog Concepts</a>.
 class ServiceCatalog {
   final _s.JsonProtocol _protocol;
   ServiceCatalog({
@@ -65,9 +65,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -155,6 +152,29 @@ class ServiceCatalog {
 
   /// Associates the specified principal ARN with the specified portfolio.
   ///
+  /// If you share the portfolio with principal name sharing enabled, the
+  /// <code>PrincipalARN</code> association is included in the share.
+  ///
+  /// The <code>PortfolioID</code>, <code>PrincipalARN</code>, and
+  /// <code>PrincipalType</code> parameters are required.
+  ///
+  /// You can associate a maximum of 10 Principals with a portfolio using
+  /// <code>PrincipalType</code> as <code>IAM_PATTERN</code>
+  /// <note>
+  /// When you associate a principal with portfolio, a potential privilege
+  /// escalation path may occur when that portfolio is then shared with other
+  /// accounts. For a user in a recipient account who is <i>not</i> an Service
+  /// Catalog Admin, but still has the ability to create Principals
+  /// (Users/Groups/Roles), that user could create a role that matches a
+  /// principal name association for the portfolio. Although this user may not
+  /// know which principal names are associated through Service Catalog, they
+  /// may be able to guess the user. If this potential escalation path is a
+  /// concern, then Service Catalog recommends using <code>PrincipalType</code>
+  /// as <code>IAM</code>. With this configuration, the
+  /// <code>PrincipalARN</code> must already exist in the recipient account
+  /// before it can be associated.
+  /// </note>
+  ///
   /// May throw [InvalidParametersException].
   /// May throw [ResourceNotFoundException].
   /// May throw [LimitExceededException].
@@ -163,18 +183,24 @@ class ServiceCatalog {
   /// The portfolio identifier.
   ///
   /// Parameter [principalARN] :
-  /// The ARN of the principal (IAM user, role, or group).
+  /// The ARN of the principal (user, role, or group). This field allows an ARN
+  /// with no <code>accountID</code> if <code>PrincipalType</code> is
+  /// <code>IAM_PATTERN</code>.
+  ///
+  /// You can associate multiple <code>IAM</code> patterns even if the account
+  /// has no principal with that name. This is useful in Principal Name Sharing
+  /// if you want to share a principal without creating it in the account that
+  /// owns the portfolio.
   ///
   /// Parameter [principalType] :
-  /// The principal type. The supported value is <code>IAM</code>.
+  /// The principal type. The supported value is <code>IAM</code> if you use a
+  /// fully defined ARN, or <code>IAM_PATTERN</code> if you use an ARN with no
+  /// <code>accountID</code>.
   ///
   /// Parameter [acceptLanguage] :
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -227,9 +253,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -270,6 +293,7 @@ class ServiceCatalog {
   /// May throw [ResourceNotFoundException].
   /// May throw [DuplicateResourceException].
   /// May throw [LimitExceededException].
+  /// May throw [InvalidParametersException].
   ///
   /// Parameter [productId] :
   /// The product identifier. For example, <code>prod-abcdzk7xy33qa</code>.
@@ -286,9 +310,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -371,9 +392,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -420,9 +438,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -459,7 +474,9 @@ class ServiceCatalog {
   /// new product.
   ///
   /// You can copy a product to the same account or another account. You can
-  /// copy a product to the same region or another region.
+  /// copy a product to the same Region or another Region. If you copy a product
+  /// to another account, you must first share the product in a portfolio using
+  /// <a>CreatePortfolioShare</a>.
   ///
   /// This operation is performed asynchronously. To track the progress of the
   /// operation, use <a>DescribeCopyProductStatus</a>.
@@ -474,9 +491,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -608,7 +622,7 @@ class ServiceCatalog {
   /// You also cannot have more than one <code>STACKSET</code> constraint on a
   /// product and portfolio.
   ///
-  /// Products with a <code>STACKSET</code> constraint will launch an AWS
+  /// Products with a <code>STACKSET</code> constraint will launch an
   /// CloudFormation stack set.
   /// </dd> <dt>TEMPLATE</dt> <dd>
   /// Specify the <code>Rules</code> property. For more information, see <a
@@ -647,9 +661,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -716,9 +727,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -787,6 +795,20 @@ class ServiceCatalog {
   /// already exists, this action will have no effect and will not return an
   /// error. To update an existing share, you must use the <code>
   /// UpdatePortfolioShare</code> API instead.
+  /// <note>
+  /// When you associate a principal with portfolio, a potential privilege
+  /// escalation path may occur when that portfolio is then shared with other
+  /// accounts. For a user in a recipient account who is <i>not</i> an Service
+  /// Catalog Admin, but still has the ability to create Principals
+  /// (Users/Groups/Roles), that user could create a role that matches a
+  /// principal name association for the portfolio. Although this user may not
+  /// know which principal names are associated through Service Catalog, they
+  /// may be able to guess the user. If this potential escalation path is a
+  /// concern, then Service Catalog recommends using <code>PrincipalType</code>
+  /// as <code>IAM</code>. With this configuration, the
+  /// <code>PrincipalARN</code> must already exist in the recipient account
+  /// before it can be associated.
+  /// </note>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [LimitExceededException].
@@ -802,9 +824,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -813,15 +832,29 @@ class ServiceCatalog {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID. For example, <code>123456789012</code>.
+  /// The Amazon Web Services account ID. For example,
+  /// <code>123456789012</code>.
   ///
   /// Parameter [organizationNode] :
-  /// The organization node to whom you are going to share. If
-  /// <code>OrganizationNode</code> is passed in, <code>PortfolioShare</code>
-  /// will be created for the node an ListOrganizationPortfolioAccessd its
-  /// children (when applies), and a <code>PortfolioShareToken</code> will be
-  /// returned in the output in order for the administrator to monitor the
-  /// status of the <code>PortfolioShare</code> creation process.
+  /// The organization node to whom you are going to share. When you pass
+  /// <code>OrganizationNode</code>, it creates <code>PortfolioShare</code> for
+  /// all of the Amazon Web Services accounts that are associated to the
+  /// <code>OrganizationNode</code>. The output returns a
+  /// <code>PortfolioShareToken</code>, which enables the administrator to
+  /// monitor the status of the <code>PortfolioShare</code> creation process.
+  ///
+  /// Parameter [sharePrincipals] :
+  /// Enables or disables <code>Principal</code> sharing when creating the
+  /// portfolio share. If this flag is not provided, principal sharing is
+  /// disabled.
+  ///
+  /// When you enable Principal Name Sharing for a portfolio share, the share
+  /// recipient account end users with a principal that matches any of the
+  /// associated IAM patterns can provision products from the portfolio. Once
+  /// shared, the share recipient can view associations of
+  /// <code>PrincipalType</code>: <code>IAM_PATTERN</code> on their portfolio.
+  /// You can create the principals in the recipient account before or after
+  /// creating the share.
   ///
   /// Parameter [shareTagOptions] :
   /// Enables or disables <code>TagOptions </code> sharing when creating the
@@ -832,6 +865,7 @@ class ServiceCatalog {
     String? acceptLanguage,
     String? accountId,
     OrganizationNode? organizationNode,
+    bool? sharePrincipals,
     bool? shareTagOptions,
   }) async {
     final headers = <String, String>{
@@ -849,6 +883,7 @@ class ServiceCatalog {
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (accountId != null) 'AccountId': accountId,
         if (organizationNode != null) 'OrganizationNode': organizationNode,
+        if (sharePrincipals != null) 'SharePrincipals': sharePrincipals,
         if (shareTagOptions != null) 'ShareTagOptions': shareTagOptions,
       },
     );
@@ -878,16 +913,10 @@ class ServiceCatalog {
   /// Parameter [productType] :
   /// The type of product.
   ///
-  /// Parameter [provisioningArtifactParameters] :
-  /// The configuration of the provisioning artifact.
-  ///
   /// Parameter [acceptLanguage] :
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -907,6 +936,25 @@ class ServiceCatalog {
   /// requests differ only by the idempotency token, the same response is
   /// returned for each repeated request.
   ///
+  /// Parameter [provisioningArtifactParameters] :
+  /// The configuration of the provisioning artifact.
+  ///
+  /// Parameter [sourceConnection] :
+  /// Specifies connection details for the created product and syncs the product
+  /// to the connection source artifact. This automatically manages the
+  /// product's artifacts based on changes to the source. The
+  /// <code>SourceConnection</code> parameter consists of the following
+  /// sub-fields.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Type</code>
+  /// </li>
+  /// <li>
+  /// <code>ConnectionParamters</code>
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [supportDescription] :
   /// The support information about the product.
   ///
@@ -924,11 +972,12 @@ class ServiceCatalog {
     required String name,
     required String owner,
     required ProductType productType,
-    required ProvisioningArtifactProperties provisioningArtifactParameters,
     String? acceptLanguage,
     String? description,
     String? distributor,
     String? idempotencyToken,
+    ProvisioningArtifactProperties? provisioningArtifactParameters,
+    SourceConnection? sourceConnection,
     String? supportDescription,
     String? supportEmail,
     String? supportUrl,
@@ -948,11 +997,13 @@ class ServiceCatalog {
         'Name': name,
         'Owner': owner,
         'ProductType': productType.toValue(),
-        'ProvisioningArtifactParameters': provisioningArtifactParameters,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (description != null) 'Description': description,
         if (distributor != null) 'Distributor': distributor,
         'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
+        if (provisioningArtifactParameters != null)
+          'ProvisioningArtifactParameters': provisioningArtifactParameters,
+        if (sourceConnection != null) 'SourceConnection': sourceConnection,
         if (supportDescription != null)
           'SupportDescription': supportDescription,
         if (supportEmail != null) 'SupportEmail': supportEmail,
@@ -964,12 +1015,14 @@ class ServiceCatalog {
     return CreateProductOutput.fromJson(jsonResponse.body);
   }
 
-  /// Creates a plan. A plan includes the list of resources to be created (when
-  /// provisioning a new product) or modified (when updating a provisioned
-  /// product) when the plan is executed.
+  /// Creates a plan.
   ///
-  /// You can create one plan per provisioned product. To create a plan for an
-  /// existing provisioned product, the product status must be AVAILBLE or
+  /// A plan includes the list of resources to be created (when provisioning a
+  /// new product) or modified (when updating a provisioned product) when the
+  /// plan is executed.
+  ///
+  /// You can create one plan for each provisioned product. To create a plan for
+  /// an existing provisioned product, the product status must be AVAILABLE or
   /// TAINTED.
   ///
   /// To view the resource changes in the change set, use
@@ -991,8 +1044,8 @@ class ServiceCatalog {
   ///
   /// Parameter [provisionedProductName] :
   /// A user-friendly name for the provisioned product. This value must be
-  /// unique for the AWS account and cannot be updated after the product is
-  /// provisioned.
+  /// unique for the Amazon Web Services account and cannot be updated after the
+  /// product is provisioned.
   ///
   /// Parameter [provisioningArtifactId] :
   /// The identifier of the provisioning artifact.
@@ -1001,9 +1054,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -1105,9 +1155,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -1154,14 +1201,14 @@ class ServiceCatalog {
   /// Parameter [definition] :
   /// The self-service action definition. Can be one of the following:
   /// <dl> <dt>Name</dt> <dd>
-  /// The name of the AWS Systems Manager document (SSM document). For example,
-  /// <code>AWS-RestartEC2Instance</code>.
+  /// The name of the Amazon Web Services Systems Manager document (SSM
+  /// document). For example, <code>AWS-RestartEC2Instance</code>.
   ///
   /// If you are using a shared SSM document, you must provide the ARN instead
   /// of the name.
   /// </dd> <dt>Version</dt> <dd>
-  /// The AWS Systems Manager automation document version. For example,
-  /// <code>"Version": "1"</code>
+  /// The Amazon Web Services Systems Manager automation document version. For
+  /// example, <code>"Version": "1"</code>
   /// </dd> <dt>AssumeRole</dt> <dd>
   /// The Amazon Resource Name (ARN) of the role that performs the self-service
   /// actions on your behalf. For example, <code>"AssumeRole":
@@ -1187,9 +1234,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -1285,9 +1329,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -1334,9 +1375,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -1385,9 +1423,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -1396,7 +1431,7 @@ class ServiceCatalog {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS account ID.
+  /// The Amazon Web Services account ID.
   ///
   /// Parameter [organizationNode] :
   /// The organization node to whom you are going to stop sharing.
@@ -1447,9 +1482,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -1490,9 +1522,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -1501,8 +1530,8 @@ class ServiceCatalog {
   /// </ul>
   ///
   /// Parameter [ignoreErrors] :
-  /// If set to true, AWS Service Catalog stops managing the specified
-  /// provisioned product even if it cannot delete the underlying resources.
+  /// If set to true, Service Catalog stops managing the specified provisioned
+  /// product even if it cannot delete the underlying resources.
   Future<void> deleteProvisionedProductPlan({
     required String planId,
     String? acceptLanguage,
@@ -1548,9 +1577,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -1593,9 +1619,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -1666,9 +1689,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -1710,9 +1730,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -1756,9 +1773,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -1892,6 +1906,10 @@ class ServiceCatalog {
   }
 
   /// Gets information about the specified product.
+  /// <note>
+  /// Running this operation with administrator access results in a failure.
+  /// <a>DescribeProductAsAdmin</a> should be used instead.
+  /// </note>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
@@ -1900,9 +1918,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -1951,9 +1966,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -2017,9 +2029,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -2058,9 +2067,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -2120,9 +2126,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -2180,9 +2183,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -2256,9 +2256,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -2351,9 +2348,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -2412,9 +2406,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -2460,9 +2451,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -2526,18 +2514,26 @@ class ServiceCatalog {
     return DescribeTagOptionOutput.fromJson(jsonResponse.body);
   }
 
-  /// Disable portfolio sharing through AWS Organizations feature. This feature
-  /// will not delete your current shares but it will prevent you from creating
-  /// new shares throughout your organization. Current shares will not be in
-  /// sync with your organization structure if it changes after calling this
-  /// API. This API can only be called by the management account in the
-  /// organization.
+  /// Disable portfolio sharing through the Organizations service. This command
+  /// will not delete your current shares, but prevents you from creating new
+  /// shares throughout your organization. Current shares are not kept in sync
+  /// with your organization structure if the structure changes after calling
+  /// this API. Only the management account in the organization can call this
+  /// API.
   ///
-  /// This API can't be invoked if there are active delegated administrators in
+  /// You cannot call this API if there are active delegated administrators in
   /// the organization.
   ///
   /// Note that a delegated administrator is not authorized to invoke
   /// <code>DisableAWSOrganizationsAccess</code>.
+  /// <important>
+  /// If you share an Service Catalog portfolio in an organization within
+  /// Organizations, and then disable Organizations access for Service Catalog,
+  /// the portfolio access permissions will not sync with the latest changes to
+  /// the organization structure. Specifically, accounts that you removed from
+  /// the organization after disabling Service Catalog access will retain access
+  /// to the previously shared portfolio.
+  /// </important>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidStateException].
@@ -2592,6 +2588,18 @@ class ServiceCatalog {
   /// Disassociates a previously associated principal ARN from a specified
   /// portfolio.
   ///
+  /// The <code>PrincipalType</code> and <code>PrincipalARN</code> must match
+  /// the <code>AssociatePrincipalWithPortfolio</code> call request details. For
+  /// example, to disassociate an association created with a
+  /// <code>PrincipalARN</code> of <code>PrincipalType</code> IAM you must use
+  /// the <code>PrincipalType</code> IAM when calling
+  /// <code>DisassociatePrincipalFromPortfolio</code>.
+  ///
+  /// For portfolios that have been shared with principal name sharing enabled:
+  /// after disassociating a principal, share recipient accounts will no longer
+  /// be able to provision products in this portfolio using a role matching the
+  /// name of the associated principal.
+  ///
   /// May throw [InvalidParametersException].
   /// May throw [ResourceNotFoundException].
   ///
@@ -2599,15 +2607,14 @@ class ServiceCatalog {
   /// The portfolio identifier.
   ///
   /// Parameter [principalARN] :
-  /// The ARN of the principal (IAM user, role, or group).
+  /// The ARN of the principal (user, role, or group). This field allows an ARN
+  /// with no <code>accountID</code> if <code>PrincipalType</code> is
+  /// <code>IAM_PATTERN</code>.
   ///
   /// Parameter [acceptLanguage] :
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -2615,10 +2622,15 @@ class ServiceCatalog {
   /// <code>zh</code> - Chinese
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [principalType] :
+  /// The supported value is <code>IAM</code> if you use a fully defined ARN, or
+  /// <code>IAM_PATTERN</code> if you use no <code>accountID</code>.
   Future<void> disassociatePrincipalFromPortfolio({
     required String portfolioId,
     required String principalARN,
     String? acceptLanguage,
+    PrincipalType? principalType,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2635,6 +2647,7 @@ class ServiceCatalog {
         'PortfolioId': portfolioId,
         'PrincipalARN': principalARN,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (principalType != null) 'PrincipalType': principalType.toValue(),
       },
     );
   }
@@ -2657,9 +2670,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -2711,9 +2721,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -2779,17 +2786,28 @@ class ServiceCatalog {
     );
   }
 
-  /// Enable portfolio sharing feature through AWS Organizations. This API will
+  /// Enable portfolio sharing feature through Organizations. This API will
   /// allow Service Catalog to receive updates on your organization in order to
   /// sync your shares with the current structure. This API can only be called
   /// by the management account in the organization.
   ///
-  /// By calling this API Service Catalog will make a call to
-  /// organizations:EnableAWSServiceAccess on your behalf so that your shares
-  /// can be in sync with any changes in your AWS Organizations structure.
+  /// When you call this API, Service Catalog calls
+  /// <code>organizations:EnableAWSServiceAccess</code> on your behalf so that
+  /// your shares stay in sync with any changes in your Organizations structure.
   ///
   /// Note that a delegated administrator is not authorized to invoke
   /// <code>EnableAWSOrganizationsAccess</code>.
+  /// <important>
+  /// If you have previously disabled Organizations access for Service Catalog,
+  /// and then enable access again, the portfolio access permissions might not
+  /// sync with the latest changes to the organization structure. Specifically,
+  /// accounts that you removed from the organization after disabling Service
+  /// Catalog access, and before you enabled access again, can retain access to
+  /// the previously shared portfolio. As a result, an account that has been
+  /// removed from the organization might still be able to create or manage
+  /// Amazon Web Services resources when it is no longer authorized to do so.
+  /// Amazon Web Services is working to resolve this issue.
+  /// </important>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidStateException].
@@ -2822,9 +2840,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -2881,9 +2896,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -2897,7 +2909,7 @@ class ServiceCatalog {
   /// Parameter [parameters] :
   /// A map of all self-service action parameters and their values. If a
   /// provided parameter is of a special type, such as <code>TARGET</code>, the
-  /// provided value will override the default value generated by AWS Service
+  /// provided value will override the default value generated by Service
   /// Catalog. If the parameters field is not provided, no additional parameters
   /// are passed and default values will be used for any special parameters such
   /// as <code>TARGET</code>.
@@ -2933,9 +2945,9 @@ class ServiceCatalog {
         jsonResponse.body);
   }
 
-  /// Get the Access Status for AWS Organization portfolio share feature. This
-  /// API can only be called by the management account in the organization or by
-  /// a delegated admin.
+  /// Get the Access Status for Organizations portfolio share feature. This API
+  /// can only be called by the management account in the organization or by a
+  /// delegated admin.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [OperationNotSupportedException].
@@ -2968,9 +2980,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -3034,22 +3043,27 @@ class ServiceCatalog {
     return GetProvisionedProductOutputsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Requests the import of a resource as a Service Catalog provisioned product
-  /// that is associated to a Service Catalog product and provisioning artifact.
-  /// Once imported, all supported Service Catalog governance actions are
-  /// supported on the provisioned product.
+  /// Requests the import of a resource as an Service Catalog provisioned
+  /// product that is associated to an Service Catalog product and provisioning
+  /// artifact. Once imported, all supported governance actions are supported on
+  /// the provisioned product.
   ///
   /// Resource import only supports CloudFormation stack ARNs. CloudFormation
-  /// StackSets and non-root nested stacks are not supported.
+  /// StackSets, and non-root nested stacks are not supported.
   ///
   /// The CloudFormation stack must have one of the following statuses to be
   /// imported: <code>CREATE_COMPLETE</code>, <code>UPDATE_COMPLETE</code>,
-  /// <code>UPDATE_ROLLBACK_COMPLETE</code>, <code>IMPORT_COMPLETE</code>,
+  /// <code>UPDATE_ROLLBACK_COMPLETE</code>, <code>IMPORT_COMPLETE</code>, and
   /// <code>IMPORT_ROLLBACK_COMPLETE</code>.
   ///
   /// Import of the resource requires that the CloudFormation stack template
   /// matches the associated Service Catalog product provisioning artifact.
-  ///
+  /// <note>
+  /// When you import an existing CloudFormation stack into a portfolio,
+  /// constraints that are associated with the product aren't applied during the
+  /// import process. The constraints are applied after you call
+  /// <code>UpdateProvisionedProduct</code> for the provisioned product.
+  /// </note>
   /// The user or role that performs this operation must have the
   /// <code>cloudformation:GetTemplate</code> and
   /// <code>cloudformation:DescribeStacks</code> IAM policy permissions.
@@ -3068,8 +3082,8 @@ class ServiceCatalog {
   ///
   /// Parameter [provisionedProductName] :
   /// The user-friendly name of the provisioned product. The value must be
-  /// unique for the AWS account. The name cannot be updated after the product
-  /// is provisioned.
+  /// unique for the Amazon Web Services account. The name cannot be updated
+  /// after the product is provisioned.
   ///
   /// Parameter [provisioningArtifactId] :
   /// The identifier of the provisioning artifact.
@@ -3078,9 +3092,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -3124,7 +3135,10 @@ class ServiceCatalog {
     return ImportAsProvisionedProductOutput.fromJson(jsonResponse.body);
   }
 
-  /// Lists all portfolios for which sharing was accepted by this account.
+  /// Lists all imported portfolios for which account-to-account shares were
+  /// accepted by this account. By specifying the
+  /// <code>PortfolioShareType</code>, you can list portfolios for which
+  /// organizational shares were accepted by this account.
   ///
   /// May throw [InvalidParametersException].
   /// May throw [OperationNotSupportedException].
@@ -3133,9 +3147,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -3157,14 +3168,16 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>AWS_ORGANIZATIONS</code> - List portfolios shared by the management
-  /// account of your organization
+  /// <code>AWS_ORGANIZATIONS</code> - List portfolios accepted and shared via
+  /// organizational sharing by the management account or delegated
+  /// administrator of your organization.
   /// </li>
   /// <li>
-  /// <code>AWS_SERVICECATALOG</code> - List default portfolios
+  /// <code>AWS_SERVICECATALOG</code> - Deprecated type.
   /// </li>
   /// <li>
-  /// <code>IMPORTED</code> - List imported portfolios
+  /// <code>IMPORTED</code> - List imported portfolios that have been accepted
+  /// and shared through account-to-account sharing.
   /// </li>
   /// </ul>
   Future<ListAcceptedPortfolioSharesOutput> listAcceptedPortfolioShares({
@@ -3177,7 +3190,7 @@ class ServiceCatalog {
       'pageSize',
       pageSize,
       0,
-      20,
+      100,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3213,9 +3226,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -3276,9 +3286,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -3330,9 +3337,17 @@ class ServiceCatalog {
     return ListConstraintsForPortfolioOutput.fromJson(jsonResponse.body);
   }
 
-  /// Lists the paths to the specified product. A path is how the user has
-  /// access to a specified product, and is necessary when provisioning a
-  /// product. A path also determines the constraints put on the product.
+  /// Lists the paths to the specified product. A path describes how the user
+  /// gets access to a specified product and is necessary when provisioning a
+  /// product. A path also determines the constraints that are put on a product.
+  /// A path is dependent on a specific product, porfolio, and principal.
+  /// <note>
+  /// When provisioning a product that's been added to a portfolio, you must
+  /// grant your user, group, or role access to the portfolio. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/servicecatalog/latest/adminguide/catalogs_portfolios_users.html">Granting
+  /// users access</a> in the <i>Service Catalog User Guide</i>.
+  /// </note>
   ///
   /// May throw [InvalidParametersException].
   /// May throw [ResourceNotFoundException].
@@ -3344,9 +3359,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -3430,9 +3442,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -3500,9 +3509,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -3565,9 +3571,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -3590,7 +3593,7 @@ class ServiceCatalog {
       'pageSize',
       pageSize,
       0,
-      20,
+      100,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3625,9 +3628,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -3651,7 +3651,7 @@ class ServiceCatalog {
       'pageSize',
       pageSize,
       0,
-      20,
+      100,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3674,7 +3674,8 @@ class ServiceCatalog {
     return ListPortfoliosForProductOutput.fromJson(jsonResponse.body);
   }
 
-  /// Lists all principal ARNs associated with the specified portfolio.
+  /// Lists all <code>PrincipalARN</code>s and corresponding
+  /// <code>PrincipalType</code>s associated with the specified portfolio.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
@@ -3686,9 +3687,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -3746,9 +3744,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -3820,9 +3815,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -3866,9 +3858,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -3927,9 +3916,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -4055,9 +4041,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -4120,9 +4103,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -4176,8 +4156,8 @@ class ServiceCatalog {
 
   /// Returns summary information about stack instances that are associated with
   /// the specified <code>CFN_STACKSET</code> type provisioned product. You can
-  /// filter for stack instances that are associated with a specific AWS account
-  /// name or region.
+  /// filter for stack instances that are associated with a specific Amazon Web
+  /// Services account name or Region.
   ///
   /// May throw [InvalidParametersException].
   /// May throw [ResourceNotFoundException].
@@ -4189,9 +4169,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -4288,17 +4265,187 @@ class ServiceCatalog {
     return ListTagOptionsOutput.fromJson(jsonResponse.body);
   }
 
+  /// Notifies the result of the provisioning engine execution.
+  ///
+  /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [recordId] :
+  /// The identifier of the record.
+  ///
+  /// Parameter [status] :
+  /// The status of the provisioning engine execution.
+  ///
+  /// Parameter [workflowToken] :
+  /// The encrypted contents of the provisioning engine execution payload that
+  /// Service Catalog sends after the Terraform product provisioning workflow
+  /// starts.
+  ///
+  /// Parameter [failureReason] :
+  /// The reason why the provisioning engine execution failed.
+  ///
+  /// Parameter [idempotencyToken] :
+  /// The idempotency token that identifies the provisioning engine execution.
+  ///
+  /// Parameter [outputs] :
+  /// The output of the provisioning engine execution.
+  ///
+  /// Parameter [resourceIdentifier] :
+  /// The ID for the provisioned product resources that are part of a resource
+  /// group.
+  Future<void> notifyProvisionProductEngineWorkflowResult({
+    required String recordId,
+    required EngineWorkflowStatus status,
+    required String workflowToken,
+    String? failureReason,
+    String? idempotencyToken,
+    List<RecordOutput>? outputs,
+    EngineWorkflowResourceIdentifier? resourceIdentifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWS242ServiceCatalogService.NotifyProvisionProductEngineWorkflowResult'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'RecordId': recordId,
+        'Status': status.toValue(),
+        'WorkflowToken': workflowToken,
+        if (failureReason != null) 'FailureReason': failureReason,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
+        if (outputs != null) 'Outputs': outputs,
+        if (resourceIdentifier != null)
+          'ResourceIdentifier': resourceIdentifier,
+      },
+    );
+  }
+
+  /// Notifies the result of the terminate engine execution.
+  ///
+  /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [recordId] :
+  /// The identifier of the record.
+  ///
+  /// Parameter [status] :
+  /// The status of the terminate engine execution.
+  ///
+  /// Parameter [workflowToken] :
+  /// The encrypted contents of the terminate engine execution payload that
+  /// Service Catalog sends after the Terraform product terminate workflow
+  /// starts.
+  ///
+  /// Parameter [failureReason] :
+  /// The reason why the terminate engine execution failed.
+  ///
+  /// Parameter [idempotencyToken] :
+  /// The idempotency token that identifies the terminate engine execution.
+  Future<void> notifyTerminateProvisionedProductEngineWorkflowResult({
+    required String recordId,
+    required EngineWorkflowStatus status,
+    required String workflowToken,
+    String? failureReason,
+    String? idempotencyToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWS242ServiceCatalogService.NotifyTerminateProvisionedProductEngineWorkflowResult'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'RecordId': recordId,
+        'Status': status.toValue(),
+        'WorkflowToken': workflowToken,
+        if (failureReason != null) 'FailureReason': failureReason,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
+      },
+    );
+  }
+
+  /// Notifies the result of the update engine execution.
+  ///
+  /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [recordId] :
+  /// The identifier of the record.
+  ///
+  /// Parameter [status] :
+  /// The status of the update engine execution.
+  ///
+  /// Parameter [workflowToken] :
+  /// The encrypted contents of the update engine execution payload that Service
+  /// Catalog sends after the Terraform product update workflow starts.
+  ///
+  /// Parameter [failureReason] :
+  /// The reason why the update engine execution failed.
+  ///
+  /// Parameter [idempotencyToken] :
+  /// The idempotency token that identifies the update engine execution.
+  ///
+  /// Parameter [outputs] :
+  /// The output of the update engine execution.
+  Future<void> notifyUpdateProvisionedProductEngineWorkflowResult({
+    required String recordId,
+    required EngineWorkflowStatus status,
+    required String workflowToken,
+    String? failureReason,
+    String? idempotencyToken,
+    List<RecordOutput>? outputs,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWS242ServiceCatalogService.NotifyUpdateProvisionedProductEngineWorkflowResult'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'RecordId': recordId,
+        'Status': status.toValue(),
+        'WorkflowToken': workflowToken,
+        if (failureReason != null) 'FailureReason': failureReason,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
+        if (outputs != null) 'Outputs': outputs,
+      },
+    );
+  }
+
   /// Provisions the specified product.
   ///
   /// A provisioned product is a resourced instance of a product. For example,
-  /// provisioning a product based on a CloudFormation template launches a
-  /// CloudFormation stack and its underlying resources. You can check the
+  /// provisioning a product that's based on an CloudFormation template launches
+  /// an CloudFormation stack and its underlying resources. You can check the
   /// status of this request using <a>DescribeRecord</a>.
   ///
-  /// If the request contains a tag key with an empty list of values, there is a
-  /// tag conflict for that key. Do not include conflicted keys as tags, or this
-  /// causes the error "Parameter validation failed: Missing required parameter
-  /// in Tags[<i>N</i>]:<i>Value</i>".
+  /// If the request contains a tag key with an empty list of values, there's a
+  /// tag conflict for that key. Don't include conflicted keys as tags, or this
+  /// will cause the error "Parameter validation failed: Missing required
+  /// parameter in Tags[<i>N</i>]:<i>Value</i>".
+  /// <note>
+  /// When provisioning a product that's been added to a portfolio, you must
+  /// grant your user, group, or role access to the portfolio. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/servicecatalog/latest/adminguide/catalogs_portfolios_users.html">Granting
+  /// users access</a> in the <i>Service Catalog User Guide</i>.
+  /// </note>
   ///
   /// May throw [InvalidParametersException].
   /// May throw [ResourceNotFoundException].
@@ -4306,16 +4453,13 @@ class ServiceCatalog {
   ///
   /// Parameter [provisionedProductName] :
   /// A user-friendly name for the provisioned product. This value must be
-  /// unique for the AWS account and cannot be updated after the product is
-  /// provisioned.
+  /// unique for the Amazon Web Services account and cannot be updated after the
+  /// product is provisioned.
   ///
   /// Parameter [acceptLanguage] :
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -4425,9 +4569,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -4490,9 +4631,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -4552,9 +4690,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -4590,7 +4725,7 @@ class ServiceCatalog {
       'pageSize',
       pageSize,
       0,
-      20,
+      100,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4626,9 +4761,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -4710,9 +4842,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -4808,9 +4937,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -4819,8 +4945,8 @@ class ServiceCatalog {
   /// </ul>
   ///
   /// Parameter [ignoreErrors] :
-  /// If set to true, AWS Service Catalog stops managing the specified
-  /// provisioned product even if it cannot delete the underlying resources.
+  /// If set to true, Service Catalog stops managing the specified provisioned
+  /// product even if it cannot delete the underlying resources.
   ///
   /// Parameter [provisionedProductId] :
   /// The identifier of the provisioned product. You cannot specify both
@@ -4889,9 +5015,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -4957,7 +5080,7 @@ class ServiceCatalog {
   /// You also cannot have more than one <code>STACKSET</code> constraint on a
   /// product and portfolio.
   ///
-  /// Products with a <code>STACKSET</code> constraint will launch an AWS
+  /// Products with a <code>STACKSET</code> constraint will launch an
   /// CloudFormation stack set.
   /// </dd> <dt>TEMPLATE</dt> <dd>
   /// Specify the <code>Rules</code> property. For more information, see <a
@@ -5007,9 +5130,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -5066,12 +5186,13 @@ class ServiceCatalog {
   }
 
   /// Updates the specified portfolio share. You can use this API to enable or
-  /// disable TagOptions sharing for an existing portfolio share.
+  /// disable <code>TagOptions</code> sharing or Principal sharing for an
+  /// existing portfolio share.
   ///
-  /// The portfolio share cannot be updated if the <code>
-  /// CreatePortfolioShare</code> operation is <code>IN_PROGRESS</code>, as the
-  /// share is not available to recipient entities. In this case, you must wait
-  /// for the portfolio share to be COMPLETED.
+  /// The portfolio share cannot be updated if the
+  /// <code>CreatePortfolioShare</code> operation is <code>IN_PROGRESS</code>,
+  /// as the share is not available to recipient entities. In this case, you
+  /// must wait for the portfolio share to be COMPLETED.
   ///
   /// You must provide the <code>accountId</code> or organization node in the
   /// input, but not both.
@@ -5082,6 +5203,20 @@ class ServiceCatalog {
   ///
   /// This API cannot be used for removing the portfolio share. You must use
   /// <code>DeletePortfolioShare</code> API for that action.
+  /// <note>
+  /// When you associate a principal with portfolio, a potential privilege
+  /// escalation path may occur when that portfolio is then shared with other
+  /// accounts. For a user in a recipient account who is <i>not</i> an Service
+  /// Catalog Admin, but still has the ability to create Principals
+  /// (Users/Groups/Roles), that user could create a role that matches a
+  /// principal name association for the portfolio. Although this user may not
+  /// know which principal names are associated through Service Catalog, they
+  /// may be able to guess the user. If this potential escalation path is a
+  /// concern, then Service Catalog recommends using <code>PrincipalType</code>
+  /// as <code>IAM</code>. With this configuration, the
+  /// <code>PrincipalARN</code> must already exist in the recipient account
+  /// before it can be associated.
+  /// </note>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
@@ -5097,9 +5232,6 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
-  /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
   /// <li>
@@ -5108,18 +5240,25 @@ class ServiceCatalog {
   /// </ul>
   ///
   /// Parameter [accountId] :
-  /// The AWS Account Id of the recipient account. This field is required when
-  /// updating an external account to account type share.
+  /// The Amazon Web Services account Id of the recipient account. This field is
+  /// required when updating an external account to account type share.
+  ///
+  /// Parameter [sharePrincipals] :
+  /// A flag to enables or disables <code>Principals</code> sharing in the
+  /// portfolio. If this field is not provided, the current state of the
+  /// <code>Principals</code> sharing on the portfolio share will not be
+  /// modified.
   ///
   /// Parameter [shareTagOptions] :
-  /// A flag to enable or disable TagOptions sharing for the portfolio share. If
-  /// this field is not provided, the current state of TagOptions sharing on the
-  /// portfolio share will not be modified.
+  /// Enables or disables <code>TagOptions</code> sharing for the portfolio
+  /// share. If this field is not provided, the current state of TagOptions
+  /// sharing on the portfolio share will not be modified.
   Future<UpdatePortfolioShareOutput> updatePortfolioShare({
     required String portfolioId,
     String? acceptLanguage,
     String? accountId,
     OrganizationNode? organizationNode,
+    bool? sharePrincipals,
     bool? shareTagOptions,
   }) async {
     final headers = <String, String>{
@@ -5137,6 +5276,7 @@ class ServiceCatalog {
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (accountId != null) 'AccountId': accountId,
         if (organizationNode != null) 'OrganizationNode': organizationNode,
+        if (sharePrincipals != null) 'SharePrincipals': sharePrincipals,
         if (shareTagOptions != null) 'ShareTagOptions': shareTagOptions,
       },
     );
@@ -5157,9 +5297,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -5186,6 +5323,22 @@ class ServiceCatalog {
   /// Parameter [removeTags] :
   /// The tags to remove from the product.
   ///
+  /// Parameter [sourceConnection] :
+  /// Specifies connection details for the updated product and syncs the product
+  /// to the connection source artifact. This automatically manages the
+  /// product's artifacts based on changes to the source. The
+  /// <code>SourceConnection</code> parameter consists of the following
+  /// sub-fields.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Type</code>
+  /// </li>
+  /// <li>
+  /// <code>ConnectionParamters</code>
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [supportDescription] :
   /// The updated support description for the product.
   ///
@@ -5203,6 +5356,7 @@ class ServiceCatalog {
     String? name,
     String? owner,
     List<String>? removeTags,
+    SourceConnection? sourceConnection,
     String? supportDescription,
     String? supportEmail,
     String? supportUrl,
@@ -5226,6 +5380,7 @@ class ServiceCatalog {
         if (name != null) 'Name': name,
         if (owner != null) 'Owner': owner,
         if (removeTags != null) 'RemoveTags': removeTags,
+        if (sourceConnection != null) 'SourceConnection': sourceConnection,
         if (supportDescription != null)
           'SupportDescription': supportDescription,
         if (supportEmail != null) 'SupportEmail': supportEmail,
@@ -5253,9 +5408,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -5382,18 +5534,18 @@ class ServiceCatalog {
   /// <code>ExecuteProvisionedProductServiceAction</code>. Only a role ARN is
   /// valid. A user ARN is invalid.
   ///
-  /// The <code>OWNER</code> key accepts user ARNs and role ARNs. The owner is
-  /// the user that has permission to see, update, terminate, and execute
-  /// service actions in the provisioned product.
+  /// The <code>OWNER</code> key accepts user ARNs, IAM role ARNs, and STS
+  /// assumed-role ARNs. The owner is the user that has permission to see,
+  /// update, terminate, and execute service actions in the provisioned product.
   ///
   /// The administrator can change the owner of a provisioned product to another
-  /// IAM user within the same account. Both end user owners and administrators
-  /// can see ownership history of the provisioned product using the
-  /// <code>ListRecordHistory</code> API. The new owner can describe all past
-  /// records for the provisioned product using the <code>DescribeRecord</code>
-  /// API. The previous owner can no longer use <code>DescribeRecord</code>, but
-  /// can still see the product's history from when he was an owner using
-  /// <code>ListRecordHistory</code>.
+  /// IAM or STS entity within the same account. Both end user owners and
+  /// administrators can see ownership history of the provisioned product using
+  /// the <code>ListRecordHistory</code> API. The new owner can describe all
+  /// past records for the provisioned product using the
+  /// <code>DescribeRecord</code> API. The previous owner can no longer use
+  /// <code>DescribeRecord</code>, but can still see the product's history from
+  /// when he was an owner using <code>ListRecordHistory</code>.
   ///
   /// If a provisioned product ownership is assigned to an end user, they can
   /// see and perform any action through the API or Service Catalog console such
@@ -5406,9 +5558,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -5469,9 +5618,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -5549,9 +5695,6 @@ class ServiceCatalog {
   /// The language code.
   ///
   /// <ul>
-  /// <li>
-  /// <code>en</code> - English (default)
-  /// </li>
   /// <li>
   /// <code>jp</code> - Japanese
   /// </li>
@@ -5641,6 +5784,7 @@ class ServiceCatalog {
 
 class AcceptPortfolioShareOutput {
   AcceptPortfolioShareOutput();
+
   factory AcceptPortfolioShareOutput.fromJson(Map<String, dynamic> _) {
     return AcceptPortfolioShareOutput();
   }
@@ -5750,6 +5894,7 @@ extension AccessStatusFromString on String {
 
 class AssociateBudgetWithResourceOutput {
   AssociateBudgetWithResourceOutput();
+
   factory AssociateBudgetWithResourceOutput.fromJson(Map<String, dynamic> _) {
     return AssociateBudgetWithResourceOutput();
   }
@@ -5757,6 +5902,7 @@ class AssociateBudgetWithResourceOutput {
 
 class AssociatePrincipalWithPortfolioOutput {
   AssociatePrincipalWithPortfolioOutput();
+
   factory AssociatePrincipalWithPortfolioOutput.fromJson(
       Map<String, dynamic> _) {
     return AssociatePrincipalWithPortfolioOutput();
@@ -5765,6 +5911,7 @@ class AssociatePrincipalWithPortfolioOutput {
 
 class AssociateProductWithPortfolioOutput {
   AssociateProductWithPortfolioOutput();
+
   factory AssociateProductWithPortfolioOutput.fromJson(Map<String, dynamic> _) {
     return AssociateProductWithPortfolioOutput();
   }
@@ -5772,6 +5919,7 @@ class AssociateProductWithPortfolioOutput {
 
 class AssociateServiceActionWithProvisioningArtifactOutput {
   AssociateServiceActionWithProvisioningArtifactOutput();
+
   factory AssociateServiceActionWithProvisioningArtifactOutput.fromJson(
       Map<String, dynamic> _) {
     return AssociateServiceActionWithProvisioningArtifactOutput();
@@ -5780,6 +5928,7 @@ class AssociateServiceActionWithProvisioningArtifactOutput {
 
 class AssociateTagOptionWithResourceOutput {
   AssociateTagOptionWithResourceOutput();
+
   factory AssociateTagOptionWithResourceOutput.fromJson(
       Map<String, dynamic> _) {
     return AssociateTagOptionWithResourceOutput();
@@ -5794,6 +5943,7 @@ class BatchAssociateServiceActionWithProvisioningArtifactOutput {
   BatchAssociateServiceActionWithProvisioningArtifactOutput({
     this.failedServiceActionAssociations,
   });
+
   factory BatchAssociateServiceActionWithProvisioningArtifactOutput.fromJson(
       Map<String, dynamic> json) {
     return BatchAssociateServiceActionWithProvisioningArtifactOutput(
@@ -5815,6 +5965,7 @@ class BatchDisassociateServiceActionFromProvisioningArtifactOutput {
   BatchDisassociateServiceActionFromProvisioningArtifactOutput({
     this.failedServiceActionAssociations,
   });
+
   factory BatchDisassociateServiceActionFromProvisioningArtifactOutput.fromJson(
       Map<String, dynamic> json) {
     return BatchDisassociateServiceActionFromProvisioningArtifactOutput(
@@ -5836,6 +5987,7 @@ class BudgetDetail {
   BudgetDetail({
     this.budgetName,
   });
+
   factory BudgetDetail.fromJson(Map<String, dynamic> json) {
     return BudgetDetail(
       budgetName: json['BudgetName'] as String?,
@@ -5884,10 +6036,59 @@ class CloudWatchDashboard {
   CloudWatchDashboard({
     this.name,
   });
+
   factory CloudWatchDashboard.fromJson(Map<String, dynamic> json) {
     return CloudWatchDashboard(
       name: json['Name'] as String?,
     );
+  }
+}
+
+/// The subtype containing details about the Codestar connection
+/// <code>Type</code>.
+class CodeStarParameters {
+  /// The absolute path wehre the artifact resides within the repo and branch,
+  /// formatted as "folder/file.json."
+  final String artifactPath;
+
+  /// The specific branch where the artifact resides.
+  final String branch;
+
+  /// The CodeStar ARN, which is the connection between Service Catalog and the
+  /// external repository.
+  final String connectionArn;
+
+  /// The specific repository where the product’s artifact-to-be-synced resides,
+  /// formatted as "Account/Repo."
+  final String repository;
+
+  CodeStarParameters({
+    required this.artifactPath,
+    required this.branch,
+    required this.connectionArn,
+    required this.repository,
+  });
+
+  factory CodeStarParameters.fromJson(Map<String, dynamic> json) {
+    return CodeStarParameters(
+      artifactPath: json['ArtifactPath'] as String,
+      branch: json['Branch'] as String,
+      connectionArn: json['ConnectionArn'] as String,
+      repository: json['Repository'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final artifactPath = this.artifactPath;
+    final branch = this.branch;
+    final connectionArn = this.connectionArn;
+    final repository = this.repository;
+    return {
+      'ArtifactPath': artifactPath,
+      'Branch': branch,
+      'ConnectionArn': connectionArn,
+      'Repository': repository,
+    };
   }
 }
 
@@ -5938,6 +6139,7 @@ class ConstraintDetail {
     this.productId,
     this.type,
   });
+
   factory ConstraintDetail.fromJson(Map<String, dynamic> json) {
     return ConstraintDetail(
       constraintId: json['ConstraintId'] as String?,
@@ -5977,6 +6179,7 @@ class ConstraintSummary {
     this.description,
     this.type,
   });
+
   factory ConstraintSummary.fromJson(Map<String, dynamic> json) {
     return ConstraintSummary(
       description: json['Description'] as String?,
@@ -6015,6 +6218,7 @@ class CopyProductOutput {
   CopyProductOutput({
     this.copyProductToken,
   });
+
   factory CopyProductOutput.fromJson(Map<String, dynamic> json) {
     return CopyProductOutput(
       copyProductToken: json['CopyProductToken'] as String?,
@@ -6070,6 +6274,7 @@ class CreateConstraintOutput {
     this.constraintParameters,
     this.status,
   });
+
   factory CreateConstraintOutput.fromJson(Map<String, dynamic> json) {
     return CreateConstraintOutput(
       constraintDetail: json['ConstraintDetail'] != null
@@ -6093,6 +6298,7 @@ class CreatePortfolioOutput {
     this.portfolioDetail,
     this.tags,
   });
+
   factory CreatePortfolioOutput.fromJson(Map<String, dynamic> json) {
     return CreatePortfolioOutput(
       portfolioDetail: json['PortfolioDetail'] != null
@@ -6115,6 +6321,7 @@ class CreatePortfolioShareOutput {
   CreatePortfolioShareOutput({
     this.portfolioShareToken,
   });
+
   factory CreatePortfolioShareOutput.fromJson(Map<String, dynamic> json) {
     return CreatePortfolioShareOutput(
       portfolioShareToken: json['PortfolioShareToken'] as String?,
@@ -6137,6 +6344,7 @@ class CreateProductOutput {
     this.provisioningArtifactDetail,
     this.tags,
   });
+
   factory CreateProductOutput.fromJson(Map<String, dynamic> json) {
     return CreateProductOutput(
       productViewDetail: json['ProductViewDetail'] != null
@@ -6178,6 +6386,7 @@ class CreateProvisionedProductPlanOutput {
     this.provisionedProductName,
     this.provisioningArtifactId,
   });
+
   factory CreateProvisionedProductPlanOutput.fromJson(
       Map<String, dynamic> json) {
     return CreateProvisionedProductPlanOutput(
@@ -6195,11 +6404,13 @@ class CreateProvisioningArtifactOutput {
   /// Keys accepted: [ <code>LoadTemplateFromURL</code>,
   /// <code>ImportFromPhysicalId</code> ].
   ///
-  /// The URL of the CloudFormation template in Amazon S3, in JSON format.
+  /// Use the URL of the CloudFormation template in Amazon S3 or GitHub in JSON
+  /// format.
   ///
   /// <code>LoadTemplateFromURL</code>
   ///
-  /// Use the URL of the CloudFormation template in Amazon S3 in JSON format.
+  /// Use the URL of the CloudFormation template in Amazon S3 or GitHub in JSON
+  /// format.
   ///
   /// <code>ImportFromPhysicalId</code>
   ///
@@ -6218,6 +6429,7 @@ class CreateProvisioningArtifactOutput {
     this.provisioningArtifactDetail,
     this.status,
   });
+
   factory CreateProvisioningArtifactOutput.fromJson(Map<String, dynamic> json) {
     return CreateProvisioningArtifactOutput(
       info: (json['Info'] as Map<String, dynamic>?)
@@ -6238,6 +6450,7 @@ class CreateServiceActionOutput {
   CreateServiceActionOutput({
     this.serviceActionDetail,
   });
+
   factory CreateServiceActionOutput.fromJson(Map<String, dynamic> json) {
     return CreateServiceActionOutput(
       serviceActionDetail: json['ServiceActionDetail'] != null
@@ -6255,6 +6468,7 @@ class CreateTagOptionOutput {
   CreateTagOptionOutput({
     this.tagOptionDetail,
   });
+
   factory CreateTagOptionOutput.fromJson(Map<String, dynamic> json) {
     return CreateTagOptionOutput(
       tagOptionDetail: json['TagOptionDetail'] != null
@@ -6267,6 +6481,7 @@ class CreateTagOptionOutput {
 
 class DeleteConstraintOutput {
   DeleteConstraintOutput();
+
   factory DeleteConstraintOutput.fromJson(Map<String, dynamic> _) {
     return DeleteConstraintOutput();
   }
@@ -6274,6 +6489,7 @@ class DeleteConstraintOutput {
 
 class DeletePortfolioOutput {
   DeletePortfolioOutput();
+
   factory DeletePortfolioOutput.fromJson(Map<String, dynamic> _) {
     return DeletePortfolioOutput();
   }
@@ -6287,6 +6503,7 @@ class DeletePortfolioShareOutput {
   DeletePortfolioShareOutput({
     this.portfolioShareToken,
   });
+
   factory DeletePortfolioShareOutput.fromJson(Map<String, dynamic> json) {
     return DeletePortfolioShareOutput(
       portfolioShareToken: json['PortfolioShareToken'] as String?,
@@ -6296,6 +6513,7 @@ class DeletePortfolioShareOutput {
 
 class DeleteProductOutput {
   DeleteProductOutput();
+
   factory DeleteProductOutput.fromJson(Map<String, dynamic> _) {
     return DeleteProductOutput();
   }
@@ -6303,6 +6521,7 @@ class DeleteProductOutput {
 
 class DeleteProvisionedProductPlanOutput {
   DeleteProvisionedProductPlanOutput();
+
   factory DeleteProvisionedProductPlanOutput.fromJson(Map<String, dynamic> _) {
     return DeleteProvisionedProductPlanOutput();
   }
@@ -6310,6 +6529,7 @@ class DeleteProvisionedProductPlanOutput {
 
 class DeleteProvisioningArtifactOutput {
   DeleteProvisioningArtifactOutput();
+
   factory DeleteProvisioningArtifactOutput.fromJson(Map<String, dynamic> _) {
     return DeleteProvisioningArtifactOutput();
   }
@@ -6317,6 +6537,7 @@ class DeleteProvisioningArtifactOutput {
 
 class DeleteServiceActionOutput {
   DeleteServiceActionOutput();
+
   factory DeleteServiceActionOutput.fromJson(Map<String, dynamic> _) {
     return DeleteServiceActionOutput();
   }
@@ -6324,6 +6545,7 @@ class DeleteServiceActionOutput {
 
 class DeleteTagOptionOutput {
   DeleteTagOptionOutput();
+
   factory DeleteTagOptionOutput.fromJson(Map<String, dynamic> _) {
     return DeleteTagOptionOutput();
   }
@@ -6344,6 +6566,7 @@ class DescribeConstraintOutput {
     this.constraintParameters,
     this.status,
   });
+
   factory DescribeConstraintOutput.fromJson(Map<String, dynamic> json) {
     return DescribeConstraintOutput(
       constraintDetail: json['ConstraintDetail'] != null
@@ -6371,6 +6594,7 @@ class DescribeCopyProductStatusOutput {
     this.statusDetail,
     this.targetProductId,
   });
+
   factory DescribeCopyProductStatusOutput.fromJson(Map<String, dynamic> json) {
     return DescribeCopyProductStatusOutput(
       copyProductStatus:
@@ -6400,6 +6624,7 @@ class DescribePortfolioOutput {
     this.tagOptions,
     this.tags,
   });
+
   factory DescribePortfolioOutput.fromJson(Map<String, dynamic> json) {
     return DescribePortfolioOutput(
       budgets: (json['Budgets'] as List?)
@@ -6447,6 +6672,7 @@ class DescribePortfolioShareStatusOutput {
     this.shareDetails,
     this.status,
   });
+
   factory DescribePortfolioShareStatusOutput.fromJson(
       Map<String, dynamic> json) {
     return DescribePortfolioShareStatusOutput(
@@ -6512,6 +6738,7 @@ class DescribePortfolioSharesOutput {
     this.nextPageToken,
     this.portfolioShareDetails,
   });
+
   factory DescribePortfolioSharesOutput.fromJson(Map<String, dynamic> json) {
     return DescribePortfolioSharesOutput(
       nextPageToken: json['NextPageToken'] as String?,
@@ -6547,6 +6774,7 @@ class DescribeProductAsAdminOutput {
     this.tagOptions,
     this.tags,
   });
+
   factory DescribeProductAsAdminOutput.fromJson(Map<String, dynamic> json) {
     return DescribeProductAsAdminOutput(
       budgets: (json['Budgets'] as List?)
@@ -6594,6 +6822,7 @@ class DescribeProductOutput {
     this.productViewSummary,
     this.provisioningArtifacts,
   });
+
   factory DescribeProductOutput.fromJson(Map<String, dynamic> json) {
     return DescribeProductOutput(
       budgets: (json['Budgets'] as List?)
@@ -6627,6 +6856,7 @@ class DescribeProductViewOutput {
     this.productViewSummary,
     this.provisioningArtifacts,
   });
+
   factory DescribeProductViewOutput.fromJson(Map<String, dynamic> json) {
     return DescribeProductViewOutput(
       productViewSummary: json['ProductViewSummary'] != null
@@ -6652,6 +6882,7 @@ class DescribeProvisionedProductOutput {
     this.cloudWatchDashboards,
     this.provisionedProductDetail,
   });
+
   factory DescribeProvisionedProductOutput.fromJson(Map<String, dynamic> json) {
     return DescribeProvisionedProductOutput(
       cloudWatchDashboards: (json['CloudWatchDashboards'] as List?)
@@ -6683,6 +6914,7 @@ class DescribeProvisionedProductPlanOutput {
     this.provisionedProductPlanDetails,
     this.resourceChanges,
   });
+
   factory DescribeProvisionedProductPlanOutput.fromJson(
       Map<String, dynamic> json) {
     return DescribeProvisionedProductPlanOutput(
@@ -6701,7 +6933,8 @@ class DescribeProvisionedProductPlanOutput {
 }
 
 class DescribeProvisioningArtifactOutput {
-  /// The URL of the CloudFormation template in Amazon S3.
+  /// The URL of the CloudFormation template in Amazon S3 or GitHub in JSON
+  /// format.
   final Map<String, String>? info;
 
   /// Information about the provisioning artifact.
@@ -6715,6 +6948,7 @@ class DescribeProvisioningArtifactOutput {
     this.provisioningArtifactDetail,
     this.status,
   });
+
   factory DescribeProvisioningArtifactOutput.fromJson(
       Map<String, dynamic> json) {
     return DescribeProvisioningArtifactOutput(
@@ -6733,13 +6967,18 @@ class DescribeProvisioningParametersOutput {
   /// Information about the constraints used to provision the product.
   final List<ConstraintSummary>? constraintSummaries;
 
+  /// A list of the keys and descriptions of the outputs. These outputs can be
+  /// referenced from a provisioned product launched from this provisioning
+  /// artifact.
+  final List<ProvisioningArtifactOutput>? provisioningArtifactOutputKeys;
+
   /// The output of the provisioning artifact.
   final List<ProvisioningArtifactOutput>? provisioningArtifactOutputs;
 
   /// Information about the parameters used to provision the product.
   final List<ProvisioningArtifactParameter>? provisioningArtifactParameters;
 
-  /// An object that contains information about preferences, such as regions and
+  /// An object that contains information about preferences, such as Regions and
   /// accounts, for the provisioning artifact.
   final ProvisioningArtifactPreferences? provisioningArtifactPreferences;
 
@@ -6753,18 +6992,26 @@ class DescribeProvisioningParametersOutput {
 
   DescribeProvisioningParametersOutput({
     this.constraintSummaries,
+    this.provisioningArtifactOutputKeys,
     this.provisioningArtifactOutputs,
     this.provisioningArtifactParameters,
     this.provisioningArtifactPreferences,
     this.tagOptions,
     this.usageInstructions,
   });
+
   factory DescribeProvisioningParametersOutput.fromJson(
       Map<String, dynamic> json) {
     return DescribeProvisioningParametersOutput(
       constraintSummaries: (json['ConstraintSummaries'] as List?)
           ?.whereNotNull()
           .map((e) => ConstraintSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      provisioningArtifactOutputKeys: (json['ProvisioningArtifactOutputKeys']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ProvisioningArtifactOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
       provisioningArtifactOutputs: (json['ProvisioningArtifactOutputs']
               as List?)
@@ -6814,6 +7061,7 @@ class DescribeRecordOutput {
     this.recordDetail,
     this.recordOutputs,
   });
+
   factory DescribeRecordOutput.fromJson(Map<String, dynamic> json) {
     return DescribeRecordOutput(
       nextPageToken: json['NextPageToken'] as String?,
@@ -6835,6 +7083,7 @@ class DescribeServiceActionExecutionParametersOutput {
   DescribeServiceActionExecutionParametersOutput({
     this.serviceActionParameters,
   });
+
   factory DescribeServiceActionExecutionParametersOutput.fromJson(
       Map<String, dynamic> json) {
     return DescribeServiceActionExecutionParametersOutput(
@@ -6853,6 +7102,7 @@ class DescribeServiceActionOutput {
   DescribeServiceActionOutput({
     this.serviceActionDetail,
   });
+
   factory DescribeServiceActionOutput.fromJson(Map<String, dynamic> json) {
     return DescribeServiceActionOutput(
       serviceActionDetail: json['ServiceActionDetail'] != null
@@ -6870,6 +7120,7 @@ class DescribeTagOptionOutput {
   DescribeTagOptionOutput({
     this.tagOptionDetail,
   });
+
   factory DescribeTagOptionOutput.fromJson(Map<String, dynamic> json) {
     return DescribeTagOptionOutput(
       tagOptionDetail: json['TagOptionDetail'] != null
@@ -6882,6 +7133,7 @@ class DescribeTagOptionOutput {
 
 class DisableAWSOrganizationsAccessOutput {
   DisableAWSOrganizationsAccessOutput();
+
   factory DisableAWSOrganizationsAccessOutput.fromJson(Map<String, dynamic> _) {
     return DisableAWSOrganizationsAccessOutput();
   }
@@ -6889,6 +7141,7 @@ class DisableAWSOrganizationsAccessOutput {
 
 class DisassociateBudgetFromResourceOutput {
   DisassociateBudgetFromResourceOutput();
+
   factory DisassociateBudgetFromResourceOutput.fromJson(
       Map<String, dynamic> _) {
     return DisassociateBudgetFromResourceOutput();
@@ -6897,6 +7150,7 @@ class DisassociateBudgetFromResourceOutput {
 
 class DisassociatePrincipalFromPortfolioOutput {
   DisassociatePrincipalFromPortfolioOutput();
+
   factory DisassociatePrincipalFromPortfolioOutput.fromJson(
       Map<String, dynamic> _) {
     return DisassociatePrincipalFromPortfolioOutput();
@@ -6905,6 +7159,7 @@ class DisassociatePrincipalFromPortfolioOutput {
 
 class DisassociateProductFromPortfolioOutput {
   DisassociateProductFromPortfolioOutput();
+
   factory DisassociateProductFromPortfolioOutput.fromJson(
       Map<String, dynamic> _) {
     return DisassociateProductFromPortfolioOutput();
@@ -6913,6 +7168,7 @@ class DisassociateProductFromPortfolioOutput {
 
 class DisassociateServiceActionFromProvisioningArtifactOutput {
   DisassociateServiceActionFromProvisioningArtifactOutput();
+
   factory DisassociateServiceActionFromProvisioningArtifactOutput.fromJson(
       Map<String, dynamic> _) {
     return DisassociateServiceActionFromProvisioningArtifactOutput();
@@ -6921,6 +7177,7 @@ class DisassociateServiceActionFromProvisioningArtifactOutput {
 
 class DisassociateTagOptionFromResourceOutput {
   DisassociateTagOptionFromResourceOutput();
+
   factory DisassociateTagOptionFromResourceOutput.fromJson(
       Map<String, dynamic> _) {
     return DisassociateTagOptionFromResourceOutput();
@@ -6929,8 +7186,55 @@ class DisassociateTagOptionFromResourceOutput {
 
 class EnableAWSOrganizationsAccessOutput {
   EnableAWSOrganizationsAccessOutput();
+
   factory EnableAWSOrganizationsAccessOutput.fromJson(Map<String, dynamic> _) {
     return EnableAWSOrganizationsAccessOutput();
+  }
+}
+
+/// The ID for the provisioned product resources that are part of a resource
+/// group.
+class EngineWorkflowResourceIdentifier {
+  /// The unique key-value pair for a tag that identifies provisioned product
+  /// resources.
+  final UniqueTagResourceIdentifier? uniqueTag;
+
+  EngineWorkflowResourceIdentifier({
+    this.uniqueTag,
+  });
+  Map<String, dynamic> toJson() {
+    final uniqueTag = this.uniqueTag;
+    return {
+      if (uniqueTag != null) 'UniqueTag': uniqueTag,
+    };
+  }
+}
+
+enum EngineWorkflowStatus {
+  succeeded,
+  failed,
+}
+
+extension EngineWorkflowStatusValueExtension on EngineWorkflowStatus {
+  String toValue() {
+    switch (this) {
+      case EngineWorkflowStatus.succeeded:
+        return 'SUCCEEDED';
+      case EngineWorkflowStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension EngineWorkflowStatusFromString on String {
+  EngineWorkflowStatus toEngineWorkflowStatus() {
+    switch (this) {
+      case 'SUCCEEDED':
+        return EngineWorkflowStatus.succeeded;
+      case 'FAILED':
+        return EngineWorkflowStatus.failed;
+    }
+    throw Exception('$this is not known in enum EngineWorkflowStatus');
   }
 }
 
@@ -6969,6 +7273,7 @@ class ExecuteProvisionedProductPlanOutput {
   ExecuteProvisionedProductPlanOutput({
     this.recordDetail,
   });
+
   factory ExecuteProvisionedProductPlanOutput.fromJson(
       Map<String, dynamic> json) {
     return ExecuteProvisionedProductPlanOutput(
@@ -6987,6 +7292,7 @@ class ExecuteProvisionedProductServiceActionOutput {
   ExecuteProvisionedProductServiceActionOutput({
     this.recordDetail,
   });
+
   factory ExecuteProvisionedProductServiceActionOutput.fromJson(
       Map<String, dynamic> json) {
     return ExecuteProvisionedProductServiceActionOutput(
@@ -7014,6 +7320,7 @@ class ExecutionParameter {
     this.name,
     this.type,
   });
+
   factory ExecutionParameter.fromJson(Map<String, dynamic> json) {
     return ExecutionParameter(
       defaultValues: (json['DefaultValues'] as List?)
@@ -7053,6 +7360,7 @@ class FailedServiceActionAssociation {
     this.provisioningArtifactId,
     this.serviceActionId,
   });
+
   factory FailedServiceActionAssociation.fromJson(Map<String, dynamic> json) {
     return FailedServiceActionAssociation(
       errorCode:
@@ -7072,6 +7380,7 @@ class GetAWSOrganizationsAccessStatusOutput {
   GetAWSOrganizationsAccessStatusOutput({
     this.accessStatus,
   });
+
   factory GetAWSOrganizationsAccessStatusOutput.fromJson(
       Map<String, dynamic> json) {
     return GetAWSOrganizationsAccessStatusOutput(
@@ -7094,6 +7403,7 @@ class GetProvisionedProductOutputsOutput {
     this.nextPageToken,
     this.outputs,
   });
+
   factory GetProvisionedProductOutputsOutput.fromJson(
       Map<String, dynamic> json) {
     return GetProvisionedProductOutputsOutput(
@@ -7112,12 +7422,101 @@ class ImportAsProvisionedProductOutput {
   ImportAsProvisionedProductOutput({
     this.recordDetail,
   });
+
   factory ImportAsProvisionedProductOutput.fromJson(Map<String, dynamic> json) {
     return ImportAsProvisionedProductOutput(
       recordDetail: json['RecordDetail'] != null
           ? RecordDetail.fromJson(json['RecordDetail'] as Map<String, dynamic>)
           : null,
     );
+  }
+}
+
+/// Provides details about the product's connection sync and contains the
+/// following sub-fields.
+///
+/// <ul>
+/// <li>
+/// <code>LastSyncTime</code>
+/// </li>
+/// <li>
+/// <code>LastSyncStatus</code>
+/// </li>
+/// <li>
+/// <code>LastSyncStatusMessage</code>
+/// </li>
+/// <li>
+/// <code>LastSuccessfulSyncTime</code>
+/// </li>
+/// <li>
+/// <code>LastSuccessfulSyncProvisioningArtifactID</code>
+/// </li>
+/// </ul>
+class LastSync {
+  /// The ProvisioningArtifactID of the ProvisioningArtifact created from the
+  /// latest successful sync.
+  final String? lastSuccessfulSyncProvisioningArtifactId;
+
+  /// The time of the latest successful sync from the source repo artifact to the
+  /// Service Catalog product.
+  final DateTime? lastSuccessfulSyncTime;
+
+  /// The current status of the sync. Responses include <code>SUCCEEDED</code> or
+  /// <code>FAILED</code>.
+  final LastSyncStatus? lastSyncStatus;
+
+  /// The sync's status message.
+  final String? lastSyncStatusMessage;
+
+  /// The time of the last attempted sync from the repository to the Service
+  /// Catalog product.
+  final DateTime? lastSyncTime;
+
+  LastSync({
+    this.lastSuccessfulSyncProvisioningArtifactId,
+    this.lastSuccessfulSyncTime,
+    this.lastSyncStatus,
+    this.lastSyncStatusMessage,
+    this.lastSyncTime,
+  });
+
+  factory LastSync.fromJson(Map<String, dynamic> json) {
+    return LastSync(
+      lastSuccessfulSyncProvisioningArtifactId:
+          json['LastSuccessfulSyncProvisioningArtifactId'] as String?,
+      lastSuccessfulSyncTime: timeStampFromJson(json['LastSuccessfulSyncTime']),
+      lastSyncStatus: (json['LastSyncStatus'] as String?)?.toLastSyncStatus(),
+      lastSyncStatusMessage: json['LastSyncStatusMessage'] as String?,
+      lastSyncTime: timeStampFromJson(json['LastSyncTime']),
+    );
+  }
+}
+
+enum LastSyncStatus {
+  succeeded,
+  failed,
+}
+
+extension LastSyncStatusValueExtension on LastSyncStatus {
+  String toValue() {
+    switch (this) {
+      case LastSyncStatus.succeeded:
+        return 'SUCCEEDED';
+      case LastSyncStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension LastSyncStatusFromString on String {
+  LastSyncStatus toLastSyncStatus() {
+    switch (this) {
+      case 'SUCCEEDED':
+        return LastSyncStatus.succeeded;
+      case 'FAILED':
+        return LastSyncStatus.failed;
+    }
+    throw Exception('$this is not known in enum LastSyncStatus');
   }
 }
 
@@ -7133,6 +7532,7 @@ class LaunchPath {
     this.id,
     this.name,
   });
+
   factory LaunchPath.fromJson(Map<String, dynamic> json) {
     return LaunchPath(
       id: json['Id'] as String?,
@@ -7149,7 +7549,7 @@ class LaunchPathSummary {
   /// The identifier of the product path.
   final String? id;
 
-  /// The name of the portfolio to which the user was assigned.
+  /// The name of the portfolio that contains the product.
   final String? name;
 
   /// The tags associated with this product path.
@@ -7161,6 +7561,7 @@ class LaunchPathSummary {
     this.name,
     this.tags,
   });
+
   factory LaunchPathSummary.fromJson(Map<String, dynamic> json) {
     return LaunchPathSummary(
       constraintSummaries: (json['ConstraintSummaries'] as List?)
@@ -7189,6 +7590,7 @@ class ListAcceptedPortfolioSharesOutput {
     this.nextPageToken,
     this.portfolioDetails,
   });
+
   factory ListAcceptedPortfolioSharesOutput.fromJson(
       Map<String, dynamic> json) {
     return ListAcceptedPortfolioSharesOutput(
@@ -7213,6 +7615,7 @@ class ListBudgetsForResourceOutput {
     this.budgets,
     this.nextPageToken,
   });
+
   factory ListBudgetsForResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListBudgetsForResourceOutput(
       budgets: (json['Budgets'] as List?)
@@ -7236,6 +7639,7 @@ class ListConstraintsForPortfolioOutput {
     this.constraintDetails,
     this.nextPageToken,
   });
+
   factory ListConstraintsForPortfolioOutput.fromJson(
       Map<String, dynamic> json) {
     return ListConstraintsForPortfolioOutput(
@@ -7260,6 +7664,7 @@ class ListLaunchPathsOutput {
     this.launchPathSummaries,
     this.nextPageToken,
   });
+
   factory ListLaunchPathsOutput.fromJson(Map<String, dynamic> json) {
     return ListLaunchPathsOutput(
       launchPathSummaries: (json['LaunchPathSummaries'] as List?)
@@ -7283,6 +7688,7 @@ class ListOrganizationPortfolioAccessOutput {
     this.nextPageToken,
     this.organizationNodes,
   });
+
   factory ListOrganizationPortfolioAccessOutput.fromJson(
       Map<String, dynamic> json) {
     return ListOrganizationPortfolioAccessOutput(
@@ -7296,7 +7702,8 @@ class ListOrganizationPortfolioAccessOutput {
 }
 
 class ListPortfolioAccessOutput {
-  /// Information about the AWS accounts with access to the portfolio.
+  /// Information about the Amazon Web Services accounts with access to the
+  /// portfolio.
   final List<String>? accountIds;
 
   /// The page token to use to retrieve the next set of results. If there are no
@@ -7307,6 +7714,7 @@ class ListPortfolioAccessOutput {
     this.accountIds,
     this.nextPageToken,
   });
+
   factory ListPortfolioAccessOutput.fromJson(Map<String, dynamic> json) {
     return ListPortfolioAccessOutput(
       accountIds: (json['AccountIds'] as List?)
@@ -7330,6 +7738,7 @@ class ListPortfoliosForProductOutput {
     this.nextPageToken,
     this.portfolioDetails,
   });
+
   factory ListPortfoliosForProductOutput.fromJson(Map<String, dynamic> json) {
     return ListPortfoliosForProductOutput(
       nextPageToken: json['NextPageToken'] as String?,
@@ -7353,6 +7762,7 @@ class ListPortfoliosOutput {
     this.nextPageToken,
     this.portfolioDetails,
   });
+
   factory ListPortfoliosOutput.fromJson(Map<String, dynamic> json) {
     return ListPortfoliosOutput(
       nextPageToken: json['NextPageToken'] as String?,
@@ -7369,13 +7779,15 @@ class ListPrincipalsForPortfolioOutput {
   /// additional results, this value is null.
   final String? nextPageToken;
 
-  /// The IAM principals (users or roles) associated with the portfolio.
+  /// The <code>PrincipalARN</code>s and corresponding <code>PrincipalType</code>s
+  /// associated with the portfolio.
   final List<Principal>? principals;
 
   ListPrincipalsForPortfolioOutput({
     this.nextPageToken,
     this.principals,
   });
+
   factory ListPrincipalsForPortfolioOutput.fromJson(Map<String, dynamic> json) {
     return ListPrincipalsForPortfolioOutput(
       nextPageToken: json['NextPageToken'] as String?,
@@ -7399,6 +7811,7 @@ class ListProvisionedProductPlansOutput {
     this.nextPageToken,
     this.provisionedProductPlans,
   });
+
   factory ListProvisionedProductPlansOutput.fromJson(
       Map<String, dynamic> json) {
     return ListProvisionedProductPlansOutput(
@@ -7425,6 +7838,7 @@ class ListProvisioningArtifactsForServiceActionOutput {
     this.nextPageToken,
     this.provisioningArtifactViews,
   });
+
   factory ListProvisioningArtifactsForServiceActionOutput.fromJson(
       Map<String, dynamic> json) {
     return ListProvisioningArtifactsForServiceActionOutput(
@@ -7450,6 +7864,7 @@ class ListProvisioningArtifactsOutput {
     this.nextPageToken,
     this.provisioningArtifactDetails,
   });
+
   factory ListProvisioningArtifactsOutput.fromJson(Map<String, dynamic> json) {
     return ListProvisioningArtifactsOutput(
       nextPageToken: json['NextPageToken'] as String?,
@@ -7475,6 +7890,7 @@ class ListRecordHistoryOutput {
     this.nextPageToken,
     this.recordDetails,
   });
+
   factory ListRecordHistoryOutput.fromJson(Map<String, dynamic> json) {
     return ListRecordHistoryOutput(
       nextPageToken: json['NextPageToken'] as String?,
@@ -7531,6 +7947,7 @@ class ListResourcesForTagOptionOutput {
     this.pageToken,
     this.resourceDetails,
   });
+
   factory ListResourcesForTagOptionOutput.fromJson(Map<String, dynamic> json) {
     return ListResourcesForTagOptionOutput(
       pageToken: json['PageToken'] as String?,
@@ -7555,6 +7972,7 @@ class ListServiceActionsForProvisioningArtifactOutput {
     this.nextPageToken,
     this.serviceActionSummaries,
   });
+
   factory ListServiceActionsForProvisioningArtifactOutput.fromJson(
       Map<String, dynamic> json) {
     return ListServiceActionsForProvisioningArtifactOutput(
@@ -7580,6 +7998,7 @@ class ListServiceActionsOutput {
     this.nextPageToken,
     this.serviceActionSummaries,
   });
+
   factory ListServiceActionsOutput.fromJson(Map<String, dynamic> json) {
     return ListServiceActionsOutput(
       nextPageToken: json['NextPageToken'] as String?,
@@ -7603,6 +8022,7 @@ class ListStackInstancesForProvisionedProductOutput {
     this.nextPageToken,
     this.stackInstances,
   });
+
   factory ListStackInstancesForProvisionedProductOutput.fromJson(
       Map<String, dynamic> json) {
     return ListStackInstancesForProvisionedProductOutput(
@@ -7655,6 +8075,7 @@ class ListTagOptionsOutput {
     this.pageToken,
     this.tagOptionDetails,
   });
+
   factory ListTagOptionsOutput.fromJson(Map<String, dynamic> json) {
     return ListTagOptionsOutput(
       pageToken: json['PageToken'] as String?,
@@ -7663,6 +8084,33 @@ class ListTagOptionsOutput {
           .map((e) => TagOptionDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+  }
+}
+
+class NotifyProvisionProductEngineWorkflowResultOutput {
+  NotifyProvisionProductEngineWorkflowResultOutput();
+
+  factory NotifyProvisionProductEngineWorkflowResultOutput.fromJson(
+      Map<String, dynamic> _) {
+    return NotifyProvisionProductEngineWorkflowResultOutput();
+  }
+}
+
+class NotifyTerminateProvisionedProductEngineWorkflowResultOutput {
+  NotifyTerminateProvisionedProductEngineWorkflowResultOutput();
+
+  factory NotifyTerminateProvisionedProductEngineWorkflowResultOutput.fromJson(
+      Map<String, dynamic> _) {
+    return NotifyTerminateProvisionedProductEngineWorkflowResultOutput();
+  }
+}
+
+class NotifyUpdateProvisionedProductEngineWorkflowResultOutput {
+  NotifyUpdateProvisionedProductEngineWorkflowResultOutput();
+
+  factory NotifyUpdateProvisionedProductEngineWorkflowResultOutput.fromJson(
+      Map<String, dynamic> _) {
+    return NotifyUpdateProvisionedProductEngineWorkflowResultOutput();
   }
 }
 
@@ -7678,6 +8126,7 @@ class OrganizationNode {
     this.type,
     this.value,
   });
+
   factory OrganizationNode.fromJson(Map<String, dynamic> json) {
     return OrganizationNode(
       type: (json['Type'] as String?)?.toOrganizationNodeType(),
@@ -7779,6 +8228,7 @@ class ParameterConstraints {
     this.minLength,
     this.minValue,
   });
+
   factory ParameterConstraints.fromJson(Map<String, dynamic> json) {
     return ParameterConstraints(
       allowedPattern: json['AllowedPattern'] as String?,
@@ -7823,6 +8273,7 @@ class PortfolioDetail {
     this.id,
     this.providerName,
   });
+
   factory PortfolioDetail.fromJson(Map<String, dynamic> json) {
     return PortfolioDetail(
       arn: json['ARN'] as String?,
@@ -7843,7 +8294,7 @@ class PortfolioShareDetail {
   final bool? accepted;
 
   /// The identifier of the recipient entity that received the portfolio share.
-  /// The recipient entities can be one of the following:
+  /// The recipient entity can be one of the following:
   ///
   /// 1. An external account.
   ///
@@ -7855,6 +8306,10 @@ class PortfolioShareDetail {
   /// organization).
   final String? principalId;
 
+  /// Indicates if <code>Principal</code> sharing is enabled or disabled for the
+  /// portfolio share.
+  final bool? sharePrincipals;
+
   /// Indicates whether TagOptions sharing is enabled or disabled for the
   /// portfolio share.
   final bool? shareTagOptions;
@@ -7865,13 +8320,16 @@ class PortfolioShareDetail {
   PortfolioShareDetail({
     this.accepted,
     this.principalId,
+    this.sharePrincipals,
     this.shareTagOptions,
     this.type,
   });
+
   factory PortfolioShareDetail.fromJson(Map<String, dynamic> json) {
     return PortfolioShareDetail(
       accepted: json['Accepted'] as bool?,
       principalId: json['PrincipalId'] as String?,
+      sharePrincipals: json['SharePrincipals'] as bool?,
       shareTagOptions: json['ShareTagOptions'] as bool?,
       type: (json['Type'] as String?)?.toDescribePortfolioShareType(),
     );
@@ -7913,16 +8371,21 @@ extension PortfolioShareTypeFromString on String {
 
 /// Information about a principal.
 class Principal {
-  /// The ARN of the principal (IAM user, role, or group).
+  /// The ARN of the principal (user, role, or group). This field allows for an
+  /// ARN with no <code>accountID</code> if the <code>PrincipalType</code> is an
+  /// <code>IAM_PATTERN</code>.
   final String? principalARN;
 
-  /// The principal type. The supported value is <code>IAM</code>.
+  /// The principal type. The supported value is <code>IAM</code> if you use a
+  /// fully defined ARN, or <code>IAM_PATTERN</code> if you use an ARN with no
+  /// <code>accountID</code>.
   final PrincipalType? principalType;
 
   Principal({
     this.principalARN,
     this.principalType,
   });
+
   factory Principal.fromJson(Map<String, dynamic> json) {
     return Principal(
       principalARN: json['PrincipalARN'] as String?,
@@ -7933,6 +8396,7 @@ class Principal {
 
 enum PrincipalType {
   iam,
+  iamPattern,
 }
 
 extension PrincipalTypeValueExtension on PrincipalType {
@@ -7940,6 +8404,8 @@ extension PrincipalTypeValueExtension on PrincipalType {
     switch (this) {
       case PrincipalType.iam:
         return 'IAM';
+      case PrincipalType.iamPattern:
+        return 'IAM_PATTERN';
     }
   }
 }
@@ -7949,6 +8415,8 @@ extension PrincipalTypeFromString on String {
     switch (this) {
       case 'IAM':
         return PrincipalType.iam;
+      case 'IAM_PATTERN':
+        return PrincipalType.iamPattern;
     }
     throw Exception('$this is not known in enum PrincipalType');
   }
@@ -7980,6 +8448,7 @@ extension ProductSourceFromString on String {
 enum ProductType {
   cloudFormationTemplate,
   marketplace,
+  terraformOpenSource,
 }
 
 extension ProductTypeValueExtension on ProductType {
@@ -7989,6 +8458,8 @@ extension ProductTypeValueExtension on ProductType {
         return 'CLOUD_FORMATION_TEMPLATE';
       case ProductType.marketplace:
         return 'MARKETPLACE';
+      case ProductType.terraformOpenSource:
+        return 'TERRAFORM_OPEN_SOURCE';
     }
   }
 }
@@ -8000,6 +8471,8 @@ extension ProductTypeFromString on String {
         return ProductType.cloudFormationTemplate;
       case 'MARKETPLACE':
         return ProductType.marketplace;
+      case 'TERRAFORM_OPEN_SOURCE':
+        return ProductType.terraformOpenSource;
     }
     throw Exception('$this is not known in enum ProductType');
   }
@@ -8018,6 +8491,7 @@ class ProductViewAggregationValue {
     this.approximateCount,
     this.value,
   });
+
   factory ProductViewAggregationValue.fromJson(Map<String, dynamic> json) {
     return ProductViewAggregationValue(
       approximateCount: json['ApproximateCount'] as int?,
@@ -8036,6 +8510,15 @@ class ProductViewDetail {
 
   /// Summary information about the product view.
   final ProductViewSummary? productViewSummary;
+
+  /// A top level <code>ProductViewDetail</code> response containing details about
+  /// the product’s connection. Service Catalog returns this field for the
+  /// <code>CreateProduct</code>, <code>UpdateProduct</code>,
+  /// <code>DescribeProductAsAdmin</code>, and <code>SearchProductAsAdmin</code>
+  /// APIs. This response contains the same fields as the
+  /// <code>ConnectionParameters</code> request, with the addition of the
+  /// <code>LastSync</code> response.
+  final SourceConnectionDetail? sourceConnection;
 
   /// The status of the product.
   ///
@@ -8057,8 +8540,10 @@ class ProductViewDetail {
     this.createdTime,
     this.productARN,
     this.productViewSummary,
+    this.sourceConnection,
     this.status,
   });
+
   factory ProductViewDetail.fromJson(Map<String, dynamic> json) {
     return ProductViewDetail(
       createdTime: timeStampFromJson(json['CreatedTime']),
@@ -8066,6 +8551,10 @@ class ProductViewDetail {
       productViewSummary: json['ProductViewSummary'] != null
           ? ProductViewSummary.fromJson(
               json['ProductViewSummary'] as Map<String, dynamic>)
+          : null,
+      sourceConnection: json['SourceConnection'] != null
+          ? SourceConnectionDetail.fromJson(
+              json['SourceConnection'] as Map<String, dynamic>)
           : null,
       status: (json['Status'] as String?)?.toStatus(),
     );
@@ -8183,7 +8672,7 @@ class ProductViewSummary {
 
   /// The product type. Contact the product administrator for the significance of
   /// this value. If this value is <code>MARKETPLACE</code>, the product was
-  /// created by AWS Marketplace.
+  /// created by Amazon Web Services Marketplace.
   final ProductType? type;
 
   ProductViewSummary({
@@ -8199,6 +8688,7 @@ class ProductViewSummary {
     this.supportUrl,
     this.type,
   });
+
   factory ProductViewSummary.fromJson(Map<String, dynamic> json) {
     return ProductViewSummary(
       distributor: json['Distributor'] as String?,
@@ -8251,6 +8741,7 @@ class ProvisionProductOutput {
   ProvisionProductOutput({
     this.recordDetail,
   });
+
   factory ProvisionProductOutput.fromJson(Map<String, dynamic> json) {
     return ProvisionProductOutput(
       recordDetail: json['RecordDetail'] != null
@@ -8380,10 +8871,10 @@ class ProvisionedProductAttribute {
   /// <code>CFN_STACK</code> and <code>CFN_STACKSET</code>.
   final String? type;
 
-  /// The Amazon Resource Name (ARN) of the IAM user.
+  /// The Amazon Resource Name (ARN) of the user.
   final String? userArn;
 
-  /// The ARN of the IAM user in the session. This ARN might contain a session ID.
+  /// The ARN of the user in the session. This ARN might contain a session ID.
   final String? userArnSession;
 
   ProvisionedProductAttribute({
@@ -8407,6 +8898,7 @@ class ProvisionedProductAttribute {
     this.userArn,
     this.userArnSession,
   });
+
   factory ProvisionedProductAttribute.fromJson(Map<String, dynamic> json) {
     return ProvisionedProductAttribute(
       arn: json['Arn'] as String?,
@@ -8563,6 +9055,7 @@ class ProvisionedProductDetail {
     this.statusMessage,
     this.type,
   });
+
   factory ProvisionedProductDetail.fromJson(Map<String, dynamic> json) {
     return ProvisionedProductDetail(
       arn: json['Arn'] as String?,
@@ -8632,7 +9125,7 @@ class ProvisionedProductPlanDetails {
   /// One or more tags.
   final List<Tag>? tags;
 
-  /// The time when the plan was last updated.
+  /// The UTC time stamp when the plan was last updated.
   final DateTime? updatedTime;
 
   ProvisionedProductPlanDetails({
@@ -8652,6 +9145,7 @@ class ProvisionedProductPlanDetails {
     this.tags,
     this.updatedTime,
   });
+
   factory ProvisionedProductPlanDetails.fromJson(Map<String, dynamic> json) {
     return ProvisionedProductPlanDetails(
       createdTime: timeStampFromJson(json['CreatedTime']),
@@ -8760,6 +9254,7 @@ class ProvisionedProductPlanSummary {
     this.provisionProductName,
     this.provisioningArtifactId,
   });
+
   factory ProvisionedProductPlanSummary.fromJson(Map<String, dynamic> json) {
     return ProvisionedProductPlanSummary(
       planId: json['PlanId'] as String?,
@@ -8890,6 +9385,7 @@ class ProvisioningArtifact {
     this.id,
     this.name,
   });
+
   factory ProvisioningArtifact.fromJson(Map<String, dynamic> json) {
     return ProvisioningArtifact(
       createdTime: timeStampFromJson(json['CreatedTime']),
@@ -8923,17 +9419,31 @@ class ProvisioningArtifactDetail {
   /// The name of the provisioning artifact.
   final String? name;
 
+  /// Specifies the revision of the external artifact that was used to
+  /// automatically sync the Service Catalog product and create the provisioning
+  /// artifact. Service Catalog includes this response parameter as a high level
+  /// field to the existing <code>ProvisioningArtifactDetail</code> type, which is
+  /// returned as part of the response for <code>CreateProduct</code>,
+  /// <code>UpdateProduct</code>, <code>DescribeProductAsAdmin</code>,
+  /// <code>DescribeProvisioningArtifact</code>,
+  /// <code>ListProvisioningArtifact</code>, and
+  /// <code>UpdateProvisioningArticat</code> APIs.
+  ///
+  /// This field only exists for Repo-Synced products.
+  final String? sourceRevision;
+
   /// The type of provisioning artifact.
   ///
   /// <ul>
   /// <li>
-  /// <code>CLOUD_FORMATION_TEMPLATE</code> - AWS CloudFormation template
+  /// <code>CLOUD_FORMATION_TEMPLATE</code> - CloudFormation template
   /// </li>
   /// <li>
-  /// <code>MARKETPLACE_AMI</code> - AWS Marketplace AMI
+  /// <code>MARKETPLACE_AMI</code> - Amazon Web Services Marketplace AMI
   /// </li>
   /// <li>
-  /// <code>MARKETPLACE_CAR</code> - AWS Marketplace Clusters and AWS Resources
+  /// <code>MARKETPLACE_CAR</code> - Amazon Web Services Marketplace Clusters and
+  /// Amazon Web Services Resources
   /// </li>
   /// </ul>
   final ProvisioningArtifactType? type;
@@ -8945,8 +9455,10 @@ class ProvisioningArtifactDetail {
     this.guidance,
     this.id,
     this.name,
+    this.sourceRevision,
     this.type,
   });
+
   factory ProvisioningArtifactDetail.fromJson(Map<String, dynamic> json) {
     return ProvisioningArtifactDetail(
       active: json['Active'] as bool?,
@@ -8955,6 +9467,7 @@ class ProvisioningArtifactDetail {
       guidance: (json['Guidance'] as String?)?.toProvisioningArtifactGuidance(),
       id: json['Id'] as String?,
       name: json['Name'] as String?,
+      sourceRevision: json['SourceRevision'] as String?,
       type: (json['Type'] as String?)?.toProvisioningArtifactType(),
     );
   }
@@ -9001,6 +9514,7 @@ class ProvisioningArtifactOutput {
     this.description,
     this.key,
   });
+
   factory ProvisioningArtifactOutput.fromJson(Map<String, dynamic> json) {
     return ProvisioningArtifactOutput(
       description: json['Description'] as String?,
@@ -9039,6 +9553,7 @@ class ProvisioningArtifactParameter {
     this.parameterKey,
     this.parameterType,
   });
+
   factory ProvisioningArtifactParameter.fromJson(Map<String, dynamic> json) {
     return ProvisioningArtifactParameter(
       defaultValue: json['DefaultValue'] as String?,
@@ -9061,18 +9576,18 @@ class ProvisioningArtifactParameter {
 /// For more information on maximum concurrent accounts and failure tolerance,
 /// see <a
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options">Stack
-/// set operation options</a> in the <i>AWS CloudFormation User Guide</i>.
+/// set operation options</a> in the <i>CloudFormation User Guide</i>.
 class ProvisioningArtifactPreferences {
-  /// One or more AWS accounts where stack instances are deployed from the stack
-  /// set. These accounts can be scoped in
+  /// One or more Amazon Web Services accounts where stack instances are deployed
+  /// from the stack set. These accounts can be scoped in
   /// <code>ProvisioningPreferences$StackSetAccounts</code> and
   /// <code>UpdateProvisioningPreferences$StackSetAccounts</code>.
   ///
   /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
   final List<String>? stackSetAccounts;
 
-  /// One or more AWS Regions where stack instances are deployed from the stack
-  /// set. These regions can be scoped in
+  /// One or more Amazon Web Services Regions where stack instances are deployed
+  /// from the stack set. These Regions can be scoped in
   /// <code>ProvisioningPreferences$StackSetRegions</code> and
   /// <code>UpdateProvisioningPreferences$StackSetRegions</code>.
   ///
@@ -9083,6 +9598,7 @@ class ProvisioningArtifactPreferences {
     this.stackSetAccounts,
     this.stackSetRegions,
   });
+
   factory ProvisioningArtifactPreferences.fromJson(Map<String, dynamic> json) {
     return ProvisioningArtifactPreferences(
       stackSetAccounts: (json['StackSetAccounts'] as List?)
@@ -9100,12 +9616,20 @@ class ProvisioningArtifactPreferences {
 /// Information about a provisioning artifact (also known as a version) for a
 /// product.
 class ProvisioningArtifactProperties {
+  /// The description of the provisioning artifact, including how it differs from
+  /// the previous provisioning artifact.
+  final String? description;
+
+  /// If set to true, Service Catalog stops validating the specified provisioning
+  /// artifact even if it is invalid.
+  final bool? disableTemplateValidation;
+
   /// Specify the template source with one of the following options, but not both.
   /// Keys accepted: [ <code>LoadTemplateFromURL</code>,
   /// <code>ImportFromPhysicalId</code> ]
   ///
-  /// The URL of the CloudFormation template in Amazon S3. Specify the URL in JSON
-  /// format as follows:
+  /// The URL of the CloudFormation template in Amazon S3 or GitHub in JSON
+  /// format. Specify the URL in JSON format as follows:
   ///
   /// <code>"LoadTemplateFromURL":
   /// "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/..."</code>
@@ -9115,15 +9639,7 @@ class ProvisioningArtifactProperties {
   /// Specify the physical id in JSON format as follows:
   /// <code>ImportFromPhysicalId:
   /// “arn:aws:cloudformation:[us-east-1]:[accountId]:stack/[StackName]/[resourceId]</code>
-  final Map<String, String> info;
-
-  /// The description of the provisioning artifact, including how it differs from
-  /// the previous provisioning artifact.
-  final String? description;
-
-  /// If set to true, AWS Service Catalog stops validating the specified
-  /// provisioning artifact even if it is invalid.
-  final bool? disableTemplateValidation;
+  final Map<String, String>? info;
 
   /// The name of the provisioning artifact (for example, v1 v2beta). No spaces
   /// are allowed.
@@ -9133,35 +9649,40 @@ class ProvisioningArtifactProperties {
   ///
   /// <ul>
   /// <li>
-  /// <code>CLOUD_FORMATION_TEMPLATE</code> - AWS CloudFormation template
+  /// <code>CLOUD_FORMATION_TEMPLATE</code> - CloudFormation template
   /// </li>
   /// <li>
-  /// <code>MARKETPLACE_AMI</code> - AWS Marketplace AMI
+  /// <code>MARKETPLACE_AMI</code> - Amazon Web Services Marketplace AMI
   /// </li>
   /// <li>
-  /// <code>MARKETPLACE_CAR</code> - AWS Marketplace Clusters and AWS Resources
+  /// <code>MARKETPLACE_CAR</code> - Amazon Web Services Marketplace Clusters and
+  /// Amazon Web Services Resources
+  /// </li>
+  /// <li>
+  /// <code>TERRAFORM_OPEN_SOURCE</code> - Terraform open source configuration
+  /// file
   /// </li>
   /// </ul>
   final ProvisioningArtifactType? type;
 
   ProvisioningArtifactProperties({
-    required this.info,
     this.description,
     this.disableTemplateValidation,
+    this.info,
     this.name,
     this.type,
   });
   Map<String, dynamic> toJson() {
-    final info = this.info;
     final description = this.description;
     final disableTemplateValidation = this.disableTemplateValidation;
+    final info = this.info;
     final name = this.name;
     final type = this.type;
     return {
-      'Info': info,
       if (description != null) 'Description': description,
       if (disableTemplateValidation != null)
         'DisableTemplateValidation': disableTemplateValidation,
+      if (info != null) 'Info': info,
       if (name != null) 'Name': name,
       if (type != null) 'Type': type.toValue(),
     };
@@ -9208,8 +9729,8 @@ class ProvisioningArtifactSummary {
   /// The name of the provisioning artifact.
   final String? name;
 
-  /// The metadata for the provisioning artifact. This is used with AWS
-  /// Marketplace products.
+  /// The metadata for the provisioning artifact. This is used with Amazon Web
+  /// Services Marketplace products.
   final Map<String, String>? provisioningArtifactMetadata;
 
   ProvisioningArtifactSummary({
@@ -9219,6 +9740,7 @@ class ProvisioningArtifactSummary {
     this.name,
     this.provisioningArtifactMetadata,
   });
+
   factory ProvisioningArtifactSummary.fromJson(Map<String, dynamic> json) {
     return ProvisioningArtifactSummary(
       createdTime: timeStampFromJson(json['CreatedTime']),
@@ -9236,6 +9758,7 @@ enum ProvisioningArtifactType {
   cloudFormationTemplate,
   marketplaceAmi,
   marketplaceCar,
+  terraformOpenSource,
 }
 
 extension ProvisioningArtifactTypeValueExtension on ProvisioningArtifactType {
@@ -9247,6 +9770,8 @@ extension ProvisioningArtifactTypeValueExtension on ProvisioningArtifactType {
         return 'MARKETPLACE_AMI';
       case ProvisioningArtifactType.marketplaceCar:
         return 'MARKETPLACE_CAR';
+      case ProvisioningArtifactType.terraformOpenSource:
+        return 'TERRAFORM_OPEN_SOURCE';
     }
   }
 }
@@ -9260,6 +9785,8 @@ extension ProvisioningArtifactTypeFromString on String {
         return ProvisioningArtifactType.marketplaceAmi;
       case 'MARKETPLACE_CAR':
         return ProvisioningArtifactType.marketplaceCar;
+      case 'TERRAFORM_OPEN_SOURCE':
+        return ProvisioningArtifactType.terraformOpenSource;
     }
     throw Exception('$this is not known in enum ProvisioningArtifactType');
   }
@@ -9279,6 +9806,7 @@ class ProvisioningArtifactView {
     this.productViewSummary,
     this.provisioningArtifact,
   });
+
   factory ProvisioningArtifactView.fromJson(Map<String, dynamic> json) {
     return ProvisioningArtifactView(
       productViewSummary: json['ProductViewSummary'] != null
@@ -9319,19 +9847,21 @@ class ProvisioningParameter {
 /// provisioned product. Not all preferences are applicable to all provisioned
 /// product type
 ///
-/// One or more AWS accounts that will have access to the provisioned product.
+/// One or more Amazon Web Services accounts that will have access to the
+/// provisioned product.
 ///
 /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
 ///
-/// The AWS accounts specified should be within the list of accounts in the
-/// <code>STACKSET</code> constraint. To get the list of accounts in the
-/// <code>STACKSET</code> constraint, use the
+/// The Amazon Web Services accounts specified should be within the list of
+/// accounts in the <code>STACKSET</code> constraint. To get the list of
+/// accounts in the <code>STACKSET</code> constraint, use the
 /// <code>DescribeProvisioningParameters</code> operation.
 ///
 /// If no values are specified, the default value is all accounts from the
 /// <code>STACKSET</code> constraint.
 class ProvisioningPreferences {
-  /// One or more AWS accounts where the provisioned product will be available.
+  /// One or more Amazon Web Services accounts where the provisioned product will
+  /// be available.
   ///
   /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
   ///
@@ -9344,10 +9874,10 @@ class ProvisioningPreferences {
   /// <code>STACKSET</code> constraint.
   final List<String>? stackSetAccounts;
 
-  /// The number of accounts, per region, for which this operation can fail before
-  /// AWS Service Catalog stops the operation in that region. If the operation is
-  /// stopped in a region, AWS Service Catalog doesn't attempt the operation in
-  /// any subsequent regions.
+  /// The number of accounts, per Region, for which this operation can fail before
+  /// Service Catalog stops the operation in that Region. If the operation is
+  /// stopped in a Region, Service Catalog doesn't attempt the operation in any
+  /// subsequent Regions.
   ///
   /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
   ///
@@ -9358,13 +9888,13 @@ class ProvisioningPreferences {
   /// The default value is <code>0</code> if no value is specified.
   final int? stackSetFailureToleranceCount;
 
-  /// The percentage of accounts, per region, for which this stack operation can
-  /// fail before AWS Service Catalog stops the operation in that region. If the
-  /// operation is stopped in a region, AWS Service Catalog doesn't attempt the
-  /// operation in any subsequent regions.
+  /// The percentage of accounts, per Region, for which this stack operation can
+  /// fail before Service Catalog stops the operation in that Region. If the
+  /// operation is stopped in a Region, Service Catalog doesn't attempt the
+  /// operation in any subsequent Regions.
   ///
   /// When calculating the number of accounts based on the specified percentage,
-  /// AWS Service Catalog rounds down to the next whole number.
+  /// Service Catalog rounds down to the next whole number.
   ///
   /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
   ///
@@ -9393,9 +9923,9 @@ class ProvisioningPreferences {
   /// time.
   ///
   /// When calculating the number of accounts based on the specified percentage,
-  /// AWS Service Catalog rounds down to the next whole number. This is true
-  /// except in cases where rounding down would result is zero. In this case, AWS
-  /// Service Catalog sets the number as <code>1</code> instead.
+  /// Service Catalog rounds down to the next whole number. This is true except in
+  /// cases where rounding down would result is zero. In this case, Service
+  /// Catalog sets the number as <code>1</code> instead.
   ///
   /// Note that this setting lets you specify the maximum for operations. For
   /// large deployments, under certain circumstances the actual number of accounts
@@ -9407,16 +9937,17 @@ class ProvisioningPreferences {
   /// or <code>StackSetMaxConcurrentPercentage</code>, but not both.
   final int? stackSetMaxConcurrencyPercentage;
 
-  /// One or more AWS Regions where the provisioned product will be available.
+  /// One or more Amazon Web Services Regions where the provisioned product will
+  /// be available.
   ///
   /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
   ///
-  /// The specified regions should be within the list of regions from the
-  /// <code>STACKSET</code> constraint. To get the list of regions in the
+  /// The specified Regions should be within the list of Regions from the
+  /// <code>STACKSET</code> constraint. To get the list of Regions in the
   /// <code>STACKSET</code> constraint, use the
   /// <code>DescribeProvisioningParameters</code> operation.
   ///
-  /// If no values are specified, the default value is all regions from the
+  /// If no values are specified, the default value is all Regions from the
   /// <code>STACKSET</code> constraint.
   final List<String>? stackSetRegions;
 
@@ -9548,6 +10079,7 @@ class RecordDetail {
     this.status,
     this.updatedTime,
   });
+
   factory RecordDetail.fromJson(Map<String, dynamic> json) {
     return RecordDetail(
       createdTime: timeStampFromJson(json['CreatedTime']),
@@ -9586,6 +10118,7 @@ class RecordError {
     this.code,
     this.description,
   });
+
   factory RecordError.fromJson(Map<String, dynamic> json) {
     return RecordError(
       code: json['Code'] as String?,
@@ -9612,12 +10145,24 @@ class RecordOutput {
     this.outputKey,
     this.outputValue,
   });
+
   factory RecordOutput.fromJson(Map<String, dynamic> json) {
     return RecordOutput(
       description: json['Description'] as String?,
       outputKey: json['OutputKey'] as String?,
       outputValue: json['OutputValue'] as String?,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final outputKey = this.outputKey;
+    final outputValue = this.outputValue;
+    return {
+      if (description != null) 'Description': description,
+      if (outputKey != null) 'OutputKey': outputKey,
+      if (outputValue != null) 'OutputValue': outputValue,
+    };
   }
 }
 
@@ -9676,6 +10221,7 @@ class RecordTag {
     this.key,
     this.value,
   });
+
   factory RecordTag.fromJson(Map<String, dynamic> json) {
     return RecordTag(
       key: json['Key'] as String?,
@@ -9686,6 +10232,7 @@ class RecordTag {
 
 class RejectPortfolioShareOutput {
   RejectPortfolioShareOutput();
+
   factory RejectPortfolioShareOutput.fromJson(Map<String, dynamic> _) {
     return RejectPortfolioShareOutput();
   }
@@ -9838,6 +10385,7 @@ class ResourceChange {
     this.resourceType,
     this.scope,
   });
+
   factory ResourceChange.fromJson(Map<String, dynamic> json) {
     return ResourceChange(
       action: (json['Action'] as String?)?.toChangeAction(),
@@ -9875,6 +10423,7 @@ class ResourceChangeDetail {
     this.evaluation,
     this.target,
   });
+
   factory ResourceChangeDetail.fromJson(Map<String, dynamic> json) {
     return ResourceChangeDetail(
       causingEntity: json['CausingEntity'] as String?,
@@ -9911,6 +10460,7 @@ class ResourceDetail {
     this.id,
     this.name,
   });
+
   factory ResourceDetail.fromJson(Map<String, dynamic> json) {
     return ResourceDetail(
       arn: json['ARN'] as String?,
@@ -9940,6 +10490,7 @@ class ResourceTargetDefinition {
     this.name,
     this.requiresRecreation,
   });
+
   factory ResourceTargetDefinition.fromJson(Map<String, dynamic> json) {
     return ResourceTargetDefinition(
       attribute: (json['Attribute'] as String?)?.toResourceAttribute(),
@@ -9962,6 +10513,7 @@ class ScanProvisionedProductsOutput {
     this.nextPageToken,
     this.provisionedProducts,
   });
+
   factory ScanProvisionedProductsOutput.fromJson(Map<String, dynamic> json) {
     return ScanProvisionedProductsOutput(
       nextPageToken: json['NextPageToken'] as String?,
@@ -9986,6 +10538,7 @@ class SearchProductsAsAdminOutput {
     this.nextPageToken,
     this.productViewDetails,
   });
+
   factory SearchProductsAsAdminOutput.fromJson(Map<String, dynamic> json) {
     return SearchProductsAsAdminOutput(
       nextPageToken: json['NextPageToken'] as String?,
@@ -10013,6 +10566,7 @@ class SearchProductsOutput {
     this.productViewAggregations,
     this.productViewSummaries,
   });
+
   factory SearchProductsOutput.fromJson(Map<String, dynamic> json) {
     return SearchProductsOutput(
       nextPageToken: json['NextPageToken'] as String?,
@@ -10049,6 +10603,7 @@ class SearchProvisionedProductsOutput {
     this.provisionedProducts,
     this.totalResultsCount,
   });
+
   factory SearchProvisionedProductsOutput.fromJson(Map<String, dynamic> json) {
     return SearchProvisionedProductsOutput(
       nextPageToken: json['NextPageToken'] as String?,
@@ -10099,6 +10654,7 @@ enum ServiceActionAssociationErrorCode {
   limitExceeded,
   resourceNotFound,
   throttling,
+  invalidParameter,
 }
 
 extension ServiceActionAssociationErrorCodeValueExtension
@@ -10115,6 +10671,8 @@ extension ServiceActionAssociationErrorCodeValueExtension
         return 'RESOURCE_NOT_FOUND';
       case ServiceActionAssociationErrorCode.throttling:
         return 'THROTTLING';
+      case ServiceActionAssociationErrorCode.invalidParameter:
+        return 'INVALID_PARAMETER';
     }
   }
 }
@@ -10132,6 +10690,8 @@ extension ServiceActionAssociationErrorCodeFromString on String {
         return ServiceActionAssociationErrorCode.resourceNotFound;
       case 'THROTTLING':
         return ServiceActionAssociationErrorCode.throttling;
+      case 'INVALID_PARAMETER':
+        return ServiceActionAssociationErrorCode.invalidParameter;
     }
     throw Exception(
         '$this is not known in enum ServiceActionAssociationErrorCode');
@@ -10213,6 +10773,7 @@ class ServiceActionDetail {
     this.definition,
     this.serviceActionSummary,
   });
+
   factory ServiceActionDetail.fromJson(Map<String, dynamic> json) {
     return ServiceActionDetail(
       definition: (json['Definition'] as Map<String, dynamic>?)?.map(
@@ -10246,6 +10807,7 @@ class ServiceActionSummary {
     this.id,
     this.name,
   });
+
   factory ServiceActionSummary.fromJson(Map<String, dynamic> json) {
     return ServiceActionSummary(
       definitionType:
@@ -10269,6 +10831,7 @@ class ShareDetails {
     this.shareErrors,
     this.successfulShares,
   });
+
   factory ShareDetails.fromJson(Map<String, dynamic> json) {
     return ShareDetails(
       shareErrors: (json['ShareErrors'] as List?)
@@ -10299,6 +10862,7 @@ class ShareError {
     this.error,
     this.message,
   });
+
   factory ShareError.fromJson(Map<String, dynamic> json) {
     return ShareError(
       accounts: (json['Accounts'] as List?)
@@ -10382,18 +10946,147 @@ extension SortOrderFromString on String {
   }
 }
 
-/// An AWS CloudFormation stack, in a specific account and region, that's part
-/// of a stack set operation. A stack instance is a reference to an attempted or
-/// actual stack in a given account within a given region. A stack instance can
+/// A top level <code>ProductViewDetail</code> response containing details about
+/// the product’s connection. Service Catalog returns this field for the
+/// <code>CreateProduct</code>, <code>UpdateProduct</code>,
+/// <code>DescribeProductAsAdmin</code>, and <code>SearchProductAsAdmin</code>
+/// APIs. This response contains the same fields as the
+/// <code>ConnectionParameters</code> request, with the addition of the
+/// <code>LastSync</code> response.
+class SourceConnection {
+  /// The connection details based on the connection <code>Type</code>.
+  final SourceConnectionParameters connectionParameters;
+
+  /// The only supported <code>SourceConnection</code> type is Codestar.
+  final SourceType? type;
+
+  SourceConnection({
+    required this.connectionParameters,
+    this.type,
+  });
+  Map<String, dynamic> toJson() {
+    final connectionParameters = this.connectionParameters;
+    final type = this.type;
+    return {
+      'ConnectionParameters': connectionParameters,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
+}
+
+/// Provides details about the configured <code>SourceConnection</code>.
+class SourceConnectionDetail {
+  /// The connection details based on the connection <code>Type</code>.
+  final SourceConnectionParameters? connectionParameters;
+
+  /// Provides details about the product's connection sync and contains the
+  /// following sub-fields.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>LastSyncTime</code>
+  /// </li>
+  /// <li>
+  /// <code>LastSyncStatus</code>
+  /// </li>
+  /// <li>
+  /// <code>LastSyncStatusMessage</code>
+  /// </li>
+  /// <li>
+  /// <code>LastSuccessfulSyncTime</code>
+  /// </li>
+  /// <li>
+  /// <code>LastSuccessfulSyncProvisioningArtifactID</code>
+  /// </li>
+  /// </ul>
+  final LastSync? lastSync;
+
+  /// The only supported <code>SourceConnection</code> type is Codestar.
+  final SourceType? type;
+
+  SourceConnectionDetail({
+    this.connectionParameters,
+    this.lastSync,
+    this.type,
+  });
+
+  factory SourceConnectionDetail.fromJson(Map<String, dynamic> json) {
+    return SourceConnectionDetail(
+      connectionParameters: json['ConnectionParameters'] != null
+          ? SourceConnectionParameters.fromJson(
+              json['ConnectionParameters'] as Map<String, dynamic>)
+          : null,
+      lastSync: json['LastSync'] != null
+          ? LastSync.fromJson(json['LastSync'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.toSourceType(),
+    );
+  }
+}
+
+/// Provides connection details.
+class SourceConnectionParameters {
+  /// Provides <code>ConnectionType</code> details.
+  final CodeStarParameters? codeStar;
+
+  SourceConnectionParameters({
+    this.codeStar,
+  });
+
+  factory SourceConnectionParameters.fromJson(Map<String, dynamic> json) {
+    return SourceConnectionParameters(
+      codeStar: json['CodeStar'] != null
+          ? CodeStarParameters.fromJson(
+              json['CodeStar'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeStar = this.codeStar;
+    return {
+      if (codeStar != null) 'CodeStar': codeStar,
+    };
+  }
+}
+
+enum SourceType {
+  codestar,
+}
+
+extension SourceTypeValueExtension on SourceType {
+  String toValue() {
+    switch (this) {
+      case SourceType.codestar:
+        return 'CODESTAR';
+    }
+  }
+}
+
+extension SourceTypeFromString on String {
+  SourceType toSourceType() {
+    switch (this) {
+      case 'CODESTAR':
+        return SourceType.codestar;
+    }
+    throw Exception('$this is not known in enum SourceType');
+  }
+}
+
+/// An CloudFormation stack, in a specific account and Region, that's part of a
+/// stack set operation. A stack instance is a reference to an attempted or
+/// actual stack in a given account within a given Region. A stack instance can
 /// exist without a stack—for example, if the stack couldn't be created for some
 /// reason. A stack instance is associated with only one stack set. Each stack
 /// instance contains the ID of its associated stack set, as well as the ID of
 /// the actual stack and the stack status.
 class StackInstance {
-  /// The name of the AWS account that the stack instance is associated with.
+  /// The name of the Amazon Web Services account that the stack instance is
+  /// associated with.
   final String? account;
 
-  /// The name of the AWS region that the stack instance is associated with.
+  /// The name of the Amazon Web Services Region that the stack instance is
+  /// associated with.
   final String? region;
 
   /// The status of the stack instance, in terms of its synchronization with its
@@ -10427,6 +11120,7 @@ class StackInstance {
     this.region,
     this.stackInstanceStatus,
   });
+
   factory StackInstance.fromJson(Map<String, dynamic> json) {
     return StackInstance(
       account: json['Account'] as String?,
@@ -10549,6 +11243,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -10577,7 +11272,8 @@ class TagOptionDetail {
   /// The TagOption key.
   final String? key;
 
-  /// The AWS account Id of the owner account that created the TagOption.
+  /// The Amazon Web Services account Id of the owner account that created the
+  /// TagOption.
   final String? owner;
 
   /// The TagOption value.
@@ -10590,6 +11286,7 @@ class TagOptionDetail {
     this.owner,
     this.value,
   });
+
   factory TagOptionDetail.fromJson(Map<String, dynamic> json) {
     return TagOptionDetail(
       active: json['Active'] as bool?,
@@ -10613,6 +11310,7 @@ class TagOptionSummary {
     this.key,
     this.values,
   });
+
   factory TagOptionSummary.fromJson(Map<String, dynamic> json) {
     return TagOptionSummary(
       key: json['Key'] as String?,
@@ -10631,6 +11329,7 @@ class TerminateProvisionedProductOutput {
   TerminateProvisionedProductOutput({
     this.recordDetail,
   });
+
   factory TerminateProvisionedProductOutput.fromJson(
       Map<String, dynamic> json) {
     return TerminateProvisionedProductOutput(
@@ -10638,6 +11337,29 @@ class TerminateProvisionedProductOutput {
           ? RecordDetail.fromJson(json['RecordDetail'] as Map<String, dynamic>)
           : null,
     );
+  }
+}
+
+/// The unique key-value pair for a tag that identifies provisioned product
+/// resources.
+class UniqueTagResourceIdentifier {
+  /// A unique key that's attached to a resource.
+  final String? key;
+
+  /// A unique value that's attached to a resource.
+  final String? value;
+
+  UniqueTagResourceIdentifier({
+    this.key,
+    this.value,
+  });
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
   }
 }
 
@@ -10656,6 +11378,7 @@ class UpdateConstraintOutput {
     this.constraintParameters,
     this.status,
   });
+
   factory UpdateConstraintOutput.fromJson(Map<String, dynamic> json) {
     return UpdateConstraintOutput(
       constraintDetail: json['ConstraintDetail'] != null
@@ -10679,6 +11402,7 @@ class UpdatePortfolioOutput {
     this.portfolioDetail,
     this.tags,
   });
+
   factory UpdatePortfolioOutput.fromJson(Map<String, dynamic> json) {
     return UpdatePortfolioOutput(
       portfolioDetail: json['PortfolioDetail'] != null
@@ -10707,6 +11431,7 @@ class UpdatePortfolioShareOutput {
     this.portfolioShareToken,
     this.status,
   });
+
   factory UpdatePortfolioShareOutput.fromJson(Map<String, dynamic> json) {
     return UpdatePortfolioShareOutput(
       portfolioShareToken: json['PortfolioShareToken'] as String?,
@@ -10726,6 +11451,7 @@ class UpdateProductOutput {
     this.productViewDetail,
     this.tags,
   });
+
   factory UpdateProductOutput.fromJson(Map<String, dynamic> json) {
     return UpdateProductOutput(
       productViewDetail: json['ProductViewDetail'] != null
@@ -10747,6 +11473,7 @@ class UpdateProvisionedProductOutput {
   UpdateProvisionedProductOutput({
     this.recordDetail,
   });
+
   factory UpdateProvisionedProductOutput.fromJson(Map<String, dynamic> json) {
     return UpdateProvisionedProductOutput(
       recordDetail: json['RecordDetail'] != null
@@ -10775,6 +11502,7 @@ class UpdateProvisionedProductPropertiesOutput {
     this.recordId,
     this.status,
   });
+
   factory UpdateProvisionedProductPropertiesOutput.fromJson(
       Map<String, dynamic> json) {
     return UpdateProvisionedProductPropertiesOutput(
@@ -10789,7 +11517,8 @@ class UpdateProvisionedProductPropertiesOutput {
 }
 
 class UpdateProvisioningArtifactOutput {
-  /// The URL of the CloudFormation template in Amazon S3.
+  /// The URL of the CloudFormation template in Amazon S3 or GitHub in JSON
+  /// format.
   final Map<String, String>? info;
 
   /// Information about the provisioning artifact.
@@ -10803,6 +11532,7 @@ class UpdateProvisioningArtifactOutput {
     this.provisioningArtifactDetail,
     this.status,
   });
+
   factory UpdateProvisioningArtifactOutput.fromJson(Map<String, dynamic> json) {
     return UpdateProvisioningArtifactOutput(
       info: (json['Info'] as Map<String, dynamic>?)
@@ -10833,6 +11563,7 @@ class UpdateProvisioningParameter {
     this.usePreviousValue,
     this.value,
   });
+
   factory UpdateProvisioningParameter.fromJson(Map<String, dynamic> json) {
     return UpdateProvisioningParameter(
       key: json['Key'] as String?,
@@ -10857,23 +11588,24 @@ class UpdateProvisioningParameter {
 /// provisioned product. Not all preferences are applicable to all provisioned
 /// product types.
 class UpdateProvisioningPreferences {
-  /// One or more AWS accounts that will have access to the provisioned product.
+  /// One or more Amazon Web Services accounts that will have access to the
+  /// provisioned product.
   ///
   /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
   ///
-  /// The AWS accounts specified should be within the list of accounts in the
-  /// <code>STACKSET</code> constraint. To get the list of accounts in the
-  /// <code>STACKSET</code> constraint, use the
+  /// The Amazon Web Services accounts specified should be within the list of
+  /// accounts in the <code>STACKSET</code> constraint. To get the list of
+  /// accounts in the <code>STACKSET</code> constraint, use the
   /// <code>DescribeProvisioningParameters</code> operation.
   ///
   /// If no values are specified, the default value is all accounts from the
   /// <code>STACKSET</code> constraint.
   final List<String>? stackSetAccounts;
 
-  /// The number of accounts, per region, for which this operation can fail before
-  /// AWS Service Catalog stops the operation in that region. If the operation is
-  /// stopped in a region, AWS Service Catalog doesn't attempt the operation in
-  /// any subsequent regions.
+  /// The number of accounts, per Region, for which this operation can fail before
+  /// Service Catalog stops the operation in that Region. If the operation is
+  /// stopped in a Region, Service Catalog doesn't attempt the operation in any
+  /// subsequent Regions.
   ///
   /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
   ///
@@ -10884,13 +11616,13 @@ class UpdateProvisioningPreferences {
   /// The default value is <code>0</code> if no value is specified.
   final int? stackSetFailureToleranceCount;
 
-  /// The percentage of accounts, per region, for which this stack operation can
-  /// fail before AWS Service Catalog stops the operation in that region. If the
-  /// operation is stopped in a region, AWS Service Catalog doesn't attempt the
-  /// operation in any subsequent regions.
+  /// The percentage of accounts, per Region, for which this stack operation can
+  /// fail before Service Catalog stops the operation in that Region. If the
+  /// operation is stopped in a Region, Service Catalog doesn't attempt the
+  /// operation in any subsequent Regions.
   ///
   /// When calculating the number of accounts based on the specified percentage,
-  /// AWS Service Catalog rounds down to the next whole number.
+  /// Service Catalog rounds down to the next whole number.
   ///
   /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
   ///
@@ -10919,9 +11651,9 @@ class UpdateProvisioningPreferences {
   /// time.
   ///
   /// When calculating the number of accounts based on the specified percentage,
-  /// AWS Service Catalog rounds down to the next whole number. This is true
-  /// except in cases where rounding down would result is zero. In this case, AWS
-  /// Service Catalog sets the number as <code>1</code> instead.
+  /// Service Catalog rounds down to the next whole number. This is true except in
+  /// cases where rounding down would result is zero. In this case, Service
+  /// Catalog sets the number as <code>1</code> instead.
   ///
   /// Note that this setting lets you specify the maximum for operations. For
   /// large deployments, under certain circumstances the actual number of accounts
@@ -10933,15 +11665,15 @@ class UpdateProvisioningPreferences {
   /// or <code>StackSetMaxConcurrentPercentage</code>, but not both.
   final int? stackSetMaxConcurrencyPercentage;
 
-  /// Determines what action AWS Service Catalog performs to a stack set or a
-  /// stack instance represented by the provisioned product. The default value is
+  /// Determines what action Service Catalog performs to a stack set or a stack
+  /// instance represented by the provisioned product. The default value is
   /// <code>UPDATE</code> if nothing is specified.
   ///
   /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
   /// <dl> <dt>CREATE</dt> <dd>
   /// Creates a new stack instance in the stack set represented by the provisioned
   /// product. In this case, only new stack instances are created based on
-  /// accounts and regions; if new ProductId or ProvisioningArtifactID are passed,
+  /// accounts and Regions; if new ProductId or ProvisioningArtifactID are passed,
   /// they will be ignored.
   /// </dd> <dt>UPDATE</dt> <dd>
   /// Updates the stack set represented by the provisioned product and also its
@@ -10952,16 +11684,17 @@ class UpdateProvisioningPreferences {
   /// </dd> </dl>
   final StackSetOperationType? stackSetOperationType;
 
-  /// One or more AWS Regions where the provisioned product will be available.
+  /// One or more Amazon Web Services Regions where the provisioned product will
+  /// be available.
   ///
   /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
   ///
-  /// The specified regions should be within the list of regions from the
-  /// <code>STACKSET</code> constraint. To get the list of regions in the
+  /// The specified Regions should be within the list of Regions from the
+  /// <code>STACKSET</code> constraint. To get the list of Regions in the
   /// <code>STACKSET</code> constraint, use the
   /// <code>DescribeProvisioningParameters</code> operation.
   ///
-  /// If no values are specified, the default value is all regions from the
+  /// If no values are specified, the default value is all Regions from the
   /// <code>STACKSET</code> constraint.
   final List<String>? stackSetRegions;
 
@@ -11009,6 +11742,7 @@ class UpdateServiceActionOutput {
   UpdateServiceActionOutput({
     this.serviceActionDetail,
   });
+
   factory UpdateServiceActionOutput.fromJson(Map<String, dynamic> json) {
     return UpdateServiceActionOutput(
       serviceActionDetail: json['ServiceActionDetail'] != null
@@ -11026,6 +11760,7 @@ class UpdateTagOptionOutput {
   UpdateTagOptionOutput({
     this.tagOptionDetail,
   });
+
   factory UpdateTagOptionOutput.fromJson(Map<String, dynamic> json) {
     return UpdateTagOptionOutput(
       tagOptionDetail: json['TagOptionDetail'] != null
@@ -11048,6 +11783,7 @@ class UsageInstruction {
     this.type,
     this.value,
   });
+
   factory UsageInstruction.fromJson(Map<String, dynamic> json) {
     return UsageInstruction(
       type: json['Type'] as String?,

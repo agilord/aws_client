@@ -840,6 +840,7 @@ class Backup {
     this.sourceRegion,
     this.tagList,
   });
+
   factory Backup.fromJson(Map<String, dynamic> json) {
     return Backup(
       backupId: json['BackupId'] as String,
@@ -896,6 +897,7 @@ class BackupRetentionPolicy {
     this.type,
     this.value,
   });
+
   factory BackupRetentionPolicy.fromJson(Map<String, dynamic> json) {
     return BackupRetentionPolicy(
       type: (json['Type'] as String?)?.toBackupRetentionType(),
@@ -1000,6 +1002,7 @@ class Certificates {
     this.hsmCertificate,
     this.manufacturerHardwareCertificate,
   });
+
   factory Certificates.fromJson(Map<String, dynamic> json) {
     return Certificates(
       awsHardwareCertificate: json['AwsHardwareCertificate'] as String?,
@@ -1079,6 +1082,7 @@ class Cluster {
     this.tagList,
     this.vpcId,
   });
+
   factory Cluster.fromJson(Map<String, dynamic> json) {
     return Cluster(
       backupPolicy: (json['BackupPolicy'] as String?)?.toBackupPolicy(),
@@ -1189,6 +1193,7 @@ class CopyBackupToRegionResponse {
   CopyBackupToRegionResponse({
     this.destinationBackup,
   });
+
   factory CopyBackupToRegionResponse.fromJson(Map<String, dynamic> json) {
     return CopyBackupToRegionResponse(
       destinationBackup: json['DestinationBackup'] != null
@@ -1206,6 +1211,7 @@ class CreateClusterResponse {
   CreateClusterResponse({
     this.cluster,
   });
+
   factory CreateClusterResponse.fromJson(Map<String, dynamic> json) {
     return CreateClusterResponse(
       cluster: json['Cluster'] != null
@@ -1222,6 +1228,7 @@ class CreateHsmResponse {
   CreateHsmResponse({
     this.hsm,
   });
+
   factory CreateHsmResponse.fromJson(Map<String, dynamic> json) {
     return CreateHsmResponse(
       hsm: json['Hsm'] != null
@@ -1238,6 +1245,7 @@ class DeleteBackupResponse {
   DeleteBackupResponse({
     this.backup,
   });
+
   factory DeleteBackupResponse.fromJson(Map<String, dynamic> json) {
     return DeleteBackupResponse(
       backup: json['Backup'] != null
@@ -1254,6 +1262,7 @@ class DeleteClusterResponse {
   DeleteClusterResponse({
     this.cluster,
   });
+
   factory DeleteClusterResponse.fromJson(Map<String, dynamic> json) {
     return DeleteClusterResponse(
       cluster: json['Cluster'] != null
@@ -1270,6 +1279,7 @@ class DeleteHsmResponse {
   DeleteHsmResponse({
     this.hsmId,
   });
+
   factory DeleteHsmResponse.fromJson(Map<String, dynamic> json) {
     return DeleteHsmResponse(
       hsmId: json['HsmId'] as String?,
@@ -1290,6 +1300,7 @@ class DescribeBackupsResponse {
     this.backups,
     this.nextToken,
   });
+
   factory DescribeBackupsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeBackupsResponse(
       backups: (json['Backups'] as List?)
@@ -1314,6 +1325,7 @@ class DescribeClustersResponse {
     this.clusters,
     this.nextToken,
   });
+
   factory DescribeClustersResponse.fromJson(Map<String, dynamic> json) {
     return DescribeClustersResponse(
       clusters: (json['Clusters'] as List?)
@@ -1349,6 +1361,7 @@ class DestinationBackup {
     this.sourceCluster,
     this.sourceRegion,
   });
+
   factory DestinationBackup.fromJson(Map<String, dynamic> json) {
     return DestinationBackup(
       createTimestamp: timeStampFromJson(json['CreateTimestamp']),
@@ -1396,6 +1409,7 @@ class Hsm {
     this.stateMessage,
     this.subnetId,
   });
+
   factory Hsm.fromJson(Map<String, dynamic> json) {
     return Hsm(
       hsmId: json['HsmId'] as String,
@@ -1464,6 +1478,7 @@ class InitializeClusterResponse {
     this.state,
     this.stateMessage,
   });
+
   factory InitializeClusterResponse.fromJson(Map<String, dynamic> json) {
     return InitializeClusterResponse(
       state: (json['State'] as String?)?.toClusterState(),
@@ -1485,6 +1500,7 @@ class ListTagsResponse {
     required this.tagList,
     this.nextToken,
   });
+
   factory ListTagsResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsResponse(
       tagList: (json['TagList'] as List)
@@ -1502,6 +1518,7 @@ class ModifyBackupAttributesResponse {
   ModifyBackupAttributesResponse({
     this.backup,
   });
+
   factory ModifyBackupAttributesResponse.fromJson(Map<String, dynamic> json) {
     return ModifyBackupAttributesResponse(
       backup: json['Backup'] != null
@@ -1517,6 +1534,7 @@ class ModifyClusterResponse {
   ModifyClusterResponse({
     this.cluster,
   });
+
   factory ModifyClusterResponse.fromJson(Map<String, dynamic> json) {
     return ModifyClusterResponse(
       cluster: json['Cluster'] != null
@@ -1533,6 +1551,7 @@ class RestoreBackupResponse {
   RestoreBackupResponse({
     this.backup,
   });
+
   factory RestoreBackupResponse.fromJson(Map<String, dynamic> json) {
     return RestoreBackupResponse(
       backup: json['Backup'] != null
@@ -1554,6 +1573,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -1573,6 +1593,7 @@ class Tag {
 
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
@@ -1580,6 +1601,7 @@ class TagResourceResponse {
 
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
   }

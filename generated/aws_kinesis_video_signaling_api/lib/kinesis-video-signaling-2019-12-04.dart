@@ -160,6 +160,7 @@ class GetIceServerConfigResponse {
   GetIceServerConfigResponse({
     this.iceServerList,
   });
+
   factory GetIceServerConfigResponse.fromJson(Map<String, dynamic> json) {
     return GetIceServerConfigResponse(
       iceServerList: (json['IceServerList'] as List?)
@@ -194,6 +195,7 @@ class IceServer {
     this.uris,
     this.username,
   });
+
   factory IceServer.fromJson(Map<String, dynamic> json) {
     return IceServer(
       password: json['Password'] as String?,
@@ -214,6 +216,7 @@ class SendAlexaOfferToMasterResponse {
   SendAlexaOfferToMasterResponse({
     this.answer,
   });
+
   factory SendAlexaOfferToMasterResponse.fromJson(Map<String, dynamic> json) {
     return SendAlexaOfferToMasterResponse(
       answer: json['Answer'] as String?,

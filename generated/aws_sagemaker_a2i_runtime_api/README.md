@@ -3,10 +3,6 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-<important>
-Amazon Augmented AI is in preview release and is subject to change. We do
-not recommend using this product in production environments.
-</important>
 Amazon Augmented AI (Amazon A2I) adds the benefit of human judgment to any
 machine learning application. When an AI application can't evaluate data
 with a high degree of confidence, human reviewers can take over. This human

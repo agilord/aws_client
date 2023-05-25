@@ -3,15 +3,15 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-Provides APIs for creating and managing Amazon SageMaker resources.
+Provides APIs for creating and managing SageMaker resources.
 
 Other Resources:
 
 <ul>
 <li>
 <a
-href="https://docs.aws.amazon.com/sagemaker/latest/dg/whatis.html#first-time-user">Amazon
-SageMaker Developer Guide</a>
+href="https://docs.aws.amazon.com/sagemaker/latest/dg/whatis.html#first-time-user">SageMaker
+Developer Guide</a>
 </li>
 <li>
 <a

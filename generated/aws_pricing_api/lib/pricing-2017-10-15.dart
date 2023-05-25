@@ -18,19 +18,19 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// AWS Price List Service API (AWS Price List Service) is a centralized and
-/// convenient way to programmatically query Amazon Web Services for services,
-/// products, and pricing information. The AWS Price List Service uses
-/// standardized product attributes such as <code>Location</code>, <code>Storage
+/// Amazon Web Services Price List API is a centralized and convenient way to
+/// programmatically query Amazon Web Services for services, products, and
+/// pricing information. The Amazon Web Services Price List uses standardized
+/// product attributes such as <code>Location</code>, <code>Storage
 /// Class</code>, and <code>Operating System</code>, and provides prices at the
-/// SKU level. You can use the AWS Price List Service to build cost control and
-/// scenario planning tools, reconcile billing data, forecast future spend for
-/// budgeting purposes, and provide cost benefit analysis that compare your
-/// internal workloads with AWS.
+/// SKU level. You can use the Amazon Web Services Price List to build cost
+/// control and scenario planning tools, reconcile billing data, forecast future
+/// spend for budgeting purposes, and provide cost benefit analysis that compare
+/// your internal workloads with Amazon Web Services.
 ///
 /// Use <code>GetServices</code> without a service code to retrieve the service
 /// codes for all AWS services, then <code>GetServices</code> with a service
-/// code to retreive the attribute names for that service. After you have the
+/// code to retrieve the attribute names for that service. After you have the
 /// service code and attribute names, you can use
 /// <code>GetAttributeValues</code> to see what values are available for an
 /// attribute. With the service code and an attribute name and value, you can
@@ -40,7 +40,8 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 ///
 /// Service Endpoint
 ///
-/// AWS Price List Service API provides the following two endpoints:
+/// Amazon Web Services Price List service API provides the following two
+/// endpoints:
 ///
 /// <ul>
 /// <li>
@@ -144,12 +145,12 @@ class Pricing {
     return DescribeServicesResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns a list of attribute values. Attibutes are similar to the details
+  /// Returns a list of attribute values. Attributes are similar to the details
   /// in a Price List API offer file. For a list of available attributes, see <a
-  /// href="http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/reading-an-offer.html#pps-defs">Offer
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/reading-an-offer.html#pps-defs">Offer
   /// File Definitions</a> in the <a
-  /// href="http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-what-is.html">AWS
-  /// Billing and Cost Management User Guide</a>.
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-what-is.html">Billing
+  /// and Cost Management User Guide</a>.
   ///
   /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
@@ -205,6 +206,57 @@ class Pricing {
     return GetAttributeValuesResponse.fromJson(jsonResponse.body);
   }
 
+  /// <i> <b>This feature is in preview release and is subject to change. Your
+  /// use of Amazon Web Services Price List API is subject to the Beta Service
+  /// Participation terms of the <a
+  /// href="https://aws.amazon.com/service-terms/">Amazon Web Services Service
+  /// Terms</a> (Section 1.10).</b> </i>
+  ///
+  /// This returns the URL that you can retrieve your Price List file from. This
+  /// URL is based on the <code>PriceListArn</code> and <code>FileFormat</code>
+  /// that you retrieve from the <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_ListPriceLists.html">
+  /// <code>ListPriceLists</code> </a> response.
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [fileFormat] :
+  /// The format that you want to retrieve your Price List files in. The
+  /// <code>FileFormat</code> can be obtained from the <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_ListPriceLists.html">
+  /// <code>ListPriceLists</code> </a> response.
+  ///
+  /// Parameter [priceListArn] :
+  /// The unique identifier that maps to where your Price List files are
+  /// located. <code>PriceListArn</code> can be obtained from the <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_ListPriceLists.html">
+  /// <code>ListPriceLists</code> </a> response.
+  Future<GetPriceListFileUrlResponse> getPriceListFileUrl({
+    required String fileFormat,
+    required String priceListArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSPriceListService.GetPriceListFileUrl'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'FileFormat': fileFormat,
+        'PriceListArn': priceListArn,
+      },
+    );
+
+    return GetPriceListFileUrlResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns a list of all products that match the filter criteria.
   ///
   /// May throw [InternalErrorException].
@@ -212,6 +264,9 @@ class Pricing {
   /// May throw [NotFoundException].
   /// May throw [InvalidNextTokenException].
   /// May throw [ExpiredNextTokenException].
+  ///
+  /// Parameter [serviceCode] :
+  /// The code for the service whose products you want to retrieve.
   ///
   /// Parameter [filters] :
   /// The list of filters that limit the returned products. only products that
@@ -228,15 +283,12 @@ class Pricing {
   /// Parameter [nextToken] :
   /// The pagination token that indicates the next set of results that you want
   /// to retrieve.
-  ///
-  /// Parameter [serviceCode] :
-  /// The code for the service whose products you want to retrieve.
   Future<GetProductsResponse> getProducts({
+    required String serviceCode,
     List<Filter>? filters,
     String? formatVersion,
     int? maxResults,
     String? nextToken,
-    String? serviceCode,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -255,15 +307,110 @@ class Pricing {
       // TODO queryParams
       headers: headers,
       payload: {
+        'ServiceCode': serviceCode,
         if (filters != null) 'Filters': filters,
         if (formatVersion != null) 'FormatVersion': formatVersion,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (serviceCode != null) 'ServiceCode': serviceCode,
       },
     );
 
     return GetProductsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// <i> <b>This feature is in preview release and is subject to change. Your
+  /// use of Amazon Web Services Price List API is subject to the Beta Service
+  /// Participation terms of the <a
+  /// href="https://aws.amazon.com/service-terms/">Amazon Web Services Service
+  /// Terms</a> (Section 1.10).</b> </i>
+  ///
+  /// This returns a list of Price List references that the requester if
+  /// authorized to view, given a <code>ServiceCode</code>,
+  /// <code>CurrencyCode</code>, and an <code>EffectiveDate</code>. Use without
+  /// a <code>RegionCode</code> filter to list Price List references from all
+  /// available Amazon Web Services Regions. Use with a <code>RegionCode</code>
+  /// filter to get the Price List reference that's specific to a specific
+  /// Amazon Web Services Region. You can use the <code>PriceListArn</code> from
+  /// the response to get your preferred Price List files through the <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_GetPriceListFileUrl.html">
+  /// <code>GetPriceListFileUrl</code> </a> API.
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotFoundException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [ExpiredNextTokenException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [currencyCode] :
+  /// The three alphabetical character ISO-4217 currency code that the Price
+  /// List files are denominated in.
+  ///
+  /// Parameter [effectiveDate] :
+  /// The date that the Price List file prices are effective from.
+  ///
+  /// Parameter [serviceCode] :
+  /// The service code or the Savings Plan service code for the attributes that
+  /// you want to retrieve. For example, to get the list of applicable Amazon
+  /// EC2 price lists, use <code>AmazonEC2</code>. For a full list of service
+  /// codes containing On-Demand and Reserved Instance (RI) pricing, use the <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_DescribeServices.html#awscostmanagement-pricing_DescribeServices-request-FormatVersion">
+  /// <code>DescribeServices</code> </a> API.
+  ///
+  /// To retrieve the Compute Savings Plan price lists, use
+  /// <code>ComputeSavingsPlans</code>. To retrieve Machine Learning Savings
+  /// Plans price lists, use <code>MachineLearningSavingsPlans</code>.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token that indicates the next set of results that you want
+  /// to retrieve.
+  ///
+  /// Parameter [regionCode] :
+  /// This is used to filter the Price List by Amazon Web Services Region. For
+  /// example, to get the price list only for the <code>US East (N.
+  /// Virginia)</code> Region, use <code>us-east-1</code>. If nothing is
+  /// specified, you retrieve price lists for all applicable Regions. The
+  /// available <code>RegionCode</code> list can be retrieved from <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_GetAttributeValues.html">
+  /// <code>GetAttributeValues</code> </a> API.
+  Future<ListPriceListsResponse> listPriceLists({
+    required String currencyCode,
+    required DateTime effectiveDate,
+    required String serviceCode,
+    int? maxResults,
+    String? nextToken,
+    String? regionCode,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSPriceListService.ListPriceLists'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CurrencyCode': currencyCode,
+        'EffectiveDate': unixTimestampToJson(effectiveDate),
+        'ServiceCode': serviceCode,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (regionCode != null) 'RegionCode': regionCode,
+      },
+    );
+
+    return ListPriceListsResponse.fromJson(jsonResponse.body);
   }
 }
 
@@ -277,6 +424,7 @@ class AttributeValue {
   AttributeValue({
     this.value,
   });
+
   factory AttributeValue.fromJson(Map<String, dynamic> json) {
     return AttributeValue(
       value: json['Value'] as String?,
@@ -288,7 +436,7 @@ class DescribeServicesResponse {
   /// The format version of the response. For example, <code>aws_v1</code>.
   final String? formatVersion;
 
-  /// The pagination token for the next set of retreivable results.
+  /// The pagination token for the next set of retrievable results.
   final String? nextToken;
 
   /// The service metadata for the service or services in the response.
@@ -299,6 +447,7 @@ class DescribeServicesResponse {
     this.nextToken,
     this.services,
   });
+
   factory DescribeServicesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeServicesResponse(
       formatVersion: json['FormatVersion'] as String?,
@@ -307,20 +456,6 @@ class DescribeServicesResponse {
           ?.whereNotNull()
           .map((e) => Service.fromJson(e as Map<String, dynamic>))
           .toList(),
-    );
-  }
-}
-
-/// The pagination token expired. Try again without a pagination token.
-class ExpiredNextTokenException implements _s.AwsException {
-  final String? message;
-
-  ExpiredNextTokenException({
-    this.message,
-  });
-  factory ExpiredNextTokenException.fromJson(Map<String, dynamic> json) {
-    return ExpiredNextTokenException(
-      message: json['Message'] as String?,
     );
   }
 }
@@ -346,9 +481,9 @@ class Filter {
   /// only products that match both the given filter field and the given value.
   final FilterType type;
 
-  /// The service code or attribute value that you want to filter by. If you are
+  /// The service code or attribute value that you want to filter by. If you're
   /// filtering by service code this is the actual service code, such as
-  /// <code>AmazonEC2</code>. If you are filtering by attribute name, this is the
+  /// <code>AmazonEC2</code>. If you're filtering by attribute name, this is the
   /// attribute value that you want the returned products to match, such as a
   /// <code>Provisioned IOPS</code> volume.
   final String value;
@@ -406,6 +541,7 @@ class GetAttributeValuesResponse {
     this.attributeValues,
     this.nextToken,
   });
+
   factory GetAttributeValuesResponse.fromJson(Map<String, dynamic> json) {
     return GetAttributeValuesResponse(
       attributeValues: (json['AttributeValues'] as List?)
@@ -413,6 +549,21 @@ class GetAttributeValuesResponse {
           .map((e) => AttributeValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
+class GetPriceListFileUrlResponse {
+  /// The URL to download your Price List file from.
+  final String? url;
+
+  GetPriceListFileUrlResponse({
+    this.url,
+  });
+
+  factory GetPriceListFileUrlResponse.fromJson(Map<String, dynamic> json) {
+    return GetPriceListFileUrlResponse(
+      url: json['Url'] as String?,
     );
   }
 }
@@ -433,6 +584,7 @@ class GetProductsResponse {
     this.nextToken,
     this.priceList,
   });
+
   factory GetProductsResponse.fromJson(Map<String, dynamic> json) {
     return GetProductsResponse(
       formatVersion: json['FormatVersion'] as String?,
@@ -447,59 +599,78 @@ class GetProductsResponse {
   }
 }
 
-/// An error on the server occurred during the processing of your request. Try
-/// again later.
-class InternalErrorException implements _s.AwsException {
-  final String? message;
+class ListPriceListsResponse {
+  /// The pagination token that indicates the next set of results to retrieve.
+  final String? nextToken;
 
-  InternalErrorException({
-    this.message,
+  /// The type of price list references that match your request.
+  final List<PriceList>? priceLists;
+
+  ListPriceListsResponse({
+    this.nextToken,
+    this.priceLists,
   });
-  factory InternalErrorException.fromJson(Map<String, dynamic> json) {
-    return InternalErrorException(
-      message: json['Message'] as String?,
+
+  factory ListPriceListsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPriceListsResponse(
+      nextToken: json['NextToken'] as String?,
+      priceLists: (json['PriceLists'] as List?)
+          ?.whereNotNull()
+          .map((e) => PriceList.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }
 
-/// The pagination token is invalid. Try again without a pagination token.
-class InvalidNextTokenException implements _s.AwsException {
-  final String? message;
+/// <i> <b>This feature is in preview release and is subject to change. Your use
+/// of Amazon Web Services Price List API is subject to the Beta Service
+/// Participation terms of the <a
+/// href="https://aws.amazon.com/service-terms/">Amazon Web Services Service
+/// Terms</a> (Section 1.10).</b> </i>
+///
+/// This is the type of price list references that match your request.
+class PriceList {
+  /// The three alphabetical character ISO-4217 currency code the Price List files
+  /// are denominated in.
+  final String? currencyCode;
 
-  InvalidNextTokenException({
-    this.message,
+  /// The format you want to retrieve your Price List files. The
+  /// <code>FileFormat</code> can be obtained from the <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_ListPriceLists.html">
+  /// <code>ListPriceList</code> </a> response.
+  final List<String>? fileFormats;
+
+  /// The unique identifier that maps to where your Price List files are located.
+  /// <code>PriceListArn</code> can be obtained from the <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_ListPriceLists.html">
+  /// <code>ListPriceList</code> </a> response.
+  final String? priceListArn;
+
+  /// This is used to filter the Price List by Amazon Web Services Region. For
+  /// example, to get the price list only for the <code>US East (N.
+  /// Virginia)</code> Region, use <code>us-east-1</code>. If nothing is
+  /// specified, you retrieve price lists for all applicable Regions. The
+  /// available <code>RegionCode</code> list can be retrieved from <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_GetAttributeValues.html">
+  /// <code>GetAttributeValues</code> </a> API.
+  final String? regionCode;
+
+  PriceList({
+    this.currencyCode,
+    this.fileFormats,
+    this.priceListArn,
+    this.regionCode,
   });
-  factory InvalidNextTokenException.fromJson(Map<String, dynamic> json) {
-    return InvalidNextTokenException(
-      message: json['Message'] as String?,
-    );
-  }
-}
 
-/// One or more parameters had an invalid value.
-class InvalidParameterException implements _s.AwsException {
-  final String? message;
-
-  InvalidParameterException({
-    this.message,
-  });
-  factory InvalidParameterException.fromJson(Map<String, dynamic> json) {
-    return InvalidParameterException(
-      message: json['Message'] as String?,
-    );
-  }
-}
-
-/// The requested resource can't be found.
-class NotFoundException implements _s.AwsException {
-  final String? message;
-
-  NotFoundException({
-    this.message,
-  });
-  factory NotFoundException.fromJson(Map<String, dynamic> json) {
-    return NotFoundException(
-      message: json['Message'] as String?,
+  factory PriceList.fromJson(Map<String, dynamic> json) {
+    return PriceList(
+      currencyCode: json['CurrencyCode'] as String?,
+      fileFormats: (json['FileFormats'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      priceListArn: json['PriceListArn'] as String?,
+      regionCode: json['RegionCode'] as String?,
     );
   }
 }
@@ -507,35 +678,69 @@ class NotFoundException implements _s.AwsException {
 /// The metadata for a service, such as the service code and available attribute
 /// names.
 class Service {
+  /// The code for the Amazon Web Services service.
+  final String serviceCode;
+
   /// The attributes that are available for this service.
   final List<String>? attributeNames;
 
-  /// The code for the AWS service.
-  final String? serviceCode;
-
   Service({
+    required this.serviceCode,
     this.attributeNames,
-    this.serviceCode,
   });
+
   factory Service.fromJson(Map<String, dynamic> json) {
     return Service(
+      serviceCode: json['ServiceCode'] as String,
       attributeNames: (json['AttributeNames'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      serviceCode: json['ServiceCode'] as String?,
     );
   }
 }
 
+class AccessDeniedException extends _s.GenericAwsException {
+  AccessDeniedException({String? type, String? message})
+      : super(type: type, code: 'AccessDeniedException', message: message);
+}
+
+class ExpiredNextTokenException extends _s.GenericAwsException {
+  ExpiredNextTokenException({String? type, String? message})
+      : super(type: type, code: 'ExpiredNextTokenException', message: message);
+}
+
+class InternalErrorException extends _s.GenericAwsException {
+  InternalErrorException({String? type, String? message})
+      : super(type: type, code: 'InternalErrorException', message: message);
+}
+
+class InvalidNextTokenException extends _s.GenericAwsException {
+  InvalidNextTokenException({String? type, String? message})
+      : super(type: type, code: 'InvalidNextTokenException', message: message);
+}
+
+class InvalidParameterException extends _s.GenericAwsException {
+  InvalidParameterException({String? type, String? message})
+      : super(type: type, code: 'InvalidParameterException', message: message);
+}
+
+class NotFoundException extends _s.GenericAwsException {
+  NotFoundException({String? type, String? message})
+      : super(type: type, code: 'NotFoundException', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'AccessDeniedException': (type, message) =>
+      AccessDeniedException(type: type, message: message),
   'ExpiredNextTokenException': (type, message) =>
-      ExpiredNextTokenException(message: message),
+      ExpiredNextTokenException(type: type, message: message),
   'InternalErrorException': (type, message) =>
-      InternalErrorException(message: message),
+      InternalErrorException(type: type, message: message),
   'InvalidNextTokenException': (type, message) =>
-      InvalidNextTokenException(message: message),
+      InvalidNextTokenException(type: type, message: message),
   'InvalidParameterException': (type, message) =>
-      InvalidParameterException(message: message),
-  'NotFoundException': (type, message) => NotFoundException(message: message),
+      InvalidParameterException(type: type, message: message),
+  'NotFoundException': (type, message) =>
+      NotFoundException(type: type, message: message),
 };

@@ -18,6 +18,86 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
+/// Organizations is a web service that enables you to consolidate your multiple
+/// Amazon Web Services accounts into an <i>organization</i> and centrally
+/// manage your accounts and their resources.
+///
+/// This guide provides descriptions of the Organizations operations. For more
+/// information about using this service, see the <a
+/// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html">Organizations
+/// User Guide</a>.
+///
+/// <b>Support and feedback for Organizations</b>
+///
+/// We welcome your feedback. Send your comments to <a
+/// href="mailto:feedback-awsorganizations@amazon.com">feedback-awsorganizations@amazon.com</a>
+/// or post your feedback and questions in the <a
+/// href="http://forums.aws.amazon.com/forum.jspa?forumID=219">Organizations
+/// support forum</a>. For more information about the Amazon Web Services
+/// support forums, see <a href="http://forums.aws.amazon.com/help.jspa">Forums
+/// Help</a>.
+///
+/// <b>Endpoint to call When using the CLI or the Amazon Web Services SDK</b>
+///
+/// For the current release of Organizations, specify the <code>us-east-1</code>
+/// region for all Amazon Web Services API and CLI calls made from the
+/// commercial Amazon Web Services Regions outside of China. If calling from one
+/// of the Amazon Web Services Regions in China, then specify
+/// <code>cn-northwest-1</code>. You can do this in the CLI by using these
+/// parameters and commands:
+///
+/// <ul>
+/// <li>
+/// Use the following parameter with each command to specify both the endpoint
+/// and its region:
+///
+/// <code>--endpoint-url https://organizations.us-east-1.amazonaws.com</code>
+/// <i>(from commercial Amazon Web Services Regions outside of China)</i>
+///
+/// or
+///
+/// <code>--endpoint-url
+/// https://organizations.cn-northwest-1.amazonaws.com.cn</code> <i>(from Amazon
+/// Web Services Regions in China)</i>
+/// </li>
+/// <li>
+/// Use the default endpoint, but configure your default region with this
+/// command:
+///
+/// <code>aws configure set default.region us-east-1</code> <i>(from commercial
+/// Amazon Web Services Regions outside of China)</i>
+///
+/// or
+///
+/// <code>aws configure set default.region cn-northwest-1</code> <i>(from Amazon
+/// Web Services Regions in China)</i>
+/// </li>
+/// <li>
+/// Use the following parameter with each command to specify the endpoint:
+///
+/// <code>--region us-east-1</code> <i>(from commercial Amazon Web Services
+/// Regions outside of China)</i>
+///
+/// or
+///
+/// <code>--region cn-northwest-1</code> <i>(from Amazon Web Services Regions in
+/// China)</i>
+/// </li>
+/// </ul>
+/// <b>Recording API Requests</b>
+///
+/// Organizations supports CloudTrail, a service that records Amazon Web
+/// Services API calls for your Amazon Web Services account and delivers log
+/// files to an Amazon S3 bucket. By using information collected by CloudTrail,
+/// you can determine which requests the Organizations service received, who
+/// made the request and when, and so on. For more about Organizations and its
+/// support for CloudTrail, see <a
+/// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_incident-response.html#orgs_cloudtrail-integration">Logging
+/// Organizations Events with CloudTrail</a> in the <i>Organizations User
+/// Guide</i>. To learn more about CloudTrail, including how to turn it on and
+/// find your log files, see the <a
+/// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/what_is_cloud_trail_top_level.html">CloudTrail
+/// User Guide</a>.
 class Organizations {
   final _s.JsonProtocol _protocol;
   Organizations({
@@ -49,7 +129,7 @@ class Organizations {
   /// Sends a response to the originator of a handshake agreeing to the action
   /// proposed by the handshake request.
   ///
-  /// This operation can be called only by the following principals when they
+  /// You can only call this operation by the following principals when they
   /// also have the relevant IAM permissions:
   ///
   /// <ul>
@@ -60,12 +140,11 @@ class Organizations {
   /// The user who calls the API for an invitation to join must have the
   /// <code>organizations:AcceptHandshake</code> permission. If you enabled all
   /// features in the organization, the user must also have the
-  /// <code>iam:CreateServiceLinkedRole</code> permission so that AWS
-  /// Organizations can create the required service-linked role named
+  /// <code>iam:CreateServiceLinkedRole</code> permission so that Organizations
+  /// can create the required service-linked role named
   /// <code>AWSServiceRoleForOrganizations</code>. For more information, see <a
-  /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_integration_services.html#orgs_integration_service-linked-roles">AWS
-  /// Organizations and Service-Linked Roles</a> in the <i>AWS Organizations
-  /// User Guide</i>.
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integration_services.html#orgs_integration_service-linked-roles">Organizations
+  /// and Service-Linked Roles</a> in the <i>Organizations User Guide</i>.
   /// </li>
   /// <li>
   /// <b>Enable all features final confirmation</b> handshake: only a principal
@@ -73,11 +152,11 @@ class Organizations {
   ///
   /// For more information about invitations, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_invites.html">Inviting
-  /// an AWS Account to Join Your Organization</a> in the <i>AWS Organizations
-  /// User Guide.</i> For more information about requests to enable all features
-  /// in the organization, see <a
+  /// an Amazon Web Services account to join your organization</a> in the
+  /// <i>Organizations User Guide.</i> For more information about requests to
+  /// enable all features in the organization, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">Enabling
-  /// All Features in Your Organization</a> in the <i>AWS Organizations User
+  /// all features in your organization</a> in the <i>Organizations User
   /// Guide.</i>
   /// </li>
   /// </ul>
@@ -125,8 +204,8 @@ class Organizations {
 
   /// Attaches a policy to a root, an organizational unit (OU), or an individual
   /// account. How the policy affects accounts depends on the type of policy.
-  /// Refer to the <i>AWS Organizations User Guide</i> for information about
-  /// each policy type:
+  /// Refer to the <i>Organizations User Guide</i> for information about each
+  /// policy type:
   ///
   /// <ul>
   /// <li>
@@ -265,45 +344,138 @@ class Organizations {
     return CancelHandshakeResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates an AWS account that is automatically a member of the organization
-  /// whose credentials made the request. This is an asynchronous request that
-  /// AWS performs in the background. Because <code>CreateAccount</code>
-  /// operates asynchronously, it can return a successful completion message
-  /// even though account initialization might still be in progress. You might
-  /// need to wait a few minutes before you can successfully access the account.
-  /// To check the status of the request, do one of the following:
+  /// Closes an Amazon Web Services member account within an organization. You
+  /// can close an account when <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
+  /// features are enabled </a>. You can't close the management account with
+  /// this API. This is an asynchronous request that Amazon Web Services
+  /// performs in the background. Because <code>CloseAccount</code> operates
+  /// asynchronously, it can return a successful completion message even though
+  /// account closure might still be in progress. You need to wait a few minutes
+  /// before the account is fully closed. To check the status of the request, do
+  /// one of the following:
   ///
   /// <ul>
   /// <li>
-  /// Use the <code>Id</code> member of the <code>CreateAccountStatus</code>
+  /// Use the <code>AccountId</code> that you sent in the
+  /// <code>CloseAccount</code> request to provide as a parameter to the
+  /// <a>DescribeAccount</a> operation.
+  ///
+  /// While the close account request is in progress, Account status will
+  /// indicate PENDING_CLOSURE. When the close account request completes, the
+  /// status will change to SUSPENDED.
+  /// </li>
+  /// <li>
+  /// Check the CloudTrail log for the <code>CloseAccountResult</code> event
+  /// that gets published after the account closes successfully. For information
+  /// on using CloudTrail with Organizations, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html#orgs_cloudtrail-integration">Logging
+  /// and monitoring in Organizations</a> in the <i>Organizations User
+  /// Guide.</i>
+  /// </li>
+  /// </ul> <note>
+  /// <ul>
+  /// <li>
+  /// You can close only 10% of member accounts, between 10 and 200, within a
+  /// rolling 30 day period. This quota is not bound by a calendar month, but
+  /// starts when you close an account.
+  ///
+  /// After you reach this limit, you can close additional accounts in the
+  /// Billing console. For more information, see <a
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/close-account.html">Closing
+  /// an account</a> in the Amazon Web Services Billing and Cost Management User
+  /// Guide.
+  /// </li>
+  /// <li>
+  /// To reinstate a closed account, contact Amazon Web Services Support within
+  /// the 90-day grace period while the account is in SUSPENDED status.
+  /// </li>
+  /// <li>
+  /// If the Amazon Web Services account you attempt to close is linked to an
+  /// Amazon Web Services GovCloud (US) account, the <code>CloseAccount</code>
+  /// request will close both accounts. To learn important pre-closure details,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/Closing-govcloud-account.html">
+  /// Closing an Amazon Web Services GovCloud (US) account</a> in the <i> Amazon
+  /// Web Services GovCloud User Guide</i>.
+  /// </li>
+  /// </ul> </note>
+  /// For more information about closing accounts, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_close.html">Closing
+  /// an Amazon Web Services account</a> in the <i>Organizations User Guide.</i>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [AccountAlreadyClosedException].
+  /// May throw [AccountNotFoundException].
+  /// May throw [AWSOrganizationsNotInUseException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConflictException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [InvalidInputException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedAPIEndpointException].
+  ///
+  /// Parameter [accountId] :
+  /// Retrieves the Amazon Web Services account Id for the current
+  /// <code>CloseAccount</code> API request.
+  Future<void> closeAccount({
+    required String accountId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSOrganizationsV20161128.CloseAccount'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AccountId': accountId,
+      },
+    );
+  }
+
+  /// Creates an Amazon Web Services account that is automatically a member of
+  /// the organization whose credentials made the request. This is an
+  /// asynchronous request that Amazon Web Services performs in the background.
+  /// Because <code>CreateAccount</code> operates asynchronously, it can return
+  /// a successful completion message even though account initialization might
+  /// still be in progress. You might need to wait a few minutes before you can
+  /// successfully access the account. To check the status of the request, do
+  /// one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Use the <code>Id</code> value of the <code>CreateAccountStatus</code>
   /// response element from this operation to provide as a parameter to the
   /// <a>DescribeCreateAccountStatus</a> operation.
   /// </li>
   /// <li>
-  /// Check the AWS CloudTrail log for the <code>CreateAccountResult</code>
-  /// event. For information on using AWS CloudTrail with AWS Organizations, see
-  /// <a
-  /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_monitoring.html">Monitoring
-  /// the Activity in Your Organization</a> in the <i>AWS Organizations User
+  /// Check the CloudTrail log for the <code>CreateAccountResult</code> event.
+  /// For information on using CloudTrail with Organizations, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html#orgs_cloudtrail-integration">Logging
+  /// and monitoring in Organizations</a> in the <i>Organizations User
   /// Guide.</i>
   /// </li>
   /// </ul>
   /// The user who calls the API to create an account must have the
   /// <code>organizations:CreateAccount</code> permission. If you enabled all
-  /// features in the organization, AWS Organizations creates the required
+  /// features in the organization, Organizations creates the required
   /// service-linked role named <code>AWSServiceRoleForOrganizations</code>. For
   /// more information, see <a
-  /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html#orgs_integrate_services-using_slrs">AWS
-  /// Organizations and Service-Linked Roles</a> in the <i>AWS Organizations
-  /// User Guide</i>.
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html#orgs_integrate_services-using_slrs">Organizations
+  /// and Service-Linked Roles</a> in the <i>Organizations User Guide</i>.
   ///
   /// If the request includes tags, then the requester must have the
   /// <code>organizations:TagResource</code> permission.
   ///
-  /// AWS Organizations preconfigures the new member account with a role (named
+  /// Organizations preconfigures the new member account with a role (named
   /// <code>OrganizationAccountAccessRole</code> by default) that grants users
   /// in the management account administrator permissions in the new member
-  /// account. Principals in the management account can assume the role. AWS
+  /// account. Principals in the management account can assume the role.
   /// Organizations clones the company name and address information for the new
   /// account from the organization's management account.
   ///
@@ -312,39 +484,41 @@ class Organizations {
   ///
   /// For more information about creating accounts, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html">Creating
-  /// an AWS Account in Your Organization</a> in the <i>AWS Organizations User
-  /// Guide.</i>
+  /// an Amazon Web Services account in Your Organization</a> in the
+  /// <i>Organizations User Guide.</i>
   /// <important>
   /// <ul>
   /// <li>
-  /// When you create an account in an organization using the AWS Organizations
+  /// When you create an account in an organization using the Organizations
   /// console, API, or CLI commands, the information required for the account to
   /// operate as a standalone account, such as a payment method and signing the
   /// end user license agreement (EULA) is <i>not</i> automatically collected.
   /// If you must remove an account from your organization later, you can do so
   /// only after you provide the missing information. Follow the steps at <a
-  /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">
-  /// To leave an organization as a member account</a> in the <i>AWS
-  /// Organizations User Guide</i>.
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">
+  /// To leave an organization as a member account</a> in the <i>Organizations
+  /// User Guide</i>.
   /// </li>
   /// <li>
   /// If you get an exception that indicates that you exceeded your account
   /// limits for the organization, contact <a
-  /// href="https://console.aws.amazon.com/support/home#/">AWS Support</a>.
+  /// href="https://console.aws.amazon.com/support/home#/">Amazon Web Services
+  /// Support</a>.
   /// </li>
   /// <li>
   /// If you get an exception that indicates that the operation failed because
   /// your organization is still initializing, wait one hour and then try again.
   /// If the error persists, contact <a
-  /// href="https://console.aws.amazon.com/support/home#/">AWS Support</a>.
+  /// href="https://console.aws.amazon.com/support/home#/">Amazon Web Services
+  /// Support</a>.
   /// </li>
   /// <li>
   /// Using <code>CreateAccount</code> to create multiple temporary accounts
   /// isn't recommended. You can only close an account from the Billing and Cost
-  /// Management Console, and you must be signed in as the root user. For
+  /// Management console, and you must be signed in as the root user. For
   /// information on the requirements and process for closing an account, see <a
-  /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_close.html">Closing
-  /// an AWS Account</a> in the <i>AWS Organizations User Guide</i>.
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_close.html">Closing
+  /// an Amazon Web Services account</a> in the <i>Organizations User Guide</i>.
   /// </li>
   /// </ul> </important> <note>
   /// When you create a member account with this operation, you can choose
@@ -373,10 +547,44 @@ class Organizations {
   ///
   /// Parameter [email] :
   /// The email address of the owner to assign to the new member account. This
-  /// email address must not already be associated with another AWS account. You
-  /// must use a valid email address to complete account creation. You can't
-  /// access the root user of the account or remove an account that was created
-  /// with an invalid email address.
+  /// email address must not already be associated with another Amazon Web
+  /// Services account. You must use a valid email address to complete account
+  /// creation.
+  ///
+  /// The rules for a valid email address:
+  ///
+  /// <ul>
+  /// <li>
+  /// The address must be a minimum of 6 and a maximum of 64 characters long.
+  /// </li>
+  /// <li>
+  /// All characters must be 7-bit ASCII characters.
+  /// </li>
+  /// <li>
+  /// There must be one and only one @ symbol, which separates the local name
+  /// from the domain name.
+  /// </li>
+  /// <li>
+  /// The local name can't contain any of the following characters:
+  ///
+  /// whitespace, " ' ( ) &lt; &gt; [ ] : ; , \ | % &amp;
+  /// </li>
+  /// <li>
+  /// The local name can't begin with a dot (.)
+  /// </li>
+  /// <li>
+  /// The domain name can consist of only the characters [a-z],[A-Z],[0-9],
+  /// hyphen (-), or dot (.)
+  /// </li>
+  /// <li>
+  /// The domain name can't begin or end with a hyphen (-) or dot (.)
+  /// </li>
+  /// <li>
+  /// The domain name must contain at least one dot
+  /// </li>
+  /// </ul>
+  /// You can't access the root user of the account or remove an account that
+  /// was created with an invalid email address.
   ///
   /// Parameter [iamUserAccessToBilling] :
   /// If set to <code>ALLOW</code>, the new account enables IAM users to access
@@ -384,21 +592,19 @@ class Organizations {
   /// If set to <code>DENY</code>, only the root user of the new account can
   /// access account billing information. For more information, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate">Activating
-  /// Access to the Billing and Cost Management Console</a> in the <i>AWS
-  /// Billing and Cost Management User Guide</i>.
+  /// Access to the Billing and Cost Management Console</a> in the <i>Amazon Web
+  /// Services Billing and Cost Management User Guide</i>.
   ///
   /// If you don't specify this parameter, the value defaults to
   /// <code>ALLOW</code>, and IAM users and roles with the required permissions
   /// can access billing information for the new account.
   ///
   /// Parameter [roleName] :
-  /// (Optional)
-  ///
-  /// The name of an IAM role that AWS Organizations automatically preconfigures
-  /// in the new member account. This role trusts the management account,
-  /// allowing users in the management account to assume the role, as permitted
-  /// by the management account administrator. The role has administrator
-  /// permissions in the new member account.
+  /// The name of an IAM role that Organizations automatically preconfigures in
+  /// the new member account. This role trusts the management account, allowing
+  /// users in the management account to assume the role, as permitted by the
+  /// management account administrator. The role has administrator permissions
+  /// in the new member account.
   ///
   /// If you don't specify this parameter, the role name defaults to
   /// <code>OrganizationAccountAccessRole</code>.
@@ -411,13 +617,13 @@ class Organizations {
   /// <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role">Accessing
   /// and Administering the Member Accounts in Your Organization</a> in the
-  /// <i>AWS Organizations User Guide</i>
+  /// <i>Organizations User Guide</i>
   /// </li>
   /// <li>
   /// Steps 2 and 3 in <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html">Tutorial:
-  /// Delegate Access Across AWS Accounts Using IAM Roles</a> in the <i>IAM User
-  /// Guide</i>
+  /// Delegate Access Across Amazon Web Services accounts Using IAM Roles</a> in
+  /// the <i>IAM User Guide</i>
   /// </li>
   /// </ul>
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is
@@ -431,11 +637,11 @@ class Organizations {
   /// set the value to an empty string, but you can't set it to
   /// <code>null</code>. For more information about tagging, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html">Tagging
-  /// AWS Organizations resources</a> in the AWS Organizations User Guide.
+  /// Organizations resources</a> in the Organizations User Guide.
   /// <note>
-  /// If any one of the tags is invalid or if you exceed the allowed number of
-  /// tags for an account, then the entire request fails and the account is not
-  /// created.
+  /// If any one of the tags is not valid or if you exceed the maximum allowed
+  /// number of tags for an account, then the entire request fails and the
+  /// account is not created.
   /// </note>
   Future<CreateAccountResponse> createAccount({
     required String accountName,
@@ -471,14 +677,16 @@ class Organizations {
   ///
   /// <ul>
   /// <li>
-  /// You're authorized to create accounts in the AWS GovCloud (US) Region. For
-  /// more information on the AWS GovCloud (US) Region, see the <a
-  /// href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/welcome.html">
-  /// <i>AWS GovCloud User Guide</i>.</a>
+  /// You're authorized to create accounts in the Amazon Web Services GovCloud
+  /// (US) Region. For more information on the Amazon Web Services GovCloud (US)
+  /// Region, see the <a
+  /// href="https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/welcome.html">
+  /// <i>Amazon Web Services GovCloud User Guide</i>.</a>
   /// </li>
   /// <li>
-  /// You already have an account in the AWS GovCloud (US) Region that is paired
-  /// with a management account of an organization in the commercial Region.
+  /// You already have an account in the Amazon Web Services GovCloud (US)
+  /// Region that is paired with a management account of an organization in the
+  /// commercial Region.
   /// </li>
   /// <li>
   /// You call this action from the management account of your organization in
@@ -488,26 +696,25 @@ class Organizations {
   /// You have the <code>organizations:CreateGovCloudAccount</code> permission.
   /// </li>
   /// </ul>
-  /// AWS Organizations automatically creates the required service-linked role
-  /// named <code>AWSServiceRoleForOrganizations</code>. For more information,
-  /// see <a
-  /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html#orgs_integrate_services-using_slrs">AWS
-  /// Organizations and Service-Linked Roles</a> in the <i>AWS Organizations
-  /// User Guide.</i>
+  /// Organizations automatically creates the required service-linked role named
+  /// <code>AWSServiceRoleForOrganizations</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html#orgs_integrate_services-using_slrs">Organizations
+  /// and Service-Linked Roles</a> in the <i>Organizations User Guide.</i>
   ///
-  /// AWS automatically enables AWS CloudTrail for AWS GovCloud (US) accounts,
-  /// but you should also do the following:
+  /// Amazon Web Services automatically enables CloudTrail for Amazon Web
+  /// Services GovCloud (US) accounts, but you should also do the following:
   ///
   /// <ul>
   /// <li>
-  /// Verify that AWS CloudTrail is enabled to store logs.
+  /// Verify that CloudTrail is enabled to store logs.
   /// </li>
   /// <li>
-  /// Create an S3 bucket for AWS CloudTrail log storage.
+  /// Create an Amazon S3 bucket for CloudTrail log storage.
   ///
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/verifying-cloudtrail.html">Verifying
-  /// AWS CloudTrail Is Enabled</a> in the <i>AWS GovCloud User Guide</i>.
+  /// href="https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/verifying-cloudtrail.html">Verifying
+  /// CloudTrail Is Enabled</a> in the <i>Amazon Web Services GovCloud User
+  /// Guide</i>.
   /// </li>
   /// </ul>
   /// If the request includes tags, then the requester must have the
@@ -518,20 +725,22 @@ class Organizations {
   /// GovCloud account exists.
   ///
   /// You call this action from the management account of your organization in
-  /// the commercial Region to create a standalone AWS account in the AWS
-  /// GovCloud (US) Region. After the account is created, the management account
-  /// of an organization in the AWS GovCloud (US) Region can invite it to that
-  /// organization. For more information on inviting standalone accounts in the
-  /// AWS GovCloud (US) to join an organization, see <a
-  /// href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
-  /// Organizations</a> in the <i>AWS GovCloud User Guide.</i>
+  /// the commercial Region to create a standalone Amazon Web Services account
+  /// in the Amazon Web Services GovCloud (US) Region. After the account is
+  /// created, the management account of an organization in the Amazon Web
+  /// Services GovCloud (US) Region can invite it to that organization. For more
+  /// information on inviting standalone accounts in the Amazon Web Services
+  /// GovCloud (US) to join an organization, see <a
+  /// href="https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">Organizations</a>
+  /// in the <i>Amazon Web Services GovCloud User Guide.</i>
   ///
   /// Calling <code>CreateGovCloudAccount</code> is an asynchronous request that
-  /// AWS performs in the background. Because <code>CreateGovCloudAccount</code>
-  /// operates asynchronously, it can return a successful completion message
-  /// even though account initialization might still be in progress. You might
-  /// need to wait a few minutes before you can successfully access the account.
-  /// To check the status of the request, do one of the following:
+  /// Amazon Web Services performs in the background. Because
+  /// <code>CreateGovCloudAccount</code> operates asynchronously, it can return
+  /// a successful completion message even though account initialization might
+  /// still be in progress. You might need to wait a few minutes before you can
+  /// successfully access the account. To check the status of the request, do
+  /// one of the following:
   ///
   /// <ul>
   /// <li>
@@ -540,68 +749,71 @@ class Organizations {
   /// operation.
   /// </li>
   /// <li>
-  /// Check the AWS CloudTrail log for the <code>CreateAccountResult</code>
-  /// event. For information on using AWS CloudTrail with Organizations, see <a
-  /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_monitoring.html">Monitoring
-  /// the Activity in Your Organization</a> in the <i>AWS Organizations User
+  /// Check the CloudTrail log for the <code>CreateAccountResult</code> event.
+  /// For information on using CloudTrail with Organizations, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_monitoring.html">Monitoring
+  /// the Activity in Your Organization</a> in the <i>Organizations User
   /// Guide.</i>
   /// </li>
   /// </ul> <p/>
   /// When you call the <code>CreateGovCloudAccount</code> action, you create
-  /// two accounts: a standalone account in the AWS GovCloud (US) Region and an
-  /// associated account in the commercial Region for billing and support
-  /// purposes. The account in the commercial Region is automatically a member
-  /// of the organization whose credentials made the request. Both accounts are
-  /// associated with the same email address.
+  /// two accounts: a standalone account in the Amazon Web Services GovCloud
+  /// (US) Region and an associated account in the commercial Region for billing
+  /// and support purposes. The account in the commercial Region is
+  /// automatically a member of the organization whose credentials made the
+  /// request. Both accounts are associated with the same email address.
   ///
   /// A role is created in the new account in the commercial Region that allows
   /// the management account in the organization in the commercial Region to
-  /// assume it. An AWS GovCloud (US) account is then created and associated
-  /// with the commercial account that you just created. A role is also created
-  /// in the new AWS GovCloud (US) account that can be assumed by the AWS
-  /// GovCloud (US) account that is associated with the management account of
-  /// the commercial organization. For more information and to view a diagram
-  /// that explains how account access works, see <a
-  /// href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
-  /// Organizations</a> in the <i>AWS GovCloud User Guide.</i>
+  /// assume it. An Amazon Web Services GovCloud (US) account is then created
+  /// and associated with the commercial account that you just created. A role
+  /// is also created in the new Amazon Web Services GovCloud (US) account that
+  /// can be assumed by the Amazon Web Services GovCloud (US) account that is
+  /// associated with the management account of the commercial organization. For
+  /// more information and to view a diagram that explains how account access
+  /// works, see <a
+  /// href="https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">Organizations</a>
+  /// in the <i>Amazon Web Services GovCloud User Guide.</i>
   ///
   /// For more information about creating accounts, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html">Creating
-  /// an AWS Account in Your Organization</a> in the <i>AWS Organizations User
-  /// Guide.</i>
+  /// an Amazon Web Services account in Your Organization</a> in the
+  /// <i>Organizations User Guide.</i>
   /// <important>
   /// <ul>
   /// <li>
-  /// When you create an account in an organization using the AWS Organizations
+  /// When you create an account in an organization using the Organizations
   /// console, API, or CLI commands, the information required for the account to
   /// operate as a standalone account is <i>not</i> automatically collected.
   /// This includes a payment method and signing the end user license agreement
   /// (EULA). If you must remove an account from your organization later, you
   /// can do so only after you provide the missing information. Follow the steps
   /// at <a
-  /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">
-  /// To leave an organization as a member account</a> in the <i>AWS
-  /// Organizations User Guide.</i>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">
+  /// To leave an organization as a member account</a> in the <i>Organizations
+  /// User Guide.</i>
   /// </li>
   /// <li>
   /// If you get an exception that indicates that you exceeded your account
   /// limits for the organization, contact <a
-  /// href="https://console.aws.amazon.com/support/home#/">AWS Support</a>.
+  /// href="https://console.aws.amazon.com/support/home#/">Amazon Web Services
+  /// Support</a>.
   /// </li>
   /// <li>
   /// If you get an exception that indicates that the operation failed because
   /// your organization is still initializing, wait one hour and then try again.
   /// If the error persists, contact <a
-  /// href="https://console.aws.amazon.com/support/home#/">AWS Support</a>.
+  /// href="https://console.aws.amazon.com/support/home#/">Amazon Web Services
+  /// Support</a>.
   /// </li>
   /// <li>
   /// Using <code>CreateGovCloudAccount</code> to create multiple temporary
-  /// accounts isn't recommended. You can only close an account from the AWS
-  /// Billing and Cost Management console, and you must be signed in as the root
-  /// user. For information on the requirements and process for closing an
-  /// account, see <a
-  /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_close.html">Closing
-  /// an AWS Account</a> in the <i>AWS Organizations User Guide</i>.
+  /// accounts isn't recommended. You can only close an account from the Amazon
+  /// Web Services Billing and Cost Management console, and you must be signed
+  /// in as the root user. For information on the requirements and process for
+  /// closing an account, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_close.html">Closing
+  /// an Amazon Web Services account</a> in the <i>Organizations User Guide</i>.
   /// </li>
   /// </ul> </important> <note>
   /// When you create a member account with this operation, you can choose
@@ -628,15 +840,52 @@ class Organizations {
   /// Parameter [accountName] :
   /// The friendly name of the member account.
   ///
+  /// The account name can consist of only the characters [a-z],[A-Z],[0-9],
+  /// hyphen (-), or dot (.) You can't separate characters with a dash (–).
+  ///
   /// Parameter [email] :
-  /// The email address of the owner to assign to the new member account in the
-  /// commercial Region. This email address must not already be associated with
-  /// another AWS account. You must use a valid email address to complete
-  /// account creation. You can't access the root user of the account or remove
-  /// an account that was created with an invalid email address. Like all
-  /// request parameters for <code>CreateGovCloudAccount</code>, the request for
-  /// the email address for the AWS GovCloud (US) account originates from the
-  /// commercial Region, not from the AWS GovCloud (US) Region.
+  /// Specifies the email address of the owner to assign to the new member
+  /// account in the commercial Region. This email address must not already be
+  /// associated with another Amazon Web Services account. You must use a valid
+  /// email address to complete account creation.
+  ///
+  /// The rules for a valid email address:
+  ///
+  /// <ul>
+  /// <li>
+  /// The address must be a minimum of 6 and a maximum of 64 characters long.
+  /// </li>
+  /// <li>
+  /// All characters must be 7-bit ASCII characters.
+  /// </li>
+  /// <li>
+  /// There must be one and only one @ symbol, which separates the local name
+  /// from the domain name.
+  /// </li>
+  /// <li>
+  /// The local name can't contain any of the following characters:
+  ///
+  /// whitespace, " ' ( ) &lt; &gt; [ ] : ; , \ | % &amp;
+  /// </li>
+  /// <li>
+  /// The local name can't begin with a dot (.)
+  /// </li>
+  /// <li>
+  /// The domain name can consist of only the characters [a-z],[A-Z],[0-9],
+  /// hyphen (-), or dot (.)
+  /// </li>
+  /// <li>
+  /// The domain name can't begin or end with a hyphen (-) or dot (.)
+  /// </li>
+  /// <li>
+  /// The domain name must contain at least one dot
+  /// </li>
+  /// </ul>
+  /// You can't access the root user of the account or remove an account that
+  /// was created with an invalid email address. Like all request parameters for
+  /// <code>CreateGovCloudAccount</code>, the request for the email address for
+  /// the Amazon Web Services GovCloud (US) account originates from the
+  /// commercial Region, not from the Amazon Web Services GovCloud (US) Region.
   ///
   /// Parameter [iamUserAccessToBilling] :
   /// If set to <code>ALLOW</code>, the new linked account in the commercial
@@ -645,8 +894,8 @@ class Organizations {
   /// root user of the new account can access account billing information. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate">Activating
-  /// Access to the Billing and Cost Management Console</a> in the <i>AWS
-  /// Billing and Cost Management User Guide.</i>
+  /// Access to the Billing and Cost Management Console</a> in the <i>Amazon Web
+  /// Services Billing and Cost Management User Guide.</i>
   ///
   /// If you don't specify this parameter, the value defaults to
   /// <code>ALLOW</code>, and IAM users and roles with the required permissions
@@ -655,12 +904,12 @@ class Organizations {
   /// Parameter [roleName] :
   /// (Optional)
   ///
-  /// The name of an IAM role that AWS Organizations automatically preconfigures
-  /// in the new member accounts in both the AWS GovCloud (US) Region and in the
-  /// commercial Region. This role trusts the management account, allowing users
-  /// in the management account to assume the role, as permitted by the
-  /// management account administrator. The role has administrator permissions
-  /// in the new member account.
+  /// The name of an IAM role that Organizations automatically preconfigures in
+  /// the new member accounts in both the Amazon Web Services GovCloud (US)
+  /// Region and in the commercial Region. This role trusts the management
+  /// account, allowing users in the management account to assume the role, as
+  /// permitted by the management account administrator. The role has
+  /// administrator permissions in the new member account.
   ///
   /// If you don't specify this parameter, the role name defaults to
   /// <code>OrganizationAccountAccessRole</code>.
@@ -669,10 +918,10 @@ class Organizations {
   /// account, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role">Accessing
   /// and Administering the Member Accounts in Your Organization</a> in the
-  /// <i>AWS Organizations User Guide</i> and steps 2 and 3 in <a
+  /// <i>Organizations User Guide</i> and steps 2 and 3 in <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html">Tutorial:
-  /// Delegate Access Across AWS Accounts Using IAM Roles</a> in the <i>IAM User
-  /// Guide.</i>
+  /// Delegate Access Across Amazon Web Services accounts Using IAM Roles</a> in
+  /// the <i>IAM User Guide.</i>
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is
   /// used to validate this parameter. The pattern can include uppercase
@@ -690,11 +939,11 @@ class Organizations {
   /// can set the value to an empty string, but you can't set it to
   /// <code>null</code>. For more information about tagging, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html">Tagging
-  /// AWS Organizations resources</a> in the AWS Organizations User Guide.
+  /// Organizations resources</a> in the Organizations User Guide.
   /// <note>
-  /// If any one of the tags is invalid or if you exceed the allowed number of
-  /// tags for an account, then the entire request fails and the account is not
-  /// created.
+  /// If any one of the tags is not valid or if you exceed the maximum allowed
+  /// number of tags for an account, then the entire request fails and the
+  /// account is not created.
   /// </note>
   Future<CreateGovCloudAccountResponse> createGovCloudAccount({
     required String accountName,
@@ -726,8 +975,9 @@ class Organizations {
     return CreateGovCloudAccountResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates an AWS organization. The account whose user is calling the
-  /// <code>CreateOrganization</code> operation automatically becomes the <a
+  /// Creates an Amazon Web Services organization. The account whose user is
+  /// calling the <code>CreateOrganization</code> operation automatically
+  /// becomes the <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">management
   /// account</a> of the new organization.
   ///
@@ -762,10 +1012,10 @@ class Organizations {
   /// consolidated to and paid by the management account. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#feature-set-cb-only">Consolidated
-  /// billing</a> in the <i>AWS Organizations User Guide.</i>
+  /// billing</a> in the <i>Organizations User Guide.</i>
   ///
   /// The consolidated billing feature subset isn't available for organizations
-  /// in the AWS GovCloud (US) Region.
+  /// in the Amazon Web Services GovCloud (US) Region.
   /// </li>
   /// <li>
   /// <code>ALL</code>: In addition to all the features supported by the
@@ -773,7 +1023,7 @@ class Organizations {
   /// any policy type to any member account in the organization. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#feature-set-all">All
-  /// features</a> in the <i>AWS Organizations User Guide.</i>
+  /// features</a> in the <i>Organizations User Guide.</i>
   /// </li>
   /// </ul>
   Future<CreateOrganizationResponse> createOrganization({
@@ -805,7 +1055,7 @@ class Organizations {
   ///
   /// For more information about OUs, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_ous.html">Managing
-  /// Organizational Units</a> in the <i>AWS Organizations User Guide.</i>
+  /// Organizational Units</a> in the <i>Organizations User Guide.</i>
   ///
   /// If the request includes tags, then the requester must have the
   /// <code>organizations:TagResource</code> permission.
@@ -852,9 +1102,9 @@ class Organizations {
   /// the value to an empty string, but you can't set it to <code>null</code>.
   /// For more information about tagging, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html">Tagging
-  /// AWS Organizations resources</a> in the AWS Organizations User Guide.
+  /// Organizations resources</a> in the Organizations User Guide.
   /// <note>
-  /// If any one of the tags is invalid or if you exceed the allowed number of
+  /// If any one of the tags is not valid or if you exceed the allowed number of
   /// tags for an OU, then the entire request fails and the OU is not created.
   /// </note>
   Future<CreateOrganizationalUnitResponse> createOrganizationalUnit({
@@ -883,7 +1133,7 @@ class Organizations {
   }
 
   /// Creates a policy of a specified type that you can attach to a root, an
-  /// organizational unit (OU), or an individual AWS account.
+  /// organizational unit (OU), or an individual Amazon Web Services account.
   ///
   /// For more information about policies and their use, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html">Managing
@@ -950,9 +1200,9 @@ class Organizations {
   /// set the value to an empty string, but you can't set it to
   /// <code>null</code>. For more information about tagging, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html">Tagging
-  /// AWS Organizations resources</a> in the AWS Organizations User Guide.
+  /// Organizations resources</a> in the Organizations User Guide.
   /// <note>
-  /// If any one of the tags is invalid or if you exceed the allowed number of
+  /// If any one of the tags is not valid or if you exceed the allowed number of
   /// tags for a policy, then the entire request fails and the policy is not
   /// created.
   /// </note>
@@ -1147,20 +1397,47 @@ class Organizations {
     );
   }
 
-  /// Removes the specified member AWS account as a delegated administrator for
-  /// the specified AWS service.
+  /// Deletes the resource policy from your organization.
+  ///
+  /// You can only call this operation from the organization's management
+  /// account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ServiceException].
+  /// May throw [UnsupportedAPIEndpointException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [AWSOrganizationsNotInUseException].
+  /// May throw [ResourcePolicyNotFoundException].
+  Future<void> deleteResourcePolicy() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSOrganizationsV20161128.DeleteResourcePolicy'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+  }
+
+  /// Removes the specified member Amazon Web Services account as a delegated
+  /// administrator for the specified Amazon Web Services service.
   /// <important>
   /// Deregistering a delegated administrator can have unintended impacts on the
-  /// functionality of the enabled AWS service. See the documentation for the
-  /// enabled service before you deregister a delegated administrator so that
-  /// you understand any potential impacts.
+  /// functionality of the enabled Amazon Web Services service. See the
+  /// documentation for the enabled service before you deregister a delegated
+  /// administrator so that you understand any potential impacts.
   /// </important>
-  /// You can run this action only for AWS services that support this feature.
-  /// For a current list of services that support it, see the column <i>Supports
-  /// Delegated Administrator</i> in the table at <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrated-services-list.html">AWS
-  /// Services that you can use with AWS Organizations</a> in the <i>AWS
-  /// Organizations User Guide.</i>
+  /// You can run this action only for Amazon Web Services services that support
+  /// this feature. For a current list of services that support it, see the
+  /// column <i>Supports Delegated Administrator</i> in the table at <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services_list.html">Amazon
+  /// Web Services Services that you can use with Organizations</a> in the
+  /// <i>Organizations User Guide.</i>
   ///
   /// This operation can be called only from the organization's management
   /// account.
@@ -1181,13 +1458,14 @@ class Organizations {
   /// want to deregister as a delegated administrator.
   ///
   /// Parameter [servicePrincipal] :
-  /// The service principal name of an AWS service for which the account is a
-  /// delegated administrator.
+  /// The service principal name of an Amazon Web Services service for which the
+  /// account is a delegated administrator.
   ///
-  /// Delegated administrator privileges are revoked for only the specified AWS
-  /// service from the member account. If the specified service is the only
-  /// service for which the member account is a delegated administrator, the
-  /// operation also revokes Organizations read action permissions.
+  /// Delegated administrator privileges are revoked for only the specified
+  /// Amazon Web Services service from the member account. If the specified
+  /// service is the only service for which the member account is a delegated
+  /// administrator, the operation also revokes Organizations read action
+  /// permissions.
   Future<void> deregisterDelegatedAdministrator({
     required String accountId,
     required String servicePrincipal,
@@ -1210,12 +1488,11 @@ class Organizations {
     );
   }
 
-  /// Retrieves AWS Organizations-related information about the specified
-  /// account.
+  /// Retrieves Organizations-related information about the specified account.
   ///
   /// This operation can be called only from the organization's management
   /// account or by a member account that is a delegated administrator for an
-  /// AWS service.
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AccountNotFoundException].
@@ -1225,8 +1502,8 @@ class Organizations {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [accountId] :
-  /// The unique identifier (ID) of the AWS account that you want information
-  /// about. You can get the ID from the <a>ListAccounts</a> or
+  /// The unique identifier (ID) of the Amazon Web Services account that you
+  /// want information about. You can get the ID from the <a>ListAccounts</a> or
   /// <a>ListAccountsForParent</a> operations.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
@@ -1257,7 +1534,7 @@ class Organizations {
   ///
   /// This operation can be called only from the organization's management
   /// account or by a member account that is a delegated administrator for an
-  /// AWS service.
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -1307,12 +1584,12 @@ class Organizations {
   /// control policies (SCPs).
   ///
   /// For more information about policy inheritance, see <a
-  /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies-inheritance.html">How
-  /// Policy Inheritance Works</a> in the <i>AWS Organizations User Guide</i>.
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies-inheritance.html">How
+  /// Policy Inheritance Works</a> in the <i>Organizations User Guide</i>.
   ///
   /// This operation can be called only from the organization's management
   /// account or by a member account that is a delegated administrator for an
-  /// AWS service.
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -1452,7 +1729,7 @@ class Organizations {
   ///
   /// This operation can be called only from the organization's management
   /// account or by a member account that is a delegated administrator for an
-  /// AWS service.
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -1496,7 +1773,7 @@ class Organizations {
   ///
   /// This operation can be called only from the organization's management
   /// account or by a member account that is a delegated administrator for an
-  /// AWS service.
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -1535,12 +1812,41 @@ class Organizations {
     return DescribePolicyResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves information about a resource policy.
+  ///
+  /// You can only call this operation from the organization's management
+  /// account or by a member account that is a delegated administrator for an
+  /// Amazon Web Services service.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ServiceException].
+  /// May throw [UnsupportedAPIEndpointException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [AWSOrganizationsNotInUseException].
+  /// May throw [ResourcePolicyNotFoundException].
+  /// May throw [ConstraintViolationException].
+  Future<DescribeResourcePolicyResponse> describeResourcePolicy() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSOrganizationsV20161128.DescribeResourcePolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return DescribeResourcePolicyResponse.fromJson(jsonResponse.body);
+  }
+
   /// Detaches a policy from a target root, organizational unit (OU), or
   /// account.
   /// <important>
   /// If the policy being detached is a service control policy (SCP), the
-  /// changes to permissions for AWS Identity and Access Management (IAM) users
-  /// and roles in affected accounts are immediate.
+  /// changes to permissions for Identity and Access Management (IAM) users and
+  /// roles in affected accounts are immediate.
   /// </important>
   /// Every root, OU, and account must have at least one SCP attached. If you
   /// want to replace the default <code>FullAWSAccess</code> policy with an SCP
@@ -1626,34 +1932,72 @@ class Organizations {
     );
   }
 
-  /// Disables the integration of an AWS service (the service that is specified
-  /// by <code>ServicePrincipal</code>) with AWS Organizations. When you disable
-  /// integration, the specified service no longer can create a <a
-  /// href="http://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html">service-linked
+  /// Disables the integration of an Amazon Web Services service (the service
+  /// that is specified by <code>ServicePrincipal</code>) with Organizations.
+  /// When you disable integration, the specified service no longer can create a
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html">service-linked
   /// role</a> in <i>new</i> accounts in your organization. This means the
   /// service can't perform operations on your behalf on any new accounts in
   /// your organization. The service can still perform operations in older
-  /// accounts until the service completes its clean-up from AWS Organizations.
-  /// <p/> <important>
-  /// We recommend that you disable integration between AWS Organizations and
-  /// the specified AWS service by using the console or commands that are
-  /// provided by the specified service. Doing so ensures that the other service
-  /// is aware that it can clean up any resources that are required only for the
-  /// integration. How the service cleans up its resources in the organization's
-  /// accounts depends on that service. For more information, see the
-  /// documentation for the other AWS service.
+  /// accounts until the service completes its clean-up from Organizations.
+  /// <important>
+  /// We <b> <i>strongly recommend</i> </b> that you don't use this command to
+  /// disable integration between Organizations and the specified Amazon Web
+  /// Services service. Instead, use the console or commands that are provided
+  /// by the specified service. This lets the trusted service perform any
+  /// required initialization when enabling trusted access, such as creating any
+  /// required resources and any required clean up of resources when disabling
+  /// trusted access.
+  ///
+  /// For information about how to disable trusted service access to your
+  /// organization using the trusted service, see the <b>Learn more</b> link
+  /// under the <b>Supports Trusted Access</b> column at <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services_list.html">Amazon
+  /// Web Services services that you can use with Organizations</a>. on this
+  /// page.
+  ///
+  /// If you disable access by using this command, it causes the following
+  /// actions to occur:
+  ///
+  /// <ul>
+  /// <li>
+  /// The service can no longer create a service-linked role in the accounts in
+  /// your organization. This means that the service can't perform operations on
+  /// your behalf on any new accounts in your organization. The service can
+  /// still perform operations in older accounts until the service completes its
+  /// clean-up from Organizations.
+  /// </li>
+  /// <li>
+  /// The service can no longer perform tasks in the member accounts in the
+  /// organization, unless those operations are explicitly permitted by the IAM
+  /// policies that are attached to your roles. This includes any data
+  /// aggregation from the member accounts to the management account, or to a
+  /// delegated administrator account, where relevant.
+  /// </li>
+  /// <li>
+  /// Some services detect this and clean up any remaining data or resources
+  /// related to the integration, while other services stop accessing the
+  /// organization but leave any historical data and configuration in place to
+  /// support a possible re-enabling of the integration.
+  /// </li>
+  /// </ul>
+  /// Using the other service's console or commands to disable the integration
+  /// ensures that the other service is aware that it can clean up any resources
+  /// that are required only for the integration. How the service cleans up its
+  /// resources in the organization's accounts depends on that service. For more
+  /// information, see the documentation for the other Amazon Web Services
+  /// service.
   /// </important>
   /// After you perform the <code>DisableAWSServiceAccess</code> operation, the
   /// specified service can no longer perform operations in your organization's
-  /// accounts unless the operations are explicitly permitted by the IAM
-  /// policies that are attached to your roles.
+  /// accounts
   ///
-  /// For more information about integrating other services with AWS
-  /// Organizations, including the list of services that work with
-  /// Organizations, see <a
-  /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">Integrating
-  /// AWS Organizations with Other AWS Services</a> in the <i>AWS Organizations
-  /// User Guide.</i>
+  /// For more information about integrating other services with Organizations,
+  /// including the list of services that work with Organizations, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">Integrating
+  /// Organizations with Other Amazon Web Services Services</a> in the
+  /// <i>Organizations User Guide.</i>
   ///
   /// This operation can be called only from the organization's management
   /// account.
@@ -1668,9 +2012,10 @@ class Organizations {
   /// May throw [UnsupportedAPIEndpointException].
   ///
   /// Parameter [servicePrincipal] :
-  /// The service principal name of the AWS service for which you want to
-  /// disable integration with your organization. This is typically in the form
-  /// of a URL, such as <code> <i>service-abbreviation</i>.amazonaws.com</code>.
+  /// The service principal name of the Amazon Web Services service for which
+  /// you want to disable integration with your organization. This is typically
+  /// in the form of a URL, such as <code>
+  /// <i>service-abbreviation</i>.amazonaws.com</code>.
   Future<void> disableAWSServiceAccess({
     required String servicePrincipal,
   }) async {
@@ -1697,13 +2042,13 @@ class Organizations {
   /// (OU) or account in that root. You can undo this by using the
   /// <a>EnablePolicyType</a> operation.
   ///
-  /// This is an asynchronous request that AWS performs in the background. If
-  /// you disable a policy type for a root, it still appears enabled for the
-  /// organization if <a
+  /// This is an asynchronous request that Amazon Web Services performs in the
+  /// background. If you disable a policy type for a root, it still appears
+  /// enabled for the organization if <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
-  /// features</a> are enabled for the organization. AWS recommends that you
-  /// first use <a>ListRoots</a> to see the status of policy types for a
-  /// specified root, and then use this operation.
+  /// features</a> are enabled for the organization. Amazon Web Services
+  /// recommends that you first use <a>ListRoots</a> to see the status of policy
+  /// types for a specified root, and then use this operation.
   ///
   /// This operation can be called only from the organization's management
   /// account.
@@ -1776,31 +2121,32 @@ class Organizations {
     return DisablePolicyTypeResponse.fromJson(jsonResponse.body);
   }
 
-  /// Enables the integration of an AWS service (the service that is specified
-  /// by <code>ServicePrincipal</code>) with AWS Organizations. When you enable
-  /// integration, you allow the specified service to create a <a
-  /// href="http://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html">service-linked
+  /// Enables the integration of an Amazon Web Services service (the service
+  /// that is specified by <code>ServicePrincipal</code>) with Organizations.
+  /// When you enable integration, you allow the specified service to create a
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html">service-linked
   /// role</a> in all the accounts in your organization. This allows the service
   /// to perform operations on your behalf in your organization and its
   /// accounts.
   /// <important>
-  /// We recommend that you enable integration between AWS Organizations and the
-  /// specified AWS service by using the console or commands that are provided
-  /// by the specified service. Doing so ensures that the service is aware that
-  /// it can create the resources that are required for the integration. How the
-  /// service creates those resources in the organization's accounts depends on
-  /// that service. For more information, see the documentation for the other
-  /// AWS service.
+  /// We recommend that you enable integration between Organizations and the
+  /// specified Amazon Web Services service by using the console or commands
+  /// that are provided by the specified service. Doing so ensures that the
+  /// service is aware that it can create the resources that are required for
+  /// the integration. How the service creates those resources in the
+  /// organization's accounts depends on that service. For more information, see
+  /// the documentation for the other Amazon Web Services service.
   /// </important>
-  /// For more information about enabling services to integrate with AWS
+  /// For more information about enabling services to integrate with
   /// Organizations, see <a
-  /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">Integrating
-  /// AWS Organizations with Other AWS Services</a> in the <i>AWS Organizations
-  /// User Guide.</i>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">Integrating
+  /// Organizations with Other Amazon Web Services Services</a> in the
+  /// <i>Organizations User Guide.</i>
   ///
-  /// This operation can be called only from the organization's management
+  /// You can only call this operation from the organization's management
   /// account and only if the organization has <a
-  /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">enabled
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">enabled
   /// all features</a>.
   ///
   /// May throw [AccessDeniedException].
@@ -1813,9 +2159,10 @@ class Organizations {
   /// May throw [UnsupportedAPIEndpointException].
   ///
   /// Parameter [servicePrincipal] :
-  /// The service principal name of the AWS service for which you want to enable
-  /// integration with your organization. This is typically in the form of a
-  /// URL, such as <code> <i>service-abbreviation</i>.amazonaws.com</code>.
+  /// The service principal name of the Amazon Web Services service for which
+  /// you want to enable integration with your organization. This is typically
+  /// in the form of a URL, such as <code>
+  /// <i>service-abbreviation</i>.amazonaws.com</code>.
   Future<void> enableAWSServiceAccess({
     required String servicePrincipal,
   }) async {
@@ -1839,10 +2186,10 @@ class Organizations {
   /// organization policies that can restrict the services and actions that can
   /// be called in each account. Until you enable all features, you have access
   /// only to consolidated billing, and you can't use any of the advanced
-  /// account administration features that AWS Organizations supports. For more
+  /// account administration features that Organizations supports. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">Enabling
-  /// All Features in Your Organization</a> in the <i>AWS Organizations User
+  /// All Features in Your Organization</a> in the <i>Organizations User
   /// Guide.</i>
   /// <important>
   /// This operation is required only for organizations that were created
@@ -1899,9 +2246,10 @@ class Organizations {
   /// (OU), or account in that root. You can undo this by using the
   /// <a>DisablePolicyType</a> operation.
   ///
-  /// This is an asynchronous request that AWS performs in the background. AWS
-  /// recommends that you first use <a>ListRoots</a> to see the status of policy
-  /// types for a specified root, and then use this operation.
+  /// This is an asynchronous request that Amazon Web Services performs in the
+  /// background. Amazon Web Services recommends that you first use
+  /// <a>ListRoots</a> to see the status of policy types for a specified root,
+  /// and then use this operation.
   ///
   /// This operation can be called only from the organization's management
   /// account.
@@ -1977,19 +2325,20 @@ class Organizations {
   }
 
   /// Sends an invitation to another account to join your organization as a
-  /// member account. AWS Organizations sends email on your behalf to the email
+  /// member account. Organizations sends email on your behalf to the email
   /// address that is associated with the other account's owner. The invitation
   /// is implemented as a <a>Handshake</a> whose details are in the response.
   /// <important>
   /// <ul>
   /// <li>
-  /// You can invite AWS accounts only from the same seller as the management
-  /// account. For example, if your organization's management account was
-  /// created by Amazon Internet Services Pvt. Ltd (AISPL), an AWS seller in
-  /// India, you can invite only other AISPL accounts to your organization. You
-  /// can't combine accounts from AISPL and AWS or from any other AWS seller.
-  /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/useconsolidatedbilliing-India.html">Consolidated
+  /// You can invite Amazon Web Services accounts only from the same seller as
+  /// the management account. For example, if your organization's management
+  /// account was created by Amazon Internet Services Pvt. Ltd (AISPL), an
+  /// Amazon Web Services seller in India, you can invite only other AISPL
+  /// accounts to your organization. You can't combine accounts from AISPL and
+  /// Amazon Web Services or from any other Amazon Web Services seller. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/useconsolidatedbilliing-India.html">Consolidated
   /// Billing in India</a>.
   /// </li>
   /// <li>
@@ -1997,7 +2346,8 @@ class Organizations {
   /// limits for the organization or that the operation failed because your
   /// organization is still initializing, wait one hour and then try again. If
   /// the error persists after an hour, contact <a
-  /// href="https://console.aws.amazon.com/support/home#/">AWS Support</a>.
+  /// href="https://console.aws.amazon.com/support/home#/">Amazon Web Services
+  /// Support</a>.
   /// </li>
   /// </ul> </important>
   /// If the request includes tags, then the requester must have the
@@ -2019,22 +2369,22 @@ class Organizations {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [target] :
-  /// The identifier (ID) of the AWS account that you want to invite to join
-  /// your organization. This is a JSON object that contains the following
-  /// elements:
+  /// The identifier (ID) of the Amazon Web Services account that you want to
+  /// invite to join your organization. This is a JSON object that contains the
+  /// following elements:
   ///
   /// <code>{ "Type": "ACCOUNT", "Id": "&lt;<i> <b>account id number</b>
   /// </i>&gt;" }</code>
   ///
-  /// If you use the AWS CLI, you can submit this as a single string, similar to
-  /// the following example:
+  /// If you use the CLI, you can submit this as a single string, similar to the
+  /// following example:
   ///
   /// <code>--target Id=123456789012,Type=ACCOUNT</code>
   ///
-  /// If you specify <code>"Type": "ACCOUNT"</code>, you must provide the AWS
-  /// account ID number as the <code>Id</code>. If you specify <code>"Type":
-  /// "EMAIL"</code>, you must specify the email address that is associated with
-  /// the account.
+  /// If you specify <code>"Type": "ACCOUNT"</code>, you must provide the Amazon
+  /// Web Services account ID number as the <code>Id</code>. If you specify
+  /// <code>"Type": "EMAIL"</code>, you must specify the email address that is
+  /// associated with the account.
   ///
   /// <code>--target Id=diego@example.com,Type=EMAIL</code>
   ///
@@ -2049,7 +2399,7 @@ class Organizations {
   /// you can't set it to <code>null</code>. For more information about tagging,
   /// see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html">Tagging
-  /// AWS Organizations resources</a> in the AWS Organizations User Guide.
+  /// Organizations resources</a> in the Organizations User Guide.
   /// <important>
   /// Any tags in the request are checked for compliance with any applicable tag
   /// policies when the request is made. The request is rejected if the tags in
@@ -2059,7 +2409,7 @@ class Organizations {
   /// that if the tag policy changes between the invitation and the acceptance,
   /// then that tags could potentially be non-compliant.
   /// </important> <note>
-  /// If any one of the tags is invalid or if you exceed the allowed number of
+  /// If any one of the tags is not valid or if you exceed the allowed number of
   /// tags for an account, then the entire request fails and invitations are not
   /// sent.
   /// </note>
@@ -2106,7 +2456,7 @@ class Organizations {
   /// <li>
   /// You can leave an organization as a member account only if the account is
   /// configured with the information required to operate as a standalone
-  /// account. When you create an account in an organization using the AWS
+  /// account. When you create an account in an organization using the
   /// Organizations console, API, or CLI commands, the information required of
   /// standalone accounts is <i>not</i> automatically collected. For each
   /// account that you want to make standalone, you must perform the following
@@ -2124,24 +2474,36 @@ class Organizations {
   /// Provide a current payment method
   /// </li>
   /// </ul>
-  /// AWS uses the payment method to charge for any billable (not free tier) AWS
-  /// activity that occurs while the account isn't attached to an organization.
-  /// Follow the steps at <a
-  /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">
+  /// Amazon Web Services uses the payment method to charge for any billable
+  /// (not free tier) Amazon Web Services activity that occurs while the account
+  /// isn't attached to an organization. Follow the steps at <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">
   /// To leave an organization when all required account information has not yet
-  /// been provided</a> in the <i>AWS Organizations User Guide.</i>
+  /// been provided</a> in the <i>Organizations User Guide.</i>
+  /// </li>
+  /// <li>
+  /// The account that you want to leave must not be a delegated administrator
+  /// account for any Amazon Web Services service enabled for your organization.
+  /// If the account is a delegated administrator, you must first change the
+  /// delegated administrator account to another account that is remaining in
+  /// the organization.
   /// </li>
   /// <li>
   /// You can leave an organization only after you enable IAM user access to
   /// billing in your account. For more information, see <a
-  /// href="http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate">Activating
-  /// Access to the Billing and Cost Management Console</a> in the <i>AWS
-  /// Billing and Cost Management User Guide.</i>
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate">Activating
+  /// Access to the Billing and Cost Management Console</a> in the <i>Amazon Web
+  /// Services Billing and Cost Management User Guide.</i>
   /// </li>
   /// <li>
   /// After the account leaves the organization, all tags that were attached to
-  /// the account object in the organization are deleted. AWS accounts outside
-  /// of an organization do not support tags.
+  /// the account object in the organization are deleted. Amazon Web Services
+  /// accounts outside of an organization do not support tags.
+  /// </li>
+  /// <li>
+  /// A newly created account has a waiting period before it can be removed from
+  /// its organization. If you get an error that indicates that a wait period is
+  /// required, then try again in a few days.
   /// </li>
   /// </ul> </important>
   ///
@@ -2168,21 +2530,21 @@ class Organizations {
     );
   }
 
-  /// Returns a list of the AWS services that you enabled to integrate with your
-  /// organization. After a service on this list creates the resources that it
-  /// requires for the integration, it can perform operations on your
-  /// organization and its accounts.
+  /// Returns a list of the Amazon Web Services services that you enabled to
+  /// integrate with your organization. After a service on this list creates the
+  /// resources that it requires for the integration, it can perform operations
+  /// on your organization and its accounts.
   ///
-  /// For more information about integrating other services with AWS
-  /// Organizations, including the list of services that currently work with
-  /// Organizations, see <a
-  /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">Integrating
-  /// AWS Organizations with Other AWS Services</a> in the <i>AWS Organizations
-  /// User Guide.</i>
+  /// For more information about integrating other services with Organizations,
+  /// including the list of services that currently work with Organizations, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">Integrating
+  /// Organizations with Other Amazon Web Services Services</a> in the
+  /// <i>Organizations User Guide.</i>
   ///
   /// This operation can be called only from the organization's management
   /// account or by a member account that is a delegated administrator for an
-  /// AWS service.
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -2256,7 +2618,7 @@ class Organizations {
   /// </note>
   /// This operation can be called only from the organization's management
   /// account or by a member account that is a delegated administrator for an
-  /// AWS service.
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -2328,7 +2690,7 @@ class Organizations {
   /// </note>
   /// This operation can be called only from the organization's management
   /// account or by a member account that is a delegated administrator for an
-  /// AWS service.
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -2405,7 +2767,7 @@ class Organizations {
   /// </note>
   /// This operation can be called only from the organization's management
   /// account or by a member account that is a delegated administrator for an
-  /// AWS service.
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -2501,7 +2863,7 @@ class Organizations {
   /// </note>
   /// This operation can be called only from the organization's management
   /// account or by a member account that is a delegated administrator for an
-  /// AWS service.
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -2564,12 +2926,12 @@ class Organizations {
     return ListCreateAccountStatusResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists the AWS accounts that are designated as delegated administrators in
-  /// this organization.
+  /// Lists the Amazon Web Services accounts that are designated as delegated
+  /// administrators in this organization.
   ///
   /// This operation can be called only from the organization's management
   /// account or by a member account that is a delegated administrator for an
-  /// AWS service.
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -2636,12 +2998,12 @@ class Organizations {
     return ListDelegatedAdministratorsResponse.fromJson(jsonResponse.body);
   }
 
-  /// List the AWS services for which the specified account is a delegated
-  /// administrator.
+  /// List the Amazon Web Services services for which the specified account is a
+  /// delegated administrator.
   ///
   /// This operation can be called only from the organization's management
   /// account or by a member account that is a delegated administrator for an
-  /// AWS service.
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AccountNotFoundException].
@@ -2712,10 +3074,10 @@ class Organizations {
   /// Lists the current handshakes that are associated with the account of the
   /// requesting user.
   ///
-  /// Handshakes that are <code>ACCEPTED</code>, <code>DECLINED</code>, or
-  /// <code>CANCELED</code> appear in the results of this API for only 30 days
-  /// after changing to that state. After that, they're deleted and no longer
-  /// accessible.
+  /// Handshakes that are <code>ACCEPTED</code>, <code>DECLINED</code>,
+  /// <code>CANCELED</code>, or <code>EXPIRED</code> appear in the results of
+  /// this API for only 30 days after changing to that state. After that,
+  /// they're deleted and no longer accessible.
   /// <note>
   /// Always check the <code>NextToken</code> response parameter for a
   /// <code>null</code> value when calling a <code>List*</code> operation. These
@@ -2797,10 +3159,10 @@ class Organizations {
   /// operation returns a list of handshake structures. Each structure contains
   /// details and status about a handshake.
   ///
-  /// Handshakes that are <code>ACCEPTED</code>, <code>DECLINED</code>, or
-  /// <code>CANCELED</code> appear in the results of this API for only 30 days
-  /// after changing to that state. After that, they're deleted and no longer
-  /// accessible.
+  /// Handshakes that are <code>ACCEPTED</code>, <code>DECLINED</code>,
+  /// <code>CANCELED</code>, or <code>EXPIRED</code> appear in the results of
+  /// this API for only 30 days after changing to that state. After that,
+  /// they're deleted and no longer accessible.
   /// <note>
   /// Always check the <code>NextToken</code> response parameter for a
   /// <code>null</code> value when calling a <code>List*</code> operation. These
@@ -2811,7 +3173,7 @@ class Organizations {
   /// </note>
   /// This operation can be called only from the organization's management
   /// account or by a member account that is a delegated administrator for an
-  /// AWS service.
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -2892,7 +3254,7 @@ class Organizations {
   /// </note>
   /// This operation can be called only from the organization's management
   /// account or by a member account that is a delegated administrator for an
-  /// AWS service.
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -2987,7 +3349,7 @@ class Organizations {
   /// </note>
   /// This operation can be called only from the organization's management
   /// account or by a member account that is a delegated administrator for an
-  /// AWS service.
+  /// Amazon Web Services service.
   /// <note>
   /// In the current release, a child can have only a single parent.
   /// </note>
@@ -3079,7 +3441,7 @@ class Organizations {
   /// </note>
   /// This operation can be called only from the organization's management
   /// account or by a member account that is a delegated administrator for an
-  /// AWS service.
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -3174,7 +3536,7 @@ class Organizations {
   /// </note>
   /// This operation can be called only from the organization's management
   /// account or by a member account that is a delegated administrator for an
-  /// AWS service.
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -3293,7 +3655,7 @@ class Organizations {
   /// </note>
   /// This operation can be called only from the organization's management
   /// account or by a member account that is a delegated administrator for an
-  /// AWS service.
+  /// Amazon Web Services service.
   /// <note>
   /// Policy types can be enabled and disabled in roots. This is distinct from
   /// whether they're available in the organization. When you enable all
@@ -3359,11 +3721,11 @@ class Organizations {
 
   /// Lists tags that are attached to the specified resource.
   ///
-  /// You can attach tags to the following resources in AWS Organizations.
+  /// You can attach tags to the following resources in Organizations.
   ///
   /// <ul>
   /// <li>
-  /// AWS account
+  /// Amazon Web Services account
   /// </li>
   /// <li>
   /// Organization root
@@ -3377,7 +3739,7 @@ class Organizations {
   /// </ul>
   /// This operation can be called only from the organization's management
   /// account or by a member account that is a delegated administrator for an
-  /// AWS service.
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -3393,7 +3755,7 @@ class Organizations {
   ///
   /// <ul>
   /// <li>
-  /// AWS account – specify the account ID number.
+  /// Amazon Web Services account – specify the account ID number.
   /// </li>
   /// <li>
   /// Organizational unit – specify the OU ID that begins with <code>ou-</code>
@@ -3451,7 +3813,7 @@ class Organizations {
   /// </note>
   /// This operation can be called only from the organization's management
   /// account or by a member account that is a delegated administrator for an
-  /// AWS service.
+  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -3604,17 +3966,74 @@ class Organizations {
     );
   }
 
-  /// Enables the specified member account to administer the Organizations
-  /// features of the specified AWS service. It grants read-only access to AWS
-  /// Organizations service data. The account still requires IAM permissions to
-  /// access and administer the AWS service.
+  /// Creates or updates a resource policy.
   ///
-  /// You can run this action only for AWS services that support this feature.
-  /// For a current list of services that support it, see the column <i>Supports
-  /// Delegated Administrator</i> in the table at <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrated-services-list.html">AWS
-  /// Services that you can use with AWS Organizations</a> in the <i>AWS
-  /// Organizations User Guide.</i>
+  /// You can only call this operation from the organization's management
+  /// account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ServiceException].
+  /// May throw [UnsupportedAPIEndpointException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidInputException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [AWSOrganizationsNotInUseException].
+  ///
+  /// Parameter [content] :
+  /// If provided, the new content for the resource policy. The text must be
+  /// correctly formatted JSON that complies with the syntax for the resource
+  /// policy's type. For more information, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html">Service
+  /// Control Policy Syntax</a> in the <i>Organizations User Guide.</i>
+  ///
+  /// Parameter [tags] :
+  /// A list of tags that you want to attach to the newly created resource
+  /// policy. For each tag in the list, you must specify both a tag key and a
+  /// value. You can set the value to an empty string, but you can't set it to
+  /// <code>null</code>. For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html">Tagging
+  /// Organizations resources</a> in the Organizations User Guide.
+  /// <note>
+  /// Calls with tags apply to the initial creation of the resource policy,
+  /// otherwise an exception is thrown. If any one of the tags is not valid or
+  /// if you exceed the allowed number of tags for the resource policy, then the
+  /// entire request fails and the resource policy is not created.
+  /// </note>
+  Future<PutResourcePolicyResponse> putResourcePolicy({
+    required String content,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSOrganizationsV20161128.PutResourcePolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Content': content,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return PutResourcePolicyResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Enables the specified member account to administer the Organizations
+  /// features of the specified Amazon Web Services service. It grants read-only
+  /// access to Organizations service data. The account still requires IAM
+  /// permissions to access and administer the Amazon Web Services service.
+  ///
+  /// You can run this action only for Amazon Web Services services that support
+  /// this feature. For a current list of services that support it, see the
+  /// column <i>Supports Delegated Administrator</i> in the table at <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services_list.html">Amazon
+  /// Web Services Services that you can use with Organizations</a> in the
+  /// <i>Organizations User Guide.</i>
   ///
   /// This operation can be called only from the organization's management
   /// account.
@@ -3635,8 +4054,8 @@ class Organizations {
   /// register as a delegated administrator.
   ///
   /// Parameter [servicePrincipal] :
-  /// The service principal of the AWS service for which you want to make the
-  /// member account a delegated administrator.
+  /// The service principal of the Amazon Web Services service for which you
+  /// want to make the member account a delegated administrator.
   Future<void> registerDelegatedAdministrator({
     required String accountId,
     required String servicePrincipal,
@@ -3674,23 +4093,31 @@ class Organizations {
   /// <li>
   /// You can remove an account from your organization only if the account is
   /// configured with the information required to operate as a standalone
-  /// account. When you create an account in an organization using the AWS
+  /// account. When you create an account in an organization using the
   /// Organizations console, API, or CLI commands, the information required of
   /// standalone accounts is <i>not</i> automatically collected. For an account
   /// that you want to make standalone, you must choose a support plan, provide
   /// and verify the required contact information, and provide a current payment
-  /// method. AWS uses the payment method to charge for any billable (not free
-  /// tier) AWS activity that occurs while the account isn't attached to an
-  /// organization. To remove an account that doesn't yet have this information,
-  /// you must sign in as the member account and follow the steps at <a
-  /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">
+  /// method. Amazon Web Services uses the payment method to charge for any
+  /// billable (not free tier) Amazon Web Services activity that occurs while
+  /// the account isn't attached to an organization. To remove an account that
+  /// doesn't yet have this information, you must sign in as the member account
+  /// and follow the steps at <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">
   /// To leave an organization when all required account information has not yet
-  /// been provided</a> in the <i>AWS Organizations User Guide.</i>
+  /// been provided</a> in the <i>Organizations User Guide.</i>
+  /// </li>
+  /// <li>
+  /// The account that you want to leave must not be a delegated administrator
+  /// account for any Amazon Web Services service enabled for your organization.
+  /// If the account is a delegated administrator, you must first change the
+  /// delegated administrator account to another account that is remaining in
+  /// the organization.
   /// </li>
   /// <li>
   /// After the account leaves the organization, all tags that were attached to
-  /// the account object in the organization are deleted. AWS accounts outside
-  /// of an organization do not support tags.
+  /// the account object in the organization are deleted. Amazon Web Services
+  /// accounts outside of an organization do not support tags.
   /// </li>
   /// </ul> </important>
   ///
@@ -3731,12 +4158,12 @@ class Organizations {
 
   /// Adds one or more tags to the specified resource.
   ///
-  /// Currently, you can attach tags to the following resources in AWS
+  /// Currently, you can attach tags to the following resources in
   /// Organizations.
   ///
   /// <ul>
   /// <li>
-  /// AWS account
+  /// Amazon Web Services account
   /// </li>
   /// <li>
   /// Organization root
@@ -3763,14 +4190,11 @@ class Organizations {
   /// Parameter [resourceId] :
   /// The ID of the resource to add a tag to.
   ///
-  /// Parameter [tags] :
-  /// A list of tags to add to the specified resource.
-  ///
   /// You can specify any of the following taggable resources.
   ///
   /// <ul>
   /// <li>
-  /// AWS account – specify the account ID number.
+  /// Amazon Web Services account – specify the account ID number.
   /// </li>
   /// <li>
   /// Organizational unit – specify the OU ID that begins with <code>ou-</code>
@@ -3785,13 +4209,15 @@ class Organizations {
   /// similar to: <code>p-<i>12abcdefg3</i> </code>
   /// </li>
   /// </ul>
-  /// For each tag in the list, you must specify both a tag key and a value. You
-  /// can set the value to an empty string, but you can't set it to
-  /// <code>null</code>.
+  ///
+  /// Parameter [tags] :
+  /// A list of tags to add to the specified resource.
+  ///
+  /// For each tag in the list, you must specify both a tag key and a value. The
+  /// value can be an empty string, but you can't set it to <code>null</code>.
   /// <note>
-  /// If any one of the tags is invalid or if you exceed the allowed number of
-  /// tags for an account user, then the entire request fails and the account is
-  /// not created.
+  /// If any one of the tags is not valid or if you exceed the maximum allowed
+  /// number of tags for a resource, then the entire request fails.
   /// </note>
   Future<void> tagResource({
     required String resourceId,
@@ -3816,11 +4242,11 @@ class Organizations {
 
   /// Removes any tags with the specified keys from the specified resource.
   ///
-  /// You can attach tags to the following resources in AWS Organizations.
+  /// You can attach tags to the following resources in Organizations.
   ///
   /// <ul>
   /// <li>
-  /// AWS account
+  /// Amazon Web Services account
   /// </li>
   /// <li>
   /// Organization root
@@ -3851,7 +4277,7 @@ class Organizations {
   ///
   /// <ul>
   /// <li>
-  /// AWS account – specify the account ID number.
+  /// Amazon Web Services account – specify the account ID number.
   /// </li>
   /// <li>
   /// Organizational unit – specify the OU ID that begins with <code>ou-</code>
@@ -3977,7 +4403,7 @@ class Organizations {
   /// formatted JSON that complies with the syntax for the policy's type. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html">Service
-  /// Control Policy Syntax</a> in the <i>AWS Organizations User Guide.</i>
+  /// Control Policy Syntax</a> in the <i>Organizations User Guide.</i>
   ///
   /// Parameter [description] :
   /// If provided, the new description for the policy.
@@ -4023,6 +4449,7 @@ class AcceptHandshakeResponse {
   AcceptHandshakeResponse({
     this.handshake,
   });
+
   factory AcceptHandshakeResponse.fromJson(Map<String, dynamic> json) {
     return AcceptHandshakeResponse(
       handshake: json['Handshake'] != null
@@ -4032,18 +4459,18 @@ class AcceptHandshakeResponse {
   }
 }
 
-/// Contains information about an AWS account that is a member of an
-/// organization.
+/// Contains information about an Amazon Web Services account that is a member
+/// of an organization.
 class Account {
   /// The Amazon Resource Name (ARN) of the account.
   ///
   /// For more information about ARNs in Organizations, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_permissions.html#orgs-permissions-arns">ARN
-  /// Formats Supported by Organizations</a> in the <i>AWS Organizations User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
+  /// Formats Supported by Organizations</a> in the <i>Amazon Web Services Service
+  /// Authorization Reference</i>.
   final String? arn;
 
-  /// The email address associated with the AWS account.
+  /// The email address associated with the Amazon Web Services account.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for this
   /// parameter is a string of characters that represents a standard internet
@@ -4081,6 +4508,7 @@ class Account {
     this.name,
     this.status,
   });
+
   factory Account.fromJson(Map<String, dynamic> json) {
     return Account(
       arn: json['Arn'] as String?,
@@ -4125,6 +4553,7 @@ extension AccountJoinedMethodFromString on String {
 enum AccountStatus {
   active,
   suspended,
+  pendingClosure,
 }
 
 extension AccountStatusValueExtension on AccountStatus {
@@ -4134,6 +4563,8 @@ extension AccountStatusValueExtension on AccountStatus {
         return 'ACTIVE';
       case AccountStatus.suspended:
         return 'SUSPENDED';
+      case AccountStatus.pendingClosure:
+        return 'PENDING_CLOSURE';
     }
   }
 }
@@ -4145,6 +4576,8 @@ extension AccountStatusFromString on String {
         return AccountStatus.active;
       case 'SUSPENDED':
         return AccountStatus.suspended;
+      case 'PENDING_CLOSURE':
+        return AccountStatus.pendingClosure;
     }
     throw Exception('$this is not known in enum AccountStatus');
   }
@@ -4195,6 +4628,7 @@ class CancelHandshakeResponse {
   CancelHandshakeResponse({
     this.handshake,
   });
+
   factory CancelHandshakeResponse.fromJson(Map<String, dynamic> json) {
     return CancelHandshakeResponse(
       handshake: json['Handshake'] != null
@@ -4231,6 +4665,7 @@ class Child {
     this.id,
     this.type,
   });
+
   factory Child.fromJson(Map<String, dynamic> json) {
     return Child(
       id: json['Id'] as String?,
@@ -4276,7 +4711,13 @@ enum CreateAccountFailureReason {
   internalFailure,
   govcloudAccountAlreadyExists,
   missingBusinessValidation,
+  failedBusinessValidation,
+  pendingBusinessValidation,
+  invalidIdentityForBusinessValidation,
+  unknownBusinessValidation,
   missingPaymentInstrument,
+  invalidPaymentInstrument,
+  updateExistingResourcePolicyWithTagsNotSupported,
 }
 
 extension CreateAccountFailureReasonValueExtension
@@ -4299,8 +4740,21 @@ extension CreateAccountFailureReasonValueExtension
         return 'GOVCLOUD_ACCOUNT_ALREADY_EXISTS';
       case CreateAccountFailureReason.missingBusinessValidation:
         return 'MISSING_BUSINESS_VALIDATION';
+      case CreateAccountFailureReason.failedBusinessValidation:
+        return 'FAILED_BUSINESS_VALIDATION';
+      case CreateAccountFailureReason.pendingBusinessValidation:
+        return 'PENDING_BUSINESS_VALIDATION';
+      case CreateAccountFailureReason.invalidIdentityForBusinessValidation:
+        return 'INVALID_IDENTITY_FOR_BUSINESS_VALIDATION';
+      case CreateAccountFailureReason.unknownBusinessValidation:
+        return 'UNKNOWN_BUSINESS_VALIDATION';
       case CreateAccountFailureReason.missingPaymentInstrument:
         return 'MISSING_PAYMENT_INSTRUMENT';
+      case CreateAccountFailureReason.invalidPaymentInstrument:
+        return 'INVALID_PAYMENT_INSTRUMENT';
+      case CreateAccountFailureReason
+            .updateExistingResourcePolicyWithTagsNotSupported:
+        return 'UPDATE_EXISTING_RESOURCE_POLICY_WITH_TAGS_NOT_SUPPORTED';
     }
   }
 }
@@ -4324,8 +4778,21 @@ extension CreateAccountFailureReasonFromString on String {
         return CreateAccountFailureReason.govcloudAccountAlreadyExists;
       case 'MISSING_BUSINESS_VALIDATION':
         return CreateAccountFailureReason.missingBusinessValidation;
+      case 'FAILED_BUSINESS_VALIDATION':
+        return CreateAccountFailureReason.failedBusinessValidation;
+      case 'PENDING_BUSINESS_VALIDATION':
+        return CreateAccountFailureReason.pendingBusinessValidation;
+      case 'INVALID_IDENTITY_FOR_BUSINESS_VALIDATION':
+        return CreateAccountFailureReason.invalidIdentityForBusinessValidation;
+      case 'UNKNOWN_BUSINESS_VALIDATION':
+        return CreateAccountFailureReason.unknownBusinessValidation;
       case 'MISSING_PAYMENT_INSTRUMENT':
         return CreateAccountFailureReason.missingPaymentInstrument;
+      case 'INVALID_PAYMENT_INSTRUMENT':
+        return CreateAccountFailureReason.invalidPaymentInstrument;
+      case 'UPDATE_EXISTING_RESOURCE_POLICY_WITH_TAGS_NOT_SUPPORTED':
+        return CreateAccountFailureReason
+            .updateExistingResourcePolicyWithTagsNotSupported;
     }
     throw Exception('$this is not known in enum CreateAccountFailureReason');
   }
@@ -4337,16 +4804,17 @@ class CreateAccountResponse {
   /// it because account creation is an asynchronous process. You can pass the
   /// returned <code>CreateAccountStatus</code> ID as a parameter to
   /// <a>DescribeCreateAccountStatus</a> to get status about the progress of the
-  /// request at later times. You can also check the AWS CloudTrail log for the
+  /// request at later times. You can also check the CloudTrail log for the
   /// <code>CreateAccountResult</code> event. For more information, see <a
-  /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_monitoring.html">Monitoring
-  /// the Activity in Your Organization</a> in the <i>AWS Organizations User
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_monitoring.html">Monitoring
+  /// the Activity in Your Organization</a> in the <i>Organizations User
   /// Guide</i>.
   final CreateAccountStatus? createAccountStatus;
 
   CreateAccountResponse({
     this.createAccountStatus,
   });
+
   factory CreateAccountResponse.fromJson(Map<String, dynamic> json) {
     return CreateAccountResponse(
       createAccountStatus: json['CreateAccountStatus'] != null
@@ -4391,8 +4859,8 @@ extension CreateAccountStateFromString on String {
 }
 
 /// Contains the status about a <a>CreateAccount</a> or
-/// <a>CreateGovCloudAccount</a> request to create an AWS account or an AWS
-/// GovCloud (US) account in an organization.
+/// <a>CreateGovCloudAccount</a> request to create an Amazon Web Services
+/// account or an Amazon Web Services GovCloud (US) account in an organization.
 class CreateAccountStatus {
   /// If the account was created successfully, the unique identifier (ID) of the
   /// new account.
@@ -4411,21 +4879,30 @@ class CreateAccountStatus {
   ///
   /// <ul>
   /// <li>
-  /// ACCOUNT_LIMIT_EXCEEDED: The account could not be created because you have
-  /// reached the limit on the number of accounts in your organization.
+  /// ACCOUNT_LIMIT_EXCEEDED: The account couldn't be created because you reached
+  /// the limit on the number of accounts in your organization.
   /// </li>
   /// <li>
   /// CONCURRENT_ACCOUNT_MODIFICATION: You already submitted a request with the
   /// same information.
   /// </li>
   /// <li>
-  /// EMAIL_ALREADY_EXISTS: The account could not be created because another AWS
-  /// account with that email address already exists.
+  /// EMAIL_ALREADY_EXISTS: The account could not be created because another
+  /// Amazon Web Services account with that email address already exists.
   /// </li>
   /// <li>
-  /// GOVCLOUD_ACCOUNT_ALREADY_EXISTS: The account in the AWS GovCloud (US) Region
-  /// could not be created because this Region already includes an account with
-  /// that email address.
+  /// FAILED_BUSINESS_VALIDATION: The Amazon Web Services account that owns your
+  /// organization failed to receive business license validation.
+  /// </li>
+  /// <li>
+  /// GOVCLOUD_ACCOUNT_ALREADY_EXISTS: The account in the Amazon Web Services
+  /// GovCloud (US) Region could not be created because this Region already
+  /// includes an account with that email address.
+  /// </li>
+  /// <li>
+  /// IDENTITY_INVALID_BUSINESS_VALIDATION: The Amazon Web Services account that
+  /// owns your organization can't complete business license validation because it
+  /// doesn't have valid identity data.
   /// </li>
   /// <li>
   /// INVALID_ADDRESS: The account could not be created because the address you
@@ -4436,22 +4913,40 @@ class CreateAccountStatus {
   /// you provided is not valid.
   /// </li>
   /// <li>
-  /// INTERNAL_FAILURE: The account could not be created because of an internal
-  /// failure. Try again later. If the problem persists, contact Customer Support.
+  /// INVALID_PAYMENT_INSTRUMENT: The Amazon Web Services account that owns your
+  /// organization does not have a supported payment method associated with the
+  /// account. Amazon Web Services does not support cards issued by financial
+  /// institutions in Russia or Belarus. For more information, see <a
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-general.html">Managing
+  /// your Amazon Web Services payments</a>.
   /// </li>
   /// <li>
-  /// MISSING_BUSINESS_VALIDATION: The AWS account that owns your organization has
-  /// not received Business Validation.
+  /// INTERNAL_FAILURE: The account could not be created because of an internal
+  /// failure. Try again later. If the problem persists, contact Amazon Web
+  /// Services Customer Support.
+  /// </li>
+  /// <li>
+  /// MISSING_BUSINESS_VALIDATION: The Amazon Web Services account that owns your
+  /// organization has not received Business Validation.
   /// </li>
   /// <li>
   /// MISSING_PAYMENT_INSTRUMENT: You must configure the management account with a
   /// valid payment method, such as a credit card.
   /// </li>
+  /// <li>
+  /// PENDING_BUSINESS_VALIDATION: The Amazon Web Services account that owns your
+  /// organization is still in the process of completing business license
+  /// validation.
+  /// </li>
+  /// <li>
+  /// UNKNOWN_BUSINESS_VALIDATION: The Amazon Web Services account that owns your
+  /// organization has an unknown issue with business license validation.
+  /// </li>
   /// </ul>
   final CreateAccountFailureReason? failureReason;
 
   /// If the account was created successfully, the unique identifier (ID) of the
-  /// new account in the AWS GovCloud (US) Region.
+  /// new account in the Amazon Web Services GovCloud (US) Region.
   final String? govCloudAccountId;
 
   /// The unique identifier (ID) that references this request. You get this value
@@ -4466,7 +4961,8 @@ class CreateAccountStatus {
   /// The date and time that the request was made for the account creation.
   final DateTime? requestedTimestamp;
 
-  /// The status of the request.
+  /// The status of the asynchronous request to create an Amazon Web Services
+  /// account.
   final CreateAccountState? state;
 
   CreateAccountStatus({
@@ -4479,6 +4975,7 @@ class CreateAccountStatus {
     this.requestedTimestamp,
     this.state,
   });
+
   factory CreateAccountStatus.fromJson(Map<String, dynamic> json) {
     return CreateAccountStatus(
       accountId: json['AccountId'] as String?,
@@ -4500,6 +4997,7 @@ class CreateGovCloudAccountResponse {
   CreateGovCloudAccountResponse({
     this.createAccountStatus,
   });
+
   factory CreateGovCloudAccountResponse.fromJson(Map<String, dynamic> json) {
     return CreateGovCloudAccountResponse(
       createAccountStatus: json['CreateAccountStatus'] != null
@@ -4517,6 +5015,7 @@ class CreateOrganizationResponse {
   CreateOrganizationResponse({
     this.organization,
   });
+
   factory CreateOrganizationResponse.fromJson(Map<String, dynamic> json) {
     return CreateOrganizationResponse(
       organization: json['Organization'] != null
@@ -4533,6 +5032,7 @@ class CreateOrganizationalUnitResponse {
   CreateOrganizationalUnitResponse({
     this.organizationalUnit,
   });
+
   factory CreateOrganizationalUnitResponse.fromJson(Map<String, dynamic> json) {
     return CreateOrganizationalUnitResponse(
       organizationalUnit: json['OrganizationalUnit'] != null
@@ -4550,6 +5050,7 @@ class CreatePolicyResponse {
   CreatePolicyResponse({
     this.policy,
   });
+
   factory CreatePolicyResponse.fromJson(Map<String, dynamic> json) {
     return CreatePolicyResponse(
       policy: json['Policy'] != null
@@ -4567,6 +5068,7 @@ class DeclineHandshakeResponse {
   DeclineHandshakeResponse({
     this.handshake,
   });
+
   factory DeclineHandshakeResponse.fromJson(Map<String, dynamic> json) {
     return DeclineHandshakeResponse(
       handshake: json['Handshake'] != null
@@ -4584,8 +5086,8 @@ class DelegatedAdministrator {
   /// The date when the account was made a delegated administrator.
   final DateTime? delegationEnabledDate;
 
-  /// The email address that is associated with the delegated administrator's AWS
-  /// account.
+  /// The email address that is associated with the delegated administrator's
+  /// Amazon Web Services account.
   final String? email;
 
   /// The unique identifier (ID) of the delegated administrator's account.
@@ -4615,6 +5117,7 @@ class DelegatedAdministrator {
     this.name,
     this.status,
   });
+
   factory DelegatedAdministrator.fromJson(Map<String, dynamic> json) {
     return DelegatedAdministrator(
       arn: json['Arn'] as String?,
@@ -4629,21 +5132,22 @@ class DelegatedAdministrator {
   }
 }
 
-/// Contains information about the AWS service for which the account is a
-/// delegated administrator.
+/// Contains information about the Amazon Web Services service for which the
+/// account is a delegated administrator.
 class DelegatedService {
   /// The date that the account became a delegated administrator for this service.
   final DateTime? delegationEnabledDate;
 
-  /// The name of a service that can request an operation for the specified
-  /// service. This is typically in the form of a URL, such as: <code>
-  /// <i>servicename</i>.amazonaws.com</code>.
+  /// The name of an Amazon Web Services service that can request an operation for
+  /// the specified service. This is typically in the form of a URL, such as:
+  /// <code> <i>servicename</i>.amazonaws.com</code>.
   final String? servicePrincipal;
 
   DelegatedService({
     this.delegationEnabledDate,
     this.servicePrincipal,
   });
+
   factory DelegatedService.fromJson(Map<String, dynamic> json) {
     return DelegatedService(
       delegationEnabledDate: timeStampFromJson(json['DelegationEnabledDate']),
@@ -4659,6 +5163,7 @@ class DescribeAccountResponse {
   DescribeAccountResponse({
     this.account,
   });
+
   factory DescribeAccountResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAccountResponse(
       account: json['Account'] != null
@@ -4675,6 +5180,7 @@ class DescribeCreateAccountStatusResponse {
   DescribeCreateAccountStatusResponse({
     this.createAccountStatus,
   });
+
   factory DescribeCreateAccountStatusResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeCreateAccountStatusResponse(
@@ -4693,6 +5199,7 @@ class DescribeEffectivePolicyResponse {
   DescribeEffectivePolicyResponse({
     this.effectivePolicy,
   });
+
   factory DescribeEffectivePolicyResponse.fromJson(Map<String, dynamic> json) {
     return DescribeEffectivePolicyResponse(
       effectivePolicy: json['EffectivePolicy'] != null
@@ -4710,6 +5217,7 @@ class DescribeHandshakeResponse {
   DescribeHandshakeResponse({
     this.handshake,
   });
+
   factory DescribeHandshakeResponse.fromJson(Map<String, dynamic> json) {
     return DescribeHandshakeResponse(
       handshake: json['Handshake'] != null
@@ -4733,6 +5241,7 @@ class DescribeOrganizationResponse {
   DescribeOrganizationResponse({
     this.organization,
   });
+
   factory DescribeOrganizationResponse.fromJson(Map<String, dynamic> json) {
     return DescribeOrganizationResponse(
       organization: json['Organization'] != null
@@ -4749,6 +5258,7 @@ class DescribeOrganizationalUnitResponse {
   DescribeOrganizationalUnitResponse({
     this.organizationalUnit,
   });
+
   factory DescribeOrganizationalUnitResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeOrganizationalUnitResponse(
@@ -4767,10 +5277,29 @@ class DescribePolicyResponse {
   DescribePolicyResponse({
     this.policy,
   });
+
   factory DescribePolicyResponse.fromJson(Map<String, dynamic> json) {
     return DescribePolicyResponse(
       policy: json['Policy'] != null
           ? Policy.fromJson(json['Policy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class DescribeResourcePolicyResponse {
+  /// A structure that contains details about the resource policy.
+  final ResourcePolicy? resourcePolicy;
+
+  DescribeResourcePolicyResponse({
+    this.resourcePolicy,
+  });
+
+  factory DescribeResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeResourcePolicyResponse(
+      resourcePolicy: json['ResourcePolicy'] != null
+          ? ResourcePolicy.fromJson(
+              json['ResourcePolicy'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -4784,6 +5313,7 @@ class DisablePolicyTypeResponse {
   DisablePolicyTypeResponse({
     this.root,
   });
+
   factory DisablePolicyTypeResponse.fromJson(Map<String, dynamic> json) {
     return DisablePolicyTypeResponse(
       root: json['Root'] != null
@@ -4815,6 +5345,7 @@ class EffectivePolicy {
     this.policyType,
     this.targetId,
   });
+
   factory EffectivePolicy.fromJson(Map<String, dynamic> json) {
     return EffectivePolicy(
       lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
@@ -4866,6 +5397,7 @@ class EnableAllFeaturesResponse {
   EnableAllFeaturesResponse({
     this.handshake,
   });
+
   factory EnableAllFeaturesResponse.fromJson(Map<String, dynamic> json) {
     return EnableAllFeaturesResponse(
       handshake: json['Handshake'] != null
@@ -4883,6 +5415,7 @@ class EnablePolicyTypeResponse {
   EnablePolicyTypeResponse({
     this.root,
   });
+
   factory EnablePolicyTypeResponse.fromJson(Map<String, dynamic> json) {
     return EnablePolicyTypeResponse(
       root: json['Root'] != null
@@ -4893,9 +5426,9 @@ class EnablePolicyTypeResponse {
 }
 
 /// A structure that contains details of a service principal that represents an
-/// AWS service that is enabled to integrate with AWS Organizations.
+/// Amazon Web Services service that is enabled to integrate with Organizations.
 class EnabledServicePrincipal {
-  /// The date that the service principal was enabled for integration with AWS
+  /// The date that the service principal was enabled for integration with
   /// Organizations.
   final DateTime? dateEnabled;
 
@@ -4907,6 +5440,7 @@ class EnabledServicePrincipal {
     this.dateEnabled,
     this.servicePrincipal,
   });
+
   factory EnabledServicePrincipal.fromJson(Map<String, dynamic> json) {
     return EnabledServicePrincipal(
       dateEnabled: timeStampFromJson(json['DateEnabled']),
@@ -4922,8 +5456,9 @@ class EnabledServicePrincipal {
 /// accounts exchange information as a series of handshake requests and
 /// responses.
 ///
-/// <b>Note:</b> Handshakes that are CANCELED, ACCEPTED, or DECLINED show up in
-/// lists for only 30 days after entering that state After that they are
+/// <b>Note:</b> Handshakes that are <code>CANCELED</code>,
+/// <code>ACCEPTED</code>, <code>DECLINED</code>, or <code>EXPIRED</code> show
+/// up in lists for only 30 days after entering that state After that they are
 /// deleted.
 class Handshake {
   /// The type of handshake, indicating what action occurs when the recipient
@@ -4955,9 +5490,9 @@ class Handshake {
   /// The Amazon Resource Name (ARN) of a handshake.
   ///
   /// For more information about ARNs in Organizations, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_permissions.html#orgs-permissions-arns">ARN
-  /// Formats Supported by Organizations</a> in the <i>AWS Organizations User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
+  /// Formats Supported by Organizations</a> in the <i>Amazon Web Services Service
+  /// Authorization Reference</i>.
   final String? arn;
 
   /// The date and time that the handshake expires. If the recipient of the
@@ -5027,6 +5562,7 @@ class Handshake {
     this.resources,
     this.state,
   });
+
   factory Handshake.fromJson(Map<String, dynamic> json) {
     return Handshake(
       action: (json['Action'] as String?)?.toActionType(),
@@ -5097,6 +5633,7 @@ class HandshakeParty {
     required this.id,
     required this.type,
   });
+
   factory HandshakeParty.fromJson(Map<String, dynamic> json) {
     return HandshakeParty(
       id: json['Id'] as String,
@@ -5158,7 +5695,7 @@ class HandshakeResource {
   ///
   /// <ul>
   /// <li>
-  /// <code>ACCOUNT</code> - Specifies an AWS account ID number.
+  /// <code>ACCOUNT</code> - Specifies an Amazon Web Services account ID number.
   /// </li>
   /// <li>
   /// <code>ORGANIZATION</code> - Specifies an organization ID number.
@@ -5192,6 +5729,7 @@ class HandshakeResource {
     this.type,
     this.value,
   });
+
   factory HandshakeResource.fromJson(Map<String, dynamic> json) {
     return HandshakeResource(
       resources: (json['Resources'] as List?)
@@ -5346,6 +5884,7 @@ class InviteAccountToOrganizationResponse {
   InviteAccountToOrganizationResponse({
     this.handshake,
   });
+
   factory InviteAccountToOrganizationResponse.fromJson(
       Map<String, dynamic> json) {
     return InviteAccountToOrganizationResponse(
@@ -5359,7 +5898,7 @@ class InviteAccountToOrganizationResponse {
 class ListAWSServiceAccessForOrganizationResponse {
   /// A list of the service principals for the services that are enabled to
   /// integrate with your organization. Each principal is a structure that
-  /// includes the name and the date that it was enabled for integration with AWS
+  /// includes the name and the date that it was enabled for integration with
   /// Organizations.
   final List<EnabledServicePrincipal>? enabledServicePrincipals;
 
@@ -5374,6 +5913,7 @@ class ListAWSServiceAccessForOrganizationResponse {
     this.enabledServicePrincipals,
     this.nextToken,
   });
+
   factory ListAWSServiceAccessForOrganizationResponse.fromJson(
       Map<String, dynamic> json) {
     return ListAWSServiceAccessForOrganizationResponse(
@@ -5402,6 +5942,7 @@ class ListAccountsForParentResponse {
     this.accounts,
     this.nextToken,
   });
+
   factory ListAccountsForParentResponse.fromJson(Map<String, dynamic> json) {
     return ListAccountsForParentResponse(
       accounts: (json['Accounts'] as List?)
@@ -5428,6 +5969,7 @@ class ListAccountsResponse {
     this.accounts,
     this.nextToken,
   });
+
   factory ListAccountsResponse.fromJson(Map<String, dynamic> json) {
     return ListAccountsResponse(
       accounts: (json['Accounts'] as List?)
@@ -5454,6 +5996,7 @@ class ListChildrenResponse {
     this.children,
     this.nextToken,
   });
+
   factory ListChildrenResponse.fromJson(Map<String, dynamic> json) {
     return ListChildrenResponse(
       children: (json['Children'] as List?)
@@ -5482,6 +6025,7 @@ class ListCreateAccountStatusResponse {
     this.createAccountStatuses,
     this.nextToken,
   });
+
   factory ListCreateAccountStatusResponse.fromJson(Map<String, dynamic> json) {
     return ListCreateAccountStatusResponse(
       createAccountStatuses: (json['CreateAccountStatuses'] as List?)
@@ -5508,6 +6052,7 @@ class ListDelegatedAdministratorsResponse {
     this.delegatedAdministrators,
     this.nextToken,
   });
+
   factory ListDelegatedAdministratorsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListDelegatedAdministratorsResponse(
@@ -5536,6 +6081,7 @@ class ListDelegatedServicesForAccountResponse {
     this.delegatedServices,
     this.nextToken,
   });
+
   factory ListDelegatedServicesForAccountResponse.fromJson(
       Map<String, dynamic> json) {
     return ListDelegatedServicesForAccountResponse(
@@ -5564,6 +6110,7 @@ class ListHandshakesForAccountResponse {
     this.handshakes,
     this.nextToken,
   });
+
   factory ListHandshakesForAccountResponse.fromJson(Map<String, dynamic> json) {
     return ListHandshakesForAccountResponse(
       handshakes: (json['Handshakes'] as List?)
@@ -5591,6 +6138,7 @@ class ListHandshakesForOrganizationResponse {
     this.handshakes,
     this.nextToken,
   });
+
   factory ListHandshakesForOrganizationResponse.fromJson(
       Map<String, dynamic> json) {
     return ListHandshakesForOrganizationResponse(
@@ -5618,6 +6166,7 @@ class ListOrganizationalUnitsForParentResponse {
     this.nextToken,
     this.organizationalUnits,
   });
+
   factory ListOrganizationalUnitsForParentResponse.fromJson(
       Map<String, dynamic> json) {
     return ListOrganizationalUnitsForParentResponse(
@@ -5645,6 +6194,7 @@ class ListParentsResponse {
     this.nextToken,
     this.parents,
   });
+
   factory ListParentsResponse.fromJson(Map<String, dynamic> json) {
     return ListParentsResponse(
       nextToken: json['NextToken'] as String?,
@@ -5671,6 +6221,7 @@ class ListPoliciesForTargetResponse {
     this.nextToken,
     this.policies,
   });
+
   factory ListPoliciesForTargetResponse.fromJson(Map<String, dynamic> json) {
     return ListPoliciesForTargetResponse(
       nextToken: json['NextToken'] as String?,
@@ -5699,6 +6250,7 @@ class ListPoliciesResponse {
     this.nextToken,
     this.policies,
   });
+
   factory ListPoliciesResponse.fromJson(Map<String, dynamic> json) {
     return ListPoliciesResponse(
       nextToken: json['NextToken'] as String?,
@@ -5725,6 +6277,7 @@ class ListRootsResponse {
     this.nextToken,
     this.roots,
   });
+
   factory ListRootsResponse.fromJson(Map<String, dynamic> json) {
     return ListRootsResponse(
       nextToken: json['NextToken'] as String?,
@@ -5751,6 +6304,7 @@ class ListTagsForResourceResponse {
     this.nextToken,
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       nextToken: json['NextToken'] as String?,
@@ -5778,6 +6332,7 @@ class ListTargetsForPolicyResponse {
     this.nextToken,
     this.targets,
   });
+
   factory ListTargetsForPolicyResponse.fromJson(Map<String, dynamic> json) {
     return ListTargetsForPolicyResponse(
       nextToken: json['NextToken'] as String?,
@@ -5797,9 +6352,9 @@ class Organization {
   /// The Amazon Resource Name (ARN) of an organization.
   ///
   /// For more information about ARNs in Organizations, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_permissions.html#orgs-permissions-arns">ARN
-  /// Formats Supported by Organizations</a> in the <i>AWS Organizations User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
+  /// Formats Supported by Organizations</a> in the <i>Amazon Web Services Service
+  /// Authorization Reference</i>.
   final String? arn;
 
   /// <important>
@@ -5816,7 +6371,7 @@ class Organization {
   /// consolidated billing functionality is available. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">Enabling
-  /// All Features in Your Organization</a> in the <i>AWS Organizations User
+  /// All Features in Your Organization</a> in the <i>Organizations User
   /// Guide</i>.
   final OrganizationFeatureSet? featureSet;
 
@@ -5831,13 +6386,13 @@ class Organization {
   /// management account for the organization.
   ///
   /// For more information about ARNs in Organizations, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_permissions.html#orgs-permissions-arns">ARN
-  /// Formats Supported by Organizations</a> in the <i>AWS Organizations User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
+  /// Formats Supported by Organizations</a> in the <i>Amazon Web Services Service
+  /// Authorization Reference</i>.
   final String? masterAccountArn;
 
-  /// The email address that is associated with the AWS account that is designated
-  /// as the management account for the organization.
+  /// The email address that is associated with the Amazon Web Services account
+  /// that is designated as the management account for the organization.
   final String? masterAccountEmail;
 
   /// The unique identifier (ID) of the management account of an organization.
@@ -5855,6 +6410,7 @@ class Organization {
     this.masterAccountEmail,
     this.masterAccountId,
   });
+
   factory Organization.fromJson(Map<String, dynamic> json) {
     return Organization(
       arn: json['Arn'] as String?,
@@ -5900,15 +6456,16 @@ extension OrganizationFeatureSetFromString on String {
 }
 
 /// Contains details about an organizational unit (OU). An OU is a container of
-/// AWS accounts within a root of an organization. Policies that are attached to
-/// an OU apply to all accounts contained in that OU and in any child OUs.
+/// Amazon Web Services accounts within a root of an organization. Policies that
+/// are attached to an OU apply to all accounts contained in that OU and in any
+/// child OUs.
 class OrganizationalUnit {
   /// The Amazon Resource Name (ARN) of this OU.
   ///
   /// For more information about ARNs in Organizations, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_permissions.html#orgs-permissions-arns">ARN
-  /// Formats Supported by Organizations</a> in the <i>AWS Organizations User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
+  /// Formats Supported by Organizations</a> in the <i>Amazon Web Services Service
+  /// Authorization Reference</i>.
   final String? arn;
 
   /// The unique identifier (ID) associated with this OU.
@@ -5932,6 +6489,7 @@ class OrganizationalUnit {
     this.id,
     this.name,
   });
+
   factory OrganizationalUnit.fromJson(Map<String, dynamic> json) {
     return OrganizationalUnit(
       arn: json['Arn'] as String?,
@@ -5970,6 +6528,7 @@ class Parent {
     this.id,
     this.type,
   });
+
   factory Parent.fromJson(Map<String, dynamic> json) {
     return Parent(
       id: json['Id'] as String?,
@@ -6020,6 +6579,7 @@ class Policy {
     this.content,
     this.policySummary,
   });
+
   factory Policy.fromJson(Map<String, dynamic> json) {
     return Policy(
       content: json['Content'] as String?,
@@ -6037,14 +6597,14 @@ class PolicySummary {
   /// The Amazon Resource Name (ARN) of the policy.
   ///
   /// For more information about ARNs in Organizations, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_permissions.html#orgs-permissions-arns">ARN
-  /// Formats Supported by Organizations</a> in the <i>AWS Organizations User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
+  /// Formats Supported by Organizations</a> in the <i>Amazon Web Services Service
+  /// Authorization Reference</i>.
   final String? arn;
 
-  /// A boolean value that indicates whether the specified policy is an AWS
-  /// managed policy. If true, then you can attach the policy to roots, OUs, or
-  /// accounts, but you cannot edit it.
+  /// A boolean value that indicates whether the specified policy is an Amazon Web
+  /// Services managed policy. If true, then you can attach the policy to roots,
+  /// OUs, or accounts, but you cannot edit it.
   final bool? awsManaged;
 
   /// The description of the policy.
@@ -6075,6 +6635,7 @@ class PolicySummary {
     this.name,
     this.type,
   });
+
   factory PolicySummary.fromJson(Map<String, dynamic> json) {
     return PolicySummary(
       arn: json['Arn'] as String?,
@@ -6093,9 +6654,9 @@ class PolicyTargetSummary {
   /// The Amazon Resource Name (ARN) of the policy target.
   ///
   /// For more information about ARNs in Organizations, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_permissions.html#orgs-permissions-arns">ARN
-  /// Formats Supported by Organizations</a> in the <i>AWS Organizations User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
+  /// Formats Supported by Organizations</a> in the <i>Amazon Web Services Service
+  /// Authorization Reference</i>.
   final String? arn;
 
   /// The friendly name of the policy target.
@@ -6136,6 +6697,7 @@ class PolicyTargetSummary {
     this.targetId,
     this.type,
   });
+
   factory PolicyTargetSummary.fromJson(Map<String, dynamic> json) {
     return PolicyTargetSummary(
       arn: json['Arn'] as String?,
@@ -6233,6 +6795,7 @@ class PolicyTypeSummary {
     this.status,
     this.type,
   });
+
   factory PolicyTypeSummary.fromJson(Map<String, dynamic> json) {
     return PolicyTypeSummary(
       status: (json['Status'] as String?)?.toPolicyTypeStatus(),
@@ -6241,16 +6804,80 @@ class PolicyTypeSummary {
   }
 }
 
+class PutResourcePolicyResponse {
+  /// A structure that contains details about the resource policy.
+  final ResourcePolicy? resourcePolicy;
+
+  PutResourcePolicyResponse({
+    this.resourcePolicy,
+  });
+
+  factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return PutResourcePolicyResponse(
+      resourcePolicy: json['ResourcePolicy'] != null
+          ? ResourcePolicy.fromJson(
+              json['ResourcePolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// A structure that contains details about a resource policy.
+class ResourcePolicy {
+  /// The policy text of the resource policy.
+  final String? content;
+
+  /// A structure that contains resource policy ID and Amazon Resource Name (ARN).
+  final ResourcePolicySummary? resourcePolicySummary;
+
+  ResourcePolicy({
+    this.content,
+    this.resourcePolicySummary,
+  });
+
+  factory ResourcePolicy.fromJson(Map<String, dynamic> json) {
+    return ResourcePolicy(
+      content: json['Content'] as String?,
+      resourcePolicySummary: json['ResourcePolicySummary'] != null
+          ? ResourcePolicySummary.fromJson(
+              json['ResourcePolicySummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// A structure that contains resource policy ID and Amazon Resource Name (ARN).
+class ResourcePolicySummary {
+  /// The Amazon Resource Name (ARN) of the resource policy.
+  final String? arn;
+
+  /// The unique identifier (ID) of the resource policy.
+  final String? id;
+
+  ResourcePolicySummary({
+    this.arn,
+    this.id,
+  });
+
+  factory ResourcePolicySummary.fromJson(Map<String, dynamic> json) {
+    return ResourcePolicySummary(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+    );
+  }
+}
+
 /// Contains details about a root. A root is a top-level parent node in the
 /// hierarchy of an organization that can contain organizational units (OUs) and
-/// accounts. The root contains every AWS account in the organization.
+/// accounts. The root contains every Amazon Web Services account in the
+/// organization.
 class Root {
   /// The Amazon Resource Name (ARN) of the root.
   ///
   /// For more information about ARNs in Organizations, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_permissions.html#orgs-permissions-arns">ARN
-  /// Formats Supported by Organizations</a> in the <i>AWS Organizations User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
+  /// Formats Supported by Organizations</a> in the <i>Amazon Web Services Service
+  /// Authorization Reference</i>.
   final String? arn;
 
   /// The unique identifier (ID) for the root.
@@ -6284,6 +6911,7 @@ class Root {
     this.name,
     this.policyTypes,
   });
+
   factory Root.fromJson(Map<String, dynamic> json) {
     return Root(
       arn: json['Arn'] as String?,
@@ -6303,7 +6931,7 @@ class Root {
 ///
 /// <ul>
 /// <li>
-/// AWS account
+/// Amazon Web Services account
 /// </li>
 /// <li>
 /// Organizational unit (OU)
@@ -6328,6 +6956,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -6386,6 +7015,7 @@ class UpdateOrganizationalUnitResponse {
   UpdateOrganizationalUnitResponse({
     this.organizationalUnit,
   });
+
   factory UpdateOrganizationalUnitResponse.fromJson(Map<String, dynamic> json) {
     return UpdateOrganizationalUnitResponse(
       organizationalUnit: json['OrganizationalUnit'] != null
@@ -6404,6 +7034,7 @@ class UpdatePolicyResponse {
   UpdatePolicyResponse({
     this.policy,
   });
+
   factory UpdatePolicyResponse.fromJson(Map<String, dynamic> json) {
     return UpdatePolicyResponse(
       policy: json['Policy'] != null
@@ -6431,6 +7062,14 @@ class AccessDeniedForDependencyException extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'AccessDeniedForDependencyException',
+            message: message);
+}
+
+class AccountAlreadyClosedException extends _s.GenericAwsException {
+  AccountAlreadyClosedException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'AccountAlreadyClosedException',
             message: message);
 }
 
@@ -6482,6 +7121,11 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             type: type,
             code: 'ConcurrentModificationException',
             message: message);
+}
+
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String? type, String? message})
+      : super(type: type, code: 'ConflictException', message: message);
 }
 
 class ConstraintViolationException extends _s.GenericAwsException {
@@ -6682,6 +7326,14 @@ class PolicyTypeNotEnabledException extends _s.GenericAwsException {
             message: message);
 }
 
+class ResourcePolicyNotFoundException extends _s.GenericAwsException {
+  ResourcePolicyNotFoundException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ResourcePolicyNotFoundException',
+            message: message);
+}
+
 class RootNotFoundException extends _s.GenericAwsException {
   RootNotFoundException({String? type, String? message})
       : super(type: type, code: 'RootNotFoundException', message: message);
@@ -6725,6 +7377,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       AccessDeniedException(type: type, message: message),
   'AccessDeniedForDependencyException': (type, message) =>
       AccessDeniedForDependencyException(type: type, message: message),
+  'AccountAlreadyClosedException': (type, message) =>
+      AccountAlreadyClosedException(type: type, message: message),
   'AccountAlreadyRegisteredException': (type, message) =>
       AccountAlreadyRegisteredException(type: type, message: message),
   'AccountNotFoundException': (type, message) =>
@@ -6739,6 +7393,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ChildNotFoundException(type: type, message: message),
   'ConcurrentModificationException': (type, message) =>
       ConcurrentModificationException(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
   'ConstraintViolationException': (type, message) =>
       ConstraintViolationException(type: type, message: message),
   'CreateAccountStatusNotFoundException': (type, message) =>
@@ -6796,6 +7452,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
           type: type, message: message),
   'PolicyTypeNotEnabledException': (type, message) =>
       PolicyTypeNotEnabledException(type: type, message: message),
+  'ResourcePolicyNotFoundException': (type, message) =>
+      ResourcePolicyNotFoundException(type: type, message: message),
   'RootNotFoundException': (type, message) =>
       RootNotFoundException(type: type, message: message),
   'ServiceException': (type, message) =>

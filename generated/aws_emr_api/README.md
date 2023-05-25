@@ -1,13 +1,13 @@
-# AWS API client for Amazon Elastic MapReduce
+# AWS API client for Amazon EMR
 
 **Generated Dart library from API specification**
 
 *About the service:*
 Amazon EMR is a web service that makes it easier to process large amounts of
 data efficiently. Amazon EMR uses Hadoop processing combined with several
-AWS services to do tasks such as web indexing, data mining, log file
-analysis, machine learning, scientific simulation, and data warehouse
-management.
+Amazon Web Services services to do tasks such as web indexing, data mining,
+log file analysis, machine learning, scientific simulation, and data
+warehouse management.
 
 ## Links
 

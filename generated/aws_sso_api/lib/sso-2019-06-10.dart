@@ -18,24 +18,28 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// AWS Single Sign-On Portal is a web service that makes it easy for you to
-/// assign user access to AWS SSO resources such as the user portal. Users can
-/// get AWS account applications and roles assigned to them and get federated
-/// into the application.
-///
-/// For general information about AWS SSO, see <a
-/// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html">What
-/// is AWS Single Sign-On?</a> in the <i>AWS SSO User Guide</i>.
-///
-/// This API reference guide describes the AWS SSO Portal operations that you
-/// can call programatically and includes detailed information on data types and
-/// errors.
+/// AWS IAM Identity Center (successor to AWS Single Sign-On) Portal is a web
+/// service that makes it easy for you to assign user access to IAM Identity
+/// Center resources such as the AWS access portal. Users can get AWS account
+/// applications and roles assigned to them and get federated into the
+/// application.
+/// <note>
+/// Although AWS Single Sign-On was renamed, the <code>sso</code> and
+/// <code>identitystore</code> API namespaces will continue to retain their
+/// original name for backward compatibility purposes. For more information, see
+/// <a
+/// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html#renamed">IAM
+/// Identity Center rename</a>.
+/// </note>
+/// This reference guide describes the IAM Identity Center Portal operations
+/// that you can call programatically and includes detailed information on data
+/// types and errors.
 /// <note>
 /// AWS provides SDKs that consist of libraries and sample code for various
 /// programming languages and platforms, such as Java, Ruby, .Net, iOS, or
 /// Android. The SDKs provide a convenient way to create programmatic access to
-/// AWS SSO and other AWS services. For more information about the AWS SDKs,
-/// including how to download and install them, see <a
+/// IAM Identity Center and other AWS services. For more information about the
+/// AWS SDKs, including how to download and install them, see <a
 /// href="http://aws.amazon.com/tools/">Tools for Amazon Web Services</a>.
 /// </note>
 class SSO {
@@ -79,7 +83,7 @@ class SSO {
   /// The token issued by the <code>CreateToken</code> API call. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html">CreateToken</a>
-  /// in the <i>AWS SSO OIDC API Reference Guide</i>.
+  /// in the <i>IAM Identity Center OIDC API Reference Guide</i>.
   ///
   /// Parameter [accountId] :
   /// The identifier for the AWS account that is assigned to the user.
@@ -121,7 +125,7 @@ class SSO {
   /// The token issued by the <code>CreateToken</code> API call. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html">CreateToken</a>
-  /// in the <i>AWS SSO OIDC API Reference Guide</i>.
+  /// in the <i>IAM Identity Center OIDC API Reference Guide</i>.
   ///
   /// Parameter [accountId] :
   /// The identifier for the AWS account that is assigned to the user.
@@ -167,8 +171,8 @@ class SSO {
   /// Lists all AWS accounts assigned to the user. These AWS accounts are
   /// assigned by the administrator of the account. For more information, see <a
   /// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/useraccess.html#assignusers">Assign
-  /// User Access</a> in the <i>AWS SSO User Guide</i>. This operation returns a
-  /// paginated response.
+  /// User Access</a> in the <i>IAM Identity Center User Guide</i>. This
+  /// operation returns a paginated response.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [UnauthorizedException].
@@ -179,7 +183,7 @@ class SSO {
   /// The token issued by the <code>CreateToken</code> API call. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html">CreateToken</a>
-  /// in the <i>AWS SSO OIDC API Reference Guide</i>.
+  /// in the <i>IAM Identity Center OIDC API Reference Guide</i>.
   ///
   /// Parameter [maxResults] :
   /// This is the number of items clients can request per page.
@@ -217,8 +221,23 @@ class SSO {
     return ListAccountsResponse.fromJson(response);
   }
 
-  /// Removes the client- and server-side session that is associated with the
-  /// user.
+  /// Removes the locally stored SSO tokens from the client-side cache and sends
+  /// an API call to the IAM Identity Center service to invalidate the
+  /// corresponding server-side IAM Identity Center sign in session.
+  /// <note>
+  /// If a user uses IAM Identity Center to access the AWS CLI, the user’s IAM
+  /// Identity Center sign in session is used to obtain an IAM session, as
+  /// specified in the corresponding IAM Identity Center permission set. More
+  /// specifically, IAM Identity Center assumes an IAM role in the target
+  /// account on behalf of the user, and the corresponding temporary AWS
+  /// credentials are returned to the client.
+  ///
+  /// After user logout, any existing IAM role sessions that were created by
+  /// using IAM Identity Center permission sets continue based on the duration
+  /// configured in the permission set. For more information, see <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/authconcept.html">User
+  /// authentications</a> in the <i>IAM Identity Center User Guide</i>.
+  /// </note>
   ///
   /// May throw [InvalidRequestException].
   /// May throw [UnauthorizedException].
@@ -228,7 +247,7 @@ class SSO {
   /// The token issued by the <code>CreateToken</code> API call. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html">CreateToken</a>
-  /// in the <i>AWS SSO OIDC API Reference Guide</i>.
+  /// in the <i>IAM Identity Center OIDC API Reference Guide</i>.
   Future<void> logout({
     required String accessToken,
   }) async {
@@ -262,6 +281,7 @@ class AccountInfo {
     this.accountName,
     this.emailAddress,
   });
+
   factory AccountInfo.fromJson(Map<String, dynamic> json) {
     return AccountInfo(
       accountId: json['accountId'] as String?,
@@ -278,6 +298,7 @@ class GetRoleCredentialsResponse {
   GetRoleCredentialsResponse({
     this.roleCredentials,
   });
+
   factory GetRoleCredentialsResponse.fromJson(Map<String, dynamic> json) {
     return GetRoleCredentialsResponse(
       roleCredentials: json['roleCredentials'] != null
@@ -300,6 +321,7 @@ class ListAccountRolesResponse {
     this.nextToken,
     this.roleList,
   });
+
   factory ListAccountRolesResponse.fromJson(Map<String, dynamic> json) {
     return ListAccountRolesResponse(
       nextToken: json['nextToken'] as String?,
@@ -323,6 +345,7 @@ class ListAccountsResponse {
     this.accountList,
     this.nextToken,
   });
+
   factory ListAccountsResponse.fromJson(Map<String, dynamic> json) {
     return ListAccountsResponse(
       accountList: (json['accountList'] as List?)
@@ -365,6 +388,7 @@ class RoleCredentials {
     this.secretAccessKey,
     this.sessionToken,
   });
+
   factory RoleCredentials.fromJson(Map<String, dynamic> json) {
     return RoleCredentials(
       accessKeyId: json['accessKeyId'] as String?,
@@ -387,6 +411,7 @@ class RoleInfo {
     this.accountId,
     this.roleName,
   });
+
   factory RoleInfo.fromJson(Map<String, dynamic> json) {
     return RoleInfo(
       accountId: json['accountId'] as String?,

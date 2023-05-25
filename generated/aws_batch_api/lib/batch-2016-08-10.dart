@@ -18,22 +18,15 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// Using AWS Batch, you can run batch computing workloads on the AWS Cloud.
-/// Batch computing is a common means for developers, scientists, and engineers
-/// to access large amounts of compute resources. AWS Batch utilizes the
-/// advantages of this computing workload to remove the undifferentiated heavy
-/// lifting of configuring and managing required infrastructure, while also
-/// adopting a familiar batch computing software approach. Given these
-/// advantages, AWS Batch can help you to efficiently provision resources in
-/// response to jobs submitted, thus effectively helping to eliminate capacity
-/// constraints, reduce compute costs, and deliver your results more quickly.
-///
-/// As a fully managed service, AWS Batch can run batch computing workloads of
-/// any scale. AWS Batch automatically provisions compute resources and
-/// optimizes workload distribution based on the quantity and scale of your
-/// specific workloads. With AWS Batch, there's no need to install or manage
-/// batch computing software. This means that you can focus your time and energy
-/// on analyzing results and solving your specific problems.
+/// Using Batch, you can run batch computing workloads on the Amazon Web
+/// Services Cloud. Batch computing is a common means for developers,
+/// scientists, and engineers to access large amounts of compute resources.
+/// Batch uses the advantages of the batch computing to remove the
+/// undifferentiated heavy lifting of configuring and managing required
+/// infrastructure. At the same time, it also adopts a familiar batch computing
+/// software approach. You can use Batch to efficiently provision resources d,
+/// and work toward eliminating capacity constraints, reducing your overall
+/// compute costs, and delivering results more quickly.
 class Batch {
   final _s.RestJsonProtocol _protocol;
   Batch({
@@ -62,23 +55,27 @@ class Batch {
     _protocol.close();
   }
 
-  /// Cancels a job in an AWS Batch job queue. Jobs that are in the
-  /// <code>SUBMITTED</code>, <code>PENDING</code>, or <code>RUNNABLE</code>
-  /// state are canceled. Jobs that have progressed to <code>STARTING</code> or
-  /// <code>RUNNING</code> are not canceled (but the API operation still
-  /// succeeds, even if no job is canceled); these jobs must be terminated with
-  /// the <a>TerminateJob</a> operation.
+  /// Cancels a job in an Batch job queue. Jobs that are in the
+  /// <code>SUBMITTED</code> or <code>PENDING</code> are canceled. A job
+  /// in<code>RUNNABLE</code> remains in <code>RUNNABLE</code> until it reaches
+  /// the head of the job queue. Then the job status is updated to
+  /// <code>FAILED</code>.
+  ///
+  /// Jobs that progressed to the <code>STARTING</code> or <code>RUNNING</code>
+  /// state aren't canceled. However, the API operation still succeeds, even if
+  /// no job is canceled. These jobs must be terminated with the
+  /// <a>TerminateJob</a> operation.
   ///
   /// May throw [ClientException].
   /// May throw [ServerException].
   ///
   /// Parameter [jobId] :
-  /// The AWS Batch job ID of the job to cancel.
+  /// The Batch job ID of the job to cancel.
   ///
   /// Parameter [reason] :
   /// A message to attach to the job that explains the reason for canceling it.
   /// This message is returned by future <a>DescribeJobs</a> operations on the
-  /// job. This message is also recorded in the AWS Batch activity logs.
+  /// job. This message is also recorded in the Batch activity logs.
   Future<void> cancelJob({
     required String jobId,
     required String reason,
@@ -95,48 +92,50 @@ class Batch {
     );
   }
 
-  /// Creates an AWS Batch compute environment. You can create
-  /// <code>MANAGED</code> or <code>UNMANAGED</code> compute environments.
-  /// <code>MANAGED</code> compute environments can use Amazon EC2 or AWS
-  /// Fargate resources. <code>UNMANAGED</code> compute environments can only
-  /// use EC2 resources.
+  /// Creates an Batch compute environment. You can create <code>MANAGED</code>
+  /// or <code>UNMANAGED</code> compute environments. <code>MANAGED</code>
+  /// compute environments can use Amazon EC2 or Fargate resources.
+  /// <code>UNMANAGED</code> compute environments can only use EC2 resources.
   ///
-  /// In a managed compute environment, AWS Batch manages the capacity and
-  /// instance types of the compute resources within the environment. This is
-  /// based on the compute resource specification that you define or the <a
+  /// In a managed compute environment, Batch manages the capacity and instance
+  /// types of the compute resources within the environment. This is based on
+  /// the compute resource specification that you define or the <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html">launch
-  /// template</a> that you specify when you create the compute environment. You
-  /// can choose either to use EC2 On-Demand Instances and EC2 Spot Instances,
-  /// or to use Fargate and Fargate Spot capacity in your managed compute
-  /// environment. You can optionally set a maximum price so that Spot Instances
-  /// only launch when the Spot Instance price is less than a specified
-  /// percentage of the On-Demand price.
+  /// template</a> that you specify when you create the compute environment.
+  /// Either, you can choose to use EC2 On-Demand Instances and EC2 Spot
+  /// Instances. Or, you can use Fargate and Fargate Spot capacity in your
+  /// managed compute environment. You can optionally set a maximum price so
+  /// that Spot Instances only launch when the Spot Instance price is less than
+  /// a specified percentage of the On-Demand price.
   /// <note>
-  /// Multi-node parallel jobs are not supported on Spot Instances.
+  /// Multi-node parallel jobs aren't supported on Spot Instances.
   /// </note>
   /// In an unmanaged compute environment, you can manage your own EC2 compute
-  /// resources and have a lot of flexibility with how you configure your
-  /// compute resources. For example, you can use custom AMI. However, you need
-  /// to verify that your AMI meets the Amazon ECS container instance AMI
+  /// resources and have flexibility with how you configure your compute
+  /// resources. For example, you can use custom AMIs. However, you must verify
+  /// that each of your AMIs meet the Amazon ECS container instance AMI
   /// specification. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container_instance_AMIs.html">container
   /// instance AMIs</a> in the <i>Amazon Elastic Container Service Developer
-  /// Guide</i>. After you have created your unmanaged compute environment, you
-  /// can use the <a>DescribeComputeEnvironments</a> operation to find the
-  /// Amazon ECS cluster that's associated with it. Then, manually launch your
-  /// container instances into that Amazon ECS cluster. For more information,
-  /// see <a
+  /// Guide</i>. After you created your unmanaged compute environment, you can
+  /// use the <a>DescribeComputeEnvironments</a> operation to find the Amazon
+  /// ECS cluster that's associated with it. Then, launch your container
+  /// instances into that Amazon ECS cluster. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_container_instance.html">Launching
   /// an Amazon ECS container instance</a> in the <i>Amazon Elastic Container
   /// Service Developer Guide</i>.
   /// <note>
-  /// AWS Batch doesn't upgrade the AMIs in a compute environment after it's
-  /// created. For example, it doesn't update the AMIs when a newer version of
-  /// the Amazon ECS-optimized AMI is available. Therefore, you're responsible
-  /// for the management of the guest operating system (including updates and
-  /// security patches) and any additional application software or utilities
-  /// that you install on the compute resources. To use a new AMI for your AWS
-  /// Batch jobs, complete these steps:
+  /// To create a compute environment that uses EKS resources, the caller must
+  /// have permissions to call <code>eks:DescribeCluster</code>.
+  /// </note> <note>
+  /// Batch doesn't automatically upgrade the AMIs in a compute environment
+  /// after it's created. For example, it also doesn't update the AMIs in your
+  /// compute environment when a newer version of the Amazon ECS optimized AMI
+  /// is available. You're responsible for the management of the guest operating
+  /// system. This includes any updates and security patches. You're also
+  /// responsible for any additional application software or utilities that you
+  /// install on the compute resources. There are two ways to use a new AMI for
+  /// your Batch jobs. The original method is to complete these steps:
   /// <ol>
   /// <li>
   /// Create a new compute environment with the new AMI.
@@ -149,71 +148,146 @@ class Batch {
   /// </li>
   /// <li>
   /// Delete the earlier compute environment.
-  /// </li> </ol> </note>
+  /// </li> </ol>
+  /// In April 2022, Batch added enhanced support for updating compute
+  /// environments. For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a>. To use the enhanced updating of compute
+  /// environments to update AMIs, follow these rules:
+  ///
+  /// <ul>
+  /// <li>
+  /// Either don't set the service role (<code>serviceRole</code>) parameter or
+  /// set it to the <b>AWSBatchServiceRole</b> service-linked role.
+  /// </li>
+  /// <li>
+  /// Set the allocation strategy (<code>allocationStrategy</code>) parameter to
+  /// <code>BEST_FIT_PROGRESSIVE</code> or <code>SPOT_CAPACITY_OPTIMIZED</code>.
+  /// </li>
+  /// <li>
+  /// Set the update to latest image version
+  /// (<code>updateToLatestImageVersion</code>) parameter to <code>true</code>.
+  /// </li>
+  /// <li>
+  /// Don't specify an AMI ID in <code>imageId</code>,
+  /// <code>imageIdOverride</code> (in <a
+  /// href="https://docs.aws.amazon.com/batch/latest/APIReference/API_Ec2Configuration.html">
+  /// <code>ec2Configuration</code> </a>), or in the launch template
+  /// (<code>launchTemplate</code>). In that case, Batch selects the latest
+  /// Amazon ECS optimized AMI that's supported by Batch at the time the
+  /// infrastructure update is initiated. Alternatively, you can specify the AMI
+  /// ID in the <code>imageId</code> or <code>imageIdOverride</code> parameters,
+  /// or the launch template identified by the <code>LaunchTemplate</code>
+  /// properties. Changing any of these properties starts an infrastructure
+  /// update. If the AMI ID is specified in the launch template, it can't be
+  /// replaced by specifying an AMI ID in either the <code>imageId</code> or
+  /// <code>imageIdOverride</code> parameters. It can only be replaced by
+  /// specifying a different launch template, or if the launch template version
+  /// is set to <code>$Default</code> or <code>$Latest</code>, by setting either
+  /// a new default version for the launch template (if <code>$Default</code>)
+  /// or by adding a new version to the launch template (if
+  /// <code>$Latest</code>).
+  /// </li>
+  /// </ul>
+  /// If these rules are followed, any update that starts an infrastructure
+  /// update causes the AMI ID to be re-selected. If the <code>version</code>
+  /// setting in the launch template (<code>launchTemplate</code>) is set to
+  /// <code>$Latest</code> or <code>$Default</code>, the latest or default
+  /// version of the launch template is evaluated up at the time of the
+  /// infrastructure update, even if the <code>launchTemplate</code> wasn't
+  /// updated.
+  /// </note>
   ///
   /// May throw [ClientException].
   /// May throw [ServerException].
   ///
   /// Parameter [computeEnvironmentName] :
-  /// The name for your compute environment. Up to 128 letters (uppercase and
-  /// lowercase), numbers, hyphens, and underscores are allowed.
-  ///
-  /// Parameter [serviceRole] :
-  /// The full Amazon Resource Name (ARN) of the IAM role that allows AWS Batch
-  /// to make calls to other AWS services on your behalf. For more information,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html">AWS
-  /// Batch service IAM role</a> in the <i>AWS Batch User Guide</i>.
-  ///
-  /// If your specified role has a path other than <code>/</code>, then you must
-  /// either specify the full role ARN (this is recommended) or prefix the role
-  /// name with the path.
-  /// <note>
-  /// Depending on how you created your AWS Batch service role, its ARN might
-  /// contain the <code>service-role</code> path prefix. When you only specify
-  /// the name of the service role, AWS Batch assumes that your ARN doesn't use
-  /// the <code>service-role</code> path prefix. Because of this, we recommend
-  /// that you specify the full ARN of your service role when you create compute
-  /// environments.
-  /// </note>
+  /// The name for your compute environment. It can be up to 128 characters
+  /// long. It can contain uppercase and lowercase letters, numbers, hyphens
+  /// (-), and underscores (_).
   ///
   /// Parameter [type] :
   /// The type of the compute environment: <code>MANAGED</code> or
   /// <code>UNMANAGED</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
-  /// Environments</a> in the <i>AWS Batch User Guide</i>.
+  /// Environments</a> in the <i>Batch User Guide</i>.
   ///
   /// Parameter [computeResources] :
   /// Details about the compute resources managed by the compute environment.
   /// This parameter is required for managed compute environments. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
-  /// Environments</a> in the <i>AWS Batch User Guide</i>.
+  /// Environments</a> in the <i>Batch User Guide</i>.
+  ///
+  /// Parameter [eksConfiguration] :
+  /// The details for the Amazon EKS cluster that supports the compute
+  /// environment.
+  ///
+  /// Parameter [serviceRole] :
+  /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to
+  /// make calls to other Amazon Web Services services on your behalf. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html">Batch
+  /// service IAM role</a> in the <i>Batch User Guide</i>.
+  /// <important>
+  /// If your account already created the Batch service-linked role, that role
+  /// is used by default for your compute environment unless you specify a
+  /// different role here. If the Batch service-linked role doesn't exist in
+  /// your account, and no role is specified here, the service attempts to
+  /// create the Batch service-linked role in your account.
+  /// </important>
+  /// If your specified role has a path other than <code>/</code>, then you must
+  /// specify either the full role ARN (recommended) or prefix the role name
+  /// with the path. For example, if a role with the name <code>bar</code> has a
+  /// path of <code>/foo/</code>, specify <code>/foo/bar</code> as the role
+  /// name. For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names">Friendly
+  /// names and paths</a> in the <i>IAM User Guide</i>.
+  /// <note>
+  /// Depending on how you created your Batch service role, its ARN might
+  /// contain the <code>service-role</code> path prefix. When you only specify
+  /// the name of the service role, Batch assumes that your ARN doesn't use the
+  /// <code>service-role</code> path prefix. Because of this, we recommend that
+  /// you specify the full ARN of your service role when you create compute
+  /// environments.
+  /// </note>
   ///
   /// Parameter [state] :
   /// The state of the compute environment. If the state is
   /// <code>ENABLED</code>, then the compute environment accepts jobs from a
   /// queue and can scale out automatically based on queues.
   ///
-  /// If the state is <code>ENABLED</code>, then the AWS Batch scheduler can
-  /// attempt to place jobs from an associated job queue on the compute
-  /// resources within the environment. If the compute environment is managed,
-  /// then it can scale its instances out or in automatically, based on the job
-  /// queue demand.
+  /// If the state is <code>ENABLED</code>, then the Batch scheduler can attempt
+  /// to place jobs from an associated job queue on the compute resources within
+  /// the environment. If the compute environment is managed, then it can scale
+  /// its instances out or in automatically, based on the job queue demand.
   ///
-  /// If the state is <code>DISABLED</code>, then the AWS Batch scheduler
-  /// doesn't attempt to place jobs within the environment. Jobs in a
+  /// If the state is <code>DISABLED</code>, then the Batch scheduler doesn't
+  /// attempt to place jobs within the environment. Jobs in a
   /// <code>STARTING</code> or <code>RUNNING</code> state continue to progress
   /// normally. Managed compute environments in the <code>DISABLED</code> state
-  /// don't scale out. However, they scale in to <code>minvCpus</code> value
-  /// after instances become idle.
+  /// don't scale out.
+  /// <note>
+  /// Compute environments in a <code>DISABLED</code> state may continue to
+  /// incur billing charges. To prevent additional charges, turn off and then
+  /// delete the compute environment. For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environment_parameters.html#compute_environment_state">State</a>
+  /// in the <i>Batch User Guide</i>.
+  /// </note>
+  /// When an instance is idle, the instance scales down to the
+  /// <code>minvCpus</code> value. However, the instance size doesn't change.
+  /// For example, consider a <code>c5.8xlarge</code> instance with a
+  /// <code>minvCpus</code> value of <code>4</code> and a
+  /// <code>desiredvCpus</code> value of <code>36</code>. This instance doesn't
+  /// scale down to a <code>c5.large</code> instance.
   ///
   /// Parameter [tags] :
   /// The tags that you apply to the compute environment to help you categorize
   /// and organize your resources. Each tag consists of a key and an optional
   /// value. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
-  /// AWS Resources</a> in <i>AWS General Reference</i>.
+  /// Amazon Web Services Resources</a> in <i>Amazon Web Services General
+  /// Reference</i>.
   ///
   /// These tags can be updated or removed using the <a
   /// href="https://docs.aws.amazon.com/batch/latest/APIReference/API_TagResource.html">TagResource</a>
@@ -221,21 +295,35 @@ class Batch {
   /// href="https://docs.aws.amazon.com/batch/latest/APIReference/API_UntagResource.html">UntagResource</a>
   /// API operations. These tags don't propagate to the underlying compute
   /// resources.
+  ///
+  /// Parameter [unmanagedvCpus] :
+  /// The maximum number of vCPUs for an unmanaged compute environment. This
+  /// parameter is only used for fair share scheduling to reserve vCPU capacity
+  /// for new share identifiers. If this parameter isn't provided for a fair
+  /// share job queue, no vCPU capacity is reserved.
+  /// <note>
+  /// This parameter is only supported when the <code>type</code> parameter is
+  /// set to <code>UNMANAGED</code>.
+  /// </note>
   Future<CreateComputeEnvironmentResponse> createComputeEnvironment({
     required String computeEnvironmentName,
-    required String serviceRole,
     required CEType type,
     ComputeResource? computeResources,
+    EksConfiguration? eksConfiguration,
+    String? serviceRole,
     CEState? state,
     Map<String, String>? tags,
+    int? unmanagedvCpus,
   }) async {
     final $payload = <String, dynamic>{
       'computeEnvironmentName': computeEnvironmentName,
-      'serviceRole': serviceRole,
       'type': type.toValue(),
       if (computeResources != null) 'computeResources': computeResources,
+      if (eksConfiguration != null) 'eksConfiguration': eksConfiguration,
+      if (serviceRole != null) 'serviceRole': serviceRole,
       if (state != null) 'state': state.toValue(),
       if (tags != null) 'tags': tags,
+      if (unmanagedvCpus != null) 'unmanagedvCpus': unmanagedvCpus,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -246,15 +334,15 @@ class Batch {
     return CreateComputeEnvironmentResponse.fromJson(response);
   }
 
-  /// Creates an AWS Batch job queue. When you create a job queue, you associate
-  /// one or more compute environments to the queue and assign an order of
+  /// Creates an Batch job queue. When you create a job queue, you associate one
+  /// or more compute environments to the queue and assign an order of
   /// preference for the compute environments.
   ///
-  /// You also set a priority to the job queue that determines the order in
-  /// which the AWS Batch scheduler places jobs onto its associated compute
-  /// environments. For example, if a compute environment is associated with
-  /// more than one job queue, the job queue with a higher priority is given
-  /// preference for scheduling jobs to that compute environment.
+  /// You also set a priority to the job queue that determines the order that
+  /// the Batch scheduler places jobs onto its associated compute environments.
+  /// For example, if a compute environment is associated with more than one job
+  /// queue, the job queue with a higher priority is given preference for
+  /// scheduling jobs to that compute environment.
   ///
   /// May throw [ClientException].
   /// May throw [ServerException].
@@ -262,22 +350,23 @@ class Batch {
   /// Parameter [computeEnvironmentOrder] :
   /// The set of compute environments mapped to a job queue and their order
   /// relative to each other. The job scheduler uses this parameter to determine
-  /// which compute environment should run a specific job. Compute environments
-  /// must be in the <code>VALID</code> state before you can associate them with
-  /// a job queue. You can associate up to three compute environments with a job
+  /// which compute environment runs a specific job. Compute environments must
+  /// be in the <code>VALID</code> state before you can associate them with a
+  /// job queue. You can associate up to three compute environments with a job
   /// queue. All of the compute environments must be either EC2
   /// (<code>EC2</code> or <code>SPOT</code>) or Fargate (<code>FARGATE</code>
   /// or <code>FARGATE_SPOT</code>); EC2 and Fargate compute environments can't
   /// be mixed.
   /// <note>
   /// All compute environments that are associated with a job queue must share
-  /// the same architecture. AWS Batch doesn't support mixing compute
-  /// environment architecture types in a single job queue.
+  /// the same architecture. Batch doesn't support mixing compute environment
+  /// architecture types in a single job queue.
   /// </note>
   ///
   /// Parameter [jobQueueName] :
-  /// The name of the job queue. Up to 128 letters (uppercase and lowercase),
-  /// numbers, and underscores are allowed.
+  /// The name of the job queue. It can be up to 128 letters long. It can
+  /// contain uppercase and lowercase letters, numbers, hyphens (-), and
+  /// underscores (_).
   ///
   /// Parameter [priority] :
   /// The priority of the job queue. Job queues with a higher priority (or a
@@ -288,7 +377,17 @@ class Batch {
   /// job queue with a priority value of <code>1</code>. All of the compute
   /// environments must be either EC2 (<code>EC2</code> or <code>SPOT</code>) or
   /// Fargate (<code>FARGATE</code> or <code>FARGATE_SPOT</code>); EC2 and
-  /// Fargate compute environments cannot be mixed.
+  /// Fargate compute environments can't be mixed.
+  ///
+  /// Parameter [schedulingPolicyArn] :
+  /// The Amazon Resource Name (ARN) of the fair share scheduling policy. If
+  /// this parameter is specified, the job queue uses a fair share scheduling
+  /// policy. If this parameter isn't specified, the job queue uses a first in,
+  /// first out (FIFO) scheduling policy. After a job queue is created, you can
+  /// replace but can't remove the fair share scheduling policy. The format is
+  /// <code>aws:<i>Partition</i>:batch:<i>Region</i>:<i>Account</i>:scheduling-policy/<i>Name</i>
+  /// </code>. An example is
+  /// <code>aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy</code>.
   ///
   /// Parameter [state] :
   /// The state of the job queue. If the job queue state is
@@ -301,11 +400,12 @@ class Batch {
   /// organize your resources. Each tag consists of a key and an optional value.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html">Tagging
-  /// your AWS Batch resources</a> in <i>AWS Batch User Guide</i>.
+  /// your Batch resources</a> in <i>Batch User Guide</i>.
   Future<CreateJobQueueResponse> createJobQueue({
     required List<ComputeEnvironmentOrder> computeEnvironmentOrder,
     required String jobQueueName,
     required int priority,
+    String? schedulingPolicyArn,
     JQState? state,
     Map<String, String>? tags,
   }) async {
@@ -313,6 +413,8 @@ class Batch {
       'computeEnvironmentOrder': computeEnvironmentOrder,
       'jobQueueName': jobQueueName,
       'priority': priority,
+      if (schedulingPolicyArn != null)
+        'schedulingPolicyArn': schedulingPolicyArn,
       if (state != null) 'state': state.toValue(),
       if (tags != null) 'tags': tags,
     };
@@ -325,15 +427,60 @@ class Batch {
     return CreateJobQueueResponse.fromJson(response);
   }
 
-  /// Deletes an AWS Batch compute environment.
+  /// Creates an Batch scheduling policy.
+  ///
+  /// May throw [ClientException].
+  /// May throw [ServerException].
+  ///
+  /// Parameter [name] :
+  /// The name of the scheduling policy. It can be up to 128 letters long. It
+  /// can contain uppercase and lowercase letters, numbers, hyphens (-), and
+  /// underscores (_).
+  ///
+  /// Parameter [fairsharePolicy] :
+  /// The fair share policy of the scheduling policy.
+  ///
+  /// Parameter [tags] :
+  /// The tags that you apply to the scheduling policy to help you categorize
+  /// and organize your resources. Each tag consists of a key and an optional
+  /// value. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// Amazon Web Services Resources</a> in <i>Amazon Web Services General
+  /// Reference</i>.
+  ///
+  /// These tags can be updated or removed using the <a
+  /// href="https://docs.aws.amazon.com/batch/latest/APIReference/API_TagResource.html">TagResource</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/batch/latest/APIReference/API_UntagResource.html">UntagResource</a>
+  /// API operations.
+  Future<CreateSchedulingPolicyResponse> createSchedulingPolicy({
+    required String name,
+    FairsharePolicy? fairsharePolicy,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'name': name,
+      if (fairsharePolicy != null) 'fairsharePolicy': fairsharePolicy,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/createschedulingpolicy',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateSchedulingPolicyResponse.fromJson(response);
+  }
+
+  /// Deletes an Batch compute environment.
   ///
   /// Before you can delete a compute environment, you must set its state to
   /// <code>DISABLED</code> with the <a>UpdateComputeEnvironment</a> API
   /// operation and disassociate it from any job queues with the
-  /// <a>UpdateJobQueue</a> API operation. Compute environments that use AWS
-  /// Fargate resources must terminate all active jobs on that compute
-  /// environment before deleting the compute environment. If this isn't done,
-  /// the compute environment will end up in an invalid state.
+  /// <a>UpdateJobQueue</a> API operation. Compute environments that use Fargate
+  /// resources must terminate all active jobs on that compute environment
+  /// before deleting the compute environment. If this isn't done, the compute
+  /// environment enters an invalid state.
   ///
   /// May throw [ClientException].
   /// May throw [ServerException].
@@ -382,7 +529,30 @@ class Batch {
     );
   }
 
-  /// Deregisters an AWS Batch job definition. Job definitions are permanently
+  /// Deletes the specified scheduling policy.
+  ///
+  /// You can't delete a scheduling policy that's used in any job queues.
+  ///
+  /// May throw [ClientException].
+  /// May throw [ServerException].
+  ///
+  /// Parameter [arn] :
+  /// The Amazon Resource Name (ARN) of the scheduling policy to delete.
+  Future<void> deleteSchedulingPolicy({
+    required String arn,
+  }) async {
+    final $payload = <String, dynamic>{
+      'arn': arn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/deleteschedulingpolicy',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deregisters an Batch job definition. Job definitions are permanently
   /// deleted after 180 days.
   ///
   /// May throw [ClientException].
@@ -409,8 +579,8 @@ class Batch {
   ///
   /// If you're using an unmanaged compute environment, you can use the
   /// <code>DescribeComputeEnvironment</code> operation to determine the
-  /// <code>ecsClusterArn</code> that you should launch your Amazon ECS
-  /// container instances into.
+  /// <code>ecsClusterArn</code> that you launch your Amazon ECS container
+  /// instances into.
   ///
   /// May throw [ClientException].
   /// May throw [ServerException].
@@ -440,8 +610,8 @@ class Batch {
   /// that returned the <code>nextToken</code> value. This value is
   /// <code>null</code> when there are no more results to return.
   /// <note>
-  /// This token should be treated as an opaque identifier that's only used to
-  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// Treat this token as an opaque identifier that's only used to retrieve the
+  /// next items in a list and not for other programmatic purposes.
   /// </note>
   Future<DescribeComputeEnvironmentsResponse> describeComputeEnvironments({
     List<String>? computeEnvironments,
@@ -474,14 +644,17 @@ class Batch {
   /// The name of the job definition to describe.
   ///
   /// Parameter [jobDefinitions] :
-  /// A list of up to 100 job definition names or full Amazon Resource Name
-  /// (ARN) entries.
+  /// A list of up to 100 job definitions. Each entry in the list can either be
+  /// an ARN in the format
+  /// <code>arn:aws:batch:${Region}:${Account}:job-definition/${JobDefinitionName}:${Revision}</code>
+  /// or a short version using the form
+  /// <code>${JobDefinitionName}:${Revision}</code>.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results returned by
   /// <code>DescribeJobDefinitions</code> in paginated output. When this
   /// parameter is used, <code>DescribeJobDefinitions</code> only returns
-  /// <code>maxResults</code> results in a single page along with a
+  /// <code>maxResults</code> results in a single page and a
   /// <code>nextToken</code> response element. The remaining results of the
   /// initial request can be seen by sending another
   /// <code>DescribeJobDefinitions</code> request with the returned
@@ -497,8 +670,8 @@ class Batch {
   /// <code>nextToken</code> value. This value is <code>null</code> when there
   /// are no more results to return.
   /// <note>
-  /// This token should be treated as an opaque identifier that's only used to
-  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// Treat this token as an opaque identifier that's only used to retrieve the
+  /// next items in a list and not for other programmatic purposes.
   /// </note>
   ///
   /// Parameter [status] :
@@ -539,9 +712,9 @@ class Batch {
   /// The maximum number of results returned by <code>DescribeJobQueues</code>
   /// in paginated output. When this parameter is used,
   /// <code>DescribeJobQueues</code> only returns <code>maxResults</code>
-  /// results in a single page along with a <code>nextToken</code> response
-  /// element. The remaining results of the initial request can be seen by
-  /// sending another <code>DescribeJobQueues</code> request with the returned
+  /// results in a single page and a <code>nextToken</code> response element.
+  /// The remaining results of the initial request can be seen by sending
+  /// another <code>DescribeJobQueues</code> request with the returned
   /// <code>nextToken</code> value. This value can be between 1 and 100. If this
   /// parameter isn't used, then <code>DescribeJobQueues</code> returns up to
   /// 100 results and a <code>nextToken</code> value if applicable.
@@ -554,8 +727,8 @@ class Batch {
   /// <code>nextToken</code> value. This value is <code>null</code> when there
   /// are no more results to return.
   /// <note>
-  /// This token should be treated as an opaque identifier that's only used to
-  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// Treat this token as an opaque identifier that's only used to retrieve the
+  /// next items in a list and not for other programmatic purposes.
   /// </note>
   Future<DescribeJobQueuesResponse> describeJobQueues({
     List<String>? jobQueues,
@@ -576,7 +749,7 @@ class Batch {
     return DescribeJobQueuesResponse.fromJson(response);
   }
 
-  /// Describes a list of AWS Batch jobs.
+  /// Describes a list of Batch jobs.
   ///
   /// May throw [ClientException].
   /// May throw [ServerException].
@@ -598,7 +771,29 @@ class Batch {
     return DescribeJobsResponse.fromJson(response);
   }
 
-  /// Returns a list of AWS Batch jobs.
+  /// Describes one or more of your scheduling policies.
+  ///
+  /// May throw [ClientException].
+  /// May throw [ServerException].
+  ///
+  /// Parameter [arns] :
+  /// A list of up to 100 scheduling policy Amazon Resource Name (ARN) entries.
+  Future<DescribeSchedulingPoliciesResponse> describeSchedulingPolicies({
+    required List<String> arns,
+  }) async {
+    final $payload = <String, dynamic>{
+      'arns': arns,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/describeschedulingpolicies',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeSchedulingPoliciesResponse.fromJson(response);
+  }
+
+  /// Returns a list of Batch jobs.
   ///
   /// You must specify only one of the following items:
   ///
@@ -607,10 +802,10 @@ class Batch {
   /// A job queue ID to return a list of jobs in that job queue
   /// </li>
   /// <li>
-  /// A multi-node parallel job ID to return a list of that job's nodes
+  /// A multi-node parallel job ID to return a list of nodes for that job
   /// </li>
   /// <li>
-  /// An array job ID to return a list of that job's children
+  /// An array job ID to return a list of the children for that job
   /// </li>
   /// </ul>
   /// You can filter the results by job status with the <code>jobStatus</code>
@@ -624,18 +819,62 @@ class Batch {
   /// The job ID for an array job. Specifying an array job ID with this
   /// parameter lists all child jobs from within the specified array.
   ///
+  /// Parameter [filters] :
+  /// The filter to apply to the query. Only one filter can be used at a time.
+  /// When the filter is used, <code>jobStatus</code> is ignored. The filter
+  /// doesn't apply to child jobs in an array or multi-node parallel (MNP) jobs.
+  /// The results are sorted by the <code>createdAt</code> field, with the most
+  /// recent jobs being first.
+  /// <dl> <dt>JOB_NAME</dt> <dd>
+  /// The value of the filter is a case-insensitive match for the job name. If
+  /// the value ends with an asterisk (*), the filter matches any job name that
+  /// begins with the string before the '*'. This corresponds to the
+  /// <code>jobName</code> value. For example, <code>test1</code> matches both
+  /// <code>Test1</code> and <code>test1</code>, and <code>test1*</code> matches
+  /// both <code>test1</code> and <code>Test10</code>. When the
+  /// <code>JOB_NAME</code> filter is used, the results are grouped by the job
+  /// name and version.
+  /// </dd> <dt>JOB_DEFINITION</dt> <dd>
+  /// The value for the filter is the name or Amazon Resource Name (ARN) of the
+  /// job definition. This corresponds to the <code>jobDefinition</code> value.
+  /// The value is case sensitive. When the value for the filter is the job
+  /// definition name, the results include all the jobs that used any revision
+  /// of that job definition name. If the value ends with an asterisk (*), the
+  /// filter matches any job definition name that begins with the string before
+  /// the '*'. For example, <code>jd1</code> matches only <code>jd1</code>, and
+  /// <code>jd1*</code> matches both <code>jd1</code> and <code>jd1A</code>. The
+  /// version of the job definition that's used doesn't affect the sort order.
+  /// When the <code>JOB_DEFINITION</code> filter is used and the ARN is used
+  /// (which is in the form
+  /// <code>arn:${Partition}:batch:${Region}:${Account}:job-definition/${JobDefinitionName}:${Revision}</code>),
+  /// the results include jobs that used the specified revision of the job
+  /// definition. Asterisk (*) isn't supported when the ARN is used.
+  /// </dd> <dt>BEFORE_CREATED_AT</dt> <dd>
+  /// The value for the filter is the time that's before the job was created.
+  /// This corresponds to the <code>createdAt</code> value. The value is a
+  /// string representation of the number of milliseconds since 00:00:00 UTC
+  /// (midnight) on January 1, 1970.
+  /// </dd> <dt>AFTER_CREATED_AT</dt> <dd>
+  /// The value for the filter is the time that's after the job was created.
+  /// This corresponds to the <code>createdAt</code> value. The value is a
+  /// string representation of the number of milliseconds since 00:00:00 UTC
+  /// (midnight) on January 1, 1970.
+  /// </dd> </dl>
+  ///
   /// Parameter [jobQueue] :
   /// The name or full Amazon Resource Name (ARN) of the job queue used to list
   /// jobs.
   ///
   /// Parameter [jobStatus] :
-  /// The job status used to filter jobs in the specified queue. If you don't
+  /// The job status used to filter jobs in the specified queue. If the
+  /// <code>filters</code> parameter is specified, the <code>jobStatus</code>
+  /// parameter is ignored and jobs with any status are returned. If you don't
   /// specify a status, only <code>RUNNING</code> jobs are returned.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results returned by <code>ListJobs</code> in
   /// paginated output. When this parameter is used, <code>ListJobs</code> only
-  /// returns <code>maxResults</code> results in a single page along with a
+  /// returns <code>maxResults</code> results in a single page and a
   /// <code>nextToken</code> response element. The remaining results of the
   /// initial request can be seen by sending another <code>ListJobs</code>
   /// request with the returned <code>nextToken</code> value. This value can be
@@ -656,11 +895,12 @@ class Batch {
   /// <code>nextToken</code> value. This value is <code>null</code> when there
   /// are no more results to return.
   /// <note>
-  /// This token should be treated as an opaque identifier that's only used to
-  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// Treat this token as an opaque identifier that's only used to retrieve the
+  /// next items in a list and not for other programmatic purposes.
   /// </note>
   Future<ListJobsResponse> listJobs({
     String? arrayJobId,
+    List<KeyValuesPair>? filters,
     String? jobQueue,
     JobStatus? jobStatus,
     int? maxResults,
@@ -669,6 +909,7 @@ class Batch {
   }) async {
     final $payload = <String, dynamic>{
       if (arrayJobId != null) 'arrayJobId': arrayJobId,
+      if (filters != null) 'filters': filters,
       if (jobQueue != null) 'jobQueue': jobQueue,
       if (jobStatus != null) 'jobStatus': jobStatus.toValue(),
       if (maxResults != null) 'maxResults': maxResults,
@@ -684,19 +925,64 @@ class Batch {
     return ListJobsResponse.fromJson(response);
   }
 
-  /// Lists the tags for an AWS Batch resource. AWS Batch resources that support
-  /// tags are compute environments, jobs, job definitions, and job queues. ARNs
-  /// for child jobs of array and multi-node parallel (MNP) jobs are not
-  /// supported.
+  /// Returns a list of Batch scheduling policies.
+  ///
+  /// May throw [ClientException].
+  /// May throw [ServerException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results that's returned by
+  /// <code>ListSchedulingPolicies</code> in paginated output. When this
+  /// parameter is used, <code>ListSchedulingPolicies</code> only returns
+  /// <code>maxResults</code> results in a single page and a
+  /// <code>nextToken</code> response element. You can see the remaining results
+  /// of the initial request by sending another
+  /// <code>ListSchedulingPolicies</code> request with the returned
+  /// <code>nextToken</code> value. This value can be between 1 and 100. If this
+  /// parameter isn't used, <code>ListSchedulingPolicies</code> returns up to
+  /// 100 results and a <code>nextToken</code> value if applicable.
+  ///
+  /// Parameter [nextToken] :
+  /// The <code>nextToken</code> value that's returned from a previous paginated
+  /// <code>ListSchedulingPolicies</code> request where <code>maxResults</code>
+  /// was used and the results exceeded the value of that parameter. Pagination
+  /// continues from the end of the previous results that returned the
+  /// <code>nextToken</code> value. This value is <code>null</code> when there
+  /// are no more results to return.
+  /// <note>
+  /// Treat this token as an opaque identifier that's only used to retrieve the
+  /// next items in a list and not for other programmatic purposes.
+  /// </note>
+  Future<ListSchedulingPoliciesResponse> listSchedulingPolicies({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/listschedulingpolicies',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListSchedulingPoliciesResponse.fromJson(response);
+  }
+
+  /// Lists the tags for an Batch resource. Batch resources that support tags
+  /// are compute environments, jobs, job definitions, job queues, and
+  /// scheduling policies. ARNs for child jobs of array and multi-node parallel
+  /// (MNP) jobs aren't supported.
   ///
   /// May throw [ClientException].
   /// May throw [ServerException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) that identifies the resource that tags are
-  /// listed for. AWS Batch resources that support tags are compute
-  /// environments, jobs, job definitions, and job queues. ARNs for child jobs
-  /// of array and multi-node parallel (MNP) jobs are not supported.
+  /// listed for. Batch resources that support tags are compute environments,
+  /// jobs, job definitions, job queues, and scheduling policies. ARNs for child
+  /// jobs of array and multi-node parallel (MNP) jobs aren't supported.
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
@@ -709,48 +995,56 @@ class Batch {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
-  /// Registers an AWS Batch job definition.
+  /// Registers an Batch job definition.
   ///
   /// May throw [ClientException].
   /// May throw [ServerException].
   ///
   /// Parameter [jobDefinitionName] :
-  /// The name of the job definition to register. Up to 128 letters (uppercase
-  /// and lowercase), numbers, hyphens, and underscores are allowed.
+  /// The name of the job definition to register. It can be up to 128 letters
+  /// long. It can contain uppercase and lowercase letters, numbers, hyphens
+  /// (-), and underscores (_).
   ///
   /// Parameter [type] :
   /// The type of job definition. For more information about multi-node parallel
   /// jobs, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/multi-node-job-def.html">Creating
-  /// a multi-node parallel job definition</a> in the <i>AWS Batch User
-  /// Guide</i>.
+  /// a multi-node parallel job definition</a> in the <i>Batch User Guide</i>.
   /// <note>
   /// If the job is run on Fargate resources, then <code>multinode</code> isn't
   /// supported.
   /// </note>
   ///
   /// Parameter [containerProperties] :
-  /// An object with various properties specific to single-node container-based
-  /// jobs. If the job definition's <code>type</code> parameter is
-  /// <code>container</code>, then you must specify either
-  /// <code>containerProperties</code> or <code>nodeProperties</code>.
+  /// An object with various properties specific to Amazon ECS based single-node
+  /// container-based jobs. If the job definition's <code>type</code> parameter
+  /// is <code>container</code>, then you must specify either
+  /// <code>containerProperties</code> or <code>nodeProperties</code>. This must
+  /// not be specified for Amazon EKS based job definitions.
   /// <note>
   /// If the job runs on Fargate resources, then you must not specify
   /// <code>nodeProperties</code>; use only <code>containerProperties</code>.
   /// </note>
+  ///
+  /// Parameter [eksProperties] :
+  /// An object with various properties that are specific to Amazon EKS based
+  /// jobs. This must not be specified for Amazon ECS based job definitions.
   ///
   /// Parameter [nodeProperties] :
   /// An object with various properties specific to multi-node parallel jobs. If
   /// you specify node properties for a job, it becomes a multi-node parallel
   /// job. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/multi-node-parallel-jobs.html">Multi-node
-  /// Parallel Jobs</a> in the <i>AWS Batch User Guide</i>. If the job
-  /// definition's <code>type</code> parameter is <code>container</code>, then
-  /// you must specify either <code>containerProperties</code> or
+  /// Parallel Jobs</a> in the <i>Batch User Guide</i>. If the job definition's
+  /// <code>type</code> parameter is <code>container</code>, then you must
+  /// specify either <code>containerProperties</code> or
   /// <code>nodeProperties</code>.
   /// <note>
   /// If the job runs on Fargate resources, then you must not specify
   /// <code>nodeProperties</code>; use <code>containerProperties</code> instead.
+  /// </note> <note>
+  /// If the job runs on Amazon EKS resources, then you must not specify
+  /// <code>nodeProperties</code>.
   /// </note>
   ///
   /// Parameter [parameters] :
@@ -763,6 +1057,10 @@ class Batch {
   /// The platform capabilities required by the job definition. If no value is
   /// specified, it defaults to <code>EC2</code>. To run the job on Fargate
   /// resources, specify <code>FARGATE</code>.
+  /// <note>
+  /// If the job runs on Amazon EKS resources, then you must not specify
+  /// <code>platformCapabilities</code>.
+  /// </note>
   ///
   /// Parameter [propagateTags] :
   /// Specifies whether to propagate the tags from the job or job definition to
@@ -772,6 +1070,10 @@ class Batch {
   /// job definitions tags. If the total number of combined tags from the job
   /// and job definition is over 50, the job is moved to the <code>FAILED</code>
   /// state.
+  /// <note>
+  /// If the job runs on Amazon EKS resources, then you must not specify
+  /// <code>propagateTags</code>.
+  /// </note>
   ///
   /// Parameter [retryStrategy] :
   /// The retry strategy to use for failed jobs that are submitted with this job
@@ -779,31 +1081,41 @@ class Batch {
   /// operation overrides the retry strategy defined here. If a job is
   /// terminated due to a timeout, it isn't retried.
   ///
+  /// Parameter [schedulingPriority] :
+  /// The scheduling priority for jobs that are submitted with this job
+  /// definition. This only affects jobs in job queues with a fair share policy.
+  /// Jobs with a higher scheduling priority are scheduled before jobs with a
+  /// lower scheduling priority.
+  ///
+  /// The minimum supported value is 0 and the maximum supported value is 9999.
+  ///
   /// Parameter [tags] :
   /// The tags that you apply to the job definition to help you categorize and
   /// organize your resources. Each tag consists of a key and an optional value.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html">Tagging
-  /// AWS Resources</a> in <i>AWS Batch User Guide</i>.
+  /// Amazon Web Services Resources</a> in <i>Batch User Guide</i>.
   ///
   /// Parameter [timeout] :
   /// The timeout configuration for jobs that are submitted with this job
-  /// definition, after which AWS Batch terminates your jobs if they have not
+  /// definition, after which Batch terminates your jobs if they have not
   /// finished. If a job is terminated due to a timeout, it isn't retried. The
   /// minimum value for the timeout is 60 seconds. Any timeout configuration
   /// that's specified during a <a>SubmitJob</a> operation overrides the timeout
   /// configuration defined here. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/job_timeouts.html">Job
-  /// Timeouts</a> in the <i>AWS Batch User Guide</i>.
+  /// Timeouts</a> in the <i>Batch User Guide</i>.
   Future<RegisterJobDefinitionResponse> registerJobDefinition({
     required String jobDefinitionName,
     required JobDefinitionType type,
     ContainerProperties? containerProperties,
+    EksProperties? eksProperties,
     NodeProperties? nodeProperties,
     Map<String, String>? parameters,
     List<PlatformCapability>? platformCapabilities,
     bool? propagateTags,
     RetryStrategy? retryStrategy,
+    int? schedulingPriority,
     Map<String, String>? tags,
     JobTimeout? timeout,
   }) async {
@@ -812,6 +1124,7 @@ class Batch {
       'type': type.toValue(),
       if (containerProperties != null)
         'containerProperties': containerProperties,
+      if (eksProperties != null) 'eksProperties': eksProperties,
       if (nodeProperties != null) 'nodeProperties': nodeProperties,
       if (parameters != null) 'parameters': parameters,
       if (platformCapabilities != null)
@@ -819,6 +1132,7 @@ class Batch {
             platformCapabilities.map((e) => e.toValue()).toList(),
       if (propagateTags != null) 'propagateTags': propagateTags,
       if (retryStrategy != null) 'retryStrategy': retryStrategy,
+      if (schedulingPriority != null) 'schedulingPriority': schedulingPriority,
       if (tags != null) 'tags': tags,
       if (timeout != null) 'timeout': timeout,
     };
@@ -831,12 +1145,21 @@ class Batch {
     return RegisterJobDefinitionResponse.fromJson(response);
   }
 
-  /// Submits an AWS Batch job from a job definition. Parameters specified
+  /// Submits an Batch job from a job definition. Parameters that are specified
   /// during <a>SubmitJob</a> override parameters defined in the job definition.
-  /// <important>
-  /// Jobs run on Fargate resources don't run for more than 14 days. After 14
-  /// days, the Fargate resources might no longer be available and the job is
-  /// terminated.
+  /// vCPU and memory requirements that are specified in the
+  /// <code>resourceRequirements</code> objects in the job definition are the
+  /// exception. They can't be overridden this way using the <code>memory</code>
+  /// and <code>vcpus</code> parameters. Rather, you must specify updates to job
+  /// definition parameters in a <code>resourceRequirements</code> object that's
+  /// included in the <code>containerOverrides</code> parameter.
+  /// <note>
+  /// Job queues with a scheduling policy are limited to 500 active fair share
+  /// identifiers at a time.
+  /// </note> <important>
+  /// Jobs that run on Fargate resources can't be guaranteed to run for more
+  /// than 14 days. This is because, after 14 days, Fargate resources might
+  /// become unavailable and job might be terminated.
   /// </important>
   ///
   /// May throw [ClientException].
@@ -844,18 +1167,24 @@ class Batch {
   ///
   /// Parameter [jobDefinition] :
   /// The job definition used by this job. This value can be one of
-  /// <code>name</code>, <code>name:revision</code>, or the Amazon Resource Name
-  /// (ARN) for the job definition. If <code>name</code> is specified without a
-  /// revision then the latest active revision is used.
+  /// <code>definition-name</code>, <code>definition-name:revision</code>, or
+  /// the Amazon Resource Name (ARN) for the job definition, with or without the
+  /// revision
+  /// (<code>arn:aws:batch:<i>region</i>:<i>account</i>:job-definition/<i>definition-name</i>:<i>revision</i>
+  /// </code>, or
+  /// <code>arn:aws:batch:<i>region</i>:<i>account</i>:job-definition/<i>definition-name</i>
+  /// </code>).
+  ///
+  /// If the revision is not specified, then the latest active revision is used.
   ///
   /// Parameter [jobName] :
-  /// The name of the job. The first character must be alphanumeric, and up to
-  /// 128 letters (uppercase and lowercase), numbers, hyphens, and underscores
-  /// are allowed.
+  /// The name of the job. It can be up to 128 letters long. The first character
+  /// must be alphanumeric, can contain uppercase and lowercase letters,
+  /// numbers, hyphens (-), and underscores (_).
   ///
   /// Parameter [jobQueue] :
-  /// The job queue into which the job is submitted. You can specify either the
-  /// name or the Amazon Resource Name (ARN) of the queue.
+  /// The job queue where the job is submitted. You can specify either the name
+  /// or the Amazon Resource Name (ARN) of the queue.
   ///
   /// Parameter [arrayProperties] :
   /// The array properties for the submitted job, such as the size of the array.
@@ -863,17 +1192,16 @@ class Batch {
   /// properties for a job, it becomes an array job. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/array_jobs.html">Array
-  /// Jobs</a> in the <i>AWS Batch User Guide</i>.
+  /// Jobs</a> in the <i>Batch User Guide</i>.
   ///
   /// Parameter [containerOverrides] :
-  /// A list of container overrides in JSON format that specify the name of a
-  /// container in the specified job definition and the overrides it should
-  /// receive. You can override the default command for a container (that's
-  /// specified in the job definition or the Docker image) with a
-  /// <code>command</code> override. You can also override existing environment
-  /// variables (that are specified in the job definition or Docker image) on a
-  /// container or add new environment variables to it with an
-  /// <code>environment</code> override.
+  /// An object with various properties that override the defaults for the job
+  /// definition that specify the name of a container in the specified job
+  /// definition and the overrides it should receive. You can override the
+  /// default command for a container, which is specified in the job definition
+  /// or the Docker image, with a <code>command</code> override. You can also
+  /// override existing environment variables on a container or add new
+  /// environment variables to it with an <code>environment</code> override.
   ///
   /// Parameter [dependsOn] :
   /// A list of dependencies for the job. A job can depend upon a maximum of 20
@@ -884,12 +1212,17 @@ class Batch {
   /// case, each index child of this job must wait for the corresponding index
   /// child of each dependency to complete before it can begin.
   ///
+  /// Parameter [eksPropertiesOverride] :
+  /// An object that can only be specified for jobs that are run on Amazon EKS
+  /// resources with various properties that override defaults for the job
+  /// definition.
+  ///
   /// Parameter [nodeOverrides] :
   /// A list of node overrides in JSON format that specify the node range to
   /// target and the container overrides for that node range.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources; use
-  /// <code>containerOverrides</code> instead.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources; use <code>containerOverrides</code> instead.
   /// </note>
   ///
   /// Parameter [parameters] :
@@ -914,17 +1247,31 @@ class Batch {
   /// operation. When a retry strategy is specified here, it overrides the retry
   /// strategy defined in the job definition.
   ///
+  /// Parameter [schedulingPriorityOverride] :
+  /// The scheduling priority for the job. This only affects jobs in job queues
+  /// with a fair share policy. Jobs with a higher scheduling priority are
+  /// scheduled before jobs with a lower scheduling priority. This overrides any
+  /// scheduling priority in the job definition.
+  ///
+  /// The minimum supported value is 0 and the maximum supported value is 9999.
+  ///
+  /// Parameter [shareIdentifier] :
+  /// The share identifier for the job. If the job queue doesn't have a
+  /// scheduling policy, then this parameter must not be specified. If the job
+  /// queue has a scheduling policy, then this parameter must be specified.
+  ///
   /// Parameter [tags] :
   /// The tags that you apply to the job request to help you categorize and
   /// organize your resources. Each tag consists of a key and an optional value.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
-  /// AWS Resources</a> in <i>AWS General Reference</i>.
+  /// Amazon Web Services Resources</a> in <i>Amazon Web Services General
+  /// Reference</i>.
   ///
   /// Parameter [timeout] :
   /// The timeout configuration for this <a>SubmitJob</a> operation. You can
-  /// specify a timeout duration after which AWS Batch terminates your jobs if
-  /// they haven't finished. If a job is terminated due to a timeout, it isn't
+  /// specify a timeout duration after which Batch terminates your jobs if they
+  /// haven't finished. If a job is terminated due to a timeout, it isn't
   /// retried. The minimum value for the timeout is 60 seconds. This
   /// configuration overrides any timeout configuration specified in the job
   /// definition. For array jobs, child jobs have the same timeout configuration
@@ -939,10 +1286,13 @@ class Batch {
     ArrayProperties? arrayProperties,
     ContainerOverrides? containerOverrides,
     List<JobDependency>? dependsOn,
+    EksPropertiesOverride? eksPropertiesOverride,
     NodeOverrides? nodeOverrides,
     Map<String, String>? parameters,
     bool? propagateTags,
     RetryStrategy? retryStrategy,
+    int? schedulingPriorityOverride,
+    String? shareIdentifier,
     Map<String, String>? tags,
     JobTimeout? timeout,
   }) async {
@@ -953,10 +1303,15 @@ class Batch {
       if (arrayProperties != null) 'arrayProperties': arrayProperties,
       if (containerOverrides != null) 'containerOverrides': containerOverrides,
       if (dependsOn != null) 'dependsOn': dependsOn,
+      if (eksPropertiesOverride != null)
+        'eksPropertiesOverride': eksPropertiesOverride,
       if (nodeOverrides != null) 'nodeOverrides': nodeOverrides,
       if (parameters != null) 'parameters': parameters,
       if (propagateTags != null) 'propagateTags': propagateTags,
       if (retryStrategy != null) 'retryStrategy': retryStrategy,
+      if (schedulingPriorityOverride != null)
+        'schedulingPriorityOverride': schedulingPriorityOverride,
+      if (shareIdentifier != null) 'shareIdentifier': shareIdentifier,
       if (tags != null) 'tags': tags,
       if (timeout != null) 'timeout': timeout,
     };
@@ -972,26 +1327,27 @@ class Batch {
   /// Associates the specified tags to a resource with the specified
   /// <code>resourceArn</code>. If existing tags on a resource aren't specified
   /// in the request parameters, they aren't changed. When a resource is
-  /// deleted, the tags associated with that resource are deleted as well. AWS
-  /// Batch resources that support tags are compute environments, jobs, job
-  /// definitions, and job queues. ARNs for child jobs of array and multi-node
-  /// parallel (MNP) jobs are not supported.
+  /// deleted, the tags that are associated with that resource are deleted as
+  /// well. Batch resources that support tags are compute environments, jobs,
+  /// job definitions, job queues, and scheduling policies. ARNs for child jobs
+  /// of array and multi-node parallel (MNP) jobs aren't supported.
   ///
   /// May throw [ClientException].
   /// May throw [ServerException].
   ///
   /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) of the resource that tags are added to. AWS
+  /// The Amazon Resource Name (ARN) of the resource that tags are added to.
   /// Batch resources that support tags are compute environments, jobs, job
-  /// definitions, and job queues. ARNs for child jobs of array and multi-node
-  /// parallel (MNP) jobs are not supported.
+  /// definitions, job queues, and scheduling policies. ARNs for child jobs of
+  /// array and multi-node parallel (MNP) jobs aren't supported.
   ///
   /// Parameter [tags] :
   /// The tags that you apply to the resource to help you categorize and
   /// organize your resources. Each tag consists of a key and an optional value.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
-  /// AWS Resources</a> in <i>AWS General Reference</i>.
+  /// Amazon Web Services Resources</a> in <i>Amazon Web Services General
+  /// Reference</i>.
   Future<void> tagResource({
     required String resourceArn,
     required Map<String, String> tags,
@@ -1016,12 +1372,12 @@ class Batch {
   /// May throw [ServerException].
   ///
   /// Parameter [jobId] :
-  /// The AWS Batch job ID of the job to terminate.
+  /// The Batch job ID of the job to terminate.
   ///
   /// Parameter [reason] :
   /// A message to attach to the job that explains the reason for canceling it.
   /// This message is returned by future <a>DescribeJobs</a> operations on the
-  /// job. This message is also recorded in the AWS Batch activity logs.
+  /// job. This message is also recorded in the Batch activity logs.
   Future<void> terminateJob({
     required String jobId,
     required String reason,
@@ -1038,16 +1394,16 @@ class Batch {
     );
   }
 
-  /// Deletes specified tags from an AWS Batch resource.
+  /// Deletes specified tags from an Batch resource.
   ///
   /// May throw [ClientException].
   /// May throw [ServerException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource from which to delete tags.
-  /// AWS Batch resources that support tags are compute environments, jobs, job
-  /// definitions, and job queues. ARNs for child jobs of array and multi-node
-  /// parallel (MNP) jobs are not supported.
+  /// Batch resources that support tags are compute environments, jobs, job
+  /// definitions, job queues, and scheduling policies. ARNs for child jobs of
+  /// array and multi-node parallel (MNP) jobs aren't supported.
   ///
   /// Parameter [tagKeys] :
   /// The keys of the tags to be removed.
@@ -1067,7 +1423,7 @@ class Batch {
     );
   }
 
-  /// Updates an AWS Batch compute environment.
+  /// Updates an Batch compute environment.
   ///
   /// May throw [ClientException].
   /// May throw [ServerException].
@@ -1080,24 +1436,33 @@ class Batch {
   /// Details of the compute resources managed by the compute environment.
   /// Required for a managed compute environment. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
-  /// Environments</a> in the <i>AWS Batch User Guide</i>.
+  /// Environments</a> in the <i>Batch User Guide</i>.
   ///
   /// Parameter [serviceRole] :
-  /// The full Amazon Resource Name (ARN) of the IAM role that allows AWS Batch
-  /// to make calls to other AWS services on your behalf. For more information,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html">AWS
-  /// Batch service IAM role</a> in the <i>AWS Batch User Guide</i>.
-  ///
+  /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to
+  /// make calls to other Amazon Web Services services on your behalf. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html">Batch
+  /// service IAM role</a> in the <i>Batch User Guide</i>.
+  /// <important>
+  /// If the compute environment has a service-linked role, it can't be changed
+  /// to use a regular IAM role. Likewise, if the compute environment has a
+  /// regular IAM role, it can't be changed to use a service-linked role. To
+  /// update the parameters for the compute environment that require an
+  /// infrastructure update to change, the <b>AWSServiceRoleForBatch</b>
+  /// service-linked role must be used. For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  /// </important>
   /// If your specified role has a path other than <code>/</code>, then you must
-  /// either specify the full role ARN (this is recommended) or prefix the role
-  /// name with the path.
+  /// either specify the full role ARN (recommended) or prefix the role name
+  /// with the path.
   /// <note>
-  /// Depending on how you created your AWS Batch service role, its ARN might
+  /// Depending on how you created your Batch service role, its ARN might
   /// contain the <code>service-role</code> path prefix. When you only specify
-  /// the name of the service role, AWS Batch assumes that your ARN does not use
-  /// the <code>service-role</code> path prefix. Because of this, we recommend
-  /// that you specify the full ARN of your service role when you create compute
+  /// the name of the service role, Batch assumes that your ARN doesn't use the
+  /// <code>service-role</code> path prefix. Because of this, we recommend that
+  /// you specify the full ARN of your service role when you create compute
   /// environments.
   /// </note>
   ///
@@ -1106,29 +1471,57 @@ class Batch {
   /// <code>ENABLED</code> state can accept jobs from a queue and scale in or
   /// out automatically based on the workload demand of its associated queues.
   ///
-  /// If the state is <code>ENABLED</code>, then the AWS Batch scheduler can
-  /// attempt to place jobs from an associated job queue on the compute
-  /// resources within the environment. If the compute environment is managed,
-  /// then it can scale its instances out or in automatically, based on the job
-  /// queue demand.
+  /// If the state is <code>ENABLED</code>, then the Batch scheduler can attempt
+  /// to place jobs from an associated job queue on the compute resources within
+  /// the environment. If the compute environment is managed, then it can scale
+  /// its instances out or in automatically, based on the job queue demand.
   ///
-  /// If the state is <code>DISABLED</code>, then the AWS Batch scheduler
-  /// doesn't attempt to place jobs within the environment. Jobs in a
+  /// If the state is <code>DISABLED</code>, then the Batch scheduler doesn't
+  /// attempt to place jobs within the environment. Jobs in a
   /// <code>STARTING</code> or <code>RUNNING</code> state continue to progress
   /// normally. Managed compute environments in the <code>DISABLED</code> state
-  /// don't scale out. However, they scale in to <code>minvCpus</code> value
-  /// after instances become idle.
+  /// don't scale out.
+  /// <note>
+  /// Compute environments in a <code>DISABLED</code> state may continue to
+  /// incur billing charges. To prevent additional charges, turn off and then
+  /// delete the compute environment. For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environment_parameters.html#compute_environment_state">State</a>
+  /// in the <i>Batch User Guide</i>.
+  /// </note>
+  /// When an instance is idle, the instance scales down to the
+  /// <code>minvCpus</code> value. However, the instance size doesn't change.
+  /// For example, consider a <code>c5.8xlarge</code> instance with a
+  /// <code>minvCpus</code> value of <code>4</code> and a
+  /// <code>desiredvCpus</code> value of <code>36</code>. This instance doesn't
+  /// scale down to a <code>c5.large</code> instance.
+  ///
+  /// Parameter [unmanagedvCpus] :
+  /// The maximum number of vCPUs expected to be used for an unmanaged compute
+  /// environment. Don't specify this parameter for a managed compute
+  /// environment. This parameter is only used for fair share scheduling to
+  /// reserve vCPU capacity for new share identifiers. If this parameter isn't
+  /// provided for a fair share job queue, no vCPU capacity is reserved.
+  ///
+  /// Parameter [updatePolicy] :
+  /// Specifies the updated infrastructure update policy for the compute
+  /// environment. For more information about infrastructure updates, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
   Future<UpdateComputeEnvironmentResponse> updateComputeEnvironment({
     required String computeEnvironment,
     ComputeResourceUpdate? computeResources,
     String? serviceRole,
     CEState? state,
+    int? unmanagedvCpus,
+    UpdatePolicy? updatePolicy,
   }) async {
     final $payload = <String, dynamic>{
       'computeEnvironment': computeEnvironment,
       if (computeResources != null) 'computeResources': computeResources,
       if (serviceRole != null) 'serviceRole': serviceRole,
       if (state != null) 'state': state.toValue(),
+      if (unmanagedvCpus != null) 'unmanagedvCpus': unmanagedvCpus,
+      if (updatePolicy != null) 'updatePolicy': updatePolicy,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1150,38 +1543,47 @@ class Batch {
   /// Parameter [computeEnvironmentOrder] :
   /// Details the set of compute environments mapped to a job queue and their
   /// order relative to each other. This is one of the parameters used by the
-  /// job scheduler to determine which compute environment should run a given
-  /// job. Compute environments must be in the <code>VALID</code> state before
-  /// you can associate them with a job queue. All of the compute environments
-  /// must be either EC2 (<code>EC2</code> or <code>SPOT</code>) or Fargate
-  /// (<code>FARGATE</code> or <code>FARGATE_SPOT</code>); EC2 and Fargate
+  /// job scheduler to determine which compute environment runs a given job.
+  /// Compute environments must be in the <code>VALID</code> state before you
+  /// can associate them with a job queue. All of the compute environments must
+  /// be either EC2 (<code>EC2</code> or <code>SPOT</code>) or Fargate
+  /// (<code>FARGATE</code> or <code>FARGATE_SPOT</code>). EC2 and Fargate
   /// compute environments can't be mixed.
   /// <note>
   /// All compute environments that are associated with a job queue must share
-  /// the same architecture. AWS Batch doesn't support mixing compute
-  /// environment architecture types in a single job queue.
+  /// the same architecture. Batch doesn't support mixing compute environment
+  /// architecture types in a single job queue.
   /// </note>
   ///
   /// Parameter [priority] :
   /// The priority of the job queue. Job queues with a higher priority (or a
   /// higher integer value for the <code>priority</code> parameter) are
   /// evaluated first when associated with the same compute environment.
-  /// Priority is determined in descending order, for example, a job queue with
+  /// Priority is determined in descending order. For example, a job queue with
   /// a priority value of <code>10</code> is given scheduling preference over a
   /// job queue with a priority value of <code>1</code>. All of the compute
   /// environments must be either EC2 (<code>EC2</code> or <code>SPOT</code>) or
-  /// Fargate (<code>FARGATE</code> or <code>FARGATE_SPOT</code>); EC2 and
-  /// Fargate compute environments cannot be mixed.
+  /// Fargate (<code>FARGATE</code> or <code>FARGATE_SPOT</code>). EC2 and
+  /// Fargate compute environments can't be mixed.
+  ///
+  /// Parameter [schedulingPolicyArn] :
+  /// Amazon Resource Name (ARN) of the fair share scheduling policy. Once a job
+  /// queue is created, the fair share scheduling policy can be replaced but not
+  /// removed. The format is
+  /// <code>aws:<i>Partition</i>:batch:<i>Region</i>:<i>Account</i>:scheduling-policy/<i>Name</i>
+  /// </code>. For example,
+  /// <code>aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy</code>.
   ///
   /// Parameter [state] :
   /// Describes the queue's ability to accept new jobs. If the job queue state
-  /// is <code>ENABLED</code>, it is able to accept jobs. If the job queue state
-  /// is <code>DISABLED</code>, new jobs cannot be added to the queue, but jobs
+  /// is <code>ENABLED</code>, it can accept jobs. If the job queue state is
+  /// <code>DISABLED</code>, new jobs can't be added to the queue, but jobs
   /// already in the queue can finish.
   Future<UpdateJobQueueResponse> updateJobQueue({
     required String jobQueue,
     List<ComputeEnvironmentOrder>? computeEnvironmentOrder,
     int? priority,
+    String? schedulingPolicyArn,
     JQState? state,
   }) async {
     final $payload = <String, dynamic>{
@@ -1189,6 +1591,8 @@ class Batch {
       if (computeEnvironmentOrder != null)
         'computeEnvironmentOrder': computeEnvironmentOrder,
       if (priority != null) 'priority': priority,
+      if (schedulingPolicyArn != null)
+        'schedulingPolicyArn': schedulingPolicyArn,
       if (state != null) 'state': state.toValue(),
     };
     final response = await _protocol.send(
@@ -1198,6 +1602,32 @@ class Batch {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateJobQueueResponse.fromJson(response);
+  }
+
+  /// Updates a scheduling policy.
+  ///
+  /// May throw [ClientException].
+  /// May throw [ServerException].
+  ///
+  /// Parameter [arn] :
+  /// The Amazon Resource Name (ARN) of the scheduling policy to update.
+  ///
+  /// Parameter [fairsharePolicy] :
+  /// The fair share policy.
+  Future<void> updateSchedulingPolicy({
+    required String arn,
+    FairsharePolicy? fairsharePolicy,
+  }) async {
+    final $payload = <String, dynamic>{
+      'arn': arn,
+      if (fairsharePolicy != null) 'fairsharePolicy': fairsharePolicy,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/updateschedulingpolicy',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 }
 
@@ -1229,7 +1659,7 @@ extension ArrayJobDependencyFromString on String {
   }
 }
 
-/// An object representing an AWS Batch array job.
+/// An object that represents an Batch array job.
 class ArrayProperties {
   /// The size of the array job.
   final int? size;
@@ -1245,7 +1675,7 @@ class ArrayProperties {
   }
 }
 
-/// An object representing the array properties of a job.
+/// An object that represents the array properties of a job.
 class ArrayPropertiesDetail {
   /// The job index within the array that's associated with this job. This
   /// parameter is returned for array job children.
@@ -1263,6 +1693,7 @@ class ArrayPropertiesDetail {
     this.size,
     this.statusSummary,
   });
+
   factory ArrayPropertiesDetail.fromJson(Map<String, dynamic> json) {
     return ArrayPropertiesDetail(
       index: json['index'] as int?,
@@ -1273,7 +1704,7 @@ class ArrayPropertiesDetail {
   }
 }
 
-/// An object representing the array properties of a job.
+/// An object that represents the array properties of a job.
 class ArrayPropertiesSummary {
   /// The job index within the array that's associated with this job. This
   /// parameter is returned for children of array jobs.
@@ -1286,6 +1717,7 @@ class ArrayPropertiesSummary {
     this.index,
     this.size,
   });
+
   factory ArrayPropertiesSummary.fromJson(Map<String, dynamic> json) {
     return ArrayPropertiesSummary(
       index: json['index'] as int?,
@@ -1322,28 +1754,28 @@ extension AssignPublicIpFromString on String {
   }
 }
 
-/// An object representing the details of a container that's part of a job
+/// An object that represents the details of a container that's part of a job
 /// attempt.
 class AttemptContainerDetail {
   /// The Amazon Resource Name (ARN) of the Amazon ECS container instance that
   /// hosts the job attempt.
   final String? containerInstanceArn;
 
-  /// The exit code for the job attempt. A non-zero exit code is considered a
-  /// failure.
+  /// The exit code for the job attempt. A non-zero exit code is considered
+  /// failed.
   final int? exitCode;
 
-  /// The name of the CloudWatch Logs log stream associated with the container.
-  /// The log group for AWS Batch jobs is <code>/aws/batch/job</code>. Each
+  /// The name of the CloudWatch Logs log stream that's associated with the
+  /// container. The log group for Batch jobs is <code>/aws/batch/job</code>. Each
   /// container attempt receives a log stream name when they reach the
   /// <code>RUNNING</code> status.
   final String? logStreamName;
 
-  /// The network interfaces associated with the job attempt.
+  /// The network interfaces that are associated with the job attempt.
   final List<NetworkInterface>? networkInterfaces;
 
   /// A short (255 max characters) human-readable string to provide additional
-  /// details about a running or stopped container.
+  /// details for a running or stopped container.
   final String? reason;
 
   /// The Amazon Resource Name (ARN) of the Amazon ECS task that's associated with
@@ -1359,6 +1791,7 @@ class AttemptContainerDetail {
     this.reason,
     this.taskArn,
   });
+
   factory AttemptContainerDetail.fromJson(Map<String, dynamic> json) {
     return AttemptContainerDetail(
       containerInstanceArn: json['containerInstanceArn'] as String?,
@@ -1374,9 +1807,9 @@ class AttemptContainerDetail {
   }
 }
 
-/// An object representing a job attempt.
+/// An object that represents a job attempt.
 class AttemptDetail {
-  /// Details about the container in this job attempt.
+  /// The details for the container in this job attempt.
   final AttemptContainerDetail? container;
 
   /// The Unix timestamp (in milliseconds) for when the attempt was started (when
@@ -1384,8 +1817,8 @@ class AttemptDetail {
   /// <code>RUNNING</code> state).
   final int? startedAt;
 
-  /// A short, human-readable string to provide additional details about the
-  /// current status of the job attempt.
+  /// A short, human-readable string to provide additional details for the current
+  /// status of the job attempt.
   final String? statusReason;
 
   /// The Unix timestamp (in milliseconds) for when the attempt was stopped (when
@@ -1399,6 +1832,7 @@ class AttemptDetail {
     this.statusReason,
     this.stoppedAt,
   });
+
   factory AttemptDetail.fromJson(Map<String, dynamic> json) {
     return AttemptDetail(
       container: json['container'] != null
@@ -1587,61 +2021,113 @@ extension CRTypeFromString on String {
   }
 }
 
+enum CRUpdateAllocationStrategy {
+  bestFitProgressive,
+  spotCapacityOptimized,
+}
+
+extension CRUpdateAllocationStrategyValueExtension
+    on CRUpdateAllocationStrategy {
+  String toValue() {
+    switch (this) {
+      case CRUpdateAllocationStrategy.bestFitProgressive:
+        return 'BEST_FIT_PROGRESSIVE';
+      case CRUpdateAllocationStrategy.spotCapacityOptimized:
+        return 'SPOT_CAPACITY_OPTIMIZED';
+    }
+  }
+}
+
+extension CRUpdateAllocationStrategyFromString on String {
+  CRUpdateAllocationStrategy toCRUpdateAllocationStrategy() {
+    switch (this) {
+      case 'BEST_FIT_PROGRESSIVE':
+        return CRUpdateAllocationStrategy.bestFitProgressive;
+      case 'SPOT_CAPACITY_OPTIMIZED':
+        return CRUpdateAllocationStrategy.spotCapacityOptimized;
+    }
+    throw Exception('$this is not known in enum CRUpdateAllocationStrategy');
+  }
+}
+
 class CancelJobResponse {
   CancelJobResponse();
+
   factory CancelJobResponse.fromJson(Map<String, dynamic> _) {
     return CancelJobResponse();
   }
 }
 
-/// An object representing an AWS Batch compute environment.
+/// An object that represents an Batch compute environment.
 class ComputeEnvironmentDetail {
   /// The Amazon Resource Name (ARN) of the compute environment.
   final String computeEnvironmentArn;
 
-  /// The name of the compute environment. Up to 128 letters (uppercase and
-  /// lowercase), numbers, hyphens, and underscores are allowed.
+  /// The name of the compute environment. It can be up to 128 characters long. It
+  /// can contain uppercase and lowercase letters, numbers, hyphens (-), and
+  /// underscores (_).
   final String computeEnvironmentName;
-
-  /// The Amazon Resource Name (ARN) of the underlying Amazon ECS cluster used by
-  /// the compute environment.
-  final String ecsClusterArn;
 
   /// The compute resources defined for the compute environment. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
-  /// Environments</a> in the <i>AWS Batch User Guide</i>.
+  /// environments</a> in the <i>Batch User Guide</i>.
   final ComputeResource? computeResources;
 
-  /// The service role associated with the compute environment that allows AWS
-  /// Batch to make calls to AWS API operations on your behalf. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html">AWS
-  /// Batch service IAM role</a> in the <i>AWS Batch User Guide</i>.
+  /// The orchestration type of the compute environment. The valid values are
+  /// <code>ECS</code> (default) or <code>EKS</code>.
+  final OrchestrationType? containerOrchestrationType;
+
+  /// The Amazon Resource Name (ARN) of the underlying Amazon ECS cluster that the
+  /// compute environment uses.
+  final String? ecsClusterArn;
+
+  /// The configuration for the Amazon EKS cluster that supports the Batch compute
+  /// environment. Only specify this parameter if the
+  /// <code>containerOrchestrationType</code> is <code>EKS</code>.
+  final EksConfiguration? eksConfiguration;
+
+  /// The service role that's associated with the compute environment that allows
+  /// Batch to make calls to Amazon Web Services API operations on your behalf.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html">Batch
+  /// service IAM role</a> in the <i>Batch User Guide</i>.
   final String? serviceRole;
 
   /// The state of the compute environment. The valid values are
   /// <code>ENABLED</code> or <code>DISABLED</code>.
   ///
-  /// If the state is <code>ENABLED</code>, then the AWS Batch scheduler can
-  /// attempt to place jobs from an associated job queue on the compute resources
-  /// within the environment. If the compute environment is managed, then it can
-  /// scale its instances out or in automatically, based on the job queue demand.
+  /// If the state is <code>ENABLED</code>, then the Batch scheduler can attempt
+  /// to place jobs from an associated job queue on the compute resources within
+  /// the environment. If the compute environment is managed, then it can scale
+  /// its instances out or in automatically based on the job queue demand.
   ///
-  /// If the state is <code>DISABLED</code>, then the AWS Batch scheduler doesn't
+  /// If the state is <code>DISABLED</code>, then the Batch scheduler doesn't
   /// attempt to place jobs within the environment. Jobs in a
   /// <code>STARTING</code> or <code>RUNNING</code> state continue to progress
   /// normally. Managed compute environments in the <code>DISABLED</code> state
-  /// don't scale out. However, they scale in to <code>minvCpus</code> value after
-  /// instances become idle.
+  /// don't scale out.
+  /// <note>
+  /// Compute environments in a <code>DISABLED</code> state may continue to incur
+  /// billing charges. To prevent additional charges, turn off and then delete the
+  /// compute environment. For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environment_parameters.html#compute_environment_state">State</a>
+  /// in the <i>Batch User Guide</i>.
+  /// </note>
+  /// When an instance is idle, the instance scales down to the
+  /// <code>minvCpus</code> value. However, the instance size doesn't change. For
+  /// example, consider a <code>c5.8xlarge</code> instance with a
+  /// <code>minvCpus</code> value of <code>4</code> and a
+  /// <code>desiredvCpus</code> value of <code>36</code>. This instance doesn't
+  /// scale down to a <code>c5.large</code> instance.
   final CEState? state;
 
   /// The current status of the compute environment (for example,
   /// <code>CREATING</code> or <code>VALID</code>).
   final CEStatus? status;
 
-  /// A short, human-readable string to provide additional details about the
-  /// current status of the compute environment.
+  /// A short, human-readable string to provide additional details for the current
+  /// status of the compute environment.
   final String? statusReason;
 
   /// The tags applied to the compute environment.
@@ -1650,29 +2136,55 @@ class ComputeEnvironmentDetail {
   /// The type of the compute environment: <code>MANAGED</code> or
   /// <code>UNMANAGED</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
-  /// Environments</a> in the <i>AWS Batch User Guide</i>.
+  /// environments</a> in the <i>Batch User Guide</i>.
   final CEType? type;
+
+  /// The maximum number of VCPUs expected to be used for an unmanaged compute
+  /// environment.
+  final int? unmanagedvCpus;
+
+  /// Specifies the infrastructure update policy for the compute environment. For
+  /// more information about infrastructure updates, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  final UpdatePolicy? updatePolicy;
+
+  /// Unique identifier for the compute environment.
+  final String? uuid;
 
   ComputeEnvironmentDetail({
     required this.computeEnvironmentArn,
     required this.computeEnvironmentName,
-    required this.ecsClusterArn,
     this.computeResources,
+    this.containerOrchestrationType,
+    this.ecsClusterArn,
+    this.eksConfiguration,
     this.serviceRole,
     this.state,
     this.status,
     this.statusReason,
     this.tags,
     this.type,
+    this.unmanagedvCpus,
+    this.updatePolicy,
+    this.uuid,
   });
+
   factory ComputeEnvironmentDetail.fromJson(Map<String, dynamic> json) {
     return ComputeEnvironmentDetail(
       computeEnvironmentArn: json['computeEnvironmentArn'] as String,
       computeEnvironmentName: json['computeEnvironmentName'] as String,
-      ecsClusterArn: json['ecsClusterArn'] as String,
       computeResources: json['computeResources'] != null
           ? ComputeResource.fromJson(
               json['computeResources'] as Map<String, dynamic>)
+          : null,
+      containerOrchestrationType:
+          (json['containerOrchestrationType'] as String?)
+              ?.toOrchestrationType(),
+      ecsClusterArn: json['ecsClusterArn'] as String?,
+      eksConfiguration: json['eksConfiguration'] != null
+          ? EksConfiguration.fromJson(
+              json['eksConfiguration'] as Map<String, dynamic>)
           : null,
       serviceRole: json['serviceRole'] as String?,
       state: (json['state'] as String?)?.toCEState(),
@@ -1681,11 +2193,16 @@ class ComputeEnvironmentDetail {
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       type: (json['type'] as String?)?.toCEType(),
+      unmanagedvCpus: json['unmanagedvCpus'] as int?,
+      updatePolicy: json['updatePolicy'] != null
+          ? UpdatePolicy.fromJson(json['updatePolicy'] as Map<String, dynamic>)
+          : null,
+      uuid: json['uuid'] as String?,
     );
   }
 }
 
-/// The order in which compute environments are tried for job placement within a
+/// The order that compute environments are tried in for job placement within a
 /// queue. Compute environments are tried in ascending order. For example, if
 /// two compute environments are associated with a job queue, the compute
 /// environment with a lower order integer value is tried for job placement
@@ -1696,7 +2213,7 @@ class ComputeEnvironmentDetail {
 /// environments can't be mixed.
 /// <note>
 /// All compute environments that are associated with a job queue must share the
-/// same architecture. AWS Batch doesn't support mixing compute environment
+/// same architecture. Batch doesn't support mixing compute environment
 /// architecture types in a single job queue.
 /// </note>
 class ComputeEnvironmentOrder {
@@ -1713,6 +2230,7 @@ class ComputeEnvironmentOrder {
     required this.computeEnvironment,
     required this.order,
   });
+
   factory ComputeEnvironmentOrder.fromJson(Map<String, dynamic> json) {
     return ComputeEnvironmentOrder(
       computeEnvironment: json['computeEnvironment'] as String,
@@ -1730,41 +2248,56 @@ class ComputeEnvironmentOrder {
   }
 }
 
-/// An object representing an AWS Batch compute resource. For more information,
+/// An object that represents an Batch compute resource. For more information,
 /// see <a
 /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
-/// Environments</a> in the <i>AWS Batch User Guide</i>.
+/// environments</a> in the <i>Batch User Guide</i>.
 class ComputeResource {
   /// The maximum number of Amazon EC2 vCPUs that a compute environment can reach.
   /// <note>
   /// With both <code>BEST_FIT_PROGRESSIVE</code> and
-  /// <code>SPOT_CAPACITY_OPTIMIZED</code> allocation strategies, AWS Batch might
-  /// need to go above <code>maxvCpus</code> to meet your capacity requirements.
-  /// In this event, AWS Batch will never go above <code>maxvCpus</code> by more
-  /// than a single instance (e.g., no more than a single instance from among
-  /// those specified in your compute environment).
+  /// <code>SPOT_CAPACITY_OPTIMIZED</code> allocation strategies using On-Demand
+  /// or Spot Instances, and the <code>BEST_FIT</code> strategy using Spot
+  /// Instances, Batch might need to exceed <code>maxvCpus</code> to meet your
+  /// capacity requirements. In this event, Batch never exceeds
+  /// <code>maxvCpus</code> by more than a single instance. For example, no more
+  /// than a single instance from among those specified in your compute
+  /// environment is allocated.
   /// </note>
   final int maxvCpus;
 
-  /// The VPC subnets into which the compute resources are launched. These subnets
-  /// must be within the same VPC. This parameter is required for jobs running on
-  /// Fargate resources, where it can contain up to 16 subnets. For more
-  /// information, see <a
+  /// The VPC subnets where the compute resources are launched. These subnets must
+  /// be within the same VPC. Fargate compute resources can contain up to 16
+  /// subnets. For more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html">VPCs
-  /// and Subnets</a> in the <i>Amazon VPC User Guide</i>.
+  /// and subnets</a> in the <i>Amazon VPC User Guide</i>.
+  /// <note>
+  /// Batch on Amazon EC2 and Batch on Amazon EKS support Local Zones. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-local-zones">
+  /// Local Zones</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>, <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/local-zones.html">Amazon
+  /// EKS and Amazon Web Services Local Zones</a> in the <i>Amazon EKS User
+  /// Guide</i> and <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-regions-zones.html#clusters-local-zones">
+  /// Amazon ECS clusters in Local Zones, Wavelength Zones, and Amazon Web
+  /// Services Outposts</a> in the <i>Amazon ECS Developer Guide</i>.
+  ///
+  /// Batch on Fargate doesn't currently support Local Zones.
+  /// </note>
   final List<String> subnets;
 
   /// The type of compute environment: <code>EC2</code>, <code>SPOT</code>,
   /// <code>FARGATE</code>, or <code>FARGATE_SPOT</code>. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
-  /// Environments</a> in the <i>AWS Batch User Guide</i>.
+  /// environments</a> in the <i>Batch User Guide</i>.
   ///
   /// If you choose <code>SPOT</code>, you must also specify an Amazon EC2 Spot
   /// Fleet role with the <code>spotIamFleetRole</code> parameter. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html">Amazon
-  /// EC2 Spot Fleet role</a> in the <i>AWS Batch User Guide</i>.
+  /// EC2 spot fleet role</a> in the <i>Batch User Guide</i>.
   final CRType type;
 
   /// The allocation strategy to use for the compute resource if not enough
@@ -1773,38 +2306,42 @@ class ComputeResource {
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html">Amazon
   /// EC2 service limits</a>. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/allocation-strategies.html">Allocation
-  /// Strategies</a> in the <i>AWS Batch User Guide</i>.
+  /// strategies</a> in the <i>Batch User Guide</i>.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources, and
-  /// shouldn't be specified.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
   /// </note> <dl> <dt>BEST_FIT (default)</dt> <dd>
-  /// AWS Batch selects an instance type that best fits the needs of the jobs with
-  /// a preference for the lowest-cost instance type. If additional instances of
-  /// the selected instance type aren't available, AWS Batch will wait for the
-  /// additional instances to be available. If there are not enough instances
-  /// available, or if the user is hitting <a
+  /// Batch selects an instance type that best fits the needs of the jobs with a
+  /// preference for the lowest-cost instance type. If additional instances of the
+  /// selected instance type aren't available, Batch waits for the additional
+  /// instances to be available. If there aren't enough instances available or the
+  /// user is reaching <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html">Amazon
-  /// EC2 service limits</a> then additional jobs aren't run until currently
-  /// running jobs have completed. This allocation strategy keeps costs lower but
-  /// can limit scaling. If you are using Spot Fleets with <code>BEST_FIT</code>
-  /// then the Spot Fleet IAM Role must be specified.
+  /// EC2 service limits</a>, additional jobs aren't run until the currently
+  /// running jobs are completed. This allocation strategy keeps costs lower but
+  /// can limit scaling. If you're using Spot Fleets with <code>BEST_FIT</code>,
+  /// the Spot Fleet IAM Role must be specified. Compute resources that use a
+  /// <code>BEST_FIT</code> allocation strategy don't support infrastructure
+  /// updates and can't update some parameters. For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
   /// </dd> <dt>BEST_FIT_PROGRESSIVE</dt> <dd>
-  /// AWS Batch will select additional instance types that are large enough to
-  /// meet the requirements of the jobs in the queue, with a preference for
-  /// instance types with a lower cost per unit vCPU. If additional instances of
-  /// the previously selected instance types aren't available, AWS Batch will
-  /// select new instance types.
+  /// Batch selects additional instance types that are large enough to meet the
+  /// requirements of the jobs in the queue. Its preference is for instance types
+  /// with lower cost vCPUs. If additional instances of the previously selected
+  /// instance types aren't available, Batch selects new instance types.
   /// </dd> <dt>SPOT_CAPACITY_OPTIMIZED</dt> <dd>
-  /// AWS Batch will select one or more instance types that are large enough to
-  /// meet the requirements of the jobs in the queue, with a preference for
-  /// instance types that are less likely to be interrupted. This allocation
-  /// strategy is only available for Spot Instance compute resources.
+  /// Batch selects one or more instance types that are large enough to meet the
+  /// requirements of the jobs in the queue. Its preference is for instance types
+  /// that are less likely to be interrupted. This allocation strategy is only
+  /// available for Spot Instance compute resources.
   /// </dd> </dl>
   /// With both <code>BEST_FIT_PROGRESSIVE</code> and
-  /// <code>SPOT_CAPACITY_OPTIMIZED</code> strategies, AWS Batch might need to go
-  /// above <code>maxvCpus</code> to meet your capacity requirements. In this
-  /// event, AWS Batch never exceeds <code>maxvCpus</code> by more than a single
-  /// instance.
+  /// <code>SPOT_CAPACITY_OPTIMIZED</code> strategies using On-Demand or Spot
+  /// Instances, and the <code>BEST_FIT</code> strategy using Spot Instances,
+  /// Batch might need to exceed <code>maxvCpus</code> to meet your capacity
+  /// requirements. In this event, Batch never exceeds <code>maxvCpus</code> by
+  /// more than a single instance.
   final CRAllocationStrategy? allocationStrategy;
 
   /// The maximum percentage that a Spot Instance price can be when compared with
@@ -1813,36 +2350,38 @@ class ComputeResource {
   /// less than 20% of the current On-Demand price for that Amazon EC2 instance.
   /// You always pay the lowest (market) price and never more than your maximum
   /// percentage. If you leave this field empty, the default value is 100% of the
-  /// On-Demand price.
+  /// On-Demand price. For most use cases, we recommend leaving this field empty.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources, and
-  /// shouldn't be specified.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
   /// </note>
   final int? bidPercentage;
 
-  /// The desired number of Amazon EC2 vCPUS in the compute environment. AWS Batch
-  /// modifies this value between the minimum and maximum values, based on job
+  /// The desired number of Amazon EC2 vCPUS in the compute environment. Batch
+  /// modifies this value between the minimum and maximum values based on job
   /// queue demand.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources, and
-  /// shouldn't be specified.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
   /// </note>
   final int? desiredvCpus;
 
-  /// Provides information used to select Amazon Machine Images (AMIs) for EC2
-  /// instances in the compute environment. If <code>Ec2Configuration</code> isn't
-  /// specified, the default is <code>ECS_AL1</code>.
+  /// Provides information that's used to select Amazon Machine Images (AMIs) for
+  /// EC2 instances in the compute environment. If <code>Ec2Configuration</code>
+  /// isn't specified, the default is <code>ECS_AL2</code>.
+  ///
+  /// One or two values can be provided.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources, and
-  /// shouldn't be specified.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
   /// </note>
   final List<Ec2Configuration>? ec2Configuration;
 
   /// The Amazon EC2 key pair that's used for instances launched in the compute
   /// environment. You can use this key pair to log in to your instances with SSH.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources, and
-  /// shouldn't be specified.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
   /// </note>
   final String? ec2KeyPair;
 
@@ -1851,8 +2390,8 @@ class ComputeResource {
   /// <code>imageIdOverride</code> member of the <code>Ec2Configuration</code>
   /// structure.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources, and
-  /// shouldn't be specified.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
   /// </note> <note>
   /// The AMI that you choose for a compute environment must match the
   /// architecture of the instance types that you intend to use for that compute
@@ -1873,10 +2412,10 @@ class ComputeResource {
   /// <code>arn:aws:iam::<i>&lt;aws_account_id&gt;</i>:instance-profile/<i>ecsInstanceRole</i>
   /// </code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/instance_IAM_role.html">Amazon
-  /// ECS Instance Role</a> in the <i>AWS Batch User Guide</i>.
+  /// ECS instance role</a> in the <i>Batch User Guide</i>.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources, and
-  /// shouldn't be specified.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
   /// </note>
   final String? instanceRole;
 
@@ -1885,10 +2424,10 @@ class ComputeResource {
   /// <code>c5</code> or <code>p3</code>), or you can specify specific sizes
   /// within a family (such as <code>c5.8xlarge</code>). You can also choose
   /// <code>optimal</code> to select instance types (from the C4, M4, and R4
-  /// instance families) on the fly that match the demand of your job queues.
+  /// instance families) that match the demand of your job queues.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources, and
-  /// shouldn't be specified.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
   /// </note> <note>
   /// When you create a compute environment, the instance types that you select
   /// for the compute environment must share the same architecture. For example,
@@ -1896,7 +2435,7 @@ class ComputeResource {
   /// </note> <note>
   /// Currently, <code>optimal</code> uses instance types from the C4, M4, and R4
   /// instance families. In Regions that don't have instance types from those
-  /// instance families, instance types from the C5, M5. and R5 instance families
+  /// instance families, instance types from the C5, M5, and R5 instance families
   /// are used.
   /// </note>
   final List<String>? instanceTypes;
@@ -1907,18 +2446,18 @@ class ComputeResource {
   /// specify either the launch template ID or launch template name in the
   /// request, but not both. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/launch-templates.html">Launch
-  /// Template Support</a> in the <i>AWS Batch User Guide</i>.
+  /// template support</a> in the <i>Batch User Guide</i>.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources, and
-  /// shouldn't be specified.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
   /// </note>
   final LaunchTemplateSpecification? launchTemplate;
 
   /// The minimum number of Amazon EC2 vCPUs that an environment should maintain
   /// (even if the compute environment is <code>DISABLED</code>).
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources, and
-  /// shouldn't be specified.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
   /// </note>
   final int? minvCpus;
 
@@ -1929,21 +2468,22 @@ class ComputeResource {
   /// grouping of instances within a single Availability Zone with high network
   /// flow potential. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">Placement
-  /// Groups</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
+  /// groups</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources, and
-  /// shouldn't be specified.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
   /// </note>
   final String? placementGroup;
 
-  /// The Amazon EC2 security groups associated with instances launched in the
-  /// compute environment. One or more security groups must be specified, either
-  /// in <code>securityGroupIds</code> or using a launch template referenced in
-  /// <code>launchTemplate</code>. This parameter is required for jobs running on
-  /// Fargate resources and must contain at least one security group. (Fargate
-  /// does not support launch templates.) If security groups are specified using
-  /// both <code>securityGroupIds</code> and <code>launchTemplate</code>, the
-  /// values in <code>securityGroupIds</code> will be used.
+  /// The Amazon EC2 security groups that are associated with instances launched
+  /// in the compute environment. One or more security groups must be specified,
+  /// either in <code>securityGroupIds</code> or using a launch template
+  /// referenced in <code>launchTemplate</code>. This parameter is required for
+  /// jobs that are running on Fargate resources and must contain at least one
+  /// security group. Fargate doesn't support launch templates. If security groups
+  /// are specified using both <code>securityGroupIds</code> and
+  /// <code>launchTemplate</code>, the values in <code>securityGroupIds</code> are
+  /// used.
   final List<String>? securityGroupIds;
 
   /// The Amazon Resource Name (ARN) of the Amazon EC2 Spot Fleet IAM role applied
@@ -1951,10 +2491,10 @@ class ComputeResource {
   /// allocation strategy set to <code>BEST_FIT</code> or if the allocation
   /// strategy isn't specified. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html">Amazon
-  /// EC2 Spot Fleet Role</a> in the <i>AWS Batch User Guide</i>.
+  /// EC2 spot fleet role</a> in the <i>Batch User Guide</i>.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources, and
-  /// shouldn't be specified.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
   /// </note> <important>
   /// To tag your Spot Instances on creation, the Spot Fleet IAM role specified
   /// here must use the newer <b>AmazonEC2SpotFleetTaggingRole</b> managed policy.
@@ -1962,22 +2502,24 @@ class ComputeResource {
   /// doesn't have the required permissions to tag Spot Instances. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#spot-instance-no-tag">Spot
-  /// Instances not tagged on creation</a> in the <i>AWS Batch User Guide</i>.
+  /// instances not tagged on creation</a> in the <i>Batch User Guide</i>.
   /// </important>
   final String? spotIamFleetRole;
 
   /// Key-value pair tags to be applied to EC2 resources that are launched in the
-  /// compute environment. For AWS Batch, these take the form of "String1":
-  /// "String2", where String1 is the tag key and String2 is the tag value−for
-  /// example, { "Name": "AWS Batch Instance - C4OnDemand" }. This is helpful for
-  /// recognizing your AWS Batch instances in the Amazon EC2 console. These tags
-  /// can't be updated or removed after the compute environment has been created;
-  /// any changes require creating a new compute environment and removing the old
-  /// compute environment. These tags are not seen when using the AWS Batch
-  /// <code>ListTagsForResource</code> API operation.
+  /// compute environment. For Batch, these take the form of <code>"String1":
+  /// "String2"</code>, where <code>String1</code> is the tag key and
+  /// <code>String2</code> is the tag value-for example, <code>{ "Name": "Batch
+  /// Instance - C4OnDemand" }</code>. This is helpful for recognizing your Batch
+  /// instances in the Amazon EC2 console. Updating these tags requires an
+  /// infrastructure update to the compute environment. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>. These tags aren't
+  /// seen when using the Batch <code>ListTagsForResource</code> API operation.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources, and
-  /// shouldn't be specified.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
   /// </note>
   final Map<String, String>? tags;
 
@@ -2000,6 +2542,7 @@ class ComputeResource {
     this.spotIamFleetRole,
     this.tags,
   });
+
   factory ComputeResource.fromJson(Map<String, dynamic> json) {
     return ComputeResource(
       maxvCpus: json['maxvCpus'] as int,
@@ -2080,76 +2623,424 @@ class ComputeResource {
   }
 }
 
-/// An object representing the attributes of a compute environment that can be
-/// updated. For more information, see <a
-/// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
-/// Environments</a> in the <i>AWS Batch User Guide</i>.
+/// An object that represents the attributes of a compute environment that can
+/// be updated. For more information, see <a
+/// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+/// compute environments</a> in the <i>Batch User Guide</i>.
 class ComputeResourceUpdate {
-  /// The desired number of Amazon EC2 vCPUS in the compute environment.
+  /// The allocation strategy to use for the compute resource if there's not
+  /// enough instances of the best fitting instance type that can be allocated.
+  /// This might be because of availability of the instance type in the Region or
+  /// <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html">Amazon
+  /// EC2 service limits</a>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/allocation-strategies.html">Allocation
+  /// strategies</a> in the <i>Batch User Guide</i>.
+  ///
+  /// When updating a compute environment, changing the allocation strategy
+  /// requires an infrastructure update of the compute environment. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  /// <code>BEST_FIT</code> isn't supported when updating a compute environment.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources, and
-  /// shouldn't be specified.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
+  /// </note> <dl> <dt>BEST_FIT_PROGRESSIVE</dt> <dd>
+  /// Batch selects additional instance types that are large enough to meet the
+  /// requirements of the jobs in the queue. Its preference is for instance types
+  /// with lower cost vCPUs. If additional instances of the previously selected
+  /// instance types aren't available, Batch selects new instance types.
+  /// </dd> <dt>SPOT_CAPACITY_OPTIMIZED</dt> <dd>
+  /// Batch selects one or more instance types that are large enough to meet the
+  /// requirements of the jobs in the queue. Its preference is for instance types
+  /// that are less likely to be interrupted. This allocation strategy is only
+  /// available for Spot Instance compute resources.
+  /// </dd> </dl>
+  /// With both <code>BEST_FIT_PROGRESSIVE</code> and
+  /// <code>SPOT_CAPACITY_OPTIMIZED</code> strategies using On-Demand or Spot
+  /// Instances, and the <code>BEST_FIT</code> strategy using Spot Instances,
+  /// Batch might need to exceed <code>maxvCpus</code> to meet your capacity
+  /// requirements. In this event, Batch never exceeds <code>maxvCpus</code> by
+  /// more than a single instance.
+  final CRUpdateAllocationStrategy? allocationStrategy;
+
+  /// The maximum percentage that a Spot Instance price can be when compared with
+  /// the On-Demand price for that instance type before instances are launched.
+  /// For example, if your maximum percentage is 20%, the Spot price must be less
+  /// than 20% of the current On-Demand price for that Amazon EC2 instance. You
+  /// always pay the lowest (market) price and never more than your maximum
+  /// percentage. For most use cases, we recommend leaving this field empty.
+  ///
+  /// When updating a compute environment, changing the bid percentage requires an
+  /// infrastructure update of the compute environment. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  /// <note>
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
+  /// </note>
+  final int? bidPercentage;
+
+  /// The desired number of Amazon EC2 vCPUS in the compute environment. Batch
+  /// modifies this value between the minimum and maximum values based on job
+  /// queue demand.
+  /// <note>
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
+  /// </note> <note>
+  /// Batch doesn't support changing the desired number of vCPUs of an existing
+  /// compute environment. Don't specify this parameter for compute environments
+  /// using Amazon EKS clusters.
+  /// </note> <note>
+  /// When you update the <code>desiredvCpus</code> setting, the value must be
+  /// between the <code>minvCpus</code> and <code>maxvCpus</code> values.
+  ///
+  /// Additionally, the updated <code>desiredvCpus</code> value must be greater
+  /// than or equal to the current <code>desiredvCpus</code> value. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#error-desired-vcpus-update">Troubleshooting
+  /// Batch</a> in the <i>Batch User Guide</i>.
   /// </note>
   final int? desiredvCpus;
+
+  /// Provides information used to select Amazon Machine Images (AMIs) for EC2
+  /// instances in the compute environment. If <code>Ec2Configuration</code> isn't
+  /// specified, the default is <code>ECS_AL2</code>.
+  ///
+  /// When updating a compute environment, changing this setting requires an
+  /// infrastructure update of the compute environment. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>. To remove the EC2
+  /// configuration and any custom AMI ID specified in
+  /// <code>imageIdOverride</code>, set this value to an empty string.
+  ///
+  /// One or two values can be provided.
+  /// <note>
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
+  /// </note>
+  final List<Ec2Configuration>? ec2Configuration;
+
+  /// The Amazon EC2 key pair that's used for instances launched in the compute
+  /// environment. You can use this key pair to log in to your instances with SSH.
+  /// To remove the Amazon EC2 key pair, set this value to an empty string.
+  ///
+  /// When updating a compute environment, changing the EC2 key pair requires an
+  /// infrastructure update of the compute environment. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  /// <note>
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
+  /// </note>
+  final String? ec2KeyPair;
+
+  /// The Amazon Machine Image (AMI) ID used for instances launched in the compute
+  /// environment. This parameter is overridden by the
+  /// <code>imageIdOverride</code> member of the <code>Ec2Configuration</code>
+  /// structure. To remove the custom AMI ID and use the default AMI ID, set this
+  /// value to an empty string.
+  ///
+  /// When updating a compute environment, changing the AMI ID requires an
+  /// infrastructure update of the compute environment. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  /// <note>
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
+  /// </note> <note>
+  /// The AMI that you choose for a compute environment must match the
+  /// architecture of the instance types that you intend to use for that compute
+  /// environment. For example, if your compute environment uses A1 instance
+  /// types, the compute resource AMI that you choose must support ARM instances.
+  /// Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized
+  /// Amazon Linux 2 AMI. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux-variants.html">Amazon
+  /// ECS-optimized Amazon Linux 2 AMI</a> in the <i>Amazon Elastic Container
+  /// Service Developer Guide</i>.
+  /// </note>
+  final String? imageId;
+
+  /// The Amazon ECS instance profile applied to Amazon EC2 instances in a compute
+  /// environment. You can specify the short name or full Amazon Resource Name
+  /// (ARN) of an instance profile. For example, <code> <i>ecsInstanceRole</i>
+  /// </code> or
+  /// <code>arn:aws:iam::<i>&lt;aws_account_id&gt;</i>:instance-profile/<i>ecsInstanceRole</i>
+  /// </code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/instance_IAM_role.html">Amazon
+  /// ECS instance role</a> in the <i>Batch User Guide</i>.
+  ///
+  /// When updating a compute environment, changing this setting requires an
+  /// infrastructure update of the compute environment. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  /// <note>
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
+  /// </note>
+  final String? instanceRole;
+
+  /// The instances types that can be launched. You can specify instance families
+  /// to launch any instance type within those families (for example,
+  /// <code>c5</code> or <code>p3</code>), or you can specify specific sizes
+  /// within a family (such as <code>c5.8xlarge</code>). You can also choose
+  /// <code>optimal</code> to select instance types (from the C4, M4, and R4
+  /// instance families) that match the demand of your job queues.
+  ///
+  /// When updating a compute environment, changing this setting requires an
+  /// infrastructure update of the compute environment. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  /// <note>
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
+  /// </note> <note>
+  /// When you create a compute environment, the instance types that you select
+  /// for the compute environment must share the same architecture. For example,
+  /// you can't mix x86 and ARM instances in the same compute environment.
+  /// </note> <note>
+  /// Currently, <code>optimal</code> uses instance types from the C4, M4, and R4
+  /// instance families. In Regions that don't have instance types from those
+  /// instance families, instance types from the C5, M5, and R5 instance families
+  /// are used.
+  /// </note>
+  final List<String>? instanceTypes;
+
+  /// The updated launch template to use for your compute resources. You must
+  /// specify either the launch template ID or launch template name in the
+  /// request, but not both. For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/launch-templates.html">Launch
+  /// template support</a> in the <i>Batch User Guide</i>. To remove the custom
+  /// launch template and use the default launch template, set
+  /// <code>launchTemplateId</code> or <code>launchTemplateName</code> member of
+  /// the launch template specification to an empty string. Removing the launch
+  /// template from a compute environment will not remove the AMI specified in the
+  /// launch template. In order to update the AMI specified in a launch template,
+  /// the <code>updateToLatestImageVersion</code> parameter must be set to
+  /// <code>true</code>.
+  ///
+  /// When updating a compute environment, changing the launch template requires
+  /// an infrastructure update of the compute environment. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  /// <note>
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
+  /// </note>
+  final LaunchTemplateSpecification? launchTemplate;
 
   /// The maximum number of Amazon EC2 vCPUs that an environment can reach.
   /// <note>
   /// With both <code>BEST_FIT_PROGRESSIVE</code> and
-  /// <code>SPOT_CAPACITY_OPTIMIZED</code> allocation strategies, AWS Batch might
-  /// need to go above <code>maxvCpus</code> to meet your capacity requirements.
-  /// In this event, AWS Batch will never go above <code>maxvCpus</code> by more
-  /// than a single instance (e.g., no more than a single instance from among
-  /// those specified in your compute environment).
+  /// <code>SPOT_CAPACITY_OPTIMIZED</code> allocation strategies using On-Demand
+  /// or Spot Instances, and the <code>BEST_FIT</code> strategy using Spot
+  /// Instances, Batch might need to exceed <code>maxvCpus</code> to meet your
+  /// capacity requirements. In this event, Batch never exceeds
+  /// <code>maxvCpus</code> by more than a single instance. That is, no more than
+  /// a single instance from among those specified in your compute environment.
   /// </note>
   final int? maxvCpus;
 
-  /// The minimum number of Amazon EC2 vCPUs that an environment should maintain.
+  /// The minimum number of Amazon EC2 vCPUs that an environment should maintain
+  /// (even if the compute environment is <code>DISABLED</code>).
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources, and
-  /// shouldn't be specified.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
   /// </note>
   final int? minvCpus;
 
-  /// The Amazon EC2 security groups associated with instances launched in the
-  /// compute environment. This parameter is required for Fargate compute
-  /// resources, where it can contain up to 5 security groups. This can't be
-  /// specified for EC2 compute resources. Providing an empty list is handled as
-  /// if this parameter wasn't specified and no change is made.
+  /// The Amazon EC2 placement group to associate with your compute resources. If
+  /// you intend to submit multi-node parallel jobs to your compute environment,
+  /// you should consider creating a cluster placement group and associate it with
+  /// your compute resources. This keeps your multi-node parallel job on a logical
+  /// grouping of instances within a single Availability Zone with high network
+  /// flow potential. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">Placement
+  /// groups</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
+  ///
+  /// When updating a compute environment, changing the placement group requires
+  /// an infrastructure update of the compute environment. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  /// <note>
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
+  /// </note>
+  final String? placementGroup;
+
+  /// The Amazon EC2 security groups that are associated with instances launched
+  /// in the compute environment. This parameter is required for Fargate compute
+  /// resources, where it can contain up to 5 security groups. For Fargate compute
+  /// resources, providing an empty list is handled as if this parameter wasn't
+  /// specified and no change is made. For EC2 compute resources, providing an
+  /// empty list removes the security groups from the compute resource.
+  ///
+  /// When updating a compute environment, changing the EC2 security groups
+  /// requires an infrastructure update of the compute environment. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
   final List<String>? securityGroupIds;
 
-  /// The VPC subnets that the compute resources are launched into. This parameter
-  /// is required for jobs running on Fargate compute resources, where it can
-  /// contain up to 16 subnets. For more information, see <a
+  /// The VPC subnets where the compute resources are launched. Fargate compute
+  /// resources can contain up to 16 subnets. For Fargate compute resources,
+  /// providing an empty list will be handled as if this parameter wasn't
+  /// specified and no change is made. For EC2 compute resources, providing an
+  /// empty list removes the VPC subnets from the compute resource. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html">VPCs
-  /// and Subnets</a> in the <i>Amazon VPC User Guide</i>. This can't be specified
-  /// for EC2 compute resources. Providing an empty list will be handled as if
-  /// this parameter wasn't specified and no change is made.
+  /// and subnets</a> in the <i>Amazon VPC User Guide</i>.
+  ///
+  /// When updating a compute environment, changing the VPC subnets requires an
+  /// infrastructure update of the compute environment. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  /// <note>
+  /// Batch on Amazon EC2 and Batch on Amazon EKS support Local Zones. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-local-zones">
+  /// Local Zones</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>, <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/local-zones.html">Amazon
+  /// EKS and Amazon Web Services Local Zones</a> in the <i>Amazon EKS User
+  /// Guide</i> and <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-regions-zones.html#clusters-local-zones">
+  /// Amazon ECS clusters in Local Zones, Wavelength Zones, and Amazon Web
+  /// Services Outposts</a> in the <i>Amazon ECS Developer Guide</i>.
+  ///
+  /// Batch on Fargate doesn't currently support Local Zones.
+  /// </note>
   final List<String>? subnets;
 
+  /// Key-value pair tags to be applied to EC2 resources that are launched in the
+  /// compute environment. For Batch, these take the form of <code>"String1":
+  /// "String2"</code>, where <code>String1</code> is the tag key and
+  /// <code>String2</code> is the tag value-for example, <code>{ "Name": "Batch
+  /// Instance - C4OnDemand" }</code>. This is helpful for recognizing your Batch
+  /// instances in the Amazon EC2 console. These tags aren't seen when using the
+  /// Batch <code>ListTagsForResource</code> API operation.
+  ///
+  /// When updating a compute environment, changing this setting requires an
+  /// infrastructure update of the compute environment. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  /// <note>
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't specify it.
+  /// </note>
+  final Map<String, String>? tags;
+
+  /// The type of compute environment: <code>EC2</code>, <code>SPOT</code>,
+  /// <code>FARGATE</code>, or <code>FARGATE_SPOT</code>. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
+  /// environments</a> in the <i>Batch User Guide</i>.
+  ///
+  /// If you choose <code>SPOT</code>, you must also specify an Amazon EC2 Spot
+  /// Fleet role with the <code>spotIamFleetRole</code> parameter. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html">Amazon
+  /// EC2 spot fleet role</a> in the <i>Batch User Guide</i>.
+  ///
+  /// When updating a compute environment, changing the type of a compute
+  /// environment requires an infrastructure update of the compute environment.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  final CRType? type;
+
+  /// Specifies whether the AMI ID is updated to the latest one that's supported
+  /// by Batch when the compute environment has an infrastructure update. The
+  /// default value is <code>false</code>.
+  /// <note>
+  /// An AMI ID can either be specified in the <code>imageId</code> or
+  /// <code>imageIdOverride</code> parameters or be determined by the launch
+  /// template that's specified in the <code>launchTemplate</code> parameter. If
+  /// an AMI ID is specified any of these ways, this parameter is ignored. For
+  /// more information about to update AMI IDs during an infrastructure update,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html#updating-compute-environments-ami">Updating
+  /// the AMI ID</a> in the <i>Batch User Guide</i>.
+  /// </note>
+  /// When updating a compute environment, changing this setting requires an
+  /// infrastructure update of the compute environment. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  final bool? updateToLatestImageVersion;
+
   ComputeResourceUpdate({
+    this.allocationStrategy,
+    this.bidPercentage,
     this.desiredvCpus,
+    this.ec2Configuration,
+    this.ec2KeyPair,
+    this.imageId,
+    this.instanceRole,
+    this.instanceTypes,
+    this.launchTemplate,
     this.maxvCpus,
     this.minvCpus,
+    this.placementGroup,
     this.securityGroupIds,
     this.subnets,
+    this.tags,
+    this.type,
+    this.updateToLatestImageVersion,
   });
   Map<String, dynamic> toJson() {
+    final allocationStrategy = this.allocationStrategy;
+    final bidPercentage = this.bidPercentage;
     final desiredvCpus = this.desiredvCpus;
+    final ec2Configuration = this.ec2Configuration;
+    final ec2KeyPair = this.ec2KeyPair;
+    final imageId = this.imageId;
+    final instanceRole = this.instanceRole;
+    final instanceTypes = this.instanceTypes;
+    final launchTemplate = this.launchTemplate;
     final maxvCpus = this.maxvCpus;
     final minvCpus = this.minvCpus;
+    final placementGroup = this.placementGroup;
     final securityGroupIds = this.securityGroupIds;
     final subnets = this.subnets;
+    final tags = this.tags;
+    final type = this.type;
+    final updateToLatestImageVersion = this.updateToLatestImageVersion;
     return {
+      if (allocationStrategy != null)
+        'allocationStrategy': allocationStrategy.toValue(),
+      if (bidPercentage != null) 'bidPercentage': bidPercentage,
       if (desiredvCpus != null) 'desiredvCpus': desiredvCpus,
+      if (ec2Configuration != null) 'ec2Configuration': ec2Configuration,
+      if (ec2KeyPair != null) 'ec2KeyPair': ec2KeyPair,
+      if (imageId != null) 'imageId': imageId,
+      if (instanceRole != null) 'instanceRole': instanceRole,
+      if (instanceTypes != null) 'instanceTypes': instanceTypes,
+      if (launchTemplate != null) 'launchTemplate': launchTemplate,
       if (maxvCpus != null) 'maxvCpus': maxvCpus,
       if (minvCpus != null) 'minvCpus': minvCpus,
+      if (placementGroup != null) 'placementGroup': placementGroup,
       if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,
       if (subnets != null) 'subnets': subnets,
+      if (tags != null) 'tags': tags,
+      if (type != null) 'type': type.toValue(),
+      if (updateToLatestImageVersion != null)
+        'updateToLatestImageVersion': updateToLatestImageVersion,
     };
   }
 }
 
-/// An object representing the details of a container that's part of a job.
+/// An object that represents the details of a container that's part of a job.
 class ContainerDetail {
   /// The command that's passed to the container.
   final List<String>? command;
@@ -2160,23 +3051,27 @@ class ContainerDetail {
 
   /// The environment variables to pass to a container.
   /// <note>
-  /// Environment variables must not start with <code>AWS_BATCH</code>; this
-  /// naming convention is reserved for variables that are set by the AWS Batch
-  /// service.
+  /// Environment variables cannot start with "<code>AWS_BATCH</code>". This
+  /// naming convention is reserved for variables that Batch sets.
   /// </note>
   final List<KeyValuePair>? environment;
 
-  /// The Amazon Resource Name (ARN) of the execution role that AWS Batch can
-  /// assume. For more information, see <a
-  /// href="https://docs.aws.amazon.com/batch/latest/userguide/execution-IAM-role.html">AWS
-  /// Batch execution IAM role</a> in the <i>AWS Batch User Guide</i>.
+  /// The amount of ephemeral storage allocated for the task. This parameter is
+  /// used to expand the total amount of ephemeral storage available, beyond the
+  /// default amount, for tasks hosted on Fargate.
+  final EphemeralStorage? ephemeralStorage;
+
+  /// The Amazon Resource Name (ARN) of the execution role that Batch can assume.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/execution-IAM-role.html">Batch
+  /// execution IAM role</a> in the <i>Batch User Guide</i>.
   final String? executionRoleArn;
 
   /// The exit code to return upon completion.
   final int? exitCode;
 
-  /// The platform configuration for jobs running on Fargate resources. Jobs
-  /// running on EC2 resources must not specify this parameter.
+  /// The platform configuration for jobs that are running on Fargate resources.
+  /// Jobs that are running on EC2 resources must not specify this parameter.
   final FargatePlatformConfiguration? fargatePlatformConfiguration;
 
   /// The image used to start the container.
@@ -2185,11 +3080,12 @@ class ContainerDetail {
   /// The instance type of the underlying host infrastructure of a multi-node
   /// parallel job.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources.
   /// </note>
   final String? instanceType;
 
-  /// The Amazon Resource Name (ARN) associated with the job upon execution.
+  /// The Amazon Resource Name (ARN) that's associated with the job when run.
   final String? jobRoleArn;
 
   /// Linux-specific modifications that are applied to the container, such as
@@ -2205,7 +3101,7 @@ class ContainerDetail {
   /// the <code>--log-driver</code> option to <a
   /// href="https://docs.docker.com/engine/reference/run/">docker run</a>. By
   /// default, containers use the same logging driver that the Docker daemon uses.
-  /// However the container might use a different logging driver than the Docker
+  /// However, the container might use a different logging driver than the Docker
   /// daemon by specifying a log driver with this parameter in the container
   /// definition. To use a different logging driver for a container, the log
   /// system must be configured properly on the container instance. Or,
@@ -2215,14 +3111,14 @@ class ContainerDetail {
   /// href="https://docs.docker.com/engine/admin/logging/overview/">Configure
   /// logging drivers</a> in the Docker documentation.
   /// <note>
-  /// AWS Batch currently supports a subset of the logging drivers available to
-  /// the Docker daemon (shown in the <a>LogConfiguration</a> data type).
-  /// Additional log drivers might be available in future releases of the Amazon
-  /// ECS container agent.
+  /// Batch currently supports a subset of the logging drivers available to the
+  /// Docker daemon (shown in the <a>LogConfiguration</a> data type). Additional
+  /// log drivers might be available in future releases of the Amazon ECS
+  /// container agent.
   /// </note>
   /// This parameter requires version 1.18 of the Docker Remote API or greater on
   /// your container instance. To check the Docker Remote API version on your
-  /// container instance, log into your container instance and run the following
+  /// container instance, log in to your container instance and run the following
   /// command: <code>sudo docker version | grep "Server API version"</code>
   /// <note>
   /// The Amazon ECS container agent running on a container instance must register
@@ -2231,39 +3127,39 @@ class ContainerDetail {
   /// containers placed on that instance can use these log configuration options.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html">Amazon
-  /// ECS Container Agent Configuration</a> in the <i>Amazon Elastic Container
+  /// ECS container agent configuration</a> in the <i>Amazon Elastic Container
   /// Service Developer Guide</i>.
   /// </note>
   final LogConfiguration? logConfiguration;
 
-  /// The name of the CloudWatch Logs log stream associated with the container.
-  /// The log group for AWS Batch jobs is <code>/aws/batch/job</code>. Each
+  /// The name of the Amazon CloudWatch Logs log stream that's associated with the
+  /// container. The log group for Batch jobs is <code>/aws/batch/job</code>. Each
   /// container attempt receives a log stream name when they reach the
   /// <code>RUNNING</code> status.
   final String? logStreamName;
 
-  /// For jobs run on EC2 resources that didn't specify memory requirements using
-  /// <code>ResourceRequirement</code>, the number of MiB of memory reserved for
-  /// the job. For other jobs, including all run on Fargate resources, see
-  /// <code>resourceRequirements</code>.
+  /// For jobs running on EC2 resources that didn't specify memory requirements
+  /// using <code>resourceRequirements</code>, the number of MiB of memory
+  /// reserved for the job. For other jobs, including all run on Fargate
+  /// resources, see <code>resourceRequirements</code>.
   final int? memory;
 
   /// The mount points for data volumes in your container.
   final List<MountPoint>? mountPoints;
 
-  /// The network configuration for jobs running on Fargate resources. Jobs
-  /// running on EC2 resources must not specify this parameter.
+  /// The network configuration for jobs that are running on Fargate resources.
+  /// Jobs that are running on EC2 resources must not specify this parameter.
   final NetworkConfiguration? networkConfiguration;
 
-  /// The network interfaces associated with the job.
+  /// The network interfaces that are associated with the job.
   final List<NetworkInterface>? networkInterfaces;
 
   /// When this parameter is true, the container is given elevated permissions on
   /// the host container instance (similar to the <code>root</code> user). The
-  /// default value is false.
+  /// default value is <code>false</code>.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources and
-  /// shouldn't be provided, or specified as false.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources and shouldn't be provided, or specified as <code>false</code>.
   /// </note>
   final bool? privileged;
 
@@ -2279,7 +3175,7 @@ class ContainerDetail {
   final bool? readonlyRootFilesystem;
 
   /// A short (255 max characters) human-readable string to provide additional
-  /// details about a running or stopped container.
+  /// details for a running or stopped container.
   final String? reason;
 
   /// The type and amount of resources to assign to a container. The supported
@@ -2289,7 +3185,7 @@ class ContainerDetail {
 
   /// The secrets to pass to the container. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/specifying-sensitive-data.html">Specifying
-  /// sensitive data</a> in the <i>AWS Batch User Guide</i>.
+  /// sensitive data</a> in the <i>Batch User Guide</i>.
   final List<Secret>? secrets;
 
   /// The Amazon Resource Name (ARN) of the Amazon ECS task that's associated with
@@ -2305,7 +3201,8 @@ class ContainerDetail {
   /// the <code>--ulimit</code> option to <a
   /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources.
   /// </note>
   final List<Ulimit>? ulimits;
 
@@ -2318,11 +3215,12 @@ class ContainerDetail {
   /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
   final String? user;
 
-  /// The number of vCPUs reserved for the container. Jobs running on EC2
-  /// resources can specify the vCPU requirement for the job using
-  /// <code>resourceRequirements</code> but the vCPU requirements can't be
-  /// specified both here and in the <code>resourceRequirement</code> object. This
-  /// parameter maps to <code>CpuShares</code> in the <a
+  /// The number of vCPUs reserved for the container. For jobs that run on EC2
+  /// resources, you can specify the vCPU requirement for the job using
+  /// <code>resourceRequirements</code>, but you can't specify the vCPU
+  /// requirements in both the <code>vcpus</code> and
+  /// <code>resourceRequirements</code> object. This parameter maps to
+  /// <code>CpuShares</code> in the <a
   /// href="https://docs.docker.com/engine/api/v1.23/#create-a-container">Create a
   /// container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.23/">Docker Remote API</a> and
@@ -2332,19 +3230,20 @@ class ContainerDetail {
   /// This is required but can be specified in several places. It must be
   /// specified for each node at least once.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources. Jobs
-  /// running on Fargate resources must specify the vCPU requirement for the job
-  /// using <code>resourceRequirements</code>.
+  /// This parameter isn't applicable to jobs that run on Fargate resources. For
+  /// jobs that run on Fargate resources, you must specify the vCPU requirement
+  /// for the job using <code>resourceRequirements</code>.
   /// </note>
   final int? vcpus;
 
-  /// A list of volumes associated with the job.
+  /// A list of volumes that are associated with the job.
   final List<Volume>? volumes;
 
   ContainerDetail({
     this.command,
     this.containerInstanceArn,
     this.environment,
+    this.ephemeralStorage,
     this.executionRoleArn,
     this.exitCode,
     this.fargatePlatformConfiguration,
@@ -2369,6 +3268,7 @@ class ContainerDetail {
     this.vcpus,
     this.volumes,
   });
+
   factory ContainerDetail.fromJson(Map<String, dynamic> json) {
     return ContainerDetail(
       command: (json['command'] as List?)
@@ -2380,6 +3280,10 @@ class ContainerDetail {
           ?.whereNotNull()
           .map((e) => KeyValuePair.fromJson(e as Map<String, dynamic>))
           .toList(),
+      ephemeralStorage: json['ephemeralStorage'] != null
+          ? EphemeralStorage.fromJson(
+              json['ephemeralStorage'] as Map<String, dynamic>)
+          : null,
       executionRoleArn: json['executionRoleArn'] as String?,
       exitCode: json['exitCode'] as int?,
       fargatePlatformConfiguration: json['fargatePlatformConfiguration'] != null
@@ -2448,23 +3352,33 @@ class ContainerOverrides {
   /// can override the existing environment variables from the Docker image or the
   /// job definition.
   /// <note>
-  /// Environment variables must not start with <code>AWS_BATCH</code>; this
-  /// naming convention is reserved for variables that are set by the AWS Batch
-  /// service.
+  /// Environment variables cannot start with "<code>AWS_BATCH</code>". This
+  /// naming convention is reserved for variables that Batch sets.
   /// </note>
   final List<KeyValuePair>? environment;
 
   /// The instance type to use for a multi-node parallel job.
   /// <note>
-  /// This parameter isn't applicable to single-node container jobs or for jobs
-  /// running on Fargate resources and shouldn't be provided.
+  /// This parameter isn't applicable to single-node container jobs or jobs that
+  /// run on Fargate resources, and shouldn't be provided.
   /// </note>
   final String? instanceType;
 
-  /// This parameter is deprecated and not supported for jobs run on Fargate
-  /// resources, use <code>ResourceRequirement</code>. For jobs run on EC2
-  /// resource, the number of MiB of memory reserved for the job. This value
-  /// overrides the value set in the job definition.
+  /// This parameter is deprecated, use <code>resourceRequirements</code> to
+  /// override the memory requirements specified in the job definition. It's not
+  /// supported for jobs running on Fargate resources. For jobs that run on EC2
+  /// resources, it overrides the <code>memory</code> parameter set in the job
+  /// definition, but doesn't override any memory requirement that's specified in
+  /// the <code>resourceRequirements</code> structure in the job definition. To
+  /// override memory requirements that are specified in the
+  /// <code>resourceRequirements</code> structure in the job definition,
+  /// <code>resourceRequirements</code> must be specified in the
+  /// <code>SubmitJob</code> request, with <code>type</code> set to
+  /// <code>MEMORY</code> and <code>value</code> set to the new value. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#override-resource-requirements">Can't
+  /// override job definition resource requirements</a> in the <i>Batch User
+  /// Guide</i>.
   final int? memory;
 
   /// The type and amount of resources to assign to a container. This overrides
@@ -2472,25 +3386,21 @@ class ContainerOverrides {
   /// <code>GPU</code>, <code>MEMORY</code>, and <code>VCPU</code>.
   final List<ResourceRequirement>? resourceRequirements;
 
-  /// This parameter is deprecated and not supported for jobs run on Fargate
-  /// resources, see <code>resourceRequirement</code>. For jobs run on EC2
-  /// resources, the number of vCPUs to reserve for the container. This value
-  /// overrides the value set in the job definition. Jobs run on EC2 resources can
-  /// specify the vCPU requirement using <code>resourceRequirement</code> but the
-  /// vCPU requirements can't be specified both here and in
-  /// <code>resourceRequirement</code>. This parameter maps to
-  /// <code>CpuShares</code> in the <a
-  /// href="https://docs.docker.com/engine/api/v1.23/#create-a-container">Create a
-  /// container</a> section of the <a
-  /// href="https://docs.docker.com/engine/api/v1.23/">Docker Remote API</a> and
-  /// the <code>--cpu-shares</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>. Each
-  /// vCPU is equivalent to 1,024 CPU shares. You must specify at least one vCPU.
-  /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources and
-  /// shouldn't be provided. Jobs running on Fargate resources must specify the
-  /// vCPU requirement for the job using <code>resourceRequirements</code>.
-  /// </note>
+  /// This parameter is deprecated, use <code>resourceRequirements</code> to
+  /// override the <code>vcpus</code> parameter that's set in the job definition.
+  /// It's not supported for jobs running on Fargate resources. For jobs that run
+  /// on EC2 resources, it overrides the <code>vcpus</code> parameter set in the
+  /// job definition, but doesn't override any vCPU requirement specified in the
+  /// <code>resourceRequirements</code> structure in the job definition. To
+  /// override vCPU requirements that are specified in the
+  /// <code>resourceRequirements</code> structure in the job definition,
+  /// <code>resourceRequirements</code> must be specified in the
+  /// <code>SubmitJob</code> request, with <code>type</code> set to
+  /// <code>VCPU</code> and <code>value</code> set to the new value. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#override-resource-requirements">Can't
+  /// override job definition resource requirements</a> in the <i>Batch User
+  /// Guide</i>.
   final int? vcpus;
 
   ContainerOverrides({
@@ -2520,8 +3430,8 @@ class ContainerOverrides {
   }
 }
 
-/// Container properties are used in job definitions to describe the container
-/// that's launched as part of a job.
+/// Container properties are used for Amazon ECS based job definitions. These
+/// properties to describe the container that's launched as part of a job.
 class ContainerProperties {
   /// The command that's passed to the container. This parameter maps to
   /// <code>Cmd</code> in the <a
@@ -2545,30 +3455,34 @@ class ContainerProperties {
   /// We don't recommend using plaintext environment variables for sensitive
   /// information, such as credential data.
   /// </important> <note>
-  /// Environment variables must not start with <code>AWS_BATCH</code>; this
-  /// naming convention is reserved for variables that are set by the AWS Batch
-  /// service.
+  /// Environment variables cannot start with "<code>AWS_BATCH</code>". This
+  /// naming convention is reserved for variables that Batch sets.
   /// </note>
   final List<KeyValuePair>? environment;
 
-  /// The Amazon Resource Name (ARN) of the execution role that AWS Batch can
-  /// assume. Jobs running on Fargate resources must provide an execution role.
+  /// The amount of ephemeral storage to allocate for the task. This parameter is
+  /// used to expand the total amount of ephemeral storage available, beyond the
+  /// default amount, for tasks hosted on Fargate.
+  final EphemeralStorage? ephemeralStorage;
+
+  /// The Amazon Resource Name (ARN) of the execution role that Batch can assume.
+  /// For jobs that run on Fargate resources, you must provide an execution role.
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/batch/latest/userguide/execution-IAM-role.html">AWS
-  /// Batch execution IAM role</a> in the <i>AWS Batch User Guide</i>.
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/execution-IAM-role.html">Batch
+  /// execution IAM role</a> in the <i>Batch User Guide</i>.
   final String? executionRoleArn;
 
-  /// The platform configuration for jobs running on Fargate resources. Jobs
-  /// running on EC2 resources must not specify this parameter.
+  /// The platform configuration for jobs that are running on Fargate resources.
+  /// Jobs that are running on EC2 resources must not specify this parameter.
   final FargatePlatformConfiguration? fargatePlatformConfiguration;
 
   /// The image used to start a container. This string is passed directly to the
   /// Docker daemon. Images in the Docker Hub registry are available by default.
   /// Other repositories are specified with <code>
-  /// <i>repository-url</i>/<i>image</i>:<i>tag</i> </code>. Up to 255 letters
-  /// (uppercase and lowercase), numbers, hyphens, underscores, colons, periods,
-  /// forward slashes, and number signs are allowed. This parameter maps to
-  /// <code>Image</code> in the <a
+  /// <i>repository-url</i>/<i>image</i>:<i>tag</i> </code>. It can be 255
+  /// characters long. It can contain uppercase and lowercase letters, numbers,
+  /// hyphens (-), underscores (_), colons (:), periods (.), forward slashes (/),
+  /// and number signs (#). This parameter maps to <code>Image</code> in the <a
   /// href="https://docs.docker.com/engine/api/v1.23/#create-a-container">Create a
   /// container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.23/">Docker Remote API</a> and
@@ -2581,9 +3495,16 @@ class ContainerProperties {
   /// </note>
   /// <ul>
   /// <li>
+  /// Images in Amazon ECR Public repositories use the full
+  /// <code>registry/repository[:tag]</code> or
+  /// <code>registry/repository[@digest]</code> naming conventions. For example,
+  /// <code>public.ecr.aws/<i>registry_alias</i>/<i>my-web-app</i>:<i>latest</i>
+  /// </code>.
+  /// </li>
+  /// <li>
   /// Images in Amazon ECR repositories use the full registry and repository URI
   /// (for example,
-  /// <code>012345678910.dkr.ecr.&lt;region-name&gt;.amazonaws.com/&lt;repository-name&gt;</code>).
+  /// <code>123456789012.dkr.ecr.&lt;region-name&gt;.amazonaws.com/&lt;repository-name&gt;</code>).
   /// </li>
   /// <li>
   /// Images in official repositories on Docker Hub use a single name (for
@@ -2603,15 +3524,15 @@ class ContainerProperties {
   /// The instance type to use for a multi-node parallel job. All node groups in a
   /// multi-node parallel job must use the same instance type.
   /// <note>
-  /// This parameter isn't applicable to single-node container jobs or for jobs
-  /// running on Fargate resources and shouldn't be provided.
+  /// This parameter isn't applicable to single-node container jobs or jobs that
+  /// run on Fargate resources, and shouldn't be provided.
   /// </note>
   final String? instanceType;
 
   /// The Amazon Resource Name (ARN) of the IAM role that the container can assume
-  /// for AWS permissions. For more information, see <a
+  /// for Amazon Web Services permissions. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html">IAM
-  /// Roles for Tasks</a> in the <i>Amazon Elastic Container Service Developer
+  /// roles for tasks</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
   final String? jobRoleArn;
 
@@ -2637,12 +3558,12 @@ class ContainerProperties {
   /// href="https://docs.docker.com/engine/admin/logging/overview/">Configure
   /// logging drivers</a> in the Docker documentation.
   /// <note>
-  /// AWS Batch currently supports a subset of the logging drivers available to
-  /// the Docker daemon (shown in the <a>LogConfiguration</a> data type).
+  /// Batch currently supports a subset of the logging drivers available to the
+  /// Docker daemon (shown in the <a>LogConfiguration</a> data type).
   /// </note>
   /// This parameter requires version 1.18 of the Docker Remote API or greater on
   /// your container instance. To check the Docker Remote API version on your
-  /// container instance, log into your container instance and run the following
+  /// container instance, log in to your container instance and run the following
   /// command: <code>sudo docker version | grep "Server API version"</code>
   /// <note>
   /// The Amazon ECS container agent running on a container instance must register
@@ -2651,32 +3572,19 @@ class ContainerProperties {
   /// containers placed on that instance can use these log configuration options.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html">Amazon
-  /// ECS Container Agent Configuration</a> in the <i>Amazon Elastic Container
+  /// ECS container agent configuration</a> in the <i>Amazon Elastic Container
   /// Service Developer Guide</i>.
   /// </note>
   final LogConfiguration? logConfiguration;
 
-  /// This parameter is deprecated and not supported for jobs run on Fargate
-  /// resources, use <code>ResourceRequirement</code>. For jobs run on EC2
-  /// resources can specify the memory requirement using the
-  /// <code>ResourceRequirement</code> structure. The hard limit (in MiB) of
-  /// memory to present to the container. If your container attempts to exceed the
-  /// memory specified here, the container is killed. This parameter maps to
-  /// <code>Memory</code> in the <a
-  /// href="https://docs.docker.com/engine/api/v1.23/#create-a-container">Create a
-  /// container</a> section of the <a
-  /// href="https://docs.docker.com/engine/api/v1.23/">Docker Remote API</a> and
-  /// the <code>--memory</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>. You
-  /// must specify at least 4 MiB of memory for a job. This is required but can be
-  /// specified in several places; it must be specified for each node at least
-  /// once.
-  /// <note>
-  /// If you're trying to maximize your resource utilization by providing your
-  /// jobs as much memory as possible for a particular instance type, see <a
-  /// href="https://docs.aws.amazon.com/batch/latest/userguide/memory-management.html">Memory
-  /// Management</a> in the <i>AWS Batch User Guide</i>.
-  /// </note>
+  /// This parameter is deprecated, use <code>resourceRequirements</code> to
+  /// specify the memory requirements for the job definition. It's not supported
+  /// for jobs running on Fargate resources. For jobs that run on EC2 resources,
+  /// it specifies the memory hard limit (in MiB) for a container. If your
+  /// container attempts to exceed the specified number, it's terminated. You must
+  /// specify at least 4 MiB of memory for a job using this parameter. The memory
+  /// hard limit can be specified in several places. It must be specified for each
+  /// node at least once.
   final int? memory;
 
   /// The mount points for data volumes in your container. This parameter maps to
@@ -2688,8 +3596,8 @@ class ContainerProperties {
   /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
   final List<MountPoint>? mountPoints;
 
-  /// The network configuration for jobs running on Fargate resources. Jobs
-  /// running on EC2 resources must not specify this parameter.
+  /// The network configuration for jobs that are running on Fargate resources.
+  /// Jobs that are running on EC2 resources must not specify this parameter.
   final NetworkConfiguration? networkConfiguration;
 
   /// When this parameter is true, the container is given elevated permissions on
@@ -2702,8 +3610,8 @@ class ContainerProperties {
   /// href="https://docs.docker.com/engine/reference/run/">docker run</a>. The
   /// default value is false.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources and
-  /// shouldn't be provided, or specified as false.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources and shouldn't be provided, or specified as false.
   /// </note>
   final bool? privileged;
 
@@ -2723,7 +3631,7 @@ class ContainerProperties {
 
   /// The secrets for the container. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/specifying-sensitive-data.html">Specifying
-  /// sensitive data</a> in the <i>AWS Batch User Guide</i>.
+  /// sensitive data</a> in the <i>Batch User Guide</i>.
   final List<Secret>? secrets;
 
   /// A list of <code>ulimits</code> to set in the container. This parameter maps
@@ -2734,8 +3642,8 @@ class ContainerProperties {
   /// the <code>--ulimit</code> option to <a
   /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources and
-  /// shouldn't be provided.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources and shouldn't be provided.
   /// </note>
   final List<Ulimit>? ulimits;
 
@@ -2748,26 +3656,20 @@ class ContainerProperties {
   /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
   final String? user;
 
-  /// This parameter is deprecated and not supported for jobs run on Fargate
-  /// resources, see <code>resourceRequirement</code>. The number of vCPUs
-  /// reserved for the container. Jobs running on EC2 resources can specify the
-  /// vCPU requirement for the job using <code>resourceRequirements</code> but the
-  /// vCPU requirements can't be specified both here and in the
-  /// <code>resourceRequirement</code> structure. This parameter maps to
+  /// This parameter is deprecated, use <code>resourceRequirements</code> to
+  /// specify the vCPU requirements for the job definition. It's not supported for
+  /// jobs running on Fargate resources. For jobs running on EC2 resources, it
+  /// specifies the number of vCPUs reserved for the job.
+  ///
+  /// Each vCPU is equivalent to 1,024 CPU shares. This parameter maps to
   /// <code>CpuShares</code> in the <a
   /// href="https://docs.docker.com/engine/api/v1.23/#create-a-container">Create a
   /// container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.23/">Docker Remote API</a> and
   /// the <code>--cpu-shares</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>. Each
-  /// vCPU is equivalent to 1,024 CPU shares. You must specify at least one vCPU.
-  /// This is required but can be specified in several places. It must be
-  /// specified for each node at least once.
-  /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources and
-  /// shouldn't be provided. Jobs running on Fargate resources must specify the
-  /// vCPU requirement for the job using <code>resourceRequirements</code>.
-  /// </note>
+  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>. The
+  /// number of vCPUs must be specified but can be specified in several places.
+  /// You must specify it at least once for each node.
   final int? vcpus;
 
   /// A list of data volumes used in a job.
@@ -2776,6 +3678,7 @@ class ContainerProperties {
   ContainerProperties({
     this.command,
     this.environment,
+    this.ephemeralStorage,
     this.executionRoleArn,
     this.fargatePlatformConfiguration,
     this.image,
@@ -2795,6 +3698,7 @@ class ContainerProperties {
     this.vcpus,
     this.volumes,
   });
+
   factory ContainerProperties.fromJson(Map<String, dynamic> json) {
     return ContainerProperties(
       command: (json['command'] as List?)
@@ -2805,6 +3709,10 @@ class ContainerProperties {
           ?.whereNotNull()
           .map((e) => KeyValuePair.fromJson(e as Map<String, dynamic>))
           .toList(),
+      ephemeralStorage: json['ephemeralStorage'] != null
+          ? EphemeralStorage.fromJson(
+              json['ephemeralStorage'] as Map<String, dynamic>)
+          : null,
       executionRoleArn: json['executionRoleArn'] as String?,
       fargatePlatformConfiguration: json['fargatePlatformConfiguration'] != null
           ? FargatePlatformConfiguration.fromJson(
@@ -2856,6 +3764,7 @@ class ContainerProperties {
   Map<String, dynamic> toJson() {
     final command = this.command;
     final environment = this.environment;
+    final ephemeralStorage = this.ephemeralStorage;
     final executionRoleArn = this.executionRoleArn;
     final fargatePlatformConfiguration = this.fargatePlatformConfiguration;
     final image = this.image;
@@ -2877,6 +3786,7 @@ class ContainerProperties {
     return {
       if (command != null) 'command': command,
       if (environment != null) 'environment': environment,
+      if (ephemeralStorage != null) 'ephemeralStorage': ephemeralStorage,
       if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
       if (fargatePlatformConfiguration != null)
         'fargatePlatformConfiguration': fargatePlatformConfiguration,
@@ -2903,19 +3813,20 @@ class ContainerProperties {
   }
 }
 
-/// An object representing summary details of a container within a job.
+/// An object that represents summary details of a container within a job.
 class ContainerSummary {
   /// The exit code to return upon completion.
   final int? exitCode;
 
   /// A short (255 max characters) human-readable string to provide additional
-  /// details about a running or stopped container.
+  /// details for a running or stopped container.
   final String? reason;
 
   ContainerSummary({
     this.exitCode,
     this.reason,
   });
+
   factory ContainerSummary.fromJson(Map<String, dynamic> json) {
     return ContainerSummary(
       exitCode: json['exitCode'] as int?,
@@ -2928,14 +3839,16 @@ class CreateComputeEnvironmentResponse {
   /// The Amazon Resource Name (ARN) of the compute environment.
   final String? computeEnvironmentArn;
 
-  /// The name of the compute environment. Up to 128 letters (uppercase and
-  /// lowercase), numbers, hyphens, and underscores are allowed.
+  /// The name of the compute environment. It can be up to 128 characters long. It
+  /// can contain uppercase and lowercase letters, numbers, hyphens (-), and
+  /// underscores (_).
   final String? computeEnvironmentName;
 
   CreateComputeEnvironmentResponse({
     this.computeEnvironmentArn,
     this.computeEnvironmentName,
   });
+
   factory CreateComputeEnvironmentResponse.fromJson(Map<String, dynamic> json) {
     return CreateComputeEnvironmentResponse(
       computeEnvironmentArn: json['computeEnvironmentArn'] as String?,
@@ -2955,6 +3868,7 @@ class CreateJobQueueResponse {
     required this.jobQueueArn,
     required this.jobQueueName,
   });
+
   factory CreateJobQueueResponse.fromJson(Map<String, dynamic> json) {
     return CreateJobQueueResponse(
       jobQueueArn: json['jobQueueArn'] as String,
@@ -2963,8 +3877,32 @@ class CreateJobQueueResponse {
   }
 }
 
+class CreateSchedulingPolicyResponse {
+  /// The Amazon Resource Name (ARN) of the scheduling policy. The format is
+  /// <code>aws:<i>Partition</i>:batch:<i>Region</i>:<i>Account</i>:scheduling-policy/<i>Name</i>
+  /// </code>. For example,
+  /// <code>aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy</code>.
+  final String arn;
+
+  /// The name of the scheduling policy.
+  final String name;
+
+  CreateSchedulingPolicyResponse({
+    required this.arn,
+    required this.name,
+  });
+
+  factory CreateSchedulingPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSchedulingPolicyResponse(
+      arn: json['arn'] as String,
+      name: json['name'] as String,
+    );
+  }
+}
+
 class DeleteComputeEnvironmentResponse {
   DeleteComputeEnvironmentResponse();
+
   factory DeleteComputeEnvironmentResponse.fromJson(Map<String, dynamic> _) {
     return DeleteComputeEnvironmentResponse();
   }
@@ -2972,13 +3910,23 @@ class DeleteComputeEnvironmentResponse {
 
 class DeleteJobQueueResponse {
   DeleteJobQueueResponse();
+
   factory DeleteJobQueueResponse.fromJson(Map<String, dynamic> _) {
     return DeleteJobQueueResponse();
   }
 }
 
+class DeleteSchedulingPolicyResponse {
+  DeleteSchedulingPolicyResponse();
+
+  factory DeleteSchedulingPolicyResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteSchedulingPolicyResponse();
+  }
+}
+
 class DeregisterJobDefinitionResponse {
   DeregisterJobDefinitionResponse();
+
   factory DeregisterJobDefinitionResponse.fromJson(Map<String, dynamic> _) {
     return DeregisterJobDefinitionResponse();
   }
@@ -2990,15 +3938,17 @@ class DescribeComputeEnvironmentsResponse {
 
   /// The <code>nextToken</code> value to include in a future
   /// <code>DescribeComputeEnvironments</code> request. When the results of a
-  /// <code>DescribeJobDefinitions</code> request exceed <code>maxResults</code>,
-  /// this value can be used to retrieve the next page of results. This value is
-  /// <code>null</code> when there are no more results to return.
+  /// <code>DescribeComputeEnvironments</code> request exceed
+  /// <code>maxResults</code>, this value can be used to retrieve the next page of
+  /// results. This value is <code>null</code> when there are no more results to
+  /// return.
   final String? nextToken;
 
   DescribeComputeEnvironmentsResponse({
     this.computeEnvironments,
     this.nextToken,
   });
+
   factory DescribeComputeEnvironmentsResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeComputeEnvironmentsResponse(
@@ -3027,6 +3977,7 @@ class DescribeJobDefinitionsResponse {
     this.jobDefinitions,
     this.nextToken,
   });
+
   factory DescribeJobDefinitionsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeJobDefinitionsResponse(
       jobDefinitions: (json['jobDefinitions'] as List?)
@@ -3053,6 +4004,7 @@ class DescribeJobQueuesResponse {
     this.jobQueues,
     this.nextToken,
   });
+
   factory DescribeJobQueuesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeJobQueuesResponse(
       jobQueues: (json['jobQueues'] as List?)
@@ -3071,6 +4023,7 @@ class DescribeJobsResponse {
   DescribeJobsResponse({
     this.jobs,
   });
+
   factory DescribeJobsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeJobsResponse(
       jobs: (json['jobs'] as List?)
@@ -3081,17 +4034,37 @@ class DescribeJobsResponse {
   }
 }
 
-/// An object representing a container instance host device.
+class DescribeSchedulingPoliciesResponse {
+  /// The list of scheduling policies.
+  final List<SchedulingPolicyDetail>? schedulingPolicies;
+
+  DescribeSchedulingPoliciesResponse({
+    this.schedulingPolicies,
+  });
+
+  factory DescribeSchedulingPoliciesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeSchedulingPoliciesResponse(
+      schedulingPolicies: (json['schedulingPolicies'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => SchedulingPolicyDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// An object that represents a container instance host device.
 /// <note>
-/// This object isn't applicable to jobs running on Fargate resources and
-/// shouldn't be provided.
+/// This object isn't applicable to jobs that are running on Fargate resources
+/// and shouldn't be provided.
 /// </note>
 class Device {
   /// The path for the device on the host container instance.
   final String hostPath;
 
-  /// The path inside the container used to expose the host device. By default the
-  /// <code>hostPath</code> value is used.
+  /// The path inside the container that's used to expose the host device. By
+  /// default, the <code>hostPath</code> value is used.
   final String? containerPath;
 
   /// The explicit permissions to provide to the container for the device. By
@@ -3104,6 +4077,7 @@ class Device {
     this.containerPath,
     this.permissions,
   });
+
   factory Device.fromJson(Map<String, dynamic> json) {
     return Device(
       hostPath: json['hostPath'] as String,
@@ -3161,92 +4135,1559 @@ extension DeviceCgroupPermissionFromString on String {
   }
 }
 
+/// The authorization configuration details for the Amazon EFS file system.
+class EFSAuthorizationConfig {
+  /// The Amazon EFS access point ID to use. If an access point is specified, the
+  /// root directory value specified in the <code>EFSVolumeConfiguration</code>
+  /// must either be omitted or set to <code>/</code> which enforces the path set
+  /// on the EFS access point. If an access point is used, transit encryption must
+  /// be enabled in the <code>EFSVolumeConfiguration</code>. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html">Working
+  /// with Amazon EFS access points</a> in the <i>Amazon Elastic File System User
+  /// Guide</i>.
+  final String? accessPointId;
+
+  /// Whether or not to use the Batch job IAM role defined in a job definition
+  /// when mounting the Amazon EFS file system. If enabled, transit encryption
+  /// must be enabled in the <code>EFSVolumeConfiguration</code>. If this
+  /// parameter is omitted, the default value of <code>DISABLED</code> is used.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/efs-volumes.html#efs-volume-accesspoints">Using
+  /// Amazon EFS access points</a> in the <i>Batch User Guide</i>. EFS IAM
+  /// authorization requires that <code>TransitEncryption</code> be
+  /// <code>ENABLED</code> and that a <code>JobRoleArn</code> is specified.
+  final EFSAuthorizationConfigIAM? iam;
+
+  EFSAuthorizationConfig({
+    this.accessPointId,
+    this.iam,
+  });
+
+  factory EFSAuthorizationConfig.fromJson(Map<String, dynamic> json) {
+    return EFSAuthorizationConfig(
+      accessPointId: json['accessPointId'] as String?,
+      iam: (json['iam'] as String?)?.toEFSAuthorizationConfigIAM(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessPointId = this.accessPointId;
+    final iam = this.iam;
+    return {
+      if (accessPointId != null) 'accessPointId': accessPointId,
+      if (iam != null) 'iam': iam.toValue(),
+    };
+  }
+}
+
+enum EFSAuthorizationConfigIAM {
+  enabled,
+  disabled,
+}
+
+extension EFSAuthorizationConfigIAMValueExtension on EFSAuthorizationConfigIAM {
+  String toValue() {
+    switch (this) {
+      case EFSAuthorizationConfigIAM.enabled:
+        return 'ENABLED';
+      case EFSAuthorizationConfigIAM.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension EFSAuthorizationConfigIAMFromString on String {
+  EFSAuthorizationConfigIAM toEFSAuthorizationConfigIAM() {
+    switch (this) {
+      case 'ENABLED':
+        return EFSAuthorizationConfigIAM.enabled;
+      case 'DISABLED':
+        return EFSAuthorizationConfigIAM.disabled;
+    }
+    throw Exception('$this is not known in enum EFSAuthorizationConfigIAM');
+  }
+}
+
+enum EFSTransitEncryption {
+  enabled,
+  disabled,
+}
+
+extension EFSTransitEncryptionValueExtension on EFSTransitEncryption {
+  String toValue() {
+    switch (this) {
+      case EFSTransitEncryption.enabled:
+        return 'ENABLED';
+      case EFSTransitEncryption.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension EFSTransitEncryptionFromString on String {
+  EFSTransitEncryption toEFSTransitEncryption() {
+    switch (this) {
+      case 'ENABLED':
+        return EFSTransitEncryption.enabled;
+      case 'DISABLED':
+        return EFSTransitEncryption.disabled;
+    }
+    throw Exception('$this is not known in enum EFSTransitEncryption');
+  }
+}
+
+/// This is used when you're using an Amazon Elastic File System file system for
+/// job storage. For more information, see <a
+/// href="https://docs.aws.amazon.com/batch/latest/userguide/efs-volumes.html">Amazon
+/// EFS Volumes</a> in the <i>Batch User Guide</i>.
+class EFSVolumeConfiguration {
+  /// The Amazon EFS file system ID to use.
+  final String fileSystemId;
+
+  /// The authorization configuration details for the Amazon EFS file system.
+  final EFSAuthorizationConfig? authorizationConfig;
+
+  /// The directory within the Amazon EFS file system to mount as the root
+  /// directory inside the host. If this parameter is omitted, the root of the
+  /// Amazon EFS volume is used instead. Specifying <code>/</code> has the same
+  /// effect as omitting this parameter. The maximum length is 4,096 characters.
+  /// <important>
+  /// If an EFS access point is specified in the <code>authorizationConfig</code>,
+  /// the root directory parameter must either be omitted or set to
+  /// <code>/</code>, which enforces the path set on the Amazon EFS access point.
+  /// </important>
+  final String? rootDirectory;
+
+  /// Determines whether to enable encryption for Amazon EFS data in transit
+  /// between the Amazon ECS host and the Amazon EFS server. Transit encryption
+  /// must be enabled if Amazon EFS IAM authorization is used. If this parameter
+  /// is omitted, the default value of <code>DISABLED</code> is used. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/encryption-in-transit.html">Encrypting
+  /// data in transit</a> in the <i>Amazon Elastic File System User Guide</i>.
+  final EFSTransitEncryption? transitEncryption;
+
+  /// The port to use when sending encrypted data between the Amazon ECS host and
+  /// the Amazon EFS server. If you don't specify a transit encryption port, it
+  /// uses the port selection strategy that the Amazon EFS mount helper uses. The
+  /// value must be between 0 and 65,535. For more information, see <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/efs-mount-helper.html">EFS
+  /// mount helper</a> in the <i>Amazon Elastic File System User Guide</i>.
+  final int? transitEncryptionPort;
+
+  EFSVolumeConfiguration({
+    required this.fileSystemId,
+    this.authorizationConfig,
+    this.rootDirectory,
+    this.transitEncryption,
+    this.transitEncryptionPort,
+  });
+
+  factory EFSVolumeConfiguration.fromJson(Map<String, dynamic> json) {
+    return EFSVolumeConfiguration(
+      fileSystemId: json['fileSystemId'] as String,
+      authorizationConfig: json['authorizationConfig'] != null
+          ? EFSAuthorizationConfig.fromJson(
+              json['authorizationConfig'] as Map<String, dynamic>)
+          : null,
+      rootDirectory: json['rootDirectory'] as String?,
+      transitEncryption:
+          (json['transitEncryption'] as String?)?.toEFSTransitEncryption(),
+      transitEncryptionPort: json['transitEncryptionPort'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fileSystemId = this.fileSystemId;
+    final authorizationConfig = this.authorizationConfig;
+    final rootDirectory = this.rootDirectory;
+    final transitEncryption = this.transitEncryption;
+    final transitEncryptionPort = this.transitEncryptionPort;
+    return {
+      'fileSystemId': fileSystemId,
+      if (authorizationConfig != null)
+        'authorizationConfig': authorizationConfig,
+      if (rootDirectory != null) 'rootDirectory': rootDirectory,
+      if (transitEncryption != null)
+        'transitEncryption': transitEncryption.toValue(),
+      if (transitEncryptionPort != null)
+        'transitEncryptionPort': transitEncryptionPort,
+    };
+  }
+}
+
 /// Provides information used to select Amazon Machine Images (AMIs) for
-/// instances in the compute environment. If the <code>Ec2Configuration</code>
-/// isn't specified, the default is <code>ECS_AL1</code>.
+/// instances in the compute environment. If <code>Ec2Configuration</code> isn't
+/// specified, the default is <code>ECS_AL2</code> (<a
+/// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami">Amazon
+/// Linux 2</a>).
 /// <note>
-/// This object isn't applicable to jobs running on Fargate resources.
+/// This object isn't applicable to jobs that are running on Fargate resources.
 /// </note>
 class Ec2Configuration {
-  /// The image type to match with the instance type to select an AMI. If the
-  /// <code>imageIdOverride</code> parameter isn't specified, then a recent <a
-  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html">Amazon
-  /// ECS-optimized AMI</a> is used.
+  /// The image type to match with the instance type to select an AMI. The
+  /// supported values are different for <code>ECS</code> and <code>EKS</code>
+  /// resources.
+  /// <dl> <dt>ECS</dt> <dd>
+  /// If the <code>imageIdOverride</code> parameter isn't specified, then a recent
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami">Amazon
+  /// ECS-optimized Amazon Linux 2 AMI</a> (<code>ECS_AL2</code>) is used. If a
+  /// new image type is specified in an update, but neither an
+  /// <code>imageId</code> nor a <code>imageIdOverride</code> parameter is
+  /// specified, then the latest Amazon ECS optimized AMI for that image type
+  /// that's supported by Batch is used.
   /// <dl> <dt>ECS_AL2</dt> <dd>
   /// <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami">Amazon
-  /// Linux 2</a>− Default for all AWS Graviton-based instance families (for
-  /// example, <code>C6g</code>, <code>M6g</code>, <code>R6g</code>, and
-  /// <code>T4g</code>) and can be used for all non-GPU instance types.
+  /// Linux 2</a>: Default for all non-GPU instance families.
   /// </dd> <dt>ECS_AL2_NVIDIA</dt> <dd>
   /// <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#gpuami">Amazon
-  /// Linux 2 (GPU)</a>−Default for all GPU instance families (for example
-  /// <code>P4</code> and <code>G4</code>) and can be used for all non-AWS
-  /// Graviton-based instance types.
+  /// Linux 2 (GPU)</a>: Default for all GPU instance families (for example
+  /// <code>P4</code> and <code>G4</code>) and can be used for all non Amazon Web
+  /// Services Graviton-based instance types.
   /// </dd> <dt>ECS_AL1</dt> <dd>
   /// <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#alami">Amazon
-  /// Linux</a>−Default for all non-GPU, non-AWS Graviton instance families.
-  /// Amazon Linux is reaching the end-of-life of standard support. For more
-  /// information, see <a href="http://aws.amazon.com/amazon-linux-ami/">Amazon
-  /// Linux AMI</a>.
-  /// </dd> </dl>
+  /// Linux</a>. Amazon Linux has reached the end-of-life of standard support. For
+  /// more information, see <a
+  /// href="http://aws.amazon.com/amazon-linux-ami/">Amazon Linux AMI</a>.
+  /// </dd> </dl> </dd> <dt>EKS</dt> <dd>
+  /// If the <code>imageIdOverride</code> parameter isn't specified, then a recent
+  /// <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html">Amazon
+  /// EKS-optimized Amazon Linux AMI</a> (<code>EKS_AL2</code>) is used. If a new
+  /// image type is specified in an update, but neither an <code>imageId</code>
+  /// nor a <code>imageIdOverride</code> parameter is specified, then the latest
+  /// Amazon EKS optimized AMI for that image type that Batch supports is used.
+  /// <dl> <dt>EKS_AL2</dt> <dd>
+  /// <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html">Amazon
+  /// Linux 2</a>: Default for all non-GPU instance families.
+  /// </dd> <dt>EKS_AL2_NVIDIA</dt> <dd>
+  /// <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html">Amazon
+  /// Linux 2 (accelerated)</a>: Default for all GPU instance families (for
+  /// example, <code>P4</code> and <code>G4</code>) and can be used for all non
+  /// Amazon Web Services Graviton-based instance types.
+  /// </dd> </dl> </dd> </dl>
   final String imageType;
 
   /// The AMI ID used for instances launched in the compute environment that match
   /// the image type. This setting overrides the <code>imageId</code> set in the
   /// <code>computeResource</code> object.
+  /// <note>
+  /// The AMI that you choose for a compute environment must match the
+  /// architecture of the instance types that you intend to use for that compute
+  /// environment. For example, if your compute environment uses A1 instance
+  /// types, the compute resource AMI that you choose must support ARM instances.
+  /// Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized
+  /// Amazon Linux 2 AMI. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux-variants.html">Amazon
+  /// ECS-optimized Amazon Linux 2 AMI</a> in the <i>Amazon Elastic Container
+  /// Service Developer Guide</i>.
+  /// </note>
   final String? imageIdOverride;
+
+  /// The Kubernetes version for the compute environment. If you don't specify a
+  /// value, the latest version that Batch supports is used.
+  final String? imageKubernetesVersion;
 
   Ec2Configuration({
     required this.imageType,
     this.imageIdOverride,
+    this.imageKubernetesVersion,
   });
+
   factory Ec2Configuration.fromJson(Map<String, dynamic> json) {
     return Ec2Configuration(
       imageType: json['imageType'] as String,
       imageIdOverride: json['imageIdOverride'] as String?,
+      imageKubernetesVersion: json['imageKubernetesVersion'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final imageType = this.imageType;
     final imageIdOverride = this.imageIdOverride;
+    final imageKubernetesVersion = this.imageKubernetesVersion;
     return {
       'imageType': imageType,
       if (imageIdOverride != null) 'imageIdOverride': imageIdOverride,
+      if (imageKubernetesVersion != null)
+        'imageKubernetesVersion': imageKubernetesVersion,
     };
   }
 }
 
-/// Specifies a set of conditions to be met, and an action to take
-/// (<code>RETRY</code> or <code>EXIT</code>) if all conditions are met.
+/// An object that represents the details for an attempt for a job attempt that
+/// an Amazon EKS container runs.
+class EksAttemptContainerDetail {
+  /// The exit code for the job attempt. A non-zero exit code is considered
+  /// failed.
+  final int? exitCode;
+
+  /// A short (255 max characters) human-readable string to provide additional
+  /// details for a running or stopped container.
+  final String? reason;
+
+  EksAttemptContainerDetail({
+    this.exitCode,
+    this.reason,
+  });
+
+  factory EksAttemptContainerDetail.fromJson(Map<String, dynamic> json) {
+    return EksAttemptContainerDetail(
+      exitCode: json['exitCode'] as int?,
+      reason: json['reason'] as String?,
+    );
+  }
+}
+
+/// An object that represents the details of a job attempt for a job attempt by
+/// an Amazon EKS container.
+class EksAttemptDetail {
+  /// The details for the final status of the containers for this job attempt.
+  final List<EksAttemptContainerDetail>? containers;
+
+  /// The name of the node for this job attempt.
+  final String? nodeName;
+
+  /// The name of the pod for this job attempt.
+  final String? podName;
+
+  /// The Unix timestamp (in milliseconds) for when the attempt was started (when
+  /// the attempt transitioned from the <code>STARTING</code> state to the
+  /// <code>RUNNING</code> state).
+  final int? startedAt;
+
+  /// A short, human-readable string to provide additional details for the current
+  /// status of the job attempt.
+  final String? statusReason;
+
+  /// The Unix timestamp (in milliseconds) for when the attempt was stopped. This
+  /// happens when the attempt transitioned from the <code>RUNNING</code> state to
+  /// a terminal state, such as <code>SUCCEEDED</code> or <code>FAILED</code>.
+  final int? stoppedAt;
+
+  EksAttemptDetail({
+    this.containers,
+    this.nodeName,
+    this.podName,
+    this.startedAt,
+    this.statusReason,
+    this.stoppedAt,
+  });
+
+  factory EksAttemptDetail.fromJson(Map<String, dynamic> json) {
+    return EksAttemptDetail(
+      containers: (json['containers'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              EksAttemptContainerDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nodeName: json['nodeName'] as String?,
+      podName: json['podName'] as String?,
+      startedAt: json['startedAt'] as int?,
+      statusReason: json['statusReason'] as String?,
+      stoppedAt: json['stoppedAt'] as int?,
+    );
+  }
+}
+
+/// Configuration for the Amazon EKS cluster that supports the Batch compute
+/// environment. The cluster must exist before the compute environment can be
+/// created.
+class EksConfiguration {
+  /// The Amazon Resource Name (ARN) of the Amazon EKS cluster. An example is
+  /// <code>arn:<i>aws</i>:eks:<i>us-east-1</i>:<i>123456789012</i>:cluster/<i>ClusterForBatch</i>
+  /// </code>.
+  final String eksClusterArn;
+
+  /// The namespace of the Amazon EKS cluster. Batch manages pods in this
+  /// namespace. The value can't left empty or null. It must be fewer than 64
+  /// characters long, can't be set to <code>default</code>, can't start with
+  /// "<code>kube-</code>," and must match this regular expression:
+  /// <code>^[a-z0-9]([-a-z0-9]*[a-z0-9])?$</code>. For more information, see <a
+  /// href="https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/">Namespaces</a>
+  /// in the Kubernetes documentation.
+  final String kubernetesNamespace;
+
+  EksConfiguration({
+    required this.eksClusterArn,
+    required this.kubernetesNamespace,
+  });
+
+  factory EksConfiguration.fromJson(Map<String, dynamic> json) {
+    return EksConfiguration(
+      eksClusterArn: json['eksClusterArn'] as String,
+      kubernetesNamespace: json['kubernetesNamespace'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eksClusterArn = this.eksClusterArn;
+    final kubernetesNamespace = this.kubernetesNamespace;
+    return {
+      'eksClusterArn': eksClusterArn,
+      'kubernetesNamespace': kubernetesNamespace,
+    };
+  }
+}
+
+/// EKS container properties are used in job definitions for Amazon EKS based
+/// job definitions to describe the properties for a container node in the pod
+/// that's launched as part of a job. This can't be specified for Amazon ECS
+/// based job definitions.
+class EksContainer {
+  /// The Docker image used to start the container.
+  final String image;
+
+  /// An array of arguments to the entrypoint. If this isn't specified, the
+  /// <code>CMD</code> of the container image is used. This corresponds to the
+  /// <code>args</code> member in the <a
+  /// href="https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#entrypoint">Entrypoint</a>
+  /// portion of the <a
+  /// href="https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/">Pod</a>
+  /// in Kubernetes. Environment variable references are expanded using the
+  /// container's environment.
+  ///
+  /// If the referenced environment variable doesn't exist, the reference in the
+  /// command isn't changed. For example, if the reference is to
+  /// "<code>$(NAME1)</code>" and the <code>NAME1</code> environment variable
+  /// doesn't exist, the command string will remain "<code>$(NAME1)</code>."
+  /// <code>$$</code> is replaced with <code>$</code>, and the resulting string
+  /// isn't expanded. For example, <code>$$(VAR_NAME)</code> is passed as
+  /// <code>$(VAR_NAME)</code> whether or not the <code>VAR_NAME</code>
+  /// environment variable exists. For more information, see <a
+  /// href="https://docs.docker.com/engine/reference/builder/#cmd">CMD</a> in the
+  /// <i>Dockerfile reference</i> and <a
+  /// href="https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/">Define
+  /// a command and arguments for a pod</a> in the <i>Kubernetes
+  /// documentation</i>.
+  final List<String>? args;
+
+  /// The entrypoint for the container. This isn't run within a shell. If this
+  /// isn't specified, the <code>ENTRYPOINT</code> of the container image is used.
+  /// Environment variable references are expanded using the container's
+  /// environment.
+  ///
+  /// If the referenced environment variable doesn't exist, the reference in the
+  /// command isn't changed. For example, if the reference is to
+  /// "<code>$(NAME1)</code>" and the <code>NAME1</code> environment variable
+  /// doesn't exist, the command string will remain "<code>$(NAME1)</code>."
+  /// <code>$$</code> is replaced with <code>$</code> and the resulting string
+  /// isn't expanded. For example, <code>$$(VAR_NAME)</code> will be passed as
+  /// <code>$(VAR_NAME)</code> whether or not the <code>VAR_NAME</code>
+  /// environment variable exists. The entrypoint can't be updated. For more
+  /// information, see <a
+  /// href="https://docs.docker.com/engine/reference/builder/#entrypoint">ENTRYPOINT</a>
+  /// in the <i>Dockerfile reference</i> and <a
+  /// href="https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/">Define
+  /// a command and arguments for a container</a> and <a
+  /// href="https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#entrypoint">Entrypoint</a>
+  /// in the <i>Kubernetes documentation</i>.
+  final List<String>? command;
+
+  /// The environment variables to pass to a container.
+  /// <note>
+  /// Environment variables cannot start with "<code>AWS_BATCH</code>". This
+  /// naming convention is reserved for variables that Batch sets.
+  /// </note>
+  final List<EksContainerEnvironmentVariable>? env;
+
+  /// The image pull policy for the container. Supported values are
+  /// <code>Always</code>, <code>IfNotPresent</code>, and <code>Never</code>. This
+  /// parameter defaults to <code>IfNotPresent</code>. However, if the
+  /// <code>:latest</code> tag is specified, it defaults to <code>Always</code>.
+  /// For more information, see <a
+  /// href="https://kubernetes.io/docs/concepts/containers/images/#updating-images">Updating
+  /// images</a> in the <i>Kubernetes documentation</i>.
+  final String? imagePullPolicy;
+
+  /// The name of the container. If the name isn't specified, the default name
+  /// "<code>Default</code>" is used. Each container in a pod must have a unique
+  /// name.
+  final String? name;
+
+  /// The type and amount of resources to assign to a container. The supported
+  /// resources include <code>memory</code>, <code>cpu</code>, and
+  /// <code>nvidia.com/gpu</code>. For more information, see <a
+  /// href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/">Resource
+  /// management for pods and containers</a> in the <i>Kubernetes
+  /// documentation</i>.
+  final EksContainerResourceRequirements? resources;
+
+  /// The security context for a job. For more information, see <a
+  /// href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/">Configure
+  /// a security context for a pod or container</a> in the <i>Kubernetes
+  /// documentation</i>.
+  final EksContainerSecurityContext? securityContext;
+
+  /// The volume mounts for the container. Batch supports <code>emptyDir</code>,
+  /// <code>hostPath</code>, and <code>secret</code> volume types. For more
+  /// information about volumes and volume mounts in Kubernetes, see <a
+  /// href="https://kubernetes.io/docs/concepts/storage/volumes/">Volumes</a> in
+  /// the <i>Kubernetes documentation</i>.
+  final List<EksContainerVolumeMount>? volumeMounts;
+
+  EksContainer({
+    required this.image,
+    this.args,
+    this.command,
+    this.env,
+    this.imagePullPolicy,
+    this.name,
+    this.resources,
+    this.securityContext,
+    this.volumeMounts,
+  });
+
+  factory EksContainer.fromJson(Map<String, dynamic> json) {
+    return EksContainer(
+      image: json['image'] as String,
+      args: (json['args'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      command: (json['command'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      env: (json['env'] as List?)
+          ?.whereNotNull()
+          .map((e) => EksContainerEnvironmentVariable.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      imagePullPolicy: json['imagePullPolicy'] as String?,
+      name: json['name'] as String?,
+      resources: json['resources'] != null
+          ? EksContainerResourceRequirements.fromJson(
+              json['resources'] as Map<String, dynamic>)
+          : null,
+      securityContext: json['securityContext'] != null
+          ? EksContainerSecurityContext.fromJson(
+              json['securityContext'] as Map<String, dynamic>)
+          : null,
+      volumeMounts: (json['volumeMounts'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              EksContainerVolumeMount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final image = this.image;
+    final args = this.args;
+    final command = this.command;
+    final env = this.env;
+    final imagePullPolicy = this.imagePullPolicy;
+    final name = this.name;
+    final resources = this.resources;
+    final securityContext = this.securityContext;
+    final volumeMounts = this.volumeMounts;
+    return {
+      'image': image,
+      if (args != null) 'args': args,
+      if (command != null) 'command': command,
+      if (env != null) 'env': env,
+      if (imagePullPolicy != null) 'imagePullPolicy': imagePullPolicy,
+      if (name != null) 'name': name,
+      if (resources != null) 'resources': resources,
+      if (securityContext != null) 'securityContext': securityContext,
+      if (volumeMounts != null) 'volumeMounts': volumeMounts,
+    };
+  }
+}
+
+/// The details for container properties that are returned by
+/// <code>DescribeJobs</code> for jobs that use Amazon EKS.
+class EksContainerDetail {
+  /// An array of arguments to the entrypoint. If this isn't specified, the
+  /// <code>CMD</code> of the container image is used. This corresponds to the
+  /// <code>args</code> member in the <a
+  /// href="https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#entrypoint">Entrypoint</a>
+  /// portion of the <a
+  /// href="https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/">Pod</a>
+  /// in Kubernetes. Environment variable references are expanded using the
+  /// container's environment.
+  ///
+  /// If the referenced environment variable doesn't exist, the reference in the
+  /// command isn't changed. For example, if the reference is to
+  /// "<code>$(NAME1)</code>" and the <code>NAME1</code> environment variable
+  /// doesn't exist, the command string will remain "<code>$(NAME1)</code>".
+  /// <code>$$</code> is replaced with <code>$</code> and the resulting string
+  /// isn't expanded. For example, <code>$$(VAR_NAME)</code> is passed as
+  /// <code>$(VAR_NAME)</code> whether or not the <code>VAR_NAME</code>
+  /// environment variable exists. For more information, see <a
+  /// href="https://docs.docker.com/engine/reference/builder/#cmd">CMD</a> in the
+  /// <i>Dockerfile reference</i> and <a
+  /// href="https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/">Define
+  /// a command and arguments for a pod</a> in the <i>Kubernetes
+  /// documentation</i>.
+  final List<String>? args;
+
+  /// The entrypoint for the container. For more information, see <a
+  /// href="https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#entrypoint">Entrypoint</a>
+  /// in the <i>Kubernetes documentation</i>.
+  final List<String>? command;
+
+  /// The environment variables to pass to a container.
+  /// <note>
+  /// Environment variables cannot start with "<code>AWS_BATCH</code>". This
+  /// naming convention is reserved for variables that Batch sets.
+  /// </note>
+  final List<EksContainerEnvironmentVariable>? env;
+
+  /// The exit code for the job attempt. A non-zero exit code is considered
+  /// failed.
+  final int? exitCode;
+
+  /// The Docker image used to start the container.
+  final String? image;
+
+  /// The image pull policy for the container. Supported values are
+  /// <code>Always</code>, <code>IfNotPresent</code>, and <code>Never</code>. This
+  /// parameter defaults to <code>Always</code> if the <code>:latest</code> tag is
+  /// specified, <code>IfNotPresent</code> otherwise. For more information, see <a
+  /// href="https://kubernetes.io/docs/concepts/containers/images/#updating-images">Updating
+  /// images</a> in the <i>Kubernetes documentation</i>.
+  final String? imagePullPolicy;
+
+  /// The name of the container. If the name isn't specified, the default name
+  /// "<code>Default</code>" is used. Each container in a pod must have a unique
+  /// name.
+  final String? name;
+
+  /// A short human-readable string to provide additional details for a running or
+  /// stopped container. It can be up to 255 characters long.
+  final String? reason;
+
+  /// The type and amount of resources to assign to a container. The supported
+  /// resources include <code>memory</code>, <code>cpu</code>, and
+  /// <code>nvidia.com/gpu</code>. For more information, see <a
+  /// href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/">Resource
+  /// management for pods and containers</a> in the <i>Kubernetes
+  /// documentation</i>.
+  final EksContainerResourceRequirements? resources;
+
+  /// The security context for a job. For more information, see <a
+  /// href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/">Configure
+  /// a security context for a pod or container</a> in the <i>Kubernetes
+  /// documentation</i>.
+  final EksContainerSecurityContext? securityContext;
+
+  /// The volume mounts for the container. Batch supports <code>emptyDir</code>,
+  /// <code>hostPath</code>, and <code>secret</code> volume types. For more
+  /// information about volumes and volume mounts in Kubernetes, see <a
+  /// href="https://kubernetes.io/docs/concepts/storage/volumes/">Volumes</a> in
+  /// the <i>Kubernetes documentation</i>.
+  final List<EksContainerVolumeMount>? volumeMounts;
+
+  EksContainerDetail({
+    this.args,
+    this.command,
+    this.env,
+    this.exitCode,
+    this.image,
+    this.imagePullPolicy,
+    this.name,
+    this.reason,
+    this.resources,
+    this.securityContext,
+    this.volumeMounts,
+  });
+
+  factory EksContainerDetail.fromJson(Map<String, dynamic> json) {
+    return EksContainerDetail(
+      args: (json['args'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      command: (json['command'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      env: (json['env'] as List?)
+          ?.whereNotNull()
+          .map((e) => EksContainerEnvironmentVariable.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      exitCode: json['exitCode'] as int?,
+      image: json['image'] as String?,
+      imagePullPolicy: json['imagePullPolicy'] as String?,
+      name: json['name'] as String?,
+      reason: json['reason'] as String?,
+      resources: json['resources'] != null
+          ? EksContainerResourceRequirements.fromJson(
+              json['resources'] as Map<String, dynamic>)
+          : null,
+      securityContext: json['securityContext'] != null
+          ? EksContainerSecurityContext.fromJson(
+              json['securityContext'] as Map<String, dynamic>)
+          : null,
+      volumeMounts: (json['volumeMounts'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              EksContainerVolumeMount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// An environment variable.
+class EksContainerEnvironmentVariable {
+  /// The name of the environment variable.
+  final String name;
+
+  /// The value of the environment variable.
+  final String? value;
+
+  EksContainerEnvironmentVariable({
+    required this.name,
+    this.value,
+  });
+
+  factory EksContainerEnvironmentVariable.fromJson(Map<String, dynamic> json) {
+    return EksContainerEnvironmentVariable(
+      name: json['name'] as String,
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'name': name,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+/// Object representing any Kubernetes overrides to a job definition that's used
+/// in a <a>SubmitJob</a> API operation.
+class EksContainerOverride {
+  /// The arguments to the entrypoint to send to the container that overrides the
+  /// default arguments from the Docker image or the job definition. For more
+  /// information, see <a
+  /// href="https://docs.docker.com/engine/reference/builder/#cmd">CMD</a> in the
+  /// <i>Dockerfile reference</i> and <a
+  /// href="https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/">Define
+  /// a command an arguments for a pod</a> in the <i>Kubernetes documentation</i>.
+  final List<String>? args;
+
+  /// The command to send to the container that overrides the default command from
+  /// the Docker image or the job definition.
+  final List<String>? command;
+
+  /// The environment variables to send to the container. You can add new
+  /// environment variables, which are added to the container at launch. Or, you
+  /// can override the existing environment variables from the Docker image or the
+  /// job definition.
+  /// <note>
+  /// Environment variables cannot start with "<code>AWS_BATCH</code>". This
+  /// naming convention is reserved for variables that Batch sets.
+  /// </note>
+  final List<EksContainerEnvironmentVariable>? env;
+
+  /// The override of the Docker image that's used to start the container.
+  final String? image;
+
+  /// The type and amount of resources to assign to a container. These override
+  /// the settings in the job definition. The supported resources include
+  /// <code>memory</code>, <code>cpu</code>, and <code>nvidia.com/gpu</code>. For
+  /// more information, see <a
+  /// href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/">Resource
+  /// management for pods and containers</a> in the <i>Kubernetes
+  /// documentation</i>.
+  final EksContainerResourceRequirements? resources;
+
+  EksContainerOverride({
+    this.args,
+    this.command,
+    this.env,
+    this.image,
+    this.resources,
+  });
+  Map<String, dynamic> toJson() {
+    final args = this.args;
+    final command = this.command;
+    final env = this.env;
+    final image = this.image;
+    final resources = this.resources;
+    return {
+      if (args != null) 'args': args,
+      if (command != null) 'command': command,
+      if (env != null) 'env': env,
+      if (image != null) 'image': image,
+      if (resources != null) 'resources': resources,
+    };
+  }
+}
+
+/// The type and amount of resources to assign to a container. The supported
+/// resources include <code>memory</code>, <code>cpu</code>, and
+/// <code>nvidia.com/gpu</code>. For more information, see <a
+/// href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/">Resource
+/// management for pods and containers</a> in the <i>Kubernetes
+/// documentation</i>.
+class EksContainerResourceRequirements {
+  /// The type and quantity of the resources to reserve for the container. The
+  /// values vary based on the <code>name</code> that's specified. Resources can
+  /// be requested using either the <code>limits</code> or the
+  /// <code>requests</code> objects.
+  /// <dl> <dt>memory</dt> <dd>
+  /// The memory hard limit (in MiB) for the container, using whole integers, with
+  /// a "Mi" suffix. If your container attempts to exceed the memory specified,
+  /// the container is terminated. You must specify at least 4 MiB of memory for a
+  /// job. <code>memory</code> can be specified in <code>limits</code>,
+  /// <code>requests</code>, or both. If <code>memory</code> is specified in both
+  /// places, then the value that's specified in <code>limits</code> must be equal
+  /// to the value that's specified in <code>requests</code>.
+  /// <note>
+  /// To maximize your resource utilization, provide your jobs with as much memory
+  /// as possible for the specific instance type that you are using. To learn how,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/memory-management.html">Memory
+  /// management</a> in the <i>Batch User Guide</i>.
+  /// </note> </dd> <dt>cpu</dt> <dd>
+  /// The number of CPUs that's reserved for the container. Values must be an even
+  /// multiple of <code>0.25</code>. <code>cpu</code> can be specified in
+  /// <code>limits</code>, <code>requests</code>, or both. If <code>cpu</code> is
+  /// specified in both places, then the value that's specified in
+  /// <code>limits</code> must be at least as large as the value that's specified
+  /// in <code>requests</code>.
+  /// </dd> <dt>nvidia.com/gpu</dt> <dd>
+  /// The number of GPUs that's reserved for the container. Values must be a whole
+  /// integer. <code>memory</code> can be specified in <code>limits</code>,
+  /// <code>requests</code>, or both. If <code>memory</code> is specified in both
+  /// places, then the value that's specified in <code>limits</code> must be equal
+  /// to the value that's specified in <code>requests</code>.
+  /// </dd> </dl>
+  final Map<String, String>? limits;
+
+  /// The type and quantity of the resources to request for the container. The
+  /// values vary based on the <code>name</code> that's specified. Resources can
+  /// be requested by using either the <code>limits</code> or the
+  /// <code>requests</code> objects.
+  /// <dl> <dt>memory</dt> <dd>
+  /// The memory hard limit (in MiB) for the container, using whole integers, with
+  /// a "Mi" suffix. If your container attempts to exceed the memory specified,
+  /// the container is terminated. You must specify at least 4 MiB of memory for a
+  /// job. <code>memory</code> can be specified in <code>limits</code>,
+  /// <code>requests</code>, or both. If <code>memory</code> is specified in both,
+  /// then the value that's specified in <code>limits</code> must be equal to the
+  /// value that's specified in <code>requests</code>.
+  /// <note>
+  /// If you're trying to maximize your resource utilization by providing your
+  /// jobs as much memory as possible for a particular instance type, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/memory-management.html">Memory
+  /// management</a> in the <i>Batch User Guide</i>.
+  /// </note> </dd> <dt>cpu</dt> <dd>
+  /// The number of CPUs that are reserved for the container. Values must be an
+  /// even multiple of <code>0.25</code>. <code>cpu</code> can be specified in
+  /// <code>limits</code>, <code>requests</code>, or both. If <code>cpu</code> is
+  /// specified in both, then the value that's specified in <code>limits</code>
+  /// must be at least as large as the value that's specified in
+  /// <code>requests</code>.
+  /// </dd> <dt>nvidia.com/gpu</dt> <dd>
+  /// The number of GPUs that are reserved for the container. Values must be a
+  /// whole integer. <code>nvidia.com/gpu</code> can be specified in
+  /// <code>limits</code>, <code>requests</code>, or both. If
+  /// <code>nvidia.com/gpu</code> is specified in both, then the value that's
+  /// specified in <code>limits</code> must be equal to the value that's specified
+  /// in <code>requests</code>.
+  /// </dd> </dl>
+  final Map<String, String>? requests;
+
+  EksContainerResourceRequirements({
+    this.limits,
+    this.requests,
+  });
+
+  factory EksContainerResourceRequirements.fromJson(Map<String, dynamic> json) {
+    return EksContainerResourceRequirements(
+      limits: (json['limits'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      requests: (json['requests'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final limits = this.limits;
+    final requests = this.requests;
+    return {
+      if (limits != null) 'limits': limits,
+      if (requests != null) 'requests': requests,
+    };
+  }
+}
+
+/// The security context for a job. For more information, see <a
+/// href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/">Configure
+/// a security context for a pod or container</a> in the <i>Kubernetes
+/// documentation</i>.
+class EksContainerSecurityContext {
+  /// When this parameter is <code>true</code>, the container is given elevated
+  /// permissions on the host container instance. The level of permissions are
+  /// similar to the <code>root</code> user permissions. The default value is
+  /// <code>false</code>. This parameter maps to <code>privileged</code> policy in
+  /// the <a
+  /// href="https://kubernetes.io/docs/concepts/security/pod-security-policy/#privileged">Privileged
+  /// pod security policies</a> in the <i>Kubernetes documentation</i>.
+  final bool? privileged;
+
+  /// When this parameter is <code>true</code>, the container is given read-only
+  /// access to its root file system. The default value is <code>false</code>.
+  /// This parameter maps to <code>ReadOnlyRootFilesystem</code> policy in the <a
+  /// href="https://kubernetes.io/docs/concepts/security/pod-security-policy/#volumes-and-file-systems">Volumes
+  /// and file systems pod security policies</a> in the <i>Kubernetes
+  /// documentation</i>.
+  final bool? readOnlyRootFilesystem;
+
+  /// When this parameter is specified, the container is run as the specified
+  /// group ID (<code>gid</code>). If this parameter isn't specified, the default
+  /// is the group that's specified in the image metadata. This parameter maps to
+  /// <code>RunAsGroup</code> and <code>MustRunAs</code> policy in the <a
+  /// href="https://kubernetes.io/docs/concepts/security/pod-security-policy/#users-and-groups">Users
+  /// and groups pod security policies</a> in the <i>Kubernetes documentation</i>.
+  final int? runAsGroup;
+
+  /// When this parameter is specified, the container is run as a user with a
+  /// <code>uid</code> other than 0. If this parameter isn't specified, so such
+  /// rule is enforced. This parameter maps to <code>RunAsUser</code> and
+  /// <code>MustRunAsNonRoot</code> policy in the <a
+  /// href="https://kubernetes.io/docs/concepts/security/pod-security-policy/#users-and-groups">Users
+  /// and groups pod security policies</a> in the <i>Kubernetes documentation</i>.
+  final bool? runAsNonRoot;
+
+  /// When this parameter is specified, the container is run as the specified user
+  /// ID (<code>uid</code>). If this parameter isn't specified, the default is the
+  /// user that's specified in the image metadata. This parameter maps to
+  /// <code>RunAsUser</code> and <code>MustRanAs</code> policy in the <a
+  /// href="https://kubernetes.io/docs/concepts/security/pod-security-policy/#users-and-groups">Users
+  /// and groups pod security policies</a> in the <i>Kubernetes documentation</i>.
+  final int? runAsUser;
+
+  EksContainerSecurityContext({
+    this.privileged,
+    this.readOnlyRootFilesystem,
+    this.runAsGroup,
+    this.runAsNonRoot,
+    this.runAsUser,
+  });
+
+  factory EksContainerSecurityContext.fromJson(Map<String, dynamic> json) {
+    return EksContainerSecurityContext(
+      privileged: json['privileged'] as bool?,
+      readOnlyRootFilesystem: json['readOnlyRootFilesystem'] as bool?,
+      runAsGroup: json['runAsGroup'] as int?,
+      runAsNonRoot: json['runAsNonRoot'] as bool?,
+      runAsUser: json['runAsUser'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final privileged = this.privileged;
+    final readOnlyRootFilesystem = this.readOnlyRootFilesystem;
+    final runAsGroup = this.runAsGroup;
+    final runAsNonRoot = this.runAsNonRoot;
+    final runAsUser = this.runAsUser;
+    return {
+      if (privileged != null) 'privileged': privileged,
+      if (readOnlyRootFilesystem != null)
+        'readOnlyRootFilesystem': readOnlyRootFilesystem,
+      if (runAsGroup != null) 'runAsGroup': runAsGroup,
+      if (runAsNonRoot != null) 'runAsNonRoot': runAsNonRoot,
+      if (runAsUser != null) 'runAsUser': runAsUser,
+    };
+  }
+}
+
+/// The volume mounts for a container for an Amazon EKS job. For more
+/// information about volumes and volume mounts in Kubernetes, see <a
+/// href="https://kubernetes.io/docs/concepts/storage/volumes/">Volumes</a> in
+/// the <i>Kubernetes documentation</i>.
+class EksContainerVolumeMount {
+  /// The path on the container where the volume is mounted.
+  final String? mountPath;
+
+  /// The name the volume mount. This must match the name of one of the volumes in
+  /// the pod.
+  final String? name;
+
+  /// If this value is <code>true</code>, the container has read-only access to
+  /// the volume. Otherwise, the container can write to the volume. The default
+  /// value is <code>false</code>.
+  final bool? readOnly;
+
+  EksContainerVolumeMount({
+    this.mountPath,
+    this.name,
+    this.readOnly,
+  });
+
+  factory EksContainerVolumeMount.fromJson(Map<String, dynamic> json) {
+    return EksContainerVolumeMount(
+      mountPath: json['mountPath'] as String?,
+      name: json['name'] as String?,
+      readOnly: json['readOnly'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mountPath = this.mountPath;
+    final name = this.name;
+    final readOnly = this.readOnly;
+    return {
+      if (mountPath != null) 'mountPath': mountPath,
+      if (name != null) 'name': name,
+      if (readOnly != null) 'readOnly': readOnly,
+    };
+  }
+}
+
+/// Specifies the configuration of a Kubernetes <code>emptyDir</code> volume. An
+/// <code>emptyDir</code> volume is first created when a pod is assigned to a
+/// node. It exists as long as that pod is running on that node. The
+/// <code>emptyDir</code> volume is initially empty. All containers in the pod
+/// can read and write the files in the <code>emptyDir</code> volume. However,
+/// the <code>emptyDir</code> volume can be mounted at the same or different
+/// paths in each container. When a pod is removed from a node for any reason,
+/// the data in the <code>emptyDir</code> is deleted permanently. For more
+/// information, see <a
+/// href="https://kubernetes.io/docs/concepts/storage/volumes/#emptydir">emptyDir</a>
+/// in the <i>Kubernetes documentation</i>.
+class EksEmptyDir {
+  /// The medium to store the volume. The default value is an empty string, which
+  /// uses the storage of the node.
+  /// <dl> <dt>""</dt> <dd>
+  /// <b>(Default)</b> Use the disk storage of the node.
+  /// </dd> <dt>"Memory"</dt> <dd>
+  /// Use the <code>tmpfs</code> volume that's backed by the RAM of the node.
+  /// Contents of the volume are lost when the node reboots, and any storage on
+  /// the volume counts against the container's memory limit.
+  /// </dd> </dl>
+  final String? medium;
+
+  /// The maximum size of the volume. By default, there's no maximum size defined.
+  final String? sizeLimit;
+
+  EksEmptyDir({
+    this.medium,
+    this.sizeLimit,
+  });
+
+  factory EksEmptyDir.fromJson(Map<String, dynamic> json) {
+    return EksEmptyDir(
+      medium: json['medium'] as String?,
+      sizeLimit: json['sizeLimit'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final medium = this.medium;
+    final sizeLimit = this.sizeLimit;
+    return {
+      if (medium != null) 'medium': medium,
+      if (sizeLimit != null) 'sizeLimit': sizeLimit,
+    };
+  }
+}
+
+/// Specifies the configuration of a Kubernetes <code>hostPath</code> volume. A
+/// <code>hostPath</code> volume mounts an existing file or directory from the
+/// host node's filesystem into your pod. For more information, see <a
+/// href="https://kubernetes.io/docs/concepts/storage/volumes/#hostpath">hostPath</a>
+/// in the <i>Kubernetes documentation</i>.
+class EksHostPath {
+  /// The path of the file or directory on the host to mount into containers on
+  /// the pod.
+  final String? path;
+
+  EksHostPath({
+    this.path,
+  });
+
+  factory EksHostPath.fromJson(Map<String, dynamic> json) {
+    return EksHostPath(
+      path: json['path'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final path = this.path;
+    return {
+      if (path != null) 'path': path,
+    };
+  }
+}
+
+/// Describes and uniquely identifies Kubernetes resources. For example, the
+/// compute environment that a pod runs in or the <code>jobID</code> for a job
+/// running in the pod. For more information, see <a
+/// href="https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/">Understanding
+/// Kubernetes Objects</a> in the <i>Kubernetes documentation</i>.
+class EksMetadata {
+  /// Key-value pairs used to identify, sort, and organize cube resources. Can
+  /// contain up to 63 uppercase letters, lowercase letters, numbers, hyphens (-),
+  /// and underscores (_). Labels can be added or modified at any time. Each
+  /// resource can have multiple labels, but each key must be unique for a given
+  /// object.
+  final Map<String, String>? labels;
+
+  EksMetadata({
+    this.labels,
+  });
+
+  factory EksMetadata.fromJson(Map<String, dynamic> json) {
+    return EksMetadata(
+      labels: (json['labels'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final labels = this.labels;
+    return {
+      if (labels != null) 'labels': labels,
+    };
+  }
+}
+
+/// The properties for the pod.
+class EksPodProperties {
+  /// The properties of the container that's used on the Amazon EKS pod.
+  final List<EksContainer>? containers;
+
+  /// The DNS policy for the pod. The default value is <code>ClusterFirst</code>.
+  /// If the <code>hostNetwork</code> parameter is not specified, the default is
+  /// <code>ClusterFirstWithHostNet</code>. <code>ClusterFirst</code> indicates
+  /// that any DNS query that does not match the configured cluster domain suffix
+  /// is forwarded to the upstream nameserver inherited from the node. For more
+  /// information, see <a
+  /// href="https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy">Pod's
+  /// DNS policy</a> in the <i>Kubernetes documentation</i>.
+  ///
+  /// Valid values: <code>Default</code> | <code>ClusterFirst</code> |
+  /// <code>ClusterFirstWithHostNet</code>
+  final String? dnsPolicy;
+
+  /// Indicates if the pod uses the hosts' network IP address. The default value
+  /// is <code>true</code>. Setting this to <code>false</code> enables the
+  /// Kubernetes pod networking model. Most Batch workloads are egress-only and
+  /// don't require the overhead of IP allocation for each pod for incoming
+  /// connections. For more information, see <a
+  /// href="https://kubernetes.io/docs/concepts/security/pod-security-policy/#host-namespaces">Host
+  /// namespaces</a> and <a
+  /// href="https://kubernetes.io/docs/concepts/workloads/pods/#pod-networking">Pod
+  /// networking</a> in the <i>Kubernetes documentation</i>.
+  final bool? hostNetwork;
+
+  /// Metadata about the Kubernetes pod. For more information, see <a
+  /// href="https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/">Understanding
+  /// Kubernetes Objects</a> in the <i>Kubernetes documentation</i>.
+  final EksMetadata? metadata;
+
+  /// The name of the service account that's used to run the pod. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/service-accounts.html">Kubernetes
+  /// service accounts</a> and <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/associate-service-account-role.html">Configure
+  /// a Kubernetes service account to assume an IAM role</a> in the <i>Amazon EKS
+  /// User Guide</i> and <a
+  /// href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/">Configure
+  /// service accounts for pods</a> in the <i>Kubernetes documentation</i>.
+  final String? serviceAccountName;
+
+  /// Specifies the volumes for a job definition that uses Amazon EKS resources.
+  final List<EksVolume>? volumes;
+
+  EksPodProperties({
+    this.containers,
+    this.dnsPolicy,
+    this.hostNetwork,
+    this.metadata,
+    this.serviceAccountName,
+    this.volumes,
+  });
+
+  factory EksPodProperties.fromJson(Map<String, dynamic> json) {
+    return EksPodProperties(
+      containers: (json['containers'] as List?)
+          ?.whereNotNull()
+          .map((e) => EksContainer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dnsPolicy: json['dnsPolicy'] as String?,
+      hostNetwork: json['hostNetwork'] as bool?,
+      metadata: json['metadata'] != null
+          ? EksMetadata.fromJson(json['metadata'] as Map<String, dynamic>)
+          : null,
+      serviceAccountName: json['serviceAccountName'] as String?,
+      volumes: (json['volumes'] as List?)
+          ?.whereNotNull()
+          .map((e) => EksVolume.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final containers = this.containers;
+    final dnsPolicy = this.dnsPolicy;
+    final hostNetwork = this.hostNetwork;
+    final metadata = this.metadata;
+    final serviceAccountName = this.serviceAccountName;
+    final volumes = this.volumes;
+    return {
+      if (containers != null) 'containers': containers,
+      if (dnsPolicy != null) 'dnsPolicy': dnsPolicy,
+      if (hostNetwork != null) 'hostNetwork': hostNetwork,
+      if (metadata != null) 'metadata': metadata,
+      if (serviceAccountName != null) 'serviceAccountName': serviceAccountName,
+      if (volumes != null) 'volumes': volumes,
+    };
+  }
+}
+
+/// The details for the pod.
+class EksPodPropertiesDetail {
+  /// The properties of the container that's used on the Amazon EKS pod.
+  final List<EksContainerDetail>? containers;
+
+  /// The DNS policy for the pod. The default value is <code>ClusterFirst</code>.
+  /// If the <code>hostNetwork</code> parameter is not specified, the default is
+  /// <code>ClusterFirstWithHostNet</code>. <code>ClusterFirst</code> indicates
+  /// that any DNS query that does not match the configured cluster domain suffix
+  /// is forwarded to the upstream nameserver inherited from the node. If no value
+  /// was specified for <code>dnsPolicy</code> in the <a
+  /// href="https://docs.aws.amazon.com/batch/latest/APIReference/API_RegisterJobDefinition.html">RegisterJobDefinition</a>
+  /// API operation, then no value will be returned for <code>dnsPolicy</code> by
+  /// either of <a
+  /// href="https://docs.aws.amazon.com/batch/latest/APIReference/API_DescribeJobDefinitions.html">DescribeJobDefinitions</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/batch/latest/APIReference/API_DescribeJobs.html">DescribeJobs</a>
+  /// API operations. The pod spec setting will contain either
+  /// <code>ClusterFirst</code> or <code>ClusterFirstWithHostNet</code>, depending
+  /// on the value of the <code>hostNetwork</code> parameter. For more
+  /// information, see <a
+  /// href="https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy">Pod's
+  /// DNS policy</a> in the <i>Kubernetes documentation</i>.
+  ///
+  /// Valid values: <code>Default</code> | <code>ClusterFirst</code> |
+  /// <code>ClusterFirstWithHostNet</code>
+  final String? dnsPolicy;
+
+  /// Indicates if the pod uses the hosts' network IP address. The default value
+  /// is <code>true</code>. Setting this to <code>false</code> enables the
+  /// Kubernetes pod networking model. Most Batch workloads are egress-only and
+  /// don't require the overhead of IP allocation for each pod for incoming
+  /// connections. For more information, see <a
+  /// href="https://kubernetes.io/docs/concepts/security/pod-security-policy/#host-namespaces">Host
+  /// namespaces</a> and <a
+  /// href="https://kubernetes.io/docs/concepts/workloads/pods/#pod-networking">Pod
+  /// networking</a> in the <i>Kubernetes documentation</i>.
+  final bool? hostNetwork;
+  final EksMetadata? metadata;
+
+  /// The name of the node for this job.
+  final String? nodeName;
+
+  /// The name of the pod for this job.
+  final String? podName;
+
+  /// The name of the service account that's used to run the pod. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/service-accounts.html">Kubernetes
+  /// service accounts</a> and <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/associate-service-account-role.html">Configure
+  /// a Kubernetes service account to assume an IAM role</a> in the <i>Amazon EKS
+  /// User Guide</i> and <a
+  /// href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/">Configure
+  /// service accounts for pods</a> in the <i>Kubernetes documentation</i>.
+  final String? serviceAccountName;
+
+  /// Specifies the volumes for a job definition using Amazon EKS resources.
+  final List<EksVolume>? volumes;
+
+  EksPodPropertiesDetail({
+    this.containers,
+    this.dnsPolicy,
+    this.hostNetwork,
+    this.metadata,
+    this.nodeName,
+    this.podName,
+    this.serviceAccountName,
+    this.volumes,
+  });
+
+  factory EksPodPropertiesDetail.fromJson(Map<String, dynamic> json) {
+    return EksPodPropertiesDetail(
+      containers: (json['containers'] as List?)
+          ?.whereNotNull()
+          .map((e) => EksContainerDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dnsPolicy: json['dnsPolicy'] as String?,
+      hostNetwork: json['hostNetwork'] as bool?,
+      metadata: json['metadata'] != null
+          ? EksMetadata.fromJson(json['metadata'] as Map<String, dynamic>)
+          : null,
+      nodeName: json['nodeName'] as String?,
+      podName: json['podName'] as String?,
+      serviceAccountName: json['serviceAccountName'] as String?,
+      volumes: (json['volumes'] as List?)
+          ?.whereNotNull()
+          .map((e) => EksVolume.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// An object that contains overrides for the Kubernetes pod properties of a
+/// job.
+class EksPodPropertiesOverride {
+  /// The overrides for the container that's used on the Amazon EKS pod.
+  final List<EksContainerOverride>? containers;
+
+  /// Metadata about the overrides for the container that's used on the Amazon EKS
+  /// pod.
+  final EksMetadata? metadata;
+
+  EksPodPropertiesOverride({
+    this.containers,
+    this.metadata,
+  });
+  Map<String, dynamic> toJson() {
+    final containers = this.containers;
+    final metadata = this.metadata;
+    return {
+      if (containers != null) 'containers': containers,
+      if (metadata != null) 'metadata': metadata,
+    };
+  }
+}
+
+/// An object that contains the properties for the Kubernetes resources of a
+/// job.
+class EksProperties {
+  /// The properties for the Kubernetes pod resources of a job.
+  final EksPodProperties? podProperties;
+
+  EksProperties({
+    this.podProperties,
+  });
+
+  factory EksProperties.fromJson(Map<String, dynamic> json) {
+    return EksProperties(
+      podProperties: json['podProperties'] != null
+          ? EksPodProperties.fromJson(
+              json['podProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final podProperties = this.podProperties;
+    return {
+      if (podProperties != null) 'podProperties': podProperties,
+    };
+  }
+}
+
+/// An object that contains the details for the Kubernetes resources of a job.
+class EksPropertiesDetail {
+  /// The properties for the Kubernetes pod resources of a job.
+  final EksPodPropertiesDetail? podProperties;
+
+  EksPropertiesDetail({
+    this.podProperties,
+  });
+
+  factory EksPropertiesDetail.fromJson(Map<String, dynamic> json) {
+    return EksPropertiesDetail(
+      podProperties: json['podProperties'] != null
+          ? EksPodPropertiesDetail.fromJson(
+              json['podProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// An object that contains overrides for the Kubernetes resources of a job.
+class EksPropertiesOverride {
+  /// The overrides for the Kubernetes pod resources of a job.
+  final EksPodPropertiesOverride? podProperties;
+
+  EksPropertiesOverride({
+    this.podProperties,
+  });
+  Map<String, dynamic> toJson() {
+    final podProperties = this.podProperties;
+    return {
+      if (podProperties != null) 'podProperties': podProperties,
+    };
+  }
+}
+
+/// Specifies the configuration of a Kubernetes <code>secret</code> volume. For
+/// more information, see <a
+/// href="https://kubernetes.io/docs/concepts/storage/volumes/#secret">secret</a>
+/// in the <i>Kubernetes documentation</i>.
+class EksSecret {
+  /// The name of the secret. The name must be allowed as a DNS subdomain name.
+  /// For more information, see <a
+  /// href="https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-subdomain-names">DNS
+  /// subdomain names</a> in the <i>Kubernetes documentation</i>.
+  final String secretName;
+
+  /// Specifies whether the secret or the secret's keys must be defined.
+  final bool? optional;
+
+  EksSecret({
+    required this.secretName,
+    this.optional,
+  });
+
+  factory EksSecret.fromJson(Map<String, dynamic> json) {
+    return EksSecret(
+      secretName: json['secretName'] as String,
+      optional: json['optional'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final secretName = this.secretName;
+    final optional = this.optional;
+    return {
+      'secretName': secretName,
+      if (optional != null) 'optional': optional,
+    };
+  }
+}
+
+/// Specifies an Amazon EKS volume for a job definition.
+class EksVolume {
+  /// The name of the volume. The name must be allowed as a DNS subdomain name.
+  /// For more information, see <a
+  /// href="https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-subdomain-names">DNS
+  /// subdomain names</a> in the <i>Kubernetes documentation</i>.
+  final String name;
+
+  /// Specifies the configuration of a Kubernetes <code>emptyDir</code> volume.
+  /// For more information, see <a
+  /// href="https://kubernetes.io/docs/concepts/storage/volumes/#emptydir">emptyDir</a>
+  /// in the <i>Kubernetes documentation</i>.
+  final EksEmptyDir? emptyDir;
+
+  /// Specifies the configuration of a Kubernetes <code>hostPath</code> volume.
+  /// For more information, see <a
+  /// href="https://kubernetes.io/docs/concepts/storage/volumes/#hostpath">hostPath</a>
+  /// in the <i>Kubernetes documentation</i>.
+  final EksHostPath? hostPath;
+
+  /// Specifies the configuration of a Kubernetes <code>secret</code> volume. For
+  /// more information, see <a
+  /// href="https://kubernetes.io/docs/concepts/storage/volumes/#secret">secret</a>
+  /// in the <i>Kubernetes documentation</i>.
+  final EksSecret? secret;
+
+  EksVolume({
+    required this.name,
+    this.emptyDir,
+    this.hostPath,
+    this.secret,
+  });
+
+  factory EksVolume.fromJson(Map<String, dynamic> json) {
+    return EksVolume(
+      name: json['name'] as String,
+      emptyDir: json['emptyDir'] != null
+          ? EksEmptyDir.fromJson(json['emptyDir'] as Map<String, dynamic>)
+          : null,
+      hostPath: json['hostPath'] != null
+          ? EksHostPath.fromJson(json['hostPath'] as Map<String, dynamic>)
+          : null,
+      secret: json['secret'] != null
+          ? EksSecret.fromJson(json['secret'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final emptyDir = this.emptyDir;
+    final hostPath = this.hostPath;
+    final secret = this.secret;
+    return {
+      'name': name,
+      if (emptyDir != null) 'emptyDir': emptyDir,
+      if (hostPath != null) 'hostPath': hostPath,
+      if (secret != null) 'secret': secret,
+    };
+  }
+}
+
+/// The amount of ephemeral storage to allocate for the task. This parameter is
+/// used to expand the total amount of ephemeral storage available, beyond the
+/// default amount, for tasks hosted on Fargate.
+class EphemeralStorage {
+  /// The total amount, in GiB, of ephemeral storage to set for the task. The
+  /// minimum supported value is <code>21</code> GiB and the maximum supported
+  /// value is <code>200</code> GiB.
+  final int sizeInGiB;
+
+  EphemeralStorage({
+    required this.sizeInGiB,
+  });
+
+  factory EphemeralStorage.fromJson(Map<String, dynamic> json) {
+    return EphemeralStorage(
+      sizeInGiB: json['sizeInGiB'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sizeInGiB = this.sizeInGiB;
+    return {
+      'sizeInGiB': sizeInGiB,
+    };
+  }
+}
+
+/// Specifies an array of up to 5 conditions to be met, and an action to take
+/// (<code>RETRY</code> or <code>EXIT</code>) if all conditions are met. If none
+/// of the <code>EvaluateOnExit</code> conditions in a
+/// <code>RetryStrategy</code> match, then the job is retried.
 class EvaluateOnExit {
   /// Specifies the action to take if all of the specified conditions
   /// (<code>onStatusReason</code>, <code>onReason</code>, and
-  /// <code>onExitCode</code>) are met. The values are not case sensitive.
+  /// <code>onExitCode</code>) are met. The values aren't case sensitive.
   final RetryAction action;
 
   /// Contains a glob pattern to match against the decimal representation of the
-  /// <code>ExitCode</code> returned for a job. The patten can be up to 512
-  /// characters long, can contain only numbers, and can optionally end with an
-  /// asterisk (*) so that only the start of the string needs to be an exact
-  /// match.
+  /// <code>ExitCode</code> returned for a job. The pattern can be up to 512
+  /// characters long. It can contain only numbers, and can end with an asterisk
+  /// (*) so that only the start of the string needs to be an exact match.
+  ///
+  /// The string can contain up to 512 characters.
   final String? onExitCode;
 
   /// Contains a glob pattern to match against the <code>Reason</code> returned
-  /// for a job. The patten can be up to 512 characters long, can contain letters,
-  /// numbers, periods (.), colons (:), and white space (spaces, tabs), and can
-  /// optionally end with an asterisk (*) so that only the start of the string
-  /// needs to be an exact match.
+  /// for a job. The pattern can contain up to 512 characters. It can contain
+  /// letters, numbers, periods (.), colons (:), and white space (including spaces
+  /// and tabs). It can optionally end with an asterisk (*) so that only the start
+  /// of the string needs to be an exact match.
   final String? onReason;
 
   /// Contains a glob pattern to match against the <code>StatusReason</code>
-  /// returned for a job. The patten can be up to 512 characters long, can contain
-  /// letters, numbers, periods (.), colons (:), and white space (spaces, tabs).
-  /// and can optionally end with an asterisk (*) so that only the start of the
-  /// string needs to be an exact match.
+  /// returned for a job. The pattern can contain up to 512 characters. It can
+  /// contain letters, numbers, periods (.), colons (:), and white spaces
+  /// (including spaces or tabs). It can optionally end with an asterisk (*) so
+  /// that only the start of the string needs to be an exact match.
   final String? onStatusReason;
 
   EvaluateOnExit({
@@ -3255,6 +5696,7 @@ class EvaluateOnExit {
     this.onReason,
     this.onStatusReason,
   });
+
   factory EvaluateOnExit.fromJson(Map<String, dynamic> json) {
     return EvaluateOnExit(
       action: (json['action'] as String).toRetryAction(),
@@ -3278,22 +5720,86 @@ class EvaluateOnExit {
   }
 }
 
-/// The platform configuration for jobs running on Fargate resources. Jobs
-/// running on EC2 resources must not specify this parameter.
+/// The fair share policy for a scheduling policy.
+class FairsharePolicy {
+  /// A value used to reserve some of the available maximum vCPU for fair share
+  /// identifiers that aren't already used.
+  ///
+  /// The reserved ratio is
+  /// <code>(<i>computeReservation</i>/100)^<i>ActiveFairShares</i> </code> where
+  /// <code> <i>ActiveFairShares</i> </code> is the number of active fair share
+  /// identifiers.
+  ///
+  /// For example, a <code>computeReservation</code> value of 50 indicates that
+  /// Batchreserves 50% of the maximum available vCPU if there's only one fair
+  /// share identifier. It reserves 25% if there are two fair share identifiers.
+  /// It reserves 12.5% if there are three fair share identifiers. A
+  /// <code>computeReservation</code> value of 25 indicates that Batch should
+  /// reserve 25% of the maximum available vCPU if there's only one fair share
+  /// identifier, 6.25% if there are two fair share identifiers, and 1.56% if
+  /// there are three fair share identifiers.
+  ///
+  /// The minimum value is 0 and the maximum value is 99.
+  final int? computeReservation;
+
+  /// The amount of time (in seconds) to use to calculate a fair share percentage
+  /// for each fair share identifier in use. A value of zero (0) indicates that
+  /// only current usage is measured. The decay allows for more recently run jobs
+  /// to have more weight than jobs that ran earlier. The maximum supported value
+  /// is 604800 (1 week).
+  final int? shareDecaySeconds;
+
+  /// An array of <code>SharedIdentifier</code> objects that contain the weights
+  /// for the fair share identifiers for the fair share policy. Fair share
+  /// identifiers that aren't included have a default weight of <code>1.0</code>.
+  final List<ShareAttributes>? shareDistribution;
+
+  FairsharePolicy({
+    this.computeReservation,
+    this.shareDecaySeconds,
+    this.shareDistribution,
+  });
+
+  factory FairsharePolicy.fromJson(Map<String, dynamic> json) {
+    return FairsharePolicy(
+      computeReservation: json['computeReservation'] as int?,
+      shareDecaySeconds: json['shareDecaySeconds'] as int?,
+      shareDistribution: (json['shareDistribution'] as List?)
+          ?.whereNotNull()
+          .map((e) => ShareAttributes.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computeReservation = this.computeReservation;
+    final shareDecaySeconds = this.shareDecaySeconds;
+    final shareDistribution = this.shareDistribution;
+    return {
+      if (computeReservation != null) 'computeReservation': computeReservation,
+      if (shareDecaySeconds != null) 'shareDecaySeconds': shareDecaySeconds,
+      if (shareDistribution != null) 'shareDistribution': shareDistribution,
+    };
+  }
+}
+
+/// The platform configuration for jobs that are running on Fargate resources.
+/// Jobs that run on EC2 resources must not specify this parameter.
 class FargatePlatformConfiguration {
-  /// The AWS Fargate platform version on which the jobs are running. A platform
-  /// version is specified only for jobs running on Fargate resources. If one
+  /// The Fargate platform version where the jobs are running. A platform version
+  /// is specified only for jobs that are running on Fargate resources. If one
   /// isn't specified, the <code>LATEST</code> platform version is used by
-  /// default. This will use a recent, approved version of the AWS Fargate
-  /// platform for compute resources. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html">AWS
-  /// Fargate platform versions</a> in the <i>Amazon Elastic Container Service
-  /// Developer Guide</i>.
+  /// default. This uses a recent, approved version of the Fargate platform for
+  /// compute resources. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html">Fargate
+  /// platform versions</a> in the <i>Amazon Elastic Container Service Developer
+  /// Guide</i>.
   final String? platformVersion;
 
   FargatePlatformConfiguration({
     this.platformVersion,
   });
+
   factory FargatePlatformConfiguration.fromJson(Map<String, dynamic> json) {
     return FargatePlatformConfiguration(
       platformVersion: json['platformVersion'] as String?,
@@ -3309,26 +5815,27 @@ class FargatePlatformConfiguration {
 }
 
 /// Determine whether your data volume persists on the host container instance
-/// and where it is stored. If this parameter is empty, then the Docker daemon
-/// assigns a host path for your data volume, but the data isn't guaranteed to
-/// persist after the containers associated with it stop running.
+/// and where it's stored. If this parameter is empty, then the Docker daemon
+/// assigns a host path for your data volume. However, the data isn't guaranteed
+/// to persist after the containers that are associated with it stop running.
 class Host {
   /// The path on the host container instance that's presented to the container.
   /// If this parameter is empty, then the Docker daemon has assigned a host path
   /// for you. If this parameter contains a file location, then the data volume
   /// persists at the specified location on the host container instance until you
-  /// delete it manually. If the source path location does not exist on the host
+  /// delete it manually. If the source path location doesn't exist on the host
   /// container instance, the Docker daemon creates it. If the location does
   /// exist, the contents of the source path folder are exported.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources and
-  /// shouldn't be provided.
+  /// This parameter isn't applicable to jobs that run on Fargate resources. Don't
+  /// provide this for these jobs.
   /// </note>
   final String? sourcePath;
 
   Host({
     this.sourcePath,
   });
+
   factory Host.fromJson(Map<String, dynamic> json) {
     return Host(
       sourcePath: json['sourcePath'] as String?,
@@ -3419,7 +5926,7 @@ extension JQStatusFromString on String {
   }
 }
 
-/// An object representing an AWS Batch job definition.
+/// An object that represents an Batch job definition.
 class JobDefinition {
   /// The Amazon Resource Name (ARN) for the job definition.
   final String jobDefinitionArn;
@@ -3430,20 +5937,36 @@ class JobDefinition {
   /// The revision of the job definition.
   final int revision;
 
-  /// The type of job definition. If the job is run on Fargate resources, then
+  /// The type of job definition. It's either <code>container</code> or
+  /// <code>multinode</code>. If the job is run on Fargate resources, then
   /// <code>multinode</code> isn't supported. For more information about
   /// multi-node parallel jobs, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/multi-node-job-def.html">Creating
-  /// a multi-node parallel job definition</a> in the <i>AWS Batch User Guide</i>.
+  /// a multi-node parallel job definition</a> in the <i>Batch User Guide</i>.
   final String type;
 
-  /// An object with various properties specific to container-based jobs.
+  /// The orchestration type of the compute environment. The valid values are
+  /// <code>ECS</code> (default) or <code>EKS</code>.
+  final OrchestrationType? containerOrchestrationType;
+
+  /// An object with various properties specific to Amazon ECS based jobs. Valid
+  /// values are <code>containerProperties</code>, <code>eksProperties</code>, and
+  /// <code>nodeProperties</code>. Only one can be specified.
   final ContainerProperties? containerProperties;
 
-  /// An object with various properties specific to multi-node parallel jobs.
+  /// An object with various properties that are specific to Amazon EKS based
+  /// jobs. Valid values are <code>containerProperties</code>,
+  /// <code>eksProperties</code>, and <code>nodeProperties</code>. Only one can be
+  /// specified.
+  final EksProperties? eksProperties;
+
+  /// An object with various properties that are specific to multi-node parallel
+  /// jobs. Valid values are <code>containerProperties</code>,
+  /// <code>eksProperties</code>, and <code>nodeProperties</code>. Only one can be
+  /// specified.
   /// <note>
-  /// If the job runs on Fargate resources, then you must not specify
-  /// <code>nodeProperties</code>; use <code>containerProperties</code> instead.
+  /// If the job runs on Fargate resources, don't specify
+  /// <code>nodeProperties</code>. Use <code>containerProperties</code> instead.
   /// </note>
   final NodeProperties? nodeProperties;
 
@@ -3453,7 +5976,7 @@ class JobDefinition {
   /// parameter defaults from the job definition. For more information about
   /// specifying parameters, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/job_definition_parameters.html">Job
-  /// Definition Parameters</a> in the <i>AWS Batch User Guide</i>.
+  /// definition parameters</a> in the <i>Batch User Guide</i>.
   final Map<String, String>? parameters;
 
   /// The platform capabilities required by the job definition. If no value is
@@ -3463,8 +5986,8 @@ class JobDefinition {
 
   /// Specifies whether to propagate the tags from the job or job definition to
   /// the corresponding Amazon ECS task. If no value is specified, the tags aren't
-  /// propagated. Tags can only be propagated to the tasks during task creation.
-  /// For tags with the same name, job tags are given priority over job
+  /// propagated. Tags can only be propagated to the tasks when the tasks are
+  /// created. For tags with the same name, job tags are given priority over job
   /// definitions tags. If the total number of combined tags from the job and job
   /// definition is over 50, the job is moved to the <code>FAILED</code> state.
   final bool? propagateTags;
@@ -3473,15 +5996,20 @@ class JobDefinition {
   /// definition.
   final RetryStrategy? retryStrategy;
 
+  /// The scheduling priority of the job definition. This only affects jobs in job
+  /// queues with a fair share policy. Jobs with a higher scheduling priority are
+  /// scheduled before jobs with a lower scheduling priority.
+  final int? schedulingPriority;
+
   /// The status of the job definition.
   final String? status;
 
-  /// The tags applied to the job definition.
+  /// The tags that are applied to the job definition.
   final Map<String, String>? tags;
 
-  /// The timeout configuration for jobs that are submitted with this job
-  /// definition. You can specify a timeout duration after which AWS Batch
-  /// terminates your jobs if they haven't finished.
+  /// The timeout time for jobs that are submitted with this job definition. After
+  /// the amount of time you specify passes, Batch terminates your jobs if they
+  /// aren't finished.
   final JobTimeout? timeout;
 
   JobDefinition({
@@ -3489,25 +6017,36 @@ class JobDefinition {
     required this.jobDefinitionName,
     required this.revision,
     required this.type,
+    this.containerOrchestrationType,
     this.containerProperties,
+    this.eksProperties,
     this.nodeProperties,
     this.parameters,
     this.platformCapabilities,
     this.propagateTags,
     this.retryStrategy,
+    this.schedulingPriority,
     this.status,
     this.tags,
     this.timeout,
   });
+
   factory JobDefinition.fromJson(Map<String, dynamic> json) {
     return JobDefinition(
       jobDefinitionArn: json['jobDefinitionArn'] as String,
       jobDefinitionName: json['jobDefinitionName'] as String,
       revision: json['revision'] as int,
       type: json['type'] as String,
+      containerOrchestrationType:
+          (json['containerOrchestrationType'] as String?)
+              ?.toOrchestrationType(),
       containerProperties: json['containerProperties'] != null
           ? ContainerProperties.fromJson(
               json['containerProperties'] as Map<String, dynamic>)
+          : null,
+      eksProperties: json['eksProperties'] != null
+          ? EksProperties.fromJson(
+              json['eksProperties'] as Map<String, dynamic>)
           : null,
       nodeProperties: json['nodeProperties'] != null
           ? NodeProperties.fromJson(
@@ -3524,6 +6063,7 @@ class JobDefinition {
           ? RetryStrategy.fromJson(
               json['retryStrategy'] as Map<String, dynamic>)
           : null,
+      schedulingPriority: json['schedulingPriority'] as int?,
       status: json['status'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -3562,9 +6102,9 @@ extension JobDefinitionTypeFromString on String {
   }
 }
 
-/// An object representing an AWS Batch job dependency.
+/// An object that represents an Batch job dependency.
 class JobDependency {
-  /// The job ID of the AWS Batch job associated with this dependency.
+  /// The job ID of the Batch job that's associated with this dependency.
   final String? jobId;
 
   /// The type of the job dependency.
@@ -3574,6 +6114,7 @@ class JobDependency {
     this.jobId,
     this.type,
   });
+
   factory JobDependency.fromJson(Map<String, dynamic> json) {
     return JobDependency(
       jobId: json['jobId'] as String?,
@@ -3591,72 +6132,86 @@ class JobDependency {
   }
 }
 
-/// An object representing an AWS Batch job.
+/// An object that represents an Batch job.
 class JobDetail {
-  /// The job definition that's used by this job.
+  /// The Amazon Resource Name (ARN) of the job definition that this job uses.
   final String jobDefinition;
 
-  /// The ID for the job.
+  /// The job ID.
   final String jobId;
 
-  /// The name of the job.
+  /// The job name.
   final String jobName;
 
   /// The Amazon Resource Name (ARN) of the job queue that the job is associated
   /// with.
   final String jobQueue;
 
-  /// The Unix timestamp (in milliseconds) for when the job was started (when the
-  /// job transitioned from the <code>STARTING</code> state to the
-  /// <code>RUNNING</code> state). This parameter isn't provided for child jobs of
-  /// array jobs or multi-node parallel jobs.
+  /// The Unix timestamp (in milliseconds) for when the job was started. More
+  /// specifically, it's when the job transitioned from the <code>STARTING</code>
+  /// state to the <code>RUNNING</code> state. This parameter isn't provided for
+  /// child jobs of array jobs or multi-node parallel jobs.
   final int startedAt;
 
   /// The current status for the job.
   /// <note>
   /// If your jobs don't progress to <code>STARTING</code>, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#job_stuck_in_runnable">Jobs
-  /// Stuck in RUNNABLE Status</a> in the troubleshooting section of the <i>AWS
-  /// Batch User Guide</i>.
+  /// stuck in RUNNABLE status</a> in the troubleshooting section of the <i>Batch
+  /// User Guide</i>.
   /// </note>
   final JobStatus status;
 
-  /// The array properties of the job, if it is an array job.
+  /// The array properties of the job, if it's an array job.
   final ArrayPropertiesDetail? arrayProperties;
 
-  /// A list of job attempts associated with this job.
+  /// A list of job attempts that are associated with this job.
   final List<AttemptDetail>? attempts;
 
-  /// An object representing the details of the container that's associated with
-  /// the job.
+  /// An object that represents the details for the container that's associated
+  /// with the job.
   final ContainerDetail? container;
 
   /// The Unix timestamp (in milliseconds) for when the job was created. For
   /// non-array jobs and parent array jobs, this is when the job entered the
-  /// <code>SUBMITTED</code> state (at the time <a>SubmitJob</a> was called). For
-  /// array child jobs, this is when the child job was spawned by its parent and
-  /// entered the <code>PENDING</code> state.
+  /// <code>SUBMITTED</code> state. This is specifically at the time
+  /// <a>SubmitJob</a> was called. For array child jobs, this is when the child
+  /// job was spawned by its parent and entered the <code>PENDING</code> state.
   final int? createdAt;
 
   /// A list of job IDs that this job depends on.
   final List<JobDependency>? dependsOn;
 
+  /// A list of job attempts that are associated with this job.
+  final List<EksAttemptDetail>? eksAttempts;
+
+  /// An object with various properties that are specific to Amazon EKS based
+  /// jobs. Only one of <code>container</code>, <code>eksProperties</code>, or
+  /// <code>nodeDetails</code> is specified.
+  final EksPropertiesDetail? eksProperties;
+
+  /// Indicates whether the job is canceled.
+  final bool? isCancelled;
+
+  /// Indicates whether the job is terminated.
+  final bool? isTerminated;
+
   /// The Amazon Resource Name (ARN) of the job.
   final String? jobArn;
 
-  /// An object representing the details of a node that's associated with a
+  /// An object that represents the details of a node that's associated with a
   /// multi-node parallel job.
   final NodeDetails? nodeDetails;
 
-  /// An object representing the node properties of a multi-node parallel job.
+  /// An object that represents the node properties of a multi-node parallel job.
   /// <note>
-  /// This isn't applicable to jobs running on Fargate resources.
+  /// This isn't applicable to jobs that are running on Fargate resources.
   /// </note>
   final NodeProperties? nodeProperties;
 
-  /// Additional parameters passed to the job that replace parameter substitution
-  /// placeholders or override any corresponding parameter defaults from the job
-  /// definition.
+  /// Additional parameters that are passed to the job that replace parameter
+  /// substitution placeholders or override any corresponding parameter defaults
+  /// from the job definition.
   final Map<String, String>? parameters;
 
   /// The platform capabilities required by the job definition. If no value is
@@ -3665,9 +6220,9 @@ class JobDetail {
   final List<PlatformCapability>? platformCapabilities;
 
   /// Specifies whether to propagate the tags from the job or job definition to
-  /// the corresponding Amazon ECS task. If no value is specified, the tags are
-  /// not propagated. Tags can only be propagated to the tasks during task
-  /// creation. For tags with the same name, job tags are given priority over job
+  /// the corresponding Amazon ECS task. If no value is specified, the tags aren't
+  /// propagated. Tags can only be propagated to the tasks when the tasks are
+  /// created. For tags with the same name, job tags are given priority over job
   /// definitions tags. If the total number of combined tags from the job and job
   /// definition is over 50, the job is moved to the <code>FAILED</code> state.
   final bool? propagateTags;
@@ -3675,16 +6230,25 @@ class JobDetail {
   /// The retry strategy to use for this job if an attempt fails.
   final RetryStrategy? retryStrategy;
 
-  /// A short, human-readable string to provide additional details about the
-  /// current status of the job.
+  /// The scheduling policy of the job definition. This only affects jobs in job
+  /// queues with a fair share policy. Jobs with a higher scheduling priority are
+  /// scheduled before jobs with a lower scheduling priority.
+  final int? schedulingPriority;
+
+  /// The share identifier for the job.
+  final String? shareIdentifier;
+
+  /// A short, human-readable string to provide more details for the current
+  /// status of the job.
   final String? statusReason;
 
-  /// The Unix timestamp (in milliseconds) for when the job was stopped (when the
-  /// job transitioned from the <code>RUNNING</code> state to a terminal state,
-  /// such as <code>SUCCEEDED</code> or <code>FAILED</code>).
+  /// The Unix timestamp (in milliseconds) for when the job was stopped. More
+  /// specifically, it's when the job transitioned from the <code>RUNNING</code>
+  /// state to a terminal state, such as <code>SUCCEEDED</code> or
+  /// <code>FAILED</code>.
   final int? stoppedAt;
 
-  /// The tags applied to the job.
+  /// The tags that are applied to the job.
   final Map<String, String>? tags;
 
   /// The timeout configuration for the job.
@@ -3702,6 +6266,10 @@ class JobDetail {
     this.container,
     this.createdAt,
     this.dependsOn,
+    this.eksAttempts,
+    this.eksProperties,
+    this.isCancelled,
+    this.isTerminated,
     this.jobArn,
     this.nodeDetails,
     this.nodeProperties,
@@ -3709,11 +6277,14 @@ class JobDetail {
     this.platformCapabilities,
     this.propagateTags,
     this.retryStrategy,
+    this.schedulingPriority,
+    this.shareIdentifier,
     this.statusReason,
     this.stoppedAt,
     this.tags,
     this.timeout,
   });
+
   factory JobDetail.fromJson(Map<String, dynamic> json) {
     return JobDetail(
       jobDefinition: json['jobDefinition'] as String,
@@ -3738,6 +6309,16 @@ class JobDetail {
           ?.whereNotNull()
           .map((e) => JobDependency.fromJson(e as Map<String, dynamic>))
           .toList(),
+      eksAttempts: (json['eksAttempts'] as List?)
+          ?.whereNotNull()
+          .map((e) => EksAttemptDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      eksProperties: json['eksProperties'] != null
+          ? EksPropertiesDetail.fromJson(
+              json['eksProperties'] as Map<String, dynamic>)
+          : null,
+      isCancelled: json['isCancelled'] as bool?,
+      isTerminated: json['isTerminated'] as bool?,
       jobArn: json['jobArn'] as String?,
       nodeDetails: json['nodeDetails'] != null
           ? NodeDetails.fromJson(json['nodeDetails'] as Map<String, dynamic>)
@@ -3757,6 +6338,8 @@ class JobDetail {
           ? RetryStrategy.fromJson(
               json['retryStrategy'] as Map<String, dynamic>)
           : null,
+      schedulingPriority: json['schedulingPriority'] as int?,
+      shareIdentifier: json['shareIdentifier'] as String?,
       statusReason: json['statusReason'] as String?,
       stoppedAt: json['stoppedAt'] as int?,
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -3768,7 +6351,7 @@ class JobDetail {
   }
 }
 
-/// An object representing the details of an AWS Batch job queue.
+/// An object that represents the details for an Batch job queue.
 class JobQueueDetail {
   /// The compute environments that are attached to the job queue and the order
   /// that job placement is preferred. Compute environments are selected for job
@@ -3778,37 +6361,43 @@ class JobQueueDetail {
   /// The Amazon Resource Name (ARN) of the job queue.
   final String jobQueueArn;
 
-  /// The name of the job queue.
+  /// The job queue name.
   final String jobQueueName;
 
   /// The priority of the job queue. Job queues with a higher priority (or a
   /// higher integer value for the <code>priority</code> parameter) are evaluated
   /// first when associated with the same compute environment. Priority is
-  /// determined in descending order, for example, a job queue with a priority
+  /// determined in descending order. For example, a job queue with a priority
   /// value of <code>10</code> is given scheduling preference over a job queue
   /// with a priority value of <code>1</code>. All of the compute environments
   /// must be either EC2 (<code>EC2</code> or <code>SPOT</code>) or Fargate
-  /// (<code>FARGATE</code> or <code>FARGATE_SPOT</code>); EC2 and Fargate compute
-  /// environments cannot be mixed.
+  /// (<code>FARGATE</code> or <code>FARGATE_SPOT</code>). EC2 and Fargate compute
+  /// environments can't be mixed.
   final int priority;
 
   /// Describes the ability of the queue to accept new jobs. If the job queue
-  /// state is <code>ENABLED</code>, it's able to accept jobs. If the job queue
-  /// state is <code>DISABLED</code>, new jobs can't be added to the queue, but
-  /// jobs already in the queue can finish.
+  /// state is <code>ENABLED</code>, it can accept jobs. If the job queue state is
+  /// <code>DISABLED</code>, new jobs can't be added to the queue, but jobs
+  /// already in the queue can finish.
   final JQState state;
+
+  /// The Amazon Resource Name (ARN) of the scheduling policy. The format is
+  /// <code>aws:<i>Partition</i>:batch:<i>Region</i>:<i>Account</i>:scheduling-policy/<i>Name</i>
+  /// </code>. For example,
+  /// <code>aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy</code>.
+  final String? schedulingPolicyArn;
 
   /// The status of the job queue (for example, <code>CREATING</code> or
   /// <code>VALID</code>).
   final JQStatus? status;
 
-  /// A short, human-readable string to provide additional details about the
-  /// current status of the job queue.
+  /// A short, human-readable string to provide additional details for the current
+  /// status of the job queue.
   final String? statusReason;
 
-  /// The tags applied to the job queue. For more information, see <a
+  /// The tags that are applied to the job queue. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html">Tagging
-  /// your AWS Batch resources</a> in <i>AWS Batch User Guide</i>.
+  /// your Batch resources</a> in <i>Batch User Guide</i>.
   final Map<String, String>? tags;
 
   JobQueueDetail({
@@ -3817,10 +6406,12 @@ class JobQueueDetail {
     required this.jobQueueName,
     required this.priority,
     required this.state,
+    this.schedulingPolicyArn,
     this.status,
     this.statusReason,
     this.tags,
   });
+
   factory JobQueueDetail.fromJson(Map<String, dynamic> json) {
     return JobQueueDetail(
       computeEnvironmentOrder: (json['computeEnvironmentOrder'] as List)
@@ -3832,6 +6423,7 @@ class JobQueueDetail {
       jobQueueName: json['jobQueueName'] as String,
       priority: json['priority'] as int,
       state: (json['state'] as String).toJQState(),
+      schedulingPolicyArn: json['schedulingPolicyArn'] as String?,
       status: (json['status'] as String?)?.toJQStatus(),
       statusReason: json['statusReason'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -3893,51 +6485,55 @@ extension JobStatusFromString on String {
   }
 }
 
-/// An object representing summary details of a job.
+/// An object that represents summary details of a job.
 class JobSummary {
-  /// The ID of the job.
+  /// The job ID.
   final String jobId;
 
-  /// The name of the job.
+  /// The job name.
   final String jobName;
 
-  /// The array properties of the job, if it is an array job.
+  /// The array properties of the job, if it's an array job.
   final ArrayPropertiesSummary? arrayProperties;
 
-  /// An object representing the details of the container that's associated with
-  /// the job.
+  /// An object that represents the details of the container that's associated
+  /// with the job.
   final ContainerSummary? container;
 
-  /// The Unix timestamp for when the job was created. For non-array jobs and
-  /// parent array jobs, this is when the job entered the <code>SUBMITTED</code>
-  /// state (at the time <a>SubmitJob</a> was called). For array child jobs, this
-  /// is when the child job was spawned by its parent and entered the
-  /// <code>PENDING</code> state.
+  /// The Unix timestamp (in milliseconds) for when the job was created. For
+  /// non-array jobs and parent array jobs, this is when the job entered the
+  /// <code>SUBMITTED</code> state (at the time <a>SubmitJob</a> was called). For
+  /// array child jobs, this is when the child job was spawned by its parent and
+  /// entered the <code>PENDING</code> state.
   final int? createdAt;
 
   /// The Amazon Resource Name (ARN) of the job.
   final String? jobArn;
 
+  /// The Amazon Resource Name (ARN) of the job definition.
+  final String? jobDefinition;
+
   /// The node properties for a single node in a job summary list.
   /// <note>
-  /// This isn't applicable to jobs running on Fargate resources.
+  /// This isn't applicable to jobs that are running on Fargate resources.
   /// </note>
   final NodePropertiesSummary? nodeProperties;
 
-  /// The Unix timestamp for when the job was started (when the job transitioned
-  /// from the <code>STARTING</code> state to the <code>RUNNING</code> state).
+  /// The Unix timestamp for when the job was started. More specifically, it's
+  /// when the job transitioned from the <code>STARTING</code> state to the
+  /// <code>RUNNING</code> state.
   final int? startedAt;
 
   /// The current status for the job.
   final JobStatus? status;
 
-  /// A short, human-readable string to provide additional details about the
-  /// current status of the job.
+  /// A short, human-readable string to provide more details for the current
+  /// status of the job.
   final String? statusReason;
 
-  /// The Unix timestamp for when the job was stopped (when the job transitioned
-  /// from the <code>RUNNING</code> state to a terminal state, such as
-  /// <code>SUCCEEDED</code> or <code>FAILED</code>).
+  /// The Unix timestamp for when the job was stopped. More specifically, it's
+  /// when the job transitioned from the <code>RUNNING</code> state to a terminal
+  /// state, such as <code>SUCCEEDED</code> or <code>FAILED</code>.
   final int? stoppedAt;
 
   JobSummary({
@@ -3947,12 +6543,14 @@ class JobSummary {
     this.container,
     this.createdAt,
     this.jobArn,
+    this.jobDefinition,
     this.nodeProperties,
     this.startedAt,
     this.status,
     this.statusReason,
     this.stoppedAt,
   });
+
   factory JobSummary.fromJson(Map<String, dynamic> json) {
     return JobSummary(
       jobId: json['jobId'] as String,
@@ -3966,6 +6564,7 @@ class JobSummary {
           : null,
       createdAt: json['createdAt'] as int?,
       jobArn: json['jobArn'] as String?,
+      jobDefinition: json['jobDefinition'] as String?,
       nodeProperties: json['nodeProperties'] != null
           ? NodePropertiesSummary.fromJson(
               json['nodeProperties'] as Map<String, dynamic>)
@@ -3978,16 +6577,24 @@ class JobSummary {
   }
 }
 
-/// An object representing a job timeout configuration.
+/// An object that represents a job timeout configuration.
 class JobTimeout {
-  /// The time duration in seconds (measured from the job attempt's
-  /// <code>startedAt</code> timestamp) after which AWS Batch terminates your jobs
-  /// if they have not finished. The minimum value for the timeout is 60 seconds.
+  /// The job timeout time (in seconds) that's measured from the job attempt's
+  /// <code>startedAt</code> timestamp. After this time passes, Batch terminates
+  /// your jobs if they aren't finished. The minimum value for the timeout is 60
+  /// seconds.
+  ///
+  /// For array jobs, the timeout applies to the child jobs, not to the parent
+  /// array job.
+  ///
+  /// For multi-node parallel (MNP) jobs, the timeout applies to the whole job,
+  /// not to the individual nodes.
   final int? attemptDurationSeconds;
 
   JobTimeout({
     this.attemptDurationSeconds,
   });
+
   factory JobTimeout.fromJson(Map<String, dynamic> json) {
     return JobTimeout(
       attemptDurationSeconds: json['attemptDurationSeconds'] as int?,
@@ -4017,6 +6624,7 @@ class KeyValuePair {
     this.name,
     this.value,
   });
+
   factory KeyValuePair.fromJson(Map<String, dynamic> json) {
     return KeyValuePair(
       name: json['name'] as String?,
@@ -4034,9 +6642,32 @@ class KeyValuePair {
   }
 }
 
-/// An object representing a launch template associated with a compute resource.
-/// You must specify either the launch template ID or launch template name in
-/// the request, but not both.
+/// A filter name and value pair that's used to return a more specific list of
+/// results from a <code>ListJobs</code> API operation.
+class KeyValuesPair {
+  /// The name of the filter. Filter names are case sensitive.
+  final String? name;
+
+  /// The filter values.
+  final List<String>? values;
+
+  KeyValuesPair({
+    this.name,
+    this.values,
+  });
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'name': name,
+      if (values != null) 'values': values,
+    };
+  }
+}
+
+/// An object that represents a launch template that's associated with a compute
+/// resource. You must specify either the launch template ID or launch template
+/// name in the request, but not both.
 ///
 /// If security groups are specified using both the
 /// <code>securityGroupIds</code> parameter of
@@ -4044,7 +6675,7 @@ class KeyValuePair {
 /// the <code>securityGroupIds</code> parameter of
 /// <code>CreateComputeEnvironment</code> will be used.
 /// <note>
-/// This object isn't applicable to jobs running on Fargate resources.
+/// This object isn't applicable to jobs that are running on Fargate resources.
 /// </note>
 class LaunchTemplateSpecification {
   /// The ID of the launch template.
@@ -4059,7 +6690,21 @@ class LaunchTemplateSpecification {
   /// If the value is <code>$Latest</code>, the latest version of the launch
   /// template is used. If the value is <code>$Default</code>, the default version
   /// of the launch template is used.
-  ///
+  /// <important>
+  /// If the AMI ID that's used in a compute environment is from the launch
+  /// template, the AMI isn't changed when the compute environment is updated.
+  /// It's only changed if the <code>updateToLatestImageVersion</code> parameter
+  /// for the compute environment is set to <code>true</code>. During an
+  /// infrastructure update, if either <code>$Latest</code> or
+  /// <code>$Default</code> is specified, Batch re-evaluates the launch template
+  /// version, and it might use a different version of the launch template. This
+  /// is the case even if the launch template isn't specified in the update. When
+  /// updating a compute environment, changing the launch template requires an
+  /// infrastructure update of the compute environment. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  /// </important>
   /// Default: <code>$Default</code>.
   final String? version;
 
@@ -4068,6 +6713,7 @@ class LaunchTemplateSpecification {
     this.launchTemplateName,
     this.version,
   });
+
   factory LaunchTemplateSpecification.fromJson(Map<String, dynamic> json) {
     return LaunchTemplateSpecification(
       launchTemplateId: json['launchTemplateId'] as String?,
@@ -4091,7 +6737,7 @@ class LaunchTemplateSpecification {
 /// Linux-specific modifications that are applied to the container, such as
 /// details for device mappings.
 class LinuxParameters {
-  /// Any host devices to expose to the container. This parameter maps to
+  /// Any of the host devices to expose to the container. This parameter maps to
   /// <code>Devices</code> in the <a
   /// href="https://docs.docker.com/engine/api/v1.23/#create-a-container">Create a
   /// container</a> section of the <a
@@ -4099,8 +6745,8 @@ class LinuxParameters {
   /// the <code>--device</code> option to <a
   /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources and
-  /// shouldn't be provided.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't provide it for these jobs.
   /// </note>
   final List<Device>? devices;
 
@@ -4109,7 +6755,7 @@ class LinuxParameters {
   /// option to <a href="https://docs.docker.com/engine/reference/run/">docker
   /// run</a>. This parameter requires version 1.25 of the Docker Remote API or
   /// greater on your container instance. To check the Docker Remote API version
-  /// on your container instance, log into your container instance and run the
+  /// on your container instance, log in to your container instance and run the
   /// following command: <code>sudo docker version | grep "Server API
   /// version"</code>
   final bool? initProcessEnabled;
@@ -4125,12 +6771,12 @@ class LinuxParameters {
   /// If a <code>maxSwap</code> value of <code>0</code> is specified, the
   /// container doesn't use swap. Accepted values are <code>0</code> or any
   /// positive integer. If the <code>maxSwap</code> parameter is omitted, the
-  /// container doesn't use the swap configuration for the container instance it
-  /// is running on. A <code>maxSwap</code> value must be set for the
+  /// container doesn't use the swap configuration for the container instance that
+  /// it's running on. A <code>maxSwap</code> value must be set for the
   /// <code>swappiness</code> parameter to be used.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources and
-  /// shouldn't be provided.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't provide it for these jobs.
   /// </note>
   final int? maxSwap;
 
@@ -4138,21 +6784,21 @@ class LinuxParameters {
   /// parameter maps to the <code>--shm-size</code> option to <a
   /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources and
-  /// shouldn't be provided.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't provide it for these jobs.
   /// </note>
   final int? sharedMemorySize;
 
-  /// This allows you to tune a container's memory swappiness behavior. A
-  /// <code>swappiness</code> value of <code>0</code> causes swapping not to
-  /// happen unless absolutely necessary. A <code>swappiness</code> value of
-  /// <code>100</code> causes pages to be swapped very aggressively. Accepted
-  /// values are whole numbers between <code>0</code> and <code>100</code>. If the
+  /// You can use this parameter to tune a container's memory swappiness behavior.
+  /// A <code>swappiness</code> value of <code>0</code> causes swapping to not
+  /// occur unless absolutely necessary. A <code>swappiness</code> value of
+  /// <code>100</code> causes pages to be swapped aggressively. Valid values are
+  /// whole numbers between <code>0</code> and <code>100</code>. If the
   /// <code>swappiness</code> parameter isn't specified, a default value of
-  /// <code>60</code> is used. If a value isn't specified for <code>maxSwap</code>
-  /// then this parameter is ignored. If <code>maxSwap</code> is set to 0, the
-  /// container doesn't use swap. This parameter maps to the
-  /// <code>--memory-swappiness</code> option to <a
+  /// <code>60</code> is used. If a value isn't specified for
+  /// <code>maxSwap</code>, then this parameter is ignored. If
+  /// <code>maxSwap</code> is set to 0, the container doesn't use swap. This
+  /// parameter maps to the <code>--memory-swappiness</code> option to <a
   /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
   ///
   /// Consider the following when you use a per-container swap configuration.
@@ -4162,11 +6808,11 @@ class LinuxParameters {
   /// Swap space must be enabled and allocated on the container instance for the
   /// containers to use.
   /// <note>
-  /// The Amazon ECS optimized AMIs don't have swap enabled by default. You must
+  /// By default, the Amazon ECS optimized AMIs don't have swap enabled. You must
   /// enable swap on the instance to use this feature. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-store-swap-volumes.html">Instance
-  /// Store Swap Volumes</a> in the <i>Amazon EC2 User Guide for Linux
+  /// store swap volumes</a> in the <i>Amazon EC2 User Guide for Linux
   /// Instances</i> or <a
   /// href="http://aws.amazon.com/premiumsupport/knowledge-center/ec2-memory-swap-file/">How
   /// do I allocate memory to work as swap space in an Amazon EC2 instance by
@@ -4178,22 +6824,23 @@ class LinuxParameters {
   /// </li>
   /// <li>
   /// If the <code>maxSwap</code> and <code>swappiness</code> parameters are
-  /// omitted from a job definition, each container will have a default
-  /// <code>swappiness</code> value of 60 and the total swap usage will be limited
-  /// to two times the memory reservation of the container.
+  /// omitted from a job definition, each container has a default
+  /// <code>swappiness</code> value of 60. Moreover, the total swap usage is
+  /// limited to two times the memory reservation of the container.
   /// </li>
   /// </ul> <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources and
-  /// shouldn't be provided.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't provide it for these jobs.
   /// </note>
   final int? swappiness;
 
-  /// The container path, mount options, and size (in MiB) of the tmpfs mount.
-  /// This parameter maps to the <code>--tmpfs</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// The container path, mount options, and size (in MiB) of the
+  /// <code>tmpfs</code> mount. This parameter maps to the <code>--tmpfs</code>
+  /// option to <a href="https://docs.docker.com/engine/reference/run/">docker
+  /// run</a>.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources and
-  /// shouldn't be provided.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources. Don't provide this parameter for this resource type.
   /// </note>
   final List<Tmpfs>? tmpfs;
 
@@ -4205,6 +6852,7 @@ class LinuxParameters {
     this.swappiness,
     this.tmpfs,
   });
+
   factory LinuxParameters.fromJson(Map<String, dynamic> json) {
     return LinuxParameters(
       devices: (json['devices'] as List?)
@@ -4255,6 +6903,7 @@ class ListJobsResponse {
     required this.jobSummaryList,
     this.nextToken,
   });
+
   factory ListJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListJobsResponse(
       jobSummaryList: (json['jobSummaryList'] as List)
@@ -4266,6 +6915,34 @@ class ListJobsResponse {
   }
 }
 
+class ListSchedulingPoliciesResponse {
+  /// The <code>nextToken</code> value to include in a future
+  /// <code>ListSchedulingPolicies</code> request. When the results of a
+  /// <code>ListSchedulingPolicies</code> request exceed <code>maxResults</code>,
+  /// this value can be used to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  /// A list of scheduling policies that match the request.
+  final List<SchedulingPolicyListingDetail>? schedulingPolicies;
+
+  ListSchedulingPoliciesResponse({
+    this.nextToken,
+    this.schedulingPolicies,
+  });
+
+  factory ListSchedulingPoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return ListSchedulingPoliciesResponse(
+      nextToken: json['nextToken'] as String?,
+      schedulingPolicies: (json['schedulingPolicies'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SchedulingPolicyListingDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 class ListTagsForResourceResponse {
   /// The tags for the resource.
   final Map<String, String>? tags;
@@ -4273,6 +6950,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -4283,55 +6961,55 @@ class ListTagsForResourceResponse {
 
 /// Log configuration options to send to a custom log driver for the container.
 class LogConfiguration {
-  /// The log driver to use for the container. The valid values listed for this
-  /// parameter are log drivers that the Amazon ECS container agent can
+  /// The log driver to use for the container. The valid values that are listed
+  /// for this parameter are log drivers that the Amazon ECS container agent can
   /// communicate with by default.
   ///
   /// The supported log drivers are <code>awslogs</code>, <code>fluentd</code>,
   /// <code>gelf</code>, <code>json-file</code>, <code>journald</code>,
   /// <code>logentries</code>, <code>syslog</code>, and <code>splunk</code>.
   /// <note>
-  /// Jobs running on Fargate resources are restricted to the <code>awslogs</code>
-  /// and <code>splunk</code> log drivers.
+  /// Jobs that are running on Fargate resources are restricted to the
+  /// <code>awslogs</code> and <code>splunk</code> log drivers.
   /// </note> <dl> <dt>awslogs</dt> <dd>
   /// Specifies the Amazon CloudWatch Logs logging driver. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/using_awslogs.html">Using
-  /// the awslogs Log Driver</a> in the <i>AWS Batch User Guide</i> and <a
+  /// the awslogs log driver</a> in the <i>Batch User Guide</i> and <a
   /// href="https://docs.docker.com/config/containers/logging/awslogs/">Amazon
   /// CloudWatch Logs logging driver</a> in the Docker documentation.
   /// </dd> <dt>fluentd</dt> <dd>
-  /// Specifies the Fluentd logging driver. For more information, including usage
+  /// Specifies the Fluentd logging driver. For more information including usage
   /// and options, see <a
   /// href="https://docs.docker.com/config/containers/logging/fluentd/">Fluentd
-  /// logging driver</a> in the Docker documentation.
+  /// logging driver</a> in the <i>Docker documentation</i>.
   /// </dd> <dt>gelf</dt> <dd>
   /// Specifies the Graylog Extended Format (GELF) logging driver. For more
-  /// information, including usage and options, see <a
+  /// information including usage and options, see <a
   /// href="https://docs.docker.com/config/containers/logging/gelf/">Graylog
-  /// Extended Format logging driver</a> in the Docker documentation.
+  /// Extended Format logging driver</a> in the <i>Docker documentation</i>.
   /// </dd> <dt>journald</dt> <dd>
-  /// Specifies the journald logging driver. For more information, including usage
+  /// Specifies the journald logging driver. For more information including usage
   /// and options, see <a
   /// href="https://docs.docker.com/config/containers/logging/journald/">Journald
-  /// logging driver</a> in the Docker documentation.
+  /// logging driver</a> in the <i>Docker documentation</i>.
   /// </dd> <dt>json-file</dt> <dd>
-  /// Specifies the JSON file logging driver. For more information, including
-  /// usage and options, see <a
+  /// Specifies the JSON file logging driver. For more information including usage
+  /// and options, see <a
   /// href="https://docs.docker.com/config/containers/logging/json-file/">JSON
-  /// File logging driver</a> in the Docker documentation.
+  /// File logging driver</a> in the <i>Docker documentation</i>.
   /// </dd> <dt>splunk</dt> <dd>
-  /// Specifies the Splunk logging driver. For more information, including usage
+  /// Specifies the Splunk logging driver. For more information including usage
   /// and options, see <a
   /// href="https://docs.docker.com/config/containers/logging/splunk/">Splunk
-  /// logging driver</a> in the Docker documentation.
+  /// logging driver</a> in the <i>Docker documentation</i>.
   /// </dd> <dt>syslog</dt> <dd>
-  /// Specifies the syslog logging driver. For more information, including usage
+  /// Specifies the syslog logging driver. For more information including usage
   /// and options, see <a
   /// href="https://docs.docker.com/config/containers/logging/syslog/">Syslog
-  /// logging driver</a> in the Docker documentation.
+  /// logging driver</a> in the <i>Docker documentation</i>.
   /// </dd> </dl> <note>
-  /// If you have a custom driver that'sn't listed earlier that you want to work
+  /// If you have a custom driver that's not listed earlier that you want to work
   /// with the Amazon ECS container agent, you can fork the Amazon ECS container
   /// agent project that's <a
   /// href="https://github.com/aws/amazon-ecs-agent">available on GitHub</a> and
@@ -4341,20 +7019,20 @@ class LogConfiguration {
   /// </note>
   /// This parameter requires version 1.18 of the Docker Remote API or greater on
   /// your container instance. To check the Docker Remote API version on your
-  /// container instance, log into your container instance and run the following
+  /// container instance, log in to your container instance and run the following
   /// command: <code>sudo docker version | grep "Server API version"</code>
   final LogDriver logDriver;
 
   /// The configuration options to send to the log driver. This parameter requires
   /// version 1.19 of the Docker Remote API or greater on your container instance.
-  /// To check the Docker Remote API version on your container instance, log into
+  /// To check the Docker Remote API version on your container instance, log in to
   /// your container instance and run the following command: <code>sudo docker
   /// version | grep "Server API version"</code>
   final Map<String, String>? options;
 
   /// The secrets to pass to the log configuration. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/specifying-sensitive-data.html">Specifying
-  /// Sensitive Data</a> in the <i>AWS Batch User Guide</i>.
+  /// sensitive data</a> in the <i>Batch User Guide</i>.
   final List<Secret>? secretOptions;
 
   LogConfiguration({
@@ -4362,6 +7040,7 @@ class LogConfiguration {
     this.options,
     this.secretOptions,
   });
+
   factory LogConfiguration.fromJson(Map<String, dynamic> json) {
     return LogConfiguration(
       logDriver: (json['logDriver'] as String).toLogDriver(),
@@ -4439,10 +7118,10 @@ extension LogDriverFromString on String {
   }
 }
 
-/// Details on a Docker volume mount point that's used in a job's container
+/// Details for a Docker volume mount point that's used in a job's container
 /// properties. This parameter maps to <code>Volumes</code> in the <a
 /// href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.19/#create-a-container">Create
-/// a container</a> section of the Docker Remote API and the
+/// a container</a> section of the <i>Docker Remote API</i> and the
 /// <code>--volume</code> option to docker run.
 class MountPoint {
   /// The path on the container where the host volume is mounted.
@@ -4461,6 +7140,7 @@ class MountPoint {
     this.readOnly,
     this.sourceVolume,
   });
+
   factory MountPoint.fromJson(Map<String, dynamic> json) {
     return MountPoint(
       containerPath: json['containerPath'] as String?,
@@ -4481,21 +7161,23 @@ class MountPoint {
   }
 }
 
-/// The network configuration for jobs running on Fargate resources. Jobs
-/// running on EC2 resources must not specify this parameter.
+/// The network configuration for jobs that are running on Fargate resources.
+/// Jobs that are running on EC2 resources must not specify this parameter.
 class NetworkConfiguration {
-  /// Indicates whether the job should have a public IP address. For a job running
+  /// Indicates whether the job has a public IP address. For a job that's running
   /// on Fargate resources in a private subnet to send outbound traffic to the
-  /// internet (for example, in order to pull container images), the private
-  /// subnet requires a NAT gateway be attached to route requests to the internet.
-  /// For more information, see <a
+  /// internet (for example, to pull container images), the private subnet
+  /// requires a NAT gateway be attached to route requests to the internet. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html">Amazon
-  /// ECS task networking</a>. The default value is "DISABLED".
+  /// ECS task networking</a> in the <i>Amazon Elastic Container Service Developer
+  /// Guide</i>. The default value is "<code>DISABLED</code>".
   final AssignPublicIp? assignPublicIp;
 
   NetworkConfiguration({
     this.assignPublicIp,
   });
+
   factory NetworkConfiguration.fromJson(Map<String, dynamic> json) {
     return NetworkConfiguration(
       assignPublicIp: (json['assignPublicIp'] as String?)?.toAssignPublicIp(),
@@ -4510,7 +7192,7 @@ class NetworkConfiguration {
   }
 }
 
-/// An object representing the elastic network interface for a multi-node
+/// An object that represents the elastic network interface for a multi-node
 /// parallel job node.
 class NetworkInterface {
   /// The attachment ID for the network interface.
@@ -4527,6 +7209,7 @@ class NetworkInterface {
     this.ipv6Address,
     this.privateIpv4Address,
   });
+
   factory NetworkInterface.fromJson(Map<String, dynamic> json) {
     return NetworkInterface(
       attachmentId: json['attachmentId'] as String?,
@@ -4536,13 +7219,13 @@ class NetworkInterface {
   }
 }
 
-/// An object representing the details of a multi-node parallel job node.
+/// An object that represents the details of a multi-node parallel job node.
 class NodeDetails {
   /// Specifies whether the current node is the main node for a multi-node
   /// parallel job.
   final bool? isMainNode;
 
-  /// The node index for the node. Node index numbering begins at zero. This index
+  /// The node index for the node. Node index numbering starts at zero. This index
   /// is also available on the node with the <code>AWS_BATCH_JOB_NODE_INDEX</code>
   /// environment variable.
   final int? nodeIndex;
@@ -4551,6 +7234,7 @@ class NodeDetails {
     this.isMainNode,
     this.nodeIndex,
   });
+
   factory NodeDetails.fromJson(Map<String, dynamic> json) {
     return NodeDetails(
       isMainNode: json['isMainNode'] as bool?,
@@ -4559,11 +7243,12 @@ class NodeDetails {
   }
 }
 
-/// Object representing any node overrides to a job definition that's used in a
-/// <a>SubmitJob</a> API operation.
+/// An object that represents any node overrides to a job definition that's used
+/// in a <a>SubmitJob</a> API operation.
 /// <note>
-/// This isn't applicable to jobs running on Fargate resources and shouldn't be
-/// provided; use <code>containerOverrides</code> instead.
+/// This parameter isn't applicable to jobs that are running on Fargate
+/// resources. Don't provide it for these jobs. Rather, use
+/// <code>containerOverrides</code> instead.
 /// </note>
 class NodeOverrides {
   /// The node property overrides for the job.
@@ -4571,20 +7256,20 @@ class NodeOverrides {
 
   /// The number of nodes to use with a multi-node parallel job. This value
   /// overrides the number of nodes that are specified in the job definition. To
-  /// use this override:
+  /// use this override, you must meet the following conditions:
   ///
   /// <ul>
   /// <li>
   /// There must be at least one node range in your job definition that has an
-  /// open upper boundary (such as <code>:</code> or <code>n:</code>).
+  /// open upper boundary, such as <code>:</code> or <code>n:</code>.
   /// </li>
   /// <li>
-  /// The lower boundary of the node range specified in the job definition must be
-  /// fewer than the number of nodes specified in the override.
+  /// The lower boundary of the node range that's specified in the job definition
+  /// must be fewer than the number of nodes specified in the override.
   /// </li>
   /// <li>
-  /// The main node index specified in the job definition must be fewer than the
-  /// number of nodes specified in the override.
+  /// The main node index that's specified in the job definition must be fewer
+  /// than the number of nodes specified in the override.
   /// </li>
   /// </ul>
   final int? numNodes;
@@ -4604,17 +7289,20 @@ class NodeOverrides {
   }
 }
 
-/// An object representing the node properties of a multi-node parallel job.
+/// An object that represents the node properties of a multi-node parallel job.
+/// <note>
+/// Node properties can't be specified for Amazon EKS based job definitions.
+/// </note>
 class NodeProperties {
   /// Specifies the node index for the main node of a multi-node parallel job.
   /// This node index value must be fewer than the number of nodes.
   final int mainNode;
 
-  /// A list of node ranges and their properties associated with a multi-node
-  /// parallel job.
+  /// A list of node ranges and their properties that are associated with a
+  /// multi-node parallel job.
   final List<NodeRangeProperty> nodeRangeProperties;
 
-  /// The number of nodes associated with a multi-node parallel job.
+  /// The number of nodes that are associated with a multi-node parallel job.
   final int numNodes;
 
   NodeProperties({
@@ -4622,6 +7310,7 @@ class NodeProperties {
     required this.nodeRangeProperties,
     required this.numNodes,
   });
+
   factory NodeProperties.fromJson(Map<String, dynamic> json) {
     return NodeProperties(
       mainNode: json['mainNode'] as int,
@@ -4645,7 +7334,7 @@ class NodeProperties {
   }
 }
 
-/// An object representing the properties of a node that's associated with a
+/// An object that represents the properties of a node that's associated with a
 /// multi-node parallel job.
 class NodePropertiesSummary {
   /// Specifies whether the current node is the main node for a multi-node
@@ -4657,7 +7346,7 @@ class NodePropertiesSummary {
   /// environment variable.
   final int? nodeIndex;
 
-  /// The number of nodes associated with a multi-node parallel job.
+  /// The number of nodes that are associated with a multi-node parallel job.
   final int? numNodes;
 
   NodePropertiesSummary({
@@ -4665,6 +7354,7 @@ class NodePropertiesSummary {
     this.nodeIndex,
     this.numNodes,
   });
+
   factory NodePropertiesSummary.fromJson(Map<String, dynamic> json) {
     return NodePropertiesSummary(
       isMainNode: json['isMainNode'] as bool?,
@@ -4674,8 +7364,8 @@ class NodePropertiesSummary {
   }
 }
 
-/// Object representing any node overrides to a job definition that's used in a
-/// <a>SubmitJob</a> API operation.
+/// The object that represents any node overrides to a job definition that's
+/// used in a <a>SubmitJob</a> API operation.
 class NodePropertyOverride {
   /// The range of nodes, using node index values, that's used to override. A
   /// range of <code>0:3</code> indicates nodes with index values of
@@ -4685,7 +7375,7 @@ class NodePropertyOverride {
   /// possible node index is used to end the range.
   final String targetNodes;
 
-  /// The overrides that should be sent to a node range.
+  /// The overrides that are sent to a node range.
   final ContainerOverrides? containerOverrides;
 
   NodePropertyOverride({
@@ -4702,7 +7392,7 @@ class NodePropertyOverride {
   }
 }
 
-/// An object representing the properties of the node range for a multi-node
+/// An object that represents the properties of the node range for a multi-node
 /// parallel job.
 class NodeRangeProperty {
   /// The range of nodes, using node index values. A range of <code>0:3</code>
@@ -4711,8 +7401,8 @@ class NodeRangeProperty {
   /// <code>0</code> is used to start the range. If the ending range value is
   /// omitted (<code>n:</code>), then the highest possible node index is used to
   /// end the range. Your accumulative node ranges must account for all nodes
-  /// (<code>0:n</code>). You can nest node ranges, for example <code>0:10</code>
-  /// and <code>4:5</code>, in which case the <code>4:5</code> range properties
+  /// (<code>0:n</code>). You can nest node ranges (for example, <code>0:10</code>
+  /// and <code>4:5</code>). In this case, the <code>4:5</code> range properties
   /// override the <code>0:10</code> properties.
   final String targetNodes;
 
@@ -4723,6 +7413,7 @@ class NodeRangeProperty {
     required this.targetNodes,
     this.container,
   });
+
   factory NodeRangeProperty.fromJson(Map<String, dynamic> json) {
     return NodeRangeProperty(
       targetNodes: json['targetNodes'] as String,
@@ -4740,6 +7431,34 @@ class NodeRangeProperty {
       'targetNodes': targetNodes,
       if (container != null) 'container': container,
     };
+  }
+}
+
+enum OrchestrationType {
+  ecs,
+  eks,
+}
+
+extension OrchestrationTypeValueExtension on OrchestrationType {
+  String toValue() {
+    switch (this) {
+      case OrchestrationType.ecs:
+        return 'ECS';
+      case OrchestrationType.eks:
+        return 'EKS';
+    }
+  }
+}
+
+extension OrchestrationTypeFromString on String {
+  OrchestrationType toOrchestrationType() {
+    switch (this) {
+      case 'ECS':
+        return OrchestrationType.ecs;
+      case 'EKS':
+        return OrchestrationType.eks;
+    }
+    throw Exception('$this is not known in enum OrchestrationType');
   }
 }
 
@@ -4786,6 +7505,7 @@ class RegisterJobDefinitionResponse {
     required this.jobDefinitionName,
     required this.revision,
   });
+
   factory RegisterJobDefinitionResponse.fromJson(Map<String, dynamic> json) {
     return RegisterJobDefinitionResponse(
       jobDefinitionArn: json['jobDefinitionArn'] as String,
@@ -4806,16 +7526,17 @@ class ResourceRequirement {
   /// The quantity of the specified resource to reserve for the container. The
   /// values vary based on the <code>type</code> specified.
   /// <dl> <dt>type="GPU"</dt> <dd>
-  /// The number of physical GPUs to reserve for the container. The number of GPUs
-  /// reserved for all containers in a job shouldn't exceed the number of
-  /// available GPUs on the compute resource that the job is launched on.
+  /// The number of physical GPUs to reserve for the container. Make sure that the
+  /// number of GPUs reserved for all containers in a job doesn't exceed the
+  /// number of available GPUs on the compute resource that the job is launched
+  /// on.
   /// <note>
-  /// GPUs are not available for jobs running on Fargate resources.
+  /// GPUs aren't available for jobs that are running on Fargate resources.
   /// </note> </dd> <dt>type="MEMORY"</dt> <dd>
-  /// For jobs running on EC2 resources, the hard limit (in MiB) of memory to
-  /// present to the container. If your container attempts to exceed the memory
-  /// specified here, the container is killed. This parameter maps to
-  /// <code>Memory</code> in the <a
+  /// The memory hard limit (in MiB) present to the container. This parameter is
+  /// supported for jobs that are running on EC2 resources. If your container
+  /// attempts to exceed the memory specified, the container is terminated. This
+  /// parameter maps to <code>Memory</code> in the <a
   /// href="https://docs.docker.com/engine/api/v1.23/#create-a-container">Create a
   /// container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.23/">Docker Remote API</a> and
@@ -4834,10 +7555,10 @@ class ResourceRequirement {
   /// If you're trying to maximize your resource utilization by providing your
   /// jobs as much memory as possible for a particular instance type, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/memory-management.html">Memory
-  /// Management</a> in the <i>AWS Batch User Guide</i>.
+  /// management</a> in the <i>Batch User Guide</i>.
   /// </note>
-  /// For jobs running on Fargate resources, then <code>value</code> is the hard
-  /// limit (in MiB), and must match one of the supported values and the
+  /// For jobs that are running on Fargate resources, then <code>value</code> is
+  /// the hard limit (in MiB), and must match one of the supported values and the
   /// <code>VCPU</code> values must be one of the values supported for that memory
   /// value.
   /// <dl> <dt>value = 512</dt> <dd>
@@ -4854,12 +7575,23 @@ class ResourceRequirement {
   /// <code>VCPU</code> = 1 or 2
   /// </dd> <dt>value = 8192</dt> <dd>
   /// <code>VCPU</code> = 1, 2, or 4
-  /// </dd> <dt>value = 9216, 10240, 11264, 12288, 13312, 14336, 15360, or
-  /// 16384</dt> <dd>
+  /// </dd> <dt>value = 9216, 10240, 11264, 12288, 13312, 14336, or 15360</dt>
+  /// <dd>
   /// <code>VCPU</code> = 2 or 4
-  /// </dd> <dt>value = 17408, 18432, 19456, 20480, 21504, 22528, 23552, 24576,
-  /// 25600, 26624, 27648, 28672, 29696, or 30720</dt> <dd>
+  /// </dd> <dt>value = 16384</dt> <dd>
+  /// <code>VCPU</code> = 2, 4, or 8
+  /// </dd> <dt>value = 17408, 18432, 19456, 21504, 22528, 23552, 25600, 26624,
+  /// 27648, 29696, or 30720</dt> <dd>
   /// <code>VCPU</code> = 4
+  /// </dd> <dt>value = 20480, 24576, or 28672</dt> <dd>
+  /// <code>VCPU</code> = 4 or 8
+  /// </dd> <dt>value = 36864, 45056, 53248, or 61440</dt> <dd>
+  /// <code>VCPU</code> = 8
+  /// </dd> <dt>value = 32768, 40960, 49152, or 57344</dt> <dd>
+  /// <code>VCPU</code> = 8 or 16
+  /// </dd> <dt>value = 65536, 73728, 81920, 90112, 98304, 106496, 114688, or
+  /// 122880</dt> <dd>
+  /// <code>VCPU</code> = 16
   /// </dd> </dl> </dd> <dt>type="VCPU"</dt> <dd>
   /// The number of vCPUs reserved for the container. This parameter maps to
   /// <code>CpuShares</code> in the <a
@@ -4872,10 +7604,15 @@ class ResourceRequirement {
   /// at least one vCPU. This is required but can be specified in several places;
   /// it must be specified for each node at least once.
   ///
-  /// For jobs running on Fargate resources, then <code>value</code> must match
-  /// one of the supported values and the <code>MEMORY</code> values must be one
-  /// of the values supported for that VCPU value. The supported values are 0.25,
-  /// 0.5, 1, 2, and 4
+  /// The default for the Fargate On-Demand vCPU resource count quota is 6 vCPUs.
+  /// For more information about Fargate quotas, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/ecs-service.html#service-quotas-fargate">Fargate
+  /// quotas</a> in the <i>Amazon Web Services General Reference</i>.
+  ///
+  /// For jobs that are running on Fargate resources, then <code>value</code> must
+  /// match one of the supported values and the <code>MEMORY</code> values must be
+  /// one of the values supported for that <code>VCPU</code> value. The supported
+  /// values are 0.25, 0.5, 1, 2, 4, 8, and 16
   /// <dl> <dt>value = 0.25</dt> <dd>
   /// <code>MEMORY</code> = 512, 1024, or 2048
   /// </dd> <dt>value = 0.5</dt> <dd>
@@ -4889,6 +7626,12 @@ class ResourceRequirement {
   /// <code>MEMORY</code> = 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360,
   /// 16384, 17408, 18432, 19456, 20480, 21504, 22528, 23552, 24576, 25600, 26624,
   /// 27648, 28672, 29696, or 30720
+  /// </dd> <dt>value = 8</dt> <dd>
+  /// <code>MEMORY</code> = 16384, 20480, 24576, 28672, 32768, 36864, 40960,
+  /// 45056, 49152, 53248, 57344, or 61440
+  /// </dd> <dt>value = 16</dt> <dd>
+  /// <code>MEMORY</code> = 32768, 40960, 49152, 57344, 65536, 73728, 81920,
+  /// 90112, 98304, 106496, 114688, or 122880
   /// </dd> </dl> </dd> </dl>
   final String value;
 
@@ -4896,6 +7639,7 @@ class ResourceRequirement {
     required this.type,
     required this.value,
   });
+
   factory ResourceRequirement.fromJson(Map<String, dynamic> json) {
     return ResourceRequirement(
       type: (json['type'] as String).toResourceType(),
@@ -4974,9 +7718,10 @@ extension RetryActionFromString on String {
   }
 }
 
-/// The retry strategy associated with a job. For more information, see <a
+/// The retry strategy that's associated with a job. For more information, see
+/// <a
 /// href="https://docs.aws.amazon.com/batch/latest/userguide/job_retries.html">Automated
-/// job retries</a> in the <i>AWS Batch User Guide</i>.
+/// job retries</a> in the <i>Batch User Guide</i>.
 class RetryStrategy {
   /// The number of times to move a job to the <code>RUNNABLE</code> status. You
   /// can specify between 1 and 10 attempts. If the value of <code>attempts</code>
@@ -4984,15 +7729,17 @@ class RetryStrategy {
   /// attempts as the value.
   final int? attempts;
 
-  /// Array of up to 5 objects that specify conditions under which the job should
-  /// be retried or failed. If this parameter is specified, then the
-  /// <code>attempts</code> parameter must also be specified.
+  /// Array of up to 5 objects that specify the conditions where jobs are retried
+  /// or failed. If this parameter is specified, then the <code>attempts</code>
+  /// parameter must also be specified. If none of the listed conditions match,
+  /// then the job is retried.
   final List<EvaluateOnExit>? evaluateOnExit;
 
   RetryStrategy({
     this.attempts,
     this.evaluateOnExit,
   });
+
   factory RetryStrategy.fromJson(Map<String, dynamic> json) {
     return RetryStrategy(
       attempts: json['attempts'] as int?,
@@ -5013,8 +7760,67 @@ class RetryStrategy {
   }
 }
 
-/// An object representing the secret to expose to your container. Secrets can
-/// be exposed to a container in the following ways:
+/// An object that represents a scheduling policy.
+class SchedulingPolicyDetail {
+  /// The Amazon Resource Name (ARN) of the scheduling policy. An example is
+  /// <code>arn:<i>aws</i>:batch:<i>us-east-1</i>:<i>123456789012</i>:scheduling-policy/<i>HighPriority</i>
+  /// </code>.
+  final String arn;
+
+  /// The name of the scheduling policy.
+  final String name;
+
+  /// The fair share policy for the scheduling policy.
+  final FairsharePolicy? fairsharePolicy;
+
+  /// The tags that you apply to the scheduling policy to categorize and organize
+  /// your resources. Each tag consists of a key and an optional value. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// Amazon Web Services resources</a> in <i>Amazon Web Services General
+  /// Reference</i>.
+  final Map<String, String>? tags;
+
+  SchedulingPolicyDetail({
+    required this.arn,
+    required this.name,
+    this.fairsharePolicy,
+    this.tags,
+  });
+
+  factory SchedulingPolicyDetail.fromJson(Map<String, dynamic> json) {
+    return SchedulingPolicyDetail(
+      arn: json['arn'] as String,
+      name: json['name'] as String,
+      fairsharePolicy: json['fairsharePolicy'] != null
+          ? FairsharePolicy.fromJson(
+              json['fairsharePolicy'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+}
+
+/// An object that contains the details of a scheduling policy that's returned
+/// in a <code>ListSchedulingPolicy</code> action.
+class SchedulingPolicyListingDetail {
+  /// Amazon Resource Name (ARN) of the scheduling policy.
+  final String arn;
+
+  SchedulingPolicyListingDetail({
+    required this.arn,
+  });
+
+  factory SchedulingPolicyListingDetail.fromJson(Map<String, dynamic> json) {
+    return SchedulingPolicyListingDetail(
+      arn: json['arn'] as String,
+    );
+  }
+}
+
+/// An object that represents the secret to expose to your container. Secrets
+/// can be exposed to a container in the following ways:
 ///
 /// <ul>
 /// <li>
@@ -5028,19 +7834,20 @@ class RetryStrategy {
 /// </ul>
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/batch/latest/userguide/specifying-sensitive-data.html">Specifying
-/// sensitive data</a> in the <i>AWS Batch User Guide</i>.
+/// sensitive data</a> in the <i>Batch User Guide</i>.
 class Secret {
   /// The name of the secret.
   final String name;
 
   /// The secret to expose to the container. The supported values are either the
-  /// full ARN of the AWS Secrets Manager secret or the full ARN of the parameter
-  /// in the AWS Systems Manager Parameter Store.
+  /// full Amazon Resource Name (ARN) of the Secrets Manager secret or the full
+  /// ARN of the parameter in the Amazon Web Services Systems Manager Parameter
+  /// Store.
   /// <note>
-  /// If the AWS Systems Manager Parameter Store parameter exists in the same
-  /// Region as the job you are launching, then you can use either the full ARN or
-  /// name of the parameter. If the parameter exists in a different Region, then
-  /// the full ARN must be specified.
+  /// If the Amazon Web Services Systems Manager Parameter Store parameter exists
+  /// in the same Region as the job you're launching, then you can use either the
+  /// full Amazon Resource Name (ARN) or name of the parameter. If the parameter
+  /// exists in a different Region, then the full ARN must be specified.
   /// </note>
   final String valueFrom;
 
@@ -5048,6 +7855,7 @@ class Secret {
     required this.name,
     required this.valueFrom,
   });
+
   factory Secret.fromJson(Map<String, dynamic> json) {
     return Secret(
       name: json['name'] as String,
@@ -5061,6 +7869,56 @@ class Secret {
     return {
       'name': name,
       'valueFrom': valueFrom,
+    };
+  }
+}
+
+/// Specifies the weights for the fair share identifiers for the fair share
+/// policy. Fair share identifiers that aren't included have a default weight of
+/// <code>1.0</code>.
+class ShareAttributes {
+  /// A fair share identifier or fair share identifier prefix. If the string ends
+  /// with an asterisk (*), this entry specifies the weight factor to use for fair
+  /// share identifiers that start with that prefix. The list of fair share
+  /// identifiers in a fair share policy can't overlap. For example, you can't
+  /// have one that specifies a <code>shareIdentifier</code> of
+  /// <code>UserA*</code> and another that specifies a
+  /// <code>shareIdentifier</code> of <code>UserA-1</code>.
+  ///
+  /// There can be no more than 500 fair share identifiers active in a job queue.
+  ///
+  /// The string is limited to 255 alphanumeric characters, and can be followed by
+  /// an asterisk (*).
+  final String shareIdentifier;
+
+  /// The weight factor for the fair share identifier. The default value is 1.0. A
+  /// lower value has a higher priority for compute resources. For example, jobs
+  /// that use a share identifier with a weight factor of 0.125 (1/8) get 8 times
+  /// the compute resources of jobs that use a share identifier with a weight
+  /// factor of 1.
+  ///
+  /// The smallest supported value is 0.0001, and the largest supported value is
+  /// 999.9999.
+  final double? weightFactor;
+
+  ShareAttributes({
+    required this.shareIdentifier,
+    this.weightFactor,
+  });
+
+  factory ShareAttributes.fromJson(Map<String, dynamic> json) {
+    return ShareAttributes(
+      shareIdentifier: json['shareIdentifier'] as String,
+      weightFactor: json['weightFactor'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final shareIdentifier = this.shareIdentifier;
+    final weightFactor = this.weightFactor;
+    return {
+      'shareIdentifier': shareIdentifier,
+      if (weightFactor != null) 'weightFactor': weightFactor,
     };
   }
 }
@@ -5080,6 +7938,7 @@ class SubmitJobResponse {
     required this.jobName,
     this.jobArn,
   });
+
   factory SubmitJobResponse.fromJson(Map<String, dynamic> json) {
     return SubmitJobResponse(
       jobId: json['jobId'] as String,
@@ -5091,6 +7950,7 @@ class SubmitJobResponse {
 
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
@@ -5098,23 +7958,25 @@ class TagResourceResponse {
 
 class TerminateJobResponse {
   TerminateJobResponse();
+
   factory TerminateJobResponse.fromJson(Map<String, dynamic> _) {
     return TerminateJobResponse();
   }
 }
 
-/// The container path, mount options, and size of the tmpfs mount.
+/// The container path, mount options, and size of the <code>tmpfs</code> mount.
 /// <note>
-/// This object isn't applicable to jobs running on Fargate resources.
+/// This object isn't applicable to jobs that are running on Fargate resources.
 /// </note>
 class Tmpfs {
-  /// The absolute file path in the container where the tmpfs volume is mounted.
+  /// The absolute file path in the container where the <code>tmpfs</code> volume
+  /// is mounted.
   final String containerPath;
 
-  /// The size (in MiB) of the tmpfs volume.
+  /// The size (in MiB) of the <code>tmpfs</code> volume.
   final int size;
 
-  /// The list of tmpfs volume mount options.
+  /// The list of <code>tmpfs</code> volume mount options.
   ///
   /// Valid values: "<code>defaults</code>" | "<code>ro</code>" |
   /// "<code>rw</code>" | "<code>suid</code>" | "<code>nosuid</code>" |
@@ -5136,6 +7998,7 @@ class Tmpfs {
     required this.size,
     this.mountOptions,
   });
+
   factory Tmpfs.fromJson(Map<String, dynamic> json) {
     return Tmpfs(
       containerPath: json['containerPath'] as String,
@@ -5161,7 +8024,7 @@ class Tmpfs {
 
 /// The <code>ulimit</code> settings to pass to the container.
 /// <note>
-/// This object isn't applicable to jobs running on Fargate resources.
+/// This object isn't applicable to jobs that are running on Fargate resources.
 /// </note>
 class Ulimit {
   /// The hard limit for the <code>ulimit</code> type.
@@ -5178,6 +8041,7 @@ class Ulimit {
     required this.name,
     required this.softLimit,
   });
+
   factory Ulimit.fromJson(Map<String, dynamic> json) {
     return Ulimit(
       hardLimit: json['hardLimit'] as int,
@@ -5200,6 +8064,7 @@ class Ulimit {
 
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
   }
@@ -5209,14 +8074,16 @@ class UpdateComputeEnvironmentResponse {
   /// The Amazon Resource Name (ARN) of the compute environment.
   final String? computeEnvironmentArn;
 
-  /// The name of the compute environment. Up to 128 letters (uppercase and
-  /// lowercase), numbers, hyphens, and underscores are allowed.
+  /// The name of the compute environment. It can be up to 128 characters long. It
+  /// can contain uppercase and lowercase letters, numbers, hyphens (-), and
+  /// underscores (_).
   final String? computeEnvironmentName;
 
   UpdateComputeEnvironmentResponse({
     this.computeEnvironmentArn,
     this.computeEnvironmentName,
   });
+
   factory UpdateComputeEnvironmentResponse.fromJson(Map<String, dynamic> json) {
     return UpdateComputeEnvironmentResponse(
       computeEnvironmentArn: json['computeEnvironmentArn'] as String?,
@@ -5236,6 +8103,7 @@ class UpdateJobQueueResponse {
     this.jobQueueArn,
     this.jobQueueName,
   });
+
   factory UpdateJobQueueResponse.fromJson(Map<String, dynamic> json) {
     return UpdateJobQueueResponse(
       jobQueueArn: json['jobQueueArn'] as String?,
@@ -5244,31 +8112,88 @@ class UpdateJobQueueResponse {
   }
 }
 
-/// A data volume used in a job's container properties.
+/// Specifies the infrastructure update policy for the compute environment. For
+/// more information about infrastructure updates, see <a
+/// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+/// compute environments</a> in the <i>Batch User Guide</i>.
+class UpdatePolicy {
+  /// Specifies the job timeout (in minutes) when the compute environment
+  /// infrastructure is updated. The default value is 30.
+  final int? jobExecutionTimeoutMinutes;
+
+  /// Specifies whether jobs are automatically terminated when the computer
+  /// environment infrastructure is updated. The default value is
+  /// <code>false</code>.
+  final bool? terminateJobsOnUpdate;
+
+  UpdatePolicy({
+    this.jobExecutionTimeoutMinutes,
+    this.terminateJobsOnUpdate,
+  });
+
+  factory UpdatePolicy.fromJson(Map<String, dynamic> json) {
+    return UpdatePolicy(
+      jobExecutionTimeoutMinutes: json['jobExecutionTimeoutMinutes'] as int?,
+      terminateJobsOnUpdate: json['terminateJobsOnUpdate'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobExecutionTimeoutMinutes = this.jobExecutionTimeoutMinutes;
+    final terminateJobsOnUpdate = this.terminateJobsOnUpdate;
+    return {
+      if (jobExecutionTimeoutMinutes != null)
+        'jobExecutionTimeoutMinutes': jobExecutionTimeoutMinutes,
+      if (terminateJobsOnUpdate != null)
+        'terminateJobsOnUpdate': terminateJobsOnUpdate,
+    };
+  }
+}
+
+class UpdateSchedulingPolicyResponse {
+  UpdateSchedulingPolicyResponse();
+
+  factory UpdateSchedulingPolicyResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateSchedulingPolicyResponse();
+  }
+}
+
+/// A data volume that's used in a job's container properties.
 class Volume {
+  /// This parameter is specified when you're using an Amazon Elastic File System
+  /// file system for job storage. Jobs that are running on Fargate resources must
+  /// specify a <code>platformVersion</code> of at least <code>1.4.0</code>.
+  final EFSVolumeConfiguration? efsVolumeConfiguration;
+
   /// The contents of the <code>host</code> parameter determine whether your data
-  /// volume persists on the host container instance and where it is stored. If
-  /// the host parameter is empty, then the Docker daemon assigns a host path for
-  /// your data volume. However, the data isn't guaranteed to persist after the
-  /// containers associated with it stop running.
+  /// volume persists on the host container instance and where it's stored. If the
+  /// host parameter is empty, then the Docker daemon assigns a host path for your
+  /// data volume. However, the data isn't guaranteed to persist after the
+  /// containers that are associated with it stop running.
   /// <note>
-  /// This parameter isn't applicable to jobs running on Fargate resources and
-  /// shouldn't be provided.
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources and shouldn't be provided.
   /// </note>
   final Host? host;
 
-  /// The name of the volume. Up to 255 letters (uppercase and lowercase),
-  /// numbers, hyphens, and underscores are allowed. This name is referenced in
-  /// the <code>sourceVolume</code> parameter of container definition
-  /// <code>mountPoints</code>.
+  /// The name of the volume. It can be up to 255 characters long. It can contain
+  /// uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
+  /// This name is referenced in the <code>sourceVolume</code> parameter of
+  /// container definition <code>mountPoints</code>.
   final String? name;
 
   Volume({
+    this.efsVolumeConfiguration,
     this.host,
     this.name,
   });
+
   factory Volume.fromJson(Map<String, dynamic> json) {
     return Volume(
+      efsVolumeConfiguration: json['efsVolumeConfiguration'] != null
+          ? EFSVolumeConfiguration.fromJson(
+              json['efsVolumeConfiguration'] as Map<String, dynamic>)
+          : null,
       host: json['host'] != null
           ? Host.fromJson(json['host'] as Map<String, dynamic>)
           : null,
@@ -5277,9 +8202,12 @@ class Volume {
   }
 
   Map<String, dynamic> toJson() {
+    final efsVolumeConfiguration = this.efsVolumeConfiguration;
     final host = this.host;
     final name = this.name;
     return {
+      if (efsVolumeConfiguration != null)
+        'efsVolumeConfiguration': efsVolumeConfiguration,
       if (host != null) 'host': host,
       if (name != null) 'name': name,
     };

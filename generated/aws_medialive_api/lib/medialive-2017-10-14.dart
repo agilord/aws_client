@@ -250,6 +250,35 @@ class MediaLive {
     );
   }
 
+  /// Send a request to claim an AWS Elemental device that you have purchased
+  /// from a third-party vendor. After the request succeeds, you will own the
+  /// device.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnprocessableEntityException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [id] :
+  /// The id of the device you want to claim.
+  Future<void> claimDevice({
+    String? id,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (id != null) 'id': id,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/prod/claimDevice',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Creates a new channel
   ///
   /// May throw [BadRequestException].
@@ -277,6 +306,9 @@ class MediaLive {
   /// Parameter [logLevel] :
   /// The log level to write to CloudWatch Logs.
   ///
+  /// Parameter [maintenance] :
+  /// Maintenance settings for this channel.
+  ///
   /// Parameter [name] :
   /// Name of channel.
   ///
@@ -293,6 +325,9 @@ class MediaLive {
   ///
   /// Parameter [tags] :
   /// A collection of key-value pairs.
+  ///
+  /// Parameter [vpc] :
+  /// Settings for the VPC outputs
   Future<CreateChannelResponse> createChannel({
     CdiInputSpecification? cdiInputSpecification,
     ChannelClass? channelClass,
@@ -301,11 +336,13 @@ class MediaLive {
     List<InputAttachment>? inputAttachments,
     InputSpecification? inputSpecification,
     LogLevel? logLevel,
+    MaintenanceCreateSettings? maintenance,
     String? name,
     String? requestId,
     String? reserved,
     String? roleArn,
     Map<String, String>? tags,
+    VpcOutputSettings? vpc,
   }) async {
     final $payload = <String, dynamic>{
       if (cdiInputSpecification != null)
@@ -316,11 +353,13 @@ class MediaLive {
       if (inputAttachments != null) 'inputAttachments': inputAttachments,
       if (inputSpecification != null) 'inputSpecification': inputSpecification,
       if (logLevel != null) 'logLevel': logLevel.toValue(),
+      if (maintenance != null) 'maintenance': maintenance,
       if (name != null) 'name': name,
       'requestId': requestId ?? _s.generateIdempotencyToken(),
       if (reserved != null) 'reserved': reserved,
       if (roleArn != null) 'roleArn': roleArn,
       if (tags != null) 'tags': tags,
+      if (vpc != null) 'vpc': vpc,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -534,6 +573,42 @@ class MediaLive {
       exceptionFnMap: _exceptionFns,
     );
     return CreateMultiplexProgramResponse.fromJson(response);
+  }
+
+  /// Create a partner input
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [inputId] :
+  /// Unique ID of the input.
+  ///
+  /// Parameter [requestId] :
+  /// Unique identifier of the request to ensure the request is handled
+  /// exactly once in case of retries.
+  ///
+  /// Parameter [tags] :
+  /// A collection of key-value pairs.
+  Future<CreatePartnerInputResponse> createPartnerInput({
+    required String inputId,
+    String? requestId,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'requestId': requestId ?? _s.generateIdempotencyToken(),
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/prod/inputs/${Uri.encodeComponent(inputId)}/partners',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreatePartnerInputResponse.fromJson(response);
   }
 
   /// Create tags for a resource
@@ -1477,6 +1552,9 @@ class MediaLive {
   /// Parameter [name] :
   /// Name for the new reservation
   ///
+  /// Parameter [renewalSettings] :
+  /// Renewal settings for the reservation
+  ///
   /// Parameter [requestId] :
   /// Unique request ID to be specified. This is needed to prevent retries from
   /// creating multiple resources.
@@ -1492,6 +1570,7 @@ class MediaLive {
     required int count,
     required String offeringId,
     String? name,
+    RenewalSettings? renewalSettings,
     String? requestId,
     String? start,
     Map<String, String>? tags,
@@ -1506,6 +1585,7 @@ class MediaLive {
     final $payload = <String, dynamic>{
       'count': count,
       if (name != null) 'name': name,
+      if (renewalSettings != null) 'renewalSettings': renewalSettings,
       'requestId': requestId ?? _s.generateIdempotencyToken(),
       if (start != null) 'start': start,
       if (tags != null) 'tags': tags,
@@ -1517,6 +1597,44 @@ class MediaLive {
       exceptionFnMap: _exceptionFns,
     );
     return PurchaseOfferingResponse.fromJson(response);
+  }
+
+  /// Send a reboot command to the specified input device. The device will begin
+  /// rebooting within a few seconds of sending the command. When the reboot is
+  /// complete, the device’s connection status will change to connected.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnprocessableEntityException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [inputDeviceId] :
+  /// The unique ID of the input device to reboot. For example,
+  /// hd-123456789abcdef.
+  ///
+  /// Parameter [force] :
+  /// Force a reboot of an input device. If the device is streaming, it will
+  /// stop streaming and begin rebooting within a few seconds of sending the
+  /// command. If the device was streaming prior to the reboot, the device will
+  /// resume streaming when the reboot completes.
+  Future<void> rebootInputDevice({
+    required String inputDeviceId,
+    RebootInputDeviceForce? force,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (force != null) 'force': force.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/prod/inputDevices/${Uri.encodeComponent(inputDeviceId)}/reboot',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Reject the transfer of the specified input device to your AWS account.
@@ -1569,6 +1687,40 @@ class MediaLive {
       exceptionFnMap: _exceptionFns,
     );
     return StartChannelResponse.fromJson(response);
+  }
+
+  /// Start a maintenance window for the specified input device. Starting a
+  /// maintenance window will give the device up to two hours to install
+  /// software. If the device was streaming prior to the maintenance, it will
+  /// resume streaming when the software is fully installed. Devices
+  /// automatically install updates while they are powered on and their
+  /// MediaLive channels are stopped. A maintenance window allows you to update
+  /// a device without having to stop MediaLive channels that use the device.
+  /// The device must remain powered on and connected to the internet for the
+  /// duration of the maintenance.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnprocessableEntityException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [inputDeviceId] :
+  /// The unique ID of the input device to start a maintenance window for. For
+  /// example, hd-123456789abcdef.
+  Future<void> startInputDeviceMaintenanceWindow({
+    required String inputDeviceId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/prod/inputDevices/${Uri.encodeComponent(inputDeviceId)}/startInputDeviceMaintenanceWindow',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Start (run) the multiplex. Starting the multiplex does not start the
@@ -1667,15 +1819,20 @@ class MediaLive {
   /// Parameter [targetCustomerId] :
   /// The AWS account ID (12 digits) for the recipient of the device transfer.
   ///
+  /// Parameter [targetRegion] :
+  /// The target AWS region to transfer the device.
+  ///
   /// Parameter [transferMessage] :
   /// An optional message for the recipient. Maximum 280 characters.
   Future<void> transferInputDevice({
     required String inputDeviceId,
     String? targetCustomerId,
+    String? targetRegion,
     String? transferMessage,
   }) async {
     final $payload = <String, dynamic>{
       if (targetCustomerId != null) 'targetCustomerId': targetCustomerId,
+      if (targetRegion != null) 'targetRegion': targetRegion,
       if (transferMessage != null) 'transferMessage': transferMessage,
     };
     final response = await _protocol.send(
@@ -1715,6 +1872,9 @@ class MediaLive {
   /// Parameter [logLevel] :
   /// The log level to write to CloudWatch Logs.
   ///
+  /// Parameter [maintenance] :
+  /// Maintenance settings for this channel.
+  ///
   /// Parameter [name] :
   /// The name of the channel.
   ///
@@ -1730,6 +1890,7 @@ class MediaLive {
     List<InputAttachment>? inputAttachments,
     InputSpecification? inputSpecification,
     LogLevel? logLevel,
+    MaintenanceUpdateSettings? maintenance,
     String? name,
     String? roleArn,
   }) async {
@@ -1741,6 +1902,7 @@ class MediaLive {
       if (inputAttachments != null) 'inputAttachments': inputAttachments,
       if (inputSpecification != null) 'inputSpecification': inputSpecification,
       if (logLevel != null) 'logLevel': logLevel.toValue(),
+      if (maintenance != null) 'maintenance': maintenance,
       if (name != null) 'name': name,
       if (roleArn != null) 'roleArn': roleArn,
     };
@@ -2032,12 +2194,17 @@ class MediaLive {
   ///
   /// Parameter [name] :
   /// Name of the reservation
+  ///
+  /// Parameter [renewalSettings] :
+  /// Renewal settings for the reservation
   Future<UpdateReservationResponse> updateReservation({
     required String reservationId,
     String? name,
+    RenewalSettings? renewalSettings,
   }) async {
     final $payload = <String, dynamic>{
       if (name != null) 'name': name,
+      if (renewalSettings != null) 'renewalSettings': renewalSettings,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2267,6 +2434,7 @@ class AacSettings {
     this.spec,
     this.vbrQuality,
   });
+
   factory AacSettings.fromJson(Map<String, dynamic> json) {
     return AacSettings(
       bitrate: json['bitrate'] as double?,
@@ -2598,6 +2766,7 @@ class Ac3Settings {
     this.lfeFilter,
     this.metadataControl,
   });
+
   factory Ac3Settings.fromJson(Map<String, dynamic> json) {
     return Ac3Settings(
       bitrate: json['bitrate'] as double?,
@@ -2634,8 +2803,38 @@ class Ac3Settings {
 /// Placeholder documentation for AcceptInputDeviceTransferResponse
 class AcceptInputDeviceTransferResponse {
   AcceptInputDeviceTransferResponse();
+
   factory AcceptInputDeviceTransferResponse.fromJson(Map<String, dynamic> _) {
     return AcceptInputDeviceTransferResponse();
+  }
+}
+
+/// Accessibility Type
+enum AccessibilityType {
+  doesNotImplementAccessibilityFeatures,
+  implementsAccessibilityFeatures,
+}
+
+extension AccessibilityTypeValueExtension on AccessibilityType {
+  String toValue() {
+    switch (this) {
+      case AccessibilityType.doesNotImplementAccessibilityFeatures:
+        return 'DOES_NOT_IMPLEMENT_ACCESSIBILITY_FEATURES';
+      case AccessibilityType.implementsAccessibilityFeatures:
+        return 'IMPLEMENTS_ACCESSIBILITY_FEATURES';
+    }
+  }
+}
+
+extension AccessibilityTypeFromString on String {
+  AccessibilityType toAccessibilityType() {
+    switch (this) {
+      case 'DOES_NOT_IMPLEMENT_ACCESSIBILITY_FEATURES':
+        return AccessibilityType.doesNotImplementAccessibilityFeatures;
+      case 'IMPLEMENTS_ACCESSIBILITY_FEATURES':
+        return AccessibilityType.implementsAccessibilityFeatures;
+    }
+    throw Exception('$this is not known in enum AccessibilityType');
   }
 }
 
@@ -2686,6 +2885,7 @@ class AncillarySourceSettings {
   AncillarySourceSettings({
     this.sourceAncillaryChannelNumber,
   });
+
   factory AncillarySourceSettings.fromJson(Map<String, dynamic> json) {
     return AncillarySourceSettings(
       sourceAncillaryChannelNumber:
@@ -2702,6 +2902,31 @@ class AncillarySourceSettings {
   }
 }
 
+/// Archive Cdn Settings
+class ArchiveCdnSettings {
+  final ArchiveS3Settings? archiveS3Settings;
+
+  ArchiveCdnSettings({
+    this.archiveS3Settings,
+  });
+
+  factory ArchiveCdnSettings.fromJson(Map<String, dynamic> json) {
+    return ArchiveCdnSettings(
+      archiveS3Settings: json['archiveS3Settings'] != null
+          ? ArchiveS3Settings.fromJson(
+              json['archiveS3Settings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final archiveS3Settings = this.archiveS3Settings;
+    return {
+      if (archiveS3Settings != null) 'archiveS3Settings': archiveS3Settings,
+    };
+  }
+}
+
 /// Archive Container Settings
 class ArchiveContainerSettings {
   final M2tsSettings? m2tsSettings;
@@ -2711,6 +2936,7 @@ class ArchiveContainerSettings {
     this.m2tsSettings,
     this.rawSettings,
   });
+
   factory ArchiveContainerSettings.fromJson(Map<String, dynamic> json) {
     return ArchiveContainerSettings(
       m2tsSettings: json['m2tsSettings'] != null
@@ -2737,27 +2963,38 @@ class ArchiveGroupSettings {
   /// A directory and base filename where archive files should be written.
   final OutputLocationRef destination;
 
+  /// Parameters that control interactions with the CDN.
+  final ArchiveCdnSettings? archiveCdnSettings;
+
   /// Number of seconds to write to archive file before closing and starting a new
   /// one.
   final int? rolloverInterval;
 
   ArchiveGroupSettings({
     required this.destination,
+    this.archiveCdnSettings,
     this.rolloverInterval,
   });
+
   factory ArchiveGroupSettings.fromJson(Map<String, dynamic> json) {
     return ArchiveGroupSettings(
       destination: OutputLocationRef.fromJson(
           json['destination'] as Map<String, dynamic>),
+      archiveCdnSettings: json['archiveCdnSettings'] != null
+          ? ArchiveCdnSettings.fromJson(
+              json['archiveCdnSettings'] as Map<String, dynamic>)
+          : null,
       rolloverInterval: json['rolloverInterval'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final destination = this.destination;
+    final archiveCdnSettings = this.archiveCdnSettings;
     final rolloverInterval = this.rolloverInterval;
     return {
       'destination': destination,
+      if (archiveCdnSettings != null) 'archiveCdnSettings': archiveCdnSettings,
       if (rolloverInterval != null) 'rolloverInterval': rolloverInterval,
     };
   }
@@ -2781,6 +3018,7 @@ class ArchiveOutputSettings {
     this.extension,
     this.nameModifier,
   });
+
   factory ArchiveOutputSettings.fromJson(Map<String, dynamic> json) {
     return ArchiveOutputSettings(
       containerSettings: ArchiveContainerSettings.fromJson(
@@ -2802,9 +3040,33 @@ class ArchiveOutputSettings {
   }
 }
 
+/// Archive S3 Settings
+class ArchiveS3Settings {
+  /// Specify the canned ACL to apply to each S3 request. Defaults to none.
+  final S3CannedAcl? cannedAcl;
+
+  ArchiveS3Settings({
+    this.cannedAcl,
+  });
+
+  factory ArchiveS3Settings.fromJson(Map<String, dynamic> json) {
+    return ArchiveS3Settings(
+      cannedAcl: (json['cannedAcl'] as String?)?.toS3CannedAcl(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cannedAcl = this.cannedAcl;
+    return {
+      if (cannedAcl != null) 'cannedAcl': cannedAcl.toValue(),
+    };
+  }
+}
+
 /// Arib Destination Settings
 class AribDestinationSettings {
   AribDestinationSettings();
+
   factory AribDestinationSettings.fromJson(Map<String, dynamic> _) {
     return AribDestinationSettings();
   }
@@ -2817,6 +3079,7 @@ class AribDestinationSettings {
 /// Arib Source Settings
 class AribSourceSettings {
   AribSourceSettings();
+
   factory AribSourceSettings.fromJson(Map<String, dynamic> _) {
     return AribSourceSettings();
   }
@@ -2839,6 +3102,7 @@ class AudioChannelMapping {
     required this.inputChannelLevels,
     required this.outputChannel,
   });
+
   factory AudioChannelMapping.fromJson(Map<String, dynamic> json) {
     return AudioChannelMapping(
       inputChannelLevels: (json['inputChannelLevels'] as List)
@@ -2863,6 +3127,7 @@ class AudioChannelMapping {
 class AudioCodecSettings {
   final AacSettings? aacSettings;
   final Ac3Settings? ac3Settings;
+  final Eac3AtmosSettings? eac3AtmosSettings;
   final Eac3Settings? eac3Settings;
   final Mp2Settings? mp2Settings;
   final PassThroughSettings? passThroughSettings;
@@ -2871,11 +3136,13 @@ class AudioCodecSettings {
   AudioCodecSettings({
     this.aacSettings,
     this.ac3Settings,
+    this.eac3AtmosSettings,
     this.eac3Settings,
     this.mp2Settings,
     this.passThroughSettings,
     this.wavSettings,
   });
+
   factory AudioCodecSettings.fromJson(Map<String, dynamic> json) {
     return AudioCodecSettings(
       aacSettings: json['aacSettings'] != null
@@ -2883,6 +3150,10 @@ class AudioCodecSettings {
           : null,
       ac3Settings: json['ac3Settings'] != null
           ? Ac3Settings.fromJson(json['ac3Settings'] as Map<String, dynamic>)
+          : null,
+      eac3AtmosSettings: json['eac3AtmosSettings'] != null
+          ? Eac3AtmosSettings.fromJson(
+              json['eac3AtmosSettings'] as Map<String, dynamic>)
           : null,
       eac3Settings: json['eac3Settings'] != null
           ? Eac3Settings.fromJson(json['eac3Settings'] as Map<String, dynamic>)
@@ -2903,6 +3174,7 @@ class AudioCodecSettings {
   Map<String, dynamic> toJson() {
     final aacSettings = this.aacSettings;
     final ac3Settings = this.ac3Settings;
+    final eac3AtmosSettings = this.eac3AtmosSettings;
     final eac3Settings = this.eac3Settings;
     final mp2Settings = this.mp2Settings;
     final passThroughSettings = this.passThroughSettings;
@@ -2910,6 +3182,7 @@ class AudioCodecSettings {
     return {
       if (aacSettings != null) 'aacSettings': aacSettings,
       if (ac3Settings != null) 'ac3Settings': ac3Settings,
+      if (eac3AtmosSettings != null) 'eac3AtmosSettings': eac3AtmosSettings,
       if (eac3Settings != null) 'eac3Settings': eac3Settings,
       if (mp2Settings != null) 'mp2Settings': mp2Settings,
       if (passThroughSettings != null)
@@ -2945,6 +3218,10 @@ class AudioDescription {
   /// broadcasterMixedAd.
   final AudioDescriptionAudioTypeControl? audioTypeControl;
 
+  /// Settings to configure one or more solutions that insert audio watermarks in
+  /// the audio encode
+  final AudioWatermarkSettings? audioWatermarkingSettings;
+
   /// Audio codec settings.
   final AudioCodecSettings? codecSettings;
 
@@ -2973,12 +3250,14 @@ class AudioDescription {
     this.audioNormalizationSettings,
     this.audioType,
     this.audioTypeControl,
+    this.audioWatermarkingSettings,
     this.codecSettings,
     this.languageCode,
     this.languageCodeControl,
     this.remixSettings,
     this.streamName,
   });
+
   factory AudioDescription.fromJson(Map<String, dynamic> json) {
     return AudioDescription(
       audioSelectorName: json['audioSelectorName'] as String,
@@ -2990,6 +3269,10 @@ class AudioDescription {
       audioType: (json['audioType'] as String?)?.toAudioType(),
       audioTypeControl: (json['audioTypeControl'] as String?)
           ?.toAudioDescriptionAudioTypeControl(),
+      audioWatermarkingSettings: json['audioWatermarkingSettings'] != null
+          ? AudioWatermarkSettings.fromJson(
+              json['audioWatermarkingSettings'] as Map<String, dynamic>)
+          : null,
       codecSettings: json['codecSettings'] != null
           ? AudioCodecSettings.fromJson(
               json['codecSettings'] as Map<String, dynamic>)
@@ -3011,6 +3294,7 @@ class AudioDescription {
     final audioNormalizationSettings = this.audioNormalizationSettings;
     final audioType = this.audioType;
     final audioTypeControl = this.audioTypeControl;
+    final audioWatermarkingSettings = this.audioWatermarkingSettings;
     final codecSettings = this.codecSettings;
     final languageCode = this.languageCode;
     final languageCodeControl = this.languageCodeControl;
@@ -3024,6 +3308,8 @@ class AudioDescription {
       if (audioType != null) 'audioType': audioType.toValue(),
       if (audioTypeControl != null)
         'audioTypeControl': audioTypeControl.toValue(),
+      if (audioWatermarkingSettings != null)
+        'audioWatermarkingSettings': audioWatermarkingSettings,
       if (codecSettings != null) 'codecSettings': codecSettings,
       if (languageCode != null) 'languageCode': languageCode,
       if (languageCodeControl != null)
@@ -3096,6 +3382,67 @@ extension AudioDescriptionLanguageCodeControlFromString on String {
   }
 }
 
+/// Audio Dolby EDecode
+class AudioDolbyEDecode {
+  /// Applies only to Dolby E. Enter the program ID (according to the metadata in
+  /// the audio) of the Dolby E program to extract from the specified track. One
+  /// program extracted per audio selector. To select multiple programs, create
+  /// multiple selectors with the same Track and different Program numbers. “All
+  /// channels” means to ignore the program IDs and include all the channels in
+  /// this selector; useful if metadata is known to be incorrect.
+  final DolbyEProgramSelection programSelection;
+
+  AudioDolbyEDecode({
+    required this.programSelection,
+  });
+
+  factory AudioDolbyEDecode.fromJson(Map<String, dynamic> json) {
+    return AudioDolbyEDecode(
+      programSelection:
+          (json['programSelection'] as String).toDolbyEProgramSelection(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final programSelection = this.programSelection;
+    return {
+      'programSelection': programSelection.toValue(),
+    };
+  }
+}
+
+/// Audio Hls Rendition Selection
+class AudioHlsRenditionSelection {
+  /// Specifies the GROUP-ID in the #EXT-X-MEDIA tag of the target HLS audio
+  /// rendition.
+  final String groupId;
+
+  /// Specifies the NAME in the #EXT-X-MEDIA tag of the target HLS audio
+  /// rendition.
+  final String name;
+
+  AudioHlsRenditionSelection({
+    required this.groupId,
+    required this.name,
+  });
+
+  factory AudioHlsRenditionSelection.fromJson(Map<String, dynamic> json) {
+    return AudioHlsRenditionSelection(
+      groupId: json['groupId'] as String,
+      name: json['name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupId = this.groupId;
+    final name = this.name;
+    return {
+      'groupId': groupId,
+      'name': name,
+    };
+  }
+}
+
 /// Audio Language Selection
 class AudioLanguageSelection {
   /// Selects a specific three-letter language code from within an audio source.
@@ -3113,6 +3460,7 @@ class AudioLanguageSelection {
     required this.languageCode,
     this.languageSelectionPolicy,
   });
+
   factory AudioLanguageSelection.fromJson(Map<String, dynamic> json) {
     return AudioLanguageSelection(
       languageCode: json['languageCode'] as String,
@@ -3240,6 +3588,7 @@ class AudioNormalizationSettings {
     this.algorithmControl,
     this.targetLkfs,
   });
+
   factory AudioNormalizationSettings.fromJson(Map<String, dynamic> json) {
     return AudioNormalizationSettings(
       algorithm:
@@ -3337,6 +3686,7 @@ class AudioOnlyHlsSettings {
     this.audioTrackType,
     this.segmentType,
   });
+
   factory AudioOnlyHlsSettings.fromJson(Map<String, dynamic> json) {
     return AudioOnlyHlsSettings(
       audioGroupId: json['audioGroupId'] as String?,
@@ -3412,6 +3762,7 @@ class AudioPidSelection {
   AudioPidSelection({
     required this.pid,
   });
+
   factory AudioPidSelection.fromJson(Map<String, dynamic> json) {
     return AudioPidSelection(
       pid: json['pid'] as int,
@@ -3439,6 +3790,7 @@ class AudioSelector {
     required this.name,
     this.selectorSettings,
   });
+
   factory AudioSelector.fromJson(Map<String, dynamic> json) {
     return AudioSelector(
       name: json['name'] as String,
@@ -3461,17 +3813,24 @@ class AudioSelector {
 
 /// Audio Selector Settings
 class AudioSelectorSettings {
+  final AudioHlsRenditionSelection? audioHlsRenditionSelection;
   final AudioLanguageSelection? audioLanguageSelection;
   final AudioPidSelection? audioPidSelection;
   final AudioTrackSelection? audioTrackSelection;
 
   AudioSelectorSettings({
+    this.audioHlsRenditionSelection,
     this.audioLanguageSelection,
     this.audioPidSelection,
     this.audioTrackSelection,
   });
+
   factory AudioSelectorSettings.fromJson(Map<String, dynamic> json) {
     return AudioSelectorSettings(
+      audioHlsRenditionSelection: json['audioHlsRenditionSelection'] != null
+          ? AudioHlsRenditionSelection.fromJson(
+              json['audioHlsRenditionSelection'] as Map<String, dynamic>)
+          : null,
       audioLanguageSelection: json['audioLanguageSelection'] != null
           ? AudioLanguageSelection.fromJson(
               json['audioLanguageSelection'] as Map<String, dynamic>)
@@ -3488,10 +3847,13 @@ class AudioSelectorSettings {
   }
 
   Map<String, dynamic> toJson() {
+    final audioHlsRenditionSelection = this.audioHlsRenditionSelection;
     final audioLanguageSelection = this.audioLanguageSelection;
     final audioPidSelection = this.audioPidSelection;
     final audioTrackSelection = this.audioTrackSelection;
     return {
+      if (audioHlsRenditionSelection != null)
+        'audioHlsRenditionSelection': audioHlsRenditionSelection,
       if (audioLanguageSelection != null)
         'audioLanguageSelection': audioLanguageSelection,
       if (audioPidSelection != null) 'audioPidSelection': audioPidSelection,
@@ -3517,6 +3879,7 @@ class AudioSilenceFailoverSettings {
     required this.audioSelectorName,
     this.audioSilenceThresholdMsec,
   });
+
   factory AudioSilenceFailoverSettings.fromJson(Map<String, dynamic> json) {
     return AudioSilenceFailoverSettings(
       audioSelectorName: json['audioSelectorName'] as String,
@@ -3543,6 +3906,7 @@ class AudioTrack {
   AudioTrack({
     required this.track,
   });
+
   factory AudioTrack.fromJson(Map<String, dynamic> json) {
     return AudioTrack(
       track: json['track'] as int,
@@ -3562,22 +3926,34 @@ class AudioTrackSelection {
   /// Selects one or more unique audio tracks from within a source.
   final List<AudioTrack> tracks;
 
+  /// Configure decoding options for Dolby E streams - these should be Dolby E
+  /// frames carried in PCM streams tagged with SMPTE-337
+  final AudioDolbyEDecode? dolbyEDecode;
+
   AudioTrackSelection({
     required this.tracks,
+    this.dolbyEDecode,
   });
+
   factory AudioTrackSelection.fromJson(Map<String, dynamic> json) {
     return AudioTrackSelection(
       tracks: (json['tracks'] as List)
           .whereNotNull()
           .map((e) => AudioTrack.fromJson(e as Map<String, dynamic>))
           .toList(),
+      dolbyEDecode: json['dolbyEDecode'] != null
+          ? AudioDolbyEDecode.fromJson(
+              json['dolbyEDecode'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final tracks = this.tracks;
+    final dolbyEDecode = this.dolbyEDecode;
     return {
       'tracks': tracks,
+      if (dolbyEDecode != null) 'dolbyEDecode': dolbyEDecode,
     };
   }
 }
@@ -3618,6 +3994,33 @@ extension AudioTypeFromString on String {
         return AudioType.visualImpairedCommentary;
     }
     throw Exception('$this is not known in enum AudioType');
+  }
+}
+
+/// Audio Watermark Settings
+class AudioWatermarkSettings {
+  /// Settings to configure Nielsen Watermarks in the audio encode
+  final NielsenWatermarksSettings? nielsenWatermarksSettings;
+
+  AudioWatermarkSettings({
+    this.nielsenWatermarksSettings,
+  });
+
+  factory AudioWatermarkSettings.fromJson(Map<String, dynamic> json) {
+    return AudioWatermarkSettings(
+      nielsenWatermarksSettings: json['nielsenWatermarksSettings'] != null
+          ? NielsenWatermarksSettings.fromJson(
+              json['nielsenWatermarksSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nielsenWatermarksSettings = this.nielsenWatermarksSettings;
+    return {
+      if (nielsenWatermarksSettings != null)
+        'nielsenWatermarksSettings': nielsenWatermarksSettings,
+    };
   }
 }
 
@@ -3677,6 +4080,7 @@ class AutomaticInputFailoverSettings {
     this.failoverConditions,
     this.inputPreference,
   });
+
   factory AutomaticInputFailoverSettings.fromJson(Map<String, dynamic> json) {
     return AutomaticInputFailoverSettings(
       secondaryInputId: json['secondaryInputId'] as String,
@@ -3718,6 +4122,7 @@ class AvailBlanking {
     this.availBlankingImage,
     this.state,
   });
+
   factory AvailBlanking.fromJson(Map<String, dynamic> json) {
     return AvailBlanking(
       availBlankingImage: json['availBlankingImage'] != null
@@ -3769,12 +4174,16 @@ extension AvailBlankingStateFromString on String {
 
 /// Avail Configuration
 class AvailConfiguration {
-  /// Ad avail settings.
+  /// Controls how SCTE-35 messages create cues. Splice Insert mode treats all
+  /// segmentation signals traditionally. With Time Signal APOS mode only Time
+  /// Signal Placement Opportunity and Break messages create segment breaks. With
+  /// ESAM mode, signals are forwarded to an ESAM server for possible update.
   final AvailSettings? availSettings;
 
   AvailConfiguration({
     this.availSettings,
   });
+
   factory AvailConfiguration.fromJson(Map<String, dynamic> json) {
     return AvailConfiguration(
       availSettings: json['availSettings'] != null
@@ -3794,15 +4203,21 @@ class AvailConfiguration {
 
 /// Avail Settings
 class AvailSettings {
+  final Esam? esam;
   final Scte35SpliceInsert? scte35SpliceInsert;
   final Scte35TimeSignalApos? scte35TimeSignalApos;
 
   AvailSettings({
+    this.esam,
     this.scte35SpliceInsert,
     this.scte35TimeSignalApos,
   });
+
   factory AvailSettings.fromJson(Map<String, dynamic> json) {
     return AvailSettings(
+      esam: json['esam'] != null
+          ? Esam.fromJson(json['esam'] as Map<String, dynamic>)
+          : null,
       scte35SpliceInsert: json['scte35SpliceInsert'] != null
           ? Scte35SpliceInsert.fromJson(
               json['scte35SpliceInsert'] as Map<String, dynamic>)
@@ -3815,9 +4230,11 @@ class AvailSettings {
   }
 
   Map<String, dynamic> toJson() {
+    final esam = this.esam;
     final scte35SpliceInsert = this.scte35SpliceInsert;
     final scte35TimeSignalApos = this.scte35TimeSignalApos;
     return {
+      if (esam != null) 'esam': esam,
       if (scte35SpliceInsert != null) 'scte35SpliceInsert': scte35SpliceInsert,
       if (scte35TimeSignalApos != null)
         'scte35TimeSignalApos': scte35TimeSignalApos,
@@ -3837,6 +4254,7 @@ class BatchDeleteResponse {
     this.failed,
     this.successful,
   });
+
   factory BatchDeleteResponse.fromJson(Map<String, dynamic> json) {
     return BatchDeleteResponse(
       failed: (json['failed'] as List?)
@@ -3873,6 +4291,7 @@ class BatchFailedResultModel {
     this.id,
     this.message,
   });
+
   factory BatchFailedResultModel.fromJson(Map<String, dynamic> json) {
     return BatchFailedResultModel(
       arn: json['arn'] as String?,
@@ -3908,6 +4327,7 @@ class BatchScheduleActionCreateResult {
   BatchScheduleActionCreateResult({
     required this.scheduleActions,
   });
+
   factory BatchScheduleActionCreateResult.fromJson(Map<String, dynamic> json) {
     return BatchScheduleActionCreateResult(
       scheduleActions: (json['scheduleActions'] as List)
@@ -3942,6 +4362,7 @@ class BatchScheduleActionDeleteResult {
   BatchScheduleActionDeleteResult({
     required this.scheduleActions,
   });
+
   factory BatchScheduleActionDeleteResult.fromJson(Map<String, dynamic> json) {
     return BatchScheduleActionDeleteResult(
       scheduleActions: (json['scheduleActions'] as List)
@@ -3964,6 +4385,7 @@ class BatchStartResponse {
     this.failed,
     this.successful,
   });
+
   factory BatchStartResponse.fromJson(Map<String, dynamic> json) {
     return BatchStartResponse(
       failed: (json['failed'] as List?)
@@ -3992,6 +4414,7 @@ class BatchStopResponse {
     this.failed,
     this.successful,
   });
+
   factory BatchStopResponse.fromJson(Map<String, dynamic> json) {
     return BatchStopResponse(
       failed: (json['failed'] as List?)
@@ -4024,6 +4447,7 @@ class BatchSuccessfulResultModel {
     this.id,
     this.state,
   });
+
   factory BatchSuccessfulResultModel.fromJson(Map<String, dynamic> json) {
     return BatchSuccessfulResultModel(
       arn: json['arn'] as String?,
@@ -4045,6 +4469,7 @@ class BatchUpdateScheduleResponse {
     this.creates,
     this.deletes,
   });
+
   factory BatchUpdateScheduleResponse.fromJson(Map<String, dynamic> json) {
     return BatchUpdateScheduleResponse(
       creates: json['creates'] != null
@@ -4092,6 +4517,7 @@ class BlackoutSlate {
     this.networkId,
     this.state,
   });
+
   factory BlackoutSlate.fromJson(Map<String, dynamic> json) {
     return BlackoutSlate(
       blackoutSlateImage: json['blackoutSlateImage'] != null
@@ -4372,6 +4798,7 @@ class BurnInDestinationSettings {
     this.xPosition,
     this.yPosition,
   });
+
   factory BurnInDestinationSettings.fromJson(Map<String, dynamic> json) {
     return BurnInDestinationSettings(
       alignment: (json['alignment'] as String?)?.toBurnInAlignment(),
@@ -4603,6 +5030,7 @@ extension BurnInTeletextGridControlFromString on String {
 /// Placeholder documentation for CancelInputDeviceTransferResponse
 class CancelInputDeviceTransferResponse {
   CancelInputDeviceTransferResponse();
+
   factory CancelInputDeviceTransferResponse.fromJson(Map<String, dynamic> _) {
     return CancelInputDeviceTransferResponse();
   }
@@ -4618,6 +5046,10 @@ class CaptionDescription {
   /// with an output.  Names must be unique within an event.
   final String name;
 
+  /// Indicates whether the caption track implements accessibility features such
+  /// as written descriptions of spoken dialog, music, and sounds.
+  final AccessibilityType? accessibility;
+
   /// Additional settings for captions destination that depend on the destination
   /// type.
   final CaptionDestinationSettings? destinationSettings;
@@ -4632,14 +5064,17 @@ class CaptionDescription {
   CaptionDescription({
     required this.captionSelectorName,
     required this.name,
+    this.accessibility,
     this.destinationSettings,
     this.languageCode,
     this.languageDescription,
   });
+
   factory CaptionDescription.fromJson(Map<String, dynamic> json) {
     return CaptionDescription(
       captionSelectorName: json['captionSelectorName'] as String,
       name: json['name'] as String,
+      accessibility: (json['accessibility'] as String?)?.toAccessibilityType(),
       destinationSettings: json['destinationSettings'] != null
           ? CaptionDestinationSettings.fromJson(
               json['destinationSettings'] as Map<String, dynamic>)
@@ -4652,12 +5087,14 @@ class CaptionDescription {
   Map<String, dynamic> toJson() {
     final captionSelectorName = this.captionSelectorName;
     final name = this.name;
+    final accessibility = this.accessibility;
     final destinationSettings = this.destinationSettings;
     final languageCode = this.languageCode;
     final languageDescription = this.languageDescription;
     return {
       'captionSelectorName': captionSelectorName,
       'name': name,
+      if (accessibility != null) 'accessibility': accessibility.toValue(),
       if (destinationSettings != null)
         'destinationSettings': destinationSettings,
       if (languageCode != null) 'languageCode': languageCode,
@@ -4700,6 +5137,7 @@ class CaptionDestinationSettings {
     this.ttmlDestinationSettings,
     this.webvttDestinationSettings,
   });
+
   factory CaptionDestinationSettings.fromJson(Map<String, dynamic> json) {
     return CaptionDestinationSettings(
       aribDestinationSettings: json['aribDestinationSettings'] != null
@@ -4833,6 +5271,7 @@ class CaptionLanguageMapping {
     required this.languageCode,
     required this.languageDescription,
   });
+
   factory CaptionLanguageMapping.fromJson(Map<String, dynamic> json) {
     return CaptionLanguageMapping(
       captionChannel: json['captionChannel'] as int,
@@ -4853,8 +5292,81 @@ class CaptionLanguageMapping {
   }
 }
 
-/// Output groups for this Live Event. Output groups contain information about
-/// where streams should be distributed.
+/// Caption Rectangle
+class CaptionRectangle {
+  /// See the description in leftOffset.
+  /// For height, specify the entire height of the rectangle as a percentage of
+  /// the underlying frame height. For example, \"80\" means the rectangle height
+  /// is 80% of the underlying frame height. The topOffset and rectangleHeight
+  /// must add up to 100% or less.
+  /// This field corresponds to tts:extent - Y in the TTML standard.
+  final double height;
+
+  /// Applies only if you plan to convert these source captions to EBU-TT-D or
+  /// TTML in an output. (Make sure to leave the default if you don't have either
+  /// of these formats in the output.) You can define a display rectangle for the
+  /// captions that is smaller than the underlying video frame. You define the
+  /// rectangle by specifying the position of the left edge, top edge, bottom
+  /// edge, and right edge of the rectangle, all within the underlying video
+  /// frame. The units for the measurements are percentages.
+  /// If you specify a value for one of these fields, you must specify a value for
+  /// all of them.
+  /// For leftOffset, specify the position of the left edge of the rectangle, as a
+  /// percentage of the underlying frame width, and relative to the left edge of
+  /// the frame. For example, \"10\" means the measurement is 10% of the
+  /// underlying frame width. The rectangle left edge starts at that position from
+  /// the left edge of the frame.
+  /// This field corresponds to tts:origin - X in the TTML standard.
+  final double leftOffset;
+
+  /// See the description in leftOffset.
+  /// For topOffset, specify the position of the top edge of the rectangle, as a
+  /// percentage of the underlying frame height, and relative to the top edge of
+  /// the frame. For example, \"10\" means the measurement is 10% of the
+  /// underlying frame height. The rectangle top edge starts at that position from
+  /// the top edge of the frame.
+  /// This field corresponds to tts:origin - Y in the TTML standard.
+  final double topOffset;
+
+  /// See the description in leftOffset.
+  /// For width, specify the entire width of the rectangle as a percentage of the
+  /// underlying frame width. For example, \"80\" means the rectangle width is 80%
+  /// of the underlying frame width. The leftOffset and rectangleWidth must add up
+  /// to 100% or less.
+  /// This field corresponds to tts:extent - X in the TTML standard.
+  final double width;
+
+  CaptionRectangle({
+    required this.height,
+    required this.leftOffset,
+    required this.topOffset,
+    required this.width,
+  });
+
+  factory CaptionRectangle.fromJson(Map<String, dynamic> json) {
+    return CaptionRectangle(
+      height: json['height'] as double,
+      leftOffset: json['leftOffset'] as double,
+      topOffset: json['topOffset'] as double,
+      width: json['width'] as double,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final height = this.height;
+    final leftOffset = this.leftOffset;
+    final topOffset = this.topOffset;
+    final width = this.width;
+    return {
+      'height': height,
+      'leftOffset': leftOffset,
+      'topOffset': topOffset,
+      'width': width,
+    };
+  }
+}
+
+/// Caption Selector
 class CaptionSelector {
   /// Name identifier for a caption selector.  This name is used to associate this
   /// caption selector with one or more caption descriptions.  Names must be
@@ -4873,6 +5385,7 @@ class CaptionSelector {
     this.languageCode,
     this.selectorSettings,
   });
+
   factory CaptionSelector.fromJson(Map<String, dynamic> json) {
     return CaptionSelector(
       name: json['name'] as String,
@@ -4915,6 +5428,7 @@ class CaptionSelectorSettings {
     this.scte27SourceSettings,
     this.teletextSourceSettings,
   });
+
   factory CaptionSelectorSettings.fromJson(Map<String, dynamic> json) {
     return CaptionSelectorSettings(
       ancillarySourceSettings: json['ancillarySourceSettings'] != null
@@ -5023,6 +5537,7 @@ class CdiInputSpecification {
   CdiInputSpecification({
     this.resolution,
   });
+
   factory CdiInputSpecification.fromJson(Map<String, dynamic> json) {
     return CdiInputSpecification(
       resolution: (json['resolution'] as String?)?.toCdiInputResolution(),
@@ -5070,6 +5585,9 @@ class Channel {
   /// The log level being written to CloudWatch Logs.
   final LogLevel? logLevel;
 
+  /// Maintenance settings for this channel.
+  final MaintenanceStatus? maintenance;
+
   /// The name of the channel. (user-mutable)
   final String? name;
 
@@ -5086,6 +5604,9 @@ class Channel {
   /// A collection of key-value pairs.
   final Map<String, String>? tags;
 
+  /// Settings for VPC output
+  final VpcOutputSettingsDescription? vpc;
+
   Channel({
     this.arn,
     this.cdiInputSpecification,
@@ -5097,13 +5618,16 @@ class Channel {
     this.inputAttachments,
     this.inputSpecification,
     this.logLevel,
+    this.maintenance,
     this.name,
     this.pipelineDetails,
     this.pipelinesRunningCount,
     this.roleArn,
     this.state,
     this.tags,
+    this.vpc,
   });
+
   factory Channel.fromJson(Map<String, dynamic> json) {
     return Channel(
       arn: json['arn'] as String?,
@@ -5134,6 +5658,10 @@ class Channel {
               json['inputSpecification'] as Map<String, dynamic>)
           : null,
       logLevel: (json['logLevel'] as String?)?.toLogLevel(),
+      maintenance: json['maintenance'] != null
+          ? MaintenanceStatus.fromJson(
+              json['maintenance'] as Map<String, dynamic>)
+          : null,
       name: json['name'] as String?,
       pipelineDetails: (json['pipelineDetails'] as List?)
           ?.whereNotNull()
@@ -5144,6 +5672,10 @@ class Channel {
       state: (json['state'] as String?)?.toChannelState(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      vpc: json['vpc'] != null
+          ? VpcOutputSettingsDescription.fromJson(
+              json['vpc'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -5186,6 +5718,7 @@ class ChannelEgressEndpoint {
   ChannelEgressEndpoint({
     this.sourceIp,
   });
+
   factory ChannelEgressEndpoint.fromJson(Map<String, dynamic> json) {
     return ChannelEgressEndpoint(
       sourceIp: json['sourceIp'] as String?,
@@ -5299,6 +5832,9 @@ class ChannelSummary {
   /// The log level being written to CloudWatch Logs.
   final LogLevel? logLevel;
 
+  /// Maintenance settings for this channel.
+  final MaintenanceStatus? maintenance;
+
   /// The name of the channel. (user-mutable)
   final String? name;
 
@@ -5312,6 +5848,9 @@ class ChannelSummary {
   /// A collection of key-value pairs.
   final Map<String, String>? tags;
 
+  /// Settings for any VPC outputs.
+  final VpcOutputSettingsDescription? vpc;
+
   ChannelSummary({
     this.arn,
     this.cdiInputSpecification,
@@ -5322,12 +5861,15 @@ class ChannelSummary {
     this.inputAttachments,
     this.inputSpecification,
     this.logLevel,
+    this.maintenance,
     this.name,
     this.pipelinesRunningCount,
     this.roleArn,
     this.state,
     this.tags,
+    this.vpc,
   });
+
   factory ChannelSummary.fromJson(Map<String, dynamic> json) {
     return ChannelSummary(
       arn: json['arn'] as String?,
@@ -5354,19 +5896,37 @@ class ChannelSummary {
               json['inputSpecification'] as Map<String, dynamic>)
           : null,
       logLevel: (json['logLevel'] as String?)?.toLogLevel(),
+      maintenance: json['maintenance'] != null
+          ? MaintenanceStatus.fromJson(
+              json['maintenance'] as Map<String, dynamic>)
+          : null,
       name: json['name'] as String?,
       pipelinesRunningCount: json['pipelinesRunningCount'] as int?,
       roleArn: json['roleArn'] as String?,
       state: (json['state'] as String?)?.toChannelState(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      vpc: json['vpc'] != null
+          ? VpcOutputSettingsDescription.fromJson(
+              json['vpc'] as Map<String, dynamic>)
+          : null,
     );
+  }
+}
+
+/// Placeholder documentation for ClaimDeviceResponse
+class ClaimDeviceResponse {
+  ClaimDeviceResponse();
+
+  factory ClaimDeviceResponse.fromJson(Map<String, dynamic> _) {
+    return ClaimDeviceResponse();
   }
 }
 
 /// Passthrough applies no color space conversion to the output
 class ColorSpacePassthroughSettings {
   ColorSpacePassthroughSettings();
+
   factory ColorSpacePassthroughSettings.fromJson(Map<String, dynamic> _) {
     return ColorSpacePassthroughSettings();
   }
@@ -5383,6 +5943,7 @@ class CreateChannelResponse {
   CreateChannelResponse({
     this.channel,
   });
+
   factory CreateChannelResponse.fromJson(Map<String, dynamic> json) {
     return CreateChannelResponse(
       channel: json['channel'] != null
@@ -5399,6 +5960,7 @@ class CreateInputResponse {
   CreateInputResponse({
     this.input,
   });
+
   factory CreateInputResponse.fromJson(Map<String, dynamic> json) {
     return CreateInputResponse(
       input: json['input'] != null
@@ -5415,6 +5977,7 @@ class CreateInputSecurityGroupResponse {
   CreateInputSecurityGroupResponse({
     this.securityGroup,
   });
+
   factory CreateInputSecurityGroupResponse.fromJson(Map<String, dynamic> json) {
     return CreateInputSecurityGroupResponse(
       securityGroup: json['securityGroup'] != null
@@ -5433,6 +5996,7 @@ class CreateMultiplexProgramResponse {
   CreateMultiplexProgramResponse({
     this.multiplexProgram,
   });
+
   factory CreateMultiplexProgramResponse.fromJson(Map<String, dynamic> json) {
     return CreateMultiplexProgramResponse(
       multiplexProgram: json['multiplexProgram'] != null
@@ -5451,10 +6015,28 @@ class CreateMultiplexResponse {
   CreateMultiplexResponse({
     this.multiplex,
   });
+
   factory CreateMultiplexResponse.fromJson(Map<String, dynamic> json) {
     return CreateMultiplexResponse(
       multiplex: json['multiplex'] != null
           ? Multiplex.fromJson(json['multiplex'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// Placeholder documentation for CreatePartnerInputResponse
+class CreatePartnerInputResponse {
+  final Input? input;
+
+  CreatePartnerInputResponse({
+    this.input,
+  });
+
+  factory CreatePartnerInputResponse.fromJson(Map<String, dynamic> json) {
+    return CreatePartnerInputResponse(
+      input: json['input'] != null
+          ? Input.fromJson(json['input'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -5493,6 +6075,9 @@ class DeleteChannelResponse {
   /// The log level being written to CloudWatch Logs.
   final LogLevel? logLevel;
 
+  /// Maintenance settings for this channel.
+  final MaintenanceStatus? maintenance;
+
   /// The name of the channel. (user-mutable)
   final String? name;
 
@@ -5509,6 +6094,9 @@ class DeleteChannelResponse {
   /// A collection of key-value pairs.
   final Map<String, String>? tags;
 
+  /// Settings for VPC output
+  final VpcOutputSettingsDescription? vpc;
+
   DeleteChannelResponse({
     this.arn,
     this.cdiInputSpecification,
@@ -5520,13 +6108,16 @@ class DeleteChannelResponse {
     this.inputAttachments,
     this.inputSpecification,
     this.logLevel,
+    this.maintenance,
     this.name,
     this.pipelineDetails,
     this.pipelinesRunningCount,
     this.roleArn,
     this.state,
     this.tags,
+    this.vpc,
   });
+
   factory DeleteChannelResponse.fromJson(Map<String, dynamic> json) {
     return DeleteChannelResponse(
       arn: json['arn'] as String?,
@@ -5557,6 +6148,10 @@ class DeleteChannelResponse {
               json['inputSpecification'] as Map<String, dynamic>)
           : null,
       logLevel: (json['logLevel'] as String?)?.toLogLevel(),
+      maintenance: json['maintenance'] != null
+          ? MaintenanceStatus.fromJson(
+              json['maintenance'] as Map<String, dynamic>)
+          : null,
       name: json['name'] as String?,
       pipelineDetails: (json['pipelineDetails'] as List?)
           ?.whereNotNull()
@@ -5567,6 +6162,10 @@ class DeleteChannelResponse {
       state: (json['state'] as String?)?.toChannelState(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      vpc: json['vpc'] != null
+          ? VpcOutputSettingsDescription.fromJson(
+              json['vpc'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -5574,6 +6173,7 @@ class DeleteChannelResponse {
 /// Placeholder documentation for DeleteInputResponse
 class DeleteInputResponse {
   DeleteInputResponse();
+
   factory DeleteInputResponse.fromJson(Map<String, dynamic> _) {
     return DeleteInputResponse();
   }
@@ -5582,6 +6182,7 @@ class DeleteInputResponse {
 /// Placeholder documentation for DeleteInputSecurityGroupResponse
 class DeleteInputSecurityGroupResponse {
   DeleteInputSecurityGroupResponse();
+
   factory DeleteInputSecurityGroupResponse.fromJson(Map<String, dynamic> _) {
     return DeleteInputSecurityGroupResponse();
   }
@@ -5615,6 +6216,7 @@ class DeleteMultiplexProgramResponse {
     this.pipelineDetails,
     this.programName,
   });
+
   factory DeleteMultiplexProgramResponse.fromJson(Map<String, dynamic> json) {
     return DeleteMultiplexProgramResponse(
       channelId: json['channelId'] as String?,
@@ -5680,6 +6282,7 @@ class DeleteMultiplexResponse {
     this.state,
     this.tags,
   });
+
   factory DeleteMultiplexResponse.fromJson(Map<String, dynamic> json) {
     return DeleteMultiplexResponse(
       arn: json['arn'] as String?,
@@ -5749,6 +6352,9 @@ class DeleteReservationResponse {
   /// AWS region, e.g. 'us-west-2'
   final String? region;
 
+  /// Renewal settings for the reservation
+  final RenewalSettings? renewalSettings;
+
   /// Unique reservation ID, e.g. '1234567'
   final String? reservationId;
 
@@ -5781,6 +6387,7 @@ class DeleteReservationResponse {
     this.offeringId,
     this.offeringType,
     this.region,
+    this.renewalSettings,
     this.reservationId,
     this.resourceSpecification,
     this.start,
@@ -5788,6 +6395,7 @@ class DeleteReservationResponse {
     this.tags,
     this.usagePrice,
   });
+
   factory DeleteReservationResponse.fromJson(Map<String, dynamic> json) {
     return DeleteReservationResponse(
       arn: json['arn'] as String?,
@@ -5803,6 +6411,10 @@ class DeleteReservationResponse {
       offeringId: json['offeringId'] as String?,
       offeringType: (json['offeringType'] as String?)?.toOfferingType(),
       region: json['region'] as String?,
+      renewalSettings: json['renewalSettings'] != null
+          ? RenewalSettings.fromJson(
+              json['renewalSettings'] as Map<String, dynamic>)
+          : null,
       reservationId: json['reservationId'] as String?,
       resourceSpecification: json['resourceSpecification'] != null
           ? ReservationResourceSpecification.fromJson(
@@ -5820,6 +6432,7 @@ class DeleteReservationResponse {
 /// Placeholder documentation for DeleteScheduleResponse
 class DeleteScheduleResponse {
   DeleteScheduleResponse();
+
   factory DeleteScheduleResponse.fromJson(Map<String, dynamic> _) {
     return DeleteScheduleResponse();
   }
@@ -5858,6 +6471,9 @@ class DescribeChannelResponse {
   /// The log level being written to CloudWatch Logs.
   final LogLevel? logLevel;
 
+  /// Maintenance settings for this channel.
+  final MaintenanceStatus? maintenance;
+
   /// The name of the channel. (user-mutable)
   final String? name;
 
@@ -5874,6 +6490,9 @@ class DescribeChannelResponse {
   /// A collection of key-value pairs.
   final Map<String, String>? tags;
 
+  /// Settings for VPC output
+  final VpcOutputSettingsDescription? vpc;
+
   DescribeChannelResponse({
     this.arn,
     this.cdiInputSpecification,
@@ -5885,13 +6504,16 @@ class DescribeChannelResponse {
     this.inputAttachments,
     this.inputSpecification,
     this.logLevel,
+    this.maintenance,
     this.name,
     this.pipelineDetails,
     this.pipelinesRunningCount,
     this.roleArn,
     this.state,
     this.tags,
+    this.vpc,
   });
+
   factory DescribeChannelResponse.fromJson(Map<String, dynamic> json) {
     return DescribeChannelResponse(
       arn: json['arn'] as String?,
@@ -5922,6 +6544,10 @@ class DescribeChannelResponse {
               json['inputSpecification'] as Map<String, dynamic>)
           : null,
       logLevel: (json['logLevel'] as String?)?.toLogLevel(),
+      maintenance: json['maintenance'] != null
+          ? MaintenanceStatus.fromJson(
+              json['maintenance'] as Map<String, dynamic>)
+          : null,
       name: json['name'] as String?,
       pipelineDetails: (json['pipelineDetails'] as List?)
           ?.whereNotNull()
@@ -5932,6 +6558,10 @@ class DescribeChannelResponse {
       state: (json['state'] as String?)?.toChannelState(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      vpc: json['vpc'] != null
+          ? VpcOutputSettingsDescription.fromJson(
+              json['vpc'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -5972,6 +6602,9 @@ class DescribeInputDeviceResponse {
   /// The unique serial number of the input device.
   final String? serialNumber;
 
+  /// A collection of key-value pairs.
+  final Map<String, String>? tags;
+
   /// The type of the input device.
   final InputDeviceType? type;
 
@@ -5989,9 +6622,11 @@ class DescribeInputDeviceResponse {
     this.name,
     this.networkSettings,
     this.serialNumber,
+    this.tags,
     this.type,
     this.uhdDeviceSettings,
   });
+
   factory DescribeInputDeviceResponse.fromJson(Map<String, dynamic> json) {
     return DescribeInputDeviceResponse(
       arn: json['arn'] as String?,
@@ -6013,6 +6648,8 @@ class DescribeInputDeviceResponse {
               json['networkSettings'] as Map<String, dynamic>)
           : null,
       serialNumber: json['serialNumber'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
       type: (json['type'] as String?)?.toInputDeviceType(),
       uhdDeviceSettings: json['uhdDeviceSettings'] != null
           ? InputDeviceUhdSettings.fromJson(
@@ -6077,10 +6714,13 @@ class DescribeInputResponse {
   /// Settings for the input devices.
   final List<InputDeviceSettings>? inputDevices;
 
+  /// A list of IDs for all Inputs which are partners of this one.
+  final List<String>? inputPartnerIds;
+
   /// Certain pull input sources can be dynamic, meaning that they can have their
   /// URL's dynamically changes
   /// during input switch actions. Presently, this functionality only works with
-  /// MP4_FILE inputs.
+  /// MP4_FILE and TS_FILE inputs.
   final InputSourceType? inputSourceType;
 
   /// A list of MediaConnect Flows for this input.
@@ -6111,6 +6751,7 @@ class DescribeInputResponse {
     this.id,
     this.inputClass,
     this.inputDevices,
+    this.inputPartnerIds,
     this.inputSourceType,
     this.mediaConnectFlows,
     this.name,
@@ -6121,6 +6762,7 @@ class DescribeInputResponse {
     this.tags,
     this.type,
   });
+
   factory DescribeInputResponse.fromJson(Map<String, dynamic> json) {
     return DescribeInputResponse(
       arn: json['arn'] as String?,
@@ -6137,6 +6779,10 @@ class DescribeInputResponse {
       inputDevices: (json['inputDevices'] as List?)
           ?.whereNotNull()
           .map((e) => InputDeviceSettings.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      inputPartnerIds: (json['inputPartnerIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
           .toList(),
       inputSourceType:
           (json['inputSourceType'] as String?)?.toInputSourceType(),
@@ -6190,6 +6836,7 @@ class DescribeInputSecurityGroupResponse {
     this.tags,
     this.whitelistRules,
   });
+
   factory DescribeInputSecurityGroupResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeInputSecurityGroupResponse(
@@ -6238,6 +6885,7 @@ class DescribeMultiplexProgramResponse {
     this.pipelineDetails,
     this.programName,
   });
+
   factory DescribeMultiplexProgramResponse.fromJson(Map<String, dynamic> json) {
     return DescribeMultiplexProgramResponse(
       channelId: json['channelId'] as String?,
@@ -6303,6 +6951,7 @@ class DescribeMultiplexResponse {
     this.state,
     this.tags,
   });
+
   factory DescribeMultiplexResponse.fromJson(Map<String, dynamic> json) {
     return DescribeMultiplexResponse(
       arn: json['arn'] as String?,
@@ -6381,6 +7030,7 @@ class DescribeOfferingResponse {
     this.resourceSpecification,
     this.usagePrice,
   });
+
   factory DescribeOfferingResponse.fromJson(Map<String, dynamic> json) {
     return DescribeOfferingResponse(
       arn: json['arn'] as String?,
@@ -6444,6 +7094,9 @@ class DescribeReservationResponse {
   /// AWS region, e.g. 'us-west-2'
   final String? region;
 
+  /// Renewal settings for the reservation
+  final RenewalSettings? renewalSettings;
+
   /// Unique reservation ID, e.g. '1234567'
   final String? reservationId;
 
@@ -6476,6 +7129,7 @@ class DescribeReservationResponse {
     this.offeringId,
     this.offeringType,
     this.region,
+    this.renewalSettings,
     this.reservationId,
     this.resourceSpecification,
     this.start,
@@ -6483,6 +7137,7 @@ class DescribeReservationResponse {
     this.tags,
     this.usagePrice,
   });
+
   factory DescribeReservationResponse.fromJson(Map<String, dynamic> json) {
     return DescribeReservationResponse(
       arn: json['arn'] as String?,
@@ -6498,6 +7153,10 @@ class DescribeReservationResponse {
       offeringId: json['offeringId'] as String?,
       offeringType: (json['offeringType'] as String?)?.toOfferingType(),
       region: json['region'] as String?,
+      renewalSettings: json['renewalSettings'] != null
+          ? RenewalSettings.fromJson(
+              json['renewalSettings'] as Map<String, dynamic>)
+          : null,
       reservationId: json['reservationId'] as String?,
       resourceSpecification: json['resourceSpecification'] != null
           ? ReservationResourceSpecification.fromJson(
@@ -6524,6 +7183,7 @@ class DescribeScheduleResponse {
     this.nextToken,
     this.scheduleActions,
   });
+
   factory DescribeScheduleResponse.fromJson(Map<String, dynamic> json) {
     return DescribeScheduleResponse(
       nextToken: json['nextToken'] as String?,
@@ -6572,6 +7232,7 @@ extension DeviceSettingsSyncStateFromString on String {
 enum DeviceUpdateStatus {
   upToDate,
   notUpToDate,
+  updating,
 }
 
 extension DeviceUpdateStatusValueExtension on DeviceUpdateStatus {
@@ -6581,6 +7242,8 @@ extension DeviceUpdateStatusValueExtension on DeviceUpdateStatus {
         return 'UP_TO_DATE';
       case DeviceUpdateStatus.notUpToDate:
         return 'NOT_UP_TO_DATE';
+      case DeviceUpdateStatus.updating:
+        return 'UPDATING';
     }
   }
 }
@@ -6592,8 +7255,87 @@ extension DeviceUpdateStatusFromString on String {
         return DeviceUpdateStatus.upToDate;
       case 'NOT_UP_TO_DATE':
         return DeviceUpdateStatus.notUpToDate;
+      case 'UPDATING':
+        return DeviceUpdateStatus.updating;
     }
     throw Exception('$this is not known in enum DeviceUpdateStatus');
+  }
+}
+
+/// Dolby EProgram Selection
+enum DolbyEProgramSelection {
+  allChannels,
+  program_1,
+  program_2,
+  program_3,
+  program_4,
+  program_5,
+  program_6,
+  program_7,
+  program_8,
+}
+
+extension DolbyEProgramSelectionValueExtension on DolbyEProgramSelection {
+  String toValue() {
+    switch (this) {
+      case DolbyEProgramSelection.allChannels:
+        return 'ALL_CHANNELS';
+      case DolbyEProgramSelection.program_1:
+        return 'PROGRAM_1';
+      case DolbyEProgramSelection.program_2:
+        return 'PROGRAM_2';
+      case DolbyEProgramSelection.program_3:
+        return 'PROGRAM_3';
+      case DolbyEProgramSelection.program_4:
+        return 'PROGRAM_4';
+      case DolbyEProgramSelection.program_5:
+        return 'PROGRAM_5';
+      case DolbyEProgramSelection.program_6:
+        return 'PROGRAM_6';
+      case DolbyEProgramSelection.program_7:
+        return 'PROGRAM_7';
+      case DolbyEProgramSelection.program_8:
+        return 'PROGRAM_8';
+    }
+  }
+}
+
+extension DolbyEProgramSelectionFromString on String {
+  DolbyEProgramSelection toDolbyEProgramSelection() {
+    switch (this) {
+      case 'ALL_CHANNELS':
+        return DolbyEProgramSelection.allChannels;
+      case 'PROGRAM_1':
+        return DolbyEProgramSelection.program_1;
+      case 'PROGRAM_2':
+        return DolbyEProgramSelection.program_2;
+      case 'PROGRAM_3':
+        return DolbyEProgramSelection.program_3;
+      case 'PROGRAM_4':
+        return DolbyEProgramSelection.program_4;
+      case 'PROGRAM_5':
+        return DolbyEProgramSelection.program_5;
+      case 'PROGRAM_6':
+        return DolbyEProgramSelection.program_6;
+      case 'PROGRAM_7':
+        return DolbyEProgramSelection.program_7;
+      case 'PROGRAM_8':
+        return DolbyEProgramSelection.program_8;
+    }
+    throw Exception('$this is not known in enum DolbyEProgramSelection');
+  }
+}
+
+/// Dolby Vision81 Settings
+class DolbyVision81Settings {
+  DolbyVision81Settings();
+
+  factory DolbyVision81Settings.fromJson(Map<String, dynamic> _) {
+    return DolbyVision81Settings();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -6615,6 +7357,7 @@ class DvbNitSettings {
     required this.networkName,
     this.repInterval,
   });
+
   factory DvbNitSettings.fromJson(Map<String, dynamic> json) {
     return DvbNitSettings(
       networkId: json['networkId'] as int,
@@ -6703,6 +7446,7 @@ class DvbSdtSettings {
     this.serviceName,
     this.serviceProviderName,
   });
+
   factory DvbSdtSettings.fromJson(Map<String, dynamic> json) {
     return DvbSdtSettings(
       outputSdt: (json['outputSdt'] as String?)?.toDvbSdtOutputSdt(),
@@ -7021,6 +7765,7 @@ class DvbSubDestinationSettings {
     this.xPosition,
     this.yPosition,
   });
+
   factory DvbSubDestinationSettings.fromJson(Map<String, dynamic> json) {
     return DvbSubDestinationSettings(
       alignment: (json['alignment'] as String?)?.toDvbSubDestinationAlignment(),
@@ -7157,25 +7902,85 @@ extension DvbSubDestinationTeletextGridControlFromString on String {
   }
 }
 
+/// Dvb Sub Ocr Language
+enum DvbSubOcrLanguage {
+  deu,
+  eng,
+  fra,
+  nld,
+  por,
+  spa,
+}
+
+extension DvbSubOcrLanguageValueExtension on DvbSubOcrLanguage {
+  String toValue() {
+    switch (this) {
+      case DvbSubOcrLanguage.deu:
+        return 'DEU';
+      case DvbSubOcrLanguage.eng:
+        return 'ENG';
+      case DvbSubOcrLanguage.fra:
+        return 'FRA';
+      case DvbSubOcrLanguage.nld:
+        return 'NLD';
+      case DvbSubOcrLanguage.por:
+        return 'POR';
+      case DvbSubOcrLanguage.spa:
+        return 'SPA';
+    }
+  }
+}
+
+extension DvbSubOcrLanguageFromString on String {
+  DvbSubOcrLanguage toDvbSubOcrLanguage() {
+    switch (this) {
+      case 'DEU':
+        return DvbSubOcrLanguage.deu;
+      case 'ENG':
+        return DvbSubOcrLanguage.eng;
+      case 'FRA':
+        return DvbSubOcrLanguage.fra;
+      case 'NLD':
+        return DvbSubOcrLanguage.nld;
+      case 'POR':
+        return DvbSubOcrLanguage.por;
+      case 'SPA':
+        return DvbSubOcrLanguage.spa;
+    }
+    throw Exception('$this is not known in enum DvbSubOcrLanguage');
+  }
+}
+
 /// Dvb Sub Source Settings
 class DvbSubSourceSettings {
+  /// If you will configure a WebVTT caption description that references this
+  /// caption selector, use this field to
+  /// provide the language to consider when translating the image-based source to
+  /// text.
+  final DvbSubOcrLanguage? ocrLanguage;
+
   /// When using DVB-Sub with Burn-In or SMPTE-TT, use this PID for the source
   /// content. Unused for DVB-Sub passthrough. All DVB-Sub content is passed
   /// through, regardless of selectors.
   final int? pid;
 
   DvbSubSourceSettings({
+    this.ocrLanguage,
     this.pid,
   });
+
   factory DvbSubSourceSettings.fromJson(Map<String, dynamic> json) {
     return DvbSubSourceSettings(
+      ocrLanguage: (json['ocrLanguage'] as String?)?.toDvbSubOcrLanguage(),
       pid: json['pid'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final ocrLanguage = this.ocrLanguage;
     final pid = this.pid;
     return {
+      if (ocrLanguage != null) 'ocrLanguage': ocrLanguage.toValue(),
       if (pid != null) 'pid': pid,
     };
   }
@@ -7190,6 +7995,7 @@ class DvbTdtSettings {
   DvbTdtSettings({
     this.repInterval,
   });
+
   factory DvbTdtSettings.fromJson(Map<String, dynamic> json) {
     return DvbTdtSettings(
       repInterval: json['repInterval'] as int?,
@@ -7200,6 +8006,210 @@ class DvbTdtSettings {
     final repInterval = this.repInterval;
     return {
       if (repInterval != null) 'repInterval': repInterval,
+    };
+  }
+}
+
+/// Eac3 Atmos Coding Mode
+enum Eac3AtmosCodingMode {
+  codingMode_5_1_4,
+  codingMode_7_1_4,
+  codingMode_9_1_6,
+}
+
+extension Eac3AtmosCodingModeValueExtension on Eac3AtmosCodingMode {
+  String toValue() {
+    switch (this) {
+      case Eac3AtmosCodingMode.codingMode_5_1_4:
+        return 'CODING_MODE_5_1_4';
+      case Eac3AtmosCodingMode.codingMode_7_1_4:
+        return 'CODING_MODE_7_1_4';
+      case Eac3AtmosCodingMode.codingMode_9_1_6:
+        return 'CODING_MODE_9_1_6';
+    }
+  }
+}
+
+extension Eac3AtmosCodingModeFromString on String {
+  Eac3AtmosCodingMode toEac3AtmosCodingMode() {
+    switch (this) {
+      case 'CODING_MODE_5_1_4':
+        return Eac3AtmosCodingMode.codingMode_5_1_4;
+      case 'CODING_MODE_7_1_4':
+        return Eac3AtmosCodingMode.codingMode_7_1_4;
+      case 'CODING_MODE_9_1_6':
+        return Eac3AtmosCodingMode.codingMode_9_1_6;
+    }
+    throw Exception('$this is not known in enum Eac3AtmosCodingMode');
+  }
+}
+
+/// Eac3 Atmos Drc Line
+enum Eac3AtmosDrcLine {
+  filmLight,
+  filmStandard,
+  musicLight,
+  musicStandard,
+  none,
+  speech,
+}
+
+extension Eac3AtmosDrcLineValueExtension on Eac3AtmosDrcLine {
+  String toValue() {
+    switch (this) {
+      case Eac3AtmosDrcLine.filmLight:
+        return 'FILM_LIGHT';
+      case Eac3AtmosDrcLine.filmStandard:
+        return 'FILM_STANDARD';
+      case Eac3AtmosDrcLine.musicLight:
+        return 'MUSIC_LIGHT';
+      case Eac3AtmosDrcLine.musicStandard:
+        return 'MUSIC_STANDARD';
+      case Eac3AtmosDrcLine.none:
+        return 'NONE';
+      case Eac3AtmosDrcLine.speech:
+        return 'SPEECH';
+    }
+  }
+}
+
+extension Eac3AtmosDrcLineFromString on String {
+  Eac3AtmosDrcLine toEac3AtmosDrcLine() {
+    switch (this) {
+      case 'FILM_LIGHT':
+        return Eac3AtmosDrcLine.filmLight;
+      case 'FILM_STANDARD':
+        return Eac3AtmosDrcLine.filmStandard;
+      case 'MUSIC_LIGHT':
+        return Eac3AtmosDrcLine.musicLight;
+      case 'MUSIC_STANDARD':
+        return Eac3AtmosDrcLine.musicStandard;
+      case 'NONE':
+        return Eac3AtmosDrcLine.none;
+      case 'SPEECH':
+        return Eac3AtmosDrcLine.speech;
+    }
+    throw Exception('$this is not known in enum Eac3AtmosDrcLine');
+  }
+}
+
+/// Eac3 Atmos Drc Rf
+enum Eac3AtmosDrcRf {
+  filmLight,
+  filmStandard,
+  musicLight,
+  musicStandard,
+  none,
+  speech,
+}
+
+extension Eac3AtmosDrcRfValueExtension on Eac3AtmosDrcRf {
+  String toValue() {
+    switch (this) {
+      case Eac3AtmosDrcRf.filmLight:
+        return 'FILM_LIGHT';
+      case Eac3AtmosDrcRf.filmStandard:
+        return 'FILM_STANDARD';
+      case Eac3AtmosDrcRf.musicLight:
+        return 'MUSIC_LIGHT';
+      case Eac3AtmosDrcRf.musicStandard:
+        return 'MUSIC_STANDARD';
+      case Eac3AtmosDrcRf.none:
+        return 'NONE';
+      case Eac3AtmosDrcRf.speech:
+        return 'SPEECH';
+    }
+  }
+}
+
+extension Eac3AtmosDrcRfFromString on String {
+  Eac3AtmosDrcRf toEac3AtmosDrcRf() {
+    switch (this) {
+      case 'FILM_LIGHT':
+        return Eac3AtmosDrcRf.filmLight;
+      case 'FILM_STANDARD':
+        return Eac3AtmosDrcRf.filmStandard;
+      case 'MUSIC_LIGHT':
+        return Eac3AtmosDrcRf.musicLight;
+      case 'MUSIC_STANDARD':
+        return Eac3AtmosDrcRf.musicStandard;
+      case 'NONE':
+        return Eac3AtmosDrcRf.none;
+      case 'SPEECH':
+        return Eac3AtmosDrcRf.speech;
+    }
+    throw Exception('$this is not known in enum Eac3AtmosDrcRf');
+  }
+}
+
+/// Eac3 Atmos Settings
+class Eac3AtmosSettings {
+  /// Average bitrate in bits/second. Valid bitrates depend on the coding mode.
+  /// //  * @affectsRightSizing true
+  final double? bitrate;
+
+  /// Dolby Digital Plus with Dolby Atmos coding mode. Determines number of
+  /// channels.
+  final Eac3AtmosCodingMode? codingMode;
+
+  /// Sets the dialnorm for the output. Default 23.
+  final int? dialnorm;
+
+  /// Sets the Dolby dynamic range compression profile.
+  final Eac3AtmosDrcLine? drcLine;
+
+  /// Sets the profile for heavy Dolby dynamic range compression, ensures that the
+  /// instantaneous signal peaks do not exceed specified levels.
+  final Eac3AtmosDrcRf? drcRf;
+
+  /// Height dimensional trim. Sets the maximum amount to attenuate the height
+  /// channels when the downstream player isn??t configured to handle Dolby
+  /// Digital Plus with Dolby Atmos and must remix the channels.
+  final double? heightTrim;
+
+  /// Surround dimensional trim. Sets the maximum amount to attenuate the surround
+  /// channels when the downstream player isn't configured to handle Dolby Digital
+  /// Plus with Dolby Atmos and must remix the channels.
+  final double? surroundTrim;
+
+  Eac3AtmosSettings({
+    this.bitrate,
+    this.codingMode,
+    this.dialnorm,
+    this.drcLine,
+    this.drcRf,
+    this.heightTrim,
+    this.surroundTrim,
+  });
+
+  factory Eac3AtmosSettings.fromJson(Map<String, dynamic> json) {
+    return Eac3AtmosSettings(
+      bitrate: json['bitrate'] as double?,
+      codingMode: (json['codingMode'] as String?)?.toEac3AtmosCodingMode(),
+      dialnorm: json['dialnorm'] as int?,
+      drcLine: (json['drcLine'] as String?)?.toEac3AtmosDrcLine(),
+      drcRf: (json['drcRf'] as String?)?.toEac3AtmosDrcRf(),
+      heightTrim: json['heightTrim'] as double?,
+      surroundTrim: json['surroundTrim'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bitrate = this.bitrate;
+    final codingMode = this.codingMode;
+    final dialnorm = this.dialnorm;
+    final drcLine = this.drcLine;
+    final drcRf = this.drcRf;
+    final heightTrim = this.heightTrim;
+    final surroundTrim = this.surroundTrim;
+    return {
+      if (bitrate != null) 'bitrate': bitrate,
+      if (codingMode != null) 'codingMode': codingMode.toValue(),
+      if (dialnorm != null) 'dialnorm': dialnorm,
+      if (drcLine != null) 'drcLine': drcLine.toValue(),
+      if (drcRf != null) 'drcRf': drcRf.toValue(),
+      if (heightTrim != null) 'heightTrim': heightTrim,
+      if (surroundTrim != null) 'surroundTrim': surroundTrim,
     };
   }
 }
@@ -7681,6 +8691,7 @@ class Eac3Settings {
     this.surroundExMode,
     this.surroundMode,
   });
+
   factory Eac3Settings.fromJson(Map<String, dynamic> json) {
     return Eac3Settings(
       attenuationControl:
@@ -7869,6 +8880,10 @@ extension Eac3SurroundModeFromString on String {
 
 /// Ebu Tt DDestination Settings
 class EbuTtDDestinationSettings {
+  /// Complete this field if you want to include the name of the copyright holder
+  /// in the copyright tag in the captions metadata.
+  final String? copyrightHolder;
+
   /// Specifies how to handle the gap between the lines (in multi-line captions).
   ///
   /// - enabled: Fill with the captions background color (as specified in the
@@ -7904,12 +8919,15 @@ class EbuTtDDestinationSettings {
   final EbuTtDDestinationStyleControl? styleControl;
 
   EbuTtDDestinationSettings({
+    this.copyrightHolder,
     this.fillLineGap,
     this.fontFamily,
     this.styleControl,
   });
+
   factory EbuTtDDestinationSettings.fromJson(Map<String, dynamic> json) {
     return EbuTtDDestinationSettings(
+      copyrightHolder: json['copyrightHolder'] as String?,
       fillLineGap:
           (json['fillLineGap'] as String?)?.toEbuTtDFillLineGapControl(),
       fontFamily: json['fontFamily'] as String?,
@@ -7919,10 +8937,12 @@ class EbuTtDDestinationSettings {
   }
 
   Map<String, dynamic> toJson() {
+    final copyrightHolder = this.copyrightHolder;
     final fillLineGap = this.fillLineGap;
     final fontFamily = this.fontFamily;
     final styleControl = this.styleControl;
     return {
+      if (copyrightHolder != null) 'copyrightHolder': copyrightHolder,
       if (fillLineGap != null) 'fillLineGap': fillLineGap.toValue(),
       if (fontFamily != null) 'fontFamily': fontFamily,
       if (styleControl != null) 'styleControl': styleControl.toValue(),
@@ -8021,6 +9041,7 @@ extension EmbeddedConvert608To708FromString on String {
 /// Embedded Destination Settings
 class EmbeddedDestinationSettings {
   EmbeddedDestinationSettings();
+
   factory EmbeddedDestinationSettings.fromJson(Map<String, dynamic> _) {
     return EmbeddedDestinationSettings();
   }
@@ -8033,6 +9054,7 @@ class EmbeddedDestinationSettings {
 /// Embedded Plus Scte20 Destination Settings
 class EmbeddedPlusScte20DestinationSettings {
   EmbeddedPlusScte20DestinationSettings();
+
   factory EmbeddedPlusScte20DestinationSettings.fromJson(
       Map<String, dynamic> _) {
     return EmbeddedPlusScte20DestinationSettings();
@@ -8096,6 +9118,7 @@ class EmbeddedSourceSettings {
     this.source608ChannelNumber,
     this.source608TrackNumber,
   });
+
   factory EmbeddedSourceSettings.fromJson(Map<String, dynamic> json) {
     return EmbeddedSourceSettings(
       convert608To708:
@@ -8151,6 +9174,9 @@ class EncoderSettings {
   /// Configuration settings that apply to the event as a whole.
   final GlobalConfiguration? globalConfiguration;
 
+  /// Settings for motion graphics.
+  final MotionGraphicsConfiguration? motionGraphicsConfiguration;
+
   /// Nielsen configuration settings.
   final NielsenConfiguration? nielsenConfiguration;
 
@@ -8165,8 +9191,10 @@ class EncoderSettings {
     this.captionDescriptions,
     this.featureActivations,
     this.globalConfiguration,
+    this.motionGraphicsConfiguration,
     this.nielsenConfiguration,
   });
+
   factory EncoderSettings.fromJson(Map<String, dynamic> json) {
     return EncoderSettings(
       audioDescriptions: (json['audioDescriptions'] as List)
@@ -8207,6 +9235,10 @@ class EncoderSettings {
           ? GlobalConfiguration.fromJson(
               json['globalConfiguration'] as Map<String, dynamic>)
           : null,
+      motionGraphicsConfiguration: json['motionGraphicsConfiguration'] != null
+          ? MotionGraphicsConfiguration.fromJson(
+              json['motionGraphicsConfiguration'] as Map<String, dynamic>)
+          : null,
       nielsenConfiguration: json['nielsenConfiguration'] != null
           ? NielsenConfiguration.fromJson(
               json['nielsenConfiguration'] as Map<String, dynamic>)
@@ -8225,6 +9257,7 @@ class EncoderSettings {
     final captionDescriptions = this.captionDescriptions;
     final featureActivations = this.featureActivations;
     final globalConfiguration = this.globalConfiguration;
+    final motionGraphicsConfiguration = this.motionGraphicsConfiguration;
     final nielsenConfiguration = this.nielsenConfiguration;
     return {
       'audioDescriptions': audioDescriptions,
@@ -8239,8 +9272,74 @@ class EncoderSettings {
       if (featureActivations != null) 'featureActivations': featureActivations,
       if (globalConfiguration != null)
         'globalConfiguration': globalConfiguration,
+      if (motionGraphicsConfiguration != null)
+        'motionGraphicsConfiguration': motionGraphicsConfiguration,
       if (nielsenConfiguration != null)
         'nielsenConfiguration': nielsenConfiguration,
+    };
+  }
+}
+
+/// Esam
+class Esam {
+  /// Sent as acquisitionPointIdentity to identify the MediaLive channel to the
+  /// POIS.
+  final String acquisitionPointId;
+
+  /// The URL of the signal conditioner endpoint on the Placement Opportunity
+  /// Information System (POIS). MediaLive sends SignalProcessingEvents here when
+  /// SCTE-35 messages are read.
+  final String poisEndpoint;
+
+  /// When specified, this offset (in milliseconds) is added to the input Ad Avail
+  /// PTS time. This only applies to embedded SCTE 104/35 messages and does not
+  /// apply to OOB messages.
+  final int? adAvailOffset;
+
+  /// Documentation update needed
+  final String? passwordParam;
+
+  /// Documentation update needed
+  final String? username;
+
+  /// Optional data sent as zoneIdentity to identify the MediaLive channel to the
+  /// POIS.
+  final String? zoneIdentity;
+
+  Esam({
+    required this.acquisitionPointId,
+    required this.poisEndpoint,
+    this.adAvailOffset,
+    this.passwordParam,
+    this.username,
+    this.zoneIdentity,
+  });
+
+  factory Esam.fromJson(Map<String, dynamic> json) {
+    return Esam(
+      acquisitionPointId: json['acquisitionPointId'] as String,
+      poisEndpoint: json['poisEndpoint'] as String,
+      adAvailOffset: json['adAvailOffset'] as int?,
+      passwordParam: json['passwordParam'] as String?,
+      username: json['username'] as String?,
+      zoneIdentity: json['zoneIdentity'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acquisitionPointId = this.acquisitionPointId;
+    final poisEndpoint = this.poisEndpoint;
+    final adAvailOffset = this.adAvailOffset;
+    final passwordParam = this.passwordParam;
+    final username = this.username;
+    final zoneIdentity = this.zoneIdentity;
+    return {
+      'acquisitionPointId': acquisitionPointId,
+      'poisEndpoint': poisEndpoint,
+      if (adAvailOffset != null) 'adAvailOffset': adAvailOffset,
+      if (passwordParam != null) 'passwordParam': passwordParam,
+      if (username != null) 'username': username,
+      if (zoneIdentity != null) 'zoneIdentity': zoneIdentity,
     };
   }
 }
@@ -8254,6 +9353,7 @@ class FailoverCondition {
   FailoverCondition({
     this.failoverConditionSettings,
   });
+
   factory FailoverCondition.fromJson(Map<String, dynamic> json) {
     return FailoverCondition(
       failoverConditionSettings: json['failoverConditionSettings'] != null
@@ -8291,6 +9391,7 @@ class FailoverConditionSettings {
     this.inputLossSettings,
     this.videoBlackSettings,
   });
+
   factory FailoverConditionSettings.fromJson(Map<String, dynamic> json) {
     return FailoverConditionSettings(
       audioSilenceSettings: json['audioSilenceSettings'] != null
@@ -8333,6 +9434,7 @@ class FeatureActivations {
   FeatureActivations({
     this.inputPrepareScheduleActions,
   });
+
   factory FeatureActivations.fromJson(Map<String, dynamic> json) {
     return FeatureActivations(
       inputPrepareScheduleActions:
@@ -8434,6 +9536,7 @@ class FecOutputSettings {
     this.includeFec,
     this.rowLength,
   });
+
   factory FecOutputSettings.fromJson(Map<String, dynamic> json) {
     return FecOutputSettings(
       columnDepth: json['columnDepth'] as int?,
@@ -8540,6 +9643,7 @@ class FixedModeScheduleActionStartSettings {
   FixedModeScheduleActionStartSettings({
     required this.time,
   });
+
   factory FixedModeScheduleActionStartSettings.fromJson(
       Map<String, dynamic> json) {
     return FixedModeScheduleActionStartSettings(
@@ -8575,6 +9679,7 @@ class Fmp4HlsSettings {
     this.nielsenId3Behavior,
     this.timedMetadataBehavior,
   });
+
   factory Fmp4HlsSettings.fromJson(Map<String, dynamic> json) {
     return Fmp4HlsSettings(
       audioRenditionSets: json['audioRenditionSets'] as String?,
@@ -8670,6 +9775,7 @@ class FollowModeScheduleActionStartSettings {
     required this.followPoint,
     required this.referenceActionName,
   });
+
   factory FollowModeScheduleActionStartSettings.fromJson(
       Map<String, dynamic> json) {
     return FollowModeScheduleActionStartSettings(
@@ -8717,6 +9823,32 @@ extension FollowPointFromString on String {
   }
 }
 
+/// Frame Capture Cdn Settings
+class FrameCaptureCdnSettings {
+  final FrameCaptureS3Settings? frameCaptureS3Settings;
+
+  FrameCaptureCdnSettings({
+    this.frameCaptureS3Settings,
+  });
+
+  factory FrameCaptureCdnSettings.fromJson(Map<String, dynamic> json) {
+    return FrameCaptureCdnSettings(
+      frameCaptureS3Settings: json['frameCaptureS3Settings'] != null
+          ? FrameCaptureS3Settings.fromJson(
+              json['frameCaptureS3Settings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final frameCaptureS3Settings = this.frameCaptureS3Settings;
+    return {
+      if (frameCaptureS3Settings != null)
+        'frameCaptureS3Settings': frameCaptureS3Settings,
+    };
+  }
+}
+
 /// Frame Capture Group Settings
 class FrameCaptureGroupSettings {
   /// The destination for the frame capture files. Either the URI for an Amazon S3
@@ -8729,21 +9861,46 @@ class FrameCaptureGroupSettings {
   /// (which is always .jpg).  For example, curling-low.00001.jpg
   final OutputLocationRef destination;
 
+  /// Parameters that control interactions with the CDN.
+  final FrameCaptureCdnSettings? frameCaptureCdnSettings;
+
   FrameCaptureGroupSettings({
     required this.destination,
+    this.frameCaptureCdnSettings,
   });
+
   factory FrameCaptureGroupSettings.fromJson(Map<String, dynamic> json) {
     return FrameCaptureGroupSettings(
       destination: OutputLocationRef.fromJson(
           json['destination'] as Map<String, dynamic>),
+      frameCaptureCdnSettings: json['frameCaptureCdnSettings'] != null
+          ? FrameCaptureCdnSettings.fromJson(
+              json['frameCaptureCdnSettings'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final destination = this.destination;
+    final frameCaptureCdnSettings = this.frameCaptureCdnSettings;
     return {
       'destination': destination,
+      if (frameCaptureCdnSettings != null)
+        'frameCaptureCdnSettings': frameCaptureCdnSettings,
     };
+  }
+}
+
+/// Frame Capture Hls Settings
+class FrameCaptureHlsSettings {
+  FrameCaptureHlsSettings();
+
+  factory FrameCaptureHlsSettings.fromJson(Map<String, dynamic> _) {
+    return FrameCaptureHlsSettings();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -8785,6 +9942,7 @@ class FrameCaptureOutputSettings {
   FrameCaptureOutputSettings({
     this.nameModifier,
   });
+
   factory FrameCaptureOutputSettings.fromJson(Map<String, dynamic> json) {
     return FrameCaptureOutputSettings(
       nameModifier: json['nameModifier'] as String?,
@@ -8799,35 +9957,70 @@ class FrameCaptureOutputSettings {
   }
 }
 
+/// Frame Capture S3 Settings
+class FrameCaptureS3Settings {
+  /// Specify the canned ACL to apply to each S3 request. Defaults to none.
+  final S3CannedAcl? cannedAcl;
+
+  FrameCaptureS3Settings({
+    this.cannedAcl,
+  });
+
+  factory FrameCaptureS3Settings.fromJson(Map<String, dynamic> json) {
+    return FrameCaptureS3Settings(
+      cannedAcl: (json['cannedAcl'] as String?)?.toS3CannedAcl(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cannedAcl = this.cannedAcl;
+    return {
+      if (cannedAcl != null) 'cannedAcl': cannedAcl.toValue(),
+    };
+  }
+}
+
 /// Frame Capture Settings
 class FrameCaptureSettings {
   /// The frequency at which to capture frames for inclusion in the output. May be
   /// specified in either seconds or milliseconds, as specified by
   /// captureIntervalUnits.
-  final int captureInterval;
+  final int? captureInterval;
 
   /// Unit for the frame capture interval.
   final FrameCaptureIntervalUnit? captureIntervalUnits;
 
+  /// Timecode burn-in settings
+  final TimecodeBurninSettings? timecodeBurninSettings;
+
   FrameCaptureSettings({
-    required this.captureInterval,
+    this.captureInterval,
     this.captureIntervalUnits,
+    this.timecodeBurninSettings,
   });
+
   factory FrameCaptureSettings.fromJson(Map<String, dynamic> json) {
     return FrameCaptureSettings(
-      captureInterval: json['captureInterval'] as int,
+      captureInterval: json['captureInterval'] as int?,
       captureIntervalUnits: (json['captureIntervalUnits'] as String?)
           ?.toFrameCaptureIntervalUnit(),
+      timecodeBurninSettings: json['timecodeBurninSettings'] != null
+          ? TimecodeBurninSettings.fromJson(
+              json['timecodeBurninSettings'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final captureInterval = this.captureInterval;
     final captureIntervalUnits = this.captureIntervalUnits;
+    final timecodeBurninSettings = this.timecodeBurninSettings;
     return {
-      'captureInterval': captureInterval,
+      if (captureInterval != null) 'captureInterval': captureInterval,
       if (captureIntervalUnits != null)
         'captureIntervalUnits': captureIntervalUnits.toValue(),
+      if (timecodeBurninSettings != null)
+        'timecodeBurninSettings': timecodeBurninSettings,
     };
   }
 }
@@ -8875,6 +10068,7 @@ class GlobalConfiguration {
     this.outputTimingSource,
     this.supportLowFramerateInputs,
   });
+
   factory GlobalConfiguration.fromJson(Map<String, dynamic> json) {
     return GlobalConfiguration(
       initialAudioGain: json['initialAudioGain'] as int?,
@@ -9043,6 +10237,7 @@ extension GlobalConfigurationOutputTimingSourceFromString on String {
 
 /// H264 Adaptive Quantization
 enum H264AdaptiveQuantization {
+  auto,
   high,
   higher,
   low,
@@ -9054,6 +10249,8 @@ enum H264AdaptiveQuantization {
 extension H264AdaptiveQuantizationValueExtension on H264AdaptiveQuantization {
   String toValue() {
     switch (this) {
+      case H264AdaptiveQuantization.auto:
+        return 'AUTO';
       case H264AdaptiveQuantization.high:
         return 'HIGH';
       case H264AdaptiveQuantization.higher:
@@ -9073,6 +10270,8 @@ extension H264AdaptiveQuantizationValueExtension on H264AdaptiveQuantization {
 extension H264AdaptiveQuantizationFromString on String {
   H264AdaptiveQuantization toH264AdaptiveQuantization() {
     switch (this) {
+      case 'AUTO':
+        return H264AdaptiveQuantization.auto;
       case 'HIGH':
         return H264AdaptiveQuantization.high;
       case 'HIGHER':
@@ -9130,6 +10329,7 @@ class H264ColorSpaceSettings {
     this.rec601Settings,
     this.rec709Settings,
   });
+
   factory H264ColorSpaceSettings.fromJson(Map<String, dynamic> json) {
     return H264ColorSpaceSettings(
       colorSpacePassthroughSettings:
@@ -9197,6 +10397,7 @@ class H264FilterSettings {
   H264FilterSettings({
     this.temporalFilterSettings,
   });
+
   factory H264FilterSettings.fromJson(Map<String, dynamic> json) {
     return H264FilterSettings(
       temporalFilterSettings: json['temporalFilterSettings'] != null
@@ -9704,8 +10905,15 @@ extension H264SceneChangeDetectFromString on String {
 
 /// H264 Settings
 class H264Settings {
-  /// Adaptive quantization. Allows intra-frame quantizers to vary to improve
-  /// visual quality.
+  /// Enables or disables adaptive quantization, which is a technique MediaLive
+  /// can apply to video on a frame-by-frame basis to produce more compression
+  /// without losing quality. There are three types of adaptive quantization:
+  /// flicker, spatial, and temporal. Set the field in one of these ways: Set to
+  /// Auto. Recommended. For each type of AQ, MediaLive will determine if AQ is
+  /// needed, and if so, the appropriate strength. Set a strength (a value other
+  /// than Auto or Disable). This strength will apply to any of the AQ fields that
+  /// you choose to enable. Set to Disabled to disable all types of adaptive
+  /// quantization.
   final H264AdaptiveQuantization? adaptiveQuantization;
 
   /// Indicates that AFD values will be written into the output stream.  If
@@ -9743,8 +10951,16 @@ class H264Settings {
   /// Only valid when afdSignaling is set to 'Fixed'.
   final FixedAfd? fixedAfd;
 
-  /// If set to enabled, adjust quantization within each frame to reduce flicker
-  /// or 'pop' on I-frames.
+  /// Flicker AQ makes adjustments within each frame to reduce flicker or 'pop' on
+  /// I-frames. The value to enter in this field depends on the value in the
+  /// Adaptive quantization field: If you have set the Adaptive quantization field
+  /// to Auto, MediaLive ignores any value in this field. MediaLive will determine
+  /// if flicker AQ is appropriate and will apply the appropriate strength. If you
+  /// have set the Adaptive quantization field to a strength, you can set this
+  /// field to Enabled or Disabled. Enabled: MediaLive will apply flicker AQ using
+  /// the specified strength. Disabled: MediaLive won't apply flicker AQ. If you
+  /// have set the Adaptive quantization to Disabled, MediaLive ignores any value
+  /// in this field and doesn't apply flicker AQ.
   final H264FlickerAq? flickerAq;
 
   /// This setting applies only when scan type is "interlaced." It controls
@@ -9848,12 +11064,17 @@ class H264Settings {
   final H264QualityLevel? qualityLevel;
 
   /// Controls the target quality for the video encode. Applies only when the rate
-  /// control mode is QVBR. Set values for the QVBR quality level field and Max
-  /// bitrate field that suit your most important viewing devices. Recommended
-  /// values are:
+  /// control mode is QVBR. You can set a target quality or you can let MediaLive
+  /// determine the best quality. To set a target quality, enter values in the
+  /// QVBR quality level field and the Max bitrate field. Enter values that suit
+  /// your most important viewing devices. Recommended values are:
   /// - Primary screen: Quality level: 8 to 10. Max bitrate: 4M
   /// - PC or tablet: Quality level: 7. Max bitrate: 1.5M to 3M
   /// - Smartphone: Quality level: 6. Max bitrate: 1M to 1.5M
+  /// To let MediaLive decide, leave the QVBR quality level field empty, and in
+  /// Max bitrate enter the maximum rate you want in the video. For more
+  /// information, see the section called "Video - rate control mode" in the
+  /// MediaLive user guide
   final int? qvbrQualityLevel;
 
   /// Rate control mode.
@@ -9896,11 +11117,19 @@ class H264Settings {
   final int? slices;
 
   /// Softness. Selects quantizer matrix, larger values reduce high-frequency
-  /// content in the encoded image.
+  /// content in the encoded image.  If not set to zero, must be greater than 15.
   final int? softness;
 
-  /// If set to enabled, adjust quantization within each frame based on spatial
-  /// variation of content complexity.
+  /// Spatial AQ makes adjustments within each frame based on spatial variation of
+  /// content complexity. The value to enter in this field depends on the value in
+  /// the Adaptive quantization field: If you have set the Adaptive quantization
+  /// field to Auto, MediaLive ignores any value in this field. MediaLive will
+  /// determine if spatial AQ is appropriate and will apply the appropriate
+  /// strength. If you have set the Adaptive quantization field to a strength, you
+  /// can set this field to Enabled or Disabled. Enabled: MediaLive will apply
+  /// spatial AQ using the specified strength. Disabled: MediaLive won't apply
+  /// spatial AQ. If you have set the Adaptive quantization to Disabled, MediaLive
+  /// ignores any value in this field and doesn't apply spatial AQ.
   final H264SpatialAq? spatialAq;
 
   /// If set to fixed, use gopNumBFrames B-frames per sub-GOP. If set to dynamic,
@@ -9911,9 +11140,20 @@ class H264Settings {
   /// Produces a bitstream compliant with SMPTE RP-2027.
   final H264Syntax? syntax;
 
-  /// If set to enabled, adjust quantization within each frame based on temporal
-  /// variation of content complexity.
+  /// Temporal makes adjustments within each frame based on temporal variation of
+  /// content complexity. The value to enter in this field depends on the value in
+  /// the Adaptive quantization field: If you have set the Adaptive quantization
+  /// field to Auto, MediaLive ignores any value in this field. MediaLive will
+  /// determine if temporal AQ is appropriate and will apply the appropriate
+  /// strength. If you have set the Adaptive quantization field to a strength, you
+  /// can set this field to Enabled or Disabled. Enabled: MediaLive will apply
+  /// temporal AQ using the specified strength. Disabled: MediaLive won't apply
+  /// temporal AQ. If you have set the Adaptive quantization to Disabled,
+  /// MediaLive ignores any value in this field and doesn't apply temporal AQ.
   final H264TemporalAq? temporalAq;
+
+  /// Timecode burn-in settings
+  final TimecodeBurninSettings? timecodeBurninSettings;
 
   /// Determines how timecodes should be inserted into the video elementary
   /// stream.
@@ -9963,8 +11203,10 @@ class H264Settings {
     this.subgopLength,
     this.syntax,
     this.temporalAq,
+    this.timecodeBurninSettings,
     this.timecodeInsertion,
   });
+
   factory H264Settings.fromJson(Map<String, dynamic> json) {
     return H264Settings(
       adaptiveQuantization: (json['adaptiveQuantization'] as String?)
@@ -10020,6 +11262,10 @@ class H264Settings {
       subgopLength: (json['subgopLength'] as String?)?.toH264SubGopLength(),
       syntax: (json['syntax'] as String?)?.toH264Syntax(),
       temporalAq: (json['temporalAq'] as String?)?.toH264TemporalAq(),
+      timecodeBurninSettings: json['timecodeBurninSettings'] != null
+          ? TimecodeBurninSettings.fromJson(
+              json['timecodeBurninSettings'] as Map<String, dynamic>)
+          : null,
       timecodeInsertion: (json['timecodeInsertion'] as String?)
           ?.toH264TimecodeInsertionBehavior(),
     );
@@ -10066,6 +11312,7 @@ class H264Settings {
     final subgopLength = this.subgopLength;
     final syntax = this.syntax;
     final temporalAq = this.temporalAq;
+    final timecodeBurninSettings = this.timecodeBurninSettings;
     final timecodeInsertion = this.timecodeInsertion;
     return {
       if (adaptiveQuantization != null)
@@ -10114,6 +11361,8 @@ class H264Settings {
       if (subgopLength != null) 'subgopLength': subgopLength.toValue(),
       if (syntax != null) 'syntax': syntax.toValue(),
       if (temporalAq != null) 'temporalAq': temporalAq.toValue(),
+      if (timecodeBurninSettings != null)
+        'timecodeBurninSettings': timecodeBurninSettings,
       if (timecodeInsertion != null)
         'timecodeInsertion': timecodeInsertion.toValue(),
     };
@@ -10268,6 +11517,7 @@ extension H264TimecodeInsertionBehaviorFromString on String {
 
 /// H265 Adaptive Quantization
 enum H265AdaptiveQuantization {
+  auto,
   high,
   higher,
   low,
@@ -10279,6 +11529,8 @@ enum H265AdaptiveQuantization {
 extension H265AdaptiveQuantizationValueExtension on H265AdaptiveQuantization {
   String toValue() {
     switch (this) {
+      case H265AdaptiveQuantization.auto:
+        return 'AUTO';
       case H265AdaptiveQuantization.high:
         return 'HIGH';
       case H265AdaptiveQuantization.higher:
@@ -10298,6 +11550,8 @@ extension H265AdaptiveQuantizationValueExtension on H265AdaptiveQuantization {
 extension H265AdaptiveQuantizationFromString on String {
   H265AdaptiveQuantization toH265AdaptiveQuantization() {
     switch (this) {
+      case 'AUTO':
+        return H265AdaptiveQuantization.auto;
       case 'HIGH':
         return H265AdaptiveQuantization.high;
       case 'HIGHER':
@@ -10378,16 +11632,19 @@ extension H265ColorMetadataFromString on String {
 /// H265 Color Space Settings
 class H265ColorSpaceSettings {
   final ColorSpacePassthroughSettings? colorSpacePassthroughSettings;
+  final DolbyVision81Settings? dolbyVision81Settings;
   final Hdr10Settings? hdr10Settings;
   final Rec601Settings? rec601Settings;
   final Rec709Settings? rec709Settings;
 
   H265ColorSpaceSettings({
     this.colorSpacePassthroughSettings,
+    this.dolbyVision81Settings,
     this.hdr10Settings,
     this.rec601Settings,
     this.rec709Settings,
   });
+
   factory H265ColorSpaceSettings.fromJson(Map<String, dynamic> json) {
     return H265ColorSpaceSettings(
       colorSpacePassthroughSettings:
@@ -10395,6 +11652,10 @@ class H265ColorSpaceSettings {
               ? ColorSpacePassthroughSettings.fromJson(
                   json['colorSpacePassthroughSettings'] as Map<String, dynamic>)
               : null,
+      dolbyVision81Settings: json['dolbyVision81Settings'] != null
+          ? DolbyVision81Settings.fromJson(
+              json['dolbyVision81Settings'] as Map<String, dynamic>)
+          : null,
       hdr10Settings: json['hdr10Settings'] != null
           ? Hdr10Settings.fromJson(
               json['hdr10Settings'] as Map<String, dynamic>)
@@ -10412,12 +11673,15 @@ class H265ColorSpaceSettings {
 
   Map<String, dynamic> toJson() {
     final colorSpacePassthroughSettings = this.colorSpacePassthroughSettings;
+    final dolbyVision81Settings = this.dolbyVision81Settings;
     final hdr10Settings = this.hdr10Settings;
     final rec601Settings = this.rec601Settings;
     final rec709Settings = this.rec709Settings;
     return {
       if (colorSpacePassthroughSettings != null)
         'colorSpacePassthroughSettings': colorSpacePassthroughSettings,
+      if (dolbyVision81Settings != null)
+        'dolbyVision81Settings': dolbyVision81Settings,
       if (hdr10Settings != null) 'hdr10Settings': hdr10Settings,
       if (rec601Settings != null) 'rec601Settings': rec601Settings,
       if (rec709Settings != null) 'rec709Settings': rec709Settings,
@@ -10432,6 +11696,7 @@ class H265FilterSettings {
   H265FilterSettings({
     this.temporalFilterSettings,
   });
+
   factory H265FilterSettings.fromJson(Map<String, dynamic> json) {
     return H265FilterSettings(
       temporalFilterSettings: json['temporalFilterSettings'] != null
@@ -10892,6 +12157,9 @@ class H265Settings {
   /// H.265 Tier.
   final H265Tier? tier;
 
+  /// Timecode burn-in settings
+  final TimecodeBurninSettings? timecodeBurninSettings;
+
   /// Determines how timecodes should be inserted into the video elementary
   /// stream.
   /// - 'disabled': Do not include timecodes
@@ -10928,8 +12196,10 @@ class H265Settings {
     this.sceneChangeDetect,
     this.slices,
     this.tier,
+    this.timecodeBurninSettings,
     this.timecodeInsertion,
   });
+
   factory H265Settings.fromJson(Map<String, dynamic> json) {
     return H265Settings(
       framerateDenominator: json['framerateDenominator'] as int,
@@ -10972,6 +12242,10 @@ class H265Settings {
           (json['sceneChangeDetect'] as String?)?.toH265SceneChangeDetect(),
       slices: json['slices'] as int?,
       tier: (json['tier'] as String?)?.toH265Tier(),
+      timecodeBurninSettings: json['timecodeBurninSettings'] != null
+          ? TimecodeBurninSettings.fromJson(
+              json['timecodeBurninSettings'] as Map<String, dynamic>)
+          : null,
       timecodeInsertion: (json['timecodeInsertion'] as String?)
           ?.toH265TimecodeInsertionBehavior(),
     );
@@ -11006,6 +12280,7 @@ class H265Settings {
     final sceneChangeDetect = this.sceneChangeDetect;
     final slices = this.slices;
     final tier = this.tier;
+    final timecodeBurninSettings = this.timecodeBurninSettings;
     final timecodeInsertion = this.timecodeInsertion;
     return {
       'framerateDenominator': framerateDenominator,
@@ -11040,6 +12315,8 @@ class H265Settings {
         'sceneChangeDetect': sceneChangeDetect.toValue(),
       if (slices != null) 'slices': slices,
       if (tier != null) 'tier': tier.toValue(),
+      if (timecodeBurninSettings != null)
+        'timecodeBurninSettings': timecodeBurninSettings,
       if (timecodeInsertion != null)
         'timecodeInsertion': timecodeInsertion.toValue(),
     };
@@ -11121,6 +12398,7 @@ class Hdr10Settings {
     this.maxCll,
     this.maxFall,
   });
+
   factory Hdr10Settings.fromJson(Map<String, dynamic> json) {
     return Hdr10Settings(
       maxCll: json['maxCll'] as int?,
@@ -11215,7 +12493,8 @@ class HlsAkamaiSettings {
   final HlsAkamaiHttpTransferMode? httpTransferMode;
 
   /// Number of retry attempts that will be made before the Live Event is put into
-  /// an error state.
+  /// an error state. Applies only if the CDN destination URI begins with "s3" or
+  /// "mediastore". For other URIs, the value is always 3.
   final int? numRetries;
 
   /// If a streaming output fails, number of seconds to wait until a restart is
@@ -11237,6 +12516,7 @@ class HlsAkamaiSettings {
     this.salt,
     this.token,
   });
+
   factory HlsAkamaiSettings.fromJson(Map<String, dynamic> json) {
     return HlsAkamaiSettings(
       connectionRetryInterval: json['connectionRetryInterval'] as int?,
@@ -11282,7 +12562,8 @@ class HlsBasicPutSettings {
   final int? filecacheDuration;
 
   /// Number of retry attempts that will be made before the Live Event is put into
-  /// an error state.
+  /// an error state. Applies only if the CDN destination URI begins with "s3" or
+  /// "mediastore". For other URIs, the value is always 3.
   final int? numRetries;
 
   /// If a streaming output fails, number of seconds to wait until a restart is
@@ -11295,6 +12576,7 @@ class HlsBasicPutSettings {
     this.numRetries,
     this.restartDelay,
   });
+
   factory HlsBasicPutSettings.fromJson(Map<String, dynamic> json) {
     return HlsBasicPutSettings(
       connectionRetryInterval: json['connectionRetryInterval'] as int?,
@@ -11358,14 +12640,17 @@ class HlsCdnSettings {
   final HlsAkamaiSettings? hlsAkamaiSettings;
   final HlsBasicPutSettings? hlsBasicPutSettings;
   final HlsMediaStoreSettings? hlsMediaStoreSettings;
+  final HlsS3Settings? hlsS3Settings;
   final HlsWebdavSettings? hlsWebdavSettings;
 
   HlsCdnSettings({
     this.hlsAkamaiSettings,
     this.hlsBasicPutSettings,
     this.hlsMediaStoreSettings,
+    this.hlsS3Settings,
     this.hlsWebdavSettings,
   });
+
   factory HlsCdnSettings.fromJson(Map<String, dynamic> json) {
     return HlsCdnSettings(
       hlsAkamaiSettings: json['hlsAkamaiSettings'] != null
@@ -11380,6 +12665,10 @@ class HlsCdnSettings {
           ? HlsMediaStoreSettings.fromJson(
               json['hlsMediaStoreSettings'] as Map<String, dynamic>)
           : null,
+      hlsS3Settings: json['hlsS3Settings'] != null
+          ? HlsS3Settings.fromJson(
+              json['hlsS3Settings'] as Map<String, dynamic>)
+          : null,
       hlsWebdavSettings: json['hlsWebdavSettings'] != null
           ? HlsWebdavSettings.fromJson(
               json['hlsWebdavSettings'] as Map<String, dynamic>)
@@ -11391,6 +12680,7 @@ class HlsCdnSettings {
     final hlsAkamaiSettings = this.hlsAkamaiSettings;
     final hlsBasicPutSettings = this.hlsBasicPutSettings;
     final hlsMediaStoreSettings = this.hlsMediaStoreSettings;
+    final hlsS3Settings = this.hlsS3Settings;
     final hlsWebdavSettings = this.hlsWebdavSettings;
     return {
       if (hlsAkamaiSettings != null) 'hlsAkamaiSettings': hlsAkamaiSettings,
@@ -11398,6 +12688,7 @@ class HlsCdnSettings {
         'hlsBasicPutSettings': hlsBasicPutSettings,
       if (hlsMediaStoreSettings != null)
         'hlsMediaStoreSettings': hlsMediaStoreSettings,
+      if (hlsS3Settings != null) 'hlsS3Settings': hlsS3Settings,
       if (hlsWebdavSettings != null) 'hlsWebdavSettings': hlsWebdavSettings,
     };
   }
@@ -11709,9 +13000,9 @@ class HlsGroupSettings {
   /// values for segment duration.
   final HlsManifestDurationFormat? manifestDurationFormat;
 
-  /// When set, minimumSegmentLength is enforced by looking ahead and back within
-  /// the specified range for a nearby avail and extending the segment size if
-  /// needed.
+  /// Minimum length of MPEG-2 Transport Stream segments in seconds. When set,
+  /// minimum segment length is enforced by looking ahead and back within the
+  /// specified range for a nearby avail and extending the segment size if needed.
   final int? minSegmentLength;
 
   /// If "vod", all segments are indexed and kept permanently in the destination
@@ -11734,11 +13025,21 @@ class HlsGroupSettings {
   final HlsOutputSelection? outputSelection;
 
   /// Includes or excludes EXT-X-PROGRAM-DATE-TIME tag in .m3u8 manifest files.
-  /// The value is calculated as follows: either the program date and time are
-  /// initialized using the input timecode source, or the time is initialized
-  /// using the input timecode source and the date is initialized using the
-  /// timestampOffset.
+  /// The value is calculated using the program date time clock.
   final HlsProgramDateTime? programDateTime;
+
+  /// Specifies the algorithm used to drive the HLS EXT-X-PROGRAM-DATE-TIME clock.
+  /// Options include:
+  ///
+  /// INITIALIZE_FROM_OUTPUT_TIMECODE: The PDT clock is initialized as a function
+  /// of the first output timecode, then incremented by the EXTINF duration of
+  /// each encoded segment.
+  ///
+  /// SYSTEM_CLOCK: The PDT clock is initialized as a function of the UTC wall
+  /// clock, then incremented by the EXTINF duration of each encoded segment. If
+  /// the PDT clock diverges from the wall clock by more than 500ms, it is
+  /// resynchronized to the wall clock.
+  final HlsProgramDateTimeClock? programDateTimeClock;
 
   /// Period of insertion of EXT-X-PROGRAM-DATE-TIME entry, in seconds.
   final int? programDateTimePeriod;
@@ -11759,9 +13060,9 @@ class HlsGroupSettings {
   /// serves to players so a redundant manifest from MediaLive is irrelevant.
   final HlsRedundantManifest? redundantManifest;
 
-  /// Length of MPEG-2 Transport Stream segments to create (in seconds). Note that
-  /// segments will end on the next keyframe after this number of seconds, so
-  /// actual segment length may be longer.
+  /// Length of MPEG-2 Transport Stream segments to create in seconds. Note that
+  /// segments will end on the next keyframe after this duration, so actual
+  /// segment length may be longer.
   final int? segmentLength;
 
   /// useInputSegmentation has been deprecated. The configured segment size is
@@ -11829,6 +13130,7 @@ class HlsGroupSettings {
     this.mode,
     this.outputSelection,
     this.programDateTime,
+    this.programDateTimeClock,
     this.programDateTimePeriod,
     this.redundantManifest,
     this.segmentLength,
@@ -11840,6 +13142,7 @@ class HlsGroupSettings {
     this.timestampDeltaMilliseconds,
     this.tsFileMode,
   });
+
   factory HlsGroupSettings.fromJson(Map<String, dynamic> json) {
     return HlsGroupSettings(
       destination: OutputLocationRef.fromJson(
@@ -11901,6 +13204,8 @@ class HlsGroupSettings {
           (json['outputSelection'] as String?)?.toHlsOutputSelection(),
       programDateTime:
           (json['programDateTime'] as String?)?.toHlsProgramDateTime(),
+      programDateTimeClock: (json['programDateTimeClock'] as String?)
+          ?.toHlsProgramDateTimeClock(),
       programDateTimePeriod: json['programDateTimePeriod'] as int?,
       redundantManifest:
           (json['redundantManifest'] as String?)?.toHlsRedundantManifest(),
@@ -11951,6 +13256,7 @@ class HlsGroupSettings {
     final mode = this.mode;
     final outputSelection = this.outputSelection;
     final programDateTime = this.programDateTime;
+    final programDateTimeClock = this.programDateTimeClock;
     final programDateTimePeriod = this.programDateTimePeriod;
     final redundantManifest = this.redundantManifest;
     final segmentLength = this.segmentLength;
@@ -12006,6 +13312,8 @@ class HlsGroupSettings {
       if (mode != null) 'mode': mode.toValue(),
       if (outputSelection != null) 'outputSelection': outputSelection.toValue(),
       if (programDateTime != null) 'programDateTime': programDateTime.toValue(),
+      if (programDateTimeClock != null)
+        'programDateTimeClock': programDateTimeClock.toValue(),
       if (programDateTimePeriod != null)
         'programDateTimePeriod': programDateTimePeriod,
       if (redundantManifest != null)
@@ -12059,25 +13367,34 @@ extension HlsH265PackagingTypeFromString on String {
 
 /// Settings for the action to insert a user-defined ID3 tag in each HLS segment
 class HlsId3SegmentTaggingScheduleActionSettings {
+  /// Base64 string formatted according to the ID3 specification:
+  /// http://id3.org/id3v2.4.0-structure
+  final String? id3;
+
   /// ID3 tag to insert into each segment. Supports special keyword identifiers to
   /// substitute in segment-related values.\nSupported keyword identifiers:
   /// https://docs.aws.amazon.com/medialive/latest/ug/variable-data-identifiers.html
-  final String tag;
+  final String? tag;
 
   HlsId3SegmentTaggingScheduleActionSettings({
-    required this.tag,
+    this.id3,
+    this.tag,
   });
+
   factory HlsId3SegmentTaggingScheduleActionSettings.fromJson(
       Map<String, dynamic> json) {
     return HlsId3SegmentTaggingScheduleActionSettings(
-      tag: json['tag'] as String,
+      id3: json['id3'] as String?,
+      tag: json['tag'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final id3 = this.id3;
     final tag = this.tag;
     return {
-      'tag': tag,
+      if (id3 != null) 'id3': id3,
+      if (tag != null) 'tag': tag,
     };
   }
 }
@@ -12162,18 +13479,27 @@ class HlsInputSettings {
   /// segment fails.
   final int? retryInterval;
 
+  /// Identifies the source for the SCTE-35 messages that MediaLive will ingest.
+  /// Messages can be ingested from the content segments (in the stream) or from
+  /// tags in the playlist (the HLS manifest). MediaLive ignores SCTE-35
+  /// information in the source that is not selected.
+  final HlsScte35SourceType? scte35Source;
+
   HlsInputSettings({
     this.bandwidth,
     this.bufferSegments,
     this.retries,
     this.retryInterval,
+    this.scte35Source,
   });
+
   factory HlsInputSettings.fromJson(Map<String, dynamic> json) {
     return HlsInputSettings(
       bandwidth: json['bandwidth'] as int?,
       bufferSegments: json['bufferSegments'] as int?,
       retries: json['retries'] as int?,
       retryInterval: json['retryInterval'] as int?,
+      scte35Source: (json['scte35Source'] as String?)?.toHlsScte35SourceType(),
     );
   }
 
@@ -12182,11 +13508,13 @@ class HlsInputSettings {
     final bufferSegments = this.bufferSegments;
     final retries = this.retries;
     final retryInterval = this.retryInterval;
+    final scte35Source = this.scte35Source;
     return {
       if (bandwidth != null) 'bandwidth': bandwidth,
       if (bufferSegments != null) 'bufferSegments': bufferSegments,
       if (retries != null) 'retries': retries,
       if (retryInterval != null) 'retryInterval': retryInterval,
+      if (scte35Source != null) 'scte35Source': scte35Source.toValue(),
     };
   }
 }
@@ -12321,7 +13649,8 @@ class HlsMediaStoreSettings {
   final HlsMediaStoreStorageClass? mediaStoreStorageClass;
 
   /// Number of retry attempts that will be made before the Live Event is put into
-  /// an error state.
+  /// an error state. Applies only if the CDN destination URI begins with "s3" or
+  /// "mediastore". For other URIs, the value is always 3.
   final int? numRetries;
 
   /// If a streaming output fails, number of seconds to wait until a restart is
@@ -12335,6 +13664,7 @@ class HlsMediaStoreSettings {
     this.numRetries,
     this.restartDelay,
   });
+
   factory HlsMediaStoreSettings.fromJson(Map<String, dynamic> json) {
     return HlsMediaStoreSettings(
       connectionRetryInterval: json['connectionRetryInterval'] as int?,
@@ -12474,6 +13804,7 @@ class HlsOutputSettings {
     this.nameModifier,
     this.segmentModifier,
   });
+
   factory HlsOutputSettings.fromJson(Map<String, dynamic> json) {
     return HlsOutputSettings(
       hlsSettings:
@@ -12529,6 +13860,35 @@ extension HlsProgramDateTimeFromString on String {
   }
 }
 
+/// Hls Program Date Time Clock
+enum HlsProgramDateTimeClock {
+  initializeFromOutputTimecode,
+  systemClock,
+}
+
+extension HlsProgramDateTimeClockValueExtension on HlsProgramDateTimeClock {
+  String toValue() {
+    switch (this) {
+      case HlsProgramDateTimeClock.initializeFromOutputTimecode:
+        return 'INITIALIZE_FROM_OUTPUT_TIMECODE';
+      case HlsProgramDateTimeClock.systemClock:
+        return 'SYSTEM_CLOCK';
+    }
+  }
+}
+
+extension HlsProgramDateTimeClockFromString on String {
+  HlsProgramDateTimeClock toHlsProgramDateTimeClock() {
+    switch (this) {
+      case 'INITIALIZE_FROM_OUTPUT_TIMECODE':
+        return HlsProgramDateTimeClock.initializeFromOutputTimecode;
+      case 'SYSTEM_CLOCK':
+        return HlsProgramDateTimeClock.systemClock;
+    }
+    throw Exception('$this is not known in enum HlsProgramDateTimeClock');
+  }
+}
+
 /// Hls Redundant Manifest
 enum HlsRedundantManifest {
   disabled,
@@ -12555,6 +13915,58 @@ extension HlsRedundantManifestFromString on String {
         return HlsRedundantManifest.enabled;
     }
     throw Exception('$this is not known in enum HlsRedundantManifest');
+  }
+}
+
+/// Hls S3 Settings
+class HlsS3Settings {
+  /// Specify the canned ACL to apply to each S3 request. Defaults to none.
+  final S3CannedAcl? cannedAcl;
+
+  HlsS3Settings({
+    this.cannedAcl,
+  });
+
+  factory HlsS3Settings.fromJson(Map<String, dynamic> json) {
+    return HlsS3Settings(
+      cannedAcl: (json['cannedAcl'] as String?)?.toS3CannedAcl(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cannedAcl = this.cannedAcl;
+    return {
+      if (cannedAcl != null) 'cannedAcl': cannedAcl.toValue(),
+    };
+  }
+}
+
+/// Hls Scte35 Source Type
+enum HlsScte35SourceType {
+  manifest,
+  segments,
+}
+
+extension HlsScte35SourceTypeValueExtension on HlsScte35SourceType {
+  String toValue() {
+    switch (this) {
+      case HlsScte35SourceType.manifest:
+        return 'MANIFEST';
+      case HlsScte35SourceType.segments:
+        return 'SEGMENTS';
+    }
+  }
+}
+
+extension HlsScte35SourceTypeFromString on String {
+  HlsScte35SourceType toHlsScte35SourceType() {
+    switch (this) {
+      case 'MANIFEST':
+        return HlsScte35SourceType.manifest;
+      case 'SEGMENTS':
+        return HlsScte35SourceType.segments;
+    }
+    throw Exception('$this is not known in enum HlsScte35SourceType');
   }
 }
 
@@ -12591,13 +14003,16 @@ extension HlsSegmentationModeFromString on String {
 class HlsSettings {
   final AudioOnlyHlsSettings? audioOnlyHlsSettings;
   final Fmp4HlsSettings? fmp4HlsSettings;
+  final FrameCaptureHlsSettings? frameCaptureHlsSettings;
   final StandardHlsSettings? standardHlsSettings;
 
   HlsSettings({
     this.audioOnlyHlsSettings,
     this.fmp4HlsSettings,
+    this.frameCaptureHlsSettings,
     this.standardHlsSettings,
   });
+
   factory HlsSettings.fromJson(Map<String, dynamic> json) {
     return HlsSettings(
       audioOnlyHlsSettings: json['audioOnlyHlsSettings'] != null
@@ -12607,6 +14022,10 @@ class HlsSettings {
       fmp4HlsSettings: json['fmp4HlsSettings'] != null
           ? Fmp4HlsSettings.fromJson(
               json['fmp4HlsSettings'] as Map<String, dynamic>)
+          : null,
+      frameCaptureHlsSettings: json['frameCaptureHlsSettings'] != null
+          ? FrameCaptureHlsSettings.fromJson(
+              json['frameCaptureHlsSettings'] as Map<String, dynamic>)
           : null,
       standardHlsSettings: json['standardHlsSettings'] != null
           ? StandardHlsSettings.fromJson(
@@ -12618,11 +14037,14 @@ class HlsSettings {
   Map<String, dynamic> toJson() {
     final audioOnlyHlsSettings = this.audioOnlyHlsSettings;
     final fmp4HlsSettings = this.fmp4HlsSettings;
+    final frameCaptureHlsSettings = this.frameCaptureHlsSettings;
     final standardHlsSettings = this.standardHlsSettings;
     return {
       if (audioOnlyHlsSettings != null)
         'audioOnlyHlsSettings': audioOnlyHlsSettings,
       if (fmp4HlsSettings != null) 'fmp4HlsSettings': fmp4HlsSettings,
+      if (frameCaptureHlsSettings != null)
+        'frameCaptureHlsSettings': frameCaptureHlsSettings,
       if (standardHlsSettings != null)
         'standardHlsSettings': standardHlsSettings,
     };
@@ -12701,6 +14123,7 @@ class HlsTimedMetadataScheduleActionSettings {
   HlsTimedMetadataScheduleActionSettings({
     required this.id3,
   });
+
   factory HlsTimedMetadataScheduleActionSettings.fromJson(
       Map<String, dynamic> json) {
     return HlsTimedMetadataScheduleActionSettings(
@@ -12787,7 +14210,8 @@ class HlsWebdavSettings {
   final HlsWebdavHttpTransferMode? httpTransferMode;
 
   /// Number of retry attempts that will be made before the Live Event is put into
-  /// an error state.
+  /// an error state. Applies only if the CDN destination URI begins with "s3" or
+  /// "mediastore". For other URIs, the value is always 3.
   final int? numRetries;
 
   /// If a streaming output fails, number of seconds to wait until a restart is
@@ -12801,6 +14225,7 @@ class HlsWebdavSettings {
     this.numRetries,
     this.restartDelay,
   });
+
   factory HlsWebdavSettings.fromJson(Map<String, dynamic> json) {
     return HlsWebdavSettings(
       connectionRetryInterval: json['connectionRetryInterval'] as int?,
@@ -12827,6 +14252,19 @@ class HlsWebdavSettings {
       if (numRetries != null) 'numRetries': numRetries,
       if (restartDelay != null) 'restartDelay': restartDelay,
     };
+  }
+}
+
+/// Html Motion Graphics Settings
+class HtmlMotionGraphicsSettings {
+  HtmlMotionGraphicsSettings();
+
+  factory HtmlMotionGraphicsSettings.fromJson(Map<String, dynamic> _) {
+    return HtmlMotionGraphicsSettings();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -12864,6 +14302,7 @@ extension IFrameOnlyPlaylistTypeFromString on String {
 /// Settings to configure an action so that it occurs as soon as possible.
 class ImmediateModeScheduleActionStartSettings {
   ImmediateModeScheduleActionStartSettings();
+
   factory ImmediateModeScheduleActionStartSettings.fromJson(
       Map<String, dynamic> _) {
     return ImmediateModeScheduleActionStartSettings();
@@ -12902,10 +14341,13 @@ class Input {
   /// Settings for the input devices.
   final List<InputDeviceSettings>? inputDevices;
 
+  /// A list of IDs for all Inputs which are partners of this one.
+  final List<String>? inputPartnerIds;
+
   /// Certain pull input sources can be dynamic, meaning that they can have their
   /// URL's dynamically changes
   /// during input switch actions. Presently, this functionality only works with
-  /// MP4_FILE inputs.
+  /// MP4_FILE and TS_FILE inputs.
   final InputSourceType? inputSourceType;
 
   /// A list of MediaConnect Flows for this input.
@@ -12936,6 +14378,7 @@ class Input {
     this.id,
     this.inputClass,
     this.inputDevices,
+    this.inputPartnerIds,
     this.inputSourceType,
     this.mediaConnectFlows,
     this.name,
@@ -12946,6 +14389,7 @@ class Input {
     this.tags,
     this.type,
   });
+
   factory Input.fromJson(Map<String, dynamic> json) {
     return Input(
       arn: json['arn'] as String?,
@@ -12962,6 +14406,10 @@ class Input {
       inputDevices: (json['inputDevices'] as List?)
           ?.whereNotNull()
           .map((e) => InputDeviceSettings.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      inputPartnerIds: (json['inputPartnerIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
           .toList(),
       inputSourceType:
           (json['inputSourceType'] as String?)?.toInputSourceType(),
@@ -13009,6 +14457,7 @@ class InputAttachment {
     this.inputId,
     this.inputSettings,
   });
+
   factory InputAttachment.fromJson(Map<String, dynamic> json) {
     return InputAttachment(
       automaticInputFailoverSettings: json['automaticInputFailoverSettings'] !=
@@ -13054,6 +14503,7 @@ class InputChannelLevel {
     required this.gain,
     required this.inputChannel,
   });
+
   factory InputChannelLevel.fromJson(Map<String, dynamic> json) {
     return InputChannelLevel(
       gain: json['gain'] as int,
@@ -13117,6 +14567,7 @@ class InputClippingSettings {
     this.startTimecode,
     this.stopTimecode,
   });
+
   factory InputClippingSettings.fromJson(Map<String, dynamic> json) {
     return InputClippingSettings(
       inputTimecodeSource:
@@ -13255,6 +14706,7 @@ class InputDestination {
     this.url,
     this.vpc,
   });
+
   factory InputDestination.fromJson(Map<String, dynamic> json) {
     return InputDestination(
       ip: json['ip'] as String?,
@@ -13296,6 +14748,7 @@ class InputDestinationVpc {
     this.availabilityZone,
     this.networkInterfaceId,
   });
+
   factory InputDestinationVpc.fromJson(Map<String, dynamic> json) {
     return InputDestinationVpc(
       availabilityZone: json['availabilityZone'] as String?,
@@ -13341,19 +14794,25 @@ class InputDeviceConfigurableSettings {
   /// ports, and you want to use a specific source, specify the source.
   final InputDeviceConfiguredInput? configuredInput;
 
+  /// The Link device's buffer size (latency) in milliseconds (ms).
+  final int? latencyMs;
+
   /// The maximum bitrate in bits per second. Set a value here to throttle the
   /// bitrate of the source video.
   final int? maxBitrate;
 
   InputDeviceConfigurableSettings({
     this.configuredInput,
+    this.latencyMs,
     this.maxBitrate,
   });
   Map<String, dynamic> toJson() {
     final configuredInput = this.configuredInput;
+    final latencyMs = this.latencyMs;
     final maxBitrate = this.maxBitrate;
     return {
       if (configuredInput != null) 'configuredInput': configuredInput.toValue(),
+      if (latencyMs != null) 'latencyMs': latencyMs,
       if (maxBitrate != null) 'maxBitrate': maxBitrate,
     };
   }
@@ -13444,6 +14903,10 @@ class InputDeviceHdSettings {
   /// The height of the video source, in pixels.
   final int? height;
 
+  /// The Link device's buffer size (latency) in milliseconds (ms). You can
+  /// specify this value.
+  final int? latencyMs;
+
   /// The current maximum bitrate for ingesting this source, in bits per second.
   /// You can specify this maximum.
   final int? maxBitrate;
@@ -13460,10 +14923,12 @@ class InputDeviceHdSettings {
     this.deviceState,
     this.framerate,
     this.height,
+    this.latencyMs,
     this.maxBitrate,
     this.scanType,
     this.width,
   });
+
   factory InputDeviceHdSettings.fromJson(Map<String, dynamic> json) {
     return InputDeviceHdSettings(
       activeInput: (json['activeInput'] as String?)?.toInputDeviceActiveInput(),
@@ -13472,6 +14937,7 @@ class InputDeviceHdSettings {
       deviceState: (json['deviceState'] as String?)?.toInputDeviceState(),
       framerate: json['framerate'] as double?,
       height: json['height'] as int?,
+      latencyMs: json['latencyMs'] as int?,
       maxBitrate: json['maxBitrate'] as int?,
       scanType: (json['scanType'] as String?)?.toInputDeviceScanType(),
       width: json['width'] as int?,
@@ -13536,6 +15002,7 @@ class InputDeviceNetworkSettings {
     this.ipScheme,
     this.subnetMask,
   });
+
   factory InputDeviceNetworkSettings.fromJson(Map<String, dynamic> json) {
     return InputDeviceNetworkSettings(
       dnsAddresses: (json['dnsAddresses'] as List?)
@@ -13603,6 +15070,7 @@ class InputDeviceSettings {
   InputDeviceSettings({
     this.id,
   });
+
   factory InputDeviceSettings.fromJson(Map<String, dynamic> json) {
     return InputDeviceSettings(
       id: json['id'] as String?,
@@ -13682,6 +15150,9 @@ class InputDeviceSummary {
   /// The unique serial number of the input device.
   final String? serialNumber;
 
+  /// A collection of key-value pairs.
+  final Map<String, String>? tags;
+
   /// The type of the input device.
   final InputDeviceType? type;
 
@@ -13699,9 +15170,11 @@ class InputDeviceSummary {
     this.name,
     this.networkSettings,
     this.serialNumber,
+    this.tags,
     this.type,
     this.uhdDeviceSettings,
   });
+
   factory InputDeviceSummary.fromJson(Map<String, dynamic> json) {
     return InputDeviceSummary(
       arn: json['arn'] as String?,
@@ -13723,6 +15196,8 @@ class InputDeviceSummary {
               json['networkSettings'] as Map<String, dynamic>)
           : null,
       serialNumber: json['serialNumber'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
       type: (json['type'] as String?)?.toInputDeviceType(),
       uhdDeviceSettings: json['uhdDeviceSettings'] != null
           ? InputDeviceUhdSettings.fromJson(
@@ -13767,6 +15242,7 @@ extension InputDeviceTransferTypeFromString on String {
 /// resolutions up to 1080, choose "HD".
 enum InputDeviceType {
   hd,
+  uhd,
 }
 
 extension InputDeviceTypeValueExtension on InputDeviceType {
@@ -13774,6 +15250,8 @@ extension InputDeviceTypeValueExtension on InputDeviceType {
     switch (this) {
       case InputDeviceType.hd:
         return 'HD';
+      case InputDeviceType.uhd:
+        return 'UHD';
     }
   }
 }
@@ -13783,6 +15261,8 @@ extension InputDeviceTypeFromString on String {
     switch (this) {
       case 'HD':
         return InputDeviceType.hd;
+      case 'UHD':
+        return InputDeviceType.uhd;
     }
     throw Exception('$this is not known in enum InputDeviceType');
   }
@@ -13808,6 +15288,10 @@ class InputDeviceUhdSettings {
   /// The height of the video source, in pixels.
   final int? height;
 
+  /// The Link device's buffer size (latency) in milliseconds (ms). You can
+  /// specify this value.
+  final int? latencyMs;
+
   /// The current maximum bitrate for ingesting this source, in bits per second.
   /// You can specify this maximum.
   final int? maxBitrate;
@@ -13824,10 +15308,12 @@ class InputDeviceUhdSettings {
     this.deviceState,
     this.framerate,
     this.height,
+    this.latencyMs,
     this.maxBitrate,
     this.scanType,
     this.width,
   });
+
   factory InputDeviceUhdSettings.fromJson(Map<String, dynamic> json) {
     return InputDeviceUhdSettings(
       activeInput: (json['activeInput'] as String?)?.toInputDeviceActiveInput(),
@@ -13836,6 +15322,7 @@ class InputDeviceUhdSettings {
       deviceState: (json['deviceState'] as String?)?.toInputDeviceState(),
       framerate: json['framerate'] as double?,
       height: json['height'] as int?,
+      latencyMs: json['latencyMs'] as int?,
       maxBitrate: json['maxBitrate'] as int?,
       scanType: (json['scanType'] as String?)?.toInputDeviceScanType(),
       width: json['width'] as int?,
@@ -13896,6 +15383,7 @@ class InputLocation {
     this.passwordParam,
     this.username,
   });
+
   factory InputLocation.fromJson(Map<String, dynamic> json) {
     return InputLocation(
       uri: json['uri'] as String,
@@ -14065,6 +15553,7 @@ class InputLossBehavior {
     this.inputLossImageType,
     this.repeatFrameMsec,
   });
+
   factory InputLossBehavior.fromJson(Map<String, dynamic> json) {
     return InputLossBehavior(
       blackFrameMsec: json['blackFrameMsec'] as int?,
@@ -14108,6 +15597,7 @@ class InputLossFailoverSettings {
   InputLossFailoverSettings({
     this.inputLossThresholdMsec,
   });
+
   factory InputLossFailoverSettings.fromJson(Map<String, dynamic> json) {
     return InputLossFailoverSettings(
       inputLossThresholdMsec: json['inputLossThresholdMsec'] as int?,
@@ -14243,6 +15733,7 @@ class InputPrepareScheduleActionSettings {
     this.inputClippingSettings,
     this.urlPath,
   });
+
   factory InputPrepareScheduleActionSettings.fromJson(
       Map<String, dynamic> json) {
     return InputPrepareScheduleActionSettings(
@@ -14336,6 +15827,7 @@ class InputSecurityGroup {
     this.tags,
     this.whitelistRules,
   });
+
   factory InputSecurityGroup.fromJson(Map<String, dynamic> json) {
     return InputSecurityGroup(
       arn: json['arn'] as String?,
@@ -14424,6 +15916,10 @@ class InputSettings {
   /// Input settings.
   final NetworkInputSettings? networkInputSettings;
 
+  /// PID from which to read SCTE-35 messages. If left undefined, EML will select
+  /// the first SCTE-35 PID found in the input.
+  final int? scte35Pid;
+
   /// Specifies whether to extract applicable ancillary data from a SMPTE-2038
   /// source in this input. Applicable data types are captions, timecode, AFD, and
   /// SCTE-104 messages.
@@ -14448,10 +15944,12 @@ class InputSettings {
     this.filterStrength,
     this.inputFilter,
     this.networkInputSettings,
+    this.scte35Pid,
     this.smpte2038DataPreference,
     this.sourceEndBehavior,
     this.videoSelector,
   });
+
   factory InputSettings.fromJson(Map<String, dynamic> json) {
     return InputSettings(
       audioSelectors: (json['audioSelectors'] as List?)
@@ -14470,6 +15968,7 @@ class InputSettings {
           ? NetworkInputSettings.fromJson(
               json['networkInputSettings'] as Map<String, dynamic>)
           : null,
+      scte35Pid: json['scte35Pid'] as int?,
       smpte2038DataPreference: (json['smpte2038DataPreference'] as String?)
           ?.toSmpte2038DataPreference(),
       sourceEndBehavior:
@@ -14489,6 +15988,7 @@ class InputSettings {
     final filterStrength = this.filterStrength;
     final inputFilter = this.inputFilter;
     final networkInputSettings = this.networkInputSettings;
+    final scte35Pid = this.scte35Pid;
     final smpte2038DataPreference = this.smpte2038DataPreference;
     final sourceEndBehavior = this.sourceEndBehavior;
     final videoSelector = this.videoSelector;
@@ -14501,6 +16001,7 @@ class InputSettings {
       if (inputFilter != null) 'inputFilter': inputFilter.toValue(),
       if (networkInputSettings != null)
         'networkInputSettings': networkInputSettings,
+      if (scte35Pid != null) 'scte35Pid': scte35Pid,
       if (smpte2038DataPreference != null)
         'smpte2038DataPreference': smpte2038DataPreference.toValue(),
       if (sourceEndBehavior != null)
@@ -14527,6 +16028,7 @@ class InputSource {
     this.url,
     this.username,
   });
+
   factory InputSource.fromJson(Map<String, dynamic> json) {
     return InputSource(
       passwordParam: json['passwordParam'] as String?,
@@ -14597,9 +16099,9 @@ class InputSourceRequest {
 /// There are two types of input sources, static and dynamic. If an input source
 /// is dynamic you can
 /// change the source url of the input dynamically using an input switch action.
-/// However, the only input type
-/// to support a dynamic url at this time is MP4_FILE. By default all input
-/// sources are static.
+/// Currently, two input types
+/// support a dynamic url at this time, MP4_FILE and TS_FILE. By default all
+/// input sources are static.
 enum InputSourceType {
   static,
   dynamic,
@@ -14644,6 +16146,7 @@ class InputSpecification {
     this.maximumBitrate,
     this.resolution,
   });
+
   factory InputSpecification.fromJson(Map<String, dynamic> json) {
     return InputSpecification(
       codec: (json['codec'] as String?)?.toInputCodec(),
@@ -14731,6 +16234,7 @@ class InputSwitchScheduleActionSettings {
     this.inputClippingSettings,
     this.urlPath,
   });
+
   factory InputSwitchScheduleActionSettings.fromJson(
       Map<String, dynamic> json) {
     return InputSwitchScheduleActionSettings(
@@ -14789,7 +16293,7 @@ extension InputTimecodeSourceFromString on String {
   }
 }
 
-/// Placeholder documentation for InputType
+/// The different types of inputs that AWS Elemental MediaLive supports.
 enum InputType {
   udpPush,
   rtpPush,
@@ -14800,6 +16304,7 @@ enum InputType {
   mediaconnect,
   inputDevice,
   awsCdi,
+  tsFile,
 }
 
 extension InputTypeValueExtension on InputType {
@@ -14823,6 +16328,8 @@ extension InputTypeValueExtension on InputType {
         return 'INPUT_DEVICE';
       case InputType.awsCdi:
         return 'AWS_CDI';
+      case InputType.tsFile:
+        return 'TS_FILE';
     }
   }
 }
@@ -14848,6 +16355,8 @@ extension InputTypeFromString on String {
         return InputType.inputDevice;
       case 'AWS_CDI':
         return InputType.awsCdi;
+      case 'TS_FILE':
+        return InputType.tsFile;
     }
     throw Exception('$this is not known in enum InputType');
   }
@@ -14891,6 +16400,7 @@ class InputWhitelistRule {
   InputWhitelistRule({
     this.cidr,
   });
+
   factory InputWhitelistRule.fromJson(Map<String, dynamic> json) {
     return InputWhitelistRule(
       cidr: json['cidr'] as String?,
@@ -14921,6 +16431,7 @@ class KeyProviderSettings {
   KeyProviderSettings({
     this.staticKeySettings,
   });
+
   factory KeyProviderSettings.fromJson(Map<String, dynamic> json) {
     return KeyProviderSettings(
       staticKeySettings: json['staticKeySettings'] != null
@@ -14978,6 +16489,7 @@ class ListChannelsResponse {
     this.channels,
     this.nextToken,
   });
+
   factory ListChannelsResponse.fromJson(Map<String, dynamic> json) {
     return ListChannelsResponse(
       channels: (json['channels'] as List?)
@@ -15002,6 +16514,7 @@ class ListInputDeviceTransfersResponse {
     this.inputDeviceTransfers,
     this.nextToken,
   });
+
   factory ListInputDeviceTransfersResponse.fromJson(Map<String, dynamic> json) {
     return ListInputDeviceTransfersResponse(
       inputDeviceTransfers: (json['inputDeviceTransfers'] as List?)
@@ -15026,6 +16539,7 @@ class ListInputDevicesResponse {
     this.inputDevices,
     this.nextToken,
   });
+
   factory ListInputDevicesResponse.fromJson(Map<String, dynamic> json) {
     return ListInputDevicesResponse(
       inputDevices: (json['inputDevices'] as List?)
@@ -15047,6 +16561,7 @@ class ListInputSecurityGroupsResponse {
     this.inputSecurityGroups,
     this.nextToken,
   });
+
   factory ListInputSecurityGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListInputSecurityGroupsResponse(
       inputSecurityGroups: (json['inputSecurityGroups'] as List?)
@@ -15067,6 +16582,7 @@ class ListInputsResponse {
     this.inputs,
     this.nextToken,
   });
+
   factory ListInputsResponse.fromJson(Map<String, dynamic> json) {
     return ListInputsResponse(
       inputs: (json['inputs'] as List?)
@@ -15090,6 +16606,7 @@ class ListMultiplexProgramsResponse {
     this.multiplexPrograms,
     this.nextToken,
   });
+
   factory ListMultiplexProgramsResponse.fromJson(Map<String, dynamic> json) {
     return ListMultiplexProgramsResponse(
       multiplexPrograms: (json['multiplexPrograms'] as List?)
@@ -15114,6 +16631,7 @@ class ListMultiplexesResponse {
     this.multiplexes,
     this.nextToken,
   });
+
   factory ListMultiplexesResponse.fromJson(Map<String, dynamic> json) {
     return ListMultiplexesResponse(
       multiplexes: (json['multiplexes'] as List?)
@@ -15137,6 +16655,7 @@ class ListOfferingsResponse {
     this.nextToken,
     this.offerings,
   });
+
   factory ListOfferingsResponse.fromJson(Map<String, dynamic> json) {
     return ListOfferingsResponse(
       nextToken: json['nextToken'] as String?,
@@ -15160,6 +16679,7 @@ class ListReservationsResponse {
     this.nextToken,
     this.reservations,
   });
+
   factory ListReservationsResponse.fromJson(Map<String, dynamic> json) {
     return ListReservationsResponse(
       nextToken: json['nextToken'] as String?,
@@ -15178,6 +16698,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -15966,6 +17487,15 @@ class M2tsSettings {
   /// 0x20)..8182 (or 0x1ff6).
   final String? scte35Pid;
 
+  /// Defines the amount SCTE-35 preroll will be increased (in milliseconds) on
+  /// the output. Preroll is the amount of time between the presence of a SCTE-35
+  /// indication in a transport stream and the PTS of the video frame it
+  /// references. Zero means don't add pullup (it doesn't mean set the preroll to
+  /// zero). Negative pullup is not supported, which means that you can't make the
+  /// preroll shorter. Be aware that latency in the output will increase by the
+  /// pullup amount.
+  final double? scte35PrerollPullupMilliseconds;
+
   /// Inserts segmentation markers at each segmentationTime period. raiSegstart
   /// sets the Random Access Indicator bit in the adaptation field. raiAdapt sets
   /// the RAI bit and adds the current timecode in the private data bytes.
@@ -16054,6 +17584,7 @@ class M2tsSettings {
     this.scte27Pids,
     this.scte35Control,
     this.scte35Pid,
+    this.scte35PrerollPullupMilliseconds,
     this.segmentationMarkers,
     this.segmentationStyle,
     this.segmentationTime,
@@ -16062,6 +17593,7 @@ class M2tsSettings {
     this.transportStreamId,
     this.videoPid,
   });
+
   factory M2tsSettings.fromJson(Map<String, dynamic> json) {
     return M2tsSettings(
       absentInputAudioBehavior: (json['absentInputAudioBehavior'] as String?)
@@ -16119,6 +17651,8 @@ class M2tsSettings {
       scte27Pids: json['scte27Pids'] as String?,
       scte35Control: (json['scte35Control'] as String?)?.toM2tsScte35Control(),
       scte35Pid: json['scte35Pid'] as String?,
+      scte35PrerollPullupMilliseconds:
+          json['scte35PrerollPullupMilliseconds'] as double?,
       segmentationMarkers:
           (json['segmentationMarkers'] as String?)?.toM2tsSegmentationMarkers(),
       segmentationStyle:
@@ -16173,6 +17707,8 @@ class M2tsSettings {
     final scte27Pids = this.scte27Pids;
     final scte35Control = this.scte35Control;
     final scte35Pid = this.scte35Pid;
+    final scte35PrerollPullupMilliseconds =
+        this.scte35PrerollPullupMilliseconds;
     final segmentationMarkers = this.segmentationMarkers;
     final segmentationStyle = this.segmentationStyle;
     final segmentationTime = this.segmentationTime;
@@ -16226,6 +17762,8 @@ class M2tsSettings {
       if (scte27Pids != null) 'scte27Pids': scte27Pids,
       if (scte35Control != null) 'scte35Control': scte35Control.toValue(),
       if (scte35Pid != null) 'scte35Pid': scte35Pid,
+      if (scte35PrerollPullupMilliseconds != null)
+        'scte35PrerollPullupMilliseconds': scte35PrerollPullupMilliseconds,
       if (segmentationMarkers != null)
         'segmentationMarkers': segmentationMarkers.toValue(),
       if (segmentationStyle != null)
@@ -16447,6 +17985,7 @@ class M3u8Settings {
     this.transportStreamId,
     this.videoPid,
   });
+
   factory M3u8Settings.fromJson(Map<String, dynamic> json) {
     return M3u8Settings(
       audioFramesPerPes: json['audioFramesPerPes'] as int?,
@@ -16543,6 +18082,150 @@ extension M3u8TimedMetadataBehaviorFromString on String {
   }
 }
 
+/// Placeholder documentation for MaintenanceCreateSettings
+class MaintenanceCreateSettings {
+  /// Choose one day of the week for maintenance. The chosen day is used for all
+  /// future maintenance windows.
+  final MaintenanceDay? maintenanceDay;
+
+  /// Choose the hour that maintenance will start. The chosen time is used for all
+  /// future maintenance windows.
+  final String? maintenanceStartTime;
+
+  MaintenanceCreateSettings({
+    this.maintenanceDay,
+    this.maintenanceStartTime,
+  });
+  Map<String, dynamic> toJson() {
+    final maintenanceDay = this.maintenanceDay;
+    final maintenanceStartTime = this.maintenanceStartTime;
+    return {
+      if (maintenanceDay != null) 'maintenanceDay': maintenanceDay.toValue(),
+      if (maintenanceStartTime != null)
+        'maintenanceStartTime': maintenanceStartTime,
+    };
+  }
+}
+
+/// The currently selected maintenance day.
+enum MaintenanceDay {
+  monday,
+  tuesday,
+  wednesday,
+  thursday,
+  friday,
+  saturday,
+  sunday,
+}
+
+extension MaintenanceDayValueExtension on MaintenanceDay {
+  String toValue() {
+    switch (this) {
+      case MaintenanceDay.monday:
+        return 'MONDAY';
+      case MaintenanceDay.tuesday:
+        return 'TUESDAY';
+      case MaintenanceDay.wednesday:
+        return 'WEDNESDAY';
+      case MaintenanceDay.thursday:
+        return 'THURSDAY';
+      case MaintenanceDay.friday:
+        return 'FRIDAY';
+      case MaintenanceDay.saturday:
+        return 'SATURDAY';
+      case MaintenanceDay.sunday:
+        return 'SUNDAY';
+    }
+  }
+}
+
+extension MaintenanceDayFromString on String {
+  MaintenanceDay toMaintenanceDay() {
+    switch (this) {
+      case 'MONDAY':
+        return MaintenanceDay.monday;
+      case 'TUESDAY':
+        return MaintenanceDay.tuesday;
+      case 'WEDNESDAY':
+        return MaintenanceDay.wednesday;
+      case 'THURSDAY':
+        return MaintenanceDay.thursday;
+      case 'FRIDAY':
+        return MaintenanceDay.friday;
+      case 'SATURDAY':
+        return MaintenanceDay.saturday;
+      case 'SUNDAY':
+        return MaintenanceDay.sunday;
+    }
+    throw Exception('$this is not known in enum MaintenanceDay');
+  }
+}
+
+/// Placeholder documentation for MaintenanceStatus
+class MaintenanceStatus {
+  /// The currently selected maintenance day.
+  final MaintenanceDay? maintenanceDay;
+
+  /// Maintenance is required by the displayed date and time. Date and time is in
+  /// ISO.
+  final String? maintenanceDeadline;
+
+  /// The currently scheduled maintenance date and time. Date and time is in ISO.
+  final String? maintenanceScheduledDate;
+
+  /// The currently selected maintenance start time. Time is in UTC.
+  final String? maintenanceStartTime;
+
+  MaintenanceStatus({
+    this.maintenanceDay,
+    this.maintenanceDeadline,
+    this.maintenanceScheduledDate,
+    this.maintenanceStartTime,
+  });
+
+  factory MaintenanceStatus.fromJson(Map<String, dynamic> json) {
+    return MaintenanceStatus(
+      maintenanceDay: (json['maintenanceDay'] as String?)?.toMaintenanceDay(),
+      maintenanceDeadline: json['maintenanceDeadline'] as String?,
+      maintenanceScheduledDate: json['maintenanceScheduledDate'] as String?,
+      maintenanceStartTime: json['maintenanceStartTime'] as String?,
+    );
+  }
+}
+
+/// Placeholder documentation for MaintenanceUpdateSettings
+class MaintenanceUpdateSettings {
+  /// Choose one day of the week for maintenance. The chosen day is used for all
+  /// future maintenance windows.
+  final MaintenanceDay? maintenanceDay;
+
+  /// Choose a specific date for maintenance to occur. The chosen date is used for
+  /// the next maintenance window only.
+  final String? maintenanceScheduledDate;
+
+  /// Choose the hour that maintenance will start. The chosen time is used for all
+  /// future maintenance windows.
+  final String? maintenanceStartTime;
+
+  MaintenanceUpdateSettings({
+    this.maintenanceDay,
+    this.maintenanceScheduledDate,
+    this.maintenanceStartTime,
+  });
+  Map<String, dynamic> toJson() {
+    final maintenanceDay = this.maintenanceDay;
+    final maintenanceScheduledDate = this.maintenanceScheduledDate;
+    final maintenanceStartTime = this.maintenanceStartTime;
+    return {
+      if (maintenanceDay != null) 'maintenanceDay': maintenanceDay.toValue(),
+      if (maintenanceScheduledDate != null)
+        'maintenanceScheduledDate': maintenanceScheduledDate,
+      if (maintenanceStartTime != null)
+        'maintenanceStartTime': maintenanceStartTime,
+    };
+  }
+}
+
 /// The settings for a MediaConnect Flow.
 class MediaConnectFlow {
   /// The unique ARN of the MediaConnect Flow being used as a source.
@@ -16551,6 +18234,7 @@ class MediaConnectFlow {
   MediaConnectFlow({
     this.flowArn,
   });
+
   factory MediaConnectFlow.fromJson(Map<String, dynamic> json) {
     return MediaConnectFlow(
       flowArn: json['flowArn'] as String?,
@@ -16582,6 +18266,7 @@ class MediaPackageGroupSettings {
   MediaPackageGroupSettings({
     required this.destination,
   });
+
   factory MediaPackageGroupSettings.fromJson(Map<String, dynamic> json) {
     return MediaPackageGroupSettings(
       destination: OutputLocationRef.fromJson(
@@ -16609,6 +18294,7 @@ class MediaPackageOutputDestinationSettings {
   MediaPackageOutputDestinationSettings({
     this.channelId,
   });
+
   factory MediaPackageOutputDestinationSettings.fromJson(
       Map<String, dynamic> json) {
     return MediaPackageOutputDestinationSettings(
@@ -16627,12 +18313,161 @@ class MediaPackageOutputDestinationSettings {
 /// Media Package Output Settings
 class MediaPackageOutputSettings {
   MediaPackageOutputSettings();
+
   factory MediaPackageOutputSettings.fromJson(Map<String, dynamic> _) {
     return MediaPackageOutputSettings();
   }
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// Settings to specify the rendering of motion graphics into the video stream.
+class MotionGraphicsActivateScheduleActionSettings {
+  /// Duration (in milliseconds) that motion graphics should render on to the
+  /// video stream. Leaving out this property or setting to 0 will result in
+  /// rendering continuing until a deactivate action is processed.
+  final int? duration;
+
+  /// Key used to extract the password from EC2 Parameter store
+  final String? passwordParam;
+
+  /// URI of the HTML5 content to be rendered into the live stream.
+  final String? url;
+
+  /// Documentation update needed
+  final String? username;
+
+  MotionGraphicsActivateScheduleActionSettings({
+    this.duration,
+    this.passwordParam,
+    this.url,
+    this.username,
+  });
+
+  factory MotionGraphicsActivateScheduleActionSettings.fromJson(
+      Map<String, dynamic> json) {
+    return MotionGraphicsActivateScheduleActionSettings(
+      duration: json['duration'] as int?,
+      passwordParam: json['passwordParam'] as String?,
+      url: json['url'] as String?,
+      username: json['username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final duration = this.duration;
+    final passwordParam = this.passwordParam;
+    final url = this.url;
+    final username = this.username;
+    return {
+      if (duration != null) 'duration': duration,
+      if (passwordParam != null) 'passwordParam': passwordParam,
+      if (url != null) 'url': url,
+      if (username != null) 'username': username,
+    };
+  }
+}
+
+/// Motion Graphics Configuration
+class MotionGraphicsConfiguration {
+  /// Motion Graphics Settings
+  final MotionGraphicsSettings motionGraphicsSettings;
+  final MotionGraphicsInsertion? motionGraphicsInsertion;
+
+  MotionGraphicsConfiguration({
+    required this.motionGraphicsSettings,
+    this.motionGraphicsInsertion,
+  });
+
+  factory MotionGraphicsConfiguration.fromJson(Map<String, dynamic> json) {
+    return MotionGraphicsConfiguration(
+      motionGraphicsSettings: MotionGraphicsSettings.fromJson(
+          json['motionGraphicsSettings'] as Map<String, dynamic>),
+      motionGraphicsInsertion: (json['motionGraphicsInsertion'] as String?)
+          ?.toMotionGraphicsInsertion(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final motionGraphicsSettings = this.motionGraphicsSettings;
+    final motionGraphicsInsertion = this.motionGraphicsInsertion;
+    return {
+      'motionGraphicsSettings': motionGraphicsSettings,
+      if (motionGraphicsInsertion != null)
+        'motionGraphicsInsertion': motionGraphicsInsertion.toValue(),
+    };
+  }
+}
+
+/// Settings to specify the ending of rendering motion graphics into the video
+/// stream.
+class MotionGraphicsDeactivateScheduleActionSettings {
+  MotionGraphicsDeactivateScheduleActionSettings();
+
+  factory MotionGraphicsDeactivateScheduleActionSettings.fromJson(
+      Map<String, dynamic> _) {
+    return MotionGraphicsDeactivateScheduleActionSettings();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Motion Graphics Insertion
+enum MotionGraphicsInsertion {
+  disabled,
+  enabled,
+}
+
+extension MotionGraphicsInsertionValueExtension on MotionGraphicsInsertion {
+  String toValue() {
+    switch (this) {
+      case MotionGraphicsInsertion.disabled:
+        return 'DISABLED';
+      case MotionGraphicsInsertion.enabled:
+        return 'ENABLED';
+    }
+  }
+}
+
+extension MotionGraphicsInsertionFromString on String {
+  MotionGraphicsInsertion toMotionGraphicsInsertion() {
+    switch (this) {
+      case 'DISABLED':
+        return MotionGraphicsInsertion.disabled;
+      case 'ENABLED':
+        return MotionGraphicsInsertion.enabled;
+    }
+    throw Exception('$this is not known in enum MotionGraphicsInsertion');
+  }
+}
+
+/// Motion Graphics Settings
+class MotionGraphicsSettings {
+  final HtmlMotionGraphicsSettings? htmlMotionGraphicsSettings;
+
+  MotionGraphicsSettings({
+    this.htmlMotionGraphicsSettings,
+  });
+
+  factory MotionGraphicsSettings.fromJson(Map<String, dynamic> json) {
+    return MotionGraphicsSettings(
+      htmlMotionGraphicsSettings: json['htmlMotionGraphicsSettings'] != null
+          ? HtmlMotionGraphicsSettings.fromJson(
+              json['htmlMotionGraphicsSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final htmlMotionGraphicsSettings = this.htmlMotionGraphicsSettings;
+    return {
+      if (htmlMotionGraphicsSettings != null)
+        'htmlMotionGraphicsSettings': htmlMotionGraphicsSettings,
+    };
   }
 }
 
@@ -16682,6 +18517,7 @@ class Mp2Settings {
     this.codingMode,
     this.sampleRate,
   });
+
   factory Mp2Settings.fromJson(Map<String, dynamic> json) {
     return Mp2Settings(
       bitrate: json['bitrate'] as double?,
@@ -16840,6 +18676,7 @@ class Mpeg2FilterSettings {
   Mpeg2FilterSettings({
     this.temporalFilterSettings,
   });
+
   factory Mpeg2FilterSettings.fromJson(Map<String, dynamic> json) {
     return Mpeg2FilterSettings(
       temporalFilterSettings: json['temporalFilterSettings'] != null
@@ -17009,6 +18846,9 @@ class Mpeg2Settings {
   /// improve visual quality.
   final Mpeg2SubGopLength? subgopLength;
 
+  /// Timecode burn-in settings
+  final TimecodeBurninSettings? timecodeBurninSettings;
+
   /// Determines how MediaLive inserts timecodes in the output video. For detailed
   /// information about setting up the input and the output for a timecode, see
   /// the section on \"MediaLive Features - Timecode configuration\" in the
@@ -17033,8 +18873,10 @@ class Mpeg2Settings {
     this.gopSizeUnits,
     this.scanType,
     this.subgopLength,
+    this.timecodeBurninSettings,
     this.timecodeInsertion,
   });
+
   factory Mpeg2Settings.fromJson(Map<String, dynamic> json) {
     return Mpeg2Settings(
       framerateDenominator: json['framerateDenominator'] as int,
@@ -17057,6 +18899,10 @@ class Mpeg2Settings {
       gopSizeUnits: (json['gopSizeUnits'] as String?)?.toMpeg2GopSizeUnits(),
       scanType: (json['scanType'] as String?)?.toMpeg2ScanType(),
       subgopLength: (json['subgopLength'] as String?)?.toMpeg2SubGopLength(),
+      timecodeBurninSettings: json['timecodeBurninSettings'] != null
+          ? TimecodeBurninSettings.fromJson(
+              json['timecodeBurninSettings'] as Map<String, dynamic>)
+          : null,
       timecodeInsertion: (json['timecodeInsertion'] as String?)
           ?.toMpeg2TimecodeInsertionBehavior(),
     );
@@ -17078,6 +18924,7 @@ class Mpeg2Settings {
     final gopSizeUnits = this.gopSizeUnits;
     final scanType = this.scanType;
     final subgopLength = this.subgopLength;
+    final timecodeBurninSettings = this.timecodeBurninSettings;
     final timecodeInsertion = this.timecodeInsertion;
     return {
       'framerateDenominator': framerateDenominator,
@@ -17097,6 +18944,8 @@ class Mpeg2Settings {
       if (gopSizeUnits != null) 'gopSizeUnits': gopSizeUnits.toValue(),
       if (scanType != null) 'scanType': scanType.toValue(),
       if (subgopLength != null) 'subgopLength': subgopLength.toValue(),
+      if (timecodeBurninSettings != null)
+        'timecodeBurninSettings': timecodeBurninSettings,
       if (timecodeInsertion != null)
         'timecodeInsertion': timecodeInsertion.toValue(),
     };
@@ -17275,6 +19124,7 @@ class MsSmoothGroupSettings {
     this.timestampOffset,
     this.timestampOffsetMode,
   });
+
   factory MsSmoothGroupSettings.fromJson(Map<String, dynamic> json) {
     return MsSmoothGroupSettings(
       destination: OutputLocationRef.fromJson(
@@ -17401,6 +19251,7 @@ class MsSmoothOutputSettings {
     this.h265PackagingType,
     this.nameModifier,
   });
+
   factory MsSmoothOutputSettings.fromJson(Map<String, dynamic> json) {
     return MsSmoothOutputSettings(
       h265PackagingType:
@@ -17464,6 +19315,7 @@ class Multiplex {
     this.state,
     this.tags,
   });
+
   factory Multiplex.fromJson(Map<String, dynamic> json) {
     return Multiplex(
       arn: json['arn'] as String?,
@@ -17494,6 +19346,7 @@ class Multiplex {
 /// Multiplex Group Settings
 class MultiplexGroupSettings {
   MultiplexGroupSettings();
+
   factory MultiplexGroupSettings.fromJson(Map<String, dynamic> _) {
     return MultiplexGroupSettings();
   }
@@ -17511,6 +19364,7 @@ class MultiplexMediaConnectOutputDestinationSettings {
   MultiplexMediaConnectOutputDestinationSettings({
     this.entitlementArn,
   });
+
   factory MultiplexMediaConnectOutputDestinationSettings.fromJson(
       Map<String, dynamic> json) {
     return MultiplexMediaConnectOutputDestinationSettings(
@@ -17527,6 +19381,7 @@ class MultiplexOutputDestination {
   MultiplexOutputDestination({
     this.mediaConnectSettings,
   });
+
   factory MultiplexOutputDestination.fromJson(Map<String, dynamic> json) {
     return MultiplexOutputDestination(
       mediaConnectSettings: json['mediaConnectSettings'] != null
@@ -17545,6 +19400,7 @@ class MultiplexOutputSettings {
   MultiplexOutputSettings({
     required this.destination,
   });
+
   factory MultiplexOutputSettings.fromJson(Map<String, dynamic> json) {
     return MultiplexOutputSettings(
       destination: OutputLocationRef.fromJson(
@@ -17588,6 +19444,7 @@ class MultiplexProgram {
     this.pipelineDetails,
     this.programName,
   });
+
   factory MultiplexProgram.fromJson(Map<String, dynamic> json) {
     return MultiplexProgram(
       channelId: json['channelId'] as String?,
@@ -17627,6 +19484,7 @@ class MultiplexProgramChannelDestinationSettings {
     this.multiplexId,
     this.programName,
   });
+
   factory MultiplexProgramChannelDestinationSettings.fromJson(
       Map<String, dynamic> json) {
     return MultiplexProgramChannelDestinationSettings(
@@ -17676,6 +19534,7 @@ class MultiplexProgramPacketIdentifiersMap {
     this.timedMetadataPid,
     this.videoPid,
   });
+
   factory MultiplexProgramPacketIdentifiersMap.fromJson(
       Map<String, dynamic> json) {
     return MultiplexProgramPacketIdentifiersMap(
@@ -17721,6 +19580,7 @@ class MultiplexProgramPipelineDetail {
     this.activeChannelPipeline,
     this.pipelineId,
   });
+
   factory MultiplexProgramPipelineDetail.fromJson(Map<String, dynamic> json) {
     return MultiplexProgramPipelineDetail(
       activeChannelPipeline: json['activeChannelPipeline'] as String?,
@@ -17741,6 +19601,7 @@ class MultiplexProgramServiceDescriptor {
     required this.providerName,
     required this.serviceName,
   });
+
   factory MultiplexProgramServiceDescriptor.fromJson(
       Map<String, dynamic> json) {
     return MultiplexProgramServiceDescriptor(
@@ -17779,6 +19640,7 @@ class MultiplexProgramSettings {
     this.serviceDescriptor,
     this.videoSettings,
   });
+
   factory MultiplexProgramSettings.fromJson(Map<String, dynamic> json) {
     return MultiplexProgramSettings(
       programNumber: json['programNumber'] as int,
@@ -17822,6 +19684,7 @@ class MultiplexProgramSummary {
     this.channelId,
     this.programName,
   });
+
   factory MultiplexProgramSummary.fromJson(Map<String, dynamic> json) {
     return MultiplexProgramSummary(
       channelId: json['channelId'] as String?,
@@ -17850,6 +19713,7 @@ class MultiplexSettings {
     this.maximumVideoBufferDelayMilliseconds,
     this.transportStreamReservedBitrate,
   });
+
   factory MultiplexSettings.fromJson(Map<String, dynamic> json) {
     return MultiplexSettings(
       transportStreamBitrate: json['transportStreamBitrate'] as int,
@@ -17887,6 +19751,7 @@ class MultiplexSettingsSummary {
   MultiplexSettingsSummary({
     this.transportStreamBitrate,
   });
+
   factory MultiplexSettingsSummary.fromJson(Map<String, dynamic> json) {
     return MultiplexSettingsSummary(
       transportStreamBitrate: json['transportStreamBitrate'] as int?,
@@ -17978,6 +19843,7 @@ class MultiplexStatmuxVideoSettings {
     this.minimumBitrate,
     this.priority,
   });
+
   factory MultiplexStatmuxVideoSettings.fromJson(Map<String, dynamic> json) {
     return MultiplexStatmuxVideoSettings(
       maximumBitrate: json['maximumBitrate'] as int?,
@@ -18038,6 +19904,7 @@ class MultiplexSummary {
     this.state,
     this.tags,
   });
+
   factory MultiplexSummary.fromJson(Map<String, dynamic> json) {
     return MultiplexSummary(
       arn: json['arn'] as String?,
@@ -18074,6 +19941,7 @@ class MultiplexVideoSettings {
     this.constantBitrate,
     this.statmuxSettings,
   });
+
   factory MultiplexVideoSettings.fromJson(Map<String, dynamic> json) {
     return MultiplexVideoSettings(
       constantBitrate: json['constantBitrate'] as int?,
@@ -18142,6 +20010,7 @@ class NetworkInputSettings {
     this.hlsInputSettings,
     this.serverValidation,
   });
+
   factory NetworkInputSettings.fromJson(Map<String, dynamic> json) {
     return NetworkInputSettings(
       hlsInputSettings: json['hlsInputSettings'] != null
@@ -18164,6 +20033,45 @@ class NetworkInputSettings {
   }
 }
 
+/// Nielsen CBET
+class NielsenCBET {
+  /// Enter the CBET check digits to use in the watermark.
+  final String cbetCheckDigitString;
+
+  /// Determines the method of CBET insertion mode when prior encoding is detected
+  /// on the same layer.
+  final NielsenWatermarksCbetStepaside cbetStepaside;
+
+  /// Enter the CBET Source ID (CSID) to use in the watermark
+  final String csid;
+
+  NielsenCBET({
+    required this.cbetCheckDigitString,
+    required this.cbetStepaside,
+    required this.csid,
+  });
+
+  factory NielsenCBET.fromJson(Map<String, dynamic> json) {
+    return NielsenCBET(
+      cbetCheckDigitString: json['cbetCheckDigitString'] as String,
+      cbetStepaside:
+          (json['cbetStepaside'] as String).toNielsenWatermarksCbetStepaside(),
+      csid: json['csid'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cbetCheckDigitString = this.cbetCheckDigitString;
+    final cbetStepaside = this.cbetStepaside;
+    final csid = this.csid;
+    return {
+      'cbetCheckDigitString': cbetCheckDigitString,
+      'cbetStepaside': cbetStepaside.toValue(),
+      'csid': csid,
+    };
+  }
+}
+
 /// Nielsen Configuration
 class NielsenConfiguration {
   /// Enter the Distributor ID assigned to your organization by Nielsen.
@@ -18176,6 +20084,7 @@ class NielsenConfiguration {
     this.distributorId,
     this.nielsenPcmToId3Tagging,
   });
+
   factory NielsenConfiguration.fromJson(Map<String, dynamic> json) {
     return NielsenConfiguration(
       distributorId: json['distributorId'] as String?,
@@ -18191,6 +20100,44 @@ class NielsenConfiguration {
       if (distributorId != null) 'distributorId': distributorId,
       if (nielsenPcmToId3Tagging != null)
         'nielsenPcmToId3Tagging': nielsenPcmToId3Tagging.toValue(),
+    };
+  }
+}
+
+/// Nielsen Naes Ii Nw
+class NielsenNaesIiNw {
+  /// Enter the check digit string for the watermark
+  final String checkDigitString;
+
+  /// Enter the Nielsen Source ID (SID) to include in the watermark
+  final double sid;
+
+  /// Choose the timezone for the time stamps in the watermark. If not provided,
+  /// the timestamps will be in Coordinated Universal Time (UTC)
+  final NielsenWatermarkTimezones? timezone;
+
+  NielsenNaesIiNw({
+    required this.checkDigitString,
+    required this.sid,
+    this.timezone,
+  });
+
+  factory NielsenNaesIiNw.fromJson(Map<String, dynamic> json) {
+    return NielsenNaesIiNw(
+      checkDigitString: json['checkDigitString'] as String,
+      sid: json['sid'] as double,
+      timezone: (json['timezone'] as String?)?.toNielsenWatermarkTimezones(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final checkDigitString = this.checkDigitString;
+    final sid = this.sid;
+    final timezone = this.timezone;
+    return {
+      'checkDigitString': checkDigitString,
+      'sid': sid,
+      if (timezone != null) 'timezone': timezone.toValue(),
     };
   }
 }
@@ -18222,6 +20169,188 @@ extension NielsenPcmToId3TaggingStateFromString on String {
         return NielsenPcmToId3TaggingState.enabled;
     }
     throw Exception('$this is not known in enum NielsenPcmToId3TaggingState');
+  }
+}
+
+/// Nielsen Watermark Timezones
+enum NielsenWatermarkTimezones {
+  americaPuertoRico,
+  usAlaska,
+  usArizona,
+  usCentral,
+  usEastern,
+  usHawaii,
+  usMountain,
+  usPacific,
+  usSamoa,
+  utc,
+}
+
+extension NielsenWatermarkTimezonesValueExtension on NielsenWatermarkTimezones {
+  String toValue() {
+    switch (this) {
+      case NielsenWatermarkTimezones.americaPuertoRico:
+        return 'AMERICA_PUERTO_RICO';
+      case NielsenWatermarkTimezones.usAlaska:
+        return 'US_ALASKA';
+      case NielsenWatermarkTimezones.usArizona:
+        return 'US_ARIZONA';
+      case NielsenWatermarkTimezones.usCentral:
+        return 'US_CENTRAL';
+      case NielsenWatermarkTimezones.usEastern:
+        return 'US_EASTERN';
+      case NielsenWatermarkTimezones.usHawaii:
+        return 'US_HAWAII';
+      case NielsenWatermarkTimezones.usMountain:
+        return 'US_MOUNTAIN';
+      case NielsenWatermarkTimezones.usPacific:
+        return 'US_PACIFIC';
+      case NielsenWatermarkTimezones.usSamoa:
+        return 'US_SAMOA';
+      case NielsenWatermarkTimezones.utc:
+        return 'UTC';
+    }
+  }
+}
+
+extension NielsenWatermarkTimezonesFromString on String {
+  NielsenWatermarkTimezones toNielsenWatermarkTimezones() {
+    switch (this) {
+      case 'AMERICA_PUERTO_RICO':
+        return NielsenWatermarkTimezones.americaPuertoRico;
+      case 'US_ALASKA':
+        return NielsenWatermarkTimezones.usAlaska;
+      case 'US_ARIZONA':
+        return NielsenWatermarkTimezones.usArizona;
+      case 'US_CENTRAL':
+        return NielsenWatermarkTimezones.usCentral;
+      case 'US_EASTERN':
+        return NielsenWatermarkTimezones.usEastern;
+      case 'US_HAWAII':
+        return NielsenWatermarkTimezones.usHawaii;
+      case 'US_MOUNTAIN':
+        return NielsenWatermarkTimezones.usMountain;
+      case 'US_PACIFIC':
+        return NielsenWatermarkTimezones.usPacific;
+      case 'US_SAMOA':
+        return NielsenWatermarkTimezones.usSamoa;
+      case 'UTC':
+        return NielsenWatermarkTimezones.utc;
+    }
+    throw Exception('$this is not known in enum NielsenWatermarkTimezones');
+  }
+}
+
+/// Nielsen Watermarks Cbet Stepaside
+enum NielsenWatermarksCbetStepaside {
+  disabled,
+  enabled,
+}
+
+extension NielsenWatermarksCbetStepasideValueExtension
+    on NielsenWatermarksCbetStepaside {
+  String toValue() {
+    switch (this) {
+      case NielsenWatermarksCbetStepaside.disabled:
+        return 'DISABLED';
+      case NielsenWatermarksCbetStepaside.enabled:
+        return 'ENABLED';
+    }
+  }
+}
+
+extension NielsenWatermarksCbetStepasideFromString on String {
+  NielsenWatermarksCbetStepaside toNielsenWatermarksCbetStepaside() {
+    switch (this) {
+      case 'DISABLED':
+        return NielsenWatermarksCbetStepaside.disabled;
+      case 'ENABLED':
+        return NielsenWatermarksCbetStepaside.enabled;
+    }
+    throw Exception(
+        '$this is not known in enum NielsenWatermarksCbetStepaside');
+  }
+}
+
+/// Nielsen Watermarks Distribution Types
+enum NielsenWatermarksDistributionTypes {
+  finalDistributor,
+  programContent,
+}
+
+extension NielsenWatermarksDistributionTypesValueExtension
+    on NielsenWatermarksDistributionTypes {
+  String toValue() {
+    switch (this) {
+      case NielsenWatermarksDistributionTypes.finalDistributor:
+        return 'FINAL_DISTRIBUTOR';
+      case NielsenWatermarksDistributionTypes.programContent:
+        return 'PROGRAM_CONTENT';
+    }
+  }
+}
+
+extension NielsenWatermarksDistributionTypesFromString on String {
+  NielsenWatermarksDistributionTypes toNielsenWatermarksDistributionTypes() {
+    switch (this) {
+      case 'FINAL_DISTRIBUTOR':
+        return NielsenWatermarksDistributionTypes.finalDistributor;
+      case 'PROGRAM_CONTENT':
+        return NielsenWatermarksDistributionTypes.programContent;
+    }
+    throw Exception(
+        '$this is not known in enum NielsenWatermarksDistributionTypes');
+  }
+}
+
+/// Nielsen Watermarks Settings
+class NielsenWatermarksSettings {
+  /// Complete these fields only if you want to insert watermarks of type Nielsen
+  /// CBET
+  final NielsenCBET? nielsenCbetSettings;
+
+  /// Choose the distribution types that you want to assign to the watermarks:
+  /// - PROGRAM_CONTENT
+  /// - FINAL_DISTRIBUTOR
+  final NielsenWatermarksDistributionTypes? nielsenDistributionType;
+
+  /// Complete these fields only if you want to insert watermarks of type Nielsen
+  /// NAES II (N2) and Nielsen NAES VI (NW).
+  final NielsenNaesIiNw? nielsenNaesIiNwSettings;
+
+  NielsenWatermarksSettings({
+    this.nielsenCbetSettings,
+    this.nielsenDistributionType,
+    this.nielsenNaesIiNwSettings,
+  });
+
+  factory NielsenWatermarksSettings.fromJson(Map<String, dynamic> json) {
+    return NielsenWatermarksSettings(
+      nielsenCbetSettings: json['nielsenCbetSettings'] != null
+          ? NielsenCBET.fromJson(
+              json['nielsenCbetSettings'] as Map<String, dynamic>)
+          : null,
+      nielsenDistributionType: (json['nielsenDistributionType'] as String?)
+          ?.toNielsenWatermarksDistributionTypes(),
+      nielsenNaesIiNwSettings: json['nielsenNaesIiNwSettings'] != null
+          ? NielsenNaesIiNw.fromJson(
+              json['nielsenNaesIiNwSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nielsenCbetSettings = this.nielsenCbetSettings;
+    final nielsenDistributionType = this.nielsenDistributionType;
+    final nielsenNaesIiNwSettings = this.nielsenNaesIiNwSettings;
+    return {
+      if (nielsenCbetSettings != null)
+        'nielsenCbetSettings': nielsenCbetSettings,
+      if (nielsenDistributionType != null)
+        'nielsenDistributionType': nielsenDistributionType.toValue(),
+      if (nielsenNaesIiNwSettings != null)
+        'nielsenNaesIiNwSettings': nielsenNaesIiNwSettings,
+    };
   }
 }
 
@@ -18276,6 +20405,7 @@ class Offering {
     this.resourceSpecification,
     this.usagePrice,
   });
+
   factory Offering.fromJson(Map<String, dynamic> json) {
     return Offering(
       arn: json['arn'] as String?,
@@ -18370,6 +20500,7 @@ class Output {
     this.outputName,
     this.videoDescriptionName,
   });
+
   factory Output.fromJson(Map<String, dynamic> json) {
     return Output(
       outputSettings: OutputSettings.fromJson(
@@ -18429,6 +20560,7 @@ class OutputDestination {
     this.multiplexSettings,
     this.settings,
   });
+
   factory OutputDestination.fromJson(Map<String, dynamic> json) {
     return OutputDestination(
       id: json['id'] as String?,
@@ -18484,6 +20616,7 @@ class OutputDestinationSettings {
     this.url,
     this.username,
   });
+
   factory OutputDestinationSettings.fromJson(Map<String, dynamic> json) {
     return OutputDestinationSettings(
       passwordParam: json['passwordParam'] as String?,
@@ -18514,8 +20647,7 @@ class OutputGroup {
   final OutputGroupSettings outputGroupSettings;
   final List<Output> outputs;
 
-  /// Custom output group name optionally defined by the user.  Only letters,
-  /// numbers, and the underscore character allowed; only 32 characters allowed.
+  /// Custom output group name optionally defined by the user.
   final String? name;
 
   OutputGroup({
@@ -18523,6 +20655,7 @@ class OutputGroup {
     required this.outputs,
     this.name,
   });
+
   factory OutputGroup.fromJson(Map<String, dynamic> json) {
     return OutputGroup(
       outputGroupSettings: OutputGroupSettings.fromJson(
@@ -18568,6 +20701,7 @@ class OutputGroupSettings {
     this.rtmpGroupSettings,
     this.udpGroupSettings,
   });
+
   factory OutputGroupSettings.fromJson(Map<String, dynamic> json) {
     return OutputGroupSettings(
       archiveGroupSettings: json['archiveGroupSettings'] != null
@@ -18639,6 +20773,7 @@ class OutputLocationRef {
   OutputLocationRef({
     this.destinationRefId,
   });
+
   factory OutputLocationRef.fromJson(Map<String, dynamic> json) {
     return OutputLocationRef(
       destinationRefId: json['destinationRefId'] as String?,
@@ -18674,6 +20809,7 @@ class OutputSettings {
     this.rtmpOutputSettings,
     this.udpOutputSettings,
   });
+
   factory OutputSettings.fromJson(Map<String, dynamic> json) {
     return OutputSettings(
       archiveOutputSettings: json['archiveOutputSettings'] != null
@@ -18741,6 +20877,7 @@ class OutputSettings {
 /// Pass Through Settings
 class PassThroughSettings {
   PassThroughSettings();
+
   factory PassThroughSettings.fromJson(Map<String, dynamic> _) {
     return PassThroughSettings();
   }
@@ -18757,6 +20894,7 @@ class PauseStateScheduleActionSettings {
   PauseStateScheduleActionSettings({
     this.pipelines,
   });
+
   factory PauseStateScheduleActionSettings.fromJson(Map<String, dynamic> json) {
     return PauseStateScheduleActionSettings(
       pipelines: (json['pipelines'] as List?)
@@ -18786,19 +20924,32 @@ class PipelineDetail {
   /// pipeline.
   final String? activeInputSwitchActionName;
 
+  /// The name of the motion graphics activate action that occurred most recently
+  /// and that resulted in the current graphics URI for this pipeline.
+  final String? activeMotionGraphicsActionName;
+
+  /// The current URI being used for HTML5 motion graphics for this pipeline.
+  final String? activeMotionGraphicsUri;
+
   /// Pipeline ID
   final String? pipelineId;
 
   PipelineDetail({
     this.activeInputAttachmentName,
     this.activeInputSwitchActionName,
+    this.activeMotionGraphicsActionName,
+    this.activeMotionGraphicsUri,
     this.pipelineId,
   });
+
   factory PipelineDetail.fromJson(Map<String, dynamic> json) {
     return PipelineDetail(
       activeInputAttachmentName: json['activeInputAttachmentName'] as String?,
       activeInputSwitchActionName:
           json['activeInputSwitchActionName'] as String?,
+      activeMotionGraphicsActionName:
+          json['activeMotionGraphicsActionName'] as String?,
+      activeMotionGraphicsUri: json['activeMotionGraphicsUri'] as String?,
       pipelineId: json['pipelineId'] as String?,
     );
   }
@@ -18841,6 +20992,7 @@ class PipelinePauseStateSettings {
   PipelinePauseStateSettings({
     required this.pipelineId,
   });
+
   factory PipelinePauseStateSettings.fromJson(Map<String, dynamic> json) {
     return PipelinePauseStateSettings(
       pipelineId: (json['pipelineId'] as String).toPipelineId(),
@@ -18903,6 +21055,7 @@ class PurchaseOfferingResponse {
   PurchaseOfferingResponse({
     this.reservation,
   });
+
   factory PurchaseOfferingResponse.fromJson(Map<String, dynamic> json) {
     return PurchaseOfferingResponse(
       reservation: json['reservation'] != null
@@ -18915,6 +21068,7 @@ class PurchaseOfferingResponse {
 /// Raw Settings
 class RawSettings {
   RawSettings();
+
   factory RawSettings.fromJson(Map<String, dynamic> _) {
     return RawSettings();
   }
@@ -18924,9 +21078,48 @@ class RawSettings {
   }
 }
 
+/// Whether or not to force reboot the input device.
+enum RebootInputDeviceForce {
+  no,
+  yes,
+}
+
+extension RebootInputDeviceForceValueExtension on RebootInputDeviceForce {
+  String toValue() {
+    switch (this) {
+      case RebootInputDeviceForce.no:
+        return 'NO';
+      case RebootInputDeviceForce.yes:
+        return 'YES';
+    }
+  }
+}
+
+extension RebootInputDeviceForceFromString on String {
+  RebootInputDeviceForce toRebootInputDeviceForce() {
+    switch (this) {
+      case 'NO':
+        return RebootInputDeviceForce.no;
+      case 'YES':
+        return RebootInputDeviceForce.yes;
+    }
+    throw Exception('$this is not known in enum RebootInputDeviceForce');
+  }
+}
+
+/// Placeholder documentation for RebootInputDeviceResponse
+class RebootInputDeviceResponse {
+  RebootInputDeviceResponse();
+
+  factory RebootInputDeviceResponse.fromJson(Map<String, dynamic> _) {
+    return RebootInputDeviceResponse();
+  }
+}
+
 /// Rec601 Settings
 class Rec601Settings {
   Rec601Settings();
+
   factory Rec601Settings.fromJson(Map<String, dynamic> _) {
     return Rec601Settings();
   }
@@ -18939,6 +21132,7 @@ class Rec601Settings {
 /// Rec709 Settings
 class Rec709Settings {
   Rec709Settings();
+
   factory Rec709Settings.fromJson(Map<String, dynamic> _) {
     return Rec709Settings();
   }
@@ -18951,6 +21145,7 @@ class Rec709Settings {
 /// Placeholder documentation for RejectInputDeviceTransferResponse
 class RejectInputDeviceTransferResponse {
   RejectInputDeviceTransferResponse();
+
   factory RejectInputDeviceTransferResponse.fromJson(Map<String, dynamic> _) {
     return RejectInputDeviceTransferResponse();
   }
@@ -18974,6 +21169,7 @@ class RemixSettings {
     this.channelsIn,
     this.channelsOut,
   });
+
   factory RemixSettings.fromJson(Map<String, dynamic> json) {
     return RemixSettings(
       channelMappings: (json['channelMappings'] as List)
@@ -18993,6 +21189,38 @@ class RemixSettings {
       'channelMappings': channelMappings,
       if (channelsIn != null) 'channelsIn': channelsIn,
       if (channelsOut != null) 'channelsOut': channelsOut,
+    };
+  }
+}
+
+/// The Renewal settings for Reservations
+class RenewalSettings {
+  /// Automatic renewal status for the reservation
+  final ReservationAutomaticRenewal? automaticRenewal;
+
+  /// Count for the reservation renewal
+  final int? renewalCount;
+
+  RenewalSettings({
+    this.automaticRenewal,
+    this.renewalCount,
+  });
+
+  factory RenewalSettings.fromJson(Map<String, dynamic> json) {
+    return RenewalSettings(
+      automaticRenewal: (json['automaticRenewal'] as String?)
+          ?.toReservationAutomaticRenewal(),
+      renewalCount: json['renewalCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final automaticRenewal = this.automaticRenewal;
+    final renewalCount = this.renewalCount;
+    return {
+      if (automaticRenewal != null)
+        'automaticRenewal': automaticRenewal.toValue(),
+      if (renewalCount != null) 'renewalCount': renewalCount,
     };
   }
 }
@@ -19039,6 +21267,9 @@ class Reservation {
   /// AWS region, e.g. 'us-west-2'
   final String? region;
 
+  /// Renewal settings for the reservation
+  final RenewalSettings? renewalSettings;
+
   /// Unique reservation ID, e.g. '1234567'
   final String? reservationId;
 
@@ -19071,6 +21302,7 @@ class Reservation {
     this.offeringId,
     this.offeringType,
     this.region,
+    this.renewalSettings,
     this.reservationId,
     this.resourceSpecification,
     this.start,
@@ -19078,6 +21310,7 @@ class Reservation {
     this.tags,
     this.usagePrice,
   });
+
   factory Reservation.fromJson(Map<String, dynamic> json) {
     return Reservation(
       arn: json['arn'] as String?,
@@ -19093,6 +21326,10 @@ class Reservation {
       offeringId: json['offeringId'] as String?,
       offeringType: (json['offeringType'] as String?)?.toOfferingType(),
       region: json['region'] as String?,
+      renewalSettings: json['renewalSettings'] != null
+          ? RenewalSettings.fromJson(
+              json['renewalSettings'] as Map<String, dynamic>)
+          : null,
       reservationId: json['reservationId'] as String?,
       resourceSpecification: json['resourceSpecification'] != null
           ? ReservationResourceSpecification.fromJson(
@@ -19104,6 +21341,41 @@ class Reservation {
           ?.map((k, e) => MapEntry(k, e as String)),
       usagePrice: json['usagePrice'] as double?,
     );
+  }
+}
+
+/// Automatic Renewal Status for Reservation
+enum ReservationAutomaticRenewal {
+  disabled,
+  enabled,
+  unavailable,
+}
+
+extension ReservationAutomaticRenewalValueExtension
+    on ReservationAutomaticRenewal {
+  String toValue() {
+    switch (this) {
+      case ReservationAutomaticRenewal.disabled:
+        return 'DISABLED';
+      case ReservationAutomaticRenewal.enabled:
+        return 'ENABLED';
+      case ReservationAutomaticRenewal.unavailable:
+        return 'UNAVAILABLE';
+    }
+  }
+}
+
+extension ReservationAutomaticRenewalFromString on String {
+  ReservationAutomaticRenewal toReservationAutomaticRenewal() {
+    switch (this) {
+      case 'DISABLED':
+        return ReservationAutomaticRenewal.disabled;
+      case 'ENABLED':
+        return ReservationAutomaticRenewal.enabled;
+      case 'UNAVAILABLE':
+        return ReservationAutomaticRenewal.unavailable;
+    }
+    throw Exception('$this is not known in enum ReservationAutomaticRenewal');
   }
 }
 
@@ -19291,6 +21563,7 @@ class ReservationResourceSpecification {
     this.specialFeature,
     this.videoQuality,
   });
+
   factory ReservationResourceSpecification.fromJson(Map<String, dynamic> json) {
     return ReservationResourceSpecification(
       channelClass: (json['channelClass'] as String?)?.toChannelClass(),
@@ -19349,10 +21622,12 @@ extension ReservationResourceTypeFromString on String {
   }
 }
 
-/// Special features, 'ADVANCED_AUDIO' or 'AUDIO_NORMALIZATION'
+/// Special features, 'ADVANCED_AUDIO' 'AUDIO_NORMALIZATION' 'MGHD' or 'MGUHD'
 enum ReservationSpecialFeature {
   advancedAudio,
   audioNormalization,
+  mghd,
+  mguhd,
 }
 
 extension ReservationSpecialFeatureValueExtension on ReservationSpecialFeature {
@@ -19362,6 +21637,10 @@ extension ReservationSpecialFeatureValueExtension on ReservationSpecialFeature {
         return 'ADVANCED_AUDIO';
       case ReservationSpecialFeature.audioNormalization:
         return 'AUDIO_NORMALIZATION';
+      case ReservationSpecialFeature.mghd:
+        return 'MGHD';
+      case ReservationSpecialFeature.mguhd:
+        return 'MGUHD';
     }
   }
 }
@@ -19373,6 +21652,10 @@ extension ReservationSpecialFeatureFromString on String {
         return ReservationSpecialFeature.advancedAudio;
       case 'AUDIO_NORMALIZATION':
         return ReservationSpecialFeature.audioNormalization;
+      case 'MGHD':
+        return ReservationSpecialFeature.mghd;
+      case 'MGUHD':
+        return ReservationSpecialFeature.mguhd;
     }
     throw Exception('$this is not known in enum ReservationSpecialFeature');
   }
@@ -19541,6 +21824,7 @@ extension RtmpCaptionDataFromString on String {
 /// Rtmp Caption Info Destination Settings
 class RtmpCaptionInfoDestinationSettings {
   RtmpCaptionInfoDestinationSettings();
+
   factory RtmpCaptionInfoDestinationSettings.fromJson(Map<String, dynamic> _) {
     return RtmpCaptionInfoDestinationSettings();
   }
@@ -19600,6 +21884,7 @@ class RtmpGroupSettings {
     this.inputLossAction,
     this.restartDelay,
   });
+
   factory RtmpGroupSettings.fromJson(Map<String, dynamic> json) {
     return RtmpGroupSettings(
       adMarkers: (json['adMarkers'] as List?)
@@ -19695,6 +21980,7 @@ class RtmpOutputSettings {
     this.connectionRetryInterval,
     this.numRetries,
   });
+
   factory RtmpOutputSettings.fromJson(Map<String, dynamic> json) {
     return RtmpOutputSettings(
       destination: OutputLocationRef.fromJson(
@@ -19721,6 +22007,45 @@ class RtmpOutputSettings {
   }
 }
 
+/// S3 Canned Acl
+enum S3CannedAcl {
+  authenticatedRead,
+  bucketOwnerFullControl,
+  bucketOwnerRead,
+  publicRead,
+}
+
+extension S3CannedAclValueExtension on S3CannedAcl {
+  String toValue() {
+    switch (this) {
+      case S3CannedAcl.authenticatedRead:
+        return 'AUTHENTICATED_READ';
+      case S3CannedAcl.bucketOwnerFullControl:
+        return 'BUCKET_OWNER_FULL_CONTROL';
+      case S3CannedAcl.bucketOwnerRead:
+        return 'BUCKET_OWNER_READ';
+      case S3CannedAcl.publicRead:
+        return 'PUBLIC_READ';
+    }
+  }
+}
+
+extension S3CannedAclFromString on String {
+  S3CannedAcl toS3CannedAcl() {
+    switch (this) {
+      case 'AUTHENTICATED_READ':
+        return S3CannedAcl.authenticatedRead;
+      case 'BUCKET_OWNER_FULL_CONTROL':
+        return S3CannedAcl.bucketOwnerFullControl;
+      case 'BUCKET_OWNER_READ':
+        return S3CannedAcl.bucketOwnerRead;
+      case 'PUBLIC_READ':
+        return S3CannedAcl.publicRead;
+    }
+    throw Exception('$this is not known in enum S3CannedAcl');
+  }
+}
+
 /// Contains information on a single schedule action.
 class ScheduleAction {
   /// The name of the action, must be unique within the schedule. This name
@@ -19741,6 +22066,7 @@ class ScheduleAction {
     required this.scheduleActionSettings,
     required this.scheduleActionStartSettings,
   });
+
   factory ScheduleAction.fromJson(Map<String, dynamic> json) {
     return ScheduleAction(
       actionName: json['actionName'] as String,
@@ -19778,8 +22104,19 @@ class ScheduleActionSettings {
   /// Action to switch the input
   final InputSwitchScheduleActionSettings? inputSwitchSettings;
 
+  /// Action to activate a motion graphics image overlay
+  final MotionGraphicsActivateScheduleActionSettings?
+      motionGraphicsImageActivateSettings;
+
+  /// Action to deactivate a motion graphics image overlay
+  final MotionGraphicsDeactivateScheduleActionSettings?
+      motionGraphicsImageDeactivateSettings;
+
   /// Action to pause or unpause one or both channel pipelines
   final PauseStateScheduleActionSettings? pauseStateSettings;
+
+  /// Action to specify scte35 input
+  final Scte35InputScheduleActionSettings? scte35InputSettings;
 
   /// Action to insert SCTE-35 return_to_network message
   final Scte35ReturnToNetworkScheduleActionSettings?
@@ -19803,13 +22140,17 @@ class ScheduleActionSettings {
     this.hlsTimedMetadataSettings,
     this.inputPrepareSettings,
     this.inputSwitchSettings,
+    this.motionGraphicsImageActivateSettings,
+    this.motionGraphicsImageDeactivateSettings,
     this.pauseStateSettings,
+    this.scte35InputSettings,
     this.scte35ReturnToNetworkSettings,
     this.scte35SpliceInsertSettings,
     this.scte35TimeSignalSettings,
     this.staticImageActivateSettings,
     this.staticImageDeactivateSettings,
   });
+
   factory ScheduleActionSettings.fromJson(Map<String, dynamic> json) {
     return ScheduleActionSettings(
       hlsId3SegmentTaggingSettings: json['hlsId3SegmentTaggingSettings'] != null
@@ -19828,9 +22169,25 @@ class ScheduleActionSettings {
           ? InputSwitchScheduleActionSettings.fromJson(
               json['inputSwitchSettings'] as Map<String, dynamic>)
           : null,
+      motionGraphicsImageActivateSettings:
+          json['motionGraphicsImageActivateSettings'] != null
+              ? MotionGraphicsActivateScheduleActionSettings.fromJson(
+                  json['motionGraphicsImageActivateSettings']
+                      as Map<String, dynamic>)
+              : null,
+      motionGraphicsImageDeactivateSettings:
+          json['motionGraphicsImageDeactivateSettings'] != null
+              ? MotionGraphicsDeactivateScheduleActionSettings.fromJson(
+                  json['motionGraphicsImageDeactivateSettings']
+                      as Map<String, dynamic>)
+              : null,
       pauseStateSettings: json['pauseStateSettings'] != null
           ? PauseStateScheduleActionSettings.fromJson(
               json['pauseStateSettings'] as Map<String, dynamic>)
+          : null,
+      scte35InputSettings: json['scte35InputSettings'] != null
+          ? Scte35InputScheduleActionSettings.fromJson(
+              json['scte35InputSettings'] as Map<String, dynamic>)
           : null,
       scte35ReturnToNetworkSettings:
           json['scte35ReturnToNetworkSettings'] != null
@@ -19862,7 +22219,12 @@ class ScheduleActionSettings {
     final hlsTimedMetadataSettings = this.hlsTimedMetadataSettings;
     final inputPrepareSettings = this.inputPrepareSettings;
     final inputSwitchSettings = this.inputSwitchSettings;
+    final motionGraphicsImageActivateSettings =
+        this.motionGraphicsImageActivateSettings;
+    final motionGraphicsImageDeactivateSettings =
+        this.motionGraphicsImageDeactivateSettings;
     final pauseStateSettings = this.pauseStateSettings;
+    final scte35InputSettings = this.scte35InputSettings;
     final scte35ReturnToNetworkSettings = this.scte35ReturnToNetworkSettings;
     final scte35SpliceInsertSettings = this.scte35SpliceInsertSettings;
     final scte35TimeSignalSettings = this.scte35TimeSignalSettings;
@@ -19877,7 +22239,15 @@ class ScheduleActionSettings {
         'inputPrepareSettings': inputPrepareSettings,
       if (inputSwitchSettings != null)
         'inputSwitchSettings': inputSwitchSettings,
+      if (motionGraphicsImageActivateSettings != null)
+        'motionGraphicsImageActivateSettings':
+            motionGraphicsImageActivateSettings,
+      if (motionGraphicsImageDeactivateSettings != null)
+        'motionGraphicsImageDeactivateSettings':
+            motionGraphicsImageDeactivateSettings,
       if (pauseStateSettings != null) 'pauseStateSettings': pauseStateSettings,
+      if (scte35InputSettings != null)
+        'scte35InputSettings': scte35InputSettings,
       if (scte35ReturnToNetworkSettings != null)
         'scte35ReturnToNetworkSettings': scte35ReturnToNetworkSettings,
       if (scte35SpliceInsertSettings != null)
@@ -19912,6 +22282,7 @@ class ScheduleActionStartSettings {
     this.followModeScheduleActionStartSettings,
     this.immediateModeScheduleActionStartSettings,
   });
+
   factory ScheduleActionStartSettings.fromJson(Map<String, dynamic> json) {
     return ScheduleActionStartSettings(
       fixedModeScheduleActionStartSettings:
@@ -19988,6 +22359,7 @@ extension Scte20Convert608To708FromString on String {
 /// Scte20 Plus Embedded Destination Settings
 class Scte20PlusEmbeddedDestinationSettings {
   Scte20PlusEmbeddedDestinationSettings();
+
   factory Scte20PlusEmbeddedDestinationSettings.fromJson(
       Map<String, dynamic> _) {
     return Scte20PlusEmbeddedDestinationSettings();
@@ -20013,6 +22385,7 @@ class Scte20SourceSettings {
     this.convert608To708,
     this.source608ChannelNumber,
   });
+
   factory Scte20SourceSettings.fromJson(Map<String, dynamic> json) {
     return Scte20SourceSettings(
       convert608To708:
@@ -20035,6 +22408,7 @@ class Scte20SourceSettings {
 /// Scte27 Destination Settings
 class Scte27DestinationSettings {
   Scte27DestinationSettings();
+
   factory Scte27DestinationSettings.fromJson(Map<String, dynamic> _) {
     return Scte27DestinationSettings();
   }
@@ -20044,8 +22418,63 @@ class Scte27DestinationSettings {
   }
 }
 
+/// Scte27 Ocr Language
+enum Scte27OcrLanguage {
+  deu,
+  eng,
+  fra,
+  nld,
+  por,
+  spa,
+}
+
+extension Scte27OcrLanguageValueExtension on Scte27OcrLanguage {
+  String toValue() {
+    switch (this) {
+      case Scte27OcrLanguage.deu:
+        return 'DEU';
+      case Scte27OcrLanguage.eng:
+        return 'ENG';
+      case Scte27OcrLanguage.fra:
+        return 'FRA';
+      case Scte27OcrLanguage.nld:
+        return 'NLD';
+      case Scte27OcrLanguage.por:
+        return 'POR';
+      case Scte27OcrLanguage.spa:
+        return 'SPA';
+    }
+  }
+}
+
+extension Scte27OcrLanguageFromString on String {
+  Scte27OcrLanguage toScte27OcrLanguage() {
+    switch (this) {
+      case 'DEU':
+        return Scte27OcrLanguage.deu;
+      case 'ENG':
+        return Scte27OcrLanguage.eng;
+      case 'FRA':
+        return Scte27OcrLanguage.fra;
+      case 'NLD':
+        return Scte27OcrLanguage.nld;
+      case 'POR':
+        return Scte27OcrLanguage.por;
+      case 'SPA':
+        return Scte27OcrLanguage.spa;
+    }
+    throw Exception('$this is not known in enum Scte27OcrLanguage');
+  }
+}
+
 /// Scte27 Source Settings
 class Scte27SourceSettings {
+  /// If you will configure a WebVTT caption description that references this
+  /// caption selector, use this field to
+  /// provide the language to consider when translating the image-based source to
+  /// text.
+  final Scte27OcrLanguage? ocrLanguage;
+
   /// The pid field is used in conjunction with the caption selector languageCode
   /// field as follows:
   /// - Specify PID and Language: Extracts captions from that PID; the language is
@@ -20058,17 +22487,22 @@ class Scte27SourceSettings {
   final int? pid;
 
   Scte27SourceSettings({
+    this.ocrLanguage,
     this.pid,
   });
+
   factory Scte27SourceSettings.fromJson(Map<String, dynamic> json) {
     return Scte27SourceSettings(
+      ocrLanguage: (json['ocrLanguage'] as String?)?.toScte27OcrLanguage(),
       pid: json['pid'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final ocrLanguage = this.ocrLanguage;
     final pid = this.pid;
     return {
+      if (ocrLanguage != null) 'ocrLanguage': ocrLanguage.toValue(),
       if (pid != null) 'pid': pid,
     };
   }
@@ -20191,6 +22625,7 @@ class Scte35DeliveryRestrictions {
     required this.noRegionalBlackoutFlag,
     required this.webDeliveryAllowedFlag,
   });
+
   factory Scte35DeliveryRestrictions.fromJson(Map<String, dynamic> json) {
     return Scte35DeliveryRestrictions(
       archiveAllowedFlag:
@@ -20226,6 +22661,7 @@ class Scte35Descriptor {
   Scte35Descriptor({
     required this.scte35DescriptorSettings,
   });
+
   factory Scte35Descriptor.fromJson(Map<String, dynamic> json) {
     return Scte35Descriptor(
       scte35DescriptorSettings: Scte35DescriptorSettings.fromJson(
@@ -20250,6 +22686,7 @@ class Scte35DescriptorSettings {
   Scte35DescriptorSettings({
     required this.segmentationDescriptorScte35DescriptorSettings,
   });
+
   factory Scte35DescriptorSettings.fromJson(Map<String, dynamic> json) {
     return Scte35DescriptorSettings(
       segmentationDescriptorScte35DescriptorSettings:
@@ -20310,6 +22747,69 @@ extension Scte35DeviceRestrictionsFromString on String {
   }
 }
 
+/// Whether the SCTE-35 input should be the active input or a fixed input.
+enum Scte35InputMode {
+  fixed,
+  followActive,
+}
+
+extension Scte35InputModeValueExtension on Scte35InputMode {
+  String toValue() {
+    switch (this) {
+      case Scte35InputMode.fixed:
+        return 'FIXED';
+      case Scte35InputMode.followActive:
+        return 'FOLLOW_ACTIVE';
+    }
+  }
+}
+
+extension Scte35InputModeFromString on String {
+  Scte35InputMode toScte35InputMode() {
+    switch (this) {
+      case 'FIXED':
+        return Scte35InputMode.fixed;
+      case 'FOLLOW_ACTIVE':
+        return Scte35InputMode.followActive;
+    }
+    throw Exception('$this is not known in enum Scte35InputMode');
+  }
+}
+
+/// Scte35Input Schedule Action Settings
+class Scte35InputScheduleActionSettings {
+  /// Whether the SCTE-35 input should be the active input or a fixed input.
+  final Scte35InputMode mode;
+
+  /// In fixed mode, enter the name of the input attachment that you want to use
+  /// as a SCTE-35 input. (Don't enter the ID of the input.)"
+  final String? inputAttachmentNameReference;
+
+  Scte35InputScheduleActionSettings({
+    required this.mode,
+    this.inputAttachmentNameReference,
+  });
+
+  factory Scte35InputScheduleActionSettings.fromJson(
+      Map<String, dynamic> json) {
+    return Scte35InputScheduleActionSettings(
+      mode: (json['mode'] as String).toScte35InputMode(),
+      inputAttachmentNameReference:
+          json['inputAttachmentNameReference'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mode = this.mode;
+    final inputAttachmentNameReference = this.inputAttachmentNameReference;
+    return {
+      'mode': mode.toValue(),
+      if (inputAttachmentNameReference != null)
+        'inputAttachmentNameReference': inputAttachmentNameReference,
+    };
+  }
+}
+
 /// Corresponds to the no_regional_blackout_flag parameter. A value of
 /// REGIONAL_BLACKOUT corresponds to 0 (false) in the SCTE-35 specification. If
 /// you include one of the "restriction" flags then you must include all four of
@@ -20351,6 +22851,7 @@ class Scte35ReturnToNetworkScheduleActionSettings {
   Scte35ReturnToNetworkScheduleActionSettings({
     required this.spliceEventId,
   });
+
   factory Scte35ReturnToNetworkScheduleActionSettings.fromJson(
       Map<String, dynamic> json) {
     return Scte35ReturnToNetworkScheduleActionSettings(
@@ -20469,6 +22970,7 @@ class Scte35SegmentationDescriptor {
     this.subSegmentNum,
     this.subSegmentsExpected,
   });
+
   factory Scte35SegmentationDescriptor.fromJson(Map<String, dynamic> json) {
     return Scte35SegmentationDescriptor(
       segmentationCancelIndicator:
@@ -20522,7 +23024,8 @@ class Scte35SegmentationDescriptor {
   }
 }
 
-/// Scte35 Splice Insert
+/// Typical configuration that applies breaks on splice inserts in addition to
+/// time signal placement opportunities, breaks, and advertisements.
 class Scte35SpliceInsert {
   /// When specified, this offset (in milliseconds) is added to the input Ad Avail
   /// PTS time. This only applies to embedded SCTE 104/35 messages and does not
@@ -20542,6 +23045,7 @@ class Scte35SpliceInsert {
     this.noRegionalBlackoutFlag,
     this.webDeliveryAllowedFlag,
   });
+
   factory Scte35SpliceInsert.fromJson(Map<String, dynamic> json) {
     return Scte35SpliceInsert(
       adAvailOffset: json['adAvailOffset'] as int?,
@@ -20615,6 +23119,7 @@ class Scte35SpliceInsertScheduleActionSettings {
     required this.spliceEventId,
     this.duration,
   });
+
   factory Scte35SpliceInsertScheduleActionSettings.fromJson(
       Map<String, dynamic> json) {
     return Scte35SpliceInsertScheduleActionSettings(
@@ -20665,7 +23170,8 @@ extension Scte35SpliceInsertWebDeliveryAllowedBehaviorFromString on String {
   }
 }
 
-/// Scte35 Time Signal Apos
+/// Atypical configuration that applies segment breaks only on SCTE-35 time
+/// signal placement opportunities and breaks.
 class Scte35TimeSignalApos {
   /// When specified, this offset (in milliseconds) is added to the input Ad Avail
   /// PTS time. This only applies to embedded SCTE 104/35 messages and does not
@@ -20685,6 +23191,7 @@ class Scte35TimeSignalApos {
     this.noRegionalBlackoutFlag,
     this.webDeliveryAllowedFlag,
   });
+
   factory Scte35TimeSignalApos.fromJson(Map<String, dynamic> json) {
     return Scte35TimeSignalApos(
       adAvailOffset: json['adAvailOffset'] as int?,
@@ -20717,6 +23224,7 @@ class Scte35TimeSignalScheduleActionSettings {
   Scte35TimeSignalScheduleActionSettings({
     required this.scte35Descriptors,
   });
+
   factory Scte35TimeSignalScheduleActionSettings.fromJson(
       Map<String, dynamic> json) {
     return Scte35TimeSignalScheduleActionSettings(
@@ -21052,6 +23560,7 @@ extension Smpte2038DataPreferenceFromString on String {
 /// Smpte Tt Destination Settings
 class SmpteTtDestinationSettings {
   SmpteTtDestinationSettings();
+
   factory SmpteTtDestinationSettings.fromJson(Map<String, dynamic> _) {
     return SmpteTtDestinationSettings();
   }
@@ -21073,6 +23582,7 @@ class StandardHlsSettings {
     required this.m3u8Settings,
     this.audioRenditionSets,
   });
+
   factory StandardHlsSettings.fromJson(Map<String, dynamic> json) {
     return StandardHlsSettings(
       m3u8Settings:
@@ -21124,6 +23634,9 @@ class StartChannelResponse {
   /// The log level being written to CloudWatch Logs.
   final LogLevel? logLevel;
 
+  /// Maintenance settings for this channel.
+  final MaintenanceStatus? maintenance;
+
   /// The name of the channel. (user-mutable)
   final String? name;
 
@@ -21140,6 +23653,9 @@ class StartChannelResponse {
   /// A collection of key-value pairs.
   final Map<String, String>? tags;
 
+  /// Settings for VPC output
+  final VpcOutputSettingsDescription? vpc;
+
   StartChannelResponse({
     this.arn,
     this.cdiInputSpecification,
@@ -21151,13 +23667,16 @@ class StartChannelResponse {
     this.inputAttachments,
     this.inputSpecification,
     this.logLevel,
+    this.maintenance,
     this.name,
     this.pipelineDetails,
     this.pipelinesRunningCount,
     this.roleArn,
     this.state,
     this.tags,
+    this.vpc,
   });
+
   factory StartChannelResponse.fromJson(Map<String, dynamic> json) {
     return StartChannelResponse(
       arn: json['arn'] as String?,
@@ -21188,6 +23707,10 @@ class StartChannelResponse {
               json['inputSpecification'] as Map<String, dynamic>)
           : null,
       logLevel: (json['logLevel'] as String?)?.toLogLevel(),
+      maintenance: json['maintenance'] != null
+          ? MaintenanceStatus.fromJson(
+              json['maintenance'] as Map<String, dynamic>)
+          : null,
       name: json['name'] as String?,
       pipelineDetails: (json['pipelineDetails'] as List?)
           ?.whereNotNull()
@@ -21198,7 +23721,21 @@ class StartChannelResponse {
       state: (json['state'] as String?)?.toChannelState(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      vpc: json['vpc'] != null
+          ? VpcOutputSettingsDescription.fromJson(
+              json['vpc'] as Map<String, dynamic>)
+          : null,
     );
+  }
+}
+
+/// Placeholder documentation for StartInputDeviceMaintenanceWindowResponse
+class StartInputDeviceMaintenanceWindowResponse {
+  StartInputDeviceMaintenanceWindowResponse();
+
+  factory StartInputDeviceMaintenanceWindowResponse.fromJson(
+      Map<String, dynamic> _) {
+    return StartInputDeviceMaintenanceWindowResponse();
   }
 }
 
@@ -21246,6 +23783,7 @@ class StartMultiplexResponse {
     this.state,
     this.tags,
   });
+
   factory StartMultiplexResponse.fromJson(Map<String, dynamic> json) {
     return StartMultiplexResponse(
       arn: json['arn'] as String?,
@@ -21283,6 +23821,7 @@ class StartTimecode {
   StartTimecode({
     this.timecode,
   });
+
   factory StartTimecode.fromJson(Map<String, dynamic> json) {
     return StartTimecode(
       timecode: json['timecode'] as String?,
@@ -21362,6 +23901,7 @@ class StaticImageActivateScheduleActionSettings {
     this.opacity,
     this.width,
   });
+
   factory StaticImageActivateScheduleActionSettings.fromJson(
       Map<String, dynamic> json) {
     return StaticImageActivateScheduleActionSettings(
@@ -21417,6 +23957,7 @@ class StaticImageDeactivateScheduleActionSettings {
     this.fadeOut,
     this.layer,
   });
+
   factory StaticImageDeactivateScheduleActionSettings.fromJson(
       Map<String, dynamic> json) {
     return StaticImageDeactivateScheduleActionSettings(
@@ -21447,6 +23988,7 @@ class StaticKeySettings {
     required this.staticKeyValue,
     this.keyProviderServer,
   });
+
   factory StaticKeySettings.fromJson(Map<String, dynamic> json) {
     return StaticKeySettings(
       staticKeyValue: json['staticKeyValue'] as String,
@@ -21500,6 +24042,9 @@ class StopChannelResponse {
   /// The log level being written to CloudWatch Logs.
   final LogLevel? logLevel;
 
+  /// Maintenance settings for this channel.
+  final MaintenanceStatus? maintenance;
+
   /// The name of the channel. (user-mutable)
   final String? name;
 
@@ -21516,6 +24061,9 @@ class StopChannelResponse {
   /// A collection of key-value pairs.
   final Map<String, String>? tags;
 
+  /// Settings for VPC output
+  final VpcOutputSettingsDescription? vpc;
+
   StopChannelResponse({
     this.arn,
     this.cdiInputSpecification,
@@ -21527,13 +24075,16 @@ class StopChannelResponse {
     this.inputAttachments,
     this.inputSpecification,
     this.logLevel,
+    this.maintenance,
     this.name,
     this.pipelineDetails,
     this.pipelinesRunningCount,
     this.roleArn,
     this.state,
     this.tags,
+    this.vpc,
   });
+
   factory StopChannelResponse.fromJson(Map<String, dynamic> json) {
     return StopChannelResponse(
       arn: json['arn'] as String?,
@@ -21564,6 +24115,10 @@ class StopChannelResponse {
               json['inputSpecification'] as Map<String, dynamic>)
           : null,
       logLevel: (json['logLevel'] as String?)?.toLogLevel(),
+      maintenance: json['maintenance'] != null
+          ? MaintenanceStatus.fromJson(
+              json['maintenance'] as Map<String, dynamic>)
+          : null,
       name: json['name'] as String?,
       pipelineDetails: (json['pipelineDetails'] as List?)
           ?.whereNotNull()
@@ -21574,6 +24129,10 @@ class StopChannelResponse {
       state: (json['state'] as String?)?.toChannelState(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      vpc: json['vpc'] != null
+          ? VpcOutputSettingsDescription.fromJson(
+              json['vpc'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -21622,6 +24181,7 @@ class StopMultiplexResponse {
     this.state,
     this.tags,
   });
+
   factory StopMultiplexResponse.fromJson(Map<String, dynamic> json) {
     return StopMultiplexResponse(
       arn: json['arn'] as String?,
@@ -21665,6 +24225,7 @@ class StopTimecode {
     this.lastFrameClippingBehavior,
     this.timecode,
   });
+
   factory StopTimecode.fromJson(Map<String, dynamic> json) {
     return StopTimecode(
       lastFrameClippingBehavior: (json['lastFrameClippingBehavior'] as String?)
@@ -21687,6 +24248,7 @@ class StopTimecode {
 /// Teletext Destination Settings
 class TeletextDestinationSettings {
   TeletextDestinationSettings();
+
   factory TeletextDestinationSettings.fromJson(Map<String, dynamic> _) {
     return TeletextDestinationSettings();
   }
@@ -21698,6 +24260,9 @@ class TeletextDestinationSettings {
 
 /// Teletext Source Settings
 class TeletextSourceSettings {
+  /// Optionally defines a region where TTML style captions will be displayed
+  final CaptionRectangle? outputRectangle;
+
   /// Specifies the teletext page number within the data stream from which to
   /// extract captions. Range of 0x100 (256) to 0x8FF (2303). Unused for
   /// passthrough. Should be specified as a hexadecimal string with no "0x"
@@ -21705,17 +24270,25 @@ class TeletextSourceSettings {
   final String? pageNumber;
 
   TeletextSourceSettings({
+    this.outputRectangle,
     this.pageNumber,
   });
+
   factory TeletextSourceSettings.fromJson(Map<String, dynamic> json) {
     return TeletextSourceSettings(
+      outputRectangle: json['outputRectangle'] != null
+          ? CaptionRectangle.fromJson(
+              json['outputRectangle'] as Map<String, dynamic>)
+          : null,
       pageNumber: json['pageNumber'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final outputRectangle = this.outputRectangle;
     final pageNumber = this.pageNumber;
     return {
+      if (outputRectangle != null) 'outputRectangle': outputRectangle,
       if (pageNumber != null) 'pageNumber': pageNumber,
     };
   }
@@ -21775,6 +24348,7 @@ class TemporalFilterSettings {
     this.postFilterSharpening,
     this.strength,
   });
+
   factory TemporalFilterSettings.fromJson(Map<String, dynamic> json) {
     return TemporalFilterSettings(
       postFilterSharpening: (json['postFilterSharpening'] as String?)
@@ -21898,6 +24472,146 @@ extension TemporalFilterStrengthFromString on String {
   }
 }
 
+/// Timecode Burnin Font Size
+enum TimecodeBurninFontSize {
+  extraSmall_10,
+  large_48,
+  medium_32,
+  small_16,
+}
+
+extension TimecodeBurninFontSizeValueExtension on TimecodeBurninFontSize {
+  String toValue() {
+    switch (this) {
+      case TimecodeBurninFontSize.extraSmall_10:
+        return 'EXTRA_SMALL_10';
+      case TimecodeBurninFontSize.large_48:
+        return 'LARGE_48';
+      case TimecodeBurninFontSize.medium_32:
+        return 'MEDIUM_32';
+      case TimecodeBurninFontSize.small_16:
+        return 'SMALL_16';
+    }
+  }
+}
+
+extension TimecodeBurninFontSizeFromString on String {
+  TimecodeBurninFontSize toTimecodeBurninFontSize() {
+    switch (this) {
+      case 'EXTRA_SMALL_10':
+        return TimecodeBurninFontSize.extraSmall_10;
+      case 'LARGE_48':
+        return TimecodeBurninFontSize.large_48;
+      case 'MEDIUM_32':
+        return TimecodeBurninFontSize.medium_32;
+      case 'SMALL_16':
+        return TimecodeBurninFontSize.small_16;
+    }
+    throw Exception('$this is not known in enum TimecodeBurninFontSize');
+  }
+}
+
+/// Timecode Burnin Position
+enum TimecodeBurninPosition {
+  bottomCenter,
+  bottomLeft,
+  bottomRight,
+  middleCenter,
+  middleLeft,
+  middleRight,
+  topCenter,
+  topLeft,
+  topRight,
+}
+
+extension TimecodeBurninPositionValueExtension on TimecodeBurninPosition {
+  String toValue() {
+    switch (this) {
+      case TimecodeBurninPosition.bottomCenter:
+        return 'BOTTOM_CENTER';
+      case TimecodeBurninPosition.bottomLeft:
+        return 'BOTTOM_LEFT';
+      case TimecodeBurninPosition.bottomRight:
+        return 'BOTTOM_RIGHT';
+      case TimecodeBurninPosition.middleCenter:
+        return 'MIDDLE_CENTER';
+      case TimecodeBurninPosition.middleLeft:
+        return 'MIDDLE_LEFT';
+      case TimecodeBurninPosition.middleRight:
+        return 'MIDDLE_RIGHT';
+      case TimecodeBurninPosition.topCenter:
+        return 'TOP_CENTER';
+      case TimecodeBurninPosition.topLeft:
+        return 'TOP_LEFT';
+      case TimecodeBurninPosition.topRight:
+        return 'TOP_RIGHT';
+    }
+  }
+}
+
+extension TimecodeBurninPositionFromString on String {
+  TimecodeBurninPosition toTimecodeBurninPosition() {
+    switch (this) {
+      case 'BOTTOM_CENTER':
+        return TimecodeBurninPosition.bottomCenter;
+      case 'BOTTOM_LEFT':
+        return TimecodeBurninPosition.bottomLeft;
+      case 'BOTTOM_RIGHT':
+        return TimecodeBurninPosition.bottomRight;
+      case 'MIDDLE_CENTER':
+        return TimecodeBurninPosition.middleCenter;
+      case 'MIDDLE_LEFT':
+        return TimecodeBurninPosition.middleLeft;
+      case 'MIDDLE_RIGHT':
+        return TimecodeBurninPosition.middleRight;
+      case 'TOP_CENTER':
+        return TimecodeBurninPosition.topCenter;
+      case 'TOP_LEFT':
+        return TimecodeBurninPosition.topLeft;
+      case 'TOP_RIGHT':
+        return TimecodeBurninPosition.topRight;
+    }
+    throw Exception('$this is not known in enum TimecodeBurninPosition');
+  }
+}
+
+/// Timecode Burnin Settings
+class TimecodeBurninSettings {
+  /// Choose a timecode burn-in font size
+  final TimecodeBurninFontSize fontSize;
+
+  /// Choose a timecode burn-in output position
+  final TimecodeBurninPosition position;
+
+  /// Create a timecode burn-in prefix (optional)
+  final String? prefix;
+
+  TimecodeBurninSettings({
+    required this.fontSize,
+    required this.position,
+    this.prefix,
+  });
+
+  factory TimecodeBurninSettings.fromJson(Map<String, dynamic> json) {
+    return TimecodeBurninSettings(
+      fontSize: (json['fontSize'] as String).toTimecodeBurninFontSize(),
+      position: (json['position'] as String).toTimecodeBurninPosition(),
+      prefix: json['prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fontSize = this.fontSize;
+    final position = this.position;
+    final prefix = this.prefix;
+    return {
+      'fontSize': fontSize.toValue(),
+      'position': position.toValue(),
+      if (prefix != null) 'prefix': prefix,
+    };
+  }
+}
+
 /// Timecode Config
 class TimecodeConfig {
   /// Identifies the source for the timecode that will be associated with the
@@ -21920,6 +24634,7 @@ class TimecodeConfig {
     required this.source,
     this.syncThreshold,
   });
+
   factory TimecodeConfig.fromJson(Map<String, dynamic> json) {
     return TimecodeConfig(
       source: (json['source'] as String).toTimecodeConfigSource(),
@@ -21974,6 +24689,7 @@ extension TimecodeConfigSourceFromString on String {
 /// Placeholder documentation for TransferInputDeviceResponse
 class TransferInputDeviceResponse {
   TransferInputDeviceResponse();
+
   factory TransferInputDeviceResponse.fromJson(Map<String, dynamic> _) {
     return TransferInputDeviceResponse();
   }
@@ -21999,6 +24715,7 @@ class TransferringInputDeviceSummary {
     this.targetCustomerId,
     this.transferType,
   });
+
   factory TransferringInputDeviceSummary.fromJson(Map<String, dynamic> json) {
     return TransferringInputDeviceSummary(
       id: json['id'] as String?,
@@ -22012,14 +24729,14 @@ class TransferringInputDeviceSummary {
 
 /// Ttml Destination Settings
 class TtmlDestinationSettings {
-  /// When set to passthrough, passes through style and position information from
-  /// a TTML-like input source (TTML, SMPTE-TT, CFF-TT) to the CFF-TT output or
-  /// TTML output.
+  /// This field is not currently supported and will not affect the output
+  /// styling. Leave the default value.
   final TtmlDestinationStyleControl? styleControl;
 
   TtmlDestinationSettings({
     this.styleControl,
   });
+
   factory TtmlDestinationSettings.fromJson(Map<String, dynamic> json) {
     return TtmlDestinationSettings(
       styleControl:
@@ -22072,6 +24789,7 @@ class UdpContainerSettings {
   UdpContainerSettings({
     this.m2tsSettings,
   });
+
   factory UdpContainerSettings.fromJson(Map<String, dynamic> json) {
     return UdpContainerSettings(
       m2tsSettings: json['m2tsSettings'] != null
@@ -22110,6 +24828,7 @@ class UdpGroupSettings {
     this.timedMetadataId3Frame,
     this.timedMetadataId3Period,
   });
+
   factory UdpGroupSettings.fromJson(Map<String, dynamic> json) {
     return UdpGroupSettings(
       inputLossAction:
@@ -22158,6 +24877,7 @@ class UdpOutputSettings {
     this.bufferMsec,
     this.fecOutputSettings,
   });
+
   factory UdpOutputSettings.fromJson(Map<String, dynamic> json) {
     return UdpOutputSettings(
       containerSettings: UdpContainerSettings.fromJson(
@@ -22227,6 +24947,7 @@ class UpdateChannelClassResponse {
   UpdateChannelClassResponse({
     this.channel,
   });
+
   factory UpdateChannelClassResponse.fromJson(Map<String, dynamic> json) {
     return UpdateChannelClassResponse(
       channel: json['channel'] != null
@@ -22243,6 +24964,7 @@ class UpdateChannelResponse {
   UpdateChannelResponse({
     this.channel,
   });
+
   factory UpdateChannelResponse.fromJson(Map<String, dynamic> json) {
     return UpdateChannelResponse(
       channel: json['channel'] != null
@@ -22288,6 +25010,9 @@ class UpdateInputDeviceResponse {
   /// The unique serial number of the input device.
   final String? serialNumber;
 
+  /// A collection of key-value pairs.
+  final Map<String, String>? tags;
+
   /// The type of the input device.
   final InputDeviceType? type;
 
@@ -22305,9 +25030,11 @@ class UpdateInputDeviceResponse {
     this.name,
     this.networkSettings,
     this.serialNumber,
+    this.tags,
     this.type,
     this.uhdDeviceSettings,
   });
+
   factory UpdateInputDeviceResponse.fromJson(Map<String, dynamic> json) {
     return UpdateInputDeviceResponse(
       arn: json['arn'] as String?,
@@ -22329,6 +25056,8 @@ class UpdateInputDeviceResponse {
               json['networkSettings'] as Map<String, dynamic>)
           : null,
       serialNumber: json['serialNumber'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
       type: (json['type'] as String?)?.toInputDeviceType(),
       uhdDeviceSettings: json['uhdDeviceSettings'] != null
           ? InputDeviceUhdSettings.fromJson(
@@ -22345,6 +25074,7 @@ class UpdateInputResponse {
   UpdateInputResponse({
     this.input,
   });
+
   factory UpdateInputResponse.fromJson(Map<String, dynamic> json) {
     return UpdateInputResponse(
       input: json['input'] != null
@@ -22361,6 +25091,7 @@ class UpdateInputSecurityGroupResponse {
   UpdateInputSecurityGroupResponse({
     this.securityGroup,
   });
+
   factory UpdateInputSecurityGroupResponse.fromJson(Map<String, dynamic> json) {
     return UpdateInputSecurityGroupResponse(
       securityGroup: json['securityGroup'] != null
@@ -22379,6 +25110,7 @@ class UpdateMultiplexProgramResponse {
   UpdateMultiplexProgramResponse({
     this.multiplexProgram,
   });
+
   factory UpdateMultiplexProgramResponse.fromJson(Map<String, dynamic> json) {
     return UpdateMultiplexProgramResponse(
       multiplexProgram: json['multiplexProgram'] != null
@@ -22397,6 +25129,7 @@ class UpdateMultiplexResponse {
   UpdateMultiplexResponse({
     this.multiplex,
   });
+
   factory UpdateMultiplexResponse.fromJson(Map<String, dynamic> json) {
     return UpdateMultiplexResponse(
       multiplex: json['multiplex'] != null
@@ -22413,6 +25146,7 @@ class UpdateReservationResponse {
   UpdateReservationResponse({
     this.reservation,
   });
+
   factory UpdateReservationResponse.fromJson(Map<String, dynamic> json) {
     return UpdateReservationResponse(
       reservation: json['reservation'] != null
@@ -22443,6 +25177,7 @@ class VideoBlackFailoverSettings {
     this.blackDetectThreshold,
     this.videoBlackThresholdMsec,
   });
+
   factory VideoBlackFailoverSettings.fromJson(Map<String, dynamic> json) {
     return VideoBlackFailoverSettings(
       blackDetectThreshold: json['blackDetectThreshold'] as double?,
@@ -22475,6 +25210,7 @@ class VideoCodecSettings {
     this.h265Settings,
     this.mpeg2Settings,
   });
+
   factory VideoCodecSettings.fromJson(Map<String, dynamic> json) {
     return VideoCodecSettings(
       frameCaptureSettings: json['frameCaptureSettings'] != null
@@ -22564,6 +25300,7 @@ class VideoDescription {
     this.sharpness,
     this.width,
   });
+
   factory VideoDescription.fromJson(Map<String, dynamic> json) {
     return VideoDescription(
       name: json['name'] as String,
@@ -22675,6 +25412,9 @@ class VideoSelector {
   /// determine if any conversion will be performed.
   final VideoSelectorColorSpace? colorSpace;
 
+  /// Color space settings
+  final VideoSelectorColorSpaceSettings? colorSpaceSettings;
+
   /// Applies only if colorSpace is a value other than follow. This field controls
   /// how the value in the colorSpace field will be used. fallback means that when
   /// the input does include color space data, that data will be used, but when
@@ -22690,12 +25430,18 @@ class VideoSelector {
 
   VideoSelector({
     this.colorSpace,
+    this.colorSpaceSettings,
     this.colorSpaceUsage,
     this.selectorSettings,
   });
+
   factory VideoSelector.fromJson(Map<String, dynamic> json) {
     return VideoSelector(
       colorSpace: (json['colorSpace'] as String?)?.toVideoSelectorColorSpace(),
+      colorSpaceSettings: json['colorSpaceSettings'] != null
+          ? VideoSelectorColorSpaceSettings.fromJson(
+              json['colorSpaceSettings'] as Map<String, dynamic>)
+          : null,
       colorSpaceUsage: (json['colorSpaceUsage'] as String?)
           ?.toVideoSelectorColorSpaceUsage(),
       selectorSettings: json['selectorSettings'] != null
@@ -22707,10 +25453,12 @@ class VideoSelector {
 
   Map<String, dynamic> toJson() {
     final colorSpace = this.colorSpace;
+    final colorSpaceSettings = this.colorSpaceSettings;
     final colorSpaceUsage = this.colorSpaceUsage;
     final selectorSettings = this.selectorSettings;
     return {
       if (colorSpace != null) 'colorSpace': colorSpace.toValue(),
+      if (colorSpaceSettings != null) 'colorSpaceSettings': colorSpaceSettings,
       if (colorSpaceUsage != null) 'colorSpaceUsage': colorSpaceUsage.toValue(),
       if (selectorSettings != null) 'selectorSettings': selectorSettings,
     };
@@ -22720,6 +25468,8 @@ class VideoSelector {
 /// Video Selector Color Space
 enum VideoSelectorColorSpace {
   follow,
+  hdr10,
+  hlg_2020,
   rec_601,
   rec_709,
 }
@@ -22729,6 +25479,10 @@ extension VideoSelectorColorSpaceValueExtension on VideoSelectorColorSpace {
     switch (this) {
       case VideoSelectorColorSpace.follow:
         return 'FOLLOW';
+      case VideoSelectorColorSpace.hdr10:
+        return 'HDR10';
+      case VideoSelectorColorSpace.hlg_2020:
+        return 'HLG_2020';
       case VideoSelectorColorSpace.rec_601:
         return 'REC_601';
       case VideoSelectorColorSpace.rec_709:
@@ -22742,12 +25496,41 @@ extension VideoSelectorColorSpaceFromString on String {
     switch (this) {
       case 'FOLLOW':
         return VideoSelectorColorSpace.follow;
+      case 'HDR10':
+        return VideoSelectorColorSpace.hdr10;
+      case 'HLG_2020':
+        return VideoSelectorColorSpace.hlg_2020;
       case 'REC_601':
         return VideoSelectorColorSpace.rec_601;
       case 'REC_709':
         return VideoSelectorColorSpace.rec_709;
     }
     throw Exception('$this is not known in enum VideoSelectorColorSpace');
+  }
+}
+
+/// Video Selector Color Space Settings
+class VideoSelectorColorSpaceSettings {
+  final Hdr10Settings? hdr10Settings;
+
+  VideoSelectorColorSpaceSettings({
+    this.hdr10Settings,
+  });
+
+  factory VideoSelectorColorSpaceSettings.fromJson(Map<String, dynamic> json) {
+    return VideoSelectorColorSpaceSettings(
+      hdr10Settings: json['hdr10Settings'] != null
+          ? Hdr10Settings.fromJson(
+              json['hdr10Settings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hdr10Settings = this.hdr10Settings;
+    return {
+      if (hdr10Settings != null) 'hdr10Settings': hdr10Settings,
+    };
   }
 }
 
@@ -22789,6 +25572,7 @@ class VideoSelectorPid {
   VideoSelectorPid({
     this.pid,
   });
+
   factory VideoSelectorPid.fromJson(Map<String, dynamic> json) {
     return VideoSelectorPid(
       pid: json['pid'] as int?,
@@ -22813,6 +25597,7 @@ class VideoSelectorProgramId {
   VideoSelectorProgramId({
     this.programId,
   });
+
   factory VideoSelectorProgramId.fromJson(Map<String, dynamic> json) {
     return VideoSelectorProgramId(
       programId: json['programId'] as int?,
@@ -22836,6 +25621,7 @@ class VideoSelectorSettings {
     this.videoSelectorPid,
     this.videoSelectorProgramId,
   });
+
   factory VideoSelectorSettings.fromJson(Map<String, dynamic> json) {
     return VideoSelectorSettings(
       videoSelectorPid: json['videoSelectorPid'] != null
@@ -22857,6 +25643,93 @@ class VideoSelectorSettings {
       if (videoSelectorProgramId != null)
         'videoSelectorProgramId': videoSelectorProgramId,
     };
+  }
+}
+
+/// The properties for a private VPC Output
+/// When this property is specified, the output egress addresses will be created
+/// in a user specified VPC
+class VpcOutputSettings {
+  /// A list of VPC subnet IDs from the same VPC.
+  /// If STANDARD channel, subnet IDs must be mapped to two unique availability
+  /// zones (AZ).
+  final List<String> subnetIds;
+
+  /// List of public address allocation ids to associate with ENIs that will be
+  /// created in Output VPC.
+  /// Must specify one for SINGLE_PIPELINE, two for STANDARD channels
+  final List<String>? publicAddressAllocationIds;
+
+  /// A list of up to 5 EC2 VPC security group IDs to attach to the Output VPC
+  /// network interfaces.
+  /// If none are specified then the VPC default security group will be used
+  final List<String>? securityGroupIds;
+
+  VpcOutputSettings({
+    required this.subnetIds,
+    this.publicAddressAllocationIds,
+    this.securityGroupIds,
+  });
+  Map<String, dynamic> toJson() {
+    final subnetIds = this.subnetIds;
+    final publicAddressAllocationIds = this.publicAddressAllocationIds;
+    final securityGroupIds = this.securityGroupIds;
+    return {
+      'subnetIds': subnetIds,
+      if (publicAddressAllocationIds != null)
+        'publicAddressAllocationIds': publicAddressAllocationIds,
+      if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,
+    };
+  }
+}
+
+/// The properties for a private VPC Output
+class VpcOutputSettingsDescription {
+  /// The Availability Zones where the vpc subnets are located.
+  /// The first Availability Zone applies to the first subnet in the list of
+  /// subnets.
+  /// The second Availability Zone applies to the second subnet.
+  final List<String>? availabilityZones;
+
+  /// A list of Elastic Network Interfaces created by MediaLive in the customer's
+  /// VPC
+  final List<String>? networkInterfaceIds;
+
+  /// A list of up EC2 VPC security group IDs attached to the Output VPC network
+  /// interfaces.
+  final List<String>? securityGroupIds;
+
+  /// A list of VPC subnet IDs from the same VPC.
+  /// If STANDARD channel, subnet IDs must be mapped to two unique availability
+  /// zones (AZ).
+  final List<String>? subnetIds;
+
+  VpcOutputSettingsDescription({
+    this.availabilityZones,
+    this.networkInterfaceIds,
+    this.securityGroupIds,
+    this.subnetIds,
+  });
+
+  factory VpcOutputSettingsDescription.fromJson(Map<String, dynamic> json) {
+    return VpcOutputSettingsDescription(
+      availabilityZones: (json['availabilityZones'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      networkInterfaceIds: (json['networkInterfaceIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      securityGroupIds: (json['securityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: (json['subnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
   }
 }
 
@@ -22916,6 +25789,7 @@ class WavSettings {
     this.codingMode,
     this.sampleRate,
   });
+
   factory WavSettings.fromJson(Map<String, dynamic> json) {
     return WavSettings(
       bitDepth: json['bitDepth'] as double?,
@@ -22938,13 +25812,59 @@ class WavSettings {
 
 /// Webvtt Destination Settings
 class WebvttDestinationSettings {
-  WebvttDestinationSettings();
-  factory WebvttDestinationSettings.fromJson(Map<String, dynamic> _) {
-    return WebvttDestinationSettings();
+  /// Controls whether the color and position of the source captions is passed
+  /// through to the WebVTT output captions.  PASSTHROUGH - Valid only if the
+  /// source captions are EMBEDDED or TELETEXT.  NO_STYLE_DATA - Don't pass
+  /// through the style. The output captions will not contain any font styling
+  /// information.
+  final WebvttDestinationStyleControl? styleControl;
+
+  WebvttDestinationSettings({
+    this.styleControl,
+  });
+
+  factory WebvttDestinationSettings.fromJson(Map<String, dynamic> json) {
+    return WebvttDestinationSettings(
+      styleControl:
+          (json['styleControl'] as String?)?.toWebvttDestinationStyleControl(),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final styleControl = this.styleControl;
+    return {
+      if (styleControl != null) 'styleControl': styleControl.toValue(),
+    };
+  }
+}
+
+/// Webvtt Destination Style Control
+enum WebvttDestinationStyleControl {
+  noStyleData,
+  passthrough,
+}
+
+extension WebvttDestinationStyleControlValueExtension
+    on WebvttDestinationStyleControl {
+  String toValue() {
+    switch (this) {
+      case WebvttDestinationStyleControl.noStyleData:
+        return 'NO_STYLE_DATA';
+      case WebvttDestinationStyleControl.passthrough:
+        return 'PASSTHROUGH';
+    }
+  }
+}
+
+extension WebvttDestinationStyleControlFromString on String {
+  WebvttDestinationStyleControl toWebvttDestinationStyleControl() {
+    switch (this) {
+      case 'NO_STYLE_DATA':
+        return WebvttDestinationStyleControl.noStyleData;
+      case 'PASSTHROUGH':
+        return WebvttDestinationStyleControl.passthrough;
+    }
+    throw Exception('$this is not known in enum WebvttDestinationStyleControl');
   }
 }
 

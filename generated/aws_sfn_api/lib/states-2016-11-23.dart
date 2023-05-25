@@ -18,7 +18,7 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// AWS Step Functions is a service that lets you coordinate the components of
+/// Step Functions is a service that lets you coordinate the components of
 /// distributed applications and microservices using visual workflows.
 class SFN {
   final _s.JsonProtocol _protocol;
@@ -49,7 +49,7 @@ class SFN {
   }
 
   /// Creates an activity. An activity is a task that you write in any
-  /// programming language and host on any machine that has access to AWS Step
+  /// programming language and host on any machine that has access to Step
   /// Functions. Activities must poll Step Functions using the
   /// <code>GetActivityTask</code> API action and respond using
   /// <code>SendTask*</code> API actions. This function lets Step Functions know
@@ -73,11 +73,12 @@ class SFN {
   /// May throw [TooManyTags].
   ///
   /// Parameter [name] :
-  /// The name of the activity to create. This name must be unique for your AWS
-  /// account and region for 90 days. For more information, see <a
+  /// The name of the activity to create. This name must be unique for your
+  /// Amazon Web Services account and region for 90 days. For more information,
+  /// see <a
   /// href="https://docs.aws.amazon.com/step-functions/latest/dg/limits.html#service-limits-state-machine-executions">
-  /// Limits Related to State Machine Executions</a> in the <i>AWS Step
-  /// Functions Developer Guide</i>.
+  /// Limits Related to State Machine Executions</a> in the <i>Step Functions
+  /// Developer Guide</i>.
   ///
   /// A name must <i>not</i> contain:
   ///
@@ -106,8 +107,8 @@ class SFN {
   ///
   /// An array of key-value pairs. For more information, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
-  /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User
-  /// Guide</i>, and <a
+  /// Cost Allocation Tags</a> in the <i>Amazon Web Services Billing and Cost
+  /// Management User Guide</i>, and <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_iam-tags.html">Controlling
   /// Access Using IAM Tags</a>.
   ///
@@ -143,7 +144,7 @@ class SFN {
   /// specified using a JSON-based, structured language. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html">Amazon
-  /// States Language</a> in the AWS Step Functions User Guide.
+  /// States Language</a> in the Step Functions User Guide.
   /// <note>
   /// This operation is eventually consistent. The results are best effort and
   /// may not reflect very recent updates and changes.
@@ -212,7 +213,7 @@ class SFN {
   /// By default, the <code>level</code> is set to <code>OFF</code>. For more
   /// information see <a
   /// href="https://docs.aws.amazon.com/step-functions/latest/dg/cloudwatch-log-level.html">Log
-  /// Levels</a> in the AWS Step Functions User Guide.
+  /// Levels</a> in the Step Functions User Guide.
   /// </note>
   ///
   /// Parameter [tags] :
@@ -220,8 +221,8 @@ class SFN {
   ///
   /// An array of key-value pairs. For more information, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
-  /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User
-  /// Guide</i>, and <a
+  /// Cost Allocation Tags</a> in the <i>Amazon Web Services Billing and Cost
+  /// Management User Guide</i>, and <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_iam-tags.html">Controlling
   /// Access Using IAM Tags</a>.
   ///
@@ -229,7 +230,7 @@ class SFN {
   /// symbols: <code>_ . : / = + - @</code>.
   ///
   /// Parameter [tracingConfiguration] :
-  /// Selects whether AWS X-Ray tracing is enabled.
+  /// Selects whether X-Ray tracing is enabled.
   ///
   /// Parameter [type] :
   /// Determines whether a Standard or Express state machine is created. The
@@ -298,13 +299,25 @@ class SFN {
   /// Deletes a state machine. This is an asynchronous operation: It sets the
   /// state machine's status to <code>DELETING</code> and begins the deletion
   /// process.
+  ///
+  /// If the given state machine Amazon Resource Name (ARN) is a qualified state
+  /// machine ARN, it will fail with ValidationException.
+  ///
+  /// A qualified state machine ARN refers to a <i>Distributed Map state</i>
+  /// defined within a state machine. For example, the qualified state machine
+  /// ARN
+  /// <code>arn:partition:states:region:account-id:stateMachine:stateMachineName/mapStateLabel</code>
+  /// refers to a <i>Distributed Map state</i> with a label
+  /// <code>mapStateLabel</code> in the state machine named
+  /// <code>stateMachineName</code>.
   /// <note>
-  /// For <code>EXPRESS</code>state machines, the deletion will happen
+  /// For <code>EXPRESS</code> state machines, the deletion will happen
   /// eventually (usually less than a minute). Running executions may emit logs
   /// after <code>DeleteStateMachine</code> API is called.
   /// </note>
   ///
   /// May throw [InvalidArn].
+  /// May throw [ValidationException].
   ///
   /// Parameter [stateMachineArn] :
   /// The Amazon Resource Name (ARN) of the state machine to delete.
@@ -359,12 +372,16 @@ class SFN {
     return DescribeActivityOutput.fromJson(jsonResponse.body);
   }
 
-  /// Describes an execution.
+  /// Provides all information about a state machine execution, such as the
+  /// state machine associated with the execution, the execution input and
+  /// output, and relevant execution metadata. Use this API action to return the
+  /// Map Run ARN if the execution was dispatched by a Map Run.
   /// <note>
   /// This operation is eventually consistent. The results are best effort and
   /// may not reflect very recent updates and changes.
   /// </note>
-  /// This API action is not supported by <code>EXPRESS</code> state machines.
+  /// This API action is not supported by <code>EXPRESS</code> state machine
+  /// executions unless they were dispatched by a Map Run.
   ///
   /// May throw [ExecutionDoesNotExist].
   /// May throw [InvalidArn].
@@ -392,7 +409,49 @@ class SFN {
     return DescribeExecutionOutput.fromJson(jsonResponse.body);
   }
 
-  /// Describes a state machine.
+  /// Provides information about a Map Run's configuration, progress, and
+  /// results. For more information, see <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-examine-map-run.html">Examining
+  /// Map Run</a> in the <i>Step Functions Developer Guide</i>.
+  ///
+  /// May throw [ResourceNotFound].
+  /// May throw [InvalidArn].
+  ///
+  /// Parameter [mapRunArn] :
+  /// The Amazon Resource Name (ARN) that identifies a Map Run.
+  Future<DescribeMapRunOutput> describeMapRun({
+    required String mapRunArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSStepFunctions.DescribeMapRun'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'mapRunArn': mapRunArn,
+      },
+    );
+
+    return DescribeMapRunOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Provides information about a state machine's definition, its IAM role
+  /// Amazon Resource Name (ARN), and configuration. If the state machine ARN is
+  /// a qualified state machine ARN, the response returned includes the
+  /// <code>Map</code> state's label.
+  ///
+  /// A qualified state machine ARN refers to a <i>Distributed Map state</i>
+  /// defined within a state machine. For example, the qualified state machine
+  /// ARN
+  /// <code>arn:partition:states:region:account-id:stateMachine:stateMachineName/mapStateLabel</code>
+  /// refers to a <i>Distributed Map state</i> with a label
+  /// <code>mapStateLabel</code> in the state machine named
+  /// <code>stateMachineName</code>.
   /// <note>
   /// This operation is eventually consistent. The results are best effort and
   /// may not reflect very recent updates and changes.
@@ -424,7 +483,10 @@ class SFN {
     return DescribeStateMachineOutput.fromJson(jsonResponse.body);
   }
 
-  /// Describes the state machine associated with a specific execution.
+  /// Provides information about a state machine's definition, its execution
+  /// role ARN, and configuration. If an execution was dispatched by a Map Run,
+  /// the Map Run is returned in the response. Additionally, the state machine
+  /// returned will be the state machine associated with the Map Run.
   /// <note>
   /// This operation is eventually consistent. The results are best effort and
   /// may not reflect very recent updates and changes.
@@ -466,7 +528,9 @@ class SFN {
   /// task of this type is needed.) The maximum time the service holds on to the
   /// request before responding is 60 seconds. If no task is available within 60
   /// seconds, the poll returns a <code>taskToken</code> with a null string.
-  /// <important>
+  /// <note>
+  /// This API action isn't logged in CloudTrail.
+  /// </note> <important>
   /// Workers should set their client side socket timeout to at least 65 seconds
   /// (5 seconds higher than the maximum time the service may hold the poll
   /// request).
@@ -653,7 +717,11 @@ class SFN {
     return ListActivitiesOutput.fromJson(jsonResponse.body);
   }
 
-  /// Lists the executions of a state machine that meet the filtering criteria.
+  /// Lists all executions of a state machine or a Map Run. You can list all
+  /// executions related to a state machine by specifying a state machine Amazon
+  /// Resource Name (ARN), or those related to a Map Run by specifying a Map Run
+  /// ARN.
+  ///
   /// Results are sorted by time, with the most recent execution first.
   ///
   /// If <code>nextToken</code> is returned, there are more results available.
@@ -672,10 +740,19 @@ class SFN {
   /// May throw [InvalidToken].
   /// May throw [StateMachineDoesNotExist].
   /// May throw [StateMachineTypeNotSupported].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFound].
   ///
-  /// Parameter [stateMachineArn] :
-  /// The Amazon Resource Name (ARN) of the state machine whose executions is
-  /// listed.
+  /// Parameter [mapRunArn] :
+  /// The Amazon Resource Name (ARN) of the Map Run that started the child
+  /// workflow executions. If the <code>mapRunArn</code> field is specified, a
+  /// list of all of the child workflow executions started by a Map Run is
+  /// returned. For more information, see <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-examine-map-run.html">Examining
+  /// Map Run</a> in the <i>Step Functions Developer Guide</i>.
+  ///
+  /// You can specify either a <code>mapRunArn</code> or a
+  /// <code>stateMachineArn</code>, but not both.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results that are returned per call. You can use
@@ -694,13 +771,21 @@ class SFN {
   /// after 24 hours. Using an expired pagination token will return an <i>HTTP
   /// 400 InvalidToken</i> error.
   ///
+  /// Parameter [stateMachineArn] :
+  /// The Amazon Resource Name (ARN) of the state machine whose executions is
+  /// listed.
+  ///
+  /// You can specify either a <code>mapRunArn</code> or a
+  /// <code>stateMachineArn</code>, but not both.
+  ///
   /// Parameter [statusFilter] :
   /// If specified, only list the executions whose current execution status
   /// matches the given filter.
   Future<ListExecutionsOutput> listExecutions({
-    required String stateMachineArn,
+    String? mapRunArn,
     int? maxResults,
     String? nextToken,
+    String? stateMachineArn,
     ExecutionStatus? statusFilter,
   }) async {
     _s.validateNumRange(
@@ -720,14 +805,74 @@ class SFN {
       // TODO queryParams
       headers: headers,
       payload: {
-        'stateMachineArn': stateMachineArn,
+        if (mapRunArn != null) 'mapRunArn': mapRunArn,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
+        if (stateMachineArn != null) 'stateMachineArn': stateMachineArn,
         if (statusFilter != null) 'statusFilter': statusFilter.toValue(),
       },
     );
 
     return ListExecutionsOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Lists all Map Runs that were started by a given state machine execution.
+  /// Use this API action to obtain Map Run ARNs, and then call
+  /// <code>DescribeMapRun</code> to obtain more information, if needed.
+  ///
+  /// May throw [ExecutionDoesNotExist].
+  /// May throw [InvalidArn].
+  /// May throw [InvalidToken].
+  ///
+  /// Parameter [executionArn] :
+  /// The Amazon Resource Name (ARN) of the execution for which the Map Runs
+  /// must be listed.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results that are returned per call. You can use
+  /// <code>nextToken</code> to obtain further pages of results. The default is
+  /// 100 and the maximum allowed page size is 1000. A value of 0 uses the
+  /// default.
+  ///
+  /// This is only an upper limit. The actual number of results returned per
+  /// call might be fewer than the specified maximum.
+  ///
+  /// Parameter [nextToken] :
+  /// If <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page. Keep all other arguments unchanged. Each pagination token expires
+  /// after 24 hours. Using an expired pagination token will return an <i>HTTP
+  /// 400 InvalidToken</i> error.
+  Future<ListMapRunsOutput> listMapRuns({
+    required String executionArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSStepFunctions.ListMapRuns'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'executionArn': executionArn,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListMapRunsOutput.fromJson(jsonResponse.body);
   }
 
   /// Lists the existing state machines.
@@ -959,14 +1104,28 @@ class SFN {
     );
   }
 
-  /// Starts a state machine execution.
+  /// Starts a state machine execution. If the given state machine Amazon
+  /// Resource Name (ARN) is a qualified state machine ARN, it will fail with
+  /// ValidationException.
+  ///
+  /// A qualified state machine ARN refers to a <i>Distributed Map state</i>
+  /// defined within a state machine. For example, the qualified state machine
+  /// ARN
+  /// <code>arn:partition:states:region:account-id:stateMachine:stateMachineName/mapStateLabel</code>
+  /// refers to a <i>Distributed Map state</i> with a label
+  /// <code>mapStateLabel</code> in the state machine named
+  /// <code>stateMachineName</code>.
   /// <note>
-  /// <code>StartExecution</code> is idempotent. If <code>StartExecution</code>
-  /// is called with the same name and input as a running execution, the call
-  /// will succeed and return the same response as the original request. If the
-  /// execution is closed or if the input is different, it will return a 400
-  /// <code>ExecutionAlreadyExists</code> error. Names can be reused after 90
-  /// days.
+  /// <code>StartExecution</code> is idempotent for <code>STANDARD</code>
+  /// workflows. For a <code>STANDARD</code> workflow, if
+  /// <code>StartExecution</code> is called with the same name and input as a
+  /// running execution, the call will succeed and return the same response as
+  /// the original request. If the execution is closed or if the input is
+  /// different, it will return a <code>400 ExecutionAlreadyExists</code> error.
+  /// Names can be reused after 90 days.
+  ///
+  /// <code>StartExecution</code> is not idempotent for <code>EXPRESS</code>
+  /// workflows.
   /// </note>
   ///
   /// May throw [ExecutionLimitExceeded].
@@ -976,6 +1135,7 @@ class SFN {
   /// May throw [InvalidName].
   /// May throw [StateMachineDoesNotExist].
   /// May throw [StateMachineDeleting].
+  /// May throw [ValidationException].
   ///
   /// Parameter [stateMachineArn] :
   /// The Amazon Resource Name (ARN) of the state machine to execute.
@@ -993,11 +1153,12 @@ class SFN {
   /// in UTF-8 encoding.
   ///
   /// Parameter [name] :
-  /// The name of the execution. This name must be unique for your AWS account,
-  /// region, and state machine for 90 days. For more information, see <a
+  /// The name of the execution. This name must be unique for your Amazon Web
+  /// Services account, region, and state machine for 90 days. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/step-functions/latest/dg/limits.html#service-limits-state-machine-executions">
-  /// Limits Related to State Machine Executions</a> in the <i>AWS Step
-  /// Functions Developer Guide</i>.
+  /// Limits Related to State Machine Executions</a> in the <i>Step Functions
+  /// Developer Guide</i>.
   ///
   /// A name must <i>not</i> contain:
   ///
@@ -1022,8 +1183,8 @@ class SFN {
   /// A-Z, a-z, - and _.
   ///
   /// Parameter [traceHeader] :
-  /// Passes the AWS X-Ray trace header. The trace header can also be passed in
-  /// the request payload.
+  /// Passes the X-Ray trace header. The trace header can also be passed in the
+  /// request payload.
   Future<StartExecutionOutput> startExecution({
     required String stateMachineArn,
     String? input,
@@ -1052,6 +1213,18 @@ class SFN {
   }
 
   /// Starts a Synchronous Express state machine execution.
+  /// <code>StartSyncExecution</code> is not available for <code>STANDARD</code>
+  /// workflows.
+  /// <note>
+  /// <code>StartSyncExecution</code> will return a <code>200 OK</code>
+  /// response, even if your execution fails, because the status code in the API
+  /// response doesn't reflect function errors. Error codes are reserved for
+  /// errors that prevent your execution from running, such as permissions
+  /// errors, limit errors, or issues with your state machine code and
+  /// configuration.
+  /// </note> <note>
+  /// This API action isn't logged in CloudTrail.
+  /// </note>
   ///
   /// May throw [InvalidArn].
   /// May throw [InvalidExecutionInput].
@@ -1079,8 +1252,8 @@ class SFN {
   /// The name of the execution.
   ///
   /// Parameter [traceHeader] :
-  /// Passes the AWS X-Ray trace header. The trace header can also be passed in
-  /// the request payload.
+  /// Passes the X-Ray trace header. The trace header can also be passed in the
+  /// request payload.
   Future<StartSyncExecutionOutput> startSyncExecution({
     required String stateMachineArn,
     String? input,
@@ -1114,6 +1287,7 @@ class SFN {
   ///
   /// May throw [ExecutionDoesNotExist].
   /// May throw [InvalidArn].
+  /// May throw [ValidationException].
   ///
   /// Parameter [executionArn] :
   /// The Amazon Resource Name (ARN) of the execution to stop.
@@ -1152,8 +1326,8 @@ class SFN {
   ///
   /// An array of key-value pairs. For more information, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
-  /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User
-  /// Guide</i>, and <a
+  /// Cost Allocation Tags</a> in the <i>Amazon Web Services Billing and Cost
+  /// Management User Guide</i>, and <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_iam-tags.html">Controlling
   /// Access Using IAM Tags</a>.
   ///
@@ -1226,12 +1400,87 @@ class SFN {
     );
   }
 
+  /// Updates an in-progress Map Run's configuration to include changes to the
+  /// settings that control maximum concurrency and Map Run failure.
+  ///
+  /// May throw [ResourceNotFound].
+  /// May throw [InvalidArn].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [mapRunArn] :
+  /// The Amazon Resource Name (ARN) of a Map Run.
+  ///
+  /// Parameter [maxConcurrency] :
+  /// The maximum number of child workflow executions that can be specified to
+  /// run in parallel for the Map Run at the same time.
+  ///
+  /// Parameter [toleratedFailureCount] :
+  /// The maximum number of failed items before the Map Run fails.
+  ///
+  /// Parameter [toleratedFailurePercentage] :
+  /// The maximum percentage of failed items before the Map Run fails.
+  Future<void> updateMapRun({
+    required String mapRunArn,
+    int? maxConcurrency,
+    int? toleratedFailureCount,
+    double? toleratedFailurePercentage,
+  }) async {
+    _s.validateNumRange(
+      'maxConcurrency',
+      maxConcurrency,
+      0,
+      1152921504606846976,
+    );
+    _s.validateNumRange(
+      'toleratedFailureCount',
+      toleratedFailureCount,
+      0,
+      1152921504606846976,
+    );
+    _s.validateNumRange(
+      'toleratedFailurePercentage',
+      toleratedFailurePercentage,
+      0,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSStepFunctions.UpdateMapRun'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'mapRunArn': mapRunArn,
+        if (maxConcurrency != null) 'maxConcurrency': maxConcurrency,
+        if (toleratedFailureCount != null)
+          'toleratedFailureCount': toleratedFailureCount,
+        if (toleratedFailurePercentage != null)
+          'toleratedFailurePercentage': toleratedFailurePercentage,
+      },
+    );
+  }
+
   /// Updates an existing state machine by modifying its
   /// <code>definition</code>, <code>roleArn</code>, or
   /// <code>loggingConfiguration</code>. Running executions will continue to use
   /// the previous <code>definition</code> and <code>roleArn</code>. You must
   /// include at least one of <code>definition</code> or <code>roleArn</code> or
   /// you will receive a <code>MissingRequiredParameter</code> error.
+  ///
+  /// If the given state machine Amazon Resource Name (ARN) is a qualified state
+  /// machine ARN, it will fail with ValidationException.
+  ///
+  /// A qualified state machine ARN refers to a <i>Distributed Map state</i>
+  /// defined within a state machine. For example, the qualified state machine
+  /// ARN
+  /// <code>arn:partition:states:region:account-id:stateMachine:stateMachineName/mapStateLabel</code>
+  /// refers to a <i>Distributed Map state</i> with a label
+  /// <code>mapStateLabel</code> in the state machine named
+  /// <code>stateMachineName</code>.
   /// <note>
   /// All <code>StartExecution</code> calls within a few seconds will use the
   /// updated <code>definition</code> and <code>roleArn</code>. Executions
@@ -1247,6 +1496,7 @@ class SFN {
   /// May throw [MissingRequiredParameter].
   /// May throw [StateMachineDeleting].
   /// May throw [StateMachineDoesNotExist].
+  /// May throw [ValidationException].
   ///
   /// Parameter [stateMachineArn] :
   /// The Amazon Resource Name (ARN) of the state machine.
@@ -1264,7 +1514,7 @@ class SFN {
   /// The Amazon Resource Name (ARN) of the IAM role of the state machine.
   ///
   /// Parameter [tracingConfiguration] :
-  /// Selects whether AWS X-Ray tracing is enabled.
+  /// Selects whether X-Ray tracing is enabled.
   Future<UpdateStateMachineOutput> updateStateMachine({
     required String stateMachineArn,
     String? definition,
@@ -1309,6 +1559,7 @@ class ActivityFailedEventDetails {
     this.cause,
     this.error,
   });
+
   factory ActivityFailedEventDetails.fromJson(Map<String, dynamic> json) {
     return ActivityFailedEventDetails(
       cause: json['cause'] as String?,
@@ -1355,6 +1606,7 @@ class ActivityListItem {
     required this.creationDate,
     required this.name,
   });
+
   factory ActivityListItem.fromJson(Map<String, dynamic> json) {
     return ActivityListItem(
       activityArn: json['activityArn'] as String,
@@ -1378,6 +1630,7 @@ class ActivityScheduleFailedEventDetails {
     this.cause,
     this.error,
   });
+
   factory ActivityScheduleFailedEventDetails.fromJson(
       Map<String, dynamic> json) {
     return ActivityScheduleFailedEventDetails(
@@ -1412,6 +1665,7 @@ class ActivityScheduledEventDetails {
     this.inputDetails,
     this.timeoutInSeconds,
   });
+
   factory ActivityScheduledEventDetails.fromJson(Map<String, dynamic> json) {
     return ActivityScheduledEventDetails(
       resource: json['resource'] as String,
@@ -1435,6 +1689,7 @@ class ActivityStartedEventDetails {
   ActivityStartedEventDetails({
     this.workerName,
   });
+
   factory ActivityStartedEventDetails.fromJson(Map<String, dynamic> json) {
     return ActivityStartedEventDetails(
       workerName: json['workerName'] as String?,
@@ -1456,6 +1711,7 @@ class ActivitySucceededEventDetails {
     this.output,
     this.outputDetails,
   });
+
   factory ActivitySucceededEventDetails.fromJson(Map<String, dynamic> json) {
     return ActivitySucceededEventDetails(
       output: json['output'] as String?,
@@ -1480,6 +1736,7 @@ class ActivityTimedOutEventDetails {
     this.cause,
     this.error,
   });
+
   factory ActivityTimedOutEventDetails.fromJson(Map<String, dynamic> json) {
     return ActivityTimedOutEventDetails(
       cause: json['cause'] as String?,
@@ -1500,6 +1757,7 @@ class BillingDetails {
     this.billedDurationInMilliseconds,
     this.billedMemoryUsedInMB,
   });
+
   factory BillingDetails.fromJson(Map<String, dynamic> json) {
     return BillingDetails(
       billedDurationInMilliseconds:
@@ -1518,6 +1776,7 @@ class CloudWatchEventsExecutionDataDetails {
   CloudWatchEventsExecutionDataDetails({
     this.included,
   });
+
   factory CloudWatchEventsExecutionDataDetails.fromJson(
       Map<String, dynamic> json) {
     return CloudWatchEventsExecutionDataDetails(
@@ -1535,6 +1794,7 @@ class CloudWatchLogsLogGroup {
   CloudWatchLogsLogGroup({
     this.logGroupArn,
   });
+
   factory CloudWatchLogsLogGroup.fromJson(Map<String, dynamic> json) {
     return CloudWatchLogsLogGroup(
       logGroupArn: json['logGroupArn'] as String?,
@@ -1560,6 +1820,7 @@ class CreateActivityOutput {
     required this.activityArn,
     required this.creationDate,
   });
+
   factory CreateActivityOutput.fromJson(Map<String, dynamic> json) {
     return CreateActivityOutput(
       activityArn: json['activityArn'] as String,
@@ -1580,6 +1841,7 @@ class CreateStateMachineOutput {
     required this.creationDate,
     required this.stateMachineArn,
   });
+
   factory CreateStateMachineOutput.fromJson(Map<String, dynamic> json) {
     return CreateStateMachineOutput(
       creationDate:
@@ -1591,6 +1853,7 @@ class CreateStateMachineOutput {
 
 class DeleteActivityOutput {
   DeleteActivityOutput();
+
   factory DeleteActivityOutput.fromJson(Map<String, dynamic> _) {
     return DeleteActivityOutput();
   }
@@ -1598,6 +1861,7 @@ class DeleteActivityOutput {
 
 class DeleteStateMachineOutput {
   DeleteStateMachineOutput();
+
   factory DeleteStateMachineOutput.fromJson(Map<String, dynamic> _) {
     return DeleteStateMachineOutput();
   }
@@ -1640,6 +1904,7 @@ class DescribeActivityOutput {
     required this.creationDate,
     required this.name,
   });
+
   factory DescribeActivityOutput.fromJson(Map<String, dynamic> json) {
     return DescribeActivityOutput(
       activityArn: json['activityArn'] as String,
@@ -1663,11 +1928,21 @@ class DescribeExecutionOutput {
   /// The current status of the execution.
   final ExecutionStatus status;
 
+  /// The cause string if the state machine execution failed.
+  final String? cause;
+
+  /// The error string if the state machine execution failed.
+  final String? error;
+
   /// The string that contains the JSON input data of the execution. Length
   /// constraints apply to the payload size, and are expressed as bytes in UTF-8
   /// encoding.
   final String? input;
   final CloudWatchEventsExecutionDataDetails? inputDetails;
+
+  /// The Amazon Resource Name (ARN) that identifies a Map Run, which dispatched
+  /// this execution.
+  final String? mapRunArn;
 
   /// The name of the execution.
   ///
@@ -1706,7 +1981,7 @@ class DescribeExecutionOutput {
   /// If the execution has already ended, the date the execution stopped.
   final DateTime? stopDate;
 
-  /// The AWS X-Ray trace header that was passed to the execution.
+  /// The X-Ray trace header that was passed to the execution.
   final String? traceHeader;
 
   DescribeExecutionOutput({
@@ -1714,25 +1989,32 @@ class DescribeExecutionOutput {
     required this.startDate,
     required this.stateMachineArn,
     required this.status,
+    this.cause,
+    this.error,
     this.input,
     this.inputDetails,
+    this.mapRunArn,
     this.name,
     this.output,
     this.outputDetails,
     this.stopDate,
     this.traceHeader,
   });
+
   factory DescribeExecutionOutput.fromJson(Map<String, dynamic> json) {
     return DescribeExecutionOutput(
       executionArn: json['executionArn'] as String,
       startDate: nonNullableTimeStampFromJson(json['startDate'] as Object),
       stateMachineArn: json['stateMachineArn'] as String,
       status: (json['status'] as String).toExecutionStatus(),
+      cause: json['cause'] as String?,
+      error: json['error'] as String?,
       input: json['input'] as String?,
       inputDetails: json['inputDetails'] != null
           ? CloudWatchEventsExecutionDataDetails.fromJson(
               json['inputDetails'] as Map<String, dynamic>)
           : null,
+      mapRunArn: json['mapRunArn'] as String?,
       name: json['name'] as String?,
       output: json['output'] as String?,
       outputDetails: json['outputDetails'] != null
@@ -1741,6 +2023,77 @@ class DescribeExecutionOutput {
           : null,
       stopDate: timeStampFromJson(json['stopDate']),
       traceHeader: json['traceHeader'] as String?,
+    );
+  }
+}
+
+class DescribeMapRunOutput {
+  /// The Amazon Resource Name (ARN) that identifies the execution in which the
+  /// Map Run was started.
+  final String executionArn;
+
+  /// A JSON object that contains information about the total number of child
+  /// workflow executions for the Map Run, and the count of child workflow
+  /// executions for each status, such as <code>failed</code> and
+  /// <code>succeeded</code>.
+  final MapRunExecutionCounts executionCounts;
+
+  /// A JSON object that contains information about the total number of items, and
+  /// the item count for each processing status, such as <code>pending</code> and
+  /// <code>failed</code>.
+  final MapRunItemCounts itemCounts;
+
+  /// The Amazon Resource Name (ARN) that identifies a Map Run.
+  final String mapRunArn;
+
+  /// The maximum number of child workflow executions configured to run in
+  /// parallel for the Map Run at the same time.
+  final int maxConcurrency;
+
+  /// The date when the Map Run was started.
+  final DateTime startDate;
+
+  /// The current status of the Map Run.
+  final MapRunStatus status;
+
+  /// The maximum number of failed child workflow executions before the Map Run
+  /// fails.
+  final int toleratedFailureCount;
+
+  /// The maximum percentage of failed child workflow executions before the Map
+  /// Run fails.
+  final double toleratedFailurePercentage;
+
+  /// The date when the Map Run was stopped.
+  final DateTime? stopDate;
+
+  DescribeMapRunOutput({
+    required this.executionArn,
+    required this.executionCounts,
+    required this.itemCounts,
+    required this.mapRunArn,
+    required this.maxConcurrency,
+    required this.startDate,
+    required this.status,
+    required this.toleratedFailureCount,
+    required this.toleratedFailurePercentage,
+    this.stopDate,
+  });
+
+  factory DescribeMapRunOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeMapRunOutput(
+      executionArn: json['executionArn'] as String,
+      executionCounts: MapRunExecutionCounts.fromJson(
+          json['executionCounts'] as Map<String, dynamic>),
+      itemCounts:
+          MapRunItemCounts.fromJson(json['itemCounts'] as Map<String, dynamic>),
+      mapRunArn: json['mapRunArn'] as String,
+      maxConcurrency: json['maxConcurrency'] as int,
+      startDate: nonNullableTimeStampFromJson(json['startDate'] as Object),
+      status: (json['status'] as String).toMapRunStatus(),
+      toleratedFailureCount: json['toleratedFailureCount'] as int,
+      toleratedFailurePercentage: json['toleratedFailurePercentage'] as double,
+      stopDate: timeStampFromJson(json['stopDate']),
     );
   }
 }
@@ -1765,9 +2118,21 @@ class DescribeStateMachineForExecutionOutput {
   /// The date and time the state machine associated with an execution was
   /// updated. For a newly created state machine, this is the creation date.
   final DateTime updateDate;
+
+  /// A user-defined or an auto-generated string that identifies a
+  /// <code>Map</code> state. This ﬁeld is returned only if the
+  /// <code>executionArn</code> is a child workflow execution that was started by
+  /// a Distributed Map state.
+  final String? label;
   final LoggingConfiguration? loggingConfiguration;
 
-  /// Selects whether AWS X-Ray tracing is enabled.
+  /// The Amazon Resource Name (ARN) of the Map Run that started the child
+  /// workflow execution. This field is returned only if the
+  /// <code>executionArn</code> is a child workflow execution that was started by
+  /// a Distributed Map state.
+  final String? mapRunArn;
+
+  /// Selects whether X-Ray tracing is enabled.
   final TracingConfiguration? tracingConfiguration;
 
   DescribeStateMachineForExecutionOutput({
@@ -1776,9 +2141,12 @@ class DescribeStateMachineForExecutionOutput {
     required this.roleArn,
     required this.stateMachineArn,
     required this.updateDate,
+    this.label,
     this.loggingConfiguration,
+    this.mapRunArn,
     this.tracingConfiguration,
   });
+
   factory DescribeStateMachineForExecutionOutput.fromJson(
       Map<String, dynamic> json) {
     return DescribeStateMachineForExecutionOutput(
@@ -1787,10 +2155,12 @@ class DescribeStateMachineForExecutionOutput {
       roleArn: json['roleArn'] as String,
       stateMachineArn: json['stateMachineArn'] as String,
       updateDate: nonNullableTimeStampFromJson(json['updateDate'] as Object),
+      label: json['label'] as String?,
       loggingConfiguration: json['loggingConfiguration'] != null
           ? LoggingConfiguration.fromJson(
               json['loggingConfiguration'] as Map<String, dynamic>)
           : null,
+      mapRunArn: json['mapRunArn'] as String?,
       tracingConfiguration: json['tracingConfiguration'] != null
           ? TracingConfiguration.fromJson(
               json['tracingConfiguration'] as Map<String, dynamic>)
@@ -1835,7 +2205,7 @@ class DescribeStateMachineOutput {
 
   /// The Amazon Resource Name (ARN) of the IAM role used when creating this state
   /// machine. (The IAM role maintains security by granting Step Functions access
-  /// to AWS resources.)
+  /// to Amazon Web Services resources.)
   final String roleArn;
 
   /// The Amazon Resource Name (ARN) that identifies the state machine.
@@ -1844,12 +2214,18 @@ class DescribeStateMachineOutput {
   /// The <code>type</code> of the state machine (<code>STANDARD</code> or
   /// <code>EXPRESS</code>).
   final StateMachineType type;
+
+  /// A user-defined or an auto-generated string that identifies a
+  /// <code>Map</code> state. This parameter is present only if the
+  /// <code>stateMachineArn</code> specified in input is a qualified state machine
+  /// ARN.
+  final String? label;
   final LoggingConfiguration? loggingConfiguration;
 
   /// The current status of the state machine.
   final StateMachineStatus? status;
 
-  /// Selects whether AWS X-Ray tracing is enabled.
+  /// Selects whether X-Ray tracing is enabled.
   final TracingConfiguration? tracingConfiguration;
 
   DescribeStateMachineOutput({
@@ -1859,10 +2235,12 @@ class DescribeStateMachineOutput {
     required this.roleArn,
     required this.stateMachineArn,
     required this.type,
+    this.label,
     this.loggingConfiguration,
     this.status,
     this.tracingConfiguration,
   });
+
   factory DescribeStateMachineOutput.fromJson(Map<String, dynamic> json) {
     return DescribeStateMachineOutput(
       creationDate:
@@ -1872,6 +2250,7 @@ class DescribeStateMachineOutput {
       roleArn: json['roleArn'] as String,
       stateMachineArn: json['stateMachineArn'] as String,
       type: (json['type'] as String).toStateMachineType(),
+      label: json['label'] as String?,
       loggingConfiguration: json['loggingConfiguration'] != null
           ? LoggingConfiguration.fromJson(
               json['loggingConfiguration'] as Map<String, dynamic>)
@@ -1897,6 +2276,7 @@ class ExecutionAbortedEventDetails {
     this.cause,
     this.error,
   });
+
   factory ExecutionAbortedEventDetails.fromJson(Map<String, dynamic> json) {
     return ExecutionAbortedEventDetails(
       cause: json['cause'] as String?,
@@ -1917,6 +2297,7 @@ class ExecutionFailedEventDetails {
     this.cause,
     this.error,
   });
+
   factory ExecutionFailedEventDetails.fromJson(Map<String, dynamic> json) {
     return ExecutionFailedEventDetails(
       cause: json['cause'] as String?,
@@ -1964,6 +2345,19 @@ class ExecutionListItem {
   /// The current status of the execution.
   final ExecutionStatus status;
 
+  /// The total number of items processed in a child workflow execution. This
+  /// field is returned only if <code>mapRunArn</code> was specified in the
+  /// <code>ListExecutions</code> API action. If <code>stateMachineArn</code> was
+  /// specified in <code>ListExecutions</code>, the <code>itemCount</code> field
+  /// isn't returned.
+  final int? itemCount;
+
+  /// The Amazon Resource Name (ARN) of a Map Run. This field is returned only if
+  /// <code>mapRunArn</code> was specified in the <code>ListExecutions</code> API
+  /// action. If <code>stateMachineArn</code> was specified in
+  /// <code>ListExecutions</code>, the <code>mapRunArn</code> isn't returned.
+  final String? mapRunArn;
+
   /// If the execution already ended, the date the execution stopped.
   final DateTime? stopDate;
 
@@ -1973,8 +2367,11 @@ class ExecutionListItem {
     required this.startDate,
     required this.stateMachineArn,
     required this.status,
+    this.itemCount,
+    this.mapRunArn,
     this.stopDate,
   });
+
   factory ExecutionListItem.fromJson(Map<String, dynamic> json) {
     return ExecutionListItem(
       executionArn: json['executionArn'] as String,
@@ -1982,6 +2379,8 @@ class ExecutionListItem {
       startDate: nonNullableTimeStampFromJson(json['startDate'] as Object),
       stateMachineArn: json['stateMachineArn'] as String,
       status: (json['status'] as String).toExecutionStatus(),
+      itemCount: json['itemCount'] as int?,
+      mapRunArn: json['mapRunArn'] as String?,
       stopDate: timeStampFromJson(json['stopDate']),
     );
   }
@@ -1996,7 +2395,7 @@ class ExecutionStartedEventDetails {
   /// Contains details about the input for an execution history event.
   final HistoryEventExecutionDataDetails? inputDetails;
 
-  /// The Amazon Resource Name (ARN) of the IAM role used for executing AWS Lambda
+  /// The Amazon Resource Name (ARN) of the IAM role used for executing Lambda
   /// tasks.
   final String? roleArn;
 
@@ -2005,6 +2404,7 @@ class ExecutionStartedEventDetails {
     this.inputDetails,
     this.roleArn,
   });
+
   factory ExecutionStartedEventDetails.fromJson(Map<String, dynamic> json) {
     return ExecutionStartedEventDetails(
       input: json['input'] as String?,
@@ -2073,6 +2473,7 @@ class ExecutionSucceededEventDetails {
     this.output,
     this.outputDetails,
   });
+
   factory ExecutionSucceededEventDetails.fromJson(Map<String, dynamic> json) {
     return ExecutionSucceededEventDetails(
       output: json['output'] as String?,
@@ -2097,6 +2498,7 @@ class ExecutionTimedOutEventDetails {
     this.cause,
     this.error,
   });
+
   factory ExecutionTimedOutEventDetails.fromJson(Map<String, dynamic> json) {
     return ExecutionTimedOutEventDetails(
       cause: json['cause'] as String?,
@@ -2121,6 +2523,7 @@ class GetActivityTaskOutput {
     this.input,
     this.taskToken,
   });
+
   factory GetActivityTaskOutput.fromJson(Map<String, dynamic> json) {
     return GetActivityTaskOutput(
       input: json['input'] as String?,
@@ -2145,6 +2548,7 @@ class GetExecutionHistoryOutput {
     required this.events,
     this.nextToken,
   });
+
   factory GetExecutionHistoryOutput.fromJson(Map<String, dynamic> json) {
     return GetExecutionHistoryOutput(
       events: (json['events'] as List)
@@ -2191,7 +2595,7 @@ class HistoryEvent {
   final LambdaFunctionStartFailedEventDetails?
       lambdaFunctionStartFailedEventDetails;
 
-  /// Contains details about a lambda function that terminated successfully during
+  /// Contains details about a Lambda function that terminated successfully during
   /// an execution.
   final LambdaFunctionSucceededEventDetails?
       lambdaFunctionSucceededEventDetails;
@@ -2208,6 +2612,14 @@ class HistoryEvent {
 
   /// Contains details about an iteration of a Map state that succeeded.
   final MapIterationEventDetails? mapIterationSucceededEventDetails;
+
+  /// Contains error and cause details about a Map Run that failed.
+  final MapRunFailedEventDetails? mapRunFailedEventDetails;
+
+  /// Contains details, such as <code>mapRunArn</code>, and the start date and
+  /// time of a Map Run. <code>mapRunArn</code> is the Amazon Resource Name (ARN)
+  /// of the Map Run that was started.
+  final MapRunStartedEventDetails? mapRunStartedEventDetails;
 
   /// Contains details about Map state that was started.
   final MapStateStartedEventDetails? mapStateStartedEventDetails;
@@ -2266,6 +2678,8 @@ class HistoryEvent {
     this.mapIterationFailedEventDetails,
     this.mapIterationStartedEventDetails,
     this.mapIterationSucceededEventDetails,
+    this.mapRunFailedEventDetails,
+    this.mapRunStartedEventDetails,
     this.mapStateStartedEventDetails,
     this.previousEventId,
     this.stateEnteredEventDetails,
@@ -2279,6 +2693,7 @@ class HistoryEvent {
     this.taskSucceededEventDetails,
     this.taskTimedOutEventDetails,
   });
+
   factory HistoryEvent.fromJson(Map<String, dynamic> json) {
     return HistoryEvent(
       id: json['id'] as int,
@@ -2393,6 +2808,14 @@ class HistoryEvent {
                   json['mapIterationSucceededEventDetails']
                       as Map<String, dynamic>)
               : null,
+      mapRunFailedEventDetails: json['mapRunFailedEventDetails'] != null
+          ? MapRunFailedEventDetails.fromJson(
+              json['mapRunFailedEventDetails'] as Map<String, dynamic>)
+          : null,
+      mapRunStartedEventDetails: json['mapRunStartedEventDetails'] != null
+          ? MapRunStartedEventDetails.fromJson(
+              json['mapRunStartedEventDetails'] as Map<String, dynamic>)
+          : null,
       mapStateStartedEventDetails: json['mapStateStartedEventDetails'] != null
           ? MapStateStartedEventDetails.fromJson(
               json['mapStateStartedEventDetails'] as Map<String, dynamic>)
@@ -2451,6 +2874,7 @@ class HistoryEventExecutionDataDetails {
   HistoryEventExecutionDataDetails({
     this.truncated,
   });
+
   factory HistoryEventExecutionDataDetails.fromJson(Map<String, dynamic> json) {
     return HistoryEventExecutionDataDetails(
       truncated: json['truncated'] as bool?,
@@ -2514,6 +2938,10 @@ enum HistoryEventType {
   waitStateAborted,
   waitStateEntered,
   waitStateExited,
+  mapRunAborted,
+  mapRunFailed,
+  mapRunStarted,
+  mapRunSucceeded,
 }
 
 extension HistoryEventTypeValueExtension on HistoryEventType {
@@ -2629,6 +3057,14 @@ extension HistoryEventTypeValueExtension on HistoryEventType {
         return 'WaitStateEntered';
       case HistoryEventType.waitStateExited:
         return 'WaitStateExited';
+      case HistoryEventType.mapRunAborted:
+        return 'MapRunAborted';
+      case HistoryEventType.mapRunFailed:
+        return 'MapRunFailed';
+      case HistoryEventType.mapRunStarted:
+        return 'MapRunStarted';
+      case HistoryEventType.mapRunSucceeded:
+        return 'MapRunSucceeded';
     }
   }
 }
@@ -2746,12 +3182,20 @@ extension HistoryEventTypeFromString on String {
         return HistoryEventType.waitStateEntered;
       case 'WaitStateExited':
         return HistoryEventType.waitStateExited;
+      case 'MapRunAborted':
+        return HistoryEventType.mapRunAborted;
+      case 'MapRunFailed':
+        return HistoryEventType.mapRunFailed;
+      case 'MapRunStarted':
+        return HistoryEventType.mapRunStarted;
+      case 'MapRunSucceeded':
+        return HistoryEventType.mapRunSucceeded;
     }
     throw Exception('$this is not known in enum HistoryEventType');
   }
 }
 
-/// Contains details about a lambda function that failed during an execution.
+/// Contains details about a Lambda function that failed during an execution.
 class LambdaFunctionFailedEventDetails {
   /// A more detailed explanation of the cause of the failure.
   final String? cause;
@@ -2763,6 +3207,7 @@ class LambdaFunctionFailedEventDetails {
     this.cause,
     this.error,
   });
+
   factory LambdaFunctionFailedEventDetails.fromJson(Map<String, dynamic> json) {
     return LambdaFunctionFailedEventDetails(
       cause: json['cause'] as String?,
@@ -2771,7 +3216,7 @@ class LambdaFunctionFailedEventDetails {
   }
 }
 
-/// Contains details about a failed lambda function schedule event that occurred
+/// Contains details about a failed Lambda function schedule event that occurred
 /// during an execution.
 class LambdaFunctionScheduleFailedEventDetails {
   /// A more detailed explanation of the cause of the failure.
@@ -2784,6 +3229,7 @@ class LambdaFunctionScheduleFailedEventDetails {
     this.cause,
     this.error,
   });
+
   factory LambdaFunctionScheduleFailedEventDetails.fromJson(
       Map<String, dynamic> json) {
     return LambdaFunctionScheduleFailedEventDetails(
@@ -2793,27 +3239,32 @@ class LambdaFunctionScheduleFailedEventDetails {
   }
 }
 
-/// Contains details about a lambda function scheduled during an execution.
+/// Contains details about a Lambda function scheduled during an execution.
 class LambdaFunctionScheduledEventDetails {
-  /// The Amazon Resource Name (ARN) of the scheduled lambda function.
+  /// The Amazon Resource Name (ARN) of the scheduled Lambda function.
   final String resource;
 
-  /// The JSON data input to the lambda function. Length constraints apply to the
+  /// The JSON data input to the Lambda function. Length constraints apply to the
   /// payload size, and are expressed as bytes in UTF-8 encoding.
   final String? input;
 
   /// Contains details about input for an execution history event.
   final HistoryEventExecutionDataDetails? inputDetails;
 
-  /// The maximum allowed duration of the lambda function.
+  /// The credentials that Step Functions uses for the task.
+  final TaskCredentials? taskCredentials;
+
+  /// The maximum allowed duration of the Lambda function.
   final int? timeoutInSeconds;
 
   LambdaFunctionScheduledEventDetails({
     required this.resource,
     this.input,
     this.inputDetails,
+    this.taskCredentials,
     this.timeoutInSeconds,
   });
+
   factory LambdaFunctionScheduledEventDetails.fromJson(
       Map<String, dynamic> json) {
     return LambdaFunctionScheduledEventDetails(
@@ -2822,6 +3273,10 @@ class LambdaFunctionScheduledEventDetails {
       inputDetails: json['inputDetails'] != null
           ? HistoryEventExecutionDataDetails.fromJson(
               json['inputDetails'] as Map<String, dynamic>)
+          : null,
+      taskCredentials: json['taskCredentials'] != null
+          ? TaskCredentials.fromJson(
+              json['taskCredentials'] as Map<String, dynamic>)
           : null,
       timeoutInSeconds: json['timeoutInSeconds'] as int?,
     );
@@ -2841,6 +3296,7 @@ class LambdaFunctionStartFailedEventDetails {
     this.cause,
     this.error,
   });
+
   factory LambdaFunctionStartFailedEventDetails.fromJson(
       Map<String, dynamic> json) {
     return LambdaFunctionStartFailedEventDetails(
@@ -2850,10 +3306,10 @@ class LambdaFunctionStartFailedEventDetails {
   }
 }
 
-/// Contains details about a lambda function that successfully terminated during
+/// Contains details about a Lambda function that successfully terminated during
 /// an execution.
 class LambdaFunctionSucceededEventDetails {
-  /// The JSON data output by the lambda function. Length constraints apply to the
+  /// The JSON data output by the Lambda function. Length constraints apply to the
   /// payload size, and are expressed as bytes in UTF-8 encoding.
   final String? output;
 
@@ -2864,6 +3320,7 @@ class LambdaFunctionSucceededEventDetails {
     this.output,
     this.outputDetails,
   });
+
   factory LambdaFunctionSucceededEventDetails.fromJson(
       Map<String, dynamic> json) {
     return LambdaFunctionSucceededEventDetails(
@@ -2876,7 +3333,7 @@ class LambdaFunctionSucceededEventDetails {
   }
 }
 
-/// Contains details about a lambda function timeout that occurred during an
+/// Contains details about a Lambda function timeout that occurred during an
 /// execution.
 class LambdaFunctionTimedOutEventDetails {
   /// A more detailed explanation of the cause of the timeout.
@@ -2889,6 +3346,7 @@ class LambdaFunctionTimedOutEventDetails {
     this.cause,
     this.error,
   });
+
   factory LambdaFunctionTimedOutEventDetails.fromJson(
       Map<String, dynamic> json) {
     return LambdaFunctionTimedOutEventDetails(
@@ -2914,6 +3372,7 @@ class ListActivitiesOutput {
     required this.activities,
     this.nextToken,
   });
+
   factory ListActivitiesOutput.fromJson(Map<String, dynamic> json) {
     return ListActivitiesOutput(
       activities: (json['activities'] as List)
@@ -2941,11 +3400,42 @@ class ListExecutionsOutput {
     required this.executions,
     this.nextToken,
   });
+
   factory ListExecutionsOutput.fromJson(Map<String, dynamic> json) {
     return ListExecutionsOutput(
       executions: (json['executions'] as List)
           .whereNotNull()
           .map((e) => ExecutionListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+}
+
+class ListMapRunsOutput {
+  /// An array that lists information related to a Map Run, such as the Amazon
+  /// Resource Name (ARN) of the Map Run and the ARN of the state machine that
+  /// started the Map Run.
+  final List<MapRunListItem> mapRuns;
+
+  /// If <code>nextToken</code> is returned, there are more results available. The
+  /// value of <code>nextToken</code> is a unique pagination token for each page.
+  /// Make the call again using the returned token to retrieve the next page. Keep
+  /// all other arguments unchanged. Each pagination token expires after 24 hours.
+  /// Using an expired pagination token will return an <i>HTTP 400
+  /// InvalidToken</i> error.
+  final String? nextToken;
+
+  ListMapRunsOutput({
+    required this.mapRuns,
+    this.nextToken,
+  });
+
+  factory ListMapRunsOutput.fromJson(Map<String, dynamic> json) {
+    return ListMapRunsOutput(
+      mapRuns: (json['mapRuns'] as List)
+          .whereNotNull()
+          .map((e) => MapRunListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
     );
@@ -2967,6 +3457,7 @@ class ListStateMachinesOutput {
     required this.stateMachines,
     this.nextToken,
   });
+
   factory ListStateMachinesOutput.fromJson(Map<String, dynamic> json) {
     return ListStateMachinesOutput(
       stateMachines: (json['stateMachines'] as List)
@@ -2985,6 +3476,7 @@ class ListTagsForResourceOutput {
   ListTagsForResourceOutput({
     this.tags,
   });
+
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceOutput(
       tags: (json['tags'] as List?)
@@ -2999,12 +3491,13 @@ class ListTagsForResourceOutput {
 class LogDestination {
   /// An object describing a CloudWatch log group. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html">AWS::Logs::LogGroup</a>
-  /// in the AWS CloudFormation User Guide.
+  /// in the CloudFormation User Guide.
   final CloudWatchLogsLogGroup? cloudWatchLogsLogGroup;
 
   LogDestination({
     this.cloudWatchLogsLogGroup,
   });
+
   factory LogDestination.fromJson(Map<String, dynamic> json) {
     return LogDestination(
       cloudWatchLogsLogGroup: json['cloudWatchLogsLogGroup'] != null
@@ -3081,6 +3574,7 @@ class LoggingConfiguration {
     this.includeExecutionData,
     this.level,
   });
+
   factory LoggingConfiguration.fromJson(Map<String, dynamic> json) {
     return LoggingConfiguration(
       destinations: (json['destinations'] as List?)
@@ -3117,11 +3611,251 @@ class MapIterationEventDetails {
     this.index,
     this.name,
   });
+
   factory MapIterationEventDetails.fromJson(Map<String, dynamic> json) {
     return MapIterationEventDetails(
       index: json['index'] as int?,
       name: json['name'] as String?,
     );
+  }
+}
+
+/// Contains details about all of the child workflow executions started by a Map
+/// Run.
+class MapRunExecutionCounts {
+  /// The total number of child workflow executions that were started by a Map Run
+  /// and were running, but were either stopped by the user or by Step Functions
+  /// because the Map Run failed.
+  final int aborted;
+
+  /// The total number of child workflow executions that were started by a Map
+  /// Run, but have failed.
+  final int failed;
+
+  /// The total number of child workflow executions that were started by a Map
+  /// Run, but haven't started executing yet.
+  final int pending;
+
+  /// Returns the count of child workflow executions whose results were written by
+  /// <code>ResultWriter</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/input-output-resultwriter.html">ResultWriter</a>
+  /// in the <i>Step Functions Developer Guide</i>.
+  final int resultsWritten;
+
+  /// The total number of child workflow executions that were started by a Map Run
+  /// and are currently in-progress.
+  final int running;
+
+  /// The total number of child workflow executions that were started by a Map Run
+  /// and have completed successfully.
+  final int succeeded;
+
+  /// The total number of child workflow executions that were started by a Map Run
+  /// and have timed out.
+  final int timedOut;
+
+  /// The total number of child workflow executions that were started by a Map
+  /// Run.
+  final int total;
+
+  MapRunExecutionCounts({
+    required this.aborted,
+    required this.failed,
+    required this.pending,
+    required this.resultsWritten,
+    required this.running,
+    required this.succeeded,
+    required this.timedOut,
+    required this.total,
+  });
+
+  factory MapRunExecutionCounts.fromJson(Map<String, dynamic> json) {
+    return MapRunExecutionCounts(
+      aborted: json['aborted'] as int,
+      failed: json['failed'] as int,
+      pending: json['pending'] as int,
+      resultsWritten: json['resultsWritten'] as int,
+      running: json['running'] as int,
+      succeeded: json['succeeded'] as int,
+      timedOut: json['timedOut'] as int,
+      total: json['total'] as int,
+    );
+  }
+}
+
+/// Contains details about a Map Run failure event that occurred during a state
+/// machine execution.
+class MapRunFailedEventDetails {
+  /// A more detailed explanation of the cause of the failure.
+  final String? cause;
+
+  /// The error code of the Map Run failure.
+  final String? error;
+
+  MapRunFailedEventDetails({
+    this.cause,
+    this.error,
+  });
+
+  factory MapRunFailedEventDetails.fromJson(Map<String, dynamic> json) {
+    return MapRunFailedEventDetails(
+      cause: json['cause'] as String?,
+      error: json['error'] as String?,
+    );
+  }
+}
+
+/// Contains details about items that were processed in all of the child
+/// workflow executions that were started by a Map Run.
+class MapRunItemCounts {
+  /// The total number of items processed in child workflow executions that were
+  /// either stopped by the user or by Step Functions, because the Map Run failed.
+  final int aborted;
+
+  /// The total number of items processed in child workflow executions that have
+  /// failed.
+  final int failed;
+
+  /// The total number of items to process in child workflow executions that
+  /// haven't started running yet.
+  final int pending;
+
+  /// Returns the count of items whose results were written by
+  /// <code>ResultWriter</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/input-output-resultwriter.html">ResultWriter</a>
+  /// in the <i>Step Functions Developer Guide</i>.
+  final int resultsWritten;
+
+  /// The total number of items being processed in child workflow executions that
+  /// are currently in-progress.
+  final int running;
+
+  /// The total number of items processed in child workflow executions that have
+  /// completed successfully.
+  final int succeeded;
+
+  /// The total number of items processed in child workflow executions that have
+  /// timed out.
+  final int timedOut;
+
+  /// The total number of items processed in all the child workflow executions
+  /// started by a Map Run.
+  final int total;
+
+  MapRunItemCounts({
+    required this.aborted,
+    required this.failed,
+    required this.pending,
+    required this.resultsWritten,
+    required this.running,
+    required this.succeeded,
+    required this.timedOut,
+    required this.total,
+  });
+
+  factory MapRunItemCounts.fromJson(Map<String, dynamic> json) {
+    return MapRunItemCounts(
+      aborted: json['aborted'] as int,
+      failed: json['failed'] as int,
+      pending: json['pending'] as int,
+      resultsWritten: json['resultsWritten'] as int,
+      running: json['running'] as int,
+      succeeded: json['succeeded'] as int,
+      timedOut: json['timedOut'] as int,
+      total: json['total'] as int,
+    );
+  }
+}
+
+/// Contains details about a specific Map Run.
+class MapRunListItem {
+  /// The <code>executionArn</code> of the execution from which the Map Run was
+  /// started.
+  final String executionArn;
+
+  /// The Amazon Resource Name (ARN) of the Map Run.
+  final String mapRunArn;
+
+  /// The date on which the Map Run started.
+  final DateTime startDate;
+
+  /// The Amazon Resource Name (ARN) of the executed state machine.
+  final String stateMachineArn;
+
+  /// The date on which the Map Run stopped.
+  final DateTime? stopDate;
+
+  MapRunListItem({
+    required this.executionArn,
+    required this.mapRunArn,
+    required this.startDate,
+    required this.stateMachineArn,
+    this.stopDate,
+  });
+
+  factory MapRunListItem.fromJson(Map<String, dynamic> json) {
+    return MapRunListItem(
+      executionArn: json['executionArn'] as String,
+      mapRunArn: json['mapRunArn'] as String,
+      startDate: nonNullableTimeStampFromJson(json['startDate'] as Object),
+      stateMachineArn: json['stateMachineArn'] as String,
+      stopDate: timeStampFromJson(json['stopDate']),
+    );
+  }
+}
+
+/// Contains details about a Map Run that was started during a state machine
+/// execution.
+class MapRunStartedEventDetails {
+  /// The Amazon Resource Name (ARN) of a Map Run that was started.
+  final String? mapRunArn;
+
+  MapRunStartedEventDetails({
+    this.mapRunArn,
+  });
+
+  factory MapRunStartedEventDetails.fromJson(Map<String, dynamic> json) {
+    return MapRunStartedEventDetails(
+      mapRunArn: json['mapRunArn'] as String?,
+    );
+  }
+}
+
+enum MapRunStatus {
+  running,
+  succeeded,
+  failed,
+  aborted,
+}
+
+extension MapRunStatusValueExtension on MapRunStatus {
+  String toValue() {
+    switch (this) {
+      case MapRunStatus.running:
+        return 'RUNNING';
+      case MapRunStatus.succeeded:
+        return 'SUCCEEDED';
+      case MapRunStatus.failed:
+        return 'FAILED';
+      case MapRunStatus.aborted:
+        return 'ABORTED';
+    }
+  }
+}
+
+extension MapRunStatusFromString on String {
+  MapRunStatus toMapRunStatus() {
+    switch (this) {
+      case 'RUNNING':
+        return MapRunStatus.running;
+      case 'SUCCEEDED':
+        return MapRunStatus.succeeded;
+      case 'FAILED':
+        return MapRunStatus.failed;
+      case 'ABORTED':
+        return MapRunStatus.aborted;
+    }
+    throw Exception('$this is not known in enum MapRunStatus');
   }
 }
 
@@ -3133,6 +3867,7 @@ class MapStateStartedEventDetails {
   MapStateStartedEventDetails({
     this.length,
   });
+
   factory MapStateStartedEventDetails.fromJson(Map<String, dynamic> json) {
     return MapStateStartedEventDetails(
       length: json['length'] as int?,
@@ -3142,6 +3877,7 @@ class MapStateStartedEventDetails {
 
 class SendTaskFailureOutput {
   SendTaskFailureOutput();
+
   factory SendTaskFailureOutput.fromJson(Map<String, dynamic> _) {
     return SendTaskFailureOutput();
   }
@@ -3149,6 +3885,7 @@ class SendTaskFailureOutput {
 
 class SendTaskHeartbeatOutput {
   SendTaskHeartbeatOutput();
+
   factory SendTaskHeartbeatOutput.fromJson(Map<String, dynamic> _) {
     return SendTaskHeartbeatOutput();
   }
@@ -3156,6 +3893,7 @@ class SendTaskHeartbeatOutput {
 
 class SendTaskSuccessOutput {
   SendTaskSuccessOutput();
+
   factory SendTaskSuccessOutput.fromJson(Map<String, dynamic> _) {
     return SendTaskSuccessOutput();
   }
@@ -3172,6 +3910,7 @@ class StartExecutionOutput {
     required this.executionArn,
     required this.startDate,
   });
+
   factory StartExecutionOutput.fromJson(Map<String, dynamic> json) {
     return StartExecutionOutput(
       executionArn: json['executionArn'] as String,
@@ -3224,7 +3963,7 @@ class StartSyncExecutionOutput {
   /// The Amazon Resource Name (ARN) that identifies the state machine.
   final String? stateMachineArn;
 
-  /// The AWS X-Ray trace header that was passed to the execution.
+  /// The X-Ray trace header that was passed to the execution.
   final String? traceHeader;
 
   StartSyncExecutionOutput({
@@ -3243,6 +3982,7 @@ class StartSyncExecutionOutput {
     this.stateMachineArn,
     this.traceHeader,
   });
+
   factory StartSyncExecutionOutput.fromJson(Map<String, dynamic> json) {
     return StartSyncExecutionOutput(
       executionArn: json['executionArn'] as String,
@@ -3290,6 +4030,7 @@ class StateEnteredEventDetails {
     this.input,
     this.inputDetails,
   });
+
   factory StateEnteredEventDetails.fromJson(Map<String, dynamic> json) {
     return StateEnteredEventDetails(
       name: json['name'] as String,
@@ -3341,6 +4082,7 @@ class StateExitedEventDetails {
     this.output,
     this.outputDetails,
   });
+
   factory StateExitedEventDetails.fromJson(Map<String, dynamic> json) {
     return StateExitedEventDetails(
       name: json['name'] as String,
@@ -3395,6 +4137,7 @@ class StateMachineListItem {
     required this.stateMachineArn,
     required this.type,
   });
+
   factory StateMachineListItem.fromJson(Map<String, dynamic> json) {
     return StateMachineListItem(
       creationDate:
@@ -3469,6 +4212,7 @@ class StopExecutionOutput {
   StopExecutionOutput({
     required this.stopDate,
   });
+
   factory StopExecutionOutput.fromJson(Map<String, dynamic> json) {
     return StopExecutionOutput(
       stopDate: nonNullableTimeStampFromJson(json['stopDate'] as Object),
@@ -3514,8 +4258,8 @@ extension SyncExecutionStatusFromString on String {
 ///
 /// An array of key-value pairs. For more information, see <a
 /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
-/// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User
-/// Guide</i>, and <a
+/// Cost Allocation Tags</a> in the <i>Amazon Web Services Billing and Cost
+/// Management User Guide</i>, and <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_iam-tags.html">Controlling
 /// Access Using IAM Tags</a>.
 ///
@@ -3532,6 +4276,7 @@ class Tag {
     this.key,
     this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['key'] as String?,
@@ -3551,17 +4296,35 @@ class Tag {
 
 class TagResourceOutput {
   TagResourceOutput();
+
   factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
     return TagResourceOutput();
   }
 }
 
+/// Contains details about the credentials that Step Functions uses for a task.
+class TaskCredentials {
+  /// The ARN of an IAM role that Step Functions assumes for the task. The role
+  /// can allow cross-account access to resources.
+  final String? roleArn;
+
+  TaskCredentials({
+    this.roleArn,
+  });
+
+  factory TaskCredentials.fromJson(Map<String, dynamic> json) {
+    return TaskCredentials(
+      roleArn: json['roleArn'] as String?,
+    );
+  }
+}
+
 /// Contains details about a task failure event.
 class TaskFailedEventDetails {
-  /// The service name of the resource in a task state.
+  /// The action of the resource called by a task state.
   final String resource;
 
-  /// The action of the resource called by a task state.
+  /// The service name of the resource in a task state.
   final String resourceType;
 
   /// A more detailed explanation of the cause of the failure.
@@ -3576,6 +4339,7 @@ class TaskFailedEventDetails {
     this.cause,
     this.error,
   });
+
   factory TaskFailedEventDetails.fromJson(Map<String, dynamic> json) {
     return TaskFailedEventDetails(
       resource: json['resource'] as String,
@@ -3596,14 +4360,17 @@ class TaskScheduledEventDetails {
   /// The region of the scheduled task
   final String region;
 
-  /// The service name of the resource in a task state.
+  /// The action of the resource called by a task state.
   final String resource;
 
-  /// The action of the resource called by a task state.
+  /// The service name of the resource in a task state.
   final String resourceType;
 
   /// The maximum allowed duration between two heartbeats for the task.
   final int? heartbeatInSeconds;
+
+  /// The credentials that Step Functions uses for the task.
+  final TaskCredentials? taskCredentials;
 
   /// The maximum allowed duration of the task.
   final int? timeoutInSeconds;
@@ -3614,8 +4381,10 @@ class TaskScheduledEventDetails {
     required this.resource,
     required this.resourceType,
     this.heartbeatInSeconds,
+    this.taskCredentials,
     this.timeoutInSeconds,
   });
+
   factory TaskScheduledEventDetails.fromJson(Map<String, dynamic> json) {
     return TaskScheduledEventDetails(
       parameters: json['parameters'] as String,
@@ -3623,6 +4392,10 @@ class TaskScheduledEventDetails {
       resource: json['resource'] as String,
       resourceType: json['resourceType'] as String,
       heartbeatInSeconds: json['heartbeatInSeconds'] as int?,
+      taskCredentials: json['taskCredentials'] != null
+          ? TaskCredentials.fromJson(
+              json['taskCredentials'] as Map<String, dynamic>)
+          : null,
       timeoutInSeconds: json['timeoutInSeconds'] as int?,
     );
   }
@@ -3630,10 +4403,10 @@ class TaskScheduledEventDetails {
 
 /// Contains details about a task that failed to start during an execution.
 class TaskStartFailedEventDetails {
-  /// The service name of the resource in a task state.
+  /// The action of the resource called by a task state.
   final String resource;
 
-  /// The action of the resource called by a task state.
+  /// The service name of the resource in a task state.
   final String resourceType;
 
   /// A more detailed explanation of the cause of the failure.
@@ -3648,6 +4421,7 @@ class TaskStartFailedEventDetails {
     this.cause,
     this.error,
   });
+
   factory TaskStartFailedEventDetails.fromJson(Map<String, dynamic> json) {
     return TaskStartFailedEventDetails(
       resource: json['resource'] as String,
@@ -3660,16 +4434,17 @@ class TaskStartFailedEventDetails {
 
 /// Contains details about the start of a task during an execution.
 class TaskStartedEventDetails {
-  /// The service name of the resource in a task state.
+  /// The action of the resource called by a task state.
   final String resource;
 
-  /// The action of the resource called by a task state.
+  /// The service name of the resource in a task state.
   final String resourceType;
 
   TaskStartedEventDetails({
     required this.resource,
     required this.resourceType,
   });
+
   factory TaskStartedEventDetails.fromJson(Map<String, dynamic> json) {
     return TaskStartedEventDetails(
       resource: json['resource'] as String,
@@ -3680,10 +4455,10 @@ class TaskStartedEventDetails {
 
 /// Contains details about a task that failed to submit during an execution.
 class TaskSubmitFailedEventDetails {
-  /// The service name of the resource in a task state.
+  /// The action of the resource called by a task state.
   final String resource;
 
-  /// The action of the resource called by a task state.
+  /// The service name of the resource in a task state.
   final String resourceType;
 
   /// A more detailed explanation of the cause of the failure.
@@ -3698,6 +4473,7 @@ class TaskSubmitFailedEventDetails {
     this.cause,
     this.error,
   });
+
   factory TaskSubmitFailedEventDetails.fromJson(Map<String, dynamic> json) {
     return TaskSubmitFailedEventDetails(
       resource: json['resource'] as String,
@@ -3710,10 +4486,10 @@ class TaskSubmitFailedEventDetails {
 
 /// Contains details about a task submitted to a resource .
 class TaskSubmittedEventDetails {
-  /// The service name of the resource in a task state.
+  /// The action of the resource called by a task state.
   final String resource;
 
-  /// The action of the resource called by a task state.
+  /// The service name of the resource in a task state.
   final String resourceType;
 
   /// The response from a resource when a task has started. Length constraints
@@ -3729,6 +4505,7 @@ class TaskSubmittedEventDetails {
     this.output,
     this.outputDetails,
   });
+
   factory TaskSubmittedEventDetails.fromJson(Map<String, dynamic> json) {
     return TaskSubmittedEventDetails(
       resource: json['resource'] as String,
@@ -3744,10 +4521,10 @@ class TaskSubmittedEventDetails {
 
 /// Contains details about the successful completion of a task state.
 class TaskSucceededEventDetails {
-  /// The service name of the resource in a task state.
+  /// The action of the resource called by a task state.
   final String resource;
 
-  /// The action of the resource called by a task state.
+  /// The service name of the resource in a task state.
   final String resourceType;
 
   /// The full JSON response from a resource when a task has succeeded. This
@@ -3764,6 +4541,7 @@ class TaskSucceededEventDetails {
     this.output,
     this.outputDetails,
   });
+
   factory TaskSucceededEventDetails.fromJson(Map<String, dynamic> json) {
     return TaskSucceededEventDetails(
       resource: json['resource'] as String,
@@ -3779,10 +4557,10 @@ class TaskSucceededEventDetails {
 
 /// Contains details about a resource timeout that occurred during an execution.
 class TaskTimedOutEventDetails {
-  /// The service name of the resource in a task state.
+  /// The action of the resource called by a task state.
   final String resource;
 
-  /// The action of the resource called by a task state.
+  /// The service name of the resource in a task state.
   final String resourceType;
 
   /// A more detailed explanation of the cause of the failure.
@@ -3797,6 +4575,7 @@ class TaskTimedOutEventDetails {
     this.cause,
     this.error,
   });
+
   factory TaskTimedOutEventDetails.fromJson(Map<String, dynamic> json) {
     return TaskTimedOutEventDetails(
       resource: json['resource'] as String,
@@ -3807,15 +4586,16 @@ class TaskTimedOutEventDetails {
   }
 }
 
-/// Selects whether or not the state machine's AWS X-Ray tracing is enabled.
-/// Default is <code>false</code>
+/// Selects whether or not the state machine's X-Ray tracing is enabled. Default
+/// is <code>false</code>
 class TracingConfiguration {
-  /// When set to <code>true</code>, AWS X-Ray tracing is enabled.
+  /// When set to <code>true</code>, X-Ray tracing is enabled.
   final bool? enabled;
 
   TracingConfiguration({
     this.enabled,
   });
+
   factory TracingConfiguration.fromJson(Map<String, dynamic> json) {
     return TracingConfiguration(
       enabled: json['enabled'] as bool?,
@@ -3832,8 +4612,17 @@ class TracingConfiguration {
 
 class UntagResourceOutput {
   UntagResourceOutput();
+
   factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
     return UntagResourceOutput();
+  }
+}
+
+class UpdateMapRunOutput {
+  UpdateMapRunOutput();
+
+  factory UpdateMapRunOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateMapRunOutput();
   }
 }
 
@@ -3844,6 +4633,7 @@ class UpdateStateMachineOutput {
   UpdateStateMachineOutput({
     required this.updateDate,
   });
+
   factory UpdateStateMachineOutput.fromJson(Map<String, dynamic> json) {
     return UpdateStateMachineOutput(
       updateDate: nonNullableTimeStampFromJson(json['updateDate'] as Object),
@@ -3975,6 +4765,11 @@ class TooManyTags extends _s.GenericAwsException {
       : super(type: type, code: 'TooManyTags', message: message);
 }
 
+class ValidationException extends _s.GenericAwsException {
+  ValidationException({String? type, String? message})
+      : super(type: type, code: 'ValidationException', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'ActivityDoesNotExist': (type, message) =>
       ActivityDoesNotExist(type: type, message: message),
@@ -4019,4 +4814,6 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       TaskDoesNotExist(type: type, message: message),
   'TaskTimedOut': (type, message) => TaskTimedOut(type: type, message: message),
   'TooManyTags': (type, message) => TooManyTags(type: type, message: message),
+  'ValidationException': (type, message) =>
+      ValidationException(type: type, message: message),
 };

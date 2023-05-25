@@ -18,22 +18,32 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// This is the <i>ACM Private CA API Reference</i>. It provides descriptions,
-/// syntax, and usage examples for each of the actions and data types involved
-/// in creating and managing private certificate authorities (CA) for your
-/// organization.
+/// This is the <i>Amazon Web Services Private Certificate Authority API
+/// Reference</i>. It provides descriptions, syntax, and usage examples for each
+/// of the actions and data types involved in creating and managing a private
+/// certificate authority (CA) for your organization.
 ///
-/// The documentation for each action shows the Query API request parameters and
-/// the XML response. Alternatively, you can use one of the AWS SDKs to access
-/// an API that's tailored to the programming language or platform that you're
-/// using. For more information, see <a
-/// href="https://aws.amazon.com/tools/#SDKs">AWS SDKs</a>.
-/// <note>
-/// Each ACM Private CA API action has a quota that determines the number of
-/// times the action can be called per second. For more information, see <a
-/// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaLimits.html#PcaLimits-api">API
-/// Rate Quotas in ACM Private CA</a> in the ACM Private CA user guide.
-/// </note>
+/// The documentation for each action shows the API request parameters and the
+/// JSON response. Alternatively, you can use one of the Amazon Web Services
+/// SDKs to access an API that is tailored to the programming language or
+/// platform that you prefer. For more information, see <a
+/// href="https://aws.amazon.com/tools/#SDKs">Amazon Web Services SDKs</a>.
+///
+/// Each Amazon Web Services Private CA API operation has a quota that
+/// determines the number of times the operation can be called per second.
+/// Amazon Web Services Private CA throttles API requests at different rates
+/// depending on the operation. Throttling means that Amazon Web Services
+/// Private CA rejects an otherwise valid request because the request exceeds
+/// the operation's quota for the number of requests per second. When a request
+/// is throttled, Amazon Web Services Private CA returns a <a
+/// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/CommonErrors.html">ThrottlingException</a>
+/// error. Amazon Web Services Private CA does not guarantee a minimum request
+/// rate for APIs.
+///
+/// To see an up-to-date list of your Amazon Web Services Private CA quotas, or
+/// to request a quota increase, log into your Amazon Web Services account and
+/// visit the <a href="https://console.aws.amazon.com/servicequotas/">Service
+/// Quotas</a> console.
 class ACMPCA {
   final _s.JsonProtocol _protocol;
   ACMPCA({
@@ -63,29 +73,30 @@ class ACMPCA {
   }
 
   /// Creates a root or subordinate private certificate authority (CA). You must
-  /// specify the CA configuration, the certificate revocation list (CRL)
-  /// configuration, the CA type, and an optional idempotency token to avoid
-  /// accidental creation of multiple CAs. The CA configuration specifies the
-  /// name of the algorithm and key size to be used to create the CA private
-  /// key, the type of signing algorithm that the CA uses, and X.500 subject
-  /// information. The CRL configuration specifies the CRL expiration period in
+  /// specify the CA configuration, an optional configuration for Online
+  /// Certificate Status Protocol (OCSP) and/or a certificate revocation list
+  /// (CRL), the CA type, and an optional idempotency token to avoid accidental
+  /// creation of multiple CAs. The CA configuration specifies the name of the
+  /// algorithm and key size to be used to create the CA private key, the type
+  /// of signing algorithm that the CA uses, and X.500 subject information. The
+  /// OCSP configuration can optionally specify a custom URL for the OCSP
+  /// responder. The CRL configuration specifies the CRL expiration period in
   /// days (the validity period of the CRL), the Amazon S3 bucket that will
   /// contain the CRL, and a CNAME alias for the S3 bucket that is included in
   /// certificates issued by the CA. If successful, this action returns the
   /// Amazon Resource Name (ARN) of the CA.
-  ///
-  /// ACM Private CAA assets that are stored in Amazon S3 can be protected with
-  /// encryption. For more information, see <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaCreateCa.html#crl-encryption">Encrypting
-  /// Your CRLs</a>.
   /// <note>
-  /// Both PCA and the IAM principal must have permission to write to the S3
-  /// bucket that you specify. If the IAM principal making the call does not
-  /// have permission to write to the bucket, then an exception is thrown. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaAuthAccess.html">Configure
-  /// Access to ACM Private CA</a>.
+  /// Both Amazon Web Services Private CA and the IAM principal must have
+  /// permission to write to the S3 bucket that you specify. If the IAM
+  /// principal making the call does not have permission to write to the bucket,
+  /// then an exception is thrown. For more information, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#s3-policies">Access
+  /// policies for CRLs in Amazon S3</a>.
   /// </note>
+  /// Amazon Web Services Private CA assets that are stored in Amazon S3 can be
+  /// protected with encryption. For more information, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/PcaCreateCa.html#crl-encryption">Encrypting
+  /// Your CRLs</a>.
   ///
   /// May throw [InvalidArgsException].
   /// May throw [InvalidPolicyException].
@@ -100,21 +111,77 @@ class ACMPCA {
   /// The type of the certificate authority.
   ///
   /// Parameter [idempotencyToken] :
-  /// Alphanumeric string that can be used to distinguish between calls to
-  /// <b>CreateCertificateAuthority</b>. For a given token, ACM Private CA
-  /// creates exactly one CA. If you issue a subsequent call using the same
-  /// token, ACM Private CA returns the ARN of the existing CA and takes no
-  /// further action. If you change the idempotency token across multiple calls,
-  /// ACM Private CA creates a unique CA for each unique token.
+  /// Custom string that can be used to distinguish between calls to the
+  /// <b>CreateCertificateAuthority</b> action. Idempotency tokens for
+  /// <b>CreateCertificateAuthority</b> time out after five minutes. Therefore,
+  /// if you call <b>CreateCertificateAuthority</b> multiple times with the same
+  /// idempotency token within five minutes, Amazon Web Services Private CA
+  /// recognizes that you are requesting only certificate authority and will
+  /// issue only one. If you change the idempotency token for each call, Amazon
+  /// Web Services Private CA recognizes that you are requesting multiple
+  /// certificate authorities.
+  ///
+  /// Parameter [keyStorageSecurityStandard] :
+  /// Specifies a cryptographic key management compliance standard used for
+  /// handling CA keys.
+  ///
+  /// Default: FIPS_140_2_LEVEL_3_OR_HIGHER
+  ///
+  /// <i>Note:</i> <code>FIPS_140_2_LEVEL_3_OR_HIGHER</code> is not supported in
+  /// the following Regions:
+  ///
+  /// <ul>
+  /// <li>
+  /// ap-northeast-3
+  /// </li>
+  /// <li>
+  /// ap-southeast-3
+  /// </li>
+  /// </ul>
+  /// When creating a CA in these Regions, you must provide
+  /// <code>FIPS_140_2_LEVEL_2_OR_HIGHER</code> as the argument for
+  /// <code>KeyStorageSecurityStandard</code>. Failure to do this results in an
+  /// <code>InvalidArgsException</code> with the message, "A certificate
+  /// authority cannot be created in this region with the specified security
+  /// standard."
   ///
   /// Parameter [revocationConfiguration] :
-  /// Contains a Boolean value that you can use to enable a certification
-  /// revocation list (CRL) for the CA, the name of the S3 bucket to which ACM
-  /// Private CA will write the CRL, and an optional CNAME alias that you can
-  /// use to hide the name of your bucket in the <b>CRL Distribution Points</b>
-  /// extension of your CA certificate. For more information, see the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CrlConfiguration.html">CrlConfiguration</a>
-  /// structure.
+  /// Contains information to enable Online Certificate Status Protocol (OCSP)
+  /// support, to enable a certificate revocation list (CRL), to enable both, or
+  /// to enable neither. The default is for both certificate validation
+  /// mechanisms to be disabled.
+  /// <note>
+  /// The following requirements apply to revocation configurations.
+  ///
+  /// <ul>
+  /// <li>
+  /// A configuration disabling CRLs or OCSP must contain only the
+  /// <code>Enabled=False</code> parameter, and will fail if other parameters
+  /// such as <code>CustomCname</code> or <code>ExpirationInDays</code> are
+  /// included.
+  /// </li>
+  /// <li>
+  /// In a CRL configuration, the <code>S3BucketName</code> parameter must
+  /// conform to <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html">Amazon
+  /// S3 bucket naming rules</a>.
+  /// </li>
+  /// <li>
+  /// A configuration containing a custom Canonical Name (CNAME) parameter for
+  /// CRLs or OCSP must conform to <a
+  /// href="https://www.ietf.org/rfc/rfc2396.txt">RFC2396</a> restrictions on
+  /// the use of special characters in a CNAME.
+  /// </li>
+  /// <li>
+  /// In a CRL or OCSP configuration, the value of a CNAME parameter must not
+  /// include a protocol prefix such as "http://" or "https://".
+  /// </li>
+  /// </ul> </note>
+  /// For more information, see the <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_OcspConfiguration.html">OcspConfiguration</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CrlConfiguration.html">CrlConfiguration</a>
+  /// types.
   ///
   /// Parameter [tags] :
   /// Key-value pairs that will be attached to the new private CA. You can
@@ -122,13 +189,23 @@ class ACMPCA {
   /// IAM to manage permissions, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_iam-tags.html">Controlling
   /// Access Using IAM Tags</a>.
+  ///
+  /// Parameter [usageMode] :
+  /// Specifies whether the CA issues general-purpose certificates that
+  /// typically require a revocation mechanism, or short-lived certificates that
+  /// may optionally omit revocation because they expire quickly. Short-lived
+  /// certificate validity is limited to seven days.
+  ///
+  /// The default value is GENERAL_PURPOSE.
   Future<CreateCertificateAuthorityResponse> createCertificateAuthority({
     required CertificateAuthorityConfiguration
         certificateAuthorityConfiguration,
     required CertificateAuthorityType certificateAuthorityType,
     String? idempotencyToken,
+    KeyStorageSecurityStandard? keyStorageSecurityStandard,
     RevocationConfiguration? revocationConfiguration,
     List<Tag>? tags,
+    CertificateAuthorityUsageMode? usageMode,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -144,9 +221,12 @@ class ACMPCA {
         'CertificateAuthorityConfiguration': certificateAuthorityConfiguration,
         'CertificateAuthorityType': certificateAuthorityType.toValue(),
         if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
+        if (keyStorageSecurityStandard != null)
+          'KeyStorageSecurityStandard': keyStorageSecurityStandard.toValue(),
         if (revocationConfiguration != null)
           'RevocationConfiguration': revocationConfiguration,
         if (tags != null) 'Tags': tags,
+        if (usageMode != null) 'UsageMode': usageMode.toValue(),
       },
     );
 
@@ -156,22 +236,25 @@ class ACMPCA {
   /// Creates an audit report that lists every time that your CA private key is
   /// used. The report is saved in the Amazon S3 bucket that you specify on
   /// input. The <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_IssueCertificate.html">IssueCertificate</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_IssueCertificate.html">IssueCertificate</a>
   /// and <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_RevokeCertificate.html">RevokeCertificate</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_RevokeCertificate.html">RevokeCertificate</a>
   /// actions use the private key.
   /// <note>
-  /// Both PCA and the IAM principal must have permission to write to the S3
-  /// bucket that you specify. If the IAM principal making the call does not
-  /// have permission to write to the bucket, then an exception is thrown. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaAuthAccess.html">Configure
-  /// Access to ACM Private CA</a>.
+  /// Both Amazon Web Services Private CA and the IAM principal must have
+  /// permission to write to the S3 bucket that you specify. If the IAM
+  /// principal making the call does not have permission to write to the bucket,
+  /// then an exception is thrown. For more information, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#s3-policies">Access
+  /// policies for CRLs in Amazon S3</a>.
   /// </note>
-  /// ACM Private CAA assets that are stored in Amazon S3 can be protected with
-  /// encryption. For more information, see <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaAuditReport.html#audit-report-encryption">Encrypting
+  /// Amazon Web Services Private CA assets that are stored in Amazon S3 can be
+  /// protected with encryption. For more information, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/PcaAuditReport.html#audit-report-encryption">Encrypting
   /// Your Audit Reports</a>.
+  /// <note>
+  /// You can generate a maximum of one report every 30 minutes.
+  /// </note>
   ///
   /// May throw [RequestInProgressException].
   /// May throw [RequestFailedException].
@@ -220,15 +303,15 @@ class ACMPCA {
         jsonResponse.body);
   }
 
-  /// Grants one or more permissions on a private CA to the AWS Certificate
-  /// Manager (ACM) service principal (<code>acm.amazonaws.com</code>). These
+  /// Grants one or more permissions on a private CA to the Certificate Manager
+  /// (ACM) service principal (<code>acm.amazonaws.com</code>). These
   /// permissions allow ACM to issue and renew ACM certificates that reside in
-  /// the same AWS account as the CA.
+  /// the same Amazon Web Services account as the CA.
   ///
   /// You can list current permissions with the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListPermissions.html">ListPermissions</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListPermissions.html">ListPermissions</a>
   /// action and revoke them with the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_DeletePermission.html">DeletePermission</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeletePermission.html">DeletePermission</a>
   /// action.
   /// <p class="title"> <b>About Permissions</b>
   ///
@@ -247,8 +330,8 @@ class ACMPCA {
   /// then permissions cannot be used to enable automatic renewals. Instead, the
   /// ACM certificate owner must set up a resource-based policy to enable
   /// cross-account issuance and renewals. For more information, see <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/pca-rbp.html">Using
-  /// a Resource Based Policy with ACM Private CA</a>.
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/pca-rbp.html">Using
+  /// a Resource Based Policy with Amazon Web Services Private CA</a>.
   /// </li>
   /// </ul>
   ///
@@ -260,22 +343,22 @@ class ACMPCA {
   /// May throw [RequestFailedException].
   ///
   /// Parameter [actions] :
-  /// The actions that the specified AWS service principal can use. These
-  /// include <code>IssueCertificate</code>, <code>GetCertificate</code>, and
-  /// <code>ListPermissions</code>.
+  /// The actions that the specified Amazon Web Services service principal can
+  /// use. These include <code>IssueCertificate</code>,
+  /// <code>GetCertificate</code>, and <code>ListPermissions</code>.
   ///
   /// Parameter [certificateAuthorityArn] :
   /// The Amazon Resource Name (ARN) of the CA that grants the permissions. You
   /// can find the ARN by calling the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListCertificateAuthorities.html">ListCertificateAuthorities</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html">ListCertificateAuthorities</a>
   /// action. This must have the following form:
   ///
   /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
   /// </code>.
   ///
   /// Parameter [principal] :
-  /// The AWS service or identity that receives the permission. At this time,
-  /// the only valid principal is <code>acm.amazonaws.com</code>.
+  /// The Amazon Web Services service or identity that receives the permission.
+  /// At this time, the only valid principal is <code>acm.amazonaws.com</code>.
   ///
   /// Parameter [sourceAccount] :
   /// The ID of the calling account.
@@ -307,7 +390,7 @@ class ACMPCA {
   /// Deletes a private certificate authority (CA). You must provide the Amazon
   /// Resource Name (ARN) of the private CA that you want to delete. You can
   /// find the ARN by calling the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListCertificateAuthorities.html">ListCertificateAuthorities</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html">ListCertificateAuthorities</a>
   /// action.
   /// <note>
   /// Deleting a CA will invalidate other CAs and certificates below it in your
@@ -315,28 +398,28 @@ class ACMPCA {
   /// </note>
   /// Before you can delete a CA that you have created and activated, you must
   /// disable it. To do this, call the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_UpdateCertificateAuthority.html">UpdateCertificateAuthority</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html">UpdateCertificateAuthority</a>
   /// action and set the <b>CertificateAuthorityStatus</b> parameter to
   /// <code>DISABLED</code>.
   ///
   /// Additionally, you can delete a CA if you are waiting for it to be created
   /// (that is, the status of the CA is <code>CREATING</code>). You can also
   /// delete it if the CA has been created but you haven't yet imported the
-  /// signed certificate into ACM Private CA (that is, the status of the CA is
-  /// <code>PENDING_CERTIFICATE</code>).
+  /// signed certificate into Amazon Web Services Private CA (that is, the
+  /// status of the CA is <code>PENDING_CERTIFICATE</code>).
   ///
   /// When you successfully call <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_DeleteCertificateAuthority.html">DeleteCertificateAuthority</a>,
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeleteCertificateAuthority.html">DeleteCertificateAuthority</a>,
   /// the CA's status changes to <code>DELETED</code>. However, the CA won't be
   /// permanently deleted until the restoration period has passed. By default,
   /// if you do not set the <code>PermanentDeletionTimeInDays</code> parameter,
   /// the CA remains restorable for 30 days. You can set the parameter from 7 to
   /// 30 days. The <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_DescribeCertificateAuthority.html">DescribeCertificateAuthority</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_DescribeCertificateAuthority.html">DescribeCertificateAuthority</a>
   /// action returns the time remaining in the restoration window of a private
   /// CA in the <code>DELETED</code> state. To restore an eligible CA, call the
   /// <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_RestoreCertificateAuthority.html">RestoreCertificateAuthority</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_RestoreCertificateAuthority.html">RestoreCertificateAuthority</a>
   /// action.
   ///
   /// May throw [ConcurrentModificationException].
@@ -346,7 +429,7 @@ class ACMPCA {
   ///
   /// Parameter [certificateAuthorityArn] :
   /// The Amazon Resource Name (ARN) that was returned when you called <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>.
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>.
   /// This must have the following form:
   ///
   /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
@@ -383,17 +466,18 @@ class ACMPCA {
     );
   }
 
-  /// Revokes permissions on a private CA granted to the AWS Certificate Manager
+  /// Revokes permissions on a private CA granted to the Certificate Manager
   /// (ACM) service principal (acm.amazonaws.com).
   ///
   /// These permissions allow ACM to issue and renew ACM certificates that
-  /// reside in the same AWS account as the CA. If you revoke these permissions,
-  /// ACM will no longer renew the affected certificates automatically.
+  /// reside in the same Amazon Web Services account as the CA. If you revoke
+  /// these permissions, ACM will no longer renew the affected certificates
+  /// automatically.
   ///
   /// Permissions can be granted with the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreatePermission.html">CreatePermission</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreatePermission.html">CreatePermission</a>
   /// action and listed with the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListPermissions.html">ListPermissions</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListPermissions.html">ListPermissions</a>
   /// action.
   /// <p class="title"> <b>About Permissions</b>
   ///
@@ -412,8 +496,8 @@ class ACMPCA {
   /// then permissions cannot be used to enable automatic renewals. Instead, the
   /// ACM certificate owner must set up a resource-based policy to enable
   /// cross-account issuance and renewals. For more information, see <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/pca-rbp.html">Using
-  /// a Resource Based Policy with ACM Private CA</a>.
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/pca-rbp.html">Using
+  /// a Resource Based Policy with Amazon Web Services Private CA</a>.
   /// </li>
   /// </ul>
   ///
@@ -425,19 +509,19 @@ class ACMPCA {
   /// Parameter [certificateAuthorityArn] :
   /// The Amazon Resource Number (ARN) of the private CA that issued the
   /// permissions. You can find the CA's ARN by calling the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListCertificateAuthorities.html">ListCertificateAuthorities</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html">ListCertificateAuthorities</a>
   /// action. This must have the following form:
   ///
   /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
   /// </code>.
   ///
   /// Parameter [principal] :
-  /// The AWS service or identity that will have its CA permissions revoked. At
-  /// this time, the only valid service principal is
+  /// The Amazon Web Services service or identity that will have its CA
+  /// permissions revoked. At this time, the only valid service principal is
   /// <code>acm.amazonaws.com</code>
   ///
   /// Parameter [sourceAccount] :
-  /// The AWS account that calls this action.
+  /// The Amazon Web Services account that calls this action.
   Future<void> deletePermission({
     required String certificateAuthorityArn,
     required String principal,
@@ -465,43 +549,44 @@ class ACMPCA {
   /// remove any access that the policy has granted. If there is no policy
   /// attached to the private CA, this action will return successful.
   ///
-  /// If you delete a policy that was applied through AWS Resource Access
-  /// Manager (RAM), the CA will be removed from all shares in which it was
-  /// included.
+  /// If you delete a policy that was applied through Amazon Web Services
+  /// Resource Access Manager (RAM), the CA will be removed from all shares in
+  /// which it was included.
   ///
-  /// The AWS Certificate Manager Service Linked Role that the policy supports
-  /// is not affected when you delete the policy.
+  /// The Certificate Manager Service Linked Role that the policy supports is
+  /// not affected when you delete the policy.
   ///
   /// The current policy can be shown with <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_GetPolicy.html">GetPolicy</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_GetPolicy.html">GetPolicy</a>
   /// and updated with <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_PutPolicy.html">PutPolicy</a>.
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_PutPolicy.html">PutPolicy</a>.
   /// <p class="title"> <b>About Policies</b>
   ///
   /// <ul>
   /// <li>
-  /// A policy grants access on a private CA to an AWS customer account, to AWS
-  /// Organizations, or to an AWS Organizations unit. Policies are under the
-  /// control of a CA administrator. For more information, see <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/pca-rbp.html">Using
-  /// a Resource Based Policy with ACM Private CA</a>.
+  /// A policy grants access on a private CA to an Amazon Web Services customer
+  /// account, to Amazon Web Services Organizations, or to an Amazon Web
+  /// Services Organizations unit. Policies are under the control of a CA
+  /// administrator. For more information, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/pca-rbp.html">Using
+  /// a Resource Based Policy with Amazon Web Services Private CA</a>.
   /// </li>
   /// <li>
-  /// A policy permits a user of AWS Certificate Manager (ACM) to issue ACM
+  /// A policy permits a user of Certificate Manager (ACM) to issue ACM
   /// certificates signed by a CA in another account.
   /// </li>
   /// <li>
   /// For ACM to manage automatic renewal of these certificates, the ACM user
   /// must configure a Service Linked Role (SLR). The SLR allows the ACM service
   /// to assume the identity of the user, subject to confirmation against the
-  /// ACM Private CA policy. For more information, see <a
+  /// Amazon Web Services Private CA policy. For more information, see <a
   /// href="https://docs.aws.amazon.com/acm/latest/userguide/acm-slr.html">Using
   /// a Service Linked Role with ACM</a>.
   /// </li>
   /// <li>
-  /// Updates made in AWS Resource Manager (RAM) are reflected in policies. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/pca-ram.html">Attach
+  /// Updates made in Amazon Web Services Resource Manager (RAM) are reflected
+  /// in policies. For more information, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/pca-ram.html">Attach
   /// a Policy for Cross-Account Access</a>.
   /// </li>
   /// </ul>
@@ -516,7 +601,7 @@ class ACMPCA {
   /// Parameter [resourceArn] :
   /// The Amazon Resource Number (ARN) of the private CA that will have its
   /// policy deleted. You can find the CA's ARN by calling the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListCertificateAuthorities.html">ListCertificateAuthorities</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html">ListCertificateAuthorities</a>
   /// action. The ARN value must have the form
   /// <code>arn:aws:acm-pca:region:account:certificate-authority/01234567-89ab-cdef-0123-0123456789ab</code>.
   Future<void> deletePolicy({
@@ -545,13 +630,14 @@ class ACMPCA {
   ///
   /// <ul>
   /// <li>
-  /// <code>CREATING</code> - ACM Private CA is creating your private
-  /// certificate authority.
+  /// <code>CREATING</code> - Amazon Web Services Private CA is creating your
+  /// private certificate authority.
   /// </li>
   /// <li>
   /// <code>PENDING_CERTIFICATE</code> - The certificate is pending. You must
-  /// use your ACM Private CA-hosted or on-premises root or subordinate CA to
-  /// sign your private CA CSR and then import it into PCA.
+  /// use your Amazon Web Services Private CA-hosted or on-premises root or
+  /// subordinate CA to sign your private CA CSR and then import it into Amazon
+  /// Web Services Private CA.
   /// </li>
   /// <li>
   /// <code>ACTIVE</code> - Your private CA is active.
@@ -564,9 +650,9 @@ class ACMPCA {
   /// </li>
   /// <li>
   /// <code>FAILED</code> - Your private CA has failed. Your CA can fail because
-  /// of problems such a network outage or backend AWS failure or other errors.
-  /// A failed CA can never return to the pending state. You must create a new
-  /// CA.
+  /// of problems such a network outage or back-end Amazon Web Services failure
+  /// or other errors. A failed CA can never return to the pending state. You
+  /// must create a new CA.
   /// </li>
   /// <li>
   /// <code>DELETED</code> - Your private CA is within the restoration period,
@@ -580,7 +666,7 @@ class ACMPCA {
   ///
   /// Parameter [certificateAuthorityArn] :
   /// The Amazon Resource Name (ARN) that was returned when you called <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>.
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>.
   /// This must be of the form:
   ///
   /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
@@ -607,12 +693,12 @@ class ACMPCA {
   }
 
   /// Lists information about a specific audit report created by calling the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html">CreateCertificateAuthorityAuditReport</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html">CreateCertificateAuthorityAuditReport</a>
   /// action. Audit information is created every time the certificate authority
   /// (CA) private key is used. The private key is used when you call the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_IssueCertificate.html">IssueCertificate</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_IssueCertificate.html">IssueCertificate</a>
   /// action or the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_RevokeCertificate.html">RevokeCertificate</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_RevokeCertificate.html">RevokeCertificate</a>
   /// action.
   ///
   /// May throw [ResourceNotFoundException].
@@ -621,7 +707,7 @@ class ACMPCA {
   ///
   /// Parameter [auditReportId] :
   /// The report ID returned by calling the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html">CreateCertificateAuthorityAuditReport</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html">CreateCertificateAuthorityAuditReport</a>
   /// action.
   ///
   /// Parameter [certificateAuthorityArn] :
@@ -657,12 +743,12 @@ class ACMPCA {
 
   /// Retrieves a certificate from your private CA or one that has been shared
   /// with you. The ARN of the certificate is returned when you call the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_IssueCertificate.html">IssueCertificate</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_IssueCertificate.html">IssueCertificate</a>
   /// action. You must specify both the ARN of your private CA and the ARN of
   /// the issued certificate when calling the <b>GetCertificate</b> action. You
   /// can retrieve the certificate if it is in the <b>ISSUED</b> state. You can
   /// call the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html">CreateCertificateAuthorityAuditReport</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html">CreateCertificateAuthorityAuditReport</a>
   /// action to create a report that contains information about all of the
   /// certificates issued and revoked by your private CA.
   ///
@@ -681,7 +767,7 @@ class ACMPCA {
   ///
   /// Parameter [certificateAuthorityArn] :
   /// The Amazon Resource Name (ARN) that was returned when you called <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>.
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>.
   /// This must be of the form:
   ///
   /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
@@ -749,11 +835,11 @@ class ACMPCA {
 
   /// Retrieves the certificate signing request (CSR) for your private
   /// certificate authority (CA). The CSR is created when you call the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
-  /// action. Sign the CSR with your ACM Private CA-hosted or on-premises root
-  /// or subordinate CA. Then import the signed certificate back into ACM
-  /// Private CA by calling the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ImportCertificateAuthorityCertificate.html">ImportCertificateAuthorityCertificate</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
+  /// action. Sign the CSR with your Amazon Web Services Private CA-hosted or
+  /// on-premises root or subordinate CA. Then import the signed certificate
+  /// back into Amazon Web Services Private CA by calling the <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ImportCertificateAuthorityCertificate.html">ImportCertificateAuthorityCertificate</a>
   /// action. The CSR is returned as a base64 PEM-encoded string.
   ///
   /// May throw [RequestInProgressException].
@@ -764,7 +850,7 @@ class ACMPCA {
   ///
   /// Parameter [certificateAuthorityArn] :
   /// The Amazon Resource Name (ARN) that was returned when you called the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
   /// action. This must be of the form:
   ///
   /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
@@ -795,35 +881,36 @@ class ACMPCA {
   /// a <code>ResourceNotFoundException</code>.
   ///
   /// The policy can be attached or updated with <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_PutPolicy.html">PutPolicy</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_PutPolicy.html">PutPolicy</a>
   /// and removed with <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_DeletePolicy.html">DeletePolicy</a>.
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeletePolicy.html">DeletePolicy</a>.
   /// <p class="title"> <b>About Policies</b>
   ///
   /// <ul>
   /// <li>
-  /// A policy grants access on a private CA to an AWS customer account, to AWS
-  /// Organizations, or to an AWS Organizations unit. Policies are under the
-  /// control of a CA administrator. For more information, see <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/pca-rbp.html">Using
-  /// a Resource Based Policy with ACM Private CA</a>.
+  /// A policy grants access on a private CA to an Amazon Web Services customer
+  /// account, to Amazon Web Services Organizations, or to an Amazon Web
+  /// Services Organizations unit. Policies are under the control of a CA
+  /// administrator. For more information, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/pca-rbp.html">Using
+  /// a Resource Based Policy with Amazon Web Services Private CA</a>.
   /// </li>
   /// <li>
-  /// A policy permits a user of AWS Certificate Manager (ACM) to issue ACM
+  /// A policy permits a user of Certificate Manager (ACM) to issue ACM
   /// certificates signed by a CA in another account.
   /// </li>
   /// <li>
   /// For ACM to manage automatic renewal of these certificates, the ACM user
   /// must configure a Service Linked Role (SLR). The SLR allows the ACM service
   /// to assume the identity of the user, subject to confirmation against the
-  /// ACM Private CA policy. For more information, see <a
+  /// Amazon Web Services Private CA policy. For more information, see <a
   /// href="https://docs.aws.amazon.com/acm/latest/userguide/acm-slr.html">Using
   /// a Service Linked Role with ACM</a>.
   /// </li>
   /// <li>
-  /// Updates made in AWS Resource Manager (RAM) are reflected in policies. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/pca-ram.html">Attach
+  /// Updates made in Amazon Web Services Resource Manager (RAM) are reflected
+  /// in policies. For more information, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/pca-ram.html">Attach
   /// a Policy for Cross-Account Access</a>.
   /// </li>
   /// </ul>
@@ -858,20 +945,20 @@ class ACMPCA {
     return GetPolicyResponse.fromJson(jsonResponse.body);
   }
 
-  /// Imports a signed private CA certificate into ACM Private CA. This action
-  /// is used when you are using a chain of trust whose root is located outside
-  /// ACM Private CA. Before you can call this action, the following
-  /// preparations must in place:
+  /// Imports a signed private CA certificate into Amazon Web Services Private
+  /// CA. This action is used when you are using a chain of trust whose root is
+  /// located outside Amazon Web Services Private CA. Before you can call this
+  /// action, the following preparations must in place:
   /// <ol>
   /// <li>
-  /// In ACM Private CA, call the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
-  /// action to create the private CA that that you plan to back with the
-  /// imported certificate.
+  /// In Amazon Web Services Private CA, call the <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
+  /// action to create the private CA that you plan to back with the imported
+  /// certificate.
   /// </li>
   /// <li>
   /// Call the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_GetCertificateAuthorityCsr.html">GetCertificateAuthorityCsr</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_GetCertificateAuthorityCsr.html">GetCertificateAuthorityCsr</a>
   /// action to generate a certificate signing request (CSR).
   /// </li>
   /// <li>
@@ -882,22 +969,24 @@ class ACMPCA {
   /// Create a certificate chain and copy the signed certificate and the
   /// certificate chain to your working directory.
   /// </li> </ol>
-  /// ACM Private CA supports three scenarios for installing a CA certificate:
+  /// Amazon Web Services Private CA supports three scenarios for installing a
+  /// CA certificate:
   ///
   /// <ul>
   /// <li>
-  /// Installing a certificate for a root CA hosted by ACM Private CA.
+  /// Installing a certificate for a root CA hosted by Amazon Web Services
+  /// Private CA.
   /// </li>
   /// <li>
   /// Installing a subordinate CA certificate whose parent authority is hosted
-  /// by ACM Private CA.
+  /// by Amazon Web Services Private CA.
   /// </li>
   /// <li>
   /// Installing a subordinate CA certificate whose parent authority is
   /// externally hosted.
   /// </li>
   /// </ul>
-  /// The following addtitional requirements apply when you import a CA
+  /// The following additional requirements apply when you import a CA
   /// certificate.
   ///
   /// <ul>
@@ -929,8 +1018,8 @@ class ACMPCA {
   /// </ul>
   /// <i>Enforcement of Critical Constraints</i>
   ///
-  /// ACM Private CA allows the following extensions to be marked critical in
-  /// the imported CA certificate or chain.
+  /// Amazon Web Services Private CA allows the following extensions to be
+  /// marked critical in the imported CA certificate or chain.
   ///
   /// <ul>
   /// <li>
@@ -970,8 +1059,8 @@ class ACMPCA {
   /// Inhibit anyPolicy
   /// </li>
   /// </ul>
-  /// ACM Private CA rejects the following extensions when they are marked
-  /// critical in an imported CA certificate or chain.
+  /// Amazon Web Services Private CA rejects the following extensions when they
+  /// are marked critical in an imported CA certificate or chain.
   ///
   /// <ul>
   /// <li>
@@ -1011,7 +1100,7 @@ class ACMPCA {
   ///
   /// Parameter [certificateAuthorityArn] :
   /// The Amazon Resource Name (ARN) that was returned when you called <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>.
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>.
   /// This must be of the form:
   ///
   /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
@@ -1019,9 +1108,9 @@ class ACMPCA {
   ///
   /// Parameter [certificateChain] :
   /// A PEM-encoded file that contains all of your certificates, other than the
-  /// certificate you're importing, chaining up to your root CA. Your ACM
-  /// Private CA-hosted or on-premises root certificate is the last in the
-  /// chain, and each certificate in the chain signs the one preceding.
+  /// certificate you're importing, chaining up to your root CA. Your Amazon Web
+  /// Services Private CA-hosted or on-premises root certificate is the last in
+  /// the chain, and each certificate in the chain signs the one preceding.
   ///
   /// This parameter must be supplied when you import a subordinate CA. When you
   /// import a root CA, there is no chain.
@@ -1053,12 +1142,12 @@ class ACMPCA {
   /// with you, to issue a client certificate. This action returns the Amazon
   /// Resource Name (ARN) of the certificate. You can retrieve the certificate
   /// by calling the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_GetCertificate.html">GetCertificate</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_GetCertificate.html">GetCertificate</a>
   /// action and specifying the ARN.
   /// <note>
   /// You cannot use the ACM <b>ListCertificateAuthorities</b> action to
-  /// retrieve the ARNs of the certificates that you issue by using ACM Private
-  /// CA.
+  /// retrieve the ARNs of the certificates that you issue by using Amazon Web
+  /// Services Private CA.
   /// </note>
   ///
   /// May throw [LimitExceededException].
@@ -1070,7 +1159,7 @@ class ACMPCA {
   ///
   /// Parameter [certificateAuthorityArn] :
   /// The Amazon Resource Name (ARN) that was returned when you called <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>.
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>.
   /// This must be of the form:
   ///
   /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
@@ -1078,18 +1167,18 @@ class ACMPCA {
   ///
   /// Parameter [csr] :
   /// The certificate signing request (CSR) for the certificate you want to
-  /// issue. You can use the following OpenSSL command to create the CSR and a
-  /// 2048 bit RSA private key.
+  /// issue. As an example, you can use the following OpenSSL command to create
+  /// the CSR and a 2048 bit RSA private key.
   ///
   /// <code>openssl req -new -newkey rsa:2048 -days 365 -keyout
   /// private/test_cert_priv_key.pem -out csr/test_cert_.csr</code>
   ///
-  /// If you have a configuration file, you can use the following OpenSSL
+  /// If you have a configuration file, you can then use the following OpenSSL
   /// command. The <code>usr_cert</code> block in the configuration file
   /// contains your X509 version 3 extensions.
   ///
   /// <code>openssl req -new -config openssl_rsa.cnf -extensions usr_cert
-  /// -newkey rsa:2048 -days -365 -keyout private/test_cert_priv_key.pem -out
+  /// -newkey rsa:2048 -days 365 -keyout private/test_cert_priv_key.pem -out
   /// csr/test_cert_.csr</code>
   ///
   /// Note: A CSR must provide either a <i>subject name</i> or a <i>subject
@@ -1100,100 +1189,104 @@ class ACMPCA {
   /// issued.
   ///
   /// This parameter should not be confused with the
-  /// <code>SigningAlgorithm</code> parameter used to sign a CSR.
+  /// <code>SigningAlgorithm</code> parameter used to sign a CSR in the
+  /// <code>CreateCertificateAuthority</code> action.
+  /// <note>
+  /// The specified signing algorithm family (RSA or ECDSA) much match the
+  /// algorithm family of the CA's secret key.
+  /// </note>
   ///
   /// Parameter [validity] :
-  /// Information describing the validity period of the certificate.
+  /// Information describing the end of the validity period of the certificate.
+  /// This parameter sets the “Not After” date for the certificate.
   ///
-  /// When issuing a certificate, ACM Private CA sets the "Not Before" date in
-  /// the validity field to date and time minus 60 minutes. This is intended to
-  /// compensate for time inconsistencies across systems of 60 minutes or less.
+  /// Certificate validity is the period of time during which a certificate is
+  /// valid. Validity can be expressed as an explicit date and time when the
+  /// certificate expires, or as a span of time after issuance, stated in days,
+  /// months, or years. For more information, see <a
+  /// href="https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.5">Validity</a>
+  /// in RFC 5280.
   ///
-  /// The validity period configured on a certificate must not exceed the limit
-  /// set by its parents in the CA hierarchy.
+  /// This value is unaffected when <code>ValidityNotBefore</code> is also
+  /// specified. For example, if <code>Validity</code> is set to 20 days in the
+  /// future, the certificate will expire 20 days from issuance time regardless
+  /// of the <code>ValidityNotBefore</code> value.
+  ///
+  /// The end of the validity period configured on a certificate must not exceed
+  /// the limit set on its parents in the CA hierarchy.
+  ///
+  /// Parameter [apiPassthrough] :
+  /// Specifies X.509 certificate information to be included in the issued
+  /// certificate. An <code>APIPassthrough</code> or
+  /// <code>APICSRPassthrough</code> template variant must be selected, or else
+  /// this parameter is ignored. For more information about using these
+  /// templates, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/UsingTemplates.html">Understanding
+  /// Certificate Templates</a>.
+  ///
+  /// If conflicting or duplicate certificate information is supplied during
+  /// certificate issuance, Amazon Web Services Private CA applies <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/UsingTemplates.html#template-order-of-operations">order
+  /// of operation rules</a> to determine what information is used.
   ///
   /// Parameter [idempotencyToken] :
-  /// Custom string that can be used to distinguish between calls to the
-  /// <b>IssueCertificate</b> action. Idempotency tokens time out after one
-  /// hour. Therefore, if you call <b>IssueCertificate</b> multiple times with
-  /// the same idempotency token within 5 minutes, ACM Private CA recognizes
-  /// that you are requesting only one certificate and will issue only one. If
-  /// you change the idempotency token for each call, PCA recognizes that you
-  /// are requesting multiple certificates.
+  /// Alphanumeric string that can be used to distinguish between calls to the
+  /// <b>IssueCertificate</b> action. Idempotency tokens for
+  /// <b>IssueCertificate</b> time out after one minute. Therefore, if you call
+  /// <b>IssueCertificate</b> multiple times with the same idempotency token
+  /// within one minute, Amazon Web Services Private CA recognizes that you are
+  /// requesting only one certificate and will issue only one. If you change the
+  /// idempotency token for each call, Amazon Web Services Private CA recognizes
+  /// that you are requesting multiple certificates.
   ///
   /// Parameter [templateArn] :
   /// Specifies a custom configuration template to use when issuing a
-  /// certificate. If this parameter is not provided, ACM Private CA defaults to
-  /// the <code>EndEntityCertificate/V1</code> template. For CA certificates,
-  /// you should choose the shortest path length that meets your needs. The path
-  /// length is indicated by the PathLen<i>N</i> portion of the ARN, where
-  /// <i>N</i> is the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaTerms.html#terms-cadepth">CA
+  /// certificate. If this parameter is not provided, Amazon Web Services
+  /// Private CA defaults to the <code>EndEntityCertificate/V1</code> template.
+  /// For CA certificates, you should choose the shortest path length that meets
+  /// your needs. The path length is indicated by the PathLen<i>N</i> portion of
+  /// the ARN, where <i>N</i> is the <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/PcaTerms.html#terms-cadepth">CA
   /// depth</a>.
   ///
   /// Note: The CA depth configured on a subordinate CA certificate must not
   /// exceed the limit set by its parents in the CA hierarchy.
   ///
-  /// The following service-owned <code>TemplateArn</code> values are supported
-  /// by ACM Private CA:
+  /// For a list of <code>TemplateArn</code> values supported by Amazon Web
+  /// Services Private CA, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/UsingTemplates.html">Understanding
+  /// Certificate Templates</a>.
   ///
-  /// <ul>
-  /// <li>
-  /// arn:aws:acm-pca:::template/CodeSigningCertificate/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/CodeSigningCertificate_CSRPassthrough/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/EndEntityCertificate/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/EndEntityCertificate_CSRPassthrough/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/EndEntityClientAuthCertificate/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/EndEntityClientAuthCertificate_CSRPassthrough/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/EndEntityServerAuthCertificate/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/EndEntityServerAuthCertificate_CSRPassthrough/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/OCSPSigningCertificate/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/OCSPSigningCertificate_CSRPassthrough/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/RootCACertificate/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen0/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen1/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen2/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen3/V1
-  /// </li>
-  /// </ul>
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/UsingTemplates.html">Using
-  /// Templates</a>.
+  /// Parameter [validityNotBefore] :
+  /// Information describing the start of the validity period of the
+  /// certificate. This parameter sets the “Not Before" date for the
+  /// certificate.
+  ///
+  /// By default, when issuing a certificate, Amazon Web Services Private CA
+  /// sets the "Not Before" date to the issuance time minus 60 minutes. This
+  /// compensates for clock inconsistencies across computer systems. The
+  /// <code>ValidityNotBefore</code> parameter can be used to customize the “Not
+  /// Before” value.
+  ///
+  /// Unlike the <code>Validity</code> parameter, the
+  /// <code>ValidityNotBefore</code> parameter is optional.
+  ///
+  /// The <code>ValidityNotBefore</code> value is expressed as an explicit date
+  /// and time, using the <code>Validity</code> type value
+  /// <code>ABSOLUTE</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_Validity.html">Validity</a>
+  /// in this API reference and <a
+  /// href="https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.5">Validity</a>
+  /// in RFC 5280.
   Future<IssueCertificateResponse> issueCertificate({
     required String certificateAuthorityArn,
     required Uint8List csr,
     required SigningAlgorithm signingAlgorithm,
     required Validity validity,
+    ApiPassthrough? apiPassthrough,
     String? idempotencyToken,
     String? templateArn,
+    Validity? validityNotBefore,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1210,8 +1303,10 @@ class ACMPCA {
         'Csr': base64Encode(csr),
         'SigningAlgorithm': signingAlgorithm.toValue(),
         'Validity': validity,
+        if (apiPassthrough != null) 'ApiPassthrough': apiPassthrough,
         if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
         if (templateArn != null) 'TemplateArn': templateArn,
+        if (validityNotBefore != null) 'ValidityNotBefore': validityNotBefore,
       },
     );
 
@@ -1219,7 +1314,7 @@ class ACMPCA {
   }
 
   /// Lists the private certificate authorities that you created by using the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
   /// action.
   ///
   /// May throw [InvalidNextTokenException].
@@ -1270,16 +1365,16 @@ class ACMPCA {
     return ListCertificateAuthoritiesResponse.fromJson(jsonResponse.body);
   }
 
-  /// List all permissions on a private CA, if any, granted to the AWS
-  /// Certificate Manager (ACM) service principal (acm.amazonaws.com).
+  /// List all permissions on a private CA, if any, granted to the Certificate
+  /// Manager (ACM) service principal (acm.amazonaws.com).
   ///
   /// These permissions allow ACM to issue and renew ACM certificates that
-  /// reside in the same AWS account as the CA.
+  /// reside in the same Amazon Web Services account as the CA.
   ///
   /// Permissions can be granted with the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreatePermission.html">CreatePermission</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreatePermission.html">CreatePermission</a>
   /// action and revoked with the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_DeletePermission.html">DeletePermission</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeletePermission.html">DeletePermission</a>
   /// action.
   /// <p class="title"> <b>About Permissions</b>
   ///
@@ -1298,8 +1393,8 @@ class ACMPCA {
   /// then permissions cannot be used to enable automatic renewals. Instead, the
   /// ACM certificate owner must set up a resource-based policy to enable
   /// cross-account issuance and renewals. For more information, see <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/pca-rbp.html">Using
-  /// a Resource Based Policy with ACM Private CA</a>.
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/pca-rbp.html">Using
+  /// a Resource Based Policy with Amazon Web Services Private CA</a>.
   /// </li>
   /// </ul>
   ///
@@ -1312,11 +1407,11 @@ class ACMPCA {
   /// Parameter [certificateAuthorityArn] :
   /// The Amazon Resource Number (ARN) of the private CA to inspect. You can
   /// find the ARN by calling the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListCertificateAuthorities.html">ListCertificateAuthorities</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html">ListCertificateAuthorities</a>
   /// action. This must be of the form:
   /// <code>arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012</code>
   /// You can get a private CA's ARN by running the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListCertificateAuthorities.html">ListCertificateAuthorities</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html">ListCertificateAuthorities</a>
   /// action.
   ///
   /// Parameter [maxResults] :
@@ -1365,9 +1460,9 @@ class ACMPCA {
   /// that has been shared with you. Tags are labels that you can use to
   /// identify and organize your CAs. Each tag consists of a key and an optional
   /// value. Call the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_TagCertificateAuthority.html">TagCertificateAuthority</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_TagCertificateAuthority.html">TagCertificateAuthority</a>
   /// action to add one or more tags to your CA. Call the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_UntagCertificateAuthority.html">UntagCertificateAuthority</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_UntagCertificateAuthority.html">UntagCertificateAuthority</a>
   /// action to remove tags.
   ///
   /// May throw [ResourceNotFoundException].
@@ -1376,7 +1471,7 @@ class ACMPCA {
   ///
   /// Parameter [certificateAuthorityArn] :
   /// The Amazon Resource Name (ARN) that was returned when you called the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
   /// action. This must be of the form:
   ///
   /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
@@ -1426,41 +1521,42 @@ class ACMPCA {
 
   /// Attaches a resource-based policy to a private CA.
   ///
-  /// A policy can also be applied by sharing a private CA through AWS Resource
-  /// Access Manager (RAM). For more information, see <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/pca-ram.html">Attach
+  /// A policy can also be applied by sharing a private CA through Amazon Web
+  /// Services Resource Access Manager (RAM). For more information, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/pca-ram.html">Attach
   /// a Policy for Cross-Account Access</a>.
   ///
   /// The policy can be displayed with <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_GetPolicy.html">GetPolicy</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_GetPolicy.html">GetPolicy</a>
   /// and removed with <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_DeletePolicy.html">DeletePolicy</a>.
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeletePolicy.html">DeletePolicy</a>.
   /// <p class="title"> <b>About Policies</b>
   ///
   /// <ul>
   /// <li>
-  /// A policy grants access on a private CA to an AWS customer account, to AWS
-  /// Organizations, or to an AWS Organizations unit. Policies are under the
-  /// control of a CA administrator. For more information, see <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/pca-rbp.html">Using
-  /// a Resource Based Policy with ACM Private CA</a>.
+  /// A policy grants access on a private CA to an Amazon Web Services customer
+  /// account, to Amazon Web Services Organizations, or to an Amazon Web
+  /// Services Organizations unit. Policies are under the control of a CA
+  /// administrator. For more information, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/pca-rbp.html">Using
+  /// a Resource Based Policy with Amazon Web Services Private CA</a>.
   /// </li>
   /// <li>
-  /// A policy permits a user of AWS Certificate Manager (ACM) to issue ACM
+  /// A policy permits a user of Certificate Manager (ACM) to issue ACM
   /// certificates signed by a CA in another account.
   /// </li>
   /// <li>
   /// For ACM to manage automatic renewal of these certificates, the ACM user
   /// must configure a Service Linked Role (SLR). The SLR allows the ACM service
   /// to assume the identity of the user, subject to confirmation against the
-  /// ACM Private CA policy. For more information, see <a
+  /// Amazon Web Services Private CA policy. For more information, see <a
   /// href="https://docs.aws.amazon.com/acm/latest/userguide/acm-slr.html">Using
   /// a Service Linked Role with ACM</a>.
   /// </li>
   /// <li>
-  /// Updates made in AWS Resource Manager (RAM) are reflected in policies. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/pca-ram.html">Attach
+  /// Updates made in Amazon Web Services Resource Manager (RAM) are reflected
+  /// in policies. For more information, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/pca-ram.html">Attach
   /// a Policy for Cross-Account Access</a>.
   /// </li>
   /// </ul>
@@ -1474,7 +1570,7 @@ class ACMPCA {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [policy] :
-  /// The path and filename of a JSON-formatted IAM policy to attach to the
+  /// The path and file name of a JSON-formatted IAM policy to attach to the
   /// specified private CA resource. If this policy does not contain all
   /// required statements or if it includes any statement that is not allowed,
   /// the <code>PutPolicy</code> action returns an
@@ -1486,7 +1582,7 @@ class ACMPCA {
   /// Parameter [resourceArn] :
   /// The Amazon Resource Number (ARN) of the private CA to associate with the
   /// policy. The ARN of the CA can be found by calling the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListCertificateAuthorities.html">ListCertificateAuthorities</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html">ListCertificateAuthorities</a>
   /// action.
   /// <p/>
   Future<void> putPolicy({
@@ -1513,22 +1609,22 @@ class ACMPCA {
   /// Restores a certificate authority (CA) that is in the <code>DELETED</code>
   /// state. You can restore a CA during the period that you defined in the
   /// <b>PermanentDeletionTimeInDays</b> parameter of the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_DeleteCertificateAuthority.html">DeleteCertificateAuthority</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeleteCertificateAuthority.html">DeleteCertificateAuthority</a>
   /// action. Currently, you can specify 7 to 30 days. If you did not specify a
   /// <b>PermanentDeletionTimeInDays</b> value, by default you can restore the
   /// CA at any time in a 30 day period. You can check the time remaining in the
   /// restoration period of a private CA in the <code>DELETED</code> state by
   /// calling the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_DescribeCertificateAuthority.html">DescribeCertificateAuthority</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_DescribeCertificateAuthority.html">DescribeCertificateAuthority</a>
   /// or <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListCertificateAuthorities.html">ListCertificateAuthorities</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html">ListCertificateAuthorities</a>
   /// actions. The status of a restored CA is set to its pre-deletion status
   /// when the <b>RestoreCertificateAuthority</b> action returns. To change its
   /// status to <code>ACTIVE</code>, call the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_UpdateCertificateAuthority.html">UpdateCertificateAuthority</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html">UpdateCertificateAuthority</a>
   /// action. If the private CA was in the <code>PENDING_CERTIFICATE</code>
   /// state at deletion, you must use the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ImportCertificateAuthorityCertificate.html">ImportCertificateAuthorityCertificate</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ImportCertificateAuthorityCertificate.html">ImportCertificateAuthorityCertificate</a>
   /// action to import a certificate authority into the private CA before it can
   /// be activated. You cannot restore a CA after the restoration period has
   /// ended.
@@ -1539,7 +1635,7 @@ class ACMPCA {
   ///
   /// Parameter [certificateAuthorityArn] :
   /// The Amazon Resource Name (ARN) that was returned when you called the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
   /// action. This must be of the form:
   ///
   /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
@@ -1563,28 +1659,29 @@ class ACMPCA {
     );
   }
 
-  /// Revokes a certificate that was issued inside ACM Private CA. If you enable
-  /// a certificate revocation list (CRL) when you create or update your private
-  /// CA, information about the revoked certificates will be included in the
-  /// CRL. ACM Private CA writes the CRL to an S3 bucket that you specify. A CRL
-  /// is typically updated approximately 30 minutes after a certificate is
-  /// revoked. If for any reason the CRL update fails, ACM Private CA attempts
-  /// makes further attempts every 15 minutes. With Amazon CloudWatch, you can
-  /// create alarms for the metrics <code>CRLGenerated</code> and
-  /// <code>MisconfiguredCRLBucket</code>. For more information, see <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaCloudWatch.html">Supported
+  /// Revokes a certificate that was issued inside Amazon Web Services Private
+  /// CA. If you enable a certificate revocation list (CRL) when you create or
+  /// update your private CA, information about the revoked certificates will be
+  /// included in the CRL. Amazon Web Services Private CA writes the CRL to an
+  /// S3 bucket that you specify. A CRL is typically updated approximately 30
+  /// minutes after a certificate is revoked. If for any reason the CRL update
+  /// fails, Amazon Web Services Private CA attempts makes further attempts
+  /// every 15 minutes. With Amazon CloudWatch, you can create alarms for the
+  /// metrics <code>CRLGenerated</code> and <code>MisconfiguredCRLBucket</code>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/PcaCloudWatch.html">Supported
   /// CloudWatch Metrics</a>.
   /// <note>
-  /// Both PCA and the IAM principal must have permission to write to the S3
-  /// bucket that you specify. If the IAM principal making the call does not
-  /// have permission to write to the bucket, then an exception is thrown. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaAuthAccess.html">Configure
-  /// Access to ACM Private CA</a>.
+  /// Both Amazon Web Services Private CA and the IAM principal must have
+  /// permission to write to the S3 bucket that you specify. If the IAM
+  /// principal making the call does not have permission to write to the bucket,
+  /// then an exception is thrown. For more information, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#s3-policies">Access
+  /// policies for CRLs in Amazon S3</a>.
   /// </note>
-  /// ACM Private CA also writes revocation information to the audit report. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html">CreateCertificateAuthorityAuditReport</a>.
+  /// Amazon Web Services Private CA also writes revocation information to the
+  /// audit report. For more information, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html">CreateCertificateAuthorityAuditReport</a>.
   /// <note>
   /// You cannot revoke a root CA self-signed certificate.
   /// </note>
@@ -1609,7 +1706,7 @@ class ACMPCA {
   /// Parameter [certificateSerial] :
   /// Serial number of the certificate to be revoked. This must be in
   /// hexadecimal format. You can retrieve the serial number by calling <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_GetCertificate.html">GetCertificate</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_GetCertificate.html">GetCertificate</a>
   /// with the Amazon Resource Name (ARN) of the certificate you want and the
   /// ARN of your private CA. The <b>GetCertificate</b> action retrieves the
   /// certificate in the PEM format. You can use the following OpenSSL command
@@ -1620,7 +1717,7 @@ class ACMPCA {
   ///
   /// You can also copy the serial number from the console or use the <a
   /// href="https://docs.aws.amazon.com/acm/latest/APIReference/API_DescribeCertificate.html">DescribeCertificate</a>
-  /// action in the <i>AWS Certificate Manager API Reference</i>.
+  /// action in the <i>Certificate Manager API Reference</i>.
   ///
   /// Parameter [revocationReason] :
   /// Specifies why you revoked the certificate.
@@ -1648,17 +1745,25 @@ class ACMPCA {
   }
 
   /// Adds one or more tags to your private CA. Tags are labels that you can use
-  /// to identify and organize your AWS resources. Each tag consists of a key
-  /// and an optional value. You specify the private CA on input by its Amazon
-  /// Resource Name (ARN). You specify the tag by using a key-value pair. You
-  /// can apply a tag to just one private CA if you want to identify a specific
-  /// characteristic of that CA, or you can apply the same tag to multiple
-  /// private CAs if you want to filter for a common relationship among those
-  /// CAs. To remove one or more tags, use the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_UntagCertificateAuthority.html">UntagCertificateAuthority</a>
+  /// to identify and organize your Amazon Web Services resources. Each tag
+  /// consists of a key and an optional value. You specify the private CA on
+  /// input by its Amazon Resource Name (ARN). You specify the tag by using a
+  /// key-value pair. You can apply a tag to just one private CA if you want to
+  /// identify a specific characteristic of that CA, or you can apply the same
+  /// tag to multiple private CAs if you want to filter for a common
+  /// relationship among those CAs. To remove one or more tags, use the <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_UntagCertificateAuthority.html">UntagCertificateAuthority</a>
   /// action. Call the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListTags.html">ListTags</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListTags.html">ListTags</a>
   /// action to see what tags are associated with your CA.
+  /// <note>
+  /// To attach tags to a private CA during the creation procedure, a CA
+  /// administrator must first associate an inline IAM policy with the
+  /// <code>CreateCertificateAuthority</code> action and explicitly allow
+  /// tagging. For more information, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/auth-InlinePolicies.html#policy-tag-ca">Attaching
+  /// tags to a CA at the time of creation</a>.
+  /// </note>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidArnException].
@@ -1668,7 +1773,7 @@ class ACMPCA {
   ///
   /// Parameter [certificateAuthorityArn] :
   /// The Amazon Resource Name (ARN) that was returned when you called <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>.
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>.
   /// This must be of the form:
   ///
   /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
@@ -1702,9 +1807,9 @@ class ACMPCA {
   /// calling this action, the tag will be removed regardless of value. If you
   /// specify a value, the tag is removed only if it is associated with the
   /// specified value. To add tags to a private CA, use the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_TagCertificateAuthority.html">TagCertificateAuthority</a>.
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_TagCertificateAuthority.html">TagCertificateAuthority</a>.
   /// Call the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListTags.html">ListTags</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListTags.html">ListTags</a>
   /// action to see what tags are associated with your CA.
   ///
   /// May throw [ResourceNotFoundException].
@@ -1714,7 +1819,7 @@ class ACMPCA {
   ///
   /// Parameter [certificateAuthorityArn] :
   /// The Amazon Resource Name (ARN) that was returned when you called <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>.
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>.
   /// This must be of the form:
   ///
   /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
@@ -1749,12 +1854,12 @@ class ACMPCA {
   /// private CA that is in the <code>ACTIVE</code> state or make a CA that is
   /// in the <code>DISABLED</code> state active again.
   /// <note>
-  /// Both PCA and the IAM principal must have permission to write to the S3
-  /// bucket that you specify. If the IAM principal making the call does not
-  /// have permission to write to the bucket, then an exception is thrown. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaAuthAccess.html">Configure
-  /// Access to ACM Private CA</a>.
+  /// Both Amazon Web Services Private CA and the IAM principal must have
+  /// permission to write to the S3 bucket that you specify. If the IAM
+  /// principal making the call does not have permission to write to the bucket,
+  /// then an exception is thrown. For more information, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#s3-policies">Access
+  /// policies for CRLs in Amazon S3</a>.
   /// </note>
   ///
   /// May throw [ConcurrentModificationException].
@@ -1772,7 +1877,41 @@ class ACMPCA {
   /// </code>
   ///
   /// Parameter [revocationConfiguration] :
-  /// Revocation information for your private CA.
+  /// Contains information to enable Online Certificate Status Protocol (OCSP)
+  /// support, to enable a certificate revocation list (CRL), to enable both, or
+  /// to enable neither. If this parameter is not supplied, existing capibilites
+  /// remain unchanged. For more information, see the <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_OcspConfiguration.html">OcspConfiguration</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CrlConfiguration.html">CrlConfiguration</a>
+  /// types.
+  /// <note>
+  /// The following requirements apply to revocation configurations.
+  ///
+  /// <ul>
+  /// <li>
+  /// A configuration disabling CRLs or OCSP must contain only the
+  /// <code>Enabled=False</code> parameter, and will fail if other parameters
+  /// such as <code>CustomCname</code> or <code>ExpirationInDays</code> are
+  /// included.
+  /// </li>
+  /// <li>
+  /// In a CRL configuration, the <code>S3BucketName</code> parameter must
+  /// conform to <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html">Amazon
+  /// S3 bucket naming rules</a>.
+  /// </li>
+  /// <li>
+  /// A configuration containing a custom Canonical Name (CNAME) parameter for
+  /// CRLs or OCSP must conform to <a
+  /// href="https://www.ietf.org/rfc/rfc2396.txt">RFC2396</a> restrictions on
+  /// the use of special characters in a CNAME.
+  /// </li>
+  /// <li>
+  /// In a CRL or OCSP configuration, the value of a CNAME parameter must not
+  /// include a protocol prefix such as "http://" or "https://".
+  /// </li>
+  /// </ul> </note>
   ///
   /// Parameter [status] :
   /// Status of your private CA.
@@ -1801,16 +1940,12 @@ class ACMPCA {
   }
 }
 
-/// Contains information about the certificate subject. The certificate can be
-/// one issued by your private certificate authority (CA) or it can be your
-/// private CA certificate. The <b>Subject</b> field in the certificate
-/// identifies the entity that owns or controls the public key in the
-/// certificate. The entity can be a user, computer, device, or service. The
-/// <b>Subject</b> must contain an X.500 distinguished name (DN). A DN is a
-/// sequence of relative distinguished names (RDNs). The RDNs are separated by
-/// commas in the certificate. The DN must be unique for each entity, but your
-/// private CA can issue more than one certificate with the same DN to the same
-/// entity.
+/// Contains information about the certificate subject. The <code>Subject</code>
+/// field in the certificate identifies the entity that owns or controls the
+/// public key in the certificate. The entity can be a user, computer, device,
+/// or service. The <code>Subject </code>must contain an X.500 distinguished
+/// name (DN). A DN is a sequence of relative distinguished names (RDNs). The
+/// RDNs are separated by commas in the certificate.
 class ASN1Subject {
   /// For CA and end-entity certificates in a private PKI, the common name (CN)
   /// can be any string within the length limit.
@@ -1822,6 +1957,17 @@ class ASN1Subject {
   /// Two-digit code that specifies the country in which the certificate subject
   /// located.
   final String? country;
+
+  /// <p/>
+  /// Contains a sequence of one or more X.500 relative distinguished names
+  /// (RDNs), each of which consists of an object identifier (OID) and a value.
+  /// For more information, see NIST’s definition of <a
+  /// href="https://csrc.nist.gov/glossary/term/Object_Identifier">Object
+  /// Identifier (OID)</a>.
+  /// <note>
+  /// Custom attributes cannot be used in combination with standard attributes.
+  /// </note>
+  final List<CustomAttribute>? customAttributes;
 
   /// Disambiguating information for the certificate subject.
   final String? distinguishedNameQualifier;
@@ -1835,7 +1981,7 @@ class ASN1Subject {
 
   /// Concatenation that typically contains the first letter of the
   /// <b>GivenName</b>, the first letter of the middle name if one exists, and the
-  /// first letter of the <b>SurName</b>.
+  /// first letter of the <b>Surname</b>.
   final String? initials;
 
   /// The locality (such as a city or town) in which the certificate subject is
@@ -1872,6 +2018,7 @@ class ASN1Subject {
   ASN1Subject({
     this.commonName,
     this.country,
+    this.customAttributes,
     this.distinguishedNameQualifier,
     this.generationQualifier,
     this.givenName,
@@ -1885,10 +2032,15 @@ class ASN1Subject {
     this.surname,
     this.title,
   });
+
   factory ASN1Subject.fromJson(Map<String, dynamic> json) {
     return ASN1Subject(
       commonName: json['CommonName'] as String?,
       country: json['Country'] as String?,
+      customAttributes: (json['CustomAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => CustomAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
       distinguishedNameQualifier: json['DistinguishedNameQualifier'] as String?,
       generationQualifier: json['GenerationQualifier'] as String?,
       givenName: json['GivenName'] as String?,
@@ -1907,6 +2059,7 @@ class ASN1Subject {
   Map<String, dynamic> toJson() {
     final commonName = this.commonName;
     final country = this.country;
+    final customAttributes = this.customAttributes;
     final distinguishedNameQualifier = this.distinguishedNameQualifier;
     final generationQualifier = this.generationQualifier;
     final givenName = this.givenName;
@@ -1922,6 +2075,7 @@ class ASN1Subject {
     return {
       if (commonName != null) 'CommonName': commonName,
       if (country != null) 'Country': country,
+      if (customAttributes != null) 'CustomAttributes': customAttributes,
       if (distinguishedNameQualifier != null)
         'DistinguishedNameQualifier': distinguishedNameQualifier,
       if (generationQualifier != null)
@@ -1942,7 +2096,7 @@ class ASN1Subject {
 
 /// Provides access information used by the <code>authorityInfoAccess</code> and
 /// <code>subjectInfoAccess</code> extensions described in <a
-/// href="https://tools.ietf.org/html/rfc5280">RFC 5280</a>.
+/// href="https://datatracker.ietf.org/doc/html/rfc5280">RFC 5280</a>.
 class AccessDescription {
   /// The location of <code>AccessDescription</code> information.
   final GeneralName accessLocation;
@@ -1954,6 +2108,7 @@ class AccessDescription {
     required this.accessLocation,
     required this.accessMethod,
   });
+
   factory AccessDescription.fromJson(Map<String, dynamic> json) {
     return AccessDescription(
       accessLocation:
@@ -1991,6 +2146,7 @@ class AccessMethod {
     this.accessMethodType,
     this.customObjectIdentifier,
   });
+
   factory AccessMethod.fromJson(Map<String, dynamic> json) {
     return AccessMethod(
       accessMethodType:
@@ -2077,6 +2233,34 @@ extension ActionTypeFromString on String {
   }
 }
 
+/// Contains X.509 certificate information to be placed in an issued
+/// certificate. An <code>APIPassthrough</code> or
+/// <code>APICSRPassthrough</code> template variant must be selected, or else
+/// this parameter is ignored.
+///
+/// If conflicting or duplicate certificate information is supplied from other
+/// sources, Amazon Web Services Private CA applies <a
+/// href="https://docs.aws.amazon.com/privateca/latest/userguide/UsingTemplates.html#template-order-of-operations">order
+/// of operation rules</a> to determine what information is used.
+class ApiPassthrough {
+  /// Specifies X.509 extension information for a certificate.
+  final Extensions? extensions;
+  final ASN1Subject? subject;
+
+  ApiPassthrough({
+    this.extensions,
+    this.subject,
+  });
+  Map<String, dynamic> toJson() {
+    final extensions = this.extensions;
+    final subject = this.subject;
+    return {
+      if (extensions != null) 'Extensions': extensions,
+      if (subject != null) 'Subject': subject,
+    };
+  }
+}
+
 enum AuditReportResponseFormat {
   json,
   csv,
@@ -2143,14 +2327,14 @@ extension AuditReportStatusFromString on String {
 /// certificates verify that the entity named in the certificate <b>Subject</b>
 /// field owns or controls the public key contained in the <b>Subject Public Key
 /// Info</b> field. Call the <a
-/// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
 /// action to create your private CA. You must then call the <a
-/// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_GetCertificateAuthorityCertificate.html">GetCertificateAuthorityCertificate</a>
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_GetCertificateAuthorityCertificate.html">GetCertificateAuthorityCertificate</a>
 /// action to retrieve a private CA certificate signing request (CSR). Sign the
-/// CSR with your ACM Private CA-hosted or on-premises root or subordinate CA
-/// certificate. Call the <a
-/// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ImportCertificateAuthorityCertificate.html">ImportCertificateAuthorityCertificate</a>
-/// action to import the signed certificate into AWS Certificate Manager (ACM).
+/// CSR with your Amazon Web Services Private CA-hosted or on-premises root or
+/// subordinate CA certificate. Call the <a
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ImportCertificateAuthorityCertificate.html">ImportCertificateAuthorityCertificate</a>
+/// action to import the signed certificate into Certificate Manager (ACM).
 class CertificateAuthority {
   /// Amazon Resource Name (ARN) for your private certificate authority (CA). The
   /// format is <code> <i>12345678-1234-1234-1234-123456789012</i> </code>.
@@ -2165,6 +2349,19 @@ class CertificateAuthority {
   /// Reason the request to create your private CA failed.
   final FailureReason? failureReason;
 
+  /// Defines a cryptographic key management compliance standard used for handling
+  /// CA keys.
+  ///
+  /// Default: FIPS_140_2_LEVEL_3_OR_HIGHER
+  ///
+  /// Note: Amazon Web Services Region ap-northeast-3 supports only
+  /// FIPS_140_2_LEVEL_2_OR_HIGHER. You must explicitly specify this parameter and
+  /// value when creating a CA in that Region. Specifying a different value (or no
+  /// value) results in an <code>InvalidArgsException</code> with the message "A
+  /// certificate authority cannot be created in this region with the specified
+  /// security standard."
+  final KeyStorageSecurityStandard? keyStorageSecurityStandard;
+
   /// Date and time at which your private CA was last updated.
   final DateTime? lastStateChangeAt;
 
@@ -2174,17 +2371,18 @@ class CertificateAuthority {
   /// Date and time before which your private CA certificate is not valid.
   final DateTime? notBefore;
 
-  /// The AWS account ID that owns the certificate authority.
+  /// The Amazon Web Services account ID that owns the certificate authority.
   final String? ownerAccount;
 
   /// The period during which a deleted CA can be restored. For more information,
   /// see the <code>PermanentDeletionTimeInDays</code> parameter of the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_DeleteCertificateAuthorityRequest.html">DeleteCertificateAuthorityRequest</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeleteCertificateAuthorityRequest.html">DeleteCertificateAuthorityRequest</a>
   /// action.
   final DateTime? restorableUntil;
 
-  /// Information about the certificate revocation list (CRL) created and
-  /// maintained by your private CA.
+  /// Information about the Online Certificate Status Protocol (OCSP)
+  /// configuration or certificate revocation list (CRL) created and maintained by
+  /// your private CA.
   final RevocationConfiguration? revocationConfiguration;
 
   /// Serial number of your private CA.
@@ -2196,11 +2394,20 @@ class CertificateAuthority {
   /// Type of your private CA.
   final CertificateAuthorityType? type;
 
+  /// Specifies whether the CA issues general-purpose certificates that typically
+  /// require a revocation mechanism, or short-lived certificates that may
+  /// optionally omit revocation because they expire quickly. Short-lived
+  /// certificate validity is limited to seven days.
+  ///
+  /// The default value is GENERAL_PURPOSE.
+  final CertificateAuthorityUsageMode? usageMode;
+
   CertificateAuthority({
     this.arn,
     this.certificateAuthorityConfiguration,
     this.createdAt,
     this.failureReason,
+    this.keyStorageSecurityStandard,
     this.lastStateChangeAt,
     this.notAfter,
     this.notBefore,
@@ -2210,7 +2417,9 @@ class CertificateAuthority {
     this.serial,
     this.status,
     this.type,
+    this.usageMode,
   });
+
   factory CertificateAuthority.fromJson(Map<String, dynamic> json) {
     return CertificateAuthority(
       arn: json['Arn'] as String?,
@@ -2222,6 +2431,9 @@ class CertificateAuthority {
               : null,
       createdAt: timeStampFromJson(json['CreatedAt']),
       failureReason: (json['FailureReason'] as String?)?.toFailureReason(),
+      keyStorageSecurityStandard:
+          (json['KeyStorageSecurityStandard'] as String?)
+              ?.toKeyStorageSecurityStandard(),
       lastStateChangeAt: timeStampFromJson(json['LastStateChangeAt']),
       notAfter: timeStampFromJson(json['NotAfter']),
       notBefore: timeStampFromJson(json['NotBefore']),
@@ -2234,6 +2446,8 @@ class CertificateAuthority {
       serial: json['Serial'] as String?,
       status: (json['Status'] as String?)?.toCertificateAuthorityStatus(),
       type: (json['Type'] as String?)?.toCertificateAuthorityType(),
+      usageMode:
+          (json['UsageMode'] as String?)?.toCertificateAuthorityUsageMode(),
     );
   }
 }
@@ -2244,7 +2458,7 @@ class CertificateAuthority {
 /// also includes the signature algorithm that it uses when issuing
 /// certificates, and its X.500 distinguished name. You must specify this
 /// information when you call the <a
-/// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
 /// action.
 class CertificateAuthorityConfiguration {
   /// Type of the public key algorithm and size, in bits, of the key pair that
@@ -2272,6 +2486,7 @@ class CertificateAuthorityConfiguration {
     required this.subject,
     this.csrExtensions,
   });
+
   factory CertificateAuthorityConfiguration.fromJson(
       Map<String, dynamic> json) {
     return CertificateAuthorityConfiguration(
@@ -2382,6 +2597,35 @@ extension CertificateAuthorityTypeFromString on String {
   }
 }
 
+enum CertificateAuthorityUsageMode {
+  generalPurpose,
+  shortLivedCertificate,
+}
+
+extension CertificateAuthorityUsageModeValueExtension
+    on CertificateAuthorityUsageMode {
+  String toValue() {
+    switch (this) {
+      case CertificateAuthorityUsageMode.generalPurpose:
+        return 'GENERAL_PURPOSE';
+      case CertificateAuthorityUsageMode.shortLivedCertificate:
+        return 'SHORT_LIVED_CERTIFICATE';
+    }
+  }
+}
+
+extension CertificateAuthorityUsageModeFromString on String {
+  CertificateAuthorityUsageMode toCertificateAuthorityUsageMode() {
+    switch (this) {
+      case 'GENERAL_PURPOSE':
+        return CertificateAuthorityUsageMode.generalPurpose;
+      case 'SHORT_LIVED_CERTIFICATE':
+        return CertificateAuthorityUsageMode.shortLivedCertificate;
+    }
+    throw Exception('$this is not known in enum CertificateAuthorityUsageMode');
+  }
+}
+
 class CreateCertificateAuthorityAuditReportResponse {
   /// An alphanumeric string that contains a report identifier.
   final String? auditReportId;
@@ -2393,6 +2637,7 @@ class CreateCertificateAuthorityAuditReportResponse {
     this.auditReportId,
     this.s3Key,
   });
+
   factory CreateCertificateAuthorityAuditReportResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateCertificateAuthorityAuditReportResponse(
@@ -2413,6 +2658,7 @@ class CreateCertificateAuthorityResponse {
   CreateCertificateAuthorityResponse({
     this.certificateAuthorityArn,
   });
+
   factory CreateCertificateAuthorityResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateCertificateAuthorityResponse(
@@ -2430,19 +2676,23 @@ class CreateCertificateAuthorityResponse {
 /// the <b>CustomCname</b> parameter. Your private CA copies the CNAME or the S3
 /// bucket name to the <b>CRL Distribution Points</b> extension of each
 /// certificate it issues. Your S3 bucket policy must give write permission to
-/// ACM Private CA.
+/// Amazon Web Services Private CA.
 ///
-/// ACM Private CAA assets that are stored in Amazon S3 can be protected with
-/// encryption. For more information, see <a
-/// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaCreateCa.html#crl-encryption">Encrypting
+/// Amazon Web Services Private CA assets that are stored in Amazon S3 can be
+/// protected with encryption. For more information, see <a
+/// href="https://docs.aws.amazon.com/privateca/latest/userguide/PcaCreateCa.html#crl-encryption">Encrypting
 /// Your CRLs</a>.
 ///
 /// Your private CA uses the value in the <b>ExpirationInDays</b> parameter to
-/// calculate the <b>nextUpdate</b> field in the CRL. The CRL is refreshed at
-/// 1/2 the age of next update or when a certificate is revoked. When a
-/// certificate is revoked, it is recorded in the next CRL that is generated and
-/// in the next audit report. Only time valid certificates are listed in the
-/// CRL. Expired certificates are not included.
+/// calculate the <b>nextUpdate</b> field in the CRL. The CRL is refreshed prior
+/// to a certificate's expiration date or when a certificate is revoked. When a
+/// certificate is revoked, it appears in the CRL until the certificate expires,
+/// and then in one additional CRL after expiration, and it always appears in
+/// the audit report.
+///
+/// A CRL is typically updated approximately 30 minutes after a certificate is
+/// revoked. If for any reason a CRL update fails, Amazon Web Services Private
+/// CA makes further attempts every 15 minutes.
 ///
 /// CRLs contain the following fields:
 ///
@@ -2505,23 +2755,34 @@ class CreateCertificateAuthorityResponse {
 /// <b>Signature Value</b>: Signature computed over the CRL.
 /// </li>
 /// </ul>
-/// Certificate revocation lists created by ACM Private CA are DER-encoded. You
-/// can use the following OpenSSL command to list a CRL.
+/// Certificate revocation lists created by Amazon Web Services Private CA are
+/// DER-encoded. You can use the following OpenSSL command to list a CRL.
 ///
 /// <code>openssl crl -inform DER -text -in <i>crl_path</i> -noout</code>
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html">Planning
+/// a certificate revocation list (CRL)</a> in the <i>Amazon Web Services
+/// Private Certificate Authority User Guide</i>
 class CrlConfiguration {
   /// Boolean value that specifies whether certificate revocation lists (CRLs) are
   /// enabled. You can use this value to enable certificate revocation for a new
   /// CA when you call the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
   /// action or for an existing CA when you call the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_UpdateCertificateAuthority.html">UpdateCertificateAuthority</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html">UpdateCertificateAuthority</a>
   /// action.
   final bool enabled;
 
   /// Name inserted into the certificate <b>CRL Distribution Points</b> extension
   /// that enables the use of an alias for the CRL distribution point. Use this
   /// value if you don't want the name of your S3 bucket to be public.
+  /// <note>
+  /// The content of a Canonical Name (CNAME) record must conform to <a
+  /// href="https://www.ietf.org/rfc/rfc2396.txt">RFC2396</a> restrictions on the
+  /// use of special characters in URIs. Additionally, the value of the CNAME must
+  /// not include a protocol prefix such as "http://" or "https://".
+  /// </note>
   final String? customCname;
 
   /// Validity period of the CRL in days.
@@ -2531,23 +2792,54 @@ class CrlConfiguration {
   /// for the <b>CustomCname</b> argument, the name of your S3 bucket is placed
   /// into the <b>CRL Distribution Points</b> extension of the issued certificate.
   /// You can change the name of your bucket by calling the <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_UpdateCertificateAuthority.html">UpdateCertificateAuthority</a>
-  /// action. You must specify a bucket policy that allows ACM Private CA to write
-  /// the CRL to your bucket.
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html">UpdateCertificateAuthority</a>
+  /// operation. You must specify a <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/PcaCreateCa.html#s3-policies">bucket
+  /// policy</a> that allows Amazon Web Services Private CA to write the CRL to
+  /// your bucket.
+  /// <note>
+  /// The <code>S3BucketName</code> parameter must conform to the <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html">S3
+  /// bucket naming rules</a>.
+  /// </note>
   final String? s3BucketName;
+
+  /// Determines whether the CRL will be publicly readable or privately held in
+  /// the CRL Amazon S3 bucket. If you choose PUBLIC_READ, the CRL will be
+  /// accessible over the public internet. If you choose
+  /// BUCKET_OWNER_FULL_CONTROL, only the owner of the CRL S3 bucket can access
+  /// the CRL, and your PKI clients may need an alternative method of access.
+  ///
+  /// If no value is specified, the default is <code>PUBLIC_READ</code>.
+  ///
+  /// <i>Note:</i> This default can cause CA creation to fail in some
+  /// circumstances. If you have have enabled the Block Public Access (BPA)
+  /// feature in your S3 account, then you must specify the value of this
+  /// parameter as <code>BUCKET_OWNER_FULL_CONTROL</code>, and not doing so
+  /// results in an error. If you have disabled BPA in S3, then you can specify
+  /// either <code>BUCKET_OWNER_FULL_CONTROL</code> or <code>PUBLIC_READ</code> as
+  /// the value.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/PcaCreateCa.html#s3-bpa">Blocking
+  /// public access to the S3 bucket</a>.
+  final S3ObjectAcl? s3ObjectAcl;
 
   CrlConfiguration({
     required this.enabled,
     this.customCname,
     this.expirationInDays,
     this.s3BucketName,
+    this.s3ObjectAcl,
   });
+
   factory CrlConfiguration.fromJson(Map<String, dynamic> json) {
     return CrlConfiguration(
       enabled: json['Enabled'] as bool,
       customCname: json['CustomCname'] as String?,
       expirationInDays: json['ExpirationInDays'] as int?,
       s3BucketName: json['S3BucketName'] as String?,
+      s3ObjectAcl: (json['S3ObjectAcl'] as String?)?.toS3ObjectAcl(),
     );
   }
 
@@ -2556,11 +2848,13 @@ class CrlConfiguration {
     final customCname = this.customCname;
     final expirationInDays = this.expirationInDays;
     final s3BucketName = this.s3BucketName;
+    final s3ObjectAcl = this.s3ObjectAcl;
     return {
       'Enabled': enabled,
       if (customCname != null) 'CustomCname': customCname,
       if (expirationInDays != null) 'ExpirationInDays': expirationInDays,
       if (s3BucketName != null) 'S3BucketName': s3BucketName,
+      if (s3ObjectAcl != null) 'S3ObjectAcl': s3ObjectAcl.toValue(),
     };
   }
 }
@@ -2574,7 +2868,7 @@ class CsrExtensions {
 
   /// For CA certificates, provides a path to additional information pertaining to
   /// the CA, such as revocation and policy. For more information, see <a
-  /// href="https://tools.ietf.org/html/rfc5280#section-4.2.2.2">Subject
+  /// href="https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.2.2">Subject
   /// Information Access</a> in RFC 5280.
   final List<AccessDescription>? subjectInformationAccess;
 
@@ -2582,6 +2876,7 @@ class CsrExtensions {
     this.keyUsage,
     this.subjectInformationAccess,
   });
+
   factory CsrExtensions.fromJson(Map<String, dynamic> json) {
     return CsrExtensions(
       keyUsage: json['KeyUsage'] != null
@@ -2601,6 +2896,77 @@ class CsrExtensions {
       if (keyUsage != null) 'KeyUsage': keyUsage,
       if (subjectInformationAccess != null)
         'SubjectInformationAccess': subjectInformationAccess,
+    };
+  }
+}
+
+/// Defines the X.500 relative distinguished name (RDN).
+class CustomAttribute {
+  /// Specifies the object identifier (OID) of the attribute type of the relative
+  /// distinguished name (RDN).
+  final String objectIdentifier;
+
+  /// <p/>
+  /// Specifies the attribute value of relative distinguished name (RDN).
+  final String value;
+
+  CustomAttribute({
+    required this.objectIdentifier,
+    required this.value,
+  });
+
+  factory CustomAttribute.fromJson(Map<String, dynamic> json) {
+    return CustomAttribute(
+      objectIdentifier: json['ObjectIdentifier'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objectIdentifier = this.objectIdentifier;
+    final value = this.value;
+    return {
+      'ObjectIdentifier': objectIdentifier,
+      'Value': value,
+    };
+  }
+}
+
+/// <p/>
+/// Specifies the X.509 extension information for a certificate.
+///
+/// Extensions present in <code>CustomExtensions</code> follow the
+/// <code>ApiPassthrough</code> <a
+/// href="https://docs.aws.amazon.com/privateca/latest/userguide/UsingTemplates.html#template-order-of-operations">template
+/// rules</a>.
+class CustomExtension {
+  /// <p/>
+  /// Specifies the object identifier (OID) of the X.509 extension. For more
+  /// information, see the <a href="https://oidref.com/2.5.29">Global OID
+  /// reference database.</a>
+  final String objectIdentifier;
+
+  /// <p/>
+  /// Specifies the base64-encoded value of the X.509 extension.
+  final String value;
+
+  /// <p/>
+  /// Specifies the critical flag of the X.509 extension.
+  final bool? critical;
+
+  CustomExtension({
+    required this.objectIdentifier,
+    required this.value,
+    this.critical,
+  });
+  Map<String, dynamic> toJson() {
+    final objectIdentifier = this.objectIdentifier;
+    final value = this.value;
+    final critical = this.critical;
+    return {
+      'ObjectIdentifier': objectIdentifier,
+      'Value': value,
+      if (critical != null) 'Critical': critical,
     };
   }
 }
@@ -2625,6 +2991,7 @@ class DescribeCertificateAuthorityAuditReportResponse {
     this.s3BucketName,
     this.s3Key,
   });
+
   factory DescribeCertificateAuthorityAuditReportResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeCertificateAuthorityAuditReportResponse(
@@ -2639,13 +3006,14 @@ class DescribeCertificateAuthorityAuditReportResponse {
 
 class DescribeCertificateAuthorityResponse {
   /// A <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CertificateAuthority.html">CertificateAuthority</a>
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CertificateAuthority.html">CertificateAuthority</a>
   /// structure that contains information about your private CA.
   final CertificateAuthority? certificateAuthority;
 
   DescribeCertificateAuthorityResponse({
     this.certificateAuthority,
   });
+
   factory DescribeCertificateAuthorityResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeCertificateAuthorityResponse(
@@ -2658,8 +3026,8 @@ class DescribeCertificateAuthorityResponse {
 }
 
 /// Describes an Electronic Data Interchange (EDI) entity as described in as
-/// defined in <a href="https://tools.ietf.org/html/rfc5280">Subject Alternative
-/// Name</a> in RFC 5280.
+/// defined in <a href="https://datatracker.ietf.org/doc/html/rfc5280">Subject
+/// Alternative Name</a> in RFC 5280.
 class EdiPartyName {
   /// Specifies the party name.
   final String partyName;
@@ -2671,6 +3039,7 @@ class EdiPartyName {
     required this.partyName,
     this.nameAssigner,
   });
+
   factory EdiPartyName.fromJson(Map<String, dynamic> json) {
     return EdiPartyName(
       partyName: json['PartyName'] as String,
@@ -2684,6 +3053,154 @@ class EdiPartyName {
     return {
       'PartyName': partyName,
       if (nameAssigner != null) 'NameAssigner': nameAssigner,
+    };
+  }
+}
+
+/// Specifies additional purposes for which the certified public key may be used
+/// other than basic purposes indicated in the <code>KeyUsage</code> extension.
+class ExtendedKeyUsage {
+  /// Specifies a custom <code>ExtendedKeyUsage</code> with an object identifier
+  /// (OID).
+  final String? extendedKeyUsageObjectIdentifier;
+
+  /// Specifies a standard <code>ExtendedKeyUsage</code> as defined as in <a
+  /// href="https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.12">RFC
+  /// 5280</a>.
+  final ExtendedKeyUsageType? extendedKeyUsageType;
+
+  ExtendedKeyUsage({
+    this.extendedKeyUsageObjectIdentifier,
+    this.extendedKeyUsageType,
+  });
+  Map<String, dynamic> toJson() {
+    final extendedKeyUsageObjectIdentifier =
+        this.extendedKeyUsageObjectIdentifier;
+    final extendedKeyUsageType = this.extendedKeyUsageType;
+    return {
+      if (extendedKeyUsageObjectIdentifier != null)
+        'ExtendedKeyUsageObjectIdentifier': extendedKeyUsageObjectIdentifier,
+      if (extendedKeyUsageType != null)
+        'ExtendedKeyUsageType': extendedKeyUsageType.toValue(),
+    };
+  }
+}
+
+enum ExtendedKeyUsageType {
+  serverAuth,
+  clientAuth,
+  codeSigning,
+  emailProtection,
+  timeStamping,
+  ocspSigning,
+  smartCardLogin,
+  documentSigning,
+  certificateTransparency,
+}
+
+extension ExtendedKeyUsageTypeValueExtension on ExtendedKeyUsageType {
+  String toValue() {
+    switch (this) {
+      case ExtendedKeyUsageType.serverAuth:
+        return 'SERVER_AUTH';
+      case ExtendedKeyUsageType.clientAuth:
+        return 'CLIENT_AUTH';
+      case ExtendedKeyUsageType.codeSigning:
+        return 'CODE_SIGNING';
+      case ExtendedKeyUsageType.emailProtection:
+        return 'EMAIL_PROTECTION';
+      case ExtendedKeyUsageType.timeStamping:
+        return 'TIME_STAMPING';
+      case ExtendedKeyUsageType.ocspSigning:
+        return 'OCSP_SIGNING';
+      case ExtendedKeyUsageType.smartCardLogin:
+        return 'SMART_CARD_LOGIN';
+      case ExtendedKeyUsageType.documentSigning:
+        return 'DOCUMENT_SIGNING';
+      case ExtendedKeyUsageType.certificateTransparency:
+        return 'CERTIFICATE_TRANSPARENCY';
+    }
+  }
+}
+
+extension ExtendedKeyUsageTypeFromString on String {
+  ExtendedKeyUsageType toExtendedKeyUsageType() {
+    switch (this) {
+      case 'SERVER_AUTH':
+        return ExtendedKeyUsageType.serverAuth;
+      case 'CLIENT_AUTH':
+        return ExtendedKeyUsageType.clientAuth;
+      case 'CODE_SIGNING':
+        return ExtendedKeyUsageType.codeSigning;
+      case 'EMAIL_PROTECTION':
+        return ExtendedKeyUsageType.emailProtection;
+      case 'TIME_STAMPING':
+        return ExtendedKeyUsageType.timeStamping;
+      case 'OCSP_SIGNING':
+        return ExtendedKeyUsageType.ocspSigning;
+      case 'SMART_CARD_LOGIN':
+        return ExtendedKeyUsageType.smartCardLogin;
+      case 'DOCUMENT_SIGNING':
+        return ExtendedKeyUsageType.documentSigning;
+      case 'CERTIFICATE_TRANSPARENCY':
+        return ExtendedKeyUsageType.certificateTransparency;
+    }
+    throw Exception('$this is not known in enum ExtendedKeyUsageType');
+  }
+}
+
+/// Contains X.509 extension information for a certificate.
+class Extensions {
+  /// Contains a sequence of one or more policy information terms, each of which
+  /// consists of an object identifier (OID) and optional qualifiers. For more
+  /// information, see NIST's definition of <a
+  /// href="https://csrc.nist.gov/glossary/term/Object_Identifier">Object
+  /// Identifier (OID)</a>.
+  ///
+  /// In an end-entity certificate, these terms indicate the policy under which
+  /// the certificate was issued and the purposes for which it may be used. In a
+  /// CA certificate, these terms limit the set of policies for certification
+  /// paths that include this certificate.
+  final List<PolicyInformation>? certificatePolicies;
+
+  /// <p/>
+  /// Contains a sequence of one or more X.509 extensions, each of which consists
+  /// of an object identifier (OID), a base64-encoded value, and the critical
+  /// flag. For more information, see the <a
+  /// href="https://oidref.com/2.5.29">Global OID reference database.</a>
+  final List<CustomExtension>? customExtensions;
+
+  /// Specifies additional purposes for which the certified public key may be used
+  /// other than basic purposes indicated in the <code>KeyUsage</code> extension.
+  final List<ExtendedKeyUsage>? extendedKeyUsage;
+  final KeyUsage? keyUsage;
+
+  /// The subject alternative name extension allows identities to be bound to the
+  /// subject of the certificate. These identities may be included in addition to
+  /// or in place of the identity in the subject field of the certificate.
+  final List<GeneralName>? subjectAlternativeNames;
+
+  Extensions({
+    this.certificatePolicies,
+    this.customExtensions,
+    this.extendedKeyUsage,
+    this.keyUsage,
+    this.subjectAlternativeNames,
+  });
+  Map<String, dynamic> toJson() {
+    final certificatePolicies = this.certificatePolicies;
+    final customExtensions = this.customExtensions;
+    final extendedKeyUsage = this.extendedKeyUsage;
+    final keyUsage = this.keyUsage;
+    final subjectAlternativeNames = this.subjectAlternativeNames;
+    return {
+      if (certificatePolicies != null)
+        'CertificatePolicies': certificatePolicies,
+      if (customExtensions != null) 'CustomExtensions': customExtensions,
+      if (extendedKeyUsage != null) 'ExtendedKeyUsage': extendedKeyUsage,
+      if (keyUsage != null) 'KeyUsage': keyUsage,
+      if (subjectAlternativeNames != null)
+        'SubjectAlternativeNames': subjectAlternativeNames,
     };
   }
 }
@@ -2722,9 +3239,9 @@ extension FailureReasonFromString on String {
 }
 
 /// Describes an ASN.1 X.400 <code>GeneralName</code> as defined in <a
-/// href="https://tools.ietf.org/html/rfc5280">RFC 5280</a>. Only one of the
-/// following naming options should be providied. Providing more than one option
-/// results in an <code>InvalidArgsException</code> error.
+/// href="https://datatracker.ietf.org/doc/html/rfc5280">RFC 5280</a>. Only one
+/// of the following naming options should be provided. Providing more than one
+/// option results in an <code>InvalidArgsException</code> error.
 class GeneralName {
   final ASN1Subject? directoryName;
 
@@ -2744,7 +3261,8 @@ class GeneralName {
   final String? registeredId;
 
   /// Represents <code>GeneralName</code> as an <a
-  /// href="https://tools.ietf.org/html/rfc822">RFC 822</a> email address.
+  /// href="https://datatracker.ietf.org/doc/html/rfc822">RFC 822</a> email
+  /// address.
   final String? rfc822Name;
 
   /// Represents <code>GeneralName</code> as a URI.
@@ -2760,6 +3278,7 @@ class GeneralName {
     this.rfc822Name,
     this.uniformResourceIdentifier,
   });
+
   factory GeneralName.fromJson(Map<String, dynamic> json) {
     return GeneralName(
       directoryName: json['DirectoryName'] != null
@@ -2816,6 +3335,7 @@ class GetCertificateAuthorityCertificateResponse {
     this.certificate,
     this.certificateChain,
   });
+
   factory GetCertificateAuthorityCertificateResponse.fromJson(
       Map<String, dynamic> json) {
     return GetCertificateAuthorityCertificateResponse(
@@ -2833,6 +3353,7 @@ class GetCertificateAuthorityCsrResponse {
   GetCertificateAuthorityCsrResponse({
     this.csr,
   });
+
   factory GetCertificateAuthorityCsrResponse.fromJson(
       Map<String, dynamic> json) {
     return GetCertificateAuthorityCsrResponse(
@@ -2854,6 +3375,7 @@ class GetCertificateResponse {
     this.certificate,
     this.certificateChain,
   });
+
   factory GetCertificateResponse.fromJson(Map<String, dynamic> json) {
     return GetCertificateResponse(
       certificate: json['Certificate'] as String?,
@@ -2869,6 +3391,7 @@ class GetPolicyResponse {
   GetPolicyResponse({
     this.policy,
   });
+
   factory GetPolicyResponse.fromJson(Map<String, dynamic> json) {
     return GetPolicyResponse(
       policy: json['Policy'] as String?,
@@ -2887,6 +3410,7 @@ class IssueCertificateResponse {
   IssueCertificateResponse({
     this.certificateArn,
   });
+
   factory IssueCertificateResponse.fromJson(Map<String, dynamic> json) {
     return IssueCertificateResponse(
       certificateArn: json['CertificateArn'] as String?,
@@ -2932,6 +3456,35 @@ extension KeyAlgorithmFromString on String {
   }
 }
 
+enum KeyStorageSecurityStandard {
+  fips_140_2Level_2OrHigher,
+  fips_140_2Level_3OrHigher,
+}
+
+extension KeyStorageSecurityStandardValueExtension
+    on KeyStorageSecurityStandard {
+  String toValue() {
+    switch (this) {
+      case KeyStorageSecurityStandard.fips_140_2Level_2OrHigher:
+        return 'FIPS_140_2_LEVEL_2_OR_HIGHER';
+      case KeyStorageSecurityStandard.fips_140_2Level_3OrHigher:
+        return 'FIPS_140_2_LEVEL_3_OR_HIGHER';
+    }
+  }
+}
+
+extension KeyStorageSecurityStandardFromString on String {
+  KeyStorageSecurityStandard toKeyStorageSecurityStandard() {
+    switch (this) {
+      case 'FIPS_140_2_LEVEL_2_OR_HIGHER':
+        return KeyStorageSecurityStandard.fips_140_2Level_2OrHigher;
+      case 'FIPS_140_2_LEVEL_3_OR_HIGHER':
+        return KeyStorageSecurityStandard.fips_140_2Level_3OrHigher;
+    }
+    throw Exception('$this is not known in enum KeyStorageSecurityStandard');
+  }
+}
+
 /// Defines one or more purposes for which the key contained in the certificate
 /// can be used. Default value for each option is false.
 class KeyUsage {
@@ -2973,6 +3526,7 @@ class KeyUsage {
     this.keyEncipherment,
     this.nonRepudiation,
   });
+
   factory KeyUsage.fromJson(Map<String, dynamic> json) {
     return KeyUsage(
       cRLSign: json['CRLSign'] as bool?,
@@ -3023,6 +3577,7 @@ class ListCertificateAuthoritiesResponse {
     this.certificateAuthorities,
     this.nextToken,
   });
+
   factory ListCertificateAuthoritiesResponse.fromJson(
       Map<String, dynamic> json) {
     return ListCertificateAuthoritiesResponse(
@@ -3049,6 +3604,7 @@ class ListPermissionsResponse {
     this.nextToken,
     this.permissions,
   });
+
   factory ListPermissionsResponse.fromJson(Map<String, dynamic> json) {
     return ListPermissionsResponse(
       nextToken: json['NextToken'] as String?,
@@ -3072,6 +3628,7 @@ class ListTagsResponse {
     this.nextToken,
     this.tags,
   });
+
   factory ListTagsResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsResponse(
       nextToken: json['NextToken'] as String?,
@@ -3080,6 +3637,54 @@ class ListTagsResponse {
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+  }
+}
+
+/// Contains information to enable and configure Online Certificate Status
+/// Protocol (OCSP) for validating certificate revocation status.
+///
+/// When you revoke a certificate, OCSP responses may take up to 60 minutes to
+/// reflect the new status.
+class OcspConfiguration {
+  /// Flag enabling use of the Online Certificate Status Protocol (OCSP) for
+  /// validating certificate revocation status.
+  final bool enabled;
+
+  /// By default, Amazon Web Services Private CA injects an Amazon Web Services
+  /// domain into certificates being validated by the Online Certificate Status
+  /// Protocol (OCSP). A customer can alternatively use this object to define a
+  /// CNAME specifying a customized OCSP domain.
+  /// <note>
+  /// The content of a Canonical Name (CNAME) record must conform to <a
+  /// href="https://www.ietf.org/rfc/rfc2396.txt">RFC2396</a> restrictions on the
+  /// use of special characters in URIs. Additionally, the value of the CNAME must
+  /// not include a protocol prefix such as "http://" or "https://".
+  /// </note>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/ocsp-customize.html">Customizing
+  /// Online Certificate Status Protocol (OCSP) </a> in the <i>Amazon Web Services
+  /// Private Certificate Authority User Guide</i>.
+  final String? ocspCustomCname;
+
+  OcspConfiguration({
+    required this.enabled,
+    this.ocspCustomCname,
+  });
+
+  factory OcspConfiguration.fromJson(Map<String, dynamic> json) {
+    return OcspConfiguration(
+      enabled: json['Enabled'] as bool,
+      ocspCustomCname: json['OcspCustomCname'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final ocspCustomCname = this.ocspCustomCname;
+    return {
+      'Enabled': enabled,
+      if (ocspCustomCname != null) 'OcspCustomCname': ocspCustomCname,
+    };
   }
 }
 
@@ -3099,6 +3704,7 @@ class OtherName {
     required this.typeId,
     required this.value,
   });
+
   factory OtherName.fromJson(Map<String, dynamic> json) {
     return OtherName(
       typeId: json['TypeId'] as String,
@@ -3116,19 +3722,20 @@ class OtherName {
   }
 }
 
-/// Permissions designate which private CA actions can be performed by an AWS
-/// service or entity. In order for ACM to automatically renew private
-/// certificates, you must give the ACM service principal all available
+/// Permissions designate which private CA actions can be performed by an Amazon
+/// Web Services service or entity. In order for ACM to automatically renew
+/// private certificates, you must give the ACM service principal all available
 /// permissions (<code>IssueCertificate</code>, <code>GetCertificate</code>, and
 /// <code>ListPermissions</code>). Permissions can be assigned with the <a
-/// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreatePermission.html">CreatePermission</a>
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreatePermission.html">CreatePermission</a>
 /// action, removed with the <a
-/// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_DeletePermission.html">DeletePermission</a>
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeletePermission.html">DeletePermission</a>
 /// action, and listed with the <a
-/// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListPermissions.html">ListPermissions</a>
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListPermissions.html">ListPermissions</a>
 /// action.
 class Permission {
-  /// The private CA actions that can be performed by the designated AWS service.
+  /// The private CA actions that can be performed by the designated Amazon Web
+  /// Services service.
   final List<ActionType>? actions;
 
   /// The Amazon Resource Number (ARN) of the private CA from which the permission
@@ -3141,8 +3748,8 @@ class Permission {
   /// The name of the policy that is associated with the permission.
   final String? policy;
 
-  /// The AWS service or entity that holds the permission. At this time, the only
-  /// valid principal is <code>acm.amazonaws.com</code>.
+  /// The Amazon Web Services service or entity that holds the permission. At this
+  /// time, the only valid principal is <code>acm.amazonaws.com</code>.
   final String? principal;
 
   /// The ID of the account that assigned the permission.
@@ -3156,6 +3763,7 @@ class Permission {
     this.principal,
     this.sourceAccount,
   });
+
   factory Permission.fromJson(Map<String, dynamic> json) {
     return Permission(
       actions: (json['Actions'] as List?)
@@ -3168,6 +3776,101 @@ class Permission {
       principal: json['Principal'] as String?,
       sourceAccount: json['SourceAccount'] as String?,
     );
+  }
+}
+
+/// Defines the X.509 <code>CertificatePolicies</code> extension.
+class PolicyInformation {
+  /// Specifies the object identifier (OID) of the certificate policy under which
+  /// the certificate was issued. For more information, see NIST's definition of
+  /// <a href="https://csrc.nist.gov/glossary/term/Object_Identifier">Object
+  /// Identifier (OID)</a>.
+  final String certPolicyId;
+
+  /// Modifies the given <code>CertPolicyId</code> with a qualifier. Amazon Web
+  /// Services Private CA supports the certification practice statement (CPS)
+  /// qualifier.
+  final List<PolicyQualifierInfo>? policyQualifiers;
+
+  PolicyInformation({
+    required this.certPolicyId,
+    this.policyQualifiers,
+  });
+  Map<String, dynamic> toJson() {
+    final certPolicyId = this.certPolicyId;
+    final policyQualifiers = this.policyQualifiers;
+    return {
+      'CertPolicyId': certPolicyId,
+      if (policyQualifiers != null) 'PolicyQualifiers': policyQualifiers,
+    };
+  }
+}
+
+enum PolicyQualifierId {
+  cps,
+}
+
+extension PolicyQualifierIdValueExtension on PolicyQualifierId {
+  String toValue() {
+    switch (this) {
+      case PolicyQualifierId.cps:
+        return 'CPS';
+    }
+  }
+}
+
+extension PolicyQualifierIdFromString on String {
+  PolicyQualifierId toPolicyQualifierId() {
+    switch (this) {
+      case 'CPS':
+        return PolicyQualifierId.cps;
+    }
+    throw Exception('$this is not known in enum PolicyQualifierId');
+  }
+}
+
+/// Modifies the <code>CertPolicyId</code> of a <code>PolicyInformation</code>
+/// object with a qualifier. Amazon Web Services Private CA supports the
+/// certification practice statement (CPS) qualifier.
+class PolicyQualifierInfo {
+  /// Identifies the qualifier modifying a <code>CertPolicyId</code>.
+  final PolicyQualifierId policyQualifierId;
+
+  /// Defines the qualifier type. Amazon Web Services Private CA supports the use
+  /// of a URI for a CPS qualifier in this field.
+  final Qualifier qualifier;
+
+  PolicyQualifierInfo({
+    required this.policyQualifierId,
+    required this.qualifier,
+  });
+  Map<String, dynamic> toJson() {
+    final policyQualifierId = this.policyQualifierId;
+    final qualifier = this.qualifier;
+    return {
+      'PolicyQualifierId': policyQualifierId.toValue(),
+      'Qualifier': qualifier,
+    };
+  }
+}
+
+/// Defines a <code>PolicyInformation</code> qualifier. Amazon Web Services
+/// Private CA supports the <a
+/// href="https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.4">certification
+/// practice statement (CPS) qualifier</a> defined in RFC 5280.
+class Qualifier {
+  /// Contains a pointer to a certification practice statement (CPS) published by
+  /// the CA.
+  final String cpsUri;
+
+  Qualifier({
+    required this.cpsUri,
+  });
+  Map<String, dynamic> toJson() {
+    final cpsUri = this.cpsUri;
+    return {
+      'CpsUri': cpsUri,
+    };
   }
 }
 
@@ -3200,34 +3903,55 @@ extension ResourceOwnerFromString on String {
 }
 
 /// Certificate revocation information used by the <a
-/// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
 /// and <a
-/// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_UpdateCertificateAuthority.html">UpdateCertificateAuthority</a>
-/// actions. Your private certificate authority (CA) can create and maintain a
-/// certificate revocation list (CRL). A CRL contains information about
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html">UpdateCertificateAuthority</a>
+/// actions. Your private certificate authority (CA) can configure Online
+/// Certificate Status Protocol (OCSP) support and/or maintain a certificate
+/// revocation list (CRL). OCSP returns validation information about
+/// certificates as requested by clients, and a CRL contains an updated list of
 /// certificates revoked by your CA. For more information, see <a
-/// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_RevokeCertificate.html">RevokeCertificate</a>.
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_RevokeCertificate.html">RevokeCertificate</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/privateca/latest/userguide/revocation-setup.html">Setting
+/// up a certificate revocation method</a> in the <i>Amazon Web Services Private
+/// Certificate Authority User Guide</i>.
 class RevocationConfiguration {
   /// Configuration of the certificate revocation list (CRL), if any, maintained
-  /// by your private CA.
+  /// by your private CA. A CRL is typically updated approximately 30 minutes
+  /// after a certificate is revoked. If for any reason a CRL update fails, Amazon
+  /// Web Services Private CA makes further attempts every 15 minutes.
   final CrlConfiguration? crlConfiguration;
+
+  /// Configuration of Online Certificate Status Protocol (OCSP) support, if any,
+  /// maintained by your private CA. When you revoke a certificate, OCSP responses
+  /// may take up to 60 minutes to reflect the new status.
+  final OcspConfiguration? ocspConfiguration;
 
   RevocationConfiguration({
     this.crlConfiguration,
+    this.ocspConfiguration,
   });
+
   factory RevocationConfiguration.fromJson(Map<String, dynamic> json) {
     return RevocationConfiguration(
       crlConfiguration: json['CrlConfiguration'] != null
           ? CrlConfiguration.fromJson(
               json['CrlConfiguration'] as Map<String, dynamic>)
           : null,
+      ocspConfiguration: json['OcspConfiguration'] != null
+          ? OcspConfiguration.fromJson(
+              json['OcspConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final crlConfiguration = this.crlConfiguration;
+    final ocspConfiguration = this.ocspConfiguration;
     return {
       if (crlConfiguration != null) 'CrlConfiguration': crlConfiguration,
+      if (ocspConfiguration != null) 'OcspConfiguration': ocspConfiguration,
     };
   }
 }
@@ -3290,6 +4014,34 @@ extension RevocationReasonFromString on String {
   }
 }
 
+enum S3ObjectAcl {
+  publicRead,
+  bucketOwnerFullControl,
+}
+
+extension S3ObjectAclValueExtension on S3ObjectAcl {
+  String toValue() {
+    switch (this) {
+      case S3ObjectAcl.publicRead:
+        return 'PUBLIC_READ';
+      case S3ObjectAcl.bucketOwnerFullControl:
+        return 'BUCKET_OWNER_FULL_CONTROL';
+    }
+  }
+}
+
+extension S3ObjectAclFromString on String {
+  S3ObjectAcl toS3ObjectAcl() {
+    switch (this) {
+      case 'PUBLIC_READ':
+        return S3ObjectAcl.publicRead;
+      case 'BUCKET_OWNER_FULL_CONTROL':
+        return S3ObjectAcl.bucketOwnerFullControl;
+    }
+    throw Exception('$this is not known in enum S3ObjectAcl');
+  }
+}
+
 enum SigningAlgorithm {
   sha256withecdsa,
   sha384withecdsa,
@@ -3341,9 +4093,9 @@ extension SigningAlgorithmFromString on String {
 /// Tags are labels that you can use to identify and organize your private CAs.
 /// Each tag consists of a key and an optional value. You can associate up to 50
 /// tags with a private CA. To add one or more tags to a private CA, call the <a
-/// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_TagCertificateAuthority.html">TagCertificateAuthority</a>
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_TagCertificateAuthority.html">TagCertificateAuthority</a>
 /// action. To remove a tag, call the <a
-/// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_UntagCertificateAuthority.html">UntagCertificateAuthority</a>
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_UntagCertificateAuthority.html">UntagCertificateAuthority</a>
 /// action.
 class Tag {
   /// Key (name) of the tag.
@@ -3356,6 +4108,7 @@ class Tag {
     required this.key,
     this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -3374,20 +4127,24 @@ class Tag {
 }
 
 /// Validity specifies the period of time during which a certificate is valid.
-/// Validity can be expressed as an explicit date and time when the certificate
-/// expires, or as a span of time after issuance, stated in days, months, or
-/// years. For more information, see <a
+/// Validity can be expressed as an explicit date and time when the validity of
+/// a certificate starts or expires, or as a span of time after issuance, stated
+/// in days, months, or years. For more information, see <a
 /// href="https://tools.ietf.org/html/rfc5280#section-4.1.2.5">Validity</a> in
 /// RFC 5280.
 ///
-/// You can issue a certificate by calling the <a
-/// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_IssueCertificate.html">IssueCertificate</a>
-/// action.
+/// Amazon Web Services Private CA API consumes the <code>Validity</code> data
+/// type differently in two distinct parameters of the
+/// <code>IssueCertificate</code> action. The required parameter
+/// <code>IssueCertificate</code>:<code>Validity</code> specifies the end of a
+/// certificate's validity period. The optional parameter
+/// <code>IssueCertificate</code>:<code>ValidityNotBefore</code> specifies a
+/// customized starting time for the validity period.
 class Validity {
-  /// Determines how <i>ACM Private CA</i> interprets the <code>Value</code>
-  /// parameter, an integer. Supported validity types include those listed below.
-  /// Type definitions with values include a sample input value and the resulting
-  /// output.
+  /// Determines how <i>Amazon Web Services Private CA</i> interprets the
+  /// <code>Value</code> parameter, an integer. Supported validity types include
+  /// those listed below. Type definitions with values include a sample input
+  /// value and the resulting output.
   ///
   /// <code>END_DATE</code>: The specific date and time when the certificate will
   /// expire, expressed using UTCTime (YYMMDDHHMMSS) or GeneralizedTime
@@ -3403,8 +4160,8 @@ class Validity {
   /// Output expiration date/time: 12/31/2049 23:59:59
   /// </li>
   /// </ul>
-  /// <code>ABSOLUTE</code>: The specific date and time when the certificate will
-  /// expire, expressed in seconds since the Unix Epoch.
+  /// <code>ABSOLUTE</code>: The specific date and time when the validity of a
+  /// certificate will start or expire, expressed in seconds since the Unix Epoch.
   ///
   /// <ul>
   /// <li>

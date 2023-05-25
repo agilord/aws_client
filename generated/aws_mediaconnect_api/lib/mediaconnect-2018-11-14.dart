@@ -48,6 +48,100 @@ class MediaConnect {
     _protocol.close();
   }
 
+  /// Adds outputs to an existing bridge.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [bridgeArn] :
+  /// The ARN of the bridge that you want to update.
+  ///
+  /// Parameter [outputs] :
+  /// The outputs that you want to add to this bridge.
+  Future<AddBridgeOutputsResponse> addBridgeOutputs({
+    required String bridgeArn,
+    required List<AddBridgeOutputRequest> outputs,
+  }) async {
+    final $payload = <String, dynamic>{
+      'outputs': outputs,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/bridges/${Uri.encodeComponent(bridgeArn)}/outputs',
+      exceptionFnMap: _exceptionFns,
+    );
+    return AddBridgeOutputsResponse.fromJson(response);
+  }
+
+  /// Adds sources to an existing bridge.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [bridgeArn] :
+  /// The ARN of the bridge that you want to update.
+  ///
+  /// Parameter [sources] :
+  /// The sources that you want to add to this bridge.
+  Future<AddBridgeSourcesResponse> addBridgeSources({
+    required String bridgeArn,
+    required List<AddBridgeSourceRequest> sources,
+  }) async {
+    final $payload = <String, dynamic>{
+      'sources': sources,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/bridges/${Uri.encodeComponent(bridgeArn)}/sources',
+      exceptionFnMap: _exceptionFns,
+    );
+    return AddBridgeSourcesResponse.fromJson(response);
+  }
+
+  /// Adds media streams to an existing flow. After you add a media stream to a
+  /// flow, you can associate it with a source and/or an output that uses the ST
+  /// 2110 JPEG XS or CDI protocol.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [flowArn] :
+  /// The Amazon Resource Name (ARN) of the flow.
+  ///
+  /// Parameter [mediaStreams] :
+  /// The media streams that you want to add to the flow.
+  Future<AddFlowMediaStreamsResponse> addFlowMediaStreams({
+    required String flowArn,
+    required List<AddMediaStreamRequest> mediaStreams,
+  }) async {
+    final $payload = <String, dynamic>{
+      'mediaStreams': mediaStreams,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/flows/${Uri.encodeComponent(flowArn)}/mediaStreams',
+      exceptionFnMap: _exceptionFns,
+    );
+    return AddFlowMediaStreamsResponse.fromJson(response);
+  }
+
   /// Adds outputs to an existing flow. You can create up to 50 outputs per
   /// flow.
   ///
@@ -140,6 +234,71 @@ class MediaConnect {
     return AddFlowVpcInterfacesResponse.fromJson(response);
   }
 
+  /// Creates a new bridge. The request must include one source.
+  ///
+  /// May throw [CreateBridge420Exception].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [name] :
+  /// The name of the bridge. This name can not be modified after the bridge is
+  /// created.
+  ///
+  /// Parameter [placementArn] :
+  /// The bridge placement Amazon Resource Number (ARN).
+  ///
+  /// Parameter [sources] :
+  /// The sources that you want to add to this bridge.
+  ///
+  /// Parameter [egressGatewayBridge] :
+  /// Create a bridge with the egress bridge type. An egress bridge is a
+  /// cloud-to-ground bridge. The content comes from an existing MediaConnect
+  /// flow and is delivered to your premises.
+  ///
+  /// Parameter [ingressGatewayBridge] :
+  /// Create a bridge with the ingress bridge type. An ingress bridge is a
+  /// ground-to-cloud bridge. The content originates at your premises and is
+  /// delivered to the cloud.
+  ///
+  /// Parameter [outputs] :
+  /// The outputs that you want to add to this bridge.
+  ///
+  /// Parameter [sourceFailoverConfig] :
+  /// The settings for source failover.
+  Future<CreateBridgeResponse> createBridge({
+    required String name,
+    required String placementArn,
+    required List<AddBridgeSourceRequest> sources,
+    AddEgressGatewayBridgeRequest? egressGatewayBridge,
+    AddIngressGatewayBridgeRequest? ingressGatewayBridge,
+    List<AddBridgeOutputRequest>? outputs,
+    FailoverConfig? sourceFailoverConfig,
+  }) async {
+    final $payload = <String, dynamic>{
+      'name': name,
+      'placementArn': placementArn,
+      'sources': sources,
+      if (egressGatewayBridge != null)
+        'egressGatewayBridge': egressGatewayBridge,
+      if (ingressGatewayBridge != null)
+        'ingressGatewayBridge': ingressGatewayBridge,
+      if (outputs != null) 'outputs': outputs,
+      if (sourceFailoverConfig != null)
+        'sourceFailoverConfig': sourceFailoverConfig,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/bridges',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateBridgeResponse.fromJson(response);
+  }
+
   /// Creates a new flow. The request must include one source. The request
   /// optionally can include outputs (up to 50) and entitlements (up to 50).
   ///
@@ -160,6 +319,10 @@ class MediaConnect {
   /// Parameter [entitlements] :
   /// The entitlements that you want to grant on a flow.
   ///
+  /// Parameter [mediaStreams] :
+  /// The media streams that you want to add to the flow. You can associate
+  /// these media streams with sources and outputs on the flow.
+  ///
   /// Parameter [outputs] :
   /// The outputs that you want to add to this flow.
   ///
@@ -169,6 +332,8 @@ class MediaConnect {
     required String name,
     String? availabilityZone,
     List<GrantEntitlementRequest>? entitlements,
+    AddMaintenance? maintenance,
+    List<AddMediaStreamRequest>? mediaStreams,
     List<AddOutputRequest>? outputs,
     SetSourceRequest? source,
     FailoverConfig? sourceFailoverConfig,
@@ -179,6 +344,8 @@ class MediaConnect {
       'name': name,
       if (availabilityZone != null) 'availabilityZone': availabilityZone,
       if (entitlements != null) 'entitlements': entitlements,
+      if (maintenance != null) 'maintenance': maintenance,
+      if (mediaStreams != null) 'mediaStreams': mediaStreams,
       if (outputs != null) 'outputs': outputs,
       if (source != null) 'source': source,
       if (sourceFailoverConfig != null)
@@ -193,6 +360,73 @@ class MediaConnect {
       exceptionFnMap: _exceptionFns,
     );
     return CreateFlowResponse.fromJson(response);
+  }
+
+  /// Creates a new gateway. The request must include at least one network (up
+  /// to 4).
+  ///
+  /// May throw [CreateGateway420Exception].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [egressCidrBlocks] :
+  /// The range of IP addresses that are allowed to contribute content or
+  /// initiate output requests for flows communicating with this gateway. These
+  /// IP addresses should be in the form of a Classless Inter-Domain Routing
+  /// (CIDR) block; for example, 10.0.0.0/16.
+  ///
+  /// Parameter [name] :
+  /// The name of the gateway. This name can not be modified after the gateway
+  /// is created.
+  ///
+  /// Parameter [networks] :
+  /// The list of networks that you want to add.
+  Future<CreateGatewayResponse> createGateway({
+    required List<String> egressCidrBlocks,
+    required String name,
+    required List<GatewayNetwork> networks,
+  }) async {
+    final $payload = <String, dynamic>{
+      'egressCidrBlocks': egressCidrBlocks,
+      'name': name,
+      'networks': networks,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/gateways',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateGatewayResponse.fromJson(response);
+  }
+
+  /// Deletes a bridge. Before you can delete a bridge, you must stop the
+  /// bridge.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [bridgeArn] :
+  /// The ARN of the bridge that you want to delete.
+  Future<DeleteBridgeResponse> deleteBridge({
+    required String bridgeArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/v1/bridges/${Uri.encodeComponent(bridgeArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteBridgeResponse.fromJson(response);
   }
 
   /// Deletes a flow. Before you can delete a flow, you must stop the flow.
@@ -218,6 +452,92 @@ class MediaConnect {
     return DeleteFlowResponse.fromJson(response);
   }
 
+  /// Deletes a gateway. Before you can delete a gateway, you must deregister
+  /// its instances and delete its bridges.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [gatewayArn] :
+  /// The ARN of the gateway that you want to delete.
+  Future<DeleteGatewayResponse> deleteGateway({
+    required String gatewayArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/v1/gateways/${Uri.encodeComponent(gatewayArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteGatewayResponse.fromJson(response);
+  }
+
+  /// Deregisters an instance. Before you deregister an instance, all bridges
+  /// running on the instance must be stopped. If you want to deregister an
+  /// instance without stopping the bridges, you must use the --force option.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [gatewayInstanceArn] :
+  /// The Amazon Resource Name (ARN) of the gateway that contains the instance
+  /// that you want to deregister.
+  ///
+  /// Parameter [force] :
+  /// Force the deregistration of an instance. Force will deregister an
+  /// instance, even if there are bridges running on it.
+  Future<DeregisterGatewayInstanceResponse> deregisterGatewayInstance({
+    required String gatewayInstanceArn,
+    bool? force,
+  }) async {
+    final $query = <String, List<String>>{
+      if (force != null) 'force': [force.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/v1/gateway-instances/${Uri.encodeComponent(gatewayInstanceArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeregisterGatewayInstanceResponse.fromJson(response);
+  }
+
+  /// Displays the details of a bridge.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [bridgeArn] :
+  /// The ARN of the bridge that you want to describe.
+  Future<DescribeBridgeResponse> describeBridge({
+    required String bridgeArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/bridges/${Uri.encodeComponent(bridgeArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeBridgeResponse.fromJson(response);
+  }
+
   /// Displays the details of a flow. The response includes the flow ARN, name,
   /// and Availability Zone, as well as details about the source, outputs, and
   /// entitlements.
@@ -241,6 +561,57 @@ class MediaConnect {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeFlowResponse.fromJson(response);
+  }
+
+  /// Displays the details of a gateway. The response includes the gateway ARN,
+  /// name, and CIDR blocks, as well as details about the networks.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [gatewayArn] :
+  /// The Amazon Resource Name (ARN) of the gateway that you want to describe.
+  Future<DescribeGatewayResponse> describeGateway({
+    required String gatewayArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/gateways/${Uri.encodeComponent(gatewayArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeGatewayResponse.fromJson(response);
+  }
+
+  /// Displays the details of an instance.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [gatewayInstanceArn] :
+  /// The Amazon Resource Name (ARN) of the gateway instance that you want to
+  /// describe.
+  Future<DescribeGatewayInstanceResponse> describeGatewayInstance({
+    required String gatewayInstanceArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v1/gateway-instances/${Uri.encodeComponent(gatewayInstanceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeGatewayInstanceResponse.fromJson(response);
   }
 
   /// Displays the details of an offering. The response includes the offering
@@ -321,6 +692,60 @@ class MediaConnect {
       exceptionFnMap: _exceptionFns,
     );
     return GrantFlowEntitlementsResponse.fromJson(response);
+  }
+
+  /// Displays a list of bridges that are associated with this account and an
+  /// optionally specified Arn. This request returns a paginated result.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [filterArn] :
+  /// Filter the list results to display only the bridges associated with the
+  /// selected Amazon Resource Name (ARN).
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per API request. For example, you
+  /// submit a ListBridges request with MaxResults set at 5. Although 20 items
+  /// match your request, the service returns no more than the first 5 items.
+  /// (The service also returns a NextToken value that you can use to fetch the
+  /// next batch of results.) The service might return fewer results than the
+  /// MaxResults value. If MaxResults is not included in the request, the
+  /// service defaults to pagination with a maximum of 10 results per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token that identifies which batch of results that you want to see. For
+  /// example, you submit a ListBridges request with MaxResults set at 5. The
+  /// service returns the first batch of results (up to 5) and a NextToken
+  /// value. To see the next batch of results, you can submit the ListBridges
+  /// request a second time and specify the NextToken value.
+  Future<ListBridgesResponse> listBridges({
+    String? filterArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (filterArn != null) 'filterArn': [filterArn],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/bridges',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListBridgesResponse.fromJson(response);
   }
 
   /// Displays a list of all entitlements that have been granted to this
@@ -415,6 +840,110 @@ class MediaConnect {
       exceptionFnMap: _exceptionFns,
     );
     return ListFlowsResponse.fromJson(response);
+  }
+
+  /// Displays a list of instances associated with the AWS account. This request
+  /// returns a paginated result. You can use the filterArn property to display
+  /// only the instances associated with the selected Gateway Amazon Resource
+  /// Name (ARN).
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [filterArn] :
+  /// Filter the list results to display only the instances associated with the
+  /// selected Gateway Amazon Resource Name (ARN).
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per API request. For example, you
+  /// submit a ListInstances request with MaxResults set at 5. Although 20 items
+  /// match your request, the service returns no more than the first 5 items.
+  /// (The service also returns a NextToken value that you can use to fetch the
+  /// next batch of results.) The service might return fewer results than the
+  /// MaxResults value. If MaxResults is not included in the request, the
+  /// service defaults to pagination with a maximum of 10 results per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token that identifies which batch of results that you want to see. For
+  /// example, you submit a ListInstances request with MaxResults set at 5. The
+  /// service returns the first batch of results (up to 5) and a NextToken
+  /// value. To see the next batch of results, you can submit the ListInstances
+  /// request a second time and specify the NextToken value.
+  Future<ListGatewayInstancesResponse> listGatewayInstances({
+    String? filterArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (filterArn != null) 'filterArn': [filterArn],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/gateway-instances',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListGatewayInstancesResponse.fromJson(response);
+  }
+
+  /// Displays a list of gateways that are associated with this account. This
+  /// request returns a paginated result.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per API request. For example, you
+  /// submit a ListGateways request with MaxResults set at 5. Although 20 items
+  /// match your request, the service returns no more than the first 5 items.
+  /// (The service also returns a NextToken value that you can use to fetch the
+  /// next batch of results.) The service might return fewer results than the
+  /// MaxResults value. If MaxResults is not included in the request, the
+  /// service defaults to pagination with a maximum of 10 results per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token that identifies which batch of results that you want to see. For
+  /// example, you submit a ListGateways request with MaxResults set at 5. The
+  /// service returns the first batch of results (up to 5) and a NextToken
+  /// value. To see the next batch of results, you can submit the ListGateways
+  /// request a second time and specify the NextToken value.
+  Future<ListGatewaysResponse> listGateways({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/gateways',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListGatewaysResponse.fromJson(response);
   }
 
   /// Displays a list of all offerings that are available to this account in the
@@ -574,6 +1103,93 @@ class MediaConnect {
       exceptionFnMap: _exceptionFns,
     );
     return PurchaseOfferingResponse.fromJson(response);
+  }
+
+  /// Removes an output from a bridge.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [bridgeArn] :
+  /// The ARN of the bridge that you want to update.
+  ///
+  /// Parameter [outputName] :
+  /// The name of the bridge output that you want to remove.
+  Future<RemoveBridgeOutputResponse> removeBridgeOutput({
+    required String bridgeArn,
+    required String outputName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/v1/bridges/${Uri.encodeComponent(bridgeArn)}/outputs/${Uri.encodeComponent(outputName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return RemoveBridgeOutputResponse.fromJson(response);
+  }
+
+  /// Removes a source from a bridge.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [bridgeArn] :
+  /// The ARN of the bridge that you want to update.
+  ///
+  /// Parameter [sourceName] :
+  /// The name of the bridge source that you want to remove.
+  Future<RemoveBridgeSourceResponse> removeBridgeSource({
+    required String bridgeArn,
+    required String sourceName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/v1/bridges/${Uri.encodeComponent(bridgeArn)}/sources/${Uri.encodeComponent(sourceName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return RemoveBridgeSourceResponse.fromJson(response);
+  }
+
+  /// Removes a media stream from a flow. This action is only available if the
+  /// media stream is not associated with a source or output.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [flowArn] :
+  /// The Amazon Resource Name (ARN) of the flow.
+  ///
+  /// Parameter [mediaStreamName] :
+  /// The name of the media stream that you want to remove.
+  Future<RemoveFlowMediaStreamResponse> removeFlowMediaStream({
+    required String flowArn,
+    required String mediaStreamName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/v1/flows/${Uri.encodeComponent(flowArn)}/mediaStreams/${Uri.encodeComponent(mediaStreamName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return RemoveFlowMediaStreamResponse.fromJson(response);
   }
 
   /// Removes an output from an existing flow. This request can be made only on
@@ -805,6 +1421,137 @@ class MediaConnect {
     );
   }
 
+  /// Updates the bridge
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [bridgeArn] :
+  /// The Amazon Resource Number (ARN) of the bridge that you want to update.
+  Future<UpdateBridgeResponse> updateBridge({
+    required String bridgeArn,
+    UpdateEgressGatewayBridgeRequest? egressGatewayBridge,
+    UpdateIngressGatewayBridgeRequest? ingressGatewayBridge,
+    UpdateFailoverConfig? sourceFailoverConfig,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (egressGatewayBridge != null)
+        'egressGatewayBridge': egressGatewayBridge,
+      if (ingressGatewayBridge != null)
+        'ingressGatewayBridge': ingressGatewayBridge,
+      if (sourceFailoverConfig != null)
+        'sourceFailoverConfig': sourceFailoverConfig,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/v1/bridges/${Uri.encodeComponent(bridgeArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateBridgeResponse.fromJson(response);
+  }
+
+  /// Updates an existing bridge output.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [bridgeArn] :
+  /// The ARN of the bridge that you want to update.
+  ///
+  /// Parameter [outputName] :
+  /// The name of the bridge output that you want to update.
+  Future<UpdateBridgeOutputResponse> updateBridgeOutput({
+    required String bridgeArn,
+    required String outputName,
+    UpdateBridgeNetworkOutputRequest? networkOutput,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (networkOutput != null) 'networkOutput': networkOutput,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/v1/bridges/${Uri.encodeComponent(bridgeArn)}/outputs/${Uri.encodeComponent(outputName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateBridgeOutputResponse.fromJson(response);
+  }
+
+  /// Updates an existing bridge source.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [bridgeArn] :
+  /// The ARN of the bridge that you want to update.
+  ///
+  /// Parameter [sourceName] :
+  /// The name of the source that you want to update.
+  Future<UpdateBridgeSourceResponse> updateBridgeSource({
+    required String bridgeArn,
+    required String sourceName,
+    UpdateBridgeFlowSourceRequest? flowSource,
+    UpdateBridgeNetworkSourceRequest? networkSource,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (flowSource != null) 'flowSource': flowSource,
+      if (networkSource != null) 'networkSource': networkSource,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/v1/bridges/${Uri.encodeComponent(bridgeArn)}/sources/${Uri.encodeComponent(sourceName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateBridgeSourceResponse.fromJson(response);
+  }
+
+  /// Updates the bridge state
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [bridgeArn] :
+  /// The ARN of the bridge that you want to update.
+  Future<UpdateBridgeStateResponse> updateBridgeState({
+    required String bridgeArn,
+    required DesiredState desiredState,
+  }) async {
+    final $payload = <String, dynamic>{
+      'desiredState': desiredState.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/v1/bridges/${Uri.encodeComponent(bridgeArn)}/state',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateBridgeStateResponse.fromJson(response);
+  }
+
   /// Updates flow
   ///
   /// May throw [BadRequestException].
@@ -818,9 +1565,11 @@ class MediaConnect {
   /// The flow that you want to update.
   Future<UpdateFlowResponse> updateFlow({
     required String flowArn,
+    UpdateMaintenance? maintenance,
     UpdateFailoverConfig? sourceFailoverConfig,
   }) async {
     final $payload = <String, dynamic>{
+      if (maintenance != null) 'maintenance': maintenance,
       if (sourceFailoverConfig != null)
         'sourceFailoverConfig': sourceFailoverConfig,
     };
@@ -857,7 +1606,7 @@ class MediaConnect {
   ///
   /// Parameter [encryption] :
   /// The type of encryption that will be used on the output associated with
-  /// this entitlement.
+  /// this entitlement. Allowable encryption types: static-key, speke.
   ///
   /// Parameter [entitlementStatus] :
   /// An indication of whether you want to enable the entitlement to allow
@@ -894,6 +1643,63 @@ class MediaConnect {
     return UpdateFlowEntitlementResponse.fromJson(response);
   }
 
+  /// Updates an existing media stream.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [flowArn] :
+  /// The Amazon Resource Name (ARN) of the flow.
+  ///
+  /// Parameter [mediaStreamName] :
+  /// The name of the media stream that you want to update.
+  ///
+  /// Parameter [attributes] :
+  /// The attributes that you want to assign to the media stream.
+  ///
+  /// Parameter [clockRate] :
+  /// The sample rate (in Hz) for the stream. If the media stream type is video
+  /// or ancillary data, set this value to 90000. If the media stream type is
+  /// audio, set this value to either 48000 or 96000.
+  ///
+  /// Parameter [description] :
+  /// Description
+  ///
+  /// Parameter [mediaStreamType] :
+  /// The type of media stream.
+  ///
+  /// Parameter [videoFormat] :
+  /// The resolution of the video.
+  Future<UpdateFlowMediaStreamResponse> updateFlowMediaStream({
+    required String flowArn,
+    required String mediaStreamName,
+    MediaStreamAttributesRequest? attributes,
+    int? clockRate,
+    String? description,
+    MediaStreamType? mediaStreamType,
+    String? videoFormat,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (attributes != null) 'attributes': attributes,
+      if (clockRate != null) 'clockRate': clockRate,
+      if (description != null) 'description': description,
+      if (mediaStreamType != null) 'mediaStreamType': mediaStreamType.toValue(),
+      if (videoFormat != null) 'videoFormat': videoFormat,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/v1/flows/${Uri.encodeComponent(flowArn)}/mediaStreams/${Uri.encodeComponent(mediaStreamName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateFlowMediaStreamResponse.fromJson(response);
+  }
+
   /// Updates an existing flow output.
   ///
   /// May throw [BadRequestException].
@@ -923,10 +1729,23 @@ class MediaConnect {
   ///
   /// Parameter [encryption] :
   /// The type of key used for the encryption. If no keyType is provided, the
-  /// service will use the default setting (static-key).
+  /// service will use the default setting (static-key). Allowable encryption
+  /// types: static-key.
   ///
   /// Parameter [maxLatency] :
-  /// The maximum latency in milliseconds for Zixi-based streams.
+  /// The maximum latency in milliseconds. This parameter applies only to
+  /// RIST-based, Zixi-based, and Fujitsu-based streams.
+  ///
+  /// Parameter [mediaStreamOutputConfigurations] :
+  /// The media streams that are associated with the output, and the parameters
+  /// for those associations.
+  ///
+  /// Parameter [minLatency] :
+  /// The minimum latency in milliseconds for SRT-based streams. In streams that
+  /// use the SRT protocol, this value that you set on your MediaConnect source
+  /// or output represents the minimal potential latency of that connection. The
+  /// latency of the stream is set to the highest number between the sender’s
+  /// minimum latency and the receiver’s minimum latency.
   ///
   /// Parameter [port] :
   /// The port to use when content is distributed to this output.
@@ -937,12 +1756,20 @@ class MediaConnect {
   /// Parameter [remoteId] :
   /// The remote ID for the Zixi-pull stream.
   ///
+  /// Parameter [senderControlPort] :
+  /// The port that the flow uses to send outbound requests to initiate
+  /// connection with the sender.
+  ///
+  /// Parameter [senderIpAddress] :
+  /// The IP address that the flow communicates with to initiate connection with
+  /// the sender.
+  ///
   /// Parameter [smoothingLatency] :
   /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
   ///
   /// Parameter [streamId] :
   /// The stream ID that you want to use for this transport. This parameter
-  /// applies only to Zixi-based streams.
+  /// applies only to Zixi and SRT caller-based streams.
   ///
   /// Parameter [vpcInterfaceAttachment] :
   /// The name of the VPC interface attachment to use for this output.
@@ -954,9 +1781,14 @@ class MediaConnect {
     String? destination,
     UpdateEncryption? encryption,
     int? maxLatency,
+    List<MediaStreamOutputConfigurationRequest>?
+        mediaStreamOutputConfigurations,
+    int? minLatency,
     int? port,
     Protocol? protocol,
     String? remoteId,
+    int? senderControlPort,
+    String? senderIpAddress,
     int? smoothingLatency,
     String? streamId,
     VpcInterfaceAttachment? vpcInterfaceAttachment,
@@ -967,9 +1799,14 @@ class MediaConnect {
       if (destination != null) 'destination': destination,
       if (encryption != null) 'encryption': encryption,
       if (maxLatency != null) 'maxLatency': maxLatency,
+      if (mediaStreamOutputConfigurations != null)
+        'mediaStreamOutputConfigurations': mediaStreamOutputConfigurations,
+      if (minLatency != null) 'minLatency': minLatency,
       if (port != null) 'port': port,
       if (protocol != null) 'protocol': protocol.toValue(),
       if (remoteId != null) 'remoteId': remoteId,
+      if (senderControlPort != null) 'senderControlPort': senderControlPort,
+      if (senderIpAddress != null) 'senderIpAddress': senderIpAddress,
       if (smoothingLatency != null) 'smoothingLatency': smoothingLatency,
       if (streamId != null) 'streamId': streamId,
       if (vpcInterfaceAttachment != null)
@@ -1002,6 +1839,7 @@ class MediaConnect {
   ///
   /// Parameter [decryption] :
   /// The type of encryption used on the content ingested from this source.
+  /// Allowable encryption types: static-key.
   ///
   /// Parameter [description] :
   /// A description for the source. This value is not used or seen outside of
@@ -1012,25 +1850,57 @@ class MediaConnect {
   /// entitlement is set by the flow originator, and the ARN is generated as
   /// part of the originator's flow.
   ///
+  /// Parameter [gatewayBridgeSource] :
+  /// The source configuration for cloud flows receiving a stream from a bridge.
+  ///
   /// Parameter [ingestPort] :
   /// The port that the flow will be listening on for incoming content.
   ///
   /// Parameter [maxBitrate] :
-  /// The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
+  /// The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.
   ///
   /// Parameter [maxLatency] :
   /// The maximum latency in milliseconds. This parameter applies only to
-  /// RIST-based and Zixi-based streams.
+  /// RIST-based, Zixi-based, and Fujitsu-based streams.
+  ///
+  /// Parameter [maxSyncBuffer] :
+  /// The size of the buffer (in milliseconds) to use to sync incoming source
+  /// data.
+  ///
+  /// Parameter [mediaStreamSourceConfigurations] :
+  /// The media streams that are associated with the source, and the parameters
+  /// for those associations.
+  ///
+  /// Parameter [minLatency] :
+  /// The minimum latency in milliseconds for SRT-based streams. In streams that
+  /// use the SRT protocol, this value that you set on your MediaConnect source
+  /// or output represents the minimal potential latency of that connection. The
+  /// latency of the stream is set to the highest number between the sender’s
+  /// minimum latency and the receiver’s minimum latency.
   ///
   /// Parameter [protocol] :
   /// The protocol that is used by the source.
   ///
+  /// Parameter [senderControlPort] :
+  /// The port that the flow uses to send outbound requests to initiate
+  /// connection with the sender.
+  ///
+  /// Parameter [senderIpAddress] :
+  /// The IP address that the flow communicates with to initiate connection with
+  /// the sender.
+  ///
+  /// Parameter [sourceListenerAddress] :
+  /// Source IP or domain name for SRT-caller protocol.
+  ///
+  /// Parameter [sourceListenerPort] :
+  /// Source port for SRT-caller protocol.
+  ///
   /// Parameter [streamId] :
   /// The stream ID that you want to use for this transport. This parameter
-  /// applies only to Zixi-based streams.
+  /// applies only to Zixi and SRT caller-based streams.
   ///
   /// Parameter [vpcInterfaceName] :
-  /// The name of the VPC Interface to configure this Source with.
+  /// The name of the VPC interface to use for this source.
   ///
   /// Parameter [whitelistCidr] :
   /// The range of IP addresses that should be allowed to contribute content to
@@ -1042,10 +1912,19 @@ class MediaConnect {
     UpdateEncryption? decryption,
     String? description,
     String? entitlementArn,
+    UpdateGatewayBridgeSourceRequest? gatewayBridgeSource,
     int? ingestPort,
     int? maxBitrate,
     int? maxLatency,
+    int? maxSyncBuffer,
+    List<MediaStreamSourceConfigurationRequest>?
+        mediaStreamSourceConfigurations,
+    int? minLatency,
     Protocol? protocol,
+    int? senderControlPort,
+    String? senderIpAddress,
+    String? sourceListenerAddress,
+    int? sourceListenerPort,
     String? streamId,
     String? vpcInterfaceName,
     String? whitelistCidr,
@@ -1054,10 +1933,21 @@ class MediaConnect {
       if (decryption != null) 'decryption': decryption,
       if (description != null) 'description': description,
       if (entitlementArn != null) 'entitlementArn': entitlementArn,
+      if (gatewayBridgeSource != null)
+        'gatewayBridgeSource': gatewayBridgeSource,
       if (ingestPort != null) 'ingestPort': ingestPort,
       if (maxBitrate != null) 'maxBitrate': maxBitrate,
       if (maxLatency != null) 'maxLatency': maxLatency,
+      if (maxSyncBuffer != null) 'maxSyncBuffer': maxSyncBuffer,
+      if (mediaStreamSourceConfigurations != null)
+        'mediaStreamSourceConfigurations': mediaStreamSourceConfigurations,
+      if (minLatency != null) 'minLatency': minLatency,
       if (protocol != null) 'protocol': protocol.toValue(),
+      if (senderControlPort != null) 'senderControlPort': senderControlPort,
+      if (senderIpAddress != null) 'senderIpAddress': senderIpAddress,
+      if (sourceListenerAddress != null)
+        'sourceListenerAddress': sourceListenerAddress,
+      if (sourceListenerPort != null) 'sourceListenerPort': sourceListenerPort,
       if (streamId != null) 'streamId': streamId,
       if (vpcInterfaceName != null) 'vpcInterfaceName': vpcInterfaceName,
       if (whitelistCidr != null) 'whitelistCidr': whitelistCidr,
@@ -1070,6 +1960,278 @@ class MediaConnect {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateFlowSourceResponse.fromJson(response);
+  }
+
+  /// Updates the configuration of an existing Gateway Instance.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [gatewayInstanceArn] :
+  /// The Amazon Resource Name (ARN) of the instance that you want to update.
+  ///
+  /// Parameter [bridgePlacement] :
+  /// The availability of the instance to host new bridges. The bridgePlacement
+  /// property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can
+  /// be deployed to this instance. If it is AVAILABLE, new bridges can be added
+  /// to this instance.
+  Future<UpdateGatewayInstanceResponse> updateGatewayInstance({
+    required String gatewayInstanceArn,
+    BridgePlacement? bridgePlacement,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (bridgePlacement != null) 'bridgePlacement': bridgePlacement.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/v1/gateway-instances/${Uri.encodeComponent(gatewayInstanceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateGatewayInstanceResponse.fromJson(response);
+  }
+}
+
+/// Add a flow source to an existing bridge.
+class AddBridgeFlowSourceRequest {
+  /// The Amazon Resource Number (ARN) of the cloud flow to use as a source of
+  /// this bridge.
+  final String flowArn;
+
+  /// The name of the flow source. This name is used to reference the source and
+  /// must be unique among sources in this bridge.
+  final String name;
+
+  /// The name of the VPC interface attachment to use for this source.
+  final VpcInterfaceAttachment? flowVpcInterfaceAttachment;
+
+  AddBridgeFlowSourceRequest({
+    required this.flowArn,
+    required this.name,
+    this.flowVpcInterfaceAttachment,
+  });
+  Map<String, dynamic> toJson() {
+    final flowArn = this.flowArn;
+    final name = this.name;
+    final flowVpcInterfaceAttachment = this.flowVpcInterfaceAttachment;
+    return {
+      'flowArn': flowArn,
+      'name': name,
+      if (flowVpcInterfaceAttachment != null)
+        'flowVpcInterfaceAttachment': flowVpcInterfaceAttachment,
+    };
+  }
+}
+
+/// Add a network output to an existing bridge.
+class AddBridgeNetworkOutputRequest {
+  /// The network output IP Address.
+  final String ipAddress;
+
+  /// The network output name. This name is used to reference the output and must
+  /// be unique among outputs in this bridge.
+  final String name;
+
+  /// The network output's gateway network name.
+  final String networkName;
+
+  /// The network output port.
+  final int port;
+
+  /// The network output protocol.
+  final Protocol protocol;
+
+  /// The network output TTL.
+  final int ttl;
+
+  AddBridgeNetworkOutputRequest({
+    required this.ipAddress,
+    required this.name,
+    required this.networkName,
+    required this.port,
+    required this.protocol,
+    required this.ttl,
+  });
+  Map<String, dynamic> toJson() {
+    final ipAddress = this.ipAddress;
+    final name = this.name;
+    final networkName = this.networkName;
+    final port = this.port;
+    final protocol = this.protocol;
+    final ttl = this.ttl;
+    return {
+      'ipAddress': ipAddress,
+      'name': name,
+      'networkName': networkName,
+      'port': port,
+      'protocol': protocol.toValue(),
+      'ttl': ttl,
+    };
+  }
+}
+
+/// Add a network source to an existing bridge.
+class AddBridgeNetworkSourceRequest {
+  /// The network source multicast IP.
+  final String multicastIp;
+
+  /// The name of the network source. This name is used to reference the source
+  /// and must be unique among sources in this bridge.
+  final String name;
+
+  /// The network source's gateway network name.
+  final String networkName;
+
+  /// The network source port.
+  final int port;
+
+  /// The network source protocol.
+  final Protocol protocol;
+
+  AddBridgeNetworkSourceRequest({
+    required this.multicastIp,
+    required this.name,
+    required this.networkName,
+    required this.port,
+    required this.protocol,
+  });
+  Map<String, dynamic> toJson() {
+    final multicastIp = this.multicastIp;
+    final name = this.name;
+    final networkName = this.networkName;
+    final port = this.port;
+    final protocol = this.protocol;
+    return {
+      'multicastIp': multicastIp,
+      'name': name,
+      'networkName': networkName,
+      'port': port,
+      'protocol': protocol.toValue(),
+    };
+  }
+}
+
+/// Add an output to a bridge.
+class AddBridgeOutputRequest {
+  final AddBridgeNetworkOutputRequest? networkOutput;
+
+  AddBridgeOutputRequest({
+    this.networkOutput,
+  });
+  Map<String, dynamic> toJson() {
+    final networkOutput = this.networkOutput;
+    return {
+      if (networkOutput != null) 'networkOutput': networkOutput,
+    };
+  }
+}
+
+class AddBridgeOutputsResponse {
+  /// The Amazon Resource Number (ARN) of the bridge.
+  final String? bridgeArn;
+
+  /// The outputs that you added to this bridge.
+  final List<BridgeOutput>? outputs;
+
+  AddBridgeOutputsResponse({
+    this.bridgeArn,
+    this.outputs,
+  });
+
+  factory AddBridgeOutputsResponse.fromJson(Map<String, dynamic> json) {
+    return AddBridgeOutputsResponse(
+      bridgeArn: json['bridgeArn'] as String?,
+      outputs: (json['outputs'] as List?)
+          ?.whereNotNull()
+          .map((e) => BridgeOutput.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// Add a source to an existing bridge.
+class AddBridgeSourceRequest {
+  final AddBridgeFlowSourceRequest? flowSource;
+  final AddBridgeNetworkSourceRequest? networkSource;
+
+  AddBridgeSourceRequest({
+    this.flowSource,
+    this.networkSource,
+  });
+  Map<String, dynamic> toJson() {
+    final flowSource = this.flowSource;
+    final networkSource = this.networkSource;
+    return {
+      if (flowSource != null) 'flowSource': flowSource,
+      if (networkSource != null) 'networkSource': networkSource,
+    };
+  }
+}
+
+class AddBridgeSourcesResponse {
+  /// The Amazon Resource Number (ARN) of the bridge.
+  final String? bridgeArn;
+
+  /// The sources that you added to this bridge.
+  final List<BridgeSource>? sources;
+
+  AddBridgeSourcesResponse({
+    this.bridgeArn,
+    this.sources,
+  });
+
+  factory AddBridgeSourcesResponse.fromJson(Map<String, dynamic> json) {
+    return AddBridgeSourcesResponse(
+      bridgeArn: json['bridgeArn'] as String?,
+      sources: (json['sources'] as List?)
+          ?.whereNotNull()
+          .map((e) => BridgeSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+class AddEgressGatewayBridgeRequest {
+  /// The maximum expected bitrate (in bps).
+  final int maxBitrate;
+
+  AddEgressGatewayBridgeRequest({
+    required this.maxBitrate,
+  });
+  Map<String, dynamic> toJson() {
+    final maxBitrate = this.maxBitrate;
+    return {
+      'maxBitrate': maxBitrate,
+    };
+  }
+}
+
+class AddFlowMediaStreamsResponse {
+  /// The ARN of the flow that you added media streams to.
+  final String? flowArn;
+
+  /// The media streams that you added to the flow.
+  final List<MediaStream>? mediaStreams;
+
+  AddFlowMediaStreamsResponse({
+    this.flowArn,
+    this.mediaStreams,
+  });
+
+  factory AddFlowMediaStreamsResponse.fromJson(Map<String, dynamic> json) {
+    return AddFlowMediaStreamsResponse(
+      flowArn: json['flowArn'] as String?,
+      mediaStreams: (json['mediaStreams'] as List?)
+          ?.whereNotNull()
+          .map((e) => MediaStream.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
   }
 }
 
@@ -1084,6 +2246,7 @@ class AddFlowOutputsResponse {
     this.flowArn,
     this.outputs,
   });
+
   factory AddFlowOutputsResponse.fromJson(Map<String, dynamic> json) {
     return AddFlowOutputsResponse(
       flowArn: json['flowArn'] as String?,
@@ -1106,6 +2269,7 @@ class AddFlowSourcesResponse {
     this.flowArn,
     this.sources,
   });
+
   factory AddFlowSourcesResponse.fromJson(Map<String, dynamic> json) {
     return AddFlowSourcesResponse(
       flowArn: json['flowArn'] as String?,
@@ -1128,6 +2292,7 @@ class AddFlowVpcInterfacesResponse {
     this.flowArn,
     this.vpcInterfaces,
   });
+
   factory AddFlowVpcInterfacesResponse.fromJson(Map<String, dynamic> json) {
     return AddFlowVpcInterfacesResponse(
       flowArn: json['flowArn'] as String?,
@@ -1136,6 +2301,106 @@ class AddFlowVpcInterfacesResponse {
           .map((e) => VpcInterface.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+  }
+}
+
+class AddIngressGatewayBridgeRequest {
+  /// The maximum expected bitrate (in bps).
+  final int maxBitrate;
+
+  /// The maximum number of expected outputs.
+  final int maxOutputs;
+
+  AddIngressGatewayBridgeRequest({
+    required this.maxBitrate,
+    required this.maxOutputs,
+  });
+  Map<String, dynamic> toJson() {
+    final maxBitrate = this.maxBitrate;
+    final maxOutputs = this.maxOutputs;
+    return {
+      'maxBitrate': maxBitrate,
+      'maxOutputs': maxOutputs,
+    };
+  }
+}
+
+/// Create maintenance setting for a flow
+class AddMaintenance {
+  /// A day of a week when the maintenance will happen. Use
+  /// Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday.
+  final MaintenanceDay maintenanceDay;
+
+  /// UTC time when the maintenance will happen. Use 24-hour HH:MM format. Minutes
+  /// must be 00. Example: 13:00. The default value is 02:00.
+  final String maintenanceStartHour;
+
+  AddMaintenance({
+    required this.maintenanceDay,
+    required this.maintenanceStartHour,
+  });
+  Map<String, dynamic> toJson() {
+    final maintenanceDay = this.maintenanceDay;
+    final maintenanceStartHour = this.maintenanceStartHour;
+    return {
+      'maintenanceDay': maintenanceDay.toValue(),
+      'maintenanceStartHour': maintenanceStartHour,
+    };
+  }
+}
+
+/// The media stream that you want to add to the flow.
+class AddMediaStreamRequest {
+  /// A unique identifier for the media stream.
+  final int mediaStreamId;
+
+  /// A name that helps you distinguish one media stream from another.
+  final String mediaStreamName;
+
+  /// The type of media stream.
+  final MediaStreamType mediaStreamType;
+
+  /// The attributes that you want to assign to the new media stream.
+  final MediaStreamAttributesRequest? attributes;
+
+  /// The sample rate (in Hz) for the stream. If the media stream type is video or
+  /// ancillary data, set this value to 90000. If the media stream type is audio,
+  /// set this value to either 48000 or 96000.
+  final int? clockRate;
+
+  /// A description that can help you quickly identify what your media stream is
+  /// used for.
+  final String? description;
+
+  /// The resolution of the video.
+  final String? videoFormat;
+
+  AddMediaStreamRequest({
+    required this.mediaStreamId,
+    required this.mediaStreamName,
+    required this.mediaStreamType,
+    this.attributes,
+    this.clockRate,
+    this.description,
+    this.videoFormat,
+  });
+  Map<String, dynamic> toJson() {
+    final mediaStreamId = this.mediaStreamId;
+    final mediaStreamName = this.mediaStreamName;
+    final mediaStreamType = this.mediaStreamType;
+    final attributes = this.attributes;
+    final clockRate = this.clockRate;
+    final description = this.description;
+    final videoFormat = this.videoFormat;
+    return {
+      'mediaStreamId': mediaStreamId,
+      'mediaStreamName': mediaStreamName,
+      'mediaStreamType': mediaStreamType.toValue(),
+      if (attributes != null) 'attributes': attributes,
+      if (clockRate != null) 'clockRate': clockRate,
+      if (description != null) 'description': description,
+      if (videoFormat != null) 'videoFormat': videoFormat,
+    };
   }
 }
 
@@ -1157,11 +2422,25 @@ class AddOutputRequest {
   final String? destination;
 
   /// The type of key used for the encryption. If no keyType is provided, the
-  /// service will use the default setting (static-key).
+  /// service will use the default setting (static-key). Allowable encryption
+  /// types: static-key.
   final Encryption? encryption;
 
-  /// The maximum latency in milliseconds for Zixi-based streams.
+  /// The maximum latency in milliseconds. This parameter applies only to
+  /// RIST-based, Zixi-based, and Fujitsu-based streams.
   final int? maxLatency;
+
+  /// The media streams that are associated with the output, and the parameters
+  /// for those associations.
+  final List<MediaStreamOutputConfigurationRequest>?
+      mediaStreamOutputConfigurations;
+
+  /// The minimum latency in milliseconds for SRT-based streams. In streams that
+  /// use the SRT protocol, this value that you set on your MediaConnect source or
+  /// output represents the minimal potential latency of that connection. The
+  /// latency of the stream is set to the highest number between the sender’s
+  /// minimum latency and the receiver’s minimum latency.
+  final int? minLatency;
 
   /// The name of the output. This value must be unique within the current flow.
   final String? name;
@@ -1172,11 +2451,15 @@ class AddOutputRequest {
   /// The remote ID for the Zixi-pull output stream.
   final String? remoteId;
 
+  /// The port that the flow uses to send outbound requests to initiate connection
+  /// with the sender.
+  final int? senderControlPort;
+
   /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
   final int? smoothingLatency;
 
   /// The stream ID that you want to use for this transport. This parameter
-  /// applies only to Zixi-based streams.
+  /// applies only to Zixi and SRT caller-based streams.
   final String? streamId;
 
   /// The name of the VPC interface attachment to use for this output.
@@ -1189,9 +2472,12 @@ class AddOutputRequest {
     this.destination,
     this.encryption,
     this.maxLatency,
+    this.mediaStreamOutputConfigurations,
+    this.minLatency,
     this.name,
     this.port,
     this.remoteId,
+    this.senderControlPort,
     this.smoothingLatency,
     this.streamId,
     this.vpcInterfaceAttachment,
@@ -1203,9 +2489,13 @@ class AddOutputRequest {
     final destination = this.destination;
     final encryption = this.encryption;
     final maxLatency = this.maxLatency;
+    final mediaStreamOutputConfigurations =
+        this.mediaStreamOutputConfigurations;
+    final minLatency = this.minLatency;
     final name = this.name;
     final port = this.port;
     final remoteId = this.remoteId;
+    final senderControlPort = this.senderControlPort;
     final smoothingLatency = this.smoothingLatency;
     final streamId = this.streamId;
     final vpcInterfaceAttachment = this.vpcInterfaceAttachment;
@@ -1216,9 +2506,13 @@ class AddOutputRequest {
       if (destination != null) 'destination': destination,
       if (encryption != null) 'encryption': encryption,
       if (maxLatency != null) 'maxLatency': maxLatency,
+      if (mediaStreamOutputConfigurations != null)
+        'mediaStreamOutputConfigurations': mediaStreamOutputConfigurations,
+      if (minLatency != null) 'minLatency': minLatency,
       if (name != null) 'name': name,
       if (port != null) 'port': port,
       if (remoteId != null) 'remoteId': remoteId,
+      if (senderControlPort != null) 'senderControlPort': senderControlPort,
       if (smoothingLatency != null) 'smoothingLatency': smoothingLatency,
       if (streamId != null) 'streamId': streamId,
       if (vpcInterfaceAttachment != null)
@@ -1260,17 +2554,509 @@ extension AlgorithmFromString on String {
   }
 }
 
+/// A Bridge is the connection between your datacenter's Instances and the AWS
+/// cloud. A bridge can be used to send video from the AWS cloud to your
+/// datacenter or from your datacenter to the AWS cloud.
+class Bridge {
+  /// The Amazon Resource Number (ARN) of the bridge.
+  final String bridgeArn;
+  final BridgeState bridgeState;
+
+  /// The name of the bridge.
+  final String name;
+
+  /// The placement Amazon Resource Number (ARN) of the bridge.
+  final String placementArn;
+  final List<MessageDetail>? bridgeMessages;
+  final EgressGatewayBridge? egressGatewayBridge;
+  final IngressGatewayBridge? ingressGatewayBridge;
+
+  /// The outputs on this bridge.
+  final List<BridgeOutput>? outputs;
+  final FailoverConfig? sourceFailoverConfig;
+
+  /// The sources on this bridge.
+  final List<BridgeSource>? sources;
+
+  Bridge({
+    required this.bridgeArn,
+    required this.bridgeState,
+    required this.name,
+    required this.placementArn,
+    this.bridgeMessages,
+    this.egressGatewayBridge,
+    this.ingressGatewayBridge,
+    this.outputs,
+    this.sourceFailoverConfig,
+    this.sources,
+  });
+
+  factory Bridge.fromJson(Map<String, dynamic> json) {
+    return Bridge(
+      bridgeArn: json['bridgeArn'] as String,
+      bridgeState: (json['bridgeState'] as String).toBridgeState(),
+      name: json['name'] as String,
+      placementArn: json['placementArn'] as String,
+      bridgeMessages: (json['bridgeMessages'] as List?)
+          ?.whereNotNull()
+          .map((e) => MessageDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      egressGatewayBridge: json['egressGatewayBridge'] != null
+          ? EgressGatewayBridge.fromJson(
+              json['egressGatewayBridge'] as Map<String, dynamic>)
+          : null,
+      ingressGatewayBridge: json['ingressGatewayBridge'] != null
+          ? IngressGatewayBridge.fromJson(
+              json['ingressGatewayBridge'] as Map<String, dynamic>)
+          : null,
+      outputs: (json['outputs'] as List?)
+          ?.whereNotNull()
+          .map((e) => BridgeOutput.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sourceFailoverConfig: json['sourceFailoverConfig'] != null
+          ? FailoverConfig.fromJson(
+              json['sourceFailoverConfig'] as Map<String, dynamic>)
+          : null,
+      sources: (json['sources'] as List?)
+          ?.whereNotNull()
+          .map((e) => BridgeSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// The output of the bridge. A flow output is delivered to the AWS cloud.
+class BridgeFlowOutput {
+  /// The Amazon Resource Number (ARN) of the cloud flow.
+  final String flowArn;
+
+  /// The Amazon Resource Number (ARN) of the flow source.
+  final String flowSourceArn;
+
+  /// The name of the bridge's output.
+  final String name;
+
+  BridgeFlowOutput({
+    required this.flowArn,
+    required this.flowSourceArn,
+    required this.name,
+  });
+
+  factory BridgeFlowOutput.fromJson(Map<String, dynamic> json) {
+    return BridgeFlowOutput(
+      flowArn: json['flowArn'] as String,
+      flowSourceArn: json['flowSourceArn'] as String,
+      name: json['name'] as String,
+    );
+  }
+}
+
+/// The source of the bridge. A flow source originates in MediaConnect as an
+/// existing cloud flow.
+class BridgeFlowSource {
+  /// The ARN of the cloud flow used as a source of this bridge.
+  final String flowArn;
+
+  /// The name of the flow source.
+  final String name;
+
+  /// The name of the VPC interface attachment to use for this source.
+  final VpcInterfaceAttachment? flowVpcInterfaceAttachment;
+
+  /// The Amazon Resource Number (ARN) of the output.
+  final String? outputArn;
+
+  BridgeFlowSource({
+    required this.flowArn,
+    required this.name,
+    this.flowVpcInterfaceAttachment,
+    this.outputArn,
+  });
+
+  factory BridgeFlowSource.fromJson(Map<String, dynamic> json) {
+    return BridgeFlowSource(
+      flowArn: json['flowArn'] as String,
+      name: json['name'] as String,
+      flowVpcInterfaceAttachment: json['flowVpcInterfaceAttachment'] != null
+          ? VpcInterfaceAttachment.fromJson(
+              json['flowVpcInterfaceAttachment'] as Map<String, dynamic>)
+          : null,
+      outputArn: json['outputArn'] as String?,
+    );
+  }
+}
+
+/// The output of the bridge. A network output is delivered to your premises.
+class BridgeNetworkOutput {
+  /// The network output IP Address.
+  final String ipAddress;
+
+  /// The network output name.
+  final String name;
+
+  /// The network output's gateway network name.
+  final String networkName;
+
+  /// The network output port.
+  final int port;
+
+  /// The network output protocol.
+  final Protocol protocol;
+
+  /// The network output TTL.
+  final int ttl;
+
+  BridgeNetworkOutput({
+    required this.ipAddress,
+    required this.name,
+    required this.networkName,
+    required this.port,
+    required this.protocol,
+    required this.ttl,
+  });
+
+  factory BridgeNetworkOutput.fromJson(Map<String, dynamic> json) {
+    return BridgeNetworkOutput(
+      ipAddress: json['ipAddress'] as String,
+      name: json['name'] as String,
+      networkName: json['networkName'] as String,
+      port: json['port'] as int,
+      protocol: (json['protocol'] as String).toProtocol(),
+      ttl: json['ttl'] as int,
+    );
+  }
+}
+
+/// The source of the bridge. A network source originates at your premises.
+class BridgeNetworkSource {
+  /// The network source multicast IP.
+  final String multicastIp;
+
+  /// The name of the network source.
+  final String name;
+
+  /// The network source's gateway network name.
+  final String networkName;
+
+  /// The network source port.
+  final int port;
+
+  /// The network source protocol.
+  final Protocol protocol;
+
+  BridgeNetworkSource({
+    required this.multicastIp,
+    required this.name,
+    required this.networkName,
+    required this.port,
+    required this.protocol,
+  });
+
+  factory BridgeNetworkSource.fromJson(Map<String, dynamic> json) {
+    return BridgeNetworkSource(
+      multicastIp: json['multicastIp'] as String,
+      name: json['name'] as String,
+      networkName: json['networkName'] as String,
+      port: json['port'] as int,
+      protocol: (json['protocol'] as String).toProtocol(),
+    );
+  }
+}
+
+/// The output of the bridge.
+class BridgeOutput {
+  final BridgeFlowOutput? flowOutput;
+  final BridgeNetworkOutput? networkOutput;
+
+  BridgeOutput({
+    this.flowOutput,
+    this.networkOutput,
+  });
+
+  factory BridgeOutput.fromJson(Map<String, dynamic> json) {
+    return BridgeOutput(
+      flowOutput: json['flowOutput'] != null
+          ? BridgeFlowOutput.fromJson(
+              json['flowOutput'] as Map<String, dynamic>)
+          : null,
+      networkOutput: json['networkOutput'] != null
+          ? BridgeNetworkOutput.fromJson(
+              json['networkOutput'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+enum BridgePlacement {
+  available,
+  locked,
+}
+
+extension BridgePlacementValueExtension on BridgePlacement {
+  String toValue() {
+    switch (this) {
+      case BridgePlacement.available:
+        return 'AVAILABLE';
+      case BridgePlacement.locked:
+        return 'LOCKED';
+    }
+  }
+}
+
+extension BridgePlacementFromString on String {
+  BridgePlacement toBridgePlacement() {
+    switch (this) {
+      case 'AVAILABLE':
+        return BridgePlacement.available;
+      case 'LOCKED':
+        return BridgePlacement.locked;
+    }
+    throw Exception('$this is not known in enum BridgePlacement');
+  }
+}
+
+/// The bridge's source.
+class BridgeSource {
+  final BridgeFlowSource? flowSource;
+  final BridgeNetworkSource? networkSource;
+
+  BridgeSource({
+    this.flowSource,
+    this.networkSource,
+  });
+
+  factory BridgeSource.fromJson(Map<String, dynamic> json) {
+    return BridgeSource(
+      flowSource: json['flowSource'] != null
+          ? BridgeFlowSource.fromJson(
+              json['flowSource'] as Map<String, dynamic>)
+          : null,
+      networkSource: json['networkSource'] != null
+          ? BridgeNetworkSource.fromJson(
+              json['networkSource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+enum BridgeState {
+  creating,
+  standby,
+  starting,
+  deploying,
+  active,
+  stopping,
+  deleting,
+  deleted,
+  startFailed,
+  startPending,
+  stopFailed,
+  updating,
+}
+
+extension BridgeStateValueExtension on BridgeState {
+  String toValue() {
+    switch (this) {
+      case BridgeState.creating:
+        return 'CREATING';
+      case BridgeState.standby:
+        return 'STANDBY';
+      case BridgeState.starting:
+        return 'STARTING';
+      case BridgeState.deploying:
+        return 'DEPLOYING';
+      case BridgeState.active:
+        return 'ACTIVE';
+      case BridgeState.stopping:
+        return 'STOPPING';
+      case BridgeState.deleting:
+        return 'DELETING';
+      case BridgeState.deleted:
+        return 'DELETED';
+      case BridgeState.startFailed:
+        return 'START_FAILED';
+      case BridgeState.startPending:
+        return 'START_PENDING';
+      case BridgeState.stopFailed:
+        return 'STOP_FAILED';
+      case BridgeState.updating:
+        return 'UPDATING';
+    }
+  }
+}
+
+extension BridgeStateFromString on String {
+  BridgeState toBridgeState() {
+    switch (this) {
+      case 'CREATING':
+        return BridgeState.creating;
+      case 'STANDBY':
+        return BridgeState.standby;
+      case 'STARTING':
+        return BridgeState.starting;
+      case 'DEPLOYING':
+        return BridgeState.deploying;
+      case 'ACTIVE':
+        return BridgeState.active;
+      case 'STOPPING':
+        return BridgeState.stopping;
+      case 'DELETING':
+        return BridgeState.deleting;
+      case 'DELETED':
+        return BridgeState.deleted;
+      case 'START_FAILED':
+        return BridgeState.startFailed;
+      case 'START_PENDING':
+        return BridgeState.startPending;
+      case 'STOP_FAILED':
+        return BridgeState.stopFailed;
+      case 'UPDATING':
+        return BridgeState.updating;
+    }
+    throw Exception('$this is not known in enum BridgeState');
+  }
+}
+
+enum Colorimetry {
+  bt601,
+  bt709,
+  bt2020,
+  bt2100,
+  st2065_1,
+  st2065_3,
+  xyz,
+}
+
+extension ColorimetryValueExtension on Colorimetry {
+  String toValue() {
+    switch (this) {
+      case Colorimetry.bt601:
+        return 'BT601';
+      case Colorimetry.bt709:
+        return 'BT709';
+      case Colorimetry.bt2020:
+        return 'BT2020';
+      case Colorimetry.bt2100:
+        return 'BT2100';
+      case Colorimetry.st2065_1:
+        return 'ST2065-1';
+      case Colorimetry.st2065_3:
+        return 'ST2065-3';
+      case Colorimetry.xyz:
+        return 'XYZ';
+    }
+  }
+}
+
+extension ColorimetryFromString on String {
+  Colorimetry toColorimetry() {
+    switch (this) {
+      case 'BT601':
+        return Colorimetry.bt601;
+      case 'BT709':
+        return Colorimetry.bt709;
+      case 'BT2020':
+        return Colorimetry.bt2020;
+      case 'BT2100':
+        return Colorimetry.bt2100;
+      case 'ST2065-1':
+        return Colorimetry.st2065_1;
+      case 'ST2065-3':
+        return Colorimetry.st2065_3;
+      case 'XYZ':
+        return Colorimetry.xyz;
+    }
+    throw Exception('$this is not known in enum Colorimetry');
+  }
+}
+
+enum ConnectionStatus {
+  connected,
+  disconnected,
+}
+
+extension ConnectionStatusValueExtension on ConnectionStatus {
+  String toValue() {
+    switch (this) {
+      case ConnectionStatus.connected:
+        return 'CONNECTED';
+      case ConnectionStatus.disconnected:
+        return 'DISCONNECTED';
+    }
+  }
+}
+
+extension ConnectionStatusFromString on String {
+  ConnectionStatus toConnectionStatus() {
+    switch (this) {
+      case 'CONNECTED':
+        return ConnectionStatus.connected;
+      case 'DISCONNECTED':
+        return ConnectionStatus.disconnected;
+    }
+    throw Exception('$this is not known in enum ConnectionStatus');
+  }
+}
+
+class CreateBridgeResponse {
+  final Bridge? bridge;
+
+  CreateBridgeResponse({
+    this.bridge,
+  });
+
+  factory CreateBridgeResponse.fromJson(Map<String, dynamic> json) {
+    return CreateBridgeResponse(
+      bridge: json['bridge'] != null
+          ? Bridge.fromJson(json['bridge'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 class CreateFlowResponse {
   final Flow? flow;
 
   CreateFlowResponse({
     this.flow,
   });
+
   factory CreateFlowResponse.fromJson(Map<String, dynamic> json) {
     return CreateFlowResponse(
       flow: json['flow'] != null
           ? Flow.fromJson(json['flow'] as Map<String, dynamic>)
           : null,
+    );
+  }
+}
+
+class CreateGatewayResponse {
+  final Gateway? gateway;
+
+  CreateGatewayResponse({
+    this.gateway,
+  });
+
+  factory CreateGatewayResponse.fromJson(Map<String, dynamic> json) {
+    return CreateGatewayResponse(
+      gateway: json['gateway'] != null
+          ? Gateway.fromJson(json['gateway'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class DeleteBridgeResponse {
+  /// The Amazon Resource Number (ARN) of the deleted bridge.
+  final String? bridgeArn;
+
+  DeleteBridgeResponse({
+    this.bridgeArn,
+  });
+
+  factory DeleteBridgeResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteBridgeResponse(
+      bridgeArn: json['bridgeArn'] as String?,
     );
   }
 }
@@ -1286,10 +3072,63 @@ class DeleteFlowResponse {
     this.flowArn,
     this.status,
   });
+
   factory DeleteFlowResponse.fromJson(Map<String, dynamic> json) {
     return DeleteFlowResponse(
       flowArn: json['flowArn'] as String?,
       status: (json['status'] as String?)?.toStatus(),
+    );
+  }
+}
+
+class DeleteGatewayResponse {
+  /// The Amazon Resource Name (ARN) of the gateway that was deleted.
+  final String? gatewayArn;
+
+  DeleteGatewayResponse({
+    this.gatewayArn,
+  });
+
+  factory DeleteGatewayResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteGatewayResponse(
+      gatewayArn: json['gatewayArn'] as String?,
+    );
+  }
+}
+
+class DeregisterGatewayInstanceResponse {
+  /// The Amazon Resource Name (ARN) of the instance.
+  final String? gatewayInstanceArn;
+
+  /// The status of the instance.
+  final InstanceState? instanceState;
+
+  DeregisterGatewayInstanceResponse({
+    this.gatewayInstanceArn,
+    this.instanceState,
+  });
+
+  factory DeregisterGatewayInstanceResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DeregisterGatewayInstanceResponse(
+      gatewayInstanceArn: json['gatewayInstanceArn'] as String?,
+      instanceState: (json['instanceState'] as String?)?.toInstanceState(),
+    );
+  }
+}
+
+class DescribeBridgeResponse {
+  final Bridge? bridge;
+
+  DescribeBridgeResponse({
+    this.bridge,
+  });
+
+  factory DescribeBridgeResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeBridgeResponse(
+      bridge: json['bridge'] != null
+          ? Bridge.fromJson(json['bridge'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -1302,6 +3141,7 @@ class DescribeFlowResponse {
     this.flow,
     this.messages,
   });
+
   factory DescribeFlowResponse.fromJson(Map<String, dynamic> json) {
     return DescribeFlowResponse(
       flow: json['flow'] != null
@@ -1314,12 +3154,46 @@ class DescribeFlowResponse {
   }
 }
 
+class DescribeGatewayInstanceResponse {
+  final GatewayInstance? gatewayInstance;
+
+  DescribeGatewayInstanceResponse({
+    this.gatewayInstance,
+  });
+
+  factory DescribeGatewayInstanceResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeGatewayInstanceResponse(
+      gatewayInstance: json['gatewayInstance'] != null
+          ? GatewayInstance.fromJson(
+              json['gatewayInstance'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class DescribeGatewayResponse {
+  final Gateway? gateway;
+
+  DescribeGatewayResponse({
+    this.gateway,
+  });
+
+  factory DescribeGatewayResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeGatewayResponse(
+      gateway: json['gateway'] != null
+          ? Gateway.fromJson(json['gateway'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 class DescribeOfferingResponse {
   final Offering? offering;
 
   DescribeOfferingResponse({
     this.offering,
   });
+
   factory DescribeOfferingResponse.fromJson(Map<String, dynamic> json) {
     return DescribeOfferingResponse(
       offering: json['offering'] != null
@@ -1335,12 +3209,114 @@ class DescribeReservationResponse {
   DescribeReservationResponse({
     this.reservation,
   });
+
   factory DescribeReservationResponse.fromJson(Map<String, dynamic> json) {
     return DescribeReservationResponse(
       reservation: json['reservation'] != null
           ? Reservation.fromJson(json['reservation'] as Map<String, dynamic>)
           : null,
     );
+  }
+}
+
+enum DesiredState {
+  active,
+  standby,
+  deleted,
+}
+
+extension DesiredStateValueExtension on DesiredState {
+  String toValue() {
+    switch (this) {
+      case DesiredState.active:
+        return 'ACTIVE';
+      case DesiredState.standby:
+        return 'STANDBY';
+      case DesiredState.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension DesiredStateFromString on String {
+  DesiredState toDesiredState() {
+    switch (this) {
+      case 'ACTIVE':
+        return DesiredState.active;
+      case 'STANDBY':
+        return DesiredState.standby;
+      case 'DELETED':
+        return DesiredState.deleted;
+    }
+    throw Exception('$this is not known in enum DesiredState');
+  }
+}
+
+/// The transport parameters that are associated with an outbound media stream.
+class DestinationConfiguration {
+  /// The IP address where contents of the media stream will be sent.
+  final String destinationIp;
+
+  /// The port to use when the content of the media stream is distributed to the
+  /// output.
+  final int destinationPort;
+
+  /// The VPC interface that is used for the media stream associated with the
+  /// output.
+  final Interface interface;
+
+  /// The IP address that the receiver requires in order to establish a connection
+  /// with the flow. This value is represented by the elastic network interface IP
+  /// address of the VPC. This field applies only to outputs that use the CDI or
+  /// ST 2110 JPEG XS protocol.
+  final String outboundIp;
+
+  DestinationConfiguration({
+    required this.destinationIp,
+    required this.destinationPort,
+    required this.interface,
+    required this.outboundIp,
+  });
+
+  factory DestinationConfiguration.fromJson(Map<String, dynamic> json) {
+    return DestinationConfiguration(
+      destinationIp: json['destinationIp'] as String,
+      destinationPort: json['destinationPort'] as int,
+      interface: Interface.fromJson(json['interface'] as Map<String, dynamic>),
+      outboundIp: json['outboundIp'] as String,
+    );
+  }
+}
+
+/// The transport parameters that you want to associate with an outbound media
+/// stream.
+class DestinationConfigurationRequest {
+  /// The IP address where you want MediaConnect to send contents of the media
+  /// stream.
+  final String destinationIp;
+
+  /// The port that you want MediaConnect to use when it distributes the media
+  /// stream to the output.
+  final int destinationPort;
+
+  /// The VPC interface that you want to use for the media stream associated with
+  /// the output.
+  final InterfaceRequest interface;
+
+  DestinationConfigurationRequest({
+    required this.destinationIp,
+    required this.destinationPort,
+    required this.interface,
+  });
+  Map<String, dynamic> toJson() {
+    final destinationIp = this.destinationIp;
+    final destinationPort = this.destinationPort;
+    final interface = this.interface;
+    return {
+      'destinationIp': destinationIp,
+      'destinationPort': destinationPort,
+      'interface': interface,
+    };
   }
 }
 
@@ -1367,15 +3343,161 @@ extension DurationUnitsFromString on String {
   }
 }
 
+class EgressGatewayBridge {
+  /// The maximum expected bitrate (in bps) of the egress bridge.
+  final int maxBitrate;
+
+  /// The ID of the instance running this bridge.
+  final String? instanceId;
+
+  EgressGatewayBridge({
+    required this.maxBitrate,
+    this.instanceId,
+  });
+
+  factory EgressGatewayBridge.fromJson(Map<String, dynamic> json) {
+    return EgressGatewayBridge(
+      maxBitrate: json['maxBitrate'] as int,
+      instanceId: json['instanceId'] as String?,
+    );
+  }
+}
+
+enum EncoderProfile {
+  main,
+  high,
+}
+
+extension EncoderProfileValueExtension on EncoderProfile {
+  String toValue() {
+    switch (this) {
+      case EncoderProfile.main:
+        return 'main';
+      case EncoderProfile.high:
+        return 'high';
+    }
+  }
+}
+
+extension EncoderProfileFromString on String {
+  EncoderProfile toEncoderProfile() {
+    switch (this) {
+      case 'main':
+        return EncoderProfile.main;
+      case 'high':
+        return EncoderProfile.high;
+    }
+    throw Exception('$this is not known in enum EncoderProfile');
+  }
+}
+
+enum EncodingName {
+  jxsv,
+  raw,
+  smpte291,
+  pcm,
+}
+
+extension EncodingNameValueExtension on EncodingName {
+  String toValue() {
+    switch (this) {
+      case EncodingName.jxsv:
+        return 'jxsv';
+      case EncodingName.raw:
+        return 'raw';
+      case EncodingName.smpte291:
+        return 'smpte291';
+      case EncodingName.pcm:
+        return 'pcm';
+    }
+  }
+}
+
+extension EncodingNameFromString on String {
+  EncodingName toEncodingName() {
+    switch (this) {
+      case 'jxsv':
+        return EncodingName.jxsv;
+      case 'raw':
+        return EncodingName.raw;
+      case 'smpte291':
+        return EncodingName.smpte291;
+      case 'pcm':
+        return EncodingName.pcm;
+    }
+    throw Exception('$this is not known in enum EncodingName');
+  }
+}
+
+/// A collection of parameters that determine how MediaConnect will convert the
+/// content. These fields only apply to outputs on flows that have a CDI source.
+class EncodingParameters {
+  /// A value that is used to calculate compression for an output. The bitrate of
+  /// the output is calculated as follows: Output bitrate = (1 /
+  /// compressionFactor) * (source bitrate) This property only applies to outputs
+  /// that use the ST 2110 JPEG XS protocol, with a flow source that uses the CDI
+  /// protocol. Valid values are floating point numbers in the range of 3.0 to
+  /// 10.0, inclusive.
+  final double compressionFactor;
+
+  /// A setting on the encoder that drives compression settings. This property
+  /// only applies to video media streams associated with outputs that use the ST
+  /// 2110 JPEG XS protocol, with a flow source that uses the CDI protocol.
+  final EncoderProfile encoderProfile;
+
+  EncodingParameters({
+    required this.compressionFactor,
+    required this.encoderProfile,
+  });
+
+  factory EncodingParameters.fromJson(Map<String, dynamic> json) {
+    return EncodingParameters(
+      compressionFactor: json['compressionFactor'] as double,
+      encoderProfile: (json['encoderProfile'] as String).toEncoderProfile(),
+    );
+  }
+}
+
+/// A collection of parameters that determine how MediaConnect will convert the
+/// content. These fields only apply to outputs on flows that have a CDI source.
+class EncodingParametersRequest {
+  /// A value that is used to calculate compression for an output. The bitrate of
+  /// the output is calculated as follows: Output bitrate = (1 /
+  /// compressionFactor) * (source bitrate) This property only applies to outputs
+  /// that use the ST 2110 JPEG XS protocol, with a flow source that uses the CDI
+  /// protocol. Valid values are floating point numbers in the range of 3.0 to
+  /// 10.0, inclusive.
+  final double compressionFactor;
+
+  /// A setting on the encoder that drives compression settings. This property
+  /// only applies to video media streams associated with outputs that use the ST
+  /// 2110 JPEG XS protocol, if at least one source on the flow uses the CDI
+  /// protocol.
+  final EncoderProfile encoderProfile;
+
+  EncodingParametersRequest({
+    required this.compressionFactor,
+    required this.encoderProfile,
+  });
+  Map<String, dynamic> toJson() {
+    final compressionFactor = this.compressionFactor;
+    final encoderProfile = this.encoderProfile;
+    return {
+      'compressionFactor': compressionFactor,
+      'encoderProfile': encoderProfile.toValue(),
+    };
+  }
+}
+
 /// Information about the encryption of the flow.
 class Encryption {
-  /// The type of algorithm that is used for the encryption (such as aes128,
-  /// aes192, or aes256).
-  final Algorithm algorithm;
-
   /// The ARN of the role that you created during setup (when you set up AWS
   /// Elemental MediaConnect as a trusted entity).
   final String roleArn;
+
+  /// The type of algorithm that is used for the encryption (such as aes128,
+  /// aes192, or aes256).
+  final Algorithm? algorithm;
 
   /// A 128-bit, 16-byte hex value represented by a 32-character string, to be
   /// used with the key for encrypting content. This parameter is not valid for
@@ -1413,8 +3535,8 @@ class Encryption {
   final String? url;
 
   Encryption({
-    required this.algorithm,
     required this.roleArn,
+    this.algorithm,
     this.constantInitializationVector,
     this.deviceId,
     this.keyType,
@@ -1423,10 +3545,11 @@ class Encryption {
     this.secretArn,
     this.url,
   });
+
   factory Encryption.fromJson(Map<String, dynamic> json) {
     return Encryption(
-      algorithm: (json['algorithm'] as String).toAlgorithm(),
       roleArn: json['roleArn'] as String,
+      algorithm: (json['algorithm'] as String?)?.toAlgorithm(),
       constantInitializationVector:
           json['constantInitializationVector'] as String?,
       deviceId: json['deviceId'] as String?,
@@ -1439,8 +3562,8 @@ class Encryption {
   }
 
   Map<String, dynamic> toJson() {
-    final algorithm = this.algorithm;
     final roleArn = this.roleArn;
+    final algorithm = this.algorithm;
     final constantInitializationVector = this.constantInitializationVector;
     final deviceId = this.deviceId;
     final keyType = this.keyType;
@@ -1449,8 +3572,8 @@ class Encryption {
     final secretArn = this.secretArn;
     final url = this.url;
     return {
-      'algorithm': algorithm.toValue(),
       'roleArn': roleArn,
+      if (algorithm != null) 'algorithm': algorithm.toValue(),
       if (constantInitializationVector != null)
         'constantInitializationVector': constantInitializationVector,
       if (deviceId != null) 'deviceId': deviceId,
@@ -1499,6 +3622,7 @@ class Entitlement {
     this.encryption,
     this.entitlementStatus,
   });
+
   factory Entitlement.fromJson(Map<String, dynamic> json) {
     return Entitlement(
       entitlementArn: json['entitlementArn'] as String,
@@ -1547,30 +3671,79 @@ extension EntitlementStatusFromString on String {
   }
 }
 
-/// The settings for source failover
+/// The settings for source failover.
 class FailoverConfig {
+  /// The type of failover you choose for this flow. MERGE combines the source
+  /// streams into a single stream, allowing graceful recovery from any
+  /// single-source loss. FAILOVER allows switching between different streams.
+  final FailoverMode? failoverMode;
+
   /// Search window time to look for dash-7 packets
   final int? recoveryWindow;
+
+  /// The priority you want to assign to a source. You can have a primary stream
+  /// and a backup stream or two equally prioritized streams.
+  final SourcePriority? sourcePriority;
   final State? state;
 
   FailoverConfig({
+    this.failoverMode,
     this.recoveryWindow,
+    this.sourcePriority,
     this.state,
   });
+
   factory FailoverConfig.fromJson(Map<String, dynamic> json) {
     return FailoverConfig(
+      failoverMode: (json['failoverMode'] as String?)?.toFailoverMode(),
       recoveryWindow: json['recoveryWindow'] as int?,
+      sourcePriority: json['sourcePriority'] != null
+          ? SourcePriority.fromJson(
+              json['sourcePriority'] as Map<String, dynamic>)
+          : null,
       state: (json['state'] as String?)?.toState(),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final failoverMode = this.failoverMode;
     final recoveryWindow = this.recoveryWindow;
+    final sourcePriority = this.sourcePriority;
     final state = this.state;
     return {
+      if (failoverMode != null) 'failoverMode': failoverMode.toValue(),
       if (recoveryWindow != null) 'recoveryWindow': recoveryWindow,
+      if (sourcePriority != null) 'sourcePriority': sourcePriority,
       if (state != null) 'state': state.toValue(),
     };
+  }
+}
+
+enum FailoverMode {
+  merge,
+  failover,
+}
+
+extension FailoverModeValueExtension on FailoverMode {
+  String toValue() {
+    switch (this) {
+      case FailoverMode.merge:
+        return 'MERGE';
+      case FailoverMode.failover:
+        return 'FAILOVER';
+    }
+  }
+}
+
+extension FailoverModeFromString on String {
+  FailoverMode toFailoverMode() {
+    switch (this) {
+      case 'MERGE':
+        return FailoverMode.merge;
+      case 'FAILOVER':
+        return FailoverMode.failover;
+    }
+    throw Exception('$this is not known in enum FailoverMode');
   }
 }
 
@@ -1583,8 +3756,7 @@ class Flow {
   /// The entitlements in this flow.
   final List<Entitlement> entitlements;
 
-  /// The Amazon Resource Name (ARN), a unique identifier for any AWS resource, of
-  /// the flow.
+  /// The Amazon Resource Name (ARN) of the flow.
   final String flowArn;
 
   /// The name of the flow.
@@ -1603,6 +3775,12 @@ class Flow {
 
   /// The IP address from which video will be sent to output destinations.
   final String? egressIp;
+  final Maintenance? maintenance;
+
+  /// The media streams that are associated with the flow. After you associate a
+  /// media stream with a source, you can also associate it with outputs on the
+  /// flow.
+  final List<MediaStream>? mediaStreams;
   final FailoverConfig? sourceFailoverConfig;
   final List<Source>? sources;
 
@@ -1619,10 +3797,13 @@ class Flow {
     required this.status,
     this.description,
     this.egressIp,
+    this.maintenance,
+    this.mediaStreams,
     this.sourceFailoverConfig,
     this.sources,
     this.vpcInterfaces,
   });
+
   factory Flow.fromJson(Map<String, dynamic> json) {
     return Flow(
       availabilityZone: json['availabilityZone'] as String,
@@ -1640,6 +3821,13 @@ class Flow {
       status: (json['status'] as String).toStatus(),
       description: json['description'] as String?,
       egressIp: json['egressIp'] as String?,
+      maintenance: json['maintenance'] != null
+          ? Maintenance.fromJson(json['maintenance'] as Map<String, dynamic>)
+          : null,
+      mediaStreams: (json['mediaStreams'] as List?)
+          ?.whereNotNull()
+          .map((e) => MediaStream.fromJson(e as Map<String, dynamic>))
+          .toList(),
       sourceFailoverConfig: json['sourceFailoverConfig'] != null
           ? FailoverConfig.fromJson(
               json['sourceFailoverConfig'] as Map<String, dynamic>)
@@ -1653,6 +3841,324 @@ class Flow {
           .map((e) => VpcInterface.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+  }
+}
+
+/// FMTP
+class Fmtp {
+  /// The format of the audio channel.
+  final String? channelOrder;
+
+  /// The format that is used for the representation of color.
+  final Colorimetry? colorimetry;
+
+  /// The frame rate for the video stream, in frames/second. For example:
+  /// 60000/1001. If you specify a whole number, MediaConnect uses a ratio of N/1.
+  /// For example, if you specify 60, MediaConnect uses 60/1 as the
+  /// exactFramerate.
+  final String? exactFramerate;
+
+  /// The pixel aspect ratio (PAR) of the video.
+  final String? par;
+
+  /// The encoding range of the video.
+  final Range? range;
+
+  /// The type of compression that was used to smooth the video’s appearance
+  final ScanMode? scanMode;
+
+  /// The transfer characteristic system (TCS) that is used in the video.
+  final Tcs? tcs;
+
+  Fmtp({
+    this.channelOrder,
+    this.colorimetry,
+    this.exactFramerate,
+    this.par,
+    this.range,
+    this.scanMode,
+    this.tcs,
+  });
+
+  factory Fmtp.fromJson(Map<String, dynamic> json) {
+    return Fmtp(
+      channelOrder: json['channelOrder'] as String?,
+      colorimetry: (json['colorimetry'] as String?)?.toColorimetry(),
+      exactFramerate: json['exactFramerate'] as String?,
+      par: json['par'] as String?,
+      range: (json['range'] as String?)?.toRange(),
+      scanMode: (json['scanMode'] as String?)?.toScanMode(),
+      tcs: (json['tcs'] as String?)?.toTcs(),
+    );
+  }
+}
+
+/// The settings that you want to use to define the media stream.
+class FmtpRequest {
+  /// The format of the audio channel.
+  final String? channelOrder;
+
+  /// The format that is used for the representation of color.
+  final Colorimetry? colorimetry;
+
+  /// The frame rate for the video stream, in frames/second. For example:
+  /// 60000/1001. If you specify a whole number, MediaConnect uses a ratio of N/1.
+  /// For example, if you specify 60, MediaConnect uses 60/1 as the
+  /// exactFramerate.
+  final String? exactFramerate;
+
+  /// The pixel aspect ratio (PAR) of the video.
+  final String? par;
+
+  /// The encoding range of the video.
+  final Range? range;
+
+  /// The type of compression that was used to smooth the video’s appearance.
+  final ScanMode? scanMode;
+
+  /// The transfer characteristic system (TCS) that is used in the video.
+  final Tcs? tcs;
+
+  FmtpRequest({
+    this.channelOrder,
+    this.colorimetry,
+    this.exactFramerate,
+    this.par,
+    this.range,
+    this.scanMode,
+    this.tcs,
+  });
+  Map<String, dynamic> toJson() {
+    final channelOrder = this.channelOrder;
+    final colorimetry = this.colorimetry;
+    final exactFramerate = this.exactFramerate;
+    final par = this.par;
+    final range = this.range;
+    final scanMode = this.scanMode;
+    final tcs = this.tcs;
+    return {
+      if (channelOrder != null) 'channelOrder': channelOrder,
+      if (colorimetry != null) 'colorimetry': colorimetry.toValue(),
+      if (exactFramerate != null) 'exactFramerate': exactFramerate,
+      if (par != null) 'par': par,
+      if (range != null) 'range': range.toValue(),
+      if (scanMode != null) 'scanMode': scanMode.toValue(),
+      if (tcs != null) 'tcs': tcs.toValue(),
+    };
+  }
+}
+
+/// The settings for a gateway, including its networks.
+class Gateway {
+  /// The range of IP addresses that contribute content or initiate output
+  /// requests for flows communicating with this gateway. These IP addresses
+  /// should be in the form of a Classless Inter-Domain Routing (CIDR) block; for
+  /// example, 10.0.0.0/16.
+  final List<String> egressCidrBlocks;
+
+  /// The Amazon Resource Name (ARN) of the gateway.
+  final String gatewayArn;
+
+  /// The name of the gateway. This name can not be modified after the gateway is
+  /// created.
+  final String name;
+
+  /// The list of networks in the gateway.
+  final List<GatewayNetwork> networks;
+  final List<MessageDetail>? gatewayMessages;
+
+  /// The current status of the gateway.
+  final GatewayState? gatewayState;
+
+  Gateway({
+    required this.egressCidrBlocks,
+    required this.gatewayArn,
+    required this.name,
+    required this.networks,
+    this.gatewayMessages,
+    this.gatewayState,
+  });
+
+  factory Gateway.fromJson(Map<String, dynamic> json) {
+    return Gateway(
+      egressCidrBlocks: (json['egressCidrBlocks'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      gatewayArn: json['gatewayArn'] as String,
+      name: json['name'] as String,
+      networks: (json['networks'] as List)
+          .whereNotNull()
+          .map((e) => GatewayNetwork.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      gatewayMessages: (json['gatewayMessages'] as List?)
+          ?.whereNotNull()
+          .map((e) => MessageDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      gatewayState: (json['gatewayState'] as String?)?.toGatewayState(),
+    );
+  }
+}
+
+/// The source configuration for cloud flows receiving a stream from a bridge.
+class GatewayBridgeSource {
+  /// The ARN of the bridge feeding this flow.
+  final String bridgeArn;
+
+  /// The name of the VPC interface attachment to use for this bridge source.
+  final VpcInterfaceAttachment? vpcInterfaceAttachment;
+
+  GatewayBridgeSource({
+    required this.bridgeArn,
+    this.vpcInterfaceAttachment,
+  });
+
+  factory GatewayBridgeSource.fromJson(Map<String, dynamic> json) {
+    return GatewayBridgeSource(
+      bridgeArn: json['bridgeArn'] as String,
+      vpcInterfaceAttachment: json['vpcInterfaceAttachment'] != null
+          ? VpcInterfaceAttachment.fromJson(
+              json['vpcInterfaceAttachment'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// The settings for an instance in a gateway.
+class GatewayInstance {
+  /// The availability of the instance to host new bridges. The bridgePlacement
+  /// property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can be
+  /// deployed to this instance. If it is AVAILABLE, new bridges can be added to
+  /// this instance.
+  final BridgePlacement bridgePlacement;
+
+  /// The connection state of the instance.
+  final ConnectionStatus connectionStatus;
+
+  /// The Amazon Resource Name (ARN) of the instance.
+  final String gatewayArn;
+
+  /// The Amazon Resource Name (ARN) of the gateway.
+  final String gatewayInstanceArn;
+
+  /// The managed instance ID generated by the SSM install. This will begin with
+  /// "mi-".
+  final String instanceId;
+
+  /// The status of the instance.
+  final InstanceState instanceState;
+
+  /// The running bridge count.
+  final int runningBridgeCount;
+  final List<MessageDetail>? instanceMessages;
+
+  GatewayInstance({
+    required this.bridgePlacement,
+    required this.connectionStatus,
+    required this.gatewayArn,
+    required this.gatewayInstanceArn,
+    required this.instanceId,
+    required this.instanceState,
+    required this.runningBridgeCount,
+    this.instanceMessages,
+  });
+
+  factory GatewayInstance.fromJson(Map<String, dynamic> json) {
+    return GatewayInstance(
+      bridgePlacement: (json['bridgePlacement'] as String).toBridgePlacement(),
+      connectionStatus:
+          (json['connectionStatus'] as String).toConnectionStatus(),
+      gatewayArn: json['gatewayArn'] as String,
+      gatewayInstanceArn: json['gatewayInstanceArn'] as String,
+      instanceId: json['instanceId'] as String,
+      instanceState: (json['instanceState'] as String).toInstanceState(),
+      runningBridgeCount: json['runningBridgeCount'] as int,
+      instanceMessages: (json['instanceMessages'] as List?)
+          ?.whereNotNull()
+          .map((e) => MessageDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// The network settings for a gateway.
+class GatewayNetwork {
+  /// A unique IP address range to use for this network. These IP addresses should
+  /// be in the form of a Classless Inter-Domain Routing (CIDR) block; for
+  /// example, 10.0.0.0/16.
+  final String cidrBlock;
+
+  /// The name of the network. This name is used to reference the network and must
+  /// be unique among networks in this gateway.
+  final String name;
+
+  GatewayNetwork({
+    required this.cidrBlock,
+    required this.name,
+  });
+
+  factory GatewayNetwork.fromJson(Map<String, dynamic> json) {
+    return GatewayNetwork(
+      cidrBlock: json['cidrBlock'] as String,
+      name: json['name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidrBlock = this.cidrBlock;
+    final name = this.name;
+    return {
+      'cidrBlock': cidrBlock,
+      'name': name,
+    };
+  }
+}
+
+enum GatewayState {
+  creating,
+  active,
+  updating,
+  error,
+  deleting,
+  deleted,
+}
+
+extension GatewayStateValueExtension on GatewayState {
+  String toValue() {
+    switch (this) {
+      case GatewayState.creating:
+        return 'CREATING';
+      case GatewayState.active:
+        return 'ACTIVE';
+      case GatewayState.updating:
+        return 'UPDATING';
+      case GatewayState.error:
+        return 'ERROR';
+      case GatewayState.deleting:
+        return 'DELETING';
+      case GatewayState.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension GatewayStateFromString on String {
+  GatewayState toGatewayState() {
+    switch (this) {
+      case 'CREATING':
+        return GatewayState.creating;
+      case 'ACTIVE':
+        return GatewayState.active;
+      case 'UPDATING':
+        return GatewayState.updating;
+      case 'ERROR':
+        return GatewayState.error;
+      case 'DELETING':
+        return GatewayState.deleting;
+      case 'DELETED':
+        return GatewayState.deleted;
+    }
+    throw Exception('$this is not known in enum GatewayState');
   }
 }
 
@@ -1673,7 +4179,7 @@ class GrantEntitlementRequest {
   final String? description;
 
   /// The type of encryption that will be used on the output that is associated
-  /// with this entitlement.
+  /// with this entitlement. Allowable encryption types: static-key, speke.
   final Encryption? encryption;
 
   /// An indication of whether the new entitlement should be enabled or disabled
@@ -1725,6 +4231,7 @@ class GrantFlowEntitlementsResponse {
     this.entitlements,
     this.flowArn,
   });
+
   factory GrantFlowEntitlementsResponse.fromJson(Map<String, dynamic> json) {
     return GrantFlowEntitlementsResponse(
       entitlements: (json['entitlements'] as List?)
@@ -1736,9 +4243,167 @@ class GrantFlowEntitlementsResponse {
   }
 }
 
+class IngressGatewayBridge {
+  /// The maximum expected bitrate (in bps) of the ingress bridge.
+  final int maxBitrate;
+
+  /// The maximum number of outputs on the ingress bridge.
+  final int maxOutputs;
+
+  /// The ID of the instance running this bridge.
+  final String? instanceId;
+
+  IngressGatewayBridge({
+    required this.maxBitrate,
+    required this.maxOutputs,
+    this.instanceId,
+  });
+
+  factory IngressGatewayBridge.fromJson(Map<String, dynamic> json) {
+    return IngressGatewayBridge(
+      maxBitrate: json['maxBitrate'] as int,
+      maxOutputs: json['maxOutputs'] as int,
+      instanceId: json['instanceId'] as String?,
+    );
+  }
+}
+
+/// The transport parameters that are associated with an incoming media stream.
+class InputConfiguration {
+  /// The IP address that the flow listens on for incoming content for a media
+  /// stream.
+  final String inputIp;
+
+  /// The port that the flow listens on for an incoming media stream.
+  final int inputPort;
+
+  /// The VPC interface where the media stream comes in from.
+  final Interface interface;
+
+  InputConfiguration({
+    required this.inputIp,
+    required this.inputPort,
+    required this.interface,
+  });
+
+  factory InputConfiguration.fromJson(Map<String, dynamic> json) {
+    return InputConfiguration(
+      inputIp: json['inputIp'] as String,
+      inputPort: json['inputPort'] as int,
+      interface: Interface.fromJson(json['interface'] as Map<String, dynamic>),
+    );
+  }
+}
+
+/// The transport parameters that you want to associate with an incoming media
+/// stream.
+class InputConfigurationRequest {
+  /// The port that you want the flow to listen on for an incoming media stream.
+  final int inputPort;
+
+  /// The VPC interface that you want to use for the incoming media stream.
+  final InterfaceRequest interface;
+
+  InputConfigurationRequest({
+    required this.inputPort,
+    required this.interface,
+  });
+  Map<String, dynamic> toJson() {
+    final inputPort = this.inputPort;
+    final interface = this.interface;
+    return {
+      'inputPort': inputPort,
+      'interface': interface,
+    };
+  }
+}
+
+enum InstanceState {
+  registering,
+  active,
+  deregistering,
+  deregistered,
+  registrationError,
+  deregistrationError,
+}
+
+extension InstanceStateValueExtension on InstanceState {
+  String toValue() {
+    switch (this) {
+      case InstanceState.registering:
+        return 'REGISTERING';
+      case InstanceState.active:
+        return 'ACTIVE';
+      case InstanceState.deregistering:
+        return 'DEREGISTERING';
+      case InstanceState.deregistered:
+        return 'DEREGISTERED';
+      case InstanceState.registrationError:
+        return 'REGISTRATION_ERROR';
+      case InstanceState.deregistrationError:
+        return 'DEREGISTRATION_ERROR';
+    }
+  }
+}
+
+extension InstanceStateFromString on String {
+  InstanceState toInstanceState() {
+    switch (this) {
+      case 'REGISTERING':
+        return InstanceState.registering;
+      case 'ACTIVE':
+        return InstanceState.active;
+      case 'DEREGISTERING':
+        return InstanceState.deregistering;
+      case 'DEREGISTERED':
+        return InstanceState.deregistered;
+      case 'REGISTRATION_ERROR':
+        return InstanceState.registrationError;
+      case 'DEREGISTRATION_ERROR':
+        return InstanceState.deregistrationError;
+    }
+    throw Exception('$this is not known in enum InstanceState');
+  }
+}
+
+/// The VPC interface that is used for the media stream associated with the
+/// source or output.
+class Interface {
+  /// The name of the VPC interface.
+  final String name;
+
+  Interface({
+    required this.name,
+  });
+
+  factory Interface.fromJson(Map<String, dynamic> json) {
+    return Interface(
+      name: json['name'] as String,
+    );
+  }
+}
+
+/// The VPC interface that you want to designate where the media stream is
+/// coming from or going to.
+class InterfaceRequest {
+  /// The name of the VPC interface.
+  final String name;
+
+  InterfaceRequest({
+    required this.name,
+  });
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'name': name,
+    };
+  }
+}
+
 enum KeyType {
   speke,
   staticKey,
+  srtPassword,
 }
 
 extension KeyTypeValueExtension on KeyType {
@@ -1748,6 +4413,8 @@ extension KeyTypeValueExtension on KeyType {
         return 'speke';
       case KeyType.staticKey:
         return 'static-key';
+      case KeyType.srtPassword:
+        return 'srt-password';
     }
   }
 }
@@ -1759,8 +4426,37 @@ extension KeyTypeFromString on String {
         return KeyType.speke;
       case 'static-key':
         return KeyType.staticKey;
+      case 'srt-password':
+        return KeyType.srtPassword;
     }
     throw Exception('$this is not known in enum KeyType');
+  }
+}
+
+class ListBridgesResponse {
+  /// A list of bridge summaries.
+  final List<ListedBridge>? bridges;
+
+  /// The token that identifies which batch of results that you want to see. For
+  /// example, you submit a ListBridges request with MaxResults set at 5. The
+  /// service returns the first batch of results (up to 5) and a NextToken value.
+  /// To see the next batch of results, you can submit the ListBridges request a
+  /// second time and specify the NextToken value.
+  final String? nextToken;
+
+  ListBridgesResponse({
+    this.bridges,
+    this.nextToken,
+  });
+
+  factory ListBridgesResponse.fromJson(Map<String, dynamic> json) {
+    return ListBridgesResponse(
+      bridges: (json['bridges'] as List?)
+          ?.whereNotNull()
+          .map((e) => ListedBridge.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
   }
 }
 
@@ -1780,6 +4476,7 @@ class ListEntitlementsResponse {
     this.entitlements,
     this.nextToken,
   });
+
   factory ListEntitlementsResponse.fromJson(Map<String, dynamic> json) {
     return ListEntitlementsResponse(
       entitlements: (json['entitlements'] as List?)
@@ -1806,11 +4503,66 @@ class ListFlowsResponse {
     this.flows,
     this.nextToken,
   });
+
   factory ListFlowsResponse.fromJson(Map<String, dynamic> json) {
     return ListFlowsResponse(
       flows: (json['flows'] as List?)
           ?.whereNotNull()
           .map((e) => ListedFlow.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+}
+
+class ListGatewayInstancesResponse {
+  /// A list of instance summaries.
+  final List<ListedGatewayInstance>? instances;
+
+  /// The token that identifies which batch of results that you want to see. For
+  /// example, you submit a ListInstances request with MaxResults set at 5. The
+  /// service returns the first batch of results (up to 5) and a NextToken value.
+  /// To see the next batch of results, you can submit the ListInstances request a
+  /// second time and specify the NextToken value.
+  final String? nextToken;
+
+  ListGatewayInstancesResponse({
+    this.instances,
+    this.nextToken,
+  });
+
+  factory ListGatewayInstancesResponse.fromJson(Map<String, dynamic> json) {
+    return ListGatewayInstancesResponse(
+      instances: (json['instances'] as List?)
+          ?.whereNotNull()
+          .map((e) => ListedGatewayInstance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+}
+
+class ListGatewaysResponse {
+  /// A list of gateway summaries.
+  final List<ListedGateway>? gateways;
+
+  /// The token that identifies which batch of results that you want to see. For
+  /// example, you submit a ListGateways request with MaxResults set at 5. The
+  /// service returns the first batch of results (up to 5) and a NextToken value.
+  /// To see the next batch of results, you can submit the ListGateways request a
+  /// second time and specify the NextToken value.
+  final String? nextToken;
+
+  ListGatewaysResponse({
+    this.gateways,
+    this.nextToken,
+  });
+
+  factory ListGatewaysResponse.fromJson(Map<String, dynamic> json) {
+    return ListGatewaysResponse(
+      gateways: (json['gateways'] as List?)
+          ?.whereNotNull()
+          .map((e) => ListedGateway.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
     );
@@ -1833,6 +4585,7 @@ class ListOfferingsResponse {
     this.nextToken,
     this.offerings,
   });
+
   factory ListOfferingsResponse.fromJson(Map<String, dynamic> json) {
     return ListOfferingsResponse(
       nextToken: json['nextToken'] as String?,
@@ -1860,6 +4613,7 @@ class ListReservationsResponse {
     this.nextToken,
     this.reservations,
   });
+
   factory ListReservationsResponse.fromJson(Map<String, dynamic> json) {
     return ListReservationsResponse(
       nextToken: json['nextToken'] as String?,
@@ -1880,10 +4634,45 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+}
+
+/// Displays details of the selected bridge.
+class ListedBridge {
+  /// The ARN of the bridge.
+  final String bridgeArn;
+  final BridgeState bridgeState;
+
+  /// The type of the bridge.
+  final String bridgeType;
+
+  /// The name of the bridge.
+  final String name;
+
+  /// The ARN of the gateway associated with the bridge.
+  final String placementArn;
+
+  ListedBridge({
+    required this.bridgeArn,
+    required this.bridgeState,
+    required this.bridgeType,
+    required this.name,
+    required this.placementArn,
+  });
+
+  factory ListedBridge.fromJson(Map<String, dynamic> json) {
+    return ListedBridge(
+      bridgeArn: json['bridgeArn'] as String,
+      bridgeState: (json['bridgeState'] as String).toBridgeState(),
+      bridgeType: json['bridgeType'] as String,
+      name: json['name'] as String,
+      placementArn: json['placementArn'] as String,
     );
   }
 }
@@ -1905,6 +4694,7 @@ class ListedEntitlement {
     required this.entitlementName,
     this.dataTransferSubscriberFeePercent,
   });
+
   factory ListedEntitlement.fromJson(Map<String, dynamic> json) {
     return ListedEntitlement(
       entitlementArn: json['entitlementArn'] as String,
@@ -1938,6 +4728,7 @@ class ListedFlow {
 
   /// The current status of the flow.
   final Status status;
+  final Maintenance? maintenance;
 
   ListedFlow({
     required this.availabilityZone,
@@ -1946,7 +4737,9 @@ class ListedFlow {
     required this.name,
     required this.sourceType,
     required this.status,
+    this.maintenance,
   });
+
   factory ListedFlow.fromJson(Map<String, dynamic> json) {
     return ListedFlow(
       availabilityZone: json['availabilityZone'] as String,
@@ -1955,6 +4748,464 @@ class ListedFlow {
       name: json['name'] as String,
       sourceType: (json['sourceType'] as String).toSourceType(),
       status: (json['status'] as String).toStatus(),
+      maintenance: json['maintenance'] != null
+          ? Maintenance.fromJson(json['maintenance'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// Provides a summary of a gateway, including its name, ARN, and status.
+class ListedGateway {
+  /// The Amazon Resource Name (ARN) of the gateway.
+  final String gatewayArn;
+  final GatewayState gatewayState;
+
+  /// The name of the gateway.
+  final String name;
+
+  ListedGateway({
+    required this.gatewayArn,
+    required this.gatewayState,
+    required this.name,
+  });
+
+  factory ListedGateway.fromJson(Map<String, dynamic> json) {
+    return ListedGateway(
+      gatewayArn: json['gatewayArn'] as String,
+      gatewayState: (json['gatewayState'] as String).toGatewayState(),
+      name: json['name'] as String,
+    );
+  }
+}
+
+/// Provides a summary of an instance.
+class ListedGatewayInstance {
+  /// The Amazon Resource Name (ARN) of the gateway.
+  final String gatewayArn;
+
+  /// The Amazon Resource Name (ARN) of the instance.
+  final String gatewayInstanceArn;
+
+  /// The managed instance ID generated by the SSM install. This will begin with
+  /// "mi-".
+  final String instanceId;
+
+  /// The status of the instance.
+  final InstanceState? instanceState;
+
+  ListedGatewayInstance({
+    required this.gatewayArn,
+    required this.gatewayInstanceArn,
+    required this.instanceId,
+    this.instanceState,
+  });
+
+  factory ListedGatewayInstance.fromJson(Map<String, dynamic> json) {
+    return ListedGatewayInstance(
+      gatewayArn: json['gatewayArn'] as String,
+      gatewayInstanceArn: json['gatewayInstanceArn'] as String,
+      instanceId: json['instanceId'] as String,
+      instanceState: (json['instanceState'] as String?)?.toInstanceState(),
+    );
+  }
+}
+
+/// The maintenance setting of a flow
+class Maintenance {
+  /// A day of a week when the maintenance will happen. Use
+  /// Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday.
+  final MaintenanceDay? maintenanceDay;
+
+  /// The Maintenance has to be performed before this deadline in ISO UTC format.
+  /// Example: 2021-01-30T08:30:00Z.
+  final String? maintenanceDeadline;
+
+  /// A scheduled date in ISO UTC format when the maintenance will happen. Use
+  /// YYYY-MM-DD format. Example: 2021-01-30.
+  final String? maintenanceScheduledDate;
+
+  /// UTC time when the maintenance will happen. Use 24-hour HH:MM format. Minutes
+  /// must be 00. Example: 13:00. The default value is 02:00.
+  final String? maintenanceStartHour;
+
+  Maintenance({
+    this.maintenanceDay,
+    this.maintenanceDeadline,
+    this.maintenanceScheduledDate,
+    this.maintenanceStartHour,
+  });
+
+  factory Maintenance.fromJson(Map<String, dynamic> json) {
+    return Maintenance(
+      maintenanceDay: (json['maintenanceDay'] as String?)?.toMaintenanceDay(),
+      maintenanceDeadline: json['maintenanceDeadline'] as String?,
+      maintenanceScheduledDate: json['maintenanceScheduledDate'] as String?,
+      maintenanceStartHour: json['maintenanceStartHour'] as String?,
+    );
+  }
+}
+
+enum MaintenanceDay {
+  monday,
+  tuesday,
+  wednesday,
+  thursday,
+  friday,
+  saturday,
+  sunday,
+}
+
+extension MaintenanceDayValueExtension on MaintenanceDay {
+  String toValue() {
+    switch (this) {
+      case MaintenanceDay.monday:
+        return 'Monday';
+      case MaintenanceDay.tuesday:
+        return 'Tuesday';
+      case MaintenanceDay.wednesday:
+        return 'Wednesday';
+      case MaintenanceDay.thursday:
+        return 'Thursday';
+      case MaintenanceDay.friday:
+        return 'Friday';
+      case MaintenanceDay.saturday:
+        return 'Saturday';
+      case MaintenanceDay.sunday:
+        return 'Sunday';
+    }
+  }
+}
+
+extension MaintenanceDayFromString on String {
+  MaintenanceDay toMaintenanceDay() {
+    switch (this) {
+      case 'Monday':
+        return MaintenanceDay.monday;
+      case 'Tuesday':
+        return MaintenanceDay.tuesday;
+      case 'Wednesday':
+        return MaintenanceDay.wednesday;
+      case 'Thursday':
+        return MaintenanceDay.thursday;
+      case 'Friday':
+        return MaintenanceDay.friday;
+      case 'Saturday':
+        return MaintenanceDay.saturday;
+      case 'Sunday':
+        return MaintenanceDay.sunday;
+    }
+    throw Exception('$this is not known in enum MaintenanceDay');
+  }
+}
+
+/// A single track or stream of media that contains video, audio, or ancillary
+/// data. After you add a media stream to a flow, you can associate it with
+/// sources and outputs on that flow, as long as they use the CDI protocol or
+/// the ST 2110 JPEG XS protocol. Each source or output can consist of one or
+/// many media streams.
+class MediaStream {
+  /// The format type number (sometimes referred to as RTP payload type) of the
+  /// media stream. MediaConnect assigns this value to the media stream. For ST
+  /// 2110 JPEG XS outputs, you need to provide this value to the receiver.
+  final int fmt;
+
+  /// A unique identifier for the media stream.
+  final int mediaStreamId;
+
+  /// A name that helps you distinguish one media stream from another.
+  final String mediaStreamName;
+
+  /// The type of media stream.
+  final MediaStreamType mediaStreamType;
+
+  /// Attributes that are related to the media stream.
+  final MediaStreamAttributes? attributes;
+
+  /// The sample rate for the stream. This value is measured in Hz.
+  final int? clockRate;
+
+  /// A description that can help you quickly identify what your media stream is
+  /// used for.
+  final String? description;
+
+  /// The resolution of the video.
+  final String? videoFormat;
+
+  MediaStream({
+    required this.fmt,
+    required this.mediaStreamId,
+    required this.mediaStreamName,
+    required this.mediaStreamType,
+    this.attributes,
+    this.clockRate,
+    this.description,
+    this.videoFormat,
+  });
+
+  factory MediaStream.fromJson(Map<String, dynamic> json) {
+    return MediaStream(
+      fmt: json['fmt'] as int,
+      mediaStreamId: json['mediaStreamId'] as int,
+      mediaStreamName: json['mediaStreamName'] as String,
+      mediaStreamType: (json['mediaStreamType'] as String).toMediaStreamType(),
+      attributes: json['attributes'] != null
+          ? MediaStreamAttributes.fromJson(
+              json['attributes'] as Map<String, dynamic>)
+          : null,
+      clockRate: json['clockRate'] as int?,
+      description: json['description'] as String?,
+      videoFormat: json['videoFormat'] as String?,
+    );
+  }
+}
+
+/// Attributes that are related to the media stream.
+class MediaStreamAttributes {
+  /// A set of parameters that define the media stream.
+  final Fmtp fmtp;
+
+  /// The audio language, in a format that is recognized by the receiver.
+  final String? lang;
+
+  MediaStreamAttributes({
+    required this.fmtp,
+    this.lang,
+  });
+
+  factory MediaStreamAttributes.fromJson(Map<String, dynamic> json) {
+    return MediaStreamAttributes(
+      fmtp: Fmtp.fromJson(json['fmtp'] as Map<String, dynamic>),
+      lang: json['lang'] as String?,
+    );
+  }
+}
+
+/// Attributes that are related to the media stream.
+class MediaStreamAttributesRequest {
+  /// The settings that you want to use to define the media stream.
+  final FmtpRequest? fmtp;
+
+  /// The audio language, in a format that is recognized by the receiver.
+  final String? lang;
+
+  MediaStreamAttributesRequest({
+    this.fmtp,
+    this.lang,
+  });
+  Map<String, dynamic> toJson() {
+    final fmtp = this.fmtp;
+    final lang = this.lang;
+    return {
+      if (fmtp != null) 'fmtp': fmtp,
+      if (lang != null) 'lang': lang,
+    };
+  }
+}
+
+/// The media stream that is associated with the output, and the parameters for
+/// that association.
+class MediaStreamOutputConfiguration {
+  /// The format that was used to encode the data. For ancillary data streams, set
+  /// the encoding name to smpte291. For audio streams, set the encoding name to
+  /// pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG
+  /// XS streams, set the encoding name to jxsv.
+  final EncodingName encodingName;
+
+  /// The name of the media stream.
+  final String mediaStreamName;
+
+  /// The transport parameters that are associated with each outbound media
+  /// stream.
+  final List<DestinationConfiguration>? destinationConfigurations;
+
+  /// Encoding parameters
+  final EncodingParameters? encodingParameters;
+
+  MediaStreamOutputConfiguration({
+    required this.encodingName,
+    required this.mediaStreamName,
+    this.destinationConfigurations,
+    this.encodingParameters,
+  });
+
+  factory MediaStreamOutputConfiguration.fromJson(Map<String, dynamic> json) {
+    return MediaStreamOutputConfiguration(
+      encodingName: (json['encodingName'] as String).toEncodingName(),
+      mediaStreamName: json['mediaStreamName'] as String,
+      destinationConfigurations: (json['destinationConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DestinationConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      encodingParameters: json['encodingParameters'] != null
+          ? EncodingParameters.fromJson(
+              json['encodingParameters'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// The media stream that you want to associate with the output, and the
+/// parameters for that association.
+class MediaStreamOutputConfigurationRequest {
+  /// The format that will be used to encode the data. For ancillary data streams,
+  /// set the encoding name to smpte291. For audio streams, set the encoding name
+  /// to pcm. For video, 2110 streams, set the encoding name to raw. For video,
+  /// JPEG XS streams, set the encoding name to jxsv.
+  final EncodingName encodingName;
+
+  /// The name of the media stream that is associated with the output.
+  final String mediaStreamName;
+
+  /// The transport parameters that you want to associate with the media stream.
+  final List<DestinationConfigurationRequest>? destinationConfigurations;
+
+  /// A collection of parameters that determine how MediaConnect will convert the
+  /// content. These fields only apply to outputs on flows that have a CDI source.
+  final EncodingParametersRequest? encodingParameters;
+
+  MediaStreamOutputConfigurationRequest({
+    required this.encodingName,
+    required this.mediaStreamName,
+    this.destinationConfigurations,
+    this.encodingParameters,
+  });
+  Map<String, dynamic> toJson() {
+    final encodingName = this.encodingName;
+    final mediaStreamName = this.mediaStreamName;
+    final destinationConfigurations = this.destinationConfigurations;
+    final encodingParameters = this.encodingParameters;
+    return {
+      'encodingName': encodingName.toValue(),
+      'mediaStreamName': mediaStreamName,
+      if (destinationConfigurations != null)
+        'destinationConfigurations': destinationConfigurations,
+      if (encodingParameters != null) 'encodingParameters': encodingParameters,
+    };
+  }
+}
+
+/// The media stream that is associated with the source, and the parameters for
+/// that association.
+class MediaStreamSourceConfiguration {
+  /// The format that was used to encode the data. For ancillary data streams, set
+  /// the encoding name to smpte291. For audio streams, set the encoding name to
+  /// pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG
+  /// XS streams, set the encoding name to jxsv.
+  final EncodingName encodingName;
+
+  /// The name of the media stream.
+  final String mediaStreamName;
+
+  /// The transport parameters that are associated with an incoming media stream.
+  final List<InputConfiguration>? inputConfigurations;
+
+  MediaStreamSourceConfiguration({
+    required this.encodingName,
+    required this.mediaStreamName,
+    this.inputConfigurations,
+  });
+
+  factory MediaStreamSourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return MediaStreamSourceConfiguration(
+      encodingName: (json['encodingName'] as String).toEncodingName(),
+      mediaStreamName: json['mediaStreamName'] as String,
+      inputConfigurations: (json['inputConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => InputConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// The definition of a media stream that you want to associate with the source.
+class MediaStreamSourceConfigurationRequest {
+  /// The format you want to use to encode the data. For ancillary data streams,
+  /// set the encoding name to smpte291. For audio streams, set the encoding name
+  /// to pcm. For video, 2110 streams, set the encoding name to raw. For video,
+  /// JPEG XS streams, set the encoding name to jxsv.
+  final EncodingName encodingName;
+
+  /// The name of the media stream.
+  final String mediaStreamName;
+
+  /// The transport parameters that you want to associate with the media stream.
+  final List<InputConfigurationRequest>? inputConfigurations;
+
+  MediaStreamSourceConfigurationRequest({
+    required this.encodingName,
+    required this.mediaStreamName,
+    this.inputConfigurations,
+  });
+  Map<String, dynamic> toJson() {
+    final encodingName = this.encodingName;
+    final mediaStreamName = this.mediaStreamName;
+    final inputConfigurations = this.inputConfigurations;
+    return {
+      'encodingName': encodingName.toValue(),
+      'mediaStreamName': mediaStreamName,
+      if (inputConfigurations != null)
+        'inputConfigurations': inputConfigurations,
+    };
+  }
+}
+
+enum MediaStreamType {
+  video,
+  audio,
+  ancillaryData,
+}
+
+extension MediaStreamTypeValueExtension on MediaStreamType {
+  String toValue() {
+    switch (this) {
+      case MediaStreamType.video:
+        return 'video';
+      case MediaStreamType.audio:
+        return 'audio';
+      case MediaStreamType.ancillaryData:
+        return 'ancillary-data';
+    }
+  }
+}
+
+extension MediaStreamTypeFromString on String {
+  MediaStreamType toMediaStreamType() {
+    switch (this) {
+      case 'video':
+        return MediaStreamType.video;
+      case 'audio':
+        return MediaStreamType.audio;
+      case 'ancillary-data':
+        return MediaStreamType.ancillaryData;
+    }
+    throw Exception('$this is not known in enum MediaStreamType');
+  }
+}
+
+class MessageDetail {
+  /// The error code.
+  final String code;
+
+  /// The specific error message that MediaConnect returns to help you understand
+  /// the reason that the request did not succeed.
+  final String message;
+
+  /// The name of the resource.
+  final String? resourceName;
+
+  MessageDetail({
+    required this.code,
+    required this.message,
+    this.resourceName,
+  });
+
+  factory MessageDetail.fromJson(Map<String, dynamic> json) {
+    return MessageDetail(
+      code: json['code'] as String,
+      message: json['message'] as String,
+      resourceName: json['resourceName'] as String?,
     );
   }
 }
@@ -1967,6 +5218,7 @@ class Messages {
   Messages({
     required this.errors,
   });
+
   factory Messages.fromJson(Map<String, dynamic> json) {
     return Messages(
       errors: (json['errors'] as List)
@@ -1974,6 +5226,34 @@ class Messages {
           .map((e) => e as String)
           .toList(),
     );
+  }
+}
+
+enum NetworkInterfaceType {
+  ena,
+  efa,
+}
+
+extension NetworkInterfaceTypeValueExtension on NetworkInterfaceType {
+  String toValue() {
+    switch (this) {
+      case NetworkInterfaceType.ena:
+        return 'ena';
+      case NetworkInterfaceType.efa:
+        return 'efa';
+    }
+  }
+}
+
+extension NetworkInterfaceTypeFromString on String {
+  NetworkInterfaceType toNetworkInterfaceType() {
+    switch (this) {
+      case 'ena':
+        return NetworkInterfaceType.ena;
+      case 'efa':
+        return NetworkInterfaceType.efa;
+    }
+    throw Exception('$this is not known in enum NetworkInterfaceType');
   }
 }
 
@@ -2018,6 +5298,7 @@ class Offering {
     required this.priceUnits,
     required this.resourceSpecification,
   });
+
   factory Offering.fromJson(Map<String, dynamic> json) {
     return Offering(
       currencyCode: json['currencyCode'] as String,
@@ -2041,6 +5322,12 @@ class Output {
   /// The ARN of the output.
   final String outputArn;
 
+  /// The ARN of the bridge that added this output.
+  final String? bridgeArn;
+
+  /// The bridge output ports currently in use.
+  final List<int>? bridgePorts;
+
   /// Percentage from 0-100 of the data transfer cost to be billed to the
   /// subscriber.
   final int? dataTransferSubscriberFeePercent;
@@ -2059,9 +5346,20 @@ class Output {
   /// only on entitled flows.
   final String? entitlementArn;
 
+  /// The IP address that the receiver requires in order to establish a connection
+  /// with the flow. For public networking, the ListenerAddress is represented by
+  /// the elastic IP address of the flow. For private networking, the
+  /// ListenerAddress is represented by the elastic network interface IP address
+  /// of the VPC. This field applies only to outputs that use the Zixi pull or SRT
+  /// listener protocol.
+  final String? listenerAddress;
+
   /// The input ARN of the AWS Elemental MediaLive channel. This parameter is
   /// relevant only for outputs that were added by creating a MediaLive input.
   final String? mediaLiveInputArn;
+
+  /// The configuration for each media stream that is associated with the output.
+  final List<MediaStreamOutputConfiguration>? mediaStreamOutputConfigurations;
 
   /// The port to use when content is distributed to this output.
   final int? port;
@@ -2075,20 +5373,30 @@ class Output {
   Output({
     required this.name,
     required this.outputArn,
+    this.bridgeArn,
+    this.bridgePorts,
     this.dataTransferSubscriberFeePercent,
     this.description,
     this.destination,
     this.encryption,
     this.entitlementArn,
+    this.listenerAddress,
     this.mediaLiveInputArn,
+    this.mediaStreamOutputConfigurations,
     this.port,
     this.transport,
     this.vpcInterfaceAttachment,
   });
+
   factory Output.fromJson(Map<String, dynamic> json) {
     return Output(
       name: json['name'] as String,
       outputArn: json['outputArn'] as String,
+      bridgeArn: json['bridgeArn'] as String?,
+      bridgePorts: (json['bridgePorts'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as int)
+          .toList(),
       dataTransferSubscriberFeePercent:
           json['dataTransferSubscriberFeePercent'] as int?,
       description: json['description'] as String?,
@@ -2097,7 +5405,14 @@ class Output {
           ? Encryption.fromJson(json['encryption'] as Map<String, dynamic>)
           : null,
       entitlementArn: json['entitlementArn'] as String?,
+      listenerAddress: json['listenerAddress'] as String?,
       mediaLiveInputArn: json['mediaLiveInputArn'] as String?,
+      mediaStreamOutputConfigurations:
+          (json['mediaStreamOutputConfigurations'] as List?)
+              ?.whereNotNull()
+              .map((e) => MediaStreamOutputConfiguration.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
       port: json['port'] as int?,
       transport: json['transport'] != null
           ? Transport.fromJson(json['transport'] as Map<String, dynamic>)
@@ -2139,6 +5454,12 @@ enum Protocol {
   rtp,
   zixiPull,
   rist,
+  st2110Jpegxs,
+  cdi,
+  srtListener,
+  srtCaller,
+  fujitsuQos,
+  udp,
 }
 
 extension ProtocolValueExtension on Protocol {
@@ -2154,6 +5475,18 @@ extension ProtocolValueExtension on Protocol {
         return 'zixi-pull';
       case Protocol.rist:
         return 'rist';
+      case Protocol.st2110Jpegxs:
+        return 'st2110-jpegxs';
+      case Protocol.cdi:
+        return 'cdi';
+      case Protocol.srtListener:
+        return 'srt-listener';
+      case Protocol.srtCaller:
+        return 'srt-caller';
+      case Protocol.fujitsuQos:
+        return 'fujitsu-qos';
+      case Protocol.udp:
+        return 'udp';
     }
   }
 }
@@ -2171,6 +5504,18 @@ extension ProtocolFromString on String {
         return Protocol.zixiPull;
       case 'rist':
         return Protocol.rist;
+      case 'st2110-jpegxs':
+        return Protocol.st2110Jpegxs;
+      case 'cdi':
+        return Protocol.cdi;
+      case 'srt-listener':
+        return Protocol.srtListener;
+      case 'srt-caller':
+        return Protocol.srtCaller;
+      case 'fujitsu-qos':
+        return Protocol.fujitsuQos;
+      case 'udp':
+        return Protocol.udp;
     }
     throw Exception('$this is not known in enum Protocol');
   }
@@ -2182,11 +5527,99 @@ class PurchaseOfferingResponse {
   PurchaseOfferingResponse({
     this.reservation,
   });
+
   factory PurchaseOfferingResponse.fromJson(Map<String, dynamic> json) {
     return PurchaseOfferingResponse(
       reservation: json['reservation'] != null
           ? Reservation.fromJson(json['reservation'] as Map<String, dynamic>)
           : null,
+    );
+  }
+}
+
+enum Range {
+  narrow,
+  full,
+  fullprotect,
+}
+
+extension RangeValueExtension on Range {
+  String toValue() {
+    switch (this) {
+      case Range.narrow:
+        return 'NARROW';
+      case Range.full:
+        return 'FULL';
+      case Range.fullprotect:
+        return 'FULLPROTECT';
+    }
+  }
+}
+
+extension RangeFromString on String {
+  Range toRange() {
+    switch (this) {
+      case 'NARROW':
+        return Range.narrow;
+      case 'FULL':
+        return Range.full;
+      case 'FULLPROTECT':
+        return Range.fullprotect;
+    }
+    throw Exception('$this is not known in enum Range');
+  }
+}
+
+class RemoveBridgeOutputResponse {
+  final String? bridgeArn;
+  final String? outputName;
+
+  RemoveBridgeOutputResponse({
+    this.bridgeArn,
+    this.outputName,
+  });
+
+  factory RemoveBridgeOutputResponse.fromJson(Map<String, dynamic> json) {
+    return RemoveBridgeOutputResponse(
+      bridgeArn: json['bridgeArn'] as String?,
+      outputName: json['outputName'] as String?,
+    );
+  }
+}
+
+class RemoveBridgeSourceResponse {
+  final String? bridgeArn;
+  final String? sourceName;
+
+  RemoveBridgeSourceResponse({
+    this.bridgeArn,
+    this.sourceName,
+  });
+
+  factory RemoveBridgeSourceResponse.fromJson(Map<String, dynamic> json) {
+    return RemoveBridgeSourceResponse(
+      bridgeArn: json['bridgeArn'] as String?,
+      sourceName: json['sourceName'] as String?,
+    );
+  }
+}
+
+class RemoveFlowMediaStreamResponse {
+  /// The Amazon Resource Name (ARN) of the flow.
+  final String? flowArn;
+
+  /// The name of the media stream that was removed.
+  final String? mediaStreamName;
+
+  RemoveFlowMediaStreamResponse({
+    this.flowArn,
+    this.mediaStreamName,
+  });
+
+  factory RemoveFlowMediaStreamResponse.fromJson(Map<String, dynamic> json) {
+    return RemoveFlowMediaStreamResponse(
+      flowArn: json['flowArn'] as String?,
+      mediaStreamName: json['mediaStreamName'] as String?,
     );
   }
 }
@@ -2202,6 +5635,7 @@ class RemoveFlowOutputResponse {
     this.flowArn,
     this.outputArn,
   });
+
   factory RemoveFlowOutputResponse.fromJson(Map<String, dynamic> json) {
     return RemoveFlowOutputResponse(
       flowArn: json['flowArn'] as String?,
@@ -2221,6 +5655,7 @@ class RemoveFlowSourceResponse {
     this.flowArn,
     this.sourceArn,
   });
+
   factory RemoveFlowSourceResponse.fromJson(Map<String, dynamic> json) {
     return RemoveFlowSourceResponse(
       flowArn: json['flowArn'] as String?,
@@ -2245,6 +5680,7 @@ class RemoveFlowVpcInterfaceResponse {
     this.nonDeletedNetworkInterfaceIds,
     this.vpcInterfaceName,
   });
+
   factory RemoveFlowVpcInterfaceResponse.fromJson(Map<String, dynamic> json) {
     return RemoveFlowVpcInterfaceResponse(
       flowArn: json['flowArn'] as String?,
@@ -2333,6 +5769,7 @@ class Reservation {
     required this.resourceSpecification,
     required this.start,
   });
+
   factory Reservation.fromJson(Map<String, dynamic> json) {
     return Reservation(
       currencyCode: json['currencyCode'] as String,
@@ -2404,6 +5841,7 @@ class ResourceSpecification {
     required this.resourceType,
     this.reservedBitrate,
   });
+
   factory ResourceSpecification.fromJson(Map<String, dynamic> json) {
     return ResourceSpecification(
       resourceType: (json['resourceType'] as String).toResourceType(),
@@ -2446,6 +5884,7 @@ class RevokeFlowEntitlementResponse {
     this.entitlementArn,
     this.flowArn,
   });
+
   factory RevokeFlowEntitlementResponse.fromJson(Map<String, dynamic> json) {
     return RevokeFlowEntitlementResponse(
       entitlementArn: json['entitlementArn'] as String?,
@@ -2454,10 +5893,66 @@ class RevokeFlowEntitlementResponse {
   }
 }
 
+enum ScanMode {
+  progressive,
+  interlace,
+  progressiveSegmentedFrame,
+}
+
+extension ScanModeValueExtension on ScanMode {
+  String toValue() {
+    switch (this) {
+      case ScanMode.progressive:
+        return 'progressive';
+      case ScanMode.interlace:
+        return 'interlace';
+      case ScanMode.progressiveSegmentedFrame:
+        return 'progressive-segmented-frame';
+    }
+  }
+}
+
+extension ScanModeFromString on String {
+  ScanMode toScanMode() {
+    switch (this) {
+      case 'progressive':
+        return ScanMode.progressive;
+      case 'interlace':
+        return ScanMode.interlace;
+      case 'progressive-segmented-frame':
+        return ScanMode.progressiveSegmentedFrame;
+    }
+    throw Exception('$this is not known in enum ScanMode');
+  }
+}
+
+/// The source configuration for cloud flows receiving a stream from a bridge.
+class SetGatewayBridgeSourceRequest {
+  /// The ARN of the bridge feeding this flow.
+  final String bridgeArn;
+
+  /// The name of the VPC interface attachment to use for this bridge source.
+  final VpcInterfaceAttachment? vpcInterfaceAttachment;
+
+  SetGatewayBridgeSourceRequest({
+    required this.bridgeArn,
+    this.vpcInterfaceAttachment,
+  });
+  Map<String, dynamic> toJson() {
+    final bridgeArn = this.bridgeArn;
+    final vpcInterfaceAttachment = this.vpcInterfaceAttachment;
+    return {
+      'bridgeArn': bridgeArn,
+      if (vpcInterfaceAttachment != null)
+        'vpcInterfaceAttachment': vpcInterfaceAttachment,
+    };
+  }
+}
+
 /// The settings for the source of the flow.
 class SetSourceRequest {
   /// The type of encryption that is used on the content ingested from this
-  /// source.
+  /// source. Allowable encryption types: static-key.
   final Encryption? decryption;
 
   /// A description for the source. This value is not used or seen outside of the
@@ -2469,15 +5964,34 @@ class SetSourceRequest {
   /// of the originator's flow.
   final String? entitlementArn;
 
+  /// The source configuration for cloud flows receiving a stream from a bridge.
+  final SetGatewayBridgeSourceRequest? gatewayBridgeSource;
+
   /// The port that the flow will be listening on for incoming content.
   final int? ingestPort;
 
-  /// The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
+  /// The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.
   final int? maxBitrate;
 
   /// The maximum latency in milliseconds. This parameter applies only to
-  /// RIST-based and Zixi-based streams.
+  /// RIST-based, Zixi-based, and Fujitsu-based streams.
   final int? maxLatency;
+
+  /// The size of the buffer (in milliseconds) to use to sync incoming source
+  /// data.
+  final int? maxSyncBuffer;
+
+  /// The media streams that are associated with the source, and the parameters
+  /// for those associations.
+  final List<MediaStreamSourceConfigurationRequest>?
+      mediaStreamSourceConfigurations;
+
+  /// The minimum latency in milliseconds for SRT-based streams. In streams that
+  /// use the SRT protocol, this value that you set on your MediaConnect source or
+  /// output represents the minimal potential latency of that connection. The
+  /// latency of the stream is set to the highest number between the sender’s
+  /// minimum latency and the receiver’s minimum latency.
+  final int? minLatency;
 
   /// The name of the source.
   final String? name;
@@ -2485,8 +5999,22 @@ class SetSourceRequest {
   /// The protocol that is used by the source.
   final Protocol? protocol;
 
+  /// The port that the flow uses to send outbound requests to initiate connection
+  /// with the sender.
+  final int? senderControlPort;
+
+  /// The IP address that the flow communicates with to initiate connection with
+  /// the sender.
+  final String? senderIpAddress;
+
+  /// Source IP or domain name for SRT-caller protocol.
+  final String? sourceListenerAddress;
+
+  /// Source port for SRT-caller protocol.
+  final int? sourceListenerPort;
+
   /// The stream ID that you want to use for this transport. This parameter
-  /// applies only to Zixi-based streams.
+  /// applies only to Zixi and SRT caller-based streams.
   final String? streamId;
 
   /// The name of the VPC interface to use for this source.
@@ -2501,11 +6029,19 @@ class SetSourceRequest {
     this.decryption,
     this.description,
     this.entitlementArn,
+    this.gatewayBridgeSource,
     this.ingestPort,
     this.maxBitrate,
     this.maxLatency,
+    this.maxSyncBuffer,
+    this.mediaStreamSourceConfigurations,
+    this.minLatency,
     this.name,
     this.protocol,
+    this.senderControlPort,
+    this.senderIpAddress,
+    this.sourceListenerAddress,
+    this.sourceListenerPort,
     this.streamId,
     this.vpcInterfaceName,
     this.whitelistCidr,
@@ -2514,11 +6050,20 @@ class SetSourceRequest {
     final decryption = this.decryption;
     final description = this.description;
     final entitlementArn = this.entitlementArn;
+    final gatewayBridgeSource = this.gatewayBridgeSource;
     final ingestPort = this.ingestPort;
     final maxBitrate = this.maxBitrate;
     final maxLatency = this.maxLatency;
+    final maxSyncBuffer = this.maxSyncBuffer;
+    final mediaStreamSourceConfigurations =
+        this.mediaStreamSourceConfigurations;
+    final minLatency = this.minLatency;
     final name = this.name;
     final protocol = this.protocol;
+    final senderControlPort = this.senderControlPort;
+    final senderIpAddress = this.senderIpAddress;
+    final sourceListenerAddress = this.sourceListenerAddress;
+    final sourceListenerPort = this.sourceListenerPort;
     final streamId = this.streamId;
     final vpcInterfaceName = this.vpcInterfaceName;
     final whitelistCidr = this.whitelistCidr;
@@ -2526,11 +6071,22 @@ class SetSourceRequest {
       if (decryption != null) 'decryption': decryption,
       if (description != null) 'description': description,
       if (entitlementArn != null) 'entitlementArn': entitlementArn,
+      if (gatewayBridgeSource != null)
+        'gatewayBridgeSource': gatewayBridgeSource,
       if (ingestPort != null) 'ingestPort': ingestPort,
       if (maxBitrate != null) 'maxBitrate': maxBitrate,
       if (maxLatency != null) 'maxLatency': maxLatency,
+      if (maxSyncBuffer != null) 'maxSyncBuffer': maxSyncBuffer,
+      if (mediaStreamSourceConfigurations != null)
+        'mediaStreamSourceConfigurations': mediaStreamSourceConfigurations,
+      if (minLatency != null) 'minLatency': minLatency,
       if (name != null) 'name': name,
       if (protocol != null) 'protocol': protocol.toValue(),
+      if (senderControlPort != null) 'senderControlPort': senderControlPort,
+      if (senderIpAddress != null) 'senderIpAddress': senderIpAddress,
+      if (sourceListenerAddress != null)
+        'sourceListenerAddress': sourceListenerAddress,
+      if (sourceListenerPort != null) 'sourceListenerPort': sourceListenerPort,
       if (streamId != null) 'streamId': streamId,
       if (vpcInterfaceName != null) 'vpcInterfaceName': vpcInterfaceName,
       if (whitelistCidr != null) 'whitelistCidr': whitelistCidr,
@@ -2563,16 +6119,31 @@ class Source {
   /// originator and the ARN is generated as part of the originator's flow.
   final String? entitlementArn;
 
+  /// The source configuration for cloud flows receiving a stream from a bridge.
+  final GatewayBridgeSource? gatewayBridgeSource;
+
   /// The IP address that the flow will be listening on for incoming content.
   final String? ingestIp;
 
   /// The port that the flow will be listening on for incoming content.
   final int? ingestPort;
 
+  /// The media streams that are associated with the source, and the parameters
+  /// for those associations.
+  final List<MediaStreamSourceConfiguration>? mediaStreamSourceConfigurations;
+
+  /// The port that the flow uses to send outbound requests to initiate connection
+  /// with the sender.
+  final int? senderControlPort;
+
+  /// The IP address that the flow communicates with to initiate connection with
+  /// the sender.
+  final String? senderIpAddress;
+
   /// Attributes related to the transport stream that are used in the source.
   final Transport? transport;
 
-  /// The name of the VPC Interface this Source is configured with.
+  /// The name of the VPC interface that is used for this source.
   final String? vpcInterfaceName;
 
   /// The range of IP addresses that should be allowed to contribute content to
@@ -2587,12 +6158,17 @@ class Source {
     this.decryption,
     this.description,
     this.entitlementArn,
+    this.gatewayBridgeSource,
     this.ingestIp,
     this.ingestPort,
+    this.mediaStreamSourceConfigurations,
+    this.senderControlPort,
+    this.senderIpAddress,
     this.transport,
     this.vpcInterfaceName,
     this.whitelistCidr,
   });
+
   factory Source.fromJson(Map<String, dynamic> json) {
     return Source(
       name: json['name'] as String,
@@ -2604,14 +6180,50 @@ class Source {
           : null,
       description: json['description'] as String?,
       entitlementArn: json['entitlementArn'] as String?,
+      gatewayBridgeSource: json['gatewayBridgeSource'] != null
+          ? GatewayBridgeSource.fromJson(
+              json['gatewayBridgeSource'] as Map<String, dynamic>)
+          : null,
       ingestIp: json['ingestIp'] as String?,
       ingestPort: json['ingestPort'] as int?,
+      mediaStreamSourceConfigurations:
+          (json['mediaStreamSourceConfigurations'] as List?)
+              ?.whereNotNull()
+              .map((e) => MediaStreamSourceConfiguration.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      senderControlPort: json['senderControlPort'] as int?,
+      senderIpAddress: json['senderIpAddress'] as String?,
       transport: json['transport'] != null
           ? Transport.fromJson(json['transport'] as Map<String, dynamic>)
           : null,
       vpcInterfaceName: json['vpcInterfaceName'] as String?,
       whitelistCidr: json['whitelistCidr'] as String?,
     );
+  }
+}
+
+/// The priority you want to assign to a source. You can have a primary stream
+/// and a backup stream or two equally prioritized streams.
+class SourcePriority {
+  /// The name of the source you choose as the primary source for this flow.
+  final String? primarySource;
+
+  SourcePriority({
+    this.primarySource,
+  });
+
+  factory SourcePriority.fromJson(Map<String, dynamic> json) {
+    return SourcePriority(
+      primarySource: json['primarySource'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final primarySource = this.primarySource;
+    return {
+      if (primarySource != null) 'primarySource': primarySource,
+    };
   }
 }
 
@@ -2654,6 +6266,7 @@ class StartFlowResponse {
     this.flowArn,
     this.status,
   });
+
   factory StartFlowResponse.fromJson(Map<String, dynamic> json) {
     return StartFlowResponse(
       flowArn: json['flowArn'] as String?,
@@ -2754,11 +6367,75 @@ class StopFlowResponse {
     this.flowArn,
     this.status,
   });
+
   factory StopFlowResponse.fromJson(Map<String, dynamic> json) {
     return StopFlowResponse(
       flowArn: json['flowArn'] as String?,
       status: (json['status'] as String?)?.toStatus(),
     );
+  }
+}
+
+enum Tcs {
+  sdr,
+  pq,
+  hlg,
+  linear,
+  bt2100linpq,
+  bt2100linhlg,
+  st2065_1,
+  st428_1,
+  density,
+}
+
+extension TcsValueExtension on Tcs {
+  String toValue() {
+    switch (this) {
+      case Tcs.sdr:
+        return 'SDR';
+      case Tcs.pq:
+        return 'PQ';
+      case Tcs.hlg:
+        return 'HLG';
+      case Tcs.linear:
+        return 'LINEAR';
+      case Tcs.bt2100linpq:
+        return 'BT2100LINPQ';
+      case Tcs.bt2100linhlg:
+        return 'BT2100LINHLG';
+      case Tcs.st2065_1:
+        return 'ST2065-1';
+      case Tcs.st428_1:
+        return 'ST428-1';
+      case Tcs.density:
+        return 'DENSITY';
+    }
+  }
+}
+
+extension TcsFromString on String {
+  Tcs toTcs() {
+    switch (this) {
+      case 'SDR':
+        return Tcs.sdr;
+      case 'PQ':
+        return Tcs.pq;
+      case 'HLG':
+        return Tcs.hlg;
+      case 'LINEAR':
+        return Tcs.linear;
+      case 'BT2100LINPQ':
+        return Tcs.bt2100linpq;
+      case 'BT2100LINHLG':
+        return Tcs.bt2100linhlg;
+      case 'ST2065-1':
+        return Tcs.st2065_1;
+      case 'ST428-1':
+        return Tcs.st428_1;
+      case 'DENSITY':
+        return Tcs.density;
+    }
+    throw Exception('$this is not known in enum Tcs');
   }
 }
 
@@ -2773,21 +6450,46 @@ class Transport {
   /// Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
   final List<String>? cidrAllowList;
 
-  /// The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
+  /// The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.
   final int? maxBitrate;
 
   /// The maximum latency in milliseconds. This parameter applies only to
-  /// RIST-based and Zixi-based streams.
+  /// RIST-based, Zixi-based, and Fujitsu-based streams.
   final int? maxLatency;
+
+  /// The size of the buffer (in milliseconds) to use to sync incoming source
+  /// data.
+  final int? maxSyncBuffer;
+
+  /// The minimum latency in milliseconds for SRT-based streams. In streams that
+  /// use the SRT protocol, this value that you set on your MediaConnect source or
+  /// output represents the minimal potential latency of that connection. The
+  /// latency of the stream is set to the highest number between the sender’s
+  /// minimum latency and the receiver’s minimum latency.
+  final int? minLatency;
 
   /// The remote ID for the Zixi-pull stream.
   final String? remoteId;
 
+  /// The port that the flow uses to send outbound requests to initiate connection
+  /// with the sender.
+  final int? senderControlPort;
+
+  /// The IP address that the flow communicates with to initiate connection with
+  /// the sender.
+  final String? senderIpAddress;
+
   /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
   final int? smoothingLatency;
 
+  /// Source IP or domain name for SRT-caller protocol.
+  final String? sourceListenerAddress;
+
+  /// Source port for SRT-caller protocol.
+  final int? sourceListenerPort;
+
   /// The stream ID that you want to use for this transport. This parameter
-  /// applies only to Zixi-based streams.
+  /// applies only to Zixi and SRT caller-based streams.
   final String? streamId;
 
   Transport({
@@ -2795,10 +6497,17 @@ class Transport {
     this.cidrAllowList,
     this.maxBitrate,
     this.maxLatency,
+    this.maxSyncBuffer,
+    this.minLatency,
     this.remoteId,
+    this.senderControlPort,
+    this.senderIpAddress,
     this.smoothingLatency,
+    this.sourceListenerAddress,
+    this.sourceListenerPort,
     this.streamId,
   });
+
   factory Transport.fromJson(Map<String, dynamic> json) {
     return Transport(
       protocol: (json['protocol'] as String).toProtocol(),
@@ -2808,10 +6517,206 @@ class Transport {
           .toList(),
       maxBitrate: json['maxBitrate'] as int?,
       maxLatency: json['maxLatency'] as int?,
+      maxSyncBuffer: json['maxSyncBuffer'] as int?,
+      minLatency: json['minLatency'] as int?,
       remoteId: json['remoteId'] as String?,
+      senderControlPort: json['senderControlPort'] as int?,
+      senderIpAddress: json['senderIpAddress'] as String?,
       smoothingLatency: json['smoothingLatency'] as int?,
+      sourceListenerAddress: json['sourceListenerAddress'] as String?,
+      sourceListenerPort: json['sourceListenerPort'] as int?,
       streamId: json['streamId'] as String?,
     );
+  }
+}
+
+/// Update the flow source of the bridge.
+class UpdateBridgeFlowSourceRequest {
+  /// The ARN of the cloud flow to use as a source of this bridge.
+  final String? flowArn;
+
+  /// The name of the VPC interface attachment to use for this source.
+  final VpcInterfaceAttachment? flowVpcInterfaceAttachment;
+
+  UpdateBridgeFlowSourceRequest({
+    this.flowArn,
+    this.flowVpcInterfaceAttachment,
+  });
+  Map<String, dynamic> toJson() {
+    final flowArn = this.flowArn;
+    final flowVpcInterfaceAttachment = this.flowVpcInterfaceAttachment;
+    return {
+      if (flowArn != null) 'flowArn': flowArn,
+      if (flowVpcInterfaceAttachment != null)
+        'flowVpcInterfaceAttachment': flowVpcInterfaceAttachment,
+    };
+  }
+}
+
+/// Update an existing network output.
+class UpdateBridgeNetworkOutputRequest {
+  /// The network output IP Address.
+  final String? ipAddress;
+
+  /// The network output's gateway network name.
+  final String? networkName;
+
+  /// The network output port.
+  final int? port;
+
+  /// The network output protocol.
+  final Protocol? protocol;
+
+  /// The network output TTL.
+  final int? ttl;
+
+  UpdateBridgeNetworkOutputRequest({
+    this.ipAddress,
+    this.networkName,
+    this.port,
+    this.protocol,
+    this.ttl,
+  });
+  Map<String, dynamic> toJson() {
+    final ipAddress = this.ipAddress;
+    final networkName = this.networkName;
+    final port = this.port;
+    final protocol = this.protocol;
+    final ttl = this.ttl;
+    return {
+      if (ipAddress != null) 'ipAddress': ipAddress,
+      if (networkName != null) 'networkName': networkName,
+      if (port != null) 'port': port,
+      if (protocol != null) 'protocol': protocol.toValue(),
+      if (ttl != null) 'ttl': ttl,
+    };
+  }
+}
+
+/// Update the network source of the bridge.
+class UpdateBridgeNetworkSourceRequest {
+  /// The network source multicast IP.
+  final String? multicastIp;
+
+  /// The network source's gateway network name.
+  final String? networkName;
+
+  /// The network source port.
+  final int? port;
+
+  /// The network source protocol.
+  final Protocol? protocol;
+
+  UpdateBridgeNetworkSourceRequest({
+    this.multicastIp,
+    this.networkName,
+    this.port,
+    this.protocol,
+  });
+  Map<String, dynamic> toJson() {
+    final multicastIp = this.multicastIp;
+    final networkName = this.networkName;
+    final port = this.port;
+    final protocol = this.protocol;
+    return {
+      if (multicastIp != null) 'multicastIp': multicastIp,
+      if (networkName != null) 'networkName': networkName,
+      if (port != null) 'port': port,
+      if (protocol != null) 'protocol': protocol.toValue(),
+    };
+  }
+}
+
+class UpdateBridgeOutputResponse {
+  /// The Amazon Resource Number (ARN) of the bridge.
+  final String? bridgeArn;
+
+  /// The output that you updated.
+  final BridgeOutput? output;
+
+  UpdateBridgeOutputResponse({
+    this.bridgeArn,
+    this.output,
+  });
+
+  factory UpdateBridgeOutputResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateBridgeOutputResponse(
+      bridgeArn: json['bridgeArn'] as String?,
+      output: json['output'] != null
+          ? BridgeOutput.fromJson(json['output'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class UpdateBridgeResponse {
+  final Bridge? bridge;
+
+  UpdateBridgeResponse({
+    this.bridge,
+  });
+
+  factory UpdateBridgeResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateBridgeResponse(
+      bridge: json['bridge'] != null
+          ? Bridge.fromJson(json['bridge'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class UpdateBridgeSourceResponse {
+  /// The Amazon Resource Number (ARN) of the bridge.
+  final String? bridgeArn;
+  final BridgeSource? source;
+
+  UpdateBridgeSourceResponse({
+    this.bridgeArn,
+    this.source,
+  });
+
+  factory UpdateBridgeSourceResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateBridgeSourceResponse(
+      bridgeArn: json['bridgeArn'] as String?,
+      source: json['source'] != null
+          ? BridgeSource.fromJson(json['source'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class UpdateBridgeStateResponse {
+  /// The Amazon Resource Number (ARN) of the bridge.
+  final String? bridgeArn;
+
+  /// The state of the bridge. ACTIVE or STANDBY.
+  final DesiredState? desiredState;
+
+  UpdateBridgeStateResponse({
+    this.bridgeArn,
+    this.desiredState,
+  });
+
+  factory UpdateBridgeStateResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateBridgeStateResponse(
+      bridgeArn: json['bridgeArn'] as String?,
+      desiredState: (json['desiredState'] as String?)?.toDesiredState(),
+    );
+  }
+}
+
+class UpdateEgressGatewayBridgeRequest {
+  /// Update an existing egress-type bridge.
+  final int? maxBitrate;
+
+  UpdateEgressGatewayBridgeRequest({
+    this.maxBitrate,
+  });
+  Map<String, dynamic> toJson() {
+    final maxBitrate = this.maxBitrate;
+    return {
+      if (maxBitrate != null) 'maxBitrate': maxBitrate,
+    };
   }
 }
 
@@ -2896,21 +6801,36 @@ class UpdateEncryption {
   }
 }
 
-/// The settings for source failover
+/// The settings for source failover.
 class UpdateFailoverConfig {
+  /// The type of failover you choose for this flow. MERGE combines the source
+  /// streams into a single stream, allowing graceful recovery from any
+  /// single-source loss. FAILOVER allows switching between different streams.
+  final FailoverMode? failoverMode;
+
   /// Recovery window time to look for dash-7 packets
   final int? recoveryWindow;
+
+  /// The priority you want to assign to a source. You can have a primary stream
+  /// and a backup stream or two equally prioritized streams.
+  final SourcePriority? sourcePriority;
   final State? state;
 
   UpdateFailoverConfig({
+    this.failoverMode,
     this.recoveryWindow,
+    this.sourcePriority,
     this.state,
   });
   Map<String, dynamic> toJson() {
+    final failoverMode = this.failoverMode;
     final recoveryWindow = this.recoveryWindow;
+    final sourcePriority = this.sourcePriority;
     final state = this.state;
     return {
+      if (failoverMode != null) 'failoverMode': failoverMode.toValue(),
       if (recoveryWindow != null) 'recoveryWindow': recoveryWindow,
+      if (sourcePriority != null) 'sourcePriority': sourcePriority,
       if (state != null) 'state': state.toValue(),
     };
   }
@@ -2927,12 +6847,36 @@ class UpdateFlowEntitlementResponse {
     this.entitlement,
     this.flowArn,
   });
+
   factory UpdateFlowEntitlementResponse.fromJson(Map<String, dynamic> json) {
     return UpdateFlowEntitlementResponse(
       entitlement: json['entitlement'] != null
           ? Entitlement.fromJson(json['entitlement'] as Map<String, dynamic>)
           : null,
       flowArn: json['flowArn'] as String?,
+    );
+  }
+}
+
+class UpdateFlowMediaStreamResponse {
+  /// The ARN of the flow that is associated with the media stream that you
+  /// updated.
+  final String? flowArn;
+
+  /// The media stream that you updated.
+  final MediaStream? mediaStream;
+
+  UpdateFlowMediaStreamResponse({
+    this.flowArn,
+    this.mediaStream,
+  });
+
+  factory UpdateFlowMediaStreamResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateFlowMediaStreamResponse(
+      flowArn: json['flowArn'] as String?,
+      mediaStream: json['mediaStream'] != null
+          ? MediaStream.fromJson(json['mediaStream'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -2948,6 +6892,7 @@ class UpdateFlowOutputResponse {
     this.flowArn,
     this.output,
   });
+
   factory UpdateFlowOutputResponse.fromJson(Map<String, dynamic> json) {
     return UpdateFlowOutputResponse(
       flowArn: json['flowArn'] as String?,
@@ -2964,6 +6909,7 @@ class UpdateFlowResponse {
   UpdateFlowResponse({
     this.flow,
   });
+
   factory UpdateFlowResponse.fromJson(Map<String, dynamic> json) {
     return UpdateFlowResponse(
       flow: json['flow'] != null
@@ -2984,6 +6930,7 @@ class UpdateFlowSourceResponse {
     this.flowArn,
     this.source,
   });
+
   factory UpdateFlowSourceResponse.fromJson(Map<String, dynamic> json) {
     return UpdateFlowSourceResponse(
       flowArn: json['flowArn'] as String?,
@@ -2994,13 +6941,117 @@ class UpdateFlowSourceResponse {
   }
 }
 
+/// The source configuration for cloud flows receiving a stream from a bridge.
+class UpdateGatewayBridgeSourceRequest {
+  /// The ARN of the bridge feeding this flow.
+  final String? bridgeArn;
+
+  /// The name of the VPC interface attachment to use for this bridge source.
+  final VpcInterfaceAttachment? vpcInterfaceAttachment;
+
+  UpdateGatewayBridgeSourceRequest({
+    this.bridgeArn,
+    this.vpcInterfaceAttachment,
+  });
+  Map<String, dynamic> toJson() {
+    final bridgeArn = this.bridgeArn;
+    final vpcInterfaceAttachment = this.vpcInterfaceAttachment;
+    return {
+      if (bridgeArn != null) 'bridgeArn': bridgeArn,
+      if (vpcInterfaceAttachment != null)
+        'vpcInterfaceAttachment': vpcInterfaceAttachment,
+    };
+  }
+}
+
+class UpdateGatewayInstanceResponse {
+  /// The availability of the instance to host new bridges. The bridgePlacement
+  /// property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can be
+  /// deployed to this instance. If it is AVAILABLE, new bridges can be added to
+  /// this instance.
+  final BridgePlacement? bridgePlacement;
+
+  /// The Amazon Resource Name (ARN) of the instance.
+  final String? gatewayInstanceArn;
+
+  UpdateGatewayInstanceResponse({
+    this.bridgePlacement,
+    this.gatewayInstanceArn,
+  });
+
+  factory UpdateGatewayInstanceResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateGatewayInstanceResponse(
+      bridgePlacement:
+          (json['bridgePlacement'] as String?)?.toBridgePlacement(),
+      gatewayInstanceArn: json['gatewayInstanceArn'] as String?,
+    );
+  }
+}
+
+class UpdateIngressGatewayBridgeRequest {
+  /// The maximum expected bitrate (in bps).
+  final int? maxBitrate;
+
+  /// The maximum number of expected outputs.
+  final int? maxOutputs;
+
+  UpdateIngressGatewayBridgeRequest({
+    this.maxBitrate,
+    this.maxOutputs,
+  });
+  Map<String, dynamic> toJson() {
+    final maxBitrate = this.maxBitrate;
+    final maxOutputs = this.maxOutputs;
+    return {
+      if (maxBitrate != null) 'maxBitrate': maxBitrate,
+      if (maxOutputs != null) 'maxOutputs': maxOutputs,
+    };
+  }
+}
+
+/// Update maintenance setting for a flow
+class UpdateMaintenance {
+  /// A day of a week when the maintenance will happen. use
+  /// Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday.
+  final MaintenanceDay? maintenanceDay;
+
+  /// A scheduled date in ISO UTC format when the maintenance will happen. Use
+  /// YYYY-MM-DD format. Example: 2021-01-30.
+  final String? maintenanceScheduledDate;
+
+  /// UTC time when the maintenance will happen. Use 24-hour HH:MM format. Minutes
+  /// must be 00. Example: 13:00. The default value is 02:00.
+  final String? maintenanceStartHour;
+
+  UpdateMaintenance({
+    this.maintenanceDay,
+    this.maintenanceScheduledDate,
+    this.maintenanceStartHour,
+  });
+  Map<String, dynamic> toJson() {
+    final maintenanceDay = this.maintenanceDay;
+    final maintenanceScheduledDate = this.maintenanceScheduledDate;
+    final maintenanceStartHour = this.maintenanceStartHour;
+    return {
+      if (maintenanceDay != null) 'maintenanceDay': maintenanceDay.toValue(),
+      if (maintenanceScheduledDate != null)
+        'maintenanceScheduledDate': maintenanceScheduledDate,
+      if (maintenanceStartHour != null)
+        'maintenanceStartHour': maintenanceStartHour,
+    };
+  }
+}
+
 /// The settings for a VPC Source.
 class VpcInterface {
-  /// Immutable and has to be a unique against other VpcInterfaces in this Flow
+  /// Immutable and has to be a unique against other VpcInterfaces in this Flow.
   final String name;
 
   /// IDs of the network interfaces created in customer's account by MediaConnect.
   final List<String> networkInterfaceIds;
+
+  /// The type of network interface.
+  final NetworkInterfaceType networkInterfaceType;
 
   /// Role Arn MediaConnect can assumes to create ENIs in customer's account
   final String roleArn;
@@ -3014,10 +7065,12 @@ class VpcInterface {
   VpcInterface({
     required this.name,
     required this.networkInterfaceIds,
+    required this.networkInterfaceType,
     required this.roleArn,
     required this.securityGroupIds,
     required this.subnetId,
   });
+
   factory VpcInterface.fromJson(Map<String, dynamic> json) {
     return VpcInterface(
       name: json['name'] as String,
@@ -3025,6 +7078,8 @@ class VpcInterface {
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
+      networkInterfaceType:
+          (json['networkInterfaceType'] as String).toNetworkInterfaceType(),
       roleArn: json['roleArn'] as String,
       securityGroupIds: (json['securityGroupIds'] as List)
           .whereNotNull()
@@ -3035,14 +7090,15 @@ class VpcInterface {
   }
 }
 
-/// The settings for attaching a VPC interface to an output.
+/// The settings for attaching a VPC interface to an resource.
 class VpcInterfaceAttachment {
-  /// The name of the VPC interface to use for this output.
+  /// The name of the VPC interface to use for this resource.
   final String? vpcInterfaceName;
 
   VpcInterfaceAttachment({
     this.vpcInterfaceName,
   });
+
   factory VpcInterfaceAttachment.fromJson(Map<String, dynamic> json) {
     return VpcInterfaceAttachment(
       vpcInterfaceName: json['vpcInterfaceName'] as String?,
@@ -3072,22 +7128,30 @@ class VpcInterfaceRequest {
   /// Subnet must be in the AZ of the Flow
   final String subnetId;
 
+  /// The type of network interface. If this value is not included in the request,
+  /// MediaConnect uses ENA as the networkInterfaceType.
+  final NetworkInterfaceType? networkInterfaceType;
+
   VpcInterfaceRequest({
     required this.name,
     required this.roleArn,
     required this.securityGroupIds,
     required this.subnetId,
+    this.networkInterfaceType,
   });
   Map<String, dynamic> toJson() {
     final name = this.name;
     final roleArn = this.roleArn;
     final securityGroupIds = this.securityGroupIds;
     final subnetId = this.subnetId;
+    final networkInterfaceType = this.networkInterfaceType;
     return {
       'name': name,
       'roleArn': roleArn,
       'securityGroupIds': securityGroupIds,
       'subnetId': subnetId,
+      if (networkInterfaceType != null)
+        'networkInterfaceType': networkInterfaceType.toValue(),
     };
   }
 }
@@ -3102,9 +7166,24 @@ class BadRequestException extends _s.GenericAwsException {
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String? type, String? message})
+      : super(type: type, code: 'ConflictException', message: message);
+}
+
+class CreateBridge420Exception extends _s.GenericAwsException {
+  CreateBridge420Exception({String? type, String? message})
+      : super(type: type, code: 'CreateBridge420Exception', message: message);
+}
+
 class CreateFlow420Exception extends _s.GenericAwsException {
   CreateFlow420Exception({String? type, String? message})
       : super(type: type, code: 'CreateFlow420Exception', message: message);
+}
+
+class CreateGateway420Exception extends _s.GenericAwsException {
+  CreateGateway420Exception({String? type, String? message})
+      : super(type: type, code: 'CreateGateway420Exception', message: message);
 }
 
 class ForbiddenException extends _s.GenericAwsException {
@@ -3147,8 +7226,14 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       AddFlowOutputs420Exception(type: type, message: message),
   'BadRequestException': (type, message) =>
       BadRequestException(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
+  'CreateBridge420Exception': (type, message) =>
+      CreateBridge420Exception(type: type, message: message),
   'CreateFlow420Exception': (type, message) =>
       CreateFlow420Exception(type: type, message: message),
+  'CreateGateway420Exception': (type, message) =>
+      CreateGateway420Exception(type: type, message: message),
   'ForbiddenException': (type, message) =>
       ForbiddenException(type: type, message: message),
   'GrantFlowEntitlements420Exception': (type, message) =>

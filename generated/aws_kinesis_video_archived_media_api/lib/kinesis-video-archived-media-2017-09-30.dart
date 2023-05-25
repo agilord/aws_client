@@ -54,7 +54,7 @@ class KinesisVideoArchivedMedia {
   /// must specify either the StreamName or the StreamARN when invoking this API
   /// operation.
   ///
-  /// As a prerequsite to using GetCLip API, you must obtain an endpoint using
+  /// As a prerequisite to using GetCLip API, you must obtain an endpoint using
   /// <code>GetDataEndpoint</code>, specifying GET_CLIP for<code/> the
   /// <code>APIName</code> parameter.
   ///
@@ -206,9 +206,9 @@ class KinesisVideoArchivedMedia {
   /// includes an encrypted session token) for the session's MPEG-DASH
   /// <i>manifest</i> (the root resource needed for streaming with MPEG-DASH).
   /// <note>
-  /// Don't share or store this token where an unauthorized entity could access
+  /// Don't share or store this token where an unauthorized entity can access
   /// it. The token provides access to the content of the stream. Safeguard the
-  /// token with the same measures that you would use with your AWS credentials.
+  /// token with the same measures that you use with your AWS credentials.
   /// </note>
   /// The media that is made available through the manifest consists only of the
   /// requested stream, time range, and format. No other media data (such as
@@ -263,29 +263,10 @@ class KinesisVideoArchivedMedia {
   /// for details.
   /// </li>
   /// </ul> </li> </ol> <note>
-  /// The following restrictions apply to MPEG-DASH sessions:
-  ///
-  /// <ul>
-  /// <li>
-  /// A streaming session URL should not be shared between players. The service
-  /// might throttle a session if multiple media players are sharing it. For
-  /// connection limits, see <a
+  /// For restrictions that apply to MPEG-DASH sessions, see <a
   /// href="http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html">Kinesis
   /// Video Streams Limits</a>.
-  /// </li>
-  /// <li>
-  /// A Kinesis video stream can have a maximum of ten active MPEG-DASH
-  /// streaming sessions. If a new session is created when the maximum number of
-  /// sessions is already active, the oldest (earliest created) session is
-  /// closed. The number of active <code>GetMedia</code> connections on a
-  /// Kinesis video stream does not count against this limit, and the number of
-  /// active MPEG-DASH sessions does not count against the active
-  /// <code>GetMedia</code> connection limit.
-  /// <note>
-  /// The maximum limits for active HLS and MPEG-DASH streaming sessions are
-  /// independent of each other.
-  /// </note> </li>
-  /// </ul> </note>
+  /// </note>
   /// You can monitor the amount of data that the media player consumes by
   /// monitoring the <code>GetMP4MediaFragment.OutgoingBytes</code> Amazon
   /// CloudWatch metric. For information about using CloudWatch to monitor
@@ -454,8 +435,8 @@ class KinesisVideoArchivedMedia {
   /// <li>
   /// <b> <code>ON_DEMAND</code> </b>: For sessions of this type, the MPEG-DASH
   /// manifest contains all the fragments for the session, up to the number that
-  /// is specified in <code>MaxMediaPlaylistFragmentResults</code>. The manifest
-  /// must be retrieved only once for each session. When this type of session is
+  /// is specified in <code>MaxManifestFragmentResults</code>. The manifest must
+  /// be retrieved only once for each session. When this type of session is
   /// played in a media player, the user interface typically displays a scrubber
   /// control for choosing the position in the playback window to display.
   /// </li>
@@ -502,7 +483,7 @@ class KinesisVideoArchivedMedia {
       'maxManifestFragmentResults',
       maxManifestFragmentResults,
       1,
-      1000,
+      5000,
     );
     final $payload = <String, dynamic>{
       if (dASHFragmentSelector != null)
@@ -673,30 +654,13 @@ class KinesisVideoArchivedMedia {
   /// href="https://aws.amazon.com/kinesis/video-streams/pricing/">Kinesis Video
   /// Streams pricing</a>.
   /// </li>
-  /// </ul> </li> </ol> <note>
-  /// The following restrictions apply to HLS sessions:
-  ///
-  /// <ul>
-  /// <li>
-  /// A streaming session URL should not be shared between players. The service
+  /// </ul> </li> </ol>
+  /// A streaming session URL must not be shared between players. The service
   /// might throttle a session if multiple media players are sharing it. For
   /// connection limits, see <a
   /// href="http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html">Kinesis
   /// Video Streams Limits</a>.
-  /// </li>
-  /// <li>
-  /// A Kinesis video stream can have a maximum of ten active HLS streaming
-  /// sessions. If a new session is created when the maximum number of sessions
-  /// is already active, the oldest (earliest created) session is closed. The
-  /// number of active <code>GetMedia</code> connections on a Kinesis video
-  /// stream does not count against this limit, and the number of active HLS
-  /// sessions does not count against the active <code>GetMedia</code>
-  /// connection limit.
-  /// <note>
-  /// The maximum limits for active HLS and MPEG-DASH streaming sessions are
-  /// independent of each other.
-  /// </note> </li>
-  /// </ul> </note>
+  ///
   /// You can monitor the amount of data that the media player consumes by
   /// monitoring the <code>GetMP4MediaFragment.OutgoingBytes</code> Amazon
   /// CloudWatch metric. For information about using CloudWatch to monitor
@@ -789,7 +753,7 @@ class KinesisVideoArchivedMedia {
   /// player timeline most accurately maps to the producer timestamps.
   /// </li>
   /// <li>
-  /// <code>ON_DISCONTIUNITY</code>: a discontinuity marker is placed between
+  /// <code>ON_DISCONTINUITY</code>: a discontinuity marker is placed between
   /// fragments that have a gap or overlap of more than 50 milliseconds. For
   /// most playback scenarios, it is recommended to use a value of
   /// <code>ON_DISCONTINUITY</code> so that the media player timeline is only
@@ -860,8 +824,8 @@ class KinesisVideoArchivedMedia {
   /// <code>LIVE</code> or <code>LIVE_REPLAY</code>, and 1,000 if
   /// <code>PlaybackMode</code> is <code>ON_DEMAND</code>.
   ///
-  /// The maximum value of 1,000 fragments corresponds to more than 16 minutes
-  /// of video on streams with 1-second fragments, and more than 2 1/2 hours of
+  /// The maximum value of 5,000 fragments corresponds to more than 80 minutes
+  /// of video on streams with 1-second fragments, and more than 13 hours of
   /// video on streams with 10-second fragments.
   ///
   /// Parameter [playbackMode] :
@@ -913,11 +877,12 @@ class KinesisVideoArchivedMedia {
   /// </ul>
   /// In all playback modes, if <code>FragmentSelectorType</code> is
   /// <code>PRODUCER_TIMESTAMP</code>, and if there are multiple fragments with
-  /// the same start timestamp, the fragment that has the larger fragment number
-  /// (that is, the newer fragment) is included in the HLS media playlist. The
-  /// other fragments are not included. Fragments that have different timestamps
-  /// but have overlapping durations are still included in the HLS media
-  /// playlist. This can lead to unexpected behavior in the media player.
+  /// the same start timestamp, the fragment that has the largest fragment
+  /// number (that is, the newest fragment) is included in the HLS media
+  /// playlist. The other fragments are not included. Fragments that have
+  /// different timestamps but have overlapping durations are still included in
+  /// the HLS media playlist. This can lead to unexpected behavior in the media
+  /// player.
   ///
   /// The default is <code>LIVE</code>.
   ///
@@ -954,7 +919,7 @@ class KinesisVideoArchivedMedia {
       'maxMediaPlaylistFragmentResults',
       maxMediaPlaylistFragmentResults,
       1,
-      1000,
+      5000,
     );
     final $payload = <String, dynamic>{
       if (containerFormat != null) 'ContainerFormat': containerFormat.toValue(),
@@ -980,6 +945,152 @@ class KinesisVideoArchivedMedia {
     return GetHLSStreamingSessionURLOutput.fromJson(response);
   }
 
+  /// Retrieves a list of Images corresponding to each timestamp for a given
+  /// time range, sampling interval, and image format configuration.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [NotAuthorizedException].
+  ///
+  /// Parameter [endTimestamp] :
+  /// The end timestamp for the range of images to be generated.
+  ///
+  /// Parameter [format] :
+  /// The format that will be used to encode the image.
+  ///
+  /// Parameter [imageSelectorType] :
+  /// The origin of the Server or Producer timestamps to use to generate the
+  /// images.
+  ///
+  /// Parameter [samplingInterval] :
+  /// The time interval in milliseconds (ms) at which the images need to be
+  /// generated from the stream. The minimum value that can be provided is 3000
+  /// ms. If the timestamp range is less than the sampling interval, the Image
+  /// from the <code>startTimestamp</code> will be returned if available.
+  /// <note>
+  /// The minimum value of 3000 ms is a soft limit. If needed, a lower sampling
+  /// frequency can be requested.
+  /// </note>
+  ///
+  /// Parameter [startTimestamp] :
+  /// The starting point from which the images should be generated. This
+  /// <code>StartTimestamp</code> must be within an inclusive range of
+  /// timestamps for an image to be returned.
+  ///
+  /// Parameter [formatConfig] :
+  /// The list of a key-value pair structure that contains extra parameters that
+  /// can be applied when the image is generated. The <code>FormatConfig</code>
+  /// key is the <code>JPEGQuality</code>, which indicates the JPEG quality key
+  /// to be used to generate the image. The <code>FormatConfig</code> value
+  /// accepts ints from 1 to 100. If the value is 1, the image will be generated
+  /// with less quality and the best compression. If the value is 100, the image
+  /// will be generated with the best quality and less compression. If no value
+  /// is provided, the default value of the <code>JPEGQuality</code> key will be
+  /// set to 80.
+  ///
+  /// Parameter [heightPixels] :
+  /// The height of the output image that is used in conjunction with the
+  /// <code>WidthPixels</code> parameter. When both <code>HeightPixels</code>
+  /// and <code>WidthPixels</code> parameters are provided, the image will be
+  /// stretched to fit the specified aspect ratio. If only the
+  /// <code>HeightPixels</code> parameter is provided, its original aspect ratio
+  /// will be used to calculate the <code>WidthPixels</code> ratio. If neither
+  /// parameter is provided, the original image size will be returned.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of images to be returned by the API.
+  /// <note>
+  /// The default limit is 100 images per API response. The additional results
+  /// will be paginated.
+  /// </note>
+  ///
+  /// Parameter [nextToken] :
+  /// A token that specifies where to start paginating the next set of Images.
+  /// This is the <code>GetImages:NextToken</code> from a previously truncated
+  /// response.
+  ///
+  /// Parameter [streamARN] :
+  /// The Amazon Resource Name (ARN) of the stream from which to retrieve the
+  /// images. You must specify either the <code>StreamName</code> or the
+  /// <code>StreamARN</code>.
+  ///
+  /// Parameter [streamName] :
+  /// The name of the stream from which to retrieve the images. You must specify
+  /// either the <code>StreamName</code> or the <code>StreamARN</code>.
+  ///
+  /// Parameter [widthPixels] :
+  /// The width of the output image that is used in conjunction with the
+  /// <code>HeightPixels</code> parameter. When both <code>WidthPixels</code>
+  /// and <code>HeightPixels</code> parameters are provided, the image will be
+  /// stretched to fit the specified aspect ratio. If only the
+  /// <code>WidthPixels</code> parameter is provided or if only the
+  /// <code>HeightPixels</code> is provided, a <code>ValidationException</code>
+  /// will be thrown. If neither parameter is provided, the original image size
+  /// from the stream will be returned.
+  Future<GetImagesOutput> getImages({
+    required DateTime endTimestamp,
+    required Format format,
+    required ImageSelectorType imageSelectorType,
+    required int samplingInterval,
+    required DateTime startTimestamp,
+    Map<FormatConfigKey, String>? formatConfig,
+    int? heightPixels,
+    int? maxResults,
+    String? nextToken,
+    String? streamARN,
+    String? streamName,
+    int? widthPixels,
+  }) async {
+    _s.validateNumRange(
+      'samplingInterval',
+      samplingInterval,
+      3000,
+      20000,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'heightPixels',
+      heightPixels,
+      1,
+      2160,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateNumRange(
+      'widthPixels',
+      widthPixels,
+      1,
+      3840,
+    );
+    final $payload = <String, dynamic>{
+      'EndTimestamp': unixTimestampToJson(endTimestamp),
+      'Format': format.toValue(),
+      'ImageSelectorType': imageSelectorType.toValue(),
+      'SamplingInterval': samplingInterval,
+      'StartTimestamp': unixTimestampToJson(startTimestamp),
+      if (formatConfig != null)
+        'FormatConfig': formatConfig.map((k, e) => MapEntry(k.toValue(), e)),
+      if (heightPixels != null) 'HeightPixels': heightPixels,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
+      if (widthPixels != null) 'WidthPixels': widthPixels,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/getImages',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetImagesOutput.fromJson(response);
+  }
+
   /// Gets media for a list of fragments (specified by fragment number) from the
   /// archived data in an Amazon Kinesis video stream.
   /// <note>
@@ -989,20 +1100,10 @@ class KinesisVideoArchivedMedia {
   /// href="https://docs.aws.amazon.com/cli/latest/reference/">--endpoint-url
   /// parameter</a>.
   /// </note>
-  /// The following limits apply when using the
-  /// <code>GetMediaForFragmentList</code> API:
-  ///
-  /// <ul>
-  /// <li>
-  /// A client can call <code>GetMediaForFragmentList</code> up to five times
-  /// per second per stream.
-  /// </li>
-  /// <li>
-  /// Kinesis Video Streams sends media data at a rate of up to 25 megabytes per
-  /// second (or 200 megabits per second) during a
-  /// <code>GetMediaForFragmentList</code> session.
-  /// </li>
-  /// </ul> <important>
+  /// For limits, see <a
+  /// href="http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html">Kinesis
+  /// Video Streams Limits</a>.
+  /// <important>
   /// If an error is thrown after invoking a Kinesis Video Streams archived
   /// media API, in addition to the HTTP status code and the response body, it
   /// includes the following pieces of information:
@@ -1038,15 +1139,23 @@ class KinesisVideoArchivedMedia {
   /// A list of the numbers of fragments for which to retrieve media. You
   /// retrieve these values with <a>ListFragments</a>.
   ///
+  /// Parameter [streamARN] :
+  /// The Amazon Resource Name (ARN) of the stream from which to retrieve
+  /// fragment media. Specify either this parameter or the
+  /// <code>StreamName</code> parameter.
+  ///
   /// Parameter [streamName] :
-  /// The name of the stream from which to retrieve fragment media.
+  /// The name of the stream from which to retrieve fragment media. Specify
+  /// either this parameter or the <code>StreamARN</code> parameter.
   Future<GetMediaForFragmentListOutput> getMediaForFragmentList({
     required List<String> fragments,
-    required String streamName,
+    String? streamARN,
+    String? streamName,
   }) async {
     final $payload = <String, dynamic>{
       'Fragments': fragments,
-      'StreamName': streamName,
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
     };
     final response = await _protocol.sendRaw(
       payload: $payload,
@@ -1107,9 +1216,6 @@ class KinesisVideoArchivedMedia {
   /// May throw [ClientLimitExceededException].
   /// May throw [NotAuthorizedException].
   ///
-  /// Parameter [streamName] :
-  /// The name of the stream from which to retrieve a fragment list.
-  ///
   /// Parameter [fragmentSelector] :
   /// Describes the timestamp range and timestamp origin for the range of
   /// fragments to return.
@@ -1123,11 +1229,21 @@ class KinesisVideoArchivedMedia {
   /// Parameter [nextToken] :
   /// A token to specify where to start paginating. This is the
   /// <a>ListFragmentsOutput$NextToken</a> from a previously truncated response.
+  ///
+  /// Parameter [streamARN] :
+  /// The Amazon Resource Name (ARN) of the stream from which to retrieve a
+  /// fragment list. Specify either this parameter or the
+  /// <code>StreamName</code> parameter.
+  ///
+  /// Parameter [streamName] :
+  /// The name of the stream from which to retrieve a fragment list. Specify
+  /// either this parameter or the <code>StreamARN</code> parameter.
   Future<ListFragmentsOutput> listFragments({
-    required String streamName,
     FragmentSelector? fragmentSelector,
     int? maxResults,
     String? nextToken,
+    String? streamARN,
+    String? streamName,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1136,10 +1252,11 @@ class KinesisVideoArchivedMedia {
       1000,
     );
     final $payload = <String, dynamic>{
-      'StreamName': streamName,
       if (fragmentSelector != null) 'FragmentSelector': fragmentSelector,
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1210,14 +1327,10 @@ extension ClipFragmentSelectorTypeFromString on String {
 }
 
 /// The range of timestamps for which to return fragments.
-///
-/// The values in the ClipTimestampRange are <code>inclusive</code>. Fragments
-/// that begin before the start time but continue past it, or fragments that
-/// begin before the end time but continue past it, are included in the session.
 class ClipTimestampRange {
   /// The end of the timestamp range for the requested media.
   ///
-  /// This value must be within 3 hours of the specified
+  /// This value must be within 24 hours of the specified
   /// <code>StartTimestamp</code>, and it must be later than the
   /// <code>StartTimestamp</code> value. If <code>FragmentSelectorType</code> for
   /// the request is <code>SERVER_TIMESTAMP</code>, this value must be in the
@@ -1232,8 +1345,9 @@ class ClipTimestampRange {
   /// The starting timestamp in the range of timestamps for which to return
   /// fragments.
   ///
-  /// This value is inclusive. Fragments that start before the
-  /// <code>StartTimestamp</code> and continue past it are included in the
+  /// Only fragments that start exactly at or after <code>StartTimestamp</code>
+  /// are included in the session. Fragments that start before
+  /// <code>StartTimestamp</code> and continue past it aren't included in the
   /// session. If <code>FragmentSelectorType</code> is
   /// <code>SERVER_TIMESTAMP</code>, the <code>StartTimestamp</code> must be later
   /// than the stream head.
@@ -1461,14 +1575,14 @@ extension DASHPlaybackModeFromString on String {
 ///
 /// This value should not be present if <code>PlaybackType</code> is
 /// <code>LIVE</code>.
-/// <note>
-/// The values in the <code>DASHimestampRange</code> are inclusive. Fragments
-/// that begin before the start time but continue past it, or fragments that
-/// begin before the end time but continue past it, are included in the session.
-/// </note>
+///
+/// The values in <code>DASHimestampRange</code> are inclusive. Fragments that
+/// start exactly at or after the start time are included in the session.
+/// Fragments that start before the start time and continue past it are not
+/// included in the session.
 class DASHTimestampRange {
   /// The end of the timestamp range for the requested media. This value must be
-  /// within 3 hours of the specified <code>StartTimestamp</code>, and it must be
+  /// within 24 hours of the specified <code>StartTimestamp</code>, and it must be
   /// later than the <code>StartTimestamp</code> value.
   ///
   /// If <code>FragmentSelectorType</code> for the request is
@@ -1491,13 +1605,13 @@ class DASHTimestampRange {
   ///
   /// If the <code>DASHTimestampRange</code> value is specified, the
   /// <code>StartTimestamp</code> value is required.
-  /// <note>
-  /// This value is inclusive. Fragments that start before the
-  /// <code>StartTimestamp</code> and continue past it are included in the
+  ///
+  /// Only fragments that start exactly at or after <code>StartTimestamp</code>
+  /// are included in the session. Fragments that start before
+  /// <code>StartTimestamp</code> and continue past it aren't included in the
   /// session. If <code>FragmentSelectorType</code> is
   /// <code>SERVER_TIMESTAMP</code>, the <code>StartTimestamp</code> must be later
   /// than the stream head.
-  /// </note>
   final DateTime? startTimestamp;
 
   DASHTimestampRange({
@@ -1513,6 +1627,57 @@ class DASHTimestampRange {
       if (startTimestamp != null)
         'StartTimestamp': unixTimestampToJson(startTimestamp),
     };
+  }
+}
+
+enum Format {
+  jpeg,
+  png,
+}
+
+extension FormatValueExtension on Format {
+  String toValue() {
+    switch (this) {
+      case Format.jpeg:
+        return 'JPEG';
+      case Format.png:
+        return 'PNG';
+    }
+  }
+}
+
+extension FormatFromString on String {
+  Format toFormat() {
+    switch (this) {
+      case 'JPEG':
+        return Format.jpeg;
+      case 'PNG':
+        return Format.png;
+    }
+    throw Exception('$this is not known in enum Format');
+  }
+}
+
+enum FormatConfigKey {
+  jPEGQuality,
+}
+
+extension FormatConfigKeyValueExtension on FormatConfigKey {
+  String toValue() {
+    switch (this) {
+      case FormatConfigKey.jPEGQuality:
+        return 'JPEGQuality';
+    }
+  }
+}
+
+extension FormatConfigKeyFromString on String {
+  FormatConfigKey toFormatConfigKey() {
+    switch (this) {
+      case 'JPEGQuality':
+        return FormatConfigKey.jPEGQuality;
+    }
+    throw Exception('$this is not known in enum FormatConfigKey');
   }
 }
 
@@ -1542,6 +1707,7 @@ class Fragment {
     this.producerTimestamp,
     this.serverTimestamp,
   });
+
   factory Fragment.fromJson(Map<String, dynamic> json) {
     return Fragment(
       fragmentLengthInMilliseconds:
@@ -1633,7 +1799,8 @@ class GetClipOutput {
   /// Traditional MP4 file that contains the media clip from the specified video
   /// stream. The output will contain the first 100 MB or the first 200 fragments
   /// from the specified start timestamp. For more information, see <a
-  /// href="Kinesis Video Streams Limits">Kinesis Video Streams Limits</a>.
+  /// href="https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html">Kinesis
+  /// Video Streams Limits</a>.
   final Uint8List? payload;
 
   GetClipOutput({
@@ -1650,6 +1817,7 @@ class GetDASHStreamingSessionURLOutput {
   GetDASHStreamingSessionURLOutput({
     this.dASHStreamingSessionURL,
   });
+
   factory GetDASHStreamingSessionURLOutput.fromJson(Map<String, dynamic> json) {
     return GetDASHStreamingSessionURLOutput(
       dASHStreamingSessionURL: json['DASHStreamingSessionURL'] as String?,
@@ -1665,9 +1833,37 @@ class GetHLSStreamingSessionURLOutput {
   GetHLSStreamingSessionURLOutput({
     this.hLSStreamingSessionURL,
   });
+
   factory GetHLSStreamingSessionURLOutput.fromJson(Map<String, dynamic> json) {
     return GetHLSStreamingSessionURLOutput(
       hLSStreamingSessionURL: json['HLSStreamingSessionURL'] as String?,
+    );
+  }
+}
+
+class GetImagesOutput {
+  /// The list of images generated from the video stream. If there is no media
+  /// available for the given timestamp, the <code>NO_MEDIA</code> error will be
+  /// listed in the output. If an error occurs while the image is being generated,
+  /// the <code>MEDIA_ERROR</code> will be listed in the output as the cause of
+  /// the missing image.
+  final List<Image>? images;
+
+  /// The encrypted token that was used in the request to get more images.
+  final String? nextToken;
+
+  GetImagesOutput({
+    this.images,
+    this.nextToken,
+  });
+
+  factory GetImagesOutput.fromJson(Map<String, dynamic> json) {
+    return GetImagesOutput(
+      images: (json['Images'] as List?)
+          ?.whereNotNull()
+          .map((e) => Image.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
     );
   }
 }
@@ -1902,14 +2098,9 @@ extension HLSPlaybackModeFromString on String {
 ///
 /// This value should not be present if <code>PlaybackType</code> is
 /// <code>LIVE</code>.
-/// <note>
-/// The values in the <code>HLSTimestampRange</code> are inclusive. Fragments
-/// that begin before the start time but continue past it, or fragments that
-/// begin before the end time but continue past it, are included in the session.
-/// </note>
 class HLSTimestampRange {
   /// The end of the timestamp range for the requested media. This value must be
-  /// within 3 hours of the specified <code>StartTimestamp</code>, and it must be
+  /// within 24 hours of the specified <code>StartTimestamp</code>, and it must be
   /// later than the <code>StartTimestamp</code> value.
   ///
   /// If <code>FragmentSelectorType</code> for the request is
@@ -1932,13 +2123,13 @@ class HLSTimestampRange {
   ///
   /// If the <code>HLSTimestampRange</code> value is specified, the
   /// <code>StartTimestamp</code> value is required.
-  /// <note>
-  /// This value is inclusive. Fragments that start before the
-  /// <code>StartTimestamp</code> and continue past it are included in the
+  ///
+  /// Only fragments that start exactly at or after <code>StartTimestamp</code>
+  /// are included in the session. Fragments that start before
+  /// <code>StartTimestamp</code> and continue past it aren't included in the
   /// session. If <code>FragmentSelectorType</code> is
   /// <code>SERVER_TIMESTAMP</code>, the <code>StartTimestamp</code> must be later
   /// than the stream head.
-  /// </note>
   final DateTime? startTimestamp;
 
   HLSTimestampRange({
@@ -1957,6 +2148,104 @@ class HLSTimestampRange {
   }
 }
 
+/// A structure that contains the <code>Timestamp</code>, <code>Error</code>,
+/// and <code>ImageContent</code>.
+class Image {
+  /// The error message shown when the image for the provided timestamp was not
+  /// extracted due to a non-tryable error. An error will be returned if:
+  ///
+  /// <ul>
+  /// <li>
+  /// There is no media that exists for the specified <code>Timestamp</code>.
+  /// </li>
+  /// </ul>
+  /// <ul>
+  /// <li>
+  /// The media for the specified time does not allow an image to be extracted. In
+  /// this case the media is audio only, or the incorrect media has been ingested.
+  /// </li>
+  /// </ul>
+  final ImageError? error;
+
+  /// An attribute of the <code>Image</code> object that is Base64 encoded.
+  final String? imageContent;
+
+  /// An attribute of the <code>Image</code> object that is used to extract an
+  /// image from the video stream. This field is used to manage gaps on images or
+  /// to better understand the pagination window.
+  final DateTime? timeStamp;
+
+  Image({
+    this.error,
+    this.imageContent,
+    this.timeStamp,
+  });
+
+  factory Image.fromJson(Map<String, dynamic> json) {
+    return Image(
+      error: (json['Error'] as String?)?.toImageError(),
+      imageContent: json['ImageContent'] as String?,
+      timeStamp: timeStampFromJson(json['TimeStamp']),
+    );
+  }
+}
+
+enum ImageError {
+  noMedia,
+  mediaError,
+}
+
+extension ImageErrorValueExtension on ImageError {
+  String toValue() {
+    switch (this) {
+      case ImageError.noMedia:
+        return 'NO_MEDIA';
+      case ImageError.mediaError:
+        return 'MEDIA_ERROR';
+    }
+  }
+}
+
+extension ImageErrorFromString on String {
+  ImageError toImageError() {
+    switch (this) {
+      case 'NO_MEDIA':
+        return ImageError.noMedia;
+      case 'MEDIA_ERROR':
+        return ImageError.mediaError;
+    }
+    throw Exception('$this is not known in enum ImageError');
+  }
+}
+
+enum ImageSelectorType {
+  producerTimestamp,
+  serverTimestamp,
+}
+
+extension ImageSelectorTypeValueExtension on ImageSelectorType {
+  String toValue() {
+    switch (this) {
+      case ImageSelectorType.producerTimestamp:
+        return 'PRODUCER_TIMESTAMP';
+      case ImageSelectorType.serverTimestamp:
+        return 'SERVER_TIMESTAMP';
+    }
+  }
+}
+
+extension ImageSelectorTypeFromString on String {
+  ImageSelectorType toImageSelectorType() {
+    switch (this) {
+      case 'PRODUCER_TIMESTAMP':
+        return ImageSelectorType.producerTimestamp;
+      case 'SERVER_TIMESTAMP':
+        return ImageSelectorType.serverTimestamp;
+    }
+    throw Exception('$this is not known in enum ImageSelectorType');
+  }
+}
+
 class ListFragmentsOutput {
   /// A list of archived <a>Fragment</a> objects from the stream that meet the
   /// selector criteria. Results are in no specific order, even across pages.
@@ -1971,6 +2260,7 @@ class ListFragmentsOutput {
     this.fragments,
     this.nextToken,
   });
+
   factory ListFragmentsOutput.fromJson(Map<String, dynamic> json) {
     return ListFragmentsOutput(
       fragments: (json['Fragments'] as List?)

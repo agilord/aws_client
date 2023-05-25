@@ -64,6 +64,7 @@ class OutputShape {
   OutputShape({
     this.mapMember,
   });
+
   factory OutputShape.fromJson(Map<String, dynamic> json) {
     return OutputShape(
       mapMember: (json['MapMember'] as Map<String, dynamic>?)?.map((k, e) =>

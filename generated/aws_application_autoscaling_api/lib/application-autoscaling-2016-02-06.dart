@@ -23,52 +23,65 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 ///
 /// <ul>
 /// <li>
-/// Amazon ECS services
-/// </li>
-/// <li>
-/// Amazon EC2 Spot Fleet requests
-/// </li>
-/// <li>
-/// Amazon EMR clusters
-/// </li>
-/// <li>
 /// Amazon AppStream 2.0 fleets
-/// </li>
-/// <li>
-/// Amazon DynamoDB tables and global secondary indexes throughput capacity
 /// </li>
 /// <li>
 /// Amazon Aurora Replicas
 /// </li>
 /// <li>
-/// Amazon SageMaker endpoint variants
-/// </li>
-/// <li>
-/// Custom resources provided by your own applications or services
-/// </li>
-/// <li>
 /// Amazon Comprehend document classification and entity recognizer endpoints
 /// </li>
 /// <li>
-/// AWS Lambda function provisioned concurrency
+/// Amazon DynamoDB tables and global secondary indexes throughput capacity
+/// </li>
+/// <li>
+/// Amazon ECS services
+/// </li>
+/// <li>
+/// Amazon ElastiCache for Redis clusters (replication groups)
+/// </li>
+/// <li>
+/// Amazon EMR clusters
 /// </li>
 /// <li>
 /// Amazon Keyspaces (for Apache Cassandra) tables
 /// </li>
 /// <li>
-/// Amazon Managed Streaming for Apache Kafka cluster storage
+/// Lambda function provisioned concurrency
+/// </li>
+/// <li>
+/// Amazon Managed Streaming for Apache Kafka broker storage
+/// </li>
+/// <li>
+/// Amazon Neptune clusters
+/// </li>
+/// <li>
+/// Amazon SageMaker Serverless endpoint provisioned concurrency
+/// </li>
+/// <li>
+/// Amazon SageMaker endpoint variants
+/// </li>
+/// <li>
+/// Spot Fleets (Amazon EC2)
+/// </li>
+/// <li>
+/// Custom resources provided by your own applications or services
 /// </li>
 /// </ul>
+/// To learn more about Application Auto Scaling, see the <a
+/// href="https://docs.aws.amazon.com/autoscaling/application/userguide/what-is-application-auto-scaling.html">Application
+/// Auto Scaling User Guide</a>.
+///
 /// <b>API Summary</b>
 ///
 /// The Application Auto Scaling service API includes three key sets of actions:
 ///
 /// <ul>
 /// <li>
-/// Register and manage scalable targets - Register AWS or custom resources as
-/// scalable targets (a resource that Application Auto Scaling can scale), set
-/// minimum and maximum capacity limits, and retrieve information on existing
-/// scalable targets.
+/// Register and manage scalable targets - Register Amazon Web Services or
+/// custom resources as scalable targets (a resource that Application Auto
+/// Scaling can scale), set minimum and maximum capacity limits, and retrieve
+/// information on existing scalable targets.
 /// </li>
 /// <li>
 /// Configure and manage automatic scaling - Define scaling policies to
@@ -86,11 +99,6 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// scaling policy, and scheduled scaling.
 /// </li>
 /// </ul>
-/// To learn more about Application Auto Scaling, including information about
-/// granting IAM users required permissions for Application Auto Scaling
-/// actions, see the <a
-/// href="https://docs.aws.amazon.com/autoscaling/application/userguide/what-is-application-auto-scaling.html">Application
-/// Auto Scaling User Guide</a>.
 class ApplicationAutoScaling {
   final _s.JsonProtocol _protocol;
   ApplicationAutoScaling({
@@ -129,9 +137,9 @@ class ApplicationAutoScaling {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html#delete-step-scaling-policy">Delete
-  /// a Step Scaling Policy</a> and <a
+  /// a step scaling policy</a> and <a
   /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html#delete-target-tracking-policy">Delete
-  /// a Target Tracking Scaling Policy</a> in the <i>Application Auto Scaling
+  /// a target tracking scaling policy</a> in the <i>Application Auto Scaling
   /// User Guide</i>.
   ///
   /// May throw [ValidationException].
@@ -153,8 +161,8 @@ class ApplicationAutoScaling {
   /// <code>service/default/sample-webapp</code>.
   /// </li>
   /// <li>
-  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
-  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
+  /// unique identifier is the Spot Fleet request ID. Example:
   /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
   /// </li>
   /// <li>
@@ -182,9 +190,9 @@ class ApplicationAutoScaling {
   /// <code>cluster:my-db-cluster</code>.
   /// </li>
   /// <li>
-  /// Amazon SageMaker endpoint variant - The resource type is
-  /// <code>variant</code> and the unique identifier is the resource ID.
-  /// Example: <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// SageMaker endpoint variant - The resource type is <code>variant</code> and
+  /// the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
   /// <li>
   /// Custom resources are not supported with a resource type. This parameter
@@ -221,6 +229,20 @@ class ApplicationAutoScaling {
   /// using the cluster ARN. Example:
   /// <code>arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5</code>.
   /// </li>
+  /// <li>
+  /// Amazon ElastiCache replication group - The resource type is
+  /// <code>replication-group</code> and the unique identifier is the
+  /// replication group name. Example: <code>replication-group/mycluster</code>.
+  /// </li>
+  /// <li>
+  /// Neptune cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
+  /// </li>
+  /// <li>
+  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -233,12 +255,12 @@ class ApplicationAutoScaling {
   /// service.
   /// </li>
   /// <li>
-  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity
-  /// of a Spot Fleet request.
-  /// </li>
-  /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
   /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity
+  /// of a Spot Fleet.
   /// </li>
   /// <li>
   /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
@@ -267,7 +289,7 @@ class ApplicationAutoScaling {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
-  /// instances for an Amazon SageMaker model endpoint variant.
+  /// instances for a SageMaker model endpoint variant.
   /// </li>
   /// <li>
   /// <code>custom-resource:ResourceType:Property</code> - The scalable
@@ -300,11 +322,27 @@ class ApplicationAutoScaling {
   /// <code>kafka:broker-storage:VolumeSize</code> - The provisioned volume size
   /// (in GiB) for brokers in an Amazon MSK cluster.
   /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:NodeGroups</code> - The number of node
+  /// groups for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:Replicas</code> - The number of
+  /// replicas per node group for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>neptune:cluster:ReadReplicaCount</code> - The count of read replicas
+  /// in an Amazon Neptune DB cluster.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
+  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [serviceNamespace] :
-  /// The namespace of the AWS service that provides the resource. For a
-  /// resource provided by your own application or service, use
+  /// The namespace of the Amazon Web Services service that provides the
+  /// resource. For a resource provided by your own application or service, use
   /// <code>custom-resource</code> instead.
   Future<void> deleteScalingPolicy({
     required String policyName,
@@ -335,8 +373,8 @@ class ApplicationAutoScaling {
   /// scalable target.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scheduled-scaling.html#delete-scheduled-action">Delete
-  /// a Scheduled Action</a> in the <i>Application Auto Scaling User Guide</i>.
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/scheduled-scaling-additional-cli-commands.html#delete-scheduled-action">Delete
+  /// a scheduled action</a> in the <i>Application Auto Scaling User Guide</i>.
   ///
   /// May throw [ValidationException].
   /// May throw [ObjectNotFoundException].
@@ -354,8 +392,8 @@ class ApplicationAutoScaling {
   /// <code>service/default/sample-webapp</code>.
   /// </li>
   /// <li>
-  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
-  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
+  /// unique identifier is the Spot Fleet request ID. Example:
   /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
   /// </li>
   /// <li>
@@ -383,9 +421,9 @@ class ApplicationAutoScaling {
   /// <code>cluster:my-db-cluster</code>.
   /// </li>
   /// <li>
-  /// Amazon SageMaker endpoint variant - The resource type is
-  /// <code>variant</code> and the unique identifier is the resource ID.
-  /// Example: <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// SageMaker endpoint variant - The resource type is <code>variant</code> and
+  /// the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
   /// <li>
   /// Custom resources are not supported with a resource type. This parameter
@@ -422,6 +460,20 @@ class ApplicationAutoScaling {
   /// using the cluster ARN. Example:
   /// <code>arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5</code>.
   /// </li>
+  /// <li>
+  /// Amazon ElastiCache replication group - The resource type is
+  /// <code>replication-group</code> and the unique identifier is the
+  /// replication group name. Example: <code>replication-group/mycluster</code>.
+  /// </li>
+  /// <li>
+  /// Neptune cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
+  /// </li>
+  /// <li>
+  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -434,12 +486,12 @@ class ApplicationAutoScaling {
   /// service.
   /// </li>
   /// <li>
-  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity
-  /// of a Spot Fleet request.
-  /// </li>
-  /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
   /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity
+  /// of a Spot Fleet.
   /// </li>
   /// <li>
   /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
@@ -468,7 +520,7 @@ class ApplicationAutoScaling {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
-  /// instances for an Amazon SageMaker model endpoint variant.
+  /// instances for a SageMaker model endpoint variant.
   /// </li>
   /// <li>
   /// <code>custom-resource:ResourceType:Property</code> - The scalable
@@ -501,14 +553,30 @@ class ApplicationAutoScaling {
   /// <code>kafka:broker-storage:VolumeSize</code> - The provisioned volume size
   /// (in GiB) for brokers in an Amazon MSK cluster.
   /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:NodeGroups</code> - The number of node
+  /// groups for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:Replicas</code> - The number of
+  /// replicas per node group for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>neptune:cluster:ReadReplicaCount</code> - The count of read replicas
+  /// in an Amazon Neptune DB cluster.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
+  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scheduledActionName] :
   /// The name of the scheduled action.
   ///
   /// Parameter [serviceNamespace] :
-  /// The namespace of the AWS service that provides the resource. For a
-  /// resource provided by your own application or service, use
+  /// The namespace of the Amazon Web Services service that provides the
+  /// resource. For a resource provided by your own application or service, use
   /// <code>custom-resource</code> instead.
   Future<void> deleteScheduledAction({
     required String resourceId,
@@ -559,8 +627,8 @@ class ApplicationAutoScaling {
   /// <code>service/default/sample-webapp</code>.
   /// </li>
   /// <li>
-  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
-  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
+  /// unique identifier is the Spot Fleet request ID. Example:
   /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
   /// </li>
   /// <li>
@@ -588,9 +656,9 @@ class ApplicationAutoScaling {
   /// <code>cluster:my-db-cluster</code>.
   /// </li>
   /// <li>
-  /// Amazon SageMaker endpoint variant - The resource type is
-  /// <code>variant</code> and the unique identifier is the resource ID.
-  /// Example: <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// SageMaker endpoint variant - The resource type is <code>variant</code> and
+  /// the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
   /// <li>
   /// Custom resources are not supported with a resource type. This parameter
@@ -627,6 +695,20 @@ class ApplicationAutoScaling {
   /// using the cluster ARN. Example:
   /// <code>arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5</code>.
   /// </li>
+  /// <li>
+  /// Amazon ElastiCache replication group - The resource type is
+  /// <code>replication-group</code> and the unique identifier is the
+  /// replication group name. Example: <code>replication-group/mycluster</code>.
+  /// </li>
+  /// <li>
+  /// Neptune cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
+  /// </li>
+  /// <li>
+  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -639,12 +721,12 @@ class ApplicationAutoScaling {
   /// service.
   /// </li>
   /// <li>
-  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity
-  /// of a Spot Fleet request.
-  /// </li>
-  /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
   /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity
+  /// of a Spot Fleet.
   /// </li>
   /// <li>
   /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
@@ -673,7 +755,7 @@ class ApplicationAutoScaling {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
-  /// instances for an Amazon SageMaker model endpoint variant.
+  /// instances for a SageMaker model endpoint variant.
   /// </li>
   /// <li>
   /// <code>custom-resource:ResourceType:Property</code> - The scalable
@@ -706,11 +788,27 @@ class ApplicationAutoScaling {
   /// <code>kafka:broker-storage:VolumeSize</code> - The provisioned volume size
   /// (in GiB) for brokers in an Amazon MSK cluster.
   /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:NodeGroups</code> - The number of node
+  /// groups for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:Replicas</code> - The number of
+  /// replicas per node group for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>neptune:cluster:ReadReplicaCount</code> - The count of read replicas
+  /// in an Amazon Neptune DB cluster.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
+  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [serviceNamespace] :
-  /// The namespace of the AWS service that provides the resource. For a
-  /// resource provided by your own application or service, use
+  /// The namespace of the Amazon Web Services service that provides the
+  /// resource. For a resource provided by your own application or service, use
   /// <code>custom-resource</code> instead.
   Future<void> deregisterScalableTarget({
     required String resourceId,
@@ -746,8 +844,8 @@ class ApplicationAutoScaling {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [serviceNamespace] :
-  /// The namespace of the AWS service that provides the resource. For a
-  /// resource provided by your own application or service, use
+  /// The namespace of the Amazon Web Services service that provides the
+  /// resource. For a resource provided by your own application or service, use
   /// <code>custom-resource</code> instead.
   ///
   /// Parameter [maxResults] :
@@ -766,8 +864,7 @@ class ApplicationAutoScaling {
   ///
   /// Parameter [resourceIds] :
   /// The identifier of the resource associated with the scalable target. This
-  /// string consists of the resource type and unique identifier. If you specify
-  /// a scalable dimension, you must also specify a resource ID.
+  /// string consists of the resource type and unique identifier.
   ///
   /// <ul>
   /// <li>
@@ -776,8 +873,8 @@ class ApplicationAutoScaling {
   /// <code>service/default/sample-webapp</code>.
   /// </li>
   /// <li>
-  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
-  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
+  /// unique identifier is the Spot Fleet request ID. Example:
   /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
   /// </li>
   /// <li>
@@ -805,9 +902,9 @@ class ApplicationAutoScaling {
   /// <code>cluster:my-db-cluster</code>.
   /// </li>
   /// <li>
-  /// Amazon SageMaker endpoint variant - The resource type is
-  /// <code>variant</code> and the unique identifier is the resource ID.
-  /// Example: <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// SageMaker endpoint variant - The resource type is <code>variant</code> and
+  /// the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
   /// <li>
   /// Custom resources are not supported with a resource type. This parameter
@@ -844,6 +941,20 @@ class ApplicationAutoScaling {
   /// using the cluster ARN. Example:
   /// <code>arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5</code>.
   /// </li>
+  /// <li>
+  /// Amazon ElastiCache replication group - The resource type is
+  /// <code>replication-group</code> and the unique identifier is the
+  /// replication group name. Example: <code>replication-group/mycluster</code>.
+  /// </li>
+  /// <li>
+  /// Neptune cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
+  /// </li>
+  /// <li>
+  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -857,12 +968,12 @@ class ApplicationAutoScaling {
   /// service.
   /// </li>
   /// <li>
-  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity
-  /// of a Spot Fleet request.
-  /// </li>
-  /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
   /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity
+  /// of a Spot Fleet.
   /// </li>
   /// <li>
   /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
@@ -891,7 +1002,7 @@ class ApplicationAutoScaling {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
-  /// instances for an Amazon SageMaker model endpoint variant.
+  /// instances for a SageMaker model endpoint variant.
   /// </li>
   /// <li>
   /// <code>custom-resource:ResourceType:Property</code> - The scalable
@@ -923,6 +1034,22 @@ class ApplicationAutoScaling {
   /// <li>
   /// <code>kafka:broker-storage:VolumeSize</code> - The provisioned volume size
   /// (in GiB) for brokers in an Amazon MSK cluster.
+  /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:NodeGroups</code> - The number of node
+  /// groups for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:Replicas</code> - The number of
+  /// replicas per node group for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>neptune:cluster:ReadReplicaCount</code> - The count of read replicas
+  /// in an Amazon Neptune DB cluster.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
+  /// provisioned concurrency for a SageMaker Serverless endpoint.
   /// </li>
   /// </ul>
   Future<DescribeScalableTargetsResponse> describeScalableTargets({
@@ -961,15 +1088,29 @@ class ApplicationAutoScaling {
   /// You can filter the results using <code>ResourceId</code> and
   /// <code>ScalableDimension</code>.
   ///
+  /// For information about viewing scaling activities using the Amazon Web
+  /// Services CLI, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scaling-activities.html">Scaling
+  /// activities for Application Auto Scaling</a>.
+  ///
   /// May throw [ValidationException].
   /// May throw [InvalidNextTokenException].
   /// May throw [ConcurrentUpdateException].
   /// May throw [InternalServiceException].
   ///
   /// Parameter [serviceNamespace] :
-  /// The namespace of the AWS service that provides the resource. For a
-  /// resource provided by your own application or service, use
+  /// The namespace of the Amazon Web Services service that provides the
+  /// resource. For a resource provided by your own application or service, use
   /// <code>custom-resource</code> instead.
+  ///
+  /// Parameter [includeNotScaledActivities] :
+  /// Specifies whether to include activities that aren't scaled (<i>not scaled
+  /// activities</i>) in the response. Not scaled activities are activities that
+  /// aren't completed or started for various reasons, such as preventing
+  /// infinite scaling loops. For help interpreting the not scaled reason
+  /// details in the response, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scaling-activities.html">Scaling
+  /// activities for Application Auto Scaling</a>.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of scalable targets. This value can be between 1 and
@@ -987,8 +1128,7 @@ class ApplicationAutoScaling {
   ///
   /// Parameter [resourceId] :
   /// The identifier of the resource associated with the scaling activity. This
-  /// string consists of the resource type and unique identifier. If you specify
-  /// a scalable dimension, you must also specify a resource ID.
+  /// string consists of the resource type and unique identifier.
   ///
   /// <ul>
   /// <li>
@@ -997,8 +1137,8 @@ class ApplicationAutoScaling {
   /// <code>service/default/sample-webapp</code>.
   /// </li>
   /// <li>
-  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
-  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
+  /// unique identifier is the Spot Fleet request ID. Example:
   /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
   /// </li>
   /// <li>
@@ -1026,9 +1166,9 @@ class ApplicationAutoScaling {
   /// <code>cluster:my-db-cluster</code>.
   /// </li>
   /// <li>
-  /// Amazon SageMaker endpoint variant - The resource type is
-  /// <code>variant</code> and the unique identifier is the resource ID.
-  /// Example: <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// SageMaker endpoint variant - The resource type is <code>variant</code> and
+  /// the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
   /// <li>
   /// Custom resources are not supported with a resource type. This parameter
@@ -1065,6 +1205,20 @@ class ApplicationAutoScaling {
   /// using the cluster ARN. Example:
   /// <code>arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5</code>.
   /// </li>
+  /// <li>
+  /// Amazon ElastiCache replication group - The resource type is
+  /// <code>replication-group</code> and the unique identifier is the
+  /// replication group name. Example: <code>replication-group/mycluster</code>.
+  /// </li>
+  /// <li>
+  /// Neptune cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
+  /// </li>
+  /// <li>
+  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -1078,12 +1232,12 @@ class ApplicationAutoScaling {
   /// service.
   /// </li>
   /// <li>
-  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity
-  /// of a Spot Fleet request.
-  /// </li>
-  /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
   /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity
+  /// of a Spot Fleet.
   /// </li>
   /// <li>
   /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
@@ -1112,7 +1266,7 @@ class ApplicationAutoScaling {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
-  /// instances for an Amazon SageMaker model endpoint variant.
+  /// instances for a SageMaker model endpoint variant.
   /// </li>
   /// <li>
   /// <code>custom-resource:ResourceType:Property</code> - The scalable
@@ -1145,9 +1299,26 @@ class ApplicationAutoScaling {
   /// <code>kafka:broker-storage:VolumeSize</code> - The provisioned volume size
   /// (in GiB) for brokers in an Amazon MSK cluster.
   /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:NodeGroups</code> - The number of node
+  /// groups for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:Replicas</code> - The number of
+  /// replicas per node group for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>neptune:cluster:ReadReplicaCount</code> - The count of read replicas
+  /// in an Amazon Neptune DB cluster.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
+  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// </li>
   /// </ul>
   Future<DescribeScalingActivitiesResponse> describeScalingActivities({
     required ServiceNamespace serviceNamespace,
+    bool? includeNotScaledActivities,
     int? maxResults,
     String? nextToken,
     String? resourceId,
@@ -1165,6 +1336,8 @@ class ApplicationAutoScaling {
       headers: headers,
       payload: {
         'ServiceNamespace': serviceNamespace.toValue(),
+        if (includeNotScaledActivities != null)
+          'IncludeNotScaledActivities': includeNotScaledActivities,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (resourceId != null) 'ResourceId': resourceId,
@@ -1184,9 +1357,9 @@ class ApplicationAutoScaling {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html">Target
-  /// Tracking Scaling Policies</a> and <a
+  /// tracking scaling policies</a> and <a
   /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html">Step
-  /// Scaling Policies</a> in the <i>Application Auto Scaling User Guide</i>.
+  /// scaling policies</a> in the <i>Application Auto Scaling User Guide</i>.
   ///
   /// May throw [ValidationException].
   /// May throw [FailedResourceAccessException].
@@ -1195,19 +1368,19 @@ class ApplicationAutoScaling {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [serviceNamespace] :
-  /// The namespace of the AWS service that provides the resource. For a
-  /// resource provided by your own application or service, use
+  /// The namespace of the Amazon Web Services service that provides the
+  /// resource. For a resource provided by your own application or service, use
   /// <code>custom-resource</code> instead.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of scalable targets. This value can be between 1 and
-  /// 50. The default value is 50.
+  /// 10. The default value is 10.
   ///
   /// If this parameter is used, the operation returns up to
   /// <code>MaxResults</code> results at a time, along with a
   /// <code>NextToken</code> value. To get the next set of results, include the
   /// <code>NextToken</code> value in a subsequent call. If this parameter is
-  /// not used, the operation returns up to 50 results and a
+  /// not used, the operation returns up to 10 results and a
   /// <code>NextToken</code> value, if applicable.
   ///
   /// Parameter [nextToken] :
@@ -1218,8 +1391,7 @@ class ApplicationAutoScaling {
   ///
   /// Parameter [resourceId] :
   /// The identifier of the resource associated with the scaling policy. This
-  /// string consists of the resource type and unique identifier. If you specify
-  /// a scalable dimension, you must also specify a resource ID.
+  /// string consists of the resource type and unique identifier.
   ///
   /// <ul>
   /// <li>
@@ -1228,8 +1400,8 @@ class ApplicationAutoScaling {
   /// <code>service/default/sample-webapp</code>.
   /// </li>
   /// <li>
-  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
-  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
+  /// unique identifier is the Spot Fleet request ID. Example:
   /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
   /// </li>
   /// <li>
@@ -1257,9 +1429,9 @@ class ApplicationAutoScaling {
   /// <code>cluster:my-db-cluster</code>.
   /// </li>
   /// <li>
-  /// Amazon SageMaker endpoint variant - The resource type is
-  /// <code>variant</code> and the unique identifier is the resource ID.
-  /// Example: <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// SageMaker endpoint variant - The resource type is <code>variant</code> and
+  /// the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
   /// <li>
   /// Custom resources are not supported with a resource type. This parameter
@@ -1296,6 +1468,20 @@ class ApplicationAutoScaling {
   /// using the cluster ARN. Example:
   /// <code>arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5</code>.
   /// </li>
+  /// <li>
+  /// Amazon ElastiCache replication group - The resource type is
+  /// <code>replication-group</code> and the unique identifier is the
+  /// replication group name. Example: <code>replication-group/mycluster</code>.
+  /// </li>
+  /// <li>
+  /// Neptune cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
+  /// </li>
+  /// <li>
+  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -1309,12 +1495,12 @@ class ApplicationAutoScaling {
   /// service.
   /// </li>
   /// <li>
-  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity
-  /// of a Spot Fleet request.
-  /// </li>
-  /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
   /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity
+  /// of a Spot Fleet.
   /// </li>
   /// <li>
   /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
@@ -1343,7 +1529,7 @@ class ApplicationAutoScaling {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
-  /// instances for an Amazon SageMaker model endpoint variant.
+  /// instances for a SageMaker model endpoint variant.
   /// </li>
   /// <li>
   /// <code>custom-resource:ResourceType:Property</code> - The scalable
@@ -1375,6 +1561,22 @@ class ApplicationAutoScaling {
   /// <li>
   /// <code>kafka:broker-storage:VolumeSize</code> - The provisioned volume size
   /// (in GiB) for brokers in an Amazon MSK cluster.
+  /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:NodeGroups</code> - The number of node
+  /// groups for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:Replicas</code> - The number of
+  /// replicas per node group for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>neptune:cluster:ReadReplicaCount</code> - The count of read replicas
+  /// in an Amazon Neptune DB cluster.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
+  /// provisioned concurrency for a SageMaker Serverless endpoint.
   /// </li>
   /// </ul>
   Future<DescribeScalingPoliciesResponse> describeScalingPolicies({
@@ -1418,7 +1620,9 @@ class ApplicationAutoScaling {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scheduled-scaling.html">Scheduled
-  /// Scaling</a> in the <i>Application Auto Scaling User Guide</i>.
+  /// scaling</a> and <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/scheduled-scaling-additional-cli-commands.html">Managing
+  /// scheduled scaling</a> in the <i>Application Auto Scaling User Guide</i>.
   ///
   /// May throw [ValidationException].
   /// May throw [InvalidNextTokenException].
@@ -1426,8 +1630,8 @@ class ApplicationAutoScaling {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [serviceNamespace] :
-  /// The namespace of the AWS service that provides the resource. For a
-  /// resource provided by your own application or service, use
+  /// The namespace of the Amazon Web Services service that provides the
+  /// resource. For a resource provided by your own application or service, use
   /// <code>custom-resource</code> instead.
   ///
   /// Parameter [maxResults] :
@@ -1446,8 +1650,7 @@ class ApplicationAutoScaling {
   ///
   /// Parameter [resourceId] :
   /// The identifier of the resource associated with the scheduled action. This
-  /// string consists of the resource type and unique identifier. If you specify
-  /// a scalable dimension, you must also specify a resource ID.
+  /// string consists of the resource type and unique identifier.
   ///
   /// <ul>
   /// <li>
@@ -1456,8 +1659,8 @@ class ApplicationAutoScaling {
   /// <code>service/default/sample-webapp</code>.
   /// </li>
   /// <li>
-  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
-  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
+  /// unique identifier is the Spot Fleet request ID. Example:
   /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
   /// </li>
   /// <li>
@@ -1485,9 +1688,9 @@ class ApplicationAutoScaling {
   /// <code>cluster:my-db-cluster</code>.
   /// </li>
   /// <li>
-  /// Amazon SageMaker endpoint variant - The resource type is
-  /// <code>variant</code> and the unique identifier is the resource ID.
-  /// Example: <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// SageMaker endpoint variant - The resource type is <code>variant</code> and
+  /// the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
   /// <li>
   /// Custom resources are not supported with a resource type. This parameter
@@ -1524,6 +1727,20 @@ class ApplicationAutoScaling {
   /// using the cluster ARN. Example:
   /// <code>arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5</code>.
   /// </li>
+  /// <li>
+  /// Amazon ElastiCache replication group - The resource type is
+  /// <code>replication-group</code> and the unique identifier is the
+  /// replication group name. Example: <code>replication-group/mycluster</code>.
+  /// </li>
+  /// <li>
+  /// Neptune cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
+  /// </li>
+  /// <li>
+  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -1537,12 +1754,12 @@ class ApplicationAutoScaling {
   /// service.
   /// </li>
   /// <li>
-  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity
-  /// of a Spot Fleet request.
-  /// </li>
-  /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
   /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity
+  /// of a Spot Fleet.
   /// </li>
   /// <li>
   /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
@@ -1571,7 +1788,7 @@ class ApplicationAutoScaling {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
-  /// instances for an Amazon SageMaker model endpoint variant.
+  /// instances for a SageMaker model endpoint variant.
   /// </li>
   /// <li>
   /// <code>custom-resource:ResourceType:Property</code> - The scalable
@@ -1603,6 +1820,22 @@ class ApplicationAutoScaling {
   /// <li>
   /// <code>kafka:broker-storage:VolumeSize</code> - The provisioned volume size
   /// (in GiB) for brokers in an Amazon MSK cluster.
+  /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:NodeGroups</code> - The number of node
+  /// groups for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:Replicas</code> - The number of
+  /// replicas per node group for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>neptune:cluster:ReadReplicaCount</code> - The count of read replicas
+  /// in an Amazon Neptune DB cluster.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
+  /// provisioned concurrency for a SageMaker Serverless endpoint.
   /// </li>
   /// </ul>
   ///
@@ -1641,6 +1874,45 @@ class ApplicationAutoScaling {
     return DescribeScheduledActionsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns all the tags on the specified Application Auto Scaling scalable
+  /// target.
+  ///
+  /// For general information about tags, including the format and syntax, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// Amazon Web Services resources</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  ///
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceARN] :
+  /// Specify the ARN of the scalable target.
+  ///
+  /// For example:
+  /// <code>arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123</code>
+  ///
+  /// To get the ARN for a scalable target, use <a>DescribeScalableTargets</a>.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    required String resourceARN,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AnyScaleFrontendService.ListTagsForResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+      },
+    );
+
+    return ListTagsForResourceResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates or updates a scaling policy for an Application Auto Scaling
   /// scalable target.
   ///
@@ -1670,12 +1942,12 @@ class ApplicationAutoScaling {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html">Target
-  /// Tracking Scaling Policies</a> and <a
+  /// tracking scaling policies</a> and <a
   /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html">Step
-  /// Scaling Policies</a> in the <i>Application Auto Scaling User Guide</i>.
+  /// scaling policies</a> in the <i>Application Auto Scaling User Guide</i>.
   /// <note>
   /// If a scalable target is deregistered, the scalable target is no longer
-  /// available to execute scaling policies. Any scaling policies that were
+  /// available to use scaling policies. Any scaling policies that were
   /// specified for the scalable target are deleted.
   /// </note>
   ///
@@ -1689,6 +1961,10 @@ class ApplicationAutoScaling {
   /// Parameter [policyName] :
   /// The name of the scaling policy.
   ///
+  /// You cannot change the name of a scaling policy, but you can delete the
+  /// original scaling policy and create a new scaling policy with the same
+  /// settings and a different name.
+  ///
   /// Parameter [resourceId] :
   /// The identifier of the resource associated with the scaling policy. This
   /// string consists of the resource type and unique identifier.
@@ -1700,8 +1976,8 @@ class ApplicationAutoScaling {
   /// <code>service/default/sample-webapp</code>.
   /// </li>
   /// <li>
-  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
-  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
+  /// unique identifier is the Spot Fleet request ID. Example:
   /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
   /// </li>
   /// <li>
@@ -1729,9 +2005,9 @@ class ApplicationAutoScaling {
   /// <code>cluster:my-db-cluster</code>.
   /// </li>
   /// <li>
-  /// Amazon SageMaker endpoint variant - The resource type is
-  /// <code>variant</code> and the unique identifier is the resource ID.
-  /// Example: <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// SageMaker endpoint variant - The resource type is <code>variant</code> and
+  /// the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
   /// <li>
   /// Custom resources are not supported with a resource type. This parameter
@@ -1768,6 +2044,20 @@ class ApplicationAutoScaling {
   /// using the cluster ARN. Example:
   /// <code>arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5</code>.
   /// </li>
+  /// <li>
+  /// Amazon ElastiCache replication group - The resource type is
+  /// <code>replication-group</code> and the unique identifier is the
+  /// replication group name. Example: <code>replication-group/mycluster</code>.
+  /// </li>
+  /// <li>
+  /// Neptune cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
+  /// </li>
+  /// <li>
+  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -1780,12 +2070,12 @@ class ApplicationAutoScaling {
   /// service.
   /// </li>
   /// <li>
-  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity
-  /// of a Spot Fleet request.
-  /// </li>
-  /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
   /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity
+  /// of a Spot Fleet.
   /// </li>
   /// <li>
   /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
@@ -1814,7 +2104,7 @@ class ApplicationAutoScaling {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
-  /// instances for an Amazon SageMaker model endpoint variant.
+  /// instances for a SageMaker model endpoint variant.
   /// </li>
   /// <li>
   /// <code>custom-resource:ResourceType:Property</code> - The scalable
@@ -1847,29 +2137,45 @@ class ApplicationAutoScaling {
   /// <code>kafka:broker-storage:VolumeSize</code> - The provisioned volume size
   /// (in GiB) for brokers in an Amazon MSK cluster.
   /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:NodeGroups</code> - The number of node
+  /// groups for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:Replicas</code> - The number of
+  /// replicas per node group for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>neptune:cluster:ReadReplicaCount</code> - The count of read replicas
+  /// in an Amazon Neptune DB cluster.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
+  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [serviceNamespace] :
-  /// The namespace of the AWS service that provides the resource. For a
-  /// resource provided by your own application or service, use
+  /// The namespace of the Amazon Web Services service that provides the
+  /// resource. For a resource provided by your own application or service, use
   /// <code>custom-resource</code> instead.
   ///
   /// Parameter [policyType] :
-  /// The policy type. This parameter is required if you are creating a scaling
-  /// policy.
+  /// The scaling policy type. This parameter is required if you are creating a
+  /// scaling policy.
   ///
   /// The following policy types are supported:
   ///
   /// <code>TargetTrackingScaling</code>—Not supported for Amazon EMR
   ///
   /// <code>StepScaling</code>—Not supported for DynamoDB, Amazon Comprehend,
-  /// Lambda, Amazon Keyspaces (for Apache Cassandra), or Amazon MSK.
+  /// Lambda, Amazon Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html">Target
-  /// Tracking Scaling Policies</a> and <a
+  /// tracking scaling policies</a> and <a
   /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html">Step
-  /// Scaling Policies</a> in the <i>Application Auto Scaling User Guide</i>.
+  /// scaling policies</a> in the <i>Application Auto Scaling User Guide</i>.
   ///
   /// Parameter [stepScalingPolicyConfiguration] :
   /// A step scaling policy.
@@ -1928,8 +2234,8 @@ class ApplicationAutoScaling {
   /// identified by those three attributes. You cannot create a scheduled action
   /// until you have registered the resource as a scalable target.
   ///
-  /// When start and end times are specified with a recurring schedule using a
-  /// cron expression or rates, they form the boundaries of when the recurring
+  /// When you specify start and end times with a recurring schedule using a
+  /// cron expression or rates, they form the boundaries for when the recurring
   /// action starts and stops.
   ///
   /// To update a scheduled action, specify the parameters that you want to
@@ -1938,7 +2244,7 @@ class ApplicationAutoScaling {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scheduled-scaling.html">Scheduled
-  /// Scaling</a> in the <i>Application Auto Scaling User Guide</i>.
+  /// scaling</a> in the <i>Application Auto Scaling User Guide</i>.
   /// <note>
   /// If a scalable target is deregistered, the scalable target is no longer
   /// available to run scheduled actions. Any scheduled actions that were
@@ -1962,8 +2268,8 @@ class ApplicationAutoScaling {
   /// <code>service/default/sample-webapp</code>.
   /// </li>
   /// <li>
-  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
-  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
+  /// unique identifier is the Spot Fleet request ID. Example:
   /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
   /// </li>
   /// <li>
@@ -1991,9 +2297,9 @@ class ApplicationAutoScaling {
   /// <code>cluster:my-db-cluster</code>.
   /// </li>
   /// <li>
-  /// Amazon SageMaker endpoint variant - The resource type is
-  /// <code>variant</code> and the unique identifier is the resource ID.
-  /// Example: <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// SageMaker endpoint variant - The resource type is <code>variant</code> and
+  /// the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
   /// <li>
   /// Custom resources are not supported with a resource type. This parameter
@@ -2030,6 +2336,20 @@ class ApplicationAutoScaling {
   /// using the cluster ARN. Example:
   /// <code>arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5</code>.
   /// </li>
+  /// <li>
+  /// Amazon ElastiCache replication group - The resource type is
+  /// <code>replication-group</code> and the unique identifier is the
+  /// replication group name. Example: <code>replication-group/mycluster</code>.
+  /// </li>
+  /// <li>
+  /// Neptune cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
+  /// </li>
+  /// <li>
+  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -2042,12 +2362,12 @@ class ApplicationAutoScaling {
   /// service.
   /// </li>
   /// <li>
-  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity
-  /// of a Spot Fleet request.
-  /// </li>
-  /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
   /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity
+  /// of a Spot Fleet.
   /// </li>
   /// <li>
   /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
@@ -2076,7 +2396,7 @@ class ApplicationAutoScaling {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
-  /// instances for an Amazon SageMaker model endpoint variant.
+  /// instances for a SageMaker model endpoint variant.
   /// </li>
   /// <li>
   /// <code>custom-resource:ResourceType:Property</code> - The scalable
@@ -2109,6 +2429,22 @@ class ApplicationAutoScaling {
   /// <code>kafka:broker-storage:VolumeSize</code> - The provisioned volume size
   /// (in GiB) for brokers in an Amazon MSK cluster.
   /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:NodeGroups</code> - The number of node
+  /// groups for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:Replicas</code> - The number of
+  /// replicas per node group for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>neptune:cluster:ReadReplicaCount</code> - The count of read replicas
+  /// in an Amazon Neptune DB cluster.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
+  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scheduledActionName] :
@@ -2116,12 +2452,12 @@ class ApplicationAutoScaling {
   /// scheduled actions on the specified scalable target.
   ///
   /// Parameter [serviceNamespace] :
-  /// The namespace of the AWS service that provides the resource. For a
-  /// resource provided by your own application or service, use
+  /// The namespace of the Amazon Web Services service that provides the
+  /// resource. For a resource provided by your own application or service, use
   /// <code>custom-resource</code> instead.
   ///
   /// Parameter [endTime] :
-  /// The date and time for the recurring schedule to end.
+  /// The date and time for the recurring schedule to end, in UTC.
   ///
   /// Parameter [scalableTargetAction] :
   /// The new minimum and maximum capacity. You can set both values or just one.
@@ -2145,22 +2481,37 @@ class ApplicationAutoScaling {
   /// Cron expressions - "<code>cron(<i>fields</i>)</code>"
   /// </li>
   /// </ul>
-  /// At expressions are useful for one-time schedules. Specify the time in UTC.
+  /// At expressions are useful for one-time schedules. Cron expressions are
+  /// useful for scheduled actions that run periodically at a specified date and
+  /// time, and rate expressions are useful for scheduled actions that run at a
+  /// regular interval.
+  ///
+  /// At and cron expressions use Universal Coordinated Time (UTC) by default.
+  ///
+  /// The cron format consists of six fields separated by white spaces:
+  /// [Minutes] [Hours] [Day_of_Month] [Month] [Day_of_Week] [Year].
   ///
   /// For rate expressions, <i>value</i> is a positive integer and <i>unit</i>
   /// is <code>minute</code> | <code>minutes</code> | <code>hour</code> |
   /// <code>hours</code> | <code>day</code> | <code>days</code>.
   ///
-  /// For more information about cron expressions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions">Cron
-  /// Expressions</a> in the <i>Amazon CloudWatch Events User Guide</i>.
-  ///
-  /// For examples of using these expressions, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scheduled-scaling.html">Scheduled
-  /// Scaling</a> in the <i>Application Auto Scaling User Guide</i>.
+  /// For more information and examples, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/examples-scheduled-actions.html">Example
+  /// scheduled actions for Application Auto Scaling</a> in the <i>Application
+  /// Auto Scaling User Guide</i>.
   ///
   /// Parameter [startTime] :
-  /// The date and time for this scheduled action to start.
+  /// The date and time for this scheduled action to start, in UTC.
+  ///
+  /// Parameter [timezone] :
+  /// Specifies the time zone used when setting a scheduled action by using an
+  /// at or cron expression. If a time zone is not provided, UTC is used by
+  /// default.
+  ///
+  /// Valid values are the canonical names of the IANA time zones supported by
+  /// Joda-Time (such as <code>Etc/GMT+9</code> or <code>Pacific/Tahiti</code>).
+  /// For more information, see <a
+  /// href="https://www.joda.org/joda-time/timezones.html">https://www.joda.org/joda-time/timezones.html</a>.
   Future<void> putScheduledAction({
     required String resourceId,
     required ScalableDimension scalableDimension,
@@ -2170,6 +2521,7 @@ class ApplicationAutoScaling {
     ScalableTargetAction? scalableTargetAction,
     String? schedule,
     DateTime? startTime,
+    String? timezone,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2191,20 +2543,28 @@ class ApplicationAutoScaling {
           'ScalableTargetAction': scalableTargetAction,
         if (schedule != null) 'Schedule': schedule,
         if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+        if (timezone != null) 'Timezone': timezone,
       },
     );
   }
 
-  /// Registers or updates a scalable target.
+  /// Registers or updates a scalable target, which is the resource that you
+  /// want to scale.
   ///
-  /// A scalable target is a resource that Application Auto Scaling can scale
-  /// out and scale in. Scalable targets are uniquely identified by the
-  /// combination of resource ID, scalable dimension, and namespace.
+  /// Scalable targets are uniquely identified by the combination of resource
+  /// ID, scalable dimension, and namespace, which represents some capacity
+  /// dimension of the underlying service.
   ///
-  /// When you register a new scalable target, you must specify values for
-  /// minimum and maximum capacity. Current capacity will be adjusted within the
+  /// When you register a new scalable target, you must specify values for the
+  /// minimum and maximum capacity. If the specified resource is not active in
+  /// the target service, this operation does not change the resource's current
+  /// capacity. Otherwise, it changes the resource's current capacity to a value
+  /// that is inside of this range.
+  ///
+  /// If you add a scaling policy, current capacity is adjustable within the
   /// specified range when scaling starts. Application Auto Scaling scaling
-  /// policies will not scale capacity to values that are outside of this range.
+  /// policies will not scale capacity to values that are outside of the minimum
+  /// and maximum range.
   ///
   /// After you register a scalable target, you do not need to register it again
   /// to use other Application Auto Scaling operations. To see which resources
@@ -2219,6 +2579,24 @@ class ApplicationAutoScaling {
   /// change. Include the parameters that identify the scalable target: resource
   /// ID, scalable dimension, and namespace. Any parameters that you don't
   /// specify are not changed by this update request.
+  /// <note>
+  /// If you call the <code>RegisterScalableTarget</code> API operation to
+  /// create a scalable target, there might be a brief delay until the operation
+  /// achieves <a
+  /// href="https://en.wikipedia.org/wiki/Eventual_consistency">eventual
+  /// consistency</a>. You might become aware of this brief delay if you get
+  /// unexpected errors when performing sequential operations. The typical
+  /// strategy is to retry the request, and some Amazon Web Services SDKs
+  /// include automatic backoff and retry logic.
+  ///
+  /// If you call the <code>RegisterScalableTarget</code> API operation to
+  /// update an existing scalable target, Application Auto Scaling retrieves the
+  /// current capacity of the resource. If it's below the minimum capacity or
+  /// above the maximum capacity, Application Auto Scaling adjusts the capacity
+  /// of the scalable target to place it within these bounds, even if you don't
+  /// include the <code>MinCapacity</code> or <code>MaxCapacity</code> request
+  /// parameters.
+  /// </note>
   ///
   /// May throw [ValidationException].
   /// May throw [LimitExceededException].
@@ -2236,8 +2614,8 @@ class ApplicationAutoScaling {
   /// <code>service/default/sample-webapp</code>.
   /// </li>
   /// <li>
-  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
-  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
+  /// unique identifier is the Spot Fleet request ID. Example:
   /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
   /// </li>
   /// <li>
@@ -2265,9 +2643,9 @@ class ApplicationAutoScaling {
   /// <code>cluster:my-db-cluster</code>.
   /// </li>
   /// <li>
-  /// Amazon SageMaker endpoint variant - The resource type is
-  /// <code>variant</code> and the unique identifier is the resource ID.
-  /// Example: <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// SageMaker endpoint variant - The resource type is <code>variant</code> and
+  /// the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
   /// <li>
   /// Custom resources are not supported with a resource type. This parameter
@@ -2304,6 +2682,20 @@ class ApplicationAutoScaling {
   /// using the cluster ARN. Example:
   /// <code>arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5</code>.
   /// </li>
+  /// <li>
+  /// Amazon ElastiCache replication group - The resource type is
+  /// <code>replication-group</code> and the unique identifier is the
+  /// replication group name. Example: <code>replication-group/mycluster</code>.
+  /// </li>
+  /// <li>
+  /// Neptune cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
+  /// </li>
+  /// <li>
+  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [scalableDimension] :
@@ -2316,12 +2708,12 @@ class ApplicationAutoScaling {
   /// service.
   /// </li>
   /// <li>
-  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity
-  /// of a Spot Fleet request.
-  /// </li>
-  /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
   /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity
+  /// of a Spot Fleet.
   /// </li>
   /// <li>
   /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
@@ -2350,7 +2742,7 @@ class ApplicationAutoScaling {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
-  /// instances for an Amazon SageMaker model endpoint variant.
+  /// instances for a SageMaker model endpoint variant.
   /// </li>
   /// <li>
   /// <code>custom-resource:ResourceType:Property</code> - The scalable
@@ -2383,40 +2775,91 @@ class ApplicationAutoScaling {
   /// <code>kafka:broker-storage:VolumeSize</code> - The provisioned volume size
   /// (in GiB) for brokers in an Amazon MSK cluster.
   /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:NodeGroups</code> - The number of node
+  /// groups for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:Replicas</code> - The number of
+  /// replicas per node group for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>neptune:cluster:ReadReplicaCount</code> - The count of read replicas
+  /// in an Amazon Neptune DB cluster.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
+  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [serviceNamespace] :
-  /// The namespace of the AWS service that provides the resource. For a
-  /// resource provided by your own application or service, use
+  /// The namespace of the Amazon Web Services service that provides the
+  /// resource. For a resource provided by your own application or service, use
   /// <code>custom-resource</code> instead.
   ///
   /// Parameter [maxCapacity] :
   /// The maximum value that you plan to scale out to. When a scaling policy is
   /// in effect, Application Auto Scaling can scale out (expand) as needed to
-  /// the maximum capacity limit in response to changing demand.
-  ///
-  /// This parameter is required if you are registering a scalable target.
+  /// the maximum capacity limit in response to changing demand. This property
+  /// is required when registering a new scalable target.
   ///
   /// Although you can specify a large maximum capacity, note that service
-  /// quotas may impose lower limits. Each service has its own default quotas
+  /// quotas might impose lower limits. Each service has its own default quotas
   /// for the maximum capacity of the resource. If you want to specify a higher
   /// limit, you can request an increase. For more information, consult the
   /// documentation for that service. For information about the default quotas
   /// for each service, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-service-information.html">Service
-  /// Endpoints and Quotas</a> in the <i>Amazon Web Services General
+  /// endpoints and quotas</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   ///
   /// Parameter [minCapacity] :
   /// The minimum value that you plan to scale in to. When a scaling policy is
   /// in effect, Application Auto Scaling can scale in (contract) as needed to
-  /// the minimum capacity limit in response to changing demand.
+  /// the minimum capacity limit in response to changing demand. This property
+  /// is required when registering a new scalable target.
   ///
-  /// This parameter is required if you are registering a scalable target. For
-  /// certain resources, the minimum value allowed is 0. This includes Lambda
-  /// provisioned concurrency, Spot Fleet, ECS services, Aurora DB clusters, EMR
-  /// clusters, and custom resources. For all other resources, the minimum value
-  /// allowed is 1.
+  /// For the following resources, the minimum value allowed is 0.
+  ///
+  /// <ul>
+  /// <li>
+  /// AppStream 2.0 fleets
+  /// </li>
+  /// <li>
+  /// Aurora DB clusters
+  /// </li>
+  /// <li>
+  /// ECS services
+  /// </li>
+  /// <li>
+  /// EMR clusters
+  /// </li>
+  /// <li>
+  /// Lambda provisioned concurrency
+  /// </li>
+  /// <li>
+  /// SageMaker Serverless endpoint provisioned concurrency
+  /// </li>
+  /// <li>
+  /// SageMaker endpoint variants
+  /// </li>
+  /// <li>
+  /// Spot Fleets
+  /// </li>
+  /// <li>
+  /// custom resources
+  /// </li>
+  /// </ul>
+  /// It's strongly recommended that you specify a value greater than 0. A value
+  /// greater than 0 means that data points are continuously reported to
+  /// CloudWatch that scaling policies can use to scale on a metric like average
+  /// CPU utilization.
+  ///
+  /// For all other resources, the minimum allowed value depends on the type of
+  /// resource that you are using. If you provide a value that is lower than
+  /// what a resource can accept, an error occurs. In which case, the error
+  /// message will provide the minimum value that the resource can accept.
   ///
   /// Parameter [roleARN] :
   /// This parameter is required for services that do not support service-linked
@@ -2428,7 +2871,7 @@ class ApplicationAutoScaling {
   /// uses a service-linked role, which it creates if it does not yet exist. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-roles">Application
-  /// Auto Scaling IAM Roles</a>.
+  /// Auto Scaling IAM roles</a>.
   ///
   /// Parameter [suspendedState] :
   /// An embedded object that contains attributes and attribute values that are
@@ -2458,9 +2901,24 @@ class ApplicationAutoScaling {
   /// </ul>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-suspend-resume-scaling.html">Suspending
-  /// and Resuming Scaling</a> in the <i>Application Auto Scaling User
+  /// and resuming scaling</a> in the <i>Application Auto Scaling User
   /// Guide</i>.
-  Future<void> registerScalableTarget({
+  ///
+  /// Parameter [tags] :
+  /// Assigns one or more tags to the scalable target. Use this parameter to tag
+  /// the scalable target when it is created. To tag an existing scalable
+  /// target, use the <a>TagResource</a> operation.
+  ///
+  /// Each tag consists of a tag key and a tag value. Both the tag key and the
+  /// tag value are required. You cannot have more than one tag on a scalable
+  /// target with the same tag key.
+  ///
+  /// Use tags to control access to a scalable target. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/resource-tagging-support.html">Tagging
+  /// support for Application Auto Scaling</a> in the <i>Application Auto
+  /// Scaling User Guide</i>.
+  Future<RegisterScalableTargetResponse> registerScalableTarget({
     required String resourceId,
     required ScalableDimension scalableDimension,
     required ServiceNamespace serviceNamespace,
@@ -2468,12 +2926,13 @@ class ApplicationAutoScaling {
     int? minCapacity,
     String? roleARN,
     SuspendedState? suspendedState,
+    Map<String, String>? tags,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AnyScaleFrontendService.RegisterScalableTarget'
     };
-    await _protocol.send(
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2487,6 +2946,121 @@ class ApplicationAutoScaling {
         if (minCapacity != null) 'MinCapacity': minCapacity,
         if (roleARN != null) 'RoleARN': roleARN,
         if (suspendedState != null) 'SuspendedState': suspendedState,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return RegisterScalableTargetResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Adds or edits tags on an Application Auto Scaling scalable target.
+  ///
+  /// Each tag consists of a tag key and a tag value, which are both
+  /// case-sensitive strings. To add a tag, specify a new tag key and a tag
+  /// value. To edit a tag, specify an existing tag key and a new tag value.
+  ///
+  /// You can use this operation to tag an Application Auto Scaling scalable
+  /// target, but you cannot tag a scaling policy or scheduled action.
+  ///
+  /// You can also add tags to an Application Auto Scaling scalable target while
+  /// creating it (<code>RegisterScalableTarget</code>).
+  ///
+  /// For general information about tags, including the format and syntax, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// Amazon Web Services resources</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  ///
+  /// Use tags to control access to a scalable target. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/resource-tagging-support.html">Tagging
+  /// support for Application Auto Scaling</a> in the <i>Application Auto
+  /// Scaling User Guide</i>.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyTagsException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceARN] :
+  /// Identifies the Application Auto Scaling scalable target that you want to
+  /// apply tags to.
+  ///
+  /// For example:
+  /// <code>arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123</code>
+  ///
+  /// To get the ARN for a scalable target, use <a>DescribeScalableTargets</a>.
+  ///
+  /// Parameter [tags] :
+  /// The tags assigned to the resource. A tag is a label that you assign to an
+  /// Amazon Web Services resource.
+  ///
+  /// Each tag consists of a tag key and a tag value.
+  ///
+  /// You cannot have more than one tag on an Application Auto Scaling scalable
+  /// target with the same tag key. If you specify an existing tag key with a
+  /// different tag value, Application Auto Scaling replaces the current tag
+  /// value with the specified one.
+  ///
+  /// For information about the rules that apply to tag keys and tag values, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html">User-defined
+  /// tag restrictions</a> in the <i>Amazon Web Services Billing and Cost
+  /// Management User Guide</i>.
+  Future<void> tagResource({
+    required String resourceARN,
+    required Map<String, String> tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AnyScaleFrontendService.TagResource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+        'Tags': tags,
+      },
+    );
+  }
+
+  /// Deletes tags from an Application Auto Scaling scalable target. To delete a
+  /// tag, specify the tag key and the Application Auto Scaling scalable target.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceARN] :
+  /// Identifies the Application Auto Scaling scalable target from which to
+  /// remove tags.
+  ///
+  /// For example:
+  /// <code>arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123</code>
+  ///
+  /// To get the ARN for a scalable target, use <a>DescribeScalableTargets</a>.
+  ///
+  /// Parameter [tagKeys] :
+  /// One or more tag keys. Specify only the tag keys, not the tag values.
+  Future<void> untagResource({
+    required String resourceARN,
+    required List<String> tagKeys,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AnyScaleFrontendService.UntagResource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+        'TagKeys': tagKeys,
       },
     );
   }
@@ -2537,6 +3111,7 @@ class Alarm {
     required this.alarmARN,
     required this.alarmName,
   });
+
   factory Alarm.fromJson(Map<String, dynamic> json) {
     return Alarm(
       alarmARN: json['AlarmARN'] as String,
@@ -2549,9 +3124,9 @@ class Alarm {
 /// scaling policy to use with Application Auto Scaling.
 ///
 /// For information about the available metrics for a service, see <a
-/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html">AWS
-/// Services That Publish CloudWatch Metrics</a> in the <i>Amazon CloudWatch
-/// User Guide</i>.
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html">Amazon
+/// Web Services services that publish CloudWatch metrics</a> in the <i>Amazon
+/// CloudWatch User Guide</i>.
 ///
 /// To create your customized metric specification:
 ///
@@ -2562,7 +3137,7 @@ class Alarm {
 /// you must first publish the metric to CloudWatch. For more information, see
 /// <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html">Publish
-/// Custom Metrics</a> in the <i>Amazon CloudWatch User Guide</i>.
+/// custom metrics</a> in the <i>Amazon CloudWatch User Guide</i>.
 /// </li>
 /// <li>
 /// Choose a metric that changes proportionally with capacity. The value of the
@@ -2571,59 +3146,79 @@ class Alarm {
 /// capacity increases, and increase when capacity decreases.
 /// </li>
 /// </ul>
-/// For more information about CloudWatch, see <a
+/// For more information about the CloudWatch terminology below, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
-/// CloudWatch Concepts</a>.
+/// CloudWatch concepts</a> in the <i>Amazon CloudWatch User Guide</i>.
 class CustomizedMetricSpecification {
-  /// The name of the metric.
-  final String metricName;
-
-  /// The namespace of the metric.
-  final String namespace;
-
-  /// The statistic of the metric.
-  final MetricStatistic statistic;
-
   /// The dimensions of the metric.
   ///
   /// Conditional: If you published your metric with dimensions, you must specify
   /// the same dimensions in your scaling policy.
   final List<MetricDimension>? dimensions;
 
-  /// The unit of the metric.
+  /// The name of the metric. To get the exact metric name, namespace, and
+  /// dimensions, inspect the <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_Metric.html">Metric</a>
+  /// object that's returned by a call to <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html">ListMetrics</a>.
+  final String? metricName;
+
+  /// The metrics to include in the target tracking scaling policy, as a metric
+  /// data query. This can include both raw metric and metric math expressions.
+  final List<TargetTrackingMetricDataQuery>? metrics;
+
+  /// The namespace of the metric.
+  final String? namespace;
+
+  /// The statistic of the metric.
+  final MetricStatistic? statistic;
+
+  /// The unit of the metric. For a complete list of the units that CloudWatch
+  /// supports, see the <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html">MetricDatum</a>
+  /// data type in the <i>Amazon CloudWatch API Reference</i>.
   final String? unit;
 
   CustomizedMetricSpecification({
-    required this.metricName,
-    required this.namespace,
-    required this.statistic,
     this.dimensions,
+    this.metricName,
+    this.metrics,
+    this.namespace,
+    this.statistic,
     this.unit,
   });
+
   factory CustomizedMetricSpecification.fromJson(Map<String, dynamic> json) {
     return CustomizedMetricSpecification(
-      metricName: json['MetricName'] as String,
-      namespace: json['Namespace'] as String,
-      statistic: (json['Statistic'] as String).toMetricStatistic(),
       dimensions: (json['Dimensions'] as List?)
           ?.whereNotNull()
           .map((e) => MetricDimension.fromJson(e as Map<String, dynamic>))
           .toList(),
+      metricName: json['MetricName'] as String?,
+      metrics: (json['Metrics'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              TargetTrackingMetricDataQuery.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      namespace: json['Namespace'] as String?,
+      statistic: (json['Statistic'] as String?)?.toMetricStatistic(),
       unit: json['Unit'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final dimensions = this.dimensions;
     final metricName = this.metricName;
+    final metrics = this.metrics;
     final namespace = this.namespace;
     final statistic = this.statistic;
-    final dimensions = this.dimensions;
     final unit = this.unit;
     return {
-      'MetricName': metricName,
-      'Namespace': namespace,
-      'Statistic': statistic.toValue(),
       if (dimensions != null) 'Dimensions': dimensions,
+      if (metricName != null) 'MetricName': metricName,
+      if (metrics != null) 'Metrics': metrics,
+      if (namespace != null) 'Namespace': namespace,
+      if (statistic != null) 'Statistic': statistic.toValue(),
       if (unit != null) 'Unit': unit,
     };
   }
@@ -2631,6 +3226,7 @@ class CustomizedMetricSpecification {
 
 class DeleteScalingPolicyResponse {
   DeleteScalingPolicyResponse();
+
   factory DeleteScalingPolicyResponse.fromJson(Map<String, dynamic> _) {
     return DeleteScalingPolicyResponse();
   }
@@ -2638,6 +3234,7 @@ class DeleteScalingPolicyResponse {
 
 class DeleteScheduledActionResponse {
   DeleteScheduledActionResponse();
+
   factory DeleteScheduledActionResponse.fromJson(Map<String, dynamic> _) {
     return DeleteScheduledActionResponse();
   }
@@ -2645,6 +3242,7 @@ class DeleteScheduledActionResponse {
 
 class DeregisterScalableTargetResponse {
   DeregisterScalableTargetResponse();
+
   factory DeregisterScalableTargetResponse.fromJson(Map<String, dynamic> _) {
     return DeregisterScalableTargetResponse();
   }
@@ -2662,6 +3260,7 @@ class DescribeScalableTargetsResponse {
     this.nextToken,
     this.scalableTargets,
   });
+
   factory DescribeScalableTargetsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeScalableTargetsResponse(
       nextToken: json['NextToken'] as String?,
@@ -2685,6 +3284,7 @@ class DescribeScalingActivitiesResponse {
     this.nextToken,
     this.scalingActivities,
   });
+
   factory DescribeScalingActivitiesResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeScalingActivitiesResponse(
@@ -2709,6 +3309,7 @@ class DescribeScalingPoliciesResponse {
     this.nextToken,
     this.scalingPolicies,
   });
+
   factory DescribeScalingPoliciesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeScalingPoliciesResponse(
       nextToken: json['NextToken'] as String?,
@@ -2732,6 +3333,7 @@ class DescribeScheduledActionsResponse {
     this.nextToken,
     this.scheduledActions,
   });
+
   factory DescribeScheduledActionsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeScheduledActionsResponse(
       nextToken: json['NextToken'] as String?,
@@ -2739,6 +3341,22 @@ class DescribeScheduledActionsResponse {
           ?.whereNotNull()
           .map((e) => ScheduledAction.fromJson(e as Map<String, dynamic>))
           .toList(),
+    );
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// A list of tags. Each tag consists of a tag key and a tag value.
+  final Map<String, String>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 }
@@ -2788,6 +3406,7 @@ class MetricDimension {
     required this.name,
     required this.value,
   });
+
   factory MetricDimension.fromJson(Map<String, dynamic> json) {
     return MetricDimension(
       name: json['Name'] as String,
@@ -2866,6 +3485,11 @@ enum MetricType {
   cassandraReadCapacityUtilization,
   cassandraWriteCapacityUtilization,
   kafkaBrokerStorageUtilization,
+  elastiCachePrimaryEngineCPUUtilization,
+  elastiCacheReplicaEngineCPUUtilization,
+  elastiCacheDatabaseMemoryUsageCountedForEvictPercentage,
+  neptuneReaderAverageCPUUtilization,
+  sageMakerVariantProvisionedConcurrencyUtilization,
 }
 
 extension MetricTypeValueExtension on MetricType {
@@ -2905,6 +3529,16 @@ extension MetricTypeValueExtension on MetricType {
         return 'CassandraWriteCapacityUtilization';
       case MetricType.kafkaBrokerStorageUtilization:
         return 'KafkaBrokerStorageUtilization';
+      case MetricType.elastiCachePrimaryEngineCPUUtilization:
+        return 'ElastiCachePrimaryEngineCPUUtilization';
+      case MetricType.elastiCacheReplicaEngineCPUUtilization:
+        return 'ElastiCacheReplicaEngineCPUUtilization';
+      case MetricType.elastiCacheDatabaseMemoryUsageCountedForEvictPercentage:
+        return 'ElastiCacheDatabaseMemoryUsageCountedForEvictPercentage';
+      case MetricType.neptuneReaderAverageCPUUtilization:
+        return 'NeptuneReaderAverageCPUUtilization';
+      case MetricType.sageMakerVariantProvisionedConcurrencyUtilization:
+        return 'SageMakerVariantProvisionedConcurrencyUtilization';
     }
   }
 }
@@ -2946,8 +3580,74 @@ extension MetricTypeFromString on String {
         return MetricType.cassandraWriteCapacityUtilization;
       case 'KafkaBrokerStorageUtilization':
         return MetricType.kafkaBrokerStorageUtilization;
+      case 'ElastiCachePrimaryEngineCPUUtilization':
+        return MetricType.elastiCachePrimaryEngineCPUUtilization;
+      case 'ElastiCacheReplicaEngineCPUUtilization':
+        return MetricType.elastiCacheReplicaEngineCPUUtilization;
+      case 'ElastiCacheDatabaseMemoryUsageCountedForEvictPercentage':
+        return MetricType
+            .elastiCacheDatabaseMemoryUsageCountedForEvictPercentage;
+      case 'NeptuneReaderAverageCPUUtilization':
+        return MetricType.neptuneReaderAverageCPUUtilization;
+      case 'SageMakerVariantProvisionedConcurrencyUtilization':
+        return MetricType.sageMakerVariantProvisionedConcurrencyUtilization;
     }
     throw Exception('$this is not known in enum MetricType');
+  }
+}
+
+/// Describes the reason for an activity that isn't scaled (<i>not scaled
+/// activity</i>), in machine-readable format. For help interpreting the not
+/// scaled reason details, see <a
+/// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scaling-activities.html">Scaling
+/// activities for Application Auto Scaling</a>.
+class NotScaledReason {
+  /// A code that represents the reason for not scaling.
+  ///
+  /// Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// AutoScalingAnticipatedFlapping
+  /// </li>
+  /// <li>
+  /// TargetServicePutResourceAsUnscalable
+  /// </li>
+  /// <li>
+  /// AlreadyAtMaxCapacity
+  /// </li>
+  /// <li>
+  /// AlreadyAtMinCapacity
+  /// </li>
+  /// <li>
+  /// AlreadyAtDesiredCapacity
+  /// </li>
+  /// </ul>
+  final String code;
+
+  /// The current capacity.
+  final int? currentCapacity;
+
+  /// The maximum capacity.
+  final int? maxCapacity;
+
+  /// The minimum capacity.
+  final int? minCapacity;
+
+  NotScaledReason({
+    required this.code,
+    this.currentCapacity,
+    this.maxCapacity,
+    this.minCapacity,
+  });
+
+  factory NotScaledReason.fromJson(Map<String, dynamic> json) {
+    return NotScaledReason(
+      code: json['Code'] as String,
+      currentCapacity: json['CurrentCapacity'] as int?,
+      maxCapacity: json['MaxCapacity'] as int?,
+      minCapacity: json['MinCapacity'] as int?,
+    );
   }
 }
 
@@ -2982,28 +3682,31 @@ extension PolicyTypeFromString on String {
 /// Represents a predefined metric for a target tracking scaling policy to use
 /// with Application Auto Scaling.
 ///
-/// Only the AWS services that you're using send metrics to Amazon CloudWatch.
-/// To determine whether a desired metric already exists by looking up its
-/// namespace and dimension using the CloudWatch metrics dashboard in the
+/// Only the Amazon Web Services that you're using send metrics to Amazon
+/// CloudWatch. To determine whether a desired metric already exists by looking
+/// up its namespace and dimension using the CloudWatch metrics dashboard in the
 /// console, follow the procedure in <a
 /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/monitoring-cloudwatch.html">Building
-/// Dashboards with CloudWatch</a> in the <i>Application Auto Scaling User
+/// dashboards with CloudWatch</a> in the <i>Application Auto Scaling User
 /// Guide</i>.
 class PredefinedMetricSpecification {
   /// The metric type. The <code>ALBRequestCountPerTarget</code> metric type
-  /// applies only to Spot Fleet requests and ECS services.
+  /// applies only to Spot Fleets and ECS services.
   final MetricType predefinedMetricType;
 
   /// Identifies the resource associated with the metric type. You can't specify a
   /// resource label unless the metric type is
   /// <code>ALBRequestCountPerTarget</code> and there is a target group attached
-  /// to the Spot Fleet request or ECS service.
+  /// to the Spot Fleet or ECS service.
   ///
   /// You create the resource label by appending the final portion of the load
   /// balancer ARN and the final portion of the target group ARN into a single
-  /// value, separated by a forward slash (/). The format is
-  /// app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt;/targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt;,
-  /// where:
+  /// value, separated by a forward slash (/). The format of the resource label
+  /// is:
+  ///
+  /// <code>app/my-alb/778d41231b141a0f/targetgroup/my-alb-target-group/943f017f100becff</code>.
+  ///
+  /// Where:
   ///
   /// <ul>
   /// <li>
@@ -3015,9 +3718,6 @@ class PredefinedMetricSpecification {
   /// portion of the target group ARN.
   /// </li>
   /// </ul>
-  /// This is an example:
-  /// app/EC2Co-EcsEl-1TKLTMITMM0EO/f37c06a68c1748aa/targetgroup/EC2Co-Defau-LDNM7Q3ZH1ZN/6d4ea56ca2d6a18d.
-  ///
   /// To find the ARN for an Application Load Balancer, use the <a
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
   /// API operation. To find the ARN for the target group, use the <a
@@ -3029,6 +3729,7 @@ class PredefinedMetricSpecification {
     required this.predefinedMetricType,
     this.resourceLabel,
   });
+
   factory PredefinedMetricSpecification.fromJson(Map<String, dynamic> json) {
     return PredefinedMetricSpecification(
       predefinedMetricType:
@@ -3058,6 +3759,7 @@ class PutScalingPolicyResponse {
     required this.policyARN,
     this.alarms,
   });
+
   factory PutScalingPolicyResponse.fromJson(Map<String, dynamic> json) {
     return PutScalingPolicyResponse(
       policyARN: json['PolicyARN'] as String,
@@ -3071,15 +3773,24 @@ class PutScalingPolicyResponse {
 
 class PutScheduledActionResponse {
   PutScheduledActionResponse();
+
   factory PutScheduledActionResponse.fromJson(Map<String, dynamic> _) {
     return PutScheduledActionResponse();
   }
 }
 
 class RegisterScalableTargetResponse {
-  RegisterScalableTargetResponse();
-  factory RegisterScalableTargetResponse.fromJson(Map<String, dynamic> _) {
-    return RegisterScalableTargetResponse();
+  /// The ARN of the scalable target.
+  final String? scalableTargetARN;
+
+  RegisterScalableTargetResponse({
+    this.scalableTargetARN,
+  });
+
+  factory RegisterScalableTargetResponse.fromJson(Map<String, dynamic> json) {
+    return RegisterScalableTargetResponse(
+      scalableTargetARN: json['ScalableTargetARN'] as String?,
+    );
   }
 }
 
@@ -3101,6 +3812,10 @@ enum ScalableDimension {
   cassandraTableReadCapacityUnits,
   cassandraTableWriteCapacityUnits,
   kafkaBrokerStorageVolumeSize,
+  elasticacheReplicationGroupNodeGroups,
+  elasticacheReplicationGroupReplicas,
+  neptuneClusterReadReplicaCount,
+  sagemakerVariantDesiredProvisionedConcurrency,
 }
 
 extension ScalableDimensionValueExtension on ScalableDimension {
@@ -3142,6 +3857,14 @@ extension ScalableDimensionValueExtension on ScalableDimension {
         return 'cassandra:table:WriteCapacityUnits';
       case ScalableDimension.kafkaBrokerStorageVolumeSize:
         return 'kafka:broker-storage:VolumeSize';
+      case ScalableDimension.elasticacheReplicationGroupNodeGroups:
+        return 'elasticache:replication-group:NodeGroups';
+      case ScalableDimension.elasticacheReplicationGroupReplicas:
+        return 'elasticache:replication-group:Replicas';
+      case ScalableDimension.neptuneClusterReadReplicaCount:
+        return 'neptune:cluster:ReadReplicaCount';
+      case ScalableDimension.sagemakerVariantDesiredProvisionedConcurrency:
+        return 'sagemaker:variant:DesiredProvisionedConcurrency';
     }
   }
 }
@@ -3185,6 +3908,14 @@ extension ScalableDimensionFromString on String {
         return ScalableDimension.cassandraTableWriteCapacityUnits;
       case 'kafka:broker-storage:VolumeSize':
         return ScalableDimension.kafkaBrokerStorageVolumeSize;
+      case 'elasticache:replication-group:NodeGroups':
+        return ScalableDimension.elasticacheReplicationGroupNodeGroups;
+      case 'elasticache:replication-group:Replicas':
+        return ScalableDimension.elasticacheReplicationGroupReplicas;
+      case 'neptune:cluster:ReadReplicaCount':
+        return ScalableDimension.neptuneClusterReadReplicaCount;
+      case 'sagemaker:variant:DesiredProvisionedConcurrency':
+        return ScalableDimension.sagemakerVariantDesiredProvisionedConcurrency;
     }
     throw Exception('$this is not known in enum ScalableDimension');
   }
@@ -3211,8 +3942,8 @@ class ScalableTarget {
   /// <code>service/default/sample-webapp</code>.
   /// </li>
   /// <li>
-  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
-  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
+  /// unique identifier is the Spot Fleet request ID. Example:
   /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
   /// </li>
   /// <li>
@@ -3238,8 +3969,8 @@ class ScalableTarget {
   /// identifier is the cluster name. Example: <code>cluster:my-db-cluster</code>.
   /// </li>
   /// <li>
-  /// Amazon SageMaker endpoint variant - The resource type is
-  /// <code>variant</code> and the unique identifier is the resource ID. Example:
+  /// SageMaker endpoint variant - The resource type is <code>variant</code> and
+  /// the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
   /// <li>
@@ -3277,6 +4008,20 @@ class ScalableTarget {
   /// using the cluster ARN. Example:
   /// <code>arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5</code>.
   /// </li>
+  /// <li>
+  /// Amazon ElastiCache replication group - The resource type is
+  /// <code>replication-group</code> and the unique identifier is the replication
+  /// group name. Example: <code>replication-group/mycluster</code>.
+  /// </li>
+  /// <li>
+  /// Neptune cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
+  /// </li>
+  /// <li>
+  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
   /// </ul>
   final String resourceId;
 
@@ -3293,12 +4038,12 @@ class ScalableTarget {
   /// service.
   /// </li>
   /// <li>
-  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity of
-  /// a Spot Fleet request.
-  /// </li>
-  /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
   /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity of
+  /// a Spot Fleet.
   /// </li>
   /// <li>
   /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
@@ -3327,7 +4072,7 @@ class ScalableTarget {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
-  /// instances for an Amazon SageMaker model endpoint variant.
+  /// instances for a SageMaker model endpoint variant.
   /// </li>
   /// <li>
   /// <code>custom-resource:ResourceType:Property</code> - The scalable dimension
@@ -3359,12 +4104,34 @@ class ScalableTarget {
   /// <code>kafka:broker-storage:VolumeSize</code> - The provisioned volume size
   /// (in GiB) for brokers in an Amazon MSK cluster.
   /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:NodeGroups</code> - The number of node
+  /// groups for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:Replicas</code> - The number of replicas
+  /// per node group for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>neptune:cluster:ReadReplicaCount</code> - The count of read replicas
+  /// in an Amazon Neptune DB cluster.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
+  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// </li>
   /// </ul>
   final ScalableDimension scalableDimension;
 
-  /// The namespace of the AWS service that provides the resource, or a
-  /// <code>custom-resource</code>.
+  /// The namespace of the Amazon Web Services service that provides the resource,
+  /// or a <code>custom-resource</code>.
   final ServiceNamespace serviceNamespace;
+
+  /// The ARN of the scalable target.
+  final String? scalableTargetARN;
+
+  /// Specifies whether the scaling activities for a scalable target are in a
+  /// suspended state.
   final SuspendedState? suspendedState;
 
   ScalableTarget({
@@ -3375,8 +4142,10 @@ class ScalableTarget {
     required this.roleARN,
     required this.scalableDimension,
     required this.serviceNamespace,
+    this.scalableTargetARN,
     this.suspendedState,
   });
+
   factory ScalableTarget.fromJson(Map<String, dynamic> json) {
     return ScalableTarget(
       creationTime:
@@ -3389,6 +4158,7 @@ class ScalableTarget {
           (json['ScalableDimension'] as String).toScalableDimension(),
       serviceNamespace:
           (json['ServiceNamespace'] as String).toServiceNamespace(),
+      scalableTargetARN: json['ScalableTargetARN'] as String?,
       suspendedState: json['SuspendedState'] != null
           ? SuspendedState.fromJson(
               json['SuspendedState'] as Map<String, dynamic>)
@@ -3408,22 +4178,22 @@ class ScalableTargetAction {
   /// that service. For information about the default quotas for each service, see
   /// <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-service-information.html">Service
-  /// Endpoints and Quotas</a> in the <i>Amazon Web Services General
+  /// endpoints and quotas</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   final int? maxCapacity;
 
   /// The minimum capacity.
   ///
-  /// For certain resources, the minimum value allowed is 0. This includes Lambda
-  /// provisioned concurrency, Spot Fleet, ECS services, Aurora DB clusters, EMR
-  /// clusters, and custom resources. For all other resources, the minimum value
-  /// allowed is 1.
+  /// When the scheduled action runs, the resource will have at least this much
+  /// capacity, but it might have more depending on other settings, such as the
+  /// target utilization level of a target tracking scaling policy.
   final int? minCapacity;
 
   ScalableTargetAction({
     this.maxCapacity,
     this.minCapacity,
   });
+
   factory ScalableTargetAction.fromJson(Map<String, dynamic> json) {
     return ScalableTargetAction(
       maxCapacity: json['MaxCapacity'] as int?,
@@ -3463,8 +4233,8 @@ class ScalingActivity {
   /// <code>service/default/sample-webapp</code>.
   /// </li>
   /// <li>
-  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
-  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
+  /// unique identifier is the Spot Fleet request ID. Example:
   /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
   /// </li>
   /// <li>
@@ -3490,8 +4260,8 @@ class ScalingActivity {
   /// identifier is the cluster name. Example: <code>cluster:my-db-cluster</code>.
   /// </li>
   /// <li>
-  /// Amazon SageMaker endpoint variant - The resource type is
-  /// <code>variant</code> and the unique identifier is the resource ID. Example:
+  /// SageMaker endpoint variant - The resource type is <code>variant</code> and
+  /// the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
   /// <li>
@@ -3529,6 +4299,20 @@ class ScalingActivity {
   /// using the cluster ARN. Example:
   /// <code>arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5</code>.
   /// </li>
+  /// <li>
+  /// Amazon ElastiCache replication group - The resource type is
+  /// <code>replication-group</code> and the unique identifier is the replication
+  /// group name. Example: <code>replication-group/mycluster</code>.
+  /// </li>
+  /// <li>
+  /// Neptune cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
+  /// </li>
+  /// <li>
+  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
   /// </ul>
   final String resourceId;
 
@@ -3541,12 +4325,12 @@ class ScalingActivity {
   /// service.
   /// </li>
   /// <li>
-  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity of
-  /// a Spot Fleet request.
-  /// </li>
-  /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
   /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity of
+  /// a Spot Fleet.
   /// </li>
   /// <li>
   /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
@@ -3575,7 +4359,7 @@ class ScalingActivity {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
-  /// instances for an Amazon SageMaker model endpoint variant.
+  /// instances for a SageMaker model endpoint variant.
   /// </li>
   /// <li>
   /// <code>custom-resource:ResourceType:Property</code> - The scalable dimension
@@ -3607,11 +4391,27 @@ class ScalingActivity {
   /// <code>kafka:broker-storage:VolumeSize</code> - The provisioned volume size
   /// (in GiB) for brokers in an Amazon MSK cluster.
   /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:NodeGroups</code> - The number of node
+  /// groups for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:Replicas</code> - The number of replicas
+  /// per node group for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>neptune:cluster:ReadReplicaCount</code> - The count of read replicas
+  /// in an Amazon Neptune DB cluster.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
+  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// </li>
   /// </ul>
   final ScalableDimension scalableDimension;
 
-  /// The namespace of the AWS service that provides the resource, or a
-  /// <code>custom-resource</code>.
+  /// The namespace of the Amazon Web Services service that provides the resource,
+  /// or a <code>custom-resource</code>.
   final ServiceNamespace serviceNamespace;
 
   /// The Unix timestamp for when the scaling activity began.
@@ -3625,6 +4425,12 @@ class ScalingActivity {
 
   /// The Unix timestamp for when the scaling activity ended.
   final DateTime? endTime;
+
+  /// Machine-readable data that describes the reason for a not scaled activity.
+  /// Only available when <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/APIReference/API_DescribeScalingActivities.html">DescribeScalingActivities</a>
+  /// includes not scaled activities.
+  final List<NotScaledReason>? notScaledReasons;
 
   /// A simple message about the current status of the scaling activity.
   final String? statusMessage;
@@ -3640,8 +4446,10 @@ class ScalingActivity {
     required this.statusCode,
     this.details,
     this.endTime,
+    this.notScaledReasons,
     this.statusMessage,
   });
+
   factory ScalingActivity.fromJson(Map<String, dynamic> json) {
     return ScalingActivity(
       activityId: json['ActivityId'] as String,
@@ -3656,6 +4464,10 @@ class ScalingActivity {
       statusCode: (json['StatusCode'] as String).toScalingActivityStatusCode(),
       details: json['Details'] as String?,
       endTime: timeStampFromJson(json['EndTime']),
+      notScaledReasons: (json['NotScaledReasons'] as List?)
+          ?.whereNotNull()
+          .map((e) => NotScaledReason.fromJson(e as Map<String, dynamic>))
+          .toList(),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
@@ -3713,9 +4525,9 @@ extension ScalingActivityStatusCodeFromString on String {
 ///
 /// For more information about configuring scaling policies for a specific
 /// service, see <a
-/// href="https://docs.aws.amazon.com/autoscaling/application/userguide/getting-started.html">Getting
-/// started with Application Auto Scaling</a> in the <i>Application Auto Scaling
-/// User Guide</i>.
+/// href="https://docs.aws.amazon.com/autoscaling/application/userguide/integrated-services-list.html">Amazon
+/// Web Services services that you can use with Application Auto Scaling</a> in
+/// the <i>Application Auto Scaling User Guide</i>.
 class ScalingPolicy {
   /// The Unix timestamp for when the scaling policy was created.
   final DateTime creationTime;
@@ -3727,6 +4539,13 @@ class ScalingPolicy {
   final String policyName;
 
   /// The scaling policy type.
+  ///
+  /// The following policy types are supported:
+  ///
+  /// <code>TargetTrackingScaling</code>—Not supported for Amazon EMR
+  ///
+  /// <code>StepScaling</code>—Not supported for DynamoDB, Amazon Comprehend,
+  /// Lambda, Amazon Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune.
   final PolicyType policyType;
 
   /// The identifier of the resource associated with the scaling policy. This
@@ -3739,8 +4558,8 @@ class ScalingPolicy {
   /// <code>service/default/sample-webapp</code>.
   /// </li>
   /// <li>
-  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
-  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
+  /// unique identifier is the Spot Fleet request ID. Example:
   /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
   /// </li>
   /// <li>
@@ -3766,8 +4585,8 @@ class ScalingPolicy {
   /// identifier is the cluster name. Example: <code>cluster:my-db-cluster</code>.
   /// </li>
   /// <li>
-  /// Amazon SageMaker endpoint variant - The resource type is
-  /// <code>variant</code> and the unique identifier is the resource ID. Example:
+  /// SageMaker endpoint variant - The resource type is <code>variant</code> and
+  /// the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
   /// <li>
@@ -3805,6 +4624,20 @@ class ScalingPolicy {
   /// using the cluster ARN. Example:
   /// <code>arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5</code>.
   /// </li>
+  /// <li>
+  /// Amazon ElastiCache replication group - The resource type is
+  /// <code>replication-group</code> and the unique identifier is the replication
+  /// group name. Example: <code>replication-group/mycluster</code>.
+  /// </li>
+  /// <li>
+  /// Neptune cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
+  /// </li>
+  /// <li>
+  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
   /// </ul>
   final String resourceId;
 
@@ -3817,12 +4650,12 @@ class ScalingPolicy {
   /// service.
   /// </li>
   /// <li>
-  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity of
-  /// a Spot Fleet request.
-  /// </li>
-  /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
   /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity of
+  /// a Spot Fleet.
   /// </li>
   /// <li>
   /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
@@ -3851,7 +4684,7 @@ class ScalingPolicy {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
-  /// instances for an Amazon SageMaker model endpoint variant.
+  /// instances for a SageMaker model endpoint variant.
   /// </li>
   /// <li>
   /// <code>custom-resource:ResourceType:Property</code> - The scalable dimension
@@ -3883,11 +4716,27 @@ class ScalingPolicy {
   /// <code>kafka:broker-storage:VolumeSize</code> - The provisioned volume size
   /// (in GiB) for brokers in an Amazon MSK cluster.
   /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:NodeGroups</code> - The number of node
+  /// groups for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:Replicas</code> - The number of replicas
+  /// per node group for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>neptune:cluster:ReadReplicaCount</code> - The count of read replicas
+  /// in an Amazon Neptune DB cluster.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
+  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// </li>
   /// </ul>
   final ScalableDimension scalableDimension;
 
-  /// The namespace of the AWS service that provides the resource, or a
-  /// <code>custom-resource</code>.
+  /// The namespace of the Amazon Web Services service that provides the resource,
+  /// or a <code>custom-resource</code>.
   final ServiceNamespace serviceNamespace;
 
   /// The CloudWatch alarms associated with the scaling policy.
@@ -3912,6 +4761,7 @@ class ScalingPolicy {
     this.stepScalingPolicyConfiguration,
     this.targetTrackingScalingPolicyConfiguration,
   });
+
   factory ScalingPolicy.fromJson(Map<String, dynamic> json) {
     return ScalingPolicy(
       creationTime:
@@ -3958,8 +4808,8 @@ class ScheduledAction {
   /// <code>service/default/sample-webapp</code>.
   /// </li>
   /// <li>
-  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
-  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
+  /// unique identifier is the Spot Fleet request ID. Example:
   /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
   /// </li>
   /// <li>
@@ -3985,8 +4835,8 @@ class ScheduledAction {
   /// identifier is the cluster name. Example: <code>cluster:my-db-cluster</code>.
   /// </li>
   /// <li>
-  /// Amazon SageMaker endpoint variant - The resource type is
-  /// <code>variant</code> and the unique identifier is the resource ID. Example:
+  /// SageMaker endpoint variant - The resource type is <code>variant</code> and
+  /// the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
   /// <li>
@@ -4024,6 +4874,20 @@ class ScheduledAction {
   /// using the cluster ARN. Example:
   /// <code>arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5</code>.
   /// </li>
+  /// <li>
+  /// Amazon ElastiCache replication group - The resource type is
+  /// <code>replication-group</code> and the unique identifier is the replication
+  /// group name. Example: <code>replication-group/mycluster</code>.
+  /// </li>
+  /// <li>
+  /// Neptune cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
+  /// </li>
+  /// <li>
+  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
   /// </ul>
   final String resourceId;
 
@@ -4041,19 +4905,24 @@ class ScheduledAction {
   /// Cron expressions - "<code>cron(<i>fields</i>)</code>"
   /// </li>
   /// </ul>
-  /// At expressions are useful for one-time schedules. Specify the time in UTC.
+  /// At expressions are useful for one-time schedules. Cron expressions are
+  /// useful for scheduled actions that run periodically at a specified date and
+  /// time, and rate expressions are useful for scheduled actions that run at a
+  /// regular interval.
+  ///
+  /// At and cron expressions use Universal Coordinated Time (UTC) by default.
+  ///
+  /// The cron format consists of six fields separated by white spaces: [Minutes]
+  /// [Hours] [Day_of_Month] [Month] [Day_of_Week] [Year].
   ///
   /// For rate expressions, <i>value</i> is a positive integer and <i>unit</i> is
   /// <code>minute</code> | <code>minutes</code> | <code>hour</code> |
   /// <code>hours</code> | <code>day</code> | <code>days</code>.
   ///
-  /// For more information about cron expressions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions">Cron
-  /// Expressions</a> in the <i>Amazon CloudWatch Events User Guide</i>.
-  ///
-  /// For examples of using these expressions, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scheduled-scaling.html">Scheduled
-  /// Scaling</a> in the <i>Application Auto Scaling User Guide</i>.
+  /// For more information and examples, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/examples-scheduled-actions.html">Example
+  /// scheduled actions for Application Auto Scaling</a> in the <i>Application
+  /// Auto Scaling User Guide</i>.
   final String schedule;
 
   /// The Amazon Resource Name (ARN) of the scheduled action.
@@ -4062,11 +4931,11 @@ class ScheduledAction {
   /// The name of the scheduled action.
   final String scheduledActionName;
 
-  /// The namespace of the AWS service that provides the resource, or a
-  /// <code>custom-resource</code>.
+  /// The namespace of the Amazon Web Services service that provides the resource,
+  /// or a <code>custom-resource</code>.
   final ServiceNamespace serviceNamespace;
 
-  /// The date and time that the action is scheduled to end.
+  /// The date and time that the action is scheduled to end, in UTC.
   final DateTime? endTime;
 
   /// The scalable dimension. This string consists of the service namespace,
@@ -4078,12 +4947,12 @@ class ScheduledAction {
   /// service.
   /// </li>
   /// <li>
-  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity of
-  /// a Spot Fleet request.
-  /// </li>
-  /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
   /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity of
+  /// a Spot Fleet.
   /// </li>
   /// <li>
   /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
@@ -4112,7 +4981,7 @@ class ScheduledAction {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
-  /// instances for an Amazon SageMaker model endpoint variant.
+  /// instances for a SageMaker model endpoint variant.
   /// </li>
   /// <li>
   /// <code>custom-resource:ResourceType:Property</code> - The scalable dimension
@@ -4144,6 +5013,22 @@ class ScheduledAction {
   /// <code>kafka:broker-storage:VolumeSize</code> - The provisioned volume size
   /// (in GiB) for brokers in an Amazon MSK cluster.
   /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:NodeGroups</code> - The number of node
+  /// groups for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>elasticache:replication-group:Replicas</code> - The number of replicas
+  /// per node group for an Amazon ElastiCache replication group.
+  /// </li>
+  /// <li>
+  /// <code>neptune:cluster:ReadReplicaCount</code> - The count of read replicas
+  /// in an Amazon Neptune DB cluster.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
+  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// </li>
   /// </ul>
   final ScalableDimension? scalableDimension;
 
@@ -4154,8 +5039,12 @@ class ScheduledAction {
   /// scales in to the maximum capacity.
   final ScalableTargetAction? scalableTargetAction;
 
-  /// The date and time that the action is scheduled to begin.
+  /// The date and time that the action is scheduled to begin, in UTC.
   final DateTime? startTime;
+
+  /// The time zone used when referring to the date and time of a scheduled
+  /// action, when the scheduled action uses an at or cron expression.
+  final String? timezone;
 
   ScheduledAction({
     required this.creationTime,
@@ -4168,7 +5057,9 @@ class ScheduledAction {
     this.scalableDimension,
     this.scalableTargetAction,
     this.startTime,
+    this.timezone,
   });
+
   factory ScheduledAction.fromJson(Map<String, dynamic> json) {
     return ScheduledAction(
       creationTime:
@@ -4187,6 +5078,7 @@ class ScheduledAction {
               json['ScalableTargetAction'] as Map<String, dynamic>)
           : null,
       startTime: timeStampFromJson(json['StartTime']),
+      timezone: json['Timezone'] as String?,
     );
   }
 }
@@ -4204,6 +5096,8 @@ enum ServiceNamespace {
   lambda,
   cassandra,
   kafka,
+  elasticache,
+  neptune,
 }
 
 extension ServiceNamespaceValueExtension on ServiceNamespace {
@@ -4233,6 +5127,10 @@ extension ServiceNamespaceValueExtension on ServiceNamespace {
         return 'cassandra';
       case ServiceNamespace.kafka:
         return 'kafka';
+      case ServiceNamespace.elasticache:
+        return 'elasticache';
+      case ServiceNamespace.neptune:
+        return 'neptune';
     }
   }
 }
@@ -4264,6 +5162,10 @@ extension ServiceNamespaceFromString on String {
         return ServiceNamespace.cassandra;
       case 'kafka':
         return ServiceNamespace.kafka;
+      case 'elasticache':
+        return ServiceNamespace.elasticache;
+      case 'neptune':
+        return ServiceNamespace.neptune;
     }
     throw Exception('$this is not known in enum ServiceNamespace');
   }
@@ -4280,12 +5182,14 @@ extension ServiceNamespaceFromString on String {
 ///
 /// <ul>
 /// <li>
-/// To trigger the adjustment when the metric is greater than or equal to 50 and
-/// less than 60, specify a lower bound of 0 and an upper bound of 10.
+/// To initiate the adjustment when the metric is greater than or equal to 50
+/// and less than 60, specify a lower bound of <code>0</code> and an upper bound
+/// of <code>10</code>.
 /// </li>
 /// <li>
-/// To trigger the adjustment when the metric is greater than 40 and less than
-/// or equal to 50, specify a lower bound of -10 and an upper bound of 0.
+/// To initiate the adjustment when the metric is greater than 40 and less than
+/// or equal to 50, specify a lower bound of <code>-10</code> and an upper bound
+/// of <code>0</code>.
 /// </li>
 /// </ul>
 /// There are a few rules for the step adjustments for your step policy:
@@ -4318,7 +5222,7 @@ class StepAdjustment {
   /// The lower bound for the difference between the alarm threshold and the
   /// CloudWatch metric. If the metric value is above the breach threshold, the
   /// lower bound is inclusive (the metric must be greater than or equal to the
-  /// threshold plus the lower bound). Otherwise, it is exclusive (the metric must
+  /// threshold plus the lower bound). Otherwise, it's exclusive (the metric must
   /// be greater than the threshold plus the lower bound). A null value indicates
   /// negative infinity.
   final double? metricIntervalLowerBound;
@@ -4326,8 +5230,8 @@ class StepAdjustment {
   /// The upper bound for the difference between the alarm threshold and the
   /// CloudWatch metric. If the metric value is above the breach threshold, the
   /// upper bound is exclusive (the metric must be less than the threshold plus
-  /// the upper bound). Otherwise, it is inclusive (the metric must be less than
-  /// or equal to the threshold plus the upper bound). A null value indicates
+  /// the upper bound). Otherwise, it's inclusive (the metric must be less than or
+  /// equal to the threshold plus the upper bound). A null value indicates
   /// positive infinity.
   ///
   /// The upper bound must be greater than the lower bound.
@@ -4338,6 +5242,7 @@ class StepAdjustment {
     this.metricIntervalLowerBound,
     this.metricIntervalUpperBound,
   });
+
   factory StepAdjustment.fromJson(Map<String, dynamic> json) {
     return StepAdjustment(
       scalingAdjustment: json['ScalingAdjustment'] as int,
@@ -4397,19 +5302,11 @@ class StepScalingPolicyConfiguration {
   /// Application Auto Scaling scales out the target immediately. In this case,
   /// the cooldown period for the scale-in activity stops and doesn't complete.
   ///
-  /// Application Auto Scaling provides a default value of 300 for the following
+  /// Application Auto Scaling provides a default value of 600 for Amazon
+  /// ElastiCache replication groups and a default value of 300 for the following
   /// scalable targets:
   ///
   /// <ul>
-  /// <li>
-  /// ECS services
-  /// </li>
-  /// <li>
-  /// Spot Fleet requests
-  /// </li>
-  /// <li>
-  /// EMR clusters
-  /// </li>
   /// <li>
   /// AppStream 2.0 fleets
   /// </li>
@@ -4417,7 +5314,22 @@ class StepScalingPolicyConfiguration {
   /// Aurora DB clusters
   /// </li>
   /// <li>
-  /// Amazon SageMaker endpoint variants
+  /// ECS services
+  /// </li>
+  /// <li>
+  /// EMR clusters
+  /// </li>
+  /// <li>
+  /// Neptune clusters
+  /// </li>
+  /// <li>
+  /// SageMaker Serverless endpoint provisioned concurrency
+  /// </li>
+  /// <li>
+  /// SageMaker endpoint variants
+  /// </li>
+  /// <li>
+  /// Spot Fleets
   /// </li>
   /// <li>
   /// Custom resources
@@ -4427,22 +5339,19 @@ class StepScalingPolicyConfiguration {
   ///
   /// <ul>
   /// <li>
-  /// DynamoDB tables
-  /// </li>
-  /// <li>
-  /// DynamoDB global secondary indexes
-  /// </li>
-  /// <li>
   /// Amazon Comprehend document classification and entity recognizer endpoints
   /// </li>
   /// <li>
-  /// Lambda provisioned concurrency
+  /// DynamoDB tables and global secondary indexes
   /// </li>
   /// <li>
   /// Amazon Keyspaces tables
   /// </li>
   /// <li>
-  /// Amazon MSK cluster storage
+  /// Lambda provisioned concurrency
+  /// </li>
+  /// <li>
+  /// Amazon MSK broker storage
   /// </li>
   /// </ul>
   final int? cooldown;
@@ -4475,6 +5384,7 @@ class StepScalingPolicyConfiguration {
     this.minAdjustmentMagnitude,
     this.stepAdjustments,
   });
+
   factory StepScalingPolicyConfiguration.fromJson(Map<String, dynamic> json) {
     return StepScalingPolicyConfiguration(
       adjustmentType: (json['AdjustmentType'] as String?)?.toAdjustmentType(),
@@ -4532,6 +5442,7 @@ class SuspendedState {
     this.dynamicScalingOutSuspended,
     this.scheduledScalingSuspended,
   });
+
   factory SuspendedState.fromJson(Map<String, dynamic> json) {
     return SuspendedState(
       dynamicScalingInSuspended: json['DynamicScalingInSuspended'] as bool?,
@@ -4555,11 +5466,258 @@ class SuspendedState {
   }
 }
 
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+}
+
+/// Represents a specific metric.
+///
+/// Metric is a property of the <a>TargetTrackingMetricStat</a> object.
+class TargetTrackingMetric {
+  /// The dimensions for the metric. For the list of available dimensions, see the
+  /// Amazon Web Services documentation available from the table in <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html">Amazon
+  /// Web Services services that publish CloudWatch metrics </a> in the <i>Amazon
+  /// CloudWatch User Guide</i>.
+  ///
+  /// Conditional: If you published your metric with dimensions, you must specify
+  /// the same dimensions in your scaling policy.
+  final List<TargetTrackingMetricDimension>? dimensions;
+
+  /// The name of the metric.
+  final String? metricName;
+
+  /// The namespace of the metric. For more information, see the table in <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html">Amazon
+  /// Web Services services that publish CloudWatch metrics </a> in the <i>Amazon
+  /// CloudWatch User Guide</i>.
+  final String? namespace;
+
+  TargetTrackingMetric({
+    this.dimensions,
+    this.metricName,
+    this.namespace,
+  });
+
+  factory TargetTrackingMetric.fromJson(Map<String, dynamic> json) {
+    return TargetTrackingMetric(
+      dimensions: (json['Dimensions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              TargetTrackingMetricDimension.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      metricName: json['MetricName'] as String?,
+      namespace: json['Namespace'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensions = this.dimensions;
+    final metricName = this.metricName;
+    final namespace = this.namespace;
+    return {
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (metricName != null) 'MetricName': metricName,
+      if (namespace != null) 'Namespace': namespace,
+    };
+  }
+}
+
+/// The metric data to return. Also defines whether this call is returning data
+/// for one metric only, or whether it is performing a math expression on the
+/// values of returned metric statistics to create a new time series. A time
+/// series is a series of data points, each of which is associated with a
+/// timestamp.
+///
+/// For more information and examples, see <a
+/// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking-metric-math.html">Create
+/// a target tracking scaling policy for Application Auto Scaling using metric
+/// math</a> in the <i>Application Auto Scaling User Guide</i>.
+class TargetTrackingMetricDataQuery {
+  /// A short name that identifies the object's results in the response. This name
+  /// must be unique among all <code>MetricDataQuery</code> objects specified for
+  /// a single scaling policy. If you are performing math expressions on this set
+  /// of data, this name represents that data and can serve as a variable in the
+  /// mathematical expression. The valid characters are letters, numbers, and
+  /// underscores. The first character must be a lowercase letter.
+  final String id;
+
+  /// The math expression to perform on the returned data, if this object is
+  /// performing a math expression. This expression can use the <code>Id</code> of
+  /// the other metrics to refer to those metrics, and can also use the
+  /// <code>Id</code> of other expressions to use the result of those expressions.
+  ///
+  /// Conditional: Within each <code>TargetTrackingMetricDataQuery</code> object,
+  /// you must specify either <code>Expression</code> or <code>MetricStat</code>,
+  /// but not both.
+  final String? expression;
+
+  /// A human-readable label for this metric or expression. This is especially
+  /// useful if this is a math expression, so that you know what the value
+  /// represents.
+  final String? label;
+
+  /// Information about the metric data to return.
+  ///
+  /// Conditional: Within each <code>MetricDataQuery</code> object, you must
+  /// specify either <code>Expression</code> or <code>MetricStat</code>, but not
+  /// both.
+  final TargetTrackingMetricStat? metricStat;
+
+  /// Indicates whether to return the timestamps and raw data values of this
+  /// metric.
+  ///
+  /// If you use any math expressions, specify <code>true</code> for this value
+  /// for only the final math expression that the metric specification is based
+  /// on. You must specify <code>false</code> for <code>ReturnData</code> for all
+  /// the other metrics and expressions used in the metric specification.
+  ///
+  /// If you are only retrieving metrics and not performing any math expressions,
+  /// do not specify anything for <code>ReturnData</code>. This sets it to its
+  /// default (<code>true</code>).
+  final bool? returnData;
+
+  TargetTrackingMetricDataQuery({
+    required this.id,
+    this.expression,
+    this.label,
+    this.metricStat,
+    this.returnData,
+  });
+
+  factory TargetTrackingMetricDataQuery.fromJson(Map<String, dynamic> json) {
+    return TargetTrackingMetricDataQuery(
+      id: json['Id'] as String,
+      expression: json['Expression'] as String?,
+      label: json['Label'] as String?,
+      metricStat: json['MetricStat'] != null
+          ? TargetTrackingMetricStat.fromJson(
+              json['MetricStat'] as Map<String, dynamic>)
+          : null,
+      returnData: json['ReturnData'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final expression = this.expression;
+    final label = this.label;
+    final metricStat = this.metricStat;
+    final returnData = this.returnData;
+    return {
+      'Id': id,
+      if (expression != null) 'Expression': expression,
+      if (label != null) 'Label': label,
+      if (metricStat != null) 'MetricStat': metricStat,
+      if (returnData != null) 'ReturnData': returnData,
+    };
+  }
+}
+
+/// Describes the dimension of a metric.
+class TargetTrackingMetricDimension {
+  /// The name of the dimension.
+  final String name;
+
+  /// The value of the dimension.
+  final String value;
+
+  TargetTrackingMetricDimension({
+    required this.name,
+    required this.value,
+  });
+
+  factory TargetTrackingMetricDimension.fromJson(Map<String, dynamic> json) {
+    return TargetTrackingMetricDimension(
+      name: json['Name'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
+}
+
+/// This structure defines the CloudWatch metric to return, along with the
+/// statistic, period, and unit.
+///
+/// For more information about the CloudWatch terminology below, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
+/// CloudWatch concepts</a> in the <i>Amazon CloudWatch User Guide</i>.
+class TargetTrackingMetricStat {
+  /// The CloudWatch metric to return, including the metric name, namespace, and
+  /// dimensions. To get the exact metric name, namespace, and dimensions, inspect
+  /// the <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_Metric.html">Metric</a>
+  /// object that is returned by a call to <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html">ListMetrics</a>.
+  final TargetTrackingMetric metric;
+
+  /// The statistic to return. It can include any CloudWatch statistic or extended
+  /// statistic. For a list of valid values, see the table in <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Statistic">Statistics</a>
+  /// in the <i>Amazon CloudWatch User Guide</i>.
+  ///
+  /// The most commonly used metric for scaling is <code>Average</code>.
+  final String stat;
+
+  /// The unit to use for the returned data points. For a complete list of the
+  /// units that CloudWatch supports, see the <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html">MetricDatum</a>
+  /// data type in the <i>Amazon CloudWatch API Reference</i>.
+  final String? unit;
+
+  TargetTrackingMetricStat({
+    required this.metric,
+    required this.stat,
+    this.unit,
+  });
+
+  factory TargetTrackingMetricStat.fromJson(Map<String, dynamic> json) {
+    return TargetTrackingMetricStat(
+      metric:
+          TargetTrackingMetric.fromJson(json['Metric'] as Map<String, dynamic>),
+      stat: json['Stat'] as String,
+      unit: json['Unit'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metric = this.metric;
+    final stat = this.stat;
+    final unit = this.unit;
+    return {
+      'Metric': metric,
+      'Stat': stat,
+      if (unit != null) 'Unit': unit,
+    };
+  }
+}
+
 /// Represents a target tracking scaling policy configuration to use with
 /// Application Auto Scaling.
 class TargetTrackingScalingPolicyConfiguration {
-  /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108
-  /// (Base 10) or 2e-360 to 2e360 (Base 2).
+  /// The target value for the metric. Although this property accepts numbers of
+  /// type Double, it won't accept values that are either too small or too large.
+  /// Values must be in the range of -2^360 to 2^360. The value must be a valid
+  /// number based on the choice of metric. For example, if the metric is CPU
+  /// utilization, then the target value is a percent value that represents how
+  /// much of the CPU can be used before scaling out.
+  /// <note>
+  /// If the scaling policy specifies the <code>ALBRequestCountPerTarget</code>
+  /// predefined metric, specify the target utilization as the optimal average
+  /// request count per target during any one-minute interval.
+  /// </note>
   final double targetValue;
 
   /// A customized metric. You can specify either a predefined metric or a
@@ -4588,19 +5746,11 @@ class TargetTrackingScalingPolicyConfiguration {
   /// period, Application Auto Scaling scales out the target immediately. In this
   /// case, the scale-in cooldown period stops and doesn't complete.
   ///
-  /// Application Auto Scaling provides a default value of 300 for the following
+  /// Application Auto Scaling provides a default value of 600 for Amazon
+  /// ElastiCache replication groups and a default value of 300 for the following
   /// scalable targets:
   ///
   /// <ul>
-  /// <li>
-  /// ECS services
-  /// </li>
-  /// <li>
-  /// Spot Fleet requests
-  /// </li>
-  /// <li>
-  /// EMR clusters
-  /// </li>
   /// <li>
   /// AppStream 2.0 fleets
   /// </li>
@@ -4608,7 +5758,22 @@ class TargetTrackingScalingPolicyConfiguration {
   /// Aurora DB clusters
   /// </li>
   /// <li>
-  /// Amazon SageMaker endpoint variants
+  /// ECS services
+  /// </li>
+  /// <li>
+  /// EMR clusters
+  /// </li>
+  /// <li>
+  /// Neptune clusters
+  /// </li>
+  /// <li>
+  /// SageMaker Serverless endpoint provisioned concurrency
+  /// </li>
+  /// <li>
+  /// SageMaker endpoint variants
+  /// </li>
+  /// <li>
+  /// Spot Fleets
   /// </li>
   /// <li>
   /// Custom resources
@@ -4618,22 +5783,19 @@ class TargetTrackingScalingPolicyConfiguration {
   ///
   /// <ul>
   /// <li>
-  /// DynamoDB tables
-  /// </li>
-  /// <li>
-  /// DynamoDB global secondary indexes
-  /// </li>
-  /// <li>
   /// Amazon Comprehend document classification and entity recognizer endpoints
   /// </li>
   /// <li>
-  /// Lambda provisioned concurrency
+  /// DynamoDB tables and global secondary indexes
   /// </li>
   /// <li>
   /// Amazon Keyspaces tables
   /// </li>
   /// <li>
-  /// Amazon MSK cluster storage
+  /// Lambda provisioned concurrency
+  /// </li>
+  /// <li>
+  /// Amazon MSK broker storage
   /// </li>
   /// </ul>
   final int? scaleInCooldown;
@@ -4650,19 +5812,11 @@ class TargetTrackingScalingPolicyConfiguration {
   /// initiating scale-out activity is calculated as part of the desired capacity
   /// for the next scale-out activity.
   ///
-  /// Application Auto Scaling provides a default value of 300 for the following
+  /// Application Auto Scaling provides a default value of 600 for Amazon
+  /// ElastiCache replication groups and a default value of 300 for the following
   /// scalable targets:
   ///
   /// <ul>
-  /// <li>
-  /// ECS services
-  /// </li>
-  /// <li>
-  /// Spot Fleet requests
-  /// </li>
-  /// <li>
-  /// EMR clusters
-  /// </li>
   /// <li>
   /// AppStream 2.0 fleets
   /// </li>
@@ -4670,7 +5824,22 @@ class TargetTrackingScalingPolicyConfiguration {
   /// Aurora DB clusters
   /// </li>
   /// <li>
-  /// Amazon SageMaker endpoint variants
+  /// ECS services
+  /// </li>
+  /// <li>
+  /// EMR clusters
+  /// </li>
+  /// <li>
+  /// Neptune clusters
+  /// </li>
+  /// <li>
+  /// SageMaker Serverless endpoint provisioned concurrency
+  /// </li>
+  /// <li>
+  /// SageMaker endpoint variants
+  /// </li>
+  /// <li>
+  /// Spot Fleets
   /// </li>
   /// <li>
   /// Custom resources
@@ -4680,22 +5849,19 @@ class TargetTrackingScalingPolicyConfiguration {
   ///
   /// <ul>
   /// <li>
-  /// DynamoDB tables
-  /// </li>
-  /// <li>
-  /// DynamoDB global secondary indexes
-  /// </li>
-  /// <li>
   /// Amazon Comprehend document classification and entity recognizer endpoints
   /// </li>
   /// <li>
-  /// Lambda provisioned concurrency
+  /// DynamoDB tables and global secondary indexes
   /// </li>
   /// <li>
   /// Amazon Keyspaces tables
   /// </li>
   /// <li>
-  /// Amazon MSK cluster storage
+  /// Lambda provisioned concurrency
+  /// </li>
+  /// <li>
+  /// Amazon MSK broker storage
   /// </li>
   /// </ul>
   final int? scaleOutCooldown;
@@ -4708,6 +5874,7 @@ class TargetTrackingScalingPolicyConfiguration {
     this.scaleInCooldown,
     this.scaleOutCooldown,
   });
+
   factory TargetTrackingScalingPolicyConfiguration.fromJson(
       Map<String, dynamic> json) {
     return TargetTrackingScalingPolicyConfiguration(
@@ -4748,6 +5915,14 @@ class TargetTrackingScalingPolicyConfiguration {
   }
 }
 
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+}
+
 class ConcurrentUpdateException extends _s.GenericAwsException {
   ConcurrentUpdateException({String? type, String? message})
       : super(type: type, code: 'ConcurrentUpdateException', message: message);
@@ -4781,6 +5956,16 @@ class ObjectNotFoundException extends _s.GenericAwsException {
       : super(type: type, code: 'ObjectNotFoundException', message: message);
 }
 
+class ResourceNotFoundException extends _s.GenericAwsException {
+  ResourceNotFoundException({String? type, String? message})
+      : super(type: type, code: 'ResourceNotFoundException', message: message);
+}
+
+class TooManyTagsException extends _s.GenericAwsException {
+  TooManyTagsException({String? type, String? message})
+      : super(type: type, code: 'TooManyTagsException', message: message);
+}
+
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
@@ -4799,6 +5984,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       LimitExceededException(type: type, message: message),
   'ObjectNotFoundException': (type, message) =>
       ObjectNotFoundException(type: type, message: message),
+  'ResourceNotFoundException': (type, message) =>
+      ResourceNotFoundException(type: type, message: message),
+  'TooManyTagsException': (type, message) =>
+      TooManyTagsException(type: type, message: message),
   'ValidationException': (type, message) =>
       ValidationException(type: type, message: message),
 };

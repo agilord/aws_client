@@ -67,9 +67,23 @@ class Amplify {
   /// The name for an Amplify app.
   ///
   /// Parameter [accessToken] :
-  /// The personal access token for a third-party source control system for an
-  /// Amplify app. The personal access token is used to create a webhook and a
-  /// read-only deploy key. The token is not stored.
+  /// The personal access token for a GitHub repository for an Amplify app. The
+  /// personal access token is used to authorize access to a GitHub repository
+  /// using the Amplify GitHub App. The token is not stored.
+  ///
+  /// Use <code>accessToken</code> for GitHub repositories only. To authorize
+  /// access to a repository provider such as Bitbucket or CodeCommit, use
+  /// <code>oauthToken</code>.
+  ///
+  /// You must specify either <code>accessToken</code> or
+  /// <code>oauthToken</code> when you create a new app.
+  ///
+  /// Existing Amplify apps deployed from a GitHub repository using OAuth
+  /// continue to work with CI/CD. However, we strongly recommend that you
+  /// migrate these apps to use the GitHub App. For more information, see <a
+  /// href="https://docs.aws.amazon.com/amplify/latest/UserGuide/setting-up-GitHub-access.html#migrating-to-github-app-auth">Migrating
+  /// an existing OAuth app to the Amplify GitHub App</a> in the <i>Amplify User
+  /// Guide</i> .
   ///
   /// Parameter [autoBranchCreationConfig] :
   /// The automated branch creation configuration for an Amplify app.
@@ -78,7 +92,9 @@ class Amplify {
   /// The automated branch creation glob patterns for an Amplify app.
   ///
   /// Parameter [basicAuthCredentials] :
-  /// The credentials for basic authorization for an Amplify app.
+  /// The credentials for basic authorization for an Amplify app. You must
+  /// base64-encode the authorization credentials and provide them in the format
+  /// <code>user:password</code>.
   ///
   /// Parameter [buildSpec] :
   /// The build specification (build spec) for an Amplify app.
@@ -116,10 +132,28 @@ class Amplify {
   /// Parameter [oauthToken] :
   /// The OAuth token for a third-party source control system for an Amplify
   /// app. The OAuth token is used to create a webhook and a read-only deploy
-  /// key. The OAuth token is not stored.
+  /// key using SSH cloning. The OAuth token is not stored.
+  ///
+  /// Use <code>oauthToken</code> for repository providers other than GitHub,
+  /// such as Bitbucket or CodeCommit. To authorize access to GitHub as your
+  /// repository provider, use <code>accessToken</code>.
+  ///
+  /// You must specify either <code>oauthToken</code> or
+  /// <code>accessToken</code> when you create a new app.
+  ///
+  /// Existing Amplify apps deployed from a GitHub repository using OAuth
+  /// continue to work with CI/CD. However, we strongly recommend that you
+  /// migrate these apps to use the GitHub App. For more information, see <a
+  /// href="https://docs.aws.amazon.com/amplify/latest/UserGuide/setting-up-GitHub-access.html#migrating-to-github-app-auth">Migrating
+  /// an existing OAuth app to the Amplify GitHub App</a> in the <i>Amplify User
+  /// Guide</i> .
   ///
   /// Parameter [platform] :
-  /// The platform or framework for an Amplify app.
+  /// The platform for the Amplify app. For a static app, set the platform type
+  /// to <code>WEB</code>. For a dynamic server-side rendered (SSR) app, set the
+  /// platform type to <code>WEB_COMPUTE</code>. For an app requiring Amplify
+  /// Hosting's original SSR support only, set the platform type to
+  /// <code>WEB_DYNAMIC</code>.
   ///
   /// Parameter [repository] :
   /// The repository for an Amplify app.
@@ -244,7 +278,9 @@ class Amplify {
   /// an Amplify app.
   ///
   /// Parameter [basicAuthCredentials] :
-  /// The basic authorization credentials for the branch.
+  /// The basic authorization credentials for the branch. You must base64-encode
+  /// the authorization credentials and provide them in the format
+  /// <code>user:password</code>.
   ///
   /// Parameter [buildSpec] :
   /// The build specification (build spec) for the branch.
@@ -1371,9 +1407,23 @@ class Amplify {
   /// The unique ID for an Amplify app.
   ///
   /// Parameter [accessToken] :
-  /// The personal access token for a third-party source control system for an
-  /// Amplify app. The token is used to create webhook and a read-only deploy
-  /// key. The token is not stored.
+  /// The personal access token for a GitHub repository for an Amplify app. The
+  /// personal access token is used to authorize access to a GitHub repository
+  /// using the Amplify GitHub App. The token is not stored.
+  ///
+  /// Use <code>accessToken</code> for GitHub repositories only. To authorize
+  /// access to a repository provider such as Bitbucket or CodeCommit, use
+  /// <code>oauthToken</code>.
+  ///
+  /// You must specify either <code>accessToken</code> or
+  /// <code>oauthToken</code> when you update an app.
+  ///
+  /// Existing Amplify apps deployed from a GitHub repository using OAuth
+  /// continue to work with CI/CD. However, we strongly recommend that you
+  /// migrate these apps to use the GitHub App. For more information, see <a
+  /// href="https://docs.aws.amazon.com/amplify/latest/UserGuide/setting-up-GitHub-access.html#migrating-to-github-app-auth">Migrating
+  /// an existing OAuth app to the Amplify GitHub App</a> in the <i>Amplify User
+  /// Guide</i> .
   ///
   /// Parameter [autoBranchCreationConfig] :
   /// The automated branch creation configuration for an Amplify app.
@@ -1382,7 +1432,9 @@ class Amplify {
   /// Describes the automated branch creation glob patterns for an Amplify app.
   ///
   /// Parameter [basicAuthCredentials] :
-  /// The basic authorization credentials for an Amplify app.
+  /// The basic authorization credentials for an Amplify app. You must
+  /// base64-encode the authorization credentials and provide them in the format
+  /// <code>user:password</code>.
   ///
   /// Parameter [buildSpec] :
   /// The build specification (build spec) for an Amplify app.
@@ -1421,11 +1473,31 @@ class Amplify {
   ///
   /// Parameter [oauthToken] :
   /// The OAuth token for a third-party source control system for an Amplify
-  /// app. The token is used to create a webhook and a read-only deploy key. The
-  /// OAuth token is not stored.
+  /// app. The OAuth token is used to create a webhook and a read-only deploy
+  /// key using SSH cloning. The OAuth token is not stored.
+  ///
+  /// Use <code>oauthToken</code> for repository providers other than GitHub,
+  /// such as Bitbucket or CodeCommit.
+  ///
+  /// To authorize access to GitHub as your repository provider, use
+  /// <code>accessToken</code>.
+  ///
+  /// You must specify either <code>oauthToken</code> or
+  /// <code>accessToken</code> when you update an app.
+  ///
+  /// Existing Amplify apps deployed from a GitHub repository using OAuth
+  /// continue to work with CI/CD. However, we strongly recommend that you
+  /// migrate these apps to use the GitHub App. For more information, see <a
+  /// href="https://docs.aws.amazon.com/amplify/latest/UserGuide/setting-up-GitHub-access.html#migrating-to-github-app-auth">Migrating
+  /// an existing OAuth app to the Amplify GitHub App</a> in the <i>Amplify User
+  /// Guide</i> .
   ///
   /// Parameter [platform] :
-  /// The platform for an Amplify app.
+  /// The platform for the Amplify app. For a static app, set the platform type
+  /// to <code>WEB</code>. For a dynamic server-side rendered (SSR) app, set the
+  /// platform type to <code>WEB_COMPUTE</code>. For an app requiring Amplify
+  /// Hosting's original SSR support only, set the platform type to
+  /// <code>WEB_DYNAMIC</code>.
   ///
   /// Parameter [repository] :
   /// The name of the repository for an Amplify app
@@ -1505,7 +1577,9 @@ class Amplify {
   /// an Amplify app.
   ///
   /// Parameter [basicAuthCredentials] :
-  /// The basic authorization credentials for the branch.
+  /// The basic authorization credentials for the branch. You must base64-encode
+  /// the authorization credentials and provide them in the format
+  /// <code>user:password</code>.
   ///
   /// Parameter [buildSpec] :
   /// The build specification (build spec) for the branch.
@@ -1616,9 +1690,6 @@ class Amplify {
   /// Parameter [domainName] :
   /// The name of the domain.
   ///
-  /// Parameter [subDomainSettings] :
-  /// Describes the settings for the subdomain.
-  ///
   /// Parameter [autoSubDomainCreationPatterns] :
   /// Sets the branch patterns for automatic subdomain creation.
   ///
@@ -1628,22 +1699,25 @@ class Amplify {
   ///
   /// Parameter [enableAutoSubDomain] :
   /// Enables the automated creation of subdomains for branches.
+  ///
+  /// Parameter [subDomainSettings] :
+  /// Describes the settings for the subdomain.
   Future<UpdateDomainAssociationResult> updateDomainAssociation({
     required String appId,
     required String domainName,
-    required List<SubDomainSetting> subDomainSettings,
     List<String>? autoSubDomainCreationPatterns,
     String? autoSubDomainIAMRole,
     bool? enableAutoSubDomain,
+    List<SubDomainSetting>? subDomainSettings,
   }) async {
     final $payload = <String, dynamic>{
-      'subDomainSettings': subDomainSettings,
       if (autoSubDomainCreationPatterns != null)
         'autoSubDomainCreationPatterns': autoSubDomainCreationPatterns,
       if (autoSubDomainIAMRole != null)
         'autoSubDomainIAMRole': autoSubDomainIAMRole,
       if (enableAutoSubDomain != null)
         'enableAutoSubDomain': enableAutoSubDomain,
+      if (subDomainSettings != null) 'subDomainSettings': subDomainSettings,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1720,10 +1794,14 @@ class App {
   /// The name for the Amplify app.
   final String name;
 
-  /// The platform for the Amplify app.
+  /// The platform for the Amplify app. For a static app, set the platform type to
+  /// <code>WEB</code>. For a dynamic server-side rendered (SSR) app, set the
+  /// platform type to <code>WEB_COMPUTE</code>. For an app requiring Amplify
+  /// Hosting's original SSR support only, set the platform type to
+  /// <code>WEB_DYNAMIC</code>.
   final Platform platform;
 
-  /// The repository for the Amplify app.
+  /// The Git repository for the Amplify app.
   final String repository;
 
   /// Updates the date and time for the Amplify app.
@@ -1735,7 +1813,9 @@ class App {
   /// Describes the automated branch creation glob patterns for the Amplify app.
   final List<String>? autoBranchCreationPatterns;
 
-  /// The basic authorization credentials for branches for the Amplify app.
+  /// The basic authorization credentials for branches for the Amplify app. You
+  /// must base64-encode the authorization credentials and provide them in the
+  /// format <code>user:password</code>.
   final String? basicAuthCredentials;
 
   /// Describes the content of the build specification (build spec) for the
@@ -1761,6 +1841,16 @@ class App {
 
   /// Describes the information about a production branch of the Amplify app.
   final ProductionBranch? productionBranch;
+
+  /// <note>
+  /// This is for internal use.
+  /// </note>
+  /// The Amplify service uses this parameter to specify the authentication
+  /// protocol to use to access the Git repository for an Amplify app. Amplify
+  /// specifies <code>TOKEN</code> for a GitHub repository, <code>SIGV4</code> for
+  /// an Amazon Web Services CodeCommit repository, and <code>SSH</code> for
+  /// GitLab and Bitbucket repositories.
+  final RepositoryCloneMethod? repositoryCloneMethod;
 
   /// The tag for the Amplify app.
   final Map<String, String>? tags;
@@ -1788,8 +1878,10 @@ class App {
     this.enableBranchAutoDeletion,
     this.iamServiceRoleArn,
     this.productionBranch,
+    this.repositoryCloneMethod,
     this.tags,
   });
+
   factory App.fromJson(Map<String, dynamic> json) {
     return App(
       appArn: json['appArn'] as String,
@@ -1828,6 +1920,8 @@ class App {
           ? ProductionBranch.fromJson(
               json['productionBranch'] as Map<String, dynamic>)
           : null,
+      repositoryCloneMethod:
+          (json['repositoryCloneMethod'] as String?)?.toRepositoryCloneMethod(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1846,6 +1940,7 @@ class Artifact {
     required this.artifactFileName,
     required this.artifactId,
   });
+
   factory Artifact.fromJson(Map<String, dynamic> json) {
     return Artifact(
       artifactFileName: json['artifactFileName'] as String,
@@ -1856,7 +1951,9 @@ class Artifact {
 
 /// Describes the automated branch creation configuration.
 class AutoBranchCreationConfig {
-  /// The basic authorization credentials for the autocreated branch.
+  /// The basic authorization credentials for the autocreated branch. You must
+  /// base64-encode the authorization credentials and provide them in the format
+  /// <code>user:password</code>.
   final String? basicAuthCredentials;
 
   /// The build specification (build spec) for the autocreated branch.
@@ -1902,6 +1999,7 @@ class AutoBranchCreationConfig {
     this.pullRequestEnvironmentName,
     this.stage,
   });
+
   factory AutoBranchCreationConfig.fromJson(Map<String, dynamic> json) {
     return AutoBranchCreationConfig(
       basicAuthCredentials: json['basicAuthCredentials'] as String?,
@@ -1981,6 +2079,7 @@ class BackendEnvironment {
     this.deploymentArtifacts,
     this.stackName,
   });
+
   factory BackendEnvironment.fromJson(Map<String, dynamic> json) {
     return BackendEnvironment(
       backendEnvironmentArn: json['backendEnvironmentArn'] as String,
@@ -2054,7 +2153,9 @@ class Branch {
   /// Amplify app.
   final String? backendEnvironmentArn;
 
-  /// The basic authorization credentials for a branch of an Amplify app.
+  /// The basic authorization credentials for a branch of an Amplify app. You must
+  /// base64-encode the authorization credentials and provide them in the format
+  /// <code>user:password</code>.
   final String? basicAuthCredentials;
 
   /// The build specification (build spec) content for the branch of an Amplify
@@ -2112,6 +2213,7 @@ class Branch {
     this.tags,
     this.thumbnailUrl,
   });
+
   factory Branch.fromJson(Map<String, dynamic> json) {
     return Branch(
       activeJobId: json['activeJobId'] as String,
@@ -2160,6 +2262,7 @@ class CreateAppResult {
   CreateAppResult({
     required this.app,
   });
+
   factory CreateAppResult.fromJson(Map<String, dynamic> json) {
     return CreateAppResult(
       app: App.fromJson(json['app'] as Map<String, dynamic>),
@@ -2175,6 +2278,7 @@ class CreateBackendEnvironmentResult {
   CreateBackendEnvironmentResult({
     required this.backendEnvironment,
   });
+
   factory CreateBackendEnvironmentResult.fromJson(Map<String, dynamic> json) {
     return CreateBackendEnvironmentResult(
       backendEnvironment: BackendEnvironment.fromJson(
@@ -2192,6 +2296,7 @@ class CreateBranchResult {
   CreateBranchResult({
     required this.branch,
   });
+
   factory CreateBranchResult.fromJson(Map<String, dynamic> json) {
     return CreateBranchResult(
       branch: Branch.fromJson(json['branch'] as Map<String, dynamic>),
@@ -2217,6 +2322,7 @@ class CreateDeploymentResult {
     required this.zipUploadUrl,
     this.jobId,
   });
+
   factory CreateDeploymentResult.fromJson(Map<String, dynamic> json) {
     return CreateDeploymentResult(
       fileUploadUrls: (json['fileUploadUrls'] as Map<String, dynamic>)
@@ -2236,6 +2342,7 @@ class CreateDomainAssociationResult {
   CreateDomainAssociationResult({
     required this.domainAssociation,
   });
+
   factory CreateDomainAssociationResult.fromJson(Map<String, dynamic> json) {
     return CreateDomainAssociationResult(
       domainAssociation: DomainAssociation.fromJson(
@@ -2252,6 +2359,7 @@ class CreateWebhookResult {
   CreateWebhookResult({
     required this.webhook,
   });
+
   factory CreateWebhookResult.fromJson(Map<String, dynamic> json) {
     return CreateWebhookResult(
       webhook: Webhook.fromJson(json['webhook'] as Map<String, dynamic>),
@@ -2291,6 +2399,7 @@ class CustomRule {
     this.condition,
     this.status,
   });
+
   factory CustomRule.fromJson(Map<String, dynamic> json) {
     return CustomRule(
       source: json['source'] as String,
@@ -2321,6 +2430,7 @@ class DeleteAppResult {
   DeleteAppResult({
     required this.app,
   });
+
   factory DeleteAppResult.fromJson(Map<String, dynamic> json) {
     return DeleteAppResult(
       app: App.fromJson(json['app'] as Map<String, dynamic>),
@@ -2336,6 +2446,7 @@ class DeleteBackendEnvironmentResult {
   DeleteBackendEnvironmentResult({
     required this.backendEnvironment,
   });
+
   factory DeleteBackendEnvironmentResult.fromJson(Map<String, dynamic> json) {
     return DeleteBackendEnvironmentResult(
       backendEnvironment: BackendEnvironment.fromJson(
@@ -2353,6 +2464,7 @@ class DeleteBranchResult {
   DeleteBranchResult({
     required this.branch,
   });
+
   factory DeleteBranchResult.fromJson(Map<String, dynamic> json) {
     return DeleteBranchResult(
       branch: Branch.fromJson(json['branch'] as Map<String, dynamic>),
@@ -2366,6 +2478,7 @@ class DeleteDomainAssociationResult {
   DeleteDomainAssociationResult({
     required this.domainAssociation,
   });
+
   factory DeleteDomainAssociationResult.fromJson(Map<String, dynamic> json) {
     return DeleteDomainAssociationResult(
       domainAssociation: DomainAssociation.fromJson(
@@ -2381,6 +2494,7 @@ class DeleteJobResult {
   DeleteJobResult({
     required this.jobSummary,
   });
+
   factory DeleteJobResult.fromJson(Map<String, dynamic> json) {
     return DeleteJobResult(
       jobSummary:
@@ -2397,6 +2511,7 @@ class DeleteWebhookResult {
   DeleteWebhookResult({
     required this.webhook,
   });
+
   factory DeleteWebhookResult.fromJson(Map<String, dynamic> json) {
     return DeleteWebhookResult(
       webhook: Webhook.fromJson(json['webhook'] as Map<String, dynamic>),
@@ -2446,6 +2561,7 @@ class DomainAssociation {
     this.autoSubDomainIAMRole,
     this.certificateVerificationDNSRecord,
   });
+
   factory DomainAssociation.fromJson(Map<String, dynamic> json) {
     return DomainAssociation(
       domainAssociationArn: json['domainAssociationArn'] as String,
@@ -2535,6 +2651,7 @@ class GenerateAccessLogsResult {
   GenerateAccessLogsResult({
     this.logUrl,
   });
+
   factory GenerateAccessLogsResult.fromJson(Map<String, dynamic> json) {
     return GenerateAccessLogsResult(
       logUrl: json['logUrl'] as String?,
@@ -2548,6 +2665,7 @@ class GetAppResult {
   GetAppResult({
     required this.app,
   });
+
   factory GetAppResult.fromJson(Map<String, dynamic> json) {
     return GetAppResult(
       app: App.fromJson(json['app'] as Map<String, dynamic>),
@@ -2567,6 +2685,7 @@ class GetArtifactUrlResult {
     required this.artifactId,
     required this.artifactUrl,
   });
+
   factory GetArtifactUrlResult.fromJson(Map<String, dynamic> json) {
     return GetArtifactUrlResult(
       artifactId: json['artifactId'] as String,
@@ -2583,6 +2702,7 @@ class GetBackendEnvironmentResult {
   GetBackendEnvironmentResult({
     required this.backendEnvironment,
   });
+
   factory GetBackendEnvironmentResult.fromJson(Map<String, dynamic> json) {
     return GetBackendEnvironmentResult(
       backendEnvironment: BackendEnvironment.fromJson(
@@ -2597,6 +2717,7 @@ class GetBranchResult {
   GetBranchResult({
     required this.branch,
   });
+
   factory GetBranchResult.fromJson(Map<String, dynamic> json) {
     return GetBranchResult(
       branch: Branch.fromJson(json['branch'] as Map<String, dynamic>),
@@ -2613,6 +2734,7 @@ class GetDomainAssociationResult {
   GetDomainAssociationResult({
     required this.domainAssociation,
   });
+
   factory GetDomainAssociationResult.fromJson(Map<String, dynamic> json) {
     return GetDomainAssociationResult(
       domainAssociation: DomainAssociation.fromJson(
@@ -2627,6 +2749,7 @@ class GetJobResult {
   GetJobResult({
     required this.job,
   });
+
   factory GetJobResult.fromJson(Map<String, dynamic> json) {
     return GetJobResult(
       job: Job.fromJson(json['job'] as Map<String, dynamic>),
@@ -2642,6 +2765,7 @@ class GetWebhookResult {
   GetWebhookResult({
     required this.webhook,
   });
+
   factory GetWebhookResult.fromJson(Map<String, dynamic> json) {
     return GetWebhookResult(
       webhook: Webhook.fromJson(json['webhook'] as Map<String, dynamic>),
@@ -2661,6 +2785,7 @@ class Job {
     required this.steps,
     required this.summary,
   });
+
   factory Job.fromJson(Map<String, dynamic> json) {
     return Job(
       steps: (json['steps'] as List)
@@ -2769,6 +2894,7 @@ class JobSummary {
     required this.status,
     this.endTime,
   });
+
   factory JobSummary.fromJson(Map<String, dynamic> json) {
     return JobSummary(
       commitId: json['commitId'] as String,
@@ -2836,6 +2962,7 @@ class ListAppsResult {
     required this.apps,
     this.nextToken,
   });
+
   factory ListAppsResult.fromJson(Map<String, dynamic> json) {
     return ListAppsResult(
       apps: (json['apps'] as List)
@@ -2860,6 +2987,7 @@ class ListArtifactsResult {
     required this.artifacts,
     this.nextToken,
   });
+
   factory ListArtifactsResult.fromJson(Map<String, dynamic> json) {
     return ListArtifactsResult(
       artifacts: (json['artifacts'] as List)
@@ -2884,6 +3012,7 @@ class ListBackendEnvironmentsResult {
     required this.backendEnvironments,
     this.nextToken,
   });
+
   factory ListBackendEnvironmentsResult.fromJson(Map<String, dynamic> json) {
     return ListBackendEnvironmentsResult(
       backendEnvironments: (json['backendEnvironments'] as List)
@@ -2908,6 +3037,7 @@ class ListBranchesResult {
     required this.branches,
     this.nextToken,
   });
+
   factory ListBranchesResult.fromJson(Map<String, dynamic> json) {
     return ListBranchesResult(
       branches: (json['branches'] as List)
@@ -2932,6 +3062,7 @@ class ListDomainAssociationsResult {
     required this.domainAssociations,
     this.nextToken,
   });
+
   factory ListDomainAssociationsResult.fromJson(Map<String, dynamic> json) {
     return ListDomainAssociationsResult(
       domainAssociations: (json['domainAssociations'] as List)
@@ -2956,6 +3087,7 @@ class ListJobsResult {
     required this.jobSummaries,
     this.nextToken,
   });
+
   factory ListJobsResult.fromJson(Map<String, dynamic> json) {
     return ListJobsResult(
       jobSummaries: (json['jobSummaries'] as List)
@@ -2975,6 +3107,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -2996,6 +3129,7 @@ class ListWebhooksResult {
     required this.webhooks,
     this.nextToken,
   });
+
   factory ListWebhooksResult.fromJson(Map<String, dynamic> json) {
     return ListWebhooksResult(
       webhooks: (json['webhooks'] as List)
@@ -3009,6 +3143,8 @@ class ListWebhooksResult {
 
 enum Platform {
   web,
+  webDynamic,
+  webCompute,
 }
 
 extension PlatformValueExtension on Platform {
@@ -3016,6 +3152,10 @@ extension PlatformValueExtension on Platform {
     switch (this) {
       case Platform.web:
         return 'WEB';
+      case Platform.webDynamic:
+        return 'WEB_DYNAMIC';
+      case Platform.webCompute:
+        return 'WEB_COMPUTE';
     }
   }
 }
@@ -3025,6 +3165,10 @@ extension PlatformFromString on String {
     switch (this) {
       case 'WEB':
         return Platform.web;
+      case 'WEB_DYNAMIC':
+        return Platform.webDynamic;
+      case 'WEB_COMPUTE':
+        return Platform.webCompute;
     }
     throw Exception('$this is not known in enum Platform');
   }
@@ -3050,6 +3194,7 @@ class ProductionBranch {
     this.status,
     this.thumbnailUrl,
   });
+
   factory ProductionBranch.fromJson(Map<String, dynamic> json) {
     return ProductionBranch(
       branchName: json['branchName'] as String?,
@@ -3057,6 +3202,39 @@ class ProductionBranch {
       status: json['status'] as String?,
       thumbnailUrl: json['thumbnailUrl'] as String?,
     );
+  }
+}
+
+enum RepositoryCloneMethod {
+  ssh,
+  token,
+  sigv4,
+}
+
+extension RepositoryCloneMethodValueExtension on RepositoryCloneMethod {
+  String toValue() {
+    switch (this) {
+      case RepositoryCloneMethod.ssh:
+        return 'SSH';
+      case RepositoryCloneMethod.token:
+        return 'TOKEN';
+      case RepositoryCloneMethod.sigv4:
+        return 'SIGV4';
+    }
+  }
+}
+
+extension RepositoryCloneMethodFromString on String {
+  RepositoryCloneMethod toRepositoryCloneMethod() {
+    switch (this) {
+      case 'SSH':
+        return RepositoryCloneMethod.ssh;
+      case 'TOKEN':
+        return RepositoryCloneMethod.token;
+      case 'SIGV4':
+        return RepositoryCloneMethod.sigv4;
+    }
+    throw Exception('$this is not known in enum RepositoryCloneMethod');
   }
 }
 
@@ -3111,6 +3289,7 @@ class StartDeploymentResult {
   StartDeploymentResult({
     required this.jobSummary,
   });
+
   factory StartDeploymentResult.fromJson(Map<String, dynamic> json) {
     return StartDeploymentResult(
       jobSummary:
@@ -3127,6 +3306,7 @@ class StartJobResult {
   StartJobResult({
     required this.jobSummary,
   });
+
   factory StartJobResult.fromJson(Map<String, dynamic> json) {
     return StartJobResult(
       jobSummary:
@@ -3184,6 +3364,7 @@ class Step {
     this.testArtifactsUrl,
     this.testConfigUrl,
   });
+
   factory Step.fromJson(Map<String, dynamic> json) {
     return Step(
       endTime: nonNullableTimeStampFromJson(json['endTime'] as Object),
@@ -3210,6 +3391,7 @@ class StopJobResult {
   StopJobResult({
     required this.jobSummary,
   });
+
   factory StopJobResult.fromJson(Map<String, dynamic> json) {
     return StopJobResult(
       jobSummary:
@@ -3234,6 +3416,7 @@ class SubDomain {
     required this.subDomainSetting,
     required this.verified,
   });
+
   factory SubDomain.fromJson(Map<String, dynamic> json) {
     return SubDomain(
       dnsRecord: json['dnsRecord'] as String,
@@ -3256,6 +3439,7 @@ class SubDomainSetting {
     required this.branchName,
     required this.prefix,
   });
+
   factory SubDomainSetting.fromJson(Map<String, dynamic> json) {
     return SubDomainSetting(
       branchName: json['branchName'] as String,
@@ -3276,6 +3460,7 @@ class SubDomainSetting {
 /// The response for the tag resource request.
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
@@ -3284,6 +3469,7 @@ class TagResourceResponse {
 /// The response for the untag resource request.
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
   }
@@ -3297,6 +3483,7 @@ class UpdateAppResult {
   UpdateAppResult({
     required this.app,
   });
+
   factory UpdateAppResult.fromJson(Map<String, dynamic> json) {
     return UpdateAppResult(
       app: App.fromJson(json['app'] as Map<String, dynamic>),
@@ -3313,6 +3500,7 @@ class UpdateBranchResult {
   UpdateBranchResult({
     required this.branch,
   });
+
   factory UpdateBranchResult.fromJson(Map<String, dynamic> json) {
     return UpdateBranchResult(
       branch: Branch.fromJson(json['branch'] as Map<String, dynamic>),
@@ -3329,6 +3517,7 @@ class UpdateDomainAssociationResult {
   UpdateDomainAssociationResult({
     required this.domainAssociation,
   });
+
   factory UpdateDomainAssociationResult.fromJson(Map<String, dynamic> json) {
     return UpdateDomainAssociationResult(
       domainAssociation: DomainAssociation.fromJson(
@@ -3345,6 +3534,7 @@ class UpdateWebhookResult {
   UpdateWebhookResult({
     required this.webhook,
   });
+
   factory UpdateWebhookResult.fromJson(Map<String, dynamic> json) {
     return UpdateWebhookResult(
       webhook: Webhook.fromJson(json['webhook'] as Map<String, dynamic>),
@@ -3384,6 +3574,7 @@ class Webhook {
     required this.webhookId,
     required this.webhookUrl,
   });
+
   factory Webhook.fromJson(Map<String, dynamic> json) {
     return Webhook(
       branchName: json['branchName'] as String,

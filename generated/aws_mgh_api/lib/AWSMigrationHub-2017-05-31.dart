@@ -1089,6 +1089,7 @@ class ApplicationState {
     this.applicationStatus,
     this.lastUpdatedTime,
   });
+
   factory ApplicationState.fromJson(Map<String, dynamic> json) {
     return ApplicationState(
       applicationId: json['ApplicationId'] as String?,
@@ -1134,6 +1135,7 @@ extension ApplicationStatusFromString on String {
 
 class AssociateCreatedArtifactResult {
   AssociateCreatedArtifactResult();
+
   factory AssociateCreatedArtifactResult.fromJson(Map<String, dynamic> _) {
     return AssociateCreatedArtifactResult();
   }
@@ -1141,6 +1143,7 @@ class AssociateCreatedArtifactResult {
 
 class AssociateDiscoveredResourceResult {
   AssociateDiscoveredResourceResult();
+
   factory AssociateDiscoveredResourceResult.fromJson(Map<String, dynamic> _) {
     return AssociateDiscoveredResourceResult();
   }
@@ -1148,6 +1151,7 @@ class AssociateDiscoveredResourceResult {
 
 class CreateProgressUpdateStreamResult {
   CreateProgressUpdateStreamResult();
+
   factory CreateProgressUpdateStreamResult.fromJson(Map<String, dynamic> _) {
     return CreateProgressUpdateStreamResult();
   }
@@ -1167,6 +1171,7 @@ class CreatedArtifact {
     required this.name,
     this.description,
   });
+
   factory CreatedArtifact.fromJson(Map<String, dynamic> json) {
     return CreatedArtifact(
       name: json['Name'] as String,
@@ -1186,6 +1191,7 @@ class CreatedArtifact {
 
 class DeleteProgressUpdateStreamResult {
   DeleteProgressUpdateStreamResult();
+
   factory DeleteProgressUpdateStreamResult.fromJson(Map<String, dynamic> _) {
     return DeleteProgressUpdateStreamResult();
   }
@@ -1202,6 +1208,7 @@ class DescribeApplicationStateResult {
     this.applicationStatus,
     this.lastUpdatedTime,
   });
+
   factory DescribeApplicationStateResult.fromJson(Map<String, dynamic> json) {
     return DescribeApplicationStateResult(
       applicationStatus:
@@ -1218,6 +1225,7 @@ class DescribeMigrationTaskResult {
   DescribeMigrationTaskResult({
     this.migrationTask,
   });
+
   factory DescribeMigrationTaskResult.fromJson(Map<String, dynamic> json) {
     return DescribeMigrationTaskResult(
       migrationTask: json['MigrationTask'] != null
@@ -1230,6 +1238,7 @@ class DescribeMigrationTaskResult {
 
 class DisassociateCreatedArtifactResult {
   DisassociateCreatedArtifactResult();
+
   factory DisassociateCreatedArtifactResult.fromJson(Map<String, dynamic> _) {
     return DisassociateCreatedArtifactResult();
   }
@@ -1237,6 +1246,7 @@ class DisassociateCreatedArtifactResult {
 
 class DisassociateDiscoveredResourceResult {
   DisassociateDiscoveredResourceResult();
+
   factory DisassociateDiscoveredResourceResult.fromJson(
       Map<String, dynamic> _) {
     return DisassociateDiscoveredResourceResult();
@@ -1257,6 +1267,7 @@ class DiscoveredResource {
     required this.configurationId,
     this.description,
   });
+
   factory DiscoveredResource.fromJson(Map<String, dynamic> json) {
     return DiscoveredResource(
       configurationId: json['ConfigurationId'] as String,
@@ -1276,6 +1287,7 @@ class DiscoveredResource {
 
 class ImportMigrationTaskResult {
   ImportMigrationTaskResult();
+
   factory ImportMigrationTaskResult.fromJson(Map<String, dynamic> _) {
     return ImportMigrationTaskResult();
   }
@@ -1294,6 +1306,7 @@ class ListApplicationStatesResult {
     this.applicationStateList,
     this.nextToken,
   });
+
   factory ListApplicationStatesResult.fromJson(Map<String, dynamic> json) {
     return ListApplicationStatesResult(
       applicationStateList: (json['ApplicationStateList'] as List?)
@@ -1318,6 +1331,7 @@ class ListCreatedArtifactsResult {
     this.createdArtifactList,
     this.nextToken,
   });
+
   factory ListCreatedArtifactsResult.fromJson(Map<String, dynamic> json) {
     return ListCreatedArtifactsResult(
       createdArtifactList: (json['CreatedArtifactList'] as List?)
@@ -1342,6 +1356,7 @@ class ListDiscoveredResourcesResult {
     this.discoveredResourceList,
     this.nextToken,
   });
+
   factory ListDiscoveredResourcesResult.fromJson(Map<String, dynamic> json) {
     return ListDiscoveredResourcesResult(
       discoveredResourceList: (json['DiscoveredResourceList'] as List?)
@@ -1368,6 +1383,7 @@ class ListMigrationTasksResult {
     this.migrationTaskSummaryList,
     this.nextToken,
   });
+
   factory ListMigrationTasksResult.fromJson(Map<String, dynamic> json) {
     return ListMigrationTasksResult(
       migrationTaskSummaryList: (json['MigrationTaskSummaryList'] as List?)
@@ -1392,6 +1408,7 @@ class ListProgressUpdateStreamsResult {
     this.nextToken,
     this.progressUpdateStreamSummaryList,
   });
+
   factory ListProgressUpdateStreamsResult.fromJson(Map<String, dynamic> json) {
     return ListProgressUpdateStreamsResult(
       nextToken: json['NextToken'] as String?,
@@ -1432,6 +1449,7 @@ class MigrationTask {
     this.task,
     this.updateDateTime,
   });
+
   factory MigrationTask.fromJson(Map<String, dynamic> json) {
     return MigrationTask(
       migrationTaskName: json['MigrationTaskName'] as String?,
@@ -1480,6 +1498,7 @@ class MigrationTaskSummary {
     this.statusDetail,
     this.updateDateTime,
   });
+
   factory MigrationTaskSummary.fromJson(Map<String, dynamic> json) {
     return MigrationTaskSummary(
       migrationTaskName: json['MigrationTaskName'] as String?,
@@ -1494,6 +1513,7 @@ class MigrationTaskSummary {
 
 class NotifyApplicationStateResult {
   NotifyApplicationStateResult();
+
   factory NotifyApplicationStateResult.fromJson(Map<String, dynamic> _) {
     return NotifyApplicationStateResult();
   }
@@ -1501,6 +1521,7 @@ class NotifyApplicationStateResult {
 
 class NotifyMigrationTaskStateResult {
   NotifyMigrationTaskStateResult();
+
   factory NotifyMigrationTaskStateResult.fromJson(Map<String, dynamic> _) {
     return NotifyMigrationTaskStateResult();
   }
@@ -1516,6 +1537,7 @@ class ProgressUpdateStreamSummary {
   ProgressUpdateStreamSummary({
     this.progressUpdateStreamName,
   });
+
   factory ProgressUpdateStreamSummary.fromJson(Map<String, dynamic> json) {
     return ProgressUpdateStreamSummary(
       progressUpdateStreamName: json['ProgressUpdateStreamName'] as String?,
@@ -1525,6 +1547,7 @@ class ProgressUpdateStreamSummary {
 
 class PutResourceAttributesResult {
   PutResourceAttributesResult();
+
   factory PutResourceAttributesResult.fromJson(Map<String, dynamic> _) {
     return PutResourceAttributesResult();
   }
@@ -1557,6 +1580,7 @@ class ResourceAttribute {
     required this.type,
     required this.value,
   });
+
   factory ResourceAttribute.fromJson(Map<String, dynamic> json) {
     return ResourceAttribute(
       type: (json['Type'] as String).toResourceAttributeType(),
@@ -1698,6 +1722,7 @@ class Task {
     this.progressPercent,
     this.statusDetail,
   });
+
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
       status: (json['Status'] as String).toStatus(),

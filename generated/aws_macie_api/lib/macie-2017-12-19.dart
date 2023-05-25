@@ -18,14 +18,7 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// Amazon Macie Classic is a security service that uses machine learning to
-/// automatically discover, classify, and protect sensitive data in AWS. Macie
-/// Classic recognizes sensitive data such as personally identifiable
-/// information (PII) or intellectual property, and provides you with dashboards
-/// and alerts that give visibility into how this data is being accessed or
-/// moved. For more information, see the <a
-/// href="https://docs.aws.amazon.com/macie/latest/userguide/what-is-macie.html">Amazon
-/// Macie Classic User Guide</a>.
+/// Amazon Macie Classic has been discontinued and is no longer available.
 class Macie {
   final _s.JsonProtocol _protocol;
   Macie({
@@ -54,16 +47,16 @@ class Macie {
     _protocol.close();
   }
 
-  /// Associates a specified AWS account with Amazon Macie Classic as a member
-  /// account.
+  /// (Discontinued) Associates a specified Amazon Web Services account with
+  /// Amazon Macie Classic as a member account.
   ///
   /// May throw [InvalidInputException].
   /// May throw [LimitExceededException].
   /// May throw [InternalException].
   ///
   /// Parameter [memberAccountId] :
-  /// The ID of the AWS account that you want to associate with Amazon Macie
-  /// Classic as a member account.
+  /// (Discontinued) The ID of the Amazon Web Services account that you want to
+  /// associate with Amazon Macie Classic as a member account.
   Future<void> associateMemberAccount({
     required String memberAccountId,
   }) async {
@@ -83,12 +76,12 @@ class Macie {
     );
   }
 
-  /// Associates specified S3 resources with Amazon Macie Classic for monitoring
-  /// and data classification. If memberAccountId isn't specified, the action
-  /// associates specified S3 resources with Macie Classic for the current
-  /// master account. If memberAccountId is specified, the action associates
-  /// specified S3 resources with Macie Classic for the specified member
-  /// account.
+  /// (Discontinued) Associates specified S3 resources with Amazon Macie Classic
+  /// for monitoring and data classification. If <code>memberAccountId</code>
+  /// isn't specified, the action associates specified S3 resources with Macie
+  /// Classic for the current Macie Classic administrator account. If
+  /// <code>memberAccountId</code> is specified, the action associates specified
+  /// S3 resources with Macie Classic for the specified member account.
   ///
   /// May throw [InvalidInputException].
   /// May throw [AccessDeniedException].
@@ -96,12 +89,12 @@ class Macie {
   /// May throw [InternalException].
   ///
   /// Parameter [s3Resources] :
-  /// The S3 resources that you want to associate with Amazon Macie Classic for
-  /// monitoring and data classification.
+  /// (Discontinued) The S3 resources that you want to associate with Amazon
+  /// Macie Classic for monitoring and data classification.
   ///
   /// Parameter [memberAccountId] :
-  /// The ID of the Amazon Macie Classic member account whose resources you want
-  /// to associate with Macie Classic.
+  /// (Discontinued) The ID of the Amazon Macie Classic member account whose
+  /// resources you want to associate with Macie Classic.
   Future<AssociateS3ResourcesResult> associateS3Resources({
     required List<S3ResourceClassification> s3Resources,
     String? memberAccountId,
@@ -125,14 +118,15 @@ class Macie {
     return AssociateS3ResourcesResult.fromJson(jsonResponse.body);
   }
 
-  /// Removes the specified member account from Amazon Macie Classic.
+  /// (Discontinued) Removes the specified member account from Amazon Macie
+  /// Classic.
   ///
   /// May throw [InvalidInputException].
   /// May throw [InternalException].
   ///
   /// Parameter [memberAccountId] :
-  /// The ID of the member account that you want to remove from Amazon Macie
-  /// Classic.
+  /// (Discontinued) The ID of the member account that you want to remove from
+  /// Amazon Macie Classic.
   Future<void> disassociateMemberAccount({
     required String memberAccountId,
   }) async {
@@ -152,23 +146,24 @@ class Macie {
     );
   }
 
-  /// Removes specified S3 resources from being monitored by Amazon Macie
-  /// Classic. If memberAccountId isn't specified, the action removes specified
-  /// S3 resources from Macie Classic for the current master account. If
-  /// memberAccountId is specified, the action removes specified S3 resources
-  /// from Macie Classic for the specified member account.
+  /// (Discontinued) Removes specified S3 resources from being monitored by
+  /// Amazon Macie Classic. If <code>memberAccountId</code> isn't specified, the
+  /// action removes specified S3 resources from Macie Classic for the current
+  /// Macie Classic administrator account. If <code>memberAccountId</code> is
+  /// specified, the action removes specified S3 resources from Macie Classic
+  /// for the specified member account.
   ///
   /// May throw [InvalidInputException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   ///
   /// Parameter [associatedS3Resources] :
-  /// The S3 resources (buckets or prefixes) that you want to remove from being
-  /// monitored and classified by Amazon Macie Classic.
+  /// (Discontinued) The S3 resources (buckets or prefixes) that you want to
+  /// remove from being monitored and classified by Amazon Macie Classic.
   ///
   /// Parameter [memberAccountId] :
-  /// The ID of the Amazon Macie Classic member account whose resources you want
-  /// to remove from being monitored by Amazon Macie Classic.
+  /// (Discontinued) The ID of the Amazon Macie Classic member account whose
+  /// resources you want to remove from being monitored by Macie Classic.
   Future<DisassociateS3ResourcesResult> disassociateS3Resources({
     required List<S3Resource> associatedS3Resources,
     String? memberAccountId,
@@ -192,21 +187,23 @@ class Macie {
     return DisassociateS3ResourcesResult.fromJson(jsonResponse.body);
   }
 
-  /// Lists all Amazon Macie Classic member accounts for the current Amazon
-  /// Macie Classic master account.
+  /// (Discontinued) Lists all Amazon Macie Classic member accounts for the
+  /// current Macie Classic administrator account.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
   ///
   /// Parameter [maxResults] :
-  /// Use this parameter to indicate the maximum number of items that you want
-  /// in the response. The default value is 250.
+  /// (Discontinued) Use this parameter to indicate the maximum number of items
+  /// that you want in the response. The default value is 250.
   ///
   /// Parameter [nextToken] :
-  /// Use this parameter when paginating results. Set the value of this
-  /// parameter to null on your first call to the ListMemberAccounts action.
-  /// Subsequent calls to the action fill nextToken in the request with the
-  /// value of nextToken from the previous response to continue listing data.
+  /// (Discontinued) Use this parameter when paginating results. Set the value
+  /// of this parameter to null on your first call to the
+  /// <code>ListMemberAccounts</code> action. Subsequent calls to the action
+  /// fill <code>nextToken</code> in the request with the value of
+  /// <code>nextToken</code> from the previous response to continue listing
+  /// data.
   Future<ListMemberAccountsResult> listMemberAccounts({
     int? maxResults,
     String? nextToken,
@@ -236,29 +233,31 @@ class Macie {
     return ListMemberAccountsResult.fromJson(jsonResponse.body);
   }
 
-  /// Lists all the S3 resources associated with Amazon Macie Classic. If
-  /// memberAccountId isn't specified, the action lists the S3 resources
-  /// associated with Amazon Macie Classic for the current master account. If
-  /// memberAccountId is specified, the action lists the S3 resources associated
-  /// with Amazon Macie Classic for the specified member account.
+  /// (Discontinued) Lists all the S3 resources associated with Amazon Macie
+  /// Classic. If <code>memberAccountId</code> isn't specified, the action lists
+  /// the S3 resources associated with Macie Classic for the current Macie
+  /// Classic administrator account. If <code>memberAccountId</code> is
+  /// specified, the action lists the S3 resources associated with Macie Classic
+  /// for the specified member account.
   ///
   /// May throw [InvalidInputException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   ///
   /// Parameter [maxResults] :
-  /// Use this parameter to indicate the maximum number of items that you want
-  /// in the response. The default value is 250.
+  /// (Discontinued) Use this parameter to indicate the maximum number of items
+  /// that you want in the response. The default value is 250.
   ///
   /// Parameter [memberAccountId] :
-  /// The Amazon Macie Classic member account ID whose associated S3 resources
-  /// you want to list.
+  /// (Discontinued) The Amazon Macie Classic member account ID whose associated
+  /// S3 resources you want to list.
   ///
   /// Parameter [nextToken] :
-  /// Use this parameter when paginating results. Set its value to null on your
-  /// first call to the ListS3Resources action. Subsequent calls to the action
-  /// fill nextToken in the request with the value of nextToken from the
-  /// previous response to continue listing data.
+  /// (Discontinued) Use this parameter when paginating results. Set its value
+  /// to null on your first call to the <code>ListS3Resources</code> action.
+  /// Subsequent calls to the action fill <code>nextToken</code> in the request
+  /// with the value of <code>nextToken</code> from the previous response to
+  /// continue listing data.
   Future<ListS3ResourcesResult> listS3Resources({
     int? maxResults,
     String? memberAccountId,
@@ -290,23 +289,26 @@ class Macie {
     return ListS3ResourcesResult.fromJson(jsonResponse.body);
   }
 
-  /// Updates the classification types for the specified S3 resources. If
-  /// memberAccountId isn't specified, the action updates the classification
-  /// types of the S3 resources associated with Amazon Macie Classic for the
-  /// current master account. If memberAccountId is specified, the action
+  /// (Discontinued) Updates the classification types for the specified S3
+  /// resources. If <code>memberAccountId</code> isn't specified, the action
   /// updates the classification types of the S3 resources associated with
-  /// Amazon Macie Classic for the specified member account.
+  /// Amazon Macie Classic for the current Macie Classic administrator account.
+  /// If <code>memberAccountId</code> is specified, the action updates the
+  /// classification types of the S3 resources associated with Macie Classic for
+  /// the specified member account.
   ///
   /// May throw [InvalidInputException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   ///
   /// Parameter [s3ResourcesUpdate] :
-  /// The S3 resources whose classification types you want to update.
+  /// (Discontinued) The S3 resources whose classification types you want to
+  /// update.
   ///
   /// Parameter [memberAccountId] :
-  /// The AWS ID of the Amazon Macie Classic member account whose S3 resources'
-  /// classification types you want to update.
+  /// (Discontinued) The Amazon Web Services account ID of the Amazon Macie
+  /// Classic member account whose S3 resources' classification types you want
+  /// to update.
   Future<UpdateS3ResourcesResult> updateS3Resources({
     required List<S3ResourceClassificationUpdate> s3ResourcesUpdate,
     String? memberAccountId,
@@ -332,13 +334,15 @@ class Macie {
 }
 
 class AssociateS3ResourcesResult {
-  /// S3 resources that couldn't be associated with Amazon Macie Classic. An error
-  /// code and an error message are provided for each failed item.
+  /// (Discontinued) S3 resources that couldn't be associated with Amazon Macie
+  /// Classic. An error code and an error message are provided for each failed
+  /// item.
   final List<FailedS3Resource>? failedS3Resources;
 
   AssociateS3ResourcesResult({
     this.failedS3Resources,
   });
+
   factory AssociateS3ResourcesResult.fromJson(Map<String, dynamic> json) {
     return AssociateS3ResourcesResult(
       failedS3Resources: (json['failedS3Resources'] as List?)
@@ -349,22 +353,23 @@ class AssociateS3ResourcesResult {
   }
 }
 
-/// The classification type that Amazon Macie Classic applies to the associated
-/// S3 resources.
+/// (Discontinued) The classification type that Amazon Macie Classic applies to
+/// the associated S3 resources.
 class ClassificationType {
-  /// A continuous classification of the objects that are added to a specified S3
-  /// bucket. Amazon Macie Classic begins performing continuous classification
-  /// after a bucket is successfully associated with Amazon Macie Classic.
+  /// (Discontinued) A continuous classification of the objects that are added to
+  /// a specified S3 bucket. Amazon Macie Classic begins performing continuous
+  /// classification after a bucket is successfully associated with Macie Classic.
   final S3ContinuousClassificationType continuous;
 
-  /// A one-time classification of all of the existing objects in a specified S3
-  /// bucket.
+  /// (Discontinued) A one-time classification of all of the existing objects in a
+  /// specified S3 bucket.
   final S3OneTimeClassificationType oneTime;
 
   ClassificationType({
     required this.continuous,
     required this.oneTime,
   });
+
   factory ClassificationType.fromJson(Map<String, dynamic> json) {
     return ClassificationType(
       continuous:
@@ -383,17 +388,17 @@ class ClassificationType {
   }
 }
 
-/// The classification type that Amazon Macie Classic applies to the associated
-/// S3 resources. At least one of the classification types (oneTime or
-/// continuous) must be specified.
+/// (Discontinued) The classification type that Amazon Macie Classic applies to
+/// the associated S3 resources. At least one of the classification types
+/// (<code>oneTime</code> or <code>continuous</code>) must be specified.
 class ClassificationTypeUpdate {
-  /// A continuous classification of the objects that are added to a specified S3
-  /// bucket. Amazon Macie Classic begins performing continuous classification
-  /// after a bucket is successfully associated with Amazon Macie Classic.
+  /// (Discontinued) A continuous classification of the objects that are added to
+  /// a specified S3 bucket. Amazon Macie Classic begins performing continuous
+  /// classification after a bucket is successfully associated with Macie Classic.
   final S3ContinuousClassificationType? continuous;
 
-  /// A one-time classification of all of the existing objects in a specified S3
-  /// bucket.
+  /// (Discontinued) A one-time classification of all of the existing objects in a
+  /// specified S3 bucket.
   final S3OneTimeClassificationType? oneTime;
 
   ClassificationTypeUpdate({
@@ -411,14 +416,15 @@ class ClassificationTypeUpdate {
 }
 
 class DisassociateS3ResourcesResult {
-  /// S3 resources that couldn't be removed from being monitored and classified by
-  /// Amazon Macie Classic. An error code and an error message are provided for
-  /// each failed item.
+  /// (Discontinued) S3 resources that couldn't be removed from being monitored
+  /// and classified by Amazon Macie Classic. An error code and an error message
+  /// are provided for each failed item.
   final List<FailedS3Resource>? failedS3Resources;
 
   DisassociateS3ResourcesResult({
     this.failedS3Resources,
   });
+
   factory DisassociateS3ResourcesResult.fromJson(Map<String, dynamic> json) {
     return DisassociateS3ResourcesResult(
       failedS3Resources: (json['failedS3Resources'] as List?)
@@ -429,15 +435,15 @@ class DisassociateS3ResourcesResult {
   }
 }
 
-/// Includes details about the failed S3 resources.
+/// (Discontinued) Includes details about the failed S3 resources.
 class FailedS3Resource {
-  /// The status code of a failed item.
+  /// (Discontinued) The status code of a failed item.
   final String? errorCode;
 
-  /// The error message of a failed item.
+  /// (Discontinued) The error message of a failed item.
   final String? errorMessage;
 
-  /// The failed S3 resources.
+  /// (Discontinued) The failed S3 resources.
   final S3Resource? failedItem;
 
   FailedS3Resource({
@@ -445,6 +451,7 @@ class FailedS3Resource {
     this.errorMessage,
     this.failedItem,
   });
+
   factory FailedS3Resource.fromJson(Map<String, dynamic> json) {
     return FailedS3Resource(
       errorCode: json['errorCode'] as String?,
@@ -457,20 +464,23 @@ class FailedS3Resource {
 }
 
 class ListMemberAccountsResult {
-  /// A list of the Amazon Macie Classic member accounts returned by the action.
-  /// The current master account is also included in this list.
+  /// (Discontinued) A list of the Amazon Macie Classic member accounts returned
+  /// by the action. The current Macie Classic administrator account is also
+  /// included in this list.
   final List<MemberAccount>? memberAccounts;
 
-  /// When a response is generated, if there is more data to be listed, this
-  /// parameter is present in the response and contains the value to use for the
-  /// nextToken parameter in a subsequent pagination request. If there is no more
-  /// data to be listed, this parameter is set to null.
+  /// (Discontinued) When a response is generated, if there is more data to be
+  /// listed, this parameter is present in the response and contains the value to
+  /// use for the <code>nextToken</code> parameter in a subsequent pagination
+  /// request. If there is no more data to be listed, this parameter is set to
+  /// null.
   final String? nextToken;
 
   ListMemberAccountsResult({
     this.memberAccounts,
     this.nextToken,
   });
+
   factory ListMemberAccountsResult.fromJson(Map<String, dynamic> json) {
     return ListMemberAccountsResult(
       memberAccounts: (json['memberAccounts'] as List?)
@@ -483,19 +493,21 @@ class ListMemberAccountsResult {
 }
 
 class ListS3ResourcesResult {
-  /// When a response is generated, if there is more data to be listed, this
-  /// parameter is present in the response and contains the value to use for the
-  /// nextToken parameter in a subsequent pagination request. If there is no more
-  /// data to be listed, this parameter is set to null.
+  /// (Discontinued) When a response is generated, if there is more data to be
+  /// listed, this parameter is present in the response and contains the value to
+  /// use for the <code>nextToken</code> parameter in a subsequent pagination
+  /// request. If there is no more data to be listed, this parameter is set to
+  /// null.
   final String? nextToken;
 
-  /// A list of the associated S3 resources returned by the action.
+  /// (Discontinued) A list of the associated S3 resources returned by the action.
   final List<S3ResourceClassification>? s3Resources;
 
   ListS3ResourcesResult({
     this.nextToken,
     this.s3Resources,
   });
+
   factory ListS3ResourcesResult.fromJson(Map<String, dynamic> json) {
     return ListS3ResourcesResult(
       nextToken: json['nextToken'] as String?,
@@ -508,14 +520,17 @@ class ListS3ResourcesResult {
   }
 }
 
-/// Contains information about the Amazon Macie Classic member account.
+/// (Discontinued) Contains information about the Amazon Macie Classic member
+/// account.
 class MemberAccount {
-  /// The AWS account ID of the Amazon Macie Classic member account.
+  /// (Discontinued) The Amazon Web Services account ID of the Amazon Macie
+  /// Classic member account.
   final String? accountId;
 
   MemberAccount({
     this.accountId,
   });
+
   factory MemberAccount.fromJson(Map<String, dynamic> json) {
     return MemberAccount(
       accountId: json['accountId'] as String?,
@@ -577,21 +592,23 @@ extension S3OneTimeClassificationTypeFromString on String {
   }
 }
 
-/// Contains information about the S3 resource. This data type is used as a
-/// request parameter in the DisassociateS3Resources action and can be used as a
-/// response parameter in the AssociateS3Resources and UpdateS3Resources
+/// (Discontinued) Contains information about the S3 resource. This data type is
+/// used as a request parameter in the <code>DisassociateS3Resources</code>
+/// action and can be used as a response parameter in the
+/// <code>AssociateS3Resources</code> and <code>UpdateS3Resources</code>
 /// actions.
 class S3Resource {
-  /// The name of the S3 bucket.
+  /// (Discontinued) The name of the S3 bucket.
   final String bucketName;
 
-  /// The prefix of the S3 bucket.
+  /// (Discontinued) The prefix of the S3 bucket.
   final String? prefix;
 
   S3Resource({
     required this.bucketName,
     this.prefix,
   });
+
   factory S3Resource.fromJson(Map<String, dynamic> json) {
     return S3Resource(
       bucketName: json['bucketName'] as String,
@@ -609,21 +626,21 @@ class S3Resource {
   }
 }
 
-/// The S3 resources that you want to associate with Amazon Macie Classic for
-/// monitoring and data classification. This data type is used as a request
-/// parameter in the AssociateS3Resources action and a response parameter in the
-/// ListS3Resources action.
+/// (Discontinued) The S3 resources that you want to associate with Amazon Macie
+/// Classic for monitoring and data classification. This data type is used as a
+/// request parameter in the <code>AssociateS3Resources</code> action and a
+/// response parameter in the <code>ListS3Resources</code> action.
 class S3ResourceClassification {
-  /// The name of the S3 bucket that you want to associate with Amazon Macie
-  /// Classic.
+  /// (Discontinued) The name of the S3 bucket that you want to associate with
+  /// Amazon Macie Classic.
   final String bucketName;
 
-  /// The classification type that you want to specify for the resource associated
-  /// with Amazon Macie Classic.
+  /// (Discontinued) The classification type that you want to specify for the
+  /// resource associated with Amazon Macie Classic.
   final ClassificationType classificationType;
 
-  /// The prefix of the S3 bucket that you want to associate with Amazon Macie
-  /// Classic.
+  /// (Discontinued) The prefix of the S3 bucket that you want to associate with
+  /// Amazon Macie Classic.
   final String? prefix;
 
   S3ResourceClassification({
@@ -631,6 +648,7 @@ class S3ResourceClassification {
     required this.classificationType,
     this.prefix,
   });
+
   factory S3ResourceClassification.fromJson(Map<String, dynamic> json) {
     return S3ResourceClassification(
       bucketName: json['bucketName'] as String,
@@ -652,17 +670,20 @@ class S3ResourceClassification {
   }
 }
 
-/// The S3 resources whose classification types you want to update. This data
-/// type is used as a request parameter in the UpdateS3Resources action.
+/// (Discontinued) The S3 resources whose classification types you want to
+/// update. This data type is used as a request parameter in the
+/// <code>UpdateS3Resources</code> action.
 class S3ResourceClassificationUpdate {
-  /// The name of the S3 bucket whose classification types you want to update.
+  /// (Discontinued) The name of the S3 bucket whose classification types you want
+  /// to update.
   final String bucketName;
 
-  /// The classification type that you want to update for the resource associated
-  /// with Amazon Macie Classic.
+  /// (Discontinued) The classification type that you want to update for the
+  /// resource associated with Amazon Macie Classic.
   final ClassificationTypeUpdate classificationTypeUpdate;
 
-  /// The prefix of the S3 bucket whose classification types you want to update.
+  /// (Discontinued) The prefix of the S3 bucket whose classification types you
+  /// want to update.
   final String? prefix;
 
   S3ResourceClassificationUpdate({
@@ -683,13 +704,14 @@ class S3ResourceClassificationUpdate {
 }
 
 class UpdateS3ResourcesResult {
-  /// The S3 resources whose classification types can't be updated. An error code
-  /// and an error message are provided for each failed item.
+  /// (Discontinued) The S3 resources whose classification types can't be updated.
+  /// An error code and an error message are provided for each failed item.
   final List<FailedS3Resource>? failedS3Resources;
 
   UpdateS3ResourcesResult({
     this.failedS3Resources,
   });
+
   factory UpdateS3ResourcesResult.fromJson(Map<String, dynamic> json) {
     return UpdateS3ResourcesResult(
       failedS3Resources: (json['failedS3Resources'] as List?)

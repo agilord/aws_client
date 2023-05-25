@@ -18,12 +18,12 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// Amazon WorkMail is a secure, managed business email and calendaring service
-/// with support for existing desktop and mobile email clients. You can access
-/// your email, contacts, and calendars using Microsoft Outlook, your browser,
-/// or other native iOS and Android email applications. You can integrate
-/// WorkMail with your existing corporate directory and control both the keys
-/// that encrypt your data and the location in which your data is stored.
+/// WorkMail is a secure, managed business email and calendaring service with
+/// support for existing desktop and mobile email clients. You can access your
+/// email, contacts, and calendars using Microsoft Outlook, your browser, or
+/// other native iOS and Android email applications. You can integrate WorkMail
+/// with your existing corporate directory and control both the keys that
+/// encrypt your data and the location in which your data is stored.
 ///
 /// The WorkMail API is designed for the following scenarios:
 ///
@@ -166,6 +166,44 @@ class WorkMail {
     );
   }
 
+  /// Assumes an impersonation role for the given WorkMail organization. This
+  /// method returns an authentication token you can use to make impersonated
+  /// calls.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [impersonationRoleId] :
+  /// The impersonation role ID to assume.
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization under which the impersonation role will be
+  /// assumed.
+  Future<AssumeImpersonationRoleResponse> assumeImpersonationRole({
+    required String impersonationRoleId,
+    required String organizationId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.AssumeImpersonationRole'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ImpersonationRoleId': impersonationRoleId,
+        'OrganizationId': organizationId,
+      },
+    );
+
+    return AssumeImpersonationRoleResponse.fromJson(jsonResponse.body);
+  }
+
   /// Cancels a mailbox export job.
   /// <note>
   /// If the mailbox export job is near completion, it might not be possible to
@@ -208,8 +246,7 @@ class WorkMail {
     );
   }
 
-  /// Adds an alias to the set of a given member (user or group) of Amazon
-  /// WorkMail.
+  /// Adds an alias to the set of a given member (user or group) of WorkMail.
   ///
   /// May throw [EmailAddressInUseException].
   /// May throw [EntityNotFoundException].
@@ -252,7 +289,63 @@ class WorkMail {
     );
   }
 
-  /// Creates a group that can be used in Amazon WorkMail by calling the
+  /// Creates an <code>AvailabilityConfiguration</code> for the given WorkMail
+  /// organization and domain.
+  ///
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [NameAvailabilityException].
+  /// May throw [InvalidParameterException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [domainName] :
+  /// The domain to which the provider applies.
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization for which the
+  /// <code>AvailabilityConfiguration</code> will be created.
+  ///
+  /// Parameter [clientToken] :
+  /// An idempotent token that ensures that an API request is executed only
+  /// once.
+  ///
+  /// Parameter [ewsProvider] :
+  /// Exchange Web Services (EWS) availability provider definition. The request
+  /// must contain exactly one provider definition, either
+  /// <code>EwsProvider</code> or <code>LambdaProvider</code>.
+  ///
+  /// Parameter [lambdaProvider] :
+  /// Lambda availability provider definition. The request must contain exactly
+  /// one provider definition, either <code>EwsProvider</code> or
+  /// <code>LambdaProvider</code>.
+  Future<void> createAvailabilityConfiguration({
+    required String domainName,
+    required String organizationId,
+    String? clientToken,
+    EwsAvailabilityProvider? ewsProvider,
+    LambdaAvailabilityProvider? lambdaProvider,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.CreateAvailabilityConfiguration'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DomainName': domainName,
+        'OrganizationId': organizationId,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (ewsProvider != null) 'EwsProvider': ewsProvider,
+        if (lambdaProvider != null) 'LambdaProvider': lambdaProvider,
+      },
+    );
+  }
+
+  /// Creates a group that can be used in WorkMail by calling the
   /// <a>RegisterToWorkMail</a> operation.
   ///
   /// May throw [DirectoryServiceAuthenticationFailedException].
@@ -292,28 +385,190 @@ class WorkMail {
     return CreateGroupResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a new Amazon WorkMail organization. Optionally, you can choose to
+  /// Creates an impersonation role for the given WorkMail organization.
+  ///
+  /// <i>Idempotency</i> ensures that an API request completes no more than one
+  /// time. With an idempotent request, if the original request completes
+  /// successfully, any subsequent retries also complete successfully without
+  /// performing any further actions.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [EntityStateException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [name] :
+  /// The name of the new impersonation role.
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization to create the new impersonation role within.
+  ///
+  /// Parameter [rules] :
+  /// The list of rules for the impersonation role.
+  ///
+  /// Parameter [type] :
+  /// The impersonation role's type. The available impersonation role types are
+  /// <code>READ_ONLY</code> or <code>FULL_ACCESS</code>.
+  ///
+  /// Parameter [clientToken] :
+  /// The idempotency token for the client request.
+  ///
+  /// Parameter [description] :
+  /// The description of the new impersonation role.
+  Future<CreateImpersonationRoleResponse> createImpersonationRole({
+    required String name,
+    required String organizationId,
+    required List<ImpersonationRule> rules,
+    required ImpersonationRoleType type,
+    String? clientToken,
+    String? description,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.CreateImpersonationRole'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+        'OrganizationId': organizationId,
+        'Rules': rules,
+        'Type': type.toValue(),
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (description != null) 'Description': description,
+      },
+    );
+
+    return CreateImpersonationRoleResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a new mobile device access rule for the specified WorkMail
+  /// organization.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [LimitExceededException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [effect] :
+  /// The effect of the rule when it matches. Allowed values are
+  /// <code>ALLOW</code> or <code>DENY</code>.
+  ///
+  /// Parameter [name] :
+  /// The rule name.
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization under which the rule will be created.
+  ///
+  /// Parameter [clientToken] :
+  /// The idempotency token for the client request.
+  ///
+  /// Parameter [description] :
+  /// The rule description.
+  ///
+  /// Parameter [deviceModels] :
+  /// Device models that the rule will match.
+  ///
+  /// Parameter [deviceOperatingSystems] :
+  /// Device operating systems that the rule will match.
+  ///
+  /// Parameter [deviceTypes] :
+  /// Device types that the rule will match.
+  ///
+  /// Parameter [deviceUserAgents] :
+  /// Device user agents that the rule will match.
+  ///
+  /// Parameter [notDeviceModels] :
+  /// Device models that the rule <b>will not</b> match. All other device models
+  /// will match.
+  ///
+  /// Parameter [notDeviceOperatingSystems] :
+  /// Device operating systems that the rule <b>will not</b> match. All other
+  /// device operating systems will match.
+  ///
+  /// Parameter [notDeviceTypes] :
+  /// Device types that the rule <b>will not</b> match. All other device types
+  /// will match.
+  ///
+  /// Parameter [notDeviceUserAgents] :
+  /// Device user agents that the rule <b>will not</b> match. All other device
+  /// user agents will match.
+  Future<CreateMobileDeviceAccessRuleResponse> createMobileDeviceAccessRule({
+    required MobileDeviceAccessRuleEffect effect,
+    required String name,
+    required String organizationId,
+    String? clientToken,
+    String? description,
+    List<String>? deviceModels,
+    List<String>? deviceOperatingSystems,
+    List<String>? deviceTypes,
+    List<String>? deviceUserAgents,
+    List<String>? notDeviceModels,
+    List<String>? notDeviceOperatingSystems,
+    List<String>? notDeviceTypes,
+    List<String>? notDeviceUserAgents,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.CreateMobileDeviceAccessRule'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Effect': effect.toValue(),
+        'Name': name,
+        'OrganizationId': organizationId,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (description != null) 'Description': description,
+        if (deviceModels != null) 'DeviceModels': deviceModels,
+        if (deviceOperatingSystems != null)
+          'DeviceOperatingSystems': deviceOperatingSystems,
+        if (deviceTypes != null) 'DeviceTypes': deviceTypes,
+        if (deviceUserAgents != null) 'DeviceUserAgents': deviceUserAgents,
+        if (notDeviceModels != null) 'NotDeviceModels': notDeviceModels,
+        if (notDeviceOperatingSystems != null)
+          'NotDeviceOperatingSystems': notDeviceOperatingSystems,
+        if (notDeviceTypes != null) 'NotDeviceTypes': notDeviceTypes,
+        if (notDeviceUserAgents != null)
+          'NotDeviceUserAgents': notDeviceUserAgents,
+      },
+    );
+
+    return CreateMobileDeviceAccessRuleResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a new WorkMail organization. Optionally, you can choose to
   /// associate an existing AWS Directory Service directory with your
   /// organization. If an AWS Directory Service directory ID is specified, the
   /// organization alias must match the directory alias. If you choose not to
   /// associate an existing directory with your organization, then we create a
-  /// new Amazon WorkMail directory for you. For more information, see <a
+  /// new WorkMail directory for you. For more information, see <a
   /// href="https://docs.aws.amazon.com/workmail/latest/adminguide/add_new_organization.html">Adding
-  /// an organization</a> in the <i>Amazon WorkMail Administrator Guide</i>.
+  /// an organization</a> in the <i>WorkMail Administrator Guide</i>.
   ///
-  /// You can associate multiple email domains with an organization, then set
-  /// your default email domain from the Amazon WorkMail console. You can also
+  /// You can associate multiple email domains with an organization, then choose
+  /// your default email domain from the WorkMail console. You can also
   /// associate a domain that is managed in an Amazon Route 53 public hosted
   /// zone. For more information, see <a
   /// href="https://docs.aws.amazon.com/workmail/latest/adminguide/add_domain.html">Adding
   /// a domain</a> and <a
   /// href="https://docs.aws.amazon.com/workmail/latest/adminguide/default_domain.html">Choosing
-  /// the default domain</a> in the <i>Amazon WorkMail Administrator Guide</i>.
+  /// the default domain</a> in the <i>WorkMail Administrator Guide</i>.
   ///
-  /// Optionally, you can use a customer managed master key from AWS Key
-  /// Management Service (AWS KMS) to encrypt email for your organization. If
-  /// you don't associate an AWS KMS key, Amazon WorkMail creates a default AWS
-  /// managed master key for you.
+  /// Optionally, you can use a customer managed key from AWS Key Management
+  /// Service (AWS KMS) to encrypt email for your organization. If you don't
+  /// associate an AWS KMS key, WorkMail creates a default, AWS managed key for
+  /// you.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [DirectoryInUseException].
@@ -335,13 +590,11 @@ class WorkMail {
   ///
   /// Parameter [enableInteroperability] :
   /// When <code>true</code>, allows organization interoperability between
-  /// Amazon WorkMail and Microsoft Exchange. Can only be set to
-  /// <code>true</code> if an AD Connector directory ID is included in the
-  /// request.
+  /// WorkMail and Microsoft Exchange. If <code>true</code>, you must include a
+  /// AD Connector directory ID in the request.
   ///
   /// Parameter [kmsKeyArn] :
-  /// The Amazon Resource Name (ARN) of a customer managed master key from AWS
-  /// KMS.
+  /// The Amazon Resource Name (ARN) of a customer managed key from AWS KMS.
   Future<CreateOrganizationResponse> createOrganization({
     required String alias,
     String? clientToken,
@@ -374,7 +627,7 @@ class WorkMail {
     return CreateOrganizationResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a new Amazon WorkMail resource.
+  /// Creates a new WorkMail resource.
   ///
   /// May throw [DirectoryServiceAuthenticationFailedException].
   /// May throw [DirectoryUnavailableException].
@@ -419,7 +672,7 @@ class WorkMail {
     return CreateResourceResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a user who can be used in Amazon WorkMail by calling the
+  /// Creates a user who can be used in WorkMail by calling the
   /// <a>RegisterToWorkMail</a> operation.
   ///
   /// May throw [DirectoryServiceAuthenticationFailedException].
@@ -472,6 +725,11 @@ class WorkMail {
   }
 
   /// Deletes an access control rule for the specified WorkMail organization.
+  /// <note>
+  /// Deleting already deleted and non-existing rules does not produce an error.
+  /// In those cases, the service sends back an HTTP 200 response with an empty
+  /// HTTP body.
+  /// </note>
   ///
   /// May throw [OrganizationNotFoundException].
   /// May throw [OrganizationStateException].
@@ -545,7 +803,69 @@ class WorkMail {
     );
   }
 
-  /// Deletes a group from Amazon WorkMail.
+  /// Deletes the <code>AvailabilityConfiguration</code> for the given WorkMail
+  /// organization and domain.
+  ///
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [domainName] :
+  /// The domain for which the <code>AvailabilityConfiguration</code> will be
+  /// deleted.
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization for which the
+  /// <code>AvailabilityConfiguration</code> will be deleted.
+  Future<void> deleteAvailabilityConfiguration({
+    required String domainName,
+    required String organizationId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.DeleteAvailabilityConfiguration'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DomainName': domainName,
+        'OrganizationId': organizationId,
+      },
+    );
+  }
+
+  /// Deletes the email monitoring configuration for a specified organization.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [organizationId] :
+  /// The ID of the organization from which the email monitoring configuration
+  /// is deleted.
+  Future<void> deleteEmailMonitoringConfiguration({
+    required String organizationId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.DeleteEmailMonitoringConfiguration'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OrganizationId': organizationId,
+      },
+    );
+  }
+
+  /// Deletes a group from WorkMail.
   ///
   /// May throw [DirectoryServiceAuthenticationFailedException].
   /// May throw [DirectoryUnavailableException].
@@ -576,6 +896,38 @@ class WorkMail {
       headers: headers,
       payload: {
         'GroupId': groupId,
+        'OrganizationId': organizationId,
+      },
+    );
+  }
+
+  /// Deletes an impersonation role for the given WorkMail organization.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [impersonationRoleId] :
+  /// The ID of the impersonation role to delete.
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization from which to delete the impersonation role.
+  Future<void> deleteImpersonationRole({
+    required String impersonationRoleId,
+    required String organizationId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.DeleteImpersonationRole'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ImpersonationRoleId': impersonationRoleId,
         'OrganizationId': organizationId,
       },
     );
@@ -622,11 +974,108 @@ class WorkMail {
     );
   }
 
-  /// Deletes an Amazon WorkMail organization and all underlying AWS resources
-  /// managed by Amazon WorkMail as part of the organization. You can choose
-  /// whether to delete the associated directory. For more information, see <a
+  /// Deletes the mobile device access override for the given WorkMail
+  /// organization, user, and device.
+  /// <note>
+  /// Deleting already deleted and non-existing overrides does not produce an
+  /// error. In those cases, the service sends back an HTTP 200 response with an
+  /// empty HTTP body.
+  /// </note>
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [EntityNotFoundException].
+  ///
+  /// Parameter [deviceId] :
+  /// The mobile device for which you delete the override. <code>DeviceId</code>
+  /// is case insensitive.
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization for which the access override will be deleted.
+  ///
+  /// Parameter [userId] :
+  /// The WorkMail user for which you want to delete the override. Accepts the
+  /// following types of user identities:
+  ///
+  /// <ul>
+  /// <li>
+  /// User ID: <code>12345678-1234-1234-1234-123456789012</code> or
+  /// <code>S-1-1-12-1234567890-123456789-123456789-1234</code>
+  /// </li>
+  /// <li>
+  /// Email address: <code>user@domain.tld</code>
+  /// </li>
+  /// <li>
+  /// User name: <code>user</code>
+  /// </li>
+  /// </ul>
+  Future<void> deleteMobileDeviceAccessOverride({
+    required String deviceId,
+    required String organizationId,
+    required String userId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.DeleteMobileDeviceAccessOverride'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DeviceId': deviceId,
+        'OrganizationId': organizationId,
+        'UserId': userId,
+      },
+    );
+  }
+
+  /// Deletes a mobile device access rule for the specified WorkMail
+  /// organization.
+  /// <note>
+  /// Deleting already deleted and non-existing rules does not produce an error.
+  /// In those cases, the service sends back an HTTP 200 response with an empty
+  /// HTTP body.
+  /// </note>
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [mobileDeviceAccessRuleId] :
+  /// The identifier of the rule to be deleted.
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization under which the rule will be deleted.
+  Future<void> deleteMobileDeviceAccessRule({
+    required String mobileDeviceAccessRuleId,
+    required String organizationId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.DeleteMobileDeviceAccessRule'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MobileDeviceAccessRuleId': mobileDeviceAccessRuleId,
+        'OrganizationId': organizationId,
+      },
+    );
+  }
+
+  /// Deletes an WorkMail organization and all underlying AWS resources managed
+  /// by WorkMail as part of the organization. You can choose whether to delete
+  /// the associated directory. For more information, see <a
   /// href="https://docs.aws.amazon.com/workmail/latest/adminguide/remove_organization.html">Removing
-  /// an organization</a> in the <i>Amazon WorkMail Administrator Guide</i>.
+  /// an organization</a> in the <i>WorkMail Administrator Guide</i>.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [OrganizationNotFoundException].
@@ -732,8 +1181,8 @@ class WorkMail {
     );
   }
 
-  /// Deletes a user from Amazon WorkMail and all subsequent systems. Before you
-  /// can delete a user, the user state must be <code>DISABLED</code>. Use the
+  /// Deletes a user from WorkMail and all subsequent systems. Before you can
+  /// delete a user, the user state must be <code>DISABLED</code>. Use the
   /// <a>DescribeUser</a> action to confirm the user state.
   ///
   /// Deleting a user is permanent and cannot be undone. WorkMail archives user
@@ -773,9 +1222,9 @@ class WorkMail {
     );
   }
 
-  /// Mark a user, group, or resource as no longer used in Amazon WorkMail. This
-  /// action disassociates the mailbox and schedules it for clean-up. WorkMail
-  /// keeps mailboxes for 30 days before they are permanently removed. The
+  /// Mark a user, group, or resource as no longer used in WorkMail. This action
+  /// disassociates the mailbox and schedules it for clean-up. WorkMail keeps
+  /// mailboxes for 30 days before they are permanently removed. The
   /// functionality in the console is <i>Disable</i>.
   ///
   /// May throw [EntityNotFoundException].
@@ -788,7 +1237,7 @@ class WorkMail {
   /// The identifier for the member (user or group) to be updated.
   ///
   /// Parameter [organizationId] :
-  /// The identifier for the organization under which the Amazon WorkMail entity
+  /// The identifier for the organization under which the WorkMail entity
   /// exists.
   Future<void> deregisterFromWorkMail({
     required String entityId,
@@ -809,6 +1258,77 @@ class WorkMail {
         'OrganizationId': organizationId,
       },
     );
+  }
+
+  /// Removes a domain from WorkMail, stops email routing to WorkMail, and
+  /// removes the authorization allowing WorkMail use. SES keeps the domain
+  /// because other applications may use it. You must first remove any email
+  /// address used by WorkMail entities before you remove the domain.
+  ///
+  /// May throw [MailDomainInUseException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidCustomSesConfigurationException].
+  ///
+  /// Parameter [domainName] :
+  /// The domain to deregister in WorkMail and SES.
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization for which the domain will be deregistered.
+  Future<void> deregisterMailDomain({
+    required String domainName,
+    required String organizationId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.DeregisterMailDomain'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DomainName': domainName,
+        'OrganizationId': organizationId,
+      },
+    );
+  }
+
+  /// Describes the current email monitoring configuration for a specified
+  /// organization.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [organizationId] :
+  /// The ID of the organization for which the email monitoring configuration is
+  /// described.
+  Future<DescribeEmailMonitoringConfigurationResponse>
+      describeEmailMonitoringConfiguration({
+    required String organizationId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.DescribeEmailMonitoringConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OrganizationId': organizationId,
+      },
+    );
+
+    return DescribeEmailMonitoringConfigurationResponse.fromJson(
+        jsonResponse.body);
   }
 
   /// Returns the data available for the group.
@@ -844,6 +1364,34 @@ class WorkMail {
     );
 
     return DescribeGroupResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists the settings in a DMARC policy for a specified organization.
+  ///
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [organizationId] :
+  /// Lists the ID of the given organization.
+  Future<DescribeInboundDmarcSettingsResponse> describeInboundDmarcSettings({
+    required String organizationId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.DescribeInboundDmarcSettings'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OrganizationId': organizationId,
+      },
+    );
+
+    return DescribeInboundDmarcSettingsResponse.fromJson(jsonResponse.body);
   }
 
   /// Describes the current status of a mailbox export job.
@@ -1065,9 +1613,13 @@ class WorkMail {
   }
 
   /// Gets the effects of an organization's access control rules as they apply
-  /// to a specified IPv4 address, access protocol action, or user ID.
+  /// to a specified IPv4 address, access protocol action, and user ID or
+  /// impersonation role ID. You must provide either the user ID or
+  /// impersonation role ID. Impersonation role ID can only be used with Action
+  /// EWS.
   ///
   /// May throw [EntityNotFoundException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
   /// May throw [OrganizationNotFoundException].
   /// May throw [OrganizationStateException].
@@ -1083,13 +1635,17 @@ class WorkMail {
   /// Parameter [organizationId] :
   /// The identifier for the organization.
   ///
+  /// Parameter [impersonationRoleId] :
+  /// The impersonation role ID.
+  ///
   /// Parameter [userId] :
   /// The user ID.
   Future<GetAccessControlEffectResponse> getAccessControlEffect({
     required String action,
     required String ipAddress,
     required String organizationId,
-    required String userId,
+    String? impersonationRoleId,
+    String? userId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1105,7 +1661,9 @@ class WorkMail {
         'Action': action,
         'IpAddress': ipAddress,
         'OrganizationId': organizationId,
-        'UserId': userId,
+        if (impersonationRoleId != null)
+          'ImpersonationRoleId': impersonationRoleId,
+        if (userId != null) 'UserId': userId,
       },
     );
 
@@ -1142,6 +1700,133 @@ class WorkMail {
     return GetDefaultRetentionPolicyResponse.fromJson(jsonResponse.body);
   }
 
+  /// Gets the impersonation role details for the given WorkMail organization.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [impersonationRoleId] :
+  /// The impersonation role ID to retrieve.
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization from which to retrieve the impersonation role.
+  Future<GetImpersonationRoleResponse> getImpersonationRole({
+    required String impersonationRoleId,
+    required String organizationId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.GetImpersonationRole'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ImpersonationRoleId': impersonationRoleId,
+        'OrganizationId': organizationId,
+      },
+    );
+
+    return GetImpersonationRoleResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Tests whether the given impersonation role can impersonate a target user.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [EntityStateException].
+  ///
+  /// Parameter [impersonationRoleId] :
+  /// The impersonation role ID to test.
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization where the impersonation role is defined.
+  ///
+  /// Parameter [targetUser] :
+  /// The WorkMail organization user chosen to test the impersonation role. The
+  /// following identity formats are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// User ID: <code>12345678-1234-1234-1234-123456789012</code> or
+  /// <code>S-1-1-12-1234567890-123456789-123456789-1234</code>
+  /// </li>
+  /// <li>
+  /// Email address: <code>user@domain.tld</code>
+  /// </li>
+  /// <li>
+  /// User name: <code>user</code>
+  /// </li>
+  /// </ul>
+  Future<GetImpersonationRoleEffectResponse> getImpersonationRoleEffect({
+    required String impersonationRoleId,
+    required String organizationId,
+    required String targetUser,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.GetImpersonationRoleEffect'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ImpersonationRoleId': impersonationRoleId,
+        'OrganizationId': organizationId,
+        'TargetUser': targetUser,
+      },
+    );
+
+    return GetImpersonationRoleEffectResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Gets details for a mail domain, including domain records required to
+  /// configure your domain with recommended security.
+  ///
+  /// May throw [MailDomainNotFoundException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [domainName] :
+  /// The domain from which you want to retrieve details.
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization for which the domain is retrieved.
+  Future<GetMailDomainResponse> getMailDomain({
+    required String domainName,
+    required String organizationId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.GetMailDomain'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DomainName': domainName,
+        'OrganizationId': organizationId,
+      },
+    );
+
+    return GetMailDomainResponse.fromJson(jsonResponse.body);
+  }
+
   /// Requests a user's mailbox details for a specified organization and user.
   ///
   /// May throw [OrganizationNotFoundException].
@@ -1175,6 +1860,116 @@ class WorkMail {
     );
 
     return GetMailboxDetailsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Simulates the effect of the mobile device access rules for the given
+  /// attributes of a sample access event. Use this method to test the effects
+  /// of the current set of mobile device access rules for the WorkMail
+  /// organization for a particular user's attributes.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization to simulate the access effect for.
+  ///
+  /// Parameter [deviceModel] :
+  /// Device model the simulated user will report.
+  ///
+  /// Parameter [deviceOperatingSystem] :
+  /// Device operating system the simulated user will report.
+  ///
+  /// Parameter [deviceType] :
+  /// Device type the simulated user will report.
+  ///
+  /// Parameter [deviceUserAgent] :
+  /// Device user agent the simulated user will report.
+  Future<GetMobileDeviceAccessEffectResponse> getMobileDeviceAccessEffect({
+    required String organizationId,
+    String? deviceModel,
+    String? deviceOperatingSystem,
+    String? deviceType,
+    String? deviceUserAgent,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.GetMobileDeviceAccessEffect'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OrganizationId': organizationId,
+        if (deviceModel != null) 'DeviceModel': deviceModel,
+        if (deviceOperatingSystem != null)
+          'DeviceOperatingSystem': deviceOperatingSystem,
+        if (deviceType != null) 'DeviceType': deviceType,
+        if (deviceUserAgent != null) 'DeviceUserAgent': deviceUserAgent,
+      },
+    );
+
+    return GetMobileDeviceAccessEffectResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Gets the mobile device access override for the given WorkMail
+  /// organization, user, and device.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [deviceId] :
+  /// The mobile device to which the override applies. <code>DeviceId</code> is
+  /// case insensitive.
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization to which you want to apply the override.
+  ///
+  /// Parameter [userId] :
+  /// Identifies the WorkMail user for the override. Accepts the following types
+  /// of user identities:
+  ///
+  /// <ul>
+  /// <li>
+  /// User ID: <code>12345678-1234-1234-1234-123456789012</code> or
+  /// <code>S-1-1-12-1234567890-123456789-123456789-1234</code>
+  /// </li>
+  /// <li>
+  /// Email address: <code>user@domain.tld</code>
+  /// </li>
+  /// <li>
+  /// User name: <code>user</code>
+  /// </li>
+  /// </ul>
+  Future<GetMobileDeviceAccessOverrideResponse> getMobileDeviceAccessOverride({
+    required String deviceId,
+    required String organizationId,
+    required String userId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.GetMobileDeviceAccessOverride'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DeviceId': deviceId,
+        'OrganizationId': organizationId,
+        'UserId': userId,
+      },
+    );
+
+    return GetMobileDeviceAccessOverrideResponse.fromJson(jsonResponse.body);
   }
 
   /// Lists the access control rules for the specified organization.
@@ -1257,6 +2052,54 @@ class WorkMail {
     );
 
     return ListAliasesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// List all the <code>AvailabilityConfiguration</code>'s for the given
+  /// WorkMail organization.
+  ///
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization for which the
+  /// <code>AvailabilityConfiguration</code>'s will be listed.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to use to retrieve the next page of results. The first call does
+  /// not require a token.
+  Future<ListAvailabilityConfigurationsResponse>
+      listAvailabilityConfigurations({
+    required String organizationId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.ListAvailabilityConfigurations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OrganizationId': organizationId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListAvailabilityConfigurationsResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns an overview of the members of a group. Users and groups can be
@@ -1361,6 +2204,98 @@ class WorkMail {
     return ListGroupsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists all the impersonation roles for the given WorkMail organization.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization to which the listed impersonation roles belong.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results returned in a single call.
+  ///
+  /// Parameter [nextToken] :
+  /// The token used to retrieve the next page of results. The first call
+  /// doesn't require a token.
+  Future<ListImpersonationRolesResponse> listImpersonationRoles({
+    required String organizationId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.ListImpersonationRoles'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OrganizationId': organizationId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListImpersonationRolesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists the mail domains in a given WorkMail organization.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization for which to list domains.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to use to retrieve the next page of results. The first call does
+  /// not require a token.
+  Future<ListMailDomainsResponse> listMailDomains({
+    required String organizationId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.ListMailDomains'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OrganizationId': organizationId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListMailDomainsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Lists the mailbox export jobs started for the specified organization
   /// within the last seven days.
   ///
@@ -1460,6 +2395,110 @@ class WorkMail {
     );
 
     return ListMailboxPermissionsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists all the mobile device access overrides for any given combination of
+  /// WorkMail organization, user, or device.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [EntityNotFoundException].
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization under which to list mobile device access
+  /// overrides.
+  ///
+  /// Parameter [deviceId] :
+  /// The mobile device to which the access override applies.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to use to retrieve the next page of results. The first call does
+  /// not require a token.
+  ///
+  /// Parameter [userId] :
+  /// The WorkMail user under which you list the mobile device access overrides.
+  /// Accepts the following types of user identities:
+  ///
+  /// <ul>
+  /// <li>
+  /// User ID: <code>12345678-1234-1234-1234-123456789012</code> or
+  /// <code>S-1-1-12-1234567890-123456789-123456789-1234</code>
+  /// </li>
+  /// <li>
+  /// Email address: <code>user@domain.tld</code>
+  /// </li>
+  /// <li>
+  /// User name: <code>user</code>
+  /// </li>
+  /// </ul>
+  Future<ListMobileDeviceAccessOverridesResponse>
+      listMobileDeviceAccessOverrides({
+    required String organizationId,
+    String? deviceId,
+    int? maxResults,
+    String? nextToken,
+    String? userId,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.ListMobileDeviceAccessOverrides'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OrganizationId': organizationId,
+        if (deviceId != null) 'DeviceId': deviceId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (userId != null) 'UserId': userId,
+      },
+    );
+
+    return ListMobileDeviceAccessOverridesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists the mobile device access rules for the specified WorkMail
+  /// organization.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization for which to list the rules.
+  Future<ListMobileDeviceAccessRulesResponse> listMobileDeviceAccessRules({
+    required String organizationId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.ListMobileDeviceAccessRules'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OrganizationId': organizationId,
+      },
+    );
+
+    return ListMobileDeviceAccessRulesResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns summaries of the customer's organizations.
@@ -1602,7 +2641,7 @@ class WorkMail {
     return ListResourcesResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists the tags applied to an Amazon WorkMail organization resource.
+  /// Lists the tags applied to an WorkMail organization resource.
   ///
   /// May throw [ResourceNotFoundException].
   ///
@@ -1677,12 +2716,13 @@ class WorkMail {
 
   /// Adds a new access control rule for the specified organization. The rule
   /// allows or denies access to the organization for the specified IPv4
-  /// addresses, access protocol actions, and user IDs. Adding a new rule with
-  /// the same name as an existing rule replaces the older rule.
+  /// addresses, access protocol actions, user IDs and impersonation IDs. Adding
+  /// a new rule with the same name as an existing rule replaces the older rule.
   ///
   /// May throw [LimitExceededException].
   /// May throw [InvalidParameterException].
   /// May throw [EntityNotFoundException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [OrganizationNotFoundException].
   /// May throw [OrganizationStateException].
   ///
@@ -1704,6 +2744,9 @@ class WorkMail {
   /// <code>IMAP</code>, <code>SMTP</code>, <code>WindowsOutlook</code>, and
   /// <code>WebMail</code>.
   ///
+  /// Parameter [impersonationRoleIds] :
+  /// Impersonation role IDs to include in the rule.
+  ///
   /// Parameter [ipRanges] :
   /// IPv4 CIDR ranges to include in the rule.
   ///
@@ -1712,6 +2755,9 @@ class WorkMail {
   /// <code>ActiveSync</code>, <code>AutoDiscover</code>, <code>EWS</code>,
   /// <code>IMAP</code>, <code>SMTP</code>, <code>WindowsOutlook</code>, and
   /// <code>WebMail</code>.
+  ///
+  /// Parameter [notImpersonationRoleIds] :
+  /// Impersonation role IDs to exclude from the rule.
   ///
   /// Parameter [notIpRanges] :
   /// IPv4 CIDR ranges to exclude from the rule.
@@ -1727,8 +2773,10 @@ class WorkMail {
     required String name,
     required String organizationId,
     List<String>? actions,
+    List<String>? impersonationRoleIds,
     List<String>? ipRanges,
     List<String>? notActions,
+    List<String>? notImpersonationRoleIds,
     List<String>? notIpRanges,
     List<String>? notUserIds,
     List<String>? userIds,
@@ -1749,11 +2797,88 @@ class WorkMail {
         'Name': name,
         'OrganizationId': organizationId,
         if (actions != null) 'Actions': actions,
+        if (impersonationRoleIds != null)
+          'ImpersonationRoleIds': impersonationRoleIds,
         if (ipRanges != null) 'IpRanges': ipRanges,
         if (notActions != null) 'NotActions': notActions,
+        if (notImpersonationRoleIds != null)
+          'NotImpersonationRoleIds': notImpersonationRoleIds,
         if (notIpRanges != null) 'NotIpRanges': notIpRanges,
         if (notUserIds != null) 'NotUserIds': notUserIds,
         if (userIds != null) 'UserIds': userIds,
+      },
+    );
+  }
+
+  /// Creates or updates the email monitoring configuration for a specified
+  /// organization.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [logGroupArn] :
+  /// The Amazon Resource Name (ARN) of the CloudWatch Log group associated with
+  /// the email monitoring configuration.
+  ///
+  /// Parameter [organizationId] :
+  /// The ID of the organization for which the email monitoring configuration is
+  /// set.
+  ///
+  /// Parameter [roleArn] :
+  /// The Amazon Resource Name (ARN) of the IAM Role associated with the email
+  /// monitoring configuration.
+  Future<void> putEmailMonitoringConfiguration({
+    required String logGroupArn,
+    required String organizationId,
+    required String roleArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.PutEmailMonitoringConfiguration'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LogGroupArn': logGroupArn,
+        'OrganizationId': organizationId,
+        'RoleArn': roleArn,
+      },
+    );
+  }
+
+  /// Enables or disables a DMARC policy for a given organization.
+  ///
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [enforced] :
+  /// Enforces or suspends a policy after it's applied.
+  ///
+  /// Parameter [organizationId] :
+  /// The ID of the organization that you are applying the DMARC policy to.
+  Future<void> putInboundDmarcSettings({
+    required bool enforced,
+    required String organizationId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.PutInboundDmarcSettings'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Enforced': enforced,
+        'OrganizationId': organizationId,
       },
     );
   }
@@ -1812,6 +2937,71 @@ class WorkMail {
     );
   }
 
+  /// Creates or updates a mobile device access override for the given WorkMail
+  /// organization, user, and device.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [EntityStateException].
+  ///
+  /// Parameter [deviceId] :
+  /// The mobile device for which you create the override. <code>DeviceId</code>
+  /// is case insensitive.
+  ///
+  /// Parameter [effect] :
+  /// The effect of the override, <code>ALLOW</code> or <code>DENY</code>.
+  ///
+  /// Parameter [organizationId] :
+  /// Identifies the WorkMail organization for which you create the override.
+  ///
+  /// Parameter [userId] :
+  /// The WorkMail user for which you create the override. Accepts the following
+  /// types of user identities:
+  ///
+  /// <ul>
+  /// <li>
+  /// User ID: <code>12345678-1234-1234-1234-123456789012</code> or
+  /// <code>S-1-1-12-1234567890-123456789-123456789-1234</code>
+  /// </li>
+  /// <li>
+  /// Email address: <code>user@domain.tld</code>
+  /// </li>
+  /// <li>
+  /// User name: <code>user</code>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [description] :
+  /// A description of the override.
+  Future<void> putMobileDeviceAccessOverride({
+    required String deviceId,
+    required MobileDeviceAccessRuleEffect effect,
+    required String organizationId,
+    required String userId,
+    String? description,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.PutMobileDeviceAccessOverride'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DeviceId': deviceId,
+        'Effect': effect.toValue(),
+        'OrganizationId': organizationId,
+        'UserId': userId,
+        if (description != null) 'Description': description,
+      },
+    );
+  }
+
   /// Puts a retention policy to the specified organization.
   ///
   /// May throw [InvalidParameterException].
@@ -1860,11 +3050,53 @@ class WorkMail {
     );
   }
 
-  /// Registers an existing and disabled user, group, or resource for Amazon
-  /// WorkMail use by associating a mailbox and calendaring capabilities. It
-  /// performs no change if the user, group, or resource is enabled and fails if
-  /// the user, group, or resource is deleted. This operation results in the
-  /// accumulation of costs. For more information, see <a
+  /// Registers a new domain in WorkMail and SES, and configures it for use by
+  /// WorkMail. Emails received by SES for this domain are routed to the
+  /// specified WorkMail organization, and WorkMail has permanent permission to
+  /// use the specified domain for sending your users' emails.
+  ///
+  /// May throw [MailDomainInUseException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [LimitExceededException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [domainName] :
+  /// The name of the mail domain to create in WorkMail and SES.
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization under which you're creating the domain.
+  ///
+  /// Parameter [clientToken] :
+  /// Idempotency token used when retrying requests.
+  Future<void> registerMailDomain({
+    required String domainName,
+    required String organizationId,
+    String? clientToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.RegisterMailDomain'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DomainName': domainName,
+        'OrganizationId': organizationId,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      },
+    );
+  }
+
+  /// Registers an existing and disabled user, group, or resource for WorkMail
+  /// use by associating a mailbox and calendaring capabilities. It performs no
+  /// change if the user, group, or resource is enabled and fails if the user,
+  /// group, or resource is deleted. This operation results in the accumulation
+  /// of costs. For more information, see <a
   /// href="https://aws.amazon.com/workmail/pricing">Pricing</a>. The equivalent
   /// console functionality for this operation is <i>Enable</i>.
   ///
@@ -1964,7 +3196,7 @@ class WorkMail {
   /// calendar items from the specified mailbox to the specified Amazon Simple
   /// Storage Service (Amazon S3) bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/workmail/latest/adminguide/mail-export.html">Exporting
-  /// mailbox content</a> in the <i>Amazon WorkMail Administrator Guide</i>.
+  /// mailbox content</a> in the <i>WorkMail Administrator Guide</i>.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [OrganizationNotFoundException].
@@ -2032,8 +3264,7 @@ class WorkMail {
     return StartMailboxExportJobResponse.fromJson(jsonResponse.body);
   }
 
-  /// Applies the specified tags to the specified Amazon WorkMail organization
-  /// resource.
+  /// Applies the specified tags to the specified WorkMailorganization resource.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [TooManyTagsException].
@@ -2065,7 +3296,60 @@ class WorkMail {
     );
   }
 
-  /// Untags the specified tags from the specified Amazon WorkMail organization
+  /// Performs a test on an availability provider to ensure that access is
+  /// allowed. For EWS, it verifies the provided credentials can be used to
+  /// successfully log in. For Lambda, it verifies that the Lambda function can
+  /// be invoked and that the resource access policy was configured to deny
+  /// anonymous access. An anonymous invocation is one done without providing
+  /// either a <code>SourceArn</code> or <code>SourceAccount</code> header.
+  /// <note>
+  /// The request must contain either one provider definition
+  /// (<code>EwsProvider</code> or <code>LambdaProvider</code>) or the
+  /// <code>DomainName</code> parameter. If the <code>DomainName</code>
+  /// parameter is provided, the configuration stored under the
+  /// <code>DomainName</code> will be tested.
+  /// </note>
+  ///
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization where the availability provider will be tested.
+  ///
+  /// Parameter [domainName] :
+  /// The domain to which the provider applies. If this field is provided, a
+  /// stored availability provider associated to this domain name will be
+  /// tested.
+  Future<TestAvailabilityConfigurationResponse> testAvailabilityConfiguration({
+    required String organizationId,
+    String? domainName,
+    EwsAvailabilityProvider? ewsProvider,
+    LambdaAvailabilityProvider? lambdaProvider,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.TestAvailabilityConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OrganizationId': organizationId,
+        if (domainName != null) 'DomainName': domainName,
+        if (ewsProvider != null) 'EwsProvider': ewsProvider,
+        if (lambdaProvider != null) 'LambdaProvider': lambdaProvider,
+      },
+    );
+
+    return TestAvailabilityConfigurationResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Untags the specified tags from the specified WorkMail organization
   /// resource.
   ///
   /// May throw [ResourceNotFoundException].
@@ -2092,6 +3376,149 @@ class WorkMail {
       payload: {
         'ResourceARN': resourceARN,
         'TagKeys': tagKeys,
+      },
+    );
+  }
+
+  /// Updates an existing <code>AvailabilityConfiguration</code> for the given
+  /// WorkMail organization and domain.
+  ///
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [domainName] :
+  /// The domain to which the provider applies the availability configuration.
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization for which the
+  /// <code>AvailabilityConfiguration</code> will be updated.
+  ///
+  /// Parameter [ewsProvider] :
+  /// The EWS availability provider definition. The request must contain exactly
+  /// one provider definition, either <code>EwsProvider</code> or
+  /// <code>LambdaProvider</code>. The previously stored provider will be
+  /// overridden by the one provided.
+  ///
+  /// Parameter [lambdaProvider] :
+  /// The Lambda availability provider definition. The request must contain
+  /// exactly one provider definition, either <code>EwsProvider</code> or
+  /// <code>LambdaProvider</code>. The previously stored provider will be
+  /// overridden by the one provided.
+  Future<void> updateAvailabilityConfiguration({
+    required String domainName,
+    required String organizationId,
+    EwsAvailabilityProvider? ewsProvider,
+    LambdaAvailabilityProvider? lambdaProvider,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.UpdateAvailabilityConfiguration'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DomainName': domainName,
+        'OrganizationId': organizationId,
+        if (ewsProvider != null) 'EwsProvider': ewsProvider,
+        if (lambdaProvider != null) 'LambdaProvider': lambdaProvider,
+      },
+    );
+  }
+
+  /// Updates the default mail domain for an organization. The default mail
+  /// domain is used by the WorkMail AWS Console to suggest an email address
+  /// when enabling a mail user. You can only have one default domain.
+  ///
+  /// May throw [MailDomainNotFoundException].
+  /// May throw [MailDomainStateException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [domainName] :
+  /// The domain name that will become the default domain.
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization for which to list domains.
+  Future<void> updateDefaultMailDomain({
+    required String domainName,
+    required String organizationId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.UpdateDefaultMailDomain'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DomainName': domainName,
+        'OrganizationId': organizationId,
+      },
+    );
+  }
+
+  /// Updates an impersonation role for the given WorkMail organization.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [EntityStateException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [impersonationRoleId] :
+  /// The ID of the impersonation role to update.
+  ///
+  /// Parameter [name] :
+  /// The updated impersonation role name.
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization that contains the impersonation role to update.
+  ///
+  /// Parameter [rules] :
+  /// The updated list of rules.
+  ///
+  /// Parameter [type] :
+  /// The updated impersonation role type.
+  ///
+  /// Parameter [description] :
+  /// The updated impersonation role description.
+  Future<void> updateImpersonationRole({
+    required String impersonationRoleId,
+    required String name,
+    required String organizationId,
+    required List<ImpersonationRule> rules,
+    required ImpersonationRoleType type,
+    String? description,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.UpdateImpersonationRole'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ImpersonationRoleId': impersonationRoleId,
+        'Name': name,
+        'OrganizationId': organizationId,
+        'Rules': rules,
+        'Type': type.toValue(),
+        if (description != null) 'Description': description,
       },
     );
   }
@@ -2140,6 +3567,103 @@ class WorkMail {
         'MailboxQuota': mailboxQuota,
         'OrganizationId': organizationId,
         'UserId': userId,
+      },
+    );
+  }
+
+  /// Updates a mobile device access rule for the specified WorkMail
+  /// organization.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [effect] :
+  /// The effect of the rule when it matches. Allowed values are
+  /// <code>ALLOW</code> or <code>DENY</code>.
+  ///
+  /// Parameter [mobileDeviceAccessRuleId] :
+  /// The identifier of the rule to be updated.
+  ///
+  /// Parameter [name] :
+  /// The updated rule name.
+  ///
+  /// Parameter [organizationId] :
+  /// The WorkMail organization under which the rule will be updated.
+  ///
+  /// Parameter [description] :
+  /// The updated rule description.
+  ///
+  /// Parameter [deviceModels] :
+  /// Device models that the updated rule will match.
+  ///
+  /// Parameter [deviceOperatingSystems] :
+  /// Device operating systems that the updated rule will match.
+  ///
+  /// Parameter [deviceTypes] :
+  /// Device types that the updated rule will match.
+  ///
+  /// Parameter [deviceUserAgents] :
+  /// User agents that the updated rule will match.
+  ///
+  /// Parameter [notDeviceModels] :
+  /// Device models that the updated rule <b>will not</b> match. All other
+  /// device models will match.
+  ///
+  /// Parameter [notDeviceOperatingSystems] :
+  /// Device operating systems that the updated rule <b>will not</b> match. All
+  /// other device operating systems will match.
+  ///
+  /// Parameter [notDeviceTypes] :
+  /// Device types that the updated rule <b>will not</b> match. All other device
+  /// types will match.
+  ///
+  /// Parameter [notDeviceUserAgents] :
+  /// User agents that the updated rule <b>will not</b> match. All other user
+  /// agents will match.
+  Future<void> updateMobileDeviceAccessRule({
+    required MobileDeviceAccessRuleEffect effect,
+    required String mobileDeviceAccessRuleId,
+    required String name,
+    required String organizationId,
+    String? description,
+    List<String>? deviceModels,
+    List<String>? deviceOperatingSystems,
+    List<String>? deviceTypes,
+    List<String>? deviceUserAgents,
+    List<String>? notDeviceModels,
+    List<String>? notDeviceOperatingSystems,
+    List<String>? notDeviceTypes,
+    List<String>? notDeviceUserAgents,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.UpdateMobileDeviceAccessRule'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Effect': effect.toValue(),
+        'MobileDeviceAccessRuleId': mobileDeviceAccessRuleId,
+        'Name': name,
+        'OrganizationId': organizationId,
+        if (description != null) 'Description': description,
+        if (deviceModels != null) 'DeviceModels': deviceModels,
+        if (deviceOperatingSystems != null)
+          'DeviceOperatingSystems': deviceOperatingSystems,
+        if (deviceTypes != null) 'DeviceTypes': deviceTypes,
+        if (deviceUserAgents != null) 'DeviceUserAgents': deviceUserAgents,
+        if (notDeviceModels != null) 'NotDeviceModels': notDeviceModels,
+        if (notDeviceOperatingSystems != null)
+          'NotDeviceOperatingSystems': notDeviceOperatingSystems,
+        if (notDeviceTypes != null) 'NotDeviceTypes': notDeviceTypes,
+        if (notDeviceUserAgents != null)
+          'NotDeviceUserAgents': notDeviceUserAgents,
       },
     );
   }
@@ -2247,7 +3771,7 @@ class WorkMail {
   }
 }
 
-/// A rule that controls access to an Amazon WorkMail organization.
+/// A rule that controls access to an WorkMail organization.
 class AccessControlRule {
   /// Access protocol actions to include in the rule. Valid values include
   /// <code>ActiveSync</code>, <code>AutoDiscover</code>, <code>EWS</code>,
@@ -2267,6 +3791,9 @@ class AccessControlRule {
   /// The rule effect.
   final AccessControlRuleEffect? effect;
 
+  /// Impersonation role IDs to include in the rule.
+  final List<String>? impersonationRoleIds;
+
   /// IPv4 CIDR ranges to include in the rule.
   final List<String>? ipRanges;
 
@@ -2278,6 +3805,9 @@ class AccessControlRule {
   /// <code>IMAP</code>, <code>SMTP</code>, <code>WindowsOutlook</code>, and
   /// <code>WebMail</code>.
   final List<String>? notActions;
+
+  /// Impersonation role IDs to exclude from the rule.
+  final List<String>? notImpersonationRoleIds;
 
   /// IPv4 CIDR ranges to exclude from the rule.
   final List<String>? notIpRanges;
@@ -2294,13 +3824,16 @@ class AccessControlRule {
     this.dateModified,
     this.description,
     this.effect,
+    this.impersonationRoleIds,
     this.ipRanges,
     this.name,
     this.notActions,
+    this.notImpersonationRoleIds,
     this.notIpRanges,
     this.notUserIds,
     this.userIds,
   });
+
   factory AccessControlRule.fromJson(Map<String, dynamic> json) {
     return AccessControlRule(
       actions: (json['Actions'] as List?)
@@ -2311,12 +3844,20 @@ class AccessControlRule {
       dateModified: timeStampFromJson(json['DateModified']),
       description: json['Description'] as String?,
       effect: (json['Effect'] as String?)?.toAccessControlRuleEffect(),
+      impersonationRoleIds: (json['ImpersonationRoleIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       ipRanges: (json['IpRanges'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
       name: json['Name'] as String?,
       notActions: (json['NotActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      notImpersonationRoleIds: (json['NotImpersonationRoleIds'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
@@ -2364,8 +3905,37 @@ extension AccessControlRuleEffectFromString on String {
   }
 }
 
+enum AccessEffect {
+  allow,
+  deny,
+}
+
+extension AccessEffectValueExtension on AccessEffect {
+  String toValue() {
+    switch (this) {
+      case AccessEffect.allow:
+        return 'ALLOW';
+      case AccessEffect.deny:
+        return 'DENY';
+    }
+  }
+}
+
+extension AccessEffectFromString on String {
+  AccessEffect toAccessEffect() {
+    switch (this) {
+      case 'ALLOW':
+        return AccessEffect.allow;
+      case 'DENY':
+        return AccessEffect.deny;
+    }
+    throw Exception('$this is not known in enum AccessEffect');
+  }
+}
+
 class AssociateDelegateToResourceResponse {
   AssociateDelegateToResourceResponse();
+
   factory AssociateDelegateToResourceResponse.fromJson(Map<String, dynamic> _) {
     return AssociateDelegateToResourceResponse();
   }
@@ -2373,8 +3943,108 @@ class AssociateDelegateToResourceResponse {
 
 class AssociateMemberToGroupResponse {
   AssociateMemberToGroupResponse();
+
   factory AssociateMemberToGroupResponse.fromJson(Map<String, dynamic> _) {
     return AssociateMemberToGroupResponse();
+  }
+}
+
+class AssumeImpersonationRoleResponse {
+  /// The authentication token's validity, in seconds.
+  final int? expiresIn;
+
+  /// The authentication token for the impersonation role.
+  final String? token;
+
+  AssumeImpersonationRoleResponse({
+    this.expiresIn,
+    this.token,
+  });
+
+  factory AssumeImpersonationRoleResponse.fromJson(Map<String, dynamic> json) {
+    return AssumeImpersonationRoleResponse(
+      expiresIn: json['ExpiresIn'] as int?,
+      token: json['Token'] as String?,
+    );
+  }
+}
+
+/// List all the <code>AvailabilityConfiguration</code>'s for the given WorkMail
+/// organization.
+class AvailabilityConfiguration {
+  /// The date and time at which the availability configuration was created.
+  final DateTime? dateCreated;
+
+  /// The date and time at which the availability configuration was last modified.
+  final DateTime? dateModified;
+
+  /// Displays the domain to which the provider applies.
+  final String? domainName;
+
+  /// If <code>ProviderType</code> is <code>EWS</code>, then this field contains
+  /// <code>RedactedEwsAvailabilityProvider</code>. Otherwise, it is not required.
+  final RedactedEwsAvailabilityProvider? ewsProvider;
+
+  /// If ProviderType is <code>LAMBDA</code> then this field contains
+  /// <code>LambdaAvailabilityProvider</code>. Otherwise, it is not required.
+  final LambdaAvailabilityProvider? lambdaProvider;
+
+  /// Displays the provider type that applies to this domain.
+  final AvailabilityProviderType? providerType;
+
+  AvailabilityConfiguration({
+    this.dateCreated,
+    this.dateModified,
+    this.domainName,
+    this.ewsProvider,
+    this.lambdaProvider,
+    this.providerType,
+  });
+
+  factory AvailabilityConfiguration.fromJson(Map<String, dynamic> json) {
+    return AvailabilityConfiguration(
+      dateCreated: timeStampFromJson(json['DateCreated']),
+      dateModified: timeStampFromJson(json['DateModified']),
+      domainName: json['DomainName'] as String?,
+      ewsProvider: json['EwsProvider'] != null
+          ? RedactedEwsAvailabilityProvider.fromJson(
+              json['EwsProvider'] as Map<String, dynamic>)
+          : null,
+      lambdaProvider: json['LambdaProvider'] != null
+          ? LambdaAvailabilityProvider.fromJson(
+              json['LambdaProvider'] as Map<String, dynamic>)
+          : null,
+      providerType:
+          (json['ProviderType'] as String?)?.toAvailabilityProviderType(),
+    );
+  }
+}
+
+enum AvailabilityProviderType {
+  ews,
+  lambda,
+}
+
+extension AvailabilityProviderTypeValueExtension on AvailabilityProviderType {
+  String toValue() {
+    switch (this) {
+      case AvailabilityProviderType.ews:
+        return 'EWS';
+      case AvailabilityProviderType.lambda:
+        return 'LAMBDA';
+    }
+  }
+}
+
+extension AvailabilityProviderTypeFromString on String {
+  AvailabilityProviderType toAvailabilityProviderType() {
+    switch (this) {
+      case 'EWS':
+        return AvailabilityProviderType.ews;
+      case 'LAMBDA':
+        return AvailabilityProviderType.lambda;
+    }
+    throw Exception('$this is not known in enum AvailabilityProviderType');
   }
 }
 
@@ -2396,6 +4066,7 @@ class BookingOptions {
     this.autoDeclineConflictingRequests,
     this.autoDeclineRecurringRequests,
   });
+
   factory BookingOptions.fromJson(Map<String, dynamic> json) {
     return BookingOptions(
       autoAcceptRequests: json['AutoAcceptRequests'] as bool?,
@@ -2422,6 +4093,7 @@ class BookingOptions {
 
 class CancelMailboxExportJobResponse {
   CancelMailboxExportJobResponse();
+
   factory CancelMailboxExportJobResponse.fromJson(Map<String, dynamic> _) {
     return CancelMailboxExportJobResponse();
   }
@@ -2429,8 +4101,18 @@ class CancelMailboxExportJobResponse {
 
 class CreateAliasResponse {
   CreateAliasResponse();
+
   factory CreateAliasResponse.fromJson(Map<String, dynamic> _) {
     return CreateAliasResponse();
+  }
+}
+
+class CreateAvailabilityConfigurationResponse {
+  CreateAvailabilityConfigurationResponse();
+
+  factory CreateAvailabilityConfigurationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return CreateAvailabilityConfigurationResponse();
   }
 }
 
@@ -2441,9 +4123,41 @@ class CreateGroupResponse {
   CreateGroupResponse({
     this.groupId,
   });
+
   factory CreateGroupResponse.fromJson(Map<String, dynamic> json) {
     return CreateGroupResponse(
       groupId: json['GroupId'] as String?,
+    );
+  }
+}
+
+class CreateImpersonationRoleResponse {
+  /// The new impersonation role ID.
+  final String? impersonationRoleId;
+
+  CreateImpersonationRoleResponse({
+    this.impersonationRoleId,
+  });
+
+  factory CreateImpersonationRoleResponse.fromJson(Map<String, dynamic> json) {
+    return CreateImpersonationRoleResponse(
+      impersonationRoleId: json['ImpersonationRoleId'] as String?,
+    );
+  }
+}
+
+class CreateMobileDeviceAccessRuleResponse {
+  /// The identifier for the newly created mobile device access rule.
+  final String? mobileDeviceAccessRuleId;
+
+  CreateMobileDeviceAccessRuleResponse({
+    this.mobileDeviceAccessRuleId,
+  });
+
+  factory CreateMobileDeviceAccessRuleResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateMobileDeviceAccessRuleResponse(
+      mobileDeviceAccessRuleId: json['MobileDeviceAccessRuleId'] as String?,
     );
   }
 }
@@ -2455,6 +4169,7 @@ class CreateOrganizationResponse {
   CreateOrganizationResponse({
     this.organizationId,
   });
+
   factory CreateOrganizationResponse.fromJson(Map<String, dynamic> json) {
     return CreateOrganizationResponse(
       organizationId: json['OrganizationId'] as String?,
@@ -2469,6 +4184,7 @@ class CreateResourceResponse {
   CreateResourceResponse({
     this.resourceId,
   });
+
   factory CreateResourceResponse.fromJson(Map<String, dynamic> json) {
     return CreateResourceResponse(
       resourceId: json['ResourceId'] as String?,
@@ -2483,6 +4199,7 @@ class CreateUserResponse {
   CreateUserResponse({
     this.userId,
   });
+
   factory CreateUserResponse.fromJson(Map<String, dynamic> json) {
     return CreateUserResponse(
       userId: json['UserId'] as String?,
@@ -2503,6 +4220,7 @@ class Delegate {
     required this.id,
     required this.type,
   });
+
   factory Delegate.fromJson(Map<String, dynamic> json) {
     return Delegate(
       id: json['Id'] as String,
@@ -2513,6 +4231,7 @@ class Delegate {
 
 class DeleteAccessControlRuleResponse {
   DeleteAccessControlRuleResponse();
+
   factory DeleteAccessControlRuleResponse.fromJson(Map<String, dynamic> _) {
     return DeleteAccessControlRuleResponse();
   }
@@ -2520,22 +4239,69 @@ class DeleteAccessControlRuleResponse {
 
 class DeleteAliasResponse {
   DeleteAliasResponse();
+
   factory DeleteAliasResponse.fromJson(Map<String, dynamic> _) {
     return DeleteAliasResponse();
   }
 }
 
+class DeleteAvailabilityConfigurationResponse {
+  DeleteAvailabilityConfigurationResponse();
+
+  factory DeleteAvailabilityConfigurationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteAvailabilityConfigurationResponse();
+  }
+}
+
+class DeleteEmailMonitoringConfigurationResponse {
+  DeleteEmailMonitoringConfigurationResponse();
+
+  factory DeleteEmailMonitoringConfigurationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteEmailMonitoringConfigurationResponse();
+  }
+}
+
 class DeleteGroupResponse {
   DeleteGroupResponse();
+
   factory DeleteGroupResponse.fromJson(Map<String, dynamic> _) {
     return DeleteGroupResponse();
   }
 }
 
+class DeleteImpersonationRoleResponse {
+  DeleteImpersonationRoleResponse();
+
+  factory DeleteImpersonationRoleResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteImpersonationRoleResponse();
+  }
+}
+
 class DeleteMailboxPermissionsResponse {
   DeleteMailboxPermissionsResponse();
+
   factory DeleteMailboxPermissionsResponse.fromJson(Map<String, dynamic> _) {
     return DeleteMailboxPermissionsResponse();
+  }
+}
+
+class DeleteMobileDeviceAccessOverrideResponse {
+  DeleteMobileDeviceAccessOverrideResponse();
+
+  factory DeleteMobileDeviceAccessOverrideResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteMobileDeviceAccessOverrideResponse();
+  }
+}
+
+class DeleteMobileDeviceAccessRuleResponse {
+  DeleteMobileDeviceAccessRuleResponse();
+
+  factory DeleteMobileDeviceAccessRuleResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteMobileDeviceAccessRuleResponse();
   }
 }
 
@@ -2550,6 +4316,7 @@ class DeleteOrganizationResponse {
     this.organizationId,
     this.state,
   });
+
   factory DeleteOrganizationResponse.fromJson(Map<String, dynamic> json) {
     return DeleteOrganizationResponse(
       organizationId: json['OrganizationId'] as String?,
@@ -2560,6 +4327,7 @@ class DeleteOrganizationResponse {
 
 class DeleteResourceResponse {
   DeleteResourceResponse();
+
   factory DeleteResourceResponse.fromJson(Map<String, dynamic> _) {
     return DeleteResourceResponse();
   }
@@ -2567,6 +4335,7 @@ class DeleteResourceResponse {
 
 class DeleteRetentionPolicyResponse {
   DeleteRetentionPolicyResponse();
+
   factory DeleteRetentionPolicyResponse.fromJson(Map<String, dynamic> _) {
     return DeleteRetentionPolicyResponse();
   }
@@ -2574,6 +4343,7 @@ class DeleteRetentionPolicyResponse {
 
 class DeleteUserResponse {
   DeleteUserResponse();
+
   factory DeleteUserResponse.fromJson(Map<String, dynamic> _) {
     return DeleteUserResponse();
   }
@@ -2581,8 +4351,40 @@ class DeleteUserResponse {
 
 class DeregisterFromWorkMailResponse {
   DeregisterFromWorkMailResponse();
+
   factory DeregisterFromWorkMailResponse.fromJson(Map<String, dynamic> _) {
     return DeregisterFromWorkMailResponse();
+  }
+}
+
+class DeregisterMailDomainResponse {
+  DeregisterMailDomainResponse();
+
+  factory DeregisterMailDomainResponse.fromJson(Map<String, dynamic> _) {
+    return DeregisterMailDomainResponse();
+  }
+}
+
+class DescribeEmailMonitoringConfigurationResponse {
+  /// The Amazon Resource Name (ARN) of the CloudWatch Log group associated with
+  /// the email monitoring configuration.
+  final String? logGroupArn;
+
+  /// The Amazon Resource Name (ARN) of the IAM Role associated with the email
+  /// monitoring configuration.
+  final String? roleArn;
+
+  DescribeEmailMonitoringConfigurationResponse({
+    this.logGroupArn,
+    this.roleArn,
+  });
+
+  factory DescribeEmailMonitoringConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeEmailMonitoringConfigurationResponse(
+      logGroupArn: json['LogGroupArn'] as String?,
+      roleArn: json['RoleArn'] as String?,
+    );
   }
 }
 
@@ -2604,7 +4406,7 @@ class DescribeGroupResponse {
   /// The name of the described group.
   final String? name;
 
-  /// The state of the user: enabled (registered to Amazon WorkMail) or disabled
+  /// The state of the user: enabled (registered to WorkMail) or disabled
   /// (deregistered or never registered to WorkMail).
   final EntityState? state;
 
@@ -2616,6 +4418,7 @@ class DescribeGroupResponse {
     this.name,
     this.state,
   });
+
   factory DescribeGroupResponse.fromJson(Map<String, dynamic> json) {
     return DescribeGroupResponse(
       disabledDate: timeStampFromJson(json['DisabledDate']),
@@ -2624,6 +4427,22 @@ class DescribeGroupResponse {
       groupId: json['GroupId'] as String?,
       name: json['Name'] as String?,
       state: (json['State'] as String?)?.toEntityState(),
+    );
+  }
+}
+
+class DescribeInboundDmarcSettingsResponse {
+  /// Lists the enforcement setting of the applied policy.
+  final bool? enforced;
+
+  DescribeInboundDmarcSettingsResponse({
+    this.enforced,
+  });
+
+  factory DescribeInboundDmarcSettingsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeInboundDmarcSettingsResponse(
+      enforced: json['Enforced'] as bool?,
     );
   }
 }
@@ -2682,6 +4501,7 @@ class DescribeMailboxExportJobResponse {
     this.startTime,
     this.state,
   });
+
   factory DescribeMailboxExportJobResponse.fromJson(Map<String, dynamic> json) {
     return DescribeMailboxExportJobResponse(
       description: json['Description'] as String?,
@@ -2714,8 +4534,7 @@ class DescribeOrganizationResponse {
   /// The default mail domain associated with the organization.
   final String? defaultMailDomain;
 
-  /// The identifier for the directory associated with an Amazon WorkMail
-  /// organization.
+  /// The identifier for the directory associated with an WorkMail organization.
   final String? directoryId;
 
   /// The type of directory associated with the WorkMail organization.
@@ -2742,6 +4561,7 @@ class DescribeOrganizationResponse {
     this.organizationId,
     this.state,
   });
+
   factory DescribeOrganizationResponse.fromJson(Map<String, dynamic> json) {
     return DescribeOrganizationResponse(
       arn: json['ARN'] as String?,
@@ -2778,7 +4598,7 @@ class DescribeResourceResponse {
   /// The identifier of the described resource.
   final String? resourceId;
 
-  /// The state of the resource: enabled (registered to Amazon WorkMail), disabled
+  /// The state of the resource: enabled (registered to WorkMail), disabled
   /// (deregistered or never registered to WorkMail), or deleted.
   final EntityState? state;
 
@@ -2795,6 +4615,7 @@ class DescribeResourceResponse {
     this.state,
     this.type,
   });
+
   factory DescribeResourceResponse.fromJson(Map<String, dynamic> json) {
     return DescribeResourceResponse(
       bookingOptions: json['BookingOptions'] != null
@@ -2813,8 +4634,8 @@ class DescribeResourceResponse {
 }
 
 class DescribeUserResponse {
-  /// The date and time at which the user was disabled for Amazon WorkMail usage,
-  /// in UNIX epoch time format.
+  /// The date and time at which the user was disabled for WorkMail usage, in UNIX
+  /// epoch time format.
   final DateTime? disabledDate;
 
   /// The display name of the user.
@@ -2823,14 +4644,14 @@ class DescribeUserResponse {
   /// The email of the user.
   final String? email;
 
-  /// The date and time at which the user was enabled for Amazon WorkMail usage,
-  /// in UNIX epoch time format.
+  /// The date and time at which the user was enabled for WorkMailusage, in UNIX
+  /// epoch time format.
   final DateTime? enabledDate;
 
   /// The name for the user.
   final String? name;
 
-  /// The state of a user: enabled (registered to Amazon WorkMail) or disabled
+  /// The state of a user: enabled (registered to WorkMail) or disabled
   /// (deregistered or never registered to WorkMail).
   final EntityState? state;
 
@@ -2838,11 +4659,11 @@ class DescribeUserResponse {
   final String? userId;
 
   /// In certain cases, other entities are modeled as users. If interoperability
-  /// is enabled, resources are imported into Amazon WorkMail as users. Because
-  /// different WorkMail organizations rely on different directory types,
-  /// administrators can distinguish between an unregistered user (account is
-  /// disabled and has a user role) and the directory administrators. The values
-  /// are USER, RESOURCE, and SYSTEM_USER.
+  /// is enabled, resources are imported into WorkMail as users. Because different
+  /// WorkMail organizations rely on different directory types, administrators can
+  /// distinguish between an unregistered user (account is disabled and has a user
+  /// role) and the directory administrators. The values are USER, RESOURCE, and
+  /// SYSTEM_USER.
   final UserRole? userRole;
 
   DescribeUserResponse({
@@ -2855,6 +4676,7 @@ class DescribeUserResponse {
     this.userId,
     this.userRole,
   });
+
   factory DescribeUserResponse.fromJson(Map<String, dynamic> json) {
     return DescribeUserResponse(
       disabledDate: timeStampFromJson(json['DisabledDate']),
@@ -2871,6 +4693,7 @@ class DescribeUserResponse {
 
 class DisassociateDelegateFromResourceResponse {
   DisassociateDelegateFromResourceResponse();
+
   factory DisassociateDelegateFromResourceResponse.fromJson(
       Map<String, dynamic> _) {
     return DisassociateDelegateFromResourceResponse();
@@ -2879,18 +4702,80 @@ class DisassociateDelegateFromResourceResponse {
 
 class DisassociateMemberFromGroupResponse {
   DisassociateMemberFromGroupResponse();
+
   factory DisassociateMemberFromGroupResponse.fromJson(Map<String, dynamic> _) {
     return DisassociateMemberFromGroupResponse();
   }
 }
 
-/// The domain to associate with an Amazon WorkMail organization.
+/// A DNS record uploaded to your DNS provider.
+class DnsRecord {
+  /// The DNS hostname.- For example, <code>domain.example.com</code>.
+  final String? hostname;
+
+  /// The RFC 1035 record type. Possible values: <code>CNAME</code>,
+  /// <code>A</code>, <code>MX</code>.
+  final String? type;
+
+  /// The value returned by the DNS for a query to that hostname and record type.
+  final String? value;
+
+  DnsRecord({
+    this.hostname,
+    this.type,
+    this.value,
+  });
+
+  factory DnsRecord.fromJson(Map<String, dynamic> json) {
+    return DnsRecord(
+      hostname: json['Hostname'] as String?,
+      type: json['Type'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+}
+
+enum DnsRecordVerificationStatus {
+  pending,
+  verified,
+  failed,
+}
+
+extension DnsRecordVerificationStatusValueExtension
+    on DnsRecordVerificationStatus {
+  String toValue() {
+    switch (this) {
+      case DnsRecordVerificationStatus.pending:
+        return 'PENDING';
+      case DnsRecordVerificationStatus.verified:
+        return 'VERIFIED';
+      case DnsRecordVerificationStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension DnsRecordVerificationStatusFromString on String {
+  DnsRecordVerificationStatus toDnsRecordVerificationStatus() {
+    switch (this) {
+      case 'PENDING':
+        return DnsRecordVerificationStatus.pending;
+      case 'VERIFIED':
+        return DnsRecordVerificationStatus.verified;
+      case 'FAILED':
+        return DnsRecordVerificationStatus.failed;
+    }
+    throw Exception('$this is not known in enum DnsRecordVerificationStatus');
+  }
+}
+
+/// The domain to associate with an WorkMail organization.
 ///
 /// When you configure a domain hosted in Amazon Route 53 (Route 53), all
 /// recommended DNS records are added to the organization when you create it.
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/workmail/latest/adminguide/add_domain.html">Adding
-/// a domain</a> in the <i>Amazon WorkMail Administrator Guide</i>.
+/// a domain</a> in the <i>WorkMail Administrator Guide</i>.
 class Domain {
   /// The fully qualified domain name.
   final String? domainName;
@@ -2946,6 +4831,35 @@ extension EntityStateFromString on String {
   }
 }
 
+/// Describes an EWS based availability provider. This is only used as input to
+/// the service.
+class EwsAvailabilityProvider {
+  /// The endpoint of the remote EWS server.
+  final String ewsEndpoint;
+
+  /// The password used to authenticate the remote EWS server.
+  final String ewsPassword;
+
+  /// The username used to authenticate the remote EWS server.
+  final String ewsUsername;
+
+  EwsAvailabilityProvider({
+    required this.ewsEndpoint,
+    required this.ewsPassword,
+    required this.ewsUsername,
+  });
+  Map<String, dynamic> toJson() {
+    final ewsEndpoint = this.ewsEndpoint;
+    final ewsPassword = this.ewsPassword;
+    final ewsUsername = this.ewsUsername;
+    return {
+      'EwsEndpoint': ewsEndpoint,
+      'EwsPassword': ewsPassword,
+      'EwsUsername': ewsUsername,
+    };
+  }
+}
+
 /// The configuration applied to an organization's folders by its retention
 /// policy.
 class FolderConfiguration {
@@ -2956,7 +4870,7 @@ class FolderConfiguration {
   /// The folder name.
   final FolderName name;
 
-  /// The period of time at which the folder configuration action is applied.
+  /// The number of days for which the folder-configuration action applies.
   final int? period;
 
   FolderConfiguration({
@@ -2964,6 +4878,7 @@ class FolderConfiguration {
     required this.name,
     this.period,
   });
+
   factory FolderConfiguration.fromJson(Map<String, dynamic> json) {
     return FolderConfiguration(
       action: (json['Action'] as String).toRetentionAction(),
@@ -3038,6 +4953,7 @@ class GetAccessControlEffectResponse {
     this.effect,
     this.matchedRules,
   });
+
   factory GetAccessControlEffectResponse.fromJson(Map<String, dynamic> json) {
     return GetAccessControlEffectResponse(
       effect: (json['Effect'] as String?)?.toAccessControlRuleEffect(),
@@ -3068,6 +4984,7 @@ class GetDefaultRetentionPolicyResponse {
     this.id,
     this.name,
   });
+
   factory GetDefaultRetentionPolicyResponse.fromJson(
       Map<String, dynamic> json) {
     return GetDefaultRetentionPolicyResponse(
@@ -3078,6 +4995,130 @@ class GetDefaultRetentionPolicyResponse {
           .toList(),
       id: json['Id'] as String?,
       name: json['Name'] as String?,
+    );
+  }
+}
+
+class GetImpersonationRoleEffectResponse {
+  /// <code/>Effect of the impersonation role on the target user based on its
+  /// rules. Available effects are <code>ALLOW</code> or <code>DENY</code>.
+  final AccessEffect? effect;
+
+  /// A list of the rules that match the input and produce the configured effect.
+  final List<ImpersonationMatchedRule>? matchedRules;
+
+  /// The impersonation role type.
+  final ImpersonationRoleType? type;
+
+  GetImpersonationRoleEffectResponse({
+    this.effect,
+    this.matchedRules,
+    this.type,
+  });
+
+  factory GetImpersonationRoleEffectResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetImpersonationRoleEffectResponse(
+      effect: (json['Effect'] as String?)?.toAccessEffect(),
+      matchedRules: (json['MatchedRules'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ImpersonationMatchedRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.toImpersonationRoleType(),
+    );
+  }
+}
+
+class GetImpersonationRoleResponse {
+  /// The date when the impersonation role was created.
+  final DateTime? dateCreated;
+
+  /// The date when the impersonation role was last modified.
+  final DateTime? dateModified;
+
+  /// The impersonation role description.
+  final String? description;
+
+  /// The impersonation role ID.
+  final String? impersonationRoleId;
+
+  /// The impersonation role name.
+  final String? name;
+
+  /// The list of rules for the given impersonation role.
+  final List<ImpersonationRule>? rules;
+
+  /// The impersonation role type.
+  final ImpersonationRoleType? type;
+
+  GetImpersonationRoleResponse({
+    this.dateCreated,
+    this.dateModified,
+    this.description,
+    this.impersonationRoleId,
+    this.name,
+    this.rules,
+    this.type,
+  });
+
+  factory GetImpersonationRoleResponse.fromJson(Map<String, dynamic> json) {
+    return GetImpersonationRoleResponse(
+      dateCreated: timeStampFromJson(json['DateCreated']),
+      dateModified: timeStampFromJson(json['DateModified']),
+      description: json['Description'] as String?,
+      impersonationRoleId: json['ImpersonationRoleId'] as String?,
+      name: json['Name'] as String?,
+      rules: (json['Rules'] as List?)
+          ?.whereNotNull()
+          .map((e) => ImpersonationRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.toImpersonationRoleType(),
+    );
+  }
+}
+
+class GetMailDomainResponse {
+  /// Indicates the status of a DKIM verification.
+  final DnsRecordVerificationStatus? dkimVerificationStatus;
+
+  /// Specifies whether the domain is the default domain for your organization.
+  final bool? isDefault;
+
+  /// Specifies whether the domain is a test domain provided by WorkMail, or a
+  /// custom domain.
+  final bool? isTestDomain;
+
+  /// Indicates the status of the domain ownership verification.
+  final DnsRecordVerificationStatus? ownershipVerificationStatus;
+
+  /// A list of the DNS records that WorkMail recommends adding in your DNS
+  /// provider for the best user experience. The records configure your domain
+  /// with DMARC, SPF, DKIM, and direct incoming email traffic to SES. See admin
+  /// guide for more details.
+  final List<DnsRecord>? records;
+
+  GetMailDomainResponse({
+    this.dkimVerificationStatus,
+    this.isDefault,
+    this.isTestDomain,
+    this.ownershipVerificationStatus,
+    this.records,
+  });
+
+  factory GetMailDomainResponse.fromJson(Map<String, dynamic> json) {
+    return GetMailDomainResponse(
+      dkimVerificationStatus: (json['DkimVerificationStatus'] as String?)
+          ?.toDnsRecordVerificationStatus(),
+      isDefault: json['IsDefault'] as bool?,
+      isTestDomain: json['IsTestDomain'] as bool?,
+      ownershipVerificationStatus:
+          (json['OwnershipVerificationStatus'] as String?)
+              ?.toDnsRecordVerificationStatus(),
+      records: (json['Records'] as List?)
+          ?.whereNotNull()
+          .map((e) => DnsRecord.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }
@@ -3093,6 +5134,7 @@ class GetMailboxDetailsResponse {
     this.mailboxQuota,
     this.mailboxSize,
   });
+
   factory GetMailboxDetailsResponse.fromJson(Map<String, dynamic> json) {
     return GetMailboxDetailsResponse(
       mailboxQuota: json['MailboxQuota'] as int?,
@@ -3101,15 +5143,84 @@ class GetMailboxDetailsResponse {
   }
 }
 
-/// The representation of an Amazon WorkMail group.
+class GetMobileDeviceAccessEffectResponse {
+  /// The effect of the simulated access, <code>ALLOW</code> or <code>DENY</code>,
+  /// after evaluating mobile device access rules in the WorkMail organization for
+  /// the simulated user parameters.
+  final MobileDeviceAccessRuleEffect? effect;
+
+  /// A list of the rules which matched the simulated user input and produced the
+  /// effect.
+  final List<MobileDeviceAccessMatchedRule>? matchedRules;
+
+  GetMobileDeviceAccessEffectResponse({
+    this.effect,
+    this.matchedRules,
+  });
+
+  factory GetMobileDeviceAccessEffectResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetMobileDeviceAccessEffectResponse(
+      effect: (json['Effect'] as String?)?.toMobileDeviceAccessRuleEffect(),
+      matchedRules: (json['MatchedRules'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              MobileDeviceAccessMatchedRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+class GetMobileDeviceAccessOverrideResponse {
+  /// The date the override was first created.
+  final DateTime? dateCreated;
+
+  /// The date the description was last modified.
+  final DateTime? dateModified;
+
+  /// A description of the override.
+  final String? description;
+
+  /// The device to which the access override applies.
+  final String? deviceId;
+
+  /// The effect of the override, <code>ALLOW</code> or <code>DENY</code>.
+  final MobileDeviceAccessRuleEffect? effect;
+
+  /// The WorkMail user to which the access override applies.
+  final String? userId;
+
+  GetMobileDeviceAccessOverrideResponse({
+    this.dateCreated,
+    this.dateModified,
+    this.description,
+    this.deviceId,
+    this.effect,
+    this.userId,
+  });
+
+  factory GetMobileDeviceAccessOverrideResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetMobileDeviceAccessOverrideResponse(
+      dateCreated: timeStampFromJson(json['DateCreated']),
+      dateModified: timeStampFromJson(json['DateModified']),
+      description: json['Description'] as String?,
+      deviceId: json['DeviceId'] as String?,
+      effect: (json['Effect'] as String?)?.toMobileDeviceAccessRuleEffect(),
+      userId: json['UserId'] as String?,
+    );
+  }
+}
+
+/// The representation of an WorkMail group.
 class Group {
-  /// The date indicating when the group was disabled from Amazon WorkMail use.
+  /// The date indicating when the group was disabled from WorkMail use.
   final DateTime? disabledDate;
 
   /// The email of the group.
   final String? email;
 
-  /// The date indicating when the group was enabled for Amazon WorkMail use.
+  /// The date indicating when the group was enabled for WorkMail use.
   final DateTime? enabledDate;
 
   /// The identifier of the group.
@@ -3129,6 +5240,7 @@ class Group {
     this.name,
     this.state,
   });
+
   factory Group.fromJson(Map<String, dynamic> json) {
     return Group(
       disabledDate: timeStampFromJson(json['DisabledDate']),
@@ -3141,6 +5253,180 @@ class Group {
   }
 }
 
+/// The impersonation rule that matched the input.
+class ImpersonationMatchedRule {
+  /// The ID of the rule that matched the input
+  final String? impersonationRuleId;
+
+  /// The name of the rule that matched the input.
+  final String? name;
+
+  ImpersonationMatchedRule({
+    this.impersonationRuleId,
+    this.name,
+  });
+
+  factory ImpersonationMatchedRule.fromJson(Map<String, dynamic> json) {
+    return ImpersonationMatchedRule(
+      impersonationRuleId: json['ImpersonationRuleId'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+}
+
+/// An impersonation role for the given WorkMail organization.
+class ImpersonationRole {
+  /// The date when the impersonation role was created.
+  final DateTime? dateCreated;
+
+  /// The date when the impersonation role was last modified.
+  final DateTime? dateModified;
+
+  /// The identifier of the impersonation role.
+  final String? impersonationRoleId;
+
+  /// The impersonation role name.
+  final String? name;
+
+  /// The impersonation role type.
+  final ImpersonationRoleType? type;
+
+  ImpersonationRole({
+    this.dateCreated,
+    this.dateModified,
+    this.impersonationRoleId,
+    this.name,
+    this.type,
+  });
+
+  factory ImpersonationRole.fromJson(Map<String, dynamic> json) {
+    return ImpersonationRole(
+      dateCreated: timeStampFromJson(json['DateCreated']),
+      dateModified: timeStampFromJson(json['DateModified']),
+      impersonationRoleId: json['ImpersonationRoleId'] as String?,
+      name: json['Name'] as String?,
+      type: (json['Type'] as String?)?.toImpersonationRoleType(),
+    );
+  }
+}
+
+enum ImpersonationRoleType {
+  fullAccess,
+  readOnly,
+}
+
+extension ImpersonationRoleTypeValueExtension on ImpersonationRoleType {
+  String toValue() {
+    switch (this) {
+      case ImpersonationRoleType.fullAccess:
+        return 'FULL_ACCESS';
+      case ImpersonationRoleType.readOnly:
+        return 'READ_ONLY';
+    }
+  }
+}
+
+extension ImpersonationRoleTypeFromString on String {
+  ImpersonationRoleType toImpersonationRoleType() {
+    switch (this) {
+      case 'FULL_ACCESS':
+        return ImpersonationRoleType.fullAccess;
+      case 'READ_ONLY':
+        return ImpersonationRoleType.readOnly;
+    }
+    throw Exception('$this is not known in enum ImpersonationRoleType');
+  }
+}
+
+/// The rules for the given impersonation role.
+class ImpersonationRule {
+  /// The effect of the rule when it matches the input. Allowed effect values are
+  /// <code>ALLOW</code> or <code>DENY</code>.
+  final AccessEffect effect;
+
+  /// The identifier of the rule.
+  final String impersonationRuleId;
+
+  /// The rule description.
+  final String? description;
+
+  /// The rule name.
+  final String? name;
+
+  /// A list of user IDs that don't match the rule.
+  final List<String>? notTargetUsers;
+
+  /// A list of user IDs that match the rule.
+  final List<String>? targetUsers;
+
+  ImpersonationRule({
+    required this.effect,
+    required this.impersonationRuleId,
+    this.description,
+    this.name,
+    this.notTargetUsers,
+    this.targetUsers,
+  });
+
+  factory ImpersonationRule.fromJson(Map<String, dynamic> json) {
+    return ImpersonationRule(
+      effect: (json['Effect'] as String).toAccessEffect(),
+      impersonationRuleId: json['ImpersonationRuleId'] as String,
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+      notTargetUsers: (json['NotTargetUsers'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      targetUsers: (json['TargetUsers'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final effect = this.effect;
+    final impersonationRuleId = this.impersonationRuleId;
+    final description = this.description;
+    final name = this.name;
+    final notTargetUsers = this.notTargetUsers;
+    final targetUsers = this.targetUsers;
+    return {
+      'Effect': effect.toValue(),
+      'ImpersonationRuleId': impersonationRuleId,
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (notTargetUsers != null) 'NotTargetUsers': notTargetUsers,
+      if (targetUsers != null) 'TargetUsers': targetUsers,
+    };
+  }
+}
+
+/// Describes a Lambda based availability provider.
+class LambdaAvailabilityProvider {
+  /// The Amazon Resource Name (ARN) of the Lambda that acts as the availability
+  /// provider.
+  final String lambdaArn;
+
+  LambdaAvailabilityProvider({
+    required this.lambdaArn,
+  });
+
+  factory LambdaAvailabilityProvider.fromJson(Map<String, dynamic> json) {
+    return LambdaAvailabilityProvider(
+      lambdaArn: json['LambdaArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lambdaArn = this.lambdaArn;
+    return {
+      'LambdaArn': lambdaArn,
+    };
+  }
+}
+
 class ListAccessControlRulesResponse {
   /// The access control rules.
   final List<AccessControlRule>? rules;
@@ -3148,6 +5434,7 @@ class ListAccessControlRulesResponse {
   ListAccessControlRulesResponse({
     this.rules,
   });
+
   factory ListAccessControlRulesResponse.fromJson(Map<String, dynamic> json) {
     return ListAccessControlRulesResponse(
       rules: (json['Rules'] as List?)
@@ -3170,11 +5457,39 @@ class ListAliasesResponse {
     this.aliases,
     this.nextToken,
   });
+
   factory ListAliasesResponse.fromJson(Map<String, dynamic> json) {
     return ListAliasesResponse(
       aliases: (json['Aliases'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
+class ListAvailabilityConfigurationsResponse {
+  /// The list of <code>AvailabilityConfiguration</code>'s that exist for the
+  /// specified WorkMail organization.
+  final List<AvailabilityConfiguration>? availabilityConfigurations;
+
+  /// The token to use to retrieve the next page of results. The value is
+  /// <code>null</code> when there are no further results to return.
+  final String? nextToken;
+
+  ListAvailabilityConfigurationsResponse({
+    this.availabilityConfigurations,
+    this.nextToken,
+  });
+
+  factory ListAvailabilityConfigurationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAvailabilityConfigurationsResponse(
+      availabilityConfigurations: (json['AvailabilityConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AvailabilityConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
     );
@@ -3193,6 +5508,7 @@ class ListGroupMembersResponse {
     this.members,
     this.nextToken,
   });
+
   factory ListGroupMembersResponse.fromJson(Map<String, dynamic> json) {
     return ListGroupMembersResponse(
       members: (json['Members'] as List?)
@@ -3216,11 +5532,62 @@ class ListGroupsResponse {
     this.groups,
     this.nextToken,
   });
+
   factory ListGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListGroupsResponse(
       groups: (json['Groups'] as List?)
           ?.whereNotNull()
           .map((e) => Group.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
+class ListImpersonationRolesResponse {
+  /// The token to retrieve the next page of results. The value is
+  /// <code>null</code> when there are no results to return.
+  final String? nextToken;
+
+  /// The list of impersonation roles under the given WorkMail organization.
+  final List<ImpersonationRole>? roles;
+
+  ListImpersonationRolesResponse({
+    this.nextToken,
+    this.roles,
+  });
+
+  factory ListImpersonationRolesResponse.fromJson(Map<String, dynamic> json) {
+    return ListImpersonationRolesResponse(
+      nextToken: json['NextToken'] as String?,
+      roles: (json['Roles'] as List?)
+          ?.whereNotNull()
+          .map((e) => ImpersonationRole.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+class ListMailDomainsResponse {
+  /// The list of mail domain summaries, specifying domains that exist in the
+  /// specified WorkMail organization, along with the information about whether
+  /// the domain is or isn't the default.
+  final List<MailDomainSummary>? mailDomains;
+
+  /// The token to use to retrieve the next page of results. The value becomes
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  ListMailDomainsResponse({
+    this.mailDomains,
+    this.nextToken,
+  });
+
+  factory ListMailDomainsResponse.fromJson(Map<String, dynamic> json) {
+    return ListMailDomainsResponse(
+      mailDomains: (json['MailDomains'] as List?)
+          ?.whereNotNull()
+          .map((e) => MailDomainSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
     );
@@ -3238,6 +5605,7 @@ class ListMailboxExportJobsResponse {
     this.jobs,
     this.nextToken,
   });
+
   factory ListMailboxExportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListMailboxExportJobsResponse(
       jobs: (json['Jobs'] as List?)
@@ -3261,12 +5629,61 @@ class ListMailboxPermissionsResponse {
     this.nextToken,
     this.permissions,
   });
+
   factory ListMailboxPermissionsResponse.fromJson(Map<String, dynamic> json) {
     return ListMailboxPermissionsResponse(
       nextToken: json['NextToken'] as String?,
       permissions: (json['Permissions'] as List?)
           ?.whereNotNull()
           .map((e) => Permission.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+class ListMobileDeviceAccessOverridesResponse {
+  /// The token to use to retrieve the next page of results. The value is “null”
+  /// when there are no more results to return.
+  final String? nextToken;
+
+  /// The list of mobile device access overrides that exist for the specified
+  /// WorkMail organization and user.
+  final List<MobileDeviceAccessOverride>? overrides;
+
+  ListMobileDeviceAccessOverridesResponse({
+    this.nextToken,
+    this.overrides,
+  });
+
+  factory ListMobileDeviceAccessOverridesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListMobileDeviceAccessOverridesResponse(
+      nextToken: json['NextToken'] as String?,
+      overrides: (json['Overrides'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              MobileDeviceAccessOverride.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+class ListMobileDeviceAccessRulesResponse {
+  /// The list of mobile device access rules that exist under the specified
+  /// WorkMail organization.
+  final List<MobileDeviceAccessRule>? rules;
+
+  ListMobileDeviceAccessRulesResponse({
+    this.rules,
+  });
+
+  factory ListMobileDeviceAccessRulesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListMobileDeviceAccessRulesResponse(
+      rules: (json['Rules'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => MobileDeviceAccessRule.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
@@ -3285,6 +5702,7 @@ class ListOrganizationsResponse {
     this.nextToken,
     this.organizationSummaries,
   });
+
   factory ListOrganizationsResponse.fromJson(Map<String, dynamic> json) {
     return ListOrganizationsResponse(
       nextToken: json['NextToken'] as String?,
@@ -3309,6 +5727,7 @@ class ListResourceDelegatesResponse {
     this.delegates,
     this.nextToken,
   });
+
   factory ListResourceDelegatesResponse.fromJson(Map<String, dynamic> json) {
     return ListResourceDelegatesResponse(
       delegates: (json['Delegates'] as List?)
@@ -3333,6 +5752,7 @@ class ListResourcesResponse {
     this.nextToken,
     this.resources,
   });
+
   factory ListResourcesResponse.fromJson(Map<String, dynamic> json) {
     return ListResourcesResponse(
       nextToken: json['NextToken'] as String?,
@@ -3351,6 +5771,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
@@ -3373,6 +5794,7 @@ class ListUsersResponse {
     this.nextToken,
     this.users,
   });
+
   factory ListUsersResponse.fromJson(Map<String, dynamic> json) {
     return ListUsersResponse(
       nextToken: json['NextToken'] as String?,
@@ -3380,6 +5802,27 @@ class ListUsersResponse {
           ?.whereNotNull()
           .map((e) => User.fromJson(e as Map<String, dynamic>))
           .toList(),
+    );
+  }
+}
+
+/// The data for a given domain.
+class MailDomainSummary {
+  /// Whether the domain is default or not.
+  final bool? defaultDomain;
+
+  /// The domain name.
+  final String? domainName;
+
+  MailDomainSummary({
+    this.defaultDomain,
+    this.domainName,
+  });
+
+  factory MailDomainSummary.fromJson(Map<String, dynamic> json) {
+    return MailDomainSummary(
+      defaultDomain: json['DefaultDomain'] as bool?,
+      domainName: json['DomainName'] as String?,
     );
   }
 }
@@ -3426,6 +5869,7 @@ class MailboxExportJob {
     this.startTime,
     this.state,
   });
+
   factory MailboxExportJob.fromJson(Map<String, dynamic> json) {
     return MailboxExportJob(
       description: json['Description'] as String?,
@@ -3481,10 +5925,10 @@ extension MailboxExportJobStateFromString on String {
 
 /// The representation of a user or group.
 class Member {
-  /// The date indicating when the member was disabled from Amazon WorkMail use.
+  /// The date indicating when the member was disabled from WorkMail use.
   final DateTime? disabledDate;
 
-  /// The date indicating when the member was enabled for Amazon WorkMail use.
+  /// The date indicating when the member was enabled for WorkMail use.
   final DateTime? enabledDate;
 
   /// The identifier of the member.
@@ -3507,6 +5951,7 @@ class Member {
     this.state,
     this.type,
   });
+
   factory Member.fromJson(Map<String, dynamic> json) {
     return Member(
       disabledDate: timeStampFromJson(json['DisabledDate']),
@@ -3547,6 +5992,207 @@ extension MemberTypeFromString on String {
   }
 }
 
+/// The rule that a simulated user matches.
+class MobileDeviceAccessMatchedRule {
+  /// Identifier of the rule that a simulated user matches.
+  final String? mobileDeviceAccessRuleId;
+
+  /// Name of a rule that a simulated user matches.
+  final String? name;
+
+  MobileDeviceAccessMatchedRule({
+    this.mobileDeviceAccessRuleId,
+    this.name,
+  });
+
+  factory MobileDeviceAccessMatchedRule.fromJson(Map<String, dynamic> json) {
+    return MobileDeviceAccessMatchedRule(
+      mobileDeviceAccessRuleId: json['MobileDeviceAccessRuleId'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+}
+
+/// The override object.
+class MobileDeviceAccessOverride {
+  /// The date the override was first created.
+  final DateTime? dateCreated;
+
+  /// The date the override was last modified.
+  final DateTime? dateModified;
+
+  /// A description of the override.
+  final String? description;
+
+  /// The device to which the override applies.
+  final String? deviceId;
+
+  /// The effect of the override, <code>ALLOW</code> or <code>DENY</code>.
+  final MobileDeviceAccessRuleEffect? effect;
+
+  /// The WorkMail user to which the access override applies.
+  final String? userId;
+
+  MobileDeviceAccessOverride({
+    this.dateCreated,
+    this.dateModified,
+    this.description,
+    this.deviceId,
+    this.effect,
+    this.userId,
+  });
+
+  factory MobileDeviceAccessOverride.fromJson(Map<String, dynamic> json) {
+    return MobileDeviceAccessOverride(
+      dateCreated: timeStampFromJson(json['DateCreated']),
+      dateModified: timeStampFromJson(json['DateModified']),
+      description: json['Description'] as String?,
+      deviceId: json['DeviceId'] as String?,
+      effect: (json['Effect'] as String?)?.toMobileDeviceAccessRuleEffect(),
+      userId: json['UserId'] as String?,
+    );
+  }
+}
+
+/// A rule that controls access to mobile devices for an WorkMail group.
+class MobileDeviceAccessRule {
+  /// The date and time at which an access rule was created.
+  final DateTime? dateCreated;
+
+  /// The date and time at which an access rule was modified.
+  final DateTime? dateModified;
+
+  /// The description of a mobile access rule.
+  final String? description;
+
+  /// Device models that a rule will match.
+  final List<String>? deviceModels;
+
+  /// Device operating systems that a rule will match.
+  final List<String>? deviceOperatingSystems;
+
+  /// Device types that a rule will match.
+  final List<String>? deviceTypes;
+
+  /// Device user agents that a rule will match.
+  final List<String>? deviceUserAgents;
+
+  /// The effect of the rule when it matches. Allowed values are
+  /// <code>ALLOW</code> or <code>DENY</code>.
+  final MobileDeviceAccessRuleEffect? effect;
+
+  /// The ID assigned to a mobile access rule.
+  final String? mobileDeviceAccessRuleId;
+
+  /// The name of a mobile access rule.
+  final String? name;
+
+  /// Device models that a rule <b>will not</b> match. All other device models
+  /// will match.
+  final List<String>? notDeviceModels;
+
+  /// Device operating systems that a rule <b>will not</b> match. All other device
+  /// types will match.
+  final List<String>? notDeviceOperatingSystems;
+
+  /// Device types that a rule <b>will not</b> match. All other device types will
+  /// match.
+  final List<String>? notDeviceTypes;
+
+  /// Device user agents that a rule <b>will not</b> match. All other device user
+  /// agents will match.
+  final List<String>? notDeviceUserAgents;
+
+  MobileDeviceAccessRule({
+    this.dateCreated,
+    this.dateModified,
+    this.description,
+    this.deviceModels,
+    this.deviceOperatingSystems,
+    this.deviceTypes,
+    this.deviceUserAgents,
+    this.effect,
+    this.mobileDeviceAccessRuleId,
+    this.name,
+    this.notDeviceModels,
+    this.notDeviceOperatingSystems,
+    this.notDeviceTypes,
+    this.notDeviceUserAgents,
+  });
+
+  factory MobileDeviceAccessRule.fromJson(Map<String, dynamic> json) {
+    return MobileDeviceAccessRule(
+      dateCreated: timeStampFromJson(json['DateCreated']),
+      dateModified: timeStampFromJson(json['DateModified']),
+      description: json['Description'] as String?,
+      deviceModels: (json['DeviceModels'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      deviceOperatingSystems: (json['DeviceOperatingSystems'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      deviceTypes: (json['DeviceTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      deviceUserAgents: (json['DeviceUserAgents'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      effect: (json['Effect'] as String?)?.toMobileDeviceAccessRuleEffect(),
+      mobileDeviceAccessRuleId: json['MobileDeviceAccessRuleId'] as String?,
+      name: json['Name'] as String?,
+      notDeviceModels: (json['NotDeviceModels'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      notDeviceOperatingSystems: (json['NotDeviceOperatingSystems'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      notDeviceTypes: (json['NotDeviceTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      notDeviceUserAgents: (json['NotDeviceUserAgents'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+}
+
+enum MobileDeviceAccessRuleEffect {
+  allow,
+  deny,
+}
+
+extension MobileDeviceAccessRuleEffectValueExtension
+    on MobileDeviceAccessRuleEffect {
+  String toValue() {
+    switch (this) {
+      case MobileDeviceAccessRuleEffect.allow:
+        return 'ALLOW';
+      case MobileDeviceAccessRuleEffect.deny:
+        return 'DENY';
+    }
+  }
+}
+
+extension MobileDeviceAccessRuleEffectFromString on String {
+  MobileDeviceAccessRuleEffect toMobileDeviceAccessRuleEffect() {
+    switch (this) {
+      case 'ALLOW':
+        return MobileDeviceAccessRuleEffect.allow;
+      case 'DENY':
+        return MobileDeviceAccessRuleEffect.deny;
+    }
+    throw Exception('$this is not known in enum MobileDeviceAccessRuleEffect');
+  }
+}
+
 /// The representation of an organization.
 class OrganizationSummary {
   /// The alias associated with the organization.
@@ -3573,6 +6219,7 @@ class OrganizationSummary {
     this.organizationId,
     this.state,
   });
+
   factory OrganizationSummary.fromJson(Map<String, dynamic> json) {
     return OrganizationSummary(
       alias: json['Alias'] as String?,
@@ -3607,6 +6254,7 @@ class Permission {
     required this.granteeType,
     required this.permissionValues,
   });
+
   factory Permission.fromJson(Map<String, dynamic> json) {
     return Permission(
       granteeId: json['GranteeId'] as String,
@@ -3654,27 +6302,87 @@ extension PermissionTypeFromString on String {
 
 class PutAccessControlRuleResponse {
   PutAccessControlRuleResponse();
+
   factory PutAccessControlRuleResponse.fromJson(Map<String, dynamic> _) {
     return PutAccessControlRuleResponse();
   }
 }
 
+class PutEmailMonitoringConfigurationResponse {
+  PutEmailMonitoringConfigurationResponse();
+
+  factory PutEmailMonitoringConfigurationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return PutEmailMonitoringConfigurationResponse();
+  }
+}
+
+class PutInboundDmarcSettingsResponse {
+  PutInboundDmarcSettingsResponse();
+
+  factory PutInboundDmarcSettingsResponse.fromJson(Map<String, dynamic> _) {
+    return PutInboundDmarcSettingsResponse();
+  }
+}
+
 class PutMailboxPermissionsResponse {
   PutMailboxPermissionsResponse();
+
   factory PutMailboxPermissionsResponse.fromJson(Map<String, dynamic> _) {
     return PutMailboxPermissionsResponse();
   }
 }
 
+class PutMobileDeviceAccessOverrideResponse {
+  PutMobileDeviceAccessOverrideResponse();
+
+  factory PutMobileDeviceAccessOverrideResponse.fromJson(
+      Map<String, dynamic> _) {
+    return PutMobileDeviceAccessOverrideResponse();
+  }
+}
+
 class PutRetentionPolicyResponse {
   PutRetentionPolicyResponse();
+
   factory PutRetentionPolicyResponse.fromJson(Map<String, dynamic> _) {
     return PutRetentionPolicyResponse();
   }
 }
 
+/// Describes an EWS based availability provider when returned from the service.
+/// It does not contain the password of the endpoint.
+class RedactedEwsAvailabilityProvider {
+  /// The endpoint of the remote EWS server.
+  final String? ewsEndpoint;
+
+  /// The username used to authenticate the remote EWS server.
+  final String? ewsUsername;
+
+  RedactedEwsAvailabilityProvider({
+    this.ewsEndpoint,
+    this.ewsUsername,
+  });
+
+  factory RedactedEwsAvailabilityProvider.fromJson(Map<String, dynamic> json) {
+    return RedactedEwsAvailabilityProvider(
+      ewsEndpoint: json['EwsEndpoint'] as String?,
+      ewsUsername: json['EwsUsername'] as String?,
+    );
+  }
+}
+
+class RegisterMailDomainResponse {
+  RegisterMailDomainResponse();
+
+  factory RegisterMailDomainResponse.fromJson(Map<String, dynamic> _) {
+    return RegisterMailDomainResponse();
+  }
+}
+
 class RegisterToWorkMailResponse {
   RegisterToWorkMailResponse();
+
   factory RegisterToWorkMailResponse.fromJson(Map<String, dynamic> _) {
     return RegisterToWorkMailResponse();
   }
@@ -3682,6 +6390,7 @@ class RegisterToWorkMailResponse {
 
 class ResetPasswordResponse {
   ResetPasswordResponse();
+
   factory ResetPasswordResponse.fromJson(Map<String, dynamic> _) {
     return ResetPasswordResponse();
   }
@@ -3689,13 +6398,13 @@ class ResetPasswordResponse {
 
 /// The representation of a resource.
 class Resource {
-  /// The date indicating when the resource was disabled from Amazon WorkMail use.
+  /// The date indicating when the resource was disabled from WorkMail use.
   final DateTime? disabledDate;
 
   /// The email of the resource.
   final String? email;
 
-  /// The date indicating when the resource was enabled for Amazon WorkMail use.
+  /// The date indicating when the resource was enabled for WorkMail use.
   final DateTime? enabledDate;
 
   /// The identifier of the resource.
@@ -3719,6 +6428,7 @@ class Resource {
     this.state,
     this.type,
   });
+
   factory Resource.fromJson(Map<String, dynamic> json) {
     return Resource(
       disabledDate: timeStampFromJson(json['DisabledDate']),
@@ -3800,6 +6510,7 @@ class StartMailboxExportJobResponse {
   StartMailboxExportJobResponse({
     this.jobId,
   });
+
   factory StartMailboxExportJobResponse.fromJson(Map<String, dynamic> json) {
     return StartMailboxExportJobResponse(
       jobId: json['JobId'] as String?,
@@ -3819,6 +6530,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['Key'] as String,
@@ -3838,27 +6550,87 @@ class Tag {
 
 class TagResourceResponse {
   TagResourceResponse();
+
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
   }
 }
 
+class TestAvailabilityConfigurationResponse {
+  /// String containing the reason for a failed test if <code>TestPassed</code> is
+  /// false.
+  final String? failureReason;
+
+  /// Boolean indicating whether the test passed or failed.
+  final bool? testPassed;
+
+  TestAvailabilityConfigurationResponse({
+    this.failureReason,
+    this.testPassed,
+  });
+
+  factory TestAvailabilityConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return TestAvailabilityConfigurationResponse(
+      failureReason: json['FailureReason'] as String?,
+      testPassed: json['TestPassed'] as bool?,
+    );
+  }
+}
+
 class UntagResourceResponse {
   UntagResourceResponse();
+
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
   }
 }
 
+class UpdateAvailabilityConfigurationResponse {
+  UpdateAvailabilityConfigurationResponse();
+
+  factory UpdateAvailabilityConfigurationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateAvailabilityConfigurationResponse();
+  }
+}
+
+class UpdateDefaultMailDomainResponse {
+  UpdateDefaultMailDomainResponse();
+
+  factory UpdateDefaultMailDomainResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateDefaultMailDomainResponse();
+  }
+}
+
+class UpdateImpersonationRoleResponse {
+  UpdateImpersonationRoleResponse();
+
+  factory UpdateImpersonationRoleResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateImpersonationRoleResponse();
+  }
+}
+
 class UpdateMailboxQuotaResponse {
   UpdateMailboxQuotaResponse();
+
   factory UpdateMailboxQuotaResponse.fromJson(Map<String, dynamic> _) {
     return UpdateMailboxQuotaResponse();
   }
 }
 
+class UpdateMobileDeviceAccessRuleResponse {
+  UpdateMobileDeviceAccessRuleResponse();
+
+  factory UpdateMobileDeviceAccessRuleResponse.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateMobileDeviceAccessRuleResponse();
+  }
+}
+
 class UpdatePrimaryEmailAddressResponse {
   UpdatePrimaryEmailAddressResponse();
+
   factory UpdatePrimaryEmailAddressResponse.fromJson(Map<String, dynamic> _) {
     return UpdatePrimaryEmailAddressResponse();
   }
@@ -3866,14 +6638,15 @@ class UpdatePrimaryEmailAddressResponse {
 
 class UpdateResourceResponse {
   UpdateResourceResponse();
+
   factory UpdateResourceResponse.fromJson(Map<String, dynamic> _) {
     return UpdateResourceResponse();
   }
 }
 
-/// The representation of an Amazon WorkMail user.
+/// The representation of an WorkMail user.
 class User {
-  /// The date indicating when the user was disabled from Amazon WorkMail use.
+  /// The date indicating when the user was disabled from WorkMail use.
   final DateTime? disabledDate;
 
   /// The display name of the user.
@@ -3882,7 +6655,7 @@ class User {
   /// The email of the user.
   final String? email;
 
-  /// The date indicating when the user was enabled for Amazon WorkMail use.
+  /// The date indicating when the user was enabled for WorkMail use.
   final DateTime? enabledDate;
 
   /// The identifier of the user.
@@ -3907,6 +6680,7 @@ class User {
     this.state,
     this.userRole,
   });
+
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       disabledDate: timeStampFromJson(json['DisabledDate']),
@@ -4007,6 +6781,14 @@ class InvalidConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+class InvalidCustomSesConfigurationException extends _s.GenericAwsException {
+  InvalidCustomSesConfigurationException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'InvalidCustomSesConfigurationException',
+            message: message);
+}
+
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
@@ -4020,6 +6802,11 @@ class InvalidPasswordException extends _s.GenericAwsException {
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
+}
+
+class MailDomainInUseException extends _s.GenericAwsException {
+  MailDomainInUseException({String? type, String? message})
+      : super(type: type, code: 'MailDomainInUseException', message: message);
 }
 
 class MailDomainNotFoundException extends _s.GenericAwsException {
@@ -4092,12 +6879,16 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       EntityStateException(type: type, message: message),
   'InvalidConfigurationException': (type, message) =>
       InvalidConfigurationException(type: type, message: message),
+  'InvalidCustomSesConfigurationException': (type, message) =>
+      InvalidCustomSesConfigurationException(type: type, message: message),
   'InvalidParameterException': (type, message) =>
       InvalidParameterException(type: type, message: message),
   'InvalidPasswordException': (type, message) =>
       InvalidPasswordException(type: type, message: message),
   'LimitExceededException': (type, message) =>
       LimitExceededException(type: type, message: message),
+  'MailDomainInUseException': (type, message) =>
+      MailDomainInUseException(type: type, message: message),
   'MailDomainNotFoundException': (type, message) =>
       MailDomainNotFoundException(type: type, message: message),
   'MailDomainStateException': (type, message) =>

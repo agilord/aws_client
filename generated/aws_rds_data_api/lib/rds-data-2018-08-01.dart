@@ -19,8 +19,15 @@ import 'package:shared_aws_api/shared.dart'
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 /// Amazon RDS provides an HTTP endpoint to run SQL statements on an Amazon
-/// Aurora Serverless DB cluster. To run these statements, you work with the
+/// Aurora Serverless v1 DB cluster. To run these statements, you work with the
 /// Data Service API.
+/// <note>
+/// The Data Service API isn't supported on Amazon Aurora Serverless v2 DB
+/// clusters.
+/// </note>
+/// For more information about the Data Service API, see <a
+/// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html">Using
+/// the Data API</a> in the <i>Amazon Aurora User Guide</i>.
 class RDSDataService {
   final _s.RestJsonProtocol _protocol;
   RDSDataService({
@@ -56,12 +63,24 @@ class RDSDataService {
   /// DML statement with different parameter sets. Bulk operations can provide a
   /// significant performance improvement over individual insert and update
   /// operations.
-  /// <important>
+  /// <note>
   /// If a call isn't part of a transaction because it doesn't include the
   /// <code>transactionID</code> parameter, changes that result from the call
   /// are committed automatically.
-  /// </important>
   ///
+  /// There isn't a fixed upper limit on the number of parameter sets. However,
+  /// the maximum size of the HTTP request submitted through the Data API is 4
+  /// MiB. If the request exceeds this limit, the Data API returns an error and
+  /// doesn't process the request. This 4-MiB limit includes the size of the
+  /// HTTP headers and the JSON notation in the request. Thus, the number of
+  /// parameter sets that you can include depends on a combination of factors,
+  /// such as the size of the SQL statement and the size of each parameter set.
+  ///
+  /// The response size limit is 1 MiB. If the call returns more than 1 MiB of
+  /// response data, the call is terminated.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
   /// May throw [StatementTimeoutException].
   /// May throw [InternalServerErrorException].
@@ -72,10 +91,16 @@ class RDSDataService {
   /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
   ///
   /// Parameter [secretArn] :
-  /// The name or ARN of the secret that enables access to the DB cluster.
+  /// The ARN of the secret that enables access to the DB cluster. Enter the
+  /// database user name and password for the credentials in the secret.
+  ///
+  /// For information about creating the secret, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_database_secret.html">Create
+  /// a database secret</a>.
   ///
   /// Parameter [sql] :
-  /// The SQL statement to run.
+  /// The SQL statement to run. Don't include a semicolon (;) at the end of the
+  /// SQL statement.
   ///
   /// Parameter [database] :
   /// The name of the database.
@@ -101,6 +126,9 @@ class RDSDataService {
   ///
   /// Parameter [schema] :
   /// The name of the database schema.
+  /// <note>
+  /// Currently, the <code>schema</code> parameter isn't supported.
+  /// </note>
   ///
   /// Parameter [transactionId] :
   /// The identifier of a transaction that was started by using the
@@ -137,17 +165,21 @@ class RDSDataService {
   }
 
   /// Starts a SQL transaction.
-  /// <pre><code> &lt;important&gt; &lt;p&gt;A transaction can run for a maximum
-  /// of 24 hours. A transaction is terminated and rolled back automatically
-  /// after 24 hours.&lt;/p&gt; &lt;p&gt;A transaction times out if no calls use
-  /// its transaction ID in three minutes. If a transaction times out before
-  /// it's committed, it's rolled back automatically.&lt;/p&gt; &lt;p&gt;DDL
-  /// statements inside a transaction cause an implicit commit. We recommend
-  /// that you run each DDL statement in a separate
-  /// &lt;code&gt;ExecuteStatement&lt;/code&gt; call with
-  /// &lt;code&gt;continueAfterTimeout&lt;/code&gt; enabled.&lt;/p&gt;
-  /// &lt;/important&gt; </code></pre>
+  /// <note>
+  /// A transaction can run for a maximum of 24 hours. A transaction is
+  /// terminated and rolled back automatically after 24 hours.
   ///
+  /// A transaction times out if no calls use its transaction ID in three
+  /// minutes. If a transaction times out before it's committed, it's rolled
+  /// back automatically.
+  ///
+  /// DDL statements inside a transaction cause an implicit commit. We recommend
+  /// that you run each DDL statement in a separate
+  /// <code>ExecuteStatement</code> call with <code>continueAfterTimeout</code>
+  /// enabled.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
   /// May throw [StatementTimeoutException].
   /// May throw [InternalServerErrorException].
@@ -189,6 +221,7 @@ class RDSDataService {
   /// Ends a SQL transaction started with the <code>BeginTransaction</code>
   /// operation and commits the changes.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
   /// May throw [StatementTimeoutException].
   /// May throw [InternalServerErrorException].
@@ -224,11 +257,12 @@ class RDSDataService {
   }
 
   /// Runs one or more SQL statements.
-  /// <important>
+  /// <note>
   /// This operation is deprecated. Use the <code>BatchExecuteStatement</code>
   /// or <code>ExecuteStatement</code> operation.
-  /// </important>
+  /// </note>
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
@@ -236,7 +270,12 @@ class RDSDataService {
   ///
   /// Parameter [awsSecretStoreArn] :
   /// The Amazon Resource Name (ARN) of the secret that enables access to the DB
-  /// cluster.
+  /// cluster. Enter the database user name and password for the credentials in
+  /// the secret.
+  ///
+  /// For information about creating the secret, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_database_secret.html">Create
+  /// a database secret</a>.
   ///
   /// Parameter [dbClusterOrInstanceArn] :
   /// The ARN of the Aurora Serverless DB cluster.
@@ -278,14 +317,16 @@ class RDSDataService {
   }
 
   /// Runs a SQL statement against a database.
-  /// <important>
+  /// <note>
   /// If a call isn't part of a transaction because it doesn't include the
   /// <code>transactionID</code> parameter, changes that result from the call
   /// are committed automatically.
-  /// </important>
-  /// The response size limit is 1 MB. If the call returns more than 1 MB of
-  /// response data, the call is terminated.
   ///
+  /// If the binary response data from the database is more than 1 MB, the call
+  /// is terminated.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
   /// May throw [StatementTimeoutException].
   /// May throw [InternalServerErrorException].
@@ -296,7 +337,12 @@ class RDSDataService {
   /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
   ///
   /// Parameter [secretArn] :
-  /// The name or ARN of the secret that enables access to the DB cluster.
+  /// The ARN of the secret that enables access to the DB cluster. Enter the
+  /// database user name and password for the credentials in the secret.
+  ///
+  /// For information about creating the secret, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_database_secret.html">Create
+  /// a database secret</a>.
   ///
   /// Parameter [sql] :
   /// The SQL statement to run.
@@ -305,14 +351,26 @@ class RDSDataService {
   /// A value that indicates whether to continue running the statement after the
   /// call times out. By default, the statement stops running when the call
   /// times out.
-  /// <important>
+  /// <note>
   /// For DDL statements, we recommend continuing to run the statement after the
   /// call times out. When a DDL statement terminates before it is finished
   /// running, it can result in errors and possibly corrupted data structures.
-  /// </important>
+  /// </note>
   ///
   /// Parameter [database] :
   /// The name of the database.
+  ///
+  /// Parameter [formatRecordsAs] :
+  /// A value that indicates whether to format the result set as a single JSON
+  /// string. This parameter only applies to <code>SELECT</code> statements and
+  /// is ignored for other types of statements. Allowed values are
+  /// <code>NONE</code> and <code>JSON</code>. The default value is
+  /// <code>NONE</code>. The result is returned in the
+  /// <code>formattedRecords</code> field.
+  ///
+  /// For usage information about the JSON format for result sets, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html">Using
+  /// the Data API</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// Parameter [includeResultMetadata] :
   /// A value that indicates whether to include metadata in the results.
@@ -328,6 +386,9 @@ class RDSDataService {
   ///
   /// Parameter [schema] :
   /// The name of the database schema.
+  /// <note>
+  /// Currently, the <code>schema</code> parameter isn't supported.
+  /// </note>
   ///
   /// Parameter [transactionId] :
   /// The identifier of a transaction that was started by using the
@@ -342,6 +403,7 @@ class RDSDataService {
     required String sql,
     bool? continueAfterTimeout,
     String? database,
+    RecordsFormatType? formatRecordsAs,
     bool? includeResultMetadata,
     List<SqlParameter>? parameters,
     ResultSetOptions? resultSetOptions,
@@ -355,6 +417,7 @@ class RDSDataService {
       if (continueAfterTimeout != null)
         'continueAfterTimeout': continueAfterTimeout,
       if (database != null) 'database': database,
+      if (formatRecordsAs != null) 'formatRecordsAs': formatRecordsAs.toValue(),
       if (includeResultMetadata != null)
         'includeResultMetadata': includeResultMetadata,
       if (parameters != null) 'parameters': parameters,
@@ -374,6 +437,7 @@ class RDSDataService {
   /// Performs a rollback of a transaction. Rolling back a transaction cancels
   /// its changes.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
   /// May throw [StatementTimeoutException].
   /// May throw [InternalServerErrorException].
@@ -417,10 +481,10 @@ class ArrayValue {
   /// An array of Boolean values.
   final List<bool>? booleanValues;
 
-  /// An array of integers.
+  /// An array of floating-point numbers.
   final List<double>? doubleValues;
 
-  /// An array of floating point numbers.
+  /// An array of integers.
   final List<int>? longValues;
 
   /// An array of strings.
@@ -433,6 +497,7 @@ class ArrayValue {
     this.longValues,
     this.stringValues,
   });
+
   factory ArrayValue.fromJson(Map<String, dynamic> json) {
     return ArrayValue(
       arrayValues: (json['arrayValues'] as List?)
@@ -483,6 +548,7 @@ class BatchExecuteStatementResponse {
   BatchExecuteStatementResponse({
     this.updateResults,
   });
+
   factory BatchExecuteStatementResponse.fromJson(Map<String, dynamic> json) {
     return BatchExecuteStatementResponse(
       updateResults: (json['updateResults'] as List?)
@@ -502,6 +568,7 @@ class BeginTransactionResponse {
   BeginTransactionResponse({
     this.transactionId,
   });
+
   factory BeginTransactionResponse.fromJson(Map<String, dynamic> json) {
     return BeginTransactionResponse(
       transactionId: json['transactionId'] as String?,
@@ -569,6 +636,7 @@ class ColumnMetadata {
     this.type,
     this.typeName,
   });
+
   factory ColumnMetadata.fromJson(Map<String, dynamic> json) {
     return ColumnMetadata(
       arrayBaseColumnType: json['arrayBaseColumnType'] as int?,
@@ -597,6 +665,7 @@ class CommitTransactionResponse {
   CommitTransactionResponse({
     this.transactionStatus,
   });
+
   factory CommitTransactionResponse.fromJson(Map<String, dynamic> json) {
     return CommitTransactionResponse(
       transactionStatus: json['transactionStatus'] as String?,
@@ -605,17 +674,17 @@ class CommitTransactionResponse {
 }
 
 enum DecimalReturnType {
-  doubleOrLong,
   string,
+  doubleOrLong,
 }
 
 extension DecimalReturnTypeValueExtension on DecimalReturnType {
   String toValue() {
     switch (this) {
-      case DecimalReturnType.doubleOrLong:
-        return 'DOUBLE_OR_LONG';
       case DecimalReturnType.string:
         return 'STRING';
+      case DecimalReturnType.doubleOrLong:
+        return 'DOUBLE_OR_LONG';
     }
   }
 }
@@ -623,10 +692,10 @@ extension DecimalReturnTypeValueExtension on DecimalReturnType {
 extension DecimalReturnTypeFromString on String {
   DecimalReturnType toDecimalReturnType() {
     switch (this) {
-      case 'DOUBLE_OR_LONG':
-        return DecimalReturnType.doubleOrLong;
       case 'STRING':
         return DecimalReturnType.string;
+      case 'DOUBLE_OR_LONG':
+        return DecimalReturnType.doubleOrLong;
     }
     throw Exception('$this is not known in enum DecimalReturnType');
   }
@@ -641,6 +710,7 @@ class ExecuteSqlResponse {
   ExecuteSqlResponse({
     this.sqlStatementResults,
   });
+
   factory ExecuteSqlResponse.fromJson(Map<String, dynamic> json) {
     return ExecuteSqlResponse(
       sqlStatementResults: (json['sqlStatementResults'] as List?)
@@ -654,10 +724,20 @@ class ExecuteSqlResponse {
 /// The response elements represent the output of a request to run a SQL
 /// statement against a database.
 class ExecuteStatementResponse {
-  /// Metadata for the columns included in the results.
+  /// Metadata for the columns included in the results. This field is blank if the
+  /// <code>formatRecordsAs</code> parameter is set to <code>JSON</code>.
   final List<ColumnMetadata>? columnMetadata;
 
-  /// Values for fields generated during the request.
+  /// A string value that represents the result set of a <code>SELECT</code>
+  /// statement in JSON format. This value is only present when the
+  /// <code>formatRecordsAs</code> parameter is set to <code>JSON</code>.
+  ///
+  /// The size limit for this field is currently 10 MB. If the JSON-formatted
+  /// string representing the result set requires more than 10 MB, the call
+  /// returns an error.
+  final String? formattedRecords;
+
+  /// Values for fields generated during a DML request.
   /// <pre><code> &lt;note&gt; &lt;p&gt;The
   /// &lt;code&gt;generatedFields&lt;/code&gt; data isn't supported by Aurora
   /// PostgreSQL. To get the values of generated fields, use the
@@ -670,21 +750,25 @@ class ExecuteStatementResponse {
   /// The number of records updated by the request.
   final int? numberOfRecordsUpdated;
 
-  /// The records returned by the SQL statement.
+  /// The records returned by the SQL statement. This field is blank if the
+  /// <code>formatRecordsAs</code> parameter is set to <code>JSON</code>.
   final List<List<Field>>? records;
 
   ExecuteStatementResponse({
     this.columnMetadata,
+    this.formattedRecords,
     this.generatedFields,
     this.numberOfRecordsUpdated,
     this.records,
   });
+
   factory ExecuteStatementResponse.fromJson(Map<String, dynamic> json) {
     return ExecuteStatementResponse(
       columnMetadata: (json['columnMetadata'] as List?)
           ?.whereNotNull()
           .map((e) => ColumnMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
+      formattedRecords: json['formattedRecords'] as String?,
       generatedFields: (json['generatedFields'] as List?)
           ?.whereNotNull()
           .map((e) => Field.fromJson(e as Map<String, dynamic>))
@@ -733,6 +817,7 @@ class Field {
     this.longValue,
     this.stringValue,
   });
+
   factory Field.fromJson(Map<String, dynamic> json) {
     return Field(
       arrayValue: json['arrayValue'] != null
@@ -767,7 +852,40 @@ class Field {
   }
 }
 
+enum LongReturnType {
+  string,
+  long,
+}
+
+extension LongReturnTypeValueExtension on LongReturnType {
+  String toValue() {
+    switch (this) {
+      case LongReturnType.string:
+        return 'STRING';
+      case LongReturnType.long:
+        return 'LONG';
+    }
+  }
+}
+
+extension LongReturnTypeFromString on String {
+  LongReturnType toLongReturnType() {
+    switch (this) {
+      case 'STRING':
+        return LongReturnType.string;
+      case 'LONG':
+        return LongReturnType.long;
+    }
+    throw Exception('$this is not known in enum LongReturnType');
+  }
+}
+
 /// A record returned by a call.
+/// <note>
+/// This data structure is only used with the deprecated <code>ExecuteSql</code>
+/// operation. Use the <code>BatchExecuteStatement</code> or
+/// <code>ExecuteStatement</code> operation instead.
+/// </note>
 class Record {
   /// The values returned in the record.
   final List<Value>? values;
@@ -775,6 +893,7 @@ class Record {
   Record({
     this.values,
   });
+
   factory Record.fromJson(Map<String, dynamic> json) {
     return Record(
       values: (json['values'] as List?)
@@ -785,7 +904,40 @@ class Record {
   }
 }
 
+enum RecordsFormatType {
+  none,
+  json,
+}
+
+extension RecordsFormatTypeValueExtension on RecordsFormatType {
+  String toValue() {
+    switch (this) {
+      case RecordsFormatType.none:
+        return 'NONE';
+      case RecordsFormatType.json:
+        return 'JSON';
+    }
+  }
+}
+
+extension RecordsFormatTypeFromString on String {
+  RecordsFormatType toRecordsFormatType() {
+    switch (this) {
+      case 'NONE':
+        return RecordsFormatType.none;
+      case 'JSON':
+        return RecordsFormatType.json;
+    }
+    throw Exception('$this is not known in enum RecordsFormatType');
+  }
+}
+
 /// The result set returned by a SQL statement.
+/// <note>
+/// This data structure is only used with the deprecated <code>ExecuteSql</code>
+/// operation. Use the <code>BatchExecuteStatement</code> or
+/// <code>ExecuteStatement</code> operation instead.
+/// </note>
 class ResultFrame {
   /// The records in the result set.
   final List<Record>? records;
@@ -797,6 +949,7 @@ class ResultFrame {
     this.records,
     this.resultSetMetadata,
   });
+
   factory ResultFrame.fromJson(Map<String, dynamic> json) {
     return ResultFrame(
       records: (json['records'] as List?)
@@ -823,6 +976,7 @@ class ResultSetMetadata {
     this.columnCount,
     this.columnMetadata,
   });
+
   factory ResultSetMetadata.fromJson(Map<String, dynamic> json) {
     return ResultSetMetadata(
       columnCount: json['columnCount'] as int?,
@@ -841,21 +995,30 @@ class ResultSetOptions {
   /// specifies that it is converted to a String value. The value of
   /// <code>DOUBLE_OR_LONG</code> specifies that it is converted to a Long value
   /// if its scale is 0, or to a Double value otherwise.
-  /// <important>
+  /// <note>
   /// Conversion to Double or Long can result in roundoff errors due to precision
   /// loss. We recommend converting to String, especially when working with
   /// currency values.
-  /// </important>
+  /// </note>
   final DecimalReturnType? decimalReturnType;
+
+  /// A value that indicates how a field of <code>LONG</code> type is represented.
+  /// Allowed values are <code>LONG</code> and <code>STRING</code>. The default is
+  /// <code>LONG</code>. Specify <code>STRING</code> if the length or precision of
+  /// numeric values might cause truncation or rounding errors.
+  final LongReturnType? longReturnType;
 
   ResultSetOptions({
     this.decimalReturnType,
+    this.longReturnType,
   });
   Map<String, dynamic> toJson() {
     final decimalReturnType = this.decimalReturnType;
+    final longReturnType = this.longReturnType;
     return {
       if (decimalReturnType != null)
         'decimalReturnType': decimalReturnType.toValue(),
+      if (longReturnType != null) 'longReturnType': longReturnType.toValue(),
     };
   }
 }
@@ -869,6 +1032,7 @@ class RollbackTransactionResponse {
   RollbackTransactionResponse({
     this.transactionStatus,
   });
+
   factory RollbackTransactionResponse.fromJson(Map<String, dynamic> json) {
     return RollbackTransactionResponse(
       transactionStatus: json['transactionStatus'] as String?,
@@ -882,18 +1046,21 @@ class SqlParameter {
   final String? name;
 
   /// A hint that specifies the correct object type for data type mapping.
-  ///
-  /// <b>Values:</b>
+  /// Possible values are as follows:
   ///
   /// <ul>
+  /// <li>
+  /// <code>DATE</code> - The corresponding <code>String</code> parameter value is
+  /// sent as an object of <code>DATE</code> type to the database. The accepted
+  /// format is <code>YYYY-MM-DD</code>.
+  /// </li>
   /// <li>
   /// <code>DECIMAL</code> - The corresponding <code>String</code> parameter value
   /// is sent as an object of <code>DECIMAL</code> type to the database.
   /// </li>
   /// <li>
-  /// <code>TIMESTAMP</code> - The corresponding <code>String</code> parameter
-  /// value is sent as an object of <code>TIMESTAMP</code> type to the database.
-  /// The accepted format is <code>YYYY-MM-DD HH:MM:SS[.FFF]</code>.
+  /// <code>JSON</code> - The corresponding <code>String</code> parameter value is
+  /// sent as an object of <code>JSON</code> type to the database.
   /// </li>
   /// <li>
   /// <code>TIME</code> - The corresponding <code>String</code> parameter value is
@@ -901,9 +1068,13 @@ class SqlParameter {
   /// format is <code>HH:MM:SS[.FFF]</code>.
   /// </li>
   /// <li>
-  /// <code>DATE</code> - The corresponding <code>String</code> parameter value is
-  /// sent as an object of <code>DATE</code> type to the database. The accepted
-  /// format is <code>YYYY-MM-DD</code>.
+  /// <code>TIMESTAMP</code> - The corresponding <code>String</code> parameter
+  /// value is sent as an object of <code>TIMESTAMP</code> type to the database.
+  /// The accepted format is <code>YYYY-MM-DD HH:MM:SS[.FFF]</code>.
+  /// </li>
+  /// <li>
+  /// <code>UUID</code> - The corresponding <code>String</code> parameter value is
+  /// sent as an object of <code>UUID</code> type to the database.
   /// </li>
   /// </ul>
   final TypeHint? typeHint;
@@ -929,8 +1100,11 @@ class SqlParameter {
 }
 
 /// The result of a SQL statement.
-/// <pre><code> &lt;important&gt; &lt;p&gt;This data type is
-/// deprecated.&lt;/p&gt; &lt;/important&gt; </code></pre>
+/// <pre><code> &lt;note&gt; &lt;p&gt;This data structure is only used with the
+/// deprecated &lt;code&gt;ExecuteSql&lt;/code&gt; operation. Use the
+/// &lt;code&gt;BatchExecuteStatement&lt;/code&gt; or
+/// &lt;code&gt;ExecuteStatement&lt;/code&gt; operation instead.&lt;/p&gt;
+/// &lt;/note&gt; </code></pre>
 class SqlStatementResult {
   /// The number of records updated by a SQL statement.
   final int? numberOfRecordsUpdated;
@@ -942,6 +1116,7 @@ class SqlStatementResult {
     this.numberOfRecordsUpdated,
     this.resultFrame,
   });
+
   factory SqlStatementResult.fromJson(Map<String, dynamic> json) {
     return SqlStatementResult(
       numberOfRecordsUpdated: json['numberOfRecordsUpdated'] as int?,
@@ -953,6 +1128,11 @@ class SqlStatementResult {
 }
 
 /// A structure value returned by a call.
+/// <note>
+/// This data structure is only used with the deprecated <code>ExecuteSql</code>
+/// operation. Use the <code>BatchExecuteStatement</code> or
+/// <code>ExecuteStatement</code> operation instead.
+/// </note>
 class StructValue {
   /// The attributes returned in the record.
   final List<Value>? attributes;
@@ -960,6 +1140,7 @@ class StructValue {
   StructValue({
     this.attributes,
   });
+
   factory StructValue.fromJson(Map<String, dynamic> json) {
     return StructValue(
       attributes: (json['attributes'] as List?)
@@ -971,23 +1152,29 @@ class StructValue {
 }
 
 enum TypeHint {
-  date,
-  decimal,
-  time,
+  json,
+  uuid,
   timestamp,
+  date,
+  time,
+  decimal,
 }
 
 extension TypeHintValueExtension on TypeHint {
   String toValue() {
     switch (this) {
-      case TypeHint.date:
-        return 'DATE';
-      case TypeHint.decimal:
-        return 'DECIMAL';
-      case TypeHint.time:
-        return 'TIME';
+      case TypeHint.json:
+        return 'JSON';
+      case TypeHint.uuid:
+        return 'UUID';
       case TypeHint.timestamp:
         return 'TIMESTAMP';
+      case TypeHint.date:
+        return 'DATE';
+      case TypeHint.time:
+        return 'TIME';
+      case TypeHint.decimal:
+        return 'DECIMAL';
     }
   }
 }
@@ -995,14 +1182,18 @@ extension TypeHintValueExtension on TypeHint {
 extension TypeHintFromString on String {
   TypeHint toTypeHint() {
     switch (this) {
-      case 'DATE':
-        return TypeHint.date;
-      case 'DECIMAL':
-        return TypeHint.decimal;
-      case 'TIME':
-        return TypeHint.time;
+      case 'JSON':
+        return TypeHint.json;
+      case 'UUID':
+        return TypeHint.uuid;
       case 'TIMESTAMP':
         return TypeHint.timestamp;
+      case 'DATE':
+        return TypeHint.date;
+      case 'TIME':
+        return TypeHint.time;
+      case 'DECIMAL':
+        return TypeHint.decimal;
     }
     throw Exception('$this is not known in enum TypeHint');
   }
@@ -1016,6 +1207,7 @@ class UpdateResult {
   UpdateResult({
     this.generatedFields,
   });
+
   factory UpdateResult.fromJson(Map<String, dynamic> json) {
     return UpdateResult(
       generatedFields: (json['generatedFields'] as List?)
@@ -1027,8 +1219,11 @@ class UpdateResult {
 }
 
 /// Contains the value of a column.
-/// <pre><code> &lt;important&gt; &lt;p&gt;This data type is
-/// deprecated.&lt;/p&gt; &lt;/important&gt; </code></pre>
+/// <pre><code> &lt;note&gt; &lt;p&gt;This data structure is only used with the
+/// deprecated &lt;code&gt;ExecuteSql&lt;/code&gt; operation. Use the
+/// &lt;code&gt;BatchExecuteStatement&lt;/code&gt; or
+/// &lt;code&gt;ExecuteStatement&lt;/code&gt; operation instead.&lt;/p&gt;
+/// &lt;/note&gt; </code></pre>
 class Value {
   /// An array of column values.
   final List<Value>? arrayValues;
@@ -1072,6 +1267,7 @@ class Value {
     this.stringValue,
     this.structValue,
   });
+
   factory Value.fromJson(Map<String, dynamic> json) {
     return Value(
       arrayValues: (json['arrayValues'] as List?)
@@ -1091,6 +1287,11 @@ class Value {
           : null,
     );
   }
+}
+
+class AccessDeniedException extends _s.GenericAwsException {
+  AccessDeniedException({String? type, String? message})
+      : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class BadRequestException extends _s.GenericAwsException {
@@ -1125,6 +1326,8 @@ class StatementTimeoutException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'AccessDeniedException': (type, message) =>
+      AccessDeniedException(type: type, message: message),
   'BadRequestException': (type, message) =>
       BadRequestException(type: type, message: message),
   'ForbiddenException': (type, message) =>

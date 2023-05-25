@@ -331,6 +331,7 @@ class MediaStoreData {
 
 class DeleteObjectResponse {
   DeleteObjectResponse();
+
   factory DeleteObjectResponse.fromJson(Map<String, dynamic> _) {
     return DeleteObjectResponse();
   }
@@ -438,6 +439,7 @@ class Item {
     this.name,
     this.type,
   });
+
   factory Item.fromJson(Map<String, dynamic> json) {
     return Item(
       contentLength: json['ContentLength'] as int?,
@@ -493,6 +495,7 @@ class ListItemsResponse {
     this.items,
     this.nextToken,
   });
+
   factory ListItemsResponse.fromJson(Map<String, dynamic> json) {
     return ListItemsResponse(
       items: (json['Items'] as List?)
@@ -520,6 +523,7 @@ class PutObjectResponse {
     this.eTag,
     this.storageClass,
   });
+
   factory PutObjectResponse.fromJson(Map<String, dynamic> json) {
     return PutObjectResponse(
       contentSHA256: json['ContentSHA256'] as String?,

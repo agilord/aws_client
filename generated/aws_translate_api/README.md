@@ -3,8 +3,8 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-Provides translation between one source language and another of the same set
-of languages.
+Provides translation of the input content from the source language to the
+target language.
 
 ## Links
 

@@ -1,5 +1,39 @@
 // ignore_for_file: prefer_single_quotes
 const Map<String, Map<String, dynamic>> shapesJson = {
+  "AcceleratorCountRequest": {
+    "type": "structure",
+    "members": {
+      "Min": {"shape": "NullablePositiveInteger", "flattened": false},
+      "Max": {"shape": "NullablePositiveInteger", "flattened": false}
+    },
+    "flattened": false
+  },
+  "AcceleratorManufacturer": {"type": "string", "flattened": false},
+  "AcceleratorManufacturers": {
+    "type": "list",
+    "member": {"shape": "AcceleratorManufacturer"},
+    "flattened": false
+  },
+  "AcceleratorName": {"type": "string", "flattened": false},
+  "AcceleratorNames": {
+    "type": "list",
+    "member": {"shape": "AcceleratorName"},
+    "flattened": false
+  },
+  "AcceleratorTotalMemoryMiBRequest": {
+    "type": "structure",
+    "members": {
+      "Min": {"shape": "NullablePositiveInteger", "flattened": false},
+      "Max": {"shape": "NullablePositiveInteger", "flattened": false}
+    },
+    "flattened": false
+  },
+  "AcceleratorType": {"type": "string", "flattened": false},
+  "AcceleratorTypes": {
+    "type": "list",
+    "member": {"shape": "AcceleratorType"},
+    "flattened": false
+  },
   "Activities": {
     "type": "list",
     "member": {"shape": "Activity"},
@@ -28,7 +62,12 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "StatusCode": {"shape": "ScalingActivityStatusCode", "flattened": false},
       "StatusMessage": {"shape": "XmlStringMaxLen255", "flattened": false},
       "Progress": {"shape": "Progress", "flattened": false},
-      "Details": {"shape": "XmlString", "flattened": false}
+      "Details": {"shape": "XmlString", "flattened": false},
+      "AutoScalingGroupState": {
+        "shape": "AutoScalingGroupState",
+        "flattened": false
+      },
+      "AutoScalingGroupARN": {"shape": "ResourceName", "flattened": false}
     },
     "flattened": false
   },
@@ -67,6 +106,12 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "Alarms": {
     "type": "list",
     "member": {"shape": "Alarm"},
+    "flattened": false
+  },
+  "AllowedInstanceType": {"type": "string", "flattened": false},
+  "AllowedInstanceTypes": {
+    "type": "list",
+    "member": {"shape": "AllowedInstanceType"},
     "flattened": false
   },
   "AsciiStringMaxLen255": {"type": "string", "flattened": false},
@@ -114,6 +159,23 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "AttachTrafficSourcesResultType": {
+    "type": "structure",
+    "members": {},
+    "flattened": false
+  },
+  "AttachTrafficSourcesType": {
+    "type": "structure",
+    "members": {
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "TrafficSources": {"shape": "TrafficSources", "flattened": false}
+    },
+    "flattened": false
+  },
+  "AutoRollback": {"type": "boolean", "flattened": false},
   "AutoScalingGroup": {
     "type": "structure",
     "members": {
@@ -138,6 +200,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "MaxSize": {"shape": "AutoScalingGroupMaxSize", "flattened": false},
       "DesiredCapacity": {
         "shape": "AutoScalingGroupDesiredCapacity",
+        "flattened": false
+      },
+      "PredictedCapacity": {
+        "shape": "AutoScalingGroupPredictedCapacity",
         "flattened": false
       },
       "DefaultCooldown": {"shape": "Cooldown", "flattened": false},
@@ -173,7 +239,22 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "CapacityRebalance": {
         "shape": "CapacityRebalanceEnabled",
         "flattened": false
-      }
+      },
+      "WarmPoolConfiguration": {
+        "shape": "WarmPoolConfiguration",
+        "flattened": false
+      },
+      "WarmPoolSize": {"shape": "WarmPoolSize", "flattened": false},
+      "Context": {"shape": "Context", "flattened": false},
+      "DesiredCapacityType": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "DefaultInstanceWarmup": {
+        "shape": "DefaultInstanceWarmup",
+        "flattened": false
+      },
+      "TrafficSources": {"shape": "TrafficSources", "flattened": false}
     },
     "flattened": false
   },
@@ -193,10 +274,13 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "NextToken": {"shape": "XmlString", "flattened": false},
-      "MaxRecords": {"shape": "MaxRecords", "flattened": false}
+      "MaxRecords": {"shape": "MaxRecords", "flattened": false},
+      "Filters": {"shape": "Filters", "flattened": false}
     },
     "flattened": false
   },
+  "AutoScalingGroupPredictedCapacity": {"type": "integer", "flattened": false},
+  "AutoScalingGroupState": {"type": "string", "flattened": false},
   "AutoScalingGroups": {
     "type": "list",
     "member": {"shape": "AutoScalingGroup"},
@@ -264,6 +348,15 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "XmlStringMaxLen255"},
     "flattened": false
   },
+  "BareMetal": {"type": "string", "flattened": false},
+  "BaselineEbsBandwidthMbpsRequest": {
+    "type": "structure",
+    "members": {
+      "Min": {"shape": "NullablePositiveInteger", "flattened": false},
+      "Max": {"shape": "NullablePositiveInteger", "flattened": false}
+    },
+    "flattened": false
+  },
   "BatchDeleteScheduledActionAnswer": {
     "type": "structure",
     "members": {
@@ -315,6 +408,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "BlockDeviceEbsDeleteOnTermination": {"type": "boolean", "flattened": false},
   "BlockDeviceEbsEncrypted": {"type": "boolean", "flattened": false},
   "BlockDeviceEbsIops": {"type": "integer", "flattened": false},
+  "BlockDeviceEbsThroughput": {"type": "integer", "flattened": false},
   "BlockDeviceEbsVolumeSize": {"type": "integer", "flattened": false},
   "BlockDeviceEbsVolumeType": {"type": "string", "flattened": false},
   "BlockDeviceMapping": {
@@ -332,6 +426,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "BlockDeviceMapping"},
     "flattened": false
   },
+  "BurstablePerformance": {"type": "string", "flattened": false},
   "CancelInstanceRefreshAnswer": {
     "type": "structure",
     "members": {
@@ -349,7 +444,24 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "CapacityForecast": {
+    "type": "structure",
+    "members": {
+      "Timestamps": {
+        "shape": "PredictiveScalingForecastTimestamps",
+        "flattened": false
+      },
+      "Values": {"shape": "PredictiveScalingForecastValues", "flattened": false}
+    },
+    "flattened": false
+  },
   "CapacityRebalanceEnabled": {"type": "boolean", "flattened": false},
+  "CheckpointDelay": {"type": "integer", "flattened": false},
+  "CheckpointPercentages": {
+    "type": "list",
+    "member": {"shape": "NonZeroIntPercent"},
+    "flattened": false
+  },
   "ClassicLinkVPCSecurityGroups": {
     "type": "list",
     "member": {"shape": "XmlStringMaxLen255"},
@@ -380,7 +492,14 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "Context": {"type": "string", "flattened": false},
   "Cooldown": {"type": "integer", "flattened": false},
+  "CpuManufacturer": {"type": "string", "flattened": false},
+  "CpuManufacturers": {
+    "type": "list",
+    "member": {"shape": "CpuManufacturer"},
+    "flattened": false
+  },
   "CreateAutoScalingGroupType": {
     "type": "structure",
     "members": {
@@ -439,7 +558,17 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "MaxInstanceLifetime": {
         "shape": "MaxInstanceLifetime",
         "flattened": false
-      }
+      },
+      "Context": {"shape": "Context", "flattened": false},
+      "DesiredCapacityType": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "DefaultInstanceWarmup": {
+        "shape": "DefaultInstanceWarmup",
+        "flattened": false
+      },
+      "TrafficSources": {"shape": "TrafficSources", "flattened": false}
     },
     "flattened": false
   },
@@ -500,10 +629,15 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Namespace": {"shape": "MetricNamespace", "flattened": false},
       "Dimensions": {"shape": "MetricDimensions", "flattened": false},
       "Statistic": {"shape": "MetricStatistic", "flattened": false},
-      "Unit": {"shape": "MetricUnit", "flattened": false}
+      "Unit": {"shape": "MetricUnit", "flattened": false},
+      "Metrics": {
+        "shape": "TargetTrackingMetricDataQueries",
+        "flattened": false
+      }
     },
     "flattened": false
   },
+  "DefaultInstanceWarmup": {"type": "integer", "flattened": false},
   "DeleteAutoScalingGroupType": {
     "type": "structure",
     "members": {
@@ -571,6 +705,22 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "Tags": {"shape": "Tags", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DeleteWarmPoolAnswer": {
+    "type": "structure",
+    "members": {},
+    "flattened": false
+  },
+  "DeleteWarmPoolType": {
+    "type": "structure",
+    "members": {
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "ForceDelete": {"shape": "ForceDelete", "flattened": false}
     },
     "flattened": false
   },
@@ -767,6 +917,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "XmlStringMaxLen255",
         "flattened": false
       },
+      "IncludeDeletedGroups": {
+        "shape": "IncludeDeletedGroups",
+        "flattened": false
+      },
       "MaxRecords": {"shape": "MaxRecords", "flattened": false},
       "NextToken": {"shape": "XmlString", "flattened": false}
     },
@@ -804,6 +958,65 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "TerminationPolicyTypes": {
         "shape": "TerminationPolicies",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "DescribeTrafficSourcesRequest": {
+    "type": "structure",
+    "members": {
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "TrafficSourceType": {"shape": "XmlStringMaxLen255", "flattened": false},
+      "NextToken": {"shape": "XmlString", "flattened": false},
+      "MaxRecords": {"shape": "MaxRecords", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeTrafficSourcesResponse": {
+    "type": "structure",
+    "members": {
+      "TrafficSources": {"shape": "TrafficSourceStates", "flattened": false},
+      "NextToken": {"shape": "XmlString", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeWarmPoolAnswer": {
+    "type": "structure",
+    "members": {
+      "WarmPoolConfiguration": {
+        "shape": "WarmPoolConfiguration",
+        "flattened": false
+      },
+      "Instances": {"shape": "Instances", "flattened": false},
+      "NextToken": {"shape": "XmlString", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeWarmPoolType": {
+    "type": "structure",
+    "members": {
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "MaxRecords": {"shape": "MaxRecords", "flattened": false},
+      "NextToken": {"shape": "XmlString", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DesiredConfiguration": {
+    "type": "structure",
+    "members": {
+      "LaunchTemplate": {
+        "shape": "LaunchTemplateSpecification",
+        "flattened": false
+      },
+      "MixedInstancesPolicy": {
+        "shape": "MixedInstancesPolicy",
         "flattened": false
       }
     },
@@ -863,6 +1076,22 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "DetachTrafficSourcesResultType": {
+    "type": "structure",
+    "members": {},
+    "flattened": false
+  },
+  "DetachTrafficSourcesType": {
+    "type": "structure",
+    "members": {
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "TrafficSources": {"shape": "TrafficSources", "flattened": false}
+    },
+    "flattened": false
+  },
   "DisableMetricsCollectionQuery": {
     "type": "structure",
     "members": {
@@ -886,7 +1115,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "Iops": {"shape": "BlockDeviceEbsIops", "flattened": false},
-      "Encrypted": {"shape": "BlockDeviceEbsEncrypted", "flattened": false}
+      "Encrypted": {"shape": "BlockDeviceEbsEncrypted", "flattened": false},
+      "Throughput": {"shape": "BlockDeviceEbsThroughput", "flattened": false}
     },
     "flattened": false
   },
@@ -939,6 +1169,12 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "EstimatedInstanceWarmup": {"type": "integer", "flattened": false},
+  "ExcludedInstance": {"type": "string", "flattened": false},
+  "ExcludedInstanceTypes": {
+    "type": "list",
+    "member": {"shape": "ExcludedInstance"},
+    "flattened": false
+  },
   "ExecutePolicyType": {
     "type": "structure",
     "members": {
@@ -1002,10 +1238,33 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "ForceDelete": {"type": "boolean", "flattened": false},
+  "GetPredictiveScalingForecastAnswer": {
+    "type": "structure",
+    "members": {
+      "LoadForecast": {"shape": "LoadForecasts", "flattened": false},
+      "CapacityForecast": {"shape": "CapacityForecast", "flattened": false},
+      "UpdateTime": {"shape": "TimestampType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "GetPredictiveScalingForecastType": {
+    "type": "structure",
+    "members": {
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "PolicyName": {"shape": "XmlStringMaxLen255", "flattened": false},
+      "StartTime": {"shape": "TimestampType", "flattened": false},
+      "EndTime": {"shape": "TimestampType", "flattened": false}
+    },
+    "flattened": false
+  },
   "GlobalTimeout": {"type": "integer", "flattened": false},
   "HealthCheckGracePeriod": {"type": "integer", "flattened": false},
   "HeartbeatTimeout": {"type": "integer", "flattened": false},
   "HonorCooldown": {"type": "boolean", "flattened": false},
+  "IncludeDeletedGroups": {"type": "boolean", "flattened": false},
   "Instance": {
     "type": "structure",
     "members": {
@@ -1028,6 +1287,12 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       },
       "WeightedCapacity": {"shape": "XmlStringMaxLen32", "flattened": false}
     },
+    "flattened": false
+  },
+  "InstanceGeneration": {"type": "string", "flattened": false},
+  "InstanceGenerations": {
+    "type": "list",
+    "member": {"shape": "InstanceGeneration"},
     "flattened": false
   },
   "InstanceIds": {
@@ -1080,7 +1345,17 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "StartTime": {"shape": "TimestampType", "flattened": false},
       "EndTime": {"shape": "TimestampType", "flattened": false},
       "PercentageComplete": {"shape": "IntPercent", "flattened": false},
-      "InstancesToUpdate": {"shape": "InstancesToUpdate", "flattened": false}
+      "InstancesToUpdate": {"shape": "InstancesToUpdate", "flattened": false},
+      "ProgressDetails": {
+        "shape": "InstanceRefreshProgressDetails",
+        "flattened": false
+      },
+      "Preferences": {"shape": "RefreshPreferences", "flattened": false},
+      "DesiredConfiguration": {
+        "shape": "DesiredConfiguration",
+        "flattened": false
+      },
+      "RollbackDetails": {"shape": "RollbackDetails", "flattened": false}
     },
     "flattened": false
   },
@@ -1089,10 +1364,121 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "XmlStringMaxLen255"},
     "flattened": false
   },
+  "InstanceRefreshLivePoolProgress": {
+    "type": "structure",
+    "members": {
+      "PercentageComplete": {"shape": "IntPercent", "flattened": false},
+      "InstancesToUpdate": {"shape": "InstancesToUpdate", "flattened": false}
+    },
+    "flattened": false
+  },
+  "InstanceRefreshProgressDetails": {
+    "type": "structure",
+    "members": {
+      "LivePoolProgress": {
+        "shape": "InstanceRefreshLivePoolProgress",
+        "flattened": false
+      },
+      "WarmPoolProgress": {
+        "shape": "InstanceRefreshWarmPoolProgress",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
   "InstanceRefreshStatus": {"type": "string", "flattened": false},
+  "InstanceRefreshWarmPoolProgress": {
+    "type": "structure",
+    "members": {
+      "PercentageComplete": {"shape": "IntPercent", "flattened": false},
+      "InstancesToUpdate": {"shape": "InstancesToUpdate", "flattened": false}
+    },
+    "flattened": false
+  },
   "InstanceRefreshes": {
     "type": "list",
     "member": {"shape": "InstanceRefresh"},
+    "flattened": false
+  },
+  "InstanceRequirements": {
+    "type": "structure",
+    "members": {
+      "VCpuCount": {"shape": "VCpuCountRequest", "flattened": false},
+      "MemoryMiB": {"shape": "MemoryMiBRequest", "flattened": false},
+      "CpuManufacturers": {"shape": "CpuManufacturers", "flattened": false},
+      "MemoryGiBPerVCpu": {
+        "shape": "MemoryGiBPerVCpuRequest",
+        "flattened": false
+      },
+      "ExcludedInstanceTypes": {
+        "shape": "ExcludedInstanceTypes",
+        "flattened": false
+      },
+      "InstanceGenerations": {
+        "shape": "InstanceGenerations",
+        "flattened": false
+      },
+      "SpotMaxPricePercentageOverLowestPrice": {
+        "shape": "NullablePositiveInteger",
+        "flattened": false
+      },
+      "OnDemandMaxPricePercentageOverLowestPrice": {
+        "shape": "NullablePositiveInteger",
+        "flattened": false
+      },
+      "BareMetal": {"shape": "BareMetal", "flattened": false},
+      "BurstablePerformance": {
+        "shape": "BurstablePerformance",
+        "flattened": false
+      },
+      "RequireHibernateSupport": {
+        "shape": "NullableBoolean",
+        "flattened": false
+      },
+      "NetworkInterfaceCount": {
+        "shape": "NetworkInterfaceCountRequest",
+        "flattened": false
+      },
+      "LocalStorage": {"shape": "LocalStorage", "flattened": false},
+      "LocalStorageTypes": {"shape": "LocalStorageTypes", "flattened": false},
+      "TotalLocalStorageGB": {
+        "shape": "TotalLocalStorageGBRequest",
+        "flattened": false
+      },
+      "BaselineEbsBandwidthMbps": {
+        "shape": "BaselineEbsBandwidthMbpsRequest",
+        "flattened": false
+      },
+      "AcceleratorTypes": {"shape": "AcceleratorTypes", "flattened": false},
+      "AcceleratorCount": {
+        "shape": "AcceleratorCountRequest",
+        "flattened": false
+      },
+      "AcceleratorManufacturers": {
+        "shape": "AcceleratorManufacturers",
+        "flattened": false
+      },
+      "AcceleratorNames": {"shape": "AcceleratorNames", "flattened": false},
+      "AcceleratorTotalMemoryMiB": {
+        "shape": "AcceleratorTotalMemoryMiBRequest",
+        "flattened": false
+      },
+      "NetworkBandwidthGbps": {
+        "shape": "NetworkBandwidthGbpsRequest",
+        "flattened": false
+      },
+      "AllowedInstanceTypes": {
+        "shape": "AllowedInstanceTypes",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "InstanceReusePolicy": {
+    "type": "structure",
+    "members": {
+      "ReuseOnScaleIn": {"shape": "ReuseOnScaleIn", "flattened": false}
+    },
     "flattened": false
   },
   "Instances": {
@@ -1227,6 +1613,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "LaunchTemplateSpecification": {
         "shape": "LaunchTemplateSpecification",
         "flattened": false
+      },
+      "InstanceRequirements": {
+        "shape": "InstanceRequirements",
+        "flattened": false
       }
     },
     "flattened": false
@@ -1348,10 +1738,66 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "LoadBalancerTargetGroupState"},
     "flattened": false
   },
+  "LoadForecast": {
+    "type": "structure",
+    "members": {
+      "Timestamps": {
+        "shape": "PredictiveScalingForecastTimestamps",
+        "flattened": false
+      },
+      "Values": {
+        "shape": "PredictiveScalingForecastValues",
+        "flattened": false
+      },
+      "MetricSpecification": {
+        "shape": "PredictiveScalingMetricSpecification",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "LoadForecasts": {
+    "type": "list",
+    "member": {"shape": "LoadForecast"},
+    "flattened": false
+  },
+  "LocalStorage": {"type": "string", "flattened": false},
+  "LocalStorageType": {"type": "string", "flattened": false},
+  "LocalStorageTypes": {
+    "type": "list",
+    "member": {"shape": "LocalStorageType"},
+    "flattened": false
+  },
+  "MaxGroupPreparedCapacity": {"type": "integer", "flattened": false},
   "MaxInstanceLifetime": {"type": "integer", "flattened": false},
   "MaxNumberOfAutoScalingGroups": {"type": "integer", "flattened": false},
   "MaxNumberOfLaunchConfigurations": {"type": "integer", "flattened": false},
   "MaxRecords": {"type": "integer", "flattened": false},
+  "MemoryGiBPerVCpuRequest": {
+    "type": "structure",
+    "members": {
+      "Min": {"shape": "NullablePositiveDouble", "flattened": false},
+      "Max": {"shape": "NullablePositiveDouble", "flattened": false}
+    },
+    "flattened": false
+  },
+  "MemoryMiBRequest": {
+    "type": "structure",
+    "members": {
+      "Min": {"shape": "NullablePositiveInteger", "flattened": false},
+      "Max": {"shape": "NullablePositiveInteger", "flattened": false}
+    },
+    "flattened": false
+  },
+  "Metric": {
+    "type": "structure",
+    "members": {
+      "Namespace": {"shape": "MetricNamespace", "flattened": false},
+      "MetricName": {"shape": "MetricName", "flattened": false},
+      "Dimensions": {"shape": "MetricDimensions", "flattened": false}
+    },
+    "flattened": false
+  },
   "MetricCollectionType": {
     "type": "structure",
     "members": {
@@ -1362,6 +1808,22 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "MetricCollectionTypes": {
     "type": "list",
     "member": {"shape": "MetricCollectionType"},
+    "flattened": false
+  },
+  "MetricDataQueries": {
+    "type": "list",
+    "member": {"shape": "MetricDataQuery"},
+    "flattened": false
+  },
+  "MetricDataQuery": {
+    "type": "structure",
+    "members": {
+      "Id": {"shape": "XmlStringMaxLen255", "flattened": false},
+      "Expression": {"shape": "XmlStringMaxLen1023", "flattened": false},
+      "MetricStat": {"shape": "MetricStat", "flattened": false},
+      "Label": {"shape": "XmlStringMetricLabel", "flattened": false},
+      "ReturnData": {"shape": "ReturnData", "flattened": false}
+    },
     "flattened": false
   },
   "MetricDimension": {
@@ -1394,6 +1856,15 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "MetricName": {"type": "string", "flattened": false},
   "MetricNamespace": {"type": "string", "flattened": false},
   "MetricScale": {"type": "double", "flattened": false},
+  "MetricStat": {
+    "type": "structure",
+    "members": {
+      "Metric": {"shape": "Metric", "flattened": false},
+      "Stat": {"shape": "XmlStringMetricStat", "flattened": false},
+      "Unit": {"shape": "MetricUnit", "flattened": false}
+    },
+    "flattened": false
+  },
   "MetricStatistic": {"type": "string", "flattened": false},
   "MetricType": {"type": "string", "flattened": false},
   "MetricUnit": {"type": "string", "flattened": false},
@@ -1417,7 +1888,24 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "MonitoringEnabled": {"type": "boolean", "flattened": false},
+  "NetworkBandwidthGbpsRequest": {
+    "type": "structure",
+    "members": {
+      "Min": {"shape": "NullablePositiveDouble", "flattened": false},
+      "Max": {"shape": "NullablePositiveDouble", "flattened": false}
+    },
+    "flattened": false
+  },
+  "NetworkInterfaceCountRequest": {
+    "type": "structure",
+    "members": {
+      "Min": {"shape": "NullablePositiveInteger", "flattened": false},
+      "Max": {"shape": "NullablePositiveInteger", "flattened": false}
+    },
+    "flattened": false
+  },
   "NoDevice": {"type": "boolean", "flattened": false},
+  "NonZeroIntPercent": {"type": "integer", "flattened": false},
   "NotificationConfiguration": {
     "type": "structure",
     "members": {
@@ -1436,6 +1924,9 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "NotificationTargetResourceName": {"type": "string", "flattened": false},
+  "NullableBoolean": {"type": "boolean", "flattened": false},
+  "NullablePositiveDouble": {"type": "double", "flattened": false},
+  "NullablePositiveInteger": {"type": "integer", "flattened": false},
   "NumberOfAutoScalingGroups": {"type": "integer", "flattened": false},
   "NumberOfLaunchConfigurations": {"type": "integer", "flattened": false},
   "OnDemandBaseCapacity": {"type": "integer", "flattened": false},
@@ -1475,12 +1966,148 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "XmlStringMaxLen64"},
     "flattened": false
   },
+  "PredefinedLoadMetricType": {"type": "string", "flattened": false},
+  "PredefinedMetricPairType": {"type": "string", "flattened": false},
   "PredefinedMetricSpecification": {
     "type": "structure",
     "members": {
       "PredefinedMetricType": {"shape": "MetricType", "flattened": false},
       "ResourceLabel": {"shape": "XmlStringMaxLen1023", "flattened": false}
     },
+    "flattened": false
+  },
+  "PredefinedScalingMetricType": {"type": "string", "flattened": false},
+  "PredictiveScalingConfiguration": {
+    "type": "structure",
+    "members": {
+      "MetricSpecifications": {
+        "shape": "PredictiveScalingMetricSpecifications",
+        "flattened": false
+      },
+      "Mode": {"shape": "PredictiveScalingMode", "flattened": false},
+      "SchedulingBufferTime": {
+        "shape": "PredictiveScalingSchedulingBufferTime",
+        "flattened": false
+      },
+      "MaxCapacityBreachBehavior": {
+        "shape": "PredictiveScalingMaxCapacityBreachBehavior",
+        "flattened": false
+      },
+      "MaxCapacityBuffer": {
+        "shape": "PredictiveScalingMaxCapacityBuffer",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "PredictiveScalingCustomizedCapacityMetric": {
+    "type": "structure",
+    "members": {
+      "MetricDataQueries": {"shape": "MetricDataQueries", "flattened": false}
+    },
+    "flattened": false
+  },
+  "PredictiveScalingCustomizedLoadMetric": {
+    "type": "structure",
+    "members": {
+      "MetricDataQueries": {"shape": "MetricDataQueries", "flattened": false}
+    },
+    "flattened": false
+  },
+  "PredictiveScalingCustomizedScalingMetric": {
+    "type": "structure",
+    "members": {
+      "MetricDataQueries": {"shape": "MetricDataQueries", "flattened": false}
+    },
+    "flattened": false
+  },
+  "PredictiveScalingForecastTimestamps": {
+    "type": "list",
+    "member": {"shape": "TimestampType"},
+    "flattened": false
+  },
+  "PredictiveScalingForecastValues": {
+    "type": "list",
+    "member": {"shape": "MetricScale"},
+    "flattened": false
+  },
+  "PredictiveScalingMaxCapacityBreachBehavior": {
+    "type": "string",
+    "flattened": false
+  },
+  "PredictiveScalingMaxCapacityBuffer": {"type": "integer", "flattened": false},
+  "PredictiveScalingMetricSpecification": {
+    "type": "structure",
+    "members": {
+      "TargetValue": {"shape": "MetricScale", "flattened": false},
+      "PredefinedMetricPairSpecification": {
+        "shape": "PredictiveScalingPredefinedMetricPair",
+        "flattened": false
+      },
+      "PredefinedScalingMetricSpecification": {
+        "shape": "PredictiveScalingPredefinedScalingMetric",
+        "flattened": false
+      },
+      "PredefinedLoadMetricSpecification": {
+        "shape": "PredictiveScalingPredefinedLoadMetric",
+        "flattened": false
+      },
+      "CustomizedScalingMetricSpecification": {
+        "shape": "PredictiveScalingCustomizedScalingMetric",
+        "flattened": false
+      },
+      "CustomizedLoadMetricSpecification": {
+        "shape": "PredictiveScalingCustomizedLoadMetric",
+        "flattened": false
+      },
+      "CustomizedCapacityMetricSpecification": {
+        "shape": "PredictiveScalingCustomizedCapacityMetric",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "PredictiveScalingMetricSpecifications": {
+    "type": "list",
+    "member": {"shape": "PredictiveScalingMetricSpecification"},
+    "flattened": false
+  },
+  "PredictiveScalingMode": {"type": "string", "flattened": false},
+  "PredictiveScalingPredefinedLoadMetric": {
+    "type": "structure",
+    "members": {
+      "PredefinedMetricType": {
+        "shape": "PredefinedLoadMetricType",
+        "flattened": false
+      },
+      "ResourceLabel": {"shape": "XmlStringMaxLen1023", "flattened": false}
+    },
+    "flattened": false
+  },
+  "PredictiveScalingPredefinedMetricPair": {
+    "type": "structure",
+    "members": {
+      "PredefinedMetricType": {
+        "shape": "PredefinedMetricPairType",
+        "flattened": false
+      },
+      "ResourceLabel": {"shape": "XmlStringMaxLen1023", "flattened": false}
+    },
+    "flattened": false
+  },
+  "PredictiveScalingPredefinedScalingMetric": {
+    "type": "structure",
+    "members": {
+      "PredefinedMetricType": {
+        "shape": "PredefinedScalingMetricType",
+        "flattened": false
+      },
+      "ResourceLabel": {"shape": "XmlStringMaxLen1023", "flattened": false}
+    },
+    "flattened": false
+  },
+  "PredictiveScalingSchedulingBufferTime": {
+    "type": "integer",
     "flattened": false
   },
   "ProcessNames": {
@@ -1589,7 +2216,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "TargetTrackingConfiguration",
         "flattened": false
       },
-      "Enabled": {"shape": "ScalingPolicyEnabled", "flattened": false}
+      "Enabled": {"shape": "ScalingPolicyEnabled", "flattened": false},
+      "PredictiveScalingConfiguration": {
+        "shape": "PredictiveScalingConfiguration",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -1612,6 +2243,28 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "MaxSize": {"shape": "AutoScalingGroupMaxSize", "flattened": false},
       "DesiredCapacity": {
         "shape": "AutoScalingGroupDesiredCapacity",
+        "flattened": false
+      },
+      "TimeZone": {"shape": "XmlStringMaxLen255", "flattened": false}
+    },
+    "flattened": false
+  },
+  "PutWarmPoolAnswer": {"type": "structure", "members": {}, "flattened": false},
+  "PutWarmPoolType": {
+    "type": "structure",
+    "members": {
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "MaxGroupPreparedCapacity": {
+        "shape": "MaxGroupPreparedCapacity",
+        "flattened": false
+      },
+      "MinSize": {"shape": "WarmPoolMinSize", "flattened": false},
+      "PoolState": {"shape": "WarmPoolState", "flattened": false},
+      "InstanceReusePolicy": {
+        "shape": "InstanceReusePolicy",
         "flattened": false
       }
     },
@@ -1643,12 +2296,64 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "MinHealthyPercentage": {"shape": "IntPercent", "flattened": false},
-      "InstanceWarmup": {"shape": "RefreshInstanceWarmup", "flattened": false}
+      "InstanceWarmup": {"shape": "RefreshInstanceWarmup", "flattened": false},
+      "CheckpointPercentages": {
+        "shape": "CheckpointPercentages",
+        "flattened": false
+      },
+      "CheckpointDelay": {"shape": "CheckpointDelay", "flattened": false},
+      "SkipMatching": {"shape": "SkipMatching", "flattened": false},
+      "AutoRollback": {"shape": "AutoRollback", "flattened": false},
+      "ScaleInProtectedInstances": {
+        "shape": "ScaleInProtectedInstances",
+        "flattened": false
+      },
+      "StandbyInstances": {"shape": "StandbyInstances", "flattened": false}
     },
     "flattened": false
   },
   "RefreshStrategy": {"type": "string", "flattened": false},
   "ResourceName": {"type": "string", "flattened": false},
+  "ReturnData": {"type": "boolean", "flattened": false},
+  "ReuseOnScaleIn": {"type": "boolean", "flattened": false},
+  "RollbackDetails": {
+    "type": "structure",
+    "members": {
+      "RollbackReason": {"shape": "XmlStringMaxLen1023", "flattened": false},
+      "RollbackStartTime": {"shape": "TimestampType", "flattened": false},
+      "PercentageCompleteOnRollback": {
+        "shape": "IntPercent",
+        "flattened": false
+      },
+      "InstancesToUpdateOnRollback": {
+        "shape": "InstancesToUpdate",
+        "flattened": false
+      },
+      "ProgressDetailsOnRollback": {
+        "shape": "InstanceRefreshProgressDetails",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "RollbackInstanceRefreshAnswer": {
+    "type": "structure",
+    "members": {
+      "InstanceRefreshId": {"shape": "XmlStringMaxLen255", "flattened": false}
+    },
+    "flattened": false
+  },
+  "RollbackInstanceRefreshType": {
+    "type": "structure",
+    "members": {
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "ScaleInProtectedInstances": {"type": "string", "flattened": false},
   "ScalingActivityStatusCode": {"type": "string", "flattened": false},
   "ScalingPolicies": {
     "type": "list",
@@ -1687,7 +2392,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "TargetTrackingConfiguration",
         "flattened": false
       },
-      "Enabled": {"shape": "ScalingPolicyEnabled", "flattened": false}
+      "Enabled": {"shape": "ScalingPolicyEnabled", "flattened": false},
+      "PredictiveScalingConfiguration": {
+        "shape": "PredictiveScalingConfiguration",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -1740,7 +2449,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "DesiredCapacity": {
         "shape": "AutoScalingGroupDesiredCapacity",
         "flattened": false
-      }
+      },
+      "TimeZone": {"shape": "XmlStringMaxLen255", "flattened": false}
     },
     "flattened": false
   },
@@ -1759,7 +2469,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "DesiredCapacity": {
         "shape": "AutoScalingGroupDesiredCapacity",
         "flattened": false
-      }
+      },
+      "TimeZone": {"shape": "XmlStringMaxLen255", "flattened": false}
     },
     "flattened": false
   },
@@ -1827,8 +2538,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   },
   "ShouldDecrementDesiredCapacity": {"type": "boolean", "flattened": false},
   "ShouldRespectGracePeriod": {"type": "boolean", "flattened": false},
+  "SkipMatching": {"type": "boolean", "flattened": false},
   "SpotInstancePools": {"type": "integer", "flattened": false},
   "SpotPrice": {"type": "string", "flattened": false},
+  "StandbyInstances": {"type": "string", "flattened": false},
   "StartInstanceRefreshAnswer": {
     "type": "structure",
     "members": {
@@ -1844,6 +2557,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "Strategy": {"shape": "RefreshStrategy", "flattened": false},
+      "DesiredConfiguration": {
+        "shape": "DesiredConfiguration",
+        "flattened": false
+      },
       "Preferences": {"shape": "RefreshPreferences", "flattened": false}
     },
     "flattened": false
@@ -1938,6 +2655,31 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "TargetTrackingMetricDataQueries": {
+    "type": "list",
+    "member": {"shape": "TargetTrackingMetricDataQuery"},
+    "flattened": false
+  },
+  "TargetTrackingMetricDataQuery": {
+    "type": "structure",
+    "members": {
+      "Id": {"shape": "XmlStringMaxLen255", "flattened": false},
+      "Expression": {"shape": "XmlStringMaxLen2047", "flattened": false},
+      "MetricStat": {"shape": "TargetTrackingMetricStat", "flattened": false},
+      "Label": {"shape": "XmlStringMetricLabel", "flattened": false},
+      "ReturnData": {"shape": "ReturnData", "flattened": false}
+    },
+    "flattened": false
+  },
+  "TargetTrackingMetricStat": {
+    "type": "structure",
+    "members": {
+      "Metric": {"shape": "Metric", "flattened": false},
+      "Stat": {"shape": "XmlStringMetricStat", "flattened": false},
+      "Unit": {"shape": "MetricUnit", "flattened": false}
+    },
+    "flattened": false
+  },
   "TerminateInstanceInAutoScalingGroupType": {
     "type": "structure",
     "members": {
@@ -1955,6 +2697,42 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "TimestampType": {"type": "timestamp", "flattened": false},
+  "TotalLocalStorageGBRequest": {
+    "type": "structure",
+    "members": {
+      "Min": {"shape": "NullablePositiveDouble", "flattened": false},
+      "Max": {"shape": "NullablePositiveDouble", "flattened": false}
+    },
+    "flattened": false
+  },
+  "TrafficSourceIdentifier": {
+    "type": "structure",
+    "members": {
+      "Identifier": {"shape": "XmlStringMaxLen511", "flattened": false},
+      "Type": {"shape": "XmlStringMaxLen511", "flattened": false}
+    },
+    "flattened": false
+  },
+  "TrafficSourceState": {
+    "type": "structure",
+    "members": {
+      "TrafficSource": {"shape": "XmlStringMaxLen511", "flattened": false},
+      "State": {"shape": "XmlStringMaxLen255", "flattened": false},
+      "Identifier": {"shape": "XmlStringMaxLen511", "flattened": false},
+      "Type": {"shape": "XmlStringMaxLen511", "flattened": false}
+    },
+    "flattened": false
+  },
+  "TrafficSourceStates": {
+    "type": "list",
+    "member": {"shape": "TrafficSourceState"},
+    "flattened": false
+  },
+  "TrafficSources": {
+    "type": "list",
+    "member": {"shape": "TrafficSourceIdentifier"},
+    "flattened": false
+  },
   "UpdateAutoScalingGroupType": {
     "type": "structure",
     "members": {
@@ -2005,7 +2783,24 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "CapacityRebalance": {
         "shape": "CapacityRebalanceEnabled",
         "flattened": false
+      },
+      "Context": {"shape": "Context", "flattened": false},
+      "DesiredCapacityType": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "DefaultInstanceWarmup": {
+        "shape": "DefaultInstanceWarmup",
+        "flattened": false
       }
+    },
+    "flattened": false
+  },
+  "VCpuCountRequest": {
+    "type": "structure",
+    "members": {
+      "Min": {"shape": "NullablePositiveInteger", "flattened": false},
+      "Max": {"shape": "NullablePositiveInteger", "flattened": false}
     },
     "flattened": false
   },
@@ -2014,6 +2809,27 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "XmlString"},
     "flattened": false
   },
+  "WarmPoolConfiguration": {
+    "type": "structure",
+    "members": {
+      "MaxGroupPreparedCapacity": {
+        "shape": "MaxGroupPreparedCapacity",
+        "flattened": false
+      },
+      "MinSize": {"shape": "WarmPoolMinSize", "flattened": false},
+      "PoolState": {"shape": "WarmPoolState", "flattened": false},
+      "Status": {"shape": "WarmPoolStatus", "flattened": false},
+      "InstanceReusePolicy": {
+        "shape": "InstanceReusePolicy",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "WarmPoolMinSize": {"type": "integer", "flattened": false},
+  "WarmPoolSize": {"type": "integer", "flattened": false},
+  "WarmPoolState": {"type": "string", "flattened": false},
+  "WarmPoolStatus": {"type": "string", "flattened": false},
   "XmlString": {"type": "string", "flattened": false},
   "XmlStringMaxLen1023": {"type": "string", "flattened": false},
   "XmlStringMaxLen1600": {"type": "string", "flattened": false},
@@ -2023,5 +2839,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "XmlStringMaxLen32": {"type": "string", "flattened": false},
   "XmlStringMaxLen511": {"type": "string", "flattened": false},
   "XmlStringMaxLen64": {"type": "string", "flattened": false},
+  "XmlStringMetricLabel": {"type": "string", "flattened": false},
+  "XmlStringMetricStat": {"type": "string", "flattened": false},
   "XmlStringUserData": {"type": "string", "flattened": false}
 };

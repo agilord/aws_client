@@ -18,14 +18,15 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// AWS Snow Family is a petabyte-scale data transport solution that uses secure
-/// devices to transfer large amounts of data between your on-premises data
-/// centers and Amazon Simple Storage Service (Amazon S3). The Snow commands
-/// described here provide access to the same functionality that is available in
-/// the AWS Snow Family Management Console, which enables you to create and
-/// manage jobs for a Snow device. To transfer data locally with a Snow device,
-/// you'll need to use the Snowball Edge client or the Amazon S3 API Interface
-/// for Snowball or AWS OpsHub for Snow Family. For more information, see the <a
+/// The Amazon Web Services Snow Family provides a petabyte-scale data transport
+/// solution that uses secure devices to transfer large amounts of data between
+/// your on-premises data centers and Amazon Simple Storage Service (Amazon S3).
+/// The Snow Family commands described here provide access to the same
+/// functionality that is available in the Amazon Web Services Snow Family
+/// Management Console, which enables you to create and manage jobs for a Snow
+/// Family device. To transfer data locally with a Snow Family device, you'll
+/// need to use the Snowball Edge client or the Amazon S3 API Interface for
+/// Snowball or OpsHub for Snow Family. For more information, see the <a
 /// href="https://docs.aws.amazon.com/AWSImportExport/latest/ug/api-reference.html">User
 /// Guide</a>.
 class Snowball {
@@ -166,16 +167,11 @@ class Snowball {
   /// The type of job for this cluster. Currently, the only job type supported
   /// for clusters is <code>LOCAL_USE</code>.
   ///
-  /// Parameter [resources] :
-  /// The resources associated with the cluster job. These resources include
-  /// Amazon S3 buckets and optional AWS Lambda functions written in the Python
-  /// language.
-  ///
-  /// Parameter [roleARN] :
-  /// The <code>RoleARN</code> that you want to associate with this cluster.
-  /// <code>RoleArn</code> values are created by using the <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>
-  /// API action in AWS Identity and Access Management (IAM).
+  /// For more information, see
+  /// "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i> or
+  /// "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i>.
   ///
   /// Parameter [shippingOption] :
   /// The shipping speed for each node in this cluster. This speed doesn't
@@ -195,7 +191,7 @@ class Snowball {
   /// typically takes less than a week, one way.
   /// </li>
   /// <li>
-  /// In India, Snow device are delivered in one to seven days.
+  /// In India, Snow devices are delivered in one to seven days.
   /// </li>
   /// <li>
   /// In the United States of America (US), you have access to one-day shipping
@@ -214,53 +210,120 @@ class Snowball {
   /// typically takes less than a week, one way.
   /// </li>
   /// <li>
-  /// In India, Snow device are delivered in one to seven days.
+  /// In India, Snow devices are delivered in one to seven days.
   /// </li>
   /// <li>
   /// In the US, you have access to one-day shipping and two-day shipping.
   /// </li>
   /// </ul>
   ///
+  /// Parameter [snowballType] :
+  /// The type of Snow Family devices to use for this cluster.
+  /// <note>
+  /// For cluster jobs, Amazon Web Services Snow Family currently supports only
+  /// the <code>EDGE</code> device type.
+  /// </note>
+  /// For more information, see
+  /// "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i> or
+  /// "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i>.
+  ///
   /// Parameter [description] :
   /// An optional description of this specific cluster, for example
   /// <code>Environmental Data Cluster-01</code>.
+  ///
+  /// Parameter [forceCreateJobs] :
+  /// Force to create cluster when user attempts to overprovision or
+  /// underprovision a cluster. A cluster is overprovisioned or underprovisioned
+  /// if the initial size of the cluster is more (overprovisioned) or less
+  /// (underprovisioned) than what needed to meet capacity requirement specified
+  /// with <code>OnDeviceServiceConfiguration</code>.
   ///
   /// Parameter [forwardingAddressId] :
   /// The forwarding address ID for a cluster. This field is not supported in
   /// most regions.
   ///
+  /// Parameter [initialClusterSize] :
+  /// If provided, each job will be automatically created and associated with
+  /// the new cluster. If not provided, will be treated as 0.
+  ///
   /// Parameter [kmsKeyARN] :
   /// The <code>KmsKeyARN</code> value that you want to associate with this
   /// cluster. <code>KmsKeyARN</code> values are created by using the <a
   /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html">CreateKey</a>
-  /// API action in AWS Key Management Service (AWS KMS).
+  /// API action in Key Management Service (KMS).
+  ///
+  /// Parameter [longTermPricingIds] :
+  /// Lists long-term pricing id that will be used to associate with jobs
+  /// automatically created for the new cluster.
   ///
   /// Parameter [notification] :
   /// The Amazon Simple Notification Service (Amazon SNS) notification settings
   /// for this cluster.
   ///
-  /// Parameter [snowballType] :
-  /// The type of AWS Snow Family device to use for this cluster.
-  /// <note>
-  /// For cluster jobs, AWS Snow Family currently supports only the
-  /// <code>EDGE</code> device type.
-  /// </note>
+  /// Parameter [onDeviceServiceConfiguration] :
+  /// Specifies the service or services on the Snow Family device that your
+  /// transferred data will be exported from or imported into. Amazon Web
+  /// Services Snow Family device clusters support Amazon S3 and NFS (Network
+  /// File System).
+  ///
+  /// Parameter [remoteManagement] :
+  /// Allows you to securely operate and manage Snow devices in a cluster
+  /// remotely from outside of your internal network. When set to
+  /// <code>INSTALLED_AUTOSTART</code>, remote management will automatically be
+  /// available when the device arrives at your location. Otherwise, you need to
+  /// use the Snowball Client to manage the device.
+  ///
+  /// Parameter [resources] :
+  /// The resources associated with the cluster job. These resources include
+  /// Amazon S3 buckets and optional Lambda functions written in the Python
+  /// language.
+  ///
+  /// Parameter [roleARN] :
+  /// The <code>RoleARN</code> that you want to associate with this cluster.
+  /// <code>RoleArn</code> values are created by using the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>
+  /// API action in Identity and Access Management (IAM).
+  ///
+  /// Parameter [snowballCapacityPreference] :
+  /// If your job is being created in one of the US regions, you have the option
+  /// of specifying what size Snow device you'd like for this job. In all other
+  /// regions, Snowballs come with 80 TB in storage capacity.
+  ///
+  /// For more information, see
+  /// "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i> or
+  /// "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i>.
   ///
   /// Parameter [taxDocuments] :
-  /// The tax documents required in your AWS Region.
+  /// The tax documents required in your Amazon Web Services Region.
   Future<CreateClusterResult> createCluster({
     required String addressId,
     required JobType jobType,
-    required JobResource resources,
-    required String roleARN,
     required ShippingOption shippingOption,
+    required SnowballType snowballType,
     String? description,
+    bool? forceCreateJobs,
     String? forwardingAddressId,
+    int? initialClusterSize,
     String? kmsKeyARN,
+    List<String>? longTermPricingIds,
     Notification? notification,
-    SnowballType? snowballType,
+    OnDeviceServiceConfiguration? onDeviceServiceConfiguration,
+    RemoteManagement? remoteManagement,
+    JobResource? resources,
+    String? roleARN,
+    SnowballCapacity? snowballCapacityPreference,
     TaxDocuments? taxDocuments,
   }) async {
+    _s.validateNumRange(
+      'initialClusterSize',
+      initialClusterSize,
+      0,
+      16,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSIESnowballJobManagementService.CreateCluster'
@@ -274,15 +337,26 @@ class Snowball {
       payload: {
         'AddressId': addressId,
         'JobType': jobType.toValue(),
-        'Resources': resources,
-        'RoleARN': roleARN,
         'ShippingOption': shippingOption.toValue(),
+        'SnowballType': snowballType.toValue(),
         if (description != null) 'Description': description,
+        if (forceCreateJobs != null) 'ForceCreateJobs': forceCreateJobs,
         if (forwardingAddressId != null)
           'ForwardingAddressId': forwardingAddressId,
+        if (initialClusterSize != null)
+          'InitialClusterSize': initialClusterSize,
         if (kmsKeyARN != null) 'KmsKeyARN': kmsKeyARN,
+        if (longTermPricingIds != null)
+          'LongTermPricingIds': longTermPricingIds,
         if (notification != null) 'Notification': notification,
-        if (snowballType != null) 'SnowballType': snowballType.toValue(),
+        if (onDeviceServiceConfiguration != null)
+          'OnDeviceServiceConfiguration': onDeviceServiceConfiguration,
+        if (remoteManagement != null)
+          'RemoteManagement': remoteManagement.toValue(),
+        if (resources != null) 'Resources': resources,
+        if (roleARN != null) 'RoleARN': roleARN,
+        if (snowballCapacityPreference != null)
+          'SnowballCapacityPreference': snowballCapacityPreference.toValue(),
         if (taxDocuments != null) 'TaxDocuments': taxDocuments,
       },
     );
@@ -291,11 +365,142 @@ class Snowball {
   }
 
   /// Creates a job to import or export data between Amazon S3 and your
-  /// on-premises data center. Your AWS account must have the right trust
-  /// policies and permissions in place to create a job for a Snow device. If
-  /// you're creating a job for a node in a cluster, you only need to provide
-  /// the <code>clusterId</code> value; the other job attributes are inherited
-  /// from the cluster.
+  /// on-premises data center. Your Amazon Web Services account must have the
+  /// right trust policies and permissions in place to create a job for a Snow
+  /// device. If you're creating a job for a node in a cluster, you only need to
+  /// provide the <code>clusterId</code> value; the other job attributes are
+  /// inherited from the cluster.
+  /// <note>
+  /// Only the Snowball; Edge device type is supported when ordering clustered
+  /// jobs.
+  ///
+  /// The device capacity is optional.
+  ///
+  /// Availability of device types differ by Amazon Web Services Region. For
+  /// more information about Region availability, see <a
+  /// href="https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/?p=ngi&amp;loc=4">Amazon
+  /// Web Services Regional Services</a>.
+  /// </note> <p/> <p class="title"> <b>Snow Family devices and their
+  /// capacities.</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Device type: <b>SNC1_SSD</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Capacity: T14
+  /// </li>
+  /// <li>
+  /// Description: Snowcone
+  /// </li>
+  /// </ul> <p/> </li>
+  /// <li>
+  /// Device type: <b>SNC1_HDD</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Capacity: T8
+  /// </li>
+  /// <li>
+  /// Description: Snowcone
+  /// </li>
+  /// </ul> <p/> </li>
+  /// <li>
+  /// Device type: <b>EDGE_S</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Capacity: T98
+  /// </li>
+  /// <li>
+  /// Description: Snowball Edge Storage Optimized for data transfer only
+  /// </li>
+  /// </ul> <p/> </li>
+  /// <li>
+  /// Device type: <b>EDGE_CG</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Capacity: T42
+  /// </li>
+  /// <li>
+  /// Description: Snowball Edge Compute Optimized with GPU
+  /// </li>
+  /// </ul> <p/> </li>
+  /// <li>
+  /// Device type: <b>EDGE_C</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Capacity: T42
+  /// </li>
+  /// <li>
+  /// Description: Snowball Edge Compute Optimized without GPU
+  /// </li>
+  /// </ul> <p/> </li>
+  /// <li>
+  /// Device type: <b>EDGE</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Capacity: T100
+  /// </li>
+  /// <li>
+  /// Description: Snowball Edge Storage Optimized with EC2 Compute
+  /// </li>
+  /// </ul> <p/> </li>
+  /// <li>
+  /// Device type: <b>STANDARD</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Capacity: T50
+  /// </li>
+  /// <li>
+  /// Description: Original Snowball device
+  /// <note>
+  /// This device is only available in the Ningxia, Beijing, and Singapore
+  /// Amazon Web Services Region
+  /// </note> </li>
+  /// </ul> <p/> </li>
+  /// <li>
+  /// Device type: <b>STANDARD</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Capacity: T80
+  /// </li>
+  /// <li>
+  /// Description: Original Snowball device
+  /// <note>
+  /// This device is only available in the Ningxia, Beijing, and Singapore
+  /// Amazon Web Services Region.
+  /// </note> </li>
+  /// </ul> <p/> </li>
+  /// <li>
+  /// Device type: <b>V3_5C</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Capacity: T32
+  /// </li>
+  /// <li>
+  /// Description: Snowball Edge Compute Optimized without GPU
+  /// </li>
+  /// </ul> <p/> </li>
+  /// <li>
+  /// Device type: <b>V3_5S</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Capacity: T240
+  /// </li>
+  /// <li>
+  /// Description: Snowball Edge Storage Optimized 210TB
+  /// </li>
+  /// </ul> <p/> </li>
+  /// </ul>
   ///
   /// May throw [InvalidResourceException].
   /// May throw [KMSRequestFailedException].
@@ -316,11 +521,17 @@ class Snowball {
   /// <code>Important Photos 2016-08-11</code>.
   ///
   /// Parameter [deviceConfiguration] :
-  /// Defines the device configuration for an AWS Snowcone job.
+  /// Defines the device configuration for an Snowcone job.
+  ///
+  /// For more information, see
+  /// "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i> or
+  /// "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i>.
   ///
   /// Parameter [forwardingAddressId] :
   /// The forwarding address ID for a job. This field is not supported in most
-  /// regions.
+  /// Regions.
   ///
   /// Parameter [jobType] :
   /// Defines the type of job that you're creating.
@@ -329,11 +540,27 @@ class Snowball {
   /// The <code>KmsKeyARN</code> that you want to associate with this job.
   /// <code>KmsKeyARN</code>s are created using the <a
   /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html">CreateKey</a>
-  /// AWS Key Management Service (KMS) API action.
+  /// Key Management Service (KMS) API action.
+  ///
+  /// Parameter [longTermPricingId] :
+  /// The ID of the long-term pricing type for the device.
   ///
   /// Parameter [notification] :
   /// Defines the Amazon Simple Notification Service (Amazon SNS) notification
   /// settings for this job.
+  ///
+  /// Parameter [onDeviceServiceConfiguration] :
+  /// Specifies the service or services on the Snow Family device that your
+  /// transferred data will be exported from or imported into. Amazon Web
+  /// Services Snow Family supports Amazon S3 and NFS (Network File System) and
+  /// the Amazon Web Services Storage Gateway service Tape Gateway type.
+  ///
+  /// Parameter [remoteManagement] :
+  /// Allows you to securely operate and manage Snowcone devices remotely from
+  /// outside of your internal network. When set to
+  /// <code>INSTALLED_AUTOSTART</code>, remote management will automatically be
+  /// available when the device arrives at your location. Otherwise, you need to
+  /// use the Snowball Client to manage the device.
   ///
   /// Parameter [resources] :
   /// Defines the Amazon S3 buckets associated with this job.
@@ -352,7 +579,7 @@ class Snowball {
   /// The <code>RoleARN</code> that you want to associate with this job.
   /// <code>RoleArn</code>s are created using the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>
-  /// AWS Identity and Access Management (IAM) API action.
+  /// Identity and Access Management (IAM) API action.
   ///
   /// Parameter [shippingOption] :
   /// The shipping speed for this job. This speed doesn't dictate how soon
@@ -384,21 +611,34 @@ class Snowball {
   /// of specifying what size Snow device you'd like for this job. In all other
   /// regions, Snowballs come with 80 TB in storage capacity.
   ///
+  /// For more information, see
+  /// "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i> or
+  /// "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i>.
+  ///
   /// Parameter [snowballType] :
-  /// The type of AWS Snow Family device to use for this job.
+  /// The type of Snow Family devices to use for this job.
   /// <note>
-  /// For cluster jobs, AWS Snow Family currently supports only the
-  /// <code>EDGE</code> device type.
+  /// For cluster jobs, Amazon Web Services Snow Family currently supports only
+  /// the <code>EDGE</code> device type.
   /// </note>
-  /// The type of AWS Snow device to use for this job. Currently, the only
-  /// supported device type for cluster jobs is <code>EDGE</code>.
+  /// The type of Amazon Web Services Snow device to use for this job.
+  /// Currently, the only supported device type for cluster jobs is
+  /// <code>EDGE</code>.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/snowball/latest/developer-guide/device-differences.html">Snowball
   /// Edge Device Options</a> in the Snowball Edge Developer Guide.
   ///
+  /// For more information, see
+  /// "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i> or
+  /// "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i>.
+  ///
   /// Parameter [taxDocuments] :
-  /// The tax documents required in your AWS Region.
+  /// The tax documents required in your Amazon Web Services Region.
   Future<CreateJobResult> createJob({
     String? addressId,
     String? clusterId,
@@ -407,7 +647,10 @@ class Snowball {
     String? forwardingAddressId,
     JobType? jobType,
     String? kmsKeyARN,
+    String? longTermPricingId,
     Notification? notification,
+    OnDeviceServiceConfiguration? onDeviceServiceConfiguration,
+    RemoteManagement? remoteManagement,
     JobResource? resources,
     String? roleARN,
     ShippingOption? shippingOption,
@@ -435,7 +678,12 @@ class Snowball {
           'ForwardingAddressId': forwardingAddressId,
         if (jobType != null) 'JobType': jobType.toValue(),
         if (kmsKeyARN != null) 'KmsKeyARN': kmsKeyARN,
+        if (longTermPricingId != null) 'LongTermPricingId': longTermPricingId,
         if (notification != null) 'Notification': notification,
+        if (onDeviceServiceConfiguration != null)
+          'OnDeviceServiceConfiguration': onDeviceServiceConfiguration,
+        if (remoteManagement != null)
+          'RemoteManagement': remoteManagement.toValue(),
         if (resources != null) 'Resources': resources,
         if (roleARN != null) 'RoleARN': roleARN,
         if (shippingOption != null) 'ShippingOption': shippingOption.toValue(),
@@ -449,8 +697,51 @@ class Snowball {
     return CreateJobResult.fromJson(jsonResponse.body);
   }
 
+  /// Creates a job with the long-term usage option for a device. The long-term
+  /// usage is a 1-year or 3-year long-term pricing type for the device. You are
+  /// billed upfront, and Amazon Web Services provides discounts for long-term
+  /// pricing.
+  ///
+  /// May throw [InvalidResourceException].
+  ///
+  /// Parameter [longTermPricingType] :
+  /// The type of long-term pricing option you want for the device, either
+  /// 1-year or 3-year long-term pricing.
+  ///
+  /// Parameter [isLongTermPricingAutoRenew] :
+  /// Specifies whether the current long-term pricing type for the device should
+  /// be renewed.
+  ///
+  /// Parameter [snowballType] :
+  /// The type of Snow Family devices to use for the long-term pricing job.
+  Future<CreateLongTermPricingResult> createLongTermPricing({
+    required LongTermPricingType longTermPricingType,
+    bool? isLongTermPricingAutoRenew,
+    SnowballType? snowballType,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSIESnowballJobManagementService.CreateLongTermPricing'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LongTermPricingType': longTermPricingType.toValue(),
+        if (isLongTermPricingAutoRenew != null)
+          'IsLongTermPricingAutoRenew': isLongTermPricingAutoRenew,
+        if (snowballType != null) 'SnowballType': snowballType.toValue(),
+      },
+    );
+
+    return CreateLongTermPricingResult.fromJson(jsonResponse.body);
+  }
+
   /// Creates a shipping label that will be used to return the Snow device to
-  /// AWS.
+  /// Amazon Web Services.
   ///
   /// May throw [InvalidResourceException].
   /// May throw [InvalidJobStateException].
@@ -459,14 +750,14 @@ class Snowball {
   /// May throw [ReturnShippingLabelAlreadyExistsException].
   ///
   /// Parameter [jobId] :
-  /// The ID for a job that you want to create the return shipping label for.
-  /// For example <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
+  /// The ID for a job that you want to create the return shipping label for;
+  /// for example, <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
   ///
   /// Parameter [shippingOption] :
   /// The shipping speed for a particular job. This speed doesn't dictate how
-  /// soon the device is returned to AWS. This speed represents how quickly it
-  /// moves to its destination while in transit. Regional shipping speeds are as
-  /// follows:
+  /// soon the device is returned to Amazon Web Services. This speed represents
+  /// how quickly it moves to its destination while in transit. Regional
+  /// shipping speeds are as follows:
   Future<CreateReturnShippingLabelResult> createReturnShippingLabel({
     required String jobId,
     ShippingOption? shippingOption,
@@ -621,7 +912,7 @@ class Snowball {
   }
 
   /// Information on the shipping label of a Snow device that is being returned
-  /// to AWS.
+  /// to Amazon Web Services.
   ///
   /// May throw [InvalidResourceException].
   /// May throw [InvalidJobStateException].
@@ -631,7 +922,7 @@ class Snowball {
   /// The automatically generated ID for a job, for example
   /// <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
   Future<DescribeReturnShippingLabelResult> describeReturnShippingLabel({
-    String? jobId,
+    required String jobId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -645,7 +936,7 @@ class Snowball {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (jobId != null) 'JobId': jobId,
+        'JobId': jobId,
       },
     );
 
@@ -659,10 +950,13 @@ class Snowball {
   /// another call to the <code>GetJobManifest</code> action.
   ///
   /// The manifest is an encrypted file that you can download after your job
-  /// enters the <code>WithCustomer</code> status. The manifest is decrypted by
-  /// using the <code>UnlockCode</code> code value, when you pass both values to
-  /// the Snow device through the Snowball client when the client is started for
-  /// the first time.
+  /// enters the <code>WithCustomer</code> status. This is the only valid status
+  /// for calling this API as the manifest and <code>UnlockCode</code> code
+  /// value are used for securing your device and should only be used when you
+  /// have the device. The manifest is decrypted by using the
+  /// <code>UnlockCode</code> code value, when you pass both values to the Snow
+  /// device through the Snowball client when the client is started for the
+  /// first time.
   ///
   /// As a best practice, we recommend that you don't save a copy of an
   /// <code>UnlockCode</code> value in the same location as the manifest file
@@ -670,7 +964,7 @@ class Snowball {
   /// from gaining access to the Snow device associated with that job.
   ///
   /// The credentials of a given job, including its manifest file and unlock
-  /// code, expire 90 days after the job is created.
+  /// code, expire 360 days after the job is created.
   ///
   /// May throw [InvalidResourceException].
   /// May throw [InvalidJobStateException].
@@ -700,13 +994,16 @@ class Snowball {
   }
 
   /// Returns the <code>UnlockCode</code> code value for the specified job. A
-  /// particular <code>UnlockCode</code> value can be accessed for up to 90 days
-  /// after the associated job has been created.
+  /// particular <code>UnlockCode</code> value can be accessed for up to 360
+  /// days after the associated job has been created.
   ///
   /// The <code>UnlockCode</code> value is a 29-character code with 25
   /// alphanumeric characters and 4 hyphens. This code is used to decrypt the
   /// manifest file when it is passed along with the manifest to the Snow device
   /// through the Snowball client when the client is started for the first time.
+  /// The only valid status for calling this API is <code>WithCustomer</code> as
+  /// the manifest and <code>Unlock</code> code values are used for securing
+  /// your device and should only be used when you have the device.
   ///
   /// As a best practice, we recommend that you don't save a copy of the
   /// <code>UnlockCode</code> in the same location as the manifest file for that
@@ -744,8 +1041,8 @@ class Snowball {
   /// and also the number of Snow devices your account has in use.
   ///
   /// The default service limit for the number of Snow devices that you can have
-  /// at one time is 1. If you want to increase your service limit, contact AWS
-  /// Support.
+  /// at one time is 1. If you want to increase your service limit, contact
+  /// Amazon Web Services Support.
   Future<GetSnowballUsageResult> getSnowballUsage() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -887,10 +1184,13 @@ class Snowball {
   }
 
   /// This action returns a list of the different Amazon EC2 Amazon Machine
-  /// Images (AMIs) that are owned by your AWS account that would be supported
-  /// for use on a Snow device. Currently, supported AMIs are based on the
-  /// CentOS 7 (x86_64) - with Updates HVM, Ubuntu Server 14.04 LTS (HVM), and
-  /// Ubuntu 16.04 LTS - Xenial (HVM) images, available on the AWS Marketplace.
+  /// Images (AMIs) that are owned by your Amazon Web Services accountthat would
+  /// be supported for use on a Snow device. Currently, supported AMIs are based
+  /// on the Amazon Linux-2, Ubuntu 20.04 LTS - Focal, or Ubuntu 22.04 LTS -
+  /// Jammy images, available on the Amazon Web Services Marketplace. Ubuntu
+  /// 16.04 LTS - Xenial (HVM) images are no longer supported in the Market, but
+  /// still supported for use on devices through Amazon EC2 VM Import/Export and
+  /// running locally in AMIs.
   ///
   /// May throw [InvalidNextTokenException].
   /// May throw [Ec2RequestFailedException].
@@ -979,6 +1279,99 @@ class Snowball {
     return ListJobsResult.fromJson(jsonResponse.body);
   }
 
+  /// Lists all long-term pricing types.
+  ///
+  /// May throw [InvalidResourceException].
+  /// May throw [InvalidNextTokenException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of <code>ListLongTermPricing</code> objects to return.
+  ///
+  /// Parameter [nextToken] :
+  /// Because HTTP requests are stateless, this is the starting point for your
+  /// next list of <code>ListLongTermPricing</code> to return.
+  Future<ListLongTermPricingResult> listLongTermPricing({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSIESnowballJobManagementService.ListLongTermPricing'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListLongTermPricingResult.fromJson(jsonResponse.body);
+  }
+
+  /// Lists all supported versions for Snow on-device services. Returns an array
+  /// of <code>ServiceVersion</code> object containing the supported versions
+  /// for a particular service.
+  ///
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidResourceException].
+  ///
+  /// Parameter [serviceName] :
+  /// The name of the service for which you're requesting supported versions.
+  ///
+  /// Parameter [dependentServices] :
+  /// A list of names and versions of dependant services of the requested
+  /// service.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of <code>ListServiceVersions</code> objects to return.
+  ///
+  /// Parameter [nextToken] :
+  /// Because HTTP requests are stateless, this is the starting point for the
+  /// next list of returned <code>ListServiceVersionsRequest</code> versions.
+  Future<ListServiceVersionsResult> listServiceVersions({
+    required ServiceName serviceName,
+    List<DependentService>? dependentServices,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSIESnowballJobManagementService.ListServiceVersions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ServiceName': serviceName.toValue(),
+        if (dependentServices != null) 'DependentServices': dependentServices,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListServiceVersionsResult.fromJson(jsonResponse.body);
+  }
+
   /// While a cluster's <code>ClusterState</code> value is in the
   /// <code>AwaitingQuorum</code> state, you can update some of the information
   /// associated with a cluster. Once the cluster changes to a different job
@@ -1008,6 +1401,12 @@ class Snowball {
   /// Parameter [notification] :
   /// The new or updated <a>Notification</a> object.
   ///
+  /// Parameter [onDeviceServiceConfiguration] :
+  /// Specifies the service or services on the Snow Family device that your
+  /// transferred data will be exported from or imported into. Amazon Web
+  /// Services Snow Family device clusters support Amazon S3 and NFS (Network
+  /// File System).
+  ///
   /// Parameter [resources] :
   /// The updated arrays of <a>JobResource</a> objects that can include updated
   /// <a>S3Resource</a> objects or <a>LambdaResource</a> objects.
@@ -1016,7 +1415,7 @@ class Snowball {
   /// The new role Amazon Resource Name (ARN) that you want to associate with
   /// this cluster. To create a role ARN, use the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>
-  /// API action in AWS Identity and Access Management (IAM).
+  /// API action in Identity and Access Management (IAM).
   ///
   /// Parameter [shippingOption] :
   /// The updated shipping option value of this cluster's <a>ShippingDetails</a>
@@ -1027,6 +1426,7 @@ class Snowball {
     String? description,
     String? forwardingAddressId,
     Notification? notification,
+    OnDeviceServiceConfiguration? onDeviceServiceConfiguration,
     JobResource? resources,
     String? roleARN,
     ShippingOption? shippingOption,
@@ -1048,6 +1448,8 @@ class Snowball {
         if (forwardingAddressId != null)
           'ForwardingAddressId': forwardingAddressId,
         if (notification != null) 'Notification': notification,
+        if (onDeviceServiceConfiguration != null)
+          'OnDeviceServiceConfiguration': onDeviceServiceConfiguration,
         if (resources != null) 'Resources': resources,
         if (roleARN != null) 'RoleARN': roleARN,
         if (shippingOption != null) 'ShippingOption': shippingOption.toValue(),
@@ -1084,6 +1486,12 @@ class Snowball {
   /// Parameter [notification] :
   /// The new or updated <a>Notification</a> object.
   ///
+  /// Parameter [onDeviceServiceConfiguration] :
+  /// Specifies the service or services on the Snow Family device that your
+  /// transferred data will be exported from or imported into. Amazon Web
+  /// Services Snow Family supports Amazon S3 and NFS (Network File System) and
+  /// the Amazon Web Services Storage Gateway service Tape Gateway type.
+  ///
   /// Parameter [resources] :
   /// The updated <code>JobResource</code> object, or the updated
   /// <a>JobResource</a> object.
@@ -1091,8 +1499,8 @@ class Snowball {
   /// Parameter [roleARN] :
   /// The new role Amazon Resource Name (ARN) that you want to associate with
   /// this job. To create a role ARN, use the <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>AWS
-  /// Identity and Access Management (IAM) API action.
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>Identity
+  /// and Access Management (IAM) API action.
   ///
   /// Parameter [shippingOption] :
   /// The updated shipping option value of this job's <a>ShippingDetails</a>
@@ -1102,12 +1510,19 @@ class Snowball {
   /// The updated <code>SnowballCapacityPreference</code> of this job's
   /// <a>JobMetadata</a> object. The 50 TB Snowballs are only available in the
   /// US regions.
+  ///
+  /// For more information, see
+  /// "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i> or
+  /// "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i>.
   Future<void> updateJob({
     required String jobId,
     String? addressId,
     String? description,
     String? forwardingAddressId,
     Notification? notification,
+    OnDeviceServiceConfiguration? onDeviceServiceConfiguration,
     JobResource? resources,
     String? roleARN,
     ShippingOption? shippingOption,
@@ -1130,6 +1545,8 @@ class Snowball {
         if (forwardingAddressId != null)
           'ForwardingAddressId': forwardingAddressId,
         if (notification != null) 'Notification': notification,
+        if (onDeviceServiceConfiguration != null)
+          'OnDeviceServiceConfiguration': onDeviceServiceConfiguration,
         if (resources != null) 'Resources': resources,
         if (roleARN != null) 'RoleARN': roleARN,
         if (shippingOption != null) 'ShippingOption': shippingOption.toValue(),
@@ -1139,7 +1556,7 @@ class Snowball {
     );
   }
 
-  /// Updates the state when a the shipment states changes to a different state.
+  /// Updates the state when a shipment state changes to a different state.
   ///
   /// May throw [InvalidResourceException].
   /// May throw [InvalidJobStateException].
@@ -1153,7 +1570,8 @@ class Snowball {
   ///
   /// Set to <code>RECEIVED</code> when the device arrives at your location.
   ///
-  /// Set to <code>RETURNED</code> when you have returned the device to AWS.
+  /// Set to <code>RETURNED</code> when you have returned the device to Amazon
+  /// Web Services.
   Future<void> updateJobShipmentState({
     required String jobId,
     required ShipmentState shipmentState,
@@ -1171,6 +1589,45 @@ class Snowball {
       payload: {
         'JobId': jobId,
         'ShipmentState': shipmentState.toValue(),
+      },
+    );
+  }
+
+  /// Updates the long-term pricing type.
+  ///
+  /// May throw [InvalidResourceException].
+  ///
+  /// Parameter [longTermPricingId] :
+  /// The ID of the long-term pricing type for the device.
+  ///
+  /// Parameter [isLongTermPricingAutoRenew] :
+  /// If set to <code>true</code>, specifies that the current long-term pricing
+  /// type for the device should be automatically renewed before the long-term
+  /// pricing contract expires.
+  ///
+  /// Parameter [replacementJob] :
+  /// Specifies that a device that is ordered with long-term pricing should be
+  /// replaced with a new device.
+  Future<void> updateLongTermPricing({
+    required String longTermPricingId,
+    bool? isLongTermPricingAutoRenew,
+    String? replacementJob,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSIESnowballJobManagementService.UpdateLongTermPricing'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LongTermPricingId': longTermPricingId,
+        if (isLongTermPricingAutoRenew != null)
+          'IsLongTermPricingAutoRenew': isLongTermPricingAutoRenew,
+        if (replacementJob != null) 'ReplacementJob': replacementJob,
       },
     );
   }
@@ -1245,6 +1702,7 @@ class Address {
     this.street2,
     this.street3,
   });
+
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
       addressId: json['AddressId'] as String?,
@@ -1301,6 +1759,7 @@ class Address {
 
 class CancelClusterResult {
   CancelClusterResult();
+
   factory CancelClusterResult.fromJson(Map<String, dynamic> _) {
     return CancelClusterResult();
   }
@@ -1308,6 +1767,7 @@ class CancelClusterResult {
 
 class CancelJobResult {
   CancelJobResult();
+
   factory CancelJobResult.fromJson(Map<String, dynamic> _) {
     return CancelJobResult();
   }
@@ -1336,6 +1796,7 @@ class ClusterListEntry {
     this.creationDate,
     this.description,
   });
+
   factory ClusterListEntry.fromJson(Map<String, dynamic> json) {
     return ClusterListEntry(
       clusterId: json['ClusterId'] as String?,
@@ -1374,12 +1835,16 @@ class ClusterMetadata {
   /// The <code>KmsKeyARN</code> Amazon Resource Name (ARN) associated with this
   /// cluster. This ARN was created using the <a
   /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html">CreateKey</a>
-  /// API action in AWS Key Management Service (AWS KMS).
+  /// API action in Key Management Service (KMS.
   final String? kmsKeyARN;
 
   /// The Amazon Simple Notification Service (Amazon SNS) notification settings
   /// for this cluster.
   final Notification? notification;
+
+  /// Represents metadata and configuration settings for services on an Amazon Web
+  /// Services Snow Family device.
+  final OnDeviceServiceConfiguration? onDeviceServiceConfiguration;
 
   /// The arrays of <a>JobResource</a> objects that can include updated
   /// <a>S3Resource</a> objects or <a>LambdaResource</a> objects.
@@ -1387,7 +1852,7 @@ class ClusterMetadata {
 
   /// The role ARN associated with this cluster. This ARN was created using the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>
-  /// API action in AWS Identity and Access Management (IAM).
+  /// API action in Identity and Access Management (IAM).
   final String? roleARN;
 
   /// The shipping speed for each node in this cluster. This speed doesn't dictate
@@ -1415,14 +1880,14 @@ class ClusterMetadata {
   /// </ul>
   final ShippingOption? shippingOption;
 
-  /// The type of AWS Snow device to use for this cluster.
+  /// The type of Snowcone device to use for this cluster.
   /// <note>
-  /// For cluster jobs, AWS Snow Family currently supports only the
-  /// <code>EDGE</code> device type.
+  /// For cluster jobs, Amazon Web Services Snow Family currently supports only
+  /// the <code>EDGE</code> device type.
   /// </note>
   final SnowballType? snowballType;
 
-  /// The tax documents required in your AWS Region.
+  /// The tax documents required in your Amazon Web Services Region.
   final TaxDocuments? taxDocuments;
 
   ClusterMetadata({
@@ -1435,12 +1900,14 @@ class ClusterMetadata {
     this.jobType,
     this.kmsKeyARN,
     this.notification,
+    this.onDeviceServiceConfiguration,
     this.resources,
     this.roleARN,
     this.shippingOption,
     this.snowballType,
     this.taxDocuments,
   });
+
   factory ClusterMetadata.fromJson(Map<String, dynamic> json) {
     return ClusterMetadata(
       addressId: json['AddressId'] as String?,
@@ -1453,6 +1920,10 @@ class ClusterMetadata {
       kmsKeyARN: json['KmsKeyARN'] as String?,
       notification: json['Notification'] != null
           ? Notification.fromJson(json['Notification'] as Map<String, dynamic>)
+          : null,
+      onDeviceServiceConfiguration: json['OnDeviceServiceConfiguration'] != null
+          ? OnDeviceServiceConfiguration.fromJson(
+              json['OnDeviceServiceConfiguration'] as Map<String, dynamic>)
           : null,
       resources: json['Resources'] != null
           ? JobResource.fromJson(json['Resources'] as Map<String, dynamic>)
@@ -1525,6 +1996,7 @@ class CompatibleImage {
     this.amiId,
     this.name,
   });
+
   factory CompatibleImage.fromJson(Map<String, dynamic> json) {
     return CompatibleImage(
       amiId: json['AmiId'] as String?,
@@ -1542,6 +2014,7 @@ class CreateAddressResult {
   CreateAddressResult({
     this.addressId,
   });
+
   factory CreateAddressResult.fromJson(Map<String, dynamic> json) {
     return CreateAddressResult(
       addressId: json['AddressId'] as String?,
@@ -1553,12 +2026,23 @@ class CreateClusterResult {
   /// The automatically generated ID for a cluster.
   final String? clusterId;
 
+  /// List of jobs created for this cluster. For syntax, see <a
+  /// href="https://docs.aws.amazon.com/snowball/latest/api-reference/API_ListJobs.html#API_ListJobs_ResponseSyntax">ListJobsResult$JobListEntries</a>
+  /// in this guide.
+  final List<JobListEntry>? jobListEntries;
+
   CreateClusterResult({
     this.clusterId,
+    this.jobListEntries,
   });
+
   factory CreateClusterResult.fromJson(Map<String, dynamic> json) {
     return CreateClusterResult(
       clusterId: json['ClusterId'] as String?,
+      jobListEntries: (json['JobListEntries'] as List?)
+          ?.whereNotNull()
+          .map((e) => JobListEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }
@@ -1571,6 +2055,7 @@ class CreateJobResult {
   CreateJobResult({
     this.jobId,
   });
+
   factory CreateJobResult.fromJson(Map<String, dynamic> json) {
     return CreateJobResult(
       jobId: json['JobId'] as String?,
@@ -1578,14 +2063,30 @@ class CreateJobResult {
   }
 }
 
+class CreateLongTermPricingResult {
+  /// The ID of the long-term pricing type for the device.
+  final String? longTermPricingId;
+
+  CreateLongTermPricingResult({
+    this.longTermPricingId,
+  });
+
+  factory CreateLongTermPricingResult.fromJson(Map<String, dynamic> json) {
+    return CreateLongTermPricingResult(
+      longTermPricingId: json['LongTermPricingId'] as String?,
+    );
+  }
+}
+
 class CreateReturnShippingLabelResult {
   /// The status information of the task on a Snow device that is being returned
-  /// to AWS.
+  /// to Amazon Web Services.
   final ShippingLabelStatus? status;
 
   CreateReturnShippingLabelResult({
     this.status,
   });
+
   factory CreateReturnShippingLabelResult.fromJson(Map<String, dynamic> json) {
     return CreateReturnShippingLabelResult(
       status: (json['Status'] as String?)?.toShippingLabelStatus(),
@@ -1594,9 +2095,9 @@ class CreateReturnShippingLabelResult {
 }
 
 /// Defines the real-time status of a Snow device's data transfer while the
-/// device is at AWS. This data is only available while a job has a
-/// <code>JobState</code> value of <code>InProgress</code>, for both import and
-/// export jobs.
+/// device is at Amazon Web Services. This data is only available while a job
+/// has a <code>JobState</code> value of <code>InProgress</code>, for both
+/// import and export jobs.
 class DataTransfer {
   /// The number of bytes transferred between a Snow device and Amazon S3.
   final int? bytesTransferred;
@@ -1620,6 +2121,7 @@ class DataTransfer {
     this.totalBytes,
     this.totalObjects,
   });
+
   factory DataTransfer.fromJson(Map<String, dynamic> json) {
     return DataTransfer(
       bytesTransferred: json['BytesTransferred'] as int?,
@@ -1627,6 +2129,39 @@ class DataTransfer {
       totalBytes: json['TotalBytes'] as int?,
       totalObjects: json['TotalObjects'] as int?,
     );
+  }
+}
+
+/// The name and version of the service dependant on the requested service.
+class DependentService {
+  /// The name of the dependent service.
+  final ServiceName? serviceName;
+
+  /// The version of the dependent service.
+  final ServiceVersion? serviceVersion;
+
+  DependentService({
+    this.serviceName,
+    this.serviceVersion,
+  });
+
+  factory DependentService.fromJson(Map<String, dynamic> json) {
+    return DependentService(
+      serviceName: (json['ServiceName'] as String?)?.toServiceName(),
+      serviceVersion: json['ServiceVersion'] != null
+          ? ServiceVersion.fromJson(
+              json['ServiceVersion'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceName = this.serviceName;
+    final serviceVersion = this.serviceVersion;
+    return {
+      if (serviceName != null) 'ServiceName': serviceName.toValue(),
+      if (serviceVersion != null) 'ServiceVersion': serviceVersion,
+    };
   }
 }
 
@@ -1638,6 +2173,7 @@ class DescribeAddressResult {
   DescribeAddressResult({
     this.address,
   });
+
   factory DescribeAddressResult.fromJson(Map<String, dynamic> json) {
     return DescribeAddressResult(
       address: json['Address'] != null
@@ -1661,6 +2197,7 @@ class DescribeAddressesResult {
     this.addresses,
     this.nextToken,
   });
+
   factory DescribeAddressesResult.fromJson(Map<String, dynamic> json) {
     return DescribeAddressesResult(
       addresses: (json['Addresses'] as List?)
@@ -1680,6 +2217,7 @@ class DescribeClusterResult {
   DescribeClusterResult({
     this.clusterMetadata,
   });
+
   factory DescribeClusterResult.fromJson(Map<String, dynamic> json) {
     return DescribeClusterResult(
       clusterMetadata: json['ClusterMetadata'] != null
@@ -1703,6 +2241,7 @@ class DescribeJobResult {
     this.jobMetadata,
     this.subJobMetadata,
   });
+
   factory DescribeJobResult.fromJson(Map<String, dynamic> json) {
     return DescribeJobResult(
       jobMetadata: json['JobMetadata'] != null
@@ -1720,18 +2259,24 @@ class DescribeReturnShippingLabelResult {
   /// The expiration date of the current return shipping label.
   final DateTime? expirationDate;
 
+  /// The pre-signed Amazon S3 URI used to download the return shipping label.
+  final String? returnShippingLabelURI;
+
   /// The status information of the task on a Snow device that is being returned
-  /// to AWS.
+  /// to Amazon Web Services.
   final ShippingLabelStatus? status;
 
   DescribeReturnShippingLabelResult({
     this.expirationDate,
+    this.returnShippingLabelURI,
     this.status,
   });
+
   factory DescribeReturnShippingLabelResult.fromJson(
       Map<String, dynamic> json) {
     return DescribeReturnShippingLabelResult(
       expirationDate: timeStampFromJson(json['ExpirationDate']),
+      returnShippingLabelURI: json['ReturnShippingLabelURI'] as String?,
       status: (json['Status'] as String?)?.toShippingLabelStatus(),
     );
   }
@@ -1739,12 +2284,13 @@ class DescribeReturnShippingLabelResult {
 
 /// The container for <code>SnowconeDeviceConfiguration</code>.
 class DeviceConfiguration {
-  /// Returns information about the device configuration for an AWS Snowcone job.
+  /// Returns information about the device configuration for an Snowcone job.
   final SnowconeDeviceConfiguration? snowconeDeviceConfiguration;
 
   DeviceConfiguration({
     this.snowconeDeviceConfiguration,
   });
+
   factory DeviceConfiguration.fromJson(Map<String, dynamic> json) {
     return DeviceConfiguration(
       snowconeDeviceConfiguration: json['SnowconeDeviceConfiguration'] != null
@@ -1763,10 +2309,69 @@ class DeviceConfiguration {
   }
 }
 
+enum DeviceServiceName {
+  nfsOnDeviceService,
+  s3OnDeviceService,
+}
+
+extension DeviceServiceNameValueExtension on DeviceServiceName {
+  String toValue() {
+    switch (this) {
+      case DeviceServiceName.nfsOnDeviceService:
+        return 'NFS_ON_DEVICE_SERVICE';
+      case DeviceServiceName.s3OnDeviceService:
+        return 'S3_ON_DEVICE_SERVICE';
+    }
+  }
+}
+
+extension DeviceServiceNameFromString on String {
+  DeviceServiceName toDeviceServiceName() {
+    switch (this) {
+      case 'NFS_ON_DEVICE_SERVICE':
+        return DeviceServiceName.nfsOnDeviceService;
+      case 'S3_ON_DEVICE_SERVICE':
+        return DeviceServiceName.s3OnDeviceService;
+    }
+    throw Exception('$this is not known in enum DeviceServiceName');
+  }
+}
+
+/// An object representing the metadata and configuration settings of EKS
+/// Anywhere on the Snow Family device.
+class EKSOnDeviceServiceConfiguration {
+  /// The version of EKS Anywhere on the Snow Family device.
+  final String? eKSAnywhereVersion;
+
+  /// The Kubernetes version for EKS Anywhere on the Snow Family device.
+  final String? kubernetesVersion;
+
+  EKSOnDeviceServiceConfiguration({
+    this.eKSAnywhereVersion,
+    this.kubernetesVersion,
+  });
+
+  factory EKSOnDeviceServiceConfiguration.fromJson(Map<String, dynamic> json) {
+    return EKSOnDeviceServiceConfiguration(
+      eKSAnywhereVersion: json['EKSAnywhereVersion'] as String?,
+      kubernetesVersion: json['KubernetesVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eKSAnywhereVersion = this.eKSAnywhereVersion;
+    final kubernetesVersion = this.kubernetesVersion;
+    return {
+      if (eKSAnywhereVersion != null) 'EKSAnywhereVersion': eKSAnywhereVersion,
+      if (kubernetesVersion != null) 'KubernetesVersion': kubernetesVersion,
+    };
+  }
+}
+
 /// A JSON-formatted object that contains the IDs for an Amazon Machine Image
 /// (AMI), including the Amazon EC2 AMI ID and the Snow device AMI ID. Each AMI
-/// has these two IDs to simplify identifying the AMI in both the AWS Cloud and
-/// on the device.
+/// has these two IDs to simplify identifying the AMI in both the Amazon Web
+/// Services Cloud and on the device.
 class Ec2AmiResource {
   /// The ID of the AMI in Amazon EC2.
   final String amiId;
@@ -1778,6 +2383,7 @@ class Ec2AmiResource {
     required this.amiId,
     this.snowballAmiId,
   });
+
   factory Ec2AmiResource.fromJson(Map<String, dynamic> json) {
     return Ec2AmiResource(
       amiId: json['AmiId'] as String,
@@ -1798,12 +2404,13 @@ class Ec2AmiResource {
 /// The container for the <a>EventTriggerDefinition$EventResourceARN</a>.
 class EventTriggerDefinition {
   /// The Amazon Resource Name (ARN) for any local Amazon S3 resource that is an
-  /// AWS Lambda function's event trigger associated with this job.
+  /// Lambda function's event trigger associated with this job.
   final String? eventResourceARN;
 
   EventTriggerDefinition({
     this.eventResourceARN,
   });
+
   factory EventTriggerDefinition.fromJson(Map<String, dynamic> json) {
     return EventTriggerDefinition(
       eventResourceARN: json['EventResourceARN'] as String?,
@@ -1826,6 +2433,7 @@ class GetJobManifestResult {
   GetJobManifestResult({
     this.manifestURI,
   });
+
   factory GetJobManifestResult.fromJson(Map<String, dynamic> json) {
     return GetJobManifestResult(
       manifestURI: json['ManifestURI'] as String?,
@@ -1835,13 +2443,14 @@ class GetJobManifestResult {
 
 class GetJobUnlockCodeResult {
   /// The <code>UnlockCode</code> value for the specified job. The
-  /// <code>UnlockCode</code> value can be accessed for up to 90 days after the
+  /// <code>UnlockCode</code> value can be accessed for up to 360 days after the
   /// job has been created.
   final String? unlockCode;
 
   GetJobUnlockCodeResult({
     this.unlockCode,
   });
+
   factory GetJobUnlockCodeResult.fromJson(Map<String, dynamic> json) {
     return GetJobUnlockCodeResult(
       unlockCode: json['UnlockCode'] as String?,
@@ -1861,6 +2470,7 @@ class GetSnowballUsageResult {
     this.snowballLimit,
     this.snowballsInUse,
   });
+
   factory GetSnowballUsageResult.fromJson(Map<String, dynamic> json) {
     return GetSnowballUsageResult(
       snowballLimit: json['SnowballLimit'] as int?,
@@ -1880,6 +2490,7 @@ class GetSoftwareUpdatesResult {
   GetSoftwareUpdatesResult({
     this.updatesURI,
   });
+
   factory GetSoftwareUpdatesResult.fromJson(Map<String, dynamic> json) {
     return GetSoftwareUpdatesResult(
       updatesURI: json['UpdatesURI'] as String?,
@@ -1887,14 +2498,16 @@ class GetSoftwareUpdatesResult {
   }
 }
 
-/// The tax documents required in AWS Regions in India.
+/// The tax documents required in Amazon Web Services Region in India.
 class INDTaxDocuments {
-  /// The Goods and Services Tax (GST) documents required in AWS Regions in India.
+  /// The Goods and Services Tax (GST) documents required in Amazon Web Services
+  /// Region in India.
   final String? gstin;
 
   INDTaxDocuments({
     this.gstin,
   });
+
   factory INDTaxDocuments.fromJson(Map<String, dynamic> json) {
     return INDTaxDocuments(
       gstin: json['GSTIN'] as String?,
@@ -1950,6 +2563,7 @@ class JobListEntry {
     this.jobType,
     this.snowballType,
   });
+
   factory JobListEntry.fromJson(Map<String, dynamic> json) {
     return JobListEntry(
       creationDate: timeStampFromJson(json['CreationDate']),
@@ -1999,6 +2613,7 @@ class JobLogs {
     this.jobFailureLogURI,
     this.jobSuccessLogURI,
   });
+
   factory JobLogs.fromJson(Map<String, dynamic> json) {
     return JobLogs(
       jobCompletionReportURI: json['JobCompletionReportURI'] as String?,
@@ -2023,9 +2638,9 @@ class JobMetadata {
   final DateTime? creationDate;
 
   /// A value that defines the real-time status of a Snow device's data transfer
-  /// while the device is at AWS. This data is only available while a job has a
-  /// <code>JobState</code> value of <code>InProgress</code>, for both import and
-  /// export jobs.
+  /// while the device is at Amazon Web Services. This data is only available
+  /// while a job has a <code>JobState</code> value of <code>InProgress</code>,
+  /// for both import and export jobs.
   final DataTransfer? dataTransferProgress;
 
   /// The description of the job, provided at job creation.
@@ -2052,17 +2667,31 @@ class JobMetadata {
   /// The type of job.
   final JobType? jobType;
 
-  /// The Amazon Resource Name (ARN) for the AWS Key Management Service (AWS KMS)
-  /// key associated with this job. This ARN was created using the <a
+  /// The Amazon Resource Name (ARN) for the Key Management Service (KMS) key
+  /// associated with this job. This ARN was created using the <a
   /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html">CreateKey</a>
-  /// API action in AWS KMS.
+  /// API action in KMS.
   final String? kmsKeyARN;
+
+  /// The ID of the long-term pricing type for the device.
+  final String? longTermPricingId;
 
   /// The Amazon Simple Notification Service (Amazon SNS) notification settings
   /// associated with a specific job. The <code>Notification</code> object is
   /// returned as a part of the response syntax of the <code>DescribeJob</code>
   /// action in the <code>JobMetadata</code> data type.
   final Notification? notification;
+
+  /// Represents metadata and configuration settings for services on an Amazon Web
+  /// Services Snow Family device.
+  final OnDeviceServiceConfiguration? onDeviceServiceConfiguration;
+
+  /// Allows you to securely operate and manage Snowcone devices remotely from
+  /// outside of your internal network. When set to
+  /// <code>INSTALLED_AUTOSTART</code>, remote management will automatically be
+  /// available when the device arrives at your location. Otherwise, you need to
+  /// use the Snowball Client to manage the device.
+  final RemoteManagement? remoteManagement;
 
   /// An array of <code>S3Resource</code> objects. Each <code>S3Resource</code>
   /// object represents an Amazon S3 bucket that your transferred data will be
@@ -2071,7 +2700,7 @@ class JobMetadata {
 
   /// The role ARN associated with this job. This ARN was created using the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>
-  /// API action in AWS Identity and Access Management (IAM).
+  /// API action in Identity and Access Management.
   final String? roleARN;
 
   /// A job's shipping information, including inbound and outbound tracking
@@ -2081,12 +2710,19 @@ class JobMetadata {
   /// The Snow device capacity preference for this job, specified at job creation.
   /// In US regions, you can choose between 50 TB and 80 TB Snowballs. All other
   /// regions use 80 TB capacity Snowballs.
+  ///
+  /// For more information, see
+  /// "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i> or
+  /// "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i>.
   final SnowballCapacity? snowballCapacityPreference;
 
   /// The type of device used with this job.
   final SnowballType? snowballType;
 
-  /// The metadata associated with the tax documents required in your AWS Region.
+  /// The metadata associated with the tax documents required in your Amazon Web
+  /// Services Region.
   final TaxDocuments? taxDocuments;
 
   JobMetadata({
@@ -2102,7 +2738,10 @@ class JobMetadata {
     this.jobState,
     this.jobType,
     this.kmsKeyARN,
+    this.longTermPricingId,
     this.notification,
+    this.onDeviceServiceConfiguration,
+    this.remoteManagement,
     this.resources,
     this.roleARN,
     this.shippingDetails,
@@ -2110,6 +2749,7 @@ class JobMetadata {
     this.snowballType,
     this.taxDocuments,
   });
+
   factory JobMetadata.fromJson(Map<String, dynamic> json) {
     return JobMetadata(
       addressId: json['AddressId'] as String?,
@@ -2132,9 +2772,16 @@ class JobMetadata {
       jobState: (json['JobState'] as String?)?.toJobState(),
       jobType: (json['JobType'] as String?)?.toJobType(),
       kmsKeyARN: json['KmsKeyARN'] as String?,
+      longTermPricingId: json['LongTermPricingId'] as String?,
       notification: json['Notification'] != null
           ? Notification.fromJson(json['Notification'] as Map<String, dynamic>)
           : null,
+      onDeviceServiceConfiguration: json['OnDeviceServiceConfiguration'] != null
+          ? OnDeviceServiceConfiguration.fromJson(
+              json['OnDeviceServiceConfiguration'] as Map<String, dynamic>)
+          : null,
+      remoteManagement:
+          (json['RemoteManagement'] as String?)?.toRemoteManagement(),
       resources: json['Resources'] != null
           ? JobResource.fromJson(json['Resources'] as Map<String, dynamic>)
           : null,
@@ -2153,9 +2800,9 @@ class JobMetadata {
   }
 }
 
-/// Contains an array of AWS resource objects. Each object represents an Amazon
-/// S3 bucket, an AWS Lambda function, or an Amazon Machine Image (AMI) based on
-/// Amazon EC2 that is associated with a particular job.
+/// Contains an array of Amazon Web Services resource objects. Each object
+/// represents an Amazon S3 bucket, an Lambda function, or an Amazon Machine
+/// Image (AMI) based on Amazon EC2 that is associated with a particular job.
 class JobResource {
   /// The Amazon Machine Images (AMIs) associated with this job.
   final List<Ec2AmiResource>? ec2AmiResources;
@@ -2171,6 +2818,7 @@ class JobResource {
     this.lambdaResources,
     this.s3Resources,
   });
+
   factory JobResource.fromJson(Map<String, dynamic> json) {
     return JobResource(
       ec2AmiResources: (json['Ec2AmiResources'] as List?)
@@ -2334,6 +2982,7 @@ class KeyRange {
     this.beginMarker,
     this.endMarker,
   });
+
   factory KeyRange.fromJson(Map<String, dynamic> json) {
     return KeyRange(
       beginMarker: json['BeginMarker'] as String?,
@@ -2357,7 +3006,7 @@ class LambdaResource {
   /// <a>LambdaResource</a> objects associated with this job.
   final List<EventTriggerDefinition>? eventTriggers;
 
-  /// An Amazon Resource Name (ARN) that represents an AWS Lambda function to be
+  /// An Amazon Resource Name (ARN) that represents an Lambda function to be
   /// triggered by PUT object actions on the associated local Amazon S3 resource.
   final String? lambdaArn;
 
@@ -2365,6 +3014,7 @@ class LambdaResource {
     this.eventTriggers,
     this.lambdaArn,
   });
+
   factory LambdaResource.fromJson(Map<String, dynamic> json) {
     return LambdaResource(
       eventTriggers: (json['EventTriggers'] as List?)
@@ -2401,6 +3051,7 @@ class ListClusterJobsResult {
     this.jobListEntries,
     this.nextToken,
   });
+
   factory ListClusterJobsResult.fromJson(Map<String, dynamic> json) {
     return ListClusterJobsResult(
       jobListEntries: (json['JobListEntries'] as List?)
@@ -2427,6 +3078,7 @@ class ListClustersResult {
     this.clusterListEntries,
     this.nextToken,
   });
+
   factory ListClustersResult.fromJson(Map<String, dynamic> json) {
     return ListClustersResult(
       clusterListEntries: (json['ClusterListEntries'] as List?)
@@ -2451,6 +3103,7 @@ class ListCompatibleImagesResult {
     this.compatibleImages,
     this.nextToken,
   });
+
   factory ListCompatibleImagesResult.fromJson(Map<String, dynamic> json) {
     return ListCompatibleImagesResult(
       compatibleImages: (json['CompatibleImages'] as List?)
@@ -2478,6 +3131,7 @@ class ListJobsResult {
     this.jobListEntries,
     this.nextToken,
   });
+
   factory ListJobsResult.fromJson(Map<String, dynamic> json) {
     return ListJobsResult(
       jobListEntries: (json['JobListEntries'] as List?)
@@ -2486,6 +3140,206 @@ class ListJobsResult {
           .toList(),
       nextToken: json['NextToken'] as String?,
     );
+  }
+}
+
+class ListLongTermPricingResult {
+  /// Each <code>LongTermPricingEntry</code> object contains a status, ID, and
+  /// other information about the <code>LongTermPricing</code> type.
+  final List<LongTermPricingListEntry>? longTermPricingEntries;
+
+  /// Because HTTP requests are stateless, this is the starting point for your
+  /// next list of returned <code>ListLongTermPricing</code> list.
+  final String? nextToken;
+
+  ListLongTermPricingResult({
+    this.longTermPricingEntries,
+    this.nextToken,
+  });
+
+  factory ListLongTermPricingResult.fromJson(Map<String, dynamic> json) {
+    return ListLongTermPricingResult(
+      longTermPricingEntries: (json['LongTermPricingEntries'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              LongTermPricingListEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
+class ListServiceVersionsResult {
+  /// The name of the service for which the system provided supported versions.
+  final ServiceName serviceName;
+
+  /// A list of supported versions.
+  final List<ServiceVersion> serviceVersions;
+
+  /// A list of names and versions of dependant services of the service for which
+  /// the system provided supported versions.
+  final List<DependentService>? dependentServices;
+
+  /// Because HTTP requests are stateless, this is the starting point of the next
+  /// list of returned <code>ListServiceVersionsResult</code> results.
+  final String? nextToken;
+
+  ListServiceVersionsResult({
+    required this.serviceName,
+    required this.serviceVersions,
+    this.dependentServices,
+    this.nextToken,
+  });
+
+  factory ListServiceVersionsResult.fromJson(Map<String, dynamic> json) {
+    return ListServiceVersionsResult(
+      serviceName: (json['ServiceName'] as String).toServiceName(),
+      serviceVersions: (json['ServiceVersions'] as List)
+          .whereNotNull()
+          .map((e) => ServiceVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dependentServices: (json['DependentServices'] as List?)
+          ?.whereNotNull()
+          .map((e) => DependentService.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
+/// Each <code>LongTermPricingListEntry</code> object contains information about
+/// a long-term pricing type.
+class LongTermPricingListEntry {
+  /// The current active jobs on the device the long-term pricing type.
+  final String? currentActiveJob;
+
+  /// If set to <code>true</code>, specifies that the current long-term pricing
+  /// type for the device should be automatically renewed before the long-term
+  /// pricing contract expires.
+  final bool? isLongTermPricingAutoRenew;
+
+  /// The IDs of the jobs that are associated with a long-term pricing type.
+  final List<String>? jobIds;
+
+  /// The end date the long-term pricing contract.
+  final DateTime? longTermPricingEndDate;
+
+  /// The ID of the long-term pricing type for the device.
+  final String? longTermPricingId;
+
+  /// The start date of the long-term pricing contract.
+  final DateTime? longTermPricingStartDate;
+
+  /// The status of the long-term pricing type.
+  final String? longTermPricingStatus;
+
+  /// The type of long-term pricing that was selected for the device.
+  final LongTermPricingType? longTermPricingType;
+
+  /// A new device that replaces a device that is ordered with long-term pricing.
+  final String? replacementJob;
+
+  /// The type of Snow Family devices associated with this long-term pricing job.
+  final SnowballType? snowballType;
+
+  LongTermPricingListEntry({
+    this.currentActiveJob,
+    this.isLongTermPricingAutoRenew,
+    this.jobIds,
+    this.longTermPricingEndDate,
+    this.longTermPricingId,
+    this.longTermPricingStartDate,
+    this.longTermPricingStatus,
+    this.longTermPricingType,
+    this.replacementJob,
+    this.snowballType,
+  });
+
+  factory LongTermPricingListEntry.fromJson(Map<String, dynamic> json) {
+    return LongTermPricingListEntry(
+      currentActiveJob: json['CurrentActiveJob'] as String?,
+      isLongTermPricingAutoRenew: json['IsLongTermPricingAutoRenew'] as bool?,
+      jobIds: (json['JobIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      longTermPricingEndDate: timeStampFromJson(json['LongTermPricingEndDate']),
+      longTermPricingId: json['LongTermPricingId'] as String?,
+      longTermPricingStartDate:
+          timeStampFromJson(json['LongTermPricingStartDate']),
+      longTermPricingStatus: json['LongTermPricingStatus'] as String?,
+      longTermPricingType:
+          (json['LongTermPricingType'] as String?)?.toLongTermPricingType(),
+      replacementJob: json['ReplacementJob'] as String?,
+      snowballType: (json['SnowballType'] as String?)?.toSnowballType(),
+    );
+  }
+}
+
+enum LongTermPricingType {
+  oneYear,
+  threeYear,
+  oneMonth,
+}
+
+extension LongTermPricingTypeValueExtension on LongTermPricingType {
+  String toValue() {
+    switch (this) {
+      case LongTermPricingType.oneYear:
+        return 'OneYear';
+      case LongTermPricingType.threeYear:
+        return 'ThreeYear';
+      case LongTermPricingType.oneMonth:
+        return 'OneMonth';
+    }
+  }
+}
+
+extension LongTermPricingTypeFromString on String {
+  LongTermPricingType toLongTermPricingType() {
+    switch (this) {
+      case 'OneYear':
+        return LongTermPricingType.oneYear;
+      case 'ThreeYear':
+        return LongTermPricingType.threeYear;
+      case 'OneMonth':
+        return LongTermPricingType.oneMonth;
+    }
+    throw Exception('$this is not known in enum LongTermPricingType');
+  }
+}
+
+/// An object that represents the metadata and configuration settings for the
+/// NFS (Network File System) service on an Amazon Web Services Snow Family
+/// device.
+class NFSOnDeviceServiceConfiguration {
+  /// The maximum NFS storage for one Snow Family device.
+  final int? storageLimit;
+
+  /// The scale unit of the NFS storage on the device.
+  ///
+  /// Valid values: TB.
+  final StorageUnit? storageUnit;
+
+  NFSOnDeviceServiceConfiguration({
+    this.storageLimit,
+    this.storageUnit,
+  });
+
+  factory NFSOnDeviceServiceConfiguration.fromJson(Map<String, dynamic> json) {
+    return NFSOnDeviceServiceConfiguration(
+      storageLimit: json['StorageLimit'] as int?,
+      storageUnit: (json['StorageUnit'] as String?)?.toStorageUnit(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final storageLimit = this.storageLimit;
+    final storageUnit = this.storageUnit;
+    return {
+      if (storageLimit != null) 'StorageLimit': storageLimit,
+      if (storageUnit != null) 'StorageUnit': storageUnit.toValue(),
+    };
   }
 }
 
@@ -2511,10 +3365,10 @@ class Notification {
   /// href="https://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.html">CreateTopic</a>
   /// Amazon SNS API action.
   ///
-  /// You can subscribe email addresses to an Amazon SNS topic through the AWS
-  /// Management Console, or by using the <a
+  /// You can subscribe email addresses to an Amazon SNS topic through the Amazon
+  /// Web Services Management Console, or by using the <a
   /// href="https://docs.aws.amazon.com/sns/latest/api/API_Subscribe.html">Subscribe</a>
-  /// AWS Simple Notification Service (SNS) API action.
+  /// Amazon Simple Notification Service (Amazon SNS) API action.
   final String? snsTopicARN;
 
   Notification({
@@ -2522,6 +3376,7 @@ class Notification {
     this.notifyAll,
     this.snsTopicARN,
   });
+
   factory Notification.fromJson(Map<String, dynamic> json) {
     return Notification(
       jobStatesToNotify: (json['JobStatesToNotify'] as List?)
@@ -2546,6 +3401,146 @@ class Notification {
   }
 }
 
+/// An object that represents the metadata and configuration settings for
+/// services on an Amazon Web Services Snow Family device.
+class OnDeviceServiceConfiguration {
+  /// The configuration of EKS Anywhere on the Snow Family device.
+  final EKSOnDeviceServiceConfiguration? eKSOnDeviceService;
+
+  /// Represents the NFS (Network File System) service on a Snow Family device.
+  final NFSOnDeviceServiceConfiguration? nFSOnDeviceService;
+
+  /// Configuration for Amazon S3 compatible storage on Snow family devices.
+  final S3OnDeviceServiceConfiguration? s3OnDeviceService;
+
+  /// Represents the Storage Gateway service Tape Gateway type on a Snow Family
+  /// device.
+  final TGWOnDeviceServiceConfiguration? tGWOnDeviceService;
+
+  OnDeviceServiceConfiguration({
+    this.eKSOnDeviceService,
+    this.nFSOnDeviceService,
+    this.s3OnDeviceService,
+    this.tGWOnDeviceService,
+  });
+
+  factory OnDeviceServiceConfiguration.fromJson(Map<String, dynamic> json) {
+    return OnDeviceServiceConfiguration(
+      eKSOnDeviceService: json['EKSOnDeviceService'] != null
+          ? EKSOnDeviceServiceConfiguration.fromJson(
+              json['EKSOnDeviceService'] as Map<String, dynamic>)
+          : null,
+      nFSOnDeviceService: json['NFSOnDeviceService'] != null
+          ? NFSOnDeviceServiceConfiguration.fromJson(
+              json['NFSOnDeviceService'] as Map<String, dynamic>)
+          : null,
+      s3OnDeviceService: json['S3OnDeviceService'] != null
+          ? S3OnDeviceServiceConfiguration.fromJson(
+              json['S3OnDeviceService'] as Map<String, dynamic>)
+          : null,
+      tGWOnDeviceService: json['TGWOnDeviceService'] != null
+          ? TGWOnDeviceServiceConfiguration.fromJson(
+              json['TGWOnDeviceService'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eKSOnDeviceService = this.eKSOnDeviceService;
+    final nFSOnDeviceService = this.nFSOnDeviceService;
+    final s3OnDeviceService = this.s3OnDeviceService;
+    final tGWOnDeviceService = this.tGWOnDeviceService;
+    return {
+      if (eKSOnDeviceService != null) 'EKSOnDeviceService': eKSOnDeviceService,
+      if (nFSOnDeviceService != null) 'NFSOnDeviceService': nFSOnDeviceService,
+      if (s3OnDeviceService != null) 'S3OnDeviceService': s3OnDeviceService,
+      if (tGWOnDeviceService != null) 'TGWOnDeviceService': tGWOnDeviceService,
+    };
+  }
+}
+
+enum RemoteManagement {
+  installedOnly,
+  installedAutostart,
+}
+
+extension RemoteManagementValueExtension on RemoteManagement {
+  String toValue() {
+    switch (this) {
+      case RemoteManagement.installedOnly:
+        return 'INSTALLED_ONLY';
+      case RemoteManagement.installedAutostart:
+        return 'INSTALLED_AUTOSTART';
+    }
+  }
+}
+
+extension RemoteManagementFromString on String {
+  RemoteManagement toRemoteManagement() {
+    switch (this) {
+      case 'INSTALLED_ONLY':
+        return RemoteManagement.installedOnly;
+      case 'INSTALLED_AUTOSTART':
+        return RemoteManagement.installedAutostart;
+    }
+    throw Exception('$this is not known in enum RemoteManagement');
+  }
+}
+
+/// Amazon S3 compatible storage on Snow family devices configuration items.
+class S3OnDeviceServiceConfiguration {
+  /// &gt;Fault tolerance level of the cluster. This indicates the number of nodes
+  /// that can go down without degrading the performance of the cluster. This
+  /// additional input helps when the specified <code>StorageLimit</code> matches
+  /// more than one Amazon S3 compatible storage on Snow family devices service
+  /// configuration.
+  final int? faultTolerance;
+
+  /// Applicable when creating a cluster. Specifies how many nodes are needed for
+  /// Amazon S3 compatible storage on Snow family devices. If specified, the other
+  /// input can be omitted.
+  final int? serviceSize;
+
+  /// If the specified storage limit value matches storage limit of one of the
+  /// defined configurations, that configuration will be used. If the specified
+  /// storage limit value does not match any defined configuration, the request
+  /// will fail. If more than one configuration has the same storage limit as
+  /// specified, the other input need to be provided.
+  final double? storageLimit;
+
+  /// Storage unit. Currently the only supported unit is TB.
+  final StorageUnit? storageUnit;
+
+  S3OnDeviceServiceConfiguration({
+    this.faultTolerance,
+    this.serviceSize,
+    this.storageLimit,
+    this.storageUnit,
+  });
+
+  factory S3OnDeviceServiceConfiguration.fromJson(Map<String, dynamic> json) {
+    return S3OnDeviceServiceConfiguration(
+      faultTolerance: json['FaultTolerance'] as int?,
+      serviceSize: json['ServiceSize'] as int?,
+      storageLimit: json['StorageLimit'] as double?,
+      storageUnit: (json['StorageUnit'] as String?)?.toStorageUnit(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final faultTolerance = this.faultTolerance;
+    final serviceSize = this.serviceSize;
+    final storageLimit = this.storageLimit;
+    final storageUnit = this.storageUnit;
+    return {
+      if (faultTolerance != null) 'FaultTolerance': faultTolerance,
+      if (serviceSize != null) 'ServiceSize': serviceSize,
+      if (storageLimit != null) 'StorageLimit': storageLimit,
+      if (storageUnit != null) 'StorageUnit': storageUnit.toValue(),
+    };
+  }
+}
+
 /// Each <code>S3Resource</code> object represents an Amazon S3 bucket that your
 /// transferred data will be exported from or imported into. For export jobs,
 /// this object can have an optional <code>KeyRange</code> value. The length of
@@ -2562,25 +3557,90 @@ class S3Resource {
   /// <code>EndMarker</code>, or both. Ranges are UTF-8 binary sorted.
   final KeyRange? keyRange;
 
+  /// Specifies the service or services on the Snow Family device that your
+  /// transferred data will be exported from or imported into. Amazon Web Services
+  /// Snow Family supports Amazon S3 and NFS (Network File System).
+  final List<TargetOnDeviceService>? targetOnDeviceServices;
+
   S3Resource({
     this.bucketArn,
     this.keyRange,
+    this.targetOnDeviceServices,
   });
+
   factory S3Resource.fromJson(Map<String, dynamic> json) {
     return S3Resource(
       bucketArn: json['BucketArn'] as String?,
       keyRange: json['KeyRange'] != null
           ? KeyRange.fromJson(json['KeyRange'] as Map<String, dynamic>)
           : null,
+      targetOnDeviceServices: (json['TargetOnDeviceServices'] as List?)
+          ?.whereNotNull()
+          .map((e) => TargetOnDeviceService.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final bucketArn = this.bucketArn;
     final keyRange = this.keyRange;
+    final targetOnDeviceServices = this.targetOnDeviceServices;
     return {
       if (bucketArn != null) 'BucketArn': bucketArn,
       if (keyRange != null) 'KeyRange': keyRange,
+      if (targetOnDeviceServices != null)
+        'TargetOnDeviceServices': targetOnDeviceServices,
+    };
+  }
+}
+
+enum ServiceName {
+  kubernetes,
+  eksAnywhere,
+}
+
+extension ServiceNameValueExtension on ServiceName {
+  String toValue() {
+    switch (this) {
+      case ServiceName.kubernetes:
+        return 'KUBERNETES';
+      case ServiceName.eksAnywhere:
+        return 'EKS_ANYWHERE';
+    }
+  }
+}
+
+extension ServiceNameFromString on String {
+  ServiceName toServiceName() {
+    switch (this) {
+      case 'KUBERNETES':
+        return ServiceName.kubernetes;
+      case 'EKS_ANYWHERE':
+        return ServiceName.eksAnywhere;
+    }
+    throw Exception('$this is not known in enum ServiceName');
+  }
+}
+
+/// The version of the requested service.
+class ServiceVersion {
+  /// The version number of the requested service.
+  final String? version;
+
+  ServiceVersion({
+    this.version,
+  });
+
+  factory ServiceVersion.fromJson(Map<String, dynamic> json) {
+    return ServiceVersion(
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final version = this.version;
+    return {
+      if (version != null) 'Version': version,
     };
   }
 }
@@ -2603,6 +3663,7 @@ class Shipment {
     this.status,
     this.trackingNumber,
   });
+
   factory Shipment.fromJson(Map<String, dynamic> json) {
     return Shipment(
       status: json['Status'] as String?,
@@ -2643,7 +3704,7 @@ extension ShipmentStateFromString on String {
 /// numbers and shipping speed options.
 class ShippingDetails {
   /// The <code>Status</code> and <code>TrackingNumber</code> values for a Snow
-  /// device being returned to AWS for a particular job.
+  /// device being returned to Amazon Web Services for a particular job.
   final Shipment? inboundShipment;
 
   /// The <code>Status</code> and <code>TrackingNumber</code> values for a Snow
@@ -2668,7 +3729,7 @@ class ShippingDetails {
   /// less than a week, one way.
   /// </li>
   /// <li>
-  /// In India, Snow device are delivered in one to seven days.
+  /// In India, Snow devices are delivered in one to seven days.
   /// </li>
   /// <li>
   /// In the United States of America (US), you have access to one-day shipping
@@ -2682,6 +3743,7 @@ class ShippingDetails {
     this.outboundShipment,
     this.shippingOption,
   });
+
   factory ShippingDetails.fromJson(Map<String, dynamic> json) {
     return ShippingDetails(
       inboundShipment: json['InboundShipment'] != null
@@ -2778,7 +3840,10 @@ enum SnowballCapacity {
   t42,
   t98,
   t8,
+  t14,
+  t32,
   noPreference,
+  t240,
 }
 
 extension SnowballCapacityValueExtension on SnowballCapacity {
@@ -2796,8 +3861,14 @@ extension SnowballCapacityValueExtension on SnowballCapacity {
         return 'T98';
       case SnowballCapacity.t8:
         return 'T8';
+      case SnowballCapacity.t14:
+        return 'T14';
+      case SnowballCapacity.t32:
+        return 'T32';
       case SnowballCapacity.noPreference:
         return 'NoPreference';
+      case SnowballCapacity.t240:
+        return 'T240';
     }
   }
 }
@@ -2817,8 +3888,14 @@ extension SnowballCapacityFromString on String {
         return SnowballCapacity.t98;
       case 'T8':
         return SnowballCapacity.t8;
+      case 'T14':
+        return SnowballCapacity.t14;
+      case 'T32':
+        return SnowballCapacity.t32;
       case 'NoPreference':
         return SnowballCapacity.noPreference;
+      case 'T240':
+        return SnowballCapacity.t240;
     }
     throw Exception('$this is not known in enum SnowballCapacity');
   }
@@ -2831,6 +3908,9 @@ enum SnowballType {
   edgeCg,
   edgeS,
   snc1Hdd,
+  snc1Ssd,
+  v3_5c,
+  v3_5s,
 }
 
 extension SnowballTypeValueExtension on SnowballType {
@@ -2848,6 +3928,12 @@ extension SnowballTypeValueExtension on SnowballType {
         return 'EDGE_S';
       case SnowballType.snc1Hdd:
         return 'SNC1_HDD';
+      case SnowballType.snc1Ssd:
+        return 'SNC1_SSD';
+      case SnowballType.v3_5c:
+        return 'V3_5C';
+      case SnowballType.v3_5s:
+        return 'V3_5S';
     }
   }
 }
@@ -2867,19 +3953,26 @@ extension SnowballTypeFromString on String {
         return SnowballType.edgeS;
       case 'SNC1_HDD':
         return SnowballType.snc1Hdd;
+      case 'SNC1_SSD':
+        return SnowballType.snc1Ssd;
+      case 'V3_5C':
+        return SnowballType.v3_5c;
+      case 'V3_5S':
+        return SnowballType.v3_5s;
     }
     throw Exception('$this is not known in enum SnowballType');
   }
 }
 
-/// Specifies the device configuration for an AWS Snowcone job.
+/// Specifies the device configuration for an Snowcone job.
 class SnowconeDeviceConfiguration {
-  /// Configures the wireless connection for the AWS Snowcone device.
+  /// Configures the wireless connection for the Snowcone device.
   final WirelessConnection? wirelessConnection;
 
   SnowconeDeviceConfiguration({
     this.wirelessConnection,
   });
+
   factory SnowconeDeviceConfiguration.fromJson(Map<String, dynamic> json) {
     return SnowconeDeviceConfiguration(
       wirelessConnection: json['WirelessConnection'] != null
@@ -2897,13 +3990,105 @@ class SnowconeDeviceConfiguration {
   }
 }
 
-/// The tax documents required in your AWS Region.
+enum StorageUnit {
+  tb,
+}
+
+extension StorageUnitValueExtension on StorageUnit {
+  String toValue() {
+    switch (this) {
+      case StorageUnit.tb:
+        return 'TB';
+    }
+  }
+}
+
+extension StorageUnitFromString on String {
+  StorageUnit toStorageUnit() {
+    switch (this) {
+      case 'TB':
+        return StorageUnit.tb;
+    }
+    throw Exception('$this is not known in enum StorageUnit');
+  }
+}
+
+/// An object that represents the metadata and configuration settings for the
+/// Storage Gateway service Tape Gateway type on an Amazon Web Services Snow
+/// Family device.
+class TGWOnDeviceServiceConfiguration {
+  /// The maximum number of virtual tapes to store on one Snow Family device. Due
+  /// to physical resource limitations, this value must be set to 80 for Snowball
+  /// Edge.
+  final int? storageLimit;
+
+  /// The scale unit of the virtual tapes on the device.
+  final StorageUnit? storageUnit;
+
+  TGWOnDeviceServiceConfiguration({
+    this.storageLimit,
+    this.storageUnit,
+  });
+
+  factory TGWOnDeviceServiceConfiguration.fromJson(Map<String, dynamic> json) {
+    return TGWOnDeviceServiceConfiguration(
+      storageLimit: json['StorageLimit'] as int?,
+      storageUnit: (json['StorageUnit'] as String?)?.toStorageUnit(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final storageLimit = this.storageLimit;
+    final storageUnit = this.storageUnit;
+    return {
+      if (storageLimit != null) 'StorageLimit': storageLimit,
+      if (storageUnit != null) 'StorageUnit': storageUnit.toValue(),
+    };
+  }
+}
+
+/// An object that represents the service or services on the Snow Family device
+/// that your transferred data will be exported from or imported into. Amazon
+/// Web Services Snow Family supports Amazon S3 and NFS (Network File System).
+class TargetOnDeviceService {
+  /// Specifies the name of the service on the Snow Family device that your
+  /// transferred data will be exported from or imported into.
+  final DeviceServiceName? serviceName;
+
+  /// Specifies whether the data is being imported or exported. You can import or
+  /// export the data, or use it locally on the device.
+  final TransferOption? transferOption;
+
+  TargetOnDeviceService({
+    this.serviceName,
+    this.transferOption,
+  });
+
+  factory TargetOnDeviceService.fromJson(Map<String, dynamic> json) {
+    return TargetOnDeviceService(
+      serviceName: (json['ServiceName'] as String?)?.toDeviceServiceName(),
+      transferOption: (json['TransferOption'] as String?)?.toTransferOption(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceName = this.serviceName;
+    final transferOption = this.transferOption;
+    return {
+      if (serviceName != null) 'ServiceName': serviceName.toValue(),
+      if (transferOption != null) 'TransferOption': transferOption.toValue(),
+    };
+  }
+}
+
+/// The tax documents required in your Amazon Web Services Region.
 class TaxDocuments {
   final INDTaxDocuments? ind;
 
   TaxDocuments({
     this.ind,
   });
+
   factory TaxDocuments.fromJson(Map<String, dynamic> json) {
     return TaxDocuments(
       ind: json['IND'] != null
@@ -2920,8 +4105,42 @@ class TaxDocuments {
   }
 }
 
+enum TransferOption {
+  import,
+  export,
+  localUse,
+}
+
+extension TransferOptionValueExtension on TransferOption {
+  String toValue() {
+    switch (this) {
+      case TransferOption.import:
+        return 'IMPORT';
+      case TransferOption.export:
+        return 'EXPORT';
+      case TransferOption.localUse:
+        return 'LOCAL_USE';
+    }
+  }
+}
+
+extension TransferOptionFromString on String {
+  TransferOption toTransferOption() {
+    switch (this) {
+      case 'IMPORT':
+        return TransferOption.import;
+      case 'EXPORT':
+        return TransferOption.export;
+      case 'LOCAL_USE':
+        return TransferOption.localUse;
+    }
+    throw Exception('$this is not known in enum TransferOption');
+  }
+}
+
 class UpdateClusterResult {
   UpdateClusterResult();
+
   factory UpdateClusterResult.fromJson(Map<String, dynamic> _) {
     return UpdateClusterResult();
   }
@@ -2929,6 +4148,7 @@ class UpdateClusterResult {
 
 class UpdateJobResult {
   UpdateJobResult();
+
   factory UpdateJobResult.fromJson(Map<String, dynamic> _) {
     return UpdateJobResult();
   }
@@ -2936,19 +4156,29 @@ class UpdateJobResult {
 
 class UpdateJobShipmentStateResult {
   UpdateJobShipmentStateResult();
+
   factory UpdateJobShipmentStateResult.fromJson(Map<String, dynamic> _) {
     return UpdateJobShipmentStateResult();
   }
 }
 
-/// Configures the wireless connection on an AWS Snowcone device.
+class UpdateLongTermPricingResult {
+  UpdateLongTermPricingResult();
+
+  factory UpdateLongTermPricingResult.fromJson(Map<String, dynamic> _) {
+    return UpdateLongTermPricingResult();
+  }
+}
+
+/// Configures the wireless connection on an Snowcone device.
 class WirelessConnection {
-  /// Enables the Wi-Fi adapter on an AWS Snowcone device.
+  /// Enables the Wi-Fi adapter on an Snowcone device.
   final bool? isWifiEnabled;
 
   WirelessConnection({
     this.isWifiEnabled,
   });
+
   factory WirelessConnection.fromJson(Map<String, dynamic> json) {
     return WirelessConnection(
       isWifiEnabled: json['IsWifiEnabled'] as bool?,

@@ -1575,6 +1575,7 @@ class AddAttributesToFindingsResponse {
   AddAttributesToFindingsResponse({
     required this.failedItems,
   });
+
   factory AddAttributesToFindingsResponse.fromJson(Map<String, dynamic> json) {
     return AddAttributesToFindingsResponse(
       failedItems: (json['failedItems'] as Map<String, dynamic>).map((k, e) =>
@@ -1730,6 +1731,7 @@ class AgentPreview {
     this.kernelVersion,
     this.operatingSystem,
   });
+
   factory AgentPreview.fromJson(Map<String, dynamic> json) {
     return AgentPreview(
       agentId: json['agentId'] as String,
@@ -1815,6 +1817,7 @@ class AssessmentRun {
     this.completedAt,
     this.startedAt,
   });
+
   factory AssessmentRun.fromJson(Map<String, dynamic> json) {
     return AssessmentRun(
       arn: json['arn'] as String,
@@ -1887,6 +1890,7 @@ class AssessmentRunAgent {
     this.agentHealthDetails,
     this.autoScalingGroup,
   });
+
   factory AssessmentRunAgent.fromJson(Map<String, dynamic> json) {
     return AssessmentRunAgent(
       agentHealth: (json['agentHealth'] as String).toAgentHealth(),
@@ -2004,6 +2008,7 @@ class AssessmentRunNotification {
     this.snsPublishStatusCode,
     this.snsTopicArn,
   });
+
   factory AssessmentRunNotification.fromJson(Map<String, dynamic> json) {
     return AssessmentRunNotification(
       date: nonNullableTimeStampFromJson(json['date'] as Object),
@@ -2153,6 +2158,7 @@ class AssessmentRunStateChange {
     required this.state,
     required this.stateChangedAt,
   });
+
   factory AssessmentRunStateChange.fromJson(Map<String, dynamic> json) {
     return AssessmentRunStateChange(
       state: (json['state'] as String).toAssessmentRunState(),
@@ -2189,6 +2195,7 @@ class AssessmentTarget {
     required this.updatedAt,
     this.resourceGroupArn,
   });
+
   factory AssessmentTarget.fromJson(Map<String, dynamic> json) {
     return AssessmentTarget(
       arn: json['arn'] as String,
@@ -2269,6 +2276,7 @@ class AssessmentTemplate {
     required this.userAttributesForFindings,
     this.lastAssessmentRunArn,
   });
+
   factory AssessmentTemplate.fromJson(Map<String, dynamic> json) {
     return AssessmentTemplate(
       arn: json['arn'] as String,
@@ -2366,6 +2374,7 @@ class AssetAttributes {
     this.networkInterfaces,
     this.tags,
   });
+
   factory AssetAttributes.fromJson(Map<String, dynamic> json) {
     return AssetAttributes(
       schemaVersion: json['schemaVersion'] as int,
@@ -2425,6 +2434,7 @@ class Attribute {
     required this.key,
     this.value,
   });
+
   factory Attribute.fromJson(Map<String, dynamic> json) {
     return Attribute(
       key: json['key'] as String,
@@ -2449,6 +2459,7 @@ class CreateAssessmentTargetResponse {
   CreateAssessmentTargetResponse({
     required this.assessmentTargetArn,
   });
+
   factory CreateAssessmentTargetResponse.fromJson(Map<String, dynamic> json) {
     return CreateAssessmentTargetResponse(
       assessmentTargetArn: json['assessmentTargetArn'] as String,
@@ -2463,6 +2474,7 @@ class CreateAssessmentTemplateResponse {
   CreateAssessmentTemplateResponse({
     required this.assessmentTemplateArn,
   });
+
   factory CreateAssessmentTemplateResponse.fromJson(Map<String, dynamic> json) {
     return CreateAssessmentTemplateResponse(
       assessmentTemplateArn: json['assessmentTemplateArn'] as String,
@@ -2479,6 +2491,7 @@ class CreateExclusionsPreviewResponse {
   CreateExclusionsPreviewResponse({
     required this.previewToken,
   });
+
   factory CreateExclusionsPreviewResponse.fromJson(Map<String, dynamic> json) {
     return CreateExclusionsPreviewResponse(
       previewToken: json['previewToken'] as String,
@@ -2493,6 +2506,7 @@ class CreateResourceGroupResponse {
   CreateResourceGroupResponse({
     required this.resourceGroupArn,
   });
+
   factory CreateResourceGroupResponse.fromJson(Map<String, dynamic> json) {
     return CreateResourceGroupResponse(
       resourceGroupArn: json['resourceGroupArn'] as String,
@@ -2512,6 +2526,7 @@ class DescribeAssessmentRunsResponse {
     required this.assessmentRuns,
     required this.failedItems,
   });
+
   factory DescribeAssessmentRunsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAssessmentRunsResponse(
       assessmentRuns: (json['assessmentRuns'] as List)
@@ -2536,6 +2551,7 @@ class DescribeAssessmentTargetsResponse {
     required this.assessmentTargets,
     required this.failedItems,
   });
+
   factory DescribeAssessmentTargetsResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeAssessmentTargetsResponse(
@@ -2561,6 +2577,7 @@ class DescribeAssessmentTemplatesResponse {
     required this.assessmentTemplates,
     required this.failedItems,
   });
+
   factory DescribeAssessmentTemplatesResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeAssessmentTemplatesResponse(
@@ -2591,6 +2608,7 @@ class DescribeCrossAccountAccessRoleResponse {
     required this.roleArn,
     required this.valid,
   });
+
   factory DescribeCrossAccountAccessRoleResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeCrossAccountAccessRoleResponse(
@@ -2614,6 +2632,7 @@ class DescribeExclusionsResponse {
     required this.exclusions,
     required this.failedItems,
   });
+
   factory DescribeExclusionsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeExclusionsResponse(
       exclusions: (json['exclusions'] as Map<String, dynamic>).map(
@@ -2636,6 +2655,7 @@ class DescribeFindingsResponse {
     required this.failedItems,
     required this.findings,
   });
+
   factory DescribeFindingsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeFindingsResponse(
       failedItems: (json['failedItems'] as Map<String, dynamic>).map((k, e) =>
@@ -2660,6 +2680,7 @@ class DescribeResourceGroupsResponse {
     required this.failedItems,
     required this.resourceGroups,
   });
+
   factory DescribeResourceGroupsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeResourceGroupsResponse(
       failedItems: (json['failedItems'] as Map<String, dynamic>).map((k, e) =>
@@ -2684,6 +2705,7 @@ class DescribeRulesPackagesResponse {
     required this.failedItems,
     required this.rulesPackages,
   });
+
   factory DescribeRulesPackagesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeRulesPackagesResponse(
       failedItems: (json['failedItems'] as Map<String, dynamic>).map((k, e) =>
@@ -2732,6 +2754,7 @@ class EventSubscription {
     required this.event,
     required this.subscribedAt,
   });
+
   factory EventSubscription.fromJson(Map<String, dynamic> json) {
     return EventSubscription(
       event: (json['event'] as String).toInspectorEvent(),
@@ -2769,6 +2792,7 @@ class Exclusion {
     required this.title,
     this.attributes,
   });
+
   factory Exclusion.fromJson(Map<String, dynamic> json) {
     return Exclusion(
       arn: json['arn'] as String,
@@ -2812,6 +2836,7 @@ class ExclusionPreview {
     required this.title,
     this.attributes,
   });
+
   factory ExclusionPreview.fromJson(Map<String, dynamic> json) {
     return ExclusionPreview(
       description: json['description'] as String,
@@ -2842,6 +2867,7 @@ class FailedItemDetails {
     required this.failureCode,
     required this.retryable,
   });
+
   factory FailedItemDetails.fromJson(Map<String, dynamic> json) {
     return FailedItemDetails(
       failureCode: (json['failureCode'] as String).toFailedItemErrorCode(),
@@ -2976,6 +3002,7 @@ class Finding {
     this.severity,
     this.title,
   });
+
   factory Finding.fromJson(Map<String, dynamic> json) {
     return Finding(
       arn: json['arn'] as String,
@@ -3098,6 +3125,7 @@ class GetAssessmentReportResponse {
     required this.status,
     this.url,
   });
+
   factory GetAssessmentReportResponse.fromJson(Map<String, dynamic> json) {
     return GetAssessmentReportResponse(
       status: (json['status'] as String).toReportStatus(),
@@ -3124,6 +3152,7 @@ class GetExclusionsPreviewResponse {
     this.exclusionPreviews,
     this.nextToken,
   });
+
   factory GetExclusionsPreviewResponse.fromJson(Map<String, dynamic> json) {
     return GetExclusionsPreviewResponse(
       previewStatus: (json['previewStatus'] as String).toPreviewStatus(),
@@ -3143,6 +3172,7 @@ class GetTelemetryMetadataResponse {
   GetTelemetryMetadataResponse({
     required this.telemetryMetadata,
   });
+
   factory GetTelemetryMetadataResponse.fromJson(Map<String, dynamic> json) {
     return GetTelemetryMetadataResponse(
       telemetryMetadata: (json['telemetryMetadata'] as List)
@@ -3212,6 +3242,7 @@ class InspectorServiceAttributes {
     this.assessmentRunArn,
     this.rulesPackageArn,
   });
+
   factory InspectorServiceAttributes.fromJson(Map<String, dynamic> json) {
     return InspectorServiceAttributes(
       schemaVersion: json['schemaVersion'] as int,
@@ -3235,6 +3266,7 @@ class ListAssessmentRunAgentsResponse {
     required this.assessmentRunAgents,
     this.nextToken,
   });
+
   factory ListAssessmentRunAgentsResponse.fromJson(Map<String, dynamic> json) {
     return ListAssessmentRunAgentsResponse(
       assessmentRunAgents: (json['assessmentRunAgents'] as List)
@@ -3261,6 +3293,7 @@ class ListAssessmentRunsResponse {
     required this.assessmentRunArns,
     this.nextToken,
   });
+
   factory ListAssessmentRunsResponse.fromJson(Map<String, dynamic> json) {
     return ListAssessmentRunsResponse(
       assessmentRunArns: (json['assessmentRunArns'] as List)
@@ -3287,6 +3320,7 @@ class ListAssessmentTargetsResponse {
     required this.assessmentTargetArns,
     this.nextToken,
   });
+
   factory ListAssessmentTargetsResponse.fromJson(Map<String, dynamic> json) {
     return ListAssessmentTargetsResponse(
       assessmentTargetArns: (json['assessmentTargetArns'] as List)
@@ -3313,6 +3347,7 @@ class ListAssessmentTemplatesResponse {
     required this.assessmentTemplateArns,
     this.nextToken,
   });
+
   factory ListAssessmentTemplatesResponse.fromJson(Map<String, dynamic> json) {
     return ListAssessmentTemplatesResponse(
       assessmentTemplateArns: (json['assessmentTemplateArns'] as List)
@@ -3338,6 +3373,7 @@ class ListEventSubscriptionsResponse {
     required this.subscriptions,
     this.nextToken,
   });
+
   factory ListEventSubscriptionsResponse.fromJson(Map<String, dynamic> json) {
     return ListEventSubscriptionsResponse(
       subscriptions: (json['subscriptions'] as List)
@@ -3363,6 +3399,7 @@ class ListExclusionsResponse {
     required this.exclusionArns,
     this.nextToken,
   });
+
   factory ListExclusionsResponse.fromJson(Map<String, dynamic> json) {
     return ListExclusionsResponse(
       exclusionArns: (json['exclusionArns'] as List)
@@ -3388,6 +3425,7 @@ class ListFindingsResponse {
     required this.findingArns,
     this.nextToken,
   });
+
   factory ListFindingsResponse.fromJson(Map<String, dynamic> json) {
     return ListFindingsResponse(
       findingArns: (json['findingArns'] as List)
@@ -3413,6 +3451,7 @@ class ListRulesPackagesResponse {
     required this.rulesPackageArns,
     this.nextToken,
   });
+
   factory ListRulesPackagesResponse.fromJson(Map<String, dynamic> json) {
     return ListRulesPackagesResponse(
       rulesPackageArns: (json['rulesPackageArns'] as List)
@@ -3431,6 +3470,7 @@ class ListTagsForResourceResponse {
   ListTagsForResourceResponse({
     required this.tags,
   });
+
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
       tags: (json['tags'] as List)
@@ -3512,6 +3552,7 @@ class NetworkInterface {
     this.subnetId,
     this.vpcId,
   });
+
   factory NetworkInterface.fromJson(Map<String, dynamic> json) {
     return NetworkInterface(
       ipv6Addresses: (json['ipv6Addresses'] as List?)
@@ -3551,6 +3592,7 @@ class PreviewAgentsResponse {
     required this.agentPreviews,
     this.nextToken,
   });
+
   factory PreviewAgentsResponse.fromJson(Map<String, dynamic> json) {
     return PreviewAgentsResponse(
       agentPreviews: (json['agentPreviews'] as List)
@@ -3604,6 +3646,7 @@ class PrivateIp {
     this.privateDnsName,
     this.privateIpAddress,
   });
+
   factory PrivateIp.fromJson(Map<String, dynamic> json) {
     return PrivateIp(
       privateDnsName: json['privateDnsName'] as String?,
@@ -3620,6 +3663,7 @@ class RemoveAttributesFromFindingsResponse {
   RemoveAttributesFromFindingsResponse({
     required this.failedItems,
   });
+
   factory RemoveAttributesFromFindingsResponse.fromJson(
       Map<String, dynamic> json) {
     return RemoveAttributesFromFindingsResponse(
@@ -3738,6 +3782,7 @@ class ResourceGroup {
     required this.createdAt,
     required this.tags,
   });
+
   factory ResourceGroup.fromJson(Map<String, dynamic> json) {
     return ResourceGroup(
       arn: json['arn'] as String,
@@ -3763,6 +3808,7 @@ class ResourceGroupTag {
     required this.key,
     this.value,
   });
+
   factory ResourceGroupTag.fromJson(Map<String, dynamic> json) {
     return ResourceGroupTag(
       key: json['key'] as String,
@@ -3805,6 +3851,7 @@ class RulesPackage {
     required this.version,
     this.description,
   });
+
   factory RulesPackage.fromJson(Map<String, dynamic> json) {
     return RulesPackage(
       arn: json['arn'] as String,
@@ -3829,6 +3876,7 @@ class Scope {
     this.key,
     this.value,
   });
+
   factory Scope.fromJson(Map<String, dynamic> json) {
     return Scope(
       key: (json['key'] as String?)?.toScopeType(),
@@ -3879,6 +3927,7 @@ class SecurityGroup {
     this.groupId,
     this.groupName,
   });
+
   factory SecurityGroup.fromJson(Map<String, dynamic> json) {
     return SecurityGroup(
       groupId: json['groupId'] as String?,
@@ -3937,6 +3986,7 @@ class StartAssessmentRunResponse {
   StartAssessmentRunResponse({
     required this.assessmentRunArn,
   });
+
   factory StartAssessmentRunResponse.fromJson(Map<String, dynamic> json) {
     return StartAssessmentRunResponse(
       assessmentRunArn: json['assessmentRunArn'] as String,
@@ -3991,6 +4041,7 @@ class Subscription {
     required this.resourceArn,
     required this.topicArn,
   });
+
   factory Subscription.fromJson(Map<String, dynamic> json) {
     return Subscription(
       eventSubscriptions: (json['eventSubscriptions'] as List)
@@ -4017,6 +4068,7 @@ class Tag {
     required this.key,
     this.value,
   });
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       key: json['key'] as String,
@@ -4053,6 +4105,7 @@ class TelemetryMetadata {
     required this.messageType,
     this.dataSize,
   });
+
   factory TelemetryMetadata.fromJson(Map<String, dynamic> json) {
     return TelemetryMetadata(
       count: json['count'] as int,

@@ -607,6 +607,7 @@ class EventSourceConfiguration {
     this.status,
     this.uuid,
   });
+
   factory EventSourceConfiguration.fromJson(Map<String, dynamic> json) {
     return EventSourceConfiguration(
       batchSize: json['BatchSize'] as int?,
@@ -636,6 +637,7 @@ class FunctionCodeLocation {
     this.location,
     this.repositoryType,
   });
+
   factory FunctionCodeLocation.fromJson(Map<String, dynamic> json) {
     return FunctionCodeLocation(
       location: json['Location'] as String?,
@@ -702,6 +704,7 @@ class FunctionConfiguration {
     this.runtime,
     this.timeout,
   });
+
   factory FunctionConfiguration.fromJson(Map<String, dynamic> json) {
     return FunctionConfiguration(
       codeSize: json['CodeSize'] as int?,
@@ -730,6 +733,7 @@ class GetFunctionResponse {
     this.code,
     this.configuration,
   });
+
   factory GetFunctionResponse.fromJson(Map<String, dynamic> json) {
     return GetFunctionResponse(
       code: json['Code'] != null
@@ -755,6 +759,7 @@ class InvalidParameterValueException implements _s.AwsException {
     this.type,
     this.message,
   });
+
   factory InvalidParameterValueException.fromJson(Map<String, dynamic> json) {
     return InvalidParameterValueException(
       type: json['Type'] as String?,
@@ -772,6 +777,7 @@ class InvalidRequestContentException implements _s.AwsException {
     this.type,
     this.message,
   });
+
   factory InvalidRequestContentException.fromJson(Map<String, dynamic> json) {
     return InvalidRequestContentException(
       type: json['Type'] as String?,
@@ -788,8 +794,11 @@ class InvokeAsyncResponse {
   InvokeAsyncResponse({
     this.status,
   });
-  factory InvokeAsyncResponse.fromJson(Map<String, dynamic> _) {
-    return InvokeAsyncResponse();
+
+  factory InvokeAsyncResponse.fromJson(Map<String, dynamic> json) {
+    return InvokeAsyncResponse(
+      status: json['Status'] as int?,
+    );
   }
 }
 
@@ -805,6 +814,7 @@ class ListEventSourcesResponse {
     this.eventSources,
     this.nextMarker,
   });
+
   factory ListEventSourcesResponse.fromJson(Map<String, dynamic> json) {
     return ListEventSourcesResponse(
       eventSources: (json['EventSources'] as List?)
@@ -830,6 +840,7 @@ class ListFunctionsResponse {
     this.functions,
     this.nextMarker,
   });
+
   factory ListFunctionsResponse.fromJson(Map<String, dynamic> json) {
     return ListFunctionsResponse(
       functions: (json['Functions'] as List?)
@@ -873,6 +884,7 @@ class ResourceNotFoundException implements _s.AwsException {
     this.message,
     this.type,
   });
+
   factory ResourceNotFoundException.fromJson(Map<String, dynamic> json) {
     return ResourceNotFoundException(
       message: json['Message'] as String?,
@@ -913,6 +925,7 @@ class ServiceException implements _s.AwsException {
     this.message,
     this.type,
   });
+
   factory ServiceException.fromJson(Map<String, dynamic> json) {
     return ServiceException(
       message: json['Message'] as String?,

@@ -3,8 +3,8 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-AWS Secrets Manager provides a service to enable you to store, manage, and
-retrieve, secrets.
+Amazon Web Services Secrets Manager provides a service to enable you to
+store, manage, and retrieve, secrets.
 
 ## Links
 
