@@ -1636,6 +1636,7 @@ class ApplicationUpdate {
     this.outputUpdates,
     this.referenceDataSourceUpdates,
   });
+
   Map<String, dynamic> toJson() {
     final applicationCodeUpdate = this.applicationCodeUpdate;
     final cloudWatchLoggingOptionUpdates = this.cloudWatchLoggingOptionUpdates;
@@ -1709,6 +1710,7 @@ class CloudWatchLoggingOption {
     required this.logStreamARN,
     required this.roleARN,
   });
+
   Map<String, dynamic> toJson() {
     final logStreamARN = this.logStreamARN;
     final roleARN = this.roleARN;
@@ -1766,6 +1768,7 @@ class CloudWatchLoggingOptionUpdate {
     this.logStreamARNUpdate,
     this.roleARNUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final cloudWatchLoggingOptionId = this.cloudWatchLoggingOptionId;
     final logStreamARNUpdate = this.logStreamARNUpdate;
@@ -1996,6 +1999,7 @@ class Input {
     this.kinesisFirehoseInput,
     this.kinesisStreamsInput,
   });
+
   Map<String, dynamic> toJson() {
     final inputSchema = this.inputSchema;
     final namePrefix = this.namePrefix;
@@ -2034,6 +2038,7 @@ class InputConfiguration {
     required this.id,
     required this.inputStartingPositionConfiguration,
   });
+
   Map<String, dynamic> toJson() {
     final id = this.id;
     final inputStartingPositionConfiguration =
@@ -2165,6 +2170,7 @@ class InputLambdaProcessor {
     required this.resourceARN,
     required this.roleARN,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARN = this.resourceARN;
     final roleARN = this.roleARN;
@@ -2223,6 +2229,7 @@ class InputLambdaProcessorUpdate {
     this.resourceARNUpdate,
     this.roleARNUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARNUpdate = this.resourceARNUpdate;
     final roleARNUpdate = this.roleARNUpdate;
@@ -2269,6 +2276,7 @@ class InputParallelismUpdate {
   InputParallelismUpdate({
     this.countUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final countUpdate = this.countUpdate;
     return {
@@ -2291,6 +2299,7 @@ class InputProcessingConfiguration {
   InputProcessingConfiguration({
     required this.inputLambdaProcessor,
   });
+
   Map<String, dynamic> toJson() {
     final inputLambdaProcessor = this.inputLambdaProcessor;
     return {
@@ -2334,6 +2343,7 @@ class InputProcessingConfigurationUpdate {
   InputProcessingConfigurationUpdate({
     required this.inputLambdaProcessorUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final inputLambdaProcessorUpdate = this.inputLambdaProcessorUpdate;
     return {
@@ -2361,6 +2371,7 @@ class InputSchemaUpdate {
     this.recordEncodingUpdate,
     this.recordFormatUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final recordColumnUpdates = this.recordColumnUpdates;
     final recordEncodingUpdate = this.recordEncodingUpdate;
@@ -2490,6 +2501,7 @@ class InputUpdate {
     this.kinesisStreamsInputUpdate,
     this.namePrefixUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final inputId = this.inputId;
     final inputParallelismUpdate = this.inputParallelismUpdate;
@@ -2557,6 +2569,7 @@ class KinesisFirehoseInput {
     required this.resourceARN,
     required this.roleARN,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARN = this.resourceARN;
     final roleARN = this.roleARN;
@@ -2606,6 +2619,7 @@ class KinesisFirehoseInputUpdate {
     this.resourceARNUpdate,
     this.roleARNUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARNUpdate = this.resourceARNUpdate;
     final roleARNUpdate = this.roleARNUpdate;
@@ -2633,6 +2647,7 @@ class KinesisFirehoseOutput {
     required this.resourceARN,
     required this.roleARN,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARN = this.resourceARN;
     final roleARN = this.roleARN;
@@ -2684,6 +2699,7 @@ class KinesisFirehoseOutputUpdate {
     this.resourceARNUpdate,
     this.roleARNUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARNUpdate = this.resourceARNUpdate;
     final roleARNUpdate = this.roleARNUpdate;
@@ -2710,6 +2726,7 @@ class KinesisStreamsInput {
     required this.resourceARN,
     required this.roleARN,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARN = this.resourceARN;
     final roleARN = this.roleARN;
@@ -2758,6 +2775,7 @@ class KinesisStreamsInputUpdate {
     this.resourceARNUpdate,
     this.roleARNUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARNUpdate = this.resourceARNUpdate;
     final roleARNUpdate = this.roleARNUpdate;
@@ -2785,6 +2803,7 @@ class KinesisStreamsOutput {
     required this.resourceARN,
     required this.roleARN,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARN = this.resourceARN;
     final roleARN = this.roleARN;
@@ -2836,6 +2855,7 @@ class KinesisStreamsOutputUpdate {
     this.resourceARNUpdate,
     this.roleARNUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARNUpdate = this.resourceARNUpdate;
     final roleARNUpdate = this.roleARNUpdate;
@@ -2870,6 +2890,7 @@ class LambdaOutput {
     required this.resourceARN,
     required this.roleARN,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARN = this.resourceARN;
     final roleARN = this.roleARN;
@@ -2927,6 +2948,7 @@ class LambdaOutputUpdate {
     this.resourceARNUpdate,
     this.roleARNUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARNUpdate = this.resourceARNUpdate;
     final roleARNUpdate = this.roleARNUpdate;
@@ -3056,6 +3078,7 @@ class Output {
     this.kinesisStreamsOutput,
     this.lambdaOutput,
   });
+
   Map<String, dynamic> toJson() {
     final destinationSchema = this.destinationSchema;
     final name = this.name;
@@ -3171,6 +3194,7 @@ class OutputUpdate {
     this.lambdaOutputUpdate,
     this.nameUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final outputId = this.outputId;
     final destinationSchemaUpdate = this.destinationSchemaUpdate;
@@ -3328,6 +3352,7 @@ class ReferenceDataSource {
     required this.tableName,
     this.s3ReferenceDataSource,
   });
+
   Map<String, dynamic> toJson() {
     final referenceSchema = this.referenceSchema;
     final tableName = this.tableName;
@@ -3415,6 +3440,7 @@ class ReferenceDataSourceUpdate {
     this.s3ReferenceDataSourceUpdate,
     this.tableNameUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final referenceId = this.referenceId;
     final referenceSchemaUpdate = this.referenceSchemaUpdate;
@@ -3450,6 +3476,7 @@ class S3Configuration {
     required this.fileKey,
     required this.roleARN,
   });
+
   Map<String, dynamic> toJson() {
     final bucketARN = this.bucketARN;
     final fileKey = this.fileKey;
@@ -3488,6 +3515,7 @@ class S3ReferenceDataSource {
     required this.fileKey,
     required this.referenceRoleARN,
   });
+
   Map<String, dynamic> toJson() {
     final bucketARN = this.bucketARN;
     final fileKey = this.fileKey;
@@ -3547,6 +3575,7 @@ class S3ReferenceDataSourceUpdate {
     this.fileKeyUpdate,
     this.referenceRoleARNUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final bucketARNUpdate = this.bucketARNUpdate;
     final fileKeyUpdate = this.fileKeyUpdate;

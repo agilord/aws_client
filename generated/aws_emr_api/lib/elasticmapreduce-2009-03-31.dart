@@ -2977,6 +2977,7 @@ class AutoScalingPolicy {
     required this.constraints,
     required this.rules,
   });
+
   Map<String, dynamic> toJson() {
     final constraints = this.constraints;
     final rules = this.rules;
@@ -4495,6 +4496,7 @@ class EbsBlockDeviceConfig {
     required this.volumeSpecification,
     this.volumesPerInstance,
   });
+
   Map<String, dynamic> toJson() {
     final volumeSpecification = this.volumeSpecification;
     final volumesPerInstance = this.volumesPerInstance;
@@ -4517,6 +4519,7 @@ class EbsConfiguration {
     this.ebsBlockDeviceConfigs,
     this.ebsOptimized,
   });
+
   Map<String, dynamic> toJson() {
     final ebsBlockDeviceConfigs = this.ebsBlockDeviceConfigs;
     final ebsOptimized = this.ebsOptimized;
@@ -5364,6 +5367,7 @@ class InstanceFleetConfig {
     this.targetOnDemandCapacity,
     this.targetSpotCapacity,
   });
+
   Map<String, dynamic> toJson() {
     final instanceFleetType = this.instanceFleetType;
     final instanceTypeConfigs = this.instanceTypeConfigs;
@@ -5414,6 +5418,7 @@ class InstanceFleetModifyConfig {
     this.targetOnDemandCapacity,
     this.targetSpotCapacity,
   });
+
   Map<String, dynamic> toJson() {
     final instanceFleetId = this.instanceFleetId;
     final resizeSpecifications = this.resizeSpecifications;
@@ -5970,6 +5975,7 @@ class InstanceGroupConfig {
     this.market,
     this.name,
   });
+
   Map<String, dynamic> toJson() {
     final instanceCount = this.instanceCount;
     final instanceRole = this.instanceRole;
@@ -6116,6 +6122,7 @@ class InstanceGroupModifyConfig {
     this.reconfigurationType,
     this.shrinkPolicy,
   });
+
   Map<String, dynamic> toJson() {
     final instanceGroupId = this.instanceGroupId;
     final configurations = this.configurations;
@@ -6664,6 +6671,7 @@ class InstanceTypeConfig {
     this.ebsConfiguration,
     this.weightedCapacity,
   });
+
   Map<String, dynamic> toJson() {
     final instanceType = this.instanceType;
     final bidPrice = this.bidPrice;
@@ -7104,6 +7112,7 @@ class JobFlowInstancesConfig {
     this.slaveInstanceType,
     this.terminationProtected,
   });
+
   Map<String, dynamic> toJson() {
     final additionalMasterSecurityGroups = this.additionalMasterSecurityGroups;
     final additionalSlaveSecurityGroups = this.additionalSlaveSecurityGroups;
@@ -8087,6 +8096,7 @@ class NotebookS3LocationFromInput {
     this.bucket,
     this.key,
   });
+
   Map<String, dynamic> toJson() {
     final bucket = this.bucket;
     final key = this.key;
@@ -8408,6 +8418,7 @@ class OutputNotebookS3LocationFromInput {
     this.bucket,
     this.key,
   });
+
   Map<String, dynamic> toJson() {
     final bucket = this.bucket;
     final key = this.key;
@@ -8676,6 +8687,7 @@ class ReleaseLabelFilter {
     this.application,
     this.prefix,
   });
+
   Map<String, dynamic> toJson() {
     final application = this.application;
     final prefix = this.prefix;
@@ -10117,6 +10129,7 @@ class SupportedProductConfig {
     this.args,
     this.name,
   });
+
   Map<String, dynamic> toJson() {
     final args = this.args;
     final name = this.name;

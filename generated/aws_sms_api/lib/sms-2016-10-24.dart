@@ -2637,6 +2637,7 @@ class NotificationContext {
     this.statusMessage,
     this.validationId,
   });
+
   Map<String, dynamic> toJson() {
     final status = this.status;
     final statusMessage = this.statusMessage;

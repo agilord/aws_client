@@ -5937,6 +5937,7 @@ class AuthenticationMode {
     this.passwords,
     this.type,
   });
+
   Map<String, dynamic> toJson() {
     final passwords = this.passwords;
     final type = this.type;
@@ -7413,6 +7414,7 @@ class ConfigureShard {
     this.preferredAvailabilityZones,
     this.preferredOutpostArns,
   });
+
   Map<String, dynamic> toJson() {
     final newReplicaCount = this.newReplicaCount;
     final nodeGroupId = this.nodeGroupId;
@@ -7559,6 +7561,7 @@ class CustomerNodeEndpoint {
     this.address,
     this.port,
   });
+
   Map<String, dynamic> toJson() {
     final address = this.address;
     final port = this.port;
@@ -8062,6 +8065,7 @@ class Filter {
     required this.name,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -8459,6 +8463,7 @@ class LogDeliveryConfigurationRequest {
     this.logFormat,
     this.logType,
   });
+
   Map<String, dynamic> toJson() {
     final destinationDetails = this.destinationDetails;
     final destinationType = this.destinationType;
@@ -9242,6 +9247,7 @@ class ParameterNameValue {
     this.parameterName,
     this.parameterValue,
   });
+
   Map<String, dynamic> toJson() {
     final parameterName = this.parameterName;
     final parameterValue = this.parameterValue;
@@ -9506,6 +9512,7 @@ class RegionalConfiguration {
     required this.replicationGroupRegion,
     required this.reshardingConfiguration,
   });
+
   Map<String, dynamic> toJson() {
     final replicationGroupId = this.replicationGroupId;
     final replicationGroupRegion = this.replicationGroupRegion;
@@ -10365,6 +10372,7 @@ class ReshardingConfiguration {
     this.nodeGroupId,
     this.preferredAvailabilityZones,
   });
+
   Map<String, dynamic> toJson() {
     final nodeGroupId = this.nodeGroupId;
     final preferredAvailabilityZones = this.preferredAvailabilityZones;
@@ -11250,6 +11258,7 @@ class TimeRangeFilter {
     this.endTime,
     this.startTime,
   });
+
   Map<String, dynamic> toJson() {
     final endTime = this.endTime;
     final startTime = this.startTime;

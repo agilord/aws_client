@@ -3171,6 +3171,7 @@ class ProvisionedRequest {
     this.openMonitoring,
     this.storageMode,
   });
+
   Map<String, dynamic> toJson() {
     final brokerNodeGroupInfo = this.brokerNodeGroupInfo;
     final kafkaVersion = this.kafkaVersion;
@@ -3367,6 +3368,7 @@ class ServerlessRequest {
     required this.vpcConfigs,
     this.clientAuthentication,
   });
+
   Map<String, dynamic> toJson() {
     final vpcConfigs = this.vpcConfigs;
     final clientAuthentication = this.clientAuthentication;

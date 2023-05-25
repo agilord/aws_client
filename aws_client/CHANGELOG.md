@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.0
+
+- Generate all the APIs with version v2.1384.0 of the AWS SDK
+
 ## 0.3.0
 
 - Repository refactoring in preparation for API code generator.

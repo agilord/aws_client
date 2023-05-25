@@ -1906,7 +1906,7 @@ class CloudWatchLogs {
   ///
   /// Parameter [logGroupName] :
   /// The name of the log group.
-  @Deprecated('Deprecated')
+  @Deprecated('Please use the generic tagging API ListTagsForResource')
   Future<ListTagsLogGroupResponse> listTagsLogGroup({
     required String logGroupName,
   }) async {
@@ -2824,7 +2824,7 @@ class CloudWatchLogs {
   ///
   /// Parameter [tags] :
   /// The key-value pairs to use for the tags.
-  @Deprecated('Deprecated')
+  @Deprecated('Please use the generic tagging API TagResource')
   Future<void> tagLogGroup({
     required String logGroupName,
     required Map<String, String> tags,
@@ -2965,7 +2965,7 @@ class CloudWatchLogs {
   ///
   /// Parameter [tags] :
   /// The tag keys. The corresponding tags are removed from the log group.
-  @Deprecated('Deprecated')
+  @Deprecated('Please use the generic tagging API UntagResource')
   Future<void> untagLogGroup({
     required String logGroupName,
     required List<String> tags,
@@ -3760,6 +3760,7 @@ class InputLogEvent {
     required this.message,
     required this.timestamp,
   });
+
   Map<String, dynamic> toJson() {
     final message = this.message;
     final timestamp = this.timestamp;
@@ -3786,7 +3787,8 @@ class ListTagsForResourceResponse {
   }
 }
 
-@deprecated
+@Deprecated(
+    'Please use the generic tagging API model ListTagsForResourceRequest and ListTagsForResourceResponse')
 class ListTagsLogGroupResponse {
   /// The tags for the log group.
   final Map<String, String>? tags;

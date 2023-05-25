@@ -2316,6 +2316,7 @@ class LdapServerMetadataInput {
     this.userRoleName,
     this.userSearchSubtree,
   });
+
   Map<String, dynamic> toJson() {
     final hosts = this.hosts;
     final roleBase = this.roleBase;
@@ -2922,6 +2923,7 @@ class User {
     this.consoleAccess,
     this.groups,
   });
+
   Map<String, dynamic> toJson() {
     final password = this.password;
     final username = this.username;

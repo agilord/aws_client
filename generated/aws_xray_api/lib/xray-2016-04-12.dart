@@ -1396,6 +1396,7 @@ class BackendConnectionErrors {
     this.timeoutCount,
     this.unknownHostCount,
   });
+
   Map<String, dynamic> toJson() {
     final connectionRefusedCount = this.connectionRefusedCount;
     final hTTPCode4XXCount = this.hTTPCode4XXCount;
@@ -3485,6 +3486,7 @@ class SamplingRuleUpdate {
     this.serviceType,
     this.uRLPath,
   });
+
   Map<String, dynamic> toJson() {
     final attributes = this.attributes;
     final fixedRate = this.fixedRate;
@@ -3583,6 +3585,7 @@ class SamplingStatisticsDocument {
     required this.timestamp,
     this.borrowCount,
   });
+
   Map<String, dynamic> toJson() {
     final clientID = this.clientID;
     final requestCount = this.requestCount;
@@ -3613,6 +3616,7 @@ class SamplingStrategy {
     this.name,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;
@@ -4004,6 +4008,7 @@ class TelemetryRecord {
     this.segmentsSentCount,
     this.segmentsSpilloverCount,
   });
+
   Map<String, dynamic> toJson() {
     final timestamp = this.timestamp;
     final backendConnectionErrors = this.backendConnectionErrors;

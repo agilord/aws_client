@@ -1657,6 +1657,7 @@ class Body {
     this.html,
     this.text,
   });
+
   Map<String, dynamic> toJson() {
     final html = this.html;
     final text = this.text;
@@ -1782,6 +1783,7 @@ class Content {
     required this.data,
     this.charset,
   });
+
   Map<String, dynamic> toJson() {
     final data = this.data;
     final charset = this.charset;
@@ -2192,6 +2194,7 @@ class Destination {
     this.ccAddresses,
     this.toAddresses,
   });
+
   Map<String, dynamic> toJson() {
     final bccAddresses = this.bccAddresses;
     final ccAddresses = this.ccAddresses;
@@ -2631,6 +2634,7 @@ class EmailContent {
     this.simple,
     this.template,
   });
+
   Map<String, dynamic> toJson() {
     final raw = this.raw;
     final simple = this.simple;
@@ -2768,6 +2772,7 @@ class EventDestinationDefinition {
     this.pinpointDestination,
     this.snsDestination,
   });
+
   Map<String, dynamic> toJson() {
     final cloudWatchDestination = this.cloudWatchDestination;
     final enabled = this.enabled;
@@ -3801,6 +3806,7 @@ class Message {
     required this.body,
     required this.subject,
   });
+
   Map<String, dynamic> toJson() {
     final body = this.body;
     final subject = this.subject;
@@ -3846,6 +3852,7 @@ class MessageTag {
     required this.name,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;
@@ -4126,6 +4133,7 @@ class RawMessage {
   RawMessage({
     required this.data,
   });
+
   Map<String, dynamic> toJson() {
     final data = this.data;
     return {
@@ -4370,6 +4378,7 @@ class Template {
     this.templateArn,
     this.templateData,
   });
+
   Map<String, dynamic> toJson() {
     final templateArn = this.templateArn;
     final templateData = this.templateData;

@@ -11306,6 +11306,7 @@ class AuditContext {
     this.allColumnsRequested,
     this.requestedColumns,
   });
+
   Map<String, dynamic> toJson() {
     final additionalAuditContext = this.additionalAuditContext;
     final allColumnsRequested = this.allColumnsRequested;
@@ -11919,6 +11920,7 @@ class BatchUpdatePartitionRequestEntry {
     required this.partitionInput,
     required this.partitionValueList,
   });
+
   Map<String, dynamic> toJson() {
     final partitionInput = this.partitionInput;
     final partitionValueList = this.partitionValueList;
@@ -12436,6 +12438,7 @@ class CatalogEntry {
     required this.databaseName,
     required this.tableName,
   });
+
   Map<String, dynamic> toJson() {
     final databaseName = this.databaseName;
     final tableName = this.tableName;
@@ -14745,6 +14748,7 @@ class ConnectionInput {
     this.matchCriteria,
     this.physicalConnectionRequirements,
   });
+
   Map<String, dynamic> toJson() {
     final connectionProperties = this.connectionProperties;
     final connectionType = this.connectionType;
@@ -15669,6 +15673,7 @@ class CrawlsFilter {
     this.fieldValue,
     this.filterOperator,
   });
+
   Map<String, dynamic> toJson() {
     final fieldName = this.fieldName;
     final fieldValue = this.fieldValue;
@@ -15763,6 +15768,7 @@ class CreateCsvClassifierRequest {
     this.header,
     this.quoteSymbol,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final allowSingleColumn = this.allowSingleColumn;
@@ -15987,6 +15993,7 @@ class CreateGrokClassifierRequest {
     required this.name,
     this.customPatterns,
   });
+
   Map<String, dynamic> toJson() {
     final classification = this.classification;
     final grokPattern = this.grokPattern;
@@ -16031,6 +16038,7 @@ class CreateJsonClassifierRequest {
     required this.jsonPath,
     required this.name,
   });
+
   Map<String, dynamic> toJson() {
     final jsonPath = this.jsonPath;
     final name = this.name;
@@ -16314,6 +16322,7 @@ class CreateXMLClassifierRequest {
     required this.name,
     this.rowTag,
   });
+
   Map<String, dynamic> toJson() {
     final classification = this.classification;
     final name = this.name;
@@ -16932,6 +16941,7 @@ class DataQualityResultFilterCriteria {
     this.startedAfter,
     this.startedBefore,
   });
+
   Map<String, dynamic> toJson() {
     final dataSource = this.dataSource;
     final jobName = this.jobName;
@@ -17000,6 +17010,7 @@ class DataQualityRuleRecommendationRunFilter {
     this.startedAfter,
     this.startedBefore,
   });
+
   Map<String, dynamic> toJson() {
     final dataSource = this.dataSource;
     final startedAfter = this.startedAfter;
@@ -17129,6 +17140,7 @@ class DataQualityRulesetEvaluationRunFilter {
     this.startedAfter,
     this.startedBefore,
   });
+
   Map<String, dynamic> toJson() {
     final dataSource = this.dataSource;
     final startedAfter = this.startedAfter;
@@ -17175,6 +17187,7 @@ class DataQualityRulesetFilterCriteria {
     this.name,
     this.targetTable,
   });
+
   Map<String, dynamic> toJson() {
     final createdAfter = this.createdAfter;
     final createdBefore = this.createdBefore;
@@ -17443,6 +17456,7 @@ class DatabaseInput {
     this.parameters,
     this.targetDatabase,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final createTableDefaultPermissions = this.createTableDefaultPermissions;
@@ -18286,6 +18300,7 @@ class DevEndpointCustomLibraries {
     this.extraJarsS3Path,
     this.extraPythonLibsS3Path,
   });
+
   Map<String, dynamic> toJson() {
     final extraJarsS3Path = this.extraJarsS3Path;
     final extraPythonLibsS3Path = this.extraPythonLibsS3Path;
@@ -20107,6 +20122,7 @@ class GetConnectionsFilter {
     this.connectionType,
     this.matchCriteria,
   });
+
   Map<String, dynamic> toJson() {
     final connectionType = this.connectionType;
     final matchCriteria = this.matchCriteria;
@@ -23839,6 +23855,7 @@ class JobUpdate {
     this.timeout,
     this.workerType,
   });
+
   Map<String, dynamic> toJson() {
     final allocatedCapacity = this.allocatedCapacity;
     final codeGenConfigurationNodes = this.codeGenConfigurationNodes;
@@ -25144,6 +25161,7 @@ class Location {
     this.jdbc,
     this.s3,
   });
+
   Map<String, dynamic> toJson() {
     final dynamoDB = this.dynamoDB;
     final jdbc = this.jdbc;
@@ -25789,6 +25807,7 @@ class MetadataKeyValuePair {
     this.metadataKey,
     this.metadataValue,
   });
+
   Map<String, dynamic> toJson() {
     final metadataKey = this.metadataKey;
     final metadataValue = this.metadataValue;
@@ -26647,6 +26666,7 @@ class PartitionIndex {
     required this.indexName,
     required this.keys,
   });
+
   Map<String, dynamic> toJson() {
     final indexName = this.indexName;
     final keys = this.keys;
@@ -26783,6 +26803,7 @@ class PartitionInput {
     this.storageDescriptor,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final lastAccessTime = this.lastAccessTime;
     final lastAnalyzedTime = this.lastAnalyzedTime;
@@ -27225,6 +27246,7 @@ class PropertyPredicate {
     this.key,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final comparator = this.comparator;
     final key = this.key;
@@ -27625,6 +27647,7 @@ class RegistryId {
     this.registryArn,
     this.registryName,
   });
+
   Map<String, dynamic> toJson() {
     final registryArn = this.registryArn;
     final registryName = this.registryName;
@@ -29882,6 +29905,7 @@ class SchemaVersionNumber {
     this.latestVersion,
     this.versionNumber,
   });
+
   Map<String, dynamic> toJson() {
     final latestVersion = this.latestVersion;
     final versionNumber = this.versionNumber;
@@ -29998,6 +30022,7 @@ class Segment {
     required this.segmentNumber,
     required this.totalSegments,
   });
+
   Map<String, dynamic> toJson() {
     final segmentNumber = this.segmentNumber;
     final totalSegments = this.totalSegments;
@@ -30432,6 +30457,7 @@ class SortCriterion {
     this.fieldName,
     this.sort,
   });
+
   Map<String, dynamic> toJson() {
     final fieldName = this.fieldName;
     final sort = this.sort;
@@ -31899,6 +31925,7 @@ class TableInput {
     this.viewExpandedText,
     this.viewOriginalText,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final description = this.description;
@@ -32134,6 +32161,7 @@ class TaskRunFilterCriteria {
     this.status,
     this.taskRunType,
   });
+
   Map<String, dynamic> toJson() {
     final startedAfter = this.startedAfter;
     final startedBefore = this.startedBefore;
@@ -32251,6 +32279,7 @@ class TaskRunSortCriteria {
     required this.column,
     required this.sortDirection,
   });
+
   Map<String, dynamic> toJson() {
     final column = this.column;
     final sortDirection = this.sortDirection;
@@ -32526,6 +32555,7 @@ class TransformFilterCriteria {
     this.status,
     this.transformType,
   });
+
   Map<String, dynamic> toJson() {
     final createdAfter = this.createdAfter;
     final createdBefore = this.createdBefore;
@@ -32651,6 +32681,7 @@ class TransformSortCriteria {
     required this.column,
     required this.sortDirection,
   });
+
   Map<String, dynamic> toJson() {
     final column = this.column;
     final sortDirection = this.sortDirection;
@@ -32937,6 +32968,7 @@ class TriggerUpdate {
     this.predicate,
     this.schedule,
   });
+
   Map<String, dynamic> toJson() {
     final actions = this.actions;
     final description = this.description;
@@ -33255,6 +33287,7 @@ class UpdateCsvClassifierRequest {
     this.header,
     this.quoteSymbol,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final allowSingleColumn = this.allowSingleColumn;
@@ -33345,6 +33378,7 @@ class UpdateGrokClassifierRequest {
     this.customPatterns,
     this.grokPattern,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final classification = this.classification;
@@ -33405,6 +33439,7 @@ class UpdateJsonClassifierRequest {
     required this.name,
     this.jsonPath,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final jsonPath = this.jsonPath;
@@ -33568,6 +33603,7 @@ class UpdateXMLClassifierRequest {
     this.classification,
     this.rowTag,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final classification = this.classification;
@@ -33700,6 +33736,7 @@ class UserDefinedFunctionInput {
     this.ownerType,
     this.resourceUris,
   });
+
   Map<String, dynamic> toJson() {
     final className = this.className;
     final functionName = this.functionName;

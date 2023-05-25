@@ -6406,6 +6406,7 @@ class Filter {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -8210,6 +8211,7 @@ class LifecycleHookSpecification {
     this.notificationTargetARN,
     this.roleARN,
   });
+
   Map<String, dynamic> toJson() {
     final lifecycleHookName = this.lifecycleHookName;
     final lifecycleTransition = this.lifecycleTransition;
@@ -10751,6 +10753,7 @@ class ScheduledUpdateGroupActionRequest {
     this.startTime,
     this.timeZone,
   });
+
   Map<String, dynamic> toJson() {
     final scheduledActionName = this.scheduledActionName;
     final desiredCapacity = this.desiredCapacity;
@@ -10976,6 +10979,7 @@ class Tag {
     this.resourceType,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final propagateAtLaunch = this.propagateAtLaunch;

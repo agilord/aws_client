@@ -1457,6 +1457,7 @@ class RecordPatch {
     this.deviceLastModifiedDate,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final op = this.op;

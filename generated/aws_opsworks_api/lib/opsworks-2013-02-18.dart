@@ -7764,6 +7764,7 @@ class InstanceIdentity {
     this.document,
     this.signature,
   });
+
   Map<String, dynamic> toJson() {
     final document = this.document;
     final signature = this.signature;

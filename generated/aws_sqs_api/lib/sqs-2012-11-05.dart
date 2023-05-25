@@ -2364,6 +2364,7 @@ class ChangeMessageVisibilityBatchRequestEntry {
     required this.receiptHandle,
     this.visibilityTimeout,
   });
+
   Map<String, dynamic> toJson() {
     final id = this.id;
     final receiptHandle = this.receiptHandle;
@@ -2456,6 +2457,7 @@ class DeleteMessageBatchRequestEntry {
     required this.id,
     required this.receiptHandle,
   });
+
   Map<String, dynamic> toJson() {
     final id = this.id;
     final receiptHandle = this.receiptHandle;
@@ -2912,6 +2914,7 @@ class MessageSystemAttributeValue {
     this.stringListValues,
     this.stringValue,
   });
+
   Map<String, dynamic> toJson() {
     final dataType = this.dataType;
     final binaryListValues = this.binaryListValues;
@@ -3234,6 +3237,7 @@ class SendMessageBatchRequestEntry {
     this.messageGroupId,
     this.messageSystemAttributes,
   });
+
   Map<String, dynamic> toJson() {
     final id = this.id;
     final messageBody = this.messageBody;

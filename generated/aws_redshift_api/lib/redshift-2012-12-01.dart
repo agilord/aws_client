@@ -10154,6 +10154,7 @@ class DeleteClusterSnapshotMessage {
     required this.snapshotIdentifier,
     this.snapshotClusterIdentifier,
   });
+
   Map<String, dynamic> toJson() {
     final snapshotIdentifier = this.snapshotIdentifier;
     final snapshotClusterIdentifier = this.snapshotClusterIdentifier;
@@ -11574,6 +11575,7 @@ class NodeConfigurationOptionsFilter {
     this.operator,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final operator = this.operator;
@@ -13156,6 +13158,7 @@ class ScheduledActionFilter {
     required this.name,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -13793,6 +13796,7 @@ class SnapshotSortingEntity {
     required this.attribute,
     this.sortOrder,
   });
+
   Map<String, dynamic> toJson() {
     final attribute = this.attribute;
     final sortOrder = this.sortOrder;

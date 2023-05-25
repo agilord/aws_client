@@ -376,6 +376,7 @@ class HumanLoopDataAttributes {
   HumanLoopDataAttributes({
     required this.contentClassifiers,
   });
+
   Map<String, dynamic> toJson() {
     final contentClassifiers = this.contentClassifiers;
     return {
@@ -393,6 +394,7 @@ class HumanLoopInput {
   HumanLoopInput({
     required this.inputContent,
   });
+
   Map<String, dynamic> toJson() {
     final inputContent = this.inputContent;
     return {

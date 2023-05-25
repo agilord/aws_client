@@ -1185,6 +1185,7 @@ class InstanceIdentity {
     this.document,
     this.signature,
   });
+
   Map<String, dynamic> toJson() {
     final document = this.document;
     final signature = this.signature;
@@ -1277,6 +1278,7 @@ class Operator {
     this.type,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final type = this.type;
     final values = this.values;
@@ -1602,6 +1604,7 @@ class Query {
   Query({
     this.selectors,
   });
+
   Map<String, dynamic> toJson() {
     final selectors = this.selectors;
     return {
@@ -1698,6 +1701,7 @@ class Selector {
     this.fieldName,
     this.operator,
   });
+
   Map<String, dynamic> toJson() {
     final fieldName = this.fieldName;
     final operator = this.operator;

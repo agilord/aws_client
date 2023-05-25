@@ -1749,6 +1749,7 @@ class CreateS3DataAccessFromS3BucketRequestDetails {
     required this.dataSetId,
     required this.revisionId,
   });
+
   Map<String, dynamic> toJson() {
     final assetSource = this.assetSource;
     final dataSetId = this.dataSetId;
@@ -2055,6 +2056,7 @@ class ExportAssetToSignedUrlRequestDetails {
     required this.dataSetId,
     required this.revisionId,
   });
+
   Map<String, dynamic> toJson() {
     final assetId = this.assetId;
     final dataSetId = this.dataSetId;
@@ -2124,6 +2126,7 @@ class ExportAssetsToS3RequestDetails {
     required this.revisionId,
     this.encryption,
   });
+
   Map<String, dynamic> toJson() {
     final assetDestinations = this.assetDestinations;
     final dataSetId = this.dataSetId;
@@ -2191,6 +2194,7 @@ class ExportRevisionsToS3RequestDetails {
     required this.revisionDestinations,
     this.encryption,
   });
+
   Map<String, dynamic> toJson() {
     final dataSetId = this.dataSetId;
     final revisionDestinations = this.revisionDestinations;
@@ -2644,6 +2648,7 @@ class ImportAssetFromApiGatewayApiRequestDetails {
     this.apiDescription,
     this.apiKey,
   });
+
   Map<String, dynamic> toJson() {
     final apiId = this.apiId;
     final apiName = this.apiName;
@@ -2776,6 +2781,7 @@ class ImportAssetFromSignedUrlRequestDetails {
     required this.md5Hash,
     required this.revisionId,
   });
+
   Map<String, dynamic> toJson() {
     final assetName = this.assetName;
     final dataSetId = this.dataSetId;
@@ -2865,6 +2871,7 @@ class ImportAssetsFromLakeFormationTagPolicyRequestDetails {
     this.database,
     this.table,
   });
+
   Map<String, dynamic> toJson() {
     final catalogId = this.catalogId;
     final dataSetId = this.dataSetId;
@@ -2948,6 +2955,7 @@ class ImportAssetsFromRedshiftDataSharesRequestDetails {
     required this.dataSetId,
     required this.revisionId,
   });
+
   Map<String, dynamic> toJson() {
     final assetSources = this.assetSources;
     final dataSetId = this.dataSetId;
@@ -3007,6 +3015,7 @@ class ImportAssetsFromS3RequestDetails {
     required this.dataSetId,
     required this.revisionId,
   });
+
   Map<String, dynamic> toJson() {
     final assetSources = this.assetSources;
     final dataSetId = this.dataSetId;
@@ -3779,6 +3788,7 @@ class RequestDetails {
     this.importAssetsFromRedshiftDataShares,
     this.importAssetsFromS3,
   });
+
   Map<String, dynamic> toJson() {
     final createS3DataAccessFromS3Bucket = this.createS3DataAccessFromS3Bucket;
     final exportAssetToSignedUrl = this.exportAssetToSignedUrl;

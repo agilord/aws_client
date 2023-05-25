@@ -7,8 +7,10 @@ environment:
   sdk: '>=2.15.0 <3.0.0'
 
 dependencies:
+  analyzer: ^5.13.0
   archive: ^3.0.0
   args: ^2.2.0
+  collection: ^1.17.2
   dart_style: ^2.0.0
   html: ^0.15.0
   http: ^0.13.3
@@ -16,6 +18,7 @@ dependencies:
   path: ^1.7.0
   pool: ^1.4.0
   process_runner: ^4.0.0
+  source_helper: ^1.3.3
   version: ^2.0.0
   yaml: ^3.0.0
 

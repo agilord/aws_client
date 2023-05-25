@@ -4074,6 +4074,7 @@ class BuildBatchFilter {
   BuildBatchFilter({
     this.status,
   });
+
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
@@ -7669,6 +7670,7 @@ class ReportFilter {
   ReportFilter({
     this.status,
   });
+
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
@@ -8715,6 +8717,7 @@ class TestCaseFilter {
     this.keyword,
     this.status,
   });
+
   Map<String, dynamic> toJson() {
     final keyword = this.keyword;
     final status = this.status;

@@ -6356,6 +6356,7 @@ class ByteMatchSetUpdate {
     required this.action,
     required this.byteMatchTuple,
   });
+
   Map<String, dynamic> toJson() {
     final action = this.action;
     final byteMatchTuple = this.byteMatchTuple;
@@ -8901,6 +8902,7 @@ class GeoMatchSetUpdate {
     required this.action,
     required this.geoMatchConstraint,
   });
+
   Map<String, dynamic> toJson() {
     final action = this.action;
     final geoMatchConstraint = this.geoMatchConstraint;
@@ -9743,6 +9745,7 @@ class IPSetUpdate {
     required this.action,
     required this.iPSetDescriptor,
   });
+
   Map<String, dynamic> toJson() {
     final action = this.action;
     final iPSetDescriptor = this.iPSetDescriptor;
@@ -10795,6 +10798,7 @@ class RegexMatchSetUpdate {
     required this.action,
     required this.regexMatchTuple,
   });
+
   Map<String, dynamic> toJson() {
     final action = this.action;
     final regexMatchTuple = this.regexMatchTuple;
@@ -11102,6 +11106,7 @@ class RegexPatternSetUpdate {
     required this.action,
     required this.regexPatternString,
   });
+
   Map<String, dynamic> toJson() {
     final action = this.action;
     final regexPatternString = this.regexPatternString;
@@ -11360,6 +11365,7 @@ class RuleGroupUpdate {
     required this.action,
     required this.activatedRule,
   });
+
   Map<String, dynamic> toJson() {
     final action = this.action;
     final activatedRule = this.activatedRule;
@@ -11440,6 +11446,7 @@ class RuleUpdate {
     required this.action,
     required this.predicate,
   });
+
   Map<String, dynamic> toJson() {
     final action = this.action;
     final predicate = this.predicate;
@@ -11840,6 +11847,7 @@ class SizeConstraintSetUpdate {
     required this.action,
     required this.sizeConstraint,
   });
+
   Map<String, dynamic> toJson() {
     final action = this.action;
     final sizeConstraint = this.sizeConstraint;
@@ -11985,6 +11993,7 @@ class SqlInjectionMatchSetUpdate {
     required this.action,
     required this.sqlInjectionMatchTuple,
   });
+
   Map<String, dynamic> toJson() {
     final action = this.action;
     final sqlInjectionMatchTuple = this.sqlInjectionMatchTuple;
@@ -12960,6 +12969,7 @@ class WebACLUpdate {
     required this.action,
     required this.activatedRule,
   });
+
   Map<String, dynamic> toJson() {
     final action = this.action;
     final activatedRule = this.activatedRule;
@@ -13097,6 +13107,7 @@ class XssMatchSetUpdate {
     required this.action,
     required this.xssMatchTuple,
   });
+
   Map<String, dynamic> toJson() {
     final action = this.action;
     final xssMatchTuple = this.xssMatchTuple;

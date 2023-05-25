@@ -8706,6 +8706,7 @@ class AnalyticsMetadataType {
   AnalyticsMetadataType({
     this.analyticsEndpointId,
   });
+
   Map<String, dynamic> toJson() {
     final analyticsEndpointId = this.analyticsEndpointId;
     return {
@@ -9309,6 +9310,7 @@ class ContextDataType {
     required this.serverPath,
     this.encodedData,
   });
+
   Map<String, dynamic> toJson() {
     final httpHeaders = this.httpHeaders;
     final ipAddress = this.ipAddress;
@@ -9939,6 +9941,7 @@ class DeviceSecretVerifierConfigType {
     this.passwordVerifier,
     this.salt,
   });
+
   Map<String, dynamic> toJson() {
     final passwordVerifier = this.passwordVerifier;
     final salt = this.salt;
@@ -10876,6 +10879,7 @@ class HttpHeader {
     this.headerName,
     this.headerValue,
   });
+
   Map<String, dynamic> toJson() {
     final headerName = this.headerName;
     final headerValue = this.headerValue;
@@ -12026,6 +12030,7 @@ class ProviderUserIdentifierType {
     this.providerAttributeValue,
     this.providerName,
   });
+
   Map<String, dynamic> toJson() {
     final providerAttributeName = this.providerAttributeName;
     final providerAttributeValue = this.providerAttributeValue;
@@ -12424,6 +12429,7 @@ class SMSMfaSettingsType {
     this.enabled,
     this.preferredMfa,
   });
+
   Map<String, dynamic> toJson() {
     final enabled = this.enabled;
     final preferredMfa = this.preferredMfa;
@@ -12810,6 +12816,7 @@ class SoftwareTokenMfaSettingsType {
     this.enabled,
     this.preferredMfa,
   });
+
   Map<String, dynamic> toJson() {
     final enabled = this.enabled;
     final preferredMfa = this.preferredMfa;
@@ -13278,6 +13285,7 @@ class UserContextDataType {
     this.encodedData,
     this.ipAddress,
   });
+
   Map<String, dynamic> toJson() {
     final encodedData = this.encodedData;
     final ipAddress = this.ipAddress;

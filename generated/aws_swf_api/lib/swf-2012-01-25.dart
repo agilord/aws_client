@@ -4272,6 +4272,7 @@ class CancelTimerDecisionAttributes {
   CancelTimerDecisionAttributes({
     required this.timerId,
   });
+
   Map<String, dynamic> toJson() {
     final timerId = this.timerId;
     return {
@@ -4381,6 +4382,7 @@ class CancelWorkflowExecutionDecisionAttributes {
   CancelWorkflowExecutionDecisionAttributes({
     this.details,
   });
+
   Map<String, dynamic> toJson() {
     final details = this.details;
     return {
@@ -4815,6 +4817,7 @@ class CloseStatusFilter {
   CloseStatusFilter({
     required this.status,
   });
+
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
@@ -4859,6 +4862,7 @@ class CompleteWorkflowExecutionDecisionAttributes {
   CompleteWorkflowExecutionDecisionAttributes({
     this.result,
   });
+
   Map<String, dynamic> toJson() {
     final result = this.result;
     return {
@@ -5080,6 +5084,7 @@ class ContinueAsNewWorkflowExecutionDecisionAttributes {
     this.taskStartToCloseTimeout,
     this.workflowTypeVersion,
   });
+
   Map<String, dynamic> toJson() {
     final childPolicy = this.childPolicy;
     final executionStartToCloseTimeout = this.executionStartToCloseTimeout;
@@ -5531,6 +5536,7 @@ class Decision {
     this.startChildWorkflowExecutionDecisionAttributes,
     this.startTimerDecisionAttributes,
   });
+
   Map<String, dynamic> toJson() {
     final decisionType = this.decisionType;
     final cancelTimerDecisionAttributes = this.cancelTimerDecisionAttributes;
@@ -6347,6 +6353,7 @@ class ExecutionTimeFilter {
     required this.oldestDate,
     this.latestDate,
   });
+
   Map<String, dynamic> toJson() {
     final oldestDate = this.oldestDate;
     final latestDate = this.latestDate;
@@ -6452,6 +6459,7 @@ class FailWorkflowExecutionDecisionAttributes {
     this.details,
     this.reason,
   });
+
   Map<String, dynamic> toJson() {
     final details = this.details;
     final reason = this.reason;
@@ -7777,6 +7785,7 @@ class RecordMarkerDecisionAttributes {
     required this.markerName,
     this.details,
   });
+
   Map<String, dynamic> toJson() {
     final markerName = this.markerName;
     final details = this.details;
@@ -7912,6 +7921,7 @@ class RequestCancelActivityTaskDecisionAttributes {
   RequestCancelActivityTaskDecisionAttributes({
     required this.activityId,
   });
+
   Map<String, dynamic> toJson() {
     final activityId = this.activityId;
     return {
@@ -8038,6 +8048,7 @@ class RequestCancelExternalWorkflowExecutionDecisionAttributes {
     this.control,
     this.runId,
   });
+
   Map<String, dynamic> toJson() {
     final workflowId = this.workflowId;
     final control = this.control;
@@ -8401,6 +8412,7 @@ class ScheduleActivityTaskDecisionAttributes {
     this.taskList,
     this.taskPriority,
   });
+
   Map<String, dynamic> toJson() {
     final activityId = this.activityId;
     final activityType = this.activityType;
@@ -8589,6 +8601,7 @@ class ScheduleLambdaFunctionDecisionAttributes {
     this.input,
     this.startToCloseTimeout,
   });
+
   Map<String, dynamic> toJson() {
     final id = this.id;
     final name = this.name;
@@ -8750,6 +8763,7 @@ class SignalExternalWorkflowExecutionDecisionAttributes {
     this.input,
     this.runId,
   });
+
   Map<String, dynamic> toJson() {
     final signalName = this.signalName;
     final workflowId = this.workflowId;
@@ -9094,6 +9108,7 @@ class StartChildWorkflowExecutionDecisionAttributes {
     this.taskPriority,
     this.taskStartToCloseTimeout,
   });
+
   Map<String, dynamic> toJson() {
     final workflowId = this.workflowId;
     final workflowType = this.workflowType;
@@ -9509,6 +9524,7 @@ class StartTimerDecisionAttributes {
     required this.timerId,
     this.control,
   });
+
   Map<String, dynamic> toJson() {
     final startToFireTimeout = this.startToFireTimeout;
     final timerId = this.timerId;
@@ -9609,6 +9625,7 @@ class TagFilter {
   TagFilter({
     required this.tag,
   });
+
   Map<String, dynamic> toJson() {
     final tag = this.tag;
     return {
@@ -10175,6 +10192,7 @@ class WorkflowExecutionFilter {
   WorkflowExecutionFilter({
     required this.workflowId,
   });
+
   Map<String, dynamic> toJson() {
     final workflowId = this.workflowId;
     return {
@@ -10862,6 +10880,7 @@ class WorkflowTypeFilter {
     required this.name,
     this.version,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final version = this.version;

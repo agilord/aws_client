@@ -4519,6 +4519,7 @@ class Filter {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -5548,6 +5549,7 @@ class IpAddressRequest {
     this.ip,
     this.ipv6,
   });
+
   Map<String, dynamic> toJson() {
     final subnetId = this.subnetId;
     final ip = this.ip;
@@ -5716,6 +5718,7 @@ class IpAddressUpdate {
     this.ipv6,
     this.subnetId,
   });
+
   Map<String, dynamic> toJson() {
     final ip = this.ip;
     final ipId = this.ipId;
@@ -7353,6 +7356,7 @@ class ResolverRuleConfig {
     this.resolverEndpointId,
     this.targetIps,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final resolverEndpointId = this.resolverEndpointId;
@@ -7685,6 +7689,7 @@ class UpdateIpAddress {
     required this.ipId,
     required this.ipv6,
   });
+
   Map<String, dynamic> toJson() {
     final ipId = this.ipId;
     final ipv6 = this.ipv6;

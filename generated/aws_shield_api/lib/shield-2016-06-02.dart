@@ -2264,7 +2264,7 @@ class DeleteProtectionResponse {
   }
 }
 
-@deprecated
+@Deprecated('Deprecated')
 class DeleteSubscriptionResponse {
   DeleteSubscriptionResponse();
 
@@ -2546,6 +2546,7 @@ class InclusionProtectionFilters {
     this.resourceArns,
     this.resourceTypes,
   });
+
   Map<String, dynamic> toJson() {
     final protectionNames = this.protectionNames;
     final resourceArns = this.resourceArns;
@@ -2588,6 +2589,7 @@ class InclusionProtectionGroupFilters {
     this.protectionGroupIds,
     this.resourceTypes,
   });
+
   Map<String, dynamic> toJson() {
     final aggregations = this.aggregations;
     final patterns = this.patterns;

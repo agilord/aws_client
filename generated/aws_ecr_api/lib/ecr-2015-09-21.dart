@@ -2736,6 +2736,7 @@ class DescribeImagesFilter {
   DescribeImagesFilter({
     this.tagStatus,
   });
+
   Map<String, dynamic> toJson() {
     final tagStatus = this.tagStatus;
     return {
@@ -3928,6 +3929,7 @@ class LifecyclePolicyPreviewFilter {
   LifecyclePolicyPreviewFilter({
     this.tagStatus,
   });
+
   Map<String, dynamic> toJson() {
     final tagStatus = this.tagStatus;
     return {
@@ -4060,6 +4062,7 @@ class ListImagesFilter {
   ListImagesFilter({
     this.tagStatus,
   });
+
   Map<String, dynamic> toJson() {
     final tagStatus = this.tagStatus;
     return {

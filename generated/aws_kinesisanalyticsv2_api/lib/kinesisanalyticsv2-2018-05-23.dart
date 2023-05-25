@@ -2028,6 +2028,7 @@ class ApplicationCodeConfiguration {
     required this.codeContentType,
     this.codeContent,
   });
+
   Map<String, dynamic> toJson() {
     final codeContentType = this.codeContentType;
     final codeContent = this.codeContent;
@@ -2077,6 +2078,7 @@ class ApplicationCodeConfigurationUpdate {
     this.codeContentTypeUpdate,
     this.codeContentUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final codeContentTypeUpdate = this.codeContentTypeUpdate;
     final codeContentUpdate = this.codeContentUpdate;
@@ -2126,6 +2128,7 @@ class ApplicationConfiguration {
     this.vpcConfigurations,
     this.zeppelinApplicationConfiguration,
   });
+
   Map<String, dynamic> toJson() {
     final applicationCodeConfiguration = this.applicationCodeConfiguration;
     final applicationSnapshotConfiguration =
@@ -2296,6 +2299,7 @@ class ApplicationConfigurationUpdate {
     this.vpcConfigurationUpdates,
     this.zeppelinApplicationConfigurationUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final applicationCodeConfigurationUpdate =
         this.applicationCodeConfigurationUpdate;
@@ -2492,6 +2496,7 @@ class ApplicationMaintenanceConfigurationUpdate {
   ApplicationMaintenanceConfigurationUpdate({
     required this.applicationMaintenanceWindowStartTimeUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final applicationMaintenanceWindowStartTimeUpdate =
         this.applicationMaintenanceWindowStartTimeUpdate;
@@ -2608,6 +2613,7 @@ class ApplicationSnapshotConfiguration {
   ApplicationSnapshotConfiguration({
     required this.snapshotsEnabled,
   });
+
   Map<String, dynamic> toJson() {
     final snapshotsEnabled = this.snapshotsEnabled;
     return {
@@ -2644,6 +2650,7 @@ class ApplicationSnapshotConfigurationUpdate {
   ApplicationSnapshotConfigurationUpdate({
     required this.snapshotsEnabledUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final snapshotsEnabledUpdate = this.snapshotsEnabledUpdate;
     return {
@@ -2875,6 +2882,7 @@ class CatalogConfiguration {
   CatalogConfiguration({
     required this.glueDataCatalogConfiguration,
   });
+
   Map<String, dynamic> toJson() {
     final glueDataCatalogConfiguration = this.glueDataCatalogConfiguration;
     return {
@@ -2919,6 +2927,7 @@ class CatalogConfigurationUpdate {
   CatalogConfigurationUpdate({
     required this.glueDataCatalogConfigurationUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final glueDataCatalogConfigurationUpdate =
         this.glueDataCatalogConfigurationUpdate;
@@ -3001,6 +3010,7 @@ class CheckpointConfiguration {
     this.checkpointingEnabled,
     this.minPauseBetweenCheckpoints,
   });
+
   Map<String, dynamic> toJson() {
     final configurationType = this.configurationType;
     final checkpointInterval = this.checkpointInterval;
@@ -3149,6 +3159,7 @@ class CheckpointConfigurationUpdate {
     this.configurationTypeUpdate,
     this.minPauseBetweenCheckpointsUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final checkpointIntervalUpdate = this.checkpointIntervalUpdate;
     final checkpointingEnabledUpdate = this.checkpointingEnabledUpdate;
@@ -3177,6 +3188,7 @@ class CloudWatchLoggingOption {
   CloudWatchLoggingOption({
     required this.logStreamARN,
   });
+
   Map<String, dynamic> toJson() {
     final logStreamARN = this.logStreamARN;
     return {
@@ -3231,6 +3243,7 @@ class CloudWatchLoggingOptionUpdate {
     required this.cloudWatchLoggingOptionId,
     this.logStreamARNUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final cloudWatchLoggingOptionId = this.cloudWatchLoggingOptionId;
     final logStreamARNUpdate = this.logStreamARNUpdate;
@@ -3258,6 +3271,7 @@ class CodeContent {
     this.textContent,
     this.zipFileContent,
   });
+
   Map<String, dynamic> toJson() {
     final s3ContentLocation = this.s3ContentLocation;
     final textContent = this.textContent;
@@ -3355,6 +3369,7 @@ class CodeContentUpdate {
     this.textContentUpdate,
     this.zipFileContentUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final s3ContentLocationUpdate = this.s3ContentLocationUpdate;
     final textContentUpdate = this.textContentUpdate;
@@ -3455,6 +3470,7 @@ class CustomArtifactConfiguration {
     this.mavenReference,
     this.s3ContentLocation,
   });
+
   Map<String, dynamic> toJson() {
     final artifactType = this.artifactType;
     final mavenReference = this.mavenReference;
@@ -3646,6 +3662,7 @@ class DeployAsApplicationConfiguration {
   DeployAsApplicationConfiguration({
     required this.s3ContentLocation,
   });
+
   Map<String, dynamic> toJson() {
     final s3ContentLocation = this.s3ContentLocation;
     return {
@@ -3684,6 +3701,7 @@ class DeployAsApplicationConfigurationUpdate {
   DeployAsApplicationConfigurationUpdate({
     this.s3ContentLocationUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final s3ContentLocationUpdate = this.s3ContentLocationUpdate;
     return {
@@ -3825,6 +3843,7 @@ class EnvironmentProperties {
   EnvironmentProperties({
     required this.propertyGroups,
   });
+
   Map<String, dynamic> toJson() {
     final propertyGroups = this.propertyGroups;
     return {
@@ -3861,6 +3880,7 @@ class EnvironmentPropertyUpdates {
   EnvironmentPropertyUpdates({
     required this.propertyGroups,
   });
+
   Map<String, dynamic> toJson() {
     final propertyGroups = this.propertyGroups;
     return {
@@ -3894,6 +3914,7 @@ class FlinkApplicationConfiguration {
     this.monitoringConfiguration,
     this.parallelismConfiguration,
   });
+
   Map<String, dynamic> toJson() {
     final checkpointConfiguration = this.checkpointConfiguration;
     final monitoringConfiguration = this.monitoringConfiguration;
@@ -3989,6 +4010,7 @@ class FlinkApplicationConfigurationUpdate {
     this.monitoringConfigurationUpdate,
     this.parallelismConfigurationUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final checkpointConfigurationUpdate = this.checkpointConfigurationUpdate;
     final monitoringConfigurationUpdate = this.monitoringConfigurationUpdate;
@@ -4052,6 +4074,7 @@ class GlueDataCatalogConfiguration {
   GlueDataCatalogConfiguration({
     required this.databaseARN,
   });
+
   Map<String, dynamic> toJson() {
     final databaseARN = this.databaseARN;
     return {
@@ -4087,6 +4110,7 @@ class GlueDataCatalogConfigurationUpdate {
   GlueDataCatalogConfigurationUpdate({
     required this.databaseARNUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final databaseARNUpdate = this.databaseARNUpdate;
     return {
@@ -4139,6 +4163,7 @@ class Input {
     this.kinesisFirehoseInput,
     this.kinesisStreamsInput,
   });
+
   Map<String, dynamic> toJson() {
     final inputSchema = this.inputSchema;
     final namePrefix = this.namePrefix;
@@ -4273,6 +4298,7 @@ class InputLambdaProcessor {
   InputLambdaProcessor({
     required this.resourceARN,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARN = this.resourceARN;
     return {
@@ -4335,6 +4361,7 @@ class InputLambdaProcessorUpdate {
   InputLambdaProcessorUpdate({
     required this.resourceARNUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARNUpdate = this.resourceARNUpdate;
     return {
@@ -4377,6 +4404,7 @@ class InputParallelismUpdate {
   InputParallelismUpdate({
     required this.countUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final countUpdate = this.countUpdate;
     return {
@@ -4397,6 +4425,7 @@ class InputProcessingConfiguration {
   InputProcessingConfiguration({
     required this.inputLambdaProcessor,
   });
+
   Map<String, dynamic> toJson() {
     final inputLambdaProcessor = this.inputLambdaProcessor;
     return {
@@ -4440,6 +4469,7 @@ class InputProcessingConfigurationUpdate {
   InputProcessingConfigurationUpdate({
     required this.inputLambdaProcessorUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final inputLambdaProcessorUpdate = this.inputLambdaProcessorUpdate;
     return {
@@ -4468,6 +4498,7 @@ class InputSchemaUpdate {
     this.recordEncodingUpdate,
     this.recordFormatUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final recordColumnUpdates = this.recordColumnUpdates;
     final recordEncodingUpdate = this.recordEncodingUpdate;
@@ -4598,6 +4629,7 @@ class InputUpdate {
     this.kinesisStreamsInputUpdate,
     this.namePrefixUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final inputId = this.inputId;
     final inputParallelismUpdate = this.inputParallelismUpdate;
@@ -4658,6 +4690,7 @@ class KinesisFirehoseInput {
   KinesisFirehoseInput({
     required this.resourceARN,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARN = this.resourceARN;
     return {
@@ -4704,6 +4737,7 @@ class KinesisFirehoseInputUpdate {
   KinesisFirehoseInputUpdate({
     required this.resourceARNUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARNUpdate = this.resourceARNUpdate;
     return {
@@ -4723,6 +4757,7 @@ class KinesisFirehoseOutput {
   KinesisFirehoseOutput({
     required this.resourceARN,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARN = this.resourceARN;
     return {
@@ -4770,6 +4805,7 @@ class KinesisFirehoseOutputUpdate {
   KinesisFirehoseOutputUpdate({
     required this.resourceARNUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARNUpdate = this.resourceARNUpdate;
     return {
@@ -4787,6 +4823,7 @@ class KinesisStreamsInput {
   KinesisStreamsInput({
     required this.resourceARN,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARN = this.resourceARN;
     return {
@@ -4834,6 +4871,7 @@ class KinesisStreamsInputUpdate {
   KinesisStreamsInputUpdate({
     required this.resourceARNUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARNUpdate = this.resourceARNUpdate;
     return {
@@ -4852,6 +4890,7 @@ class KinesisStreamsOutput {
   KinesisStreamsOutput({
     required this.resourceARN,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARN = this.resourceARN;
     return {
@@ -4900,6 +4939,7 @@ class KinesisStreamsOutputUpdate {
   KinesisStreamsOutputUpdate({
     required this.resourceARNUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARNUpdate = this.resourceARNUpdate;
     return {
@@ -4926,6 +4966,7 @@ class LambdaOutput {
   LambdaOutput({
     required this.resourceARN,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARN = this.resourceARN;
     return {
@@ -4980,6 +5021,7 @@ class LambdaOutputUpdate {
   LambdaOutputUpdate({
     required this.resourceARNUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARNUpdate = this.resourceARNUpdate;
     return {
@@ -5272,6 +5314,7 @@ class MonitoringConfiguration {
     this.logLevel,
     this.metricsLevel,
   });
+
   Map<String, dynamic> toJson() {
     final configurationType = this.configurationType;
     final logLevel = this.logLevel;
@@ -5337,6 +5380,7 @@ class MonitoringConfigurationUpdate {
     this.logLevelUpdate,
     this.metricsLevelUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final configurationTypeUpdate = this.configurationTypeUpdate;
     final logLevelUpdate = this.logLevelUpdate;
@@ -5380,6 +5424,7 @@ class Output {
     this.kinesisStreamsOutput,
     this.lambdaOutput,
   });
+
   Map<String, dynamic> toJson() {
     final destinationSchema = this.destinationSchema;
     final name = this.name;
@@ -5492,6 +5537,7 @@ class OutputUpdate {
     this.lambdaOutputUpdate,
     this.nameUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final outputId = this.outputId;
     final destinationSchemaUpdate = this.destinationSchemaUpdate;
@@ -5558,6 +5604,7 @@ class ParallelismConfiguration {
     this.parallelism,
     this.parallelismPerKPU,
   });
+
   Map<String, dynamic> toJson() {
     final configurationType = this.configurationType;
     final autoScalingEnabled = this.autoScalingEnabled;
@@ -5669,6 +5716,7 @@ class ParallelismConfigurationUpdate {
     this.parallelismPerKPUUpdate,
     this.parallelismUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final autoScalingEnabledUpdate = this.autoScalingEnabledUpdate;
     final configurationTypeUpdate = this.configurationTypeUpdate;
@@ -5852,6 +5900,7 @@ class ReferenceDataSource {
     required this.tableName,
     this.s3ReferenceDataSource,
   });
+
   Map<String, dynamic> toJson() {
     final referenceSchema = this.referenceSchema;
     final tableName = this.tableName;
@@ -5936,6 +5985,7 @@ class ReferenceDataSourceUpdate {
     this.s3ReferenceDataSourceUpdate,
     this.tableNameUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final referenceId = this.referenceId;
     final referenceSchemaUpdate = this.referenceSchemaUpdate;
@@ -5985,6 +6035,7 @@ class RunConfiguration {
     this.flinkRunConfiguration,
     this.sqlRunConfigurations,
   });
+
   Map<String, dynamic> toJson() {
     final applicationRestoreConfiguration =
         this.applicationRestoreConfiguration;
@@ -6045,6 +6096,7 @@ class RunConfigurationUpdate {
     this.applicationRestoreConfiguration,
     this.flinkRunConfiguration,
   });
+
   Map<String, dynamic> toJson() {
     final applicationRestoreConfiguration =
         this.applicationRestoreConfiguration;
@@ -6158,6 +6210,7 @@ class S3Configuration {
     required this.bucketARN,
     required this.fileKey,
   });
+
   Map<String, dynamic> toJson() {
     final bucketARN = this.bucketARN;
     final fileKey = this.fileKey;
@@ -6180,6 +6233,7 @@ class S3ContentBaseLocation {
     required this.bucketARN,
     this.basePath,
   });
+
   Map<String, dynamic> toJson() {
     final bucketARN = this.bucketARN;
     final basePath = this.basePath;
@@ -6224,6 +6278,7 @@ class S3ContentBaseLocationUpdate {
     this.basePathUpdate,
     this.bucketARNUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final basePathUpdate = this.basePathUpdate;
     final bucketARNUpdate = this.bucketARNUpdate;
@@ -6293,6 +6348,7 @@ class S3ContentLocationUpdate {
     this.fileKeyUpdate,
     this.objectVersionUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final bucketARNUpdate = this.bucketARNUpdate;
     final fileKeyUpdate = this.fileKeyUpdate;
@@ -6323,6 +6379,7 @@ class S3ReferenceDataSource {
     this.bucketARN,
     this.fileKey,
   });
+
   Map<String, dynamic> toJson() {
     final bucketARN = this.bucketARN;
     final fileKey = this.fileKey;
@@ -6380,6 +6437,7 @@ class S3ReferenceDataSourceUpdate {
     this.bucketARNUpdate,
     this.fileKeyUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final bucketARNUpdate = this.bucketARNUpdate;
     final fileKeyUpdate = this.fileKeyUpdate;
@@ -6524,6 +6582,7 @@ class SqlApplicationConfiguration {
     this.outputs,
     this.referenceDataSources,
   });
+
   Map<String, dynamic> toJson() {
     final inputs = this.inputs;
     final outputs = this.outputs;
@@ -6599,6 +6658,7 @@ class SqlApplicationConfigurationUpdate {
     this.outputUpdates,
     this.referenceDataSourceUpdates,
   });
+
   Map<String, dynamic> toJson() {
     final inputUpdates = this.inputUpdates;
     final outputUpdates = this.outputUpdates;
@@ -6627,6 +6687,7 @@ class SqlRunConfiguration {
     required this.inputId,
     required this.inputStartingPositionConfiguration,
   });
+
   Map<String, dynamic> toJson() {
     final inputId = this.inputId;
     final inputStartingPositionConfiguration =
@@ -6793,6 +6854,7 @@ class VpcConfiguration {
     required this.securityGroupIds,
     required this.subnetIds,
   });
+
   Map<String, dynamic> toJson() {
     final securityGroupIds = this.securityGroupIds;
     final subnetIds = this.subnetIds;
@@ -6864,6 +6926,7 @@ class VpcConfigurationUpdate {
     this.securityGroupIdUpdates,
     this.subnetIdUpdates,
   });
+
   Map<String, dynamic> toJson() {
     final vpcConfigurationId = this.vpcConfigurationId;
     final securityGroupIdUpdates = this.securityGroupIdUpdates;
@@ -6899,6 +6962,7 @@ class ZeppelinApplicationConfiguration {
     this.deployAsApplicationConfiguration,
     this.monitoringConfiguration,
   });
+
   Map<String, dynamic> toJson() {
     final catalogConfiguration = this.catalogConfiguration;
     final customArtifactsConfiguration = this.customArtifactsConfiguration;
@@ -6995,6 +7059,7 @@ class ZeppelinApplicationConfigurationUpdate {
     this.deployAsApplicationConfigurationUpdate,
     this.monitoringConfigurationUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final catalogConfigurationUpdate = this.catalogConfigurationUpdate;
     final customArtifactsConfigurationUpdate =
@@ -7028,6 +7093,7 @@ class ZeppelinMonitoringConfiguration {
   ZeppelinMonitoringConfiguration({
     required this.logLevel,
   });
+
   Map<String, dynamic> toJson() {
     final logLevel = this.logLevel;
     return {
@@ -7064,6 +7130,7 @@ class ZeppelinMonitoringConfigurationUpdate {
   ZeppelinMonitoringConfigurationUpdate({
     required this.logLevelUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final logLevelUpdate = this.logLevelUpdate;
     return {

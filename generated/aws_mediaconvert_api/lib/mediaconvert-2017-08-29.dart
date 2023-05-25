@@ -29784,6 +29784,7 @@ class ReservationPlanSettings {
     required this.renewalType,
     required this.reservedSlots,
   });
+
   Map<String, dynamic> toJson() {
     final commitment = this.commitment;
     final renewalType = this.renewalType;

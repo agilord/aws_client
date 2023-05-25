@@ -513,7 +513,8 @@ class MediaPackage {
   ///
   /// Parameter [id] :
   /// The ID of the channel to update.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'This API is deprecated. Please use RotateIngestEndpointCredentials instead')
   Future<RotateChannelCredentialsResponse> rotateChannelCredentials({
     required String id,
   }) async {
@@ -1017,6 +1018,7 @@ class CmafPackageCreateOrUpdateParameters {
     this.segmentPrefix,
     this.streamSelection,
   });
+
   Map<String, dynamic> toJson() {
     final encryption = this.encryption;
     final hlsManifests = this.hlsManifests;
@@ -2124,6 +2126,7 @@ class HlsManifestCreateOrUpdateParameters {
     this.playlistWindowSeconds,
     this.programDateTimeIntervalSeconds,
   });
+
   Map<String, dynamic> toJson() {
     final id = this.id;
     final adMarkers = this.adMarkers;
@@ -2849,7 +2852,7 @@ extension ProfileFromString on String {
   }
 }
 
-@deprecated
+@Deprecated('Deprecated')
 class RotateChannelCredentialsResponse {
   /// The Amazon Resource Name (ARN) assigned to the Channel.
   final String? arn;

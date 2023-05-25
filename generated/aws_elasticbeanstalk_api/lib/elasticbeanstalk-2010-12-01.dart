@@ -3206,6 +3206,7 @@ class BuildConfiguration {
     this.computeType,
     this.timeoutInMinutes,
   });
+
   Map<String, dynamic> toJson() {
     final codeBuildServiceRole = this.codeBuildServiceRole;
     final image = this.image;
@@ -5506,6 +5507,7 @@ class OptionSpecification {
     this.optionName,
     this.resourceName,
   });
+
   Map<String, dynamic> toJson() {
     final namespace = this.namespace;
     final optionName = this.optionName;
@@ -5762,6 +5764,7 @@ class PlatformFilter {
     this.type,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final operator = this.operator;
     final type = this.type;
@@ -6129,6 +6132,7 @@ class SearchFilter {
     this.operator,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final attribute = this.attribute;
     final operator = this.operator;
@@ -6321,6 +6325,7 @@ class SourceConfiguration {
     this.applicationName,
     this.templateName,
   });
+
   Map<String, dynamic> toJson() {
     final applicationName = this.applicationName;
     final templateName = this.templateName;

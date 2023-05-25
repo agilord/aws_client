@@ -1712,6 +1712,7 @@ class DomainValidationOption {
     required this.domainName,
     required this.validationDomain,
   });
+
   Map<String, dynamic> toJson() {
     final domainName = this.domainName;
     final validationDomain = this.validationDomain;
@@ -2036,6 +2037,7 @@ class Filters {
     this.keyTypes,
     this.keyUsage,
   });
+
   Map<String, dynamic> toJson() {
     final extendedKeyUsage = this.extendedKeyUsage;
     final keyTypes = this.keyTypes;

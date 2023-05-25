@@ -12614,6 +12614,7 @@ class AwsJobAbortConfig {
   AwsJobAbortConfig({
     required this.abortCriteriaList,
   });
+
   Map<String, dynamic> toJson() {
     final abortCriteriaList = this.abortCriteriaList;
     return {
@@ -12647,6 +12648,7 @@ class AwsJobAbortCriteria {
     required this.minNumberOfExecutedThings,
     required this.thresholdPercentage,
   });
+
   Map<String, dynamic> toJson() {
     final action = this.action;
     final failureType = this.failureType;
@@ -12883,6 +12885,7 @@ class AwsJobTimeoutConfig {
   AwsJobTimeoutConfig({
     this.inProgressTimeoutInMinutes,
   });
+
   Map<String, dynamic> toJson() {
     final inProgressTimeoutInMinutes = this.inProgressTimeoutInMinutes;
     return {
@@ -13211,6 +13214,7 @@ class BucketsAggregationType {
   BucketsAggregationType({
     this.termsAggregation,
   });
+
   Map<String, dynamic> toJson() {
     final termsAggregation = this.termsAggregation;
     return {
@@ -18547,6 +18551,7 @@ class HttpContext {
     this.headers,
     this.queryString,
   });
+
   Map<String, dynamic> toJson() {
     final headers = this.headers;
     final queryString = this.queryString;
@@ -18566,6 +18571,7 @@ class HttpUrlDestinationConfiguration {
   HttpUrlDestinationConfiguration({
     required this.confirmationUrl,
   });
+
   Map<String, dynamic> toJson() {
     final confirmationUrl = this.confirmationUrl;
     return {
@@ -21470,6 +21476,7 @@ class LoggingOptionsPayload {
     required this.roleArn,
     this.logLevel,
   });
+
   Map<String, dynamic> toJson() {
     final roleArn = this.roleArn;
     final logLevel = this.logLevel;
@@ -22024,6 +22031,7 @@ class MqttContext {
     this.password,
     this.username,
   });
+
   Map<String, dynamic> toJson() {
     final clientId = this.clientId;
     final password = this.password;
@@ -24827,6 +24835,7 @@ class TermsAggregation {
   TermsAggregation({
     this.maxBuckets,
   });
+
   Map<String, dynamic> toJson() {
     final maxBuckets = this.maxBuckets;
     return {
@@ -25726,6 +25735,7 @@ class TlsContext {
   TlsContext({
     this.serverName,
   });
+
   Map<String, dynamic> toJson() {
     final serverName = this.serverName;
     return {
@@ -25878,6 +25888,7 @@ class TopicRuleDestinationConfiguration {
     this.httpUrlConfiguration,
     this.vpcConfiguration,
   });
+
   Map<String, dynamic> toJson() {
     final httpUrlConfiguration = this.httpUrlConfiguration;
     final vpcConfiguration = this.vpcConfiguration;
@@ -26073,6 +26084,7 @@ class TopicRulePayload {
     this.errorAction,
     this.ruleDisabled,
   });
+
   Map<String, dynamic> toJson() {
     final actions = this.actions;
     final sql = this.sql;
@@ -26896,6 +26908,7 @@ class VpcDestinationConfiguration {
     required this.vpcId,
     this.securityGroups,
   });
+
   Map<String, dynamic> toJson() {
     final roleArn = this.roleArn;
     final subnetIds = this.subnetIds;

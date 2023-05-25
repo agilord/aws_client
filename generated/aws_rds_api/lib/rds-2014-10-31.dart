@@ -19007,6 +19007,7 @@ class CloudwatchLogsExportConfiguration {
     this.disableLogTypes,
     this.enableLogTypes,
   });
+
   Map<String, dynamic> toJson() {
     final disableLogTypes = this.disableLogTypes;
     final enableLogTypes = this.enableLogTypes;
@@ -19155,6 +19156,7 @@ class ConnectionPoolConfiguration {
     this.maxIdleConnectionsPercent,
     this.sessionPinningFilters,
   });
+
   Map<String, dynamic> toJson() {
     final connectionBorrowTimeout = this.connectionBorrowTimeout;
     final initQuery = this.initQuery;
@@ -24777,6 +24779,7 @@ class Filter {
     required this.name,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -25415,6 +25418,7 @@ class OptionConfiguration {
     this.port,
     this.vpcSecurityGroupMemberships,
   });
+
   Map<String, dynamic> toJson() {
     final optionName = this.optionName;
     final dBSecurityGroupMemberships = this.dBSecurityGroupMemberships;
@@ -27279,6 +27283,7 @@ class ScalingConfiguration {
     this.secondsUntilAutoPause,
     this.timeoutAction,
   });
+
   Map<String, dynamic> toJson() {
     final autoPause = this.autoPause;
     final maxCapacity = this.maxCapacity;
@@ -27386,6 +27391,7 @@ class ServerlessV2ScalingConfiguration {
     this.maxCapacity,
     this.minCapacity,
   });
+
   Map<String, dynamic> toJson() {
     final maxCapacity = this.maxCapacity;
     final minCapacity = this.minCapacity;
@@ -28198,6 +28204,7 @@ class UserAuthConfig {
     this.secretArn,
     this.userName,
   });
+
   Map<String, dynamic> toJson() {
     final authScheme = this.authScheme;
     final clientPasswordAuthType = this.clientPasswordAuthType;

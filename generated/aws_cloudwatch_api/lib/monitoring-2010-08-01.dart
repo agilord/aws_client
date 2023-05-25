@@ -4159,6 +4159,7 @@ class DimensionFilter {
     required this.name,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;
@@ -4738,6 +4739,7 @@ class LabelOptions {
   LabelOptions({
     this.timezone,
   });
+
   Map<String, dynamic> toJson() {
     final timezone = this.timezone;
     return {
@@ -4892,6 +4894,7 @@ class ManagedRule {
     required this.templateName,
     this.tags,
   });
+
   Map<String, dynamic> toJson() {
     final resourceARN = this.resourceARN;
     final templateName = this.templateName;
@@ -5521,6 +5524,7 @@ class MetricDatum {
     this.value,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final metricName = this.metricName;
     final counts = this.counts;
@@ -6376,6 +6380,7 @@ class StatisticSet {
     required this.sampleCount,
     required this.sum,
   });
+
   Map<String, dynamic> toJson() {
     final maximum = this.maximum;
     final minimum = this.minimum;

@@ -942,6 +942,7 @@ class DateTimeRange {
     this.from,
     this.to,
   });
+
   Map<String, dynamic> toJson() {
     final from = this.from;
     final to = this.to;
@@ -1349,6 +1350,7 @@ class EntityFilter {
     this.statusCodes,
     this.tags,
   });
+
   Map<String, dynamic> toJson() {
     final eventArns = this.eventArns;
     final entityArns = this.entityArns;
@@ -1514,6 +1516,7 @@ class EventAccountFilter {
     required this.eventArn,
     this.awsAccountId,
   });
+
   Map<String, dynamic> toJson() {
     final eventArn = this.eventArn;
     final awsAccountId = this.awsAccountId;
@@ -1709,6 +1712,7 @@ class EventFilter {
     this.startTimes,
     this.tags,
   });
+
   Map<String, dynamic> toJson() {
     final availabilityZones = this.availabilityZones;
     final endTimes = this.endTimes;
@@ -1813,6 +1817,7 @@ class EventTypeFilter {
     this.eventTypeCodes,
     this.services,
   });
+
   Map<String, dynamic> toJson() {
     final eventTypeCategories = this.eventTypeCategories;
     final eventTypeCodes = this.eventTypeCodes;
@@ -2127,6 +2132,7 @@ class OrganizationEventFilter {
     this.services,
     this.startTime,
   });
+
   Map<String, dynamic> toJson() {
     final awsAccountIds = this.awsAccountIds;
     final endTime = this.endTime;

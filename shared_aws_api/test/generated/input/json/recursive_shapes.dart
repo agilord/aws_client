@@ -174,6 +174,7 @@ class RecursiveStructType {
     this.recursiveMap,
     this.recursiveStruct,
   });
+
   Map<String, dynamic> toJson() {
     final noRecurse = this.noRecurse;
     final recursiveList = this.recursiveList;

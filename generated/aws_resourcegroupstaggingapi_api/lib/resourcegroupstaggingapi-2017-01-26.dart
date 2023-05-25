@@ -1147,6 +1147,7 @@ class TagFilter {
     this.key,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final values = this.values;

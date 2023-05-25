@@ -2010,6 +2010,7 @@ class ParameterNameValue {
     this.parameterName,
     this.parameterValue,
   });
+
   Map<String, dynamic> toJson() {
     final parameterName = this.parameterName;
     final parameterValue = this.parameterValue;
@@ -2106,6 +2107,7 @@ class SSESpecification {
   SSESpecification({
     required this.enabled,
   });
+
   Map<String, dynamic> toJson() {
     final enabled = this.enabled;
     return {

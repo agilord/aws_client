@@ -76,6 +76,7 @@ class StructType {
   StructType({
     this.scalarArg,
   });
+
   Map<String, dynamic> toJson() {
     final scalarArg = this.scalarArg;
     return {

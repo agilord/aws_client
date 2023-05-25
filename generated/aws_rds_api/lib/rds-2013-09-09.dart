@@ -2812,6 +2812,7 @@ class Filter {
     required this.name,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -2960,6 +2961,7 @@ class OptionConfiguration {
     this.port,
     this.vpcSecurityGroupMemberships,
   });
+
   Map<String, dynamic> toJson() {
     final optionName = this.optionName;
     final dBSecurityGroupMemberships = this.dBSecurityGroupMemberships;

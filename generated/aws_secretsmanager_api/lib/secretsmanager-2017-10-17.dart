@@ -2445,6 +2445,7 @@ class Filter {
     this.key,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final values = this.values;
@@ -2775,6 +2776,7 @@ class ReplicaRegionType {
     this.kmsKeyId,
     this.region,
   });
+
   Map<String, dynamic> toJson() {
     final kmsKeyId = this.kmsKeyId;
     final region = this.region;

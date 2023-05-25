@@ -5289,6 +5289,7 @@ class FilterCondition {
   FilterCondition({
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final value = this.value;
     return {
@@ -6417,6 +6418,7 @@ class ModelEndpointDataBlob {
     this.byteBuffer,
     this.contentType,
   });
+
   Map<String, dynamic> toJson() {
     final byteBuffer = this.byteBuffer;
     final contentType = this.contentType;
@@ -7073,6 +7075,7 @@ class PredictionTimeRange {
     required this.endTime,
     required this.startTime,
   });
+
   Map<String, dynamic> toJson() {
     final endTime = this.endTime;
     final startTime = this.startTime;
@@ -7930,6 +7933,7 @@ class VariableEntry {
     this.name,
     this.variableType,
   });
+
   Map<String, dynamic> toJson() {
     final dataSource = this.dataSource;
     final dataType = this.dataType;

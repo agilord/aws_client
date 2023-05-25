@@ -76,7 +76,7 @@ class IoTThingsGraph {
   /// Parameter [namespaceVersion] :
   /// The version of the user's namespace. Defaults to the latest version of the
   /// user's namespace.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<void> associateEntityToThing({
     required String entityId,
     required String thingName,
@@ -119,7 +119,7 @@ class IoTThingsGraph {
   /// The namespace version in which the workflow is to be created.
   ///
   /// If no value is specified, the latest version is used by default.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<CreateFlowTemplateResponse> createFlowTemplate({
     required DefinitionDocument definition,
     int? compatibleNamespaceVersion,
@@ -198,7 +198,7 @@ class IoTThingsGraph {
   /// Parameter [tags] :
   /// Metadata, consisting of key-value pairs, that can be used to categorize
   /// your system instances.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<CreateSystemInstanceResponse> createSystemInstance({
     required DefinitionDocument definition,
     required DeploymentTarget target,
@@ -251,7 +251,7 @@ class IoTThingsGraph {
   /// The namespace version in which the system is to be created.
   ///
   /// If no value is specified, the latest version is used by default.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<CreateSystemTemplateResponse> createSystemTemplate({
     required DefinitionDocument definition,
     int? compatibleNamespaceVersion,
@@ -292,7 +292,7 @@ class IoTThingsGraph {
   /// The ID should be in the following format.
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME</code>
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<void> deleteFlowTemplate({
     required String id,
   }) async {
@@ -319,7 +319,7 @@ class IoTThingsGraph {
   ///
   /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<DeleteNamespaceResponse> deleteNamespace() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -349,7 +349,7 @@ class IoTThingsGraph {
   ///
   /// Parameter [id] :
   /// The ID of the system instance to be deleted.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<void> deleteSystemInstance({
     String? id,
   }) async {
@@ -385,7 +385,7 @@ class IoTThingsGraph {
   /// The ID should be in the following format.
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME</code>
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<void> deleteSystemTemplate({
     required String id,
   }) async {
@@ -439,7 +439,7 @@ class IoTThingsGraph {
   /// The ID should be in the following format.
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME</code>
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<DeploySystemInstanceResponse> deploySystemInstance({
     String? id,
   }) async {
@@ -476,7 +476,7 @@ class IoTThingsGraph {
   /// The ID should be in the following format.
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME</code>
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<void> deprecateFlowTemplate({
     required String id,
   }) async {
@@ -509,7 +509,7 @@ class IoTThingsGraph {
   /// The ID should be in the following format.
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME</code>
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<void> deprecateSystemTemplate({
     required String id,
   }) async {
@@ -540,7 +540,7 @@ class IoTThingsGraph {
   /// Parameter [namespaceName] :
   /// The name of the user's namespace. Set this to <code>aws</code> to get the
   /// public namespace.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<DescribeNamespaceResponse> describeNamespace({
     String? namespaceName,
   }) async {
@@ -576,7 +576,7 @@ class IoTThingsGraph {
   ///
   /// Parameter [thingName] :
   /// The name of the thing to disassociate.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<void> dissociateEntityFromThing({
     required EntityType entityType,
     required String thingName,
@@ -648,7 +648,7 @@ class IoTThingsGraph {
   /// Parameter [namespaceVersion] :
   /// The version of the user's namespace. Defaults to the latest version of the
   /// user's namespace.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<GetEntitiesResponse> getEntities({
     required List<String> ids,
     int? namespaceVersion,
@@ -689,7 +689,7 @@ class IoTThingsGraph {
   ///
   /// Parameter [revisionNumber] :
   /// The number of the workflow revision to retrieve.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<GetFlowTemplateResponse> getFlowTemplate({
     required String id,
     int? revisionNumber,
@@ -736,7 +736,7 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<GetFlowTemplateRevisionsResponse> getFlowTemplateRevisions({
     required String id,
     int? maxResults,
@@ -773,7 +773,7 @@ class IoTThingsGraph {
   /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<GetNamespaceDeletionStatusResponse>
       getNamespaceDeletionStatus() async {
     final headers = <String, String>{
@@ -805,7 +805,7 @@ class IoTThingsGraph {
   /// The ID should be in the following format.
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME</code>
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<GetSystemInstanceResponse> getSystemInstance({
     required String id,
   }) async {
@@ -843,7 +843,7 @@ class IoTThingsGraph {
   ///
   /// Parameter [revisionNumber] :
   /// The number that specifies the revision of the system to get.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<GetSystemTemplateResponse> getSystemTemplate({
     required String id,
     int? revisionNumber,
@@ -890,7 +890,7 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<GetSystemTemplateRevisionsResponse> getSystemTemplateRevisions({
     required String id,
     int? maxResults,
@@ -932,7 +932,7 @@ class IoTThingsGraph {
   /// Parameter [uploadId] :
   /// The ID of the upload. This value is returned by the
   /// <code>UploadEntityDefinitions</code> action.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<GetUploadStatusResponse> getUploadStatus({
     required String uploadId,
   }) async {
@@ -971,7 +971,7 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<ListFlowExecutionMessagesResponse> listFlowExecutionMessages({
     required String flowExecutionId,
     int? maxResults,
@@ -1019,7 +1019,7 @@ class IoTThingsGraph {
   ///
   /// Parameter [nextToken] :
   /// The token that specifies the next page of results to return.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
     int? maxResults,
@@ -1081,7 +1081,7 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<SearchEntitiesResponse> searchEntities({
     required List<EntityType> entityTypes,
     List<EntityFilter>? filters,
@@ -1142,7 +1142,7 @@ class IoTThingsGraph {
   ///
   /// Parameter [startTime] :
   /// The date and time of the earliest flow execution to return.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<SearchFlowExecutionsResponse> searchFlowExecutions({
     required String systemInstanceId,
     DateTime? endTime,
@@ -1196,7 +1196,7 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<SearchFlowTemplatesResponse> searchFlowTemplates({
     List<FlowTemplateFilter>? filters,
     int? maxResults,
@@ -1248,7 +1248,7 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<SearchSystemInstancesResponse> searchSystemInstances({
     List<SystemInstanceFilter>? filters,
     int? maxResults,
@@ -1298,7 +1298,7 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<SearchSystemTemplatesResponse> searchSystemTemplates({
     List<SystemTemplateFilter>? filters,
     int? maxResults,
@@ -1363,7 +1363,7 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<SearchThingsResponse> searchThings({
     required String entityId,
     int? maxResults,
@@ -1409,7 +1409,7 @@ class IoTThingsGraph {
   ///
   /// Parameter [tags] :
   /// A list of tags to add to the resource.&gt;
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<void> tagResource({
     required String resourceArn,
     required List<Tag> tags,
@@ -1441,7 +1441,7 @@ class IoTThingsGraph {
   ///
   /// Parameter [id] :
   /// The ID of the system instance to remove from its target.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<UndeploySystemInstanceResponse> undeploySystemInstance({
     String? id,
   }) async {
@@ -1483,7 +1483,7 @@ class IoTThingsGraph {
   /// tool environments, see <a
   /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters.html#cli-using-param-json">Using
   /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<void> untagResource({
     required String resourceArn,
     required List<String> tagKeys,
@@ -1533,7 +1533,7 @@ class IoTThingsGraph {
   /// If no value is specified, the latest version is used by default. Use the
   /// <code>GetFlowTemplateRevisions</code> if you want to find earlier
   /// revisions of the flow to update.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<UpdateFlowTemplateResponse> updateFlowTemplate({
     required DefinitionDocument definition,
     required String id,
@@ -1585,7 +1585,7 @@ class IoTThingsGraph {
   /// user's namespace.
   ///
   /// If no value is specified, the latest version is used by default.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<UpdateSystemTemplateResponse> updateSystemTemplate({
     required DefinitionDocument definition,
     required String id,
@@ -1656,7 +1656,7 @@ class IoTThingsGraph {
   /// A Boolean that specifies whether to synchronize with the latest version of
   /// the public namespace. If set to <code>true</code>, the upload will create
   /// a new namespace version.
-  @Deprecated('Deprecated')
+  @Deprecated('since: 2022-08-30')
   Future<UploadEntityDefinitionsResponse> uploadEntityDefinitions({
     bool? deprecateExistingEntities,
     DefinitionDocument? document,
@@ -2036,6 +2036,7 @@ class EntityFilter {
     this.name,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;
@@ -2411,6 +2412,7 @@ class FlowTemplateFilter {
     required this.name,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;
@@ -3109,6 +3111,7 @@ class SystemInstanceFilter {
     this.name,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;
@@ -3255,6 +3258,7 @@ class SystemTemplateFilter {
     required this.name,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;

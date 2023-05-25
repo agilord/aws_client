@@ -3364,6 +3364,7 @@ class InputIdentifier {
     this.iotEventsInputIdentifier,
     this.iotSiteWiseInputIdentifier,
   });
+
   Map<String, dynamic> toJson() {
     final iotEventsInputIdentifier = this.iotEventsInputIdentifier;
     final iotSiteWiseInputIdentifier = this.iotSiteWiseInputIdentifier;
@@ -3497,6 +3498,7 @@ class IotEventsInputIdentifier {
   IotEventsInputIdentifier({
     required this.inputName,
   });
+
   Map<String, dynamic> toJson() {
     final inputName = this.inputName;
     return {
@@ -3613,6 +3615,7 @@ class IotSiteWiseAssetModelPropertyIdentifier {
     required this.assetModelId,
     required this.propertyId,
   });
+
   Map<String, dynamic> toJson() {
     final assetModelId = this.assetModelId;
     final propertyId = this.propertyId;
@@ -3632,6 +3635,7 @@ class IotSiteWiseInputIdentifier {
   IotSiteWiseInputIdentifier({
     this.iotSiteWiseAssetModelPropertyIdentifier,
   });
+
   Map<String, dynamic> toJson() {
     final iotSiteWiseAssetModelPropertyIdentifier =
         this.iotSiteWiseAssetModelPropertyIdentifier;

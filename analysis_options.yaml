@@ -4,10 +4,6 @@ include: package:lints/recommended.yaml
 analyzer:
   exclude: [generated/**]
   errors:
-    unused_element: error
-    unused_import: error
-    unused_local_variable: error
-    dead_code: error
     deprecated_member_use_from_same_package: ignore
   language:
     strict-casts: true

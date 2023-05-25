@@ -9048,6 +9048,7 @@ class OperationResultFilter {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -10175,6 +10176,7 @@ class ResourceToImport {
     required this.resourceIdentifier,
     required this.resourceType,
   });
+
   Map<String, dynamic> toJson() {
     final logicalResourceId = this.logicalResourceId;
     final resourceIdentifier = this.resourceIdentifier;
@@ -11073,6 +11075,7 @@ class StackInstanceFilter {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -13445,6 +13448,7 @@ class TypeFilters {
     this.publisherId,
     this.typeNamePrefix,
   });
+
   Map<String, dynamic> toJson() {
     final category = this.category;
     final publisherId = this.publisherId;

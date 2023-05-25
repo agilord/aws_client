@@ -14056,6 +14056,7 @@ class VersionToPublish {
     this.associatedRuleGroupArn,
     this.forecastedLifetime,
   });
+
   Map<String, dynamic> toJson() {
     final associatedRuleGroupArn = this.associatedRuleGroupArn;
     final forecastedLifetime = this.forecastedLifetime;

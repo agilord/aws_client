@@ -1062,6 +1062,7 @@ class Account {
     required this.accountId,
     required this.emailAddress,
   });
+
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
     final emailAddress = this.emailAddress;

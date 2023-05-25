@@ -804,6 +804,7 @@ class AttributeValueUpdate {
     this.action,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final action = this.action;
     final value = this.value;
@@ -1022,6 +1023,7 @@ class Condition {
     required this.comparisonOperator,
     this.attributeValueList,
   });
+
   Map<String, dynamic> toJson() {
     final comparisonOperator = this.comparisonOperator;
     final attributeValueList = this.attributeValueList;
@@ -1143,6 +1145,7 @@ class ExpectedAttributeValue {
     this.exists,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final exists = this.exists;
     final value = this.value;
@@ -1376,6 +1379,7 @@ class ProvisionedThroughput {
     required this.readCapacityUnits,
     required this.writeCapacityUnits,
   });
+
   Map<String, dynamic> toJson() {
     final readCapacityUnits = this.readCapacityUnits;
     final writeCapacityUnits = this.writeCapacityUnits;

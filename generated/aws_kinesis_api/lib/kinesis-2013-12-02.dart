@@ -3151,6 +3151,7 @@ class PutRecordsRequestEntry {
     required this.partitionKey,
     this.explicitHashKey,
   });
+
   Map<String, dynamic> toJson() {
     final data = this.data;
     final partitionKey = this.partitionKey;
@@ -3416,6 +3417,7 @@ class ShardFilter {
     this.shardId,
     this.timestamp,
   });
+
   Map<String, dynamic> toJson() {
     final type = this.type;
     final shardId = this.shardId;

@@ -1891,6 +1891,7 @@ class DnsConfigChange {
   DnsConfigChange({
     required this.dnsRecords,
   });
+
   Map<String, dynamic> toJson() {
     final dnsRecords = this.dnsRecords;
     return {
@@ -2606,6 +2607,7 @@ class HttpNamespaceChange {
   HttpNamespaceChange({
     required this.description,
   });
+
   Map<String, dynamic> toJson() {
     final description = this.description;
     return {
@@ -3133,6 +3135,7 @@ class NamespaceFilter {
     required this.values,
     this.condition,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -3484,6 +3487,7 @@ class OperationFilter {
     required this.values,
     this.condition,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -3711,6 +3715,7 @@ class PrivateDnsNamespaceChange {
     this.description,
     this.properties,
   });
+
   Map<String, dynamic> toJson() {
     final description = this.description;
     final properties = this.properties;
@@ -3729,6 +3734,7 @@ class PrivateDnsNamespaceProperties {
   PrivateDnsNamespaceProperties({
     required this.dnsProperties,
   });
+
   Map<String, dynamic> toJson() {
     final dnsProperties = this.dnsProperties;
     return {
@@ -3745,6 +3751,7 @@ class PrivateDnsNamespacePropertiesChange {
   PrivateDnsNamespacePropertiesChange({
     required this.dnsProperties,
   });
+
   Map<String, dynamic> toJson() {
     final dnsProperties = this.dnsProperties;
     return {
@@ -3762,6 +3769,7 @@ class PrivateDnsPropertiesMutable {
   PrivateDnsPropertiesMutable({
     required this.soa,
   });
+
   Map<String, dynamic> toJson() {
     final soa = this.soa;
     return {
@@ -3779,6 +3787,7 @@ class PrivateDnsPropertiesMutableChange {
   PrivateDnsPropertiesMutableChange({
     required this.soa,
   });
+
   Map<String, dynamic> toJson() {
     final soa = this.soa;
     return {
@@ -3799,6 +3808,7 @@ class PublicDnsNamespaceChange {
     this.description,
     this.properties,
   });
+
   Map<String, dynamic> toJson() {
     final description = this.description;
     final properties = this.properties;
@@ -3817,6 +3827,7 @@ class PublicDnsNamespaceProperties {
   PublicDnsNamespaceProperties({
     required this.dnsProperties,
   });
+
   Map<String, dynamic> toJson() {
     final dnsProperties = this.dnsProperties;
     return {
@@ -3833,6 +3844,7 @@ class PublicDnsNamespacePropertiesChange {
   PublicDnsNamespacePropertiesChange({
     required this.dnsProperties,
   });
+
   Map<String, dynamic> toJson() {
     final dnsProperties = this.dnsProperties;
     return {
@@ -3850,6 +3862,7 @@ class PublicDnsPropertiesMutable {
   PublicDnsPropertiesMutable({
     required this.soa,
   });
+
   Map<String, dynamic> toJson() {
     final soa = this.soa;
     return {
@@ -3867,6 +3880,7 @@ class PublicDnsPropertiesMutableChange {
   PublicDnsPropertiesMutableChange({
     required this.soa,
   });
+
   Map<String, dynamic> toJson() {
     final soa = this.soa;
     return {
@@ -3990,6 +4004,7 @@ class SOAChange {
   SOAChange({
     required this.ttl,
   });
+
   Map<String, dynamic> toJson() {
     final ttl = this.ttl;
     return {
@@ -4132,6 +4147,7 @@ class ServiceChange {
     this.dnsConfig,
     this.healthCheckConfig,
   });
+
   Map<String, dynamic> toJson() {
     final description = this.description;
     final dnsConfig = this.dnsConfig;
@@ -4172,6 +4188,7 @@ class ServiceFilter {
     required this.values,
     this.condition,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;

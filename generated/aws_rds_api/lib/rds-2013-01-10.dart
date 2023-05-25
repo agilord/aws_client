@@ -2708,6 +2708,7 @@ class OptionConfiguration {
     this.port,
     this.vpcSecurityGroupMemberships,
   });
+
   Map<String, dynamic> toJson() {
     final optionName = this.optionName;
     final dBSecurityGroupMemberships = this.dBSecurityGroupMemberships;

@@ -712,7 +712,7 @@ class EFS {
   /// Parameter [tags] :
   /// An array of <code>Tag</code> objects to add. Each <code>Tag</code> object
   /// is a key-value pair.
-  @Deprecated('Deprecated')
+  @Deprecated('Use TagResource.')
   Future<void> createTags({
     required String fileSystemId,
     required List<Tag> tags,
@@ -932,7 +932,7 @@ class EFS {
   ///
   /// Parameter [tagKeys] :
   /// A list of tag keys to delete.
-  @Deprecated('Deprecated')
+  @Deprecated('Use UntagResource.')
   Future<void> deleteTags({
     required String fileSystemId,
     required List<String> tagKeys,
@@ -1402,7 +1402,7 @@ class EFS {
   /// response. Currently, this number is automatically set to 100, and other
   /// values are ignored. The response is paginated at 100 per page if you have
   /// more than 100 tags.
-  @Deprecated('Deprecated')
+  @Deprecated('Use ListTagsForResource.')
   Future<DescribeTagsResponse> describeTags({
     required String fileSystemId,
     String? marker,
@@ -2375,6 +2375,7 @@ class DestinationToCreate {
     this.kmsKeyId,
     this.region,
   });
+
   Map<String, dynamic> toJson() {
     final availabilityZoneName = this.availabilityZoneName;
     final kmsKeyId = this.kmsKeyId;

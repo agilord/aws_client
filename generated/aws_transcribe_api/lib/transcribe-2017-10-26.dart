@@ -6668,6 +6668,7 @@ class Subtitles {
     this.formats,
     this.outputStartIndex,
   });
+
   Map<String, dynamic> toJson() {
     final formats = this.formats;
     final outputStartIndex = this.outputStartIndex;

@@ -167,6 +167,7 @@ class QLDBSession {
 /// Contains the details of the transaction to abort.
 class AbortTransactionRequest {
   AbortTransactionRequest();
+
   Map<String, dynamic> toJson() {
     return {};
   }
@@ -211,6 +212,7 @@ class CommitTransactionRequest {
     required this.commitDigest,
     required this.transactionId,
   });
+
   Map<String, dynamic> toJson() {
     final commitDigest = this.commitDigest;
     final transactionId = this.transactionId;
@@ -260,6 +262,7 @@ class CommitTransactionResult {
 /// Specifies a request to end the session.
 class EndSessionRequest {
   EndSessionRequest();
+
   Map<String, dynamic> toJson() {
     return {};
   }
@@ -300,6 +303,7 @@ class ExecuteStatementRequest {
     required this.transactionId,
     this.parameters,
   });
+
   Map<String, dynamic> toJson() {
     final statement = this.statement;
     final transactionId = this.transactionId;
@@ -357,6 +361,7 @@ class FetchPageRequest {
     required this.nextPageToken,
     required this.transactionId,
   });
+
   Map<String, dynamic> toJson() {
     final nextPageToken = this.nextPageToken;
     final transactionId = this.transactionId;
@@ -520,6 +525,7 @@ class StartSessionRequest {
   StartSessionRequest({
     required this.ledgerName,
   });
+
   Map<String, dynamic> toJson() {
     final ledgerName = this.ledgerName;
     return {
@@ -557,6 +563,7 @@ class StartSessionResult {
 /// Specifies a request to start a transaction.
 class StartTransactionRequest {
   StartTransactionRequest();
+
   Map<String, dynamic> toJson() {
     return {};
   }

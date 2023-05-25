@@ -2226,6 +2226,7 @@ class Consent {
     required this.currency,
     required this.maxPrice,
   });
+
   Map<String, dynamic> toJson() {
     final currency = this.currency;
     final maxPrice = this.maxPrice;
@@ -3869,6 +3870,7 @@ class DnssecSigningAttributes {
     this.flags,
     this.publicKey,
   });
+
   Map<String, dynamic> toJson() {
     final algorithm = this.algorithm;
     final flags = this.flags;
@@ -4929,6 +4931,7 @@ class FilterCondition {
     required this.operator,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final operator = this.operator;
@@ -5873,6 +5876,7 @@ class SortCondition {
     required this.name,
     required this.sortOrder,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final sortOrder = this.sortOrder;

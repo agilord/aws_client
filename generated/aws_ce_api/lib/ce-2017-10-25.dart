@@ -3500,6 +3500,7 @@ class AnomalyDateInterval {
     required this.startDate,
     this.endDate,
   });
+
   Map<String, dynamic> toJson() {
     final startDate = this.startDate;
     final endDate = this.endDate;
@@ -3923,6 +3924,7 @@ class CostAllocationTagStatusEntry {
     required this.status,
     required this.tagKey,
   });
+
   Map<String, dynamic> toJson() {
     final status = this.status;
     final tagKey = this.tagKey;
@@ -9092,6 +9094,7 @@ class SortDefinition {
     required this.key,
     this.sortOrder,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final sortOrder = this.sortOrder;
@@ -9472,6 +9475,7 @@ class TotalImpactFilter {
     required this.startValue,
     this.endValue,
   });
+
   Map<String, dynamic> toJson() {
     final numericOperator = this.numericOperator;
     final startValue = this.startValue;

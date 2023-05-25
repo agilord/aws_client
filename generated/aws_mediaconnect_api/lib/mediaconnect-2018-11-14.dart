@@ -2016,6 +2016,7 @@ class AddBridgeFlowSourceRequest {
     required this.name,
     this.flowVpcInterfaceAttachment,
   });
+
   Map<String, dynamic> toJson() {
     final flowArn = this.flowArn;
     final name = this.name;
@@ -2058,6 +2059,7 @@ class AddBridgeNetworkOutputRequest {
     required this.protocol,
     required this.ttl,
   });
+
   Map<String, dynamic> toJson() {
     final ipAddress = this.ipAddress;
     final name = this.name;
@@ -2101,6 +2103,7 @@ class AddBridgeNetworkSourceRequest {
     required this.port,
     required this.protocol,
   });
+
   Map<String, dynamic> toJson() {
     final multicastIp = this.multicastIp;
     final name = this.name;
@@ -2124,6 +2127,7 @@ class AddBridgeOutputRequest {
   AddBridgeOutputRequest({
     this.networkOutput,
   });
+
   Map<String, dynamic> toJson() {
     final networkOutput = this.networkOutput;
     return {
@@ -2164,6 +2168,7 @@ class AddBridgeSourceRequest {
     this.flowSource,
     this.networkSource,
   });
+
   Map<String, dynamic> toJson() {
     final flowSource = this.flowSource;
     final networkSource = this.networkSource;
@@ -2204,6 +2209,7 @@ class AddEgressGatewayBridgeRequest {
   AddEgressGatewayBridgeRequest({
     required this.maxBitrate,
   });
+
   Map<String, dynamic> toJson() {
     final maxBitrate = this.maxBitrate;
     return {
@@ -2315,6 +2321,7 @@ class AddIngressGatewayBridgeRequest {
     required this.maxBitrate,
     required this.maxOutputs,
   });
+
   Map<String, dynamic> toJson() {
     final maxBitrate = this.maxBitrate;
     final maxOutputs = this.maxOutputs;
@@ -2339,6 +2346,7 @@ class AddMaintenance {
     required this.maintenanceDay,
     required this.maintenanceStartHour,
   });
+
   Map<String, dynamic> toJson() {
     final maintenanceDay = this.maintenanceDay;
     final maintenanceStartHour = this.maintenanceStartHour;
@@ -2384,6 +2392,7 @@ class AddMediaStreamRequest {
     this.description,
     this.videoFormat,
   });
+
   Map<String, dynamic> toJson() {
     final mediaStreamId = this.mediaStreamId;
     final mediaStreamName = this.mediaStreamName;
@@ -2482,6 +2491,7 @@ class AddOutputRequest {
     this.streamId,
     this.vpcInterfaceAttachment,
   });
+
   Map<String, dynamic> toJson() {
     final protocol = this.protocol;
     final cidrAllowList = this.cidrAllowList;
@@ -3308,6 +3318,7 @@ class DestinationConfigurationRequest {
     required this.destinationPort,
     required this.interface,
   });
+
   Map<String, dynamic> toJson() {
     final destinationIp = this.destinationIp;
     final destinationPort = this.destinationPort;
@@ -3479,6 +3490,7 @@ class EncodingParametersRequest {
     required this.compressionFactor,
     required this.encoderProfile,
   });
+
   Map<String, dynamic> toJson() {
     final compressionFactor = this.compressionFactor;
     final encoderProfile = this.encoderProfile;
@@ -3928,6 +3940,7 @@ class FmtpRequest {
     this.scanMode,
     this.tcs,
   });
+
   Map<String, dynamic> toJson() {
     final channelOrder = this.channelOrder;
     final colorimetry = this.colorimetry;
@@ -4199,6 +4212,7 @@ class GrantEntitlementRequest {
     this.entitlementStatus,
     this.name,
   });
+
   Map<String, dynamic> toJson() {
     final subscribers = this.subscribers;
     final dataTransferSubscriberFeePercent =
@@ -4308,6 +4322,7 @@ class InputConfigurationRequest {
     required this.inputPort,
     required this.interface,
   });
+
   Map<String, dynamic> toJson() {
     final inputPort = this.inputPort;
     final interface = this.interface;
@@ -4392,6 +4407,7 @@ class InterfaceRequest {
   InterfaceRequest({
     required this.name,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     return {
@@ -4993,6 +5009,7 @@ class MediaStreamAttributesRequest {
     this.fmtp,
     this.lang,
   });
+
   Map<String, dynamic> toJson() {
     final fmtp = this.fmtp;
     final lang = this.lang;
@@ -5071,6 +5088,7 @@ class MediaStreamOutputConfigurationRequest {
     this.destinationConfigurations,
     this.encodingParameters,
   });
+
   Map<String, dynamic> toJson() {
     final encodingName = this.encodingName;
     final mediaStreamName = this.mediaStreamName;
@@ -5138,6 +5156,7 @@ class MediaStreamSourceConfigurationRequest {
     required this.mediaStreamName,
     this.inputConfigurations,
   });
+
   Map<String, dynamic> toJson() {
     final encodingName = this.encodingName;
     final mediaStreamName = this.mediaStreamName;
@@ -5938,6 +5957,7 @@ class SetGatewayBridgeSourceRequest {
     required this.bridgeArn,
     this.vpcInterfaceAttachment,
   });
+
   Map<String, dynamic> toJson() {
     final bridgeArn = this.bridgeArn;
     final vpcInterfaceAttachment = this.vpcInterfaceAttachment;
@@ -6046,6 +6066,7 @@ class SetSourceRequest {
     this.vpcInterfaceName,
     this.whitelistCidr,
   });
+
   Map<String, dynamic> toJson() {
     final decryption = this.decryption;
     final description = this.description;
@@ -6542,6 +6563,7 @@ class UpdateBridgeFlowSourceRequest {
     this.flowArn,
     this.flowVpcInterfaceAttachment,
   });
+
   Map<String, dynamic> toJson() {
     final flowArn = this.flowArn;
     final flowVpcInterfaceAttachment = this.flowVpcInterfaceAttachment;
@@ -6577,6 +6599,7 @@ class UpdateBridgeNetworkOutputRequest {
     this.protocol,
     this.ttl,
   });
+
   Map<String, dynamic> toJson() {
     final ipAddress = this.ipAddress;
     final networkName = this.networkName;
@@ -6613,6 +6636,7 @@ class UpdateBridgeNetworkSourceRequest {
     this.port,
     this.protocol,
   });
+
   Map<String, dynamic> toJson() {
     final multicastIp = this.multicastIp;
     final networkName = this.networkName;
@@ -6712,6 +6736,7 @@ class UpdateEgressGatewayBridgeRequest {
   UpdateEgressGatewayBridgeRequest({
     this.maxBitrate,
   });
+
   Map<String, dynamic> toJson() {
     final maxBitrate = this.maxBitrate;
     return {
@@ -6776,6 +6801,7 @@ class UpdateEncryption {
     this.secretArn,
     this.url,
   });
+
   Map<String, dynamic> toJson() {
     final algorithm = this.algorithm;
     final constantInitializationVector = this.constantInitializationVector;
@@ -6822,6 +6848,7 @@ class UpdateFailoverConfig {
     this.sourcePriority,
     this.state,
   });
+
   Map<String, dynamic> toJson() {
     final failoverMode = this.failoverMode;
     final recoveryWindow = this.recoveryWindow;
@@ -6953,6 +6980,7 @@ class UpdateGatewayBridgeSourceRequest {
     this.bridgeArn,
     this.vpcInterfaceAttachment,
   });
+
   Map<String, dynamic> toJson() {
     final bridgeArn = this.bridgeArn;
     final vpcInterfaceAttachment = this.vpcInterfaceAttachment;
@@ -6999,6 +7027,7 @@ class UpdateIngressGatewayBridgeRequest {
     this.maxBitrate,
     this.maxOutputs,
   });
+
   Map<String, dynamic> toJson() {
     final maxBitrate = this.maxBitrate;
     final maxOutputs = this.maxOutputs;
@@ -7028,6 +7057,7 @@ class UpdateMaintenance {
     this.maintenanceScheduledDate,
     this.maintenanceStartHour,
   });
+
   Map<String, dynamic> toJson() {
     final maintenanceDay = this.maintenanceDay;
     final maintenanceScheduledDate = this.maintenanceScheduledDate;
@@ -7139,6 +7169,7 @@ class VpcInterfaceRequest {
     required this.subnetId,
     this.networkInterfaceType,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final roleArn = this.roleArn;

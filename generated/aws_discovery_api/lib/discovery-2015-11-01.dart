@@ -2299,6 +2299,7 @@ class ExportFilter {
     required this.name,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final condition = this.condition;
     final name = this.name;
@@ -2434,6 +2435,7 @@ class Filter {
     required this.name,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final condition = this.condition;
     final name = this.name;
@@ -2706,6 +2708,7 @@ class ImportTaskFilter {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -2859,6 +2862,7 @@ class OrderByElement {
     required this.fieldName,
     this.sortOrder,
   });
+
   Map<String, dynamic> toJson() {
     final fieldName = this.fieldName;
     final sortOrder = this.sortOrder;
@@ -3030,6 +3034,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final value = this.value;
@@ -3053,6 +3058,7 @@ class TagFilter {
     required this.name,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;

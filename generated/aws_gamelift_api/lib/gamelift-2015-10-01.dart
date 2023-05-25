@@ -10374,6 +10374,7 @@ class DesiredPlayerSession {
     this.playerData,
     this.playerId,
   });
+
   Map<String, dynamic> toJson() {
     final playerData = this.playerData;
     final playerId = this.playerId;
@@ -12437,6 +12438,7 @@ class GameServerGroupAutoScalingPolicy {
     required this.targetTrackingConfiguration,
     this.estimatedInstanceWarmup,
   });
+
   Map<String, dynamic> toJson() {
     final targetTrackingConfiguration = this.targetTrackingConfiguration;
     final estimatedInstanceWarmup = this.estimatedInstanceWarmup;
@@ -14350,6 +14352,7 @@ class LaunchTemplateSpecification {
     this.launchTemplateName,
     this.version,
   });
+
   Map<String, dynamic> toJson() {
     final launchTemplateId = this.launchTemplateId;
     final launchTemplateName = this.launchTemplateName;
@@ -14623,6 +14626,7 @@ class LocationConfiguration {
   LocationConfiguration({
     required this.location,
   });
+
   Map<String, dynamic> toJson() {
     final location = this.location;
     return {
@@ -17007,6 +17011,7 @@ class TargetTrackingConfiguration {
   TargetTrackingConfiguration({
     required this.targetValue,
   });
+
   Map<String, dynamic> toJson() {
     final targetValue = this.targetValue;
     return {

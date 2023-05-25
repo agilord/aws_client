@@ -1810,6 +1810,7 @@ class Document {
     this.bytes,
     this.s3Object,
   });
+
   Map<String, dynamic> toJson() {
     final bytes = this.bytes;
     final s3Object = this.s3Object;
@@ -1875,6 +1876,7 @@ class DocumentLocation {
   DocumentLocation({
     this.s3Object,
   });
+
   Map<String, dynamic> toJson() {
     final s3Object = this.s3Object;
     return {
@@ -2638,6 +2640,7 @@ class HumanLoopConfig {
     required this.humanLoopName,
     this.dataAttributes,
   });
+
   Map<String, dynamic> toJson() {
     final flowDefinitionArn = this.flowDefinitionArn;
     final humanLoopName = this.humanLoopName;
@@ -2660,6 +2663,7 @@ class HumanLoopDataAttributes {
   HumanLoopDataAttributes({
     this.contentClassifiers,
   });
+
   Map<String, dynamic> toJson() {
     final contentClassifiers = this.contentClassifiers;
     return {
@@ -3003,6 +3007,7 @@ class NotificationChannel {
     required this.roleArn,
     required this.sNSTopicArn,
   });
+
   Map<String, dynamic> toJson() {
     final roleArn = this.roleArn;
     final sNSTopicArn = this.sNSTopicArn;
@@ -3050,6 +3055,7 @@ class OutputConfig {
     required this.s3Bucket,
     this.s3Prefix,
   });
+
   Map<String, dynamic> toJson() {
     final s3Bucket = this.s3Bucket;
     final s3Prefix = this.s3Prefix;
@@ -3152,6 +3158,7 @@ class QueriesConfig {
   QueriesConfig({
     required this.queries,
   });
+
   Map<String, dynamic> toJson() {
     final queries = this.queries;
     return {
@@ -3375,6 +3382,7 @@ class S3Object {
     this.name,
     this.version,
   });
+
   Map<String, dynamic> toJson() {
     final bucket = this.bucket;
     final name = this.name;

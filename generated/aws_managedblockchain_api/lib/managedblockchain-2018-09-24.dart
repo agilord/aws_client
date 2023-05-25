@@ -2368,6 +2368,7 @@ class MemberConfiguration {
     this.logPublishingConfiguration,
     this.tags,
   });
+
   Map<String, dynamic> toJson() {
     final frameworkConfiguration = this.frameworkConfiguration;
     final name = this.name;
@@ -2427,6 +2428,7 @@ class MemberFabricConfiguration {
     required this.adminPassword,
     required this.adminUsername,
   });
+
   Map<String, dynamic> toJson() {
     final adminPassword = this.adminPassword;
     final adminUsername = this.adminUsername;
@@ -2497,6 +2499,7 @@ class MemberFrameworkConfiguration {
   MemberFrameworkConfiguration({
     this.fabric,
   });
+
   Map<String, dynamic> toJson() {
     final fabric = this.fabric;
     return {
@@ -2836,6 +2839,7 @@ class NetworkFabricConfiguration {
   NetworkFabricConfiguration({
     required this.edition,
   });
+
   Map<String, dynamic> toJson() {
     final edition = this.edition;
     return {
@@ -2884,6 +2888,7 @@ class NetworkFrameworkConfiguration {
   NetworkFrameworkConfiguration({
     this.fabric,
   });
+
   Map<String, dynamic> toJson() {
     final fabric = this.fabric;
     return {
@@ -3173,6 +3178,7 @@ class NodeConfiguration {
     this.logPublishingConfiguration,
     this.stateDB,
   });
+
   Map<String, dynamic> toJson() {
     final instanceType = this.instanceType;
     final availabilityZone = this.availabilityZone;

@@ -1353,6 +1353,7 @@ class AgentDetails {
     this.agentCpuCores,
     this.reservedCpuCores,
   });
+
   Map<String, dynamic> toJson() {
     final agentVersion = this.agentVersion;
     final componentVersions = this.componentVersions;
@@ -1421,6 +1422,7 @@ class AggregateStatus {
     required this.status,
     this.signatureMap,
   });
+
   Map<String, dynamic> toJson() {
     final status = this.status;
     final signatureMap = this.signatureMap;
@@ -1807,6 +1809,7 @@ class ComponentStatusData {
     this.bytesSent,
     this.packetsDropped,
   });
+
   Map<String, dynamic> toJson() {
     final capabilityArn = this.capabilityArn;
     final componentType = this.componentType;
@@ -1839,6 +1842,7 @@ class ComponentVersion {
     required this.componentType,
     required this.versions,
   });
+
   Map<String, dynamic> toJson() {
     final componentType = this.componentType;
     final versions = this.versions;
@@ -2740,6 +2744,7 @@ class DiscoveryData {
     required this.privateIpAddresses,
     required this.publicIpAddresses,
   });
+
   Map<String, dynamic> toJson() {
     final capabilityArns = this.capabilityArns;
     final privateIpAddresses = this.privateIpAddresses;
@@ -2946,6 +2951,7 @@ class EphemerisData {
     this.oem,
     this.tle,
   });
+
   Map<String, dynamic> toJson() {
     final oem = this.oem;
     final tle = this.tle;
@@ -3965,6 +3971,7 @@ class OEMEphemeris {
     this.oemData,
     this.s3Object,
   });
+
   Map<String, dynamic> toJson() {
     final oemData = this.oemData;
     final s3Object = this.s3Object;
@@ -4406,6 +4413,7 @@ class TLEData {
     required this.tleLine2,
     required this.validTimeRange,
   });
+
   Map<String, dynamic> toJson() {
     final tleLine1 = this.tleLine1;
     final tleLine2 = this.tleLine2;
@@ -4431,6 +4439,7 @@ class TLEEphemeris {
     this.s3Object,
     this.tleData,
   });
+
   Map<String, dynamic> toJson() {
     final s3Object = this.s3Object;
     final tleData = this.tleData;
@@ -4462,6 +4471,7 @@ class TimeRange {
     required this.endTime,
     required this.startTime,
   });
+
   Map<String, dynamic> toJson() {
     final endTime = this.endTime;
     final startTime = this.startTime;

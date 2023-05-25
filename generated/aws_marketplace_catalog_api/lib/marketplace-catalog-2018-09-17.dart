@@ -604,6 +604,7 @@ class Change {
     this.changeName,
     this.entityTags,
   });
+
   Map<String, dynamic> toJson() {
     final changeType = this.changeType;
     final details = this.details;
@@ -1066,6 +1067,7 @@ class Filter {
     this.name,
     this.valueList,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final valueList = this.valueList;
@@ -1218,6 +1220,7 @@ class Sort {
     this.sortBy,
     this.sortOrder,
   });
+
   Map<String, dynamic> toJson() {
     final sortBy = this.sortBy;
     final sortOrder = this.sortOrder;

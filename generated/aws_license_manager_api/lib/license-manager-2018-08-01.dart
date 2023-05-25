@@ -3860,6 +3860,7 @@ class Filter {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -4431,6 +4432,7 @@ class InventoryFilter {
     required this.name,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final condition = this.condition;
     final name = this.name;
@@ -4495,6 +4497,7 @@ class Issuer {
     required this.name,
     this.signKey,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final signKey = this.signKey;

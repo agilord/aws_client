@@ -9114,6 +9114,7 @@ class AnalysisSearchFilter {
     this.operator,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final operator = this.operator;
@@ -9134,6 +9135,7 @@ class AnalysisSourceEntity {
   AnalysisSourceEntity({
     this.sourceTemplate,
   });
+
   Map<String, dynamic> toJson() {
     final sourceTemplate = this.sourceTemplate;
     return {
@@ -9154,6 +9156,7 @@ class AnalysisSourceTemplate {
     required this.arn,
     required this.dataSetReferences,
   });
+
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final dataSetReferences = this.dataSetReferences;
@@ -9279,6 +9282,7 @@ class AnonymousUserDashboardEmbeddingConfiguration {
   AnonymousUserDashboardEmbeddingConfiguration({
     required this.initialDashboardId,
   });
+
   Map<String, dynamic> toJson() {
     final initialDashboardId = this.initialDashboardId;
     return {
@@ -9303,6 +9307,7 @@ class AnonymousUserDashboardVisualEmbeddingConfiguration {
   AnonymousUserDashboardVisualEmbeddingConfiguration({
     required this.initialDashboardVisualId,
   });
+
   Map<String, dynamic> toJson() {
     final initialDashboardVisualId = this.initialDashboardVisualId;
     return {
@@ -9329,6 +9334,7 @@ class AnonymousUserEmbeddingExperienceConfiguration {
     this.dashboardVisual,
     this.qSearchBar,
   });
+
   Map<String, dynamic> toJson() {
     final dashboard = this.dashboard;
     final dashboardVisual = this.dashboardVisual;
@@ -9356,6 +9362,7 @@ class AnonymousUserQSearchBarEmbeddingConfiguration {
   AnonymousUserQSearchBarEmbeddingConfiguration({
     required this.initialTopicId,
   });
+
   Map<String, dynamic> toJson() {
     final initialTopicId = this.initialTopicId;
     return {
@@ -11085,6 +11092,7 @@ class AssetBundleImportSource {
     this.body,
     this.s3Uri,
   });
+
   Map<String, dynamic> toJson() {
     final body = this.body;
     final s3Uri = this.s3Uri;
@@ -12525,6 +12533,7 @@ class BookmarksConfigurations {
   BookmarksConfigurations({
     required this.enabled,
   });
+
   Map<String, dynamic> toJson() {
     final enabled = this.enabled;
     return {
@@ -16419,6 +16428,7 @@ class CredentialPair {
     required this.username,
     this.alternateDataSourceParameters,
   });
+
   Map<String, dynamic> toJson() {
     final password = this.password;
     final username = this.username;
@@ -17622,6 +17632,7 @@ class DashboardSearchFilter {
     this.name,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final operator = this.operator;
     final name = this.name;
@@ -17642,6 +17653,7 @@ class DashboardSourceEntity {
   DashboardSourceEntity({
     this.sourceTemplate,
   });
+
   Map<String, dynamic> toJson() {
     final sourceTemplate = this.sourceTemplate;
     return {
@@ -17662,6 +17674,7 @@ class DashboardSourceTemplate {
     required this.arn,
     required this.dataSetReferences,
   });
+
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final dataSetReferences = this.dataSetReferences;
@@ -18005,6 +18018,7 @@ class DashboardVisualId {
     required this.sheetId,
     required this.visualId,
   });
+
   Map<String, dynamic> toJson() {
     final dashboardId = this.dashboardId;
     final sheetId = this.sheetId;
@@ -19025,6 +19039,7 @@ class DataSetReference {
     required this.dataSetArn,
     required this.dataSetPlaceholder,
   });
+
   Map<String, dynamic> toJson() {
     final dataSetArn = this.dataSetArn;
     final dataSetPlaceholder = this.dataSetPlaceholder;
@@ -19156,6 +19171,7 @@ class DataSetSearchFilter {
     required this.operator,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final operator = this.operator;
@@ -19399,6 +19415,7 @@ class DataSourceCredentials {
     this.credentialPair,
     this.secretArn,
   });
+
   Map<String, dynamic> toJson() {
     final copySourceArn = this.copySourceArn;
     final credentialPair = this.credentialPair;
@@ -19848,6 +19865,7 @@ class DataSourceSearchFilter {
     required this.operator,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final operator = this.operator;
@@ -20691,6 +20709,7 @@ class DateTimeParameter {
     required this.name,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -21020,6 +21039,7 @@ class DecimalParameter {
     required this.name,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -26522,6 +26542,7 @@ class FolderSearchFilter {
     this.operator,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final operator = this.operator;
@@ -29266,6 +29287,7 @@ class GroupSearchFilter {
     required this.operator,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final operator = this.operator;
@@ -31113,6 +31135,7 @@ class IntegerParameter {
     required this.name,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -37399,6 +37422,7 @@ class Parameters {
     this.integerParameters,
     this.stringParameters,
   });
+
   Map<String, dynamic> toJson() {
     final dateTimeParameters = this.dateTimeParameters;
     final decimalParameters = this.decimalParameters;
@@ -40686,6 +40710,7 @@ class RegisteredUserConsoleFeatureConfigurations {
   RegisteredUserConsoleFeatureConfigurations({
     this.statePersistence,
   });
+
   Map<String, dynamic> toJson() {
     final statePersistence = this.statePersistence;
     return {
@@ -40712,6 +40737,7 @@ class RegisteredUserDashboardEmbeddingConfiguration {
     required this.initialDashboardId,
     this.featureConfigurations,
   });
+
   Map<String, dynamic> toJson() {
     final initialDashboardId = this.initialDashboardId;
     final featureConfigurations = this.featureConfigurations;
@@ -40735,6 +40761,7 @@ class RegisteredUserDashboardFeatureConfigurations {
     this.bookmarks,
     this.statePersistence,
   });
+
   Map<String, dynamic> toJson() {
     final bookmarks = this.bookmarks;
     final statePersistence = this.statePersistence;
@@ -40761,6 +40788,7 @@ class RegisteredUserDashboardVisualEmbeddingConfiguration {
   RegisteredUserDashboardVisualEmbeddingConfiguration({
     required this.initialDashboardVisualId,
   });
+
   Map<String, dynamic> toJson() {
     final initialDashboardVisualId = this.initialDashboardVisualId;
     return {
@@ -40838,6 +40866,7 @@ class RegisteredUserEmbeddingExperienceConfiguration {
     this.qSearchBar,
     this.quickSightConsole,
   });
+
   Map<String, dynamic> toJson() {
     final dashboard = this.dashboard;
     final dashboardVisual = this.dashboardVisual;
@@ -40868,6 +40897,7 @@ class RegisteredUserQSearchBarEmbeddingConfiguration {
   RegisteredUserQSearchBarEmbeddingConfiguration({
     this.initialTopicId,
   });
+
   Map<String, dynamic> toJson() {
     final initialTopicId = this.initialTopicId;
     return {
@@ -40914,6 +40944,7 @@ class RegisteredUserQuickSightConsoleEmbeddingConfiguration {
     this.featureConfigurations,
     this.initialPath,
   });
+
   Map<String, dynamic> toJson() {
     final featureConfigurations = this.featureConfigurations;
     final initialPath = this.initialPath;
@@ -43357,6 +43388,7 @@ class SessionTag {
     required this.key,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final value = this.value;
@@ -44498,6 +44530,7 @@ class StatePersistenceConfigurations {
   StatePersistenceConfigurations({
     required this.enabled,
   });
+
   Map<String, dynamic> toJson() {
     final enabled = this.enabled;
     return {
@@ -44697,6 +44730,7 @@ class StringParameter {
     required this.name,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -46396,6 +46430,7 @@ class TemplateSourceAnalysis {
     required this.arn,
     required this.dataSetReferences,
   });
+
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final dataSetReferences = this.dataSetReferences;
@@ -46418,6 +46453,7 @@ class TemplateSourceEntity {
     this.sourceAnalysis,
     this.sourceTemplate,
   });
+
   Map<String, dynamic> toJson() {
     final sourceAnalysis = this.sourceAnalysis;
     final sourceTemplate = this.sourceTemplate;
@@ -46436,6 +46472,7 @@ class TemplateSourceTemplate {
   TemplateSourceTemplate({
     required this.arn,
   });
+
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     return {

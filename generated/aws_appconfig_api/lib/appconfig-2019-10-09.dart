@@ -925,7 +925,8 @@ class AppConfig {
   /// For more information about working with configurations, see <a
   /// href="http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration.html">Retrieving
   /// the Configuration</a> in the <i>AppConfig User Guide</i>.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'This API has been deprecated in favor of the GetLatestConfiguration API used in conjunction with StartConfigurationSession.')
   Future<Configuration> getConfiguration({
     required String application,
     required String clientId,

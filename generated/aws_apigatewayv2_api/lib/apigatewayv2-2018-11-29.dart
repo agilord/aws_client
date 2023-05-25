@@ -7186,6 +7186,7 @@ class MutualTlsAuthenticationInput {
     this.truststoreUri,
     this.truststoreVersion,
   });
+
   Map<String, dynamic> toJson() {
     final truststoreUri = this.truststoreUri;
     final truststoreVersion = this.truststoreVersion;
@@ -7771,6 +7772,7 @@ class TlsConfigInput {
   TlsConfigInput({
     this.serverNameToVerify,
   });
+
   Map<String, dynamic> toJson() {
     final serverNameToVerify = this.serverNameToVerify;
     return {

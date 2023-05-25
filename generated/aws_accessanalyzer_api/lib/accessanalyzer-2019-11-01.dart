@@ -1831,6 +1831,7 @@ class CloudTrailDetails {
     required this.trails,
     this.endTime,
   });
+
   Map<String, dynamic> toJson() {
     final accessRole = this.accessRole;
     final startTime = this.startTime;
@@ -2894,6 +2895,7 @@ class InlineArchiveRule {
     required this.filter,
     required this.ruleName,
   });
+
   Map<String, dynamic> toJson() {
     final filter = this.filter;
     final ruleName = this.ruleName;
@@ -3754,6 +3756,7 @@ class PolicyGenerationDetails {
   PolicyGenerationDetails({
     required this.principalArn,
   });
+
   Map<String, dynamic> toJson() {
     final principalArn = this.principalArn;
     return {
@@ -4458,6 +4461,7 @@ class SortCriteria {
     this.attributeName,
     this.orderBy,
   });
+
   Map<String, dynamic> toJson() {
     final attributeName = this.attributeName;
     final orderBy = this.orderBy;
@@ -4614,6 +4618,7 @@ class Trail {
     this.allRegions,
     this.regions,
   });
+
   Map<String, dynamic> toJson() {
     final cloudTrailArn = this.cloudTrailArn;
     final allRegions = this.allRegions;

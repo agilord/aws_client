@@ -10688,6 +10688,7 @@ class AssociationExecutionFilter {
     required this.type,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final type = this.type;
@@ -10804,6 +10805,7 @@ class AssociationExecutionTargetsFilter {
     required this.key,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final value = this.value;
@@ -10865,6 +10867,7 @@ class AssociationFilter {
     required this.key,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final value = this.value;
@@ -11407,6 +11410,7 @@ class AttachmentsSource {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final name = this.name;
@@ -11696,6 +11700,7 @@ class AutomationExecutionFilter {
     required this.key,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final values = this.values;
@@ -12203,6 +12208,7 @@ class BaselineOverride {
     this.rejectedPatchesAction,
     this.sources,
   });
+
   Map<String, dynamic> toJson() {
     final approvalRules = this.approvalRules;
     final approvedPatches = this.approvedPatches;
@@ -12711,6 +12717,7 @@ class CommandFilter {
     required this.key,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final value = this.value;
@@ -13410,6 +13417,7 @@ class ComplianceItemEntry {
     this.id,
     this.title,
   });
+
   Map<String, dynamic> toJson() {
     final severity = this.severity;
     final status = this.status;
@@ -13563,6 +13571,7 @@ class ComplianceStringFilter {
     this.type,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final type = this.type;
@@ -14334,6 +14343,7 @@ class DescribeActivationsFilter {
     this.filterKey,
     this.filterValues,
   });
+
   Map<String, dynamic> toJson() {
     final filterKey = this.filterKey;
     final filterValues = this.filterValues;
@@ -15557,6 +15567,7 @@ class DocumentFilter {
     required this.key,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final value = this.value;
@@ -15874,6 +15885,7 @@ class DocumentKeyValuesFilter {
     this.key,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final values = this.values;
@@ -16214,6 +16226,7 @@ class DocumentReviews {
     required this.action,
     this.comment,
   });
+
   Map<String, dynamic> toJson() {
     final action = this.action;
     final comment = this.comment;
@@ -18310,6 +18323,7 @@ class InstanceInformationFilter {
     required this.key,
     required this.valueSet,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final valueSet = this.valueSet;
@@ -18422,6 +18436,7 @@ class InstanceInformationStringFilter {
     required this.key,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final values = this.values;
@@ -18689,6 +18704,7 @@ class InstancePatchStateFilter {
     required this.type,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final type = this.type;
@@ -18759,6 +18775,7 @@ class InventoryAggregator {
     this.expression,
     this.groups,
   });
+
   Map<String, dynamic> toJson() {
     final aggregators = this.aggregators;
     final expression = this.expression;
@@ -18964,6 +18981,7 @@ class InventoryFilter {
     required this.values,
     this.type,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final values = this.values;
@@ -18993,6 +19011,7 @@ class InventoryGroup {
     required this.filters,
     required this.name,
   });
+
   Map<String, dynamic> toJson() {
     final filters = this.filters;
     final name = this.name;
@@ -19043,6 +19062,7 @@ class InventoryItem {
     this.contentHash,
     this.context,
   });
+
   Map<String, dynamic> toJson() {
     final captureTime = this.captureTime;
     final schemaVersion = this.schemaVersion;
@@ -20151,6 +20171,7 @@ class MaintenanceWindowFilter {
     this.key,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final values = this.values;
@@ -21237,6 +21258,7 @@ class OpsAggregator {
     this.typeName,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final aggregatorType = this.aggregatorType;
     final aggregators = this.aggregators;
@@ -21318,6 +21340,7 @@ class OpsFilter {
     required this.values,
     this.type,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final values = this.values;
@@ -21671,6 +21694,7 @@ class OpsItemEventFilter {
     required this.operator,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final operator = this.operator;
@@ -21795,6 +21819,7 @@ class OpsItemFilter {
     required this.operator,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final operator = this.operator;
@@ -22121,6 +22146,7 @@ class OpsItemRelatedItemsFilter {
     required this.operator,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final operator = this.operator;
@@ -22481,6 +22507,7 @@ class OpsMetadataFilter {
     required this.key,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final values = this.values;
@@ -22501,6 +22528,7 @@ class OpsResultAttribute {
   OpsResultAttribute({
     required this.typeName,
   });
+
   Map<String, dynamic> toJson() {
     final typeName = this.typeName;
     return {
@@ -22846,6 +22874,7 @@ class ParameterStringFilter {
     this.option,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final option = this.option;
@@ -22936,6 +22965,7 @@ class ParametersFilter {
     required this.key,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final values = this.values;
@@ -23682,6 +23712,7 @@ class PatchOrchestratorFilter {
     this.key,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final values = this.values;
@@ -24235,6 +24266,7 @@ class RegistrationMetadataItem {
     required this.key,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final value = this.value;
@@ -24681,6 +24713,7 @@ class ResourceDataSyncSource {
     this.enableAllOpsDataSources,
     this.includeFutureRegions,
   });
+
   Map<String, dynamic> toJson() {
     final sourceRegions = this.sourceRegions;
     final sourceType = this.sourceType;
@@ -24891,6 +24924,7 @@ class ResultAttribute {
   ResultAttribute({
     required this.typeName,
   });
+
   Map<String, dynamic> toJson() {
     final typeName = this.typeName;
     return {
@@ -25422,6 +25456,7 @@ class SessionFilter {
     required this.key,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final value = this.value;
@@ -25963,6 +25998,7 @@ class StepExecutionFilter {
     required this.key,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final values = this.values;

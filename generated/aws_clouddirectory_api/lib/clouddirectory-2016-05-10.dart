@@ -3448,6 +3448,7 @@ class BatchAddFacetToObject {
     required this.objectReference,
     required this.schemaFacet,
   });
+
   Map<String, dynamic> toJson() {
     final objectAttributeList = this.objectAttributeList;
     final objectReference = this.objectReference;
@@ -3485,6 +3486,7 @@ class BatchAttachObject {
     required this.linkName,
     required this.parentReference,
   });
+
   Map<String, dynamic> toJson() {
     final childReference = this.childReference;
     final linkName = this.linkName;
@@ -3528,6 +3530,7 @@ class BatchAttachPolicy {
     required this.objectReference,
     required this.policyReference,
   });
+
   Map<String, dynamic> toJson() {
     final objectReference = this.objectReference;
     final policyReference = this.policyReference;
@@ -3561,6 +3564,7 @@ class BatchAttachToIndex {
     required this.indexReference,
     required this.targetReference,
   });
+
   Map<String, dynamic> toJson() {
     final indexReference = this.indexReference;
     final targetReference = this.targetReference;
@@ -3610,6 +3614,7 @@ class BatchAttachTypedLink {
     required this.targetObjectReference,
     required this.typedLinkFacet,
   });
+
   Map<String, dynamic> toJson() {
     final attributes = this.attributes;
     final sourceObjectReference = this.sourceObjectReference;
@@ -3672,6 +3677,7 @@ class BatchCreateIndex {
     this.linkName,
     this.parentReference,
   });
+
   Map<String, dynamic> toJson() {
     final isUnique = this.isUnique;
     final orderedIndexedAttributeList = this.orderedIndexedAttributeList;
@@ -3732,6 +3738,7 @@ class BatchCreateObject {
     this.linkName,
     this.parentReference,
   });
+
   Map<String, dynamic> toJson() {
     final objectAttributeList = this.objectAttributeList;
     final schemaFacet = this.schemaFacet;
@@ -3772,6 +3779,7 @@ class BatchDeleteObject {
   BatchDeleteObject({
     required this.objectReference,
   });
+
   Map<String, dynamic> toJson() {
     final objectReference = this.objectReference;
     return {
@@ -3803,6 +3811,7 @@ class BatchDetachFromIndex {
     required this.indexReference,
     required this.targetReference,
   });
+
   Map<String, dynamic> toJson() {
     final indexReference = this.indexReference;
     final targetReference = this.targetReference;
@@ -3849,6 +3858,7 @@ class BatchDetachObject {
     required this.parentReference,
     this.batchReferenceName,
   });
+
   Map<String, dynamic> toJson() {
     final linkName = this.linkName;
     final parentReference = this.parentReference;
@@ -3891,6 +3901,7 @@ class BatchDetachPolicy {
     required this.objectReference,
     required this.policyReference,
   });
+
   Map<String, dynamic> toJson() {
     final objectReference = this.objectReference;
     final policyReference = this.policyReference;
@@ -3920,6 +3931,7 @@ class BatchDetachTypedLink {
   BatchDetachTypedLink({
     required this.typedLinkSpecifier,
   });
+
   Map<String, dynamic> toJson() {
     final typedLinkSpecifier = this.typedLinkSpecifier;
     return {
@@ -3951,6 +3963,7 @@ class BatchGetLinkAttributes {
     required this.attributeNames,
     required this.typedLinkSpecifier,
   });
+
   Map<String, dynamic> toJson() {
     final attributeNames = this.attributeNames;
     final typedLinkSpecifier = this.typedLinkSpecifier;
@@ -3999,6 +4012,7 @@ class BatchGetObjectAttributes {
     required this.objectReference,
     required this.schemaFacet,
   });
+
   Map<String, dynamic> toJson() {
     final attributeNames = this.attributeNames;
     final objectReference = this.objectReference;
@@ -4040,6 +4054,7 @@ class BatchGetObjectInformation {
   BatchGetObjectInformation({
     required this.objectReference,
   });
+
   Map<String, dynamic> toJson() {
     final objectReference = this.objectReference;
     return {
@@ -4091,6 +4106,7 @@ class BatchListAttachedIndices {
     this.maxResults,
     this.nextToken,
   });
+
   Map<String, dynamic> toJson() {
     final targetReference = this.targetReference;
     final maxResults = this.maxResults;
@@ -4158,6 +4174,7 @@ class BatchListIncomingTypedLinks {
     this.maxResults,
     this.nextToken,
   });
+
   Map<String, dynamic> toJson() {
     final objectReference = this.objectReference;
     final filterAttributeRanges = this.filterAttributeRanges;
@@ -4222,6 +4239,7 @@ class BatchListIndex {
     this.nextToken,
     this.rangesOnIndexedValues,
   });
+
   Map<String, dynamic> toJson() {
     final indexReference = this.indexReference;
     final maxResults = this.maxResults;
@@ -4283,6 +4301,7 @@ class BatchListObjectAttributes {
     this.maxResults,
     this.nextToken,
   });
+
   Map<String, dynamic> toJson() {
     final objectReference = this.objectReference;
     final facetFilter = this.facetFilter;
@@ -4340,6 +4359,7 @@ class BatchListObjectChildren {
     this.maxResults,
     this.nextToken,
   });
+
   Map<String, dynamic> toJson() {
     final objectReference = this.objectReference;
     final maxResults = this.maxResults;
@@ -4394,6 +4414,7 @@ class BatchListObjectParentPaths {
     this.maxResults,
     this.nextToken,
   });
+
   Map<String, dynamic> toJson() {
     final objectReference = this.objectReference;
     final maxResults = this.maxResults;
@@ -4452,6 +4473,7 @@ class BatchListObjectPolicies {
     this.maxResults,
     this.nextToken,
   });
+
   Map<String, dynamic> toJson() {
     final objectReference = this.objectReference;
     final maxResults = this.maxResults;
@@ -4520,6 +4542,7 @@ class BatchListOutgoingTypedLinks {
     this.maxResults,
     this.nextToken,
   });
+
   Map<String, dynamic> toJson() {
     final objectReference = this.objectReference;
     final filterAttributeRanges = this.filterAttributeRanges;
@@ -4580,6 +4603,7 @@ class BatchListPolicyAttachments {
     this.maxResults,
     this.nextToken,
   });
+
   Map<String, dynamic> toJson() {
     final policyReference = this.policyReference;
     final maxResults = this.maxResults;
@@ -4635,6 +4659,7 @@ class BatchLookupPolicy {
     this.maxResults,
     this.nextToken,
   });
+
   Map<String, dynamic> toJson() {
     final objectReference = this.objectReference;
     final maxResults = this.maxResults;
@@ -4856,6 +4881,7 @@ class BatchReadOperation {
     this.listPolicyAttachments,
     this.lookupPolicy,
   });
+
   Map<String, dynamic> toJson() {
     final getLinkAttributes = this.getLinkAttributes;
     final getObjectAttributes = this.getObjectAttributes;
@@ -5091,6 +5117,7 @@ class BatchRemoveFacetFromObject {
     required this.objectReference,
     required this.schemaFacet,
   });
+
   Map<String, dynamic> toJson() {
     final objectReference = this.objectReference;
     final schemaFacet = this.schemaFacet;
@@ -5125,6 +5152,7 @@ class BatchUpdateLinkAttributes {
     required this.attributeUpdates,
     required this.typedLinkSpecifier,
   });
+
   Map<String, dynamic> toJson() {
     final attributeUpdates = this.attributeUpdates;
     final typedLinkSpecifier = this.typedLinkSpecifier;
@@ -5156,6 +5184,7 @@ class BatchUpdateObjectAttributes {
     required this.attributeUpdates,
     required this.objectReference,
   });
+
   Map<String, dynamic> toJson() {
     final attributeUpdates = this.attributeUpdates;
     final objectReference = this.objectReference;
@@ -5385,6 +5414,7 @@ class BatchWriteOperation {
     this.updateLinkAttributes,
     this.updateObjectAttributes,
   });
+
   Map<String, dynamic> toJson() {
     final addFacetToObject = this.addFacetToObject;
     final attachObject = this.attachObject;
@@ -6213,6 +6243,7 @@ class FacetAttributeUpdate {
     this.action,
     this.attribute,
   });
+
   Map<String, dynamic> toJson() {
     final action = this.action;
     final attribute = this.attribute;
@@ -6647,6 +6678,7 @@ class LinkAttributeAction {
     this.attributeActionType,
     this.attributeUpdateValue,
   });
+
   Map<String, dynamic> toJson() {
     final attributeActionType = this.attributeActionType;
     final attributeUpdateValue = this.attributeUpdateValue;
@@ -6671,6 +6703,7 @@ class LinkAttributeUpdate {
     this.attributeAction,
     this.attributeKey,
   });
+
   Map<String, dynamic> toJson() {
     final attributeAction = this.attributeAction;
     final attributeKey = this.attributeKey;
@@ -7242,6 +7275,7 @@ class ObjectAttributeAction {
     this.objectAttributeActionType,
     this.objectAttributeUpdateValue,
   });
+
   Map<String, dynamic> toJson() {
     final objectAttributeActionType = this.objectAttributeActionType;
     final objectAttributeUpdateValue = this.objectAttributeUpdateValue;
@@ -7266,6 +7300,7 @@ class ObjectAttributeRange {
     this.attributeKey,
     this.range,
   });
+
   Map<String, dynamic> toJson() {
     final attributeKey = this.attributeKey;
     final range = this.range;
@@ -7288,6 +7323,7 @@ class ObjectAttributeUpdate {
     this.objectAttributeAction,
     this.objectAttributeKey,
   });
+
   Map<String, dynamic> toJson() {
     final objectAttributeAction = this.objectAttributeAction;
     final objectAttributeKey = this.objectAttributeKey;
@@ -7889,6 +7925,7 @@ class TypedAttributeValueRange {
     this.endValue,
     this.startValue,
   });
+
   Map<String, dynamic> toJson() {
     final endMode = this.endMode;
     final startMode = this.startMode;
@@ -7978,6 +8015,7 @@ class TypedLinkAttributeRange {
     required this.range,
     this.attributeName,
   });
+
   Map<String, dynamic> toJson() {
     final range = this.range;
     final attributeName = this.attributeName;
@@ -8012,6 +8050,7 @@ class TypedLinkFacet {
     required this.identityAttributeOrder,
     required this.name,
   });
+
   Map<String, dynamic> toJson() {
     final attributes = this.attributes;
     final identityAttributeOrder = this.identityAttributeOrder;
@@ -8036,6 +8075,7 @@ class TypedLinkFacetAttributeUpdate {
     required this.action,
     required this.attribute,
   });
+
   Map<String, dynamic> toJson() {
     final action = this.action;
     final attribute = this.attribute;

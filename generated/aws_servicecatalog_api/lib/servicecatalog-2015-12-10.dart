@@ -5816,6 +5816,7 @@ class AccessLevelFilter {
     this.key,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final value = this.value;
@@ -7202,6 +7203,7 @@ class EngineWorkflowResourceIdentifier {
   EngineWorkflowResourceIdentifier({
     this.uniqueTag,
   });
+
   Map<String, dynamic> toJson() {
     final uniqueTag = this.uniqueTag;
     return {
@@ -7925,6 +7927,7 @@ class ListRecordHistorySearchFilter {
     this.key,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final value = this.value;
@@ -8051,6 +8054,7 @@ class ListTagOptionsFilters {
     this.key,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final active = this.active;
     final key = this.key;
@@ -9672,6 +9676,7 @@ class ProvisioningArtifactProperties {
     this.name,
     this.type,
   });
+
   Map<String, dynamic> toJson() {
     final description = this.description;
     final disableTemplateValidation = this.disableTemplateValidation;
@@ -9833,6 +9838,7 @@ class ProvisioningParameter {
     this.key,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final value = this.value;
@@ -9959,6 +9965,7 @@ class ProvisioningPreferences {
     this.stackSetMaxConcurrencyPercentage,
     this.stackSetRegions,
   });
+
   Map<String, dynamic> toJson() {
     final stackSetAccounts = this.stackSetAccounts;
     final stackSetFailureToleranceCount = this.stackSetFailureToleranceCount;
@@ -10636,6 +10643,7 @@ class ServiceActionAssociation {
     required this.provisioningArtifactId,
     required this.serviceActionId,
   });
+
   Map<String, dynamic> toJson() {
     final productId = this.productId;
     final provisioningArtifactId = this.provisioningArtifactId;
@@ -10964,6 +10972,7 @@ class SourceConnection {
     required this.connectionParameters,
     this.type,
   });
+
   Map<String, dynamic> toJson() {
     final connectionParameters = this.connectionParameters;
     final type = this.type;
@@ -11353,6 +11362,7 @@ class UniqueTagResourceIdentifier {
     this.key,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final value = this.value;
@@ -11707,6 +11717,7 @@ class UpdateProvisioningPreferences {
     this.stackSetOperationType,
     this.stackSetRegions,
   });
+
   Map<String, dynamic> toJson() {
     final stackSetAccounts = this.stackSetAccounts;
     final stackSetFailureToleranceCount = this.stackSetFailureToleranceCount;

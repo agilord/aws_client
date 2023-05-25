@@ -1797,6 +1797,7 @@ class ParameterValue {
     required this.name,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;
@@ -1846,6 +1847,7 @@ class RollbackConfiguration {
     this.monitoringTimeInMinutes,
     this.rollbackTriggers,
   });
+
   Map<String, dynamic> toJson() {
     final monitoringTimeInMinutes = this.monitoringTimeInMinutes;
     final rollbackTriggers = this.rollbackTriggers;
@@ -1877,6 +1879,7 @@ class RollbackTrigger {
     required this.arn,
     required this.type,
   });
+
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final type = this.type;
@@ -1942,6 +1945,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final value = this.value;

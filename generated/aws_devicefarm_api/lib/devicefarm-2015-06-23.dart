@@ -4313,6 +4313,7 @@ class CreateRemoteAccessSessionConfiguration {
     this.billingMethod,
     this.vpceConfigurationArns,
   });
+
   Map<String, dynamic> toJson() {
     final billingMethod = this.billingMethod;
     final vpceConfigurationArns = this.vpceConfigurationArns;
@@ -5453,6 +5454,7 @@ class DeviceSelectionConfiguration {
     required this.filters,
     required this.maxDevices,
   });
+
   Map<String, dynamic> toJson() {
     final filters = this.filters;
     final maxDevices = this.maxDevices;
@@ -5529,6 +5531,7 @@ class ExecutionConfiguration {
     this.skipAppResign,
     this.videoCapture,
   });
+
   Map<String, dynamic> toJson() {
     final accountsCleanup = this.accountsCleanup;
     final appPackagesCleanup = this.appPackagesCleanup;
@@ -8699,6 +8702,7 @@ class ScheduleRunConfiguration {
     this.radios,
     this.vpceConfigurationArns,
   });
+
   Map<String, dynamic> toJson() {
     final auxiliaryApps = this.auxiliaryApps;
     final billingMethod = this.billingMethod;
@@ -8960,6 +8964,7 @@ class ScheduleRunTest {
     this.testPackageArn,
     this.testSpecArn,
   });
+
   Map<String, dynamic> toJson() {
     final type = this.type;
     final filter = this.filter;

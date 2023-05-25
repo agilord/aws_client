@@ -985,6 +985,7 @@ class Destination {
   Destination({
     this.s3,
   });
+
   Map<String, dynamic> toJson() {
     final s3 = this.s3;
     return {
@@ -1493,6 +1494,7 @@ class S3Destination {
     this.bucketName,
     this.prefix,
   });
+
   Map<String, dynamic> toJson() {
     final bucketName = this.bucketName;
     final prefix = this.prefix;

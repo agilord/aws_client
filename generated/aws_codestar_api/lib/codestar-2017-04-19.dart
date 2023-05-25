@@ -874,6 +874,7 @@ class Code {
     required this.destination,
     required this.source,
   });
+
   Map<String, dynamic> toJson() {
     final destination = this.destination;
     final source = this.source;
@@ -894,6 +895,7 @@ class CodeCommitCodeDestination {
   CodeCommitCodeDestination({
     required this.name,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     return {
@@ -921,6 +923,7 @@ class CodeDestination {
     this.codeCommit,
     this.gitHub,
   });
+
   Map<String, dynamic> toJson() {
     final codeCommit = this.codeCommit;
     final gitHub = this.gitHub;
@@ -941,6 +944,7 @@ class CodeSource {
   CodeSource({
     required this.s3,
   });
+
   Map<String, dynamic> toJson() {
     final s3 = this.s3;
     return {
@@ -1222,6 +1226,7 @@ class GitHubCodeDestination {
     required this.type,
     this.description,
   });
+
   Map<String, dynamic> toJson() {
     final issuesEnabled = this.issuesEnabled;
     final name = this.name;
@@ -1434,6 +1439,7 @@ class S3Location {
     this.bucketKey,
     this.bucketName,
   });
+
   Map<String, dynamic> toJson() {
     final bucketKey = this.bucketKey;
     final bucketName = this.bucketName;
@@ -1511,6 +1517,7 @@ class Toolchain {
     this.roleArn,
     this.stackParameters,
   });
+
   Map<String, dynamic> toJson() {
     final source = this.source;
     final roleArn = this.roleArn;
@@ -1534,6 +1541,7 @@ class ToolchainSource {
   ToolchainSource({
     required this.s3,
   });
+
   Map<String, dynamic> toJson() {
     final s3 = this.s3;
     return {

@@ -1945,6 +1945,7 @@ class LineItemRequest {
     this.catalogItemId,
     this.quantity,
   });
+
   Map<String, dynamic> toJson() {
     final catalogItemId = this.catalogItemId;
     final quantity = this.quantity;

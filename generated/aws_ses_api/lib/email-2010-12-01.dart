@@ -3610,6 +3610,7 @@ class Body {
     this.html,
     this.text,
   });
+
   Map<String, dynamic> toJson() {
     final html = this.html;
     final text = this.text;
@@ -3766,6 +3767,7 @@ class BouncedRecipientInfo {
     this.recipientArn,
     this.recipientDsnFields,
   });
+
   Map<String, dynamic> toJson() {
     final recipient = this.recipient;
     final bounceType = this.bounceType;
@@ -3801,6 +3803,7 @@ class BulkEmailDestination {
     this.replacementTags,
     this.replacementTemplateData,
   });
+
   Map<String, dynamic> toJson() {
     final destination = this.destination;
     final replacementTags = this.replacementTags;
@@ -4206,6 +4209,7 @@ class Content {
     required this.data,
     this.charset,
   });
+
   Map<String, dynamic> toJson() {
     final data = this.data;
     final charset = this.charset;
@@ -4629,6 +4633,7 @@ class Destination {
     this.ccAddresses,
     this.toAddresses,
   });
+
   Map<String, dynamic> toJson() {
     final bccAddresses = this.bccAddresses;
     final ccAddresses = this.ccAddresses;
@@ -4892,6 +4897,7 @@ class ExtensionField {
     required this.name,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;
@@ -5705,6 +5711,7 @@ class Message {
     required this.body,
     required this.subject,
   });
+
   Map<String, dynamic> toJson() {
     final body = this.body;
     final subject = this.subject;
@@ -5740,6 +5747,7 @@ class MessageDsn {
     this.arrivalDate,
     this.extensionFields,
   });
+
   Map<String, dynamic> toJson() {
     final reportingMta = this.reportingMta;
     final arrivalDate = this.arrivalDate;
@@ -5791,6 +5799,7 @@ class MessageTag {
     required this.name,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;
@@ -5882,6 +5891,7 @@ class RawMessage {
   RawMessage({
     required this.data,
   });
+
   Map<String, dynamic> toJson() {
     final data = this.data;
     return {
@@ -6286,6 +6296,7 @@ class RecipientDsnFields {
     this.lastAttemptDate,
     this.remoteMta,
   });
+
   Map<String, dynamic> toJson() {
     final action = this.action;
     final status = this.status;

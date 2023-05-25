@@ -3246,6 +3246,7 @@ class CalculationConfiguration {
   CalculationConfiguration({
     this.codeBlock,
   });
+
   Map<String, dynamic> toJson() {
     final codeBlock = this.codeBlock;
     return {
@@ -4482,6 +4483,7 @@ class FilterDefinition {
   FilterDefinition({
     this.name,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     return {
@@ -6233,6 +6235,7 @@ class ResultConfigurationUpdates {
     this.removeExpectedBucketOwner,
     this.removeOutputLocation,
   });
+
   Map<String, dynamic> toJson() {
     final aclConfiguration = this.aclConfiguration;
     final encryptionConfiguration = this.encryptionConfiguration;
@@ -7414,6 +7417,7 @@ class WorkGroupConfigurationUpdates {
     this.requesterPaysEnabled,
     this.resultConfigurationUpdates,
   });
+
   Map<String, dynamic> toJson() {
     final additionalConfiguration = this.additionalConfiguration;
     final bytesScannedCutoffPerQuery = this.bytesScannedCutoffPerQuery;

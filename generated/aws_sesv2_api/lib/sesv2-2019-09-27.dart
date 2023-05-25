@@ -3545,6 +3545,7 @@ class BatchGetMetricDataQuery {
     required this.startDate,
     this.dimensions,
   });
+
   Map<String, dynamic> toJson() {
     final endDate = this.endDate;
     final id = this.id;
@@ -3674,6 +3675,7 @@ class Body {
     this.html,
     this.text,
   });
+
   Map<String, dynamic> toJson() {
     final html = this.html;
     final text = this.text;
@@ -3693,6 +3695,7 @@ class BulkEmailContent {
   BulkEmailContent({
     this.template,
   });
+
   Map<String, dynamic> toJson() {
     final template = this.template;
     return {
@@ -3731,6 +3734,7 @@ class BulkEmailEntry {
     this.replacementEmailContent,
     this.replacementTags,
   });
+
   Map<String, dynamic> toJson() {
     final destination = this.destination;
     final replacementEmailContent = this.replacementEmailContent;
@@ -4203,6 +4207,7 @@ class Content {
     required this.data,
     this.charset,
   });
+
   Map<String, dynamic> toJson() {
     final data = this.data;
     final charset = this.charset;
@@ -4922,6 +4927,7 @@ class Destination {
     this.ccAddresses,
     this.toAddresses,
   });
+
   Map<String, dynamic> toJson() {
     final bccAddresses = this.bccAddresses;
     final ccAddresses = this.ccAddresses;
@@ -5117,6 +5123,7 @@ class DkimSigningAttributes {
     this.domainSigningSelector,
     this.nextSigningKeyLength,
   });
+
   Map<String, dynamic> toJson() {
     final domainSigningPrivateKey = this.domainSigningPrivateKey;
     final domainSigningSelector = this.domainSigningSelector;
@@ -5506,6 +5513,7 @@ class EmailContent {
     this.simple,
     this.template,
   });
+
   Map<String, dynamic> toJson() {
     final raw = this.raw;
     final simple = this.simple;
@@ -5764,6 +5772,7 @@ class EventDestinationDefinition {
     this.pinpointDestination,
     this.snsDestination,
   });
+
   Map<String, dynamic> toJson() {
     final cloudWatchDestination = this.cloudWatchDestination;
     final enabled = this.enabled;
@@ -7246,6 +7255,7 @@ class ListContactsFilter {
     this.filteredStatus,
     this.topicFilter,
   });
+
   Map<String, dynamic> toJson() {
     final filteredStatus = this.filteredStatus;
     final topicFilter = this.topicFilter;
@@ -7503,6 +7513,7 @@ class ListManagementOptions {
     required this.contactListName,
     this.topicName,
   });
+
   Map<String, dynamic> toJson() {
     final contactListName = this.contactListName;
     final topicName = this.topicName;
@@ -7817,6 +7828,7 @@ class Message {
     required this.body,
     required this.subject,
   });
+
   Map<String, dynamic> toJson() {
     final body = this.body;
     final subject = this.subject;
@@ -7862,6 +7874,7 @@ class MessageTag {
     required this.name,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;
@@ -8541,6 +8554,7 @@ class RawMessage {
   RawMessage({
     required this.data,
   });
+
   Map<String, dynamic> toJson() {
     final data = this.data;
     return {
@@ -8706,6 +8720,7 @@ class ReplacementEmailContent {
   ReplacementEmailContent({
     this.replacementTemplate,
   });
+
   Map<String, dynamic> toJson() {
     final replacementTemplate = this.replacementTemplate;
     return {
@@ -8726,6 +8741,7 @@ class ReplacementTemplate {
   ReplacementTemplate({
     this.replacementTemplateData,
   });
+
   Map<String, dynamic> toJson() {
     final replacementTemplateData = this.replacementTemplateData;
     return {
@@ -9445,6 +9461,7 @@ class Template {
     this.templateData,
     this.templateName,
   });
+
   Map<String, dynamic> toJson() {
     final templateArn = this.templateArn;
     final templateData = this.templateData;
@@ -9569,6 +9586,7 @@ class TopicFilter {
     this.topicName,
     this.useDefaultIfPreferenceUnavailable,
   });
+
   Map<String, dynamic> toJson() {
     final topicName = this.topicName;
     final useDefaultIfPreferenceUnavailable =

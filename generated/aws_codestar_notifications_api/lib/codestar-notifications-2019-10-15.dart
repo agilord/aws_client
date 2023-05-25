@@ -817,6 +817,7 @@ class ListEventTypesFilter {
     required this.name,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;
@@ -897,6 +898,7 @@ class ListNotificationRulesFilter {
     required this.name,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;
@@ -1008,6 +1010,7 @@ class ListTargetsFilter {
     required this.name,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;
@@ -1178,6 +1181,7 @@ class Target {
     this.targetAddress,
     this.targetType,
   });
+
   Map<String, dynamic> toJson() {
     final targetAddress = this.targetAddress;
     final targetType = this.targetType;

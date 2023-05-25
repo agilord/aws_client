@@ -4621,6 +4621,7 @@ class RDSDataSpec {
     this.dataSchema,
     this.dataSchemaUri,
   });
+
   Map<String, dynamic> toJson() {
     final databaseCredentials = this.databaseCredentials;
     final databaseInformation = this.databaseInformation;
@@ -4687,6 +4688,7 @@ class RDSDatabaseCredentials {
     required this.password,
     required this.username,
   });
+
   Map<String, dynamic> toJson() {
     final password = this.password;
     final username = this.username;
@@ -5005,6 +5007,7 @@ class RedshiftDataSpec {
     this.dataSchema,
     this.dataSchemaUri,
   });
+
   Map<String, dynamic> toJson() {
     final databaseCredentials = this.databaseCredentials;
     final databaseInformation = this.databaseInformation;
@@ -5063,6 +5066,7 @@ class RedshiftDatabaseCredentials {
     required this.password,
     required this.username,
   });
+
   Map<String, dynamic> toJson() {
     final password = this.password;
     final username = this.username;
@@ -5251,6 +5255,7 @@ class S3DataSpec {
     this.dataSchema,
     this.dataSchemaLocationS3,
   });
+
   Map<String, dynamic> toJson() {
     final dataLocationS3 = this.dataLocationS3;
     final dataRearrangement = this.dataRearrangement;

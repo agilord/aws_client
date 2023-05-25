@@ -4146,6 +4146,7 @@ class BgpOptions {
   BgpOptions({
     this.peerAsn,
   });
+
   Map<String, dynamic> toJson() {
     final peerAsn = this.peerAsn;
     return {
@@ -8182,6 +8183,7 @@ class RouteAnalysisEndpointOptionsSpecification {
     this.ipAddress,
     this.transitGatewayAttachmentArn,
   });
+
   Map<String, dynamic> toJson() {
     final ipAddress = this.ipAddress;
     final transitGatewayAttachmentArn = this.transitGatewayAttachmentArn;
@@ -8293,6 +8295,7 @@ class RouteTableIdentifier {
     this.coreNetworkSegmentEdge,
     this.transitGatewayRouteTableArn,
   });
+
   Map<String, dynamic> toJson() {
     final coreNetworkSegmentEdge = this.coreNetworkSegmentEdge;
     final transitGatewayRouteTableArn = this.transitGatewayRouteTableArn;

@@ -5568,6 +5568,7 @@ class NewBGPPeer {
     this.authKey,
     this.customerAddress,
   });
+
   Map<String, dynamic> toJson() {
     final addressFamily = this.addressFamily;
     final amazonAddress = this.amazonAddress;
@@ -5643,6 +5644,7 @@ class NewPrivateVirtualInterface {
     this.tags,
     this.virtualGatewayId,
   });
+
   Map<String, dynamic> toJson() {
     final asn = this.asn;
     final virtualInterfaceName = this.virtualInterfaceName;
@@ -5722,6 +5724,7 @@ class NewPrivateVirtualInterfaceAllocation {
     this.mtu,
     this.tags,
   });
+
   Map<String, dynamic> toJson() {
     final asn = this.asn;
     final virtualInterfaceName = this.virtualInterfaceName;
@@ -5793,6 +5796,7 @@ class NewPublicVirtualInterface {
     this.routeFilterPrefixes,
     this.tags,
   });
+
   Map<String, dynamic> toJson() {
     final asn = this.asn;
     final virtualInterfaceName = this.virtualInterfaceName;
@@ -5866,6 +5870,7 @@ class NewPublicVirtualInterfaceAllocation {
     this.routeFilterPrefixes,
     this.tags,
   });
+
   Map<String, dynamic> toJson() {
     final asn = this.asn;
     final virtualInterfaceName = this.virtualInterfaceName;
@@ -5946,6 +5951,7 @@ class NewTransitVirtualInterface {
     this.virtualInterfaceName,
     this.vlan,
   });
+
   Map<String, dynamic> toJson() {
     final addressFamily = this.addressFamily;
     final amazonAddress = this.amazonAddress;
@@ -6024,6 +6030,7 @@ class NewTransitVirtualInterfaceAllocation {
     this.virtualInterfaceName,
     this.vlan,
   });
+
   Map<String, dynamic> toJson() {
     final addressFamily = this.addressFamily;
     final amazonAddress = this.amazonAddress;

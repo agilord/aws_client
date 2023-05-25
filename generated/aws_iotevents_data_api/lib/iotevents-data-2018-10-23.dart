@@ -464,6 +464,7 @@ class AcknowledgeAlarmActionRequest {
     this.keyValue,
     this.note,
   });
+
   Map<String, dynamic> toJson() {
     final alarmModelName = this.alarmModelName;
     final requestId = this.requestId;
@@ -1224,6 +1225,7 @@ class DeleteDetectorRequest {
     required this.messageId,
     this.keyValue,
   });
+
   Map<String, dynamic> toJson() {
     final detectorModelName = this.detectorModelName;
     final messageId = this.messageId;
@@ -1365,6 +1367,7 @@ class DetectorStateDefinition {
     required this.timers,
     required this.variables,
   });
+
   Map<String, dynamic> toJson() {
     final stateName = this.stateName;
     final timers = this.timers;
@@ -1475,6 +1478,7 @@ class DisableAlarmActionRequest {
     this.keyValue,
     this.note,
   });
+
   Map<String, dynamic> toJson() {
     final alarmModelName = this.alarmModelName;
     final requestId = this.requestId;
@@ -1527,6 +1531,7 @@ class EnableAlarmActionRequest {
     this.keyValue,
     this.note,
   });
+
   Map<String, dynamic> toJson() {
     final alarmModelName = this.alarmModelName;
     final requestId = this.requestId;
@@ -1677,6 +1682,7 @@ class Message {
     required this.payload,
     this.timestamp,
   });
+
   Map<String, dynamic> toJson() {
     final inputName = this.inputName;
     final messageId = this.messageId;
@@ -1729,6 +1735,7 @@ class ResetAlarmActionRequest {
     this.keyValue,
     this.note,
   });
+
   Map<String, dynamic> toJson() {
     final alarmModelName = this.alarmModelName;
     final requestId = this.requestId;
@@ -1838,6 +1845,7 @@ class SnoozeAlarmActionRequest {
     this.keyValue,
     this.note,
   });
+
   Map<String, dynamic> toJson() {
     final alarmModelName = this.alarmModelName;
     final requestId = this.requestId;
@@ -1931,6 +1939,7 @@ class TimerDefinition {
     required this.name,
     required this.seconds,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final seconds = this.seconds;
@@ -1949,6 +1958,7 @@ class TimestampValue {
   TimestampValue({
     this.timeInMillis,
   });
+
   Map<String, dynamic> toJson() {
     final timeInMillis = this.timeInMillis;
     return {
@@ -2003,6 +2013,7 @@ class UpdateDetectorRequest {
     required this.state,
     this.keyValue,
   });
+
   Map<String, dynamic> toJson() {
     final detectorModelName = this.detectorModelName;
     final messageId = this.messageId;
@@ -2050,6 +2061,7 @@ class VariableDefinition {
     required this.name,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;

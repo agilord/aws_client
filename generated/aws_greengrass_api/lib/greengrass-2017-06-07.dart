@@ -7073,6 +7073,7 @@ class TelemetryConfigurationUpdate {
   TelemetryConfigurationUpdate({
     required this.telemetry,
   });
+
   Map<String, dynamic> toJson() {
     final telemetry = this.telemetry;
     return {
