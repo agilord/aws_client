@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:source_helper/source_helper.dart';
+
 import '../model/api.dart';
 import '../model/dart_type.dart';
 import '../model/operation.dart';
@@ -14,7 +16,8 @@ import 'protocols/rest_json_builder.dart';
 import 'protocols/rest_xml_builder.dart';
 import 'protocols/service_builder.dart';
 
-String buildService(Api api) {
+String buildService(Api api,
+    {String sharedLibraryPath = 'package:shared_aws_api'}) {
   api.initReferences();
 
   ServiceBuilder builder;
@@ -44,13 +47,13 @@ String buildService(Api api) {
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:shared_aws_api/shared.dart' as _s;
-import 'package:shared_aws_api/shared.dart'
+import '$sharedLibraryPath/shared.dart' as _s;
+import '$sharedLibraryPath/shared.dart'
   show rfc822ToJson, iso8601ToJson, unixTimestampToJson, nonNullableTimeStampFromJson, timeStampFromJson;
 """);
   buf.writeln(builder.imports());
   buf.writeln(
-      "export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;\n");
+      "export '$sharedLibraryPath/shared.dart' show AwsClientCredentials;\n");
 
   final body = StringBuffer()
     ..putMainClass(api, builder)
@@ -115,7 +118,7 @@ ${builder.constructor()}
     }
 
     if (operation.deprecated) {
-      writeln("@Deprecated('Deprecated')");
+      _writeDeprecated(operation.deprecatedMessage);
     }
 
     operation.output?.shapeClass?.markUsed(false);
@@ -196,7 +199,7 @@ ${builder.constructor()}
     if (shape.enumeration != null) {
       writeln(dartdocComment(shape.documentation ?? ''));
       if (shape.deprecated) {
-        writeln(r"@Deprecated('Deprecated')");
+        _writeDeprecated(shape.deprecatedMessage);
       }
       writeln('enum $name {');
 
@@ -233,11 +236,14 @@ ${builder.constructor()}
     } else if (shape.type == 'structure') {
       writeln(dartdocComment(shape.documentation ?? ''));
       if (shape.deprecated) {
-        writeln(r'@deprecated');
+        _writeDeprecated(shape.deprecatedMessage);
       }
 
       final extendsBlock = shape.exception ? 'implements _s.AwsException ' : '';
 
+      if (name.contains('_')) {
+        writeln('// ignore: camel_case_types');
+      }
       writeln('class $name $extendsBlock{');
       for (final member in shape.members) {
         if (member.documentation != null) {
@@ -307,9 +313,9 @@ ${builder.constructor()}
         writeln('  }');
       }
 
-      if (shape.generateToJson) {
-        writeln('\n  Map<String, dynamic> toJson() {');
-        for (var member in shape.members.where((m) => m.isBody)) {
+      if (shape.generateToJson || Api.isGeneratingSinglePackage) {
+        writeln('\n\n  Map<String, dynamic> toJson() {');
+        for (var member in shape.members) {
           writeln('final ${member.fieldName} = this.${member.fieldName};');
         }
         writeln('return {');
@@ -408,6 +414,10 @@ ${builder.constructor()}
       }
     }
     writeln('};');
+  }
+
+  void _writeDeprecated(String? message) {
+    writeln("@Deprecated(${escapeDartString(message ?? 'Deprecated')})");
   }
 }
 

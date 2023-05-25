@@ -130,8 +130,14 @@ class RestJsonServiceBuilder extends ServiceBuilder {
           }
         }
         for (var member in outputShape.members.where((m) => m.isHeader)) {
-          buf.writeln(
-              "${member.fieldName}: ${extractHeaderCode(member, 'response.headers')}${member.isRequired ? '!' : ''},");
+          var headerCode = extractHeaderCode(member, 'response.headers');
+          if (member.isRequired) {
+            if (headerCode.contains('?.to')) {
+              headerCode = '($headerCode)';
+            }
+            headerCode += '!';
+          }
+          buf.writeln('${member.fieldName}: $headerCode,');
         }
         for (var member in outputShape.members.where((m) => m.isStatusCode)) {
           buf.writeln('${member.fieldName}: response.statusCode,');

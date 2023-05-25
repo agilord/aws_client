@@ -26,6 +26,10 @@ String lowerCamel(Iterable<String> input) {
       .join('');
 }
 
+String snakeCase(Iterable<String> input) {
+  return input.map((i) => i.toLowerCase()).join('_');
+}
+
 String upperCamel(Iterable<String> input) {
   return input.map(capitalize).join('');
 }

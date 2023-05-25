@@ -43,6 +43,10 @@ jobs:
         run: dart pub get && dart analyze --fatal-infos
         working-directory: document_client
 
+      - name: Analyze aws_client package
+        run: dart pub get && dart analyze --fatal-infos
+        working-directory: aws_client
+
       - name: "check for uncommitted changes"
         run: git diff --exit-code --stat -- .
 

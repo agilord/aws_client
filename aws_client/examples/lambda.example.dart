@@ -2,38 +2,19 @@
 // Use of this source code is governed by a BSD-style license that can be found
 // in the LICENSE file.
 
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:aws_client/aws_client.dart';
-import 'package:aws_client/lambda.dart';
-import 'package:aws_client/src/credentials.dart';
-import 'package:http_client/console.dart';
+import 'package:aws_client/lambda_2015_03_31.dart';
 
 Future main(List<String> args) async {
-  final environment = Platform.environment;
-  final Client httpClient = ConsoleClient();
-  final credentials = Credentials(
-    accessKey: environment['AWS_ACCESS_KEY_ID'],
-    secretKey: environment['AWS_SECRET_ACCESS_KEY'],
-    sessionToken: environment['AWS_SESSION_TOKEN'],
-  );
+  final lambda = Lambda(region: 'us-west-1');
+
   try {
-    final aws = Aws(credentials: credentials, httpClient: httpClient);
-    final response = await aws.lambda(environment['AWS_DEFAULT_REGION']).invoke(
-      'my-function',
-      json.encode({'number': 4}),
-      invocationType: LambdaInvocationType.RequestResponse,
-      headers: {'X-Amz-Log-Type': 'Tail'},
+    final response = await lambda.invoke(
+      functionName: 'my-function',
+      invocationType: InvocationType.requestResponse,
     );
 
     print('StatusCode: ${response.statusCode}');
-    print('Headers: ${response.headers}');
-    final respPayloadString = await response.readAsString();
-    print('Payload: $respPayloadString');
-  } catch (e) {
-    print('ERROR!!! $e');
   } finally {
-    await httpClient.close();
+    lambda.close();
   }
 }

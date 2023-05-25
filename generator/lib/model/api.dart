@@ -2,14 +2,16 @@ import 'package:json_annotation/json_annotation.dart';
 
 import '../utils/aws_names.dart';
 
+import '../utils/case.dart';
 import 'descriptor.dart';
 import 'operation.dart';
 import 'shape.dart';
-
 part 'api.g.dart';
 
 @JsonSerializable(createToJson: false)
 class Api {
+  static bool isGeneratingSinglePackage = false;
+
   final String? version;
   final Metadata metadata;
   final Map<String, Operation> operations;
@@ -72,9 +74,15 @@ class Api {
   }
 
   String get fileBasename {
+    if (isGeneratingSinglePackage) {
+      return _singlePackageFileBasename;
+    }
     // TODO: lowercase file name
     return metadata.uid ?? '${metadata.endpointPrefix}-${metadata.apiVersion}';
   }
+
+  String get _singlePackageFileBasename =>
+      'v${metadata.apiVersion.replaceAll('-', '_')}';
 
   bool get isRecognized => packageBaseName != null;
 
@@ -135,6 +143,14 @@ class Api {
         'sts',
         'waf',
       }.contains(metadata.endpointPrefix);
+
+  String get directoryName {
+    final name = metadata.serviceId ??
+        metadata.serviceAbbreviation ??
+        metadata.uid?.split('-20').first.toLowerCase() ??
+        metadata.serviceFullName;
+    return snakeCase(splitWords(name));
+  }
 }
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
@@ -184,9 +200,31 @@ class Metadata {
   );
 
   String get className {
+    if (Api.isGeneratingSinglePackage) {
+      return _singlePackageClassName;
+    }
+
     final name = (serviceAbbreviation ?? serviceFullName)
         .replaceAll(RegExp(r'^Amazon|AWS\s*|\(.*|\s+|\W+'), '');
     return name.substring(0, 1).toUpperCase() + name.substring(1);
+  }
+
+  String get _singlePackageClassName {
+    final baseName = (serviceAbbreviation ?? serviceFullName)
+        .replaceAll(RegExp(r'^Amazon|AWS\s*'), '');
+
+    // Try to follow Effective Dart: DO capitalize acronyms and abbreviations longer than two letters like words.
+    // https://dart.dev/guides/language/effective-dart/style#do-capitalize-acronyms-and-abbreviations-longer-than-two-letters-like-words
+    final words = splitWords(baseName).map((w) {
+      if (const ['IoT'].contains(w) || w.length < 3) {
+        return w;
+      }
+      return w.toLowerCase();
+    }).toList();
+    if (words.last == 'service' && words.first != 'config') {
+      words.removeLast();
+    }
+    return upperCamel(words);
   }
 
   factory Metadata.fromJson(Map<String, dynamic> json) =>
