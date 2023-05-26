@@ -145,7 +145,12 @@ class Api {
       }.contains(metadata.endpointPrefix);
 
   String get directoryName {
-    final name = metadata.serviceId ??
+    var name = const {
+      'SESv2': 'ses_v2',
+    }[metadata.serviceId];
+    if (name != null) return name;
+
+    name = metadata.serviceId ??
         metadata.serviceAbbreviation ??
         metadata.uid?.split('-20').first.toLowerCase() ??
         metadata.serviceFullName;

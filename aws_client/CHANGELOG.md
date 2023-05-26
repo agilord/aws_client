@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.1
+
+- Add more examples
+
 ## 0.4.0
 
 - Generate all the APIs with version v2.1384.0 of the AWS SDK

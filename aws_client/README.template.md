@@ -4,19 +4,134 @@
 
 A simple usage example:
 
-````dart
-import 'package:aws_client/aws_client.dart';
-import 'package:http_client/console.dart';
+##### S3
+```dart
+import 'dart:io';
+import 'package:aws_client/s3_2006_03_01.dart';
 
-main() async {
-  var httpClient = newHttpClient();
-  var credentials = new Credentials(accessKey: 'MY_ACCESS_KEY', secretKey: 'MY_SECRET_KEY');
-  var aws = new Aws(credentials: credentials, httpClient: httpClient);
-  var queue = aws.sqs.queue('https://my-queue-url/number/queue-name');
-  await queue.sendMessage('Hello from Dart client!');
-  httpClient.close();
+void main() async {
+  final api = S3(region: 'us-west-1');
+  await api.createBucket(bucket: 'my_bucket');
+  await api.putObject(
+      bucket: 'my_bucket',
+      key: 'my_file.png',
+      body: File('my_file.png').readAsBytesSync());
+  api.close();
 }
-````
+```
+
+##### DynamoDB
+```dart
+import 'dart:convert';
+import 'package:aws_client/dynamo_document.dart';
+
+void main() async {
+  final db = DocumentClient(region: 'us-west-1');
+
+  final getResponse = await db.get(
+    tableName: 'MyTable',
+    key: {'Car': 'DudeWheresMyCar'},
+  );
+
+  print(jsonEncode(getResponse.item));
+}
+```
+
+##### SQS
+```dart
+import 'package:aws_client/sqs_2012_11_05.dart';
+
+void main() async {
+  final sqs = Sqs(region: 'us-west-1');
+  final queue = await sqs.createQueue(queueName: 'queue');
+  await sqs.sendMessage(
+          messageBody: 'Hello from Dart client!', queueUrl: queue.queueUrl!);
+  sqs.close();
+}
+```
+
+##### Lambda
+```dart
+import 'package:aws_client/lambda_2015_03_31.dart';
+
+void main(List<String> args) async {
+  final lambda = Lambda(region: 'us-west-1');
+  final response = await lambda.invoke(
+    functionName: 'my-function',
+    invocationType: InvocationType.requestResponse,
+  );
+
+  print('StatusCode: ${response.statusCode}');
+  lambda.close();
+}
+```
+
+##### Cognito Identity provider
+
+```dart
+import 'package:aws_client/cognito_identity_provider_2016_04_18.dart';
+
+void main() async {
+  final api = CognitoIdentityProvider(region: 'us-west-1');
+
+  final cognitoPool = 'us-west-1_abc';
+  final user = 'email@email.com';
+  
+  await api.adminCreateUser(
+    userPoolId: cognitoPool,
+    username: user,
+    temporaryPassword: r'Pass123$$',
+    userAttributes: [AttributeType(name: 'email', value: user)],
+    clientMetadata: {
+      'language': 'fr',
+    },
+  );
+
+  await api.adminSetUserPassword(
+      password: 'newpassword', userPoolId: cognitoPool, username: user);
+
+  await api.adminDeleteUser(userPoolId: cognitoPool, username: user);
+
+  api.close();
+}
+```
+
+##### IAM
+```dart
+import 'package:aws_client/iam_2010_05_08.dart';
+
+void main() async {
+  final iam = Iam();
+
+  final users = await iam.listUsers();
+  print(users.users.length);
+
+  iam.close();
+}
+```
+
+##### SES
+```dart
+import 'package:aws_client/ses_v2_2019_09_27.dart';
+
+void main() async {
+  final api = SesV2(region: 'us-west-1');
+
+  final response = await api.sendEmail(
+    content: EmailContent(
+      simple: Message(
+        body: Body(text: Content(data: 'Hello, here is a message')),
+        subject: Content(data: 'An email from SES'),
+      ),
+    ),
+    destination: Destination(toAddresses: ['user@email.com']),
+    fromEmailAddress: 'from@email.com',
+  );
+  print(response.messageId);
+
+  api.close();
+}
+```
 
 ## How to contribute
 

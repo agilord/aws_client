@@ -13,4 +13,4 @@ dependencies:
   shared_aws_api: ^1.2.0
 
 dev_dependencies:
-  lints: ^1.0.0
+  lints:
