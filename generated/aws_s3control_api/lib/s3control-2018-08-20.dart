@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use_from_same_package
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // ignore_for_file: unused_import
@@ -4536,7 +4537,7 @@ class AccessPoint {
       bucketAccountId: _s.extractXmlStringValue(elem, 'BucketAccountId'),
       vpcConfiguration: _s
           .extractXmlChild(elem, 'VpcConfiguration')
-          ?.let((e) => VpcConfiguration.fromXml(e)),
+          ?.let(VpcConfiguration.fromXml),
     );
   }
 }
@@ -4578,16 +4579,16 @@ class AccountLevel {
           BucketLevel.fromXml(_s.extractXmlChild(elem, 'BucketLevel')!),
       activityMetrics: _s
           .extractXmlChild(elem, 'ActivityMetrics')
-          ?.let((e) => ActivityMetrics.fromXml(e)),
+          ?.let(ActivityMetrics.fromXml),
       advancedCostOptimizationMetrics: _s
           .extractXmlChild(elem, 'AdvancedCostOptimizationMetrics')
-          ?.let((e) => AdvancedCostOptimizationMetrics.fromXml(e)),
+          ?.let(AdvancedCostOptimizationMetrics.fromXml),
       advancedDataProtectionMetrics: _s
           .extractXmlChild(elem, 'AdvancedDataProtectionMetrics')
-          ?.let((e) => AdvancedDataProtectionMetrics.fromXml(e)),
+          ?.let(AdvancedDataProtectionMetrics.fromXml),
       detailedStatusCodesMetrics: _s
           .extractXmlChild(elem, 'DetailedStatusCodesMetrics')
-          ?.let((e) => DetailedStatusCodesMetrics.fromXml(e)),
+          ?.let(DetailedStatusCodesMetrics.fromXml),
     );
   }
 
@@ -4807,12 +4808,12 @@ class AsyncOperation {
           _s.extractXmlStringValue(elem, 'Operation')?.toAsyncOperationName(),
       requestParameters: _s
           .extractXmlChild(elem, 'RequestParameters')
-          ?.let((e) => AsyncRequestParameters.fromXml(e)),
+          ?.let(AsyncRequestParameters.fromXml),
       requestStatus: _s.extractXmlStringValue(elem, 'RequestStatus'),
       requestTokenARN: _s.extractXmlStringValue(elem, 'RequestTokenARN'),
       responseDetails: _s
           .extractXmlChild(elem, 'ResponseDetails')
-          ?.let((e) => AsyncResponseDetails.fromXml(e)),
+          ?.let(AsyncResponseDetails.fromXml),
     );
   }
 }
@@ -4878,13 +4879,13 @@ class AsyncRequestParameters {
     return AsyncRequestParameters(
       createMultiRegionAccessPointRequest: _s
           .extractXmlChild(elem, 'CreateMultiRegionAccessPointRequest')
-          ?.let((e) => CreateMultiRegionAccessPointInput.fromXml(e)),
+          ?.let(CreateMultiRegionAccessPointInput.fromXml),
       deleteMultiRegionAccessPointRequest: _s
           .extractXmlChild(elem, 'DeleteMultiRegionAccessPointRequest')
-          ?.let((e) => DeleteMultiRegionAccessPointInput.fromXml(e)),
+          ?.let(DeleteMultiRegionAccessPointInput.fromXml),
       putMultiRegionAccessPointPolicyRequest: _s
           .extractXmlChild(elem, 'PutMultiRegionAccessPointPolicyRequest')
-          ?.let((e) => PutMultiRegionAccessPointPolicyInput.fromXml(e)),
+          ?.let(PutMultiRegionAccessPointPolicyInput.fromXml),
     );
   }
 }
@@ -4906,10 +4907,10 @@ class AsyncResponseDetails {
     return AsyncResponseDetails(
       errorDetails: _s
           .extractXmlChild(elem, 'ErrorDetails')
-          ?.let((e) => AsyncErrorDetails.fromXml(e)),
+          ?.let(AsyncErrorDetails.fromXml),
       multiRegionAccessPointDetails: _s
           .extractXmlChild(elem, 'MultiRegionAccessPointDetails')
-          ?.let((e) => MultiRegionAccessPointsAsyncResponse.fromXml(e)),
+          ?.let(MultiRegionAccessPointsAsyncResponse.fromXml),
     );
   }
 }
@@ -5028,19 +5029,18 @@ class BucketLevel {
     return BucketLevel(
       activityMetrics: _s
           .extractXmlChild(elem, 'ActivityMetrics')
-          ?.let((e) => ActivityMetrics.fromXml(e)),
+          ?.let(ActivityMetrics.fromXml),
       advancedCostOptimizationMetrics: _s
           .extractXmlChild(elem, 'AdvancedCostOptimizationMetrics')
-          ?.let((e) => AdvancedCostOptimizationMetrics.fromXml(e)),
+          ?.let(AdvancedCostOptimizationMetrics.fromXml),
       advancedDataProtectionMetrics: _s
           .extractXmlChild(elem, 'AdvancedDataProtectionMetrics')
-          ?.let((e) => AdvancedDataProtectionMetrics.fromXml(e)),
+          ?.let(AdvancedDataProtectionMetrics.fromXml),
       detailedStatusCodesMetrics: _s
           .extractXmlChild(elem, 'DetailedStatusCodesMetrics')
-          ?.let((e) => DetailedStatusCodesMetrics.fromXml(e)),
-      prefixLevel: _s
-          .extractXmlChild(elem, 'PrefixLevel')
-          ?.let((e) => PrefixLevel.fromXml(e)),
+          ?.let(DetailedStatusCodesMetrics.fromXml),
+      prefixLevel:
+          _s.extractXmlChild(elem, 'PrefixLevel')?.let(PrefixLevel.fromXml),
     );
   }
 
@@ -5262,7 +5262,7 @@ class CreateAccessPointForObjectLambdaResult {
     return CreateAccessPointForObjectLambdaResult(
       alias: _s
           .extractXmlChild(elem, 'Alias')
-          ?.let((e) => ObjectLambdaAccessPointAlias.fromXml(e)),
+          ?.let(ObjectLambdaAccessPointAlias.fromXml),
       objectLambdaAccessPointArn:
           _s.extractXmlStringValue(elem, 'ObjectLambdaAccessPointArn'),
     );
@@ -5562,11 +5562,11 @@ class CreateMultiRegionAccessPointInput {
       regions: _s
           .extractXmlChild(elem, 'Regions')!
           .findElements('Region')
-          .map((c) => Region.fromXml(c))
+          .map(Region.fromXml)
           .toList(),
       publicAccessBlock: _s
           .extractXmlChild(elem, 'PublicAccessBlock')
-          ?.let((e) => PublicAccessBlockConfiguration.fromXml(e)),
+          ?.let(PublicAccessBlockConfiguration.fromXml),
     );
   }
 
@@ -5832,8 +5832,7 @@ class DescribeJobResult {
   });
   factory DescribeJobResult.fromXml(_s.XmlElement elem) {
     return DescribeJobResult(
-      job:
-          _s.extractXmlChild(elem, 'Job')?.let((e) => JobDescriptor.fromXml(e)),
+      job: _s.extractXmlChild(elem, 'Job')?.let(JobDescriptor.fromXml),
     );
   }
 }
@@ -5850,7 +5849,7 @@ class DescribeMultiRegionAccessPointOperationResult {
     return DescribeMultiRegionAccessPointOperationResult(
       asyncOperation: _s
           .extractXmlChild(elem, 'AsyncOperation')
-          ?.let((e) => AsyncOperation.fromXml(e)),
+          ?.let(AsyncOperation.fromXml),
     );
   }
 }
@@ -5920,16 +5919,15 @@ class Destination {
       bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
       accessControlTranslation: _s
           .extractXmlChild(elem, 'AccessControlTranslation')
-          ?.let((e) => AccessControlTranslation.fromXml(e)),
+          ?.let(AccessControlTranslation.fromXml),
       account: _s.extractXmlStringValue(elem, 'Account'),
       encryptionConfiguration: _s
           .extractXmlChild(elem, 'EncryptionConfiguration')
-          ?.let((e) => EncryptionConfiguration.fromXml(e)),
-      metrics:
-          _s.extractXmlChild(elem, 'Metrics')?.let((e) => Metrics.fromXml(e)),
+          ?.let(EncryptionConfiguration.fromXml),
+      metrics: _s.extractXmlChild(elem, 'Metrics')?.let(Metrics.fromXml),
       replicationTime: _s
           .extractXmlChild(elem, 'ReplicationTime')
-          ?.let((e) => ReplicationTime.fromXml(e)),
+          ?.let(ReplicationTime.fromXml),
       storageClass: _s
           .extractXmlStringValue(elem, 'StorageClass')
           ?.toReplicationStorageClass(),
@@ -6250,12 +6248,9 @@ class GeneratedManifestEncryption {
   });
   factory GeneratedManifestEncryption.fromXml(_s.XmlElement elem) {
     return GeneratedManifestEncryption(
-      ssekms: _s
-          .extractXmlChild(elem, 'SSE-KMS')
-          ?.let((e) => SSEKMSEncryption.fromXml(e)),
-      sses3: _s
-          .extractXmlChild(elem, 'SSE-S3')
-          ?.let((e) => SSES3Encryption.fromXml(e)),
+      ssekms:
+          _s.extractXmlChild(elem, 'SSE-KMS')?.let(SSEKMSEncryption.fromXml),
+      sses3: _s.extractXmlChild(elem, 'SSE-S3')?.let(SSES3Encryption.fromXml),
     );
   }
 
@@ -6312,7 +6307,7 @@ class GetAccessPointConfigurationForObjectLambdaResult {
     return GetAccessPointConfigurationForObjectLambdaResult(
       configuration: _s
           .extractXmlChild(elem, 'Configuration')
-          ?.let((e) => ObjectLambdaConfiguration.fromXml(e)),
+          ?.let(ObjectLambdaConfiguration.fromXml),
     );
   }
 }
@@ -6341,12 +6336,12 @@ class GetAccessPointForObjectLambdaResult {
     return GetAccessPointForObjectLambdaResult(
       alias: _s
           .extractXmlChild(elem, 'Alias')
-          ?.let((e) => ObjectLambdaAccessPointAlias.fromXml(e)),
+          ?.let(ObjectLambdaAccessPointAlias.fromXml),
       creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate'),
       name: _s.extractXmlStringValue(elem, 'Name'),
       publicAccessBlockConfiguration: _s
           .extractXmlChild(elem, 'PublicAccessBlockConfiguration')
-          ?.let((e) => PublicAccessBlockConfiguration.fromXml(e)),
+          ?.let(PublicAccessBlockConfiguration.fromXml),
     );
   }
 }
@@ -6389,9 +6384,8 @@ class GetAccessPointPolicyStatusForObjectLambdaResult {
   factory GetAccessPointPolicyStatusForObjectLambdaResult.fromXml(
       _s.XmlElement elem) {
     return GetAccessPointPolicyStatusForObjectLambdaResult(
-      policyStatus: _s
-          .extractXmlChild(elem, 'PolicyStatus')
-          ?.let((e) => PolicyStatus.fromXml(e)),
+      policyStatus:
+          _s.extractXmlChild(elem, 'PolicyStatus')?.let(PolicyStatus.fromXml),
     );
   }
 }
@@ -6405,9 +6399,8 @@ class GetAccessPointPolicyStatusResult {
   });
   factory GetAccessPointPolicyStatusResult.fromXml(_s.XmlElement elem) {
     return GetAccessPointPolicyStatusResult(
-      policyStatus: _s
-          .extractXmlChild(elem, 'PolicyStatus')
-          ?.let((e) => PolicyStatus.fromXml(e)),
+      policyStatus:
+          _s.extractXmlChild(elem, 'PolicyStatus')?.let(PolicyStatus.fromXml),
     );
   }
 }
@@ -6487,10 +6480,10 @@ class GetAccessPointResult {
           _s.extractXmlStringValue(elem, 'NetworkOrigin')?.toNetworkOrigin(),
       publicAccessBlockConfiguration: _s
           .extractXmlChild(elem, 'PublicAccessBlockConfiguration')
-          ?.let((e) => PublicAccessBlockConfiguration.fromXml(e)),
+          ?.let(PublicAccessBlockConfiguration.fromXml),
       vpcConfiguration: _s
           .extractXmlChild(elem, 'VpcConfiguration')
-          ?.let((e) => VpcConfiguration.fromXml(e)),
+          ?.let(VpcConfiguration.fromXml),
     );
   }
 }
@@ -6504,10 +6497,8 @@ class GetBucketLifecycleConfigurationResult {
   });
   factory GetBucketLifecycleConfigurationResult.fromXml(_s.XmlElement elem) {
     return GetBucketLifecycleConfigurationResult(
-      rules: _s.extractXmlChild(elem, 'Rules')?.let((elem) => elem
-          .findElements('Rule')
-          .map((c) => LifecycleRule.fromXml(c))
-          .toList()),
+      rules: _s.extractXmlChild(elem, 'Rules')?.let((elem) =>
+          elem.findElements('Rule').map(LifecycleRule.fromXml).toList()),
     );
   }
 }
@@ -6539,7 +6530,7 @@ class GetBucketReplicationResult {
     return GetBucketReplicationResult(
       replicationConfiguration: _s
           .extractXmlChild(elem, 'ReplicationConfiguration')
-          ?.let((e) => ReplicationConfiguration.fromXml(e)),
+          ?.let(ReplicationConfiguration.fromXml),
     );
   }
 }
@@ -6581,7 +6572,7 @@ class GetBucketTaggingResult {
       tagSet: _s
           .extractXmlChild(elem, 'TagSet')!
           .findElements('member')
-          .map((c) => S3Tag.fromXml(c))
+          .map(S3Tag.fromXml)
           .toList(),
     );
   }
@@ -6620,8 +6611,8 @@ class GetJobTaggingResult {
   });
   factory GetJobTaggingResult.fromXml(_s.XmlElement elem) {
     return GetJobTaggingResult(
-      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('member').map((c) => S3Tag.fromXml(c)).toList()),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let(
+          (elem) => elem.findElements('member').map(S3Tag.fromXml).toList()),
     );
   }
 }
@@ -6637,7 +6628,7 @@ class GetMultiRegionAccessPointPolicyResult {
     return GetMultiRegionAccessPointPolicyResult(
       policy: _s
           .extractXmlChild(elem, 'Policy')
-          ?.let((e) => MultiRegionAccessPointPolicyDocument.fromXml(e)),
+          ?.let(MultiRegionAccessPointPolicyDocument.fromXml),
     );
   }
 }
@@ -6651,9 +6642,8 @@ class GetMultiRegionAccessPointPolicyStatusResult {
   factory GetMultiRegionAccessPointPolicyStatusResult.fromXml(
       _s.XmlElement elem) {
     return GetMultiRegionAccessPointPolicyStatusResult(
-      established: _s
-          .extractXmlChild(elem, 'Established')
-          ?.let((e) => PolicyStatus.fromXml(e)),
+      established:
+          _s.extractXmlChild(elem, 'Established')?.let(PolicyStatus.fromXml),
     );
   }
 }
@@ -6670,7 +6660,7 @@ class GetMultiRegionAccessPointResult {
     return GetMultiRegionAccessPointResult(
       accessPoint: _s
           .extractXmlChild(elem, 'AccessPoint')
-          ?.let((e) => MultiRegionAccessPointReport.fromXml(e)),
+          ?.let(MultiRegionAccessPointReport.fromXml),
     );
   }
 }
@@ -6693,7 +6683,7 @@ class GetMultiRegionAccessPointRoutesResult {
       mrap: _s.extractXmlStringValue(elem, 'Mrap'),
       routes: _s.extractXmlChild(elem, 'Routes')?.let((elem) => elem
           .findElements('Route')
-          .map((c) => MultiRegionAccessPointRoute.fromXml(c))
+          .map(MultiRegionAccessPointRoute.fromXml)
           .toList()),
     );
   }
@@ -6727,10 +6717,8 @@ class GetStorageLensConfigurationTaggingResult {
   });
   factory GetStorageLensConfigurationTaggingResult.fromXml(_s.XmlElement elem) {
     return GetStorageLensConfigurationTaggingResult(
-      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) => elem
-          .findElements('Tag')
-          .map((c) => StorageLensTag.fromXml(c))
-          .toList()),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
+          elem.findElements('Tag').map(StorageLensTag.fromXml).toList()),
     );
   }
 }
@@ -6883,30 +6871,23 @@ class JobDescriptor {
       creationTime: _s.extractXmlDateTimeValue(elem, 'CreationTime'),
       description: _s.extractXmlStringValue(elem, 'Description'),
       failureReasons: _s.extractXmlChild(elem, 'FailureReasons')?.let((elem) =>
-          elem
-              .findElements('member')
-              .map((c) => JobFailure.fromXml(c))
-              .toList()),
+          elem.findElements('member').map(JobFailure.fromXml).toList()),
       generatedManifestDescriptor: _s
           .extractXmlChild(elem, 'GeneratedManifestDescriptor')
-          ?.let((e) => S3GeneratedManifestDescriptor.fromXml(e)),
+          ?.let(S3GeneratedManifestDescriptor.fromXml),
       jobArn: _s.extractXmlStringValue(elem, 'JobArn'),
       jobId: _s.extractXmlStringValue(elem, 'JobId'),
-      manifest: _s
-          .extractXmlChild(elem, 'Manifest')
-          ?.let((e) => JobManifest.fromXml(e)),
+      manifest: _s.extractXmlChild(elem, 'Manifest')?.let(JobManifest.fromXml),
       manifestGenerator: _s
           .extractXmlChild(elem, 'ManifestGenerator')
-          ?.let((e) => JobManifestGenerator.fromXml(e)),
-      operation: _s
-          .extractXmlChild(elem, 'Operation')
-          ?.let((e) => JobOperation.fromXml(e)),
+          ?.let(JobManifestGenerator.fromXml),
+      operation:
+          _s.extractXmlChild(elem, 'Operation')?.let(JobOperation.fromXml),
       priority: _s.extractXmlIntValue(elem, 'Priority'),
       progressSummary: _s
           .extractXmlChild(elem, 'ProgressSummary')
-          ?.let((e) => JobProgressSummary.fromXml(e)),
-      report:
-          _s.extractXmlChild(elem, 'Report')?.let((e) => JobReport.fromXml(e)),
+          ?.let(JobProgressSummary.fromXml),
+      report: _s.extractXmlChild(elem, 'Report')?.let(JobReport.fromXml),
       roleArn: _s.extractXmlStringValue(elem, 'RoleArn'),
       status: _s.extractXmlStringValue(elem, 'Status')?.toJobStatus(),
       statusUpdateReason: _s.extractXmlStringValue(elem, 'StatusUpdateReason'),
@@ -6988,7 +6969,7 @@ class JobListDescriptor {
       priority: _s.extractXmlIntValue(elem, 'Priority'),
       progressSummary: _s
           .extractXmlChild(elem, 'ProgressSummary')
-          ?.let((e) => JobProgressSummary.fromXml(e)),
+          ?.let(JobProgressSummary.fromXml),
       status: _s.extractXmlStringValue(elem, 'Status')?.toJobStatus(),
       terminationDate: _s.extractXmlDateTimeValue(elem, 'TerminationDate'),
     );
@@ -7112,7 +7093,7 @@ class JobManifestGenerator {
     return JobManifestGenerator(
       s3JobManifestGenerator: _s
           .extractXmlChild(elem, 'S3JobManifestGenerator')
-          ?.let((e) => S3JobManifestGenerator.fromXml(e)),
+          ?.let(S3JobManifestGenerator.fromXml),
     );
   }
 
@@ -7350,31 +7331,31 @@ class JobOperation {
     return JobOperation(
       lambdaInvoke: _s
           .extractXmlChild(elem, 'LambdaInvoke')
-          ?.let((e) => LambdaInvokeOperation.fromXml(e)),
+          ?.let(LambdaInvokeOperation.fromXml),
       s3DeleteObjectTagging: _s
           .extractXmlChild(elem, 'S3DeleteObjectTagging')
-          ?.let((e) => S3DeleteObjectTaggingOperation.fromXml(e)),
+          ?.let(S3DeleteObjectTaggingOperation.fromXml),
       s3InitiateRestoreObject: _s
           .extractXmlChild(elem, 'S3InitiateRestoreObject')
-          ?.let((e) => S3InitiateRestoreObjectOperation.fromXml(e)),
+          ?.let(S3InitiateRestoreObjectOperation.fromXml),
       s3PutObjectAcl: _s
           .extractXmlChild(elem, 'S3PutObjectAcl')
-          ?.let((e) => S3SetObjectAclOperation.fromXml(e)),
+          ?.let(S3SetObjectAclOperation.fromXml),
       s3PutObjectCopy: _s
           .extractXmlChild(elem, 'S3PutObjectCopy')
-          ?.let((e) => S3CopyObjectOperation.fromXml(e)),
+          ?.let(S3CopyObjectOperation.fromXml),
       s3PutObjectLegalHold: _s
           .extractXmlChild(elem, 'S3PutObjectLegalHold')
-          ?.let((e) => S3SetObjectLegalHoldOperation.fromXml(e)),
+          ?.let(S3SetObjectLegalHoldOperation.fromXml),
       s3PutObjectRetention: _s
           .extractXmlChild(elem, 'S3PutObjectRetention')
-          ?.let((e) => S3SetObjectRetentionOperation.fromXml(e)),
+          ?.let(S3SetObjectRetentionOperation.fromXml),
       s3PutObjectTagging: _s
           .extractXmlChild(elem, 'S3PutObjectTagging')
-          ?.let((e) => S3SetObjectTaggingOperation.fromXml(e)),
+          ?.let(S3SetObjectTaggingOperation.fromXml),
       s3ReplicateObject: _s
           .extractXmlChild(elem, 'S3ReplicateObject')
-          ?.let((e) => S3ReplicateObjectOperation.fromXml(e)),
+          ?.let(S3ReplicateObjectOperation.fromXml),
     );
   }
 
@@ -7442,8 +7423,7 @@ class JobProgressSummary {
       numberOfTasksFailed: _s.extractXmlIntValue(elem, 'NumberOfTasksFailed'),
       numberOfTasksSucceeded:
           _s.extractXmlIntValue(elem, 'NumberOfTasksSucceeded'),
-      timers:
-          _s.extractXmlChild(elem, 'Timers')?.let((e) => JobTimers.fromXml(e)),
+      timers: _s.extractXmlChild(elem, 'Timers')?.let(JobTimers.fromXml),
       totalNumberOfTasks: _s.extractXmlIntValue(elem, 'TotalNumberOfTasks'),
     );
   }
@@ -7834,27 +7814,24 @@ class LifecycleRule {
       status: _s.extractXmlStringValue(elem, 'Status')!.toExpirationStatus(),
       abortIncompleteMultipartUpload: _s
           .extractXmlChild(elem, 'AbortIncompleteMultipartUpload')
-          ?.let((e) => AbortIncompleteMultipartUpload.fromXml(e)),
+          ?.let(AbortIncompleteMultipartUpload.fromXml),
       expiration: _s
           .extractXmlChild(elem, 'Expiration')
-          ?.let((e) => LifecycleExpiration.fromXml(e)),
-      filter: _s
-          .extractXmlChild(elem, 'Filter')
-          ?.let((e) => LifecycleRuleFilter.fromXml(e)),
+          ?.let(LifecycleExpiration.fromXml),
+      filter:
+          _s.extractXmlChild(elem, 'Filter')?.let(LifecycleRuleFilter.fromXml),
       id: _s.extractXmlStringValue(elem, 'ID'),
       noncurrentVersionExpiration: _s
           .extractXmlChild(elem, 'NoncurrentVersionExpiration')
-          ?.let((e) => NoncurrentVersionExpiration.fromXml(e)),
+          ?.let(NoncurrentVersionExpiration.fromXml),
       noncurrentVersionTransitions: _s
           .extractXmlChild(elem, 'NoncurrentVersionTransitions')
           ?.let((elem) => elem
               .findElements('NoncurrentVersionTransition')
-              .map((c) => NoncurrentVersionTransition.fromXml(c))
+              .map(NoncurrentVersionTransition.fromXml)
               .toList()),
-      transitions: _s.extractXmlChild(elem, 'Transitions')?.let((elem) => elem
-          .findElements('Transition')
-          .map((c) => Transition.fromXml(c))
-          .toList()),
+      transitions: _s.extractXmlChild(elem, 'Transitions')?.let((elem) =>
+          elem.findElements('Transition').map(Transition.fromXml).toList()),
     );
   }
 
@@ -7924,8 +7901,8 @@ class LifecycleRuleAndOperator {
           _s.extractXmlIntValue(elem, 'ObjectSizeGreaterThan'),
       objectSizeLessThan: _s.extractXmlIntValue(elem, 'ObjectSizeLessThan'),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
-      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('member').map((c) => S3Tag.fromXml(c)).toList()),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let(
+          (elem) => elem.findElements('member').map(S3Tag.fromXml).toList()),
     );
   }
 
@@ -7988,12 +7965,12 @@ class LifecycleRuleFilter {
     return LifecycleRuleFilter(
       and: _s
           .extractXmlChild(elem, 'And')
-          ?.let((e) => LifecycleRuleAndOperator.fromXml(e)),
+          ?.let(LifecycleRuleAndOperator.fromXml),
       objectSizeGreaterThan:
           _s.extractXmlIntValue(elem, 'ObjectSizeGreaterThan'),
       objectSizeLessThan: _s.extractXmlIntValue(elem, 'ObjectSizeLessThan'),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
-      tag: _s.extractXmlChild(elem, 'Tag')?.let((e) => S3Tag.fromXml(e)),
+      tag: _s.extractXmlChild(elem, 'Tag')?.let(S3Tag.fromXml),
     );
   }
 
@@ -8043,7 +8020,7 @@ class ListAccessPointsForObjectLambdaResult {
           .extractXmlChild(elem, 'ObjectLambdaAccessPointList')
           ?.let((elem) => elem
               .findElements('ObjectLambdaAccessPoint')
-              .map((c) => ObjectLambdaAccessPoint.fromXml(c))
+              .map(ObjectLambdaAccessPoint.fromXml)
               .toList()),
     );
   }
@@ -8069,7 +8046,7 @@ class ListAccessPointsResult {
       accessPointList: _s.extractXmlChild(elem, 'AccessPointList')?.let(
           (elem) => elem
               .findElements('AccessPoint')
-              .map((c) => AccessPoint.fromXml(c))
+              .map(AccessPoint.fromXml)
               .toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
@@ -8091,10 +8068,8 @@ class ListJobsResult {
   });
   factory ListJobsResult.fromXml(_s.XmlElement elem) {
     return ListJobsResult(
-      jobs: _s.extractXmlChild(elem, 'Jobs')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => JobListDescriptor.fromXml(c))
-          .toList()),
+      jobs: _s.extractXmlChild(elem, 'Jobs')?.let((elem) =>
+          elem.findElements('member').map(JobListDescriptor.fromXml).toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
@@ -8118,7 +8093,7 @@ class ListMultiRegionAccessPointsResult {
     return ListMultiRegionAccessPointsResult(
       accessPoints: _s.extractXmlChild(elem, 'AccessPoints')?.let((elem) => elem
           .findElements('AccessPoint')
-          .map((c) => MultiRegionAccessPointReport.fromXml(c))
+          .map(MultiRegionAccessPointReport.fromXml)
           .toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
@@ -8145,7 +8120,7 @@ class ListRegionalBucketsResult {
       regionalBucketList: _s.extractXmlChild(elem, 'RegionalBucketList')?.let(
           (elem) => elem
               .findElements('RegionalBucket')
-              .map((c) => RegionalBucket.fromXml(c))
+              .map(RegionalBucket.fromXml)
               .toList()),
     );
   }
@@ -8203,7 +8178,7 @@ class ListStorageLensConfigurationsResult {
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       storageLensConfigurationList: elem
           .findElements('StorageLensConfiguration')
-          .map((c) => ListStorageLensConfigurationEntry.fromXml(c))
+          .map(ListStorageLensConfigurationEntry.fromXml)
           .toList(),
     );
   }
@@ -8286,7 +8261,7 @@ class Metrics {
       status: _s.extractXmlStringValue(elem, 'Status')!.toMetricsStatus(),
       eventThreshold: _s
           .extractXmlChild(elem, 'EventThreshold')
-          ?.let((e) => ReplicationTimeValue.fromXml(e)),
+          ?.let(ReplicationTimeValue.fromXml),
     );
   }
 
@@ -8357,10 +8332,10 @@ class MultiRegionAccessPointPolicyDocument {
     return MultiRegionAccessPointPolicyDocument(
       established: _s
           .extractXmlChild(elem, 'Established')
-          ?.let((e) => EstablishedMultiRegionAccessPointPolicy.fromXml(e)),
+          ?.let(EstablishedMultiRegionAccessPointPolicy.fromXml),
       proposed: _s
           .extractXmlChild(elem, 'Proposed')
-          ?.let((e) => ProposedMultiRegionAccessPointPolicy.fromXml(e)),
+          ?.let(ProposedMultiRegionAccessPointPolicy.fromXml),
     );
   }
 }
@@ -8432,11 +8407,9 @@ class MultiRegionAccessPointReport {
       name: _s.extractXmlStringValue(elem, 'Name'),
       publicAccessBlock: _s
           .extractXmlChild(elem, 'PublicAccessBlock')
-          ?.let((e) => PublicAccessBlockConfiguration.fromXml(e)),
-      regions: _s.extractXmlChild(elem, 'Regions')?.let((elem) => elem
-          .findElements('Region')
-          .map((c) => RegionReport.fromXml(c))
-          .toList()),
+          ?.let(PublicAccessBlockConfiguration.fromXml),
+      regions: _s.extractXmlChild(elem, 'Regions')?.let((elem) =>
+          elem.findElements('Region').map(RegionReport.fromXml).toList()),
       status: _s
           .extractXmlStringValue(elem, 'Status')
           ?.toMultiRegionAccessPointStatus(),
@@ -8581,7 +8554,7 @@ class MultiRegionAccessPointsAsyncResponse {
     return MultiRegionAccessPointsAsyncResponse(
       regions: _s.extractXmlChild(elem, 'Regions')?.let((elem) => elem
           .findElements('Region')
-          .map((c) => MultiRegionAccessPointRegionalResponse.fromXml(c))
+          .map(MultiRegionAccessPointRegionalResponse.fromXml)
           .toList()),
     );
   }
@@ -8733,7 +8706,7 @@ class ObjectLambdaAccessPoint {
       name: _s.extractXmlStringValue(elem, 'Name')!,
       alias: _s
           .extractXmlChild(elem, 'Alias')
-          ?.let((e) => ObjectLambdaAccessPointAlias.fromXml(e)),
+          ?.let(ObjectLambdaAccessPointAlias.fromXml),
       objectLambdaAccessPointArn:
           _s.extractXmlStringValue(elem, 'ObjectLambdaAccessPointArn'),
     );
@@ -8869,7 +8842,7 @@ class ObjectLambdaConfiguration {
       transformationConfigurations: _s
           .extractXmlChild(elem, 'TransformationConfigurations')!
           .findElements('TransformationConfiguration')
-          .map((c) => ObjectLambdaTransformationConfiguration.fromXml(c))
+          .map(ObjectLambdaTransformationConfiguration.fromXml)
           .toList(),
       allowedFeatures: _s.extractXmlChild(elem, 'AllowedFeatures')?.let(
           (elem) => _s
@@ -8926,7 +8899,7 @@ class ObjectLambdaContentTransformation {
     return ObjectLambdaContentTransformation(
       awsLambda: _s
           .extractXmlChild(elem, 'AwsLambda')
-          ?.let((e) => AwsLambdaTransformation.fromXml(e)),
+          ?.let(AwsLambdaTransformation.fromXml),
     );
   }
 
@@ -9208,7 +9181,7 @@ class PrefixLevelStorageMetrics {
       isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled'),
       selectionCriteria: _s
           .extractXmlChild(elem, 'SelectionCriteria')
-          ?.let((e) => SelectionCriteria.fromXml(e)),
+          ?.let(SelectionCriteria.fromXml),
     );
   }
 
@@ -9961,7 +9934,7 @@ class ReplicationConfiguration {
       rules: _s
           .extractXmlChild(elem, 'Rules')!
           .findElements('Rule')
-          .map((c) => ReplicationRule.fromXml(c))
+          .map(ReplicationRule.fromXml)
           .toList(),
     );
   }
@@ -10075,19 +10048,19 @@ class ReplicationRule {
           _s.extractXmlStringValue(elem, 'Status')!.toReplicationRuleStatus(),
       deleteMarkerReplication: _s
           .extractXmlChild(elem, 'DeleteMarkerReplication')
-          ?.let((e) => DeleteMarkerReplication.fromXml(e)),
+          ?.let(DeleteMarkerReplication.fromXml),
       existingObjectReplication: _s
           .extractXmlChild(elem, 'ExistingObjectReplication')
-          ?.let((e) => ExistingObjectReplication.fromXml(e)),
+          ?.let(ExistingObjectReplication.fromXml),
       filter: _s
           .extractXmlChild(elem, 'Filter')
-          ?.let((e) => ReplicationRuleFilter.fromXml(e)),
+          ?.let(ReplicationRuleFilter.fromXml),
       id: _s.extractXmlStringValue(elem, 'ID'),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
       priority: _s.extractXmlIntValue(elem, 'Priority'),
       sourceSelectionCriteria: _s
           .extractXmlChild(elem, 'SourceSelectionCriteria')
-          ?.let((e) => SourceSelectionCriteria.fromXml(e)),
+          ?.let(SourceSelectionCriteria.fromXml),
     );
   }
 
@@ -10159,8 +10132,8 @@ class ReplicationRuleAndOperator {
   factory ReplicationRuleAndOperator.fromXml(_s.XmlElement elem) {
     return ReplicationRuleAndOperator(
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
-      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('member').map((c) => S3Tag.fromXml(c)).toList()),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let(
+          (elem) => elem.findElements('member').map(S3Tag.fromXml).toList()),
     );
   }
 
@@ -10225,9 +10198,9 @@ class ReplicationRuleFilter {
     return ReplicationRuleFilter(
       and: _s
           .extractXmlChild(elem, 'And')
-          ?.let((e) => ReplicationRuleAndOperator.fromXml(e)),
+          ?.let(ReplicationRuleAndOperator.fromXml),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
-      tag: _s.extractXmlChild(elem, 'Tag')?.let((e) => S3Tag.fromXml(e)),
+      tag: _s.extractXmlChild(elem, 'Tag')?.let(S3Tag.fromXml),
     );
   }
 
@@ -10532,8 +10505,8 @@ class S3AccessControlList {
   factory S3AccessControlList.fromXml(_s.XmlElement elem) {
     return S3AccessControlList(
       owner: S3ObjectOwner.fromXml(_s.extractXmlChild(elem, 'Owner')!),
-      grants: _s.extractXmlChild(elem, 'Grants')?.let((elem) =>
-          elem.findElements('member').map((c) => S3Grant.fromXml(c)).toList()),
+      grants: _s.extractXmlChild(elem, 'Grants')?.let(
+          (elem) => elem.findElements('member').map(S3Grant.fromXml).toList()),
     );
   }
 
@@ -10573,7 +10546,7 @@ class S3AccessControlPolicy {
     return S3AccessControlPolicy(
       accessControlList: _s
           .extractXmlChild(elem, 'AccessControlList')
-          ?.let((e) => S3AccessControlList.fromXml(e)),
+          ?.let(S3AccessControlList.fromXml),
       cannedAccessControlList: _s
           .extractXmlStringValue(elem, 'CannedAccessControlList')
           ?.toS3CannedAccessControlList(),
@@ -10644,7 +10617,7 @@ class S3BucketDestination {
           .toOutputSchemaVersion(),
       encryption: _s
           .extractXmlChild(elem, 'Encryption')
-          ?.let((e) => StorageLensDataExportEncryption.fromXml(e)),
+          ?.let(StorageLensDataExportEncryption.fromXml),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
     );
   }
@@ -10871,10 +10844,7 @@ class S3CopyObjectOperation {
   factory S3CopyObjectOperation.fromXml(_s.XmlElement elem) {
     return S3CopyObjectOperation(
       accessControlGrants: _s.extractXmlChild(elem, 'AccessControlGrants')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => S3Grant.fromXml(c))
-              .toList()),
+          (elem) => elem.findElements('member').map(S3Grant.fromXml).toList()),
       bucketKeyEnabled: _s.extractXmlBoolValue(elem, 'BucketKeyEnabled'),
       cannedAccessControlList: _s
           .extractXmlStringValue(elem, 'CannedAccessControlList')
@@ -10889,12 +10859,9 @@ class S3CopyObjectOperation {
           _s.extractXmlDateTimeValue(elem, 'ModifiedSinceConstraint'),
       newObjectMetadata: _s
           .extractXmlChild(elem, 'NewObjectMetadata')
-          ?.let((e) => S3ObjectMetadata.fromXml(e)),
+          ?.let(S3ObjectMetadata.fromXml),
       newObjectTagging: _s.extractXmlChild(elem, 'NewObjectTagging')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => S3Tag.fromXml(c))
-              .toList()),
+          (elem) => elem.findElements('member').map(S3Tag.fromXml).toList()),
       objectLockLegalHoldStatus: _s
           .extractXmlStringValue(elem, 'ObjectLockLegalHoldStatus')
           ?.toS3ObjectLockLegalHoldStatus(),
@@ -11034,7 +11001,7 @@ class S3GeneratedManifestDescriptor {
           _s.extractXmlStringValue(elem, 'Format')?.toGeneratedManifestFormat(),
       location: _s
           .extractXmlChild(elem, 'Location')
-          ?.let((e) => JobManifestLocation.fromXml(e)),
+          ?.let(JobManifestLocation.fromXml),
     );
   }
 }
@@ -11081,8 +11048,7 @@ class S3Grant {
   });
   factory S3Grant.fromXml(_s.XmlElement elem) {
     return S3Grant(
-      grantee:
-          _s.extractXmlChild(elem, 'Grantee')?.let((e) => S3Grantee.fromXml(e)),
+      grantee: _s.extractXmlChild(elem, 'Grantee')?.let(S3Grantee.fromXml),
       permission:
           _s.extractXmlStringValue(elem, 'Permission')?.toS3Permission(),
     );
@@ -11287,10 +11253,10 @@ class S3JobManifestGenerator {
           _s.extractXmlStringValue(elem, 'ExpectedBucketOwner'),
       filter: _s
           .extractXmlChild(elem, 'Filter')
-          ?.let((e) => JobManifestGeneratorFilter.fromXml(e)),
+          ?.let(JobManifestGeneratorFilter.fromXml),
       manifestOutputLocation: _s
           .extractXmlChild(elem, 'ManifestOutputLocation')
-          ?.let((e) => S3ManifestOutputLocation.fromXml(e)),
+          ?.let(S3ManifestOutputLocation.fromXml),
     );
   }
 
@@ -11355,7 +11321,7 @@ class S3ManifestOutputLocation {
           _s.extractXmlStringValue(elem, 'ExpectedManifestBucketOwner'),
       manifestEncryption: _s
           .extractXmlChild(elem, 'ManifestEncryption')
-          ?.let((e) => GeneratedManifestEncryption.fromXml(e)),
+          ?.let(GeneratedManifestEncryption.fromXml),
       manifestPrefix: _s.extractXmlStringValue(elem, 'ManifestPrefix'),
     );
   }
@@ -11856,7 +11822,7 @@ class S3SetObjectAclOperation {
     return S3SetObjectAclOperation(
       accessControlPolicy: _s
           .extractXmlChild(elem, 'AccessControlPolicy')
-          ?.let((e) => S3AccessControlPolicy.fromXml(e)),
+          ?.let(S3AccessControlPolicy.fromXml),
     );
   }
 
@@ -11979,8 +11945,8 @@ class S3SetObjectTaggingOperation {
   });
   factory S3SetObjectTaggingOperation.fromXml(_s.XmlElement elem) {
     return S3SetObjectTaggingOperation(
-      tagSet: _s.extractXmlChild(elem, 'TagSet')?.let((elem) =>
-          elem.findElements('member').map((c) => S3Tag.fromXml(c)).toList()),
+      tagSet: _s.extractXmlChild(elem, 'TagSet')?.let(
+          (elem) => elem.findElements('member').map(S3Tag.fromXml).toList()),
     );
   }
 
@@ -12291,10 +12257,10 @@ class SourceSelectionCriteria {
     return SourceSelectionCriteria(
       replicaModifications: _s
           .extractXmlChild(elem, 'ReplicaModifications')
-          ?.let((e) => ReplicaModifications.fromXml(e)),
+          ?.let(ReplicaModifications.fromXml),
       sseKmsEncryptedObjects: _s
           .extractXmlChild(elem, 'SseKmsEncryptedObjects')
-          ?.let((e) => SseKmsEncryptedObjects.fromXml(e)),
+          ?.let(SseKmsEncryptedObjects.fromXml),
     );
   }
 
@@ -12470,16 +12436,13 @@ class StorageLensConfiguration {
           AccountLevel.fromXml(_s.extractXmlChild(elem, 'AccountLevel')!),
       id: _s.extractXmlStringValue(elem, 'Id')!,
       isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled')!,
-      awsOrg: _s
-          .extractXmlChild(elem, 'AwsOrg')
-          ?.let((e) => StorageLensAwsOrg.fromXml(e)),
+      awsOrg:
+          _s.extractXmlChild(elem, 'AwsOrg')?.let(StorageLensAwsOrg.fromXml),
       dataExport: _s
           .extractXmlChild(elem, 'DataExport')
-          ?.let((e) => StorageLensDataExport.fromXml(e)),
-      exclude:
-          _s.extractXmlChild(elem, 'Exclude')?.let((e) => Exclude.fromXml(e)),
-      include:
-          _s.extractXmlChild(elem, 'Include')?.let((e) => Include.fromXml(e)),
+          ?.let(StorageLensDataExport.fromXml),
+      exclude: _s.extractXmlChild(elem, 'Exclude')?.let(Exclude.fromXml),
+      include: _s.extractXmlChild(elem, 'Include')?.let(Include.fromXml),
       storageLensArn: _s.extractXmlStringValue(elem, 'StorageLensArn'),
     );
   }
@@ -12538,10 +12501,10 @@ class StorageLensDataExport {
     return StorageLensDataExport(
       cloudWatchMetrics: _s
           .extractXmlChild(elem, 'CloudWatchMetrics')
-          ?.let((e) => CloudWatchMetrics.fromXml(e)),
+          ?.let(CloudWatchMetrics.fromXml),
       s3BucketDestination: _s
           .extractXmlChild(elem, 'S3BucketDestination')
-          ?.let((e) => S3BucketDestination.fromXml(e)),
+          ?.let(S3BucketDestination.fromXml),
     );
   }
 
@@ -12579,9 +12542,8 @@ class StorageLensDataExportEncryption {
   });
   factory StorageLensDataExportEncryption.fromXml(_s.XmlElement elem) {
     return StorageLensDataExportEncryption(
-      ssekms:
-          _s.extractXmlChild(elem, 'SSE-KMS')?.let((e) => SSEKMS.fromXml(e)),
-      sses3: _s.extractXmlChild(elem, 'SSE-S3')?.let((e) => SSES3.fromXml(e)),
+      ssekms: _s.extractXmlChild(elem, 'SSE-KMS')?.let(SSEKMS.fromXml),
+      sses3: _s.extractXmlChild(elem, 'SSE-S3')?.let(SSES3.fromXml),
     );
   }
 

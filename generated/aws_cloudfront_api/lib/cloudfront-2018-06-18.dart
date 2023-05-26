@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use_from_same_package
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // ignore_for_file: unused_import
@@ -1837,8 +1838,8 @@ class ActiveTrustedSigners {
     return ActiveTrustedSigners(
       enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
-      items: _s.extractXmlChild(elem, 'Items')?.let((elem) =>
-          elem.findElements('Signer').map((c) => Signer.fromXml(c)).toList()),
+      items: _s.extractXmlChild(elem, 'Items')?.let(
+          (elem) => elem.findElements('Signer').map(Signer.fromXml).toList()),
     );
   }
 }
@@ -1934,9 +1935,8 @@ class AllowedMethods {
           .map((s) => s.toMethod())
           .toList(),
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
-      cachedMethods: _s
-          .extractXmlChild(elem, 'CachedMethods')
-          ?.let((e) => CachedMethods.fromXml(e)),
+      cachedMethods:
+          _s.extractXmlChild(elem, 'CachedMethods')?.let(CachedMethods.fromXml),
     );
   }
 
@@ -2172,14 +2172,14 @@ class CacheBehavior {
           .toViewerProtocolPolicy(),
       allowedMethods: _s
           .extractXmlChild(elem, 'AllowedMethods')
-          ?.let((e) => AllowedMethods.fromXml(e)),
+          ?.let(AllowedMethods.fromXml),
       compress: _s.extractXmlBoolValue(elem, 'Compress'),
       defaultTTL: _s.extractXmlIntValue(elem, 'DefaultTTL'),
       fieldLevelEncryptionId:
           _s.extractXmlStringValue(elem, 'FieldLevelEncryptionId'),
       lambdaFunctionAssociations: _s
           .extractXmlChild(elem, 'LambdaFunctionAssociations')
-          ?.let((e) => LambdaFunctionAssociations.fromXml(e)),
+          ?.let(LambdaFunctionAssociations.fromXml),
       maxTTL: _s.extractXmlIntValue(elem, 'MaxTTL'),
       smoothStreaming: _s.extractXmlBoolValue(elem, 'SmoothStreaming'),
     );
@@ -2250,7 +2250,7 @@ class CacheBehaviors {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('CacheBehavior')
-          .map((c) => CacheBehavior.fromXml(c))
+          .map(CacheBehavior.fromXml)
           .toList()),
     );
   }
@@ -2394,7 +2394,7 @@ class CloudFrontOriginAccessIdentity {
       s3CanonicalUserId: _s.extractXmlStringValue(elem, 'S3CanonicalUserId')!,
       cloudFrontOriginAccessIdentityConfig: _s
           .extractXmlChild(elem, 'CloudFrontOriginAccessIdentityConfig')
-          ?.let((e) => CloudFrontOriginAccessIdentityConfig.fromXml(e)),
+          ?.let(CloudFrontOriginAccessIdentityConfig.fromXml),
     );
   }
 }
@@ -2512,7 +2512,7 @@ class CloudFrontOriginAccessIdentityList {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('CloudFrontOriginAccessIdentitySummary')
-          .map((c) => CloudFrontOriginAccessIdentitySummary.fromXml(c))
+          .map(CloudFrontOriginAccessIdentitySummary.fromXml)
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
@@ -2614,7 +2614,7 @@ class ContentTypeProfileConfig {
           _s.extractXmlBoolValue(elem, 'ForwardWhenContentTypeIsUnknown')!,
       contentTypeProfiles: _s
           .extractXmlChild(elem, 'ContentTypeProfiles')
-          ?.let((e) => ContentTypeProfiles.fromXml(e)),
+          ?.let(ContentTypeProfiles.fromXml),
     );
   }
 
@@ -2656,7 +2656,7 @@ class ContentTypeProfiles {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('ContentTypeProfile')
-          .map((c) => ContentTypeProfile.fromXml(c))
+          .map(ContentTypeProfile.fromXml)
           .toList()),
     );
   }
@@ -2771,7 +2771,7 @@ class CookiePreference {
       forward: _s.extractXmlStringValue(elem, 'Forward')!.toItemSelection(),
       whitelistedNames: _s
           .extractXmlChild(elem, 'WhitelistedNames')
-          ?.let((e) => CookieNames.fromXml(e)),
+          ?.let(CookieNames.fromXml),
     );
   }
 
@@ -3135,7 +3135,7 @@ class CustomErrorResponses {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('CustomErrorResponse')
-          .map((c) => CustomErrorResponse.fromXml(c))
+          .map(CustomErrorResponse.fromXml)
           .toList()),
     );
   }
@@ -3179,7 +3179,7 @@ class CustomHeaders {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('OriginCustomHeader')
-          .map((c) => OriginCustomHeader.fromXml(c))
+          .map(OriginCustomHeader.fromXml)
           .toList()),
     );
   }
@@ -3257,7 +3257,7 @@ class CustomOriginConfig {
       originReadTimeout: _s.extractXmlIntValue(elem, 'OriginReadTimeout'),
       originSslProtocols: _s
           .extractXmlChild(elem, 'OriginSslProtocols')
-          ?.let((e) => OriginSslProtocols.fromXml(e)),
+          ?.let(OriginSslProtocols.fromXml),
     );
   }
 
@@ -3444,14 +3444,14 @@ class DefaultCacheBehavior {
           .toViewerProtocolPolicy(),
       allowedMethods: _s
           .extractXmlChild(elem, 'AllowedMethods')
-          ?.let((e) => AllowedMethods.fromXml(e)),
+          ?.let(AllowedMethods.fromXml),
       compress: _s.extractXmlBoolValue(elem, 'Compress'),
       defaultTTL: _s.extractXmlIntValue(elem, 'DefaultTTL'),
       fieldLevelEncryptionId:
           _s.extractXmlStringValue(elem, 'FieldLevelEncryptionId'),
       lambdaFunctionAssociations: _s
           .extractXmlChild(elem, 'LambdaFunctionAssociations')
-          ?.let((e) => LambdaFunctionAssociations.fromXml(e)),
+          ?.let(LambdaFunctionAssociations.fromXml),
       maxTTL: _s.extractXmlIntValue(elem, 'MaxTTL'),
       smoothStreaming: _s.extractXmlBoolValue(elem, 'SmoothStreaming'),
     );
@@ -3791,28 +3791,24 @@ class DistributionConfig {
           _s.extractXmlChild(elem, 'DefaultCacheBehavior')!),
       enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
       origins: Origins.fromXml(_s.extractXmlChild(elem, 'Origins')!),
-      aliases:
-          _s.extractXmlChild(elem, 'Aliases')?.let((e) => Aliases.fromXml(e)),
+      aliases: _s.extractXmlChild(elem, 'Aliases')?.let(Aliases.fromXml),
       cacheBehaviors: _s
           .extractXmlChild(elem, 'CacheBehaviors')
-          ?.let((e) => CacheBehaviors.fromXml(e)),
+          ?.let(CacheBehaviors.fromXml),
       customErrorResponses: _s
           .extractXmlChild(elem, 'CustomErrorResponses')
-          ?.let((e) => CustomErrorResponses.fromXml(e)),
+          ?.let(CustomErrorResponses.fromXml),
       defaultRootObject: _s.extractXmlStringValue(elem, 'DefaultRootObject'),
       httpVersion:
           _s.extractXmlStringValue(elem, 'HttpVersion')?.toHttpVersion(),
       isIPV6Enabled: _s.extractXmlBoolValue(elem, 'IsIPV6Enabled'),
-      logging: _s
-          .extractXmlChild(elem, 'Logging')
-          ?.let((e) => LoggingConfig.fromXml(e)),
+      logging: _s.extractXmlChild(elem, 'Logging')?.let(LoggingConfig.fromXml),
       priceClass: _s.extractXmlStringValue(elem, 'PriceClass')?.toPriceClass(),
-      restrictions: _s
-          .extractXmlChild(elem, 'Restrictions')
-          ?.let((e) => Restrictions.fromXml(e)),
+      restrictions:
+          _s.extractXmlChild(elem, 'Restrictions')?.let(Restrictions.fromXml),
       viewerCertificate: _s
           .extractXmlChild(elem, 'ViewerCertificate')
-          ?.let((e) => ViewerCertificate.fromXml(e)),
+          ?.let(ViewerCertificate.fromXml),
       webACLId: _s.extractXmlStringValue(elem, 'WebACLId'),
     );
   }
@@ -3942,7 +3938,7 @@ class DistributionList {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('DistributionSummary')
-          .map((c) => DistributionSummary.fromXml(c))
+          .map(DistributionSummary.fromXml)
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
@@ -4086,7 +4082,7 @@ class EncryptionEntities {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('EncryptionEntity')
-          .map((c) => EncryptionEntity.fromXml(c))
+          .map(EncryptionEntity.fromXml)
           .toList()),
     );
   }
@@ -4263,10 +4259,10 @@ class FieldLevelEncryptionConfig {
       comment: _s.extractXmlStringValue(elem, 'Comment'),
       contentTypeProfileConfig: _s
           .extractXmlChild(elem, 'ContentTypeProfileConfig')
-          ?.let((e) => ContentTypeProfileConfig.fromXml(e)),
+          ?.let(ContentTypeProfileConfig.fromXml),
       queryArgProfileConfig: _s
           .extractXmlChild(elem, 'QueryArgProfileConfig')
-          ?.let((e) => QueryArgProfileConfig.fromXml(e)),
+          ?.let(QueryArgProfileConfig.fromXml),
     );
   }
 
@@ -4322,7 +4318,7 @@ class FieldLevelEncryptionList {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('FieldLevelEncryptionSummary')
-          .map((c) => FieldLevelEncryptionSummary.fromXml(c))
+          .map(FieldLevelEncryptionSummary.fromXml)
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
@@ -4442,7 +4438,7 @@ class FieldLevelEncryptionProfileList {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('FieldLevelEncryptionProfileSummary')
-          .map((c) => FieldLevelEncryptionProfileSummary.fromXml(c))
+          .map(FieldLevelEncryptionProfileSummary.fromXml)
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
@@ -4519,10 +4515,10 @@ class FieldLevelEncryptionSummary {
       comment: _s.extractXmlStringValue(elem, 'Comment'),
       contentTypeProfileConfig: _s
           .extractXmlChild(elem, 'ContentTypeProfileConfig')
-          ?.let((e) => ContentTypeProfileConfig.fromXml(e)),
+          ?.let(ContentTypeProfileConfig.fromXml),
       queryArgProfileConfig: _s
           .extractXmlChild(elem, 'QueryArgProfileConfig')
-          ?.let((e) => QueryArgProfileConfig.fromXml(e)),
+          ?.let(QueryArgProfileConfig.fromXml),
     );
   }
 }
@@ -4649,11 +4645,10 @@ class ForwardedValues {
     return ForwardedValues(
       cookies: CookiePreference.fromXml(_s.extractXmlChild(elem, 'Cookies')!),
       queryString: _s.extractXmlBoolValue(elem, 'QueryString')!,
-      headers:
-          _s.extractXmlChild(elem, 'Headers')?.let((e) => Headers.fromXml(e)),
+      headers: _s.extractXmlChild(elem, 'Headers')?.let(Headers.fromXml),
       queryStringCacheKeys: _s
           .extractXmlChild(elem, 'QueryStringCacheKeys')
-          ?.let((e) => QueryStringCacheKeys.fromXml(e)),
+          ?.let(QueryStringCacheKeys.fromXml),
     );
   }
 
@@ -5247,7 +5242,7 @@ class InvalidationList {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('InvalidationSummary')
-          .map((c) => InvalidationSummary.fromXml(c))
+          .map(InvalidationSummary.fromXml)
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
@@ -5453,7 +5448,7 @@ class LambdaFunctionAssociations {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('LambdaFunctionAssociation')
-          .map((c) => LambdaFunctionAssociation.fromXml(c))
+          .map(LambdaFunctionAssociation.fromXml)
           .toList()),
     );
   }
@@ -5854,16 +5849,15 @@ class Origin {
     return Origin(
       domainName: _s.extractXmlStringValue(elem, 'DomainName')!,
       id: _s.extractXmlStringValue(elem, 'Id')!,
-      customHeaders: _s
-          .extractXmlChild(elem, 'CustomHeaders')
-          ?.let((e) => CustomHeaders.fromXml(e)),
+      customHeaders:
+          _s.extractXmlChild(elem, 'CustomHeaders')?.let(CustomHeaders.fromXml),
       customOriginConfig: _s
           .extractXmlChild(elem, 'CustomOriginConfig')
-          ?.let((e) => CustomOriginConfig.fromXml(e)),
+          ?.let(CustomOriginConfig.fromXml),
       originPath: _s.extractXmlStringValue(elem, 'OriginPath'),
       s3OriginConfig: _s
           .extractXmlChild(elem, 'S3OriginConfig')
-          ?.let((e) => S3OriginConfig.fromXml(e)),
+          ?.let(S3OriginConfig.fromXml),
     );
   }
 
@@ -6033,8 +6027,8 @@ class Origins {
   factory Origins.fromXml(_s.XmlElement elem) {
     return Origins(
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
-      items: _s.extractXmlChild(elem, 'Items')?.let((elem) =>
-          elem.findElements('Origin').map((c) => Origin.fromXml(c)).toList()),
+      items: _s.extractXmlChild(elem, 'Items')?.let(
+          (elem) => elem.findElements('Origin').map(Origin.fromXml).toList()),
     );
   }
 
@@ -6250,7 +6244,7 @@ class PublicKeyList {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('PublicKeySummary')
-          .map((c) => PublicKeySummary.fromXml(c))
+          .map(PublicKeySummary.fromXml)
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
@@ -6351,7 +6345,7 @@ class QueryArgProfileConfig {
           _s.extractXmlBoolValue(elem, 'ForwardWhenQueryArgProfileIsUnknown')!,
       queryArgProfiles: _s
           .extractXmlChild(elem, 'QueryArgProfiles')
-          ?.let((e) => QueryArgProfiles.fromXml(e)),
+          ?.let(QueryArgProfiles.fromXml),
     );
   }
 
@@ -6394,7 +6388,7 @@ class QueryArgProfiles {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('QueryArgProfile')
-          .map((c) => QueryArgProfile.fromXml(c))
+          .map(QueryArgProfile.fromXml)
           .toList()),
     );
   }
@@ -6665,9 +6659,8 @@ class Signer {
   factory Signer.fromXml(_s.XmlElement elem) {
     return Signer(
       awsAccountNumber: _s.extractXmlStringValue(elem, 'AwsAccountNumber'),
-      keyPairIds: _s
-          .extractXmlChild(elem, 'KeyPairIds')
-          ?.let((e) => KeyPairIds.fromXml(e)),
+      keyPairIds:
+          _s.extractXmlChild(elem, 'KeyPairIds')?.let(KeyPairIds.fromXml),
     );
   }
 }
@@ -6841,11 +6834,10 @@ class StreamingDistributionConfig {
       s3Origin: S3Origin.fromXml(_s.extractXmlChild(elem, 'S3Origin')!),
       trustedSigners:
           TrustedSigners.fromXml(_s.extractXmlChild(elem, 'TrustedSigners')!),
-      aliases:
-          _s.extractXmlChild(elem, 'Aliases')?.let((e) => Aliases.fromXml(e)),
+      aliases: _s.extractXmlChild(elem, 'Aliases')?.let(Aliases.fromXml),
       logging: _s
           .extractXmlChild(elem, 'Logging')
-          ?.let((e) => StreamingLoggingConfig.fromXml(e)),
+          ?.let(StreamingLoggingConfig.fromXml),
       priceClass: _s.extractXmlStringValue(elem, 'PriceClass')?.toPriceClass(),
     );
   }
@@ -6955,7 +6947,7 @@ class StreamingDistributionList {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('StreamingDistributionSummary')
-          .map((c) => StreamingDistributionSummary.fromXml(c))
+          .map(StreamingDistributionSummary.fromXml)
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
@@ -7186,8 +7178,9 @@ class Tags {
   });
   factory Tags.fromXml(_s.XmlElement elem) {
     return Tags(
-      items: _s.extractXmlChild(elem, 'Items')?.let((elem) =>
-          elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList()),
+      items: _s
+          .extractXmlChild(elem, 'Items')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
     );
   }
 

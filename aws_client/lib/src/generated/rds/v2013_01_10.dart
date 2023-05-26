@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use_from_same_package
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // ignore_for_file: unused_import
@@ -1599,7 +1600,7 @@ class AddSourceIdentifierToSubscriptionResult {
     return AddSourceIdentifierToSubscriptionResult(
       eventSubscription: _s
           .extractXmlChild(elem, 'EventSubscription')
-          ?.let((e) => EventSubscription.fromXml(e)),
+          ?.let(EventSubscription.fromXml),
     );
   }
 
@@ -1649,7 +1650,7 @@ class AuthorizeDBSecurityGroupIngressResult {
     return AuthorizeDBSecurityGroupIngressResult(
       dBSecurityGroup: _s
           .extractXmlChild(elem, 'DBSecurityGroup')
-          ?.let((e) => DBSecurityGroup.fromXml(e)),
+          ?.let(DBSecurityGroup.fromXml),
     );
   }
 
@@ -1723,9 +1724,8 @@ class CopyDBSnapshotResult {
   });
   factory CopyDBSnapshotResult.fromXml(_s.XmlElement elem) {
     return CopyDBSnapshotResult(
-      dBSnapshot: _s
-          .extractXmlChild(elem, 'DBSnapshot')
-          ?.let((e) => DBSnapshot.fromXml(e)),
+      dBSnapshot:
+          _s.extractXmlChild(elem, 'DBSnapshot')?.let(DBSnapshot.fromXml),
     );
   }
 
@@ -1745,9 +1745,8 @@ class CreateDBInstanceReadReplicaResult {
   });
   factory CreateDBInstanceReadReplicaResult.fromXml(_s.XmlElement elem) {
     return CreateDBInstanceReadReplicaResult(
-      dBInstance: _s
-          .extractXmlChild(elem, 'DBInstance')
-          ?.let((e) => DBInstance.fromXml(e)),
+      dBInstance:
+          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
     );
   }
 
@@ -1767,9 +1766,8 @@ class CreateDBInstanceResult {
   });
   factory CreateDBInstanceResult.fromXml(_s.XmlElement elem) {
     return CreateDBInstanceResult(
-      dBInstance: _s
-          .extractXmlChild(elem, 'DBInstance')
-          ?.let((e) => DBInstance.fromXml(e)),
+      dBInstance:
+          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
     );
   }
 
@@ -1791,7 +1789,7 @@ class CreateDBParameterGroupResult {
     return CreateDBParameterGroupResult(
       dBParameterGroup: _s
           .extractXmlChild(elem, 'DBParameterGroup')
-          ?.let((e) => DBParameterGroup.fromXml(e)),
+          ?.let(DBParameterGroup.fromXml),
     );
   }
 
@@ -1813,7 +1811,7 @@ class CreateDBSecurityGroupResult {
     return CreateDBSecurityGroupResult(
       dBSecurityGroup: _s
           .extractXmlChild(elem, 'DBSecurityGroup')
-          ?.let((e) => DBSecurityGroup.fromXml(e)),
+          ?.let(DBSecurityGroup.fromXml),
     );
   }
 
@@ -1833,9 +1831,8 @@ class CreateDBSnapshotResult {
   });
   factory CreateDBSnapshotResult.fromXml(_s.XmlElement elem) {
     return CreateDBSnapshotResult(
-      dBSnapshot: _s
-          .extractXmlChild(elem, 'DBSnapshot')
-          ?.let((e) => DBSnapshot.fromXml(e)),
+      dBSnapshot:
+          _s.extractXmlChild(elem, 'DBSnapshot')?.let(DBSnapshot.fromXml),
     );
   }
 
@@ -1855,9 +1852,8 @@ class CreateDBSubnetGroupResult {
   });
   factory CreateDBSubnetGroupResult.fromXml(_s.XmlElement elem) {
     return CreateDBSubnetGroupResult(
-      dBSubnetGroup: _s
-          .extractXmlChild(elem, 'DBSubnetGroup')
-          ?.let((e) => DBSubnetGroup.fromXml(e)),
+      dBSubnetGroup:
+          _s.extractXmlChild(elem, 'DBSubnetGroup')?.let(DBSubnetGroup.fromXml),
     );
   }
 
@@ -1879,7 +1875,7 @@ class CreateEventSubscriptionResult {
     return CreateEventSubscriptionResult(
       eventSubscription: _s
           .extractXmlChild(elem, 'EventSubscription')
-          ?.let((e) => EventSubscription.fromXml(e)),
+          ?.let(EventSubscription.fromXml),
     );
   }
 
@@ -1899,9 +1895,8 @@ class CreateOptionGroupResult {
   });
   factory CreateOptionGroupResult.fromXml(_s.XmlElement elem) {
     return CreateOptionGroupResult(
-      optionGroup: _s
-          .extractXmlChild(elem, 'OptionGroup')
-          ?.let((e) => OptionGroup.fromXml(e)),
+      optionGroup:
+          _s.extractXmlChild(elem, 'OptionGroup')?.let(OptionGroup.fromXml),
     );
   }
 
@@ -1941,14 +1936,14 @@ class DBEngineVersion {
           _s.extractXmlStringValue(elem, 'DBParameterGroupFamily'),
       defaultCharacterSet: _s
           .extractXmlChild(elem, 'DefaultCharacterSet')
-          ?.let((e) => CharacterSet.fromXml(e)),
+          ?.let(CharacterSet.fromXml),
       engine: _s.extractXmlStringValue(elem, 'Engine'),
       engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
       supportedCharacterSets: _s
           .extractXmlChild(elem, 'SupportedCharacterSets')
           ?.let((elem) => elem
               .findElements('CharacterSet')
-              .map((c) => CharacterSet.fromXml(c))
+              .map(CharacterSet.fromXml)
               .toList()),
     );
   }
@@ -1991,7 +1986,7 @@ class DBEngineVersionMessage {
       dBEngineVersions: _s.extractXmlChild(elem, 'DBEngineVersions')?.let(
           (elem) => elem
               .findElements('DBEngineVersion')
-              .map((c) => DBEngineVersion.fromXml(c))
+              .map(DBEngineVersion.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -2088,18 +2083,16 @@ class DBInstance {
       dBParameterGroups: _s.extractXmlChild(elem, 'DBParameterGroups')?.let(
           (elem) => elem
               .findElements('DBParameterGroup')
-              .map((c) => DBParameterGroupStatus.fromXml(c))
+              .map(DBParameterGroupStatus.fromXml)
               .toList()),
       dBSecurityGroups: _s.extractXmlChild(elem, 'DBSecurityGroups')?.let(
           (elem) => elem
               .findElements('DBSecurityGroup')
-              .map((c) => DBSecurityGroupMembership.fromXml(c))
+              .map(DBSecurityGroupMembership.fromXml)
               .toList()),
-      dBSubnetGroup: _s
-          .extractXmlChild(elem, 'DBSubnetGroup')
-          ?.let((e) => DBSubnetGroup.fromXml(e)),
-      endpoint:
-          _s.extractXmlChild(elem, 'Endpoint')?.let((e) => Endpoint.fromXml(e)),
+      dBSubnetGroup:
+          _s.extractXmlChild(elem, 'DBSubnetGroup')?.let(DBSubnetGroup.fromXml),
+      endpoint: _s.extractXmlChild(elem, 'Endpoint')?.let(Endpoint.fromXml),
       engine: _s.extractXmlStringValue(elem, 'Engine'),
       engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
       instanceCreateTime:
@@ -2112,10 +2105,10 @@ class DBInstance {
       multiAZ: _s.extractXmlBoolValue(elem, 'MultiAZ'),
       optionGroupMembership: _s
           .extractXmlChild(elem, 'OptionGroupMembership')
-          ?.let((e) => OptionGroupMembership.fromXml(e)),
+          ?.let(OptionGroupMembership.fromXml),
       pendingModifiedValues: _s
           .extractXmlChild(elem, 'PendingModifiedValues')
-          ?.let((e) => PendingModifiedValues.fromXml(e)),
+          ?.let(PendingModifiedValues.fromXml),
       preferredBackupWindow:
           _s.extractXmlStringValue(elem, 'PreferredBackupWindow'),
       preferredMaintenanceWindow:
@@ -2132,7 +2125,7 @@ class DBInstance {
       vpcSecurityGroups: _s.extractXmlChild(elem, 'VpcSecurityGroups')?.let(
           (elem) => elem
               .findElements('VpcSecurityGroupMembership')
-              .map((c) => VpcSecurityGroupMembership.fromXml(c))
+              .map(VpcSecurityGroupMembership.fromXml)
               .toList()),
     );
   }
@@ -2228,10 +2221,8 @@ class DBInstanceMessage {
   });
   factory DBInstanceMessage.fromXml(_s.XmlElement elem) {
     return DBInstanceMessage(
-      dBInstances: _s.extractXmlChild(elem, 'DBInstances')?.let((elem) => elem
-          .findElements('DBInstance')
-          .map((c) => DBInstance.fromXml(c))
-          .toList()),
+      dBInstances: _s.extractXmlChild(elem, 'DBInstances')?.let((elem) =>
+          elem.findElements('DBInstance').map(DBInstance.fromXml).toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
   }
@@ -2291,10 +2282,8 @@ class DBParameterGroupDetails {
   factory DBParameterGroupDetails.fromXml(_s.XmlElement elem) {
     return DBParameterGroupDetails(
       marker: _s.extractXmlStringValue(elem, 'Marker'),
-      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) => elem
-          .findElements('Parameter')
-          .map((c) => Parameter.fromXml(c))
-          .toList()),
+      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
+          elem.findElements('Parameter').map(Parameter.fromXml).toList()),
     );
   }
 
@@ -2372,7 +2361,7 @@ class DBParameterGroupsMessage {
       dBParameterGroups: _s.extractXmlChild(elem, 'DBParameterGroups')?.let(
           (elem) => elem
               .findElements('DBParameterGroup')
-              .map((c) => DBParameterGroup.fromXml(c))
+              .map(DBParameterGroup.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -2413,10 +2402,10 @@ class DBSecurityGroup {
       eC2SecurityGroups: _s.extractXmlChild(elem, 'EC2SecurityGroups')?.let(
           (elem) => elem
               .findElements('EC2SecurityGroup')
-              .map((c) => EC2SecurityGroup.fromXml(c))
+              .map(EC2SecurityGroup.fromXml)
               .toList()),
-      iPRanges: _s.extractXmlChild(elem, 'IPRanges')?.let((elem) =>
-          elem.findElements('IPRange').map((c) => IPRange.fromXml(c)).toList()),
+      iPRanges: _s.extractXmlChild(elem, 'IPRanges')?.let(
+          (elem) => elem.findElements('IPRange').map(IPRange.fromXml).toList()),
       ownerId: _s.extractXmlStringValue(elem, 'OwnerId'),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
     );
@@ -2482,7 +2471,7 @@ class DBSecurityGroupMessage {
       dBSecurityGroups: _s.extractXmlChild(elem, 'DBSecurityGroups')?.let(
           (elem) => elem
               .findElements('DBSecurityGroup')
-              .map((c) => DBSecurityGroup.fromXml(c))
+              .map(DBSecurityGroup.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -2606,10 +2595,8 @@ class DBSnapshotMessage {
   });
   factory DBSnapshotMessage.fromXml(_s.XmlElement elem) {
     return DBSnapshotMessage(
-      dBSnapshots: _s.extractXmlChild(elem, 'DBSnapshots')?.let((elem) => elem
-          .findElements('DBSnapshot')
-          .map((c) => DBSnapshot.fromXml(c))
-          .toList()),
+      dBSnapshots: _s.extractXmlChild(elem, 'DBSnapshots')?.let((elem) =>
+          elem.findElements('DBSnapshot').map(DBSnapshot.fromXml).toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
   }
@@ -2644,8 +2631,8 @@ class DBSubnetGroup {
           _s.extractXmlStringValue(elem, 'DBSubnetGroupDescription'),
       dBSubnetGroupName: _s.extractXmlStringValue(elem, 'DBSubnetGroupName'),
       subnetGroupStatus: _s.extractXmlStringValue(elem, 'SubnetGroupStatus'),
-      subnets: _s.extractXmlChild(elem, 'Subnets')?.let((elem) =>
-          elem.findElements('Subnet').map((c) => Subnet.fromXml(c)).toList()),
+      subnets: _s.extractXmlChild(elem, 'Subnets')?.let(
+          (elem) => elem.findElements('Subnet').map(Subnet.fromXml).toList()),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
     );
   }
@@ -2680,7 +2667,7 @@ class DBSubnetGroupMessage {
       dBSubnetGroups: _s.extractXmlChild(elem, 'DBSubnetGroups')?.let((elem) =>
           elem
               .findElements('DBSubnetGroup')
-              .map((c) => DBSubnetGroup.fromXml(c))
+              .map(DBSubnetGroup.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -2704,9 +2691,8 @@ class DeleteDBInstanceResult {
   });
   factory DeleteDBInstanceResult.fromXml(_s.XmlElement elem) {
     return DeleteDBInstanceResult(
-      dBInstance: _s
-          .extractXmlChild(elem, 'DBInstance')
-          ?.let((e) => DBInstance.fromXml(e)),
+      dBInstance:
+          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
     );
   }
 
@@ -2726,9 +2712,8 @@ class DeleteDBSnapshotResult {
   });
   factory DeleteDBSnapshotResult.fromXml(_s.XmlElement elem) {
     return DeleteDBSnapshotResult(
-      dBSnapshot: _s
-          .extractXmlChild(elem, 'DBSnapshot')
-          ?.let((e) => DBSnapshot.fromXml(e)),
+      dBSnapshot:
+          _s.extractXmlChild(elem, 'DBSnapshot')?.let(DBSnapshot.fromXml),
     );
   }
 
@@ -2750,7 +2735,7 @@ class DeleteEventSubscriptionResult {
     return DeleteEventSubscriptionResult(
       eventSubscription: _s
           .extractXmlChild(elem, 'EventSubscription')
-          ?.let((e) => EventSubscription.fromXml(e)),
+          ?.let(EventSubscription.fromXml),
     );
   }
 
@@ -2772,7 +2757,7 @@ class DescribeEngineDefaultParametersResult {
     return DescribeEngineDefaultParametersResult(
       engineDefaults: _s
           .extractXmlChild(elem, 'EngineDefaults')
-          ?.let((e) => EngineDefaults.fromXml(e)),
+          ?.let(EngineDefaults.fromXml),
     );
   }
 
@@ -2863,10 +2848,8 @@ class EngineDefaults {
       dBParameterGroupFamily:
           _s.extractXmlStringValue(elem, 'DBParameterGroupFamily'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
-      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) => elem
-          .findElements('Parameter')
-          .map((c) => Parameter.fromXml(c))
-          .toList()),
+      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
+          elem.findElements('Parameter').map(Parameter.fromXml).toList()),
     );
   }
 
@@ -2964,7 +2947,7 @@ class EventCategoriesMessage {
           .extractXmlChild(elem, 'EventCategoriesMapList')
           ?.let((elem) => elem
               .findElements('EventCategoriesMap')
-              .map((c) => EventCategoriesMap.fromXml(c))
+              .map(EventCategoriesMap.fromXml)
               .toList()),
     );
   }
@@ -3064,7 +3047,7 @@ class EventSubscriptionsMessage {
           .extractXmlChild(elem, 'EventSubscriptionsList')
           ?.let((elem) => elem
               .findElements('EventSubscription')
-              .map((c) => EventSubscription.fromXml(c))
+              .map(EventSubscription.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -3091,8 +3074,8 @@ class EventsMessage {
   });
   factory EventsMessage.fromXml(_s.XmlElement elem) {
     return EventsMessage(
-      events: _s.extractXmlChild(elem, 'Events')?.let((elem) =>
-          elem.findElements('Event').map((c) => Event.fromXml(c)).toList()),
+      events: _s.extractXmlChild(elem, 'Events')?.let(
+          (elem) => elem.findElements('Event').map(Event.fromXml).toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
   }
@@ -3140,9 +3123,8 @@ class ModifyDBInstanceResult {
   });
   factory ModifyDBInstanceResult.fromXml(_s.XmlElement elem) {
     return ModifyDBInstanceResult(
-      dBInstance: _s
-          .extractXmlChild(elem, 'DBInstance')
-          ?.let((e) => DBInstance.fromXml(e)),
+      dBInstance:
+          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
     );
   }
 
@@ -3162,9 +3144,8 @@ class ModifyDBSubnetGroupResult {
   });
   factory ModifyDBSubnetGroupResult.fromXml(_s.XmlElement elem) {
     return ModifyDBSubnetGroupResult(
-      dBSubnetGroup: _s
-          .extractXmlChild(elem, 'DBSubnetGroup')
-          ?.let((e) => DBSubnetGroup.fromXml(e)),
+      dBSubnetGroup:
+          _s.extractXmlChild(elem, 'DBSubnetGroup')?.let(DBSubnetGroup.fromXml),
     );
   }
 
@@ -3186,7 +3167,7 @@ class ModifyEventSubscriptionResult {
     return ModifyEventSubscriptionResult(
       eventSubscription: _s
           .extractXmlChild(elem, 'EventSubscription')
-          ?.let((e) => EventSubscription.fromXml(e)),
+          ?.let(EventSubscription.fromXml),
     );
   }
 
@@ -3206,9 +3187,8 @@ class ModifyOptionGroupResult {
   });
   factory ModifyOptionGroupResult.fromXml(_s.XmlElement elem) {
     return ModifyOptionGroupResult(
-      optionGroup: _s
-          .extractXmlChild(elem, 'OptionGroup')
-          ?.let((e) => OptionGroup.fromXml(e)),
+      optionGroup:
+          _s.extractXmlChild(elem, 'OptionGroup')?.let(OptionGroup.fromXml),
     );
   }
 
@@ -3240,7 +3220,7 @@ class Option {
           .extractXmlChild(elem, 'DBSecurityGroupMemberships')
           ?.let((elem) => elem
               .findElements('DBSecurityGroup')
-              .map((c) => DBSecurityGroupMembership.fromXml(c))
+              .map(DBSecurityGroupMembership.fromXml)
               .toList()),
       optionDescription: _s.extractXmlStringValue(elem, 'OptionDescription'),
       optionName: _s.extractXmlStringValue(elem, 'OptionName'),
@@ -3249,7 +3229,7 @@ class Option {
           .extractXmlChild(elem, 'VpcSecurityGroupMemberships')
           ?.let((elem) => elem
               .findElements('VpcSecurityGroupMembership')
-              .map((c) => VpcSecurityGroupMembership.fromXml(c))
+              .map(VpcSecurityGroupMembership.fromXml)
               .toList()),
     );
   }
@@ -3328,8 +3308,8 @@ class OptionGroup {
       optionGroupDescription:
           _s.extractXmlStringValue(elem, 'OptionGroupDescription'),
       optionGroupName: _s.extractXmlStringValue(elem, 'OptionGroupName'),
-      options: _s.extractXmlChild(elem, 'Options')?.let((elem) =>
-          elem.findElements('Option').map((c) => Option.fromXml(c)).toList()),
+      options: _s.extractXmlChild(elem, 'Options')?.let(
+          (elem) => elem.findElements('Option').map(Option.fromXml).toList()),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
     );
   }
@@ -3457,7 +3437,7 @@ class OptionGroupOptionsMessage {
       optionGroupOptions: _s.extractXmlChild(elem, 'OptionGroupOptions')?.let(
           (elem) => elem
               .findElements('OptionGroupOption')
-              .map((c) => OptionGroupOption.fromXml(c))
+              .map(OptionGroupOption.fromXml)
               .toList()),
     );
   }
@@ -3486,7 +3466,7 @@ class OptionGroups {
       optionGroupsList: _s.extractXmlChild(elem, 'OptionGroupsList')?.let(
           (elem) => elem
               .findElements('OptionGroup')
-              .map((c) => OptionGroup.fromXml(c))
+              .map(OptionGroup.fromXml)
               .toList()),
     );
   }
@@ -3526,7 +3506,7 @@ class OrderableDBInstanceOption {
       availabilityZones: _s.extractXmlChild(elem, 'AvailabilityZones')?.let(
           (elem) => elem
               .findElements('AvailabilityZone')
-              .map((c) => AvailabilityZone.fromXml(c))
+              .map(AvailabilityZone.fromXml)
               .toList()),
       dBInstanceClass: _s.extractXmlStringValue(elem, 'DBInstanceClass'),
       engine: _s.extractXmlStringValue(elem, 'Engine'),
@@ -3575,7 +3555,7 @@ class OrderableDBInstanceOptionsMessage {
           .extractXmlChild(elem, 'OrderableDBInstanceOptions')
           ?.let((elem) => elem
               .findElements('OrderableDBInstanceOption')
-              .map((c) => OrderableDBInstanceOption.fromXml(c))
+              .map(OrderableDBInstanceOption.fromXml)
               .toList()),
     );
   }
@@ -3731,9 +3711,8 @@ class PromoteReadReplicaResult {
   });
   factory PromoteReadReplicaResult.fromXml(_s.XmlElement elem) {
     return PromoteReadReplicaResult(
-      dBInstance: _s
-          .extractXmlChild(elem, 'DBInstance')
-          ?.let((e) => DBInstance.fromXml(e)),
+      dBInstance:
+          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
     );
   }
 
@@ -3756,7 +3735,7 @@ class PurchaseReservedDBInstancesOfferingResult {
     return PurchaseReservedDBInstancesOfferingResult(
       reservedDBInstance: _s
           .extractXmlChild(elem, 'ReservedDBInstance')
-          ?.let((e) => ReservedDBInstance.fromXml(e)),
+          ?.let(ReservedDBInstance.fromXml),
     );
   }
 
@@ -3776,9 +3755,8 @@ class RebootDBInstanceResult {
   });
   factory RebootDBInstanceResult.fromXml(_s.XmlElement elem) {
     return RebootDBInstanceResult(
-      dBInstance: _s
-          .extractXmlChild(elem, 'DBInstance')
-          ?.let((e) => DBInstance.fromXml(e)),
+      dBInstance:
+          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
     );
   }
 
@@ -3830,7 +3808,7 @@ class RemoveSourceIdentifierFromSubscriptionResult {
     return RemoveSourceIdentifierFromSubscriptionResult(
       eventSubscription: _s
           .extractXmlChild(elem, 'EventSubscription')
-          ?.let((e) => EventSubscription.fromXml(e)),
+          ?.let(EventSubscription.fromXml),
     );
   }
 
@@ -3887,7 +3865,7 @@ class ReservedDBInstance {
       recurringCharges: _s.extractXmlChild(elem, 'RecurringCharges')?.let(
           (elem) => elem
               .findElements('RecurringCharge')
-              .map((c) => RecurringCharge.fromXml(c))
+              .map(RecurringCharge.fromXml)
               .toList()),
       reservedDBInstanceId:
           _s.extractXmlStringValue(elem, 'ReservedDBInstanceId'),
@@ -3949,7 +3927,7 @@ class ReservedDBInstanceMessage {
       reservedDBInstances: _s.extractXmlChild(elem, 'ReservedDBInstances')?.let(
           (elem) => elem
               .findElements('ReservedDBInstance')
-              .map((c) => ReservedDBInstance.fromXml(c))
+              .map(ReservedDBInstance.fromXml)
               .toList()),
     );
   }
@@ -4001,7 +3979,7 @@ class ReservedDBInstancesOffering {
       recurringCharges: _s.extractXmlChild(elem, 'RecurringCharges')?.let(
           (elem) => elem
               .findElements('RecurringCharge')
-              .map((c) => RecurringCharge.fromXml(c))
+              .map(RecurringCharge.fromXml)
               .toList()),
       reservedDBInstancesOfferingId:
           _s.extractXmlStringValue(elem, 'ReservedDBInstancesOfferingId'),
@@ -4051,7 +4029,7 @@ class ReservedDBInstancesOfferingMessage {
           .extractXmlChild(elem, 'ReservedDBInstancesOfferings')
           ?.let((elem) => elem
               .findElements('ReservedDBInstancesOffering')
-              .map((c) => ReservedDBInstancesOffering.fromXml(c))
+              .map(ReservedDBInstancesOffering.fromXml)
               .toList()),
     );
   }
@@ -4075,9 +4053,8 @@ class RestoreDBInstanceFromDBSnapshotResult {
   });
   factory RestoreDBInstanceFromDBSnapshotResult.fromXml(_s.XmlElement elem) {
     return RestoreDBInstanceFromDBSnapshotResult(
-      dBInstance: _s
-          .extractXmlChild(elem, 'DBInstance')
-          ?.let((e) => DBInstance.fromXml(e)),
+      dBInstance:
+          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
     );
   }
 
@@ -4097,9 +4074,8 @@ class RestoreDBInstanceToPointInTimeResult {
   });
   factory RestoreDBInstanceToPointInTimeResult.fromXml(_s.XmlElement elem) {
     return RestoreDBInstanceToPointInTimeResult(
-      dBInstance: _s
-          .extractXmlChild(elem, 'DBInstance')
-          ?.let((e) => DBInstance.fromXml(e)),
+      dBInstance:
+          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
     );
   }
 
@@ -4121,7 +4097,7 @@ class RevokeDBSecurityGroupIngressResult {
     return RevokeDBSecurityGroupIngressResult(
       dBSecurityGroup: _s
           .extractXmlChild(elem, 'DBSecurityGroup')
-          ?.let((e) => DBSecurityGroup.fromXml(e)),
+          ?.let(DBSecurityGroup.fromXml),
     );
   }
 
@@ -4185,7 +4161,7 @@ class Subnet {
     return Subnet(
       subnetAvailabilityZone: _s
           .extractXmlChild(elem, 'SubnetAvailabilityZone')
-          ?.let((e) => AvailabilityZone.fromXml(e)),
+          ?.let(AvailabilityZone.fromXml),
       subnetIdentifier: _s.extractXmlStringValue(elem, 'SubnetIdentifier'),
       subnetStatus: _s.extractXmlStringValue(elem, 'SubnetStatus'),
     );
@@ -4237,8 +4213,9 @@ class TagListMessage {
   });
   factory TagListMessage.fromXml(_s.XmlElement elem) {
     return TagListMessage(
-      tagList: _s.extractXmlChild(elem, 'TagList')?.let((elem) =>
-          elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList()),
+      tagList: _s
+          .extractXmlChild(elem, 'TagList')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
     );
   }
 

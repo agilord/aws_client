@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use_from_same_package
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // ignore_for_file: unused_import
@@ -2410,11 +2411,11 @@ class ChangeMessageVisibilityBatchResult {
     return ChangeMessageVisibilityBatchResult(
       failed: elem
           .findElements('BatchResultErrorEntry')
-          .map((c) => BatchResultErrorEntry.fromXml(c))
+          .map(BatchResultErrorEntry.fromXml)
           .toList(),
       successful: elem
           .findElements('ChangeMessageVisibilityBatchResultEntry')
-          .map((c) => ChangeMessageVisibilityBatchResultEntry.fromXml(c))
+          .map(ChangeMessageVisibilityBatchResultEntry.fromXml)
           .toList(),
     );
   }
@@ -2523,11 +2524,11 @@ class DeleteMessageBatchResult {
     return DeleteMessageBatchResult(
       failed: elem
           .findElements('BatchResultErrorEntry')
-          .map((c) => BatchResultErrorEntry.fromXml(c))
+          .map(BatchResultErrorEntry.fromXml)
           .toList(),
       successful: elem
           .findElements('DeleteMessageBatchResultEntry')
-          .map((c) => DeleteMessageBatchResultEntry.fromXml(c))
+          .map(DeleteMessageBatchResultEntry.fromXml)
           .toList(),
     );
   }
@@ -3183,8 +3184,7 @@ class ReceiveMessageResult {
   });
   factory ReceiveMessageResult.fromXml(_s.XmlElement elem) {
     return ReceiveMessageResult(
-      messages:
-          elem.findElements('Message').map((c) => Message.fromXml(c)).toList(),
+      messages: elem.findElements('Message').map(Message.fromXml).toList(),
     );
   }
 
@@ -3400,11 +3400,11 @@ class SendMessageBatchResult {
     return SendMessageBatchResult(
       failed: elem
           .findElements('BatchResultErrorEntry')
-          .map((c) => BatchResultErrorEntry.fromXml(c))
+          .map(BatchResultErrorEntry.fromXml)
           .toList(),
       successful: elem
           .findElements('SendMessageBatchResultEntry')
-          .map((c) => SendMessageBatchResultEntry.fromXml(c))
+          .map(SendMessageBatchResultEntry.fromXml)
           .toList(),
     );
   }

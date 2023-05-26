@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use_from_same_package
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // ignore_for_file: unused_import
@@ -81,9 +82,8 @@ class OutputShape {
   });
   factory OutputShape.fromXml(_s.XmlElement elem) {
     return OutputShape(
-      structMember: _s
-          .extractXmlChild(elem, 'StructMember')
-          ?.let((e) => TimeContainer.fromXml(e)),
+      structMember:
+          _s.extractXmlChild(elem, 'StructMember')?.let(TimeContainer.fromXml),
       timeArg: _s.extractXmlDateTimeValue(elem, 'TimeArg'),
       timeCustom: _s.extractXmlDateTimeValue(elem, 'TimeCustom',
           parser: _s.timeStampFromJson),

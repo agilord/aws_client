@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use_from_same_package
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // ignore_for_file: unused_import
@@ -76,10 +77,7 @@ class OutputShape {
   });
   factory OutputShape.fromXml(_s.XmlElement elem) {
     return OutputShape(
-      list: elem
-          .findElements('List')
-          .map((c) => StructureShape.fromXml(c))
-          .toList(),
+      list: elem.findElements('List').map(StructureShape.fromXml).toList(),
     );
   }
 }
