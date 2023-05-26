@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use_from_same_package
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // ignore_for_file: unused_import
@@ -811,10 +812,8 @@ class GetAttributesResult {
   });
   factory GetAttributesResult.fromXml(_s.XmlElement elem) {
     return GetAttributesResult(
-      attributes: elem
-          .findElements('Attribute')
-          .map((c) => Attribute.fromXml(c))
-          .toList(),
+      attributes:
+          elem.findElements('Attribute').map(Attribute.fromXml).toList(),
     );
   }
 
@@ -949,10 +948,8 @@ class Item {
   });
   factory Item.fromXml(_s.XmlElement elem) {
     return Item(
-      attributes: elem
-          .findElements('Attribute')
-          .map((c) => Attribute.fromXml(c))
-          .toList(),
+      attributes:
+          elem.findElements('Attribute').map(Attribute.fromXml).toList(),
       name: _s.extractXmlStringValue(elem, 'Name')!,
       alternateNameEncoding:
           _s.extractXmlStringValue(elem, 'AlternateNameEncoding'),
@@ -1259,7 +1256,7 @@ class SelectResult {
   });
   factory SelectResult.fromXml(_s.XmlElement elem) {
     return SelectResult(
-      items: elem.findElements('Item').map((c) => Item.fromXml(c)).toList(),
+      items: elem.findElements('Item').map(Item.fromXml).toList(),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }

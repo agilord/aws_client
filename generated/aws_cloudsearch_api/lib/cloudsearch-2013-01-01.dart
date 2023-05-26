@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use_from_same_package
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // ignore_for_file: unused_import
@@ -1175,7 +1176,7 @@ class AnalysisScheme {
       analysisSchemeName: _s.extractXmlStringValue(elem, 'AnalysisSchemeName')!,
       analysisOptions: _s
           .extractXmlChild(elem, 'AnalysisOptions')
-          ?.let((e) => AnalysisOptions.fromXml(e)),
+          ?.let(AnalysisOptions.fromXml),
     );
   }
 
@@ -1448,9 +1449,8 @@ class CreateDomainResponse {
   });
   factory CreateDomainResponse.fromXml(_s.XmlElement elem) {
     return CreateDomainResponse(
-      domainStatus: _s
-          .extractXmlChild(elem, 'DomainStatus')
-          ?.let((e) => DomainStatus.fromXml(e)),
+      domainStatus:
+          _s.extractXmlChild(elem, 'DomainStatus')?.let(DomainStatus.fromXml),
     );
   }
 }
@@ -1657,9 +1657,8 @@ class DeleteDomainResponse {
   });
   factory DeleteDomainResponse.fromXml(_s.XmlElement elem) {
     return DeleteDomainResponse(
-      domainStatus: _s
-          .extractXmlChild(elem, 'DomainStatus')
-          ?.let((e) => DomainStatus.fromXml(e)),
+      domainStatus:
+          _s.extractXmlChild(elem, 'DomainStatus')?.let(DomainStatus.fromXml),
     );
   }
 }
@@ -1728,7 +1727,7 @@ class DescribeAnalysisSchemesResponse {
       analysisSchemes: _s
           .extractXmlChild(elem, 'AnalysisSchemes')!
           .findElements('member')
-          .map((c) => AnalysisSchemeStatus.fromXml(c))
+          .map(AnalysisSchemeStatus.fromXml)
           .toList(),
     );
   }
@@ -1749,7 +1748,7 @@ class DescribeAvailabilityOptionsResponse {
     return DescribeAvailabilityOptionsResponse(
       availabilityOptions: _s
           .extractXmlChild(elem, 'AvailabilityOptions')
-          ?.let((e) => AvailabilityOptionsStatus.fromXml(e)),
+          ?.let(AvailabilityOptionsStatus.fromXml),
     );
   }
 }
@@ -1767,7 +1766,7 @@ class DescribeDomainEndpointOptionsResponse {
     return DescribeDomainEndpointOptionsResponse(
       domainEndpointOptions: _s
           .extractXmlChild(elem, 'DomainEndpointOptions')
-          ?.let((e) => DomainEndpointOptionsStatus.fromXml(e)),
+          ?.let(DomainEndpointOptionsStatus.fromXml),
     );
   }
 }
@@ -1785,7 +1784,7 @@ class DescribeDomainsResponse {
       domainStatusList: _s
           .extractXmlChild(elem, 'DomainStatusList')!
           .findElements('member')
-          .map((c) => DomainStatus.fromXml(c))
+          .map(DomainStatus.fromXml)
           .toList(),
     );
   }
@@ -1805,7 +1804,7 @@ class DescribeExpressionsResponse {
       expressions: _s
           .extractXmlChild(elem, 'Expressions')!
           .findElements('member')
-          .map((c) => ExpressionStatus.fromXml(c))
+          .map(ExpressionStatus.fromXml)
           .toList(),
     );
   }
@@ -1825,7 +1824,7 @@ class DescribeIndexFieldsResponse {
       indexFields: _s
           .extractXmlChild(elem, 'IndexFields')!
           .findElements('member')
-          .map((c) => IndexFieldStatus.fromXml(c))
+          .map(IndexFieldStatus.fromXml)
           .toList(),
     );
   }
@@ -1876,7 +1875,7 @@ class DescribeSuggestersResponse {
       suggesters: _s
           .extractXmlChild(elem, 'Suggesters')!
           .findElements('member')
-          .map((c) => SuggesterStatus.fromXml(c))
+          .map(SuggesterStatus.fromXml)
           .toList(),
     );
   }
@@ -2052,17 +2051,16 @@ class DomainStatus {
       arn: _s.extractXmlStringValue(elem, 'ARN'),
       created: _s.extractXmlBoolValue(elem, 'Created'),
       deleted: _s.extractXmlBoolValue(elem, 'Deleted'),
-      docService: _s
-          .extractXmlChild(elem, 'DocService')
-          ?.let((e) => ServiceEndpoint.fromXml(e)),
-      limits: _s.extractXmlChild(elem, 'Limits')?.let((e) => Limits.fromXml(e)),
+      docService:
+          _s.extractXmlChild(elem, 'DocService')?.let(ServiceEndpoint.fromXml),
+      limits: _s.extractXmlChild(elem, 'Limits')?.let(Limits.fromXml),
       processing: _s.extractXmlBoolValue(elem, 'Processing'),
       searchInstanceCount: _s.extractXmlIntValue(elem, 'SearchInstanceCount'),
       searchInstanceType: _s.extractXmlStringValue(elem, 'SearchInstanceType'),
       searchPartitionCount: _s.extractXmlIntValue(elem, 'SearchPartitionCount'),
       searchService: _s
           .extractXmlChild(elem, 'SearchService')
-          ?.let((e) => ServiceEndpoint.fromXml(e)),
+          ?.let(ServiceEndpoint.fromXml),
     );
   }
 }
@@ -2300,37 +2298,32 @@ class IndexField {
           _s.extractXmlStringValue(elem, 'IndexFieldType')!.toIndexFieldType(),
       dateArrayOptions: _s
           .extractXmlChild(elem, 'DateArrayOptions')
-          ?.let((e) => DateArrayOptions.fromXml(e)),
-      dateOptions: _s
-          .extractXmlChild(elem, 'DateOptions')
-          ?.let((e) => DateOptions.fromXml(e)),
+          ?.let(DateArrayOptions.fromXml),
+      dateOptions:
+          _s.extractXmlChild(elem, 'DateOptions')?.let(DateOptions.fromXml),
       doubleArrayOptions: _s
           .extractXmlChild(elem, 'DoubleArrayOptions')
-          ?.let((e) => DoubleArrayOptions.fromXml(e)),
-      doubleOptions: _s
-          .extractXmlChild(elem, 'DoubleOptions')
-          ?.let((e) => DoubleOptions.fromXml(e)),
+          ?.let(DoubleArrayOptions.fromXml),
+      doubleOptions:
+          _s.extractXmlChild(elem, 'DoubleOptions')?.let(DoubleOptions.fromXml),
       intArrayOptions: _s
           .extractXmlChild(elem, 'IntArrayOptions')
-          ?.let((e) => IntArrayOptions.fromXml(e)),
-      intOptions: _s
-          .extractXmlChild(elem, 'IntOptions')
-          ?.let((e) => IntOptions.fromXml(e)),
-      latLonOptions: _s
-          .extractXmlChild(elem, 'LatLonOptions')
-          ?.let((e) => LatLonOptions.fromXml(e)),
+          ?.let(IntArrayOptions.fromXml),
+      intOptions:
+          _s.extractXmlChild(elem, 'IntOptions')?.let(IntOptions.fromXml),
+      latLonOptions:
+          _s.extractXmlChild(elem, 'LatLonOptions')?.let(LatLonOptions.fromXml),
       literalArrayOptions: _s
           .extractXmlChild(elem, 'LiteralArrayOptions')
-          ?.let((e) => LiteralArrayOptions.fromXml(e)),
+          ?.let(LiteralArrayOptions.fromXml),
       literalOptions: _s
           .extractXmlChild(elem, 'LiteralOptions')
-          ?.let((e) => LiteralOptions.fromXml(e)),
+          ?.let(LiteralOptions.fromXml),
       textArrayOptions: _s
           .extractXmlChild(elem, 'TextArrayOptions')
-          ?.let((e) => TextArrayOptions.fromXml(e)),
-      textOptions: _s
-          .extractXmlChild(elem, 'TextOptions')
-          ?.let((e) => TextOptions.fromXml(e)),
+          ?.let(TextArrayOptions.fromXml),
+      textOptions:
+          _s.extractXmlChild(elem, 'TextOptions')?.let(TextOptions.fromXml),
     );
   }
 
@@ -3297,7 +3290,7 @@ class UpdateAvailabilityOptionsResponse {
     return UpdateAvailabilityOptionsResponse(
       availabilityOptions: _s
           .extractXmlChild(elem, 'AvailabilityOptions')
-          ?.let((e) => AvailabilityOptionsStatus.fromXml(e)),
+          ?.let(AvailabilityOptionsStatus.fromXml),
     );
   }
 }
@@ -3315,7 +3308,7 @@ class UpdateDomainEndpointOptionsResponse {
     return UpdateDomainEndpointOptionsResponse(
       domainEndpointOptions: _s
           .extractXmlChild(elem, 'DomainEndpointOptions')
-          ?.let((e) => DomainEndpointOptionsStatus.fromXml(e)),
+          ?.let(DomainEndpointOptionsStatus.fromXml),
     );
   }
 }

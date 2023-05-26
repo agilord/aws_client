@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use_from_same_package
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // ignore_for_file: unused_import
@@ -2189,20 +2190,20 @@ class Action {
       type: _s.extractXmlStringValue(elem, 'Type')!.toActionTypeEnum(),
       authenticateCognitoConfig: _s
           .extractXmlChild(elem, 'AuthenticateCognitoConfig')
-          ?.let((e) => AuthenticateCognitoActionConfig.fromXml(e)),
+          ?.let(AuthenticateCognitoActionConfig.fromXml),
       authenticateOidcConfig: _s
           .extractXmlChild(elem, 'AuthenticateOidcConfig')
-          ?.let((e) => AuthenticateOidcActionConfig.fromXml(e)),
+          ?.let(AuthenticateOidcActionConfig.fromXml),
       fixedResponseConfig: _s
           .extractXmlChild(elem, 'FixedResponseConfig')
-          ?.let((e) => FixedResponseActionConfig.fromXml(e)),
+          ?.let(FixedResponseActionConfig.fromXml),
       forwardConfig: _s
           .extractXmlChild(elem, 'ForwardConfig')
-          ?.let((e) => ForwardActionConfig.fromXml(e)),
+          ?.let(ForwardActionConfig.fromXml),
       order: _s.extractXmlIntValue(elem, 'Order'),
       redirectConfig: _s
           .extractXmlChild(elem, 'RedirectConfig')
-          ?.let((e) => RedirectActionConfig.fromXml(e)),
+          ?.let(RedirectActionConfig.fromXml),
       targetGroupArn: _s.extractXmlStringValue(elem, 'TargetGroupArn'),
     );
   }
@@ -2284,10 +2285,8 @@ class AddListenerCertificatesOutput {
   });
   factory AddListenerCertificatesOutput.fromXml(_s.XmlElement elem) {
     return AddListenerCertificatesOutput(
-      certificates: _s.extractXmlChild(elem, 'Certificates')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => Certificate.fromXml(c))
-          .toList()),
+      certificates: _s.extractXmlChild(elem, 'Certificates')?.let((elem) =>
+          elem.findElements('member').map(Certificate.fromXml).toList()),
     );
   }
 }
@@ -2660,7 +2659,7 @@ class AvailabilityZone {
           .extractXmlChild(elem, 'LoadBalancerAddresses')
           ?.let((elem) => elem
               .findElements('member')
-              .map((c) => LoadBalancerAddress.fromXml(c))
+              .map(LoadBalancerAddress.fromXml)
               .toList()),
       outpostId: _s.extractXmlStringValue(elem, 'OutpostId'),
       subnetId: _s.extractXmlStringValue(elem, 'SubnetId'),
@@ -2730,8 +2729,8 @@ class CreateListenerOutput {
   });
   factory CreateListenerOutput.fromXml(_s.XmlElement elem) {
     return CreateListenerOutput(
-      listeners: _s.extractXmlChild(elem, 'Listeners')?.let((elem) =>
-          elem.findElements('member').map((c) => Listener.fromXml(c)).toList()),
+      listeners: _s.extractXmlChild(elem, 'Listeners')?.let(
+          (elem) => elem.findElements('member').map(Listener.fromXml).toList()),
     );
   }
 }
@@ -2746,10 +2745,7 @@ class CreateLoadBalancerOutput {
   factory CreateLoadBalancerOutput.fromXml(_s.XmlElement elem) {
     return CreateLoadBalancerOutput(
       loadBalancers: _s.extractXmlChild(elem, 'LoadBalancers')?.let((elem) =>
-          elem
-              .findElements('member')
-              .map((c) => LoadBalancer.fromXml(c))
-              .toList()),
+          elem.findElements('member').map(LoadBalancer.fromXml).toList()),
     );
   }
 }
@@ -2763,8 +2759,8 @@ class CreateRuleOutput {
   });
   factory CreateRuleOutput.fromXml(_s.XmlElement elem) {
     return CreateRuleOutput(
-      rules: _s.extractXmlChild(elem, 'Rules')?.let((elem) =>
-          elem.findElements('member').map((c) => Rule.fromXml(c)).toList()),
+      rules: _s.extractXmlChild(elem, 'Rules')?.let(
+          (elem) => elem.findElements('member').map(Rule.fromXml).toList()),
     );
   }
 }
@@ -2778,10 +2774,8 @@ class CreateTargetGroupOutput {
   });
   factory CreateTargetGroupOutput.fromXml(_s.XmlElement elem) {
     return CreateTargetGroupOutput(
-      targetGroups: _s.extractXmlChild(elem, 'TargetGroups')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => TargetGroup.fromXml(c))
-          .toList()),
+      targetGroups: _s.extractXmlChild(elem, 'TargetGroups')?.let((elem) =>
+          elem.findElements('member').map(TargetGroup.fromXml).toList()),
     );
   }
 }
@@ -2845,8 +2839,8 @@ class DescribeAccountLimitsOutput {
   });
   factory DescribeAccountLimitsOutput.fromXml(_s.XmlElement elem) {
     return DescribeAccountLimitsOutput(
-      limits: _s.extractXmlChild(elem, 'Limits')?.let((elem) =>
-          elem.findElements('member').map((c) => Limit.fromXml(c)).toList()),
+      limits: _s.extractXmlChild(elem, 'Limits')?.let(
+          (elem) => elem.findElements('member').map(Limit.fromXml).toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
   }
@@ -2866,10 +2860,8 @@ class DescribeListenerCertificatesOutput {
   });
   factory DescribeListenerCertificatesOutput.fromXml(_s.XmlElement elem) {
     return DescribeListenerCertificatesOutput(
-      certificates: _s.extractXmlChild(elem, 'Certificates')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => Certificate.fromXml(c))
-          .toList()),
+      certificates: _s.extractXmlChild(elem, 'Certificates')?.let((elem) =>
+          elem.findElements('member').map(Certificate.fromXml).toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
   }
@@ -2889,8 +2881,8 @@ class DescribeListenersOutput {
   });
   factory DescribeListenersOutput.fromXml(_s.XmlElement elem) {
     return DescribeListenersOutput(
-      listeners: _s.extractXmlChild(elem, 'Listeners')?.let((elem) =>
-          elem.findElements('member').map((c) => Listener.fromXml(c)).toList()),
+      listeners: _s.extractXmlChild(elem, 'Listeners')?.let(
+          (elem) => elem.findElements('member').map(Listener.fromXml).toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
   }
@@ -2907,7 +2899,7 @@ class DescribeLoadBalancerAttributesOutput {
     return DescribeLoadBalancerAttributesOutput(
       attributes: _s.extractXmlChild(elem, 'Attributes')?.let((elem) => elem
           .findElements('member')
-          .map((c) => LoadBalancerAttribute.fromXml(c))
+          .map(LoadBalancerAttribute.fromXml)
           .toList()),
     );
   }
@@ -2928,10 +2920,7 @@ class DescribeLoadBalancersOutput {
   factory DescribeLoadBalancersOutput.fromXml(_s.XmlElement elem) {
     return DescribeLoadBalancersOutput(
       loadBalancers: _s.extractXmlChild(elem, 'LoadBalancers')?.let((elem) =>
-          elem
-              .findElements('member')
-              .map((c) => LoadBalancer.fromXml(c))
-              .toList()),
+          elem.findElements('member').map(LoadBalancer.fromXml).toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
   }
@@ -2952,8 +2941,8 @@ class DescribeRulesOutput {
   factory DescribeRulesOutput.fromXml(_s.XmlElement elem) {
     return DescribeRulesOutput(
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
-      rules: _s.extractXmlChild(elem, 'Rules')?.let((elem) =>
-          elem.findElements('member').map((c) => Rule.fromXml(c)).toList()),
+      rules: _s.extractXmlChild(elem, 'Rules')?.let(
+          (elem) => elem.findElements('member').map(Rule.fromXml).toList()),
     );
   }
 }
@@ -2973,10 +2962,8 @@ class DescribeSSLPoliciesOutput {
   factory DescribeSSLPoliciesOutput.fromXml(_s.XmlElement elem) {
     return DescribeSSLPoliciesOutput(
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
-      sslPolicies: _s.extractXmlChild(elem, 'SslPolicies')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => SslPolicy.fromXml(c))
-          .toList()),
+      sslPolicies: _s.extractXmlChild(elem, 'SslPolicies')?.let((elem) =>
+          elem.findElements('member').map(SslPolicy.fromXml).toList()),
     );
   }
 }
@@ -2991,10 +2978,8 @@ class DescribeTagsOutput {
   factory DescribeTagsOutput.fromXml(_s.XmlElement elem) {
     return DescribeTagsOutput(
       tagDescriptions: _s.extractXmlChild(elem, 'TagDescriptions')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => TagDescription.fromXml(c))
-              .toList()),
+          (elem) =>
+              elem.findElements('member').map(TagDescription.fromXml).toList()),
     );
   }
 }
@@ -3010,7 +2995,7 @@ class DescribeTargetGroupAttributesOutput {
     return DescribeTargetGroupAttributesOutput(
       attributes: _s.extractXmlChild(elem, 'Attributes')?.let((elem) => elem
           .findElements('member')
-          .map((c) => TargetGroupAttribute.fromXml(c))
+          .map(TargetGroupAttribute.fromXml)
           .toList()),
     );
   }
@@ -3031,10 +3016,8 @@ class DescribeTargetGroupsOutput {
   factory DescribeTargetGroupsOutput.fromXml(_s.XmlElement elem) {
     return DescribeTargetGroupsOutput(
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
-      targetGroups: _s.extractXmlChild(elem, 'TargetGroups')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => TargetGroup.fromXml(c))
-          .toList()),
+      targetGroups: _s.extractXmlChild(elem, 'TargetGroups')?.let((elem) =>
+          elem.findElements('member').map(TargetGroup.fromXml).toList()),
     );
   }
 }
@@ -3052,7 +3035,7 @@ class DescribeTargetHealthOutput {
           .extractXmlChild(elem, 'TargetHealthDescriptions')
           ?.let((elem) => elem
               .findElements('member')
-              .map((c) => TargetHealthDescription.fromXml(c))
+              .map(TargetHealthDescription.fromXml)
               .toList()),
     );
   }
@@ -3114,11 +3097,9 @@ class ForwardActionConfig {
     return ForwardActionConfig(
       targetGroupStickinessConfig: _s
           .extractXmlChild(elem, 'TargetGroupStickinessConfig')
-          ?.let((e) => TargetGroupStickinessConfig.fromXml(e)),
-      targetGroups: _s.extractXmlChild(elem, 'TargetGroups')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => TargetGroupTuple.fromXml(c))
-          .toList()),
+          ?.let(TargetGroupStickinessConfig.fromXml),
+      targetGroups: _s.extractXmlChild(elem, 'TargetGroups')?.let((elem) =>
+          elem.findElements('member').map(TargetGroupTuple.fromXml).toList()),
     );
   }
 
@@ -3398,12 +3379,10 @@ class Listener {
       alpnPolicy: _s
           .extractXmlChild(elem, 'AlpnPolicy')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      certificates: _s.extractXmlChild(elem, 'Certificates')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => Certificate.fromXml(c))
-          .toList()),
-      defaultActions: _s.extractXmlChild(elem, 'DefaultActions')?.let((elem) =>
-          elem.findElements('member').map((c) => Action.fromXml(c)).toList()),
+      certificates: _s.extractXmlChild(elem, 'Certificates')?.let((elem) =>
+          elem.findElements('member').map(Certificate.fromXml).toList()),
+      defaultActions: _s.extractXmlChild(elem, 'DefaultActions')?.let(
+          (elem) => elem.findElements('member').map(Action.fromXml).toList()),
       listenerArn: _s.extractXmlStringValue(elem, 'ListenerArn'),
       loadBalancerArn: _s.extractXmlStringValue(elem, 'LoadBalancerArn'),
       port: _s.extractXmlIntValue(elem, 'Port'),
@@ -3485,7 +3464,7 @@ class LoadBalancer {
       availabilityZones: _s.extractXmlChild(elem, 'AvailabilityZones')?.let(
           (elem) => elem
               .findElements('member')
-              .map((c) => AvailabilityZone.fromXml(c))
+              .map(AvailabilityZone.fromXml)
               .toList()),
       canonicalHostedZoneId:
           _s.extractXmlStringValue(elem, 'CanonicalHostedZoneId'),
@@ -3502,9 +3481,7 @@ class LoadBalancer {
       securityGroups: _s
           .extractXmlChild(elem, 'SecurityGroups')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      state: _s
-          .extractXmlChild(elem, 'State')
-          ?.let((e) => LoadBalancerState.fromXml(e)),
+      state: _s.extractXmlChild(elem, 'State')?.let(LoadBalancerState.fromXml),
       type: _s.extractXmlStringValue(elem, 'Type')?.toLoadBalancerTypeEnum(),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
     );
@@ -3876,8 +3853,8 @@ class ModifyListenerOutput {
   });
   factory ModifyListenerOutput.fromXml(_s.XmlElement elem) {
     return ModifyListenerOutput(
-      listeners: _s.extractXmlChild(elem, 'Listeners')?.let((elem) =>
-          elem.findElements('member').map((c) => Listener.fromXml(c)).toList()),
+      listeners: _s.extractXmlChild(elem, 'Listeners')?.let(
+          (elem) => elem.findElements('member').map(Listener.fromXml).toList()),
     );
   }
 }
@@ -3893,7 +3870,7 @@ class ModifyLoadBalancerAttributesOutput {
     return ModifyLoadBalancerAttributesOutput(
       attributes: _s.extractXmlChild(elem, 'Attributes')?.let((elem) => elem
           .findElements('member')
-          .map((c) => LoadBalancerAttribute.fromXml(c))
+          .map(LoadBalancerAttribute.fromXml)
           .toList()),
     );
   }
@@ -3908,8 +3885,8 @@ class ModifyRuleOutput {
   });
   factory ModifyRuleOutput.fromXml(_s.XmlElement elem) {
     return ModifyRuleOutput(
-      rules: _s.extractXmlChild(elem, 'Rules')?.let((elem) =>
-          elem.findElements('member').map((c) => Rule.fromXml(c)).toList()),
+      rules: _s.extractXmlChild(elem, 'Rules')?.let(
+          (elem) => elem.findElements('member').map(Rule.fromXml).toList()),
     );
   }
 }
@@ -3925,7 +3902,7 @@ class ModifyTargetGroupAttributesOutput {
     return ModifyTargetGroupAttributesOutput(
       attributes: _s.extractXmlChild(elem, 'Attributes')?.let((elem) => elem
           .findElements('member')
-          .map((c) => TargetGroupAttribute.fromXml(c))
+          .map(TargetGroupAttribute.fromXml)
           .toList()),
     );
   }
@@ -3940,10 +3917,8 @@ class ModifyTargetGroupOutput {
   });
   factory ModifyTargetGroupOutput.fromXml(_s.XmlElement elem) {
     return ModifyTargetGroupOutput(
-      targetGroups: _s.extractXmlChild(elem, 'TargetGroups')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => TargetGroup.fromXml(c))
-          .toList()),
+      targetGroups: _s.extractXmlChild(elem, 'TargetGroups')?.let((elem) =>
+          elem.findElements('member').map(TargetGroup.fromXml).toList()),
     );
   }
 }
@@ -4059,7 +4034,7 @@ class QueryStringConditionConfig {
     return QueryStringConditionConfig(
       values: _s.extractXmlChild(elem, 'Values')?.let((elem) => elem
           .findElements('member')
-          .map((c) => QueryStringKeyValuePair.fromXml(c))
+          .map(QueryStringKeyValuePair.fromXml)
           .toList()),
     );
   }
@@ -4282,12 +4257,10 @@ class Rule {
   });
   factory Rule.fromXml(_s.XmlElement elem) {
     return Rule(
-      actions: _s.extractXmlChild(elem, 'Actions')?.let((elem) =>
-          elem.findElements('member').map((c) => Action.fromXml(c)).toList()),
-      conditions: _s.extractXmlChild(elem, 'Conditions')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => RuleCondition.fromXml(c))
-          .toList()),
+      actions: _s.extractXmlChild(elem, 'Actions')?.let(
+          (elem) => elem.findElements('member').map(Action.fromXml).toList()),
+      conditions: _s.extractXmlChild(elem, 'Conditions')?.let((elem) =>
+          elem.findElements('member').map(RuleCondition.fromXml).toList()),
       isDefault: _s.extractXmlBoolValue(elem, 'IsDefault'),
       priority: _s.extractXmlStringValue(elem, 'Priority'),
       ruleArn: _s.extractXmlStringValue(elem, 'RuleArn'),
@@ -4417,22 +4390,22 @@ class RuleCondition {
       field: _s.extractXmlStringValue(elem, 'Field'),
       hostHeaderConfig: _s
           .extractXmlChild(elem, 'HostHeaderConfig')
-          ?.let((e) => HostHeaderConditionConfig.fromXml(e)),
+          ?.let(HostHeaderConditionConfig.fromXml),
       httpHeaderConfig: _s
           .extractXmlChild(elem, 'HttpHeaderConfig')
-          ?.let((e) => HttpHeaderConditionConfig.fromXml(e)),
+          ?.let(HttpHeaderConditionConfig.fromXml),
       httpRequestMethodConfig: _s
           .extractXmlChild(elem, 'HttpRequestMethodConfig')
-          ?.let((e) => HttpRequestMethodConditionConfig.fromXml(e)),
+          ?.let(HttpRequestMethodConditionConfig.fromXml),
       pathPatternConfig: _s
           .extractXmlChild(elem, 'PathPatternConfig')
-          ?.let((e) => PathPatternConditionConfig.fromXml(e)),
+          ?.let(PathPatternConditionConfig.fromXml),
       queryStringConfig: _s
           .extractXmlChild(elem, 'QueryStringConfig')
-          ?.let((e) => QueryStringConditionConfig.fromXml(e)),
+          ?.let(QueryStringConditionConfig.fromXml),
       sourceIpConfig: _s
           .extractXmlChild(elem, 'SourceIpConfig')
-          ?.let((e) => SourceIpConditionConfig.fromXml(e)),
+          ?.let(SourceIpConditionConfig.fromXml),
       values: _s
           .extractXmlChild(elem, 'Values')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
@@ -4509,8 +4482,8 @@ class SetRulePrioritiesOutput {
   });
   factory SetRulePrioritiesOutput.fromXml(_s.XmlElement elem) {
     return SetRulePrioritiesOutput(
-      rules: _s.extractXmlChild(elem, 'Rules')?.let((elem) =>
-          elem.findElements('member').map((c) => Rule.fromXml(c)).toList()),
+      rules: _s.extractXmlChild(elem, 'Rules')?.let(
+          (elem) => elem.findElements('member').map(Rule.fromXml).toList()),
     );
   }
 }
@@ -4547,7 +4520,7 @@ class SetSubnetsOutput {
       availabilityZones: _s.extractXmlChild(elem, 'AvailabilityZones')?.let(
           (elem) => elem
               .findElements('member')
-              .map((c) => AvailabilityZone.fromXml(c))
+              .map(AvailabilityZone.fromXml)
               .toList()),
       ipAddressType:
           _s.extractXmlStringValue(elem, 'IpAddressType')?.toIpAddressType(),
@@ -4612,8 +4585,8 @@ class SslPolicy {
   });
   factory SslPolicy.fromXml(_s.XmlElement elem) {
     return SslPolicy(
-      ciphers: _s.extractXmlChild(elem, 'Ciphers')?.let((elem) =>
-          elem.findElements('member').map((c) => Cipher.fromXml(c)).toList()),
+      ciphers: _s.extractXmlChild(elem, 'Ciphers')?.let(
+          (elem) => elem.findElements('member').map(Cipher.fromXml).toList()),
       name: _s.extractXmlStringValue(elem, 'Name'),
       sslProtocols: _s
           .extractXmlChild(elem, 'SslProtocols')
@@ -4706,8 +4679,8 @@ class TagDescription {
   factory TagDescription.fromXml(_s.XmlElement elem) {
     return TagDescription(
       resourceArn: _s.extractXmlStringValue(elem, 'ResourceArn'),
-      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let(
+          (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
     );
   }
 }
@@ -4890,8 +4863,7 @@ class TargetGroup {
       loadBalancerArns: _s
           .extractXmlChild(elem, 'LoadBalancerArns')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      matcher:
-          _s.extractXmlChild(elem, 'Matcher')?.let((e) => Matcher.fromXml(e)),
+      matcher: _s.extractXmlChild(elem, 'Matcher')?.let(Matcher.fromXml),
       port: _s.extractXmlIntValue(elem, 'Port'),
       protocol: _s.extractXmlStringValue(elem, 'Protocol')?.toProtocolEnum(),
       protocolVersion: _s.extractXmlStringValue(elem, 'ProtocolVersion'),
@@ -5327,12 +5299,10 @@ class TargetHealthDescription {
   factory TargetHealthDescription.fromXml(_s.XmlElement elem) {
     return TargetHealthDescription(
       healthCheckPort: _s.extractXmlStringValue(elem, 'HealthCheckPort'),
-      target: _s
-          .extractXmlChild(elem, 'Target')
-          ?.let((e) => TargetDescription.fromXml(e)),
-      targetHealth: _s
-          .extractXmlChild(elem, 'TargetHealth')
-          ?.let((e) => TargetHealth.fromXml(e)),
+      target:
+          _s.extractXmlChild(elem, 'Target')?.let(TargetDescription.fromXml),
+      targetHealth:
+          _s.extractXmlChild(elem, 'TargetHealth')?.let(TargetHealth.fromXml),
     );
   }
 }

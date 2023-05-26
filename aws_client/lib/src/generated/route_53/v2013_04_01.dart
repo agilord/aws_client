@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use_from_same_package
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // ignore_for_file: unused_import
@@ -508,9 +509,8 @@ class Route53 {
     );
     final $elem = await _s.xmlFromResponse($result);
     return CreateCidrCollectionResponse(
-      collection: _s
-          .extractXmlChild($elem, 'Collection')
-          ?.let((e) => CidrCollection.fromXml(e)),
+      collection:
+          _s.extractXmlChild($elem, 'Collection')?.let(CidrCollection.fromXml),
       location: _s.extractHeaderStringValue($result.headers, 'Location'),
     );
   }
@@ -790,7 +790,7 @@ class Route53 {
       delegationSet:
           DelegationSet.fromXml(_s.extractXmlChild($elem, 'DelegationSet')!),
       hostedZone: HostedZone.fromXml(_s.extractXmlChild($elem, 'HostedZone')!),
-      vpc: _s.extractXmlChild($elem, 'VPC')?.let((e) => VPC.fromXml(e)),
+      vpc: _s.extractXmlChild($elem, 'VPC')?.let(VPC.fromXml),
       location: _s.extractHeaderStringValue($result.headers, 'Location')!,
     );
   }
@@ -5863,10 +5863,8 @@ class CloudWatchAlarmConfiguration {
       period: _s.extractXmlIntValue(elem, 'Period')!,
       statistic: _s.extractXmlStringValue(elem, 'Statistic')!.toStatistic(),
       threshold: _s.extractXmlDoubleValue(elem, 'Threshold')!,
-      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) => elem
-          .findElements('Dimension')
-          .map((c) => Dimension.fromXml(c))
-          .toList()),
+      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) =>
+          elem.findElements('Dimension').map(Dimension.fromXml).toList()),
     );
   }
 
@@ -7757,7 +7755,7 @@ class GetDNSSECResponse {
       keySigningKeys: _s
           .extractXmlChild(elem, 'KeySigningKeys')!
           .findElements('member')
-          .map((c) => KeySigningKey.fromXml(c))
+          .map(KeySigningKey.fromXml)
           .toList(),
       status: DNSSECStatus.fromXml(_s.extractXmlChild(elem, 'Status')!),
     );
@@ -7837,7 +7835,7 @@ class GetHealthCheckLastFailureReasonResponse {
       healthCheckObservations: _s
           .extractXmlChild(elem, 'HealthCheckObservations')!
           .findElements('HealthCheckObservation')
-          .map((c) => HealthCheckObservation.fromXml(c))
+          .map(HealthCheckObservation.fromXml)
           .toList(),
     );
   }
@@ -7891,7 +7889,7 @@ class GetHealthCheckStatusResponse {
       healthCheckObservations: _s
           .extractXmlChild(elem, 'HealthCheckObservations')!
           .findElements('HealthCheckObservation')
-          .map((c) => HealthCheckObservation.fromXml(c))
+          .map(HealthCheckObservation.fromXml)
           .toList(),
     );
   }
@@ -7987,11 +7985,11 @@ class GetHostedZoneResponse {
   factory GetHostedZoneResponse.fromXml(_s.XmlElement elem) {
     return GetHostedZoneResponse(
       hostedZone: HostedZone.fromXml(_s.extractXmlChild(elem, 'HostedZone')!),
-      delegationSet: _s
-          .extractXmlChild(elem, 'DelegationSet')
-          ?.let((e) => DelegationSet.fromXml(e)),
-      vPCs: _s.extractXmlChild(elem, 'VPCs')?.let((elem) =>
-          elem.findElements('VPC').map((c) => VPC.fromXml(c)).toList()),
+      delegationSet:
+          _s.extractXmlChild(elem, 'DelegationSet')?.let(DelegationSet.fromXml),
+      vPCs: _s
+          .extractXmlChild(elem, 'VPCs')
+          ?.let((elem) => elem.findElements('VPC').map(VPC.fromXml).toList()),
     );
   }
 
@@ -8206,10 +8204,9 @@ class HealthCheck {
       id: _s.extractXmlStringValue(elem, 'Id')!,
       cloudWatchAlarmConfiguration: _s
           .extractXmlChild(elem, 'CloudWatchAlarmConfiguration')
-          ?.let((e) => CloudWatchAlarmConfiguration.fromXml(e)),
-      linkedService: _s
-          .extractXmlChild(elem, 'LinkedService')
-          ?.let((e) => LinkedService.fromXml(e)),
+          ?.let(CloudWatchAlarmConfiguration.fromXml),
+      linkedService:
+          _s.extractXmlChild(elem, 'LinkedService')?.let(LinkedService.fromXml),
     );
   }
 
@@ -8641,7 +8638,7 @@ class HealthCheckConfig {
       type: _s.extractXmlStringValue(elem, 'Type')!.toHealthCheckType(),
       alarmIdentifier: _s
           .extractXmlChild(elem, 'AlarmIdentifier')
-          ?.let((e) => AlarmIdentifier.fromXml(e)),
+          ?.let(AlarmIdentifier.fromXml),
       childHealthChecks: _s.extractXmlChild(elem, 'ChildHealthChecks')?.let(
           (elem) => _s.extractXmlStringListValues(elem, 'ChildHealthCheck')),
       disabled: _s.extractXmlBoolValue(elem, 'Disabled'),
@@ -8803,9 +8800,8 @@ class HealthCheckObservation {
     return HealthCheckObservation(
       iPAddress: _s.extractXmlStringValue(elem, 'IPAddress'),
       region: _s.extractXmlStringValue(elem, 'Region')?.toHealthCheckRegion(),
-      statusReport: _s
-          .extractXmlChild(elem, 'StatusReport')
-          ?.let((e) => StatusReport.fromXml(e)),
+      statusReport:
+          _s.extractXmlChild(elem, 'StatusReport')?.let(StatusReport.fromXml),
     );
   }
 
@@ -8983,12 +8979,9 @@ class HostedZone {
       callerReference: _s.extractXmlStringValue(elem, 'CallerReference')!,
       id: _s.extractXmlStringValue(elem, 'Id')!,
       name: _s.extractXmlStringValue(elem, 'Name')!,
-      config: _s
-          .extractXmlChild(elem, 'Config')
-          ?.let((e) => HostedZoneConfig.fromXml(e)),
-      linkedService: _s
-          .extractXmlChild(elem, 'LinkedService')
-          ?.let((e) => LinkedService.fromXml(e)),
+      config: _s.extractXmlChild(elem, 'Config')?.let(HostedZoneConfig.fromXml),
+      linkedService:
+          _s.extractXmlChild(elem, 'LinkedService')?.let(LinkedService.fromXml),
       resourceRecordSetCount:
           _s.extractXmlIntValue(elem, 'ResourceRecordSetCount'),
     );
@@ -9519,10 +9512,8 @@ class ListCidrBlocksResponse {
   });
   factory ListCidrBlocksResponse.fromXml(_s.XmlElement elem) {
     return ListCidrBlocksResponse(
-      cidrBlocks: _s.extractXmlChild(elem, 'CidrBlocks')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => CidrBlockSummary.fromXml(c))
-          .toList()),
+      cidrBlocks: _s.extractXmlChild(elem, 'CidrBlocks')?.let((elem) =>
+          elem.findElements('member').map(CidrBlockSummary.fromXml).toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
@@ -9556,7 +9547,7 @@ class ListCidrCollectionsResponse {
       cidrCollections: _s.extractXmlChild(elem, 'CidrCollections')?.let(
           (elem) => elem
               .findElements('member')
-              .map((c) => CollectionSummary.fromXml(c))
+              .map(CollectionSummary.fromXml)
               .toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
@@ -9589,10 +9580,7 @@ class ListCidrLocationsResponse {
   factory ListCidrLocationsResponse.fromXml(_s.XmlElement elem) {
     return ListCidrLocationsResponse(
       cidrLocations: _s.extractXmlChild(elem, 'CidrLocations')?.let((elem) =>
-          elem
-              .findElements('member')
-              .map((c) => LocationSummary.fromXml(c))
-              .toList()),
+          elem.findElements('member').map(LocationSummary.fromXml).toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
@@ -9656,7 +9644,7 @@ class ListGeoLocationsResponse {
       geoLocationDetailsList: _s
           .extractXmlChild(elem, 'GeoLocationDetailsList')!
           .findElements('GeoLocationDetails')
-          .map((c) => GeoLocationDetails.fromXml(c))
+          .map(GeoLocationDetails.fromXml)
           .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
       maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
@@ -9728,7 +9716,7 @@ class ListHealthChecksResponse {
       healthChecks: _s
           .extractXmlChild(elem, 'HealthChecks')!
           .findElements('HealthCheck')
-          .map((c) => HealthCheck.fromXml(c))
+          .map(HealthCheck.fromXml)
           .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
       marker: _s.extractXmlStringValue(elem, 'Marker')!,
@@ -9816,7 +9804,7 @@ class ListHostedZonesByNameResponse {
       hostedZones: _s
           .extractXmlChild(elem, 'HostedZones')!
           .findElements('HostedZone')
-          .map((c) => HostedZone.fromXml(c))
+          .map(HostedZone.fromXml)
           .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
       maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
@@ -9872,7 +9860,7 @@ class ListHostedZonesByVPCResponse {
       hostedZoneSummaries: _s
           .extractXmlChild(elem, 'HostedZoneSummaries')!
           .findElements('HostedZoneSummary')
-          .map((c) => HostedZoneSummary.fromXml(c))
+          .map(HostedZoneSummary.fromXml)
           .toList(),
       maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
@@ -9933,7 +9921,7 @@ class ListHostedZonesResponse {
       hostedZones: _s
           .extractXmlChild(elem, 'HostedZones')!
           .findElements('HostedZone')
-          .map((c) => HostedZone.fromXml(c))
+          .map(HostedZone.fromXml)
           .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
       marker: _s.extractXmlStringValue(elem, 'Marker')!,
@@ -9986,7 +9974,7 @@ class ListQueryLoggingConfigsResponse {
       queryLoggingConfigs: _s
           .extractXmlChild(elem, 'QueryLoggingConfigs')!
           .findElements('QueryLoggingConfig')
-          .map((c) => QueryLoggingConfig.fromXml(c))
+          .map(QueryLoggingConfig.fromXml)
           .toList(),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
@@ -10050,7 +10038,7 @@ class ListResourceRecordSetsResponse {
       resourceRecordSets: _s
           .extractXmlChild(elem, 'ResourceRecordSets')!
           .findElements('ResourceRecordSet')
-          .map((c) => ResourceRecordSet.fromXml(c))
+          .map(ResourceRecordSet.fromXml)
           .toList(),
       nextRecordIdentifier:
           _s.extractXmlStringValue(elem, 'NextRecordIdentifier'),
@@ -10121,7 +10109,7 @@ class ListReusableDelegationSetsResponse {
       delegationSets: _s
           .extractXmlChild(elem, 'DelegationSets')!
           .findElements('DelegationSet')
-          .map((c) => DelegationSet.fromXml(c))
+          .map(DelegationSet.fromXml)
           .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
       marker: _s.extractXmlStringValue(elem, 'Marker')!,
@@ -10235,7 +10223,7 @@ class ListTagsForResourcesResponse {
       resourceTagSets: _s
           .extractXmlChild(elem, 'ResourceTagSets')!
           .findElements('ResourceTagSet')
-          .map((c) => ResourceTagSet.fromXml(c))
+          .map(ResourceTagSet.fromXml)
           .toList(),
     );
   }
@@ -10285,7 +10273,7 @@ class ListTrafficPoliciesResponse {
       trafficPolicySummaries: _s
           .extractXmlChild(elem, 'TrafficPolicySummaries')!
           .findElements('TrafficPolicySummary')
-          .map((c) => TrafficPolicySummary.fromXml(c))
+          .map(TrafficPolicySummary.fromXml)
           .toList(),
     );
   }
@@ -10351,7 +10339,7 @@ class ListTrafficPolicyInstancesByHostedZoneResponse {
       trafficPolicyInstances: _s
           .extractXmlChild(elem, 'TrafficPolicyInstances')!
           .findElements('TrafficPolicyInstance')
-          .map((c) => TrafficPolicyInstance.fromXml(c))
+          .map(TrafficPolicyInstance.fromXml)
           .toList(),
       trafficPolicyInstanceNameMarker:
           _s.extractXmlStringValue(elem, 'TrafficPolicyInstanceNameMarker'),
@@ -10435,7 +10423,7 @@ class ListTrafficPolicyInstancesByPolicyResponse {
       trafficPolicyInstances: _s
           .extractXmlChild(elem, 'TrafficPolicyInstances')!
           .findElements('TrafficPolicyInstance')
-          .map((c) => TrafficPolicyInstance.fromXml(c))
+          .map(TrafficPolicyInstance.fromXml)
           .toList(),
       hostedZoneIdMarker: _s.extractXmlStringValue(elem, 'HostedZoneIdMarker'),
       trafficPolicyInstanceNameMarker:
@@ -10523,7 +10511,7 @@ class ListTrafficPolicyInstancesResponse {
       trafficPolicyInstances: _s
           .extractXmlChild(elem, 'TrafficPolicyInstances')!
           .findElements('TrafficPolicyInstance')
-          .map((c) => TrafficPolicyInstance.fromXml(c))
+          .map(TrafficPolicyInstance.fromXml)
           .toList(),
       hostedZoneIdMarker: _s.extractXmlStringValue(elem, 'HostedZoneIdMarker'),
       trafficPolicyInstanceNameMarker:
@@ -10599,7 +10587,7 @@ class ListTrafficPolicyVersionsResponse {
       trafficPolicies: _s
           .extractXmlChild(elem, 'TrafficPolicies')!
           .findElements('TrafficPolicy')
-          .map((c) => TrafficPolicy.fromXml(c))
+          .map(TrafficPolicy.fromXml)
           .toList(),
       trafficPolicyVersionMarker:
           _s.extractXmlStringValue(elem, 'TrafficPolicyVersionMarker')!,
@@ -10647,7 +10635,7 @@ class ListVPCAssociationAuthorizationsResponse {
       vPCs: _s
           .extractXmlChild(elem, 'VPCs')!
           .findElements('VPC')
-          .map((c) => VPC.fromXml(c))
+          .map(VPC.fromXml)
           .toList(),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
@@ -11498,18 +11486,16 @@ class ResourceRecordSet {
     return ResourceRecordSet(
       name: _s.extractXmlStringValue(elem, 'Name')!,
       type: _s.extractXmlStringValue(elem, 'Type')!.toRRType(),
-      aliasTarget: _s
-          .extractXmlChild(elem, 'AliasTarget')
-          ?.let((e) => AliasTarget.fromXml(e)),
+      aliasTarget:
+          _s.extractXmlChild(elem, 'AliasTarget')?.let(AliasTarget.fromXml),
       cidrRoutingConfig: _s
           .extractXmlChild(elem, 'CidrRoutingConfig')
-          ?.let((e) => CidrRoutingConfig.fromXml(e)),
+          ?.let(CidrRoutingConfig.fromXml),
       failover: _s
           .extractXmlStringValue(elem, 'Failover')
           ?.toResourceRecordSetFailover(),
-      geoLocation: _s
-          .extractXmlChild(elem, 'GeoLocation')
-          ?.let((e) => GeoLocation.fromXml(e)),
+      geoLocation:
+          _s.extractXmlChild(elem, 'GeoLocation')?.let(GeoLocation.fromXml),
       healthCheckId: _s.extractXmlStringValue(elem, 'HealthCheckId'),
       multiValueAnswer: _s.extractXmlBoolValue(elem, 'MultiValueAnswer'),
       region:
@@ -11517,7 +11503,7 @@ class ResourceRecordSet {
       resourceRecords: _s.extractXmlChild(elem, 'ResourceRecords')?.let(
           (elem) => elem
               .findElements('ResourceRecord')
-              .map((c) => ResourceRecord.fromXml(c))
+              .map(ResourceRecord.fromXml)
               .toList()),
       setIdentifier: _s.extractXmlStringValue(elem, 'SetIdentifier'),
       ttl: _s.extractXmlIntValue(elem, 'TTL'),
@@ -11833,8 +11819,9 @@ class ResourceTagSet {
       resourceId: _s.extractXmlStringValue(elem, 'ResourceId'),
       resourceType:
           _s.extractXmlStringValue(elem, 'ResourceType')?.toTagResourceType(),
-      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList()),
+      tags: _s
+          .extractXmlChild(elem, 'Tags')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
     );
   }
 

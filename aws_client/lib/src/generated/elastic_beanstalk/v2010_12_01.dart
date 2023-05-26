@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use_from_same_package
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // ignore_for_file: unused_import
@@ -2739,7 +2740,7 @@ class ApplicationDescription {
       description: _s.extractXmlStringValue(elem, 'Description'),
       resourceLifecycleConfig: _s
           .extractXmlChild(elem, 'ResourceLifecycleConfig')
-          ?.let((e) => ApplicationResourceLifecycleConfig.fromXml(e)),
+          ?.let(ApplicationResourceLifecycleConfig.fromXml),
       versions: _s
           .extractXmlChild(elem, 'Versions')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
@@ -2782,7 +2783,7 @@ class ApplicationDescriptionMessage {
     return ApplicationDescriptionMessage(
       application: _s
           .extractXmlChild(elem, 'Application')
-          ?.let((e) => ApplicationDescription.fromXml(e)),
+          ?.let(ApplicationDescription.fromXml),
     );
   }
 
@@ -2806,7 +2807,7 @@ class ApplicationDescriptionsMessage {
     return ApplicationDescriptionsMessage(
       applications: _s.extractXmlChild(elem, 'Applications')?.let((elem) => elem
           .findElements('member')
-          .map((c) => ApplicationDescription.fromXml(c))
+          .map(ApplicationDescription.fromXml)
           .toList()),
     );
   }
@@ -2848,12 +2849,10 @@ class ApplicationMetrics {
   factory ApplicationMetrics.fromXml(_s.XmlElement elem) {
     return ApplicationMetrics(
       duration: _s.extractXmlIntValue(elem, 'Duration'),
-      latency:
-          _s.extractXmlChild(elem, 'Latency')?.let((e) => Latency.fromXml(e)),
+      latency: _s.extractXmlChild(elem, 'Latency')?.let(Latency.fromXml),
       requestCount: _s.extractXmlIntValue(elem, 'RequestCount'),
-      statusCodes: _s
-          .extractXmlChild(elem, 'StatusCodes')
-          ?.let((e) => StatusCodes.fromXml(e)),
+      statusCodes:
+          _s.extractXmlChild(elem, 'StatusCodes')?.let(StatusCodes.fromXml),
     );
   }
 
@@ -2902,7 +2901,7 @@ class ApplicationResourceLifecycleConfig {
       serviceRole: _s.extractXmlStringValue(elem, 'ServiceRole'),
       versionLifecycleConfig: _s
           .extractXmlChild(elem, 'VersionLifecycleConfig')
-          ?.let((e) => ApplicationVersionLifecycleConfig.fromXml(e)),
+          ?.let(ApplicationVersionLifecycleConfig.fromXml),
     );
   }
 
@@ -2934,7 +2933,7 @@ class ApplicationResourceLifecycleDescriptionMessage {
       applicationName: _s.extractXmlStringValue(elem, 'ApplicationName'),
       resourceLifecycleConfig: _s
           .extractXmlChild(elem, 'ResourceLifecycleConfig')
-          ?.let((e) => ApplicationResourceLifecycleConfig.fromXml(e)),
+          ?.let(ApplicationResourceLifecycleConfig.fromXml),
     );
   }
 
@@ -3034,10 +3033,9 @@ class ApplicationVersionDescription {
       description: _s.extractXmlStringValue(elem, 'Description'),
       sourceBuildInformation: _s
           .extractXmlChild(elem, 'SourceBuildInformation')
-          ?.let((e) => SourceBuildInformation.fromXml(e)),
-      sourceBundle: _s
-          .extractXmlChild(elem, 'SourceBundle')
-          ?.let((e) => S3Location.fromXml(e)),
+          ?.let(SourceBuildInformation.fromXml),
+      sourceBundle:
+          _s.extractXmlChild(elem, 'SourceBundle')?.let(S3Location.fromXml),
       status: _s
           .extractXmlStringValue(elem, 'Status')
           ?.toApplicationVersionStatus(),
@@ -3085,7 +3083,7 @@ class ApplicationVersionDescriptionMessage {
     return ApplicationVersionDescriptionMessage(
       applicationVersion: _s
           .extractXmlChild(elem, 'ApplicationVersion')
-          ?.let((e) => ApplicationVersionDescription.fromXml(e)),
+          ?.let(ApplicationVersionDescription.fromXml),
     );
   }
 
@@ -3116,7 +3114,7 @@ class ApplicationVersionDescriptionsMessage {
       applicationVersions: _s.extractXmlChild(elem, 'ApplicationVersions')?.let(
           (elem) => elem
               .findElements('member')
-              .map((c) => ApplicationVersionDescription.fromXml(c))
+              .map(ApplicationVersionDescription.fromXml)
               .toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
@@ -3155,12 +3153,10 @@ class ApplicationVersionLifecycleConfig {
   });
   factory ApplicationVersionLifecycleConfig.fromXml(_s.XmlElement elem) {
     return ApplicationVersionLifecycleConfig(
-      maxAgeRule: _s
-          .extractXmlChild(elem, 'MaxAgeRule')
-          ?.let((e) => MaxAgeRule.fromXml(e)),
-      maxCountRule: _s
-          .extractXmlChild(elem, 'MaxCountRule')
-          ?.let((e) => MaxCountRule.fromXml(e)),
+      maxAgeRule:
+          _s.extractXmlChild(elem, 'MaxAgeRule')?.let(MaxAgeRule.fromXml),
+      maxCountRule:
+          _s.extractXmlChild(elem, 'MaxCountRule')?.let(MaxCountRule.fromXml),
     );
   }
 
@@ -3686,7 +3682,7 @@ class ConfigurationOptionDescription {
       namespace: _s.extractXmlStringValue(elem, 'Namespace'),
       regex: _s
           .extractXmlChild(elem, 'Regex')
-          ?.let((e) => OptionRestrictionRegex.fromXml(e)),
+          ?.let(OptionRestrictionRegex.fromXml),
       userDefined: _s.extractXmlBoolValue(elem, 'UserDefined'),
       valueOptions: _s
           .extractXmlChild(elem, 'ValueOptions')
@@ -3822,7 +3818,7 @@ class ConfigurationOptionsDescription {
     return ConfigurationOptionsDescription(
       options: _s.extractXmlChild(elem, 'Options')?.let((elem) => elem
           .findElements('member')
-          .map((c) => ConfigurationOptionDescription.fromXml(c))
+          .map(ConfigurationOptionDescription.fromXml)
           .toList()),
       platformArn: _s.extractXmlStringValue(elem, 'PlatformArn'),
       solutionStackName: _s.extractXmlStringValue(elem, 'SolutionStackName'),
@@ -3922,7 +3918,7 @@ class ConfigurationSettingsDescription {
       optionSettings: _s.extractXmlChild(elem, 'OptionSettings')?.let((elem) =>
           elem
               .findElements('member')
-              .map((c) => ConfigurationOptionSetting.fromXml(c))
+              .map(ConfigurationOptionSetting.fromXml)
               .toList()),
       platformArn: _s.extractXmlStringValue(elem, 'PlatformArn'),
       solutionStackName: _s.extractXmlStringValue(elem, 'SolutionStackName'),
@@ -3972,7 +3968,7 @@ class ConfigurationSettingsDescriptions {
           .extractXmlChild(elem, 'ConfigurationSettings')
           ?.let((elem) => elem
               .findElements('member')
-              .map((c) => ConfigurationSettingsDescription.fromXml(c))
+              .map(ConfigurationSettingsDescription.fromXml)
               .toList()),
     );
   }
@@ -3996,10 +3992,8 @@ class ConfigurationSettingsValidationMessages {
   });
   factory ConfigurationSettingsValidationMessages.fromXml(_s.XmlElement elem) {
     return ConfigurationSettingsValidationMessages(
-      messages: _s.extractXmlChild(elem, 'Messages')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => ValidationMessage.fromXml(c))
-          .toList()),
+      messages: _s.extractXmlChild(elem, 'Messages')?.let((elem) =>
+          elem.findElements('member').map(ValidationMessage.fromXml).toList()),
     );
   }
 
@@ -4024,11 +4018,10 @@ class CreatePlatformVersionResult {
   });
   factory CreatePlatformVersionResult.fromXml(_s.XmlElement elem) {
     return CreatePlatformVersionResult(
-      builder:
-          _s.extractXmlChild(elem, 'Builder')?.let((e) => Builder.fromXml(e)),
+      builder: _s.extractXmlChild(elem, 'Builder')?.let(Builder.fromXml),
       platformSummary: _s
           .extractXmlChild(elem, 'PlatformSummary')
-          ?.let((e) => PlatformSummary.fromXml(e)),
+          ?.let(PlatformSummary.fromXml),
     );
   }
 
@@ -4104,7 +4097,7 @@ class DeletePlatformVersionResult {
     return DeletePlatformVersionResult(
       platformSummary: _s
           .extractXmlChild(elem, 'PlatformSummary')
-          ?.let((e) => PlatformSummary.fromXml(e)),
+          ?.let(PlatformSummary.fromXml),
     );
   }
 
@@ -4187,7 +4180,7 @@ class DescribeAccountAttributesResult {
     return DescribeAccountAttributesResult(
       resourceQuotas: _s
           .extractXmlChild(elem, 'ResourceQuotas')
-          ?.let((e) => ResourceQuotas.fromXml(e)),
+          ?.let(ResourceQuotas.fromXml),
     );
   }
 
@@ -4246,7 +4239,7 @@ class DescribeEnvironmentHealthResult {
     return DescribeEnvironmentHealthResult(
       applicationMetrics: _s
           .extractXmlChild(elem, 'ApplicationMetrics')
-          ?.let((e) => ApplicationMetrics.fromXml(e)),
+          ?.let(ApplicationMetrics.fromXml),
       causes: _s
           .extractXmlChild(elem, 'Causes')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
@@ -4255,7 +4248,7 @@ class DescribeEnvironmentHealthResult {
       healthStatus: _s.extractXmlStringValue(elem, 'HealthStatus'),
       instancesHealth: _s
           .extractXmlChild(elem, 'InstancesHealth')
-          ?.let((e) => InstanceHealthSummary.fromXml(e)),
+          ?.let(InstanceHealthSummary.fromXml),
       refreshedAt: _s.extractXmlDateTimeValue(elem, 'RefreshedAt'),
       status: _s.extractXmlStringValue(elem, 'Status')?.toEnvironmentHealth(),
     );
@@ -4304,7 +4297,7 @@ class DescribeEnvironmentManagedActionHistoryResult {
           .extractXmlChild(elem, 'ManagedActionHistoryItems')
           ?.let((elem) => elem
               .findElements('member')
-              .map((c) => ManagedActionHistoryItem.fromXml(c))
+              .map(ManagedActionHistoryItem.fromXml)
               .toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
@@ -4332,10 +4325,7 @@ class DescribeEnvironmentManagedActionsResult {
   factory DescribeEnvironmentManagedActionsResult.fromXml(_s.XmlElement elem) {
     return DescribeEnvironmentManagedActionsResult(
       managedActions: _s.extractXmlChild(elem, 'ManagedActions')?.let((elem) =>
-          elem
-              .findElements('member')
-              .map((c) => ManagedAction.fromXml(c))
-              .toList()),
+          elem.findElements('member').map(ManagedAction.fromXml).toList()),
     );
   }
 
@@ -4373,7 +4363,7 @@ class DescribeInstancesHealthResult {
       instanceHealthList: _s.extractXmlChild(elem, 'InstanceHealthList')?.let(
           (elem) => elem
               .findElements('member')
-              .map((c) => SingleInstanceHealth.fromXml(c))
+              .map(SingleInstanceHealth.fromXml)
               .toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       refreshedAt: _s.extractXmlDateTimeValue(elem, 'RefreshedAt'),
@@ -4403,7 +4393,7 @@ class DescribePlatformVersionResult {
     return DescribePlatformVersionResult(
       platformDescription: _s
           .extractXmlChild(elem, 'PlatformDescription')
-          ?.let((e) => PlatformDescription.fromXml(e)),
+          ?.let(PlatformDescription.fromXml),
     );
   }
 
@@ -4576,7 +4566,7 @@ class EnvironmentDescription {
       environmentLinks: _s.extractXmlChild(elem, 'EnvironmentLinks')?.let(
           (elem) => elem
               .findElements('member')
-              .map((c) => EnvironmentLink.fromXml(c))
+              .map(EnvironmentLink.fromXml)
               .toList()),
       environmentName: _s.extractXmlStringValue(elem, 'EnvironmentName'),
       health: _s.extractXmlStringValue(elem, 'Health')?.toEnvironmentHealth(),
@@ -4587,13 +4577,11 @@ class EnvironmentDescription {
       platformArn: _s.extractXmlStringValue(elem, 'PlatformArn'),
       resources: _s
           .extractXmlChild(elem, 'Resources')
-          ?.let((e) => EnvironmentResourcesDescription.fromXml(e)),
+          ?.let(EnvironmentResourcesDescription.fromXml),
       solutionStackName: _s.extractXmlStringValue(elem, 'SolutionStackName'),
       status: _s.extractXmlStringValue(elem, 'Status')?.toEnvironmentStatus(),
       templateName: _s.extractXmlStringValue(elem, 'TemplateName'),
-      tier: _s
-          .extractXmlChild(elem, 'Tier')
-          ?.let((e) => EnvironmentTier.fromXml(e)),
+      tier: _s.extractXmlChild(elem, 'Tier')?.let(EnvironmentTier.fromXml),
       versionLabel: _s.extractXmlStringValue(elem, 'VersionLabel'),
     );
   }
@@ -4664,7 +4652,7 @@ class EnvironmentDescriptionsMessage {
     return EnvironmentDescriptionsMessage(
       environments: _s.extractXmlChild(elem, 'Environments')?.let((elem) => elem
           .findElements('member')
-          .map((c) => EnvironmentDescription.fromXml(c))
+          .map(EnvironmentDescription.fromXml)
           .toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
@@ -4991,31 +4979,26 @@ class EnvironmentResourceDescription {
       autoScalingGroups: _s.extractXmlChild(elem, 'AutoScalingGroups')?.let(
           (elem) => elem
               .findElements('member')
-              .map((c) => AutoScalingGroup.fromXml(c))
+              .map(AutoScalingGroup.fromXml)
               .toList()),
       environmentName: _s.extractXmlStringValue(elem, 'EnvironmentName'),
-      instances: _s.extractXmlChild(elem, 'Instances')?.let((elem) =>
-          elem.findElements('member').map((c) => Instance.fromXml(c)).toList()),
+      instances: _s.extractXmlChild(elem, 'Instances')?.let(
+          (elem) => elem.findElements('member').map(Instance.fromXml).toList()),
       launchConfigurations: _s
           .extractXmlChild(elem, 'LaunchConfigurations')
           ?.let((elem) => elem
               .findElements('member')
-              .map((c) => LaunchConfiguration.fromXml(c))
+              .map(LaunchConfiguration.fromXml)
               .toList()),
       launchTemplates: _s.extractXmlChild(elem, 'LaunchTemplates')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => LaunchTemplate.fromXml(c))
-              .toList()),
+          (elem) =>
+              elem.findElements('member').map(LaunchTemplate.fromXml).toList()),
       loadBalancers: _s.extractXmlChild(elem, 'LoadBalancers')?.let((elem) =>
-          elem
-              .findElements('member')
-              .map((c) => LoadBalancer.fromXml(c))
-              .toList()),
-      queues: _s.extractXmlChild(elem, 'Queues')?.let((elem) =>
-          elem.findElements('member').map((c) => Queue.fromXml(c)).toList()),
-      triggers: _s.extractXmlChild(elem, 'Triggers')?.let((elem) =>
-          elem.findElements('member').map((c) => Trigger.fromXml(c)).toList()),
+          elem.findElements('member').map(LoadBalancer.fromXml).toList()),
+      queues: _s.extractXmlChild(elem, 'Queues')?.let(
+          (elem) => elem.findElements('member').map(Queue.fromXml).toList()),
+      triggers: _s.extractXmlChild(elem, 'Triggers')?.let(
+          (elem) => elem.findElements('member').map(Trigger.fromXml).toList()),
     );
   }
 
@@ -5054,7 +5037,7 @@ class EnvironmentResourceDescriptionsMessage {
     return EnvironmentResourceDescriptionsMessage(
       environmentResources: _s
           .extractXmlChild(elem, 'EnvironmentResources')
-          ?.let((e) => EnvironmentResourceDescription.fromXml(e)),
+          ?.let(EnvironmentResourceDescription.fromXml),
     );
   }
 
@@ -5080,7 +5063,7 @@ class EnvironmentResourcesDescription {
     return EnvironmentResourcesDescription(
       loadBalancer: _s
           .extractXmlChild(elem, 'LoadBalancer')
-          ?.let((e) => LoadBalancerDescription.fromXml(e)),
+          ?.let(LoadBalancerDescription.fromXml),
     );
   }
 
@@ -5307,10 +5290,8 @@ class EventDescriptionsMessage {
   });
   factory EventDescriptionsMessage.fromXml(_s.XmlElement elem) {
     return EventDescriptionsMessage(
-      events: _s.extractXmlChild(elem, 'Events')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => EventDescription.fromXml(c))
-          .toList()),
+      events: _s.extractXmlChild(elem, 'Events')?.let((elem) =>
+          elem.findElements('member').map(EventDescription.fromXml).toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
@@ -5745,7 +5726,7 @@ class ListAvailableSolutionStacksResultMessage {
           .extractXmlChild(elem, 'SolutionStackDetails')
           ?.let((elem) => elem
               .findElements('member')
-              .map((c) => SolutionStackDescription.fromXml(c))
+              .map(SolutionStackDescription.fromXml)
               .toList()),
       solutionStacks: _s
           .extractXmlChild(elem, 'SolutionStacks')
@@ -5784,7 +5765,7 @@ class ListPlatformBranchesResult {
           .extractXmlChild(elem, 'PlatformBranchSummaryList')
           ?.let((elem) => elem
               .findElements('member')
-              .map((c) => PlatformBranchSummary.fromXml(c))
+              .map(PlatformBranchSummary.fromXml)
               .toList()),
     );
   }
@@ -5819,7 +5800,7 @@ class ListPlatformVersionsResult {
       platformSummaryList: _s.extractXmlChild(elem, 'PlatformSummaryList')?.let(
           (elem) => elem
               .findElements('member')
-              .map((c) => PlatformSummary.fromXml(c))
+              .map(PlatformSummary.fromXml)
               .toList()),
     );
   }
@@ -5905,8 +5886,8 @@ class LoadBalancerDescription {
   factory LoadBalancerDescription.fromXml(_s.XmlElement elem) {
     return LoadBalancerDescription(
       domain: _s.extractXmlStringValue(elem, 'Domain'),
-      listeners: _s.extractXmlChild(elem, 'Listeners')?.let((elem) =>
-          elem.findElements('member').map((c) => Listener.fromXml(c)).toList()),
+      listeners: _s.extractXmlChild(elem, 'Listeners')?.let(
+          (elem) => elem.findElements('member').map(Listener.fromXml).toList()),
       loadBalancerName: _s.extractXmlStringValue(elem, 'LoadBalancerName'),
     );
   }
@@ -6350,17 +6331,12 @@ class PlatformDescription {
   factory PlatformDescription.fromXml(_s.XmlElement elem) {
     return PlatformDescription(
       customAmiList: _s.extractXmlChild(elem, 'CustomAmiList')?.let((elem) =>
-          elem
-              .findElements('member')
-              .map((c) => CustomAmi.fromXml(c))
-              .toList()),
+          elem.findElements('member').map(CustomAmi.fromXml).toList()),
       dateCreated: _s.extractXmlDateTimeValue(elem, 'DateCreated'),
       dateUpdated: _s.extractXmlDateTimeValue(elem, 'DateUpdated'),
       description: _s.extractXmlStringValue(elem, 'Description'),
-      frameworks: _s.extractXmlChild(elem, 'Frameworks')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => PlatformFramework.fromXml(c))
-          .toList()),
+      frameworks: _s.extractXmlChild(elem, 'Frameworks')?.let((elem) =>
+          elem.findElements('member').map(PlatformFramework.fromXml).toList()),
       maintainer: _s.extractXmlStringValue(elem, 'Maintainer'),
       operatingSystemName:
           _s.extractXmlStringValue(elem, 'OperatingSystemName'),
@@ -6382,7 +6358,7 @@ class PlatformDescription {
           .extractXmlChild(elem, 'ProgrammingLanguages')
           ?.let((elem) => elem
               .findElements('member')
-              .map((c) => PlatformProgrammingLanguage.fromXml(c))
+              .map(PlatformProgrammingLanguage.fromXml)
               .toList()),
       solutionStackName: _s.extractXmlStringValue(elem, 'SolutionStackName'),
       supportedAddonList: _s
@@ -6814,19 +6790,19 @@ class ResourceQuotas {
     return ResourceQuotas(
       applicationQuota: _s
           .extractXmlChild(elem, 'ApplicationQuota')
-          ?.let((e) => ResourceQuota.fromXml(e)),
+          ?.let(ResourceQuota.fromXml),
       applicationVersionQuota: _s
           .extractXmlChild(elem, 'ApplicationVersionQuota')
-          ?.let((e) => ResourceQuota.fromXml(e)),
+          ?.let(ResourceQuota.fromXml),
       configurationTemplateQuota: _s
           .extractXmlChild(elem, 'ConfigurationTemplateQuota')
-          ?.let((e) => ResourceQuota.fromXml(e)),
+          ?.let(ResourceQuota.fromXml),
       customPlatformQuota: _s
           .extractXmlChild(elem, 'CustomPlatformQuota')
-          ?.let((e) => ResourceQuota.fromXml(e)),
+          ?.let(ResourceQuota.fromXml),
       environmentQuota: _s
           .extractXmlChild(elem, 'EnvironmentQuota')
-          ?.let((e) => ResourceQuota.fromXml(e)),
+          ?.let(ResourceQuota.fromXml),
     );
   }
 
@@ -6864,8 +6840,8 @@ class ResourceTagsDescriptionMessage {
   factory ResourceTagsDescriptionMessage.fromXml(_s.XmlElement elem) {
     return ResourceTagsDescriptionMessage(
       resourceArn: _s.extractXmlStringValue(elem, 'ResourceArn'),
-      resourceTags: _s.extractXmlChild(elem, 'ResourceTags')?.let((elem) =>
-          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
+      resourceTags: _s.extractXmlChild(elem, 'ResourceTags')?.let(
+          (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
     );
   }
 
@@ -6892,7 +6868,7 @@ class RetrieveEnvironmentInfoResultMessage {
       environmentInfo: _s.extractXmlChild(elem, 'EnvironmentInfo')?.let(
           (elem) => elem
               .findElements('member')
-              .map((c) => EnvironmentInfoDescription.fromXml(c))
+              .map(EnvironmentInfoDescription.fromXml)
               .toList()),
     );
   }
@@ -7035,22 +7011,19 @@ class SingleInstanceHealth {
     return SingleInstanceHealth(
       applicationMetrics: _s
           .extractXmlChild(elem, 'ApplicationMetrics')
-          ?.let((e) => ApplicationMetrics.fromXml(e)),
+          ?.let(ApplicationMetrics.fromXml),
       availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone'),
       causes: _s
           .extractXmlChild(elem, 'Causes')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       color: _s.extractXmlStringValue(elem, 'Color'),
-      deployment: _s
-          .extractXmlChild(elem, 'Deployment')
-          ?.let((e) => Deployment.fromXml(e)),
+      deployment:
+          _s.extractXmlChild(elem, 'Deployment')?.let(Deployment.fromXml),
       healthStatus: _s.extractXmlStringValue(elem, 'HealthStatus'),
       instanceId: _s.extractXmlStringValue(elem, 'InstanceId'),
       instanceType: _s.extractXmlStringValue(elem, 'InstanceType'),
       launchedAt: _s.extractXmlDateTimeValue(elem, 'LaunchedAt'),
-      system: _s
-          .extractXmlChild(elem, 'System')
-          ?.let((e) => SystemStatus.fromXml(e)),
+      system: _s.extractXmlChild(elem, 'System')?.let(SystemStatus.fromXml),
     );
   }
 
@@ -7329,7 +7302,7 @@ class SystemStatus {
     return SystemStatus(
       cPUUtilization: _s
           .extractXmlChild(elem, 'CPUUtilization')
-          ?.let((e) => CPUUtilization.fromXml(e)),
+          ?.let(CPUUtilization.fromXml),
       loadAverage: _s
           .extractXmlChild(elem, 'LoadAverage')
           ?.let((elem) => _s.extractXmlDoubleListValues(elem, 'member')),

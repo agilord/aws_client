@@ -6,7 +6,7 @@ version: 0.0.2
 homepage: https://github.com/agilord/aws_client/tree/master/aws_credential_providers
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.17.0 <3.0.0'
 
 dependencies:
   aws_sts_api: ^1.2.0

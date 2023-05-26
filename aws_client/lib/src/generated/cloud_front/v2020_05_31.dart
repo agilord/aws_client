@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use_from_same_package
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // ignore_for_file: unused_import
@@ -4772,10 +4773,8 @@ class ActiveTrustedKeyGroups {
     return ActiveTrustedKeyGroups(
       enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
-      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
-          .findElements('KeyGroup')
-          .map((c) => KGKeyPairIds.fromXml(c))
-          .toList()),
+      items: _s.extractXmlChild(elem, 'Items')?.let((elem) =>
+          elem.findElements('KeyGroup').map(KGKeyPairIds.fromXml).toList()),
     );
   }
 
@@ -4818,8 +4817,8 @@ class ActiveTrustedSigners {
     return ActiveTrustedSigners(
       enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
-      items: _s.extractXmlChild(elem, 'Items')?.let((elem) =>
-          elem.findElements('Signer').map((c) => Signer.fromXml(c)).toList()),
+      items: _s.extractXmlChild(elem, 'Items')?.let(
+          (elem) => elem.findElements('Signer').map(Signer.fromXml).toList()),
     );
   }
 
@@ -5002,9 +5001,8 @@ class AllowedMethods {
           .map((s) => s.toMethod())
           .toList(),
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
-      cachedMethods: _s
-          .extractXmlChild(elem, 'CachedMethods')
-          ?.let((e) => CachedMethods.fromXml(e)),
+      cachedMethods:
+          _s.extractXmlChild(elem, 'CachedMethods')?.let(CachedMethods.fromXml),
     );
   }
 
@@ -5340,7 +5338,7 @@ class CacheBehavior {
           .toViewerProtocolPolicy(),
       allowedMethods: _s
           .extractXmlChild(elem, 'AllowedMethods')
-          ?.let((e) => AllowedMethods.fromXml(e)),
+          ?.let(AllowedMethods.fromXml),
       cachePolicyId: _s.extractXmlStringValue(elem, 'CachePolicyId'),
       compress: _s.extractXmlBoolValue(elem, 'Compress'),
       defaultTTL: _s.extractXmlIntValue(elem, 'DefaultTTL'),
@@ -5348,13 +5346,13 @@ class CacheBehavior {
           _s.extractXmlStringValue(elem, 'FieldLevelEncryptionId'),
       forwardedValues: _s
           .extractXmlChild(elem, 'ForwardedValues')
-          ?.let((e) => ForwardedValues.fromXml(e)),
+          ?.let(ForwardedValues.fromXml),
       functionAssociations: _s
           .extractXmlChild(elem, 'FunctionAssociations')
-          ?.let((e) => FunctionAssociations.fromXml(e)),
+          ?.let(FunctionAssociations.fromXml),
       lambdaFunctionAssociations: _s
           .extractXmlChild(elem, 'LambdaFunctionAssociations')
-          ?.let((e) => LambdaFunctionAssociations.fromXml(e)),
+          ?.let(LambdaFunctionAssociations.fromXml),
       maxTTL: _s.extractXmlIntValue(elem, 'MaxTTL'),
       minTTL: _s.extractXmlIntValue(elem, 'MinTTL'),
       originRequestPolicyId:
@@ -5366,10 +5364,10 @@ class CacheBehavior {
       smoothStreaming: _s.extractXmlBoolValue(elem, 'SmoothStreaming'),
       trustedKeyGroups: _s
           .extractXmlChild(elem, 'TrustedKeyGroups')
-          ?.let((e) => TrustedKeyGroups.fromXml(e)),
+          ?.let(TrustedKeyGroups.fromXml),
       trustedSigners: _s
           .extractXmlChild(elem, 'TrustedSigners')
-          ?.let((e) => TrustedSigners.fromXml(e)),
+          ?.let(TrustedSigners.fromXml),
     );
   }
 
@@ -5505,7 +5503,7 @@ class CacheBehaviors {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('CacheBehavior')
-          .map((c) => CacheBehavior.fromXml(c))
+          .map(CacheBehavior.fromXml)
           .toList()),
     );
   }
@@ -5687,7 +5685,7 @@ class CachePolicyConfig {
       maxTTL: _s.extractXmlIntValue(elem, 'MaxTTL'),
       parametersInCacheKeyAndForwardedToOrigin: _s
           .extractXmlChild(elem, 'ParametersInCacheKeyAndForwardedToOrigin')
-          ?.let((e) => ParametersInCacheKeyAndForwardedToOrigin.fromXml(e)),
+          ?.let(ParametersInCacheKeyAndForwardedToOrigin.fromXml),
     );
   }
 
@@ -5820,9 +5818,7 @@ class CachePolicyCookiesConfig {
       cookieBehavior: _s
           .extractXmlStringValue(elem, 'CookieBehavior')!
           .toCachePolicyCookieBehavior(),
-      cookies: _s
-          .extractXmlChild(elem, 'Cookies')
-          ?.let((e) => CookieNames.fromXml(e)),
+      cookies: _s.extractXmlChild(elem, 'Cookies')?.let(CookieNames.fromXml),
     );
   }
 
@@ -5913,8 +5909,7 @@ class CachePolicyHeadersConfig {
       headerBehavior: _s
           .extractXmlStringValue(elem, 'HeaderBehavior')!
           .toCachePolicyHeaderBehavior(),
-      headers:
-          _s.extractXmlChild(elem, 'Headers')?.let((e) => Headers.fromXml(e)),
+      headers: _s.extractXmlChild(elem, 'Headers')?.let(Headers.fromXml),
     );
   }
 
@@ -5974,7 +5969,7 @@ class CachePolicyList {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('CachePolicySummary')
-          .map((c) => CachePolicySummary.fromXml(c))
+          .map(CachePolicySummary.fromXml)
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
@@ -6088,7 +6083,7 @@ class CachePolicyQueryStringsConfig {
           .toCachePolicyQueryStringBehavior(),
       queryStrings: _s
           .extractXmlChild(elem, 'QueryStrings')
-          ?.let((e) => QueryStringNames.fromXml(e)),
+          ?.let(QueryStringNames.fromXml),
     );
   }
 
@@ -6308,7 +6303,7 @@ class CloudFrontOriginAccessIdentity {
       s3CanonicalUserId: _s.extractXmlStringValue(elem, 'S3CanonicalUserId')!,
       cloudFrontOriginAccessIdentityConfig: _s
           .extractXmlChild(elem, 'CloudFrontOriginAccessIdentityConfig')
-          ?.let((e) => CloudFrontOriginAccessIdentityConfig.fromXml(e)),
+          ?.let(CloudFrontOriginAccessIdentityConfig.fromXml),
     );
   }
 
@@ -6451,7 +6446,7 @@ class CloudFrontOriginAccessIdentityList {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('CloudFrontOriginAccessIdentitySummary')
-          .map((c) => CloudFrontOriginAccessIdentitySummary.fromXml(c))
+          .map(CloudFrontOriginAccessIdentitySummary.fromXml)
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
@@ -6588,7 +6583,7 @@ class ConflictingAliasesList {
     return ConflictingAliasesList(
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('ConflictingAlias')
-          .map((c) => ConflictingAlias.fromXml(c))
+          .map(ConflictingAlias.fromXml)
           .toList()),
       maxItems: _s.extractXmlIntValue(elem, 'MaxItems'),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
@@ -6687,7 +6682,7 @@ class ContentTypeProfileConfig {
           _s.extractXmlBoolValue(elem, 'ForwardWhenContentTypeIsUnknown')!,
       contentTypeProfiles: _s
           .extractXmlChild(elem, 'ContentTypeProfiles')
-          ?.let((e) => ContentTypeProfiles.fromXml(e)),
+          ?.let(ContentTypeProfiles.fromXml),
     );
   }
 
@@ -6740,7 +6735,7 @@ class ContentTypeProfiles {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('ContentTypeProfile')
-          .map((c) => ContentTypeProfile.fromXml(c))
+          .map(ContentTypeProfile.fromXml)
           .toList()),
     );
   }
@@ -6838,9 +6833,8 @@ class ContinuousDeploymentPolicyConfig {
       enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
       stagingDistributionDnsNames: StagingDistributionDnsNames.fromXml(
           _s.extractXmlChild(elem, 'StagingDistributionDnsNames')!),
-      trafficConfig: _s
-          .extractXmlChild(elem, 'TrafficConfig')
-          ?.let((e) => TrafficConfig.fromXml(e)),
+      trafficConfig:
+          _s.extractXmlChild(elem, 'TrafficConfig')?.let(TrafficConfig.fromXml),
     );
   }
 
@@ -6905,7 +6899,7 @@ class ContinuousDeploymentPolicyList {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('ContinuousDeploymentPolicySummary')
-          .map((c) => ContinuousDeploymentPolicySummary.fromXml(c))
+          .map(ContinuousDeploymentPolicySummary.fromXml)
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
@@ -7044,7 +7038,7 @@ class ContinuousDeploymentSingleWeightConfig {
       weight: _s.extractXmlDoubleValue(elem, 'Weight')!,
       sessionStickinessConfig: _s
           .extractXmlChild(elem, 'SessionStickinessConfig')
-          ?.let((e) => SessionStickinessConfig.fromXml(e)),
+          ?.let(SessionStickinessConfig.fromXml),
     );
   }
 
@@ -7206,7 +7200,7 @@ class CookiePreference {
       forward: _s.extractXmlStringValue(elem, 'Forward')!.toItemSelection(),
       whitelistedNames: _s
           .extractXmlChild(elem, 'WhitelistedNames')
-          ?.let((e) => CookieNames.fromXml(e)),
+          ?.let(CookieNames.fromXml),
     );
   }
 
@@ -7814,7 +7808,7 @@ class CreateRealtimeLogConfigResult {
     return CreateRealtimeLogConfigResult(
       realtimeLogConfig: _s
           .extractXmlChild(elem, 'RealtimeLogConfig')
-          ?.let((e) => RealtimeLogConfig.fromXml(e)),
+          ?.let(RealtimeLogConfig.fromXml),
     );
   }
 
@@ -8086,7 +8080,7 @@ class CustomErrorResponses {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('CustomErrorResponse')
-          .map((c) => CustomErrorResponse.fromXml(c))
+          .map(CustomErrorResponse.fromXml)
           .toList()),
     );
   }
@@ -8139,7 +8133,7 @@ class CustomHeaders {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('OriginCustomHeader')
-          .map((c) => OriginCustomHeader.fromXml(c))
+          .map(OriginCustomHeader.fromXml)
           .toList()),
     );
   }
@@ -8253,7 +8247,7 @@ class CustomOriginConfig {
       originReadTimeout: _s.extractXmlIntValue(elem, 'OriginReadTimeout'),
       originSslProtocols: _s
           .extractXmlChild(elem, 'OriginSslProtocols')
-          ?.let((e) => OriginSslProtocols.fromXml(e)),
+          ?.let(OriginSslProtocols.fromXml),
     );
   }
 
@@ -8559,7 +8553,7 @@ class DefaultCacheBehavior {
           .toViewerProtocolPolicy(),
       allowedMethods: _s
           .extractXmlChild(elem, 'AllowedMethods')
-          ?.let((e) => AllowedMethods.fromXml(e)),
+          ?.let(AllowedMethods.fromXml),
       cachePolicyId: _s.extractXmlStringValue(elem, 'CachePolicyId'),
       compress: _s.extractXmlBoolValue(elem, 'Compress'),
       defaultTTL: _s.extractXmlIntValue(elem, 'DefaultTTL'),
@@ -8567,13 +8561,13 @@ class DefaultCacheBehavior {
           _s.extractXmlStringValue(elem, 'FieldLevelEncryptionId'),
       forwardedValues: _s
           .extractXmlChild(elem, 'ForwardedValues')
-          ?.let((e) => ForwardedValues.fromXml(e)),
+          ?.let(ForwardedValues.fromXml),
       functionAssociations: _s
           .extractXmlChild(elem, 'FunctionAssociations')
-          ?.let((e) => FunctionAssociations.fromXml(e)),
+          ?.let(FunctionAssociations.fromXml),
       lambdaFunctionAssociations: _s
           .extractXmlChild(elem, 'LambdaFunctionAssociations')
-          ?.let((e) => LambdaFunctionAssociations.fromXml(e)),
+          ?.let(LambdaFunctionAssociations.fromXml),
       maxTTL: _s.extractXmlIntValue(elem, 'MaxTTL'),
       minTTL: _s.extractXmlIntValue(elem, 'MinTTL'),
       originRequestPolicyId:
@@ -8585,10 +8579,10 @@ class DefaultCacheBehavior {
       smoothStreaming: _s.extractXmlBoolValue(elem, 'SmoothStreaming'),
       trustedKeyGroups: _s
           .extractXmlChild(elem, 'TrustedKeyGroups')
-          ?.let((e) => TrustedKeyGroups.fromXml(e)),
+          ?.let(TrustedKeyGroups.fromXml),
       trustedSigners: _s
           .extractXmlChild(elem, 'TrustedSigners')
-          ?.let((e) => TrustedSigners.fromXml(e)),
+          ?.let(TrustedSigners.fromXml),
     );
   }
 
@@ -8851,14 +8845,14 @@ class Distribution {
       status: _s.extractXmlStringValue(elem, 'Status')!,
       activeTrustedKeyGroups: _s
           .extractXmlChild(elem, 'ActiveTrustedKeyGroups')
-          ?.let((e) => ActiveTrustedKeyGroups.fromXml(e)),
+          ?.let(ActiveTrustedKeyGroups.fromXml),
       activeTrustedSigners: _s
           .extractXmlChild(elem, 'ActiveTrustedSigners')
-          ?.let((e) => ActiveTrustedSigners.fromXml(e)),
+          ?.let(ActiveTrustedSigners.fromXml),
       aliasICPRecordals: _s.extractXmlChild(elem, 'AliasICPRecordals')?.let(
           (elem) => elem
               .findElements('AliasICPRecordal')
-              .map((c) => AliasICPRecordal.fromXml(c))
+              .map(AliasICPRecordal.fromXml)
               .toList()),
     );
   }
@@ -9131,34 +9125,29 @@ class DistributionConfig {
           _s.extractXmlChild(elem, 'DefaultCacheBehavior')!),
       enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
       origins: Origins.fromXml(_s.extractXmlChild(elem, 'Origins')!),
-      aliases:
-          _s.extractXmlChild(elem, 'Aliases')?.let((e) => Aliases.fromXml(e)),
+      aliases: _s.extractXmlChild(elem, 'Aliases')?.let(Aliases.fromXml),
       cacheBehaviors: _s
           .extractXmlChild(elem, 'CacheBehaviors')
-          ?.let((e) => CacheBehaviors.fromXml(e)),
+          ?.let(CacheBehaviors.fromXml),
       continuousDeploymentPolicyId:
           _s.extractXmlStringValue(elem, 'ContinuousDeploymentPolicyId'),
       customErrorResponses: _s
           .extractXmlChild(elem, 'CustomErrorResponses')
-          ?.let((e) => CustomErrorResponses.fromXml(e)),
+          ?.let(CustomErrorResponses.fromXml),
       defaultRootObject: _s.extractXmlStringValue(elem, 'DefaultRootObject'),
       httpVersion:
           _s.extractXmlStringValue(elem, 'HttpVersion')?.toHttpVersion(),
       isIPV6Enabled: _s.extractXmlBoolValue(elem, 'IsIPV6Enabled'),
-      logging: _s
-          .extractXmlChild(elem, 'Logging')
-          ?.let((e) => LoggingConfig.fromXml(e)),
-      originGroups: _s
-          .extractXmlChild(elem, 'OriginGroups')
-          ?.let((e) => OriginGroups.fromXml(e)),
+      logging: _s.extractXmlChild(elem, 'Logging')?.let(LoggingConfig.fromXml),
+      originGroups:
+          _s.extractXmlChild(elem, 'OriginGroups')?.let(OriginGroups.fromXml),
       priceClass: _s.extractXmlStringValue(elem, 'PriceClass')?.toPriceClass(),
-      restrictions: _s
-          .extractXmlChild(elem, 'Restrictions')
-          ?.let((e) => Restrictions.fromXml(e)),
+      restrictions:
+          _s.extractXmlChild(elem, 'Restrictions')?.let(Restrictions.fromXml),
       staging: _s.extractXmlBoolValue(elem, 'Staging'),
       viewerCertificate: _s
           .extractXmlChild(elem, 'ViewerCertificate')
-          ?.let((e) => ViewerCertificate.fromXml(e)),
+          ?.let(ViewerCertificate.fromXml),
       webACLId: _s.extractXmlStringValue(elem, 'WebACLId'),
     );
   }
@@ -9415,7 +9404,7 @@ class DistributionList {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('DistributionSummary')
-          .map((c) => DistributionSummary.fromXml(c))
+          .map(DistributionSummary.fromXml)
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
@@ -9587,11 +9576,10 @@ class DistributionSummary {
       aliasICPRecordals: _s.extractXmlChild(elem, 'AliasICPRecordals')?.let(
           (elem) => elem
               .findElements('AliasICPRecordal')
-              .map((c) => AliasICPRecordal.fromXml(c))
+              .map(AliasICPRecordal.fromXml)
               .toList()),
-      originGroups: _s
-          .extractXmlChild(elem, 'OriginGroups')
-          ?.let((e) => OriginGroups.fromXml(e)),
+      originGroups:
+          _s.extractXmlChild(elem, 'OriginGroups')?.let(OriginGroups.fromXml),
     );
   }
 
@@ -9663,7 +9651,7 @@ class EncryptionEntities {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('EncryptionEntity')
-          .map((c) => EncryptionEntity.fromXml(c))
+          .map(EncryptionEntity.fromXml)
           .toList()),
     );
   }
@@ -9781,7 +9769,7 @@ class EndPoint {
       streamType: _s.extractXmlStringValue(elem, 'StreamType')!,
       kinesisStreamConfig: _s
           .extractXmlChild(elem, 'KinesisStreamConfig')
-          ?.let((e) => KinesisStreamConfig.fromXml(e)),
+          ?.let(KinesisStreamConfig.fromXml),
     );
   }
 
@@ -9925,10 +9913,10 @@ class FieldLevelEncryptionConfig {
       comment: _s.extractXmlStringValue(elem, 'Comment'),
       contentTypeProfileConfig: _s
           .extractXmlChild(elem, 'ContentTypeProfileConfig')
-          ?.let((e) => ContentTypeProfileConfig.fromXml(e)),
+          ?.let(ContentTypeProfileConfig.fromXml),
       queryArgProfileConfig: _s
           .extractXmlChild(elem, 'QueryArgProfileConfig')
-          ?.let((e) => QueryArgProfileConfig.fromXml(e)),
+          ?.let(QueryArgProfileConfig.fromXml),
     );
   }
 
@@ -9999,7 +9987,7 @@ class FieldLevelEncryptionList {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('FieldLevelEncryptionSummary')
-          .map((c) => FieldLevelEncryptionSummary.fromXml(c))
+          .map(FieldLevelEncryptionSummary.fromXml)
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
@@ -10158,7 +10146,7 @@ class FieldLevelEncryptionProfileList {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('FieldLevelEncryptionProfileSummary')
-          .map((c) => FieldLevelEncryptionProfileSummary.fromXml(c))
+          .map(FieldLevelEncryptionProfileSummary.fromXml)
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
@@ -10265,10 +10253,10 @@ class FieldLevelEncryptionSummary {
       comment: _s.extractXmlStringValue(elem, 'Comment'),
       contentTypeProfileConfig: _s
           .extractXmlChild(elem, 'ContentTypeProfileConfig')
-          ?.let((e) => ContentTypeProfileConfig.fromXml(e)),
+          ?.let(ContentTypeProfileConfig.fromXml),
       queryArgProfileConfig: _s
           .extractXmlChild(elem, 'QueryArgProfileConfig')
-          ?.let((e) => QueryArgProfileConfig.fromXml(e)),
+          ?.let(QueryArgProfileConfig.fromXml),
     );
   }
 
@@ -10494,11 +10482,10 @@ class ForwardedValues {
     return ForwardedValues(
       cookies: CookiePreference.fromXml(_s.extractXmlChild(elem, 'Cookies')!),
       queryString: _s.extractXmlBoolValue(elem, 'QueryString')!,
-      headers:
-          _s.extractXmlChild(elem, 'Headers')?.let((e) => Headers.fromXml(e)),
+      headers: _s.extractXmlChild(elem, 'Headers')?.let(Headers.fromXml),
       queryStringCacheKeys: _s
           .extractXmlChild(elem, 'QueryStringCacheKeys')
-          ?.let((e) => QueryStringCacheKeys.fromXml(e)),
+          ?.let(QueryStringCacheKeys.fromXml),
     );
   }
 
@@ -10638,7 +10625,7 @@ class FunctionAssociations {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('FunctionAssociation')
-          .map((c) => FunctionAssociation.fromXml(c))
+          .map(FunctionAssociation.fromXml)
           .toList()),
     );
   }
@@ -10748,7 +10735,7 @@ class FunctionList {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('FunctionSummary')
-          .map((c) => FunctionSummary.fromXml(c))
+          .map(FunctionSummary.fromXml)
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
@@ -11609,7 +11596,7 @@ class GetRealtimeLogConfigResult {
     return GetRealtimeLogConfigResult(
       realtimeLogConfig: _s
           .extractXmlChild(elem, 'RealtimeLogConfig')
-          ?.let((e) => RealtimeLogConfig.fromXml(e)),
+          ?.let(RealtimeLogConfig.fromXml),
     );
   }
 
@@ -11997,7 +11984,7 @@ class InvalidationList {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('InvalidationSummary')
-          .map((c) => InvalidationSummary.fromXml(c))
+          .map(InvalidationSummary.fromXml)
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
@@ -12104,9 +12091,8 @@ class KGKeyPairIds {
   factory KGKeyPairIds.fromXml(_s.XmlElement elem) {
     return KGKeyPairIds(
       keyGroupId: _s.extractXmlStringValue(elem, 'KeyGroupId'),
-      keyPairIds: _s
-          .extractXmlChild(elem, 'KeyPairIds')
-          ?.let((e) => KeyPairIds.fromXml(e)),
+      keyPairIds:
+          _s.extractXmlChild(elem, 'KeyPairIds')?.let(KeyPairIds.fromXml),
     );
   }
 
@@ -12252,7 +12238,7 @@ class KeyGroupList {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('KeyGroupSummary')
-          .map((c) => KeyGroupSummary.fromXml(c))
+          .map(KeyGroupSummary.fromXml)
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
@@ -12501,7 +12487,7 @@ class LambdaFunctionAssociations {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('LambdaFunctionAssociation')
-          .map((c) => LambdaFunctionAssociation.fromXml(c))
+          .map(LambdaFunctionAssociation.fromXml)
           .toList()),
     );
   }
@@ -13190,7 +13176,7 @@ class MonitoringSubscription {
     return MonitoringSubscription(
       realtimeMetricsSubscriptionConfig: _s
           .extractXmlChild(elem, 'RealtimeMetricsSubscriptionConfig')
-          ?.let((e) => RealtimeMetricsSubscriptionConfig.fromXml(e)),
+          ?.let(RealtimeMetricsSubscriptionConfig.fromXml),
     );
   }
 
@@ -13362,21 +13348,19 @@ class Origin {
       id: _s.extractXmlStringValue(elem, 'Id')!,
       connectionAttempts: _s.extractXmlIntValue(elem, 'ConnectionAttempts'),
       connectionTimeout: _s.extractXmlIntValue(elem, 'ConnectionTimeout'),
-      customHeaders: _s
-          .extractXmlChild(elem, 'CustomHeaders')
-          ?.let((e) => CustomHeaders.fromXml(e)),
+      customHeaders:
+          _s.extractXmlChild(elem, 'CustomHeaders')?.let(CustomHeaders.fromXml),
       customOriginConfig: _s
           .extractXmlChild(elem, 'CustomOriginConfig')
-          ?.let((e) => CustomOriginConfig.fromXml(e)),
+          ?.let(CustomOriginConfig.fromXml),
       originAccessControlId:
           _s.extractXmlStringValue(elem, 'OriginAccessControlId'),
       originPath: _s.extractXmlStringValue(elem, 'OriginPath'),
-      originShield: _s
-          .extractXmlChild(elem, 'OriginShield')
-          ?.let((e) => OriginShield.fromXml(e)),
+      originShield:
+          _s.extractXmlChild(elem, 'OriginShield')?.let(OriginShield.fromXml),
       s3OriginConfig: _s
           .extractXmlChild(elem, 'S3OriginConfig')
-          ?.let((e) => S3OriginConfig.fromXml(e)),
+          ?.let(S3OriginConfig.fromXml),
     );
   }
 
@@ -13461,7 +13445,7 @@ class OriginAccessControl {
       id: _s.extractXmlStringValue(elem, 'Id')!,
       originAccessControlConfig: _s
           .extractXmlChild(elem, 'OriginAccessControlConfig')
-          ?.let((e) => OriginAccessControlConfig.fromXml(e)),
+          ?.let(OriginAccessControlConfig.fromXml),
     );
   }
 
@@ -13629,7 +13613,7 @@ class OriginAccessControlList {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('OriginAccessControlSummary')
-          .map((c) => OriginAccessControlSummary.fromXml(c))
+          .map(OriginAccessControlSummary.fromXml)
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
@@ -14036,7 +14020,7 @@ class OriginGroupMembers {
       items: _s
           .extractXmlChild(elem, 'Items')!
           .findElements('OriginGroupMember')
-          .map((c) => OriginGroupMember.fromXml(c))
+          .map(OriginGroupMember.fromXml)
           .toList(),
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
     );
@@ -14085,10 +14069,8 @@ class OriginGroups {
   factory OriginGroups.fromXml(_s.XmlElement elem) {
     return OriginGroups(
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
-      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
-          .findElements('OriginGroup')
-          .map((c) => OriginGroup.fromXml(c))
-          .toList()),
+      items: _s.extractXmlChild(elem, 'Items')?.let((elem) =>
+          elem.findElements('OriginGroup').map(OriginGroup.fromXml).toList()),
     );
   }
 
@@ -14399,9 +14381,7 @@ class OriginRequestPolicyCookiesConfig {
       cookieBehavior: _s
           .extractXmlStringValue(elem, 'CookieBehavior')!
           .toOriginRequestPolicyCookieBehavior(),
-      cookies: _s
-          .extractXmlChild(elem, 'Cookies')
-          ?.let((e) => CookieNames.fromXml(e)),
+      cookies: _s.extractXmlChild(elem, 'Cookies')?.let(CookieNames.fromXml),
     );
   }
 
@@ -14524,8 +14504,7 @@ class OriginRequestPolicyHeadersConfig {
       headerBehavior: _s
           .extractXmlStringValue(elem, 'HeaderBehavior')!
           .toOriginRequestPolicyHeaderBehavior(),
-      headers:
-          _s.extractXmlChild(elem, 'Headers')?.let((e) => Headers.fromXml(e)),
+      headers: _s.extractXmlChild(elem, 'Headers')?.let(Headers.fromXml),
     );
   }
 
@@ -14585,7 +14564,7 @@ class OriginRequestPolicyList {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('OriginRequestPolicySummary')
-          .map((c) => OriginRequestPolicySummary.fromXml(c))
+          .map(OriginRequestPolicySummary.fromXml)
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
@@ -14699,7 +14678,7 @@ class OriginRequestPolicyQueryStringsConfig {
           .toOriginRequestPolicyQueryStringBehavior(),
       queryStrings: _s
           .extractXmlChild(elem, 'QueryStrings')
-          ?.let((e) => QueryStringNames.fromXml(e)),
+          ?.let(QueryStringNames.fromXml),
     );
   }
 
@@ -14933,7 +14912,7 @@ class Origins {
       items: _s
           .extractXmlChild(elem, 'Items')!
           .findElements('Origin')
-          .map((c) => Origin.fromXml(c))
+          .map(Origin.fromXml)
           .toList(),
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
     );
@@ -15379,7 +15358,7 @@ class PublicKeyList {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('PublicKeySummary')
-          .map((c) => PublicKeySummary.fromXml(c))
+          .map(PublicKeySummary.fromXml)
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
@@ -15534,7 +15513,7 @@ class QueryArgProfileConfig {
           _s.extractXmlBoolValue(elem, 'ForwardWhenQueryArgProfileIsUnknown')!,
       queryArgProfiles: _s
           .extractXmlChild(elem, 'QueryArgProfiles')
-          ?.let((e) => QueryArgProfiles.fromXml(e)),
+          ?.let(QueryArgProfiles.fromXml),
     );
   }
 
@@ -15588,7 +15567,7 @@ class QueryArgProfiles {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('QueryArgProfile')
-          .map((c) => QueryArgProfile.fromXml(c))
+          .map(QueryArgProfile.fromXml)
           .toList()),
     );
   }
@@ -15778,7 +15757,7 @@ class RealtimeLogConfig {
       endPoints: _s
           .extractXmlChild(elem, 'EndPoints')!
           .findElements('member')
-          .map((c) => EndPoint.fromXml(c))
+          .map(EndPoint.fromXml)
           .toList(),
       fields: _s.extractXmlStringListValues(
           _s.extractXmlChild(elem, 'Fields')!, 'Field'),
@@ -15838,10 +15817,8 @@ class RealtimeLogConfigs {
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
       marker: _s.extractXmlStringValue(elem, 'Marker')!,
       maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
-      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => RealtimeLogConfig.fromXml(c))
-          .toList()),
+      items: _s.extractXmlChild(elem, 'Items')?.let((elem) =>
+          elem.findElements('member').map(RealtimeLogConfig.fromXml).toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
   }
@@ -16415,20 +16392,19 @@ class ResponseHeadersPolicyConfig {
       comment: _s.extractXmlStringValue(elem, 'Comment'),
       corsConfig: _s
           .extractXmlChild(elem, 'CorsConfig')
-          ?.let((e) => ResponseHeadersPolicyCorsConfig.fromXml(e)),
+          ?.let(ResponseHeadersPolicyCorsConfig.fromXml),
       customHeadersConfig: _s
           .extractXmlChild(elem, 'CustomHeadersConfig')
-          ?.let((e) => ResponseHeadersPolicyCustomHeadersConfig.fromXml(e)),
+          ?.let(ResponseHeadersPolicyCustomHeadersConfig.fromXml),
       removeHeadersConfig: _s
           .extractXmlChild(elem, 'RemoveHeadersConfig')
-          ?.let((e) => ResponseHeadersPolicyRemoveHeadersConfig.fromXml(e)),
+          ?.let(ResponseHeadersPolicyRemoveHeadersConfig.fromXml),
       securityHeadersConfig: _s
           .extractXmlChild(elem, 'SecurityHeadersConfig')
-          ?.let((e) => ResponseHeadersPolicySecurityHeadersConfig.fromXml(e)),
+          ?.let(ResponseHeadersPolicySecurityHeadersConfig.fromXml),
       serverTimingHeadersConfig: _s
           .extractXmlChild(elem, 'ServerTimingHeadersConfig')
-          ?.let(
-              (e) => ResponseHeadersPolicyServerTimingHeadersConfig.fromXml(e)),
+          ?.let(ResponseHeadersPolicyServerTimingHeadersConfig.fromXml),
     );
   }
 
@@ -16687,8 +16663,7 @@ class ResponseHeadersPolicyCorsConfig {
       originOverride: _s.extractXmlBoolValue(elem, 'OriginOverride')!,
       accessControlExposeHeaders: _s
           .extractXmlChild(elem, 'AccessControlExposeHeaders')
-          ?.let((e) =>
-              ResponseHeadersPolicyAccessControlExposeHeaders.fromXml(e)),
+          ?.let(ResponseHeadersPolicyAccessControlExposeHeaders.fromXml),
       accessControlMaxAgeSec:
           _s.extractXmlIntValue(elem, 'AccessControlMaxAgeSec'),
     );
@@ -16823,7 +16798,7 @@ class ResponseHeadersPolicyCustomHeadersConfig {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('ResponseHeadersPolicyCustomHeader')
-          .map((c) => ResponseHeadersPolicyCustomHeader.fromXml(c))
+          .map(ResponseHeadersPolicyCustomHeader.fromXml)
           .toList()),
     );
   }
@@ -16946,7 +16921,7 @@ class ResponseHeadersPolicyList {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('ResponseHeadersPolicySummary')
-          .map((c) => ResponseHeadersPolicySummary.fromXml(c))
+          .map(ResponseHeadersPolicySummary.fromXml)
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
@@ -17111,7 +17086,7 @@ class ResponseHeadersPolicyRemoveHeadersConfig {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('ResponseHeadersPolicyRemoveHeader')
-          .map((c) => ResponseHeadersPolicyRemoveHeader.fromXml(c))
+          .map(ResponseHeadersPolicyRemoveHeader.fromXml)
           .toList()),
     );
   }
@@ -17218,22 +17193,22 @@ class ResponseHeadersPolicySecurityHeadersConfig {
     return ResponseHeadersPolicySecurityHeadersConfig(
       contentSecurityPolicy: _s
           .extractXmlChild(elem, 'ContentSecurityPolicy')
-          ?.let((e) => ResponseHeadersPolicyContentSecurityPolicy.fromXml(e)),
+          ?.let(ResponseHeadersPolicyContentSecurityPolicy.fromXml),
       contentTypeOptions: _s
           .extractXmlChild(elem, 'ContentTypeOptions')
-          ?.let((e) => ResponseHeadersPolicyContentTypeOptions.fromXml(e)),
+          ?.let(ResponseHeadersPolicyContentTypeOptions.fromXml),
       frameOptions: _s
           .extractXmlChild(elem, 'FrameOptions')
-          ?.let((e) => ResponseHeadersPolicyFrameOptions.fromXml(e)),
+          ?.let(ResponseHeadersPolicyFrameOptions.fromXml),
       referrerPolicy: _s
           .extractXmlChild(elem, 'ReferrerPolicy')
-          ?.let((e) => ResponseHeadersPolicyReferrerPolicy.fromXml(e)),
+          ?.let(ResponseHeadersPolicyReferrerPolicy.fromXml),
       strictTransportSecurity: _s
           .extractXmlChild(elem, 'StrictTransportSecurity')
-          ?.let((e) => ResponseHeadersPolicyStrictTransportSecurity.fromXml(e)),
+          ?.let(ResponseHeadersPolicyStrictTransportSecurity.fromXml),
       xSSProtection: _s
           .extractXmlChild(elem, 'XSSProtection')
-          ?.let((e) => ResponseHeadersPolicyXSSProtection.fromXml(e)),
+          ?.let(ResponseHeadersPolicyXSSProtection.fromXml),
     );
   }
 
@@ -17875,9 +17850,8 @@ class Signer {
   factory Signer.fromXml(_s.XmlElement elem) {
     return Signer(
       awsAccountNumber: _s.extractXmlStringValue(elem, 'AwsAccountNumber'),
-      keyPairIds: _s
-          .extractXmlChild(elem, 'KeyPairIds')
-          ?.let((e) => KeyPairIds.fromXml(e)),
+      keyPairIds:
+          _s.extractXmlChild(elem, 'KeyPairIds')?.let(KeyPairIds.fromXml),
     );
   }
 
@@ -18185,11 +18159,10 @@ class StreamingDistributionConfig {
       s3Origin: S3Origin.fromXml(_s.extractXmlChild(elem, 'S3Origin')!),
       trustedSigners:
           TrustedSigners.fromXml(_s.extractXmlChild(elem, 'TrustedSigners')!),
-      aliases:
-          _s.extractXmlChild(elem, 'Aliases')?.let((e) => Aliases.fromXml(e)),
+      aliases: _s.extractXmlChild(elem, 'Aliases')?.let(Aliases.fromXml),
       logging: _s
           .extractXmlChild(elem, 'Logging')
-          ?.let((e) => StreamingLoggingConfig.fromXml(e)),
+          ?.let(StreamingLoggingConfig.fromXml),
       priceClass: _s.extractXmlStringValue(elem, 'PriceClass')?.toPriceClass(),
     );
   }
@@ -18331,7 +18304,7 @@ class StreamingDistributionList {
       quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('StreamingDistributionSummary')
-          .map((c) => StreamingDistributionSummary.fromXml(c))
+          .map(StreamingDistributionSummary.fromXml)
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
@@ -18642,8 +18615,9 @@ class Tags {
   });
   factory Tags.fromXml(_s.XmlElement elem) {
     return Tags(
-      items: _s.extractXmlChild(elem, 'Items')?.let((elem) =>
-          elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList()),
+      items: _s
+          .extractXmlChild(elem, 'Items')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
     );
   }
 
@@ -18789,7 +18763,7 @@ class TestResult {
       functionOutput: _s.extractXmlStringValue(elem, 'FunctionOutput'),
       functionSummary: _s
           .extractXmlChild(elem, 'FunctionSummary')
-          ?.let((e) => FunctionSummary.fromXml(e)),
+          ?.let(FunctionSummary.fromXml),
     );
   }
 
@@ -18834,10 +18808,10 @@ class TrafficConfig {
           .toContinuousDeploymentPolicyType(),
       singleHeaderConfig: _s
           .extractXmlChild(elem, 'SingleHeaderConfig')
-          ?.let((e) => ContinuousDeploymentSingleHeaderConfig.fromXml(e)),
+          ?.let(ContinuousDeploymentSingleHeaderConfig.fromXml),
       singleWeightConfig: _s
           .extractXmlChild(elem, 'SingleWeightConfig')
-          ?.let((e) => ContinuousDeploymentSingleWeightConfig.fromXml(e)),
+          ?.let(ContinuousDeploymentSingleWeightConfig.fromXml),
     );
   }
 
@@ -19404,7 +19378,7 @@ class UpdateRealtimeLogConfigResult {
     return UpdateRealtimeLogConfigResult(
       realtimeLogConfig: _s
           .extractXmlChild(elem, 'RealtimeLogConfig')
-          ?.let((e) => RealtimeLogConfig.fromXml(e)),
+          ?.let(RealtimeLogConfig.fromXml),
     );
   }
 

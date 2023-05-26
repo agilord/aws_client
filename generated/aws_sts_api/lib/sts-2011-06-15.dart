@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use_from_same_package
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // ignore_for_file: unused_import
@@ -1737,10 +1738,9 @@ class AssumeRoleResponse {
     return AssumeRoleResponse(
       assumedRoleUser: _s
           .extractXmlChild(elem, 'AssumedRoleUser')
-          ?.let((e) => AssumedRoleUser.fromXml(e)),
-      credentials: _s
-          .extractXmlChild(elem, 'Credentials')
-          ?.let((e) => Credentials.fromXml(e)),
+          ?.let(AssumedRoleUser.fromXml),
+      credentials:
+          _s.extractXmlChild(elem, 'Credentials')?.let(Credentials.fromXml),
       packedPolicySize: _s.extractXmlIntValue(elem, 'PackedPolicySize'),
       sourceIdentity: _s.extractXmlStringValue(elem, 'SourceIdentity'),
     );
@@ -1853,11 +1853,10 @@ class AssumeRoleWithSAMLResponse {
     return AssumeRoleWithSAMLResponse(
       assumedRoleUser: _s
           .extractXmlChild(elem, 'AssumedRoleUser')
-          ?.let((e) => AssumedRoleUser.fromXml(e)),
+          ?.let(AssumedRoleUser.fromXml),
       audience: _s.extractXmlStringValue(elem, 'Audience'),
-      credentials: _s
-          .extractXmlChild(elem, 'Credentials')
-          ?.let((e) => Credentials.fromXml(e)),
+      credentials:
+          _s.extractXmlChild(elem, 'Credentials')?.let(Credentials.fromXml),
       issuer: _s.extractXmlStringValue(elem, 'Issuer'),
       nameQualifier: _s.extractXmlStringValue(elem, 'NameQualifier'),
       packedPolicySize: _s.extractXmlIntValue(elem, 'PackedPolicySize'),
@@ -1955,11 +1954,10 @@ class AssumeRoleWithWebIdentityResponse {
     return AssumeRoleWithWebIdentityResponse(
       assumedRoleUser: _s
           .extractXmlChild(elem, 'AssumedRoleUser')
-          ?.let((e) => AssumedRoleUser.fromXml(e)),
+          ?.let(AssumedRoleUser.fromXml),
       audience: _s.extractXmlStringValue(elem, 'Audience'),
-      credentials: _s
-          .extractXmlChild(elem, 'Credentials')
-          ?.let((e) => Credentials.fromXml(e)),
+      credentials:
+          _s.extractXmlChild(elem, 'Credentials')?.let(Credentials.fromXml),
       packedPolicySize: _s.extractXmlIntValue(elem, 'PackedPolicySize'),
       provider: _s.extractXmlStringValue(elem, 'Provider'),
       sourceIdentity: _s.extractXmlStringValue(elem, 'SourceIdentity'),
@@ -2146,12 +2144,10 @@ class GetFederationTokenResponse {
   });
   factory GetFederationTokenResponse.fromXml(_s.XmlElement elem) {
     return GetFederationTokenResponse(
-      credentials: _s
-          .extractXmlChild(elem, 'Credentials')
-          ?.let((e) => Credentials.fromXml(e)),
-      federatedUser: _s
-          .extractXmlChild(elem, 'FederatedUser')
-          ?.let((e) => FederatedUser.fromXml(e)),
+      credentials:
+          _s.extractXmlChild(elem, 'Credentials')?.let(Credentials.fromXml),
+      federatedUser:
+          _s.extractXmlChild(elem, 'FederatedUser')?.let(FederatedUser.fromXml),
       packedPolicySize: _s.extractXmlIntValue(elem, 'PackedPolicySize'),
     );
   }
@@ -2174,9 +2170,8 @@ class GetSessionTokenResponse {
   });
   factory GetSessionTokenResponse.fromXml(_s.XmlElement elem) {
     return GetSessionTokenResponse(
-      credentials: _s
-          .extractXmlChild(elem, 'Credentials')
-          ?.let((e) => Credentials.fromXml(e)),
+      credentials:
+          _s.extractXmlChild(elem, 'Credentials')?.let(Credentials.fromXml),
     );
   }
 }

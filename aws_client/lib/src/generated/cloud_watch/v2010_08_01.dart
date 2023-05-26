@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use_from_same_package
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // ignore_for_file: unused_import
@@ -3520,19 +3521,17 @@ class AnomalyDetector {
     return AnomalyDetector(
       configuration: _s
           .extractXmlChild(elem, 'Configuration')
-          ?.let((e) => AnomalyDetectorConfiguration.fromXml(e)),
-      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => Dimension.fromXml(c))
-          .toList()),
+          ?.let(AnomalyDetectorConfiguration.fromXml),
+      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) =>
+          elem.findElements('member').map(Dimension.fromXml).toList()),
       metricMathAnomalyDetector: _s
           .extractXmlChild(elem, 'MetricMathAnomalyDetector')
-          ?.let((e) => MetricMathAnomalyDetector.fromXml(e)),
+          ?.let(MetricMathAnomalyDetector.fromXml),
       metricName: _s.extractXmlStringValue(elem, 'MetricName'),
       namespace: _s.extractXmlStringValue(elem, 'Namespace'),
       singleMetricAnomalyDetector: _s
           .extractXmlChild(elem, 'SingleMetricAnomalyDetector')
-          ?.let((e) => SingleMetricAnomalyDetector.fromXml(e)),
+          ?.let(SingleMetricAnomalyDetector.fromXml),
       stat: _s.extractXmlStringValue(elem, 'Stat'),
       stateValue: _s
           .extractXmlStringValue(elem, 'StateValue')
@@ -3590,10 +3589,7 @@ class AnomalyDetectorConfiguration {
   factory AnomalyDetectorConfiguration.fromXml(_s.XmlElement elem) {
     return AnomalyDetectorConfiguration(
       excludedTimeRanges: _s.extractXmlChild(elem, 'ExcludedTimeRanges')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => Range.fromXml(c))
-              .toList()),
+          (elem) => elem.findElements('member').map(Range.fromXml).toList()),
       metricTimezone: _s.extractXmlStringValue(elem, 'MetricTimezone'),
     );
   }
@@ -4116,10 +4112,8 @@ class DeleteInsightRulesOutput {
   });
   factory DeleteInsightRulesOutput.fromXml(_s.XmlElement elem) {
     return DeleteInsightRulesOutput(
-      failures: _s.extractXmlChild(elem, 'Failures')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => PartialFailure.fromXml(c))
-          .toList()),
+      failures: _s.extractXmlChild(elem, 'Failures')?.let((elem) =>
+          elem.findElements('member').map(PartialFailure.fromXml).toList()),
     );
   }
 
@@ -4160,7 +4154,7 @@ class DescribeAlarmHistoryOutput {
       alarmHistoryItems: _s.extractXmlChild(elem, 'AlarmHistoryItems')?.let(
           (elem) => elem
               .findElements('member')
-              .map((c) => AlarmHistoryItem.fromXml(c))
+              .map(AlarmHistoryItem.fromXml)
               .toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
@@ -4185,10 +4179,8 @@ class DescribeAlarmsForMetricOutput {
   });
   factory DescribeAlarmsForMetricOutput.fromXml(_s.XmlElement elem) {
     return DescribeAlarmsForMetricOutput(
-      metricAlarms: _s.extractXmlChild(elem, 'MetricAlarms')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => MetricAlarm.fromXml(c))
-          .toList()),
+      metricAlarms: _s.extractXmlChild(elem, 'MetricAlarms')?.let((elem) =>
+          elem.findElements('member').map(MetricAlarm.fromXml).toList()),
     );
   }
 
@@ -4218,14 +4210,10 @@ class DescribeAlarmsOutput {
   factory DescribeAlarmsOutput.fromXml(_s.XmlElement elem) {
     return DescribeAlarmsOutput(
       compositeAlarms: _s.extractXmlChild(elem, 'CompositeAlarms')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => CompositeAlarm.fromXml(c))
-              .toList()),
-      metricAlarms: _s.extractXmlChild(elem, 'MetricAlarms')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => MetricAlarm.fromXml(c))
-          .toList()),
+          (elem) =>
+              elem.findElements('member').map(CompositeAlarm.fromXml).toList()),
+      metricAlarms: _s.extractXmlChild(elem, 'MetricAlarms')?.let((elem) =>
+          elem.findElements('member').map(MetricAlarm.fromXml).toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
@@ -4259,7 +4247,7 @@ class DescribeAnomalyDetectorsOutput {
       anomalyDetectors: _s.extractXmlChild(elem, 'AnomalyDetectors')?.let(
           (elem) => elem
               .findElements('member')
-              .map((c) => AnomalyDetector.fromXml(c))
+              .map(AnomalyDetector.fromXml)
               .toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
@@ -4289,10 +4277,8 @@ class DescribeInsightRulesOutput {
   });
   factory DescribeInsightRulesOutput.fromXml(_s.XmlElement elem) {
     return DescribeInsightRulesOutput(
-      insightRules: _s.extractXmlChild(elem, 'InsightRules')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => InsightRule.fromXml(c))
-          .toList()),
+      insightRules: _s.extractXmlChild(elem, 'InsightRules')?.let((elem) =>
+          elem.findElements('member').map(InsightRule.fromXml).toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
@@ -4381,10 +4367,8 @@ class DisableInsightRulesOutput {
   });
   factory DisableInsightRulesOutput.fromXml(_s.XmlElement elem) {
     return DisableInsightRulesOutput(
-      failures: _s.extractXmlChild(elem, 'Failures')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => PartialFailure.fromXml(c))
-          .toList()),
+      failures: _s.extractXmlChild(elem, 'Failures')?.let((elem) =>
+          elem.findElements('member').map(PartialFailure.fromXml).toList()),
     );
   }
 
@@ -4406,10 +4390,8 @@ class EnableInsightRulesOutput {
   });
   factory EnableInsightRulesOutput.fromXml(_s.XmlElement elem) {
     return EnableInsightRulesOutput(
-      failures: _s.extractXmlChild(elem, 'Failures')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => PartialFailure.fromXml(c))
-          .toList()),
+      failures: _s.extractXmlChild(elem, 'Failures')?.let((elem) =>
+          elem.findElements('member').map(PartialFailure.fromXml).toList()),
     );
   }
 
@@ -4526,7 +4508,7 @@ class GetInsightRuleReportOutput {
           _s.extractXmlIntValue(elem, 'ApproximateUniqueCount'),
       contributors: _s.extractXmlChild(elem, 'Contributors')?.let((elem) => elem
           .findElements('member')
-          .map((c) => InsightRuleContributor.fromXml(c))
+          .map(InsightRuleContributor.fromXml)
           .toList()),
       keyLabels: _s
           .extractXmlChild(elem, 'KeyLabels')
@@ -4534,7 +4516,7 @@ class GetInsightRuleReportOutput {
       metricDatapoints: _s.extractXmlChild(elem, 'MetricDatapoints')?.let(
           (elem) => elem
               .findElements('member')
-              .map((c) => InsightRuleMetricDatapoint.fromXml(c))
+              .map(InsightRuleMetricDatapoint.fromXml)
               .toList()),
     );
   }
@@ -4585,14 +4567,12 @@ class GetMetricDataOutput {
   });
   factory GetMetricDataOutput.fromXml(_s.XmlElement elem) {
     return GetMetricDataOutput(
-      messages: _s.extractXmlChild(elem, 'Messages')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => MessageData.fromXml(c))
-          .toList()),
+      messages: _s.extractXmlChild(elem, 'Messages')?.let((elem) =>
+          elem.findElements('member').map(MessageData.fromXml).toList()),
       metricDataResults: _s.extractXmlChild(elem, 'MetricDataResults')?.let(
           (elem) => elem
               .findElements('member')
-              .map((c) => MetricDataResult.fromXml(c))
+              .map(MetricDataResult.fromXml)
               .toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
@@ -4623,10 +4603,8 @@ class GetMetricStatisticsOutput {
   });
   factory GetMetricStatisticsOutput.fromXml(_s.XmlElement elem) {
     return GetMetricStatisticsOutput(
-      datapoints: _s.extractXmlChild(elem, 'Datapoints')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => Datapoint.fromXml(c))
-          .toList()),
+      datapoints: _s.extractXmlChild(elem, 'Datapoints')?.let((elem) =>
+          elem.findElements('member').map(Datapoint.fromXml).toList()),
       label: _s.extractXmlStringValue(elem, 'Label'),
     );
   }
@@ -4713,16 +4691,10 @@ class GetMetricStreamOutput {
       arn: _s.extractXmlStringValue(elem, 'Arn'),
       creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate'),
       excludeFilters: _s.extractXmlChild(elem, 'ExcludeFilters')?.let((elem) =>
-          elem
-              .findElements('member')
-              .map((c) => MetricStreamFilter.fromXml(c))
-              .toList()),
+          elem.findElements('member').map(MetricStreamFilter.fromXml).toList()),
       firehoseArn: _s.extractXmlStringValue(elem, 'FirehoseArn'),
       includeFilters: _s.extractXmlChild(elem, 'IncludeFilters')?.let((elem) =>
-          elem
-              .findElements('member')
-              .map((c) => MetricStreamFilter.fromXml(c))
-              .toList()),
+          elem.findElements('member').map(MetricStreamFilter.fromXml).toList()),
       includeLinkedAccountsMetrics:
           _s.extractXmlBoolValue(elem, 'IncludeLinkedAccountsMetrics'),
       lastUpdateDate: _s.extractXmlDateTimeValue(elem, 'LastUpdateDate'),
@@ -4736,7 +4708,7 @@ class GetMetricStreamOutput {
           .extractXmlChild(elem, 'StatisticsConfigurations')
           ?.let((elem) => elem
               .findElements('member')
-              .map((c) => MetricStreamStatisticsConfiguration.fromXml(c))
+              .map(MetricStreamStatisticsConfiguration.fromXml)
               .toList()),
     );
   }
@@ -4924,7 +4896,7 @@ class InsightRuleContributor {
       datapoints: _s
           .extractXmlChild(elem, 'Datapoints')!
           .findElements('member')
-          .map((c) => InsightRuleContributorDatapoint.fromXml(c))
+          .map(InsightRuleContributorDatapoint.fromXml)
           .toList(),
       keys: _s.extractXmlStringListValues(
           _s.extractXmlChild(elem, 'Keys')!, 'member'),
@@ -5124,10 +5096,8 @@ class ListDashboardsOutput {
   factory ListDashboardsOutput.fromXml(_s.XmlElement elem) {
     return ListDashboardsOutput(
       dashboardEntries: _s.extractXmlChild(elem, 'DashboardEntries')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => DashboardEntry.fromXml(c))
-              .toList()),
+          (elem) =>
+              elem.findElements('member').map(DashboardEntry.fromXml).toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
@@ -5159,7 +5129,7 @@ class ListManagedInsightRulesOutput {
     return ListManagedInsightRulesOutput(
       managedRules: _s.extractXmlChild(elem, 'ManagedRules')?.let((elem) => elem
           .findElements('member')
-          .map((c) => ManagedRuleDescription.fromXml(c))
+          .map(ManagedRuleDescription.fromXml)
           .toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
@@ -5190,10 +5160,8 @@ class ListMetricStreamsOutput {
   });
   factory ListMetricStreamsOutput.fromXml(_s.XmlElement elem) {
     return ListMetricStreamsOutput(
-      entries: _s.extractXmlChild(elem, 'Entries')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => MetricStreamEntry.fromXml(c))
-          .toList()),
+      entries: _s.extractXmlChild(elem, 'Entries')?.let((elem) =>
+          elem.findElements('member').map(MetricStreamEntry.fromXml).toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
@@ -5230,8 +5198,8 @@ class ListMetricsOutput {
   });
   factory ListMetricsOutput.fromXml(_s.XmlElement elem) {
     return ListMetricsOutput(
-      metrics: _s.extractXmlChild(elem, 'Metrics')?.let((elem) =>
-          elem.findElements('member').map((c) => Metric.fromXml(c)).toList()),
+      metrics: _s.extractXmlChild(elem, 'Metrics')?.let(
+          (elem) => elem.findElements('member').map(Metric.fromXml).toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       owningAccounts: _s
           .extractXmlChild(elem, 'OwningAccounts')
@@ -5260,8 +5228,8 @@ class ListTagsForResourceOutput {
   });
   factory ListTagsForResourceOutput.fromXml(_s.XmlElement elem) {
     return ListTagsForResourceOutput(
-      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let(
+          (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
     );
   }
 
@@ -5338,9 +5306,8 @@ class ManagedRuleDescription {
   factory ManagedRuleDescription.fromXml(_s.XmlElement elem) {
     return ManagedRuleDescription(
       resourceARN: _s.extractXmlStringValue(elem, 'ResourceARN'),
-      ruleState: _s
-          .extractXmlChild(elem, 'RuleState')
-          ?.let((e) => ManagedRuleState.fromXml(e)),
+      ruleState:
+          _s.extractXmlChild(elem, 'RuleState')?.let(ManagedRuleState.fromXml),
       templateName: _s.extractXmlStringValue(elem, 'TemplateName'),
     );
   }
@@ -5441,10 +5408,8 @@ class Metric {
   });
   factory Metric.fromXml(_s.XmlElement elem) {
     return Metric(
-      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => Dimension.fromXml(c))
-          .toList()),
+      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) =>
+          elem.findElements('member').map(Dimension.fromXml).toList()),
       metricName: _s.extractXmlStringValue(elem, 'MetricName'),
       namespace: _s.extractXmlStringValue(elem, 'Namespace'),
     );
@@ -5632,10 +5597,8 @@ class MetricAlarm {
           .extractXmlStringValue(elem, 'ComparisonOperator')
           ?.toComparisonOperator(),
       datapointsToAlarm: _s.extractXmlIntValue(elem, 'DatapointsToAlarm'),
-      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => Dimension.fromXml(c))
-          .toList()),
+      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) =>
+          elem.findElements('member').map(Dimension.fromXml).toList()),
       evaluateLowSampleCountPercentile:
           _s.extractXmlStringValue(elem, 'EvaluateLowSampleCountPercentile'),
       evaluationPeriods: _s.extractXmlIntValue(elem, 'EvaluationPeriods'),
@@ -5647,10 +5610,8 @@ class MetricAlarm {
           .extractXmlChild(elem, 'InsufficientDataActions')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       metricName: _s.extractXmlStringValue(elem, 'MetricName'),
-      metrics: _s.extractXmlChild(elem, 'Metrics')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => MetricDataQuery.fromXml(c))
-          .toList()),
+      metrics: _s.extractXmlChild(elem, 'Metrics')?.let((elem) =>
+          elem.findElements('member').map(MetricDataQuery.fromXml).toList()),
       namespace: _s.extractXmlStringValue(elem, 'Namespace'),
       oKActions: _s
           .extractXmlChild(elem, 'OKActions')
@@ -5866,9 +5827,8 @@ class MetricDataQuery {
       accountId: _s.extractXmlStringValue(elem, 'AccountId'),
       expression: _s.extractXmlStringValue(elem, 'Expression'),
       label: _s.extractXmlStringValue(elem, 'Label'),
-      metricStat: _s
-          .extractXmlChild(elem, 'MetricStat')
-          ?.let((e) => MetricStat.fromXml(e)),
+      metricStat:
+          _s.extractXmlChild(elem, 'MetricStat')?.let(MetricStat.fromXml),
       period: _s.extractXmlIntValue(elem, 'Period'),
       returnData: _s.extractXmlBoolValue(elem, 'ReturnData'),
     );
@@ -5940,10 +5900,8 @@ class MetricDataResult {
     return MetricDataResult(
       id: _s.extractXmlStringValue(elem, 'Id'),
       label: _s.extractXmlStringValue(elem, 'Label'),
-      messages: _s.extractXmlChild(elem, 'Messages')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => MessageData.fromXml(c))
-          .toList()),
+      messages: _s.extractXmlChild(elem, 'Messages')?.let((elem) =>
+          elem.findElements('member').map(MessageData.fromXml).toList()),
       statusCode: _s.extractXmlStringValue(elem, 'StatusCode')?.toStatusCode(),
       timestamps: _s
           .extractXmlChild(elem, 'Timestamps')
@@ -6098,7 +6056,7 @@ class MetricMathAnomalyDetector {
       metricDataQueries: _s.extractXmlChild(elem, 'MetricDataQueries')?.let(
           (elem) => elem
               .findElements('member')
-              .map((c) => MetricDataQuery.fromXml(c))
+              .map(MetricDataQuery.fromXml)
               .toList()),
     );
   }
@@ -6383,7 +6341,7 @@ class MetricStreamStatisticsConfiguration {
       includeMetrics: _s
           .extractXmlChild(elem, 'IncludeMetrics')!
           .findElements('member')
-          .map((c) => MetricStreamStatisticsMetric.fromXml(c))
+          .map(MetricStreamStatisticsMetric.fromXml)
           .toList(),
     );
   }
@@ -6507,7 +6465,7 @@ class PutDashboardOutput {
           .extractXmlChild(elem, 'DashboardValidationMessages')
           ?.let((elem) => elem
               .findElements('member')
-              .map((c) => DashboardValidationMessage.fromXml(c))
+              .map(DashboardValidationMessage.fromXml)
               .toList()),
     );
   }
@@ -6543,10 +6501,8 @@ class PutManagedInsightRulesOutput {
   });
   factory PutManagedInsightRulesOutput.fromXml(_s.XmlElement elem) {
     return PutManagedInsightRulesOutput(
-      failures: _s.extractXmlChild(elem, 'Failures')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => PartialFailure.fromXml(c))
-          .toList()),
+      failures: _s.extractXmlChild(elem, 'Failures')?.let((elem) =>
+          elem.findElements('member').map(PartialFailure.fromXml).toList()),
     );
   }
 
@@ -6687,10 +6643,8 @@ class SingleMetricAnomalyDetector {
   });
   factory SingleMetricAnomalyDetector.fromXml(_s.XmlElement elem) {
     return SingleMetricAnomalyDetector(
-      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => Dimension.fromXml(c))
-          .toList()),
+      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) =>
+          elem.findElements('member').map(Dimension.fromXml).toList()),
       metricName: _s.extractXmlStringValue(elem, 'MetricName'),
       namespace: _s.extractXmlStringValue(elem, 'Namespace'),
       stat: _s.extractXmlStringValue(elem, 'Stat'),

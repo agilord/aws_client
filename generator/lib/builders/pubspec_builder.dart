@@ -37,7 +37,7 @@ $publishTo
 protocol: ${api.metadata.protocol}
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.17.0 <3.0.0'
 
 $dependencies
 

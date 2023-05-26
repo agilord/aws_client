@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use_from_same_package
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // ignore_for_file: unused_import
@@ -4709,7 +4710,7 @@ class ActivitiesType {
       activities: _s
           .extractXmlChild(elem, 'Activities')!
           .findElements('member')
-          .map((c) => Activity.fromXml(c))
+          .map(Activity.fromXml)
           .toList(),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
@@ -4843,8 +4844,7 @@ class ActivityType {
   });
   factory ActivityType.fromXml(_s.XmlElement elem) {
     return ActivityType(
-      activity:
-          _s.extractXmlChild(elem, 'Activity')?.let((e) => Activity.fromXml(e)),
+      activity: _s.extractXmlChild(elem, 'Activity')?.let(Activity.fromXml),
     );
   }
 
@@ -5116,26 +5116,23 @@ class AutoScalingGroup {
       desiredCapacityType:
           _s.extractXmlStringValue(elem, 'DesiredCapacityType'),
       enabledMetrics: _s.extractXmlChild(elem, 'EnabledMetrics')?.let((elem) =>
-          elem
-              .findElements('member')
-              .map((c) => EnabledMetric.fromXml(c))
-              .toList()),
+          elem.findElements('member').map(EnabledMetric.fromXml).toList()),
       healthCheckGracePeriod:
           _s.extractXmlIntValue(elem, 'HealthCheckGracePeriod'),
-      instances: _s.extractXmlChild(elem, 'Instances')?.let((elem) =>
-          elem.findElements('member').map((c) => Instance.fromXml(c)).toList()),
+      instances: _s.extractXmlChild(elem, 'Instances')?.let(
+          (elem) => elem.findElements('member').map(Instance.fromXml).toList()),
       launchConfigurationName:
           _s.extractXmlStringValue(elem, 'LaunchConfigurationName'),
       launchTemplate: _s
           .extractXmlChild(elem, 'LaunchTemplate')
-          ?.let((e) => LaunchTemplateSpecification.fromXml(e)),
+          ?.let(LaunchTemplateSpecification.fromXml),
       loadBalancerNames: _s
           .extractXmlChild(elem, 'LoadBalancerNames')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       maxInstanceLifetime: _s.extractXmlIntValue(elem, 'MaxInstanceLifetime'),
       mixedInstancesPolicy: _s
           .extractXmlChild(elem, 'MixedInstancesPolicy')
-          ?.let((e) => MixedInstancesPolicy.fromXml(e)),
+          ?.let(MixedInstancesPolicy.fromXml),
       newInstancesProtectedFromScaleIn:
           _s.extractXmlBoolValue(elem, 'NewInstancesProtectedFromScaleIn'),
       placementGroup: _s.extractXmlStringValue(elem, 'PlacementGroup'),
@@ -5146,12 +5143,10 @@ class AutoScalingGroup {
       suspendedProcesses: _s.extractXmlChild(elem, 'SuspendedProcesses')?.let(
           (elem) => elem
               .findElements('member')
-              .map((c) => SuspendedProcess.fromXml(c))
+              .map(SuspendedProcess.fromXml)
               .toList()),
-      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => TagDescription.fromXml(c))
-          .toList()),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
+          elem.findElements('member').map(TagDescription.fromXml).toList()),
       targetGroupARNs: _s
           .extractXmlChild(elem, 'TargetGroupARNs')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
@@ -5161,12 +5156,12 @@ class AutoScalingGroup {
       trafficSources: _s.extractXmlChild(elem, 'TrafficSources')?.let((elem) =>
           elem
               .findElements('member')
-              .map((c) => TrafficSourceIdentifier.fromXml(c))
+              .map(TrafficSourceIdentifier.fromXml)
               .toList()),
       vPCZoneIdentifier: _s.extractXmlStringValue(elem, 'VPCZoneIdentifier'),
       warmPoolConfiguration: _s
           .extractXmlChild(elem, 'WarmPoolConfiguration')
-          ?.let((e) => WarmPoolConfiguration.fromXml(e)),
+          ?.let(WarmPoolConfiguration.fromXml),
       warmPoolSize: _s.extractXmlIntValue(elem, 'WarmPoolSize'),
     );
   }
@@ -5276,7 +5271,7 @@ class AutoScalingGroupsType {
       autoScalingGroups: _s
           .extractXmlChild(elem, 'AutoScalingGroups')!
           .findElements('member')
-          .map((c) => AutoScalingGroup.fromXml(c))
+          .map(AutoScalingGroup.fromXml)
           .toList(),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
@@ -5374,7 +5369,7 @@ class AutoScalingInstanceDetails {
           _s.extractXmlStringValue(elem, 'LaunchConfigurationName'),
       launchTemplate: _s
           .extractXmlChild(elem, 'LaunchTemplate')
-          ?.let((e) => LaunchTemplateSpecification.fromXml(e)),
+          ?.let(LaunchTemplateSpecification.fromXml),
       weightedCapacity: _s.extractXmlStringValue(elem, 'WeightedCapacity'),
     );
   }
@@ -5426,7 +5421,7 @@ class AutoScalingInstancesType {
           .extractXmlChild(elem, 'AutoScalingInstances')
           ?.let((elem) => elem
               .findElements('member')
-              .map((c) => AutoScalingInstanceDetails.fromXml(c))
+              .map(AutoScalingInstanceDetails.fromXml)
               .toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
@@ -5521,7 +5516,7 @@ class BatchDeleteScheduledActionAnswer {
           .extractXmlChild(elem, 'FailedScheduledActions')
           ?.let((elem) => elem
               .findElements('member')
-              .map((c) => FailedScheduledUpdateGroupActionRequest.fromXml(c))
+              .map(FailedScheduledUpdateGroupActionRequest.fromXml)
               .toList()),
     );
   }
@@ -5550,7 +5545,7 @@ class BatchPutScheduledUpdateGroupActionAnswer {
           .extractXmlChild(elem, 'FailedScheduledUpdateGroupActions')
           ?.let((elem) => elem
               .findElements('member')
-              .map((c) => FailedScheduledUpdateGroupActionRequest.fromXml(c))
+              .map(FailedScheduledUpdateGroupActionRequest.fromXml)
               .toList()),
     );
   }
@@ -5606,7 +5601,7 @@ class BlockDeviceMapping {
   factory BlockDeviceMapping.fromXml(_s.XmlElement elem) {
     return BlockDeviceMapping(
       deviceName: _s.extractXmlStringValue(elem, 'DeviceName')!,
-      ebs: _s.extractXmlChild(elem, 'Ebs')?.let((e) => Ebs.fromXml(e)),
+      ebs: _s.extractXmlChild(elem, 'Ebs')?.let(Ebs.fromXml),
       noDevice: _s.extractXmlBoolValue(elem, 'NoDevice'),
       virtualName: _s.extractXmlStringValue(elem, 'VirtualName'),
     );
@@ -5832,14 +5827,12 @@ class CustomizedMetricSpecification {
   });
   factory CustomizedMetricSpecification.fromXml(_s.XmlElement elem) {
     return CustomizedMetricSpecification(
-      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => MetricDimension.fromXml(c))
-          .toList()),
+      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) =>
+          elem.findElements('member').map(MetricDimension.fromXml).toList()),
       metricName: _s.extractXmlStringValue(elem, 'MetricName'),
       metrics: _s.extractXmlChild(elem, 'Metrics')?.let((elem) => elem
           .findElements('member')
-          .map((c) => TargetTrackingMetricDataQuery.fromXml(c))
+          .map(TargetTrackingMetricDataQuery.fromXml)
           .toList()),
       namespace: _s.extractXmlStringValue(elem, 'Namespace'),
       statistic:
@@ -5955,10 +5948,8 @@ class DescribeAdjustmentTypesAnswer {
   factory DescribeAdjustmentTypesAnswer.fromXml(_s.XmlElement elem) {
     return DescribeAdjustmentTypesAnswer(
       adjustmentTypes: _s.extractXmlChild(elem, 'AdjustmentTypes')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => AdjustmentType.fromXml(c))
-              .toList()),
+          (elem) =>
+              elem.findElements('member').map(AdjustmentType.fromXml).toList()),
     );
   }
 
@@ -6015,7 +6006,7 @@ class DescribeInstanceRefreshesAnswer {
       instanceRefreshes: _s.extractXmlChild(elem, 'InstanceRefreshes')?.let(
           (elem) => elem
               .findElements('member')
-              .map((c) => InstanceRefresh.fromXml(c))
+              .map(InstanceRefresh.fromXml)
               .toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
@@ -6064,10 +6055,7 @@ class DescribeLifecycleHooksAnswer {
   factory DescribeLifecycleHooksAnswer.fromXml(_s.XmlElement elem) {
     return DescribeLifecycleHooksAnswer(
       lifecycleHooks: _s.extractXmlChild(elem, 'LifecycleHooks')?.let((elem) =>
-          elem
-              .findElements('member')
-              .map((c) => LifecycleHook.fromXml(c))
-              .toList()),
+          elem.findElements('member').map(LifecycleHook.fromXml).toList()),
     );
   }
 
@@ -6099,7 +6087,7 @@ class DescribeLoadBalancerTargetGroupsResponse {
           .extractXmlChild(elem, 'LoadBalancerTargetGroups')
           ?.let((elem) => elem
               .findElements('member')
-              .map((c) => LoadBalancerTargetGroupState.fromXml(c))
+              .map(LoadBalancerTargetGroupState.fromXml)
               .toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
@@ -6133,10 +6121,7 @@ class DescribeLoadBalancersResponse {
   factory DescribeLoadBalancersResponse.fromXml(_s.XmlElement elem) {
     return DescribeLoadBalancersResponse(
       loadBalancers: _s.extractXmlChild(elem, 'LoadBalancers')?.let((elem) =>
-          elem
-              .findElements('member')
-              .map((c) => LoadBalancerState.fromXml(c))
-              .toList()),
+          elem.findElements('member').map(LoadBalancerState.fromXml).toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
@@ -6167,11 +6152,11 @@ class DescribeMetricCollectionTypesAnswer {
       granularities: _s.extractXmlChild(elem, 'Granularities')?.let((elem) =>
           elem
               .findElements('member')
-              .map((c) => MetricGranularityType.fromXml(c))
+              .map(MetricGranularityType.fromXml)
               .toList()),
       metrics: _s.extractXmlChild(elem, 'Metrics')?.let((elem) => elem
           .findElements('member')
-          .map((c) => MetricCollectionType.fromXml(c))
+          .map(MetricCollectionType.fromXml)
           .toList()),
     );
   }
@@ -6205,7 +6190,7 @@ class DescribeNotificationConfigurationsAnswer {
       notificationConfigurations: _s
           .extractXmlChild(elem, 'NotificationConfigurations')!
           .findElements('member')
-          .map((c) => NotificationConfiguration.fromXml(c))
+          .map(NotificationConfiguration.fromXml)
           .toList(),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
@@ -6267,10 +6252,7 @@ class DescribeTrafficSourcesResponse {
     return DescribeTrafficSourcesResponse(
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       trafficSources: _s.extractXmlChild(elem, 'TrafficSources')?.let((elem) =>
-          elem
-              .findElements('member')
-              .map((c) => TrafficSourceState.fromXml(c))
-              .toList()),
+          elem.findElements('member').map(TrafficSourceState.fromXml).toList()),
     );
   }
 
@@ -6304,12 +6286,12 @@ class DescribeWarmPoolAnswer {
   });
   factory DescribeWarmPoolAnswer.fromXml(_s.XmlElement elem) {
     return DescribeWarmPoolAnswer(
-      instances: _s.extractXmlChild(elem, 'Instances')?.let((elem) =>
-          elem.findElements('member').map((c) => Instance.fromXml(c)).toList()),
+      instances: _s.extractXmlChild(elem, 'Instances')?.let(
+          (elem) => elem.findElements('member').map(Instance.fromXml).toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       warmPoolConfiguration: _s
           .extractXmlChild(elem, 'WarmPoolConfiguration')
-          ?.let((e) => WarmPoolConfiguration.fromXml(e)),
+          ?.let(WarmPoolConfiguration.fromXml),
     );
   }
 
@@ -6357,10 +6339,10 @@ class DesiredConfiguration {
     return DesiredConfiguration(
       launchTemplate: _s
           .extractXmlChild(elem, 'LaunchTemplate')
-          ?.let((e) => LaunchTemplateSpecification.fromXml(e)),
+          ?.let(LaunchTemplateSpecification.fromXml),
       mixedInstancesPolicy: _s
           .extractXmlChild(elem, 'MixedInstancesPolicy')
-          ?.let((e) => MixedInstancesPolicy.fromXml(e)),
+          ?.let(MixedInstancesPolicy.fromXml),
     );
   }
 
@@ -6385,8 +6367,8 @@ class DetachInstancesAnswer {
   });
   factory DetachInstancesAnswer.fromXml(_s.XmlElement elem) {
     return DetachInstancesAnswer(
-      activities: _s.extractXmlChild(elem, 'Activities')?.let((elem) =>
-          elem.findElements('member').map((c) => Activity.fromXml(c)).toList()),
+      activities: _s.extractXmlChild(elem, 'Activities')?.let(
+          (elem) => elem.findElements('member').map(Activity.fromXml).toList()),
     );
   }
 
@@ -6681,8 +6663,8 @@ class EnterStandbyAnswer {
   });
   factory EnterStandbyAnswer.fromXml(_s.XmlElement elem) {
     return EnterStandbyAnswer(
-      activities: _s.extractXmlChild(elem, 'Activities')?.let((elem) =>
-          elem.findElements('member').map((c) => Activity.fromXml(c)).toList()),
+      activities: _s.extractXmlChild(elem, 'Activities')?.let(
+          (elem) => elem.findElements('member').map(Activity.fromXml).toList()),
     );
   }
 
@@ -6703,8 +6685,8 @@ class ExitStandbyAnswer {
   });
   factory ExitStandbyAnswer.fromXml(_s.XmlElement elem) {
     return ExitStandbyAnswer(
-      activities: _s.extractXmlChild(elem, 'Activities')?.let((elem) =>
-          elem.findElements('member').map((c) => Activity.fromXml(c)).toList()),
+      activities: _s.extractXmlChild(elem, 'Activities')?.let(
+          (elem) => elem.findElements('member').map(Activity.fromXml).toList()),
     );
   }
 
@@ -6864,7 +6846,7 @@ class GetPredictiveScalingForecastAnswer {
       loadForecast: _s
           .extractXmlChild(elem, 'LoadForecast')!
           .findElements('member')
-          .map((c) => LoadForecast.fromXml(c))
+          .map(LoadForecast.fromXml)
           .toList(),
       updateTime: _s.extractXmlDateTimeValue(elem, 'UpdateTime')!,
     );
@@ -6946,7 +6928,7 @@ class Instance {
           _s.extractXmlStringValue(elem, 'LaunchConfigurationName'),
       launchTemplate: _s
           .extractXmlChild(elem, 'LaunchTemplate')
-          ?.let((e) => LaunchTemplateSpecification.fromXml(e)),
+          ?.let(LaunchTemplateSpecification.fromXml),
       weightedCapacity: _s.extractXmlStringValue(elem, 'WeightedCapacity'),
     );
   }
@@ -7261,20 +7243,20 @@ class InstanceRefresh {
           _s.extractXmlStringValue(elem, 'AutoScalingGroupName'),
       desiredConfiguration: _s
           .extractXmlChild(elem, 'DesiredConfiguration')
-          ?.let((e) => DesiredConfiguration.fromXml(e)),
+          ?.let(DesiredConfiguration.fromXml),
       endTime: _s.extractXmlDateTimeValue(elem, 'EndTime'),
       instanceRefreshId: _s.extractXmlStringValue(elem, 'InstanceRefreshId'),
       instancesToUpdate: _s.extractXmlIntValue(elem, 'InstancesToUpdate'),
       percentageComplete: _s.extractXmlIntValue(elem, 'PercentageComplete'),
       preferences: _s
           .extractXmlChild(elem, 'Preferences')
-          ?.let((e) => RefreshPreferences.fromXml(e)),
+          ?.let(RefreshPreferences.fromXml),
       progressDetails: _s
           .extractXmlChild(elem, 'ProgressDetails')
-          ?.let((e) => InstanceRefreshProgressDetails.fromXml(e)),
+          ?.let(InstanceRefreshProgressDetails.fromXml),
       rollbackDetails: _s
           .extractXmlChild(elem, 'RollbackDetails')
-          ?.let((e) => RollbackDetails.fromXml(e)),
+          ?.let(RollbackDetails.fromXml),
       startTime: _s.extractXmlDateTimeValue(elem, 'StartTime'),
       status:
           _s.extractXmlStringValue(elem, 'Status')?.toInstanceRefreshStatus(),
@@ -7365,10 +7347,10 @@ class InstanceRefreshProgressDetails {
     return InstanceRefreshProgressDetails(
       livePoolProgress: _s
           .extractXmlChild(elem, 'LivePoolProgress')
-          ?.let((e) => InstanceRefreshLivePoolProgress.fromXml(e)),
+          ?.let(InstanceRefreshLivePoolProgress.fromXml),
       warmPoolProgress: _s
           .extractXmlChild(elem, 'WarmPoolProgress')
-          ?.let((e) => InstanceRefreshWarmPoolProgress.fromXml(e)),
+          ?.let(InstanceRefreshWarmPoolProgress.fromXml),
     );
   }
 
@@ -7823,7 +7805,7 @@ class InstanceRequirements {
           VCpuCountRequest.fromXml(_s.extractXmlChild(elem, 'VCpuCount')!),
       acceleratorCount: _s
           .extractXmlChild(elem, 'AcceleratorCount')
-          ?.let((e) => AcceleratorCountRequest.fromXml(e)),
+          ?.let(AcceleratorCountRequest.fromXml),
       acceleratorManufacturers: _s
           .extractXmlChild(elem, 'AcceleratorManufacturers')
           ?.let((elem) => _s
@@ -7837,7 +7819,7 @@ class InstanceRequirements {
               .toList()),
       acceleratorTotalMemoryMiB: _s
           .extractXmlChild(elem, 'AcceleratorTotalMemoryMiB')
-          ?.let((e) => AcceleratorTotalMemoryMiBRequest.fromXml(e)),
+          ?.let(AcceleratorTotalMemoryMiBRequest.fromXml),
       acceleratorTypes: _s.extractXmlChild(elem, 'AcceleratorTypes')?.let(
           (elem) => _s
               .extractXmlStringListValues(elem, 'member')
@@ -7849,7 +7831,7 @@ class InstanceRequirements {
       bareMetal: _s.extractXmlStringValue(elem, 'BareMetal')?.toBareMetal(),
       baselineEbsBandwidthMbps: _s
           .extractXmlChild(elem, 'BaselineEbsBandwidthMbps')
-          ?.let((e) => BaselineEbsBandwidthMbpsRequest.fromXml(e)),
+          ?.let(BaselineEbsBandwidthMbpsRequest.fromXml),
       burstablePerformance: _s
           .extractXmlStringValue(elem, 'BurstablePerformance')
           ?.toBurstablePerformance(),
@@ -7875,13 +7857,13 @@ class InstanceRequirements {
               .toList()),
       memoryGiBPerVCpu: _s
           .extractXmlChild(elem, 'MemoryGiBPerVCpu')
-          ?.let((e) => MemoryGiBPerVCpuRequest.fromXml(e)),
+          ?.let(MemoryGiBPerVCpuRequest.fromXml),
       networkBandwidthGbps: _s
           .extractXmlChild(elem, 'NetworkBandwidthGbps')
-          ?.let((e) => NetworkBandwidthGbpsRequest.fromXml(e)),
+          ?.let(NetworkBandwidthGbpsRequest.fromXml),
       networkInterfaceCount: _s
           .extractXmlChild(elem, 'NetworkInterfaceCount')
-          ?.let((e) => NetworkInterfaceCountRequest.fromXml(e)),
+          ?.let(NetworkInterfaceCountRequest.fromXml),
       onDemandMaxPricePercentageOverLowestPrice: _s.extractXmlIntValue(
           elem, 'OnDemandMaxPricePercentageOverLowestPrice'),
       requireHibernateSupport:
@@ -7890,7 +7872,7 @@ class InstanceRequirements {
           _s.extractXmlIntValue(elem, 'SpotMaxPricePercentageOverLowestPrice'),
       totalLocalStorageGB: _s
           .extractXmlChild(elem, 'TotalLocalStorageGB')
-          ?.let((e) => TotalLocalStorageGBRequest.fromXml(e)),
+          ?.let(TotalLocalStorageGBRequest.fromXml),
     );
   }
 
@@ -8305,7 +8287,7 @@ class LaunchConfiguration {
       blockDeviceMappings: _s.extractXmlChild(elem, 'BlockDeviceMappings')?.let(
           (elem) => elem
               .findElements('member')
-              .map((c) => BlockDeviceMapping.fromXml(c))
+              .map(BlockDeviceMapping.fromXml)
               .toList()),
       classicLinkVPCId: _s.extractXmlStringValue(elem, 'ClassicLinkVPCId'),
       classicLinkVPCSecurityGroups: _s
@@ -8315,14 +8297,14 @@ class LaunchConfiguration {
       iamInstanceProfile: _s.extractXmlStringValue(elem, 'IamInstanceProfile'),
       instanceMonitoring: _s
           .extractXmlChild(elem, 'InstanceMonitoring')
-          ?.let((e) => InstanceMonitoring.fromXml(e)),
+          ?.let(InstanceMonitoring.fromXml),
       kernelId: _s.extractXmlStringValue(elem, 'KernelId'),
       keyName: _s.extractXmlStringValue(elem, 'KeyName'),
       launchConfigurationARN:
           _s.extractXmlStringValue(elem, 'LaunchConfigurationARN'),
       metadataOptions: _s
           .extractXmlChild(elem, 'MetadataOptions')
-          ?.let((e) => InstanceMetadataOptions.fromXml(e)),
+          ?.let(InstanceMetadataOptions.fromXml),
       placementTenancy: _s.extractXmlStringValue(elem, 'PlacementTenancy'),
       ramdiskId: _s.extractXmlStringValue(elem, 'RamdiskId'),
       securityGroups: _s
@@ -8402,7 +8384,7 @@ class LaunchConfigurationsType {
       launchConfigurations: _s
           .extractXmlChild(elem, 'LaunchConfigurations')!
           .findElements('member')
-          .map((c) => LaunchConfiguration.fromXml(c))
+          .map(LaunchConfiguration.fromXml)
           .toList(),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
@@ -8436,10 +8418,10 @@ class LaunchTemplate {
     return LaunchTemplate(
       launchTemplateSpecification: _s
           .extractXmlChild(elem, 'LaunchTemplateSpecification')
-          ?.let((e) => LaunchTemplateSpecification.fromXml(e)),
+          ?.let(LaunchTemplateSpecification.fromXml),
       overrides: _s.extractXmlChild(elem, 'Overrides')?.let((elem) => elem
           .findElements('member')
-          .map((c) => LaunchTemplateOverrides.fromXml(c))
+          .map(LaunchTemplateOverrides.fromXml)
           .toList()),
     );
   }
@@ -8555,11 +8537,11 @@ class LaunchTemplateOverrides {
     return LaunchTemplateOverrides(
       instanceRequirements: _s
           .extractXmlChild(elem, 'InstanceRequirements')
-          ?.let((e) => InstanceRequirements.fromXml(e)),
+          ?.let(InstanceRequirements.fromXml),
       instanceType: _s.extractXmlStringValue(elem, 'InstanceType'),
       launchTemplateSpecification: _s
           .extractXmlChild(elem, 'LaunchTemplateSpecification')
-          ?.let((e) => LaunchTemplateSpecification.fromXml(e)),
+          ?.let(LaunchTemplateSpecification.fromXml),
       weightedCapacity: _s.extractXmlStringValue(elem, 'WeightedCapacity'),
     );
   }
@@ -9274,10 +9256,8 @@ class Metric {
     return Metric(
       metricName: _s.extractXmlStringValue(elem, 'MetricName')!,
       namespace: _s.extractXmlStringValue(elem, 'Namespace')!,
-      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => MetricDimension.fromXml(c))
-          .toList()),
+      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) =>
+          elem.findElements('member').map(MetricDimension.fromXml).toList()),
     );
   }
 
@@ -9444,9 +9424,8 @@ class MetricDataQuery {
       id: _s.extractXmlStringValue(elem, 'Id')!,
       expression: _s.extractXmlStringValue(elem, 'Expression'),
       label: _s.extractXmlStringValue(elem, 'Label'),
-      metricStat: _s
-          .extractXmlChild(elem, 'MetricStat')
-          ?.let((e) => MetricStat.fromXml(e)),
+      metricStat:
+          _s.extractXmlChild(elem, 'MetricStat')?.let(MetricStat.fromXml),
       returnData: _s.extractXmlBoolValue(elem, 'ReturnData'),
     );
   }
@@ -9679,10 +9658,10 @@ class MixedInstancesPolicy {
     return MixedInstancesPolicy(
       instancesDistribution: _s
           .extractXmlChild(elem, 'InstancesDistribution')
-          ?.let((e) => InstancesDistribution.fromXml(e)),
+          ?.let(InstancesDistribution.fromXml),
       launchTemplate: _s
           .extractXmlChild(elem, 'LaunchTemplate')
-          ?.let((e) => LaunchTemplate.fromXml(e)),
+          ?.let(LaunchTemplate.fromXml),
     );
   }
 
@@ -9843,10 +9822,8 @@ class PoliciesType {
     return PoliciesType(
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       scalingPolicies: _s.extractXmlChild(elem, 'ScalingPolicies')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => ScalingPolicy.fromXml(c))
-              .toList()),
+          (elem) =>
+              elem.findElements('member').map(ScalingPolicy.fromXml).toList()),
     );
   }
 
@@ -9874,8 +9851,8 @@ class PolicyARNType {
   });
   factory PolicyARNType.fromXml(_s.XmlElement elem) {
     return PolicyARNType(
-      alarms: _s.extractXmlChild(elem, 'Alarms')?.let((elem) =>
-          elem.findElements('member').map((c) => Alarm.fromXml(c)).toList()),
+      alarms: _s.extractXmlChild(elem, 'Alarms')?.let(
+          (elem) => elem.findElements('member').map(Alarm.fromXml).toList()),
       policyARN: _s.extractXmlStringValue(elem, 'PolicyARN'),
     );
   }
@@ -10157,7 +10134,7 @@ class PredictiveScalingConfiguration {
       metricSpecifications: _s
           .extractXmlChild(elem, 'MetricSpecifications')!
           .findElements('member')
-          .map((c) => PredictiveScalingMetricSpecification.fromXml(c))
+          .map(PredictiveScalingMetricSpecification.fromXml)
           .toList(),
       maxCapacityBreachBehavior: _s
           .extractXmlStringValue(elem, 'MaxCapacityBreachBehavior')
@@ -10202,7 +10179,7 @@ class PredictiveScalingCustomizedCapacityMetric {
       metricDataQueries: _s
           .extractXmlChild(elem, 'MetricDataQueries')!
           .findElements('member')
-          .map((c) => MetricDataQuery.fromXml(c))
+          .map(MetricDataQuery.fromXml)
           .toList(),
     );
   }
@@ -10230,7 +10207,7 @@ class PredictiveScalingCustomizedLoadMetric {
       metricDataQueries: _s
           .extractXmlChild(elem, 'MetricDataQueries')!
           .findElements('member')
-          .map((c) => MetricDataQuery.fromXml(c))
+          .map(MetricDataQuery.fromXml)
           .toList(),
     );
   }
@@ -10258,7 +10235,7 @@ class PredictiveScalingCustomizedScalingMetric {
       metricDataQueries: _s
           .extractXmlChild(elem, 'MetricDataQueries')!
           .findElements('member')
-          .map((c) => MetricDataQuery.fromXml(c))
+          .map(MetricDataQuery.fromXml)
           .toList(),
     );
   }
@@ -10401,22 +10378,22 @@ class PredictiveScalingMetricSpecification {
       targetValue: _s.extractXmlDoubleValue(elem, 'TargetValue')!,
       customizedCapacityMetricSpecification: _s
           .extractXmlChild(elem, 'CustomizedCapacityMetricSpecification')
-          ?.let((e) => PredictiveScalingCustomizedCapacityMetric.fromXml(e)),
+          ?.let(PredictiveScalingCustomizedCapacityMetric.fromXml),
       customizedLoadMetricSpecification: _s
           .extractXmlChild(elem, 'CustomizedLoadMetricSpecification')
-          ?.let((e) => PredictiveScalingCustomizedLoadMetric.fromXml(e)),
+          ?.let(PredictiveScalingCustomizedLoadMetric.fromXml),
       customizedScalingMetricSpecification: _s
           .extractXmlChild(elem, 'CustomizedScalingMetricSpecification')
-          ?.let((e) => PredictiveScalingCustomizedScalingMetric.fromXml(e)),
+          ?.let(PredictiveScalingCustomizedScalingMetric.fromXml),
       predefinedLoadMetricSpecification: _s
           .extractXmlChild(elem, 'PredefinedLoadMetricSpecification')
-          ?.let((e) => PredictiveScalingPredefinedLoadMetric.fromXml(e)),
+          ?.let(PredictiveScalingPredefinedLoadMetric.fromXml),
       predefinedMetricPairSpecification: _s
           .extractXmlChild(elem, 'PredefinedMetricPairSpecification')
-          ?.let((e) => PredictiveScalingPredefinedMetricPair.fromXml(e)),
+          ?.let(PredictiveScalingPredefinedMetricPair.fromXml),
       predefinedScalingMetricSpecification: _s
           .extractXmlChild(elem, 'PredefinedScalingMetricSpecification')
-          ?.let((e) => PredictiveScalingPredefinedScalingMetric.fromXml(e)),
+          ?.let(PredictiveScalingPredefinedScalingMetric.fromXml),
     );
   }
 
@@ -10737,10 +10714,8 @@ class ProcessesType {
   });
   factory ProcessesType.fromXml(_s.XmlElement elem) {
     return ProcessesType(
-      processes: _s.extractXmlChild(elem, 'Processes')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => ProcessType.fromXml(c))
-          .toList()),
+      processes: _s.extractXmlChild(elem, 'Processes')?.let((elem) =>
+          elem.findElements('member').map(ProcessType.fromXml).toList()),
     );
   }
 
@@ -11019,7 +10994,7 @@ class RollbackDetails {
           _s.extractXmlIntValue(elem, 'PercentageCompleteOnRollback'),
       progressDetailsOnRollback: _s
           .extractXmlChild(elem, 'ProgressDetailsOnRollback')
-          ?.let((e) => InstanceRefreshProgressDetails.fromXml(e)),
+          ?.let(InstanceRefreshProgressDetails.fromXml),
       rollbackReason: _s.extractXmlStringValue(elem, 'RollbackReason'),
       rollbackStartTime: _s.extractXmlDateTimeValue(elem, 'RollbackStartTime'),
     );
@@ -11286,8 +11261,8 @@ class ScalingPolicy {
   factory ScalingPolicy.fromXml(_s.XmlElement elem) {
     return ScalingPolicy(
       adjustmentType: _s.extractXmlStringValue(elem, 'AdjustmentType'),
-      alarms: _s.extractXmlChild(elem, 'Alarms')?.let((elem) =>
-          elem.findElements('member').map((c) => Alarm.fromXml(c)).toList()),
+      alarms: _s.extractXmlChild(elem, 'Alarms')?.let(
+          (elem) => elem.findElements('member').map(Alarm.fromXml).toList()),
       autoScalingGroupName:
           _s.extractXmlStringValue(elem, 'AutoScalingGroupName'),
       cooldown: _s.extractXmlIntValue(elem, 'Cooldown'),
@@ -11304,16 +11279,14 @@ class ScalingPolicy {
       policyType: _s.extractXmlStringValue(elem, 'PolicyType'),
       predictiveScalingConfiguration: _s
           .extractXmlChild(elem, 'PredictiveScalingConfiguration')
-          ?.let((e) => PredictiveScalingConfiguration.fromXml(e)),
+          ?.let(PredictiveScalingConfiguration.fromXml),
       scalingAdjustment: _s.extractXmlIntValue(elem, 'ScalingAdjustment'),
       stepAdjustments: _s.extractXmlChild(elem, 'StepAdjustments')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => StepAdjustment.fromXml(c))
-              .toList()),
+          (elem) =>
+              elem.findElements('member').map(StepAdjustment.fromXml).toList()),
       targetTrackingConfiguration: _s
           .extractXmlChild(elem, 'TargetTrackingConfiguration')
-          ?.let((e) => TargetTrackingConfiguration.fromXml(e)),
+          ?.let(TargetTrackingConfiguration.fromXml),
     );
   }
 
@@ -11382,7 +11355,7 @@ class ScheduledActionsType {
           .extractXmlChild(elem, 'ScheduledUpdateGroupActions')
           ?.let((elem) => elem
               .findElements('member')
-              .map((c) => ScheduledUpdateGroupAction.fromXml(c))
+              .map(ScheduledUpdateGroupAction.fromXml)
               .toList()),
     );
   }
@@ -11896,10 +11869,8 @@ class TagsType {
   factory TagsType.fromXml(_s.XmlElement elem) {
     return TagsType(
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => TagDescription.fromXml(c))
-          .toList()),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
+          elem.findElements('member').map(TagDescription.fromXml).toList()),
     );
   }
 
@@ -11952,11 +11923,11 @@ class TargetTrackingConfiguration {
       targetValue: _s.extractXmlDoubleValue(elem, 'TargetValue')!,
       customizedMetricSpecification: _s
           .extractXmlChild(elem, 'CustomizedMetricSpecification')
-          ?.let((e) => CustomizedMetricSpecification.fromXml(e)),
+          ?.let(CustomizedMetricSpecification.fromXml),
       disableScaleIn: _s.extractXmlBoolValue(elem, 'DisableScaleIn'),
       predefinedMetricSpecification: _s
           .extractXmlChild(elem, 'PredefinedMetricSpecification')
-          ?.let((e) => PredefinedMetricSpecification.fromXml(e)),
+          ?.let(PredefinedMetricSpecification.fromXml),
     );
   }
 
@@ -12040,7 +12011,7 @@ class TargetTrackingMetricDataQuery {
       label: _s.extractXmlStringValue(elem, 'Label'),
       metricStat: _s
           .extractXmlChild(elem, 'MetricStat')
-          ?.let((e) => TargetTrackingMetricStat.fromXml(e)),
+          ?.let(TargetTrackingMetricStat.fromXml),
       returnData: _s.extractXmlBoolValue(elem, 'ReturnData'),
     );
   }
@@ -12370,7 +12341,7 @@ class WarmPoolConfiguration {
     return WarmPoolConfiguration(
       instanceReusePolicy: _s
           .extractXmlChild(elem, 'InstanceReusePolicy')
-          ?.let((e) => InstanceReusePolicy.fromXml(e)),
+          ?.let(InstanceReusePolicy.fromXml),
       maxGroupPreparedCapacity:
           _s.extractXmlIntValue(elem, 'MaxGroupPreparedCapacity'),
       minSize: _s.extractXmlIntValue(elem, 'MinSize'),
