@@ -8,7 +8,7 @@ String canonicalQueryParametersAll(Map<String, List<String>> query) {
   for (var key in query.keys) {
     for (var value in query[key]!) {
       items.add(
-          '${Uri.encodeQueryComponent(key)}=${Uri.encodeQueryComponent(value)}');
+          '${Uri.encodeQueryComponent(key).replaceAll('+', '%20')}=${Uri.encodeQueryComponent(value).replaceAll('+', '%20')}');
     }
   }
   items.sort();
