@@ -17,12 +17,11 @@ linter:
     await_only_futures: true
     camel_case_types: true
     cancel_subscriptions: true
+    collection_methods_unrelated_type: true
     directives_ordering: true
     empty_catches: true
     empty_statements: true
     hash_and_equals: true
-    iterable_contains_unrelated_type: true
-    list_remove_unrelated_type: true
     no_adjacent_strings_in_list: true
     no_duplicate_case_values: true
     no_leading_underscores_for_library_prefixes: false # Too many occurrences
@@ -56,4 +55,5 @@ linter:
     unnecessary_this: true
     unrelated_type_equality_checks: true
     use_rethrow_when_possible: true
+    use_super_parameters: false
     valid_regexps: true
