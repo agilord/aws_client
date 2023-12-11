@@ -7,7 +7,7 @@ environment:
   sdk: '^3.0.0'
 
 dependencies:
-  analyzer: ^5.13.0
+  analyzer: ^6.0.0
   archive: ^3.0.0
   args: ^2.2.0
   collection: ^1.17.2
@@ -23,7 +23,7 @@ dependencies:
   yaml: ^3.0.0
 
 dev_dependencies:
-  lints: ^2.1.0
+  lints: ^3.0.0
   build_runner: ^2.1.1
   build_verify: ^3.0.0
   json_serializable: ^6.1.3
