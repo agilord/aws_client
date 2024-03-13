@@ -418,7 +418,7 @@ class S3 {
           '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}',
       queryParams: $query,
       headers: headers,
-      payload: multipartUpload?.toXml('MultipartUpload'),
+      payload: multipartUpload?.toXml('CompleteMultipartUpload'),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
