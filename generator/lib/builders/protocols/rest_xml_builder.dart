@@ -66,7 +66,7 @@ class RestXmlServiceBuilder extends ServiceBuilder {
         payloadArg = payloadMember.fieldName;
       } else {
         payloadArg =
-            '${payloadMember.fieldName}${payloadMember.isRequired ? '' : '?'}.toXml(\'${shapeClass.payload}\')';
+            '${payloadMember.fieldName}${payloadMember.isRequired ? '' : '?'}.toXml(\'${payloadMember.locationName ?? shapeClass.payload}\')';
       }
     } else if (shapeClass != null) {
       final bodyMembers = shapeClass.members.where((m) => m.isBody);
