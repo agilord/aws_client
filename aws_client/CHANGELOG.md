@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.3
+
+- Updated `pubspec.yaml`.
+
 ## 0.4.2
 
 - Upgrade dependencies
