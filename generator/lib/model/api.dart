@@ -206,10 +206,10 @@ class Metadata {
     this.xmlNamespace,
     this.checksumFormat,
     this.protocolSettings,
-      this.protocols,
-      this.auth,
-      this.awsQueryCompatible,
-      this.ripServiceName,
+    this.protocols,
+    this.auth,
+    this.awsQueryCompatible,
+    this.ripServiceName,
   );
 
   String get className {

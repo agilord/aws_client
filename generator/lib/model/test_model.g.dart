@@ -57,7 +57,7 @@ OutputResponse _$OutputResponseFromJson(Map<String, dynamic> json) {
   );
   return OutputResponse(
     json['body'] as String?,
-    json['status_code'] as int,
+    (json['status_code'] as num).toInt(),
     (json['headers'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),

@@ -54,6 +54,6 @@ Http _$HttpFromJson(Map<String, dynamic> json) {
   return Http(
     json['method'] as String? ?? 'POST',
     json['requestUri'] as String? ?? '/',
-    json['responseCode'] as int?,
+    (json['responseCode'] as num?)?.toInt(),
   );
 }
